@@ -1,0 +1,27 @@
+<% form_tag admin_assets_path, :id => 'assets-search-form', :method => 'get', :class => 'clear' do -%>
+  <div id="spin"><img style="display: none;" src="/images/indicator.gif" alt="spinner" id="search-assets-spinner" /></div>
+  
+  <ul id="type">
+    <li id="faudio"><a href="#" title="Audio">Audio</a></li>
+    <li id="fmovies"><a href="#" title="Movies">Movies</a></li>
+    <li id="fpictures"><a href="#" title="Test">Pictures</a></li>
+    <li id="fothers" class="sep"><a href="#" title="Others">Others</a></li>
+  </ul>
+  <ul id="attributes">
+    <li id="ctags"><a href="#" title="Tags">Tags</a></li>
+    <li id="ctitle"><a href="#" title="Title">Title</a></li>      
+  </ul>
+
+  <%= hidden_field_tag 'page', '1' %>
+  <input type="text" name="query" id="assets-search-query" />    
+  
+  <div id="filter-options" style="display: none">
+    <%= check_box_tag 'filter[audio]',  '1', false, :id => 'faudio-check' %>
+    <%= check_box_tag 'filter[image]',  '1', false, :id => 'fpictures-check' %>
+    <%= check_box_tag 'filter[other]',  '1', false, :id => 'fothers-check' %>
+    <%= check_box_tag 'filter[movie]',  '1', false, :id => 'fmovies-check'%>    
+    <%= check_box_tag 'conditions[tags]',  '1', false, :id => 'ctags-check' %>
+    <%= check_box_tag 'conditions[title]', '1', false, :id => 'ctitle-check' %>
+    <%= check_box_tag 'conditions[date]',  '1', false, :id => 'cdate-check' %>
+  </div>
+<% end -%>

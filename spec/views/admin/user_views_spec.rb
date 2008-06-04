@@ -1,0 +1,170 @@
+require File.dirname(__FILE__) + '/../../spec_helper'
+
+describe "Admin::User:" do
+  include SpecViewHelper
+  
+  before :each do
+    scenario :site, :user
+    assigns[:site] = @site
+
+    set_resource_paths :user, '/admin/'
+    
+    template.stub!(:collection_path).and_return(@collection_path)
+    template.stub!(:member_path).and_return(@member_path)
+    template.stub!(:new_member_path).and_return(@new_member_path)
+    template.stub!(:edit_member_path).and_return(@edit_member_path)
+
+    template.stub!(:gravatar_img)
+    template.stub!(:current_user).and_return @user
+  end
+
+  describe "the :index view" do
+    before :each do 
+      assigns[:users] = @users
+    end
+    
+    it "displays a list of users" do 
+      render "admin/users/index"
+      response.should have_tag('ul[class=?]', 'users')
+    end
+  end
+
+  describe "the :show view" do
+    before :each do 
+      assigns[:user] = @user
+      template.stub_render hash_including(:partial => 'form')
+    end
+    
+    it "displays a the user profile" do 
+      render "admin/users/show"
+      response.should have_tag('h2', @user.name)
+    end
+  end  
+  
+  describe "the :new view" do
+    before :each do 
+      assigns[:user] = @user
+      template.stub_render hash_including(:partial => 'form')
+    end
+    
+    it "displays a form to add a new user" do 
+      render "admin/users/new"
+      response.should have_tag('form[action=?][method=?]', @collection_path, :post)
+    end
+    
+    it "renders the form partial" do 
+      template.expect_render hash_including(:partial => 'form')
+      render "admin/users/new"
+    end
+    
+    describe "with the current user being an admin" do
+      before :each do @user.should_receive(:has_role?).with(:admin, @site).and_return true end
+                                                                                              
+      it "renders the roles partial" do                                                       
+        template.expect_render hash_including(:partial => 'roles')                            
+        render "admin/users/edit"                                                             
+      end                                                                                     
+    end                                                                                       
+                                                                                              
+    describe "with the current user not being an admin" do                                 
+      before :each do @user.should_receive(:has_role?).with(:admin, @site).and_return false end
+        
+      it "does not render the roles partial" do 
+        template.should_not_receive(:render).with hash_including(:partial => 'roles')
+        render "admin/users/edit"
+      end
+    end
+  end  
+
+  describe "the :edit view" do
+    before :each do 
+      assigns[:user] = @user
+      template.stub_render hash_including(:partial => 'form')
+    end
+    
+    it "displays a form to edit the user" do 
+      render "admin/users/edit"
+      response.should have_tag('form[action=?]', @member_path) do |form|
+        form.should have_tag('input[name=?][value=?]', '_method', 'put')
+      end
+    end
+    
+    it "renders the form partial" do 
+      template.expect_render hash_including(:partial => 'form')
+      render "admin/users/edit"
+    end
+    
+    describe "with the current user being an admin" do
+      before :each do @user.should_receive(:has_role?).with(:admin, @site).and_return true end
+        
+      it "renders the roles partial" do 
+        template.expect_render hash_including(:partial => 'roles')
+        render "admin/users/edit"
+      end
+    end
+    
+    describe "with the current user not being an admin" do
+      before :each do @user.should_receive(:has_role?).with(:admin, @site).and_return false end
+        
+      it "does not render the roles partial" do 
+        template.should_not_receive(:render).with hash_including(:partial => 'roles')
+        render "admin/users/edit"
+      end
+    end
+  end  
+  
+  describe "the form partial" do
+    before :each do 
+      assigns[:user] = @user
+      template.stub!(:f).and_return ActionView::Base.default_form_builder.new(:user, @user, template, {}, nil)
+    end
+  
+    it "renders user settings fields" do
+      render "admin/users/_form"
+      response.should have_tag('input[name=?]', 'user[email]')
+    end
+  end 
+  
+  describe "the roles partial" do
+    before :each do 
+      assigns[:user] = @user
+      template.stub!(:f).and_return ActionView::Base.default_form_builder.new(:user, @user, template, {}, nil)
+    end
+  
+    describe "when rendered outside of site scope" do  
+      before :each do assigns[:site] = nil end
+      
+      it "renders a checkbox for adding the admin role" do
+        render "admin/users/_roles"
+        response.should_not have_tag('input[type=?][name=?]', 'checkbox', 'user[roles][admin][Site][1]')
+      end
+    end
+    
+    describe "when rendered inside of site scope" do  
+      it "renders a checkbox for adding the admin role" do
+        render "admin/users/_roles"
+        response.should have_tag('input[type=?][name=?]', 'checkbox', 'user[roles][admin][Site][1]')
+      end
+    end
+    
+    describe "with the current user being a superuser" do  
+      before :each do @user.stub!(:has_role?).with(:superuser).and_return true end
+      
+      it "renders a checkbox for adding the superuser role" do
+        render "admin/users/_roles"
+        # response.should have_tag('input[type=?][name=?]', 'checkbox', 'user[roles][superuser]')
+      end
+    end
+    
+    describe "with the current user not being a superuser" do
+      before :each do
+        @user.stub!(:has_role?).with(:superuser).and_return false
+      end
+      
+      it "does not render a checkbox for adding the superuser role" do
+        render "admin/users/_roles"
+        response.should_not have_tag('input[type=?][name=?]', 'checkbox', 'user[roles][superuser]')
+      end
+    end
+  end
+end

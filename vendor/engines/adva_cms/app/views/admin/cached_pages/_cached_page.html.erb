@@ -1,0 +1,12 @@
+<tr id="<%= dom_id cached_page %>" class="<%= cycle("odd","even") %>">
+  <td>
+    <%= cached_page.url %>
+  </td>
+  <td nowrap="nowrap" class="time">
+    <%= cached_page_date(cached_page) %>
+  </td>
+  <td>
+    <%= link_to_remote 'Clear', :url => admin_cached_page_path(@site, cached_page), :method => :delete %>
+    <span>Cleared</span>
+  </td>
+</tr>

@@ -1,0 +1,25 @@
+<h2>Success!</h2>
+
+<p>
+  You have successfully created your site. 
+</p>
+
+<p>
+  We have also created an admin account for you so you can login to your
+  admin section in future. (You are already logged in with that account now.)
+</p>
+
+<p>
+  Login: <%= @user.login %><br />
+  Password: <%= @user.password %>
+</p>
+
+<p>
+  <strong>Be sure to change your admin password!</strong> 
+</p>
+
+<p>
+  <%= link_to 'Change your password right now &raquo;', edit_admin_user_path(@user) %><br />
+  <%= link_to 'Manage your new site &raquo;', admin_site_path(@site) %>
+</p>
+

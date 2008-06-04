@@ -1,0 +1,5 @@
+<%= link_to "New theme", new_admin_theme_path %>
+
+<ul id="themelist">
+  <%= render :partial => 'theme', :collection => @themes %>
+</ul>

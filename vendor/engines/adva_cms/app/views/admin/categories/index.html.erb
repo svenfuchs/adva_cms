@@ -1,0 +1,34 @@
+<h2>Categories</h2>
+
+<% unless @categories.empty? %>
+  <p class="hint">
+    <%= link_to "New Category", new_admin_category_path %>
+    <% unless @section.categories.size < 2 %>
+      &middot;
+      <%= link_to_function 'Reorder categories', "categories_tree.toggle(this, 'Done reordering');", :id => 'reorder_categories' %>
+      <%= image_tag 'indicator.gif', :id => 'categories_indicator', :style => 'display: none;' %>
+    <% end %>
+  </p>
+
+  <ul id="categories">
+    <%= render :partial => 'category', :collection => @categories %>
+  </ul>
+
+  <script>
+    var categories_tree = new SortableTree('categories', {
+      onDrop: function(drag, drop, event) {
+        <%= remote_function(:url => admin_categories_path(@site),
+                            :method =>   :put,
+                            :with   =>   "drag.to_params()",
+                            :loading =>  "$('categories_indicator').show()",
+                            :complete => "$('categories_indicator').hide()" ) %>
+      }
+    });
+  </script>
+  
+<% else %>
+  <div class="empty">
+    You don't have any categories created in <%= @section.title %>. 
+    <%= link_to "Create one now &raquo;", new_admin_category_path %>
+  </div>
+<% end %>

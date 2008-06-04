@@ -1,0 +1,8 @@
+<% username = Object.new
+class << username
+  include Login::UsernameFinder
+end
+username_field = username.username_field %>
+joe:
+  id: 1
+  <%=username_field%>: joe@example.com

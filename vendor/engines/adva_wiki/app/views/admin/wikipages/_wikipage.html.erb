@@ -1,0 +1,14 @@
+<tr id="wikipage_<%= wikipage.id %>">
+  <td><%= link_to wikipage.title, wikipage_path(@section.id, wikipage.permalink) %></td>
+  <td><%= wikipage.version %></td>
+  <td><%= wikipage.updated_at.strftime('%d.%m.%Y %H:%M') %></td>
+  <td><%= wikipage.author_link %></td>
+  <td>
+    <% if wikipage.comments.size == 0 %>
+      none
+    <% else %>
+      <%= link_to wikipage.comments.size.to_s.rjust(2, '0'), admin_comments_path(:content_id => wikipage.id) %>
+    <% end %> 
+  </td>
+  <td><%= link_to "view", wikipage_path(@section.id, wikipage.permalink), :class => 'view' %></td>  
+</tr>

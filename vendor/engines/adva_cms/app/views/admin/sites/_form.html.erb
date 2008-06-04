@@ -1,0 +1,38 @@
+<h4>General settings</h4>
+<fieldset>
+  <p>  
+    <%= f.label :host, 'Hostname' %>
+    <span class="hint">Include the port if it's a non-standard one. E.g. localhost:3000</span>
+    <%= f.text_field :host %>
+  </p>
+  <p>
+    <%= f.label :name, 'Website name' %>
+  	<%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.label :title, 'Website title' %>
+  	<%= f.text_field :title %>
+  </p>
+  <p>
+    <%= f.label :subtitle, 'Website subtitle' %>
+  	<%= f.text_field :subtitle %>
+  </p>
+  <p>	
+    <%= f.label :email, 'Administrator email' %>
+    <span class="hint">Shown in emails sent from your site</span>
+  	<%= f.text_field :email %>
+  </p>
+  <p>
+    <%= f.label :timezone, 'Website Timezone' %>
+    <%= f.time_zone_select :timezone, [ TimeZone['UTC'] ], :selected => site.timezone %>
+  </p>
+</fieldset>
+  
+<h4>Comments</h4>
+<fieldset>
+  <p>  
+    <%= f.label :comment_filter, 'Comments filter' %>
+    <span class="hint">When comments are posted, they use this markup</span>
+    <%= f.select :comment_filter, filter_options %>
+  </p>
+</fieldset>

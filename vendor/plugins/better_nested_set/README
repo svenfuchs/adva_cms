@@ -1,0 +1,144 @@
+= Better nested set
+
+This plugin provides an ehanced acts_as_nested_set mixin for ActiveRecord, the object-db mapping layer of the framework RubyOnRails. The original nested set feature seems to be quite old and missed some necessary functionalities.
+
+== Details
+
+This acts provides Nested Set functionality. Nested Set is a smart way to implement
+an _ordered_ tree, with the added feature that you can select the children and all of their 
+descendents with a single query. The drawback is that insertion or move need some complex
+sql queries. But everything is done behind the curtains by this module!
+
+Nested sets are appropriate each time you want either an orderd tree (menus, 
+commercial categories) or an efficient way of querying big trees (threaded posts).
+
+See http://www.dbmsmag.com/9603d06.html for nested sets theory, and a tutorial here:
+http://threebit.net/tutorials/nestedset/tutorial1.html
+
+== Small nested set theory reminder
+
+Instead of picturing a leaf node structure with children pointing back to their parent,
+the best way to imagine how this works is to think of the parent entity surrounding all
+of its children, and its parent surrounding it, etc.  Assuming that they are lined up
+horizontally, we store the left and right boundries in the database.
+
+Imagine:
+  root
+    |_ Child 1
+      |_ Child 1.1
+      |_ Child 1.2
+    |_ Child 2
+      |_ Child 2.1
+      |_ Child 2.2
+
+If my cirlces in circles description didn't make sense, check out this sweet
+ASCII art:
+
+    ___________________________________________________________________
+   |  Root                                                             |
+   |    ____________________________    ____________________________   |
+   |   |  Child 1                  |   |  Child 2                  |   |
+   |   |   __________   _________  |   |   __________   _________  |   |
+   |   |  |  C 1.1  |  |  C 1.2 |  |   |  |  C 2.1  |  |  C 2.2 |  |   |
+   1   2  3_________4  5________6  7   8  9_________10 11_______12 13  14
+   |   |___________________________|   |___________________________|   |
+   |___________________________________________________________________| 
+
+The numbers represent the left and right boundries.  The table then might
+look like this:
+   id | parent_is | left | right | data
+    1 |           |    1 |    14 | root
+    2 |         1 |    2 |     7 | Child 1
+    3 |         2 |    3 |     4 | Child 1.1
+    4 |         2 |    5 |     6 | Child 1.2
+    5 |         1 |    8 |    13 | Child 2
+    6 |         5 |    9 |    10 | Child 2.1
+    7 |         5 |   11 |    12 | Child 2.2
+
+So, to get all children of an entry 'parent', you
+    SELECT * WHERE left IS BETWEEN parent.left AND parent.right
+
+To get the count, it's (right - left - 1)/2, etc.
+To get the direct parent, it falls back to using the parent_id field.   
+There are instance methods for all of these.
+
+
+= API
+
+Methods names are aligned on Tree's ones as much as possible, to make replacment from one 
+by another easier, except for the creation:
+
+in acts_as_tree:
+
+  item.children.create(:name => "child1")
+
+in acts_as_nested_set:
+
+  # adds a new item at the "end" of the tree, i.e. with child.left = max(tree.right)+1
+  child = MyClass.new(:name => "child1")
+  child.save
+  # now move the item to its right place
+  child.move_to_child_of my_item
+
+You can use:
+* <tt>move_to_child_of</tt>
+* <tt>move_to_right_of</tt>
+* <tt>move_to_left_of</tt>
+and pass them an id or an object.
+
+Other methods added by this mixin are:
+* <tt>root</tt> - root item of the tree (the one that has a nil parent; should have left_column = 1 too)
+* <tt>roots</tt> - root items, in case of multiple roots (the ones that have a nil parent)
+* <tt>level</tt> - number indicating the level, a root being level 0
+* <tt>ancestors</tt> - array of all parents, with root as first item
+* <tt>self_and_ancestors</tt> - array of all parents and self
+* <tt>siblings</tt> - array of all siblings, that are the items sharing the same parent and level
+* <tt>self_and_siblings</tt> - array of itself and all siblings
+* <tt>children_count</tt> - count of all immediate children
+* <tt>children</tt> - array of all immediate childrens
+* <tt>all_children</tt> - array of all children and nested children
+* <tt>full_set</tt> - array of itself and all children and nested children
+
+These should not be useful, except if you want to write direct SQL:
+* <tt>left_col_name</tt> - name of the left column passed on the declaration line
+* <tt>right_col_name</tt> - name of the right column passed on the declaration line    
+* <tt>parent_col_name</tt> - name of the parent column passed on the declaration line
+
+== Recommandation
+
+Don't name your left and right columns 'left' and 'right': these names are reserved on most of dbs.
+Usage is to name them 'lft' and 'rgt' for instance.
+
+= Where to find better_nested_set
+
+This plugin is provided by Jean-Christophe Michel from Symétrie, and is available on
+
+  http://opensource.symetrie.com/trac/better_nested_set/
+  
+Subversion repository is on
+
+  http://opensource.symetrie.com/svn/better_nested_set/trunk
+
+= License
+
+Copyright (c) 2006 Jean-Christophe Michel, Symétrie
+
+The MIT License
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE

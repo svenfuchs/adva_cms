@@ -1,0 +1,47 @@
+<% content_for :sidebar do %>
+  <% fields_for :article do |f| -%>
+    <%= render :partial => 'options', :locals => { :f => f } %>
+  <% end %>
+<% end %>
+
+<fieldset>  
+  <p>
+    <%= f.label :title %>
+    <%= f.text_field :title, :class => 'big'  %>
+  </p>  
+
+  <p id="excerpt" style="<%= @article.has_excerpt? ? "" : "display:none" %>">
+    <label for="article_excerpt">
+      Excerpt
+      <span class="hint inline">(<%= link_to_function 'Hide', "$('excerpt').toggle()" %>)</span>
+    </label>
+    <%= f.text_area :excerpt, :rows => '8', :class => 'fat'  %>
+  </p>
+
+  <p>
+    <label for="article_body">
+      Write your article
+      <span class="hint inline">(<%= link_to_function 'Add an excerpt', "$('excerpt').toggle()" %>)</span>
+    </label>
+    <%= f.text_area :body, :class => 'fat', :rows => 25  %>
+  </p>
+
+  <p>
+    <%= f.label :tag_list %>
+    <span class="hint">Enter one or more tags separated by a space. You may include spaces by enclosing a tag with quotes. (For example, <em>"Web Dev" Tutorials</em>).</span>
+    <%= f.text_field :tag_list %>
+  </p>
+
+  <p>
+    <%= f.label :draft, "Save as Draft?" %>
+    <label class="light"><%= check_box_tag :draft, '1', @article.draft?, :id => 'article-draft' %> Yes, save this article as a draft.</label>
+  </p>
+
+  <p id="publish-date" style="<%= @article.draft? ? "display:none" : "" %>">
+    <%= f.label :published_at, "Publish on this date:" %>
+    <%= f.datetime_select :published_at, 
+                          :start_year => (@article.published_at || Time.zone.now).year-1, 
+                          :end_year => (Time.zone.now.year + 5), 
+                          :order => [:month, :day, :year] %>
+  </p>
+</fieldset>

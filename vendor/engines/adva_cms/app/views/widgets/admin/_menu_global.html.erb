@@ -1,0 +1,8 @@
+<ul id="menu_global" class="clearing">
+  <% if Site.multi_sites_enabled %>
+    <li><%= link_to 'Sites', admin_sites_path %></li>
+  <% end %>
+  <li><%= link_to 'Plugins', '#' %></li>
+  <li><%= link_to 'Account', '#' %></li>
+  <li><%= link_to 'Logout', logout_path, :method => :delete %></li>
+</ul>

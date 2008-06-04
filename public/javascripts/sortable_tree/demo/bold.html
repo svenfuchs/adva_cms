@@ -1,0 +1,90 @@
+<html>
+<head>
+  <script src="../vendor/prototype.js" type="text/javascript"></script>
+  <script src="../vendor/effects.js" type="text/javascript"></script>
+  <script src="../vendor/dragdrop.js" type="text/javascript"></script>    
+  <script src="../sortable_tree.js" type="text/javascript"></script>    
+  <style>
+    html, body {
+     	font: bold 24px Helvetica,Arial,Verdana,sans-serif;
+    	line-height: 200%;
+    	color: lime;
+	    text-shadow: #ccc 2px 2px;    	
+    }
+    #tree, #tree ul { 
+    	padding-left: 20px; 
+    	list-style-type: none;
+    	cursor: move;
+    }
+    #tree {
+	    padding: 20px 0px 0px 20px;
+    	width: 200px;
+    }
+    #tree li {
+    	margin-top: -6px;
+    }
+    #tree .drop_hover {
+    	background: url(drag.png) no-repeat bottom left;
+    }
+    #tree .drop_top {
+    	background-position: top left;
+    }
+    #tree .drop_bottom {
+    	background-position: bottom left;
+    }
+    #tree .drop_insert {
+    	background-position: 20px 100%;
+    }
+    #log {
+      text-shadow: none;
+     	font: normal 12px monospace;
+      color: #999;
+      line-height: 12px;
+    }
+  </style>
+</head>
+<body>
+
+<ul id="tree">
+  <li id="node_1">
+    <a>node 1</a>
+    <ul>
+      <li id="node_11">
+        <a>node 11</a>
+        <ul>
+          <li id="node_111"><a>node 111</a></li>
+          <li id="node_112"><a>node 112</a></li>
+          <li id="node_113"><a>node 113</a></li>
+        </ul>            
+      </li>
+      <li id="node_12"><a>node 12</a></li>
+      <li id="node_13"><a>node 13</a></li>
+    </ul>
+  </li>
+  <li id="node_2">
+    <a>node 2</a>
+    <ul>
+      <li id="node_21"><a>node 21</a></li>
+      <li id="node_22"><a>node 22</a></li>
+      <li id="node_23"><a>node 23</a></li>
+    </ul>
+  </li>
+</ul>
+
+<div id="log"></div>
+
+<script>
+  var tree = new SortableTree('tree', {
+    onDrop: function(drag, drop, event){
+      $('log').update($('log').innerHTML + "<p>" + drag.to_params() + "</p>")
+    }
+  });
+  tree.setSortable();
+
+  function log(line) {
+    $('log').update($('log').innerHTML + "<p>" + line + "</p>")
+  }
+</script>
+ 
+</body>
+</html>

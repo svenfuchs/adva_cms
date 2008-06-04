@@ -1,0 +1,7 @@
+<li id="<%= asset.dom_id("#{prefix}-asset") %>" class="asset <%= prefix %>-asset <%= ' selected' if content and content.assets.include?(asset) %>">
+  <%= link_to asset_image_for(asset), asset.public_filename %>
+  <div>
+    <a href="#"><%= image_tag('/images/icons/add.png', :size => '16x16', :id => asset.dom_id("attach-#{prefix}-asset"), :style => 'display: none', :class => 'attach-asset') %></a>
+    <a href="#"><%= image_tag('/images/icons/delete.png', :size => '16x16', :id => asset.dom_id("detach-#{prefix}-asset"), :style => 'display: none', :class => 'detach-asset') %></a>
+  </div>  
+</li>

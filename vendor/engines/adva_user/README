@@ -1,0 +1,114 @@
+As suggested by the author of this plugin, Bart Duchesne, we've used the 
+loginui plugin as a scaffolding and modified it for our own needs.
+
+See http://rubyforge.org/projects/loginui/ for more information about this 
+fantastic plugin.
+
+
+
+
+- original readme file -------------------------------------------------------
+
+= Login Plugin
+
+Provides a basic user interface for allowing a user to accomplish the
+following tasks:
+
+* Login (with Remember Me)
+* Logout
+
+* Forgot Password
+* Change Password
+
+* Register (with email verification)
+* Delete User
+* Restore Deleted User
+
+== Dependencies
+
+This plugin is implemented with the help of the "Engine" plugin and
+can either be considered reusable slice of an application or can
+be considered scaffolding to your own login work you will add later
+to your project.
+
+This plugin also does not implement the actual authentication process
+itself or even define the "User" object that is authenticated against.
+It just assumes certain functionality is available and any application
+that implements that functionality can use this plugin to provide the
+UI for their authentication.
+
+If you do not have your own backend authentication I highly suggest you
+check out the authentication plugin by the same author of this plugin.
+Although not required to go together they do together provide a
+complete authentication system.
+
+== Development Status
+
+This code has been used on many sites so it is fairly reliable. But all
+the sites it has been used on are very similar in design so some
+aspects that our outside of this design may not be tested as well. For
+example all the sites it is currently used on has email for the username.
+So if you don't use email for username (or don't even have an email
+field) it *should* work but has not received significant testing.
+
+Another aspect is Rails 1.x vs. Rails 2.0 apps. This was developed under
+Rails 1.x and 95% of sites using this plugin are on Rails 1.x. But it
+has been taken to Rails 2.0 and seems to work well there.
+
+I welcome patches towards making this plugin work in different
+environments.
+
+== Your User model
+
+Regardless of if you use the authentication plugin or build your own
+you will need a user model that this plugin assumes. The user model
+must be named "User". Also your User model needs a field that can
+serve as the username. "email" is prefered (because people can
+remember that) but username and user_name will also be accepted. If
+you have something completely different then implement a class method
+on the user object called "username_field" this method should return
+whatever field is being used as your username.
+
+== Optional support
+
+The email notifications will only be sent if a "email" field is
+on the model. This is regardless of what you use for a username. There
+is currently no way to disable email notifications if you have the
+email field. Obviously the "forgot my password" feature will not work
+without an email field on the User model as well.
+
+== Providing your own authentication
+
+If you want to provide your own authentication system instead of using
+the authentication plugin you will need to implement the following
+actions on your User model.
+
+=== Required methods
+
+password=:: Will assign the model a new password
+assign_token(name, expiration=nil)::
+  Will return a token that can be used to authenticate the user with.
+  This is used for URL token authentication (in email confirmation,
+  forgot password and restore deleted user) and also used in the
+  "Remember Me" authentication. The expiration can be considered
+  optional.
+authenticate(password)::
+  Will authenticate the current user against the given password
+  returning true or false to indicate the success
+
+=== Optional methods
+
+password_confirmation=::
+  Not required but if the model responds to this method then it
+  will receive a copy of the password when a user is updating
+  their password for verification purposes.
+deleted_at and deleted_at=::
+  If the model responds to deleted_at and deleted_at then when
+  a user is removed it will just get a date/time value to indicate
+  the user has been removed. It will assume once a object has this
+  value it will not be found unless User.find_with_deleted is used.
+  This is compatible with acts_as_paraniod
+User.find_with_deleted(*find_args)::
+  If the User class responds to then then this will be called when
+  attempting to restore a user. This is for compatibility with
+  acts_as_paranoid and anything else implementing that interface.

@@ -1,0 +1,9 @@
+<h3>Site Settings</h3>
+
+<% form_for :site, @site, :url => admin_site_path, :html => { :method => :put } do |f| -%>
+  <%= render :partial => 'form', :locals => {:f => f, :site => @site} %>
+  <p class="buttons">
+    <%= f.submit :Save %> or
+    <%= link_to 'Delete this site', admin_site_path, { :confirm => "Are you sure you wish to delete this site?", :method => :delete } %>
+  </p>
+<% end -%>

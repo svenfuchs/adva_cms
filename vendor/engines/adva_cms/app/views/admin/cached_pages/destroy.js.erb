@@ -1,0 +1,16 @@
+try {
+  var count = $$('p.total strong').pop();
+  if(count) {
+    count.update(parseInt(count.innerHTML) - 1);
+  }
+  
+  var row = $('<%= dom_id(@cached_page) %>');
+  if(row) {
+    row.addClassName('deleted');
+  }
+  
+  Flash.notice("This page has been removed from the cache.")  
+  
+} catch(e) {
+  alert(e)
+}

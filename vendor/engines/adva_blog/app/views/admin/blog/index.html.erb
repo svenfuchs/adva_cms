@@ -1,0 +1,57 @@
+<% content_for :filter do %>
+  <% form_tag admin_articles_path, :method => 'get', :id => 'article-search' do -%>
+    <label for="search" class="inline">
+      Show articles:
+    </label>
+    <select name="filter" id="filterlist">
+      <%= options_for_select [['in category',          'category'],
+                              ['tagged with',          'tags'],
+                              ['whose title contains', 'title'],
+                              ['whose body contains',  'body'],
+                              ['not published',        'draft']], params[:filter] %>
+    </select>
+    <select name="category" id="categories">
+      <option value="0">&mdash; All Categories &mdash;</option>
+      <%= options_from_collection_for_select @section.categories, :id, :title, params[:category].to_i %>      
+    </select>
+    <%= text_field_tag 'query', params[:query], :id => 'query', :style => 'display: none' %>
+    <input type="submit" id="button" value="Go" style="display: none" />
+  <% end -%>
+<% end -%>
+
+<% if @articles.size > 0 -%>
+
+  <p><%= link_to "New Article", new_admin_article_path(@site) %></p>
+
+  <p class="total">
+    Total: <strong><%= @articles.total_entries %></strong> <%= pluralize_str @articles.total_entries, 'article' %>.
+  </p>
+
+  <table id="articles" class="list">
+    <thead>
+      <tr>
+        <th scope="col">Article</th>
+        <th scope="col">Comments</th>
+        <th scope="col">Published</th>
+        <th scope="col">&nbsp;</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= render :partial => 'article', :collection => @articles %>
+    </tbody>
+  </table>
+
+  <%= will_paginate @articles, :id => 'pagination' %>
+
+<% else %>
+
+  <div class="empty">
+    <% unless params[:filter] %>
+      There are no articles in <%= @section.title %>.
+      <%= link_to "Create one now &raquo;", new_admin_article_path(@site) %>
+    <% else %>
+      There are no articles matching that criteria in <%= @section.title %>.
+    <% end %>
+  </div>
+
+<% end %>

@@ -1,0 +1,3 @@
+page.flash.notice "#{@asset.title} assigned to this #{@content.type.downcase}."
+page.insert_html :bottom, 'attached-assets', :partial => 'admin/assets/widget/asset', :locals => { :asset => @asset, :content => @content, :prefix => 'attached' }
+page << "AssetWidget.updateSelected();"

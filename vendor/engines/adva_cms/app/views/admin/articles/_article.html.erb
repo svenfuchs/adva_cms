@@ -1,0 +1,14 @@
+<tr id="<%= dom_id article %>">
+  <td><%= link_to article.title, edit_admin_article_path(@site, @section, article), :class => article.state %></td>
+  <% if @section.accept_comments? %>
+    <td>
+      <% if article.comments.size == 0 %>
+        none
+      <% else %>
+        <%= link_to article.comments.size.to_s.rjust(2, '0'), admin_comments_path %>
+      <% end %> 
+    </td>
+  <% end %> 
+  <td><%= published_at_formatted article %></td>
+  <td><%= article.published? ? link_to("view", content_path(article), :class => 'view') : '&nbsp;' %></td>
+</tr>

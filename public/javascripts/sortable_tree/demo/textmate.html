@@ -1,0 +1,137 @@
+<html>
+<head>
+  <script src="../vendor/prototype.js" type="text/javascript"></script>
+  <script src="../vendor/effects.js" type="text/javascript"></script>
+  <script src="../vendor/dragdrop.js" type="text/javascript"></script>    
+  <script src="../sortable_tree.js" type="text/javascript"></script>    
+  <style>
+    html, body {
+     	font: normal 12px Helvetica,Arial,Verdana,sans-serif;
+    	line-height: 28px;
+    	color: #444;
+    }
+    #tree, #tree ul { 
+    	padding-left: 20px; 
+    	list-style-type: none;
+    	cursor: move;
+    }
+    #tree {
+      padding: 0px;
+	    margin: 12px;
+    	width: 200px;
+    }
+    #tree li {
+    	margin-top: -6px;
+    }
+    #tree li a {
+      padding: 2px 0 0 18px;
+    	background: url(folder.png) no-repeat left top;
+    }
+    #tree li.file {
+    	padding-left: 18px;
+    }
+    #tree li.file a {
+    	padding-left: 18px;
+    	background: url(file.png) no-repeat left top;
+    }
+    #tree li span.handle {
+      display: block;
+      float: left;
+    	width: 15px;
+    	height: 12px;
+    	margin: 6px 3px 0 0;
+    	cursor: pointer;
+    }
+    #tree li span {
+    	background: url(folder_open.png) no-repeat 3px 3px;
+    }
+    #tree li.closed span {
+    	background: url(folder_closed.png) no-repeat 3px 3px;
+    }
+    #tree li.closed li {
+    	display: none;
+    }
+    #tree .drop_hover {
+    	background: url(drag.png) no-repeat bottom left;
+    }
+    #tree .drop_top {
+    	background-position: 12px top;
+    }
+    #tree .drop_bottom {
+    	background-position: 12px bottom;
+    }
+    #tree .drop_insert {
+    	background-position: 32px 100%;
+    }
+    #log {
+      padding: 12px;
+      color: #999;
+      line-height: 12px;
+    }
+  </style>
+</head>
+<body>
+<ul id="tree">
+  <li id="node_1">
+    <span class="handle"></span>
+    <a>node 1</a>
+    <ul>
+      <li id="node_11">
+        <span class="handle"></span>
+        <a>node 11</a>
+        <ul>
+          <li id="node_111" class="file"><a>node 111</a></li>
+          <li id="node_112" class="file"><a>node 112</a></li>
+          <li id="node_113" class="file"><a>node 113</a></li>
+        </ul>            
+      </li>
+      <li id="node_12" class="file"><a>node 12</a></li>
+      <li id="node_13" class="file"><a>node 13</a></li>
+    </ul>
+  </li>
+  <li id="node_2">
+    <span class="handle"></span>
+    <a>node 2</a>
+    <ul>
+      <li id="node_21" class="file"><a>node 21</a></li>
+      <li id="node_22" class="file"><a>node 22</a></li>
+      <li id="node_23" class="file"><a>node 23</a></li>
+    </ul>              
+  </li>
+</ul>
+
+<div id="log"></div>
+
+<script>
+  var tree = new SortableTree('tree', {
+    droppable: {
+      container: ':not(.file)'
+    },
+    onDrop: function(drag, drop, event){
+      $('log').update($('log').innerHTML + "<p>" + drag.to_params() + "</p>")
+    }
+  });
+  tree.setSortable();
+
+  function log(line) {
+    $('log').update($('log').innerHTML + "<p>" + line + "</p>");
+  }
+  
+  function toggle_folder(event) {
+    var element = event.element().ancestors().first();
+    if(element.hasClassName('closed')) {
+      element.removeClassName('closed');
+    } else {
+      element.addClassName('closed');
+    }
+  }
+  
+  Event.observe(window, "load", function(){
+    $$('.handle').each(function(element){
+      Event.observe(element, 'click', toggle_folder);
+    });
+  });
+</script>
+ 
+</body>
+</html>

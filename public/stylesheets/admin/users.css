@@ -1,0 +1,41 @@
+.users {
+  list-style: none;
+  margin-top: 20px;
+}
+.users li {
+	float: left;
+	width: 100%;
+  background: #eee;
+  margin: 0 0 10px 0;
+  padding: 5px;
+}
+.users h3 {
+	margin: 0px;
+}
+.users img.avatar {
+  float: left;
+  margin-right: 10px;
+  max-height: 50px;
+  max-width: 50px;
+}
+img.avatar {
+  padding: 3px;
+  background: #fff;
+  border: 1px solid #ccc;
+  max-width: 50px;
+  max-height: 50px;
+}
+#sidebar div.user {
+	margin-top: 20px;
+	height: 80px;
+}
+#sidebar div.user h3 {
+	margin: 0px;
+}
+#sidebar div.user p {
+	margin: 10px;
+}
+#sidebar img.avatar {
+  float: left;
+  margin-right: 10px;
+}

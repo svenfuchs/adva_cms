@@ -1,0 +1,2 @@
+page.flash.notice "Asset bucket has been cleared."
+page['bucket-assets'].replace_html ''

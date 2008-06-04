@@ -1,0 +1,1 @@
+$: << File.expand_path('vendor/spec/rspec-rails/lib')

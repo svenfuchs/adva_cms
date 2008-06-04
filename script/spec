@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+$LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + "/../vendor/spec/rspec/lib"))
+
+require 'rubygems'
+require 'spec'
+
+require 'ruby-prof'
+RubyProf.start
+
+exit_code = ::Spec::Runner::CommandLine.run(::Spec::Runner::OptionParser.parse(ARGV, STDERR, STDOUT))
+
+result = RubyProf.stop
+printer = RubyProf::FlatPrinter.new(result)
+printer.print(STDOUT, 0)
+
+exit exit_code

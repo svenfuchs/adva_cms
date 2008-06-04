@@ -1,0 +1,18 @@
+# Prerequisites
+
+Rails 2.1
+
+# Installation
+
+* run rake db:migrate:all to setup the database (Sqlite for toying)
+* start the server
+* visit http://localhost:3000
+
+Optionally tweak config/database.yml (e.g. for MySQL) and run rake db:create, 
+then continue as above.
+
+You should be directed to an installation screen. Fill out the form and you're
+started.
+
+The forum section type currently does not work, so don't add a forum to your
+site.

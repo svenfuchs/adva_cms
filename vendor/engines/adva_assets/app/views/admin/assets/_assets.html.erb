@@ -1,0 +1,21 @@
+<% if @recent.any? %>
+  <div id="recent-assets" class="assets-row">
+    <%= render :partial => 'asset', :collection => @recent, :locals => {:size => :thumb} %>
+  </div>
+
+  <% if @assets.any? %>
+    <% @assets.in_groups_of(7) do |group| -%>
+      <div class="assets-row">
+        <%= render :partial => 'asset', :collection => group.compact %>
+      </div>
+    <% end %>
+  <% end %>
+
+<% else %>
+  <div class="empty" style="margin: 20px;">
+    You have no files of this type or have yet to upload any files. 
+    <%= link_to 'Upload one now &raquo;', :action => 'new' %>
+  </div>
+<% end %>
+
+<%= will_paginate @assets, :id => 'pagination' %>

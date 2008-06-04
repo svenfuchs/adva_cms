@@ -1,0 +1,39 @@
+<h2><%= collection_title %></h2>
+
+<% if @wikipages.size > 0 -%>
+
+  <table id="wikipages" class="list">
+    <thead>
+      <tr>
+        <th scope="col">Title</th>
+        <% if @section.accept_comments? %>
+          <th scope="col">Comments</th>
+        <% end %>
+        <th scope="col">Updated</th>
+      </tr>
+    </thead>
+    <tbody id="wikipages-body">
+      <% @wikipages.each do |wikipage| %>
+        <tr id="<%= dom_id wikipage %>">
+          <td><%= link_to_content wikipage %></td>
+          <% if @section.accept_comments? %>
+            <td><%= link_to_content_comments_count wikipage %></td>
+          <% end %> 
+          <td><%= wikipage.updated_at.to_ordinalized_s :long %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  
+  <%= will_paginate @wikipages, :id => 'pagination' %>
+  
+<% else %>
+
+  <div class="empty">
+    There are no wikipages in <%= @section.title %>.
+    <%= link_to "Create one now &raquo;", new_admin_wikipage_path(@site) %>
+  </div>
+
+<% end %>
+
+<%= render :partial => 'footer' %>

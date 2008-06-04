@@ -1,0 +1,40 @@
+no_peeping_toms
+=============
+
+This plugin disables observers in your specs, so that model specs can run in complete isolation.
+
+You can choose to run some code with observers turned on.  This is useful when spec'ing an observer.  For example, if you write the following observer:
+
+    class PersonObserver < ActiveRecord::Observer
+      def before_update(person)
+        old_person = Person.find person.id
+        if old_person.name != person.name
+          NameChange.create! :person => person, :old_name => old_person.name, :new_name => person.name
+        end
+      end
+    end
+    
+You can spec the Person class in complete isolation.
+
+    describe Person, " when changing a name" do
+      before(:each) do
+        @person = Person.create! :name => "Pat Maddox"
+      end
+  
+      # By default, don't run any observers
+      it "should not register a name change" do
+        lambda { @person.update_attribute :name, "Don Juan Demarco" }.should_not change(NameChange, :count)
+      end
+  
+      # Run only a portion of code with certain observers turned on
+      it "should register a name change with the person observer turned on" do
+        Person.with_observers(:person_observer) do
+          lambda { @person.update_attribute :name, "Don Juan Demarco" }.should change(NameChange, :count).by(1)
+        end
+    
+        lambda { @person.update_attribute :name, "Man Without a Name" }.should_not change(NameChange, :count)
+      end
+    end
+
+
+Copyright (c) 2007 Pat Maddox, released under the MIT license

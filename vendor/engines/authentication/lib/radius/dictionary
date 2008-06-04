@@ -1,0 +1,207 @@
+#
+#	This file contains dictionary translations for parsing
+#	requests and generating responses.  All transactions are
+#	composed of Attribute/Value Pairs.  The value of each attribute
+#	is specified as one of 4 data types.  Valid data types are:
+#
+#	string - 0-253 octets
+#	ipaddr - 4 octets in network byte order
+#	integer - 32 bit value in big endian order (high byte first)
+#	date - 32 bit value in big endian order - seconds since
+#					00:00:00 GMT,  Jan.  1,	 1970
+#
+#	Enumerated values are stored in the user file with dictionary
+#	VALUE translations for easy administration.
+#
+#	Example:
+#
+#	ATTRIBUTE	  VALUE
+#	---------------	  -----
+#	Framed-Protocol = PPP
+#	7		= 1	(integer encoding)
+#
+
+
+
+#
+# Proper names for everything - use this instead of the above
+#
+ATTRIBUTE	User-Name		1	string
+ATTRIBUTE	User-Password		2	string
+ATTRIBUTE	CHAP-Password		3	string
+ATTRIBUTE	NAS-IP-Address		4	ipaddr
+ATTRIBUTE	NAS-Port		5	integer
+ATTRIBUTE	Service-Type		6	integer
+ATTRIBUTE	Framed-Protocol		7	integer
+ATTRIBUTE	Framed-IP-Address	8	ipaddr
+ATTRIBUTE	Framed-IP-Netmask	9	ipaddr
+ATTRIBUTE	Framed-Routing		10	integer
+ATTRIBUTE	Filter-Id		11	string
+ATTRIBUTE	Framed-MTU		12	integer
+ATTRIBUTE	Framed-Compression	13	integer
+ATTRIBUTE	Login-IP-Host		14	ipaddr
+ATTRIBUTE	Login-Service		15	integer
+ATTRIBUTE	Login-TCP-Port		16	integer
+ATTRIBUTE	Reply-Message		18	string
+ATTRIBUTE	Callback-Number		19	string
+ATTRIBUTE	Callback-Id		20	string
+ATTRIBUTE	Expiration		21	date
+ATTRIBUTE	Framed-Route		22	string
+ATTRIBUTE	Framed-IPX-Network	23	ipaddr
+ATTRIBUTE	State			24	string
+ATTRIBUTE	Session-Timeout		27	integer
+ATTRIBUTE	Idle-Timeout		28	integer
+ATTRIBUTE	Termination-Action	29	integer
+ATTRIBUTE	Called-Station-Id	30	string
+ATTRIBUTE	Calling-Station-Id	31	string
+ATTRIBUTE	Acct-Status-Type	40	integer
+ATTRIBUTE	Acct-Delay-Time		41	integer
+ATTRIBUTE	Acct-Input-Octets	42	integer
+ATTRIBUTE	Acct-Output-Octets	43	integer
+ATTRIBUTE	Acct-Session-Id		44	string
+ATTRIBUTE	Acct-Authentic		45	integer
+ATTRIBUTE	Acct-Session-Time	46	integer
+ATTRIBUTE	Acct-Terminate-Cause	49	integer
+ATTRIBUTE	NAS-Port-Type		61	integer
+ATTRIBUTE	Port-Limit		62	integer
+
+
+#
+#	Integer Translations
+#
+
+#	User Types
+
+VALUE		Service-Type	Login-User		1
+VALUE		Service-Type	Framed-User		2
+VALUE		Service-Type	Callback-Login-User	3
+VALUE		Service-Type	Callback-Framed-User	4
+VALUE		Service-Type	Outbound-User		5
+VALUE		Service-Type	Administrative-User	6
+VALUE		Service-Type	NAS-Prompt-User		7
+
+#	Framed Protocols
+
+VALUE		Framed-Protocol		PPP			1
+VALUE		Framed-Protocol		SLIP			2
+
+#	Framed Routing Values
+
+VALUE		Framed-Routing		None			0
+VALUE		Framed-Routing		Broadcast		1
+VALUE		Framed-Routing		Listen			2
+VALUE		Framed-Routing		Broadcast-Listen	3
+
+#	Framed Compression Types
+
+VALUE		Framed-Compression	None			0
+VALUE		Framed-Compression	Van-Jacobson-TCP-IP	1
+
+#	Login Services
+
+VALUE		Login-Service		Telnet			0
+VALUE		Login-Service		Rlogin			1
+VALUE		Login-Service		TCP-Clear		2
+VALUE		Login-Service		PortMaster		3
+
+#	Status Types
+
+VALUE		Acct-Status-Type	Start			1
+VALUE		Acct-Status-Type	Stop			2
+
+#	Authentication Types
+
+VALUE		Acct-Authentic		RADIUS			1
+VALUE		Acct-Authentic		Local			2
+VALUE		Acct-Authentic		PowerLink128		100
+
+#	Termination Options
+
+VALUE		Termination-Action	Default			0
+VALUE		Termination-Action	RADIUS-Request		1
+
+#	NAS Port Types, available in ComOS 3.3.1 and later
+
+VALUE		NAS-Port-Type		Async			0
+VALUE		NAS-Port-Type		Sync			1
+VALUE		NAS-Port-Type		ISDN			2
+VALUE		NAS-Port-Type		ISDN-V120		3
+VALUE		NAS-Port-Type		ISDN-V110		4
+
+#	Acct Terminate Causes, available in ComOS 3.3.2 and later
+
+VALUE		Acct-Terminate-Cause	User-Request		1
+VALUE		Acct-Terminate-Cause	Lost-Carrier		2
+VALUE		Acct-Terminate-Cause	Lost-Service		3
+VALUE		Acct-Terminate-Cause	Idle-Timeout		4
+VALUE		Acct-Terminate-Cause	Session-Timeout		5
+VALUE		Acct-Terminate-Cause	Admin-Reset		6
+VALUE		Acct-Terminate-Cause	Admin-Reboot		7
+VALUE		Acct-Terminate-Cause	Port-Error		8
+VALUE		Acct-Terminate-Cause	NAS-Error		9
+VALUE		Acct-Terminate-Cause	NAS-Request		10
+VALUE		Acct-Terminate-Cause	NAS-Reboot		11
+VALUE		Acct-Terminate-Cause	Port-Unneeded		12
+VALUE		Acct-Terminate-Cause	Port-Preempted		13
+VALUE		Acct-Terminate-Cause	Port-Suspended		14
+VALUE		Acct-Terminate-Cause	Service-Unavailable	15
+VALUE		Acct-Terminate-Cause	Callback		16
+VALUE		Acct-Terminate-Cause	User-Error		17
+VALUE		Acct-Terminate-Cause	Host-Request		18
+
+
+#
+# Obsolete names for backwards compatibility with older users files
+# If you want RADIUS accounting logs to use the new names instead of
+# these, move this section to the beginning of the dictionary file
+# and kill and restart radiusd
+# If you don't have a RADIUS 1.16 users file that you're still using,
+# you can delete or ignore this section.
+#
+ATTRIBUTE	Client-Id		4	ipaddr
+ATTRIBUTE	Client-Port-Id		5	integer
+ATTRIBUTE	User-Service-Type	6	integer
+ATTRIBUTE	Framed-Address		8	ipaddr
+ATTRIBUTE	Framed-Netmask		9	ipaddr
+ATTRIBUTE	Framed-Filter-Id	11	string
+ATTRIBUTE	Login-Host		14	ipaddr
+ATTRIBUTE	Login-Port		16	integer
+ATTRIBUTE	Old-Password		17	string
+ATTRIBUTE	Port-Message		18	string
+ATTRIBUTE	Dialback-No		19	string
+ATTRIBUTE	Dialback-Name		20	string
+ATTRIBUTE	Challenge-State		24	string
+VALUE		Service-Type		Dialback-Login-User	3
+VALUE		Service-Type		Dialback-Framed-User	4
+VALUE		Service-Type		Shell-User		6
+VALUE		Framed-Compression	Van-Jacobsen-TCP-IP	1
+#VALUE		Auth-Type		Unix			1
+#
+# END of obsolete names for backwards compatibility
+#
+
+#
+#	Configuration Values
+#	uncomment out these two lines to turn account expiration on
+#
+
+#VALUE		Server-Config		Password-Expiration	30
+#VALUE		Server-Config		Password-Warning	5
+
+##
+## VENDOR SPECIFIC ATTRIBUTES
+##
+## The following entries demonstrate the use of VSAs
+##
+
+# cisco-avpair is used for various functions by cisco IOS. Most
+# notably, it's used to create VPDN tunnels.
+#
+VENDORATTR	9	cisco-avpair	1	string
+
+# This is a fake attribute to demonstrate how to write named-value
+# attributes.
+VENDORATTR	1	ibm-enum	254	integer
+VENDORVALUE	1	ibm-enum	value-1	1
+VENDORVALUE	1	ibm-enum	value-2	2
+VENDORVALUE	1	ibm-enum	value-3	3

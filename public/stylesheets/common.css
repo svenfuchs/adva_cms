@@ -1,0 +1,40 @@
+/* FLASH */
+
+.flash {
+	height: 27px;
+	margin: -26px 0 18px 0;
+	line-height: 25px;
+	text-align: center;
+}
+#flash-notice {
+	background-color: #ff3;
+}
+#flash-error {
+	background-color: #f93;
+}
+
+/* LISTS */
+
+table.list {
+	width: 100%;
+	margin-bottom: 27px;
+	border-collapse: collapse;
+}
+table.list th {
+	padding: 9px 10px 9px 10px;
+	text-align: left;
+	border-bottom: 1px solid #888;
+}
+table.list td {
+	padding: 9px 10px 8px 10px;
+	border-bottom: 1px solid #aaa;
+}
+
+/* DIFF */
+
+.diff-delete {
+background-color: #f44;
+}
+.diff-add {
+background-color: #8f4;
+}

@@ -1,0 +1,10 @@
+<% unless contents.blank? %>
+  <h4>Comments awaiting your approval</h4>
+  <ul>
+  <% contents.each do |content, comments| %>
+    <li>
+      <%= link_to "<strong>(#{comments.size})</strong> #{content.title}", admin_comments_path(:content_id => content.id, :filter => :unapproved) %>
+    </li>
+  <% end %>
+  </ul>
+<% end %>

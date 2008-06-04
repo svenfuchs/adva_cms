@@ -1,0 +1,28 @@
+<div id="centered-box">
+  <% form_for @user, :url => session_path, :html => {:id => 'login'} do |f| %>
+  	<fieldset>
+
+  	<p>
+  	  <%= f.label :login %>
+  		<%= f.text_field :login, :class => 'big' %>
+  	</p>
+	
+  	<p>
+  	  <%= f.label :password %>
+  		<%= f.password_field :password, :class => 'big' %>
+  	</p>
+	
+  	<p>
+  		<%= check_box_tag 'user[remember_me]', 1, @remember_me, :id => 'user_remember_me' %>
+  	  <%= f.label :remember_me, 'Remember me', :class => 'light' %>
+  	</p>
+	
+  	</fieldset>
+  	
+  	<p class="buttons">
+  	  <%= submit_tag 'Login' %> or
+  	  <%= link_to 'Reset password', new_password_path %>
+    	<%#= link_to 'Sign up', new_account_path %>
+    </p>
+  <% end %>
+</div>

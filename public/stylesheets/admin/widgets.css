@@ -1,0 +1,142 @@
+#menu_global {
+	position: absolute;
+	top: 5px;
+	right: 10px;
+}
+#menu_global li {
+	float: left;
+	padding-left: 15px;
+}
+
+.menu li {
+	float: left;
+}
+.menu li a {
+	font-weight: bold;
+	font-size: 12px;
+	color: #777;
+	text-decoration: none;
+	text-shadow: #fff 1px 1px;
+}
+.site_menu {
+	position: absolute;
+	bottom: 32px;
+}
+.site_menu li {
+	margin-left: 5px;
+	padding: 5px 15px;
+	background-color: #f0f0f0;
+}
+#site_menu_primary {
+	left: 50px;
+}
+
+#site_menu_secondary {
+	right: 50px;
+}
+#section_menu_container,
+#action_nav_container {
+	border: 1px solid #ccc;
+	border-width: 1px 0px;
+	padding-left: 20px;
+	background: url(/images/admin/section_menu_bg.png);
+}
+#section_menu,
+#action_nav {
+	height: 40px;
+	border-left: 1px solid #ccc;
+}
+#section_menu li a,
+#action_nav li a {
+	display: block;
+	height: 40px;
+	padding: 0px 20px 0px 20px;
+	line-height: 40px;
+	border-left: 1px solid #fff;
+	border-right: 1px solid #ccc;
+}
+#section_menu li a:hover
+#action_nav li a:hover {
+	background-color: #eee;
+	border-left: 1px solid #eee;
+}
+
+/* filter */
+
+#filter {
+	position: relative;
+	padding-right: 10px;
+	border-bottom: 1px solid #ccc;
+	line-height: 34px;
+	text-align: right;
+	background: url(/images/filter-bg.png) repeat-x top left;
+	font-size: 11px;
+}
+#filter ul {
+  padding: 1px 10px 0px 0px;
+}
+#filter li {
+	float: left;
+}
+#filter label {
+	color: #777;
+}
+#filter select {
+	color: #444;
+	margin-left: 5px;
+}
+#filter input[type="text"] {
+	width: 150px;
+	font-size: 12px;
+	margin-left: 5px;
+}
+#filter ul li a {
+  text-decoration: none;
+  padding: 2px 8px 3px 0;
+  margin: 0px 6px 0px 9px;
+	color: #777;
+  text-shadow: 1px 1px #fff;
+  font-weight: bold;
+}
+#filter li a:hover, #filter li:hover a {
+  color: #fff;
+  text-shadow: 1px 1px #578;
+  background: transparent url(/images/filter-attr-hover.png) 100% 50% no-repeat;
+}
+#filter li:hover {
+  background: transparent url(/images/filter-attr-hover-left.png) 0 50% no-repeat;
+}
+#filter li.pressed a { 
+  outline: none;
+  color: #fff;
+  text-shadow: 1px 1px #578;
+  background: transparent url(/images/filter-attr-pressed.png) 100% 50% no-repeat !important;
+}
+#filter li.pressed  {
+  background: transparent url(/images/filter-attr-pressed-left.png) 0 50% no-repeat !important;
+}
+#filter ul#attributes {
+  position: absolute;
+  top: 0;
+  right: 0;
+	margin-right: 165px;
+}
+#assets-search-query {
+	margin-top: 5px;
+  border: 1px solid #ccc;
+  right: 0;
+	font-size: 11px;
+}
+#spin {
+	float: left;
+	display: block;
+  width: 16px; 
+	height: 16px;
+	margin: 11px 3px 0px 13px;
+}
+
+/* sidebar */
+
+ul.categories ul {
+	padding-left: 20px; 
+}

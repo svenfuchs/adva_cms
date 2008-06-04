@@ -1,0 +1,38 @@
+<p>
+  <%= f.label :title %>
+  <%= f.text_field :title %>
+</p>
+<p>
+  <%= f.label :body %>
+  <%= f.text_area :body %>
+</p>
+<% unless @wikipage.categories.blank? %>
+  <p>
+    <label>Categories</label>
+    <% @wikipage.categories.each do |category| %>
+      <%= content_category_checkbox(@wikipage, category) %>
+      <label for="wikipage_category_<%= category.id %>" class="inline"><%= category.title %></label>
+    <% end %>
+  </p>
+<% end %>
+<p>
+  <%= f.label :tag_list, 'Tags' %>
+  <%= f.text_field :tag_list %>
+  <span class="hint">Separate tags by spaces. Enclose tags with quotes to include spaces.</span>  
+</p>
+<% unless current_user.registered? %>
+  <% fields_for @wikipage.author do |author| %>
+    <p>
+      <%= author.label :name, 'Your name' %>
+      <%= author.text_field :name %>
+    </p>
+    <p>
+      <%= author.label :email, 'Your email' %>
+      <%= author.text_field :email %>
+    </p>
+  <% end %>  
+<% end %>
+<p class="buttons">
+  <%= f.submit "Save" %> or
+  <%= link_to "cancel", wikipage_path(@section, @wikipage.permalink) %>
+</p>

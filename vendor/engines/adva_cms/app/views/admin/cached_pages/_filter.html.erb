@@ -1,0 +1,4 @@
+<% form_tag admin_cached_pages_path, :method => 'get', :id => 'cached-pages-search' do -%>
+  <label for="search" class="inline">Show cached pages:</label>
+  <%= text_field_tag 'query', params[:query], :id => 'query' %>
+<% end -%>

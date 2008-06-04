@@ -1,0 +1,46 @@
+<% if @articles.size > 0 -%>
+
+  <p>
+    <%= link_to "New Article", new_admin_article_path(@site) %> &middot;
+    <%= link_to_function 'Reorder Articles', "articles_list.toggle(this, 'Done reordering');", :id => 'reorder_sections' %>
+    <%= image_tag 'indicator.gif', :id => 'articles_indicator', :style => 'display: none;' %>
+  </p>
+
+  <table id="articles" class="list">
+    <thead>
+      <tr>
+        <th scope="col">Article</th>
+        <% if @section.accept_comments? %>
+          <th scope="col">Comments</th>
+        <% end %>
+        <th scope="col">Published</th>
+        <th scope="col">&nbsp;</th>
+      </tr>
+    </thead>
+    <tbody id="articles-body">
+      <%= render :partial => 'article', :collection => @articles %>
+    </tbody>
+  </table>
+
+  <%= will_paginate @articles, :id => 'pagination' %>
+
+  <script type="text/javascript">
+    var articles_list = new ArticlesList($('articles-body'), {
+      onUpdate: function(drag, drop, event) {
+        <%= remote_function(:url => admin_articles_path(@site, @section),
+                            :method =>   :put,
+                            :with   =>   "articles_list.serialize()",
+                            :loading =>  "$('articles_indicator').show()",
+                            :complete => "$('articles_indicator').hide()" ) %>
+      }
+    });
+  </script>
+  
+<% else %>
+
+  <div class="empty">
+    There are no articles in <%= @section.title %>.
+    <%= link_to "Create one now &raquo;", new_admin_article_path(@site) %>
+  </div>
+
+<% end %>

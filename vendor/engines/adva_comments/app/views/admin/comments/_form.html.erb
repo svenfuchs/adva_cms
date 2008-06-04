@@ -1,0 +1,15 @@
+<%= hidden_field_tag "redirect_to", params[:redirect_to] || request.request_uri %>
+
+<fieldset>  
+  <p>
+    <%= f.label :body, "Comment" %>
+    <%= f.text_area :body, :class => 'fat', :rows => 8  %>
+  </p>
+</fieldset>
+
+<%= yield if block_given? %>
+
+<p class="buttons">
+  <%= submit_tag 'Save' %>
+  <%= link_to "cancel", params[:redirect_to] if params[:redirect_to] %>
+</p>

@@ -1,0 +1,9 @@
+<h3>New File</h3>
+
+<% form_for :file, @file, :url => admin_theme_files_path(@site, @theme.id), :html => { :method => :post } do |f| -%>
+  <%= render :partial => 'form', :locals => {:f => f} %>
+<% end %>
+
+<% content_for :sidebar do %>
+  <%= render :partial => 'admin/theme_files/files' %>
+<% end %>

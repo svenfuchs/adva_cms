@@ -1,0 +1,10 @@
+<div class="attachment">
+<div id="<%= dom_id(attachment) %>">
+<%= link_to_unless_current image_tag(attachment.public_filename(:small)), attachment.public_filename, :class => "attachment_link" %>
+</div>
+
+<div class="attachment_meta_info">
+	<%= link_to "Small", attachment.public_filename(:small) %>
+	<%= link_to "Large", attachment.public_filename(:large) %>
+</div>
+</div>

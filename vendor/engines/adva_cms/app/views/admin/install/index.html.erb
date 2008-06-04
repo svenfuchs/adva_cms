@@ -1,0 +1,74 @@
+<h2>Welcome!</h2>
+
+<p>
+  Welcome to the less-than-two-minutes installation process. Just fill in the information below and you're done. 
+</p>
+
+<p>
+  Don't worry. You can always change these settings later.
+</p>
+
+<% form_tag install_path do %>   
+  <h3>Website configuration</h3>
+  <fieldset>
+    <% fields_for @site do |site| %>
+      <p>
+        <%= site.label :name, 'Website name' %>
+      	<%= site.text_field :name, :class => 'big' %>
+      </p>
+      <p>
+        <%= site.label :title, 'Website title' %>
+      	<%= site.text_field :title, :class => 'big' %>
+      </p>
+    <% end %>
+  </fieldset>  
+  
+  <h3>Website home section</h3>  
+  <fieldset>
+    <% fields_for @section do |section| %>
+      <p>
+        <%= section.label :type %>
+        <% Section.types.each_with_index do |type, ix| %>
+          <%= section.radio_button :type, type %>
+          <label for="section_type_<%= type.downcase %>" class="light" style="padding-right: 5px; padding-top: 5px;">
+            <%= type %>
+          </label>
+        <% end %>
+      </p>
+      <p>
+        <%= section.label :title %>
+        <%= section.text_field :title, :class => 'big' %>
+      </p>
+    <% end %>
+  </fieldset>   
+  <!-- 
+  <h3>Your admin account</h3>
+  <fieldset>
+    <% fields_for @user do |user| %>
+    	<p>
+    	  <%= user.label :name %>
+    		<%= user.text_field :name, :class => 'big' %>
+    	</p>
+
+    	<p>
+    	  <%= user.label :email, 'E-Mail' %>
+    		<%= user.text_field 'email', :class => 'big' %>
+    	</p>
+
+    	<p>
+    	  <%= user.label :password %>
+    		<%= user.password_field 'password', :class => 'big' %>
+    	</p>
+
+    	<p>
+    	  <%= user.label :password_confirmation %>
+    		<%= user.password_field 'password_confirmation', :class => 'big' %>
+    	</p>
+    <% end %>
+  </fieldset>  
+   -->
+  
+  <p class="buttons">
+    <%= submit_tag "Create site & account »" %>
+  </p>
+<% end %>

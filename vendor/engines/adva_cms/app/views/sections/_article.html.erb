@@ -1,0 +1,11 @@
+<% if article %>
+  <div id="<%= dom_id article %>" class="entry">
+  	<h2>
+  	  <%= link_to_content article %>
+  	</h2> 
+  	<div class="body">
+	    <%= article.excerpt_html %>
+      <%= article.body_html %>
+  	</div>
+  </div>
+<% end %>

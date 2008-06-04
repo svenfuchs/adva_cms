@@ -1,0 +1,13 @@
+<p>Enter your new password in the form below.</p>
+
+<% form_for 'user', :url => password_path, :html => {:method => :put} do |f| %>
+	<div id="password">
+	  <%= f.label :password %>
+		<%= f.password_field 'password' %>
+	</div>
+	<div id="password_confirmation">
+	  <%= f.label :password_confirmation %>
+		<%= f.password_field 'password_confirmation' %>
+	</div>
+	<%= submit_tag 'Update' %>
+<% end %>

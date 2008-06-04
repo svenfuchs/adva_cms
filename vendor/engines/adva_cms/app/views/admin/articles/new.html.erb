@@ -1,0 +1,7 @@
+<% funky_form_for :article, @article, :url => admin_articles_path, :html => {:multipart => true, :id => 'content_form'} do |f| -%>
+  <%= render :partial => 'form', :locals => {:f => f} %>  
+  <p class="buttons">
+    <%= submit_tag 'Save Article' %> or 
+    <%= link_to "cancel", admin_articles_path %>
+  </p>
+<% end -%>

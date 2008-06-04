@@ -1,0 +1,35 @@
+<% if @wikipages.size > 0 -%>
+
+  <p class="total">
+    Total: <%= content_tag :strong, @wikipages.total_entries %> wikipages.
+  </p>
+
+  <table id="wikipages" class="list" cellspacing="0" cellpadding="0">
+    <thead>
+      <tr>
+        <th scope="col">Wikipage</th>
+        <th scope="col">Version</th>
+        <th scope="col">Last Updated</th>
+        <th scope="col">By</th>
+        <th scope="col">Comments</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= render :partial => 'wikipage', :collection => @wikipages %>
+    </tbody>
+  </table>
+
+  <%= will_paginate @wikipages, :id => 'pagination' %>
+
+<% else %>
+
+  <div class="empty" style="margin-bottom:20px">
+    <% unless params[:filter] %>
+      You have no wikipages.
+    <% else %>
+      You don't seem to have any wikipages matching that criteria.
+    <% end %>
+  </div>
+
+<% end %>

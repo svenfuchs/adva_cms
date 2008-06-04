@@ -1,0 +1,56 @@
+/* FORM */
+
+fieldset {
+	border-width: 0px;
+}
+input[type=text],
+input[type=password],
+textarea {
+	border: 1px solid #888;
+}
+input[type=text],
+input[type=password] {
+	height: 20px;
+	padding: 0 4px;
+	margin: -2px 12px -2px 0;
+}
+textarea {
+	width: 80%;	
+	height: 270px;
+	padding: 3px 3px;
+	margin: -2px 0;
+}
+label {
+	display: block;
+	width: 100px;
+	float: left;
+	clear: both;
+}
+label.inline {
+	display: inline;
+	float: none;
+	clear: none;
+	padding-right: 12px;
+}
+.clearing {
+  display: block;
+  zoom: 1; /* gives layout to ie? */
+}
+.clearing:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+* html .clearing {
+  height: 1%;
+}
+
+p.buttons {
+	margin-left: 100px;
+}
+.hint {
+	color: #aaa;
+	font-size: 11px;
+}

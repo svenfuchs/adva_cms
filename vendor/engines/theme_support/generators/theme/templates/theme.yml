@@ -1,0 +1,4 @@
+enabled: true
+title: <%= class_name.underscore.humanize.titleize %>
+author: Matt McCray
+description: This is the description... All light and fluffy.

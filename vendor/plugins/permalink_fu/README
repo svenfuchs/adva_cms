@@ -1,0 +1,11 @@
+PermalinkFu
+
+This is a simple plugin extracted from Mephisto for creating permalinks from attributes.
+
+  class Article < ActiveRecord::Base
+    has_permalink :title
+  end
+
+This will escape the title, making it fit to use in a URL in the after_validation callback.
+
+Use PermalinkFu.escape to escape a string manually if you like.

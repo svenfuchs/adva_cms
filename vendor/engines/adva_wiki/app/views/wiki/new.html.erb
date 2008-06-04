@@ -1,0 +1,8 @@
+<h1>Create: <%= @wikipage.title %></h1>
+
+<% form_for :wikipage, @wikipage, :url => wikipages_path(@section) do |f| %>
+	<%= render :partial => "form", :locals => {:f => f} %>
+<% end %>
+
+<%#= link_to 'Back', wikipages_path %>
+<%#= render :partial => @attachments %>

@@ -1,0 +1,13 @@
+<p>
+  <%= f.label :localpath, 'Filename' %>
+  <%= f.text_field :localpath %>
+</p>
+<% if @file.text? %>
+  <p><%= f.text_area :data %></p> 
+<% else %>
+  <p><%= image_tag @file.path.to_s %></p>
+<% end %>
+<p class="buttons">
+  <%= submit_tag 'Save' %>	
+  <%= link_to 'Delete', admin_theme_file_path(@site, @theme.id, @file.id), { :confirm => "Are you sure you wish to delete this file?", :method => :delete } %>  
+</p>

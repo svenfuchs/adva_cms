@@ -1,0 +1,39 @@
+= authentication plugin
+
+This plugin provide the infrastructure for implementing a pluggable
+authentication system. This plugin only provides support for the
+lower-level model functionality to carry out various authentication
+actions. Higher level functions that the user interacts with
+(login pages, forgot my password, etc.) should be implemented by the
+application or a plugin like the login plugin which is designed for
+this purpose.
+
+See the #Authentication module for overview info
+
+= Installation
+
+== Standard Method
+
+    ruby ./script/plugin install http://authentication.rubyforge.org/svn/trunk
+    mv vendor/plugins/trunk vendor/plugins/authentication
+
+== Piston Method
+
+    piston import http://authentication.rubyforge.org/svn/trunk vendor/plugins/authentication
+    
+= NOTICE
+
+Since this plugin does not yet contain many modules that it hopes to
+one day (POP3, etc.) the internal API is not set in stone. I wanted to
+leave a place for plugging in other authentication systems but do not
+yet actually have any need for any besides a salted hash and basic
+tokens. This means as the others are added the internals will probably
+change to account for the variety.
+
+= NOTICE
+
+Since nobody uses all aspects of this program different people are
+maintaining different parts. If you have any questions about a specific
+authentication module contact correct person:
+
+Bart Duchesne <bduc@dyndaco.com> - LDAP and Radius auth modules

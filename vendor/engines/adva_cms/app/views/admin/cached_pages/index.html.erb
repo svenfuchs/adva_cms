@@ -1,0 +1,30 @@
+<%= render :partial => "action_nav" %>
+
+<% content_for :filter do -%>
+  <%= render :partial => 'filter' %>
+<% end -%>
+
+<% if @cached_pages.size > 0 -%>
+  <p class="total">
+    Total: <strong><%= @cached_pages.total_entries %></strong> <%= pluralize_str @cached_pages.total_entries, 'pages' %>.
+  </p>
+
+  <table id="cached_pages" cellspacing="0" cellpadding="0">
+    <thead>
+      <tr>
+        <th scope="col">URL</th>
+        <th scope="col">Date</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody id="articles">
+      <%= render :partial => 'cached_page', :collection => @cached_pages %>
+    </tbody>
+  </table>
+
+  <%= will_paginate @articles, :id => 'pagination' %>
+<% else %>
+  <div class="empty">
+    There currently aren't any pages being cached<%= params[:query].blank? ? '.' : ' that match this criteria.' %>
+  </div>
+<% end %>

@@ -1,0 +1,14 @@
+<h2>Reset your password</h2>
+
+<% form_tag password_path do %>
+  <fieldset>
+    <p>Please enter your email address. An email will be sent to you which will 
+    include a link to reset your password.</p>
+
+	  <%= text_field_tag :login %>
+	</fieldset>
+	
+  <p class="buttons">
+    <%= submit_tag 'Reset password' %>
+  </p>
+<% end %>

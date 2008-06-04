@@ -1,0 +1,13 @@
+== Creating the test database
+
+The test databases will be created from the info specified in
+test/database.yml. Either change that file to match your database or
+change your database to match that file.
+
+== Running with Rake
+
+The easiest way to run the unit tests is through Rake. By default
+sqlite will be the database run. Just change your env variable DB to be
+the database adaptor (specified in database.yml) that you want to use.
+The database and permissions must already be setup but the tables will
+be created for you from schema.rb.

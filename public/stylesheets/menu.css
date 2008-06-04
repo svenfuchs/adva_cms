@@ -1,0 +1,129 @@
+/* ================================================================ 
+This copyright notice must be untouched at all times.
+
+The original version of this stylesheet and the associated (x)html
+is available at http://www.cssplay.co.uk/menus/skeleton.html
+Copyright (c) 2005-2007 Stu Nicholls. All rights reserved.
+This stylesheet and the associated (x)html may be modified in any 
+way to fit your requirements.
+=================================================================== */
+.widget.menu,
+.widget.menu ul {
+  padding: 0 0 5px 0;
+  margin: 0;
+  list-style: none;
+  font: 14px Helvetica,Arial,Verdana,sans-serif;
+  border: 1px solid #000;
+  /*border-color: #eca #b97 #a86 #edb;*/
+  /*border-width: 1px 2px 2px 1px;*/
+  border: 1px solid #ddd;
+  background: #fff;
+  position: relative;
+  z-index: 200;
+}
+.widget.menu {
+  height: 25px;
+  padding: 0;
+}
+
+.widget.menu table {
+  border-collapse: collapse;
+}
+.widget.menu li {
+  float: left;
+  padding: 0 20px 0 10px;
+  line-height: 25px;
+}
+.widget.menu li li {
+  float: none;
+}
+/* a hack for IE5.x and IE6 */
+.widget.menu li a li {
+  float: left;
+}
+
+.widget.menu li a {
+  display: block;
+  float: left;
+  color: #888;
+  height: 25px;
+  padding-right: 5px;
+  line-height: 25px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.widget.menu li li a {
+  height: 25px;
+  line-height: 25px;
+  float: none;
+}
+
+.widget.menu li:hover {
+  position: relative;
+  z-index: 300;
+  background: #fff;
+  background-color: #eee;
+}
+.widget.menu a:hover {
+  position: relative;
+  z-index: 300;
+  /*text-decoration: underline;*/
+  color: #b75;
+}
+
+.widget.menu :hover ul {
+  left: 0;
+  top: 22px;
+}
+/* another hack for IE5.5 and IE6 */
+.widget.menu a:hover ul {
+  left: -10px;
+}
+
+.widget.menu ul {
+  position: absolute;
+  left: -9999px;
+  top: -9999px;
+}
+
+/* it could have been this simple if all browsers understood */
+/* show next level */
+.widget.menu li:hover li:hover > ul {
+  left: -15px;
+  margin-left: 100%;
+  top: -1px;
+}
+/* keep further levels hidden */
+.widget.menu li:hover > ul ul {
+  position: absolute;
+  left: -9999px;
+  top: -9999px;
+  width: auto;
+}
+/* show path followed */
+.widget.menu li:hover > a {
+  /*text-decoration: underline;*/
+  color: #b75;
+}
+
+/* but IE5.x and IE6 need this lot to style the flyouts*/
+/* show next level */
+.widget.menu a:hover a:hover ul,
+.widget.menu a:hover a:hover a:hover ul,
+.widget.menu a:hover a:hover a:hover a:hover ul,
+.widget.menu a:hover a:hover a:hover a:hover a:hover ul {
+  left: 100%;
+  top: -1px;
+}
+
+/* keep further levels hidden */
+.widget.menu a:hover ul ul,
+.widget.menu a:hover a:hover ul ul,
+.widget.menu a:hover a:hover a:hover ul ul,
+.widget.menu a:hover a:hover a:hover a:hover ul ul {
+  position: absolute;
+  left: -9999px;
+  top: -9999px;
+}
+
+  

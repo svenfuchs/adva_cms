@@ -1,0 +1,59 @@
+PKG_NAME = 'authentication'
+PKG_VERSION = 0.02
+
+require 'rake'
+require 'rake/testtask'
+require 'rake/rdoctask'
+require 'rake/packagetask'
+
+desc 'Default: run unit tests.'
+task :default => :test
+
+desc "Test the #{PKG_NAME} plugin."
+Rake::TestTask.new(:test) do |t|
+  t.libs << 'lib'
+  t.pattern = 'test/**/*_test.rb'
+  t.verbose = true
+end
+
+desc "Generate documentation for the #{PKG_NAME} plugin"
+Rake::RDocTask.new(:rdoc) do |rdoc|
+  rdoc.rdoc_dir = 'html'
+  rdoc.title    = PKG_NAME
+  rdoc.options << '--line-numbers' << '--inline-source'
+  rdoc.rdoc_files.include('README')
+  rdoc.rdoc_files.include('lib/**/*.rb')
+end
+
+Rake::PackageTask.new(PKG_NAME, PKG_VERSION) do |pkg|
+  pkg.need_tar_gz = true
+  pkg.package_files.include('{lib,test}/**/*')
+  pkg.package_files.include('README')
+  pkg.package_files.include('MIT-LICENSE')
+  pkg.package_files.include('Rakefile')
+end
+
+desc 'Tag release'
+task :tag do
+  svn_root = "svn+ssh://rubyforge.org/var/svn/#{PKG_NAME}"
+  sh %(svn cp #{svn_root}/trunk #{svn_root}/tags/rel-#{PKG_VERSION} -m "Tag #{PKG_NAME} release #{PKG_VERSION}")
+end
+
+desc 'Push a release to rubyforge'
+task :release => [:package, :tag, :rdoc] do
+
+  sh %{scp -rq html/* rubyforge.org:/var/www/gforge-projects/#{PKG_NAME}}
+
+  require 'rubyforge'
+
+  rubyforge = RubyForge.new
+  rubyforge.login
+
+  package = [PKG_NAME, PKG_VERSION] * '-'
+  rubyforge.add_release(PKG_NAME, PKG_NAME, PKG_VERSION, "pkg/#{package}.tar.gz")
+  rubyforge.post_news(PKG_NAME, "#{PKG_NAME} #{PKG_VERSION} Released", <<BODY)
+A new version of #{PKG_NAME} has been released. Please see
+http://#{PKG_NAME}.rubyforge.org for full information. See the SCM
+log messages for what has changed.
+BODY
+end

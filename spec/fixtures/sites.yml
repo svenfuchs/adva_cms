@@ -1,0 +1,9 @@
+site_1:
+  host: test.host
+  name: site_1
+  timezone: 'UTC'
+site_2:
+  host: test-2.host
+  name: site_2
+  timezone: 'UTC'
+    

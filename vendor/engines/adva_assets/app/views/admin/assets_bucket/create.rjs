@@ -1,0 +1,2 @@
+page.flash.notice "#{@asset.title} added to bucket."
+page.insert_html :bottom, 'bucket-assets', "<li>#{link_to(asset_image_for(@asset), @asset.public_filename, :target => '_blank')}</li>"

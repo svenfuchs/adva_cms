@@ -1,0 +1,25 @@
+<h4>
+  Sections
+  <% if @site.sections.count > 1 %>
+    <span class="hint inline">
+      (<%= link_to_function 'Reorder sections', "sections_tree.toggle(this, 'Done reordering');", :id => 'reorder_sections' %>)
+      <%= image_tag 'indicator.gif', :id => 'sections_indicator', :style => 'display: none;' %>
+    </span>
+  <% end %>
+</h4>
+
+<ul id="sections">
+  <%= render :partial => 'widgets/admin/section', :collection => @site.sections.roots %>
+</ul>
+
+<script type="text/javascript">
+  var sections_tree = new SortableTree('sections', {
+    onDrop: function(drag, drop, event) {
+      <%= remote_function(:url => admin_sections_path(@site),
+                          :method =>   :put,
+                          :with   =>   "drag.to_params()",
+                          :loading =>  "$('sections_indicator').show()",
+                          :complete => "$('sections_indicator').hide()" ) %>
+    }
+  });
+</script>

@@ -1,0 +1,15 @@
+NAME
+     theme - Creates the folder structure for a new theme
+
+SYNOPSIS
+     theme [theme_name]
+
+DESCRIPTION
+     This generator creates the folder structure for a new theme. It creates all of 
+     the folders for your theme content (images, stylesheets, javascripts, layouts,
+     and views).
+
+EXAMPLE
+     ./script/generate theme default
+
+     This will generate the file structure for a theme named 'default'. 

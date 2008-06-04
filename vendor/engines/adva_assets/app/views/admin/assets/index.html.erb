@@ -1,0 +1,23 @@
+<%= render :partial => "action_nav" %>
+
+<% content_for :filter do -%>
+  <%= render :partial => 'filter' %>
+<% end -%>
+
+<div id="assets-list">
+  <%= render :partial => "assets" %>
+</div>
+
+<% content_for :sidebar do %>
+  <h4>Your bucket <%= link_to_remote '(clear)', :url => admin_assets_bucket_path, :method => :delete, :html => { :class => 'hint' } %></h4>
+  <p>Add files to your bucket temporarily in order to carry them with you when creating or revising articles.</p>
+  <ul id="bucket-assets" class="clearing asset-list">
+    <%= render :partial => "admin/assets/widget/asset", :collection => bucket_assets, :locals => { :content => nil, :prefix => 'bucket' } %>
+  </ul>
+
+  <h4>Some stats</h4>
+  <p>
+    You have a uploaded a total of <strong><%= pluralize @site.assets.count, 'asset'%></strong>, using
+    <strong><%= number_to_human_size(@site.assets.sum(:size) || 0).downcase %></strong>.
+  </p>
+<% end %>

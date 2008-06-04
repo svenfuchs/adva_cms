@@ -1,0 +1,69 @@
+/* activities */
+
+.activities h3 {
+	border-bottom: 1px solid #ccc;
+}
+.activities h4,
+.activities p,
+.activities blockquote {
+	margin: 0px 0px 3px 0px;
+	font-weight: normal;
+}
+.activities blockquote {
+	font-style: italic;
+}
+.activities .meta {
+	float: right;
+	margin: 0px 0px 4px 10px;
+	text-align: right;
+}
+.activities .activity li {	
+	display: inline;
+}
+
+.activities .activity {	
+	padding: 10px 10px 10px 35px;
+}
+.activity.comment-created {
+	background: url(/images/icons/comment_add.png) no-repeat 10px 11px;
+}
+.activity.comment-edited {
+	background: url(/images/icons/comment_edit.png) no-repeat 10px 11px;
+}
+.activity.comment-deleted {
+	background: url(/images/icons/comment_delete.png) no-repeat 10px 11px;
+}
+.activity.comment-approved {
+	background: url(/images/icons/comment.png) no-repeat 10px 11px;
+} 
+.activity.comment-unapproved {
+	background: url(/images/icons/comment.png) no-repeat 10px 11px;
+}
+
+.activity.article-created {
+	background: url(/images/icons/page_add.png) no-repeat 10px 11px;
+}
+.activity.article-revised {
+	background: url(/images/icons/page_edit.png) no-repeat 10px 11px;
+} 
+.activity.article-published {
+	background: url(/images/icons/page_go.png) no-repeat 10px 11px;
+} 
+.activity.article-unpublished {
+	background: url(/images/icons/page_red.png) no-repeat 10px 11px;
+} 
+.activity.article-deleted {
+	background: url(/images/icons/page_delete.png) no-repeat 10px 11px;
+}
+
+.activity.wikipage-created {
+	background: url(/images/icons/page_white_add.png) no-repeat 10px 11px;
+}
+.activity.wikipage-revised {
+	background: url(/images/icons/page_white_edit.png) no-repeat 10px 11px;
+}
+.activity.wikipage-deleted {
+	background: url(/images/icons/page_white_delete.png) no-repeat 10px 11px;
+}
+
+

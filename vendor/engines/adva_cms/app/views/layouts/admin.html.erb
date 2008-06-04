@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />   
+    <title>Admin <%= controller.controller_name %></title>
+    <%= stylesheet_link_tag 'admin/base', 'admin/layout/base', 'admin/activities', 'admin/assets', 'admin/form', 
+                            'admin/lists', 'admin/sortable_tree', 'admin/themes', 'admin/users', 'admin/widgets' %>
+    <%= javascript_include_tag 'prototype', 'effects', 'dragdrop', 'lowpro', 'sortable_tree/sortable_tree', 'flash', 'json', 'cookie', 'admin' %>
+    <%= yield :head %>
+  </head>
+  <body>   
+    <div id="header">
+      <%= render :widget => :menu_global %>
+      <!-- <h1><%= @site.name if @site %></h1> -->
+      <%= render :widget => :menu_site %>
+    </div>
+    
+    <div id="main">
+      <div id="flashes"><%= render :partial => 'shared/flash' %></div>
+      <%= render :widget => :menu_section %>
+      <% if @content_for_action_nav %>
+        <div id="action_nav_container"><%= yield :action_nav %></div>
+      <% end %>
+      <% if @content_for_filter %>
+        <div id="filter"><%= yield :filter %></div>
+      <% end %>
+      <%= yield :form if @content_for_form %>          
+      <div id="content">
+        <%= yield %>      
+      </div>
+    </div>
+
+    <div id="sidebar">
+      <%= yield :sidebar %>
+      <%= render :widget => :section_tree %>
+    </div>
+    <%= '</form>' if @content_for_form %>
+    
+  </body>
+</html>

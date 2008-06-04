@@ -1,0 +1,27 @@
+<div id="<%= dom_id @wikipage %>" class="entry clearing">
+  <div class="meta">
+    <p><%= link_to 'all pages', wikipages_path %></p>
+    <h4>revision: <%= @wikipage.version %></h4>
+    <p>
+      <%= @wikipage.updated_at.strftime('%d.%m.%y %H:%M') %><br />
+      by: <%= @wikipage.author_link %>
+    </p>
+
+    <p>
+      <%= links_to_content_categories(@wikipage, 'in: %s') %><br />
+      <%= links_to_content_tags(@wikipage, 'tagged: %s') %>
+    </p>
+  </div>
+  <div class="content">
+    <h2><%= link_to_content @wikipage %></h2>
+    <%= wikify @wikipage.body %>
+    <p><%= wiki_edit_links(@wikipage).join(' &middot; ')%></p>
+  </div>
+</div>
+
+<%= render :partial => 'comments/list', :locals => {:commentable => @wikipage, :comments => @wikipage.approved_comments} %>
+<% if @wikipage.accept_comments? %>
+  <%= render :partial => 'comments/form', :locals => {:commentable => @wikipage} %>
+<% end %>
+
+<%= render :partial => 'footer' %>

@@ -1,0 +1,11 @@
+<%= render :partial => 'action_nav' %>
+
+<% form_for :user, @user, :url => collection_path do |f| -%>
+  <%= render :partial => 'form', :locals => {:f => f} %>  
+  <%= render :partial => 'roles', :locals => {:f => f} if current_user.has_role?(:admin, @site) %>
+
+  <p class="buttons">
+    <%= submit_tag 'Create profile' %>
+    <%= link_to "cancel", admin_users_path %>
+  </p>
+<% end -%>

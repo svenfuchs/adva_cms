@@ -1,0 +1,50 @@
+/* COMMENTS */
+
+#comments {
+	padding-bottom: 9px;
+}
+#comments h3 {
+  font-size: 18px; 
+  line-height: 18px; 
+  margin: 18px 0 18px 0;
+}
+#comments ol {
+	list-style-type: none;
+	margin-left: 0;
+}
+#comments ol li {
+	padding-bottom: 17px;
+	margin-bottom: 18px;
+	border-bottom: 1px solid #bbb;
+}
+#comments .meta p {
+	margin: 0;
+}
+#comments .comment {
+	padding-left: 180px;
+}
+
+/* COMMENTS FORM */
+
+#comment_form {
+	padding-left: 180px;
+	padding-bottom: 9px;
+	margin-bottom: 26px;
+	border-bottom: 1px solid #bbb;
+}
+#comment_user {
+	float: right;
+	margin-top: 3px;
+}
+#comment_form label {
+	display: block;
+	float: left;
+	width: 100px;
+}
+#comment_form input {
+	width: 180px;
+}
+#comment_form textarea {
+	height: 150px;
+	width: 99%;
+}

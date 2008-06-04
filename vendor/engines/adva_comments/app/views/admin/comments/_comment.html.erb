@@ -1,0 +1,17 @@
+<blockquote>
+  <%= strip_tags(comment.body) %>
+</blockquote>
+
+<cite>
+  &mdash; <%= comment.author_link %>
+  <%= "(#{comment.author_email})" %> 
+  said <%= time_ago_in_words comment.created_at %> ago
+  <% if comment.approved? %>
+    <%= link_to 'Unapprove', admin_comment_path(comment, "comment[approved]" => 0, :redirect_to => "#{request.request_uri}##{dom_id(comment)}"), :method => :put  %> | 
+  <% else %>
+    <%= link_to 'Approve', admin_comment_path(comment, "comment[approved]" => 1, :redirect_to => "#{request.request_uri}##{dom_id(comment)}"), :method => :put  %> | 
+  <% end %>
+  <%= link_to 'Edit', edit_admin_comment_path(comment, :redirect_to => "#{request.request_uri}##{dom_id(comment)}") %> |
+  <%= link_to 'Delete', admin_comment_returning_path(comment, :redirect_to => "#{request.request_uri}##{dom_id(comment)}"), :method => :delete, :confirm => "Are you sure you wish to delete this comment?" %> |
+  <%= link_to_content_comment('View', comment) %>
+</cite>

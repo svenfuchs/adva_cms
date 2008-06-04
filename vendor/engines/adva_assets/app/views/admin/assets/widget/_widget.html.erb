@@ -1,0 +1,35 @@
+<div id="assets-widget" class="clearing">
+  <ul class="tabs">
+    <li id="tab-attached-assets"><a href="#" title="Attached assets">Attached</a></li>
+    <li id="tab-latest-assets"><a href="#" title="Latest assets uploaded">Latest</a></li>
+    <li id="tab-bucket-assets"><a href="#" title="Your asset bucket">Bucket</a></li>
+    <li id="tab-search-assets"><a href="#" title="Search for assets">Search</a></li>
+    <li id="tab-upload-assets"><a href="#" title="Upload new assets">Upload</a></li>
+  </ul>
+  
+  <% [:attached, :latest, :bucket].each do |type| %>
+    <ul id="<%= type %>-assets" class="panel asset-list">
+      <%= render :partial => "admin/assets/widget/asset", :collection => assets[type], :locals => { :content => @article, :prefix => type } %>
+    </ul>
+  <% end %>
+
+  <div id="search-assets" class="panel">
+    <label for="search-assets-query">
+      Search by tag or title 
+      <img id="search-assets-spinner" src="/images/indicator.gif" alt="spinner" style="display: none" />
+    </label>
+    <input type="text" size="30" name="search-assets-query" id="search-assets-query" />
+    <input id="search-assets-button" type="button" value="Search" />
+    <ul id="search-assets-result" class="asset-list"></ul>
+  </div>
+  
+  <div id="upload-assets" class="panel">
+    <label for="asset-uploaded-data">
+      Upload an asset 
+      <img class="spinner" src="/images/indicator.gif" alt="spinner" style="display: none" />
+    </label><br />
+    <%= file_field_tag "assets[][uploaded_data]", :id => "asset-uploaded-data" %>
+    <input id="upload-assets-button" type="button" value="Upload" />
+    <ul id="uploaded-assets" class="asset-list"></ul>
+  </div>
+</div>

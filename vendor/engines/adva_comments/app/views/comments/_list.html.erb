@@ -1,0 +1,19 @@
+<% unless comments.empty? %>
+  <div id="comments">
+    <h2><%= pluralize comments.size, 'Comment' %></h2>
+    <ol>
+      <% comments.each do |comment| %>
+      <li class="<%= cycle 'alt', '' %> clearing" id="<%= dom_id(comment) %>">
+        <div class="meta">
+          <p><%= comment.author_link %></p>
+          <p><%= comment.created_at.to_formatted_s(:long) %></p>
+        </div>
+        <div class="comment">
+          <%= comment.body_html %>
+        </div>
+        <a href="#<%= dom_id(comment) %>" title="" style="display:none;">#</a>
+      </li>
+      <% end %>
+    </ol>
+  </div>
+<% end %>

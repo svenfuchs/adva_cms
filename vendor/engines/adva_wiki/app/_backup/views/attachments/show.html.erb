@@ -1,0 +1,5 @@
+<%= render :partial => @attachment %>
+
+<br />
+<%= link_to "Delete this attachment", attachment_url(@attachment), :method => :delete %>
+<%= link_to 'Back', attachments_path %>

@@ -1,0 +1,3 @@
+sqlite3:
+  :adapter: sqlite3
+  :dbfile: vendor/plugins/no_peeping_toms/spec/db/no_peeping_toms.sqlite3.db

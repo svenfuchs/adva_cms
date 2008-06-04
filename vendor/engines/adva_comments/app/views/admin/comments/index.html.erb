@@ -1,0 +1,31 @@
+<% content_for :filter do %>
+  <label for="comments-filter" class="inline">
+    Show comments:
+  </label>
+  <select id="comments-filter" name="filter">
+    <%= options_for_select ['All', 'Unapproved', 'Approved'], params[:filter].to_s.humanize %>
+  </select>
+<% end %>
+
+<h3>Comments on <%= link_to_comments_owner %></h3>
+
+<ul id="comments_list">
+  <% unless @comments.empty? %>
+    <% @comments.reverse.each do |comment, i| %>
+    <li class="<%= cycle 'alt', '' %>" id="<%= dom_id(comment) %>">
+      <%= render :partial => 'comment', :object => comment %>
+    </li>
+    <% end %>
+  <% else %>
+    <li class="alt">This <%= (@content || @section).type.downcase %> has no 
+    <%= params[:filter].to_s.humanize.downcase unless params[:filter] == 'all' %> comments.</li>
+  <% end %>
+</ul>
+
+
+<script type="text/javascript" language="javascript" charset="utf-8">
+// <![CDATA[
+  var comment = $(document.location.hash.substring(1));
+  if(comment) Element.addClassName(comment, 'highlight');
+// ]]>
+</script>

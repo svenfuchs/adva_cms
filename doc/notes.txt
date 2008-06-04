@@ -1,0 +1,137 @@
+# Sites and sections
+
+A site maps to a domain name and consists of sections. Sections are
+implemented as Rails Engines and provide functionality such as blog, wiki,
+forum etc. Currently there are the section types Section, Blog and Wiki.
+
+(The Section base type itself can hold one or many articles but won't provide
+any of the usual blog functionality like index pages, archives etc. This type
+of section is known from Mephisto an makes sense for simple pages or static
+collections of some articles.)
+
+Sections can be arranged to a tree and map to the URL in an intuitive way. 
+Consider a section tree like:
+
+  home
+  docs
+    wiki
+    api
+  support
+    forum
+    faq
+  
+These sections would be accessible through the following URLs:
+
+  /
+  /docs
+  /docs/wiki
+  /docs/api
+  /support
+  /support/forum
+  /support/faq
+
+The topmost section in a section tree, no matter how the rest of the section
+tree looks like, is considered the root section and always maps to the URL /.
+
+# Engines
+
+The plattform is implemented as separate Rails Engines. 
+
+The vision behind this approach is that at some point we want to be able to
+install only the most basic engines and have a basic cms running. Or we'd only
+install a core engine plus the wiki engine to have a wiki running. Or we'd
+install several engines which then allow us to build a site complete with a
+cms, blog, wiki and forum ... and so on.
+
+This all-engines-approach provides some great benefits. Amongst others:
+
+The whole plattform is located in the vendor directory it can be used as a
+foundation for custom applications that can be implemented in the app
+directory just like any other Rails application.
+
+Code is shared amongst different engines which encourages a more consistent
+featureset and reduces the need to reimplement things for each of the modules
+again and again. 
+
+E.g. when we want OpenID support for our application we can just add the
+functionality to the authentication engine. We don't need to reimplement it
+for each of our blog, wiki, cms, ... applications. Or: it is a natural feature
+for a wiki to implement some kind of version-diff. Once this has been added to
+the content base class, it can be reused in other contexts as well (like, e.g.
+article versioning and activity tracking in the backend).
+
+Here's an overview of the current engines and the functionality they provide.
+The naming and structure of these engines will most probably change at some
+point in the future.
+
+# adva_cms
+
+This is currently the core engine. It provides all the base classes that are
+necessary for building up a site with a section tree (Site, Section). It also
+holds common models for content management (Content, Article, Category).
+
+For the frontend it provides a common BaseController (that serves the same 
+role for the plattform as the ApplicationController does for a common Rails
+application) and a SectionsController.
+
+For the backend it provides also a common BaseController as well as a large
+part of the controllers for the management of sites, sections, categories,
+themes and cached pages.
+
+(This engine might be broken up into smaller engines like a core engine that
+only deals with site-related things and a cms engine.)
+
+# adva_blog and adva_wiki
+
+These engines provide the Blog and Wiki section types to the plattform as
+well as the related controllers and views. 
+
+The blog engine is currently pretty rawboned because much of it's
+functionality could be abstracted and moved to the base classes. Also, the
+Section type from adva_cms already provides an Article class which can be
+reused for the blog.
+
+(These things aren't set in stone and may change as soon as good ideas are
+proposed. E.g. Section is both the section base class for Blog and Wiki *and*
+used as a concrete section type. It might be a good idea to have an additional
+concrete section type. If so, what would be a good name for that type?)
+
+# adva_user and authentication
+
+These engines are based on the authentication and authentication_ui engines
+and provide two user classes (User and Anonmyous) as well as the usual 
+facilities for registration, login, reset password etc.
+
+We've chosen this approach over restful_auth because the authentication engine
+is extremely flexible in that additional ways of authentication can easily
+be added. Also the existing facilities could be reused for a very simple 
+cookie-bases "authentication" of anonymous users for the wiki and comments
+modules.
+
+# adva_comments
+
+Something like a cranked up acts_as_commentable engine that provides 
+commenting for the cms, blog and wiki sections.
+
+# adva_assets
+
+This is largely what we know about assets from Mephisto. We've fixed the
+assets widget for the admin section and tweaked some minor bits but the rest
+largely still is the same.
+
+# adva_activity
+
+We've separated out the ability to observe and log activities and abstracted
+things a bit.
+
+# theme_support
+
+Provides the ability to use one or many themes for a site. 
+
+
+
+
+
+
+
+

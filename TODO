@@ -1,0 +1,204 @@
+separate login and admin/login pages
+
+single-site mode: get to /admin endlessly redirects through protect_single_site_mode?
+changes to themes to not sweep the cached files in public/
+
+changes to theme template files need to sweep some kind of template file cache in production?
+
+error message details on account/new are missing (render_with_error_proc?)
+
+spec User#has_role? and User#has_exact_role?
+
+acts_as_list is only used in Asset. can we remove that?
+
+
+
+[essential] save request_info for anonymous users
+
+[feature] [content] pipe all filtered columns through whitelist sanitizer
+[feature] [wiki] implement wikipage admin area (analog to articles area)
+[feature] [wiki] add various filters to admin wikipage list (like on admin articles list)
+[feature] [wiki] make the 'home' wikipage permalink configurable per wiki
+[feature] [comments] add various filters to admin comments list (like on admin articles list)
+[feature] [comments] after a comment was posted, display it on a comments/show page with messages and a form to edit it
+[feature] [comments] allow anonymous comment editing for a couple of minutes based on the cookie
+[fix] [comments] comments_count gets cached, need approved_comments_count
+[fix] [wiki] force username present on wikipage save
+
+
+[plugin] pingback plugin
+[plugin] comment email notification
+[major] add spam protection for comments and wikipages (look at viking + multiengine branch)
+[major] implement search
+
+[feature] add before_move and after_move hooks to better_nested_set
+[feature] make cacheable_flash behave completely transparent (i.e. do not clear flash after writing it to the cookie)
+          rational: controller specs should work and controllers behave correctly
+          not matter if the plugin is installed or not
+
+[fix] wiki categories aren't that common. should be available, but probably not by default.
+      possible solution: have a section setting "manage categories for this section"? that would 
+      even allow to manage categories per Section, but requires to explicitely turn it on.
+
+[feature] admin section: have an activity center/dashboard where engines can register their
+          widgets (partials) to. e.g.: "x comments are awaiting your approval",
+          "Please change your administrator password!" etc.
+
+
+# broken + missing specs
+
+[specs] spec widgets
+[specs] add specs for helper methods stubbed in view specs
+[specs] spec and implement admin/wikipage section
+[specs] spec remaining helpers
+[specs] spec remaining views + partials
+[specs] implement themes + theme_file specs
+[specs] implement assets specs
+[specs] spec registration, login, authentication
+[specs] integration/stories
+
+
+# resources
+viking http://github.com/technoweenie/viking/tree/master
+defensio http://blog.teksol.info/2008/3/4/mephisto-defensio-refactored-to-patterns
+authentication http://authentication.rubyforge.org/
+
+------------------------------------------------------------------------------
+
+# users
+
+[feature] have a config option to allow users to register for all sites or per site (?)
+
+# forum
+
+    monitorship for forum topics, wikipages and blog articles
+    moderatorships => role :moderator
+
+    add a description and description_html to sections?
+
+    this is what tentacle does:
+    create_table "monitorships", :force => true do |t|
+      t.integer  "profile_id"
+      t.integer  "topic_id"
+      t.boolean  "active",     :default => true
+      t.timestamps
+    end
+
+# activity
+
+[fix] deactivate activity tracking for associated objects when section, article etc. is deleted (?)
+[feature] observe user registration, deactivation ....
+[feature] observe section, category, asset creation etc.
+
+# general
+
+[enhance] how to move observer config from environment.rb to init.rb?
+
+# sections
+
+[feature] settings: select box for section-specific templates and layouts
+[enhance] have section types register from engines to Section.types
+
+# themes
+
+[feature] make ActionMailer themeable
+[enhance] decouple admin interface through using a themeable instead of site
+[feature] add drop-in erb- and haml-safemode support, make public controllers use safemode
+[feature] use caches_page_with_references or just expire the whole cache dir
+[feature] clone pre-installed themes
+[enhance] make theme.files.find work without globbing all files
+[major] add liquid layer (drops + helpers) (?) » add an ActionView Liquid template handler?
+[major] port a simple liquid theme and test it with drops (?)
+
+# content
+
+[major] add attachments for wikipages (are they also in beast?)
+
+# enhancements
+
+[enhance] checkout http://code.bitsweat.net/svn/redirect_back
+[enhance] checkout http://code.bitsweat.net/svn/implicit_respond_to
+
+
+# CacheableFlash
+
+  after_filter won't be called when the filter chain is halted. maybe an 
+  around_filter is a better choice?
+  
+  after_filter :write_flash_to_cookie
+
+# Rails 
+
+force certain after_filters to be run even if the filter chain has been halted:
+    :after_filter => :bla, :force => true
+
+section.articles.maximum(:position) returns nil when table is empty. shouldn't that be 0?
+
+ActionController::Base#layout can't be restricted to certain formats, can it? (see BlogController + feeds)
+
+section.radio_button :type, type (and other helpers) should create an id="section_type_blog"
+even when the section is a blog (i.e. that's an STI related bug)
+
+wikipage routing/controller: change :id to :permalink ... doesn't seem to work with resources
+    http://dev.rubyonrails.org/ticket/6814 => wontfix
+    http://archive.jvoorhis.com/articles/2006/08/01/announcing-resource_hacks => seems to break url_helpers
+    def to_param
+      "#{username.gsub(/[^a-z0-9]+/i, '-')}" if self.username
+    end
+
+# rspec
+
+[patch] changed to following. ask for a patch:
+    Spec::Rails::Example::ControllerExampleGroup.class_eval do
+      def params_from(method, path, env = {})
+        ensure_that_routes_are_loaded
+        env.merge!({:method => method})
+        ActionController::Routing::Routes.recognize_path(path, env)
+      end
+    end    
+    
+
+RESOURCES --------------------------------------------------------------------
+
+Themes
+    http://quotedprintable.com/pages/scribbish
+    http://mad.ly/about/
+    http://powazek.com/posts/516
+    http://powazek.com/depo-skinny
+    http://warpspire.com/hemingway/
+    http://wordpress.org/
+    http://www.bestwpthemes.com/
+    http://railsgrunt.com/
+    
+Research other CMS features
+    wordpress
+    movable type
+    http://railfrog.com/
+    http://slateinfo.blogs.wvu.edu    
+    http://opensource.bitscribe.net/page/Bitswiki
+
+
+
+NOTES ------------------------------------------------------------------------
+
+check http://ultraviolet.rubyforge.org/
+try http://rubymatt.rubyforge.org/mailtrap/ for mail-related dev
+try Google Syntax Highlighter ?
+
+
+
+# Sanitizing input
+
+contact xss_terminate developer regarding improvements/refactorings
+
+http://code.google.com/p/xssterminate/
+http://actsassanitized.devjavu.com/browser/lib/acts_as_sanitized.rb
+
+http://code.google.com/p/sanitizeparams/
+http://safe-erb.rubyforge.org/svn/plugins/safe_erb/
+http://code.google.com/p/xss-shield/
+
+http://www.ruby-forum.com/topic/133285
+http://blog.thinkrelevance.com/2008/1/17/never-untaint
+http://blog.thinkrelevance.com/2008/1/9/is-your-rails-app-xss-safe
+

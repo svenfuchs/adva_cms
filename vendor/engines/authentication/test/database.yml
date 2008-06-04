@@ -1,0 +1,12 @@
+sqlite:
+  :adapter: sqlite
+  :dbfile: authentication_plugin_test.sqlite.db
+sqlite3:
+  :adapter: sqlite3
+  :dbfile: authentication_plugin_test.sqlite3.db
+mysql:
+  :adapter: mysql
+  :host: localhost
+  :username: rails
+  :password:
+  :database: authentication_plugin_test

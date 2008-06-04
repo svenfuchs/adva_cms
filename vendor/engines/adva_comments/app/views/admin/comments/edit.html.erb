@@ -1,0 +1,9 @@
+<h3>Edit comment</h3>
+
+<% form_for :comment, @comment, :url => admin_comment_path, :html => {:method => :put} do |f| -%>
+  <% render :layout => 'form', :locals => {:f => f} do %>
+    <p>
+      <label><%= f.check_box :approved, {}, 1 %>Approved</label>
+    </p>
+  <% end -%>
+<% end -%>

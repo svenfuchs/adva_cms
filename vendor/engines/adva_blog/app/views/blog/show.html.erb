@@ -1,0 +1,7 @@
+<% if @article %>
+  <%= render :partial => 'blog/article', :object => @article, :locals => {:mode => :single} %>
+  <%= render :partial => 'comments/list', :locals => {:commentable => @article, :comments => @article.approved_comments} %>
+  <% if @article.accept_comments? %>
+    <%= render :partial => 'comments/form', :locals => {:commentable => @article} %>
+  <% end %>
+<% end %>

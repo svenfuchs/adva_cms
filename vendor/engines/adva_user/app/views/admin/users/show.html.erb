@@ -1,0 +1,33 @@
+<%= render :partial => 'action_nav' %>
+
+<% content_for :sidebar do %>
+  <div class="user">
+    <%= gravatar_img(@user) %>
+    <h3><%= @user.name %></h3>
+    <p><%= @user.email %></p>
+  </div>  
+<% end -%>
+
+<h2><%= @user.name %></h2>
+
+<p>
+  Email:
+  <%= @user.email %>
+</p>
+
+<% if @user.homepage %>
+  <p>
+    Homepage:
+    <%= link_to @user.homepage, @user.homepage %>
+  </p>
+<% end %>
+
+<p>
+  Created:
+  <%= @user.created_at %>
+</p>
+
+<p>
+  Last access:
+  <%= @user.updated_at %>
+</p>

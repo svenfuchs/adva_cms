@@ -1,0 +1,1 @@
+require 'action_controller/render_with_error_proc'
