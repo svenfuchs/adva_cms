@@ -399,6 +399,10 @@ var ArticlesList = Class.create({
   }
 });
 
+var SiteSelect = Class.create();
+SiteSelect.change = function(event) {
+  location.href = event.element().getValue();
+}
 
 Event.addBehavior({
   '#article-draft':         function() { Event.observe(this, 'change', ArticleForm.saveDraft.bind(this)); },
@@ -420,6 +424,7 @@ Event.addBehavior({
 	'#search-assets-button:click':        function(event) { AssetWidget.search($F('search-assets-query')); },
 	'#search-assets-query:keypress':      function(event) { if(event.keyCode == Event.KEY_RETURN) { AssetWidget.search($F('search-assets-query')); Event.stop(event); } },
 	'#upload-assets-button:click':        function(event) { AssetWidget.upload($('asset-uploaded-data'), $('content_form').authenticity_token.value);},
+  '#site-select':           function() { Event.observe(this, 'change', SiteSelect.change.bind(this)); }
 })                                      
 
 Event.onReady(function() {
