@@ -15,8 +15,8 @@ module ActiveRecord
 
         with_options options do |c|
           c.has_many :comments, :dependent => :delete_all
-          c.has_many :approved_comments, :conditions => ['comments.approved = ?', 1]
-          c.has_many :unapproved_comments, :conditions => ['comments.approved = ?', 0]          
+          c.has_many :approved_comments, :conditions => ["comments.approved = ? AND comments.commentable_type <> 'Topic'", 1]
+          c.has_many :unapproved_comments, :conditions => ["comments.approved = ? AND comments.commentable_type <> 'Topic'", 0]
         end
         
         include InstanceMethods

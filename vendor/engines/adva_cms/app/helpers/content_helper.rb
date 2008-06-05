@@ -21,6 +21,7 @@ module ContentHelper
   
   def link_to_content(*args)
     content = args.pop
+    return unless content
     text = args.pop || content.title
     link_to text, content_path(content)
   end

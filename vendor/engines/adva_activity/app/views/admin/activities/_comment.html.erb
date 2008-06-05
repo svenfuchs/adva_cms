@@ -11,10 +11,12 @@
 
   <% if activity.object -%>
     <ul>
-    <% unless activity.object.approved? -%>
-      <li><%= link_to 'Approve', admin_comment_returning_path(activity.object, "comment[approved]" => 1), :method => :put  %></li>
-    <% else -%>  
-      <li><%= link_to 'Unapprove', admin_comment_returning_path(activity.object, "comment[approved]" => 0), :method => :put  %></li>
+    <% unless activity.object.commentable_type == 'Topic' %>
+      <% unless activity.object.approved? -%>
+        <li><%= link_to 'Approve', admin_comment_returning_path(activity.object, "comment[approved]" => 1), :method => :put  %></li>
+      <% else -%>  
+        <li><%= link_to 'Unapprove', admin_comment_returning_path(activity.object, "comment[approved]" => 0), :method => :put  %></li>
+      <% end -%>   
     <% end -%>   
     <li><%= link_to 'Edit', edit_admin_comment_returning_path(activity.object) %></li>
     <li><%= link_to 'Delete', admin_comment_returning_path(activity.object), :method => :delete, :confirm => "Are you sure you wish to delete this comment?" %></li>
