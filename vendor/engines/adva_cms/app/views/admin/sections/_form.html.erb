@@ -20,22 +20,11 @@
       <%= f.select :layout, @site.current_theme_layout_paths, :include_blank => true  %>
     </p>  
   <% end %>
-<p>  
-  <%= f.label :content_filter, 'Content filter' %>
-  <span class="hint">When articles are posted, they use this as the default setting.</span>
-  <%= f.select :content_filter, filter_options %>
-</p>
 </fieldset>
 
 <%= render :partial => "admin/sections/settings/#{@section.type.underscore}", :locals => {:f => f} %>
 
-<h4>Comments</h4>
-<fieldset>
-  <p>  
-    <%= f.label :comment_age, 'Comments' %>
-    <%= f.select :comment_age, comment_expiration_options %>
-  </p>
-</fieldset>
+<%= render :partial => "admin/sections/settings/comments", :locals => {:f => f} unless @section.type == 'Forum' %>
 
 <%= render :partial => "admin/sections/settings/permissions", :locals => {:f => f} %>
 

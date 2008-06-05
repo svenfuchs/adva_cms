@@ -1,11 +1,13 @@
-class Post < Content
-  belongs_to :topic, :counter_cache => true
+class Post < Comment
+  set_table_name :comments
   
-  validates_presence_of :topic_id
-  validate :topic_is_not_locked
+  # belongs_to :topic, :counter_cache => true
+  
+  # validates_presence_of :topic_id
+  # validate :topic_is_not_locked
 
-  after_create  :update_cached_fields
-  after_destroy :update_cached_fields
+  # after_create  :update_cached_fields
+  # after_destroy :update_cached_fields
 
   attr_accessible :body
 
@@ -17,11 +19,12 @@ class Post < Content
   #   options[:count]      ||= " #{Post.table_name}.id"
   #   paginate options
   # end
+  
 
 protected
-  def update_cached_fields
-    topic.update_cached_post_fields(self)
-  end
+  # def update_cached_fields
+  #   topic.update_cached_post_fields(self)
+  # end
   
   def topic_is_not_locked
     errors.add_to_base("Topic is locked") if topic && topic.locked?

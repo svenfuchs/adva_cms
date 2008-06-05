@@ -32,6 +32,10 @@ class BaseController < ApplicationController
                               
   protected
   
+    def current_page # TODO move to helpers
+      @page ||= params[:page].blank? ? 1 : params[:page].to_i
+    end
+  
     def set_locale
       # TODO move default_locale to ... err ... where?
       @locale = params[:locale] || 'en'
@@ -48,8 +52,11 @@ class BaseController < ApplicationController
       @site = Site.find_or_initialize_by_host(request.host_with_port) 
     end
 
-    def set_section
+    def set_section(type = nil)
       @section = params[:section_id].blank? ? @site.sections.root : @site.sections.find(params[:section_id]) 
+      if type && !@section.is_a?(type)
+        raise SectionRoutingError.new("Section must be a #{type.name}: #{@section.inspect}") 
+      end
     end
     
     def set_commentable

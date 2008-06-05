@@ -3,6 +3,7 @@ class CreateCommentsTable < ActiveRecord::Migration
     create_table :comments, :force => true do |t|
       t.references :site
       t.references :section
+      # t.references :topic # TODO can we use the commentable reference as the topic reference?
       t.references :commentable, :polymorphic => true
       t.references :author, :polymorphic => true
       t.string     :author_name, :limit => 40
@@ -11,9 +12,18 @@ class CreateCommentsTable < ActiveRecord::Migration
       t.text       :body
       t.text       :body_html
       t.integer    :approved, :null => false, :default => 0
-      t.datetime   :created_at, :null => false
+      t.timestamps
     end
   end
+
+    create_table :posts, :force => true do |t|
+      t.references :site
+      t.references :section
+      t.references :user
+      t.text       :body
+      t.text       :body_html
+      t.timestamps
+    end
 
   def self.down
     drop_table :comments

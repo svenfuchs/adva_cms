@@ -7,6 +7,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.from_plugin :adva_cms
   map.from_plugin :adva_blog
+  map.from_plugin :adva_forum
   map.from_plugin :adva_wiki
   map.from_plugin :adva_assets
   map.from_plugin :adva_comments

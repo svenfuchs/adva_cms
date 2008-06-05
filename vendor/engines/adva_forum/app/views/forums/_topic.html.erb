@@ -1,0 +1,13 @@
+<tr>
+  <td class="topic<%= ' locked' if topic.locked? %>">
+    <%= 'Sticky: ' if topic.sticky? %>
+    <%= link_to_topic(topic) %>
+  </td>
+  <td>
+    <%= topic.posts.size %>
+  </td>
+  <td>
+    <%= link_to_last_post(topic) %>
+    <%= topic.last_author_name %>
+  </td>
+</tr> 

@@ -39,6 +39,10 @@ class Admin::BaseController < ApplicationController
 
   protected
   
+    def current_page # TODO move to helpers
+      @page ||= params[:page].blank? ? 1 : params[:page].to_i
+    end
+  
     def set_locale
       @locale = 'en' # currently only used for blog_article_url generation
     end

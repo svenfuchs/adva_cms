@@ -1,0 +1,34 @@
+<h1><%= @section.title %></h1>
+
+<% unless @topics.empty? %>
+
+  <p class="meta">
+    <%= pluralize_str @section.topics_count.count, '%s topic' %>,
+    <%= pluralize_str @section.comments_count.count, '%s post' %>
+  </p>
+
+  <p><%= link_to 'New topic', new_topic_path(@section) %></p>
+  
+  <table class="list">
+    <thead>
+      <tr>
+        <th>Topic</th>
+        <th width="1%">Posts</th>
+        <th width="30%">Last post</th>
+      </tr>  
+    </thead>
+    <tbody>
+    <%= render :partial => 'topic', :collection => @topics %>
+    </tbody>
+  </table>
+
+  <%= will_paginate @topics, :id => 'pagination' %>
+  
+<% else %>
+
+  <p class="empty">
+    There are no topics in this forum.
+    <%= link_to "Post one now &raquo;", new_topic_path(@section) %>
+  </p>
+
+<% end %>

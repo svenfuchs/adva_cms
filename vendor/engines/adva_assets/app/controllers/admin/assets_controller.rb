@@ -56,7 +56,7 @@ class Admin::AssetsController < Admin::BaseController
     
     def set_assets
       @types  = params[:filter].blank? ? [] : params[:filter].keys
-      options = search_options.merge(:per_page => params[:limit], :page => params[:page], :total_entries => count_by_conditions)
+      options = search_options.merge(:per_page => params[:limit], :page => current_page, :total_entries => count_by_conditions)
       @assets = @types.any? ? site.assets.paginate_by_content_types(@types, :all, options) : site.assets.paginate(options) 
     end
     

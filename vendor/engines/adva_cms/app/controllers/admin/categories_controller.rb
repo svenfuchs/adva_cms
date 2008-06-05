@@ -53,7 +53,7 @@ class Admin::CategoriesController < Admin::BaseController
     end   
     
     def set_categories
-      @categories = @section.categories.paginate :conditions => {:parent_id => nil}, :page => params[:page]
+      @categories = @section.categories.paginate :conditions => {:parent_id => nil}, :page => current_page
     end
     
     def set_category

@@ -1,29 +1,19 @@
 class CreateForumTables < ActiveRecord::Migration
   def self.up
-    create_table :posts, :force => true do |t|
-      t.references :site
-      t.references :section
-      t.references :topic
-      t.references :user
-      t.text       :body
-      t.text       :body_html
-      t.timestamps
-    end
-
     create_table :topics, :force => true do |t|
       t.references :site
       t.references :section
-      t.references :user
       t.string     :title
       t.integer    :sticky,          :default => 0
       t.boolean    :locked,          :default => false
-      t.integer    :posts_count,     :default => 0
+      t.integer    :comments_count,  :default => 0
       t.integer    :hits,            :default => 0
-      t.integer    :last_post_id
-      t.datetime   :last_updated_at
-      t.integer    :last_profile_id
+      t.integer    :last_comment_id
+      t.references :last_author, :polymorphic => true
+      t.string     :last_author_name
       t.string     :permalink
       t.timestamps
+      t.datetime   :last_updated_at
     end
 
     # add_index "topics", ["sticky", "last_updated_at", "section_id"], :name => "index_topics_on_sticky_and_last_updated_at"
@@ -33,6 +23,6 @@ class CreateForumTables < ActiveRecord::Migration
 
   def self.down
     drop_table :topics
-    drop_table :posts
+    # drop_table :posts
   end
 end

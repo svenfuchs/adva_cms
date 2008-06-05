@@ -1,19 +1,13 @@
-separate login and admin/login pages
-
-single-site mode: get to /admin endlessly redirects through protect_single_site_mode?
-changes to themes to not sweep the cached files in public/
-
-changes to theme template files need to sweep some kind of template file cache in production?
-
-error message details on account/new are missing (render_with_error_proc?)
-
-spec User#has_role? and User#has_exact_role?
-
-acts_as_list is only used in Asset. can we remove that?
-
-
-
-[essential] save request_info for anonymous users
+[fix] split up javascript/admin.js in smaller files
+[fix] separate login and admin/login pages (same thing, different layout)
+[fix] changes to theme assets do not sweep the cached files in public/
+[fix] changes to theme template files need to sweep some kind of template file cache in production?
+[fix] error message details on account/new are missing (render_with_error_proc?)
+[fix] acts_as_list is only used in Asset. can we remove that?
+[fix] currently broken: belongs_to_author: with_deleted => true
+[fix] js'ify all dates and use js date format
+[fix] rename redirect_to param to return_to (it's also used in cancel links etc.)
+[fix] rename articles_per_page to per_page so it makes sense for comments and stuff
 
 [feature] [content] pipe all filtered columns through whitelist sanitizer
 [feature] [wiki] implement wikipage admin area (analog to articles area)
@@ -45,8 +39,13 @@ acts_as_list is only used in Asset. can we remove that?
           "Please change your administrator password!" etc.
 
 
+[theme] default theme: increase font size by 1px
+[theme] microformat everything: hcard, hatom
+
+
 # broken + missing specs
 
+[specs] User#has_role? and User#has_exact_role?
 [specs] spec widgets
 [specs] add specs for helper methods stubbed in view specs
 [specs] spec and implement admin/wikipage section
@@ -67,14 +66,34 @@ authentication http://authentication.rubyforge.org/
 
 # users
 
+[feature] ajax users online feature?
 [feature] have a config option to allow users to register for all sites or per site (?)
 
 # forum
 
-    monitorship for forum topics, wikipages and blog articles
+    recent posts list
+    feeds
+    
+    hot topics
+    topic activity since last visit
+    hits ?
+    
+    abstract out a javascript api for roles/permissions:
+      show a form when user is not logged in, show an edit link when user has permission to edit
+      should work without requesting permission data with each request, right?
+      http://pivots.pivotallabs.com/users/nick/blog/articles/272-access-control-permissions-in-rails
+      http://hobocentral.net/
+    same with recent topics:
+      highlight topics that have changed since the user read them last
+
+    monitorship for forum topics, wikipages, blog articles etc.
     moderatorships => role :moderator
 
     add a description and description_html to sections?
+    list forum moderators?
+    
+    refactor to user commands (e.g. current_user.reply) that check permissions
+      and then delegate the command to the target model? (e.g. topic.reply) ?
 
     this is what tentacle does:
     create_table "monitorships", :force => true do |t|
@@ -83,6 +102,15 @@ authentication http://authentication.rubyforge.org/
       t.boolean  "active",     :default => true
       t.timestamps
     end
+    
+    generally: breadcrumbs
+
+    validation on has_many :through join tables:
+      def uniqueness_of_relationship
+        if self.class.exists?(:profile_id => profile_id, :topic_id => topic_id, :active => true)
+          errors.add_to_base("Cannot add duplicate profile/topic relation")
+        end
+      end
 
 # activity
 
@@ -175,7 +203,12 @@ Research other CMS features
     movable type
     http://railfrog.com/
     http://slateinfo.blogs.wvu.edu    
-    http://opensource.bitscribe.net/page/Bitswiki
+    http://opensource.bitscribe.net/page/Bitswiki (wiki)
+    http://almosteffortless.com/eldorado/ (forum)
+
+
+http://somerandomdude.net/srd-projects/bitcons/
+http://somerandomdude.net/srd-projects/clearbits
 
 
 

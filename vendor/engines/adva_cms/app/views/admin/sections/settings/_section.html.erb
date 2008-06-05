@@ -1,0 +1,12 @@
+<h4>Section specific settings</h4>
+<fieldset>
+  <p>
+    <%= f.label :articles_per_page %>
+    <%= f.text_field :articles_per_page, :class => 'short' %>
+  </p>
+  <p>  
+    <%= f.label :content_filter, 'Content filter' %>
+    <span class="hint">When articles are posted, they use this as the default setting.</span>
+    <%= f.select :content_filter, filter_options %>
+  </p>
+</fieldset>

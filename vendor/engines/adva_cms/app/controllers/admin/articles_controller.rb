@@ -22,7 +22,7 @@ class Admin::ArticlesController < Admin::BaseController
 
   def index
     # TODO params[:per_page] ??
-    options = {:page => params[:page], :per_page => params[:per_page], :order => 'contents.position, contents.id DESC'}
+    options = {:page => current_page, :per_page => params[:per_page], :order => 'contents.position, contents.id DESC'}
     @articles = @section.articles.paginate options.reverse_merge(filter_options)    
     template = @section.type == 'Section' ? 'admin/articles/index' : "admin/#{@section.type.downcase}/index"
     render :template => template

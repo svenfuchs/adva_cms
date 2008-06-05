@@ -74,7 +74,7 @@ class Admin::CommentsController < Admin::BaseController
     def set_comments
       source = @content || @section || @site
       collection = source.send params[:filter] != 'all' ? "#{params[:filter]}_comments" : 'comments'
-      options = {:page => params[:page], :per_page => params[:per_page], :order => 'created_at DESC'}
+      options = {:page => current_page, :per_page => params[:per_page], :order => 'created_at DESC'}
       @comments = collection.paginate options
     end
 

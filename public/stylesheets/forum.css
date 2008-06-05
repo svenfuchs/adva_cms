@@ -1,0 +1,7 @@
+td.topic {
+	padding-left: 36px !important;
+	background: url(/images/icons/comment.gif) no-repeat 9px 10px;
+}
+td.locked {
+	background: url(/images/icons/icon_padlock.gif) no-repeat 9px 10px;
+}

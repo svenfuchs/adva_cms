@@ -99,9 +99,13 @@ ul, ol {
 }
 
 /* CONTENT */
+h2 .meta {
+	float: right;
+	font-size: 12px;
+}
 h2.list-header {	
 	/*text-align: right;*/
-	padding: 0 0 9px 180px;
+	padding: 0 0 9px 220px;
 	margin-bottom: 18px;
 }
 .entry {
@@ -109,11 +113,11 @@ h2.list-header {
 	margin-bottom: 26px;
 	border-bottom: 1px solid #aaa;
 }
-.meta {
+div.meta {
 	float: left;
-	width: 150px;
+	width: 170px;
 	color: #666;
-	margin-bottom: 18px;
+	/*margin-bottom: 18px;*/
 }
 .meta a {
 	color: #666;
@@ -123,14 +127,31 @@ h2.list-header {
 	list-style-type: none;
 	margin-left: 0px;	
 }
+.meta img {
+	float: left;
+	width: 36px;
+	height: 36px;
+	margin-right: 18px;
+}
 .content {
-	margin-left: 180px;
+	margin-left: 220px;
+}
+.util,
+.util a {
+	color: #888;
+	border-color: #888;
+}
+.previous {
+	float: left;
+}
+.next {
+	float: right;
 }
 
 /* FOOTER */
 
 #footer {
-	padding-left: 180px;
+	padding-left: 220px;
 	padding-bottom: 9px;
 	margin-bottom: 26px;
 	border-bottom: 1px solid #bbb;

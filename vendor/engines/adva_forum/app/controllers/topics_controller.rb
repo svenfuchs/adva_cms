@@ -1,89 +1,65 @@
-class TopicsController < ApplicationController
-  before_filter :find_forum
-  before_filter :find_topic, :only => [:show, :edit, :update, :destroy]
-
-  def index
-    respond_to do |format|
-      format.html { redirect_to forum_path(@forum) }
-      format.xml  do
-        @topics = find_forum.topics.paginate(:page => current_page)
-        render :xml  => @topics
-      end
-    end
-  end
-  
-  def edit
-  end
+class TopicsController < BaseController
+  helper :forums
+  before_filter :set_topic, :only => [:show, :edit, :update, :destroy, :previous, :next]
+  before_filter :set_posts, :only => :show
 
   def show
-    respond_to do |format|
-      format.html do
-        if logged_in?
-          current_user.profile.seen! # todo
-          (session[:topics] ||= {})[@topic.id] = Time.now.utc
-        end
-        
-        @topic.hit! unless logged_in? && @topic.profile_id == current_user.profile.id
-        @posts = @topic.posts.paginate :page => current_page
-        @post  = Post.new
-      end
-      format.xml  { render :xml  => @topic }
-    end
+    @comment = Post.new
   end
 
   def new
     @topic = Topic.new
+  end
 
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml  => @topic }
+  def create    
+    @topic = @section.topics.post current_user, params[:topic] # sticky, locked if permissions
+    if @topic.save
+      flash[:notice] = 'The topic has been created.'
+      redirect_to topic_path(@section, @topic.permalink)
+    else
+      flash[:error] = 'The topic could not be created.'
+      render :action => :new
     end
   end
 
-  def create
-    @topic = current_user.profile.post @forum, params[:topic]
-
-    respond_to do |format|
-      if @topic.new_record?
-        format.html { render :action => "new" }
-        format.xml  { render :xml  => @topic.errors, :status => :unprocessable_entity }
-      else
-        flash[:notice] = 'Topic was successfully created.'
-        format.html { redirect_to(forum_topic_path(@forum, @topic)) }
-        format.xml  { render :xml  => @topic, :status => :created, :location => forum_topic_url(@forum, @topic) }
-      end
-    end
-  end
-
-  def update
-    current_user.profile.revise @topic, params[:topic]
-    respond_to do |format|
-      if @topic.errors.empty?
-        flash[:notice] = 'Topic was successfully updated.'
-        format.html { redirect_to(forum_topic_path(@forum, @topic)) }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml  => @topic.errors, :status => :unprocessable_entity }
-      end
+  def update    
+    if @topic.revise current_user, params[:topic] 
+      flash[:notice] = 'Topic was successfully updated.'
+      redirect_to topic_path(@section, @topic.permalink)
+    else
+      render :action => "edit"
     end
   end
 
   def destroy
     @topic.destroy
-
-    respond_to do |format|
-      format.html { redirect_to(@forum) }
-      format.xml  { head :ok }
-    end
-  end
-
-protected
-  def find_forum
-    @forum = Forum.find_by_permalink(params[:forum_id])
+    redirect_to forum_path(@section)
   end
   
-  def find_topic
-    @topic = @forum.topics.find_by_permalink(params[:id])
+  def previous
+    topic = @topic.previous || @topic
+    flash[:notice] = 'There is no previous topic. Showing the last one.' if topic == @topic
+    redirect_to topic_path(@section, topic.permalink)
   end
+  
+  def next
+    topic = @topic.next || @topic
+    flash[:notice] = 'There is no next topic. Showing the last one.' if topic == @topic
+    redirect_to topic_path(@section, topic.permalink)
+  end
+
+  protected
+  
+    def set_section
+      super Forum
+    end
+
+    def set_topic
+      @topic = @section.topics.find_by_permalink(params[:id])
+    end
+
+    def set_posts
+      @posts = @topic.posts.paginate :page => current_page, 
+                                     :per_page => @section.articles_per_page # TODO
+    end
 end

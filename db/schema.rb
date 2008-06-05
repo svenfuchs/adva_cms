@@ -106,7 +106,8 @@ ActiveRecord::Schema.define(:version => 0) do
     t.text     "body"
     t.text     "body_html"
     t.integer  "approved",                       :default => 0, :null => false
-    t.datetime "created_at",                                    :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "content_versions", :force => true do |t|
@@ -165,6 +166,12 @@ ActiveRecord::Schema.define(:version => 0) do
     t.datetime "published_at"
   end
 
+  create_table "counters", :force => true do |t|
+    t.integer "owner_id"
+    t.string  "owner_type"
+    t.integer "count"
+  end
+
   create_table "memberships", :force => true do |t|
     t.integer  "site_id"
     t.integer  "user_id"
@@ -175,7 +182,6 @@ ActiveRecord::Schema.define(:version => 0) do
   create_table "posts", :force => true do |t|
     t.integer  "site_id"
     t.integer  "section_id"
-    t.integer  "topic_id"
     t.integer  "user_id"
     t.text     "body"
     t.text     "body_html"
@@ -247,18 +253,19 @@ ActiveRecord::Schema.define(:version => 0) do
   create_table "topics", :force => true do |t|
     t.integer  "site_id"
     t.integer  "section_id"
-    t.integer  "user_id"
     t.string   "title"
-    t.integer  "sticky",          :default => 0
-    t.boolean  "locked",          :default => false
-    t.integer  "posts_count",     :default => 0
-    t.integer  "hits",            :default => 0
-    t.integer  "last_post_id"
-    t.datetime "last_updated_at"
-    t.integer  "last_profile_id"
+    t.integer  "sticky",           :default => 0
+    t.boolean  "locked",           :default => false
+    t.integer  "comments_count",   :default => 0
+    t.integer  "hits",             :default => 0
+    t.integer  "last_comment_id"
+    t.integer  "last_author_id"
+    t.string   "last_author_type"
+    t.string   "last_author_name"
     t.string   "permalink"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "last_updated_at"
   end
 
   create_table "users", :force => true do |t|

@@ -8,7 +8,7 @@ class Admin::WikipagesController < Admin::BaseController
                          :only  => { :controller => ['admin/wikipages'] }
   
   def index
-    @wikipages = @section.wikipages.paginate :page => params[:page], :per_page => params[:per_page]
+    @wikipages = @section.wikipages.paginate :page => current_page, :per_page => params[:per_page]
   end
   
   # TODO add a wikipages admin area, analog to articles area

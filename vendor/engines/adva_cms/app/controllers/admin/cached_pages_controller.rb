@@ -25,7 +25,7 @@ class Admin::CachedPagesController < Admin::BaseController
   private
     def set_cached_pages
       conditions = params[:query] ? ['url LIKE ?', ["%#{params[:query]}%"]] : nil
-      @cached_pages = @site.cached_pages.paginate :page => params[:page], :conditions => conditions, :include => :references
+      @cached_pages = @site.cached_pages.paginate :page => current_page, :conditions => conditions, :include => :references
     end
     
     def set_cached_page

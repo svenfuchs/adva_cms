@@ -102,7 +102,7 @@ class WikiController < BaseController
     end
     
     def set_wikipages
-      options = { :page => params[:page], :tags => @tags }
+      options = { :page => current_page, :tags => @tags }
       source = @category ? @category.contents : @section.wikipages
       @wikipages = source.paginate options
     end

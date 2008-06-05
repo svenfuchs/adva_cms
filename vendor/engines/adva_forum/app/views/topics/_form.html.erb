@@ -1,0 +1,19 @@
+<p>
+  <%= f.label :title %>
+  <%= f.text_field :title %>
+</p>
+<% if @topic.new_record? %>
+  <p>
+  	<%= f.label :body %>
+  	<%= f.text_area :body %>
+  </p>
+<% end %>
+<p>
+  <%= f.label :sticky %>
+  <%= f.check_box :sticky %>
+</p>
+<p>
+  <%= f.label :locked %>
+  <%= f.check_box :locked %>
+</p>
+<p id="preview"></p>

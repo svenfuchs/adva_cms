@@ -1,0 +1,14 @@
+<h2>Edit post</h2>
+
+<% form_for :post, @post, :url => topic_post_path(@section, @topic, @post), :html => {:method => :put} do |f| %>
+  <%= hidden_field_tag :redirect_to, params[:redirect_to] %>
+  <p>
+    <%= f.text_area :body %>    
+  </p>
+  <p>
+    <%= submit_tag 'Save post' %>
+    <%= link_to_remote_comment_preview %> or
+    <img src="/images/indicator.gif" id="comment-preview-spinner" style="display: none;" />
+    <%= link_to('Cancel', params[:redirect_to]) if params[:redirect_to] %>
+  </p>
+<% end %>

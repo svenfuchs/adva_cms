@@ -52,9 +52,9 @@ class Admin::UsersController < Admin::BaseController
   
     def set_users
       @users = if @site
-        Site.paginate_users_and_superusers @site.id, :page => params[:page]
+        Site.paginate_users_and_superusers @site.id, :page => current_page
       else
-        User.paginate :page => params[:page]
+        User.paginate :page => current_page
       end
     end   
     

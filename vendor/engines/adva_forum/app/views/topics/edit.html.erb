@@ -1,0 +1,10 @@
+<h2>Edit topic</h2>
+<% form_for :topic, :url => topic_path(@section, @topic.permalink), :html => {:method => :put} do |f| -%>
+  <%= render :partial => 'form', :locals => {:f => f} %>
+  <p>
+    <%= submit_tag 'Save' %>
+    <%= link_to_remote_comment_preview %> or
+    <img src="/images/indicator.gif" id="comment-preview-spinner" style="display: none;" />
+    <%= link_to('Cancel', forum_path(@section)) %>
+  </p>
+<% end %>

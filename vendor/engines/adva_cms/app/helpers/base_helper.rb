@@ -5,7 +5,8 @@ class ActionView::Base
       if name.sub!(/_returning(_path|_url)$/, '')
         options = args.extract_options!
         options.reverse_merge! :redirect_to => params[:redirect_to] || request.request_uri
-        send :"#{name}#{$1}", *args << options
+        args << options
+        send :"#{name}#{$1}", *args
       else
         method_missing_without_returning_paths name.to_sym, *args
       end    
@@ -40,7 +41,7 @@ module BaseHelper
   # same as Rails text helper, but returns only the pluralized string without 
   # the number botched into it  
   def pluralize_str(count, singular, plural = nil)
-    if count == 1 || count == '1'
+    str = if count.to_i == 1
       singular
     elsif plural
       plural
@@ -49,6 +50,7 @@ module BaseHelper
     else
       singular + "s"
     end
+    str % count.to_i
   end
   
   def todays_short_date

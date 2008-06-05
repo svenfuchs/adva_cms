@@ -3,8 +3,8 @@
     <div id="comment_user" style="display: none;">
       <p>Hi <span>user</span>, you are logged in.</p>
     </div>
-    <h2>Leave a comment</h2>
-    <% form_for :comment, @comment, :url => (@comment.new_record? ? comments_path : comment_path) do |f| -%>
+    <h2>Leave your reply</h2>
+    <% form_for :comment, @comment, :url => @comment.new_record? ? comments_path : comment_path do |f| -%>
       <%= comment_form_hidden_fields commentable %>
       <% fields_for @comment.author do |author| %>
         <div id="comment_anonymous">
