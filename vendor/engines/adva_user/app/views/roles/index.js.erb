@@ -1,0 +1,4 @@
+Event.onReady(function() {
+  var roles = Array(<%= @roles.map{|role|"'#{role}'"}.join(',') %>);
+  authorize_elements(roles);
+});
