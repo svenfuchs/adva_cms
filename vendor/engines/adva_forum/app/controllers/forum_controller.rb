@@ -22,6 +22,6 @@ class ForumController < BaseController
     def set_topics
       @topics = @section.topics.paginate :page => current_page, 
                                          :per_page => @section.articles_per_page, # TODO
-                                         :include => :last_post
+                                         :include => :last_comment
     end
 end
