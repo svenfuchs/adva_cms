@@ -4,28 +4,19 @@ describe Admin::CategoriesController, 'Permissions' do
   include SpecControllerHelper
 
   before :each do
-    scenario :site, :section, :section, :category
-  
-    @user = User.new
-    @user.stub!(:roles).and_return []
-          
-    @site = Site.new(:host => 'test.host')
-    @section = Section.new
-    @section.stub!(:id).and_return 1
-    @section.stub!(:site).and_return @site
+    scenario :roles
 
-    @category = Category.new
-    @category.stub!(:section).and_return @section
+    @site = stub_model Site, :host => 'test.host'
+    @section = stub_model Section, :id => 1, :site => @site
+    @category = stub_model Category, :section => @section
     
-    @site.sections.stub!(:find).and_return @section
     Site.stub!(:find).and_return @site
+    @site.sections.stub!(:find).and_return @section
     @section.categories.stub!(:find).and_return @category
     @section.categories.stub!(:paginate).and_return [@categories]
-
-    controller.stub!(:current_user).and_return @user      
-  
-    @superuser_role = Role.new :name => 'superuser', :user => @user, :object => nil
-    @admin_role = Role.new :name => 'admin', :user => @user, :object => @site
+    
+    controller.stub!(:current_user).and_return @user
+    @admin_role.context = @site
   end
   
   def should_grant_access(method, path)
@@ -44,9 +35,9 @@ describe Admin::CategoriesController, 'Permissions' do
     '/admin/sites/1/sections/1/categories/1/edit' => :get }.each do |path, method|
   
     describe "#{method.to_s.upcase} to #{path}" do
-      describe "with :manage_categories permissions set to :superuser" do
+      describe "with category permissions set to :superuser" do
         before :each do 
-          @section.stub!(:required_roles).and_return :manage_categories => :superuser
+          @section.stub!(:permissions).and_return :category => { :show => :superuser, :update => :superuser }
         end
         
         it "grants access to an superuser" do
@@ -60,9 +51,9 @@ describe Admin::CategoriesController, 'Permissions' do
         end
       end
 
-      describe "with :manage_categories permissions set to :admin" do
+      describe "with category permissions set to :admin" do
         before :each do 
-          @section.stub!(:required_roles).and_return :manage_categories => :admin
+          @section.stub!(:permissions).and_return :category => { :show => :admin, :update => :admin }
         end
         
         it "grants access to an admin" do
@@ -76,10 +67,10 @@ describe Admin::CategoriesController, 'Permissions' do
         end
       end
       
-      describe "with :manage_categories permissions set to :user" do
+      describe "with category permissions set to :user" do
         before :each do 
           @user.stub!(:roles).and_return []
-          @section.stub!(:required_roles).and_return :manage_categories => :user
+          @section.stub!(:permissions).and_return :category => { :show => :user, :update => :user }
         end
         
         it "grants access to a user" do

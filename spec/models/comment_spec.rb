@@ -25,9 +25,8 @@ describe Comment do
     @comment.should validate_presence_of(:body)
   end
   
-  it "should validate presence of commentable_id and commentable_type" do
-    @comment.should validate_presence_of(:commentable_id)
-    @comment.should validate_presence_of(:commentable_type)
+  it "should validate presence of commentable" do
+    @comment.should validate_presence_of(:commentable)
   end
   
   it "should return a link as author_link when author_url is present" do

@@ -17,9 +17,7 @@ define Wiki do
            :valid? => true,
            :root_section? => true,
            :tag_counts => [],
-           :has_attribute? => true,
-           :required_roles => { :manage_wikipages => :admin, :manage_categories => :admin },
-           :required_role_for => :admin
+           :has_attribute? => true
 
   instance :wiki,
            :id => 1,

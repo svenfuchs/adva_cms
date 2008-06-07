@@ -4,23 +4,16 @@ describe Admin::SectionsController, 'Permissions' do
   include SpecControllerHelper
 
   before :each do
-    scenario :site, :section, :section
-  
-    @user = User.new
-    @user.stub!(:roles).and_return []
-          
-    @site = Site.new(:host => 'test.host')
+    scenario :roles
+
+    @site = stub_model Site, :host => 'test.host'
+    @section = stub_model Section, :id => 1, :site => @site
+    
     Site.stub!(:find).and_return @site
-
-    @section = Section.new
-    @section.stub!(:id).and_return 1
-    @section.stub!(:site).and_return @site
-
     @site.sections.stub!(:find).and_return @section
-    controller.stub!(:current_user).and_return @user      
-  
-    @superuser_role = Role.new :name => 'superuser', :user => @user, :object => nil
-    @admin_role = Role.new :name => 'admin', :user => @user, :object => @site
+    
+    controller.stub!(:current_user).and_return @user
+    @admin_role.context = @site
   end
   
   def should_grant_access(method, path)
@@ -35,12 +28,13 @@ describe Admin::SectionsController, 'Permissions' do
     lambda{ request_to(method, path) }.should raise_error(ActionController::RoleRequired) # TODO
   end
   
-  { '/admin/sites/1/sections/1' => :get }.each do |path, method|
+  { '/admin/sites/1/sections/1' => :get,
+    '/admin/sites/1/sections/1/edit' => :get }.each do |path, method|
   
     describe "#{method.to_s.upcase} to #{path}" do
-      describe "with :manage_sections permissions set to :superuser" do
+      describe "with sections permissions set to :superuser" do
         before :each do 
-          @section.stub!(:required_roles).and_return :manage_sections => :superuser
+          @site.stub!(:permissions).and_return :section => { :show => :superuser, :update => :superuser }
         end
         
         it "grants access to an superuser" do
@@ -54,9 +48,9 @@ describe Admin::SectionsController, 'Permissions' do
         end
       end
     
-      describe "with :manage_sections permissions set to :admin" do
+      describe "with sections permissions set to :admin" do
         before :each do 
-          @section.stub!(:required_roles).and_return :manage_sections => :admin
+          @site.stub!(:permissions).and_return :section => { :show => :admin, :update => :admin }
         end
         
         it "grants access to an admin" do
@@ -70,10 +64,10 @@ describe Admin::SectionsController, 'Permissions' do
         end
       end 
       
-      describe "with :manage_sections permissions set to :user" do
+      describe "with sections permissions set to :user" do
         before :each do 
           @user.stub!(:roles).and_return []
-          @section.stub!(:required_roles).and_return :manage_sections => :user
+          @site.stub!(:permissions).and_return :section => { :show => :user, :update => :user }
         end
         
         it "grants access to a user" do

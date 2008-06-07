@@ -13,7 +13,21 @@ class User < ActiveRecord::Base
 
   has_many :sites, :through => :memberships
   has_many :memberships, :dependent => :delete_all
-  has_many :roles, :dependent => :delete_all
+  has_many :roles, :dependent => :delete_all do
+    def by_context(object)
+      roles = by_site object
+      roles += object.implicit_roles(user) if object.respond_to? :implicit_roles
+      roles
+    end
+    
+    def by_site(object)
+      site = object.is_a?(Site) ? object : object.site
+      sql = "type = 'Role::Superuser' OR 
+             context_id = ? AND context_type = 'Site' OR 
+             context_id IN (?) AND context_type = 'Section'"
+      find :all, :conditions => [sql, site.id, site.section_ids]
+    end
+  end
   
   after_save :save_roles
   
@@ -24,7 +38,7 @@ class User < ActiveRecord::Base
     end
 
     def superusers
-      find :all, :include => :roles, :conditions => ['roles.name = ?', 'superuser']
+      find :all, :include => :roles, :conditions => ['roles.type = ?', 'Role::Superuser']
     end
     
     def create_superuser(params)
@@ -32,7 +46,7 @@ class User < ActiveRecord::Base
         user.verified_at = Time.zone.now
         user.send :assign_password
         user.save false
-        user.roles << Role.create!(:name => 'superuser')
+        user.roles << Role::Superuser.create!
       end
     end
   end
@@ -62,24 +76,13 @@ class User < ActiveRecord::Base
   end
   
   def has_role?(name, object = nil)
-    name = name.to_sym
-    return true if name == :anonymous or name == :user && registered?
-    object ? object.user_has_role?(self, name) : !!detect_role(name)
+    role = Role.build(name, object)
+    role.applies_to?(self) || roles.detect {|r| r.includes? role }
   end
   
   def has_exact_role?(name, object = nil)
-    name = name.to_sym
-    name == :user ? !new_record? : !!detect_exact_role(name, object)
-  end
-  
-  def detect_role(name, object = nil)
-    name = name.to_sym
-    roles.detect {|role| role.includes? name, object }
-  end
-  
-  def detect_exact_role(name, object = nil)
-    name = name.to_sym
-    roles.detect {|role| role.is? name.to_sym, object }
+    role = Role.build(name, object)
+    role.applies_to?(self) || roles.detect {|r| r == role }
   end
     
   def to_s

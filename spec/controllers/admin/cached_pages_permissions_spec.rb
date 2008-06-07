@@ -3,21 +3,19 @@ require File.dirname(__FILE__) + '/../../spec_helper.rb'
 describe Admin::CachedPagesController, 'Permissions' do
   include SpecControllerHelper
 
-  before :each do
-    scenario :site, :cached_page, :cached_page
-  
-    @user = User.new
-    @user.stub!(:roles).and_return []
-          
-    @site = Site.new(:host => 'test.host')
+  before :each do    
+    scenario :roles, :cached_page, :cached_page
+
+    @site = stub_model Site, :host => 'test.host'
+    @blog = stub_model Blog, :id => 1, :site => @site
+    @cached_page = stub_model CachedPage
+    
     Site.stub!(:find).and_return @site
-
-    @cached_page = CachedPage.new
-
-    controller.stub!(:current_user).and_return @user      
-  
-    @superuser_role = Role.new :name => 'superuser', :user => @user, :object => nil
-    @admin_role = Role.new :name => 'admin', :user => @user, :object => @site
+    @site.sections.stub!(:find).and_return @blog
+    @blog.articles.stub!(:find).and_return @article
+    
+    controller.stub!(:current_user).and_return @user
+    @admin_role.context = @site
   end
   
   def should_grant_access(method, path)
@@ -37,7 +35,7 @@ describe Admin::CachedPagesController, 'Permissions' do
     describe "#{method.to_s.upcase} to #{path}" do
       describe "with :manage_site permissions set to :superuser" do
         before :each do 
-          @site.stub!(:required_roles).and_return :manage_site => :superuser
+          @site.stub!(:permissions).and_return :site => {:manage => :superuser}
         end
         
         it "grants access to an superuser" do
@@ -53,7 +51,7 @@ describe Admin::CachedPagesController, 'Permissions' do
 
       describe "with :manage_site permissions set to :admin" do
         before :each do 
-          @site.stub!(:required_roles).and_return :manage_site => :admin
+          @site.stub!(:permissions).and_return :site => {:manage => :admin}
         end
         
         it "grants access to an admin" do
@@ -70,7 +68,7 @@ describe Admin::CachedPagesController, 'Permissions' do
       describe "with :manage_site permissions set to :user" do
         before :each do 
           @user.stub!(:roles).and_return []
-          @site.stub!(:required_roles).and_return :manage_site => :user
+          @site.stub!(:permissions).and_return :site => {:manage => :user}
         end
         
         it "grants access to a user" do

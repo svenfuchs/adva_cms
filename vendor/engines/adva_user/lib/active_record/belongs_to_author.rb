@@ -55,6 +55,10 @@ module ActiveRecord
               #{column}_homepage.blank? ? text : %Q(<a href="\#{#{column}_homepage}">\#{#{column}_name}</a>)
             end 
             
+            def is_#{column}?(user)
+              self.#{column} == user
+            end
+            
             private
               def cache_#{column}_attributes!
                 self.#{column}_name = #{column}.name

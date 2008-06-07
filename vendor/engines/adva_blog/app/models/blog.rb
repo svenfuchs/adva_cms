@@ -1,7 +1,7 @@
 class Blog < Section  
-  self.default_required_roles = { :manage_articles => :admin, 
-                                  :manage_categories => :admin }
-                                  
+  permissions :article  => { :user => [:create, :update, :delete] },
+              :comment  => { :user => :create, :author => [:update, :delete] }
+
   def archive_months
     articles.find_published(:all).group_by(&:published_month)
   end

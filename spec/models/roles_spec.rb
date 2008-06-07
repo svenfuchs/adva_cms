@@ -4,184 +4,185 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe 'Roles: ' do
   include Stubby
   
-  before :each do 
-    @user = User.new
-    @user.stub!(:id).and_return 2
+  before :each do     
+    scenario :roles
+  end
+  
+  describe '#has_role?' do
+    describe 'a user' do  
+      it "has the role :user" do
+        @user.has_role?(:user).should_not be_nil
+      end
+  
+      it "has the role :author for another user's content" do
+        @user.has_role?(:author, @content).should be_nil
+      end
+  
+      it "does not have the role :moderator" do
+        @user.has_role?(:moderator, @section).should be_nil
+      end
+  
+      it "does not have the role :admin" do
+        @user.has_role?(:admin, @site).should be_nil
+      end
+  
+      it "does not have the role :superuser" do
+        @user.has_role?(:superuser).should be_nil
+      end
+    end  
+  
+    describe 'a content author' do
+      it "has the role :user" do
+        @author.has_role?(:user).should_not be_nil
+      end
+  
+      it 'has the role :author for that content' do
+        @author.has_role?(:author, @content).should_not be_nil
+      end
+  
+      it "does not have the role :moderator" do
+        @author.has_role?(:moderator, @section).should be_nil
+      end
+  
+      it "does not have the role :admin" do
+        @author.has_role?(:admin, @site).should be_nil
+      end
+  
+      it "does not have the role :superuser" do
+        @author.has_role?(:superuser).should be_nil
+      end
+    end
+  
+    describe 'a section moderator' do
+      it "has the role :user" do
+        @moderator.has_role?(:user).should_not be_nil
+      end
+  
+      it "has the role :author for another user's content" do
+        @moderator.has_role?(:author, @content).should_not be_nil
+      end
+  
+      it "has the role :moderator for that section" do
+        @moderator.has_role?(:moderator, @section).should_not be_nil
+      end
+  
+      it "does not have the role :admin" do
+        @moderator.has_role?(:admin, @site).should be_nil
+      end
+  
+      it "does not have the role :superuser" do
+        @moderator.has_role?(:superuser).should be_nil
+      end
+    end  
+  
+    describe 'a site admin' do
+      it "has the role :user" do
+        @admin.has_role?(:user).should_not be_nil
+      end
+  
+      it "has the role :author for another user's content" do
+        @admin.has_role?(:author, @content).should_not be_nil
+      end
+  
+      it "has the role :moderator for sections belonging to that site" do
+        @admin.has_role?(:moderator, @section).should_not be_nil
+      end
+  
+      it "has the role :site for that site" do
+        @admin.has_role?(:admin, @site).should_not be_nil
+      end  
+  
+      it "does not have the role :superuser" do
+        @admin.has_role?(:superuser).should be_nil
+      end
+    end  
+  
+    describe 'a superuser' do
+      it "has the role :user" do
+        @superuser.has_role?(:user).should_not be_nil
+      end
+  
+      it "has the role :author for another user's content" do
+        @superuser.has_role?(:author, @content).should_not be_nil
+      end
+  
+      it "has the role :moderator for sections belonging to that site" do
+        @superuser.has_role?(:moderator, @section).should_not be_nil
+      end
+  
+      it "has the role :site for that site" do
+        @superuser.has_role?(:admin, @site).should_not be_nil
+      end
+  
+      it "has the role :superuser" do
+        @superuser.has_role?(:superuser).should_not be_nil
+      end
+    end
+  end
+  
+  describe "#permissions (class method)" do
+    it "inverts passed permissions hash and merges it to default_permissions" do
+    end
     
-    @site = Site.new
-    @section = Section.new
-    @section.stub!(:site).and_return @site
-    
-    @content = Content.new
-    @content.stub!(:section).and_return @section
-    @content.stub!(:author_id).and_return 1
-    @content.stub!(:author_type).and_return 'User'
+    it "expands :all to [:show, :create, :update, :delete]" do
+    end
+  end
 
-    @admin_role = Role.new :name => 'admin', :user => @user, :object => @site
-    @moderator_role = Role.new :name => 'moderator', :user => @user, :object => @section
-    @user_role = Role.new :name => 'user', :user => @user, :object => @site # nonsense, just for testing
-    
-  end
-  
-  { Role::Roles::User      => 'You need to be logged in to perform this action.',
-    Role::Roles::Author    => 'You need to be the author of this object to perform this action.',
-    Role::Roles::Moderator => 'You need to be a moderator to perform this action.',
-    Role::Roles::Admin     => 'You need to be an admin to perform this action.',
-    Role::Roles::Superuser => 'You need to be a superuser to perform this action.' }.each do |role, message|
-  
-    it "#{Role}#role_required_message returns '#{message}'" do
-      role.role_required_message.should == message
-    end
-  end
-  
-  describe User do
-    describe '#detect_role given :admin' do
-      it "returns the user's admin role if he has one" do
-        @user.stub!(:roles).and_return [@moderator_role, @user_role, @admin_role]
-        @user.detect_role(:admin, @site).should == @admin_role
-      end
-    
-      it "returns nil if he does not have an admin role" do
-        @user.stub!(:roles).and_return [@moderator_role, @user_role]
-        @user.detect_role(:admin, @site).should be_nil
-      end
-    end
-  
-    describe '#has_role?' do  
-      it "delegates to the passed object's #has_user_role? when given" do
-        @site.should_receive(:user_has_role?)
-        @user.has_role?(:admin, @site)
-      end
-    
-      it 'delegates to #detect_role when no object is given' do
-        @user.should_receive(:detect_role)
-        @user.has_role?(:admin)
-      end
-    end
-  end
-  
-  describe Site do
-    describe '#user_has_role?' do  
-      describe 'with @user, :admin passed' do
-        it 'yields true if the user has an admin role for this site' do
-          @user.stub!(:roles).and_return [@moderator_role, @user_role, @admin_role]
-          @site.user_has_role?(@user, :admin).should be_true
-        end  
-      
-        it 'yields false if the user does not have an appropriate role' do
-          @user.stub!(:roles).and_return [@moderator_role, @user_role]
-          @site.user_has_role?(@user, :admin).should be_false
-        end  
-      end
-      
-      describe 'with @user, :moderator passed' do
-        it "yields true if the user has an admin role for the site" do
-          @user.stub!(:roles).and_return [@admin_role]
-          @site.user_has_role?(@user, :moderator).should be_true
-        end  
-      
-        it 'yields false if the user does not have an appropriate role' do
-          @user.stub!(:roles).and_return [@user_role]
-          @site.user_has_role?(@user, :moderator).should be_false
-        end  
-      end
-    end
-  end
-  
-  describe Section do
-    describe '#user_has_role?' do  
-      describe 'with @user, :moderator passed' do
-        it 'yields true if the user has a moderator role for this section' do
-          @user.stub!(:roles).and_return [@moderator_role]
-          @section.user_has_role?(@user, :moderator).should be_true
-        end  
-        
-        it "yields true if the user has an admin role for the section's site" do
-          @user.stub!(:roles).and_return [@admin_role]
-          @section.user_has_role?(@user, :moderator).should be_true
-        end  
-      
-        it 'yields false if the user does not have an appropriate role' do
-          @user.stub!(:roles).and_return [@user_role]
-          @section.user_has_role?(@user, :moderator).should be_false
-        end  
-      end
-    end
-    
-    describe "#default_required_roles" do
-      it 'returns a hash of default role mappings' do
-        Section.default_required_roles[:manage_articles].should == :admin
-      end
-    end
-    
-    describe "#required_roles" do
-      it 'returns an the default_required_roles for a new_record' do
-        Section.new.required_roles.should == { :manage_articles => :admin }
-      end
-    end
-  end
-  
-  describe Content do
-    describe '#user_has_role?' do  
-      describe 'with @user, :admin passed' do
-        it "yields true if the user has an admin role for the content's site" do
-          @user.stub!(:roles).and_return [@admin_role]
-          @content.user_has_role?(@user, :admin).should be_true
-        end
-      
-        it 'yields false if the user does not have an appropriate role' do
-          @user.stub!(:roles).and_return [@user_role]
-          @content.user_has_role?(@user, :admin).should be_false
-        end  
-      end
-
-      describe 'with @user, :moderator passed' do
-        it "yields true if the user has an admin role for the content's site" do
-          @user.stub!(:roles).and_return [@admin_role]
-          @content.user_has_role?(@user, :moderator).should be_true
-        end  
-      
-        it "yields true if the user has a moderator role for the content's section" do
-          @user.stub!(:roles).and_return [@moderator_role]
-          @content.user_has_role?(@user, :moderator).should be_true
-        end  
-      
-        it 'yields false if the user does not have an appropriate role' do
-          @user.stub!(:roles).and_return [@user_role]
-          @content.user_has_role?(@user, :moderator).should be_false
-        end  
+  describe '#role_authorizing (with default_permissions)' do
+    describe 'on a site' do
+      it 'returns a superuser role for the :create action' do
+        @site.role_authorizing(:create).should == @superuser_role
       end
 
-      describe 'with @user, :author passed' do
-        it "yields true if the user has an admin role for the content's site" do
-          @user.stub!(:roles).and_return [@admin_role]
-          @content.user_has_role?(@user, :author).should be_true
-        end
-      
-        it "yields true if the user has a moderator role for the content's section" do
-          @user.stub!(:roles).and_return [@moderator_role]
-          @content.user_has_role?(@user, :author).should be_true
-        end  
-      
-        it "yields true if the user is the content's author" do
-          @user.stub!(:roles).and_return []
-          @user.stub!(:id).and_return 1
-          @content.user_has_role?(@user, :author).should be_true
-        end  
-      
-        it 'yields false if the user does not have an appropriate role' do
-          @user.stub!(:roles).and_return [@user_role]
-          @content.user_has_role?(@user, :author).should be_false
-        end  
+      it 'returns a superuser role for the :create action' do
+        @site.role_authorizing(:update).should == @admin_role
       end
+
+      it 'returns a superuser role for the :create action' do
+        @site.role_authorizing(:delete).should == @superuser_role
+      end
+    end
+
+    describe 'on a section' do
+      it 'returns an admin role for the :create action' do
+        @section.role_authorizing(:create).should == @admin_role
+      end
+
+      it 'returns an admin role for the :create action' do
+        @section.role_authorizing(:update).should == @admin_role
+      end
+
+      it 'returns an admin role for the :create action' do
+        @section.role_authorizing(:delete).should == @admin_role
+      end
+    end
+    
+    # @content.role_authorizing(:manage_articles).should == @moderator_role
+    # @wikipage.role_authorizing(:manage_wikipages).should == @user_role
+  end
+  
+  describe '#expand' do
+    it 'works' do
+      @author_role.expand.should == [@author_role, @moderator_role, @admin_role]
+      @moderator_role.expand.should == [@moderator_role, @admin_role]
+      @admin_role.expand.should == [@admin_role]
     end
   end
   
-  describe Wiki do
-    describe "#default_required_roles" do
-      it 'returns a hash of default role mappings' do
-        Wiki.default_required_roles[:manage_wikipages].should == :user
-      end
+  { Role::User      => 'You need to be logged in to perform this action.',
+    Role::Author    => 'You need to be the author of this object to perform this action.',
+    Role::Moderator => 'You need to be a moderator to perform this action.',
+    Role::Admin     => 'You need to be an admin to perform this action.',
+    Role::Superuser => 'You need to be a superuser to perform this action.' }.each do |role, message|
+  
+    it "#{Role}#message returns '#{message}'" do
+      role.new.message.should == message
     end
   end
+  
+  
+  # describe 'User.roles.for' do
+  #   it 'works' do
+  #   end
+  # end
 end

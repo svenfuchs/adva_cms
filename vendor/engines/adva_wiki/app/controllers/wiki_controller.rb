@@ -8,7 +8,7 @@ class WikiController < BaseController
   before_filter :optimistic_lock, :only => [:update]
 
   authenticates_anonymous_user
-  guards_permissions :manage_wikipages => { :except => [:index, :show, :diff] }
+  guards_permissions :wikipage, :except => [:index, :show, :diff]
   acts_as_commentable
   
   caches_page_with_references :index, :show, :track => ['@wikipage', '@wikipages', '@category', {'@site' => :tag_counts, '@section' => :tag_counts}]
@@ -28,7 +28,7 @@ class WikiController < BaseController
     set_categories if @wikipage.new_record?
     if !@wikipage.new_record?
       render @section.render_options
-    elsif has_permission? :manage_wikipages
+    elsif has_permission? :create, :wikipage
       render :action => :new
     else
       redirect_to_login 'You need to be logged in to edit this page.'

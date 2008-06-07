@@ -18,7 +18,11 @@ class Post < Comment
   #   options[:order]      ||= " #{Post.table_name}.created_at DESC"
   #   options[:count]      ||= " #{Post.table_name}.id"
   #   paginate options
-  # end
+  # end  
+  
+  def owner
+    commentable
+  end
   
 
 protected

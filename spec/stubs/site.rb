@@ -33,8 +33,7 @@ define Site do
            :activities => [],
            :current_theme_template_paths => [],
            :current_theme_layout_paths => [],
-           :has_attribute? => true,
-           :required_role_for => :admin
+           :has_attribute? => true
         
   instance :default          
 end

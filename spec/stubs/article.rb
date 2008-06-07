@@ -36,8 +36,7 @@ define Article do
            :destroy => true,
            :save_version_on_create => nil,
            :increment_counter => nil,
-           :decrement_counter => nil,
-           :required_role_for => :admin
+           :decrement_counter => nil
 
   instance :article
 end

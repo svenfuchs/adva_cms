@@ -30,8 +30,8 @@ describe Content do
   
   # TODO add various validations
   
-  it "should validate presence of author_id" do
-    @content.should validate_presence_of(:author_id)
+  it "should validate presence of author" do
+    @content.should validate_presence_of(:author)
   end
   
   it "should generate the permalink attribute from the title" do

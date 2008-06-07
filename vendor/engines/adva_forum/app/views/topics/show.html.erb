@@ -2,8 +2,8 @@
   <%= @topic.title %>  
   <span class="meta">
     <%= topic_attributes @topic %> &middot;
-    <%= link_to 'edit', edit_topic_path(@section, @topic.permalink) %> &middot;
-    <%= link_to 'delete', topic_returning_path(@section, @topic.permalink), { :confirm => "Are you sure you wish to delete this topic?", :method => :delete } %>      
+    <%= authorized_link_to 'edit', edit_topic_path(@section, @topic.permalink), :edit => @topic %> &middot;
+    <%= authorized_link_to 'delete', topic_returning_path(@section, @topic.permalink), { :delete => @topic, :confirm => "Are you sure you wish to delete this topic?", :method => :delete, :class => 'requires-role site-1-admin section-1-moderator' } %>      
   </span>
 </h2>
 
@@ -18,3 +18,6 @@
 <%= will_paginate @posts, :id => 'pagination' %>
 
 <%= render :partial => 'comments/form', :locals => {:commentable => @topic, :url => topic_posts_path(@section, @topic) } %>
+
+
+

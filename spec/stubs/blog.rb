@@ -23,9 +23,7 @@ define Blog do
            :content_filter => 'textile-filter',
            :archive_months => [],
            :valid? => true,
-           :has_attribute? => true,
-           :required_roles => { :manage_articles => :admin, :manage_categories => :admin },
-           :required_role_for => :admin
+           :has_attribute? => true
 
   instance :blog
 end

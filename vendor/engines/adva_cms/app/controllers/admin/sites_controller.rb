@@ -8,8 +8,7 @@ class Admin::SitesController < Admin::BaseController
   cache_sweeper :site_sweeper, :only => [:create, :update, :destroy]
 
   authentication_required
-  guards_permissions :manage_sites => { :only => [:new, :create] }, # TODO what about index?
-                     :manage_site  => { :only => [:edit, :update, :delete]}
+  guards_permissions :site
   
   helper :activities
   

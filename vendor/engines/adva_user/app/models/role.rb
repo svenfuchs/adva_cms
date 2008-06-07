@@ -1,111 +1,113 @@
-# no idea, yet
-#
-# class Permission
-#   @@permissions = %w(
-#     sites.manage sections.manage
-#     wiki.pages
-#     wiki.pages.delete
-#   )
-#   cattr_reader :permissions
-# end
-
 class Role < ActiveRecord::Base
-  belongs_to :user
-  belongs_to :object, :polymorphic => true
+  self.store_full_sti_class = true
   
+  attr_reader :name
+  class_inheritable_accessor :has_context, :message, :children
+  
+  belongs_to :user
+  belongs_to :context, :polymorphic => true
+    
   class << self
-    def definition(name)
-      "Role::Roles::#{name.to_s.camelize}".constantize
-      # p name.to_s.camelize
-      # Roles.const_get name.to_s.camelize
+    def inherited(klass)
+      (self.children ||= []) << klass
+      superclass.inherited(klass) unless self == Role
+    end
+    
+    def with_children
+      [self] + children
     end
     
     def names
-      # Roles.constants TODO this doesn't keep a sane order
-      %w(Superuser Admin Author User Anonymous) # Moderator
+      children.map{|klass| klass.role_name.to_s.camelize}.reverse
     end
-  end
-  
-  def definition
-    @definition ||= Role.definition(name)
-  end
-  
-  def includes?(name, object = nil)
-    definition.includes?(name) && (!definition.references_object? || references?(object))
-  end
-  
-  def is?(name, object = nil)
-    self.name == name.to_s && (object.nil? || references?(object))
-  end
-  
-  def references?(object)
-    attributes['object_id'] == object.id && object_type == object.class.name
-  end
-  
-  # UMMMM ... NOT ... SURE ... YET ... REALLY.
-  #
-  # this uses modules for multiple role inheritance (e.g. admin might inherit both 
-  # editor and moderator)
-  
-  module Roles
-    module Anonymous    
-      def role_required_message
-        name = self.name.demodulize.downcase
-        article = %(a e i o u).include?(name[0, 1].downcase) ? 'an' : 'a'
-        "You need to be #{article} #{name} to perform this action."        
-      end
     
-      def includes?(other)
-        other = Role.definition(other) unless other.is_a? Module
-        self == other || self.include?(other)
-      end
+    def build(name, context = nil)
+      return name if name.nil? || name.is_a?(Role)
+      const_get(name.to_s.classify).new :context => context
+    end
     
-      def references_object?
-        false
-      end
+    def role_name
+      @role_name ||= name.demodulize.downcase.to_sym
     end
-  
-    module User
-      extend Anonymous
-      def self.role_required_message
-        'You need to be logged in to perform this action.'
-      end
-    end
-  
-    module Author
-      extend Anonymous
-      @@name = 'author'
-      def self.role_required_message
-        'You need to be the author of this object to perform this action.'
-      end
-    end
-  
-    module Moderator
-      extend Anonymous
-      include User, Author
-    
-      def references_object?
-        true
-      end
-    end
-  
-    module Admin
-      extend Anonymous
-      include Moderator
-    end
-  
-    module Superuser
-      extend Anonymous
-      include Admin
-    
-      def references_object?
-        false
-      end
-    end  
-  
-    # class Custom < ActiveRecord::Base
-    #   # dynamically create user defined roles (?)
-    # end
   end
-end
+  
+  def initialize(*args)
+    super
+    self.context = adjusted_context(name) if self.class.has_context
+  end
+  
+  def includes?(role)
+    self.is_a?(role.class) && (!has_context || self.context == role.adjusted_context(name))
+  end
+  
+  def ==(role)
+    self.instance_of?(role.class) && (!has_context || self.context == role.context)
+  end
+  
+  def name
+    self.class.role_name
+  end
+  
+  def expand(options = {})
+    self.class.with_children.map do |klass|
+      next unless options[:all] || klass.has_context
+      Role.build klass.role_name, context
+    end.compact
+  end
+  
+  def parent
+    Role.build self.class.superclass.role_name, context
+  end
+  
+  def to_css_class
+    context_type ? [context_type, context_id, name].join('-').downcase : name
+  end
+  
+  def message
+    self.class.message || begin
+      article = %(a e i o u).include?(name.to_s[0, 1].downcase) ? 'an' : 'a'
+      "You need to be #{article} #{name} to perform this action."        
+    end
+  end
+  
+  protected
+  
+    def adjusted_context(name)
+      context.role_context(name) if context
+    end
+  
+  class Anonymous < Role
+    def applies_to?(user)
+      true
+    end
+  end
+  
+  class User < Anonymous
+    self.message = 'You need to be logged in to perform this action.'
+    
+    def applies_to?(user)
+      user.registered?
+    end
+  end
 
+  class Author < User
+    self.has_context = true
+    self.message = 'You need to be the author of this object to perform this action.'
+
+    def applies_to?(user)
+      context.respond_to?(:is_author?) && context.is_author?(user)
+    end
+  end
+
+  class Moderator < Author 
+    self.has_context = true
+  end
+
+  class Admin < Moderator
+    self.has_context = true
+  end
+
+  class Superuser < Admin  
+    self.has_context = false
+  end 
+end

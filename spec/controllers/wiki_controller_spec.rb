@@ -31,7 +31,7 @@ describe WikiController do
     @controller.stub!(:wiki_path).and_return wiki_path
     @controller.stub!(:wikipage_path).and_return wikipage_path
     @controller.stub!(:current_user).and_return stub_user
-    # @controller.stub! :require_authentication    
+    
     @controller.stub! :guard_permission
   end
   
@@ -86,17 +86,19 @@ describe WikiController do
       before :each do
         @wikipage = Wikipage.new
         @wiki.wikipages.stub!(:find_or_initialize_by_permalink).and_return @wikipage
-        controller.stub!(:has_permission?).with(:manage_wikipages).and_return true
+        controller.stub!(:has_permission?).and_return true
       end
       it_assigns :wikipage, :categories
     
       describe "and the current user having sufficient permissions to add a page" do
+        before :each do
+        end
         it_renders_template :new
       end
     
       describe "and the current user not having sufficient permissions to add a page" do
         before :each do
-          controller.stub!(:has_permission?).with(:manage_wikipages).and_return false
+          controller.stub!(:has_permission?).and_return false
         end
         it_redirects_to { login_path }
       end

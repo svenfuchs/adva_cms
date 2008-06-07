@@ -5,7 +5,7 @@ class Admin::SectionsController < Admin::BaseController
   before_filter :normalize_params, :only => :update_all
   
   cache_sweeper :section_sweeper, :only => [:create, :update, :destroy]
-  guards_permissions :manage_sections => { :except => :index }
+  guards_permissions :section
   
   def new
     @section = @site.sections.build(:type => Section.types.first)
@@ -20,6 +20,9 @@ class Admin::SectionsController < Admin::BaseController
       flash.now[:error] = "The section could not be created."
       render :action => "new"
     end
+  end
+  
+  def edit
   end
  
   def update

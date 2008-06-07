@@ -33,9 +33,7 @@ define Wikipage do
            :diff_against_version => 'the diff',
            :save_version_on_create => nil,
            :user= => nil,
-           :has_attribute? => true,
-           :required_roles => { :manage_wikipages => :admin, :manage_categories => :admin },
-           :required_role_for => :admin
+           :has_attribute? => true
  
   instance :wikipage,
            :version => 4

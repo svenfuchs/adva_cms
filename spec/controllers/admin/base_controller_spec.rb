@@ -6,6 +6,7 @@ describe Admin::SitesController do
   before :each do
     scenario :site, :user
     @user.stub!(:registered?).and_return true
+    controller.stub!(:guard_permission)
   end
   
   describe "#require_authentication" do

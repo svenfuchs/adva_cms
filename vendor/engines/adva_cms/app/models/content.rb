@@ -15,6 +15,16 @@ WillPaginate::Finder::ClassMethods.class_eval do
 end
     
 class Content < ActiveRecord::Base
+  has_permalink :title, :scope => :section_id
+  filtered_column :body, :excerpt
+
+  acts_as_taggable
+  acts_as_role_context :roles => :author  
+  acts_as_commentable :polymorphic => true
+  acts_as_versioned :if_changed => [:title, :body, :excerpt, :user_id], :limit => 5
+  non_versioned_columns << 'cached_tag_list' << 'assets_count' << 'state'
+  instantiates_with_sti
+
   belongs_to :section
   belongs_to :site
   belongs_to_author
@@ -24,22 +34,12 @@ class Content < ActiveRecord::Base
   has_many :categories, :through => :category_assignments, :dependent => :destroy
   has_many :category_assignments
   
-  has_permalink :title, :scope => :section_id
-  filtered_column :body, :excerpt
-  
-  acts_as_taggable
-  acts_as_commentable :polymorphic => true
-  acts_as_versioned :if_changed => [:title, :body, :excerpt, :user_id], :limit => 5
-  non_versioned_columns << 'cached_tag_list' << 'assets_count' << 'state'
-  instantiates_with_sti
-
   before_validation :set_site
   after_save :save_categories
 
   class_inheritable_reader :default_find_options
   write_inheritable_attribute :default_find_options, { :order => 'position, published_at' }
   delegate :comment_filter, :to => :site
-  delegate :required_role_for, :to => :section
 
   validates_presence_of :title
   validates_uniqueness_of :permalink, :scope => :section_id
@@ -79,6 +79,10 @@ class Content < ActiveRecord::Base
       end
     end
   end
+  
+  def owner
+    section
+  end  
 
   def attributes=(*args)
     @new_category_ids = args.first.delete(:category_ids)
@@ -92,10 +96,6 @@ class Content < ActiveRecord::Base
   def accept_comments?
     section.accept_comments?
   end
-  
-  def user_has_role?(user, role)
-    role == :author && is_author?(user) or section.user_has_role?(user, role)
-  end  
   
   def diff_against_version(version)
     return '(orginal version)' if version == versions.earliest.version

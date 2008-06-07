@@ -26,9 +26,7 @@ define Section do
            :save => true,
            :update_attributes => true,
            :destroy => true,
-           :has_attribute? => true,
-           :required_roles => { :manage_articles => :admin },
-           :required_role_for => :admin
+           :has_attribute? => true
 
   instance :section
 end

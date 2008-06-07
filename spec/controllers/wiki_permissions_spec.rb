@@ -3,28 +3,23 @@ require File.dirname(__FILE__) + '/../spec_helper.rb'
 describe WikiController, 'Permissions' do
   include SpecControllerHelper
   before :each do
-    scenario :site, :section, :wiki, :wikipage
-  
-    @user = User.new
-    @user.stub!(:roles).and_return []
-    
-    @site = Site.new(:host => 'test.host')
-    @wiki = Wiki.new
-    @wiki.stub!(:id).and_return 1
-    @wiki.stub!(:site).and_return @site
-    @wiki.wikipages.stub!(:create).and_return @wikipage
+    scenario :wiki, :roles
 
-    @wikipage = Wikipage.new
-    @wikipage.stub!(:section).and_return @wiki
-    
-    @site.sections.stub!(:find).and_return @wiki
-    @site.sections.stub!(:root).and_return @wiki
-    Site.stub!(:find_or_initialize_by_host).and_return @site
+    @site = stub_model Site, :host => 'test.host'
+    @wiki = stub_model Wiki, :id => 1, :site => @site
+    @wikipage = stub_model Wikipage, :section => @wiki
+    @wiki.wikipages.stub!(:find).and_return @wikipage
     @wiki.wikipages.stub!(:find_or_initialize_by_permalink).and_return @wikipage
     
-    controller.stub!(:current_user).and_return @user      
-  
-    @admin_role = Role.new :name => 'admin', :user => @user, :object => @site
+    Site.stub!(:find).and_return @site
+    @site.sections.stub!(:find).and_return @wiki
+    @site.sections.stub!(:root).and_return @wiki
+    
+    controller.stub!(:current_user).and_return @user
+    controller.stub!(:wikipage_path).and_return('http://test.host/pages/a-wikipage')
+    @admin_role.context = @site
+    
+    Site.stub!(:find_or_initialize_by_host).and_return @site
   end
   
   def should_grant_access(method, path)
@@ -40,14 +35,14 @@ describe WikiController, 'Permissions' do
     request_to(method, path)
   end
   
-  { '/wiki/pages/home' => :get, 
+  { # '/wiki/pages/home' => :get, 
     '/wiki/pages/home/edit' => :get, 
     '/wiki/pages' => :post }.each do |path, method|
   
     describe "#{method.to_s.upcase} to #{path}" do
-      describe "with :manage_wikipages permissions set to :admin" do
+      describe "with wikipage permissions set to :admin" do
         before :each do 
-          @wiki.stub!(:required_roles).and_return :manage_wikipages => :admin
+          @wiki.stub!(:permissions).and_return :wikipage => { :show => :admin, :create => :admin, :update => :admin }
         end
         
         it "grants access to an admin" do
@@ -61,10 +56,10 @@ describe WikiController, 'Permissions' do
         end
       end
       
-      describe "with :manage_wikipages permissions set to :user" do
+      describe "with wikipage permissions set to :user" do
         before :each do 
           @user.stub!(:roles).and_return []
-          @wiki.stub!(:required_roles).and_return :manage_wikipages => :user
+          @wiki.stub!(:permissions).and_return :wikipage => { :show => :user, :create => :user, :update => :user }
         end
         
         it "grants access to an user" do
@@ -78,10 +73,10 @@ describe WikiController, 'Permissions' do
         end
       end
       
-      describe "with :manage_wikipages permissions set to :anonymous" do
+      describe "with wikipage permissions set to :anonymous" do
         before :each do 
           @user.stub!(:roles).and_return []
-          @wiki.stub!(:required_roles).and_return :manage_wikipages => :anonymous
+          @wiki.stub!(:permissions).and_return :wikipage => { :show => :anonymous, :create => :anonymous, :update => :anonymous }
         end
         
         it "grants access to an user" do

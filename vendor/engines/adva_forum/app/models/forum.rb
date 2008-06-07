@@ -1,7 +1,8 @@
 class Forum < Section
   acts_as_commentable
-  self.default_required_roles = { :manage_topics => :admin, 
-                                  :manage_comments => :user }
+
+  permissions :topic   => { :user => [:create, :update], :moderator => [:delete, :moderate] },
+              :comment => { :user => :create, :author => [:update, :delete] }
 
   # attr_readonly :posts_count, :topics_count
 

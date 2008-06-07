@@ -2,13 +2,12 @@ class Site < ActiveRecord::Base
   # TODO make sure the theme name doesn't have any slashes (forbid anything besides [\w\-_\.] ?)
   acts_as_themed  
   acts_as_commentable
-    
-  serialize :required_roles
-  class_inheritable_accessor :default_required_roles
-  self.default_required_roles = { :manage_sites => :superuser, 
-                                  :manage_site => :admin,
-                                  :manage_sections => :admin, 
-                                  :manage_themes => :admin }
+
+  acts_as_role_context :roles => :admin
+  serialize :permissions
+  permissions :site    => { :superuser => [:create, :delete], :admin => [:show, :update, :manage] },
+              :section => { :admin => :all },
+              :theme   => { :admin => :all }
 
   
   has_many :sections, :dependent => :destroy, :order => :lft do
@@ -63,28 +62,21 @@ class Site < ActiveRecord::Base
     # TODO how to make this an association or assoc extension so we can use it
     # in admin/users_controller?
     def find_users_and_superusers(id, options = {})
-      condition = ["memberships.site_id = ? OR (memberships.site_id IS NULL AND roles.name = ?)", id, 'superuser']
+      condition = ["memberships.site_id = ? OR (memberships.site_id IS NULL AND roles.type = ?)", id, 'Role::Superuser']
       User.find :all, options.merge(:include => [:roles, :memberships], :conditions => condition)
     end
-    
+  end
+  
+  def owner
+    nil
   end
   
   def users_and_superusers(options = {})
     self.class.find_users_and_superusers id, options
   end
   
-  # TODO move these elsewhere
-  
-  def required_roles
-    @required_roles ||= default_required_roles.update(read_attribute(:required_roles) || {})
-  end
-  
-  def required_role_for(permission)
-    required_roles[permission]
-  end
-  
-  def user_has_role?(user, role)    
-    !!user.detect_role(role, self)
+  def section_ids
+    self.class.connection.select_values "SELECT id FROM sections WHERE site_id = #{id}"
   end
   
   # def tag_counts

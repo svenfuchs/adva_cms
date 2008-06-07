@@ -1,4 +1,4 @@
 Event.onReady(function() {
-  var roles = Array(<%= @roles.map{|role|"'#{role}'"}.join(',') %>);
+  var roles = Array(<%= authorizing_css_classes(@roles, :separator => ', ', :quote => true) %>);
   authorize_elements(roles);
 });

@@ -19,6 +19,7 @@ class CreateSitesTable < ActiveRecord::Migration
       t.string  :tag_path
       t.string  :tag_layout
       t.string  :permalink_style
+      t.text    :permissions
     end
   end
 

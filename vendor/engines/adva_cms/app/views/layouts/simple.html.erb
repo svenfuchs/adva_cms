@@ -3,8 +3,8 @@
   <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />   
     <title><%= controller.controller_name %></title>
-    <%= stylesheet_link_tag 'admin/base', 'admin/form', 'admin/layout/base', 'admin/layout/simple' %>
-    <%= javascript_include_tag 'prototype', 'effects', 'dragdrop', 'lowpro', 'flash', 'json', 'cookie', 'admin' %>
+    <%= stylesheet_link_tag 'admin/base', 'admin/form', 'admin/layout/base', 'admin/layout/simple', :cache => 'cache/admin/simple' %>
+    <%= javascript_include_tag 'prototype', 'effects', 'dragdrop', 'lowpro', 'flash', 'json', 'cookie', 'admin', :cache => 'cache/admin/simple' %>
     <%= yield :head %>
   </head>
   <body>   

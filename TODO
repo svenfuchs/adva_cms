@@ -64,6 +64,66 @@ authentication http://authentication.rubyforge.org/
 
 ------------------------------------------------------------------------------
 
+# JS Rbac layer
+
+In order to display links only to authorized users while still page_caching
+most frontend pages, we need to implement a role/permission-based layer in
+javascript.
+
+We can have three tiers:
+
+1. In the HTML we encode required roles as CSS classes. A link to a comment's
+edit page that requires the user to be at least the author of the comment could
+look like this:
+
+<a class="requires-role site-1-admin section-1-moderator comment-1-author">edit</a>
+
+A link to a wikipage's edit page that requires a user to be logged in could be:
+
+<a class="requires-role user">edit</a>
+
+(And a link to a wikipage's edit page that does not require any authorization
+would obviously just omit the requires-role class.)
+
+By explicitely listing the possible roles we avoid implementing a role 
+hierarchie in the JS layer so the system stays better decoupled.
+
+2. The CSS class .requires hides the link and triggers a JS function that
+looks up roles for the user and re-displays the link if any of them matches
+one of the other CSS classes.
+
+3. The JS layer calls our application and fetches a JSON document that grants
+certain roles to the user for the current site, section and other objects. The
+JSON documents can probably also be page cached and only sweeped when the user's
+roles change.
+
+We can easily retrieve the superuser, admin and moderator roles for the whole
+site and all sections. 
+
+The only thing that bothers me is how to sanely check for authorships. People
+can easily pile up hundreds of forum posts so it would not make sense to send
+them all at once. In the case of the forum it seems sane to request and send
+authorships per topic instead.
+
+So, the backend URLs could look like this:
+
+/users/1/roles/          # site-1-admin, section-1-moderator
+/users/1/roles/topic/1   # site-1-admin, section-1-moderator, post-1-author, post-2-author, post-3-author, ...
+
+The JS layer would just compare the classes present on the page to the values
+returned from the backend and display the links that match (or whatever else).
+
+The view would access a helper that returns the role-keys that authorize to
+perform a certain action. E.g. possible_roles_for(:manage_wikipages, @wiki) or
+better: possible_roles_for(:edit, @wikipage)
+
+The roles backend service would list all roles that the user has for the given
+object. Like current_user.roles_for(@site) or current_user.roles_for(@topic),
+or rather: @site.relevant_roles(current_user) and @topic.relevant_roles(current_user)
+
+
+
+
 # users
 
 [feature] ajax users online feature?
@@ -157,6 +217,10 @@ authentication http://authentication.rubyforge.org/
 
 # Rails 
 
+Role::Admin.new :object => nil seems to run into SystemStackError with:
+  class Role belongs_to :object, :polymorphic => true
+  class Role::Admin < Role
+
 force certain after_filters to be run even if the filter chain has been halted:
     :after_filter => :bla, :force => true
 
@@ -234,4 +298,9 @@ http://code.google.com/p/xss-shield/
 http://www.ruby-forum.com/topic/133285
 http://blog.thinkrelevance.com/2008/1/17/never-untaint
 http://blog.thinkrelevance.com/2008/1/9/is-your-rails-app-xss-safe
+
+
+# Dependency/reloading issues collect
+
+User(#34074500) expected, got User(#13312670)
 

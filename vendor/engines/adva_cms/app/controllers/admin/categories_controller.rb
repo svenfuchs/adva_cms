@@ -4,7 +4,7 @@ class Admin::CategoriesController < Admin::BaseController
   before_filter :set_category,   :only => [:edit, :update, :destroy]
   
   cache_sweeper :category_sweeper, :only => [:create, :update, :destroy]
-  guards_permissions :manage_categories
+  guards_permissions :category
 
   def new
     @category = @section.categories.build

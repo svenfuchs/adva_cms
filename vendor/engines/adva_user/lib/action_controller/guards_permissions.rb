@@ -1,7 +1,7 @@
 module ActionController
   class RoleRequired < SecurityError
     def initialize(role)
-      super Role.definition(role).role_required_message
+      super Role.build(role).message
     end
   end
   
@@ -11,13 +11,16 @@ module ActionController
     end
   
     module ClassMethods
-      def guards_permissions(options)
+      def guards_permissions(type, options = {})
         return if guards_permissions?        
         include InstanceMethods
+        extend ClassMethods
         
-        options = {options => {}} unless options.is_a? Hash
-        options.each do |permission, options|
-          before_filter(options){|controller| controller.guard_permission permission }
+        class_inheritable_accessor :action_map
+        set_action_map options.except(:only, :except)
+
+        before_filter(options.slice :only, :except) do |controller| 
+          controller.guard_permission type
         end
       end
       
@@ -26,21 +29,34 @@ module ActionController
       end
     end
     
-    module InstanceMethods    
-      def guard_permission(permission)    
-        unless has_permission?(permission)
-          role = target_for_permission_guarding.required_role_for(permission)
+    module ClassMethods
+      # maps controller actions to (virtual) model actions that are referenced
+      # by the roles system
+      def set_action_map(map)
+        self.action_map = { :index => :show, :edit => :update, :new => :create }
+        map.each do |target, actions|
+          Array(actions).each{|action| self.action_map[action] = target }
+        end        
+      end
+    end
+    
+    module InstanceMethods
+      def guard_permission(type)
+        action = map_from_controller_action
+        unless has_permission?(action, type)
+          role = target_for_permission_guarding.role_authorizing(action, type)
           raise RoleRequired.new role
         end
       end
       
-      def has_permission?(permission)
+      def has_permission?(action, type)
         user = current_user || Anonymous.new
         object = target_for_permission_guarding
-        unless role = object.required_role_for(permission)
-          raise "could not find role for #{permission} on #{object}"
-        end
-        user.has_role? role, object
+        user.has_role? object.role_authorizing(action, type), object # TODO refactor
+      end
+      
+      def map_from_controller_action
+        action_map[params[:action].to_sym] || params[:action].to_sym
       end
     end
   end

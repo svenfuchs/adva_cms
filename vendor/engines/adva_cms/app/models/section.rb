@@ -3,6 +3,20 @@ class Section < ActiveRecord::Base
     allow :id, :type, :categories, :tag_counts
   end  
   
+  @@types = ['Section']
+  cattr_reader :types
+  
+  acts_as_role_context :roles => :moderator
+  permissions :article  => { :moderator => :all },
+              :category => { :moderator => :all }
+  serialize :permissions
+  
+  option :articles_per_page, :default => 15    
+  has_permalink :title, :scope => :site_id
+  acts_as_nested_set
+  acts_as_commentable
+  instantiates_with_sti
+  
   belongs_to :site
   has_many :articles, :foreign_key => 'section_id', :dependent => :destroy do
     def primary
@@ -20,19 +34,6 @@ class Section < ActiveRecord::Base
     end
   end
   
-  @@types = ['Section']
-  cattr_reader :types
-  
-  serialize :required_roles
-  class_inheritable_accessor :default_required_roles
-  self.default_required_roles = { :manage_articles => :admin }
-  
-  option :articles_per_page, :default => 15    
-  has_permalink :title, :scope => :site_id
-  acts_as_nested_set
-  acts_as_commentable
-  instantiates_with_sti
-  
   before_validation :set_path, :set_comment_age
   
   validates_presence_of   :title 
@@ -47,12 +48,6 @@ class Section < ActiveRecord::Base
       @@types.sort!.uniq!
     end
     
-    # def factory(attributes)
-    #   attributes ||= {}
-    #   attributes[:type] ||= 'Section'
-    #   attributes.delete(:type).constantize.new attributes
-    # end
-    
     def paths(host)
       find(:all, :conditions => ["path <> '' AND sites.host = ?", host], :include => :site).map(&:path)
     end
@@ -60,6 +55,10 @@ class Section < ActiveRecord::Base
     def find_by_host_and_path(host, path)
       find(:first, :conditions => ["path = ? AND sites.host = ?", path, host], :include => :site)
     end
+  end
+
+  def owner
+    site
   end
   
   def type
@@ -84,23 +83,8 @@ class Section < ActiveRecord::Base
 
   def accept_comments?
     comment_age.to_i > -1
-  end
+  end  
   
-  def user_has_role?(user, role)    
-    !!user.detect_role(role, self) or site.user_has_role?(user, role)
-  end
-  
-  def required_roles
-    @required_roles ||= begin
-      roles = read_attribute(:required_roles) || {}
-      default_required_roles.update roles.symbolize_keys
-    end
-  end
-  
-  def required_role_for(permission)
-    required_roles[permission] || site.required_role_for(permission)
-  end
-
   protected
   
     def set_comment_age

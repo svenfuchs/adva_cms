@@ -4,28 +4,18 @@ describe Admin::ArticlesController, 'Permissions' do
   include SpecControllerHelper
 
   before :each do
-    scenario :site, :section, :blog, :article, :category, :tag
-  
-    @user = User.new
-    @user.stub!(:roles).and_return []
-          
-    @site = Site.new(:host => 'test.host')
-    @blog = Blog.new
-    @blog.stub!(:id).and_return 1
-    @blog.stub!(:site).and_return @site
-    @blog.articles.stub!(:create).and_return @article
+    scenario :roles
 
-    @article = Article.new
-    @article.stub!(:section).and_return @blog
+    @site = stub_model Site, :host => 'test.host'
+    @blog = stub_model Blog, :id => 1, :site => @site
+    @article = stub_model Article, :section => @blog
     
-    @site.sections.stub!(:find).and_return @blog
     Site.stub!(:find).and_return @site
+    @site.sections.stub!(:find).and_return @blog
     @blog.articles.stub!(:find).and_return @article
-
-    controller.stub!(:current_user).and_return @user      
-  
-    @superuser_role = Role.new :name => 'superuser', :user => @user, :object => nil
-    @admin_role = Role.new :name => 'admin', :user => @user, :object => @site
+    
+    controller.stub!(:current_user).and_return @user
+    @admin_role.context = @site
   end
   
   def should_grant_access(method, path)
@@ -43,9 +33,9 @@ describe Admin::ArticlesController, 'Permissions' do
   { '/admin/sites/1/sections/1/articles/1/edit' => :get }.each do |path, method|
   
     describe "#{method.to_s.upcase} to #{path}" do
-      describe "with :manage_articles permissions set to :superuser" do
+      describe "with :article/:update permissions set to :superuser" do
         before :each do 
-          @blog.required_roles = { :manage_articles => :superuser }
+          Blog.stub!(:default_permissions).and_return :article => {:update => :superuser}
         end
         
         it "grants access to an superuser" do
@@ -59,9 +49,9 @@ describe Admin::ArticlesController, 'Permissions' do
         end
       end
       
-      describe "with :manage_articles permissions set to :admin" do
+      describe "with :article/:update permissions set to :admin" do
         before :each do 
-          @blog.required_roles = { :manage_articles => :admin }
+          Blog.stub!(:default_permissions).and_return :article => {:update => :admin}
         end
         
         it "grants access to an admin" do
@@ -75,10 +65,10 @@ describe Admin::ArticlesController, 'Permissions' do
         end
       end
       
-      describe "with :manage_articles permissions set to :user" do
+      describe "with :article/:update permissions set to :user" do
         before :each do 
           @user.stub!(:roles).and_return []
-          @blog.required_roles = { :manage_articles => :user }
+          Blog.stub!(:default_permissions).and_return :article => {:update => :user}
         end
         
         it "grants access to a user" do

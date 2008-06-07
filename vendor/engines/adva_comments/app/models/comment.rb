@@ -5,10 +5,8 @@ class Comment < ActiveRecord::Base
     allow :new_record?
   end  
 
-  before_validation  :set_site, :set_section
-  after_create  :update_commentable
-  after_destroy :update_commentable
-
+  acts_as_role_context :roles => :author
+  
   filters_attributes :sanitize => :body_html
   filtered_column :body  
 
@@ -19,7 +17,10 @@ class Comment < ActiveRecord::Base
 
   validates_presence_of :body, :author_id, :commentable
   
+  before_validation  :set_owners
   before_create :authorize_commenting
+  after_create  :update_commentable
+  after_destroy :update_commentable
   
   def filter
     commentable.comment_filter
@@ -38,16 +39,15 @@ class Comment < ActiveRecord::Base
   end   
   
   private
-    def set_site
-      self.site = commentable.site
-    end
-    
-    def set_section
-      self.section = commentable.section
+    def set_owners
+      if commentable
+        self.site = commentable.site 
+        self.section = commentable.section
+      end
     end
   
     def update_commentable
-      commentable.after_comment_update(self) if commentable.respond_to? :after_comment_update
+      commentable.after_comment_update(self) if commentable && commentable.respond_to?(:after_comment_update)
     end  
   
 end

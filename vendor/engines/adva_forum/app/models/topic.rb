@@ -1,13 +1,22 @@
 class Topic < ActiveRecord::Base
-  acts_as_commentable :polymorphic => true
   has_permalink :title
+  acts_as_commentable :polymorphic => true
+
+  acts_as_role_context :implicit_roles => lambda{|user|
+    posts.by_author(user).map{|post| Role.build :author, post }
+  }
 
   belongs_to :section 
   belongs_to_author :last_author 
   
-  has_many   :posts, :as => :commentable, :order => "#{Post.table_name}.created_at", :class_name => 'Post', :dependent => :delete_all
-  has_one    :recent_post, :as => :commentable, :order => "#{Post.table_name}.created_at DESC", :class_name => "Post"  
+  has_many :posts, :as => :commentable, :order => "#{Post.table_name}.created_at", :class_name => 'Post', :dependent => :delete_all do
+    def by_author(user)
+      find_all_by_author_id_and_author_type(user.id, user.class.name)
+    end
+  end
+
   belongs_to :last_post, :class_name => 'Post', :foreign_key => :last_comment_id
+  has_one    :recent_post, :as => :commentable, :order => "#{Post.table_name}.created_at DESC", :class_name => "Post"  
 
   validates_presence_of :section_id, :title # :profile_id, :forum_id?
   validates_presence_of :body, :on => :create
@@ -32,6 +41,10 @@ class Topic < ActiveRecord::Base
       end
     end
   end
+  
+  def owner
+    section
+  end
     
   def reply(author, attributes)
     returning posts.build(attributes) do |post|
@@ -51,7 +64,7 @@ class Topic < ActiveRecord::Base
   
   def accept_comments?
     !locked?
-  end  
+  end
 
   def paged?
     posts_count > Post.per_page

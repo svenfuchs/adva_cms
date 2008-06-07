@@ -147,6 +147,9 @@ div.meta {
 .next {
 	float: right;
 }
+.requires-role {
+	display: none;
+}
 
 /* FOOTER */
 

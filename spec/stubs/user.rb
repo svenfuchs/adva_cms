@@ -13,6 +13,8 @@ define Anonymous do
 end
 
 define User do
+  has_many :roles
+  
   methods  :has_role? => false, 
            :has_exact_role? => false,
            :anonymous? => false,

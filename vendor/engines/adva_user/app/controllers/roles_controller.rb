@@ -1,7 +1,14 @@
 class RolesController < BaseController
-  before_filter :set_user, :set_object, :set_roles
-  caches_page :index
   layout false
+  helper :users
+  caches_page :index
+  before_filter :set_user, :set_object, :set_roles
+  
+  def index
+    respond_to do |format|
+      format.js
+    end
+  end
   
   protected
   
@@ -14,6 +21,8 @@ class RolesController < BaseController
     end
   
     def set_roles
-      @roles = (@object || @site).relevant_roles(current_user).map &:to_css_class
+      # @roles = (@object || @site).relevant_roles(current_user).map &:to_css_class
+      context = @object || @site
+      @roles = current_user.roles.by_context(context)
     end
 end

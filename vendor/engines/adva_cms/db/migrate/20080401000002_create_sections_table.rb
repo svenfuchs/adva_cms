@@ -15,6 +15,7 @@ class CreateSectionsTable < ActiveRecord::Migration
       t.integer     :contents_count   
 	    t.integer     :comment_age
 	    t.string      :content_filter   
+      t.text        :permissions
     end
   end
 
