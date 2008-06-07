@@ -1,5 +1,5 @@
 class TopicsController < BaseController
-  helper :forums
+  helper :forum
   before_filter :set_topic, :only => [:show, :edit, :update, :destroy, :previous, :next]
   before_filter :set_posts, :only => :show
   caches_page_with_references :show, :track => ['@topic', '@posts']
