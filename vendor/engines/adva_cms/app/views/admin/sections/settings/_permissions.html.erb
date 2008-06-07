@@ -1,9 +1,13 @@
 <h4>Permissions</h4>
 <fieldset>
-  <% @section.required_roles.each do |permission, default_role| %>
+    <% @section.permissions.sorted.each do |type, permissions| %>
+    <h4><%= type.to_s.camelize.pluralize %></h4>
+    <% permissions.each do |action, role| %>
     <p>  
-      <%= label_tag "section_required_roles_#{permission}", permission.to_s.titleize %>
-      <%= select_tag "section[required_roles][#{permission}]", options_for_select(Role.names.zip(Role.names.map(&:downcase)), default_role.to_s), :id => "section_required_roles_#{permission}" %>
+        <%= select_tag "section[permissions][#{type}][#{action}]", options_for_select(Role.names.zip(Role.names.map(&:downcase)), role.to_s), :id => "section_required_roles_#{action}" %>
+        can <%= action %>.
+        <%#= label_tag "section_permissions_#{permission}", permission.to_s.titleize %>
+      <% end %>
     </p>
   <% end %>
 </fieldset>

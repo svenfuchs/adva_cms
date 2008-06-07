@@ -2,25 +2,6 @@ class PostsController < BaseController
   before_filter :set_topic
   before_filter :set_post, :only => [:edit, :update, :destroy]
 
-  # def index
-  #   @posts = (@parent ? @parent.posts : Post).search(params[:q], :page => current_page)
-  #   @profiles = @profile ? {@profile.id => @profile} : Profile.index_from(@posts)
-  #   respond_to do |format|
-  #     format.html # index.html.erb
-  #     format.xml  { render :xml  => @posts }
-  #   end
-  # end
-  # 
-  # def show
-  #   respond_to do |format|
-  #     format.html { redirect_to forum_topic_path(@forum, @topic) }
-  #     format.xml  do
-  #       find_post
-  #       render :xml  => @post
-  #     end
-  #   end
-  # end
-
   def new
     @post = Post.new
   end
@@ -62,6 +43,6 @@ class PostsController < BaseController
     end
   
     def set_post
-      @post = @topic.posts.find params[:id]
+      @post = @topic.comments.find params[:id]
     end
 end

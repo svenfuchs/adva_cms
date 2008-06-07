@@ -19,8 +19,8 @@ module UsersHelper
   # can be matched with the current user's roles in order to toggle the visibility
   # of an element
   def add_authorizing_css_classes!(options)
-    object = options.delete(:edit) || options.delete(:delete)
-    roles = object.role_authorizing(:edit).expand
+    object = options.delete(:update) || options.delete(:delete) # TODO
+    roles = object.role_authorizing(:update).expand
     options[:class] = 'requires-role ' + roles.map(&:to_css_class).join(' ')
   end
   

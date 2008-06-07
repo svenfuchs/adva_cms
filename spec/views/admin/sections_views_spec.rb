@@ -45,6 +45,7 @@ describe "Admin::Sections Views:" do
   
   describe "the form partial" do
     before :each do
+      template.stub_render hash_including(:partial => 'admin/sections/settings/permissions')
       template.stub!(:f).and_return ActionView::Base.default_form_builder.new(:section, @section, template, {}, nil)
     end
     
@@ -56,6 +57,11 @@ describe "Admin::Sections Views:" do
     it "renders the admin/sections/settings/blog partial if the section is a Blog" do
       assigns[:section] = @blog
       template.expect_render hash_including(:partial => 'admin/sections/settings/blog')
+      render "admin/sections/_form"
+    end
+    
+    it "renders the admin/sections/settings/permissions partial" do
+      template.expect_render hash_including(:partial => 'admin/sections/settings/permissions')
       render "admin/sections/_form"
     end
   end

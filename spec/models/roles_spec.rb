@@ -180,6 +180,48 @@ describe 'Roles: ' do
     end
   end
   
+  describe '#default_permissions' do
+    before :each do 
+      @default_permissions = {
+        :site    => { :theme    => { :show => :admin, :update => :admin, :create => :admin, :delete => :admin }, 
+                      :section  => { :show => :admin, :update => :admin, :create => :admin, :delete => :admin }, 
+                      :site     => { :show => :admin, :update => :admin, :create => :superuser, :delete => :superuser, :manage => :admin } },
+
+        :section => { :article  => { :update => :moderator, :create => :moderator, :delete => :moderator, :show => :moderator }, 
+                      :category => { :update => :moderator, :create => :moderator, :delete => :moderator, :show => :moderator } },
+
+        :blog    => { :article  => { :update => :user, :create => :user, :delete => :user }, 
+                      :comment  => { :update => :author, :delete => :author, :create => :user } },
+
+        :forum   => { :comment  => { :update => :author, :delete => :author, :create => :user }, 
+                      :topic    => { :moderate => :moderator, :update => :user, :delete => :moderator, :create => :user } },
+
+        :wiki    => { :comment  => { :update => :author, :delete => :author, :create => :user }, 
+                      :wikipage => { :update => :user, :create => :user, :delete => :user}}
+      }
+    end
+  
+    it 'should return proper permissions for Site' do
+      Site.default_permissions.to_hash.should == @default_permissions[:site]
+    end
+
+    it 'should return proper permissions for Section' do
+      Section.default_permissions.to_hash.should == @default_permissions[:section]
+    end
+
+    it 'should return proper permissions for Blog' do
+      Blog.default_permissions.to_hash.should == @default_permissions[:blog]
+    end
+
+    it 'should return proper permissions for Forum' do
+      Forum.default_permissions.to_hash.should == @default_permissions[:forum]
+    end
+
+    it 'should return proper permissions for Wiki' do
+      Wiki.default_permissions.to_hash.should == @default_permissions[:wiki]
+    end
+  end
+  
   
   # describe 'User.roles.for' do
   #   it 'works' do

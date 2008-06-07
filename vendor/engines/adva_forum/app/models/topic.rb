@@ -3,32 +3,21 @@ class Topic < ActiveRecord::Base
   acts_as_commentable :polymorphic => true
 
   acts_as_role_context :implicit_roles => lambda{|user|
-    posts.by_author(user).map{|post| Role.build :author, post }
+    comments.by_author(user).map{|comment| Role.build :author, comment }
   }
 
   belongs_to :section 
-  belongs_to_author :last_author 
-  
-  has_many :posts, :as => :commentable, :order => "#{Post.table_name}.created_at", :class_name => 'Post', :dependent => :delete_all do
-    def by_author(user)
-      find_all_by_author_id_and_author_type(user.id, user.class.name)
-    end
-  end
-
-  belongs_to :last_post, :class_name => 'Post', :foreign_key => :last_comment_id
-  has_one    :recent_post, :as => :commentable, :order => "#{Post.table_name}.created_at DESC", :class_name => "Post"  
+  belongs_to_author :last_author   
+  belongs_to :last_comment, :class_name => 'Post', :foreign_key => :last_comment_id
 
   validates_presence_of :section_id, :title # :profile_id, :forum_id?
   validates_presence_of :body, :on => :create
 
-  attr_accessor :body
-  # attr_readonly :posts_count, :hits
-  
+  attr_accessor :body  
   delegate :comment_filter, :to => :site
   delegate :site, :to => :section
 
-  before_validation :set_site
-  
+  before_validation :set_site  
   # no need to call on after_create because that's already done by the post :o
   after_destroy :update_forum # TODO this would be defined in belongs_to :section, :counter_cache => true
 
@@ -47,9 +36,9 @@ class Topic < ActiveRecord::Base
   end
     
   def reply(author, attributes)
-    returning posts.build(attributes) do |post|
-      post.author = author
-      post.commentable = self
+    returning comments.build(attributes) do |comment|
+      comment.author = author
+      comment.commentable = self
     end
   end
   
@@ -67,7 +56,7 @@ class Topic < ActiveRecord::Base
   end
 
   def paged?
-    posts_count > Post.per_page
+    comments_count > Post.per_page
   end
   
   def last_page
@@ -82,12 +71,12 @@ class Topic < ActiveRecord::Base
     section.topics.find :first, :conditions => ['last_updated_at > ?', last_updated_at], :order => :last_updated_at
   end
   
-  def after_comment_update(post)
-    if post = post.frozen? ? recent_post : post
-      update_attributes! :last_updated_at => post.created_at,
-                         :last_comment_id => post.id,
-                         :last_author => post.author,
-                         :comments_count => posts.count
+  def after_comment_update(comment)
+    if comment = comment.frozen? ? comments.last_one : comment
+      update_attributes! :last_updated_at => comment.created_at,
+                         :last_comment_id => comment.id,
+                         :last_author => comment.author,
+                         :comments_count => comments.count
     else
       self.destroy
     end

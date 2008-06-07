@@ -21,6 +21,7 @@ define Section do
            :layout => 'layout',
            :content_filter => 'textile-filter',
            :comment_age => 0,
+           :articles_per_page => 15,
            :accept_comments? => true,
            :valid? => true,
            :save => true,

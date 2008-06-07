@@ -6,14 +6,13 @@
     <p>
       <%= gravatar_img post.author %>
       <%= post.author_link %><br>
-      <%= post.author.roles.map(&:name).map(&:camelize).join(', ') %><br> <!-- TODO -->
+      <%= post.author.roles.map(&:name).map(&:to_s).map(&:camelize).join(', ') %><br> <!-- TODO -->
     </p>
-    <!-- user.posts.count -->
   </div>
   <div class="body">
     <%= post.body_html %>
     <p class="util">
-      <%= authorized_link_to 'edit', edit_topic_post_returning_path(@section, @topic, post), :edit => post %> &middot;
+      <%= authorized_link_to 'edit', edit_topic_post_returning_path(@section, @topic, post), :update => post %> &middot;
       <%= authorized_link_to 'delete', topic_post_returning_path(@section, @topic, post), { :delete => post, :confirm => "Are you sure you wish to delete this post?", :method => :delete } %>      
     </p>
   </div>

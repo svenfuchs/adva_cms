@@ -22,6 +22,10 @@ class Comment < ActiveRecord::Base
   after_create  :update_commentable
   after_destroy :update_commentable
   
+  def owner
+    commentable
+  end
+  
   def filter
     commentable.comment_filter
   end

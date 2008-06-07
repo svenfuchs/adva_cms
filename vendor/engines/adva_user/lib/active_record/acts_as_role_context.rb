@@ -41,36 +41,14 @@ module ActiveRecord
       def permissions
         @permissions ||= begin
           roles = read_attribute(:permissions) || {}
-          self.class.default_permissions.update roles.symbolize_keys # TODO deep merge?
+          self.class.default_permissions.update roles # TODO needs a deep merge?
         end
       end
     end
     
     module ClassMethods
-      def default_actions
-        [:show, :create, :update, :delete]
-      end
-      
-      # Sets the given values to the default_permissions hash.
-      #
-      # Ensures the given actions are arrays, invert the role => action hash
-      # to a action => role hash while expanding the actions array to keys,
-      # and expand the action key :all to the default actions.
-      #
-      # I.e. :comment => {:user => :create, :admin => [:edit, :delete]}
-      # becomes :comment => {:create => :user, :edit => :admin, :delete => :admin}        
       def permissions(values)
-        values.clone.each do |type, roles| 
-          roles.each do |role, actions|
-            actions = actions == :all ? default_actions.dup : Array(actions)
-            set_default_permissions type, Hash[*(actions.zip [role] * actions.size).flatten]
-          end
-        end
-      end
-      
-      def set_default_permissions(type, permissions)
-        self.default_permissions[type] ||= {}
-        self.default_permissions[type].update permissions
+        self.default_permissions = PermissionMap.new values
       end
     end
   end

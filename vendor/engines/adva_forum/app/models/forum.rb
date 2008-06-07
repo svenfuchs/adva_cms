@@ -4,32 +4,22 @@ class Forum < Section
   permissions :topic   => { :user => [:create, :update], :moderator => [:delete, :moderate] },
               :comment => { :user => :create, :author => [:update, :delete] }
 
-  # attr_readonly :posts_count, :topics_count
+  has_many :topics,         :order => "topics.sticky desc, topics.last_updated_at desc",
+                            :foreign_key => :section_id,
+                            :dependent => :delete_all
 
-  has_many :topics, :order => "topics.sticky desc, topics.last_updated_at desc", 
-                    :dependent => :delete_all, :foreign_key => :section_id
+  has_one  :recent_topic,   :class_name => 'Topic', 
+                            :order => "topics.last_updated_at DESC", 
+                            :foreign_key => :section_id
 
-  # this is used to see if a forum is "fresh"... we can't use topics because it puts
-  # stickies first even if they are not the most recently modified
-  has_many :recent_topics, :class_name => 'Topic', 
-                           :include => [:profile],
-                           :order => "topics.last_updated_at DESC",
-                           :conditions => ["profiles.state == ?", "active"], 
-                           :foreign_key => :section_id
-                           
-  has_one  :recent_topic,  :class_name => 'Topic', 
-                           :order => "topics.last_updated_at DESC", 
-                           :foreign_key => :section_id
+  has_one  :recent_comment, :as => :commentable, 
+                            # :class_name => 'Comment', 
+                            :order => "comments.created_at DESC"
 
-  has_one  :recent_post,   :as => :commentable, 
-                           :class_name => 'Comment', 
-                           :order => "comments.created_at DESC"
 
-  # TODO there's already a comments association from acts_as_commentable
-  # can we remove this on?
-  has_many :posts,       :order => "comments.created_at DESC", :as => :commentable, :class_name => 'Comment', :dependent => :delete_all
-  
-  
+  # ummmm ... why did i invent this in the first place? for some reason 
+  # counter_cache didn't work, but i can't remember it. *cough*
+
   # TODO abstract all of this to something like 
   # :has_counter :topics_count, :comments_count
   has_one :topics_count, :as => :owner, :class_name => 'Counter', :conditions => "name = 'topics'", :dependent => :delete

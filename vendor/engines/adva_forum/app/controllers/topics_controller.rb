@@ -2,6 +2,7 @@ class TopicsController < BaseController
   helper :forums
   before_filter :set_topic, :only => [:show, :edit, :update, :destroy, :previous, :next]
   before_filter :set_posts, :only => :show
+  caches_page_with_references :show, :track => ['@topic', '@posts']
 
   def show
     @comment = Post.new
@@ -11,7 +12,7 @@ class TopicsController < BaseController
     @topic = Topic.new
   end
 
-  def create    
+  def create 
     @topic = @section.topics.post current_user, params[:topic] # sticky, locked if permissions
     if @topic.save
       flash[:notice] = 'The topic has been created.'
@@ -24,16 +25,23 @@ class TopicsController < BaseController
 
   def update    
     if @topic.revise current_user, params[:topic] 
-      flash[:notice] = 'Topic was successfully updated.'
+      flash[:notice] = 'The topic has been updated.'
       redirect_to topic_path(@section, @topic.permalink)
     else
+      flash[:error] = 'The topic could not be updated.'
       render :action => "edit"
     end
   end
 
   def destroy
-    @topic.destroy
-    redirect_to forum_path(@section)
+    if @topic.destroy
+      flash[:notice] = 'The topic has been deleted.'
+      redirect_to forum_path(@section)
+    else
+      flash[:error] = 'The topic could not be deleted.'
+      set_posts
+      render :action => :show
+    end
   end
   
   def previous
@@ -59,7 +67,7 @@ class TopicsController < BaseController
     end
 
     def set_posts
-      @posts = @topic.posts.paginate :page => current_page, 
-                                     :per_page => @section.articles_per_page # TODO
+      @posts = @topic.comments.paginate :page => current_page, 
+                                        :per_page => @section.articles_per_page # TODO
     end
 end
