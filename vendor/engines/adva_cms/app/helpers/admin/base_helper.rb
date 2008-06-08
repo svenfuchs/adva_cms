@@ -1,5 +1,6 @@
-module Admin::BaseHelper
+# TODO move this to the base_helper?
 
+module Admin::BaseHelper
   def site_select_tag 
     options  = [['Site overview', admin_sites_path]]
     options += Site.find(:all).collect { |site| [site.name, admin_site_path(site)] }

@@ -14,6 +14,8 @@ describe WikiHelper do
     @controller
   end
   
+  it 'should have complete specs'
+  
   describe "#wiki_edit_links with a home wikipage that is the current/last version" do
     before :each do
       @wikipage.stub!(:permalink).and_return 'home'

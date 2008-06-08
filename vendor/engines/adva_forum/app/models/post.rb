@@ -1,16 +1,8 @@
-class Post < Comment
-  set_table_name :comments
+class Post < Comment  
+  # TODO do we need this model anyway?
   
   # belongs_to :topic, :counter_cache => true
-  
-  # validates_presence_of :topic_id
-  # validate :topic_is_not_locked
-
-  # after_create  :update_cached_fields
-  # after_destroy :update_cached_fields
-
-  attr_accessible :body
-
+  # attr_accessible :body
   # def self.search(query, options = {})
   #   options[:conditions] ||= [" LOWER(#{Post.table_name}.body) LIKE ?", "%#{query}%"] unless query.blank?
   #   options[:select]     ||= " #{Post.table_name}.*, #{Topic.table_name}.title as topic_title, #{Forum.table_name}.name as forum_name"
@@ -19,18 +11,11 @@ class Post < Comment
   #   options[:count]      ||= " #{Post.table_name}.id"
   #   paginate options
   # end  
-  
-  def owner
-    commentable
-  end
-  
 
-protected
   # def update_cached_fields
   #   topic.update_cached_post_fields(self)
+  # end  
+  # def topic_is_not_locked
+  #   errors.add_to_base("Topic is locked") if topic && topic.locked?
   # end
-  
-  def topic_is_not_locked
-    errors.add_to_base("Topic is locked") if topic && topic.locked?
-  end
 end

@@ -10,12 +10,8 @@ describe Site do
     @location = sections(:location)
   end
   
-  it "should return the left-most section that has no parent as the root section" do
-    @site.sections.root.should == @home
-  end
-  
   describe "site.sections.update_paths!" do
-    it "should update all paths" do
+    it "updates all paths" do
       sections = [@home, @about, @location]
       sections.each do |section|      
         section.path = nil
@@ -27,13 +23,31 @@ describe Site do
     end
   end
   
-  # TODO implement: it_should_have_many :sections, :dependent => :destroy
-  it "should have many sections" do @site.should have_many(:sections) end
-  it "should have many users" do @site.should have_many(:users) end
-  it "should have many assets" do @site.should have_many(:assets) end
-  it "should have many cached_pages" do @site.should have_many(:cached_pages) end
+  describe 'associations:' do
+    it "should have complete specs"
+    # TODO implement: it_should_have_many :sections, :dependent => :destroy
+    it "has many sections" do 
+      @site.should have_many(:sections) 
+    end
   
-  it "should call destroy! on associated users when destroyed" do
+    it "has many users" do 
+      @site.should have_many(:users)
+    end
+  
+    it "has many assets" do 
+      @site.should have_many(:assets)
+    end
+  
+    it "has many cached_pages" do 
+      @site.should have_many(:cached_pages)
+    end
+  
+    it "the sections association returns the left-most section that has no parent as the root section" do
+      @site.sections.root.should == @home
+    end
+  end
+  
+  it "calls destroy! on associated users when destroyed" do
     user = @site.users.create :name => 'user', :email => 'email@foo.bar', :login => 'login', :password => 'password', :password_confirmation => 'password'
     user.should_not be_false
     @site.destroy

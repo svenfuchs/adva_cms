@@ -1,22 +1,17 @@
 class Wikipage < Content  
-  filters_attributes :sanitize => :body, :except => :body_html
+  filters_attributes :sanitize => :body, :except => :body_html # TODO hu??
   before_create :set_published
   
-  # validates_presence_of :user_id TODO this should be in Content, right?
-  
-  def full_permalink
-    { :id => permalink }
-  end
+  # TODO I don't think we need this any more
+  # def full_permalink
+  #   { :id => permalink }
+  # end
   
   def after_initialize
-    init_title_from_permalink if new_record? && title.blank?
+    self.title = permalink.to_s.gsub("-", " ").capitalize if new_record? && title.blank? && permalink
   end
   
-  def init_title_from_permalink
-    self.title = permalink.to_s.gsub("-", " ").capitalize if permalink
-  end
-  
-  def set_published
+  def set_published # TODO hu??
     self.published_at = Time.zone.now
   end
   

@@ -7,11 +7,9 @@ class Activity < ActiveRecord::Base
   serialize :actions
   serialize :object_attributes
   
-  validates_presence_of :site_id, :section_id, :object
+  validates_presence_of :site, :section, :object
   
   attr_accessor :siblings
-  
-  # before_create :set_site
   
   class << self
     def find_coinciding_grouped_by_dates(*dates)
@@ -81,10 +79,4 @@ class Activity < ActiveRecord::Base
   def to
     created_at
   end
-  
-  protected
-  
-    # def set_site
-    #   self.site = section.site
-    # end
 end

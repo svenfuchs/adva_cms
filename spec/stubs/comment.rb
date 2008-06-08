@@ -24,3 +24,36 @@ scenario :comment do
   @comments = stub_comments
   @comment.stub!(:commentable).and_return @article || @wikipage
 end
+
+scenario :comment_exists do
+  scenario :site, :section, :article, :user
+  @comment = Comment.new :author => stub_user, :commentable => stub_article, :body => 'body'
+  stub_methods @comment, :new_record? => false, :body_changed? => false
+end
+
+scenario :comment_created do
+  scenario :comment_exists
+  stub_methods @comment, :new_record? => true
+end
+
+scenario :comment_updated do
+  scenario :comment_exists
+  stub_methods @comment, :body_changed? => true
+end
+
+scenario :comment_approved do
+  scenario :comment_exists
+  stub_methods @comment, :approved? => true
+  stub_methods @comment, :approved_changed? => true
+end
+
+scenario :comment_unapproved do
+  scenario :comment_exists
+  stub_methods @comment, :approved? => false
+  stub_methods @comment, :approved_changed? => true
+end
+
+scenario :comment_destroyed do
+  scenario :comment_exists
+  stub_methods @comment, :frozen? => true
+end

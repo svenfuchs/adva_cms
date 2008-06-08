@@ -38,14 +38,47 @@ define Article do
            :increment_counter => nil,
            :decrement_counter => nil
 
-  instance :article
+  instance :article           
 end
   
 scenario :article do 
   @article = stub_article
   @articles = stub_articles
-
-  @article.stub!(:[]).with('type').and_return 'Article'
   
+  @article.stub!(:[]).with('type').and_return 'Article'
   Article.stub!(:find).and_return @article
 end
+
+scenario :article_exists do
+  scenario :site, :section, :user
+  @article = Article.new :author => stub_user, :site_id => 1, :section_id => 1, :title => 'title', :body => 'body'
+  stub_methods @article, :new_record? => false, :save_version? => false
+end
+
+scenario :article_created do
+  scenario :article_exists
+  stub_methods @article, :new_record? => true
+end
+
+scenario :article_revised do
+  scenario :article_exists
+  stub_methods @article, :save_version? => true
+end
+
+scenario :article_published do
+  scenario :article_exists
+  stub_methods @article, :published? => true
+  stub_methods @article, :published_at_changed? => true
+end
+
+scenario :article_unpublished do
+  scenario :article_exists
+  stub_methods @article, :published? => false
+  stub_methods @article, :published_at_changed? => true
+end
+
+scenario :article_destroyed do
+  scenario :article_exists
+  stub_methods @article, :frozen? => true
+end
+

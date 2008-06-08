@@ -49,7 +49,8 @@ class BlogController < BaseController
     end
   
     def set_article
-      @article = @section.articles.find_published_by_permalink params[:permalink], :include => :author 
+      args = params.values_at(:year, :month, :day, :permalink) << {:include => :author}
+      @article = @section.articles.find_published_by_permalink *args
       raise ActiveRecord::RecordNotFound unless @article
     end
     

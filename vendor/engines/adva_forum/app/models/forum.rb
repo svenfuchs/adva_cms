@@ -12,8 +12,7 @@ class Forum < Section
                             :order => "topics.last_updated_at DESC", 
                             :foreign_key => :section_id
 
-  has_one  :recent_comment, :as => :commentable, 
-                            # :class_name => 'Comment', 
+  has_one  :recent_comment, :class_name => 'Comment', 
                             :order => "comments.created_at DESC"
 
 

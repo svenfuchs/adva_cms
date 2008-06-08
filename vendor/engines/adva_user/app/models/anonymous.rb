@@ -8,13 +8,16 @@ class Anonymous < ActiveRecord::Base
   validates_length_of   :name, :within => 3..40
   validates_format_of   :email, :with => /(\A(\s*)\Z)|(\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z)/i
 
+  # TODO - don't we need this anymore?
+  #
   # def authenticate(credentials)
   #   return false unless anonymous = Anonymous.find_by_login(credentials[:login])
   #   anonymous.authenticate(credentials[:password]) ? account : false
   # end
   
   def has_role?(name, object = nil)
-    name.to_sym == :anonymous
+    role = Role.build(name, object)
+    role.instance_of Role::Anonymous
   end
   
   def anonymous?

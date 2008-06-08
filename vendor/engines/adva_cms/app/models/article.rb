@@ -12,23 +12,25 @@ class Article < Content
   before_create :set_position
 
   class << self
-    def find_by_permalink(arg, options = {})
-      if arg.is_a? Array
-        permalink = arg.pop
-        with_time_delta(*arg) do super(permalink, options) end
+    def find_by_permalink(*args)
+      options = args.extract_options! 
+      if args.size > 1
+        permalink = args.pop
+        with_time_delta(*args) do super(permalink, options) end
       else
-        super arg, options
+        super args.first, options
       end
     end
     
-    def find_every(options)
-      options = default_find_options.merge(options)
-      if tags = options.delete(:tags)
-        find_tagged_with(tags, options.update(:match_all => true))
-      else
-        super options
-      end
-    end
+    # TODO There's something similar in Content. Are these both equivalent?
+    # def find_every(options)
+    #   options = default_find_options.merge(options)
+    #   if tags = options.delete(:tags)
+    #     find_tagged_with(tags, options.update(:match_all => true))
+    #   else
+    #     super options
+    #   end
+    # end
   end
 
   def full_permalink
@@ -42,7 +44,7 @@ class Article < Content
   end
 
   def has_excerpt?
-    excerpt && excerpt.length > 0
+    !excerpt.blank?
   end
   
   def published_month

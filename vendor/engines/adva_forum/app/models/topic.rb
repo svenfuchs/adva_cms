@@ -6,20 +6,18 @@ class Topic < ActiveRecord::Base
     comments.by_author(user).map{|comment| Role.build :author, comment }
   }
 
+  belongs_to :site
   belongs_to :section 
   belongs_to_author :last_author   
-  belongs_to :last_comment, :class_name => 'Post', :foreign_key => :last_comment_id
+  belongs_to :last_comment, :class_name => 'Comment', :foreign_key => :last_comment_id
 
-  validates_presence_of :section_id, :title # :profile_id, :forum_id?
+  before_validation :set_site  
+
+  validates_presence_of :section, :title
   validates_presence_of :body, :on => :create
 
   attr_accessor :body  
   delegate :comment_filter, :to => :site
-  delegate :site, :to => :section
-
-  before_validation :set_site  
-  # no need to call on after_create because that's already done by the post :o
-  after_destroy :update_forum # TODO this would be defined in belongs_to :section, :counter_cache => true
 
   class << self
     def post(author, attributes)
@@ -47,16 +45,16 @@ class Topic < ActiveRecord::Base
     self.update_attributes attributes
   end  
   
-  def hit!
-    self.class.increment_counter :hits, id
-  end
+  # def hit!
+  #   self.class.increment_counter :hits, id
+  # end
   
   def accept_comments?
     !locked?
   end
 
   def paged?
-    comments_count > Post.per_page
+    comments_count > @section.articles_per_page
   end
   
   def last_page
@@ -80,20 +78,12 @@ class Topic < ActiveRecord::Base
     else
       self.destroy
     end
-    update_forum
+    section.after_topic_update(self)
   end
 
   protected
     def set_site
+      # TODO why not just always set the site_id? and in what cases would the section be nil?
       self.site_id = section.site_id if site_id.nil? && section
-    end
-  
-    def set_default_attributes
-      self.sticky          ||= 0
-      self.last_updated_at ||= Time.now.utc
-    end
-    
-    def update_forum
-      section.after_topic_update(self)
     end
 end

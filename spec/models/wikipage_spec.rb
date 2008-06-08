@@ -8,29 +8,31 @@ describe Wikipage do
     @wikipage = Wikipage.new :section => @wiki, :author => @user
   end
   
-  it "should initialize the title from the given permalink for a new record" do
-    wikipage = Wikipage.new :permalink => 'something-new'
-    wikipage.title.should == 'Something new'
+  describe 'class extensions:' do
+    it 'sanitizes the body attribute'
+    it 'sanitizes all attributes except body_html' 
   end
   
-  it "should generate a permalink from the title after validation" do
-    wikipage = Wikipage.create! :title => 'Something new', :section => @wiki, :author => @user
-    wikipage.permalink.should == 'something-new'
+  describe 'callbacks' do
+    it 'sets its  attribute to the current time before create' do # TODO why does it do this??
+      Wikipage.before_create.should include(:set_published)
+    end
+    
+    it 'initializes the title from the permalink for new records that do not have a title' do
+      wikipage = Wikipage.new :permalink => 'something-new'
+      wikipage.title.should == 'Something new'
+    end
   end
   
-  it "should create a new version when saved" do
-    wikipage = Wikipage.create! :title => 'Something versioned', :section => @wiki, :author => @user
-    wikipage.versions.last.should be_instance_of(Content::Version)
-  end
+  describe '#accept_comments?' do
+    it "accepts comments when the wiki accepts comments" do
+      @wiki.should_receive(:accept_comments?).and_return true
+      @wikipage.accept_comments?.should be_true
+    end
   
-  it "should accept comments when the wiki accepts comments" do
-    @wiki.should_receive(:accept_comments?).and_return true
-    @wikipage.accept_comments?.should be_true
-  end
-  
-  it "should not accept comments when the wiki does not accept comments" do
-    @wiki.should_receive(:accept_comments?).and_return false
-    @wikipage.accept_comments?.should be_false
-  end
-  
+    it "does not accept comments when the wiki doesn't" do
+      @wiki.should_receive(:accept_comments?).and_return false
+      @wikipage.accept_comments?.should be_false
+    end
+  end  
 end

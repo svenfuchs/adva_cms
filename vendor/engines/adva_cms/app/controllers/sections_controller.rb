@@ -18,10 +18,10 @@ class SectionsController < BaseController
     end
   
     def set_article
-      if params[:permalink].blank?
-        @article = @section.articles.primary
+      @article = if params[:permalink].blank?
+        @section.articles.primary
       else
-        @section.articles.find_published_by_permalink(params[:permalink])
+        @section.articles.find_published_by_permalink params[:permalink]
       end
     end
     

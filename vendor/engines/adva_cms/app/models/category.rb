@@ -2,17 +2,17 @@ class Category < ActiveRecord::Base
   class Jail < Safemode::Jail
     allow :id, :title
   end  
-  
-  belongs_to :section, :foreign_key => 'section_id'
+
   acts_as_nested_set
+  has_permalink :title, :scope => :section_id
   
+  belongs_to :section, :foreign_key => 'section_id'  
   has_many :contents, :through => :category_assignments
   has_many :category_assignments, :dependent => :delete_all
 
-  has_permalink :title, :scope => :section_id
   before_validation :set_path
   
-  validates_presence_of :section_id, :title, :permalink, :path
+  validates_presence_of :section, :title
   validates_uniqueness_of :permalink, :scope => :section_id
   
   class << self

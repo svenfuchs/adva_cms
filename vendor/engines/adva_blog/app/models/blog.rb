@@ -5,9 +5,4 @@ class Blog < Section
   def archive_months
     articles.find_published(:all).group_by(&:published_month)
   end
-  
-  protected  
-    def set_comment_age
-      self.comment_age ||= 0
-    end
 end

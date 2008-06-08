@@ -7,7 +7,7 @@ atom_feed :url => request.url do |feed|
   feed.updated @wikipages.first ? @wikipages.first.updated_at : Time.now.utc
 
   @wikipages.each do |wikipage|
-    url = wikipage_url(@section, wikipage.full_permalink)
+    url = wikipage_url(@section, wikipage.permalink)
     feed.entry wikipage, :url => url do |entry|
       entry.title wikipage.title
       entry.content wikipage.body_html, :type => 'html'

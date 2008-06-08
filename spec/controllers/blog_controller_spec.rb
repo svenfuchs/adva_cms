@@ -63,4 +63,6 @@ describe BlogController do
       it_renders_template :show
     end
   end
+  
+  it "throws an error on GET to #{article_paths.first} when the date does not match the article's published date"
 end

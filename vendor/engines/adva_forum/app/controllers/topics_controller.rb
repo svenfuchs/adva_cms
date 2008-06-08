@@ -64,6 +64,7 @@ class TopicsController < BaseController
 
     def set_topic
       @topic = @section.topics.find_by_permalink(params[:id])
+      redirect_to forum_path(@section) unless @topic # this happens after the last comment has been deleted
     end
 
     def set_posts

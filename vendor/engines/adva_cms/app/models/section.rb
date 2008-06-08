@@ -96,6 +96,6 @@ class Section < ActiveRecord::Base
     end
   
     def build_path
-      self_and_ancestors.map(&:permalink).join('/') #.gsub(%r(^#{site.sections.root.path}/?), '')
+      self_and_ancestors.map(&:permalink).join('/')
     end
 end

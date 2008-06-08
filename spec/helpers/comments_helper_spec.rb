@@ -9,6 +9,8 @@ describe CommentsHelper do
     scenario :site, :section, :article, :comment
   end
   
+  it 'should have complete specs'
+  
   describe "the admin_comment_path helper" do
     it "calls admin_site_comment_path helper" do
       should_receive(:admin_site_comments_path)

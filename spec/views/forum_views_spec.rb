@@ -56,7 +56,7 @@ describe "Forum views:" do
     end
     
     it "displays a link to the latest post" do
-      template.should_receive(:link_to_last_postv).and_return 'link_to_last_post'
+      template.should_receive(:link_to_last_post).and_return 'link_to_last_post'
       render :partial => "forum/topic", :object => @topic
     end
     

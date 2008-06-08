@@ -5,8 +5,7 @@ class Comment < ActiveRecord::Base
     allow :new_record?
   end  
 
-  acts_as_role_context :roles => :author
-  
+  acts_as_role_context :roles => :author  
   filters_attributes :sanitize => :body_html
   filtered_column :body  
 
@@ -15,10 +14,10 @@ class Comment < ActiveRecord::Base
   belongs_to :commentable, :polymorphic => true, :counter_cache => true
   belongs_to_author
 
-  validates_presence_of :body, :author_id, :commentable
+  validates_presence_of :body, :commentable
   
   before_validation  :set_owners
-  before_create :authorize_commenting
+  before_create :authorize_commenting 
   after_create  :update_commentable
   after_destroy :update_commentable
   
@@ -30,21 +29,23 @@ class Comment < ActiveRecord::Base
     commentable.comment_filter
   end
   
-  def approved?
-    approved.to_s == '1'
-  end
+  # def approved?
+  #   approved.to_s == '1'
+  # end
 
   def unapproved?
     !approved?
   end
 
   def authorize_commenting
-    raise CommentNotAllowed, "Comments are not allowed for this #{commentable.class.name.demodulize.humanize.downcase}." unless commentable.accept_comments?
+    unless commentable.accept_comments?
+      raise CommentNotAllowed, "Comments are not allowed for this #{commentable.class.name.demodulize.humanize.downcase}." 
+    end
   end   
   
   private
     def set_owners
-      if commentable
+      if commentable # TODO in what cases would commentable be nil here?
         self.site = commentable.site 
         self.section = commentable.section
       end

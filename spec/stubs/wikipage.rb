@@ -51,3 +51,25 @@ scenario :wikipage do
   @wikipages = stub_wikipages
   @wikipages.stub!(:total_entries).and_return 2
 end
+
+scenario :wikipage_exists do
+  scenario :site, :section, :user
+  @wikipage = Wikipage.new :author => stub_user, :site_id => 1, :section_id => 1, :title => 'title', :body => 'body'
+  stub_methods @wikipage, :new_record? => false, :save_version? => false
+end
+
+scenario :wikipage_created do
+  scenario :wikipage_exists
+  stub_methods @wikipage, :new_record? => true
+end
+
+scenario :wikipage_revised do
+  scenario :wikipage_exists
+  stub_methods @wikipage, :save_version? => true
+end
+
+scenario :wikipage_destroyed do
+  scenario :wikipage_exists
+  stub_methods @wikipage, :frozen? => true
+end
+

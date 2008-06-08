@@ -41,6 +41,10 @@ module Stubby
     Stubby::Instances.lookup(key.to_s, *args)
   end
   
+  def stub_methods(object, methods)
+    methods.each{|name, value| object.stub!(name).and_return value }      
+  end
+  
   def method_missing(name, *args)
     return lookup($1, *args) if name.to_s =~ /^stub_(.*)/
     super

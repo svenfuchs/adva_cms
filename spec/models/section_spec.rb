@@ -10,73 +10,152 @@ describe Section do
     @location = sections(:location)
     
     @section = Section.new :title => 'section'
+    @section.site = @site
   end
   
-  describe "#paths" do
-    it "should return all non-empty paths for the given host" do
-      Section.paths('test.host').sort[0..1].should == ["about", "about/location"]
+  describe "class extensions:" do
+    it "acts as a role context for the moderator role"
+    it "has default permissions for articles and categories"
+    it "serializes its actual permissions"
+  
+    it "has an option :articles_per_page" do
+      lambda{ @section.articles_per_page }.should_not raise_error
     end
-  end
   
-  it "should return 'Section' as a type for a Section" do
-    s = Section.create! :title => 'title', :site => @site
-    s.type.should == 'Section'
-  end
-  
-  it "should generate the permalink attribute from the title" do
-    @section.send :create_unique_permalink
-    @section.permalink.should == 'section'
-  end
-  
-  it "should have permalink generation hooked up before validation" do
-    Section.before_validation.should include(:create_unique_permalink)
-  end
-  
-  it "should build a path by joining self and anchestor permalinks with '/'" do
-    @location.send(:build_path).should == "home/about/location"    
-  end
-
-  it "should have many categories" do
-    @section.should have_many(:categories)
-  end
-  
-  it "should have many comments" do
-    @section.should have_many(:comments)
-  end
-  
-  it "should have many approved_comments" do
-    @section.should have_many(:approved_comments)
-  end
-  
-  it "should have many unapproved_comments" do
-    @section.should have_many(:unapproved_comments)
-  end
-  
-  it "should have many articles" do
-    @section.should have_many(:articles)
-  end
-  
-  describe "the articles collection" do
-    it "#primary should return the topmost article as the primary article" do
-      article = mock 'article'
-      Article.should_receive(:find_published).with(:first, {:order => :position}).and_return article
-      @section.articles.primary.should == article
+    it "serialize the option :articles_per_page to the database" do
+      @section.instance_variable_set :@options, nil
+      save_and_reload @section
+      @section.articles_per_page = 20
+      save_and_reload @section
+      @section.articles_per_page.should == 20
     end
     
-    it "#permalinks should return the permalinks of all articles in this section" do
-      articles = [1, 2].map {|i| mock 'article', :permalink => "article-#{i}" } 
-      Article.should_receive(:find_published).with(:all).and_return articles
-      @section.articles.permalinks.should == ['article-1', 'article-2']
+    it "has a permalink generated from the title" do
+      @section.send :create_unique_permalink
+      @section.permalink.should == 'section'
+    end
+    
+    it "acts as a nested set"
+    it "acts as a commentable"
+    it "instantiates with single table inheritance"
+  end
+  
+  describe "associations:" do
+    it "belongs to a site" do
+      @section.should belong_to(:site)
+    end
+  
+    it "has many articles" do
+      @section.should have_many(:articles)
+    end
+
+    it "has many categories" do
+      @section.should have_many(:categories)
+    end
+  
+    describe "the articles association" do
+      it "#primary returns the topmost published article" do
+        article = mock 'article'
+        Article.should_receive(:find_published).with(:first, {:order => :position}).and_return article
+        @section.articles.primary.should == article
+      end
+      
+      it "#permalinks returns the permalinks of all published articles" do
+        articles = [1, 2].map {|i| mock 'article', :permalink => "article-#{i}" } 
+        Article.should_receive(:find_published).with(:all).and_return articles
+        @section.articles.permalinks.should == ['article-1', 'article-2']
+      end
+    end
+  
+    describe "the categories association" do
+      it "#roots returns all categories that do not have a parent category"
     end
   end
   
-  it "should accept comments when comments are allowed" do
-    @section.stub!(:comment_age).and_return 0
-    @section.accept_comments?.should be_true
+  describe "callbacks:" do
+    it "sets the path before validation" do
+      Section.before_validation.should include(:set_path)
+    end
+    
+    it "sets the comment age before validation" do
+      Section.before_validation.should include(:set_comment_age)
+    end
+    
+    it "generates the permalink before validation" do
+      Section.before_validation.should include(:create_unique_permalink)
+    end
   end
   
-  it "should not accept comments when comments are not allowed" do
-    @section.stub!(:comment_age).and_return -1
-    @section.accept_comments?.should be_false
+  describe "validations:" do
+    it "validates the presence of a site" # do
+    #  @section.should validate_presence_of(:site)
+    # end
+    
+    it "validates the presence of a title" do
+      @section.should validate_presence_of(:title)
+    end
+    
+    it "validates the uniqueness of the permalink per site" # do
+    #   @section.should validate_uniqueness_of(:permalink, :scope => :site_id)
+    # end
   end
+  
+  describe "class methods:" do
+    it ".types returns a collection of registered Section types" do
+      Section.types.should include('Section')
+    end
+    
+    it ".register_type adds a Section type to the type collection" do
+      Section.register_type('Galerie')
+      Section.types.should include('Galerie')
+    end
+    
+    it ".paths returns all non-empty paths for the given host" do
+      Section.paths('test.host').sort[0..1].== ["about", "about/location"]
+    end
+    
+    it ".find_by_host_and_path should probably be replaced by Site.find_by_host etc.?"
+  end
+  
+  describe "public instance methods" do
+    it "#type returns 'Section' for a Section" do
+      s = Section.create! :title => 'title', :site => @site
+      s.type.should == 'Section'
+    end
+    
+    it "#owner returns the site" do
+      @section.owner.should == @site
+    end
+    
+    it "#tag_counts returns the tag_counts for this site's content's tags" 
+    it "#render_options should be specified but looks uncomprehensible right now"
+    it "#root_section? returns true if this section is the site's root section"
+    
+    it "#accept_comments? is true when comments are not 'not-allowed' (-1) (see comment_expiration_options)" do
+      @section.stub!(:comment_age).and_return 0
+      @section.accept_comments?.should be_true
+    end
+  
+    it "#accept_comments? is false when comments are 'not-allowed' (-1) (see comment_expiration_options)" do
+      @section.stub!(:comment_age).and_return -1
+      @section.accept_comments?.should be_false
+    end
+  end
+  
+  describe "protected instance methods" do
+    it "#set_comment_age sets the comment_age to -1 if it's not already set"
+    it "#set_comment_age does not change an already set comment_age"
+    it "#set_path sets the section's path"
+    
+    it "#build_path builds a path by joining self and anchestor permalinks with '/'" do
+      @location.send(:build_path).should == "home/about/location"    
+    end  
+  end
+  
+  private
+  
+    def save_and_reload(record)
+      record.save
+      record.reload
+    end
 end

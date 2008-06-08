@@ -15,24 +15,24 @@ WillPaginate::Finder::ClassMethods.class_eval do
 end
     
 class Content < ActiveRecord::Base
-  has_permalink :title, :scope => :section_id
-  filtered_column :body, :excerpt
-
   acts_as_taggable
   acts_as_role_context :roles => :author  
   acts_as_commentable :polymorphic => true
-  acts_as_versioned :if_changed => [:title, :body, :excerpt, :user_id], :limit => 5
+  acts_as_versioned :if_changed => [:title, :body, :excerpt], :limit => 5
   non_versioned_columns << 'cached_tag_list' << 'assets_count' << 'state'
   instantiates_with_sti
 
-  belongs_to :section
+  has_permalink :title, :scope => :section_id
+  filtered_column :body, :excerpt
+
   belongs_to :site
+  belongs_to :section
   belongs_to_author
 
   has_many :assets, :through => :asset_assignments
-  has_many :asset_assignments
-  has_many :categories, :through => :category_assignments, :dependent => :destroy
-  has_many :category_assignments
+  has_many :asset_assignments # TODO shouldn't that be :dependent => :delete_all?
+  has_many :categories, :through => :category_assignments
+  has_many :category_assignments # TODO shouldn't that be :dependent => :delete_all?
   
   before_validation :set_site
   after_save :save_categories
@@ -40,8 +40,9 @@ class Content < ActiveRecord::Base
   class_inheritable_reader :default_find_options
   write_inheritable_attribute :default_find_options, { :order => 'position, published_at' }
   delegate :comment_filter, :to => :site
+  delegate :accept_comments?, :to => :section
 
-  validates_presence_of :title
+  validates_presence_of :title, :body
   validates_uniqueness_of :permalink, :scope => :section_id
   
   # acts_as_indexed :fields => [:title, :body, :author]
@@ -93,19 +94,18 @@ class Content < ActiveRecord::Base
     (published_at || Time.zone.now) + comment_age.days
   end
   
-  def accept_comments?
-    section.accept_comments?
-  end
-  
   def diff_against_version(version)
     return '(orginal version)' if version == versions.earliest.version
-    HtmlDiff.diff versions.find_by_version(version).body, body
+    version = versions.find_by_version(version)
+    HtmlDiff.diff version.excerpt + version.body, excerpt + body
   end
   
   protected
   
     def set_site
-      self.site_id = section.site_id if site_id.nil? && section
+      # TODO in what cases would section be nil here??
+      # and why wouldn't we just always set the site_id from the section?
+      self.site_id = section.site_id if site_id.nil? && section 
     end
    
     def save_categories
@@ -119,6 +119,8 @@ class Content < ActiveRecord::Base
       @new_sections = nil
     end
     
+    # This is from Mephisto. Does it still make any sense? Can we kill it?
+    #
     # def set_filter_from(filtered_object)
     #   self.filter = filtered_object.filter
     # end
