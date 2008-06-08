@@ -1,12 +1,12 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Article do
-  include Stubby
+  include Stubby, Matchers::ClassExtensions
   
   before :each do
     scenario :site, :section, :category, :user
 
-    @time_now = Time.now
+    @time_now = Time.zone.now
     Time.stub!(:now).and_return(@time_now)
     
     @article = Article.new :published_at => @time_now
@@ -20,7 +20,9 @@ describe Article do
   end
   
   describe "class extensions:" do
-    it "sanitizes all attributes except excerpt, excerpt_html, body and body_html"
+    it "sanitizes the attributes excerpt, excerpt_html, body and body_html" do
+      Article.should filter_attributes(:sanitize => [:excerpt, :excerpt_html, :body, :body_html])
+    end
   end
   
   describe "callbacks:" do

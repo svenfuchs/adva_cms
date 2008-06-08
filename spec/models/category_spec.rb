@@ -1,12 +1,17 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Category do
+  include Matchers::ClassExtensions
+  
   before :each do 
     @category = Category.new :title => "a category's permalink"
   end
   
   describe 'class extensions' do
-    it 'acts as a nested set'
+    it 'acts as a nested set' do
+      Category.should act_as_nested_set
+    end
+    
     it 'generates a permalink from the title' do
       @category.send :create_unique_permalink
       @category.permalink.should == 'a-category-s-permalink'

@@ -1,8 +1,7 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Comment do
-  include Stubby
-  include Matchers::FilterColumn
+  include Stubby, Matchers::ClassExtensions
   
   before :each do 
     scenario :site, :wiki, :wikipage, :user
@@ -18,8 +17,13 @@ describe Comment do
   end
   
   describe 'class extensions:' do
-    it 'acts as a role context for the author role'
-    it 'sanitizes the body_html attribute'
+    it 'acts as a role context for the author role' do
+      Comment.should act_as_role_context(:roles => :author)
+    end
+    
+    it 'sanitizes the body_html attribute' do
+      Comment.should filter_attributes(:sanitize => :body_html)
+    end
     
     it "filters the body column" do
       @comment.should filter_column(:body)

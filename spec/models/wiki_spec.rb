@@ -13,5 +13,9 @@ describe Wiki do
     @wiki.should have_many(:wikipages)
   end
 
-  it "has default permissions for wikipages and comments" # TODO what about categories?
+  it "has default permissions for wikipages and comments" do # TODO what about categories?
+    Wiki.default_permissions.should == 
+      { :wikipage => { :update => :user, :create => :user, :delete => :user }, 
+        :comment => { :update => :author, :delete => :author, :create => :user }}
+  end
 end

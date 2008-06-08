@@ -1,12 +1,16 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Anonymous do
+  include Matchers::ClassExtensions
+  
   before :each do 
     @anonymous = Anonymous.new 
   end
   
   describe 'class extensions:' do
-    it 'acts as authenticated user with single token authentication'
+    it 'acts as authenticated user (with single token authentication)' do
+      Anonymous.should act_as_authenticated_user
+    end                                           
   end
   
   describe 'validations:' do

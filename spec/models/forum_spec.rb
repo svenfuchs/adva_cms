@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Forum do
-  include Stubby 
+  include Stubby, Matchers::ClassExtensions
   
   before :each do
     scenario :counter
@@ -12,8 +12,15 @@ describe Forum do
     @forum.should be_kind_of(Section)
   end
   
-  it "acts as a commentable"
-  it "has default permissions for topics and comments"
+  it "acts as a commentable" do
+    Forum.should act_as_commentable
+  end
+    
+  it "has default permissions for topics and comments" do
+    Forum.default_permissions.should == 
+      { :topic =>   { :create => :user, :update => :user, :delete => :moderator, :moderate => :moderator }, 
+        :comment => { :create => :user, :update => :author, :delete => :author} }
+  end
   
   describe "associations" do
     it "has many topics" do

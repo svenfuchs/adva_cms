@@ -12,7 +12,7 @@ module ActiveRecord
         extend ClassMethods
 
         class_inheritable_accessor :roles, :default_permissions
-        self.roles = Array(options[:roles]) || []
+        self.roles = Array(options[:roles]).compact
         self.default_permissions = {}
         
         if options[:implicit_roles]

@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe User do
-  include Stubby
+  include Stubby, Matchers::ClassExtensions
    
   before :each do 
     @user = User.new :name => 'not-taken', 
@@ -15,8 +15,13 @@ describe User do
   end
   
   describe 'class extensions:' do
-    it 'acts as paranoid'
-    it 'acts as authenticated user'
+    it 'acts as paranoid' do
+      User.should act_as_paranoid
+    end
+    
+    it 'acts as authenticated user' do
+      User.should act_as_authenticated_user
+    end                                           
   end
   
   describe 'associations:' do  

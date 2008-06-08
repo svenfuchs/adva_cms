@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Topic do
-  include Stubby
+  include Stubby, Matchers::ClassExtensions
   
   before :each do
     scenario :site, :section, :comment, :user
@@ -10,11 +10,22 @@ describe Topic do
     @topic.section = @section
   end
   
-  describe "class extensions:" do
-    it "creates a permalink from the title"
-    it 'acts as a commentable'
-    it 'acts as a role context'
-    it 'specifies implicit roles (author roles for comments)' # TODO spec this?
+  describe "class extensions:" do    
+    it "has a permalink generated from the title" do
+      Topic.should have_a_permalink(:title)
+    end
+    
+    it 'acts as a commentable' do
+      Topic.should act_as_commentable
+    end
+    
+    it 'acts as a role context' do
+      Topic.should act_as_role_context
+    end
+    
+    it 'specifies implicit roles (author roles for comments)' do
+      @topic.should respond_to(:implicit_roles)
+    end
   end
   
   describe 'associations:' do

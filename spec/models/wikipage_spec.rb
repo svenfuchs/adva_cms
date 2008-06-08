@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Wikipage do  
-  include Stubby
+  include Stubby, Matchers::ClassExtensions
   
   before :each do
     scenario :wiki, :user
@@ -9,8 +9,13 @@ describe Wikipage do
   end
   
   describe 'class extensions:' do
-    it 'sanitizes the body attribute'
-    it 'sanitizes all attributes except body_html' 
+    it 'sanitizes the body attribute' do
+      Wikipage.should filter_attributes(:sanitize => :body)
+    end
+    
+    it 'does not sanitize the body_html attribute' do
+      Wikipage.should filter_attributes(:except => :body_html)
+    end
   end
   
   describe 'callbacks' do

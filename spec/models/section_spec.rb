@@ -1,6 +1,7 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Section do
+  include Matchers::ClassExtensions
   fixtures :sites, :sections
   
   before :each do 
@@ -14,8 +15,16 @@ describe Section do
   end
   
   describe "class extensions:" do
-    it "acts as a role context for the moderator role"
-    it "has default permissions for articles and categories"
+    it "acts as a role context for the moderator role" do
+      Section.should act_as_role_context(:roles => :moderator)
+    end
+    
+    it "has default permissions for articles and categories" do
+      Section.default_permissions.should == 
+        { :category => { :show => :moderator, :create => :moderator, :update => :moderator, :delete => :moderator }, 
+          :article  => { :show => :moderator, :create => :moderator, :update => :moderator, :delete => :moderator } }
+    end
+    
     it "serializes its actual permissions"
   
     it "has an option :articles_per_page" do
@@ -35,9 +44,17 @@ describe Section do
       @section.permalink.should == 'section'
     end
     
-    it "acts as a nested set"
-    it "acts as a commentable"
-    it "instantiates with single table inheritance"
+    it "acts as a nested set" do
+      Section.should act_as_nested_set
+    end
+    
+    it "acts as a commentable" do
+      Content.should act_as_commentable
+    end
+    
+    it "instantiates with single table inheritance" do
+      Content.should instantiate_with_sti
+    end
   end
   
   describe "associations:" do

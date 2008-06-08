@@ -2,29 +2,52 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Content do
   include Stubby
-  include Matchers::FilterColumn
+  include Matchers::ClassExtensions
   
   before :each do
     scenario :section, :user
-    @time_now = Time.now
+    @time_now = Time.zone.now
     @content = Content.new :site_id => 1, :section_id => 1, :title => "this content's title", 
                            :body => "*body*", :excerpt => "*excerpt*", :author => stub_user,
                            :published_at => @time_now
   end
   
   describe "class extensions:" do
-    it "acts as a taggable"
-    it "acts as a role context for the author role"
-    it "acts as a commentable"
-    it "acts as versioned"
-    it "is configured to save a new version when the title, body or excerpt attribute changes"
-    it "is configured to save up to 5 versions"
-    it "ignores the columns cached_tag_list, assets_count and state"
-    it "instantiates with single table inheritance"
+    it "acts as a taggable" do
+      Content.should act_as_taggable
+    end
     
-    it "has a permalink generated from the title"do
-      @content.send :create_unique_permalink
-      @content.permalink.should == 'this-content-s-title'
+    it "acts as a role context for the author role" do
+      Content.should act_as_role_context(:roles => :author)
+    end
+    
+    it "acts as a commentable" do
+      Content.should act_as_commentable
+    end
+    
+    it "acts as versioned" do
+      Content.should act_as_versioned
+    end
+    
+    it "is configured to save a new version when the title, body or excerpt attribute changes" do
+      Content.tracked_attributes.should == ["title", "body", "excerpt"]
+    end
+    
+    it "is configured to save up to 5 versions" do
+      Content.max_version_limit.should == 5
+    end
+    
+    it "ignores the columns cached_tag_list, assets_count and state" do
+      defaults = ["id", "type", "version", "lock_version", "versioned_type"]
+      Content.non_versioned_columns.should == defaults + ["cached_tag_list", "assets_count", "state"]
+    end
+    
+    it "instantiates with single table inheritance" do
+      Content.should instantiate_with_sti
+    end
+    
+    it "has a permalink generated from the title" do
+      Content.should have_a_permalink(:title)
     end
   
     it "filters the excerpt" do

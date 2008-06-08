@@ -1,8 +1,19 @@
 # http://coderrr.wordpress.com/2008/04/22/building-the-right-class-with-sti-in-rails/
 
 module ActiveRecord::StiInstantiation
-  def instantiates_with_sti
-    extend ClassMethods
+  module ActMacro
+    def instantiates_with_sti
+      include InstanceMethods
+      extend ClassMethods
+      instantiates_with_sti?
+    end
+  
+    def instantiates_with_sti?
+      included_modules.include?(ActiveRecord::StiInstantiation::InstanceMethods)
+    end
+  end
+  
+  module InstanceMethods
   end
   
   module ClassMethods
@@ -17,4 +28,4 @@ module ActiveRecord::StiInstantiation
   end
 end
 
-ActiveRecord::Base.send :extend, ActiveRecord::StiInstantiation
+ActiveRecord::Base.send :extend, ActiveRecord::StiInstantiation::ActMacro
