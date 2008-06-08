@@ -11,7 +11,8 @@ require File.dirname(__FILE__) + '/spec_helpers/spec_view_helper'
 require File.dirname(__FILE__) + "/spec_helpers/spec_theme_helper"
 require File.dirname(__FILE__) + "/spec_helpers/spec_resource_path_helper"
 require File.dirname(__FILE__) + "/spec_helpers/spec_page_caching_helper"
-require File.dirname(__FILE__) + "/spec_helpers/url_matchers"
+require File.dirname(__FILE__) + "/matchers/url_matchers"
+require File.dirname(__FILE__) + "/matchers/filter_column"
 
 # require File.dirname(__FILE__) + "/spec_helpers/models"
 

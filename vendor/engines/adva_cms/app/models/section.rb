@@ -36,10 +36,7 @@ class Section < ActiveRecord::Base
   
   before_validation :set_path, :set_comment_age
   
-  validates_presence_of   :title 
-  # TODO with this the has_many association would not save the section when the 
-  # site is saved? see http://pastie.caboo.se/197461
-  # validates_presence_of :site_id 
+  validates_presence_of :site, :title 
   validates_uniqueness_of :permalink, :scope => :site_id
 
   class << self

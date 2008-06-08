@@ -91,7 +91,11 @@ class Content < ActiveRecord::Base
   end
 
   def comments_expired_at
-    (published_at || Time.zone.now) + comment_age.days
+    if comment_age == -1
+      9999.years.from_now
+    else
+      (published_at || Time.zone.now) + comment_age.days
+    end
   end
   
   def diff_against_version(version)
@@ -105,7 +109,7 @@ class Content < ActiveRecord::Base
     def set_site
       # TODO in what cases would section be nil here??
       # and why wouldn't we just always set the site_id from the section?
-      self.site_id = section.site_id if site_id.nil? && section 
+      self.site_id = section.site_id # if site_id.nil? && section 
     end
    
     def save_categories

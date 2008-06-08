@@ -21,11 +21,11 @@ class Topic < ActiveRecord::Base
 
   class << self
     def post(author, attributes)
-      topic = Topic.new(attributes) do |topic|
-        topic.last_author = author
-        topic.reply author, :body => attributes[:body]
-        # revise topic, attributes
-      end
+      topic = Topic.new attributes
+      topic.last_author = author
+      topic.reply author, :body => attributes[:body]
+      # revise topic, attributes
+      topic
     end
   end
   
@@ -84,6 +84,6 @@ class Topic < ActiveRecord::Base
   protected
     def set_site
       # TODO why not just always set the site_id? and in what cases would the section be nil?
-      self.site_id = section.site_id if site_id.nil? && section
+      self.site_id = section.site_id # if site_id.nil? && section
     end
 end

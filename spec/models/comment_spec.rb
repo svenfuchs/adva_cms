@@ -2,6 +2,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Comment do
   include Stubby
+  include Matchers::FilterColumn
   
   before :each do 
     scenario :site, :wiki, :wikipage, :user
@@ -19,12 +20,10 @@ describe Comment do
   describe 'class extensions:' do
     it 'acts as a role context for the author role'
     it 'sanitizes the body_html attribute'
-    it "filters the body column" # do
-      # should_filter_column @content, :body
-      # @content.should_receive(:filter).any_number_of_times.and_return 'textile_filter'
-      # @content.send :process_filters
-      # @content.body_html.should == '<p><strong>body</strong></p>'
-    # end
+    
+    it "filters the body column" do
+      @comment.should filter_column(:body)
+    end
   end
   
   describe 'associations:' do  
@@ -61,7 +60,7 @@ describe Comment do
     end
 
     it 'authorizes commenting before create' do
-      Comment.before_create.should include(:authorize_commenting)
+      Comment.before_create.should include(:authorize_commenting!)
     end
 
     it 'updates the commentable after create' do
@@ -96,9 +95,16 @@ describe Comment do
       end
     end
     
-    describe '#authorize_commenting' do
-      it 'it checks if the commentable accepts comments'
-      it 'it raises CommentNotAllowed if the commentable does not accept comments'
+    describe '#authorize_commenting!' do
+      it 'it checks if the commentable accepts comments' do
+        @comment.commentable.should_receive(:accept_comments?).and_return true
+        @comment.authorize_commenting!
+      end
+      
+      it 'it raises CommentNotAllowed if the commentable does not accept comments' do
+        @comment.commentable.stub!(:accept_comments?).and_return false
+        lambda{ @comment.authorize_commenting! }.should raise_error
+      end
     end
     
     describe '#set_owners' do

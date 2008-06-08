@@ -14,7 +14,8 @@ define Comment do
            :update_attributes => true,
            :save => true,
            :destroy => true,
-           :has_attribute? => true
+           :has_attribute? => true,
+           :frozen? => false
 
   instance :comment
 end
@@ -23,6 +24,7 @@ scenario :comment do
   @comment = stub_comment
   @comments = stub_comments
   @comment.stub!(:commentable).and_return @article || @wikipage
+  @comment.stub!(:commentable=)
 end
 
 scenario :comment_exists do

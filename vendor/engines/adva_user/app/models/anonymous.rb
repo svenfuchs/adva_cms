@@ -16,8 +16,7 @@ class Anonymous < ActiveRecord::Base
   # end
   
   def has_role?(name, object = nil)
-    role = Role.build(name, object)
-    role.instance_of Role::Anonymous
+    Role.build(name, object).instance_of? Role::Anonymous
   end
   
   def anonymous?

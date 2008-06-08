@@ -25,6 +25,7 @@ define Site do
            :theme_names => ['theme-1'],
            :current_themes => [],
            :current_theme? => true,
+           :section_ids => [1],
            :valid? => true,
            :save => true,
            :update_attributes => true,

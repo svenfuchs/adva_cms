@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
   has_many :roles, :dependent => :delete_all do
     def by_context(object)
       roles = by_site object
-      roles += object.implicit_roles(user) if object.respond_to? :implicit_roles
+      roles += object.implicit_roles(self) if object.respond_to? :implicit_roles
       roles
     end
     
@@ -42,17 +42,18 @@ class User < ActiveRecord::Base
     end
     
     def create_superuser(params)
-      returning User.new(params) do |user|
-        user.verified_at = Time.zone.now
-        user.send :assign_password
-        user.save false
-        user.roles << Role::Superuser.create!
-      end
+      user = User.new(params)
+      user.verified_at = Time.zone.now
+      user.send :assign_password
+      user.save false
+      user.roles << Role::Superuser.create!
+      user
     end
   end
   
   def update_attributes(attributes)
-    @new_roles = attributes.delete('roles')
+    attributes.symbolize_keys!
+    @new_roles = attributes.delete :roles
     super
   end
 

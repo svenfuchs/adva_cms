@@ -28,9 +28,13 @@ describe Anonymous do
   end
   
   describe '#has_role?' do
-    it 'turns the passed arg to a role if its a role name'
-    it 'returns true when the role is Role::Anonymous'
-    it 'returns false when the role is not Role::Anonymous'
+    it 'returns true when the passed role is Role::Anonymous' do
+      @anonymous.has_role?(:anonymous).should be_true
+    end
+    
+    it 'returns false when the passed role is not Role::Anonymous' do
+      @anonymous.has_role?(:user).should be_false
+    end
   end
   
   it '#anonymous? returns true' do

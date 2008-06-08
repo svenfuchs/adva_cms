@@ -68,7 +68,10 @@ describe Section do
     end
   
     describe "the categories association" do
-      it "#roots returns all categories that do not have a parent category"
+      it "#roots returns all categories that do not have a parent category" do
+        @section.categories.should_receive(:find).with(:all, hash_including(:conditions => {:parent_id => nil}))
+        @section.categories.roots
+      end
     end
   end
   
@@ -87,9 +90,9 @@ describe Section do
   end
   
   describe "validations:" do
-    it "validates the presence of a site" # do
-    #  @section.should validate_presence_of(:site)
-    # end
+    it "validates the presence of a site" do
+     @section.should validate_presence_of(:site)
+    end
     
     it "validates the presence of a title" do
       @section.should validate_presence_of(:title)
@@ -127,9 +130,18 @@ describe Section do
       @section.owner.should == @site
     end
     
-    it "#tag_counts returns the tag_counts for this site's content's tags" 
-    it "#render_options should be specified but looks uncomprehensible right now"
-    it "#root_section? returns true if this section is the site's root section"
+    it "#tag_counts returns the tag_counts for this site's content's tags" do
+      Content.should_receive(:tag_counts).with :conditions => "section_id = #{@section.id}"
+      @section.tag_counts
+    end
+    
+    it "#render_options should be specified but looks pretty uncomprehensible right now"
+    
+    it "#root_section? returns true if this section is the site's root section" do
+      @section.site = @site
+      @site.sections.stub!(:root).and_return @section
+      @section.root_section?.should be_true
+    end
     
     it "#accept_comments? is true when comments are not 'not-allowed' (-1) (see comment_expiration_options)" do
       @section.stub!(:comment_age).and_return 0
@@ -143,9 +155,23 @@ describe Section do
   end
   
   describe "protected instance methods" do
-    it "#set_comment_age sets the comment_age to -1 if it's not already set"
-    it "#set_comment_age does not change an already set comment_age"
-    it "#set_path sets the section's path"
+    it "#set_comment_age sets the comment_age to -1 if it's not already set" do
+      @section.comment_age = nil
+      @section.send :set_comment_age
+      @section.comment_age.should_not be_nil
+    end
+    
+    it "#set_comment_age does not change an already set comment_age" do
+      @section.comment_age = 99
+      @section.send :set_comment_age
+      @section.comment_age.should == 99
+    end
+    
+    it "#set_path sets the section's path" do
+      @section.stub!(:build_path).and_return 'path'
+      @section.send :set_path
+      @section.path.should_not be_nil
+    end
     
     it "#build_path builds a path by joining self and anchestor permalinks with '/'" do
       @location.send(:build_path).should == "home/about/location"    

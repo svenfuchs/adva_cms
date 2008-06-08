@@ -2,11 +2,14 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Content do
   include Stubby
+  include Matchers::FilterColumn
   
   before :each do
-    scenario :user
+    scenario :section, :user
+    @time_now = Time.now
     @content = Content.new :site_id => 1, :section_id => 1, :title => "this content's title", 
-                           :body => "*body*", :excerpt => "*excerpt*", :author => stub_user
+                           :body => "*body*", :excerpt => "*excerpt*", :author => stub_user,
+                           :published_at => @time_now
   end
   
   describe "class extensions:" do
@@ -25,26 +28,12 @@ describe Content do
     end
   
     it "filters the excerpt" do
-      @content.should_receive(:filter).any_number_of_times.and_return 'textile_filter'
-      @content.send :process_filters
-      @content.excerpt_html.should == '<p><strong>excerpt</strong></p>'
+      @content.should filter_column(:excerpt)
     end
   
     it "filters the body" do      
-      should_filter_column @content, :body
-      # @content.should_receive(:filter).any_number_of_times.and_return 'textile_filter'
-      # @content.send :process_filters
-      # @content.body_html.should == '<p><strong>body</strong></p>'
+      @content.should filter_column(:body)
     end
-  end
-  
-  # TODO implement as matcher: 
-  # @content.should filter_column(:body)
-  def should_filter_column(object, column)
-    object.send "#{column}=", '*strong*'
-    object.should_receive(:filter).any_number_of_times.and_return 'textile_filter'
-    object.send :process_filters
-    object.send("#{column}_html").should == '<p><strong>strong</strong></p>'
   end
   
   describe "associations" do
@@ -180,7 +169,10 @@ describe Content do
   # end  
 
   describe "instance methods:" do
-    it "#owner returns the section"    
+    it "#owner returns the section" do
+      @content.stub!(:section).and_return @section
+      @content.owner.should == @section
+    end
     
     it "#attributes= temporarily remembers passed category_ids" do
       @content.attributes = { :category_ids => [1, 2, 3] }
@@ -190,12 +182,28 @@ describe Content do
     it "#diff_against_version returns the diff (of excerpt and body) against the specified version"
 
     describe "#comments_expired_at" do
-      it "returns a date 1 day after the published_at date if comments expire after 1 day"
-      it "returns the published_at date if comments are not allowed (i.e. expire after 0 days)"
-      it "returns something else? if comments never expire. hu?"
+      it "returns a date 1 day after the published_at date if comments expire after 1 day" do
+        @content.stub!(:comment_age).and_return 1
+        @content.comments_expired_at.to_date.should == 1.day.from_now.to_date
+      end
+      
+      it "returns the published_at date if comments are not allowed (i.e. expire after 0 days)" do
+        @content.stub!(:comment_age).and_return 0
+        @content.comments_expired_at.to_date.should == @time_now.to_date
+      end
+      
+      it "returns something else? if comments never expire. hu?" do
+        @content.stub!(:comment_age).and_return -1
+        @content.comments_expired_at.should == 9999.years.from_now
+      end
     end
     
-    it "#set_site sets the site_id from the section"
+    it "#set_site sets the site_id from the section" do
+      @content.section.should_receive(:site_id)
+      @content.should_receive(:site_id=)
+      @content.send :set_site
+    end
+    
     it "#save_categories makes sure that the associated categories match the new category ids"
   end
   

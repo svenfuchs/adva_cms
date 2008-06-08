@@ -17,7 +17,7 @@ class Comment < ActiveRecord::Base
   validates_presence_of :body, :commentable
   
   before_validation  :set_owners
-  before_create :authorize_commenting 
+  before_create :authorize_commenting!
   after_create  :update_commentable
   after_destroy :update_commentable
   
@@ -37,7 +37,7 @@ class Comment < ActiveRecord::Base
     !approved?
   end
 
-  def authorize_commenting
+  def authorize_commenting!
     unless commentable.accept_comments?
       raise CommentNotAllowed, "Comments are not allowed for this #{commentable.class.name.demodulize.humanize.downcase}." 
     end

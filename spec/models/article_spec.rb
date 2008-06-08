@@ -6,10 +6,17 @@ describe Article do
   before :each do
     scenario :site, :section, :category, :user
 
-    @article = Article.new :published_at => Time.now    
+    @time_now = Time.now
+    Time.stub!(:now).and_return(@time_now)
+    
+    @article = Article.new :published_at => @time_now
     @article.stub!(:new_record?).and_return(false)
     @article.stub!(:section).and_return Section.new
     @attributes = {:title => 'An article', :body => 'body', :section => @section, :author => stub_user}
+  end
+  
+  def current_month
+    Time.local Time.now.year, Time.now.month, 1
   end
   
   describe "class extensions:" do
@@ -44,9 +51,25 @@ describe Article do
   
   describe 'instance methods:' do  
     describe '#full_permalink' do
-      it 'returns a hash with the year, month, day and permalink'
-      it 'raises an exception when the article does not belong to a Blog'
-      it 'raises an exception when the article is not published'
+      before :each do 
+        @article.stub!(:section).and_return Blog.new
+        @article.stub!(:published?).and_return true
+        @article.stub!(:permalink).and_return 'an-article'
+      end
+      
+      it 'returns a hash with the year, month, day and permalink' do
+        @article.full_permalink.should == {:year => @time_now.year, :month => @time_now.month, :day => @time_now.day, :permalink => 'an-article'}
+      end
+      
+      it 'raises an exception when the article does not belong to a Blog' do
+        @article.stub!(:section).and_return Section.new
+        lambda{ @article.full_permalink }.should raise_error
+      end
+      
+      it 'raises an exception when the article is not published' do
+        @article.stub!(:published?).and_return false
+        lambda{ @article.full_permalink }.should raise_error
+      end
     end
     
     describe '#has_excerpt?' do
@@ -66,8 +89,21 @@ describe Article do
       end
     end
     
-    it '#published_month returns a time object for the first day of the month the article was published in'
-    it '#draft? returns true when the article is not published'
+    it '#published_month returns a time object for the first day of the month the article was published in' do
+      @article.published_month.should == current_month      
+    end
+    
+    describe '#draft?' do
+      it 'returns true when the article has not published_at date' do
+        @article.stub!(:published_at).and_return nil
+        @article.draft?.should be_true
+      end
+      
+      it 'returns false when the article has a published_at date' do
+        @article.stub!(:published_at).and_return @time_now
+        @article.draft?.should be_false
+      end
+    end
     
     describe '#accept_comments?' do
       it "accept comments when comments never expire" do
