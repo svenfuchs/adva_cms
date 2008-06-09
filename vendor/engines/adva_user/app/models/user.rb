@@ -68,11 +68,8 @@ class User < ActiveRecord::Base
     update_attributes :verified_at => Time.zone.now if verified_at.nil?
   end
   
-  def restore!(token)
-    if deleted_at && token && authenticate(token.split(';').last)
-      self.deleted_at = nil
-      save!
-    end
+  def restore!
+    update_attributes :deleted_at => nil if deleted_at
   end
   
   def anonymous?

@@ -14,6 +14,7 @@
 
   <p class="buttons">
     <%= submit_tag 'Save profile' %>
+    <%= link_to "delete", admin_user_path(@user), :method => :delete, :confirm => "Are you sure you wish to deactivate this user account?" %> or
     <%= link_to "cancel", admin_users_path %>
   </p>
 <% end -%>

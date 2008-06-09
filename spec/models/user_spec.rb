@@ -134,7 +134,14 @@ describe User do
       end
     end
     
-    it '.superusers returns all superusers' # TODO maybe it makes sense to move all of these to Role?
+    it '.superusers returns all superusers' do
+      User.should_receive(:find) do |arg, options|
+        arg == :all &&
+        (options[:conditions] & ['roles.type = ?', 'Role::Superuser']).size == 2 &&
+        Array(options[:include]).include?(:roles)
+      end
+      User.superusers
+    end
 
     describe '.create_superuser' do
       before :each do
@@ -179,7 +186,11 @@ describe User do
       @user.verified!
     end
     
-    it '#restore! restores the user record'
+    it '#restore! restores the user record' do
+      @user.deleted_at = @time_now
+      @user.should_receive(:update_attributes).with :deleted_at => nil
+      @user.restore!
+    end
     
     it '#anonymous? returns false' do
       User.new.anonymous?.should be_false

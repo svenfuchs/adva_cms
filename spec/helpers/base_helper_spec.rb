@@ -68,9 +68,9 @@ describe BaseHelper do
   end
   
   it '#filter_options returns a nested array containing the installed column filters' do
-    helper.filter_options.should == [["Plain HTML", ""], 
-                                     ["Markdown", "markdown_filter"], 
-                                     ["Markdown with Smarty Pants", "smartypants_filter"], 
-                                     ["Textile", "textile_filter"]]
+    helper.filter_options.sort.should == [["Plain HTML", ""], 
+                                          ["Markdown", "markdown_filter"], 
+                                          ["Markdown with Smarty Pants", "smartypants_filter"], 
+                                          ["Textile", "textile_filter"]].sort
   end  
 end

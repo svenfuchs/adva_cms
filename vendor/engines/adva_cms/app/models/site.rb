@@ -26,11 +26,7 @@ class Site < ActiveRecord::Base
     end
   end
   
-  has_many :users, :through => :memberships, :dependent => :destroy! do
-    def find_or_initialize_by_login_with_deleted(attributes)
-      find_with_deleted(:first, :conditions => { :login => attributes[:login] }) || build(attributes)
-    end    
-  end
+  has_many :users, :through => :memberships, :dependent => :destroy!
   has_many :memberships, :dependent => :delete_all
 
   has_many :assets, :order => 'assets.created_at desc', :conditions => 'parent_id is null', :dependent => :destroy do

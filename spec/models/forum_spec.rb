@@ -26,7 +26,6 @@ describe Forum do
     it "has many topics" do
       @forum.should have_many(:topics)
     end    
-    it "deletes all dependent topics when it is destroyed"
     
     it "has one recent topic" do
       @forum.should have_one(:recent_topic)

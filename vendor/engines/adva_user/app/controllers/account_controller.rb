@@ -8,23 +8,28 @@ class AccountController < BaseController
   end
 
   def create
-    @user = @site.users.find_or_initialize_by_login_with_deleted params[:user]
+    # TODO won't work any more because Site has_many users through memberships
+    # and the membership will be deleted when the user is inactive?
+    # @user = @site.users.find_or_initialize_by_login_with_deleted params[:user]
+    @user = @site.users.build params[:user]
     if @user.deleted_at
       restore
     elsif @user.new_record? and @user.save
       AccountMailer.deliver_signup_verification @user, verification_url(@user)
       render :action => 'verification_sent'
     else      
-      flash[:error] = 'The user could not be registered.'
+      flash[:error] = 'The user account could not be registered.'
       render :action => :new    
     end
   end
 
   def restore
-    if @user.restore!(params[:token])
-      flash[:notice] = "Your user has been restored"
+    # was: params[:token].split(';').last
+    # TODO this won't work because the salted hash thingy won't find a deleted user
+    if @user.authenticate(params[:user][:password]) && @user.restore!
+      flash[:notice] = "The user account has been restored"
     else
-      flash[:error] = "Your user could not be restored."
+      flash[:error] = "The user account could not be restored."
     end
     redirect_to '/'
   end

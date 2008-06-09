@@ -15,8 +15,6 @@ describe AccountController do
                            :login => 'login',
                            :password => 'password', 
                            :password_confirmation => 'password' } }
-
-    @site.users.stub!(:find_or_initialize_by_login_with_deleted).and_return @user
   end
   
   describe "GET to :new" do
