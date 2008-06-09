@@ -3,15 +3,19 @@
 <fieldset>
   <% if current_user.has_role?(:superuser) %>
   <p>
-    <%= check_box_tag "user[roles][superuser]", '1', @user.has_exact_role?(:superuser), :id => "user_roles_superuser" %>
-    <%= hidden_field_tag "user[roles][superuser]", '0' %>
+    <%= check_box_tag "user[roles][0][selected]", 1, @user.has_exact_role?(:superuser), :id => "user_roles_superuser" %>
+    <%= hidden_field_tag "user[roles][0][selected]", 0 %>
+    <%= hidden_field_tag "user[roles][0][type]", 'Role::Superuser' %>
     <%= f.label "roles_superuser", "Superuser", :class => 'light' %>
   </p>
   <% end %>
   <% if @site %>
     <p>
-      <%= check_box_tag "user[roles][admin][Site][#{@site.id}]", '1', @user.has_exact_role?(:admin, @site), :id => "user_roles_admin_site_#{@site.id}" %>
-      <%= hidden_field_tag "user[roles][admin][Site][#{@site.id}]", '0' %>
+      <%= check_box_tag "user[roles][1][selected]", 1, @user.has_exact_role?(:admin, @site), :id => "user_roles_admin_site_#{@site.id}" %>
+      <%= hidden_field_tag "user[roles][1][selected]", 0 %>
+      <%= hidden_field_tag "user[roles][1][type]", 'Role::Admin' %>
+      <%= hidden_field_tag "user[roles][1][context_id]", @site.id %>
+      <%= hidden_field_tag "user[roles][1][context_type]", @site.class.name %>
       <%= f.label "roles_admin_site_#{@site.id}", "Admin for: #{@site.name}", :class => 'light' %>
     </p>
   <% end %>

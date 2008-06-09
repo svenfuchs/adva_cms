@@ -40,7 +40,9 @@ module Spec
 
       def validate_uniqueness_of(attribute)
         return simple_matcher("model to validate the uniqueness of #{attribute}") do |model|
-          model.class.stub!(:find).and_return(true)
+          # model.class.stub!(:find).and_return(true)
+          # fix for new ActiveRecord Validations
+          model.class.stub!(:with_exclusive_scope).and_return [model]
           !model.valid? && model.errors.invalid?(attribute)
         end
       end

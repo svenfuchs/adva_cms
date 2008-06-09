@@ -117,9 +117,9 @@ describe Section do
       @section.should validate_presence_of(:title)
     end
     
-    it "validates the uniqueness of the permalink per site" # do
-    #   @section.should validate_uniqueness_of(:permalink, :scope => :site_id)
-    # end
+    it "validates the uniqueness of the permalink per site" do
+      @section.should validate_uniqueness_of(:permalink) # :scope => :site_id
+    end
   end
   
   describe "class methods:" do

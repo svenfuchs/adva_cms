@@ -215,12 +215,6 @@ or rather: @site.relevant_roles(current_user) and @topic.relevant_roles(current_
 
 [major] add attachments for wikipages (are they also in beast?)
 
-# enhancements
-
-[enhance] checkout http://code.bitsweat.net/svn/redirect_back
-[enhance] checkout http://code.bitsweat.net/svn/implicit_respond_to
-
-
 # CacheableFlash
 
   after_filter won't be called when the filter chain is halted. maybe an 
@@ -292,9 +286,14 @@ http://somerandomdude.net/srd-projects/clearbits
 
 NOTES ------------------------------------------------------------------------
 
+check http://josevalim.blogspot.com/2008/06/easy-http-cache.html
+      http://github.com/josevalim/easy-http-cache/tree/master
 check http://ultraviolet.rubyforge.org/
-try http://rubymatt.rubyforge.org/mailtrap/ for mail-related dev
-try Google Syntax Highlighter ?
+check http://code.bitsweat.net/svn/redirect_back
+check http://code.bitsweat.net/svn/implicit_respond_to
+check http://rubymatt.rubyforge.org/mailtrap/ for mail-related dev
+check Google Syntax Highlighter ?
+check http://jquery.com/blog/2008/06/09/jquery-ui-v15-released-focus-on-consistent-api-and-effects/
 
 
 

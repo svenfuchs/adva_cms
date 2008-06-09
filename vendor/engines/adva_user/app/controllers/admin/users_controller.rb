@@ -59,7 +59,7 @@ class Admin::UsersController < Admin::BaseController
     end   
     
     def set_user
-      options = @site ? {:include => [:roles, :memberships], :conditions => ['memberships.site_id = ? OR roles.name = ?', @site.id, 'superuser']} : {}
+      options = @site ? {:include => [:roles, :memberships], :conditions => ['memberships.site_id = ? OR roles.type = ?', @site.id, 'Role::Superuser']} : {}
       @user = User.find params[:id], options
     end
     
@@ -68,6 +68,7 @@ class Admin::UsersController < Admin::BaseController
     end
     
     def authorize_params
+      return
       return unless params[:user] && params[:user][:roles]
 
       if params[:user][:roles].has_key?('superuser') && !current_user.has_role?(:superuser) ||

@@ -47,9 +47,9 @@ describe Category do
       @category.should validate_presence_of(:title)
     end
     
-    it 'validates the uniqueness of the permalink per section' # do
-    #   @category.should validate_uniqueness_of(:permalink, :scope => :section_id)
-    # end    
+    it 'validates the uniqueness of the permalink per section' do
+      @category.should validate_uniqueness_of(:permalink) # :scope => :section_id
+    end    
   end
   
   describe 'class methods:' do

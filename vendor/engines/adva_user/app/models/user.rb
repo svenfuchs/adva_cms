@@ -20,8 +20,6 @@ class User < ActiveRecord::Base
     end
   end
   
-  after_save :save_roles
-  
   validates_presence_of     :name, :email, :login
   validates_uniqueness_of   :name, :email, :login # i.e. account attributes are unique per application, not per site
   validates_length_of       :name, :within => 1..40
@@ -51,12 +49,22 @@ class User < ActiveRecord::Base
     end
   end
   
+  # Using callbacks for these lowlevel things is just awkward. So let's hook
+  # into update_attributes.
   def update_attributes(attributes)
     attributes.symbolize_keys!
-    @new_roles = attributes.delete :roles
-    super
+    roles = attributes.delete :roles
+    returning super do update_roles roles if roles end
   end
-
+  
+  def update_roles(roles)
+    self.roles.clear
+    roles.values.each do |role|
+      next unless role.delete('selected') == '1'
+      self.roles << Role.create!(role)
+    end
+  end
+  
   def verified!
     update_attributes :verified_at => Time.zone.now if verified_at.nil?
   end
@@ -94,20 +102,5 @@ class User < ActiveRecord::Base
   
     def password_required?
       password_hash.nil? || !password.blank?
-    end  
-  
-    def save_roles
-      return unless @new_roles
-      roles.clear
-      @new_roles.each do |name, objects|
-        objects = {nil => {nil => objects}} unless objects.is_a? Hash
-        objects.each do |object_type, object_ids|
-          object_ids.each do |object_id, set|
-            next unless set == '1'
-            roles << Role.create!(:name => name, :object_id => object_id, :object_type => object_type)
-          end
-        end
-      end
-      @new_roles = nil      
     end
 end

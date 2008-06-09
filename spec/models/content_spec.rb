@@ -120,9 +120,9 @@ describe Content do
       @content.should validate_presence_of(:author)
     end
     
-    it "validates the uniqueness of the permalink per site" # do
-    #   @content.should validate_uniqueness_of(:permalink, :scope => :site_id)
-    # end
+    it "validates the uniqueness of the permalink per site" do
+      @content.should validate_uniqueness_of(:permalink) # :scope => :site_id
+    end
     
   end
   

@@ -79,19 +79,17 @@ describe User do
       @user.should validate_presence_of(:login)
     end
 
-    # TODO wtf - maybe rspec_on_rails_matchers are broken for Rails 2.1 or what?
+    it "validates the uniqueness of the name" do
+      @user.should validate_uniqueness_of(:name)
+    end
 
-    it "validates the uniqueness of the name" # do
-    #   @user.should validate_uniqueness_of(:name)
-    # end
+    it "validates the uniqueness of the email" do
+      @user.should validate_uniqueness_of(:email)
+    end
 
-    it "validates the uniqueness of the email" # do
-    #   @user.should validate_uniqueness_of(:email)
-    # end
-
-    it "validates the uniqueness of the login" # do
-    #   @user.should validate_uniqueness_of(:login)
-    # end
+    it "validates the uniqueness of the login" do
+      @user.should validate_uniqueness_of(:login)
+    end
   
     it "validates the length of the name" do
       @user.should validate_length_of(:name, :within => 1..40)

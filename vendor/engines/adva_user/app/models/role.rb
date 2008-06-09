@@ -1,5 +1,6 @@
 class Role < ActiveRecord::Base
   self.store_full_sti_class = true
+  instantiates_with_sti
   
   attr_reader :name
   class_inheritable_accessor :has_context, :message, :children
@@ -22,7 +23,7 @@ class Role < ActiveRecord::Base
     end
     
     def build(name, context = nil)
-      return name if name.nil? || name.is_a?(Role)
+      return name if name.nil? || name.is_a?(Role)      
       const_get(name.to_s.classify).new :context => context
     end
     
