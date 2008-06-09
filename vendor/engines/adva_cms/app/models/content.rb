@@ -35,7 +35,7 @@ class Content < ActiveRecord::Base
   has_many :category_assignments # TODO shouldn't that be :dependent => :delete_all?
   
   before_validation :set_site
-  after_save :save_categories
+  # after_save :save_categories
 
   class_inheritable_reader :default_find_options
   write_inheritable_attribute :default_find_options, { :order => 'position, published_at' }
@@ -86,9 +86,11 @@ class Content < ActiveRecord::Base
     section
   end  
 
-  def attributes=(*args)
-    @new_category_ids = args.first.delete(:category_ids)
-    super
+  # Using callbacks for such lowlevel things is just awkward. So let's hook in here.
+  def attributes=(attributes)
+    attributes.symbolize_keys!
+    category_ids = attributes.delete(:category_ids)
+    returning super do update_categories category_ids if category_ids end
   end
 
   def comments_expired_at
@@ -111,15 +113,13 @@ class Content < ActiveRecord::Base
       self.site_id = section.site_id
     end
    
-    def save_categories
-      return unless @new_category_ids
-      categories.each do |category|
-        @new_category_ids.delete(category.id.to_s) || categories.delete(category)
+    def update_categories(category_ids)
+      categories.each do |category|        
+        category_ids.delete(category.id.to_s) || categories.delete(category)
       end
-      unless @new_category_ids.blank?
-        categories << Category.find(:all, :conditions => ['id in (?)', @new_category_ids])
-      end    
-      @new_sections = nil
+      unless category_ids.blank?
+        categories << Category.find(:all, :conditions => ['id in (?)', category_ids])
+      end
     end
     
     # This is from Mephisto. Does it still make any sense? Can we kill it?

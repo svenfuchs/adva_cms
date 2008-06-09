@@ -130,20 +130,22 @@ describe "Admin::User:" do
       assigns[:user] = @user
       template.stub!(:f).and_return ActionView::Base.default_form_builder.new(:user, @user, template, {}, nil)
     end
+
+    # response.should have_tag('input[type=?][name=?]', 'checkbox', 'user[roles][0][selected]')
   
     describe "when rendered outside of site scope" do  
       before :each do assigns[:site] = nil end
       
-      it "renders a checkbox for adding the admin role" do
+      it "does not render a checkbox for adding the admin role" do
         render "admin/users/_roles"
-        response.should_not have_tag('input[type=?][name=?]', 'checkbox', 'user[roles][admin][Site][1]')
+        response.should_not have_tag('input[type=?][name=?][value=?]', 'hidden', 'user[roles][1][type]', 'Role::Admin')
       end
     end
     
     describe "when rendered inside of site scope" do  
       it "renders a checkbox for adding the admin role" do
         render "admin/users/_roles"
-        response.should have_tag('input[type=?][name=?]', 'checkbox', 'user[roles][admin][Site][1]')
+        response.should have_tag('input[type=?][name=?][value=?]', 'hidden', 'user[roles][1][type]', 'Role::Admin')
       end
     end
     
@@ -152,7 +154,7 @@ describe "Admin::User:" do
       
       it "renders a checkbox for adding the superuser role" do
         render "admin/users/_roles"
-        # response.should have_tag('input[type=?][name=?]', 'checkbox', 'user[roles][superuser]')
+        response.should have_tag('input[type=?][name=?][value=?]', 'hidden', 'user[roles][0][type]', 'Role::Superuser')
       end
     end
     
@@ -163,7 +165,7 @@ describe "Admin::User:" do
       
       it "does not render a checkbox for adding the superuser role" do
         render "admin/users/_roles"
-        response.should_not have_tag('input[type=?][name=?]', 'checkbox', 'user[roles][superuser]')
+        response.should_not have_tag('input[type=?][name=?][value=?]', 'hidden', 'user[roles][0][type]', 'Role::Superuser')
       end
     end
   end

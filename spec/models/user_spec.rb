@@ -60,12 +60,6 @@ describe User do
     end
   end
   
-  describe 'callbacks:' do
-    it 'saves associated roles after save' do
-      User.after_save.should include(:save_roles)
-    end
-  end
-    
   describe 'validations:' do
     it "validates the presence of a name" do
       @user.should validate_presence_of(:name)
@@ -175,10 +169,9 @@ describe User do
   end
   
   describe 'instance methods' do
-    it '#update_attributes temporarily stores roles (for saving in the callback)' do
-      @user.stub!(:save_roles)
-      @user.update_attributes :roles => 'roles'
-      @user.instance_variable_get(:@new_roles).should == 'roles'
+    it '#attributes= calls update_roles if attributes have a :roles key' do
+      @user.should_receive(:update_roles)
+      @user.attributes= {:roles => 'roles'}
     end
     
     it '#verified! sets the verified_at timestamp and saves the user' do
@@ -208,6 +201,30 @@ describe User do
       @user.to_s.should == @user.name
     end
     
-    it '#save_roles makes sure that the associated roles match the stored new roles'
+    describe "#update_roles updates associated roles to match the given role parameters" do
+      before :each do
+        scenario :roles
+        @user.stub!(:roles).and_return []
+        Role.stub!(:create!).and_return stub_model(Role)
+        @attributes = { 'roles' => { "0" => { "type" => "Role::Superuser", "selected" => "1" }, 
+                                     "1" => { "type" => "Role::Admin", "context_id" => "1", "context_type" => "Site", "selected" => "1"} } }
+      end
+      
+      it 'clears existing roles' do
+        @user.roles.should_receive(:clear)
+        @user.attributes = @attributes
+      end
+      
+      it 'creates new roles' do
+        Role.should_receive(:create!).twice
+        @user.attributes = @attributes
+      end
+      
+      it 'ignores parameters that do not have the :selected flag set' do
+        @attributes['roles']['0']['selected'] = '0'
+        Role.should_receive(:create!).once
+        @user.attributes = @attributes
+      end
+    end
   end
 end

@@ -149,4 +149,8 @@ describe Admin::UsersController do
       end
     end
   end
+  
+  it "disallows a non-superuser to add a superuser role"
+  it "disallows a non-admin to any roles"
+  
 end

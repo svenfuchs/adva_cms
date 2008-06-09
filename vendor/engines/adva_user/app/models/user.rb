@@ -49,9 +49,8 @@ class User < ActiveRecord::Base
     end
   end
   
-  # Using callbacks for these lowlevel things is just awkward. So let's hook
-  # into update_attributes.
-  def update_attributes(attributes)
+  # Using callbacks for such lowlevel things is just awkward. So let's hook in here.
+  def attributes=(attributes)
     attributes.symbolize_keys!
     roles = attributes.delete :roles
     returning super do update_roles roles if roles end

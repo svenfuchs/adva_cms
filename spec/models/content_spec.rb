@@ -101,10 +101,6 @@ describe Content do
     it "apply filters before save" do
       Content.before_save.should include(:process_filters)
     end
-    
-    it "saves new category assignments after save" do
-      Content.after_save.should include(:save_categories)
-    end 
   end  
   
   describe "validations" do
@@ -193,9 +189,9 @@ describe Content do
       @content.owner.should == @section
     end
     
-    it "#attributes= temporarily remembers passed category_ids" do
+    it "#attributes= calls update_categories if attributes include a :category_ids key" do
+      @content.should_receive(:update_categories)
       @content.attributes = { :category_ids => [1, 2, 3] }
-      @content.instance_variable_get(:@new_category_ids).should == [1, 2, 3]
     end
     
     describe "#diff_against_version" do
@@ -243,7 +239,27 @@ describe Content do
       @content.send :set_site
     end
     
-    it "#save_categories makes sure that the associated categories match the new category ids"
+    describe "#update_categories updates the associated categories to match the given category ids" do
+      before :each do
+        scenario :category
+        @content.stub!(:categories).and_return [stub_category]
+        @content.categories.stub!(:delete)
+        Category.stub!(:find)
+        @category_ids = ['2', '3']
+      end
+      
+      it 'removes associated categories that are not included in passed category_ids' do
+        @content.categories.should_receive(:delete) #.with(1)
+        @content.send :update_categories, @category_ids
+      end
+      
+      it 'finds (and assigns) categories that are included in passed category_ids but not already associated' do
+        @content.stub!(:categories).and_return []
+        Category.should_receive(:find).and_return stub_category(:child)
+        @content.send :update_categories, @category_ids
+        @content.categories.should include(stub_category(:child))
+      end
+    end
   end
   
   describe "versioning" do

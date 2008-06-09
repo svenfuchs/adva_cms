@@ -9,7 +9,7 @@ class Admin::ArticlesController < Admin::BaseController
   before_filter :set_article,      :only => [:show, :edit, :update, :destroy]
   before_filter :set_categories,   :only => [:new, :edit]
   
-  before_filter :params_author,       :only => [:create]
+  before_filter :params_author,       :only => [:create, :update]
   before_filter :params_draft,        :only => [:create, :update]
   before_filter :params_published_at, :only => [:create, :update]
   before_filter :params_category_ids, :only => [:update]
@@ -51,7 +51,7 @@ class Admin::ArticlesController < Admin::BaseController
   def update
     rollback and return if params[:version]
 
-    @article.attributes = params[:article].merge(:user => current_user)          
+    @article.attributes = params[:article]
     if save_with_revision? ? @article.save : @article.save_without_revision
       flash[:notice] = "The article has been updated"
       redirect_to edit_admin_article_path
