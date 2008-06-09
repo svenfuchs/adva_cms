@@ -11,11 +11,11 @@
       </div>
     <% end %>
 
-    <% if !@section.archive_months.blank? %>
+    <% if !@section.article_counts_by_month.blank? %>
       <div>
         <h4>Archives</h4>
         <ul>
-        <% @section.archive_months.each do |month, articles| %>
+        <% @section.archive_month.each do |month| %>
           <li><%= link_to month.strftime('%B %Y'), blog_path(@section, :year => month.year, :month => month.month) %></li>
         <% end %>
         </ul>

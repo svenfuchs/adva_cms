@@ -4,7 +4,7 @@
   <%= link_to "Preview", admin_article_path %>
 </p>
 
-<% funky_form_for :article, @article, :url => admin_article_path, :html => {:multipart => true, :method => :put, :id => 'content_form'} do |f| -%>
+<% split_form_for :article, @article, :url => admin_article_path, :html => {:multipart => true, :method => :put, :id => 'content_form'} do |f| -%>
   <%= render :partial => 'form', :locals => {:f => f} %>  
   <p class="buttons">
     <%= submit_tag 'Apply Changes', :name => 'save_revision' %>

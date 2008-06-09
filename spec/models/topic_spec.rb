@@ -4,7 +4,7 @@ describe Topic do
   include Stubby, Matchers::ClassExtensions
   
   before :each do
-    scenario :site, :section, :comment, :user
+    scenario :site, :section, :topic, :comment, :user
 
     @topic = Topic.new 
     @topic.section = @section
@@ -178,8 +178,33 @@ describe Topic do
       end
     end
     
-    it '#previous returns the previous topic'
-    it '#next returns the next topic'
+    describe '#previous' do
+      before :each do
+        scenario :two_topics
+      end
+      
+      it 'returns the previous topic if present' do
+        @latest_topic.previous.should == @earlier_topic
+      end
+      
+      it 'returns nil if no previous topic exists' do
+        @earlier_topic.previous.should be_nil
+      end
+    end
+    
+    describe '#next' do
+      before :each do
+        scenario :two_topics
+      end
+      
+      it 'returns the next topic' do
+        @earlier_topic.next.should == @latest_topic
+      end
+      
+      it 'returns nil if no next topic exists' do
+        @latest_topic.next.should == nil
+      end
+    end
     
     describe '#after_comment_update' do
       before :each do

@@ -29,12 +29,6 @@ describe WikiHelper do
     it "should contain a link to edit the wikipage" do
       @result.join.should =~ /edit this page/
     end
-
-    # removed the delete link from the home wikipage. makes sense?
-    #
-    # it "should contain a link to delete the wikipage" do
-    #   @result.join.should =~ /delete this page/
-    # end
     
     it "should not contain a link to rollback to this revision" do
       @result.join.should_not =~ /rollback to this revision/

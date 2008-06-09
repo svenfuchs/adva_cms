@@ -16,21 +16,11 @@ class Article < Content
       options = args.extract_options! 
       if args.size > 1
         permalink = args.pop
-        with_time_delta(*args) do super(permalink, options) end
+        with_time_delta(*args) do find_by_permalink(permalink, options) end
       else
-        super args.first, options
+        find :first, options.merge(:conditions => ['permalink = ?', args.first])
       end
     end
-    
-    # TODO There's something similar in Content. Are these both equivalent?
-    # def find_every(options)
-    #   options = default_find_options.merge(options)
-    #   if tags = options.delete(:tags)
-    #     find_tagged_with(tags, options.update(:match_all => true))
-    #   else
-    #     super options
-    #   end
-    # end
   end
 
   def full_permalink

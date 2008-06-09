@@ -22,3 +22,19 @@ end
 scenario :topic do
   @topic = stub_topic
 end
+
+scenario :two_topics do
+  scenario :user, :site
+  
+  @forum = Forum.new
+  @forum.stub!(:id).and_return 1
+  @forum.stub!(:new_record?).and_return false
+  @forum.stub!(:site).and_return stub_site
+  
+  attributes = {:title => 'title', :body => 'body', :last_author => stub_user, :section => @forum}
+  @earlier_topic = Topic.create! attributes.update(:last_updated_at => 1.month.ago)
+  @latest_topic = Topic.create! attributes.update(:last_updated_at => Time.now)
+  
+  @earlier_topic.stub!(:section).and_return @forum
+  @latest_topic.stub!(:section).and_return @forum
+end

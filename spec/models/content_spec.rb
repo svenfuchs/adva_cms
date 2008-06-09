@@ -5,7 +5,7 @@ describe Content do
   include Matchers::ClassExtensions
   
   before :each do
-    scenario :section, :user
+    scenario :site, :section, :user
     @time_now = Time.zone.now
     @content = Content.new :site_id => 1, :section_id => 1, :title => "this content's title", 
                            :body => "*body*", :excerpt => "*excerpt*", :author => stub_user,
@@ -127,70 +127,66 @@ describe Content do
   end
   
   describe "class methods:" do
-    it "#find_every returns records that are tagged with the passed tags when they are specified with a :tags option"
-    it "#find_in_time_delta returns record within the given time delta"
-    it "#with_published adds a scope so that finders only return published records"
-    it "#with_time_delta adds a scope so that finders only return records published within the given time delta"
-    it "#recognizes finders with a '_published' token in their name and adds the with_time_delta scope"
+    before :each do
+      @attributes = {:title => 'title', :body => 'body', :section => stub_section, :author => stub_user}
+    end
+    
+    describe "#find_published" do
+      it "finds published articles" do
+        article = Content.create! @attributes.update(:published_at => 1.hour.ago)
+        Content.find_published(:all).should include(article)
+      end
+  
+      it "#find_published does not find unpublished articles" do
+        article = Content.create! @attributes
+        Content.find_published(:all).should_not include(article)
+      end
+    end
+
+    describe "#find_in_time_delta" do
+      it "finds articles in the given time delta" do
+        published_at = date = 1.hour.ago
+        delta = date.year, date.month, date.day
+        article = Content.create! @attributes.update(:published_at => published_at)
+        Content.find_in_time_delta(*delta).should include(article)
+      end
+  
+      it "#find_in_time_delta finds articles prior the given time delta" do
+        published_at = 1.hour.ago
+        date = 2.months.ago
+        delta = date.year, date.month, date.day
+        article = Content.create! @attributes.update(:published_at => published_at)
+        Content.find_in_time_delta(*delta).should_not include(Content.new)
+      end
+  
+      it "#find_in_time_delta finds articles after the given time delta" do
+        published_at = 2.month.ago
+        date = Time.zone.now
+        delta = date.year, date.month, date.day
+        article = Content.create! @attributes.update(:published_at => published_at)
+        Content.find_in_time_delta(*delta).should_not include(article)
+      end
+    end    
+    
+    describe "#find_every" do
+      it "does not apply the default_find_options (order) if :order option is given" do
+        Content.should_receive(:find_by_sql).with(/ORDER BY id/).and_return [@article]
+        Content.find :all, :order => :id
+      end
+    
+      it "applies the default_find_options (order) if :order option is not given" do
+        order = /ORDER BY #{Content.default_find_options[:order]}/
+        Content.should_receive(:find_by_sql).with(order).and_return [@article]
+        Content.find :all
+      end
+  
+      it "finds articles tagged with :tags if the option :tags is given" do
+        Content.should_receive(:find_options_for_find_tagged_with).and_return({})
+        Content.find :all, :tags => %w(foo bar)
+      end
+    end
   end
   
-  # moved here from article_spec 
-  #
-  # describe "#find_published" do
-  #   it "finds published articles" do
-  #     article = Article.create! @attributes.update(:published_at => 1.hour.ago)
-  #     Article.find_published(:all).should include(article)
-  #   end
-  # 
-  #   it "#find_published does not find unpublished articles" do
-  #     article = Article.create! @attributes
-  #     Article.find_published(:all).should_not include(article)
-  #   end
-  # end
-  # 
-  # describe "#find_in_time_delta" do
-  #   it "finds articles in the given time delta" do
-  #     published_at = date = 1.hour.ago
-  #     delta = date.year, date.month, date.day
-  #     article = Article.create! @attributes.update(:published_at => published_at)
-  #     Article.find_in_time_delta(*delta).should include(article)
-  #   end
-  # 
-  #   it "#find_in_time_delta finds articles prior the given time delta" do
-  #     published_at = 1.hour.ago
-  #     date = 2.months.ago
-  #     delta = date.year, date.month, date.day
-  #     article = Article.create! @attributes.update(:published_at => published_at)
-  #     Article.find_in_time_delta(*delta).should_not include(Article.new)
-  #   end
-  # 
-  #   it "#find_in_time_delta finds articles after the given time delta" do
-  #     published_at = 2.month.ago
-  #     date = Time.zone.now
-  #     delta = date.year, date.month, date.day
-  #     article = Article.create! @attributes.update(:published_at => published_at)
-  #     Article.find_in_time_delta(*delta).should_not include(article)
-  #   end
-  # end
-  
-  # describe "#find_every" do
-  #   it "does not apply the default_find_options (order) if :order option is given" do
-  #     Article.should_receive(:find_by_sql).with(/ORDER BY id/).and_return [@article]
-  #     Article.find :all, :order => :id
-  #   end
-  #   
-  #   it "applies the default_find_options (order) if :order option is not given" do
-  #     order = /ORDER BY #{Article.default_find_options[:order]}/
-  #     Article.should_receive(:find_by_sql).with(order).and_return [@article]
-  #     Article.find :all
-  #   end
-  # 
-  #   it "finds articles tagged with :tags if the option :tags is given" do
-  #     Article.should_receive :find_tagged_with
-  #     Article.find :all, :tags => %w(foo bar)
-  #   end
-  # end  
-
   describe "instance methods:" do
     it "#owner returns the section" do
       @content.stub!(:section).and_return @section
@@ -202,7 +198,27 @@ describe Content do
       @content.instance_variable_get(:@new_category_ids).should == [1, 2, 3]
     end
     
-    it "#diff_against_version returns the diff (of excerpt and body) against the specified version"
+    describe "#diff_against_version" do
+      before :each do
+        HtmlDiff.stub!(:diff)
+        @other = Content.new :body_html => 'body', :excerpt_html => 'excerpt'
+        @content.body_html = 'body'
+        @content.excerpt_html = 'excerpt'
+        @content.versions.stub!(:find_by_version).and_return @other
+      end
+      
+      it "creates a diff" do
+        HtmlDiff.should_receive(:diff)
+        @content.diff_against_version(1)
+      end
+      
+      it "diffs excerpt_html + body_html" do
+        [@content, @other].each do |target| [:body_html, :excerpt_html].each do |method|
+          target.should_receive(method).and_return method.to_s
+        end end
+        @content.diff_against_version(1)
+      end
+    end
 
     describe "#comments_expired_at" do
       it "returns a date 1 day after the published_at date if comments expire after 1 day" do

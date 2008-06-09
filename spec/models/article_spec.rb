@@ -5,14 +5,13 @@ describe Article do
   
   before :each do
     scenario :site, :section, :category, :user
-
+    
     @time_now = Time.zone.now
     Time.stub!(:now).and_return(@time_now)
     
     @article = Article.new :published_at => @time_now
     @article.stub!(:new_record?).and_return(false)
     @article.stub!(:section).and_return Section.new
-    @attributes = {:title => 'An article', :body => 'body', :section => @section, :author => stub_user}
   end
   
   def current_month
@@ -33,21 +32,30 @@ describe Article do
   
   describe "class methods:" do
     describe "#find_by_permalink" do
+      it "adds a with_time_delta scope if more than one argument is passed" do
+        Article.should_receive :with_time_delta
+        Article.find_by_permalink '2008', '1', '1', 'an-article', :include => :author
+      end
+      
       it "does not add a with_time_delta scope if only one argument is passed" do
         Article.should_not_receive :with_time_delta
         Article.find_by_permalink 'a-permalink'
       end
       
-      # wtf ... move this spec to the top and it will fail?
-      it "adds a with_time_delta scope if more than one argument is passed" do
-        Article.should_receive :with_time_delta
-        Article.find_by_permalink '2008', '1', '1', 'a-permalink', :include => :author
+      it "finds a record when the passed date scope matches the article's published date" do
+        scenario :article_published_on_2008_1_1
+        Article.find_by_permalink('2008', '1', '1', 'an-article').should == @article
       end
       
-      # implement with fixtures:
-      it "finds a record when the passed date scope matches the article's published date"
-      it "does not find a record when the passed date scope does not match the article's published date"
-      it "finds a record when no date scope is passed"
+      it "does not find a record when the passed date scope does not match the article's published date" do
+        scenario :article_published_on_2008_1_1
+        Article.find_by_permalink('2008', '2', '1', 'an-article').should be_nil
+      end
+      
+      it "finds a record when no date scope is passed" do
+        scenario :article_published_on_2008_1_1
+        Article.find_by_permalink('an-article').should == @article
+      end
     end
   end
   
@@ -174,7 +182,7 @@ describe Article do
   
     it "#set_position sorts the article to the bottom of the list (sets to max(position) + 1)" do
       @section.articles.should_receive(:maximum).and_return 5
-      article = Article.create! @attributes
+      article = Article.create! :title => 'An article', :body => 'body', :section => @section, :author => stub_user
       article.position.should == 6
     end
   end  

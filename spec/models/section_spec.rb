@@ -25,7 +25,9 @@ describe Section do
           :article  => { :show => :moderator, :create => :moderator, :update => :moderator, :delete => :moderator } }
     end
     
-    it "serializes its actual permissions"
+    it "serializes its actual permissions" do
+      Section.serialized_attributes.should include('permissions')
+    end
   
     it "has an option :articles_per_page" do
       lambda{ @section.articles_per_page }.should_not raise_error

@@ -27,7 +27,7 @@ module BaseHelper
   
   # does exactly the same as the form_for helper does, but splits off the
   # form head tag and captures it to the content_for :form collector
-  def funky_form_for(*args, &block)
+  def split_form_for(*args, &block)
     buffer = eval(ActionView::Base.erb_variable, block.binding)
     out = capture_erb_with_buffer(buffer, *args) { form_for(*args, &block) }
 

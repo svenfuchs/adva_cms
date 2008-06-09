@@ -50,7 +50,8 @@ class Content < ActiveRecord::Base
   
   class << self
     def find_every(options)
-      if tags = options.delete(:tags)      
+      options = default_find_options.merge(options)    
+      if tags = options.delete(:tags)
         options = find_options_for_find_tagged_with(tags, options.update(:match_all => true))
       end
       super options
@@ -99,17 +100,15 @@ class Content < ActiveRecord::Base
   end
   
   def diff_against_version(version)
-    return '(orginal version)' if version == versions.earliest.version
+    # return '(orginal version)' if version == versions.earliest.version
     version = versions.find_by_version(version)
-    HtmlDiff.diff version.excerpt + version.body, excerpt + body
+    HtmlDiff.diff version.excerpt_html + version.body_html, excerpt_html + body_html
   end
   
   protected
   
     def set_site
-      # TODO in what cases would section be nil here??
-      # and why wouldn't we just always set the site_id from the section?
-      self.site_id = section.site_id # if site_id.nil? && section 
+      self.site_id = section.site_id
     end
    
     def save_categories

@@ -5,6 +5,10 @@ describe Activities::ArticleObserver do
   include SpecActivityHelper
   include Stubby
   
+  before :each do
+    scenario :site, :section
+  end
+  
   it "should log a 'created' activity on save when the article is a new_record" do
     scenario :article_created
     expect_activity_new_with :actions => ['created']
