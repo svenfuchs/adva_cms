@@ -38,8 +38,12 @@ module ActiveRecord
     end
   
     module InstanceMethods
+      def comments_count
+        @comments_count ||= comments.count # TODO implement as a counter
+      end
+      
       def approved_comments_count
-        @approved_comments_count ||= approved_comments.count # TODO implement as a counter?
+        @approved_comments_count ||= approved_comments.count # TODO implement as a counter
       end
       
       # def accept_comments?

@@ -27,6 +27,30 @@ scenario :comment do
   @comment.stub!(:commentable=)
 end
 
+scenario :three_comments do
+  scenario :user, :site
+  
+  @forum = Forum.new :title => 'forum', :site => @site
+  @forum.save!
+  
+  @three_days_ago = 3.days.ago
+  @two_days_ago = 2.days.ago
+  @one_day_ago = 1.days.ago
+  
+  Time.stub!(:now).and_return @three_days_ago
+  topic_attributes = {:title => 'topic title', :body => 'first comment', :last_author => stub_user, :section => @forum}
+  @topic = Topic.post @user, topic_attributes
+  @topic.save!
+  
+  Time.stub!(:now).and_return @two_days_ago
+  @earlier_comment = @topic.reply @user, :body => 'second comment'
+  @earlier_comment.save!
+
+  Time.stub!(:now).and_return @one_day_ago
+  @latest_comment = @topic.reply @user, :body => 'third comment'
+  @latest_comment.save!
+end
+
 scenario :comment_exists do
   scenario :site, :section, :article, :user
   @comment = Comment.new :author => stub_user, :commentable => stub_article, :body => 'body'

@@ -1,7 +1,21 @@
+# class Object
+#   alias :treequal_without_stubby :===
+#   def self.===(object)
+#     if object.respond_to? :stubby?
+#       return object.class == self
+#     end
+#     super
+#   end
+# end
+
 module Stubby
   class Base        
     class << self
       attr_accessor :original_class
+      
+      def stubby?
+        true
+      end
       
       def new
         returning super do |object|
@@ -33,6 +47,10 @@ module Stubby
   
     def instance_of?(klass)
       @original_class == klass
+    end
+      
+    def stubby?
+      true
     end
   end
 end

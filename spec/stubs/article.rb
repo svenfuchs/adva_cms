@@ -1,6 +1,8 @@
 define Article do
   has_many :comments, :build => stub_comment
   has_many [:approved_comments, :unapproved_comments], stub_comments
+  has_many :categories
+  has_many :tags
   
   belongs_to :site
   belongs_to :section
@@ -27,6 +29,7 @@ define Article do
            :accept_comments? => true,
            :has_excerpt? => true,
            :published_at => Time.now,
+           :published? => true,
            :filter => nil,
            :attributes= => nil,
            :save => true, 

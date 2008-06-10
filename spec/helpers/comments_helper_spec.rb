@@ -1,15 +1,41 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe CommentsHelper do
-  include Stubby
-  include UrlMatchers
-  include CommentsHelper
+  include Stubby, UrlMatchers, CommentsHelper
   
   before :each do
     scenario :site, :section, :article, :comment
   end
   
-  it 'should have complete specs'
+  it '#comments_feed_title joins the titles of site, section and commentable' do
+    helper.comments_feed_title(@site, @section, @article).should == 
+      'Comments: site title &raquo; section title &raquo; An article'
+  end
+  
+  it '#link_to_admin_comments_owner should probably be solved as a filter bar (as on articles list?)'
+  
+  it '#link_to_remote_comment_preview returns a rote link to preview_comments_path' do
+    helper.should_receive(:preview_comments_path).and_return '/path/to/comments/preview'
+    helper.link_to_remote_comment_preview.should =~ /Ajax.Updater/
+  end
+  
+  describe '#comment_form_hidden_fields returns hidden fields for generic comment form usage' do
+    before :each do 
+      @fields = comment_form_hidden_fields(@article)
+    end
+    
+    it 'including redirect_to' do
+      @fields.should have_tag('input[type=?][name=?]', 'hidden', 'redirect_to')
+    end
+    
+    it 'including commentable[type]' do
+      @fields.should have_tag('input[type=?][name=?]', 'hidden', 'commentable[type]')
+    end
+    
+    it 'including commentable[id]' do
+      @fields.should have_tag('input[type=?][name=?]', 'hidden', 'commentable[id]')
+    end
+  end
   
   describe "the admin_comment_path helper" do
     it "calls admin_site_comment_path helper" do

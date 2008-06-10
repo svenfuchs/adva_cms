@@ -27,11 +27,11 @@ module ContentHelper
   end
   
   def link_to_content_comments_count(content, options = {:total => true})
-    total = content.comments.size
-    approved = content.approved_comments.size
-    return options[:alt] || 'none' if total == 0
+    total = content.comments_count
+    approved = content.approved_comments_count
+    return options[:alt] || 'none' if approved == 0
     text = if total == approved or !options[:total]
-      "#{total.to_s.rjust(2, '0')}"
+      "#{approved.to_s.rjust(2, '0')}"
     else
       "#{approved.to_s.rjust(2, '0')} (#{total.to_s.rjust(2, '0')})"
     end
@@ -53,10 +53,11 @@ module ContentHelper
   end
   
   def link_to_category(*args)
+    text = args.shift if args.first.is_a? String
     category = args.pop
-    section = args.pop
+    section = args.pop || category.section
     route_name = "#{section.class.name.downcase}_category_path"
-    link_to args.pop || category.title, send(route_name, :section_id => section.id, :category_id => category.id)
+    link_to text || category.title, send(route_name, :section_id => section.id, :category_id => category.id)
   end
   
   def links_to_content_categories(content, format_string = nil)

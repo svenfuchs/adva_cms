@@ -2,12 +2,14 @@ define Topic do
   belongs_to :site, stub_site
   belongs_to :section
   has_many   :comments
+  has_one    :last_comment, stub_comment
   
   methods    :sticky? => false,
              :locked? => false,
              :save => true,
              :destroy => true,
              :revise => true,
+             :last_page => 2,
              :last_comment => stub_comment,
              :last_updated_at => Time.now(),
              :last_author_name => 'last_author_name'
@@ -20,6 +22,7 @@ define Topic do
 end
 
 scenario :topic do
+  scenario :comment
   @topic = stub_topic
 end
 

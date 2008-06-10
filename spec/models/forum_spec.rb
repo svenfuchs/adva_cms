@@ -31,13 +31,19 @@ describe Forum do
       @forum.should have_one(:recent_topic)
     end
     
-    it "should have recent_topic being spec'ed with fixtures"
+    it "#recent_topic returns the most recent topic" do
+      scenario :two_topics
+      @forum.recent_topic.should == @latest_topic
+    end
     
     it "has one recent comment" do
       @forum.should have_one(:recent_comment)
     end
     
-    it "should have recent_comment being spec'ed with fixtures"
+    it "#recent_comment returns the most recent topic" do
+      scenario :three_comments
+      @forum.recent_comment.should == @latest_comment
+    end
     
     it "has a topics counter" do
       @forum.should have_one(:topics_count)

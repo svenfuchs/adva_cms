@@ -1,6 +1,8 @@
 module CommentsHelper  
-  def comments_feed_title
-    'Comments: ' + [@site, @section, @commentable].uniq.map(&:title).join(' » ')
+  def comments_feed_title(*owners)
+    options = owners.extract_options! 
+    separator = options[:separator] || ' &raquo; '
+    'Comments: ' + owners.compact.uniq.map(&:title).join(separator)
   end
     
   def comment_expiration_options
@@ -27,7 +29,7 @@ module CommentsHelper
     CODE
   end
   
-  def link_to_comments_owner
+  def link_to_admin_comments_owner
     if @content
       path = send :"edit_admin_#{@content.class.name.downcase}_path", @site, @section, @content
       link_to @content.title, path

@@ -1,5 +1,5 @@
 atom_feed :url => request.url do |feed|
-  feed.title comments_feed_title
+  feed.title comments_feed_title(@site, @section, @commentable)
   feed.updated @comments.empty? ? Time.now : @comments.first.created_at
 
   @comments.each do |comment|

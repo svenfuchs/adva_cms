@@ -19,18 +19,25 @@ module WikiHelper
   
   def wikify(str)
     redcloth = RedCloth.new(str)
-    redcloth.gsub!(/\[\[(.*)\]\]/){ wikify_link($1) }
+    redcloth.gsub!(/\[\[(.*?)\]\]/u){ wikify_link($1) }
     auto_link redcloth.to_html
   end
     
   def wikify_link(str)
     permalink = PermalinkFu.escape(str)
-    if wikipage = Wikipage.find_by_permalink(permalink)
-      link_to str, wikipage.home? ? wiki_path(@section) : wikipage_path(@section, permalink)
-    else
-      link_to str, wikipage_path(@section, permalink), :class => "new_wiki_link" 
-    end
+    options = {}
+    options[:class] = "new_wiki_link" unless Wikipage.find_by_permalink(permalink)
+    link_to str, wikipage_path(@section, permalink), options
   end
+    
+  # def wikify_link(str)
+  #   permalink = PermalinkFu.escape(str)
+  #   if wikipage = Wikipage.find_by_permalink(permalink)
+  #     link_to str, wikipage.home? ? wiki_path(@section) : wikipage_path(@section, permalink)
+  #   else
+  #     link_to str, wikipage_path(@section, permalink), :class => "new_wiki_link" 
+  #   end
+  # end
   
   def wiki_edit_links(wikipage)
 	  links = []	  

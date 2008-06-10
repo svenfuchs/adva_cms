@@ -13,7 +13,8 @@ class Forum < Section
                             :foreign_key => :section_id
 
   has_one  :recent_comment, :class_name => 'Comment', 
-                            :order => "comments.created_at DESC"
+                            :order => "comments.created_at DESC", 
+                            :foreign_key => :section_id
 
 
   # ummmm ... why did i invent this in the first place? for some reason 
@@ -36,7 +37,7 @@ class Forum < Section
   end
 
   def after_topic_update(topic)
-    topics_count.set topics.count 
+    topics_count.set topics.count
     comments_count.set comments.count 
   end
 
