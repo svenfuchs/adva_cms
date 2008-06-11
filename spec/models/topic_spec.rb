@@ -142,15 +142,15 @@ describe Topic do
     
     describe '#paged?' do
       before :each do
-        @section.stub!(:articles_per_page).and_return 10
+        @section.stub!(:posts_per_page).and_return 10
       end
       
-      it 'returns true when the comments_count is greater than the articles_per_page attribute of the section' do
+      it 'returns true when the comments_count is greater than the posts_per_page attribute of the section' do
         @topic.stub!(:comments_count).and_return 15
         @topic.paged?.should be_true
       end
       
-      it 'returns false when the comments_count is not greater than the articles_per_page attribute of the section' do
+      it 'returns false when the comments_count is not greater than the posts_per_page attribute of the section' do
         @topic.stub!(:comments_count).and_return 5
         @topic.paged?.should be_false
       end
@@ -158,7 +158,7 @@ describe Topic do
     
     describe '#last_page returns the number of the last page' do
       before :each do
-        @section.stub!(:articles_per_page).and_return 10
+        @section.stub!(:posts_per_page).and_return 10
       end
       
       it 'which is 1 when comments_count is 0' do
@@ -166,17 +166,17 @@ describe Topic do
         @topic.last_page.should == 1
       end
       
-      it 'which is 1 when comments_count is lesser than articles_per_page' do
+      it 'which is 1 when comments_count is lesser than posts_per_page' do
         @topic.stub!(:comments_count).and_return 5
         @topic.last_page.should == 1
       end
       
-      it 'which is 1 when comments_count equals articles_per_page' do
+      it 'which is 1 when comments_count equals posts_per_page' do
         @topic.stub!(:comments_count).and_return 10
         @topic.last_page.should == 1
       end
       
-      it 'which is 2 when comments_count is greater than articles_per_page' do
+      it 'which is 2 when comments_count is greater than posts_per_page' do
         @topic.stub!(:comments_count).and_return 15
         @topic.last_page.should == 2
       end

@@ -69,7 +69,7 @@ class TopicsController < BaseController
 
     def set_posts
       @posts = @topic.comments.paginate :page => current_page, 
-                                        :per_page => @section.articles_per_page # TODO
+                                        :per_page => @section.comments_per_page # TODO
     end
     
     def current_role_context

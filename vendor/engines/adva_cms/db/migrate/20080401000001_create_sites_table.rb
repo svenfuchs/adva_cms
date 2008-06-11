@@ -9,7 +9,6 @@ class CreateSitesTable < ActiveRecord::Migration
       t.string  :timezone
       t.string  :theme_names
       t.text    :ping_urls
-      t.integer :articles_per_page, :default => 15
       t.string  :akismet_key, :limit => 100
       t.string  :akismet_url
       t.boolean :approve_comments

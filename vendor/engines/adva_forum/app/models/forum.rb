@@ -4,6 +4,11 @@ class Forum < Section
   permissions :topic   => { :user => [:create, :update], :moderator => [:delete, :moderate] },
               :comment => { :user => :create, :author => [:update, :delete] }
 
+  has_option :topics_per_page, :default => 25
+  has_option :comments_per_page, :default => 25    
+
+  has_counter :topics, :comments, :as => :section
+
   has_many :topics,         :order => "topics.sticky desc, topics.last_updated_at desc",
                             :foreign_key => :section_id,
                             :dependent => :delete_all
@@ -17,5 +22,10 @@ class Forum < Section
                             :foreign_key => :section_id
 
 
-  has_counter :topics, :comments, :as => :section
+  validates_numericality_of :topics_per_page, :only_integer => true, :message => "can only be whole number."
+  # TODO validates_inclusion_of :topics_per_page, :in => 1..30, :message => "can only be between 1 and 30."  
+
+  validates_numericality_of :comments_per_page, :only_integer => true, :message => "can only be whole number."
+  # TODO validates_inclusion_of :comments_per_page, :in => 1..30, :message => "can only be between 1 and 30."  
+
 end

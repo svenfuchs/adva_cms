@@ -54,11 +54,11 @@ class Topic < ActiveRecord::Base
   end
 
   def paged?
-    comments_count > @section.articles_per_page
+    comments_count > @section.posts_per_page
   end
   
   def last_page
-    @last_page ||= [(comments_count.to_f / section.articles_per_page.to_f).ceil.to_i, 1].max
+    @last_page ||= [(comments_count.to_f / section.posts_per_page.to_f).ceil.to_i, 1].max
   end
 
   def previous

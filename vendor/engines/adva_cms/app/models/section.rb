@@ -11,7 +11,7 @@ class Section < ActiveRecord::Base
               :category => { :moderator => :all }
   serialize :permissions
   
-  option :articles_per_page, :default => 15    
+  has_option :articles_per_page, :default => 15    
   has_permalink :title, :scope => :site_id
   acts_as_nested_set
   acts_as_commentable
@@ -38,6 +38,8 @@ class Section < ActiveRecord::Base
   
   validates_presence_of :title # :site wtf ... this breaks install_controller#index
   validates_uniqueness_of :permalink, :scope => :site_id
+  validates_numericality_of :articles_per_page, :only_integer => true, :message => "can only be whole number."
+  # TODO validates_inclusion_of :articles_per_page, :in => 1..30, :message => "can only be between 1 and 30."  
 
   class << self
     def register_type(type)
