@@ -86,7 +86,7 @@ describe Admin::CommentsController do
   end 
   
   describe "PUT to :update" do
-    act! { request_to :put, @member_path, :redirect_to => '/redirect/here' }    
+    act! { request_to :put, @member_path, :return_to => '/redirect/here' }    
     it_assigns :comment    
     
     it "fetches a comment from site.comments" do
@@ -112,7 +112,7 @@ describe Admin::CommentsController do
   end
   
   describe "DELETE to :destroy" do
-    act! { request_to :delete, @member_path, :redirect_to => '/redirect/here' }    
+    act! { request_to :delete, @member_path, :return_to => '/redirect/here' }    
     it_assigns :comment
     
     it "fetches a comment from site.comments" do

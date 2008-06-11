@@ -15,7 +15,8 @@ class Admin::InstallController < ApplicationController
     @site.sections << @section
     
     if request.post?
-      if @site.save
+      if @site.valid? && @section.valid?
+        @site.save
         credentials = {:login => 'admin', :password => 'admin'}
         @user = User.create_superuser credentials.update(:name => 'Admin')
         authenticate_user credentials

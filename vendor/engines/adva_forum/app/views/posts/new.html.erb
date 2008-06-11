@@ -8,6 +8,6 @@
     <%= submit_tag 'Post Reply' %>
     <%= link_to_remote_comment_preview %> or
     <img src="/images/indicator.gif" id="comment-preview-spinner" style="display: none;" />
-    <%= link_to('Cancel', params[:redirect_to]) if params[:redirect_to] %>
+    <%= link_to('Cancel', params[:return_to]) if params[:return_to] %>
   </p>
 <% end %>

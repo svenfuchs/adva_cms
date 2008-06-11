@@ -106,7 +106,7 @@ scenario :six_articles_published_in_three_months do
   scenario :user
   Article.delete_all
   
-  @site = Site.create! :host => 'host', :title => 'title'
+  @site = Site.create! :host => 'host', :name => 'site', :title => 'title'
   @blog = Blog.create! :title => 'title', :site => @site
   
   1.upto(3) do |month|

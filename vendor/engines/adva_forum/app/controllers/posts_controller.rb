@@ -30,7 +30,7 @@ class PostsController < BaseController
   def destroy
     @post.destroy
     flash[:notice] = 'The post has been deleted.'
-    redirect_to params[:redirect_to] || topic_path(@section, @topic)
+    redirect_to params[:return_to] || topic_path(@section, @topic)
   end
 
   protected

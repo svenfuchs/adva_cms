@@ -4,7 +4,7 @@ class ActionView::Base
       name = name.to_s
       if name.sub!(/_returning(_path|_url)$/, '')
         options = args.extract_options!
-        options.reverse_merge! :redirect_to => params[:redirect_to] || request.request_uri
+        options.reverse_merge! :return_to => params[:return_to] || request.request_uri
         args << options
         send :"#{name}#{$1}", *args
       else

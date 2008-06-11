@@ -1,15 +1,14 @@
-[fix] routes for pagination are missing
+[fix] rename articles_per_page to per_page so it makes sense for comments and stuff
+      also ensure that it can't equal 0
 [fix] split up javascript/admin.js in smaller files
+
+[fix] routes for pagination are missing
 [fix] separate login and admin/login pages (same thing, different layout)
 [fix] changes to theme assets need to sweep the cached files in public/
 [fix] changes to theme template files need to sweep some kind of template file cache in production?
-[fix] error message details on account/new are missing (render_with_error_proc?)
 [fix] acts_as_list is only used in Asset. can we remove that?
 [fix] currently broken: belongs_to_author: with_deleted => true
 [fix] js'ify all dates and use js date format
-[fix] rename redirect_to param to return_to (it's also used in cancel links etc.)
-[fix] rename articles_per_page to per_page so it makes sense for comments and stuff
-      also ensure that it can't equal 0
 [fix] adapt has_counter for approved_comments      
 
 [feature] [content] pipe all filtered column results (*_html) through whitelist sanitizer

@@ -22,8 +22,8 @@ describe CommentsHelper do
       @fields = comment_form_hidden_fields(@article)
     end
     
-    it 'including redirect_to' do
-      @fields.should have_tag('input[type=?][name=?]', 'hidden', 'redirect_to')
+    it 'including return_to' do
+      @fields.should have_tag('input[type=?][name=?]', 'hidden', 'return_to')
     end
     
     it 'including commentable[type]' do

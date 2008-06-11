@@ -1,4 +1,4 @@
-<%= hidden_field_tag "redirect_to", params[:redirect_to] || request.request_uri %>
+<%= hidden_field_tag "return_to", params[:return_to] || request.request_uri %>
 
 <fieldset>  
   <p>
@@ -11,5 +11,5 @@
 
 <p class="buttons">
   <%= submit_tag 'Save' %>
-  <%= link_to "cancel", params[:redirect_to] if params[:redirect_to] %>
+  <%= link_to "cancel", params[:return_to] if params[:return_to] %>
 </p>

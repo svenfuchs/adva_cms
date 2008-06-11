@@ -17,7 +17,7 @@ class Admin::CommentsController < Admin::BaseController
   #   @comment = @commentable.comments.build params[:comment]
   #   if @comment.save
   #     flash[:notice] = "The comment has been saved."
-  #     redirect_to params[:redirect_to]
+  #     redirect_to params[:return_to]
   #   else
   #     @reply, @comment = @comment, @section.comments.find(params[:comment_id])      
   #     flash.now[:error] = "The comment could not be saved."
@@ -28,7 +28,7 @@ class Admin::CommentsController < Admin::BaseController
   def update
     if @comment.update_attributes params[:comment]
       flash[:notice] = "The comment has been updated."
-      redirect_to params[:redirect_to]
+      redirect_to params[:return_to]
     else
       flash.now[:error] = "The comment could not be updated."
       render :action => :edit
@@ -38,10 +38,10 @@ class Admin::CommentsController < Admin::BaseController
   def destroy
     if @comment.destroy
       flash[:notice] = "The comment has been deleted."
-      redirect_to params[:redirect_to] || admin_site_comments_path
+      redirect_to params[:return_to] || admin_site_comments_path
     else
       flash[:error] = "The comment could not be deleted."
-      redirect_to params[:redirect_to]
+      redirect_to params[:return_to]
     end
   end
   

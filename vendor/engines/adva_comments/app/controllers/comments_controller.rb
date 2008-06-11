@@ -19,11 +19,11 @@ class CommentsController < ApplicationController
     @comment = @commentable.comments.build(params[:comment])
     if @comment.save
       flash[:notice] = "Thank you for your comment!"
-      redirect_to params[:redirect_to]
+      redirect_to params[:return_to]
     else
       flash[:comment] = params[:comment]
       flash[:error] = @comment.errors.full_messages.to_sentence
-      redirect_to params[:redirect_to]
+      redirect_to params[:return_to]
     end
   end
   

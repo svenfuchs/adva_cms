@@ -9,11 +9,11 @@ describe CommentsController do
 
     @collection_path = '/comments'
     @preview_path = '/comments/preview'
-    @redirect_to = '/redirect/here'
+    @return_to = '/redirect/here'
     
     @params = { :commentable => {:type => 'Article', :id => 1}, 
                 :comment => {:body => 'body!', :author_name => 'name'},
-                :redirect_to => @redirect_to }
+                :return_to => @return_to }
   end
   
   describe "POST to preview" do
@@ -41,7 +41,7 @@ describe CommentsController do
     end
     
     describe "given valid comment params" do
-      it_redirects_to { @redirect_to }
+      it_redirects_to { @return_to }
       it_assigns_flash_cookie :notice => :not_nil
     end
     
@@ -50,7 +50,7 @@ describe CommentsController do
         @comment.stub!(:save).and_return false 
         @comment.stub!(:errors).and_return mock('errors', :full_messages => ["Name can't be blank"])    
       end
-      it_redirects_to { @redirect_to }
+      it_redirects_to { @return_to }
       it_assigns_flash_cookie :error => :not_nil
       it_assigns_flash_cookie :comment => :not_nil
     end    
