@@ -1,0 +1,17 @@
+The reason for reinventing the counter_cache wheel here is that counter_cache
+is a bit inflexible. We need to "hardcode" the counter_cache column and
+thereby clutter the schema. This can especially get annoying in combo with
+STI, when - e.g. one subclass needs some counter_caches that are specific to
+this subclass only.
+
+Instead, with has_counter, counters can be separated into an external table 
+with generic column names. 
+
+The ActiveRecord counter_cache mechanism also requires to put the
+:counter_cache directive on the belongs_to association of the counted class,
+which adds some tight coupleing that we might want to avoid.
+
+Instead, with has_counter, we can observe the counted class and update our
+counters "from the outside", so the counted class does not need to know about
+the fact that somebody else keeps a counter on it.
+
