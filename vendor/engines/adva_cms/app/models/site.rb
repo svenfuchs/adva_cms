@@ -43,7 +43,7 @@ class Site < ActiveRecord::Base
   before_validation :downcase_host
   before_destroy :flush_page_cache
   
-  validates_presence_of :host, :title
+  validates_presence_of :host, :name, :title
   
   cattr_accessor :multi_sites_enabled, :cache_sweeper_logging  
     

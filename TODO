@@ -1,9 +1,9 @@
 [fix] routes for pagination are missing
 [fix] split up javascript/admin.js in smaller files
 [fix] separate login and admin/login pages (same thing, different layout)
-[fix] changes to theme assets do not sweep the cached files in public/
+[fix] changes to theme assets need to sweep the cached files in public/
 [fix] changes to theme template files need to sweep some kind of template file cache in production?
-[fix] error message details on admin/install, account/new are missing (render_with_error_proc?)
+[fix] error message details on account/new are missing (render_with_error_proc?)
 [fix] acts_as_list is only used in Asset. can we remove that?
 [fix] currently broken: belongs_to_author: with_deleted => true
 [fix] js'ify all dates and use js date format

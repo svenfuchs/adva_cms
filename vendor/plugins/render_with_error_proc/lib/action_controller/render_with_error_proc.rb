@@ -1,6 +1,5 @@
 ActionController::Base.class_eval do
   class << self
-    # TODO maybe extend this to allow options like :only and :except?
     def renders_with_error_proc(error_proc_name)
       write_inheritable_attribute :default_error_proc, error_proc_name
     end
@@ -15,7 +14,7 @@ ActionController::Base.class_eval do
       else
         %( <span class="field_with_error">
              #{html_tag}
-             <span class="error_message">#{instance.error_message}</span>
+             <span class="error_message">#{Array(instance.error_message).to_sentence}</span>
            </span> )
       end
     end

@@ -2,13 +2,11 @@ class Counter < ActiveRecord::Base
   belongs_to :owner, :polymorphic => true
   
   def increment!
-    self.count += 1
-    save!
+    set count + 1
   end
   
   def decrement!
-    self.count -= 1
-    save!
+    set count - 1
   end
   
   def set(value)

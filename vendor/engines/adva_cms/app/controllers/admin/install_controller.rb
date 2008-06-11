@@ -4,6 +4,7 @@ class Admin::InstallController < ApplicationController
   before_filter :protect_install, :except => :confirmation
   
   layout 'simple'
+  renders_with_error_proc :below_field
   
   def index
     params[:site] ||= {}
@@ -12,11 +13,9 @@ class Admin::InstallController < ApplicationController
     @site = Site.new params[:site].merge(:host => request.host_with_port)
     @section = @site.sections.build params[:section]
     @site.sections << @section
-
+    
     if request.post?
-      if @site.valid? && @section.valid?
-        @site.save
-        
+      if @site.save
         credentials = {:login => 'admin', :password => 'admin'}
         @user = User.create_superuser credentials.update(:name => 'Admin')
         authenticate_user credentials
