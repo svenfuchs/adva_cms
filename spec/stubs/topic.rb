@@ -10,6 +10,7 @@ define Topic do
              :save => true,
              :destroy => true,
              :revise => true,
+             :comments_count => 1,
              :last_page => 2,
              :last_comment => stub_comment,
              :last_updated_at => Time.now(),

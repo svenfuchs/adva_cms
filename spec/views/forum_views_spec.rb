@@ -66,7 +66,7 @@ describe "Forum views:" do
     end
   
     it "should display the topic's comment_count" do # TODO really should use a counter for that!
-      @topic.comments.should_receive(:size)
+      @topic.should_receive(:comments_count)
       render :partial => "forum/topic", :object => @topic
     end
   end

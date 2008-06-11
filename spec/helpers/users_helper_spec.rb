@@ -2,8 +2,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe UsersHelper do
   describe '#authorize_elements' do
-    it "obviously can not use the current user id because it will be cached!"
-    it "returns some kind of javascript include tag"
+    it "returns a javascript tag that executes /user/[uid]/roles.js"
   end
   
   describe "#authorized_link_to" do
