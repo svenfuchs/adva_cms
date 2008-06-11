@@ -87,4 +87,8 @@ class BaseController < ApplicationController
       flash[:notice] = notice
       redirect_to login_path
     end
+    
+    def current_role_context
+      @section || @site
+    end
 end

@@ -55,7 +55,7 @@ class Admin::BaseController < ApplicationController
       @site = Site.find(params[:site_id])
     end
     
-    def target_for_permission_guarding
+    def current_role_context
       @section || @site || Site.new
     end
 end

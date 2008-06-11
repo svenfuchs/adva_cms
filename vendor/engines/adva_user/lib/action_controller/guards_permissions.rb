@@ -44,15 +44,15 @@ module ActionController
       def guard_permission(type)
         action = map_from_controller_action
         unless has_permission?(action, type)
-          role = target_for_permission_guarding.role_authorizing(action, type)
+          role =  current_role_context.role_authorizing(action, type)
           raise RoleRequired.new role
         end
       end
       
       def has_permission?(action, type)
         user = current_user || Anonymous.new
-        object = target_for_permission_guarding
-        user.has_role? object.role_authorizing(action, type), object # TODO refactor
+        context =  current_role_context
+        user.has_role? context.role_authorizing(action, type), context # TODO refactor
       end
       
       def map_from_controller_action

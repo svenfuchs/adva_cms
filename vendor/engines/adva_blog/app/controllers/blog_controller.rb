@@ -73,4 +73,8 @@ class BlogController < BaseController
       set_article if params[:permalink]
       super
     end
+    
+    def current_role_context
+      @article || @section
+    end
 end

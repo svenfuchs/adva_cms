@@ -45,4 +45,8 @@ class PostsController < BaseController
     def set_post
       @post = @topic.comments.find params[:id]
     end
+    
+    def current_role_context
+      @post || @topic
+    end
 end

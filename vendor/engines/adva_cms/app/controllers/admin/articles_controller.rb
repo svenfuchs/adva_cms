@@ -88,7 +88,7 @@ class Admin::ArticlesController < Admin::BaseController
     end
   end
   
-  private
+  protected
     
     def set_section
       @section = @site.sections.find params[:section_id]
@@ -159,7 +159,7 @@ class Admin::ArticlesController < Admin::BaseController
       options
     end  
     
-    def target_for_permission_guarding
+    def  current_role_context
       @article || @section
     end  
 end

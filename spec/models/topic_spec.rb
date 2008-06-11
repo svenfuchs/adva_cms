@@ -20,7 +20,7 @@ describe Topic do
     end
     
     it 'acts as a role context' do
-      Topic.should act_as_role_context
+      Topic.should act_as_role_context(:roles => :author)
     end
     
     it 'specifies implicit roles (author roles for comments)' do

@@ -151,7 +151,7 @@ class WikiController < BaseController
       end
     end
     
-    def target_for_permission_guarding
+    def current_role_context
       @wikipage || @section
     end
 end
