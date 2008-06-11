@@ -1,4 +1,3 @@
-[fix] split up javascript/admin.js in smaller files
 [fix] routes for pagination are missing
 [fix] separate login and admin/login pages (same thing, different layout)
 [fix] changes to theme assets need to sweep the cached files in public/
