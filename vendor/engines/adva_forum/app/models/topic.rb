@@ -2,7 +2,7 @@ class Topic < ActiveRecord::Base
   has_permalink :title
   acts_as_commentable :polymorphic => true
 
-  acts_as_role_context :implicit_roles => lambda{|user|
+  acts_as_role_context :roles => :author, :implicit_roles => lambda{|user|
     comments.by_author(user).map{|comment| Role.build :author, comment }
   }
 

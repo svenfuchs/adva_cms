@@ -32,8 +32,9 @@ module ActiveRecord
   
       def role_authorizing(action, type = nil)
         type ||= self.class.name.demodulize.downcase.to_sym
-        role = permissions[type][action] if respond_to?(:permissions) && permissions[type]
-        returning Role.build(role, self) || owner && owner.role_authorizing(action, type) do |role|          
+        role = permissions[type][action] if respond_to?(:permissions) && permissions[type] 
+        returning Role.build(role, self) || owner && owner.role_authorizing(action, type) do |role|
+          role.original_context = self
           raise "could not find role for #{type}: #{action}" unless role
         end
       end

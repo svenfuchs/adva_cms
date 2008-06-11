@@ -2,7 +2,7 @@ class Role < ActiveRecord::Base
   self.store_full_sti_class = true
   instantiates_with_sti
   
-  attr_reader :name
+  attr_accessor :name, :original_context
   class_inheritable_accessor :has_context, :message, :children
   
   belongs_to :user
@@ -23,7 +23,7 @@ class Role < ActiveRecord::Base
     end
     
     def build(name, context = nil)
-      return name if name.nil? || name.is_a?(Role)      
+      return name if name.nil? || name.is_a?(Role)   
       const_get(name.to_s.classify).new :context => context
     end
     
@@ -31,10 +31,12 @@ class Role < ActiveRecord::Base
       @role_name ||= name.demodulize.downcase.to_sym
     end
   end
-  
+
+  # need to keep the original context because we need it for expanding the included roles
   def initialize(*args)
     super
-    self.context = adjusted_context(name) if self.class.has_context
+    self.original_context = context
+    self.context = adjusted_context(name)
   end
   
   def includes?(role)
@@ -51,8 +53,8 @@ class Role < ActiveRecord::Base
   
   def expand(options = {})
     self.class.with_children.map do |klass|
-      next unless options[:all] || klass.has_context
-      Role.build klass.role_name, context
+      # next unless options[:all] || klass.has_context
+      Role.build klass.role_name, original_context
     end.compact
   end
   
@@ -60,7 +62,7 @@ class Role < ActiveRecord::Base
     Role.build self.class.superclass.role_name, context
   end
   
-  def to_css_class
+  def to_default_css_class
     context_type ? [context_type, context_id, name].join('-').downcase : name
   end
   
@@ -74,12 +76,16 @@ class Role < ActiveRecord::Base
   protected
   
     def adjusted_context(name)
-      context.role_context(name) if context
+      context.role_context(name) if self.class.has_context && context
     end
   
   class Anonymous < Role
     def applies_to?(user)
       true
+    end
+  
+    def to_css_class
+      'anonymous'
     end
   end
   
@@ -88,6 +94,10 @@ class Role < ActiveRecord::Base
     
     def applies_to?(user)
       user.registered?
+    end
+  
+    def to_css_class
+      'user'
     end
   end
 
@@ -98,17 +108,34 @@ class Role < ActiveRecord::Base
     def applies_to?(user)
       context.respond_to?(:is_author?) && context.is_author?(user)
     end
+  
+    def to_css_class
+      to_default_css_class
+    end
   end
 
   class Moderator < Author 
     self.has_context = true
+  
+    def to_css_class
+      to_default_css_class
+    end
   end
 
   class Admin < Moderator
     self.has_context = true
+  
+    def to_css_class
+      to_default_css_class
+    end
   end
 
   class Superuser < Admin  
     self.has_context = false
+  
+    def to_css_class
+      # TODO superusers are allowed to do everything, so we don't need to state this explicitely
+      'superuser'
+    end
   end 
 end

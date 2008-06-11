@@ -1,0 +1,54 @@
+# JS Rbac layer
+
+In order to display links only to authorized users while still page_caching
+most frontend pages, we need to implement a role/permission-based layer in
+javascript.
+
+Of course, this isn't really "access control" because it only controls if a
+link is displayed to the user (the actual access control then happens on the
+server) but I can't come up with a better word for it.
+
+We can have three tiers:
+
+1. In the HTML we encode required roles as CSS classes. A link to a comment's
+edit page that requires the user to be at least the author of the comment could
+look like this:
+
+<a class="requires-role site-1-admin section-1-moderator comment-1-author">edit</a>
+
+A link to a wikipage's edit page that requires a user to be logged in could be:
+
+<a class="requires-role user">edit</a>
+
+(A link to a wikipage's edit page that does not require any authorization
+would simply omit the requires-role class.)
+
+By explicitely listing the possible roles we avoid implementing a role
+hierarchie in the JS layer so the system stays more simple and better
+decoupled.
+
+2. The CSS class .requires hides the link and triggers a JS function that
+looks up roles for the user and re-displays the link if any of them matches
+one of the other CSS classes.
+
+3. The JS layer calls our application and fetches a JSON document that grants
+certain roles to the user for the current site, section and other objects. The
+JSON documents can probably also be page cached and only sweeped when the user's
+roles change.
+
+We can easily retrieve the superuser, admin and moderator roles for the whole
+site and all sections. 
+
+The only thing that breaks ranks is how to sanely check for authorships.
+People can easily pile up hundreds of forum posts so it would not make sense
+to send them all at once. In the case of the forum it seems sane to request
+and send authorships per topic instead.
+
+So, the backend URLs could look like this:
+
+/users/1/roles.js           # site-1-admin, section-1-moderator
+/users/1/roles/topic/1.js   # site-1-admin, section-1-moderator, post-1-author, post-2-author, post-3-author, ...
+
+The returned JS will then simply compare the classes present on the page to
+the values returned from the backend and display the links that match (or
+whatever else).

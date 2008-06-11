@@ -1,10 +1,9 @@
-[fix] looking at the helpers, probably the admin comments section needs to be reorganized somehow
 [fix] routes for pagination are missing
 [fix] split up javascript/admin.js in smaller files
 [fix] separate login and admin/login pages (same thing, different layout)
 [fix] changes to theme assets do not sweep the cached files in public/
 [fix] changes to theme template files need to sweep some kind of template file cache in production?
-[fix] error message details on account/new are missing (render_with_error_proc?)
+[fix] error message details on admin/install, account/new are missing (render_with_error_proc?)
 [fix] acts_as_list is only used in Asset. can we remove that?
 [fix] currently broken: belongs_to_author: with_deleted => true
 [fix] js'ify all dates and use js date format
@@ -13,21 +12,14 @@
       also ensure that it can't equal 0
 [fix] adapt has_counter for approved_comments      
 
-[feature] [content] pipe all filtered columns through whitelist sanitizer
+[feature] [content] pipe all filtered column results (*_html) through whitelist sanitizer
 [feature] [wiki] implement wikipage admin area (analog to articles area)
 [feature] [wiki] add various filters to admin wikipage list (like on admin articles list)
 [feature] [wiki] make the 'home' wikipage permalink configurable per wiki
 [feature] [comments] add various filters to admin comments list (like on admin articles list)
 [feature] [comments] after a comment was posted, display it on a comments/show page with messages and a form to edit it
-[feature] [comments] allow anonymous comment editing for a couple of minutes based on the cookie
-[fix] [comments] comments_count gets cached, need approved_comments_count
+[feature] [comments] allow anonymous comment editing (for a couple of minutes, based on the cookie token)
 [fix] [wiki] force username present on wikipage save
-
-[fix] is the Content.state attribute actually used somewhere? (not the method, the attribute)
-
-User.act!(@forum, :create, :topic, params[:topic])
-
-
 
 [plugin] pingback plugin
 [plugin] comment email notification
@@ -54,12 +46,8 @@ User.act!(@forum, :create, :topic, params[:topic])
 
 # broken + missing specs
 
-[specs] User#has_role? and User#has_exact_role?
 [specs] spec widgets
-[specs] add specs for helper methods stubbed in view specs
 [specs] spec and implement admin/wikipage section
-[specs] spec remaining helpers
-[specs] spec remaining views + partials
 [specs] implement themes + theme_file specs
 [specs] implement assets specs
 [specs] spec registration, login, authentication
@@ -78,64 +66,6 @@ authentication http://authentication.rubyforge.org/
 
 ------------------------------------------------------------------------------
 
-# JS Rbac layer
-
-In order to display links only to authorized users while still page_caching
-most frontend pages, we need to implement a role/permission-based layer in
-javascript.
-
-We can have three tiers:
-
-1. In the HTML we encode required roles as CSS classes. A link to a comment's
-edit page that requires the user to be at least the author of the comment could
-look like this:
-
-<a class="requires-role site-1-admin section-1-moderator comment-1-author">edit</a>
-
-A link to a wikipage's edit page that requires a user to be logged in could be:
-
-<a class="requires-role user">edit</a>
-
-(And a link to a wikipage's edit page that does not require any authorization
-would obviously just omit the requires-role class.)
-
-By explicitely listing the possible roles we avoid implementing a role 
-hierarchie in the JS layer so the system stays better decoupled.
-
-2. The CSS class .requires hides the link and triggers a JS function that
-looks up roles for the user and re-displays the link if any of them matches
-one of the other CSS classes.
-
-3. The JS layer calls our application and fetches a JSON document that grants
-certain roles to the user for the current site, section and other objects. The
-JSON documents can probably also be page cached and only sweeped when the user's
-roles change.
-
-We can easily retrieve the superuser, admin and moderator roles for the whole
-site and all sections. 
-
-The only thing that bothers me is how to sanely check for authorships. People
-can easily pile up hundreds of forum posts so it would not make sense to send
-them all at once. In the case of the forum it seems sane to request and send
-authorships per topic instead.
-
-So, the backend URLs could look like this:
-
-/users/1/roles/          # site-1-admin, section-1-moderator
-/users/1/roles/topic/1   # site-1-admin, section-1-moderator, post-1-author, post-2-author, post-3-author, ...
-
-The JS layer would just compare the classes present on the page to the values
-returned from the backend and display the links that match (or whatever else).
-
-The view would access a helper that returns the role-keys that authorize to
-perform a certain action. E.g. possible_roles_for(:manage_wikipages, @wiki) or
-better: possible_roles_for(:edit, @wikipage)
-
-The roles backend service would list all roles that the user has for the given
-object. Like current_user.roles_for(@site) or current_user.roles_for(@topic),
-or rather: @site.relevant_roles(current_user) and @topic.relevant_roles(current_user)
-
-
 
 
 # users
@@ -149,16 +79,8 @@ or rather: @site.relevant_roles(current_user) and @topic.relevant_roles(current_
     feeds
     
     hot topics
-    topic activity since last visit
+    topic activity since last visit (highlight topics that have changed since the user read them last)
     hits ?
-    
-    abstract out a javascript api for roles/permissions:
-      show a form when user is not logged in, show an edit link when user has permission to edit
-      should work without requesting permission data with each request, right?
-      http://pivots.pivotallabs.com/users/nick/blog/articles/272-access-control-permissions-in-rails
-      http://hobocentral.net/
-    same with recent topics:
-      highlight topics that have changed since the user read them last
 
     monitorship for forum topics, wikipages, blog articles etc.
     moderatorships => role :moderator
@@ -166,8 +88,9 @@ or rather: @site.relevant_roles(current_user) and @topic.relevant_roles(current_
     add a description and description_html to sections?
     list forum moderators?
     
-    refactor to user commands (e.g. current_user.reply) that check permissions
-      and then delegate the command to the target model? (e.g. topic.reply) ?
+    refactor to generic actions that check permissions and then delegate the 
+     command to the target model?
+     current_user.act :create, :topic, params[:topic] (or something like that)
 
     this is what tentacle does:
     create_table "monitorships", :force => true do |t|

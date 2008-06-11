@@ -16,7 +16,7 @@ module UsersHelper
   end  
   
   def authorized_link_to(text, url, options = {})
-    options = add_authorizing_css_classes options
+    options = add_authorizing_css_classes options.dup
     link_to text, url, options
   end
   

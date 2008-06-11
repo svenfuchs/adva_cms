@@ -128,44 +128,72 @@ describe 'Roles: ' do
     end
   end
 
-  describe '#role_authorizing (with default_permissions)' do
-    describe 'on a site' do
+  describe '#role_authorizing' do
+    describe 'on a site with default_permissions' do
       it 'returns a superuser role for the :create action' do
         @site.role_authorizing(:create).should == @superuser_role
       end
 
-      it 'returns a superuser role for the :create action' do
+      it 'returns a superuser role for the :update action' do
         @site.role_authorizing(:update).should == @admin_role
       end
 
-      it 'returns a superuser role for the :create action' do
+      it 'returns a superuser role for the :delete action' do
         @site.role_authorizing(:delete).should == @superuser_role
       end
     end
 
-    describe 'on a section' do
+    describe 'on a section with default_permissions' do
       it 'returns an admin role for the :create action' do
         @section.role_authorizing(:create).should == @admin_role
       end
 
-      it 'returns an admin role for the :create action' do
+      it 'returns an admin role for the :update action' do
         @section.role_authorizing(:update).should == @admin_role
       end
 
-      it 'returns an admin role for the :create action' do
+      it 'returns an admin role for the :delete action' do
         @section.role_authorizing(:delete).should == @admin_role
       end
     end
     
-    # @content.role_authorizing(:manage_articles).should == @moderator_role
-    # @wikipage.role_authorizing(:manage_wikipages).should == @user_role
+    describe 'on a forum with roles for topic actions all set to user' do
+      before :each do
+        @section.stub!(:permissions).and_return \
+          :section => { :topic => { :show => :user, :create => :user, :update => :user, :delete => :user }}        
+      end
+      
+      it 'returns a user role for the :create action'
+      it 'returns a user role for the :update action'
+      it 'returns a user role for the :delete action'
+    end
+    
+    describe 'on a forum with roles for topic actions all set to author' do
+      before :each do
+        @section.stub!(:permissions).and_return \
+          :section => { :topic => { :show => :user, :create => :user, :update => :user, :delete => :user }}        
+      end
+      
+      it 'returns a author role for the :create action' # TODO even though this is quite stupid? maybe.
+      it 'the author role for the :create action has the topic set as context'
+      it 'returns a author role for the :update action'
+      it 'the author role for the :update action has the topic set as context'
+      it 'returns a author role for the :delete action'
+      it 'the author role for the :create delete has the topic set as context'
+    end
   end
   
   describe '#expand' do
-    it 'works' do
-      @author_role.expand.should == [@author_role, @moderator_role, @admin_role]
-      @moderator_role.expand.should == [@moderator_role, @admin_role]
-      @admin_role.expand.should == [@admin_role]
+    it 'called on an author role it returns itself, a moderator, admin and superuser role' do
+      @author_role.expand.should == [@author_role, @moderator_role, @admin_role, @superuser_role]
+    end
+    
+    it 'called on a moderator role it returns itself, an admin and superuser role' do
+      @moderator_role.expand.should == [@moderator_role, @admin_role, @superuser_role]
+    end
+    
+    it 'called on an admin role it returns itself and a superuser role' do
+      @admin_role.expand.should == [@admin_role, @superuser_role]
     end
   end
   
@@ -221,7 +249,6 @@ describe 'Roles: ' do
       Wiki.default_permissions.to_hash.should == @default_permissions[:wiki]
     end
   end
-  
   
   # describe 'User.roles.for' do
   #   it 'works' do

@@ -15,5 +15,6 @@ scenario :roles do
   @content = stub_model Content, :section => @section, :author => @author
   @wikipage = stub_model Wikipage, :section => @section, :author => @author
 
+  @user_role = Role.build :user, @content
   @author_role = Role.build :author, @content
 end
