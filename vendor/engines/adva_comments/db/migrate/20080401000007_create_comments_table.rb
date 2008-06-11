@@ -16,15 +16,6 @@ class CreateCommentsTable < ActiveRecord::Migration
     end
   end
 
-    create_table :posts, :force => true do |t|
-      t.references :site
-      t.references :section
-      t.references :user
-      t.text       :body
-      t.text       :body_html
-      t.timestamps
-    end
-
   def self.down
     drop_table :comments
   end

@@ -3,6 +3,7 @@ define Article do
   has_many [:approved_comments, :unapproved_comments], stub_comments
   has_many :categories
   has_many :tags
+  has_one  :comments_counter, stub_counter
   
   belongs_to :site
   belongs_to :section
@@ -54,7 +55,11 @@ end
 
 scenario :blank_article do
   scenario :site, :section, :user
-  @article = Article.new :author => stub_user, :site_id => stub_site, :section_id => stub_section, :title => 'An article', :body => 'body'
+  Article.delete_all
+  @article = Article.new :author => stub_user, 
+                         :site_id => stub_site, :section_id => stub_section, 
+                         :title => 'An article', 
+                         :body => 'body'
 end
 
 scenario :article_exists do
@@ -64,6 +69,7 @@ end
 
 scenario :article_created do
   scenario :article_exists
+  @article.id = nil                       
   stub_methods @article, :new_record? => true
 end
 
@@ -97,11 +103,15 @@ scenario :article_published_on_2008_1_1 do
 end
 
 scenario :six_articles_published_in_three_months do
-  scenario :site, :section, :user
+  scenario :user
   Article.delete_all
+  
+  @site = Site.create! :host => 'host', :title => 'title'
+  @blog = Blog.create! :title => 'title', :site => @site
+  
   1.upto(3) do |month|
     1.upto(month) do |day|
-      Article.create :author => stub_user, :site_id => stub_site, :section_id => stub_section, 
+      Article.create :author => stub_user, :site => @site, :section => @blog, 
                      :title => "Article on day #{day} in month #{month}", :body => 'body',
                      :published_at => Time.zone.local(2008, month, day)
     end

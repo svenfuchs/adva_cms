@@ -1,6 +1,5 @@
 module RoutingFilter
   class RootSection < Base
-    
     # this pattern matches a path that starts (aside from an optional locale) 
     # with a single slash or one of articles|pages|categories|tags, 4 digits 
     # or a dot followed by anything. 

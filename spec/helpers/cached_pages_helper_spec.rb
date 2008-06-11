@@ -7,9 +7,10 @@ describe CachedPagesHelper do
     before :each do
       scenario :cached_page
       
-      @time_now = Time.zone.now
-      @yesterday = Time.zone.now.yesterday
+      @time_now = Time.local 2008, 1, 2, 12
+      @yesterday = Time.local 2008, 1, 1, 12
       
+      Time.stub!(:now).and_return @time_now # wtf ... time_now_in_words ignores the timezone
       Time.zone.stub!(:now).and_return @time_now
       Time.zone.now.stub!(:yesterday).and_return @yesterday
       Date.stub!(:today).and_return Time.zone.now.to_date

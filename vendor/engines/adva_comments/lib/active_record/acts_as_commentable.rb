@@ -11,10 +11,12 @@ module ActiveRecord
         # TODO somehow the various accept_comments? options seem a bit chaotic
         # this doesn't even seem to be used anymore
         # write_inheritable_attribute :accept_comments?, options.delete(:accept_comments?) || true
-        
+
         options[:order] = 'comments.created_at'
         options[:as] = :commentable if options.delete(:polymorphic)
 
+        has_counter :comments, :as => options[:as] || name.underscore
+  
         with_options options do |c|
           c.has_many :comments, :dependent => :delete_all do
             def by_author(author)

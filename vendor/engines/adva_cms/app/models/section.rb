@@ -44,14 +44,6 @@ class Section < ActiveRecord::Base
       @@types << type
       @@types.sort!.uniq!
     end
-    
-    def paths(host)
-      find(:all, :conditions => ["path <> '' AND sites.host = ?", host], :include => :site).map(&:path)
-    end
-    
-    def find_by_host_and_path(host, path)
-      find(:first, :conditions => ["path = ? AND sites.host = ?", path, host], :include => :site)
-    end
   end
 
   def owner

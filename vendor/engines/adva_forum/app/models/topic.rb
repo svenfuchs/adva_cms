@@ -7,7 +7,7 @@ class Topic < ActiveRecord::Base
   }
 
   belongs_to :site
-  belongs_to :section 
+  belongs_to :section
   belongs_to_author :last_author   
   belongs_to :last_comment, :class_name => 'Comment', :foreign_key => :last_comment_id
 
@@ -78,7 +78,7 @@ class Topic < ActiveRecord::Base
     else
       self.destroy
     end
-    section.after_topic_update(self)
+    # section.after_topic_update(self)
   end
 
   protected

@@ -31,6 +31,7 @@ scenario :three_comments do
   scenario :user, :site
   
   @forum = Forum.new :title => 'forum', :site => @site
+  @forum.stub!(:build_path).and_return 'forum'
   @forum.save!
   
   @three_days_ago = 3.days.ago

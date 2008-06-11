@@ -3,18 +3,12 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe Blog do
   include Stubby
   
-  before :each do
-    @blog = Blog.new
-    @blog.stub!(:id).and_return 1
-  end
-  
   it "is a kind of Section" do
-    @blog.should be_kind_of(Section)
+    Blog.new.should be_kind_of(Section)
   end
   
   it "#articles_by_month returns a hash with months (dates) as keys and articles as values" do
     scenario :six_articles_published_in_three_months
-    
     @blog.articles_by_month.size.should == 3
     @blog.article_counts_by_month.transpose.first.map(&:month).sort.should == [1, 2, 3]
     @blog.articles_by_month.transpose.last.flatten.map(&:class).uniq.should == [Article]

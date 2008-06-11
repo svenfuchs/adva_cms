@@ -8,7 +8,8 @@ describe "Routing Filter::Sections" do
   
   describe "#before_recognize_path" do
     before :each do
-      Section.stub!(:paths).and_return ['section', 'section/subsection']
+      scenario :site
+      @site.sections.stub!(:paths).and_return ['section', 'section/subsection']
     end
     
     describe "given an incoming root path" do
@@ -32,7 +33,7 @@ describe "Routing Filter::Sections" do
     
     describe "given an incoming section path" do
       before :each do
-        Section.should_receive(:find_by_host_and_path).with('test.host', 'section').and_return mock_section
+        Site.should_receive(:find_by_host).with('test.host').and_return mock_section
       end
 
       describe "without a locale (like /section)" do
@@ -62,7 +63,7 @@ describe "Routing Filter::Sections" do
     
     describe "given an incoming nested section path" do
       before :each do
-        Section.should_receive(:find_by_host_and_path).with('test.host', 'section/subsection').and_return mock_section
+        Site.should_receive(:find_by_host).with('test.host').and_return mock_section
       end
 
       describe "without a locale (like /section/subsection)" do

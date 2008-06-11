@@ -15,7 +15,7 @@ module Matchers
       end
       
       def matches?(target)
-        @target = target # stupid rspec wants me to set this instance var myself?
+        @target = target
         does_match?
       end
 
@@ -62,6 +62,12 @@ module Matchers
       end
     end
   
+    class ActAsThemed < Base
+      def does_match?
+        @target.included_modules.include? ThemeSupport::ActiveRecord::InstanceMethods
+      end
+    end
+  
     class ActAsVersioned < Base
       def does_match?
         @target.included_modules.include? ActiveRecord::Acts::Versioned::ActMethods
@@ -90,6 +96,13 @@ module Matchers
       def does_match?
         @target.new.respond_to?(:create_unique_permalink) && 
         @target.permalink_attributes == @args
+      end
+    end
+    
+    class HaveCounter < Base
+      def does_match?
+        name = :"#{@args.first}_counter"
+        @target.reflect_on_all_associations(:has_one).find { |a| a.name == name }
       end
     end
     

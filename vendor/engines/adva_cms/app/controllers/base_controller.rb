@@ -49,7 +49,7 @@ class BaseController < ApplicationController
     end    
 
     def set_site
-      @site = Site.find_or_initialize_by_host(request.host_with_port) 
+      @site = Site.find_by_host(request.host_with_port) 
     end
 
     def set_section(type = nil)

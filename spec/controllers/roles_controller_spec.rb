@@ -19,7 +19,8 @@ describe RolesController do
     controller.stub!(:save_cache_references)
     @user.roles.stub!(:by_context).and_return [@admin_role, @moderator_role]
 
-    Site.stub!(:find_or_initialize_by_host).and_return @site
+    Site.stub!(:find_by_host).and_return @site
+    User.stub!(:find).and_return @user
   end
   
   describe "GET to :index" do

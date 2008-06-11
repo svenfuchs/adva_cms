@@ -19,8 +19,7 @@ describe "Admin::Comments:" do
     
     template.stub!(:will_paginate)
     template.stub!(:link_to_content_comment).and_return '<a href="path/to/content#comment-id"></a>'
-    template.stub!(:link_to_admin_comments_owner).and_return '<a href="path/to/admin/comments_owner"></a>'
-    
+    template.stub!(:link_to_admin_object).and_return '<a href="path/to/admin/object"></a>'
   end
   
   describe "the index view" do

@@ -6,20 +6,22 @@ describe WikiController, 'Permissions' do
     scenario :wiki, :roles
 
     @site = stub_model Site, :host => 'test.host'
-    @wiki = stub_model Wiki, :id => 1, :site => @site
+    @wiki = stub_model Wiki, :id => 1, :site => @site, :path => 'wiki'
     @wikipage = stub_model Wikipage, :section => @wiki
     @wiki.wikipages.stub!(:find).and_return @wikipage
     @wiki.wikipages.stub!(:find_or_initialize_by_permalink).and_return @wikipage
     
     Site.stub!(:find).and_return @site
+    @site.stub!(:sections).and_return [@wiki]
     @site.sections.stub!(:find).and_return @wiki
+    @site.sections.stub!(:paths).and_return ['wiki']
     @site.sections.stub!(:root).and_return @wiki
     
     controller.stub!(:current_user).and_return @user
     controller.stub!(:wikipage_path).and_return('http://test.host/pages/a-wikipage')
     @admin_role.context = @site
     
-    Site.stub!(:find_or_initialize_by_host).and_return @site
+    Site.stub!(:find_by_host).and_return @site
   end
   
   def should_grant_access(method, path)

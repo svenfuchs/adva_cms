@@ -14,6 +14,10 @@ class Site < ActiveRecord::Base
     def root
       find_by_parent_id nil, :order => 'lft'
     end
+    
+    def paths
+      map(&:path)
+    end
   
     # TODO this is very expensive! change this to only update_paths when a node has been moved.
     # maybe move this to betternestedset and hook into move_by instead?

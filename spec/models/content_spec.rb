@@ -57,6 +57,10 @@ describe Content do
     it "filters the body" do      
       @content.should filter_column(:body)
     end
+  
+    it "has a comments counter" do
+      Content.should have_counter(:comments)
+    end
   end
   
   describe "associations" do

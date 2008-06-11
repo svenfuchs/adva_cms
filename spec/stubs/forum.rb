@@ -3,6 +3,8 @@ define Forum do
   
   has_many :topics, :find_by_permalink => stub_topic,
                     :post => stub_topic
+  has_one  :topics_counter, stub_counter
+  has_one  :comments_counter, stub_counter
 
   methods  :id => 1,
            :type => 'Forum', 

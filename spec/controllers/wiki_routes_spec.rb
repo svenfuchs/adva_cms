@@ -9,10 +9,7 @@ describe WikiController do
     @site.sections.stub!(:root).and_return @wiki
     @wiki.categories.stub!(:find_by_path).and_return @category
 
-    Section.stub!(:paths).and_return ['wiki', 'wikis/wiki']
     Section.stub!(:find).and_return @wiki
-    Section.stub!(:find_by_host_and_path).and_return @wiki
-    
     controller.instance_variable_set :@site, @site
   end 
   

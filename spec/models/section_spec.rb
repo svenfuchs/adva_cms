@@ -51,11 +51,15 @@ describe Section do
     end
     
     it "acts as a commentable" do
-      Content.should act_as_commentable
+      Section.should act_as_commentable
     end
     
     it "instantiates with single table inheritance" do
-      Content.should instantiate_with_sti
+      Section.should instantiate_with_sti
+    end
+  
+    it "has a comments counter" do
+      Section.should have_counter(:comments)
     end
   end
   
@@ -131,12 +135,6 @@ describe Section do
       Section.register_type('Galerie')
       Section.types.should include('Galerie')
     end
-    
-    it ".paths returns all non-empty paths for the given host" do
-      Section.paths('test.host').sort[0..1].== ["about", "about/location"]
-    end
-    
-    it ".find_by_host_and_path should probably be replaced by Site.find_by_host etc.?"
   end
   
   describe "public instance methods" do

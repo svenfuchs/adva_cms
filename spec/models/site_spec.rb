@@ -13,8 +13,8 @@ describe Site do
   
   describe 'class extensions:' do
     it 'acts as themed' do
-#      Site.should act_as_themed
-    end
+     Site.should act_as_themed
+   end
     
     it 'acts as commentable' do
       Site.should act_as_commentable
@@ -29,9 +29,14 @@ describe Site do
     end
     
     it 'has default permissions' do
-      Section.default_permissions.should == 
-        { :article => { :show => :moderator, :update => :moderator, :create => :moderator, :delete => :moderator}, 
-          :category => { :show => :moderator, :update => :moderator, :create => :moderator, :delete => :moderator} }
+      Site.default_permissions.should == 
+        { :site    => { :show => :admin, :create => :superuser, :update => :admin, :delete => :superuser, :manage => :admin }, 
+          :section => { :show => :admin, :create => :admin, :update => :admin, :delete => :admin }, 
+          :theme   => { :show => :admin, :create => :admin, :update => :admin, :delete => :admin } }
+    end
+  
+    it "has a comments counter" do
+      Site.should have_counter(:comments)
     end
   end
   

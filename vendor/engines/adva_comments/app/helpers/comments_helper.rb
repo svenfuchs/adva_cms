@@ -29,17 +29,6 @@ module CommentsHelper
     CODE
   end
   
-  def link_to_admin_comments_owner
-    if @content
-      path = send :"edit_admin_#{@content.class.name.downcase}_path", @site, @section, @content
-      link_to @content.title, path
-    elsif @section
-      link_to @section.title, admin_section_path_for(@section)
-    else
-      link_to @site.name, admin_site_path(@site)
-    end
-  end
-  
   def link_to_remote_comment_preview
     link_to_remote "Preview",
       :url     => preview_comments_path,

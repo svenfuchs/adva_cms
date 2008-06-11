@@ -1,9 +1,9 @@
 ActionController::Routing::Routes.draw do |map|
   
   map.filter 'locale'
+  map.filter 'categories' # TODO fix: around_filter seems to call filters in reverse order
   map.filter 'root_section'
   map.filter 'sections'   
-  map.filter 'categories' 
 
   map.from_plugin :adva_cms
   map.from_plugin :adva_blog

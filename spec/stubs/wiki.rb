@@ -8,6 +8,7 @@ define Wiki do
         
   has_many :comments, :build => stub_comment
   has_many [:approved_comments, :unapproved_comments], stub_comments
+  has_one  :comments_counter, stub_counter
 
   methods  :render_options => {},
            :template => 'template',
@@ -24,6 +25,9 @@ define Wiki do
            :type => 'Wiki', 
            :path => 'wiki',
            :title => 'wiki title'
+  
+  instance :wikis_wiki,
+           :path => 'wikis/wiki'
 
 end
 
@@ -31,8 +35,5 @@ scenario :wiki do
   @wiki = stub_wiki
   
   Section.stub!(:find).and_return @wiki
-  Section.stub!(:types).and_return ['Section', 'Blog', 'Wiki']
-  Section.stub!(:paths).and_return ['section', 'sections/section', 'blog', 'blogs/blog', 'wikis/wiki', 'wiki']
-  
-  # @site.stub_collection! :sections, @sections, [:find, :build, :root] => @wiki if @site
+  Section.stub!(:types).and_return ['Section', 'Blog', 'Wiki', 'Forum']
 end

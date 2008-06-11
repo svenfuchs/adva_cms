@@ -10,7 +10,13 @@ describe Activities::ArticleObserver do
   end
   
   it "should log a 'created' activity on save when the article is a new_record" do
-    scenario :article_created
+    # wtf ... can not use the scenario :article_created here for some reason
+    # sqlite breaks with a logic error
+    scenario :user
+    @article = Article.new :author => stub_user, 
+                           :site_id => stub_site, :section_id => stub_section, 
+                           :title => 'An article', :body => 'body'
+                           
     expect_activity_new_with :actions => ['created']
     Article.with_observers('activities/article_observer') { @article.save! }
   end

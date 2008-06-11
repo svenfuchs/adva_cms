@@ -1,6 +1,6 @@
 module Stubby
   class HasManyProxy < Array
-    attr_accessor :name
+    attr_accessor :name, :values
   
     def initialize(name, values, methods)
       @name = name

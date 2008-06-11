@@ -8,6 +8,7 @@ describe BlogController do
 
     @blog.articles.stub!(:paginate_published_in_time_delta).and_return @articles
     @category.contents.stub!(:paginate_published_in_time_delta).and_return @articles
+
     @site.sections.stub!(:find).and_return @blog
   end
   

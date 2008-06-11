@@ -26,6 +26,10 @@ describe Topic do
     it 'specifies implicit roles (author roles for comments)' do
       @topic.should respond_to(:implicit_roles)
     end
+  
+    it "has a comments counter" do
+      Topic.should have_counter(:comments)
+    end
   end
   
   describe 'associations:' do
@@ -209,7 +213,7 @@ describe Topic do
     describe '#after_comment_update' do
       before :each do
         scenario :comment
-        @topic.section.stub!(:after_topic_update)
+        # @topic.section.stub!(:after_topic_update)
         @topic.stub!(:update_attributes!)
         @topic.stub!(:destroy)
       end
@@ -234,10 +238,10 @@ describe Topic do
         @topic.after_comment_update(@comment)
       end
       
-      it 'updates the section by calling after_topic_update' do
-        @topic.section.should_receive(:after_topic_update)
-        @topic.after_comment_update(@comment)
-      end
+      # it 'updates the section by calling after_topic_update' do
+      #   @topic.section.should_receive(:after_topic_update)
+      #   @topic.after_comment_update(@comment)
+      # end
     end
     
     it '#set_site sets the site from the section' do

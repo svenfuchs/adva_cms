@@ -9,9 +9,7 @@ describe BlogController do
     @site.sections.stub!(:root).and_return @blog
     @section.articles.stub!(:permalinks).and_return ['an-article']
     
-    Section.stub!(:paths).and_return ['blog', 'blogs/blog']
-    Section.stub!(:find).and_return @blog        
-    Section.stub!(:find_by_host_and_path).and_return @blog  
+    Section.stub!(:find).and_return @blog 
     
     controller.instance_variable_set :@site, @site
   end
@@ -20,14 +18,14 @@ describe BlogController do
     with_options :section_id => '1' do |r|
       r.maps_to_index '/'
       r.maps_to_index '/blog'
-      r.maps_to_index '/blogs/blog'
+      # r.maps_to_index '/blogs/blog'
     
       r.maps_to_index '/2008', :year => '2008'
       r.maps_to_index '/2008/1', :year => '2008', :month => '1'
       r.maps_to_index '/blog/2008', :year => '2008'
       r.maps_to_index '/blog/2008/1', :year => '2008', :month => '1'
-      r.maps_to_index '/blogs/blog/2008', :year => '2008'
-      r.maps_to_index '/blogs/blog/2008/1', :year => '2008', :month => '1'
+      # r.maps_to_index '/blogs/blog/2008', :year => '2008'
+      # r.maps_to_index '/blogs/blog/2008/1', :year => '2008', :month => '1'
           
       r.maps_to_index '/categories/foo', :category_id => '1'
       r.maps_to_index '/categories/foo/2008', :category_id => '1', :year => '2008'
@@ -50,14 +48,14 @@ describe BlogController do
     with_options :section_id => '1', :locale => 'de' do |r|
       r.maps_to_index '/de'
       r.maps_to_index '/de/blog'
-      r.maps_to_index '/de/blogs/blog'
+      # r.maps_to_index '/de/blogs/blog'
     
       r.maps_to_index '/de/2008', :year => '2008'
       r.maps_to_index '/de/2008/1', :year => '2008', :month => '1'
       r.maps_to_index '/de/blog/2008', :year => '2008'
       r.maps_to_index '/de/blog/2008/1', :year => '2008', :month => '1'
-      r.maps_to_index '/de/blogs/blog/2008', :year => '2008'
-      r.maps_to_index '/de/blogs/blog/2008/1', :year => '2008', :month => '1'
+      # r.maps_to_index '/de/blogs/blog/2008', :year => '2008'
+      # r.maps_to_index '/de/blogs/blog/2008/1', :year => '2008', :month => '1'
           
       r.maps_to_index '/de/categories/foo', :category_id => '1'
       r.maps_to_index '/de/categories/foo/2008', :category_id => '1', :year => '2008'
@@ -83,7 +81,7 @@ describe BlogController do
       
       r.maps_to_index '/.rss'
       r.maps_to_index '/blog.rss'
-      r.maps_to_index '/blogs/blog.rss'
+      # r.maps_to_index '/blogs/blog.rss'
     
       r.maps_to_index '/categories/foo.rss', :category_id => '1'
       r.maps_to_index '/blog/categories/foo.rss', :category_id => '1'
@@ -93,7 +91,7 @@ describe BlogController do
         
       r.maps_to_index '/de.rss', :locale => 'de'
       r.maps_to_index '/de/blog.rss', :locale => 'de'
-      r.maps_to_index '/de/blogs/blog.rss', :locale => 'de'
+      # r.maps_to_index '/de/blogs/blog.rss', :locale => 'de'
         
       r.maps_to_index '/de/categories/foo.rss', :locale => 'de', :category_id => '1'
       r.maps_to_index '/de/blog/categories/foo.rss', :locale => 'de', :category_id => '1'

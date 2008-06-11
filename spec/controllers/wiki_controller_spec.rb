@@ -26,6 +26,7 @@ describe WikiController do
     scenario :site, :section, :wiki, :wikipage, :category, :tag, :user
     
     @site.sections.stub!(:find).and_return @wiki
+    
     @wikipage.stub!(:new_record).and_return false
     
     @controller.stub!(:wiki_path).and_return wiki_path

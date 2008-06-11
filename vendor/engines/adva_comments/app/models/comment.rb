@@ -11,7 +11,7 @@ class Comment < ActiveRecord::Base
 
   belongs_to :site
   belongs_to :section
-  belongs_to :commentable, :polymorphic => true, :counter_cache => true
+  belongs_to :commentable, :polymorphic => true
   belongs_to_author
 
   validates_presence_of :body, :commentable

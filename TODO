@@ -11,6 +11,7 @@
 [fix] rename redirect_to param to return_to (it's also used in cancel links etc.)
 [fix] rename articles_per_page to per_page so it makes sense for comments and stuff
       also ensure that it can't equal 0
+[fix] adapt has_counter for approved_comments      
 
 [feature] [content] pipe all filtered columns through whitelist sanitizer
 [feature] [wiki] implement wikipage admin area (analog to articles area)
@@ -22,11 +23,10 @@
 [fix] [comments] comments_count gets cached, need approved_comments_count
 [fix] [wiki] force username present on wikipage save
 
-[fix] Sections routing filter uses Section.find_by_host_and_path. Should probably be replace
-      with Site.find_by_host and the @site.sections?
-[fix] same with Category.find_all_by_host?
-      
 [fix] is the Content.state attribute actually used somewhere? (not the method, the attribute)
+
+User.act!(@forum, :create, :topic, params[:topic])
+
 
 
 [plugin] pingback plugin

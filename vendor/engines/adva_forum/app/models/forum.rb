@@ -17,28 +17,5 @@ class Forum < Section
                             :foreign_key => :section_id
 
 
-  # ummmm ... why did i invent this in the first place? for some reason 
-  # counter_cache didn't work, but i can't remember it. *cough*
-
-  # TODO abstract all of this to something like 
-  # :has_counter :topics_count, :comments_count
-  has_one :topics_count, :as => :owner, :class_name => 'Counter', :conditions => "name = 'topics'", :dependent => :delete
-  has_one :comments_count, :as => :owner, :class_name => 'Counter', :conditions => "name = 'comments'", :dependent => :delete
-  
-  after_create :set_topics_count
-  after_create :set_comments_count
-  
-  def set_topics_count
-    Counter.create!(:owner => self, :name => 'topics')
-  end
-  
-  def set_comments_count
-    Counter.create!(:owner => self, :name => 'comments')
-  end
-
-  def after_topic_update(topic)
-    topics_count.set topics.count
-    comments_count.set comments.count 
-  end
-
+  has_counter :topics, :comments, :as => :section
 end

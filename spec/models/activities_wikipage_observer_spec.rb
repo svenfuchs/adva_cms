@@ -6,7 +6,13 @@ describe Activities::WikipageObserver do
   include Stubby
   
   it "should log a 'created' activity on save when the wikipage is a new_record" do
-    scenario :wikipage_created
+    # wtf ... can not use the scenario :wikipage_created here for some reason
+    # sqlite breaks with a logic error
+    scenario :site, :section, :user
+    @wikipage = Wikipage.new :author => stub_user, 
+                             :site_id => 1, :section_id => 1, 
+                             :title => 'title', :body => 'body'
+
     expect_activity_new_with :actions => ['created']
     Wikipage.with_observers('activities/wikipage_observer') { @wikipage.save! }
   end

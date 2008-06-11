@@ -3,14 +3,16 @@ module RoutingFilter
     def around_recognition(route, path, env, &block)
       unless path =~ %r(^/admin) # TODO ... should be defined through the dsl in routes.rb
         # sort section paths by length, longest first
-        paths = Section.paths(env[:host_with_port]).sort{|a, b| b.size <=> a.size }.join('|')
+        @site = Site.find_by_host env[:host_with_port]
+        paths = @site.sections.paths.sort{|a, b| b.size <=> a.size }.join('|')
 
         # if the path is, aside from a slash and an optional locale, the 
         # leftmost part of the path, replace it by "sections/:id" segments
         if !paths.empty? and match = path.match(%r(^/([\w]{2,4}/)?(#{paths})(?=/|\.|$)))
-          section = Section.find_by_host_and_path(env[:host_with_port], match[2])
-          path.sub! %r(^/([\w]{2,4}/)?(#{paths})(?=/|\.|$)), "/#{match[1]}#{section.type.pluralize.downcase}/#{section.id}#{match[3]}"
-          # path.sub! %r(^/([\w]{2,4}/)?(#{paths})(?=/|\.|$)), "/sections/#{section.id}#{match[3]}"
+          if section = @site.sections.detect{|section| section.path == match[2] }
+            path.sub! %r(^/([\w]{2,4}/)?(#{paths})(?=/|\.|$)), "/#{match[1]}#{section.type.pluralize.downcase}/#{section.id}#{match[3]}"
+            # path.sub! %r(^/([\w]{2,4}/)?(#{paths})(?=/|\.|$)), "/sections/#{section.id}#{match[3]}"
+          end
         end
       end
       yield path, env

@@ -15,12 +15,6 @@ class Category < ActiveRecord::Base
   validates_presence_of :section, :title
   validates_uniqueness_of :permalink, :scope => :section_id
   
-  class << self
-    def find_all_by_host(host)
-      find(:all, :conditions => ["categories.path <> '' AND sites.host = ?", host], :include => {:section => :site})
-    end
-  end
-  
   def set_path    
     new_path = build_path
     unless self.path == new_path

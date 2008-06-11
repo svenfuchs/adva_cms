@@ -10,6 +10,7 @@ define Section do
            
   has_many :comments, :build => stub_comment
   has_many [:approved_comments, :unapproved_comments], stub_comments
+  has_one  :comments_counter, stub_counter
 
   methods  :id => 1, 
            :type => 'Section', 
@@ -37,6 +38,5 @@ scenario :section do
   @sections = stub_sections
   
   Section.stub!(:find).and_return @section
-  Section.stub!(:types).and_return ['Section', 'Blog', 'Wiki']
-  Section.stub!(:paths).and_return ['section', 'sections/section', 'blog', 'blogs/blog', 'wikis/wiki', 'wiki']
+  Section.stub!(:types).and_return ['Section', 'Blog', 'Wiki', 'Forum']
 end

@@ -12,8 +12,6 @@ describe CommentsHelper do
       'Comments: site title &raquo; section title &raquo; An article'
   end
   
-  it '#link_to_admin_comments_owner should probably be solved as a filter bar (as on articles list?)'
-  
   it '#link_to_remote_comment_preview returns a rote link to preview_comments_path' do
     helper.should_receive(:preview_comments_path).and_return '/path/to/comments/preview'
     helper.link_to_remote_comment_preview.should =~ /Ajax.Updater/

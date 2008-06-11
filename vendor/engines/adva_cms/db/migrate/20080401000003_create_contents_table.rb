@@ -18,17 +18,14 @@ class CreateContentsTable < ActiveRecord::Migration
       t.string     :author_email, :limit => 40
       t.string     :author_homepage      
 
-      t.string     :state # TODO do we need this?
       t.integer    :version 
       t.string     :filter
       t.integer    :comment_age, :default => 0
-      t.integer    :comments_count, :default => 0
-      t.string     :cached_tag_list, :string   
+      t.string     :cached_tag_list
       t.integer    :assets_count, :default => 0
-      # t.integer  :updater_id
 
-      t.timestamps
       t.datetime   :published_at
+      t.timestamps
     end    
     Content.create_versioned_table
   end

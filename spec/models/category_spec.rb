@@ -52,10 +52,6 @@ describe Category do
     end    
   end
   
-  describe 'class methods:' do
-    it '.find_all_by_host should probably be replaced by Site.find_by_host.categories'
-  end
-  
   describe 'instance methods:' do
     it '#set_path should be specified'
     it '#update_child_paths usage + behaviour should be specified' # (this certainly can be done better)

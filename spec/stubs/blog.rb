@@ -10,6 +10,7 @@ define Blog do
         
   has_many :comments, :build => stub_comment
   has_many [:approved_comments, :unapproved_comments], stub_comments
+  has_one  :comments_counter, stub_counter
 
   methods  :id => 1,
            :type => 'Blog', 
@@ -26,6 +27,9 @@ define Blog do
            :has_attribute? => true
 
   instance :blog
+  
+  instance :blogs_blog,
+           :path => 'blogs/blog'
 end
 
 scenario :blog do 
@@ -33,8 +37,5 @@ scenario :blog do
   
   Section.stub!(:find).and_return @blog
   Section.stub!(:types).and_return ['Section', 'Blog', 'Wiki']
-  Section.stub!(:paths).and_return ['section', 'sections/section', 'blog', 'blogs/blog', 'wikis/wiki', 'wiki']
-  
-  # @site.stub_collection! :sections, @sections, [:find, :build, :root] => @blog if @site
 end
   

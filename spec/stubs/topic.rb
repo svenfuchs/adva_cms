@@ -3,6 +3,7 @@ define Topic do
   belongs_to :section
   has_many   :comments
   has_one    :last_comment, stub_comment
+  has_one    :comments_counter, stub_counter
   
   methods    :sticky? => false,
              :locked? => false,
@@ -29,10 +30,9 @@ end
 scenario :two_topics do
   scenario :user, :site
   
-  @forum = Forum.new
-  @forum.stub!(:id).and_return 1
-  @forum.stub!(:new_record?).and_return false
-  @forum.stub!(:site).and_return stub_site
+  @forum = Forum.new :site => stub_site, :title => 'forum'
+  @forum.stub!(:build_path)
+  @forum.save
   
   attributes = {:title => 'title', :body => 'body', :last_author => stub_user, :section => @forum}
   @earlier_topic = Topic.create! attributes.update(:last_updated_at => 1.month.ago)

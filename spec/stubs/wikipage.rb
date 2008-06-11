@@ -7,6 +7,7 @@ define Wikipage do
   has_many :categories, stub_categories
   has_many :comments, :build => stub_comment
   has_many [:approved_comments, :unapproved_comments], stub_comments
+  has_one  :comments_counter, stub_counter
 
   methods  :id => 1,
            :type => 'Wikipage',

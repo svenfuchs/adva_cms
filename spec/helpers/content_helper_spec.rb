@@ -24,21 +24,43 @@ describe ContentHelper do
     end
   end
   
+  describe '#link_to_admin_object' do
+    before :each do
+      scenario :site, :section
+      # TODO for some reason can't expect the methods to be called with should_receive
+      helper.stub!(:edit_admin_article_path).and_return 'edit_admin_article_path'
+      helper.stub!(:admin_section_path_for).and_return 'admin_section_path_for'
+      helper.stub!(:admin_site_path).and_return 'admin_site_path'
+    end
+    
+    it "given the passed object is a Content it returns a link to edit_admin_[content_type]_path" do
+      helper.link_to_admin_object(@article).should =~ /edit_admin_article_path/
+    end
+    
+    it "given the passed object is a Section it returns a link to admin_section_path_for(object)" do
+      helper.link_to_admin_object(@section) =~ /admin_section_path_for/
+    end
+    
+    it "given the passed object is a Site it returns a link to admin_site_path" do
+      helper.link_to_admin_object(@site) =~ /admin_site_path/
+    end
+  end
+  
   describe '#content_path' do
-    it "returns an article_path if the given content's section is a Blog" do
+    it "given the content's section is a Blog it returns an article_path" do
       scenario :blog
       @article.stub!(:section).and_return @blog
       helper.should_receive(:article_path)
       helper.content_path(@article)
     end
     
-    it "returns a wikipage_path if the given content's section is a Wiki" do
+    it "given the content's section is a Wiki it returns an wikipage_path" do
       scenario :wikipage
       helper.should_receive(:wikipage_path)
       helper.content_path(@wikipage)
     end
     
-    it "returns a section_article_path if the given content's section is a Section" do
+    it "given the content's section is a Section it returns an section_article_path" do
       scenario :section
       @article.stub!(:section).and_return @section
       helper.should_receive(:section_article_path)
