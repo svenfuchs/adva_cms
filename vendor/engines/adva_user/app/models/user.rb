@@ -7,7 +7,9 @@ class User < ActiveRecord::Base
   has_many :roles, :dependent => :delete_all do
     def by_context(object)
       roles = by_site object
-      roles += object.implicit_roles(self) if object.respond_to? :implicit_roles
+      # TODO in theory we could skip the implicit roles here if roles were found
+      # ... assuming that any site roles always include any implicit roles.
+      roles += object.implicit_roles(proxy_owner) if object.respond_to? :implicit_roles
       roles
     end
     

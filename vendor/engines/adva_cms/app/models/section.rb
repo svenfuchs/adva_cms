@@ -36,7 +36,7 @@ class Section < ActiveRecord::Base
   
   before_validation :set_path, :set_comment_age
   
-  validates_presence_of :site, :title 
+  validates_presence_of :title # :site wtf ... this breaks install_controller#index
   validates_uniqueness_of :permalink, :scope => :site_id
 
   class << self

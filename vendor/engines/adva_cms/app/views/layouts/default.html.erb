@@ -6,8 +6,7 @@
     <%= javascript_include_tag 'prototype', 'effects', 'lowpro', 'flash', 'cookie', 'json', 'roles', 'application', :cache => 'cache/default' %>
     <title><%= @site.title %></title>
 
-    <%= authorize_elements %>
-    <%= authorize_elements @topic if @topic %>
+    <%= @topic ? authorize_elements(@topic) : authorize_elements %>
 
   </head>
   <body>

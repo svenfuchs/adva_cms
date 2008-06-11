@@ -1,6 +1,6 @@
 var CommentForm = {
   show: function() {
-    var username = Cookie.get('username');
+    var username = Cookie.get('uname');
     if (username) {
       $$('#comment_user span')[0].update(username);
       $('comment_user').show();
