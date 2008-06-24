@@ -14,6 +14,7 @@ class Admin::ThemeFilesController < Admin::BaseController
     @file = Theme::File.create @theme, params[:file]
     if @file = Array(@file).first
       expire_pages_by_site! # TODO use active_model?
+      expire_template! @file
       flash[:notice] = "The file has been created."
       redirect_to admin_theme_file_path(@site, @theme.id, @file.id)
     else
@@ -21,10 +22,11 @@ class Admin::ThemeFilesController < Admin::BaseController
       render :action => :new
     end
   end
-
+  
   def update
     if @file.update_attributes params[:file]
       expire_pages_by_site! # TODO use active_model?
+      expire_template! @file
       flash[:notice] = "The file has been updated."
       redirect_to admin_theme_file_path(@site, @theme.id, @file.id)
     else
@@ -36,6 +38,7 @@ class Admin::ThemeFilesController < Admin::BaseController
   def destroy
     if @file.destroy
       expire_pages_by_site! # TODO use active_model?
+      expire_template! @file
       flash[:notice] = "The file has been deleted."
       redirect_to admin_theme_path(@site, @theme.id)
     else
@@ -48,6 +51,14 @@ class Admin::ThemeFilesController < Admin::BaseController
   
     def expire_pages_by_site!
       expire_pages CachedPage.find_all_by_site_id(@site.id)
+    end
+  
+    def expire_template!(file)
+      return unless file.is_a? Theme::Template
+      ActionView::TemplateFinder.reload!
+      if method = ActionView::Base.new.method_names.delete(file.fullpath.to_s)
+        ActionView::Base::CompiledTemplates.send :remove_method, method
+      end
     end
   
     def set_theme

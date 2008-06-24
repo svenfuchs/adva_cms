@@ -140,6 +140,8 @@ authentication http://authentication.rubyforge.org/
 
 # Rails 
 
+There's no method to expire compiled templates. http://pastie.org/private/2vqi8gnfwfepjtb3mz6aa
+
 Role::Admin.new :object => nil seems to run into SystemStackError with:
   class Role belongs_to :object, :polymorphic => true
   class Role::Admin < Role
