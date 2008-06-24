@@ -92,9 +92,12 @@ describe WikiController do
       it_assigns :wikipage, :categories
     
       describe "and the current user having sufficient permissions to add a page" do
-        before :each do
-        end
         it_renders_template :new
+    
+        it "it skips page_caching" do
+          controller.expect_render hash_including(:skip_caching => true)
+          act!
+        end
       end
     
       describe "and the current user not having sufficient permissions to add a page" do

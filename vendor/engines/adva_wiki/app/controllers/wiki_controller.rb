@@ -29,7 +29,7 @@ class WikiController < BaseController
     if !@wikipage.new_record?
       render @section.render_options
     elsif has_permission? :create, :wikipage
-      render :action => :new
+      render :action => :new, :skip_caching => true
     else
       redirect_to_login 'You need to be logged in to edit this page.'
     end

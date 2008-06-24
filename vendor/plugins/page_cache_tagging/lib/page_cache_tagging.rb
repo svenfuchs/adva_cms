@@ -29,9 +29,12 @@ module PageCacheTagging
   protected
 
     def render_with_read_access_tracking(*args)
+      options = args.last.is_a?(Array) ? args.last : {}
+      skip_caching = options.delete(:skip_caching)
+      
       track_read_access 
       returning render_without_read_access_tracking(*args) do
-        save_cache_references
+        save_cache_references unless skip_caching
       end
     end
 
