@@ -45,11 +45,13 @@ module ActionController
     # Methods callable from within actions
     module InstanceMethods  
       def authenticate_user(credentials)
-        returning User.authenticate(credentials) do |user|          
-          # prevent session hijacking - unnecessary according to http://dev.rubyonrails.org/ticket/10108
-          # reset_session_except :return_location
-          session[:uid] = user.id if user
-          set_user_cookie!
+        returning User.authenticate(credentials) do |user|
+          if user
+            # prevent session hijacking - unnecessary according to http://dev.rubyonrails.org/ticket/10108
+            # reset_session_except :return_location
+            session[:uid] = user.id 
+            set_user_cookie!
+          end
         end
       end
   
