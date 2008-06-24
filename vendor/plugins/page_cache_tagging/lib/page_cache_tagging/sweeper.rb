@@ -14,7 +14,7 @@ module PageCacheTagging
   
     def expire_cached_pages(record, pages)
       record.logger.warn cached_log_message_for(record, pages) if Site.cache_sweeper_logging
-      controller.expire_pages(pages)
+      controller.expire_pages(pages) if controller # TODO wtf ... why is controller sometimes nil here??
     end
   
     def cached_log_message_for(record, pages)
