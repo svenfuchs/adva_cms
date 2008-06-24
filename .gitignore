@@ -1,5 +1,6 @@
 Capfile
 config/deploy.rb
+config/database.yml
 log/*.log
 db/*.sqlite3
 tmp/**/*

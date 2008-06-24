@@ -115,6 +115,10 @@ authentication http://authentication.rubyforge.org/
 
 [enhance] how to move observer config from environment.rb to init.rb?
 
+# capistrano
+
+[deploy] need to use rake db:migrate:all
+
 # themes
 
 [feature] make ActionMailer themeable

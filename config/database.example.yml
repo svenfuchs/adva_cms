@@ -4,12 +4,6 @@ development:
   adapter: sqlite3
   database: db/development.sqlite3
   timeout: 5000
-  # adapter: mysql
-  # database: engines
-  # username: 
-  # password: 
-  # host: localhost
-  # encoding: utf8
   
 # Warning: The database defined as 'test' will be erased and
 # re-generated from your development database when you run 'rake'.
@@ -17,14 +11,7 @@ development:
 test:
   adapter: sqlite3
   database: db/test.sqlite3
-  timeout: 5000
-  # adapter: mysql
-  # database: adva_cms_test
-  # username: 
-  # password: 
-  # host: localhost
-  # encoding: utf8
-  
+  timeout: 5000  
 
 production:
   adapter: sqlite3
