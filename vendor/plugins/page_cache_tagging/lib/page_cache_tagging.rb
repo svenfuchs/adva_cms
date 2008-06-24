@@ -4,11 +4,14 @@ module PageCacheTagging
     #   caches_page_with_references :index, :show, 
     #                               :track => ['@article', '@articles', {'@site' => :tag_counts}]
     def caches_page_with_references(*actions)
-      include PageCacheTagging
+      unless caches_page_with_references?
+        include PageCacheTagging
       
-      helper_method :cached_references
-      attr_writer :cached_references
-      alias_method_chain :render, :read_access_tracking unless caches_page_with_references?
+        helper_method :cached_references
+        attr_writer :cached_references
+        alias_method_chain :render, :read_access_tracking 
+        alias_method_chain :caching_allowed, :skipping
+      end
 
       options = actions.extract_options!
       caches_page *actions
@@ -29,12 +32,11 @@ module PageCacheTagging
   protected
 
     def render_with_read_access_tracking(*args)
-      options = args.last.is_a?(Array) ? args.last : {}
-      skip_caching = options.delete(:skip_caching)
-      
+      options = args.last.is_a?(Hash) ? args.last : {}
+      @skip_caching = options.delete(:skip_caching)
       track_read_access 
       returning render_without_read_access_tracking(*args) do
-        save_cache_references unless skip_caching
+        save_cache_references unless @skip_caching
       end
     end
 
@@ -49,6 +51,17 @@ module PageCacheTagging
       references = @read_access_tracker.references
       CachedPage.create_with_references @site, @section, request.path, references
     end
+
+    def caching_allowed_with_skipping
+      caching_allowed_without_skipping && !@skip_caching
+    end
 end
 
-ActionController::Base.send :extend, PageCacheTagging::ActMacro
+ActionController::Base.class_eval do 
+  extend PageCacheTagging::ActMacro
+  
+  def expire_pages(pages)
+    pages.each { |page| expire_page(page.url) }
+    CachedPage.expire_pages(pages)
+  end
+end

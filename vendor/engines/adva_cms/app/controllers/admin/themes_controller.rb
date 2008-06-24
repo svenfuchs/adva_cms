@@ -3,7 +3,7 @@ class Admin::ThemesController < Admin::BaseController
   
   before_filter :set_theme, :only => [:show, :use, :preview, :edit, :update, :destroy]
   
-  guards_permissions :manage_themes
+  guards_permissions :theme, :update => [:select, :unselect]
 
   def index
     @themes = @site.themes.find(:all)
@@ -36,6 +36,8 @@ class Admin::ThemesController < Admin::BaseController
   
   def destroy
     if @theme.destroy
+      expire_pages_by_site!
+      # TODO theme should also be unselected here
       flash[:notice] = "The theme has been deleted."
       redirect_to admin_themes_path
     else
@@ -49,6 +51,7 @@ class Admin::ThemesController < Admin::BaseController
     @site.theme_names << params[:id]
     @site.theme_names.uniq!
     @site.save
+    expire_pages_by_site!
     redirect_to admin_themes_path
   end
   
@@ -56,10 +59,15 @@ class Admin::ThemesController < Admin::BaseController
     @site.theme_names_will_change!
     @site.theme_names.delete params[:id]
     @site.save
+    expire_pages_by_site!
     redirect_to admin_themes_path
   end
   
   private
+  
+    def expire_pages_by_site!
+      expire_pages CachedPage.find_all_by_site_id(@site.id)
+    end
   
     def set_site
       @site = Site.find(params[:site_id])

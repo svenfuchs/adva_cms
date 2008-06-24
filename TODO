@@ -1,8 +1,6 @@
-[fix] new wikipage forms get cached (because they are on the show action) » redirect to new action
 [fix] routes for pagination are missing
 [fix] separate login and admin/login pages (same thing, different layout)
-[fix] updates to theme assets need to sweep the cached files in public/
-[fix] updates to theme template files need to sweep some kind of template file cache in production?
+[fix] do updates to theme template files need to sweep some kind of template file cache in production?
 [fix] acts_as_list is only used in Asset. can we remove that?
 [fix] currently broken: belongs_to_author: with_deleted => true
 [fix] js'ify all dates and use js date format

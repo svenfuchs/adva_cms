@@ -14,8 +14,7 @@ module PageCacheTagging
   
     def expire_cached_pages(record, pages)
       record.logger.warn cached_log_message_for(record, pages) if Site.cache_sweeper_logging
-      pages.each { |page| controller.expire_page(page.url) }
-      CachedPage.expire_pages(pages)
+      controller.expire_pages(pages)
     end
   
     def cached_log_message_for(record, pages)

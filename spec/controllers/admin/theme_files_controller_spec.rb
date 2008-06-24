@@ -7,8 +7,10 @@ describe Admin::ThemeFilesController do
     scenario :site, :section, :article, :theme, :theme_file
     @theme_path = '/admin/sites/1/themes/theme-1'
     set_resource_paths :file, "#{@theme_path}/"
+    
     @controller.stub! :require_authentication
     @controller.stub! :guard_permission
+    @controller.stub! :expire_pages
   end
   
   it "should be an Admin::BaseController" do
@@ -44,6 +46,12 @@ describe Admin::ThemeFilesController do
     describe "given valid params" do
       it_redirects_to { @member_path }
       it_assigns_flash_cookie :notice => :not_nil
+    
+      it "expires page cache for the current site" do
+        CachedPage.should_receive(:find_all_by_site_id).with(@site.id).and_return 'the references'
+        controller.should_receive(:expire_pages).with('the references')
+        act!
+      end
     end
     
     describe "given invalid params" do
@@ -70,6 +78,12 @@ describe Admin::ThemeFilesController do
     describe "given valid file params" do
       it_redirects_to { @member_path }
       it_assigns_flash_cookie :notice => :not_nil
+    
+      it "expires page cache for the current site" do
+        CachedPage.should_receive(:find_all_by_site_id).with(@site.id).and_return 'the references'
+        controller.should_receive(:expire_pages).with('the references')
+        act!
+      end
     end
     
     describe "given invalid file params" do
@@ -96,6 +110,12 @@ describe Admin::ThemeFilesController do
     describe "when destroy succeeds" do
       it_redirects_to { @theme_path }
       it_assigns_flash_cookie :notice => :not_nil
+    
+      it "expires page cache for the current site" do
+        CachedPage.should_receive(:find_all_by_site_id).with(@site.id).and_return 'the references'
+        controller.should_receive(:expire_pages).with('the references')
+        act!
+      end
     end
     
     describe "when destroy fails" do

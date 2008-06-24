@@ -11,6 +11,8 @@ define Theme::File do
 end
 
 scenario :theme_file do
+  scenario :theme
+  
   @image_exts     = %w(png jpg jpeg gif swf ico)
   @image_paths    = @image_exts.collect{|ext| "images/something.#{ext}"}
   @asset_paths    = %w(stylesheets/something.css javascripts/something.js) + @image_paths

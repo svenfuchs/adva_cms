@@ -115,6 +115,12 @@ describe Admin::ThemesController do
     describe "when destroy succeeds" do
       it_redirects_to { @collection_path }
       it_assigns_flash_cookie :notice => :not_nil
+    
+      it "expires page cache for the current site" do
+        CachedPage.should_receive(:find_all_by_site_id).with(@site.id).and_return 'the references'
+        controller.should_receive(:expire_pages).with('the references')
+        act!
+      end
     end
     
     describe "when destroy fails" do
@@ -137,6 +143,12 @@ describe Admin::ThemesController do
       @site.should_receive(:save).and_return true
       act!
     end
+    
+    it "expires page cache for the current site" do
+      CachedPage.should_receive(:find_all_by_site_id).with(@site.id).and_return 'the references'
+      controller.should_receive(:expire_pages).with('the references')
+      act!
+    end
   end
   
   describe "DELETE to :unselect" do
@@ -150,6 +162,12 @@ describe Admin::ThemesController do
     
     it "saves the site" do
       @site.should_receive(:save).and_return true
+      act!
+    end
+    
+    it "expires page cache for the current site" do
+      CachedPage.should_receive(:find_all_by_site_id).with(@site.id).and_return 'the references'
+      controller.should_receive(:expire_pages).with('the references')
       act!
     end
   end

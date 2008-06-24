@@ -18,6 +18,8 @@ define Theme do
 end
 
 scenario :theme do
+  scenario :site
+
   @theme = stub_theme
   @themes = stub_themes
 

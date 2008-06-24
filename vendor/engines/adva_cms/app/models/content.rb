@@ -87,7 +87,7 @@ class Content < ActiveRecord::Base
   end  
 
   # Using callbacks for such lowlevel things is just awkward. So let's hook in here.
-  def attributes=(attributes)
+  def attributes=(attributes, guard_protected_attributes = true)
     attributes.symbolize_keys!
     category_ids = attributes.delete(:category_ids)
     returning super do update_categories category_ids if category_ids end

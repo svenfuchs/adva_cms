@@ -121,11 +121,8 @@ describe 'Roles: ' do
   end
   
   describe "#permissions (class method)" do
-    it "inverts passed permissions hash and merges it to default_permissions" do
-    end
-    
-    it "expands :all to [:show, :create, :update, :delete]" do
-    end
+    it "inverts passed permissions hash and merges it to default_permissions"    
+    it "expands :all to [:show, :create, :update, :delete]"
   end
 
   describe '#role_authorizing' do
