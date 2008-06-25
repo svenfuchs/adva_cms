@@ -45,7 +45,7 @@ module WikiHelper
     
 	  if wikipage.version == wikipage.versions.last.version
 	    links << authorized_link_to('edit this page', edit_wikipage_path(@section, wikipage.permalink), :update, wikipage)
-      links << authorized_link_to('delete this page', wikipage_path(@section, wikipage.permalink), :destroy, wikipage, { :confirm => "Are you sure you wish to delete this page?", :method => :delete }) unless wikipage.home?
+      links << authorized_link_to('delete this page', wikipage_path(@section, wikipage.permalink), :delete, wikipage, { :confirm => "Are you sure you wish to delete this page?", :method => :delete }) unless wikipage.home?
     else
       links << authorized_link_to('rollback to this revision', wikipage_path_with_home(@section, wikipage.permalink, :version => wikipage.version), :update, wikipage, { :confirm => "Are you sure you wish to rollback to this version?", :method => :put })
     end
