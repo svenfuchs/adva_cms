@@ -1,11 +1,17 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe WikiHelper do
-  include Stubby, WikiHelper
+  include Stubby, WikiHelper, UsersHelper
   
   before :each do
     scenario :site, :section, :wiki, :wikipage
     @controller.instance_variable_set :@locale, 'en'
+    
+    @user_role = Role.build :user, nil
+    @wikipage.stub!(:role_authorizing).and_return @user_role
+    @wikipage.versions.first.stub!(:role_authorizing).and_return @user_role
+    @wikipage.versions.last.stub!(:role_authorizing).and_return @user_role
+    
     stub!(:wikipage_path_with_home).and_return 'wikipage_path_with_home'
   end
   
@@ -211,6 +217,24 @@ describe WikiHelper do
   
       it "should contain a link to return to the current revision" do
         @result.join.should =~ /return to current revision/
+      end
+    end
+    
+    describe "authorizing css" do
+      it "for the edit link contains the classes requires-role and user" do
+        @result = wiki_edit_links(@wikipage).join("\n")
+        @result.should =~ /<a href="[^>]*edit"[^>]*class="requires-role user/
+      end
+
+      it "for the delete link contains the classes requires-role and user" do
+        @result = wiki_edit_links(@wikipage).join("\n")
+        @result.should =~ /<a href="[^>]*a-wikipage"[^>]*class="requires-role user[^>]*delete/
+      end
+
+      it "for the rollback link contains the classes requires-role and user" do
+        @wikipage.stub!(:version).and_return 2
+        @result = wiki_edit_links(@wikipage).join("\n")
+        @result.should =~ /<a href="wikipage_path_with_home"[^>]*class="requires-role user[^>]*rollback/
       end
     end
   end

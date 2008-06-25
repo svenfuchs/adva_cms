@@ -15,20 +15,21 @@ module UsersHelper
     js
   end  
   
-  def authorized_link_to(text, url, options = {})
-    options = add_authorizing_css_classes options.dup
+  def authorized_link_to(text, url, action, object, options = {})
+    add_authorizing_css_classes! options, action, object
     link_to text, url, options
   end
   
   # Adds the css class required-roles as well as a couple of css classes that
   # can be matched with the current user's roles in order to toggle the visibility
   # of an element
-  def add_authorizing_css_classes(options)
-    object = options.delete(:update) || options.delete(:delete) # TODO
-    roles = object.role_authorizing(:update).expand
+  def add_authorizing_css_classes!(options, action, object)
+    roles = object.role_authorizing(action).expand
+    
     options[:class] ||= ''
-    options[:class] += 'requires-role ' + roles.map(&:to_css_class).join(' ')
-    options
+    options[:class] = options[:class].split(/ /)
+    options[:class] << 'requires-role' << roles.map(&:to_css_class).join(' ')
+    options[:class] = options[:class].flatten.join(' ')
   end
   
   def authorizing_css_classes(roles, options = {})

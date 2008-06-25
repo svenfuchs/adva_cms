@@ -12,8 +12,8 @@
   <div class="body">
     <%= post.body_html %>
     <p class="util">
-      <%= authorized_link_to 'edit', edit_topic_post_returning_path(@section, @topic, post), :update => post %> &middot;
-      <%= authorized_link_to 'delete', topic_post_returning_path(@section, @topic, post), { :delete => post, :confirm => "Are you sure you wish to delete this post?", :method => :delete } %>      
+      <%= authorized_link_to 'edit', edit_topic_post_returning_path(@section, @topic, post), :update, post %> &middot;
+      <%= authorized_link_to 'delete', topic_post_returning_path(@section, @topic, post), :delete, post, { :confirm => "Are you sure you wish to delete this post?", :method => :delete } %>      
     </p>
   </div>
 </div>

@@ -7,18 +7,18 @@ describe UsersHelper do
   
   describe "#authorized_link_to" do
     before :each do
-      helper.stub!(:add_authorizing_css_classes).and_return :class => 'require something'
+      helper.stub!(:add_authorizing_css_classes!)
       helper.stub!(:link_to)
     end
     
     it "adds authorizing css classes to the :class option" do
-      helper.should_receive(:add_authorizing_css_classes)
-      helper.authorized_link_to('text', 'url')
+      helper.should_receive(:add_authorizing_css_classes!)
+      helper.authorized_link_to('text', 'url', :update, Object.new)
     end
     
     it "delegates to link_to" do
-      helper.should_receive(:link_to).with 'text', 'url', {:class => 'require something'}
-      helper.authorized_link_to('text', 'url')
+      helper.should_receive(:link_to).with 'text', 'url', {}
+      helper.authorized_link_to('text', 'url', :update, Object.new)
     end
   end
   

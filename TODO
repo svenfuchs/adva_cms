@@ -1,3 +1,7 @@
+rename requires-role to visible-for
+
+
+[fix] add authorized_links to wikipage edit_links helper
 [fix] routes for pagination are missing
 [fix] separate login and admin/login pages (same thing, different layout)
 [fix] acts_as_list is only used in Asset. can we remove that?
