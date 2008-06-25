@@ -13,6 +13,12 @@
 	background-color: #f93;
 }
 
+/* ROLES */
+
+.visible-for {
+	display: none;
+}
+
 /* LISTS */
 
 table.list {

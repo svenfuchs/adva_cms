@@ -221,20 +221,20 @@ describe WikiHelper do
     end
     
     describe "authorizing css" do
-      it "for the edit link contains the classes requires-role and user" do
+      it "for the edit link contains the classes visible-for and user" do
         @result = wiki_edit_links(@wikipage).join("\n")
-        @result.should =~ /<a href="[^>]*edit"[^>]*class="requires-role user/
+        @result.should =~ /<a href="[^>]*edit"[^>]*class="visible-for user/
       end
 
-      it "for the delete link contains the classes requires-role and user" do
+      it "for the delete link contains the classes visible-for and user" do
         @result = wiki_edit_links(@wikipage).join("\n")
-        @result.should =~ /<a href="[^>]*a-wikipage"[^>]*class="requires-role user[^>]*delete/
+        @result.should =~ /<a href="[^>]*a-wikipage"[^>]*class="visible-for user[^>]*delete/
       end
 
-      it "for the rollback link contains the classes requires-role and user" do
+      it "for the rollback link contains the classes visible-for and user" do
         @wikipage.stub!(:version).and_return 2
         @result = wiki_edit_links(@wikipage).join("\n")
-        @result.should =~ /<a href="wikipage_path_with_home"[^>]*class="requires-role user[^>]*rollback/
+        @result.should =~ /<a href="wikipage_path_with_home"[^>]*class="visible-for user[^>]*rollback/
       end
     end
   end

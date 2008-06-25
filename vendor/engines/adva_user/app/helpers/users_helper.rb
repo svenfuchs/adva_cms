@@ -28,7 +28,7 @@ module UsersHelper
     
     options[:class] ||= ''
     options[:class] = options[:class].split(/ /)
-    options[:class] << 'requires-role' << roles.map(&:to_css_class).join(' ')
+    options[:class] << 'visible-for' << roles.map(&:to_css_class).join(' ')
     options[:class] = options[:class].flatten.join(' ')
   end
   
