@@ -137,7 +137,7 @@ class WikiController < BaseController
     
     def optimistic_lock
       return unless params[:wikipage]
-      updated_at = params[:wikipage] && params[:wikipage].delete(:updated_at)
+      updated_at = params[:wikipage].delete(:updated_at)
       unless updated_at
         raise "Can not update wikipage: timestamp missing. Please make sure that your form has a hidden field: updated_at." 
       end

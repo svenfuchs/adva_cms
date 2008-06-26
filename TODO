@@ -1,3 +1,6 @@
+[fix] wikipages can't be edited because optimistic lock always kicks in
+[fix] admin/cached_pages clear all does not seem to actually clear the cache dir?
+
 [fix] add authorized_links to wikipage edit_links helper
 [fix] routes for pagination are missing
 [fix] separate login and admin/login pages (same thing, different layout)
@@ -147,6 +150,8 @@ apache multisite config http://www.appelsiini.net/2007/6/mephisto-multiple-site-
   after_filter :write_flash_to_cookie
 
 # Rails 
+
+Asset Helpers: apparently they need a server restart to rebuild a cached file when it got deleted
 
 There's no method to expire compiled templates. http://pastie.org/private/2vqi8gnfwfepjtb3mz6aa
 
