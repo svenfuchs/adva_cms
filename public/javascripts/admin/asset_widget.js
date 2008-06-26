@@ -49,11 +49,14 @@ var AssetWidget = {
 		return element.getAttribute('id').match(/-(\d+)$/)[1];
 	},
 	memberId: function() {
-		return location.href.match(/\/([0-9]+)\/(new|edit)/)[1];
+		return location.href.match(/\/([0-9]+)\/(edit)/)[1];
 	},
 	assetsUrl: function() {
 		return '/admin/sites/' + this.siteId() + '/assets';
 	},
+  isEdit: function() {
+    return location.href.match(/\/[0-9]+\/edit#?$/)
+  },
 	collectionUrl: function(element) {
 		return this.assetsUrl() + '/' + this.assetId(element) + '/contents';
 	},
@@ -110,7 +113,9 @@ var AssetWidget = {
 		return $$('.attached-asset').collect(function(asset) { return asset.getAttribute('id').match(/-(\d+)$/)[1]; });
 	},	
   showAttachTools: function(id) {
-		['attach', 'detach'].each(function(prefix){ $(prefix + '-' + id).show(); })
+    if(this.isEdit()) {
+		  ['attach', 'detach'].each(function(prefix){ $(prefix + '-' + id).show(); })
+    }
   },  
   hideAttachTools: function(id) {
 		['attach', 'detach'].each(function(prefix){ $(prefix + '-' + id).hide(); })
