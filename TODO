@@ -1,7 +1,6 @@
 [fix] add authorized_links to wikipage edit_links helper
 [fix] routes for pagination are missing
 [fix] separate login and admin/login pages (same thing, different layout)
-[fix] acts_as_list is only used in Asset. can we remove that?
 [fix] currently broken: belongs_to_author: with_deleted => true
 [fix] js'ify all dates and use js date format
 [fix] adapt has_counter for approved_comments      

@@ -10,6 +10,8 @@ require 'core_ext/kernel'
 require 'rails_ext/active_record/dom_id'
 require 'rails_ext/active_record/sti_instantiation'
 
+require 'routing'
+
 # turn this on to get detailed cache sweeper logging in production mode
 # Site.cache_sweeper_logging = true
 
