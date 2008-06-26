@@ -15,7 +15,7 @@
   <div class="content">
     <h2><%= link_to_content @wikipage %></h2>
     <%= wikify @wikipage.body %>
-    <p><%= wiki_edit_links(@wikipage).join(' &middot; ')%></p>
+    <p><%= wiki_edit_links(@wikipage) %></p>
   </div>
 </div>
 

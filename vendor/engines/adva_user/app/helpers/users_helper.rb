@@ -8,12 +8,16 @@ module UsersHelper
       var uid = Cookie.get('uid');
       if(uid) {
         new Ajax.Request('/users/' + uid + '/roles#{object_path}.js', { 
-          asynchronous: false, evalScripts: true, 
-          parameters: 'authenticity_token=' + encodeURIComponent('#{form_authenticity_token}')
+          method: 'get', asynchronous: false, evalScripts: true, 
         })
       }
     js
-  end  
+  end
+  
+  def authorized_tag(name, action, object, options = {}, &block)
+    add_authorizing_css_classes! options, action, object
+    content_tag name, options, &block
+  end
   
   def authorized_link_to(text, url, action, object, options = {})
     add_authorizing_css_classes! options, action, object

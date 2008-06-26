@@ -21,8 +21,6 @@ class RolesController < BaseController
     end
   
     def set_roles
-      # @roles = (@object || @site).relevant_roles(current_user).map &:to_css_class
-      context = @object || @site
-      @roles = current_user.roles.by_context(context)
+      @roles = current_user.roles.by_context(@object || @site)
     end
 end

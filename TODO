@@ -1,5 +1,4 @@
-[fix] wikipages can't be edited because optimistic lock always kicks in
-[fix] admin/cached_pages clear all does not seem to actually clear the cache dir?
+[fix] /user/roles.js does not seem to be page cached?
 
 [fix] add authorized_links to wikipage edit_links helper
 [fix] routes for pagination are missing

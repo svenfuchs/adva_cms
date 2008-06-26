@@ -64,4 +64,12 @@ ActionController::Base.class_eval do
     pages.each { |page| expire_page(page.url) }
     CachedPage.expire_pages(pages)
   end
+  
+  # def expire_page_cache
+  #   # TODO should only remove pages in the site's subdirectory
+  #   cache_dir = self.class.page_cache_directory
+  #   unless cache_dir == RAILS_ROOT + "/public"
+  #     FileUtils.rm_r(Dir.glob(cache_dir + "/*")) rescue Errno::ENOENT
+  #   end
+  # end
 end
