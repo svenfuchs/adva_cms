@@ -5,6 +5,6 @@ ActionController::Routing::Routes.draw do |map|
   map.filter 'root_section'
   map.filter 'sections'   
 
-  AdvaCMS::Routes.from_plugins(map)
+  AdvaCms::Routes.from_plugins(map)
 
 end

@@ -1,4 +1,4 @@
-module AdvaCMS
+module AdvaCms
   class Routes
     # A list of additional engines to load. 
     ADDITIONAL_ENGINES = %w(theme_support)
