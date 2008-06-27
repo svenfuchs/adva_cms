@@ -15,7 +15,7 @@
 [feature] [content] pipe all filtered column results (*_html) through whitelist sanitizer
 [feature] [wiki] implement wikipage admin area (analog to articles area)
 [feature] [wiki] add various filters to admin wikipage list (like on admin articles list)
-[feature] [wiki] make the 'home' wikipage permalink configurable per wiki
+[feature] [wiki] make the 'home' wikipage permalink configurable per wiki?
 [feature] [comments] add various filters to admin comments list (like on admin articles list)
 [feature] [comments] after a comment was posted, display it on a comments/show page with messages and a form to edit it
 [feature] [comments] allow anonymous comment editing (for a couple of minutes, based on the cookie token)
@@ -127,10 +127,6 @@ apache multisite config http://www.appelsiini.net/2007/6/mephisto-multiple-site-
 # general
 
 [enhance] how to move observer config from environment.rb to init.rb?
-
-# capistrano
-
-[deploy] need to use rake db:migrate:all
 
 # themes
 

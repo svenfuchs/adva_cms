@@ -49,7 +49,7 @@ module WikiHelper
 	    links << authorized_tag(:span, :update, wikipage) do
 	      link_to('edit this page', edit_wikipage_path(@section, wikipage.permalink)) + separator
       end
-	    links << authorized_tag(:span, :delete, wikipage) do
+	    links << authorized_tag(:span, :destroy, wikipage) do
 	      link_to('delete this page', wikipage_path(@section, wikipage.permalink), { :confirm => "Are you sure you wish to delete this page?", :method => :delete }) + separator
       end unless wikipage.home?
     else
