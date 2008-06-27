@@ -52,11 +52,12 @@ class BlogController < BaseController
     end
   
     def set_article
-      args = params.values_at(:year, :month, :day, :permalink) << {:include => :author}
-      @article = @section.articles.find_by_permalink *args
-      raise ActiveRecord::RecordNotFound unless @article
+      @article = @section.articles.find_by_permalink params[:permalink], :include => :author
+      if !@article || @article.published? && !@article.published_at?(params.values_at(:year, :month, :day))
+        raise ActiveRecord::RecordNotFound 
+      end
     end
-    
+        
     def set_category
       if params[:category_id]
         @category = @section.categories.find params[:category_id] 
