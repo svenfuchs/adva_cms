@@ -74,6 +74,7 @@ class Admin::ArticlesController < Admin::BaseController
        [id, Hash[*pair.select{|key, value| allowed.include?(key) }.flatten]] 
     end.flatten]    
     @section.articles.update attrs.keys, attrs.values
+    expire_cached_pages_by_reference @section # TODO should be in the sweeper
     render :text => 'OK'
   end
   

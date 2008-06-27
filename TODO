@@ -3,8 +3,8 @@
 [fix] admin/wikipages_controller does not guard permissions
 [fix] topics_controller does not guard permissions
 
+[fix] reordering articles must expire section page cache
 [fix] preview link must go to the frontend: @site.host/content_path
-[fix] don't display the title for the root section article
 
 [fix] routes for pagination are missing
 [fix] separate login and admin/login pages (same thing, different layout)
