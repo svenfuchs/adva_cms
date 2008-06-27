@@ -7,7 +7,7 @@ describe Admin::CategoriesController do
     scenario :site, :section, :category, :article
     set_resource_paths :category, '/admin/sites/1/sections/1/'
     @controller.stub! :require_authentication
-    @controller.stub! :guard_permission
+    @controller.stub!(:has_permission?).and_return true
   end
   
   it "should be an Admin::BaseController" do
@@ -28,12 +28,14 @@ describe Admin::CategoriesController do
   
   describe "GET to :index" do
     act! { request_to :get, @collection_path }    
+    it_guards_permissions :show, :category
     it_assigns :categories
     it_renders_template :index
   end
   
   describe "GET to :new" do
     act! { request_to :get, @new_member_path }    
+    it_guards_permissions :create, :category
     it_assigns :category
     it_renders_template :new
     
@@ -45,6 +47,7 @@ describe Admin::CategoriesController do
   
   describe "POST to :create" do
     act! { request_to :post, @collection_path }    
+    it_guards_permissions :create, :category
     it_assigns :category
     
     it "instantiates a new category from section.categories" do
@@ -66,6 +69,7 @@ describe Admin::CategoriesController do
    
   describe "GET to :edit" do
     act! { request_to :get, @edit_member_path }    
+    it_guards_permissions :update, :category
     it_assigns :category
     it_renders_template :edit
     
@@ -77,6 +81,7 @@ describe Admin::CategoriesController do
   
   describe "PUT to :update" do
     act! { request_to :put, @member_path }    
+    it_guards_permissions :update, :category
     it_assigns :category    
     
     it "fetches a category from section.categories" do
@@ -103,6 +108,7 @@ describe Admin::CategoriesController do
   
   describe "DELETE to :destroy" do
     act! { request_to :delete, @member_path }    
+    it_guards_permissions :destroy, :category
     it_assigns :category
     
     it "fetches a category from section.categories" do

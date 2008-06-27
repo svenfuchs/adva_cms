@@ -7,7 +7,7 @@ describe Admin::CachedPagesController do
     scenario :site, :section, :article, :cached_page
     set_resource_paths :cached_page, '/admin/sites/1/'
     @controller.stub! :require_authentication
-    @controller.stub! :guard_permission
+    @controller.stub!(:has_permission?).and_return true
   end
   
   it "should be an Admin::BaseController" do
@@ -26,12 +26,14 @@ describe Admin::CachedPagesController do
     act! { request_to :get, @collection_path }    
     it_assigns :cached_pages
     it_renders_template :index
+    it_guards_permissions :manage, :site
   end
   
   describe "DELETE to :destroy" do
     act! { request_to :delete, @member_path }    
     it_assigns :cached_page
     it_renders :template, :destroy, :format => :js
+    it_guards_permissions :manage, :site
     
     it "fetches a cached_page from site.cached_pages" do
       @site.cached_pages.should_receive(:find).and_return @cached_page
@@ -47,6 +49,7 @@ describe Admin::CachedPagesController do
   describe "DELETE to :clear" do
     act! { request_to :delete, @collection_path }    
     it_redirects_to { @collection_path }
+    it_guards_permissions :manage, :site
     
     before :each do
       controller.class.stub!(:expire_page)

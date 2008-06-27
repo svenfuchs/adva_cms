@@ -7,7 +7,7 @@ describe Admin::SectionsController do
     scenario :site, :section, :article
     set_resource_paths :section, '/admin/sites/1/'
     @controller.stub! :require_authentication
-    @controller.stub! :guard_permission
+    @controller.stub!(:has_permission?).and_return true
   end
   
   it "should be an Admin::BaseController" do
@@ -30,12 +30,14 @@ describe Admin::SectionsController do
   #   act! { request_to :get, @collection_path }    
   #   it_assigns :sections
   #   it_renders_template :index
+  #   # it_guards_permissions :index, :section
   # end
    
   describe "GET to :show" do
     act! { request_to :get, @member_path }    
     it_assigns :section
-    it_renders_template :show
+    it_renders_template :show    
+    it_guards_permissions :show, :section
     
     it "fetches a section from site.sections" do
       @site.sections.should_receive(:find).and_return @section
@@ -47,6 +49,7 @@ describe Admin::SectionsController do
     act! { request_to :get, @new_member_path }    
     it_assigns :section
     it_renders_template :new
+    it_guards_permissions :create, :section
     
     it "instantiates a new section from site.sections" do
       @site.sections.should_receive(:build).and_return @section
@@ -57,6 +60,7 @@ describe Admin::SectionsController do
   describe "POST to :create" do
     act! { request_to :post, @collection_path }    
     it_assigns :section
+    it_guards_permissions :create, :section
     
     it "instantiates a new section from site.sections" do
       @site.sections.should_receive(:build).and_return @section
@@ -89,6 +93,7 @@ describe Admin::SectionsController do
   describe "PUT to :update" do
     act! { request_to :put, @member_path }    
     it_assigns :section    
+    it_guards_permissions :update, :section
     
     it "fetches a section from site.sections" do
       @site.sections.should_receive(:find).and_return @section
@@ -112,9 +117,30 @@ describe Admin::SectionsController do
     end
   end
   
+  describe "PUT to :update_all" do
+    before :each do
+      @site.sections.stub! :update
+      @site.sections.stub! :update_paths!
+    end
+    
+    act! { request_to :put, @collection_path, :sections => {:foo => :bar} }    
+    it_guards_permissions :update, :section
+    
+    it "updates the site's sections with the section params" do
+      @site.sections.should_receive(:update).with(['foo'], [:bar])
+      act!
+    end
+    
+    it "updates the section's paths" do
+      @site.sections.should_receive(:update_paths!)
+      act!
+    end
+  end
+  
   describe "DELETE to :destroy" do
     act! { request_to :delete, @member_path }    
     it_assigns :section
+    it_guards_permissions :destroy, :section
     
     it "fetches a section from site.sections" do
       @site.sections.should_receive(:find).and_return @section

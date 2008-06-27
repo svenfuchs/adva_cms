@@ -122,7 +122,7 @@ describe 'Roles: ' do
   
   describe "#permissions (class method)" do
     it "inverts passed permissions hash and merges it to default_permissions"    
-    it "expands :all to [:show, :create, :update, :delete]"
+    it "expands :all to [:show, :create, :update, :destroy]"
   end
 
   describe '#role_authorizing' do
@@ -135,8 +135,8 @@ describe 'Roles: ' do
         @site.role_authorizing(:update).should == @admin_role
       end
 
-      it 'returns a superuser role for the :delete action' do
-        @site.role_authorizing(:delete).should == @superuser_role
+      it 'returns a superuser role for the :destroy action' do
+        @site.role_authorizing(:destroy).should == @superuser_role
       end
     end
 
@@ -149,33 +149,33 @@ describe 'Roles: ' do
         @section.role_authorizing(:update).should == @admin_role
       end
 
-      it 'returns an admin role for the :delete action' do
-        @section.role_authorizing(:delete).should == @admin_role
+      it 'returns an admin role for the :destroy action' do
+        @section.role_authorizing(:destroy).should == @admin_role
       end
     end
     
     describe 'on a forum with roles for topic actions all set to user' do
       before :each do
         @section.stub!(:permissions).and_return \
-          :section => { :topic => { :show => :user, :create => :user, :update => :user, :delete => :user }}        
+          :section => { :topic => { :show => :user, :create => :user, :update => :user, :destroy => :user }}        
       end
       
       it 'returns a user role for the :create action'
       it 'returns a user role for the :update action'
-      it 'returns a user role for the :delete action'
+      it 'returns a user role for the :destroy action'
     end
     
     describe 'on a forum with roles for topic actions all set to author' do
       before :each do
         @section.stub!(:permissions).and_return \
-          :section => { :topic => { :show => :user, :create => :user, :update => :user, :delete => :user }}        
+          :section => { :topic => { :show => :user, :create => :user, :update => :user, :destroy => :user }}        
       end
       
       it 'returns a author role for the :create action' # TODO even though this is quite stupid? maybe.
       it 'the author role for the :create action has the topic set as context'
       it 'returns a author role for the :update action'
       it 'the author role for the :update action has the topic set as context'
-      it 'returns a author role for the :delete action'
+      it 'returns a author role for the :destroy action'
       it 'the author role for the :create delete has the topic set as context'
     end
   end
@@ -208,21 +208,21 @@ describe 'Roles: ' do
   describe '#default_permissions' do
     before :each do 
       @default_permissions = {
-        :site    => { :theme    => { :show => :admin, :update => :admin, :create => :admin, :delete => :admin }, 
-                      :section  => { :show => :admin, :update => :admin, :create => :admin, :delete => :admin }, 
-                      :site     => { :show => :admin, :update => :admin, :create => :superuser, :delete => :superuser, :manage => :admin } },
+        :site    => { :theme    => { :show => :admin, :update => :admin, :create => :admin, :destroy => :admin }, 
+                      :section  => { :show => :admin, :update => :admin, :create => :admin, :destroy => :admin }, 
+                      :site     => { :show => :admin, :update => :admin, :create => :superuser, :destroy => :superuser, :manage => :admin } },
 
-        :section => { :article  => { :update => :moderator, :create => :moderator, :delete => :moderator, :show => :moderator }, 
-                      :category => { :update => :moderator, :create => :moderator, :delete => :moderator, :show => :moderator } },
+        :section => { :article  => { :update => :moderator, :create => :moderator, :destroy => :moderator, :show => :moderator }, 
+                      :category => { :update => :moderator, :create => :moderator, :destroy => :moderator, :show => :moderator } },
 
-        :blog    => { :article  => { :update => :user, :create => :user, :delete => :user }, 
-                      :comment  => { :update => :author, :delete => :author, :create => :user } },
+        :blog    => { :article  => { :update => :user, :create => :user, :destroy => :user }, 
+                      :comment  => { :update => :author, :destroy => :author, :create => :user } },
 
-        :forum   => { :comment  => { :update => :author, :delete => :author, :create => :user }, 
-                      :topic    => { :moderate => :moderator, :update => :user, :delete => :moderator, :create => :user } },
+        :forum   => { :comment  => { :update => :author, :destroy => :author, :create => :user }, 
+                      :topic    => { :moderate => :moderator, :update => :user, :destroy => :moderator, :create => :user } },
 
-        :wiki    => { :comment  => { :update => :author, :delete => :author, :create => :user }, 
-                      :wikipage => { :update => :user, :create => :user, :delete => :user}}
+        :wiki    => { :comment  => { :update => :author, :destroy => :author, :create => :user }, 
+                      :wikipage => { :update => :user, :create => :user, :destroy => :user}}
       }
     end
   

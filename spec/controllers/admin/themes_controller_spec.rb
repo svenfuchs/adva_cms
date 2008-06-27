@@ -14,7 +14,7 @@ describe Admin::ThemesController do
     @selected_themes_path = "#{@collection_path}/selected"
     @selected_theme_path = "#{@collection_path}/selected/theme-1"
     @controller.stub! :require_authentication
-    @controller.stub! :guard_permission
+    @controller.stub!(:has_permission?).and_return true
   end
   
   it "should be an Admin::BaseController" do
@@ -37,17 +37,20 @@ describe Admin::ThemesController do
   
   describe "GET to :index" do
     act! { request_to :get, @collection_path }    
+    it_guards_permissions :show, :theme
     it_assigns :themes
     it_renders_template :index
   end
   
   describe "GET to :show" do    
     act! { request_to :get, @member_path }
+    it_guards_permissions :show, :theme
     it_assigns :theme
   end  
   
   describe "POST to :create" do
     act! { request_to :post, @collection_path, @params }    
+    it_guards_permissions :create, :theme
     it_assigns :theme
     
     it "instantiates a new theme from site.themes" do
@@ -74,6 +77,7 @@ describe Admin::ThemesController do
   
   describe "PUT to :update" do
     act! { request_to :put, @member_path, @params }    
+    it_guards_permissions :update, :theme
     it_assigns :theme    
     
     it "fetches an theme from site.themes" do
@@ -100,6 +104,7 @@ describe Admin::ThemesController do
   
   describe "DELETE to :destroy" do
     act! { request_to :delete, @member_path }    
+    it_guards_permissions :destroy, :theme
     it_assigns :theme
     
     it "fetches an theme from site.themes" do
@@ -132,6 +137,7 @@ describe Admin::ThemesController do
   
   describe "POST to :select" do
     act! { request_to :post, @selected_themes_path, :id => @theme.id }
+    it_guards_permissions :update, :theme
     it_redirects_to { @collection_path }
     
     it "adds the theme id to the site's theme_names" do
@@ -153,6 +159,7 @@ describe Admin::ThemesController do
   
   describe "DELETE to :unselect" do
     act! { request_to :delete, @selected_theme_path }
+    it_guards_permissions :update, :theme
     it_redirects_to { @collection_path }
     
     it "removes the theme id from the site's theme_names" do

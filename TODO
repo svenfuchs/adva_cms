@@ -1,6 +1,15 @@
-[fix] /user/roles.js does not seem to be page cached?
+[fix] comments_controller does not guard permissions
+[fix] users_controller does not guard permissions
+[fix] admin/wikipages_controller does not guard permissions
+[fix] topics_controller does not guard permissions
 
-[fix] add authorized_links to wikipage edit_links helper
+[fix] preview link must go to @site.host/...
+[fix] reordering articles does not work: could not find role for article: update_all
+[fix] delete article: could not find role for article: destroy
+[fix] delete section: could not find role for section: destroy
+[fix] clearing pages physically from cache dir still does not work
+[fix] don't display the title for the root section article
+
 [fix] routes for pagination are missing
 [fix] separate login and admin/login pages (same thing, different layout)
 [fix] currently broken: belongs_to_author: with_deleted => true
@@ -40,6 +49,8 @@
 
 [theme] default theme: increase font size by 1px
 [theme] microformat everything: hcard, hatom
+
+mongrel_rails start -p 8003 -P /var/log/sven.rails/artweb/mongrel.pid -m config/mongrel.mime.yml -e production -d
 
 
 # broken + missing specs

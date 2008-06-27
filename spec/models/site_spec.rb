@@ -30,9 +30,9 @@ describe Site do
     
     it 'has default permissions' do
       Site.default_permissions.should == 
-        { :site    => { :show => :admin, :create => :superuser, :update => :admin, :delete => :superuser, :manage => :admin }, 
-          :section => { :show => :admin, :create => :admin, :update => :admin, :delete => :admin }, 
-          :theme   => { :show => :admin, :create => :admin, :update => :admin, :delete => :admin } }
+        { :site    => { :show => :admin, :create => :superuser, :update => :admin, :destroy => :superuser, :manage => :admin }, 
+          :section => { :show => :admin, :create => :admin, :update => :admin, :destroy => :admin }, 
+          :theme   => { :show => :admin, :create => :admin, :update => :admin, :destroy => :admin } }
     end
   
     it "has a comments counter" do

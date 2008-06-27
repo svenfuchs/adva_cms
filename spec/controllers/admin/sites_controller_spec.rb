@@ -13,7 +13,7 @@ describe Admin::SitesController do
     
     @controller.stub! :require_authentication
     @controller.stub! :protect_single_site_mode
-    @controller.stub! :guard_permission
+    @controller.stub!(:has_permission?).and_return true
     
     @controller.stub!(:current_user).and_return @user
   end
@@ -38,12 +38,14 @@ describe Admin::SitesController do
     act! { request_to :get, @collection_path }    
     it_assigns :sites
     it_renders_template :index
+    it_guards_permissions :show, :site
   end
    
   describe "GET to :show" do
     act! { request_to :get, @member_path }    
     it_assigns :site
     it_renders_template :show
+    it_guards_permissions :show, :site
     
     it "fetches a site from Site" do
       Site.should_receive(:find).and_return @site
@@ -55,6 +57,7 @@ describe Admin::SitesController do
     act! { request_to :get, @new_member_path }    
     it_assigns :site
     it_renders_template :new
+    it_guards_permissions :create, :site
     
     it "instantiates a new site from site.sites" do
       Site.should_receive(:new).and_return @site
@@ -65,6 +68,7 @@ describe Admin::SitesController do
   describe "POST to :create" do
     act! { request_to :post, @collection_path }    
     it_assigns :site
+    it_guards_permissions :create, :site
     
     it "instantiates a new site from site.sites" do
       Site.should_receive(:new).and_return @site
@@ -87,6 +91,7 @@ describe Admin::SitesController do
     act! { request_to :get, @edit_member_path }    
     it_assigns :site
     it_renders_template :edit
+    it_guards_permissions :update, :site
     
     it "fetches a site from site.sites" do
       Site.should_receive(:find).and_return @site
@@ -97,6 +102,7 @@ describe Admin::SitesController do
   describe "PUT to :update" do
     act! { request_to :put, @member_path }    
     it_assigns :site    
+    it_guards_permissions :update, :site
     
     it "fetches a site from site.sites" do
       Site.should_receive(:find).and_return @site
@@ -123,6 +129,7 @@ describe Admin::SitesController do
   describe "DELETE to :destroy" do
     act! { request_to :delete, @member_path }    
     it_assigns :site
+    it_guards_permissions :destroy, :site
     
     it "fetches a site from site.sites" do
       Site.should_receive(:find).and_return @site

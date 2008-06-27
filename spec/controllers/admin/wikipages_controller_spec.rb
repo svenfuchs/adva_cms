@@ -7,7 +7,7 @@ describe Admin::WikipagesController do
     scenario :site, :section, :wiki, :category, :wikipage
     set_resource_paths :wikipage, '/admin/sites/1/sections/1/'
     @controller.stub! :require_authentication
-    @controller.stub! :guard_permission
+    @controller.stub!(:has_permission?).and_return true
     
     @site.sections.stub!(:find).and_return @wiki
   end
@@ -30,6 +30,7 @@ describe Admin::WikipagesController do
   
   describe "GET to :index" do
     act! { request_to :get, @collection_path }    
+    # it_guards_permissions :show, :wikipage
     it_assigns :wikipages
     it_renders_template :index
   end

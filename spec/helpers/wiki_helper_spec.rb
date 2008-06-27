@@ -96,23 +96,23 @@ describe WikiHelper do
       end
     
       it "should not contain a link to the wiki home page" do
-        @result.join.should_not =~ /return to home/
+        @result.should_not =~ /return to home/
       end
     
       it "should contain a link to edit the wikipage" do
-        @result.join.should =~ /edit this page/
+        @result.should =~ /edit this page/
       end
     
       it "should not contain a link to rollback to this revision" do
-        @result.join.should_not =~ /rollback to this revision/
+        @result.should_not =~ /rollback to this revision/
       end
     
       it "should contain a link to view the previous revision" do
-        @result.join.should =~ /view previous revision/
+        @result.should =~ /view previous revision/
       end
     
       it "should not contain a link to view the next revision" do
-        @result.join.should_not =~ /view next revision/
+        @result.should_not =~ /view next revision/
       end
     end
   
@@ -122,31 +122,31 @@ describe WikiHelper do
       end
     
       it "should not use /wiki/pages/home as a home URL (but use /wiki instead)" do
-        @result.join.should_not =~ %r(wiki/pages/home)
+        @result.should_not =~ %r(wiki/pages/home)
       end
     
       it "should contain a link to the wiki home page" do
-        @result.join.should =~ /return to home/
+        @result.should =~ /return to home/
       end
   
       it "should contain a link to edit the wikipage" do
-        @result.join.should =~ /edit this page/
+        @result.should =~ /edit this page/
       end
   
       it "should contain a link to delete the wikipage" do
-        @result.join.should =~ /delete this page/
+        @result.should =~ /delete this page/
       end
     
       it "should not contain a link to rollback to this revision" do
-        @result.join.should_not =~ /rollback to this revision/
+        @result.should_not =~ /rollback to this revision/
       end
   
       it "should contain a link to view the previous revision" do
-        @result.join.should =~ /view previous revision/
+        @result.should =~ /view previous revision/
       end
   
       it "should not contain a link to view the next revision" do
-        @result.join.should_not =~ /view next revision/
+        @result.should_not =~ /view next revision/
       end
     end
   
@@ -157,27 +157,27 @@ describe WikiHelper do
       end
   
       it "should not contain a link to edit the wikipage" do
-        @result.join.should_not =~ /edit this page/
+        @result.should_not =~ /edit this page/
       end
 
       it "should not contain a link to delete the wikipage" do
-        @result.join.should_not =~ /delete this page/
+        @result.should_not =~ /delete this page/
       end
     
       it "should contain a link to rollback to this revision" do
-        @result.join.should =~ /rollback to this revision/
+        @result.should =~ /rollback to this revision/
       end
   
       it "should not contain a link to view the previous revision" do
-        @result.join.should_not =~ /view previous revision/
+        @result.should_not =~ /view previous revision/
       end
   
       it "should contain a link to view the next revision" do
-        @result.join.should =~ /view next revision/
+        @result.should =~ /view next revision/
       end
   
       it "should contain a link to return to the current revision" do
-        @result.join.should =~ /return to current revision/
+        @result.should =~ /return to current revision/
       end
     
       it "should not use /wiki/pages/home as a current-version URL (but use /wiki instead)" do
@@ -192,49 +192,49 @@ describe WikiHelper do
       end
     
       it "should contain a link to the wiki home page" do
-        @result.join.should =~ /return to home/
+        @result.should =~ /return to home/
       end
   
       it "should not contain a link to edit the wikipage" do
-        @result.join.should_not =~ /edit this page/
+        @result.should_not =~ /edit this page/
       end
   
       it "should not contain a link to delete the wikipage" do
-        @result.join.should_not =~ /delete this page/
+        @result.should_not =~ /delete this page/
       end
     
       it "should contain a link to rollback to this revision" do
-        @result.join.should =~ /rollback to this revision/
+        @result.should =~ /rollback to this revision/
       end
   
       it "should contain a link to view the previous revision" do
-        @result.join.should =~ /view previous revision/
+        @result.should =~ /view previous revision/
       end
   
       it "should contain a link to view the next revision" do
-        @result.join.should =~ /view next revision/
+        @result.should =~ /view next revision/
       end
   
       it "should contain a link to return to the current revision" do
-        @result.join.should =~ /return to current revision/
+        @result.should =~ /return to current revision/
       end
     end
     
-    describe "authorizing css" do
-      it "for the edit link contains the classes visible-for and user" do
-        @result = wiki_edit_links(@wikipage).join("\n")
-        @result.should =~ /<a href="[^>]*edit"[^>]*class="visible-for user/
+    describe "a span with the visible-for and user classes" do
+      it "encloses the edit link" do
+        @result = wiki_edit_links(@wikipage)
+        @result.should =~ /<span class="visible-for user[^>]*>[^<]*<a href="[^>]*edit"/
       end
 
-      it "for the delete link contains the classes visible-for and user" do
-        @result = wiki_edit_links(@wikipage).join("\n")
-        @result.should =~ /<a href="[^>]*a-wikipage"[^>]*class="visible-for user[^>]*delete/
+      it "encloses the delete link" do
+        @result = wiki_edit_links(@wikipage)
+        @result.should =~ /<span class="visible-for user[^>]*>[^<]*<a href="[^>]*a-wikipage"[^>]*delete/
       end
 
-      it "for the rollback link contains the classes visible-for and user" do
+      it "encloses the rollback link" do
         @wikipage.stub!(:version).and_return 2
-        @result = wiki_edit_links(@wikipage).join("\n")
-        @result.should =~ /<a href="wikipage_path_with_home"[^>]*class="visible-for user[^>]*rollback/
+        @result = wiki_edit_links(@wikipage)
+        @result.should =~ /<span class="visible-for user[^>]*>[^<]*<a href="[^>]*wikipage_path_with_home"[^>]*rollback/
       end
     end
   end

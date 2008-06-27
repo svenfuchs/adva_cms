@@ -17,7 +17,7 @@
 
 class PermissionMap < Hash
   def default_actions
-    [:show, :create, :update, :delete]
+    [:show, :create, :update, :destroy]
   end
 
   def initialize(permissions)

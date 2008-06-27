@@ -9,7 +9,7 @@ describe Admin::ThemeFilesController do
     set_resource_paths :file, "#{@theme_path}/"
     
     @controller.stub! :require_authentication
-    @controller.stub! :guard_permission
+    @controller.stub!(:has_permission?).and_return true
     @controller.stub! :expire_pages
   end
   
@@ -31,11 +31,13 @@ describe Admin::ThemeFilesController do
   
   describe "GET to :show" do    
     act! { request_to :get, @member_path }
+    it_guards_permissions :update, :theme
     it_assigns :file
   end  
   
   describe "POST to :create" do
     act! { request_to :post, @collection_path }    
+    it_guards_permissions :update, :theme
     it_assigns :file
     
     it "creates a new file from Theme::File" do
@@ -63,6 +65,7 @@ describe Admin::ThemeFilesController do
   
   describe "PUT to :update" do
     act! { request_to :put, @member_path }    
+    it_guards_permissions :update, :theme
     it_assigns :file    
     
     it "fetches a file from @theme.files" do
@@ -95,6 +98,7 @@ describe Admin::ThemeFilesController do
   
   describe "DELETE to :destroy" do
     act! { request_to :delete, @member_path }    
+    it_guards_permissions :update, :theme
     it_assigns :file
     
     it "fetches a file from @theme.files" do

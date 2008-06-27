@@ -6,7 +6,7 @@ class Admin::CachedPagesController < Admin::BaseController
   
   layout 'admin', :except => [:destroy]
   
-  guards_permissions :site, :manage => [:index, :destroy, :clear], :only => :index
+  guards_permissions :site, :manage => [:index, :destroy, :clear]
 
   def destroy
     self.class.expire_page @cached_page.url

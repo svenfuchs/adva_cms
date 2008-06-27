@@ -8,7 +8,7 @@ describe WikiController, 'feeds' do
     
     @site.sections.stub!(:find).and_return @wiki
     @controller.stub! :require_authentication
-    @controller.stub! :guard_permission
+    @controller.stub!(:has_permission?).and_return true
   end
   
   wikipages_feed_paths = %w( /de/wiki.atom

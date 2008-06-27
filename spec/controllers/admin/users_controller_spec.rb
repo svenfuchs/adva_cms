@@ -16,7 +16,7 @@ describe Admin::UsersController do
     
         @controller.stub! :require_authentication
         @controller.stub! :authorize_access # TODO ???
-        @controller.stub! :guard_permission
+        @controller.stub!(:has_permission?).and_return true
       end
   
       describe "routing" do
@@ -36,6 +36,7 @@ describe Admin::UsersController do
   
       describe "GET to :index" do
         act! { request_to :get, @collection_path }    
+        # it_guards_permissions :show, :user TODO
         it_assigns :users
         it_renders_template :index
       end

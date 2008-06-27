@@ -62,6 +62,13 @@ Spec::Rails::Example::ControllerExampleGroup.class_eval do
       end      
     end    
     
+    def it_guards_permissions(*args)
+      it "guards permissions #{args.inspect}" do
+        controller.should_receive(:has_permission?).with(*args).and_return true
+        act!
+      end      
+    end    
+    
     def maps_to_index(path, options = {})
       maps_to_action(path, :index, options)
     end

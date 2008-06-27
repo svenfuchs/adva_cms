@@ -7,20 +7,23 @@ describe Admin::SectionsController, 'Permissions' do
     scenario :roles
 
     @site = stub_model Site, :host => 'test.host'
-    @section = stub_model Section, :id => 1, :site => @site
+    @section = stub_model Section, :id => 1, :site => @site, :destroy => true
     
     Site.stub!(:find).and_return @site
     @site.sections.stub!(:find).and_return @section
     
     controller.stub!(:current_user).and_return @user
     @admin_role.context = @site
+    
+    controller.stub!(:admin_section_path).and_return '/redirect_here'
+    controller.stub!(:new_admin_section_path).and_return '/redirect_here'
   end
   
   def should_grant_access(method, path)
     if method == :get
       request_to(method, path).should be_success
     else
-      request_to(method, path).should redirect_to('http://test.host/pages/a-article')
+      request_to(method, path).should redirect_to('http://test.host/redirect_here')
     end
   end
   
@@ -29,12 +32,13 @@ describe Admin::SectionsController, 'Permissions' do
   end
   
   { '/admin/sites/1/sections/1' => :get,
-    '/admin/sites/1/sections/1/edit' => :get }.each do |path, method|
+    '/admin/sites/1/sections/1/edit' => :get,
+    '/admin/sites/1/sections/1' => :delete }.each do |path, method|
   
     describe "#{method.to_s.upcase} to #{path}" do
       describe "with sections permissions set to :superuser" do
         before :each do 
-          @site.stub!(:permissions).and_return :section => { :show => :superuser, :update => :superuser }
+          @site.stub!(:permissions).and_return :section => { :show => :superuser, :update => :superuser, :destroy => :superuser }
         end
         
         it "grants access to an superuser" do
@@ -50,7 +54,7 @@ describe Admin::SectionsController, 'Permissions' do
     
       describe "with sections permissions set to :admin" do
         before :each do 
-          @site.stub!(:permissions).and_return :section => { :show => :admin, :update => :admin }
+          @site.stub!(:permissions).and_return :section => { :show => :admin, :update => :admin, :destroy => :admin }
         end
         
         it "grants access to an admin" do
@@ -67,7 +71,7 @@ describe Admin::SectionsController, 'Permissions' do
       describe "with sections permissions set to :user" do
         before :each do 
           @user.stub!(:roles).and_return []
-          @site.stub!(:permissions).and_return :section => { :show => :user, :update => :user }
+          @site.stub!(:permissions).and_return :section => { :show => :user, :update => :user, :destroy => :user }
         end
         
         it "grants access to a user" do

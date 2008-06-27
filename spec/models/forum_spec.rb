@@ -22,8 +22,8 @@ describe Forum do
     
   it "has default permissions for topics and comments" do
     Forum.default_permissions.should == 
-      { :topic =>   { :create => :user, :update => :user, :delete => :moderator, :moderate => :moderator }, 
-        :comment => { :create => :user, :update => :author, :delete => :author} }
+      { :topic =>   { :create => :user, :update => :user, :destroy => :moderator, :moderate => :moderator }, 
+        :comment => { :create => :user, :update => :author, :destroy => :author} }
   end
   
   describe "associations" do

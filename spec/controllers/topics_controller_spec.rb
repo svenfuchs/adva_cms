@@ -21,7 +21,7 @@ describe TopicsController do
     @controller.stub!(:forum_path).and_return forum_path
     @controller.stub!(:topic_path).and_return topic_path    
     @controller.stub!(:current_user).and_return stub_user    
-    @controller.stub! :guard_permission
+    @controller.stub!(:has_permission?).and_return true
   end
   
   it "is a BaseController" do
@@ -47,15 +47,10 @@ describe TopicsController do
   
   describe "GET to #{topic_path}" do
     act! { request_to :get, topic_path }    
+    # it_guards_permissions :show, :topic TODO
     it_assigns :topic
     it_renders_template :show
   end  
-
-  describe "GET to #{edit_topic_path}" do
-    act! { request_to :get, edit_topic_path }    
-    it_assigns :topic
-    it_renders_template :edit
-  end
   
   describe "POST to :create" do
     act! { request_to :post, topics_path, :topic => {} }    
@@ -76,6 +71,12 @@ describe TopicsController do
       it_renders_template :new
       it_assigns_flash_cookie :error => :not_nil
     end    
+  end
+
+  describe "GET to #{edit_topic_path}" do
+    act! { request_to :get, edit_topic_path }    
+    it_assigns :topic
+    it_renders_template :edit
   end
   
   describe "PUT to :update" do

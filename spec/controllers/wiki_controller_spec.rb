@@ -33,7 +33,7 @@ describe WikiController do
     @controller.stub!(:wikipage_path).and_return wikipage_path
     @controller.stub!(:current_user).and_return stub_user
     
-    @controller.stub! :guard_permission
+    @controller.stub!(:has_permission?).and_return true
   end
   
   # TODO these overlap with specs in wiki_routes_spec  
@@ -66,17 +66,20 @@ describe WikiController do
   
   describe "GET to #{pages_path}" do
     act! { request_to :get, pages_path }    
+    # it_guards_permissions :show, :wikipage
     it_assigns :wikipages
     it_renders_template :index
   end  
   
   describe "GET to #{category_path}" do
-    act! { request_to :get, category_path }    
+    act! { request_to :get, category_path } 
+    # it_guards_permissions :show, :wikipage   
     it_assigns :category
   end  
   
   describe "GET to #{tag_path}" do
     act! { request_to :get, tag_path }    
+    # it_guards_permissions :show, :wikipage   
     it_assigns :tags
   end  
   
@@ -89,6 +92,7 @@ describe WikiController do
         @wiki.wikipages.stub!(:find_or_initialize_by_permalink).and_return @wikipage
         controller.stub!(:has_permission?).and_return true
       end
+      it_guards_permissions :create, :wikipage   
       it_assigns :wikipage, :categories
     
       describe "and the current user having sufficient permissions to add a page" do
@@ -109,6 +113,7 @@ describe WikiController do
     end
     
     describe "with an existing wikipage" do
+      # it_guards_permissions :show, :wikipage   
       it_assigns :wikipage
       it_renders_template :show
     end
@@ -116,6 +121,7 @@ describe WikiController do
 
   describe "GET to #{revision_path}" do
     act! { request_to :get, revision_path }    
+    # it_guards_permissions :show, :wikipage   
     
     it "reverts the wikipage to the given version" do
       @wikipage.should_receive(:revert_to).at_least :once
@@ -125,6 +131,7 @@ describe WikiController do
 
   describe "GET to #{diff_path}" do
     act! { request_to :get, diff_path }    
+    # it_guards_permissions :show, :wikipage   
     it_assigns :wikipage, :diff => 'the diff'
     
     it "diffs the wikipage against the given version" do
@@ -135,6 +142,7 @@ describe WikiController do
 
   describe "GET to #{revision_diff_path}" do
     act! { request_to :get, revision_diff_path }    
+    # it_guards_permissions :show, :wikipage   
     it_assigns :wikipage, :diff => 'the diff'
     
     it "reverts the wikipage to the given version" do
@@ -150,12 +158,14 @@ describe WikiController do
   
   describe "GET to #{edit_wikipage_path}" do
     act! { request_to :get, edit_wikipage_path }    
+    it_guards_permissions :update, :wikipage   
     it_assigns :wikipage, :categories
     it_renders_template :edit
   end
   
   describe "POST to :create" do
     act! { request_to :post, pages_path, :wikipage => {} }    
+    it_guards_permissions :create, :wikipage   
     it_assigns :wikipage
     
     it "instantiates a new wikipage from section.wikipages" do
@@ -181,6 +191,7 @@ describe WikiController do
     end
     
     act! { request_to :put, wikipage_path, :wikipage => {} }    
+    it_guards_permissions :update, :wikipage   
     it_assigns :wikipage    
     
     it "updates the wikipage with the wikipage params" do
@@ -202,6 +213,7 @@ describe WikiController do
   
   describe "DELETE to :destroy" do
     act! { request_to :delete, wikipage_path }    
+    it_guards_permissions :destroy, :wikipage   
     it_assigns :wikipage
     
     it "should try to destroy the wikipage" do

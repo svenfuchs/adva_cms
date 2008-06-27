@@ -5,7 +5,7 @@ class Site < ActiveRecord::Base
 
   acts_as_role_context :roles => :admin
   serialize :permissions
-  permissions :site    => { :superuser => [:create, :delete], :admin => [:show, :update, :manage] },
+  permissions :site    => { :superuser => [:create, :destroy], :admin => [:show, :update, :manage] },
               :section => { :admin => :all },
               :theme   => { :admin => :all }
 

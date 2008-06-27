@@ -1,6 +1,6 @@
 class Blog < Section  
-  permissions :article  => { :user => [:create, :update, :delete] },
-              :comment  => { :user => :create, :author => [:update, :delete] }
+  permissions :article  => { :user => [:create, :update, :destroy] },
+              :comment  => { :user => :create, :author => [:update, :destroy] }
 
   def archive_months
     article_counts_by_month.transpose.first

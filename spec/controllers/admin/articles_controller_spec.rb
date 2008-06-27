@@ -7,7 +7,7 @@ describe Admin::ArticlesController do
     scenario :site, :section, :blog, :category, :article
     set_resource_paths :article, '/admin/sites/1/sections/1/'
     @controller.stub! :require_authentication
-    @controller.stub! :guard_permission
+    @controller.stub!(:has_permission?).and_return true
   end
   
   it "should be an Admin::BaseController" do
@@ -29,6 +29,7 @@ describe Admin::ArticlesController do
   describe "GET to :index" do
     act! { request_to :get, @collection_path }    
     it_assigns :articles
+    it_guards_permissions :show, :article
     
     describe "when the section is a Section" do
       before :each do @site.sections.stub!(:find).and_return @section end
@@ -76,6 +77,7 @@ describe Admin::ArticlesController do
   describe "GET to :show" do    
     act! { request_to :get, @member_path }
     it_assigns :article
+    it_guards_permissions :show, :article
   
     it "reverts the article when given a :version param" do
       @article.should_receive(:revert_to).any_number_of_times.with "1"
@@ -87,6 +89,7 @@ describe Admin::ArticlesController do
     act! { request_to :get, @new_member_path }    
     it_assigns :article
     it_renders_template :new
+    it_guards_permissions :create, :article
     
     it "instantiates a new article from section.articles" do
       @section.articles.should_receive(:build).and_return @article
@@ -97,6 +100,7 @@ describe Admin::ArticlesController do
   describe "POST to :create" do
     act! { request_to :post, @collection_path }    
     it_assigns :article
+    it_guards_permissions :create, :article
     
     it "instantiates a new article from section.articles" do
       @section.articles.should_receive(:build).and_return @article
@@ -119,6 +123,7 @@ describe Admin::ArticlesController do
     act! { request_to :get, @edit_member_path }    
     it_assigns :article
     it_renders_template :edit
+    it_guards_permissions :update, :article
     
     it "fetches an article from section.articles" do
       @section.articles.should_receive(:find).any_number_of_times.and_return @article
@@ -129,6 +134,7 @@ describe Admin::ArticlesController do
   describe "PUT to :update" do
     act! { request_to :put, @member_path }    
     it_assigns :article    
+    it_guards_permissions :update, :article
     
     it "fetches an article from section.articles" do
       @section.articles.should_receive(:find).any_number_of_times.and_return @article
@@ -170,6 +176,7 @@ describe Admin::ArticlesController do
   describe "DELETE to :destroy" do
     act! { request_to :delete, @member_path }    
     it_assigns :article
+    it_guards_permissions :destroy, :article
     
     it "fetches an article from section.articles" do
       @section.articles.should_receive(:find).any_number_of_times.and_return @article
@@ -192,4 +199,6 @@ describe Admin::ArticlesController do
       it_assigns_flash_cookie :error => :not_nil
     end
   end
+  
+  it "should have update_all and rollback actions specified"
 end
