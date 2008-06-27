@@ -9,10 +9,11 @@
   <table id="sites" class="list">
     <thead>
       <tr>
-        <th scope="col">Name</th>
+        <th scope="col" width="20%">Name</th>
         <th scope="col">Host</th>
-        <th scope="col"></th>
-        <th scope="col"></th>
+        <th scope="col" width="1%"></th>
+        <th scope="col" width="1%"></th>
+        <th scope="col" width="1%"></th>
       </tr>
     </thead>
     <tbody>
@@ -20,7 +21,8 @@
       <tr>
         <td><%= link_to site.name, admin_site_path(site) %></td>
         <td><%= site.host %></td>
-        <td><%= link_to 'delete', admin_site_path(site), { :confirm => "Are you sure you wish to delete this site?", :method => :delete } %></td>
+        <td><%= link_to 'settings', edit_admin_site_path(site), :class => 'edit' %></td>
+        <td><%= link_to 'delete', admin_site_path(site), :class => 'delete', :confirm => "Are you sure you wish to delete this site?", :method => :delete %></td>
         <td><%= link_to "view", "http://#{site.host}", :class => 'view' %></td>
       </tr>
     <% end -%>

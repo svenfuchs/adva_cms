@@ -27,8 +27,10 @@ table.list a.pending {
 }
 table.list a.view {
 	display: block;
+	float: left;
 	width: 16px;
 	height: 16px;	
+	margin-right: 5px;
 	text-indent: 16px;
 	overflow: hidden;
 	background: url(/images/icons/page_white_magnify.png) no-repeat;

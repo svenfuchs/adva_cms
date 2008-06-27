@@ -21,8 +21,6 @@
 [feature] [comments] allow anonymous comment editing (for a couple of minutes, based on the cookie token)
 [feature] [blog] miss tricky says that xml_rpc is a must
 
-[interface] sites list: should have a link to settings (edit)
-
 [plugin] pingback plugin
 [plugin] comment email notification
 [major] add spam protection for comments and wikipages (look at viking + multiengine branch)

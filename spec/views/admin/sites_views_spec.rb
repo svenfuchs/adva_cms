@@ -20,6 +20,30 @@ describe "Admin::Sites Views:" do
       render "admin/sites/index"
       response.should have_tag('#sites tbody tr', 2)
     end
+    
+    it "displays a link to a site's overview" do
+      assigns[:sites] = @sites
+      render "admin/sites/index"
+      response.should have_tag('a[href=?]', admin_site_path(@sites.first), @sites.first.name)
+    end
+    
+    it "displays a link to delete the site" do
+      assigns[:sites] = @sites
+      render "admin/sites/index"
+      response.should have_tag('a[href=?][class=?]', admin_site_path(@sites.first), 'delete', 'delete')
+    end
+    
+    it "displays a link to a site's settings" do
+      assigns[:sites] = @sites
+      render "admin/sites/index"
+      response.should have_tag('a[href=?][class=?]', edit_admin_site_path(@sites.first), 'edit', 'settings')
+    end
+    
+    it "displays a link to the site's frontend" do
+      assigns[:sites] = @sites
+      render "admin/sites/index"
+      response.should have_tag('a[href=?][class=?]', "http://#{@sites.first.host}", 'view')
+    end
   end
 
   describe "the :show view" do
