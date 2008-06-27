@@ -105,8 +105,9 @@ class Role < ActiveRecord::Base
     self.has_context = true
     self.message = 'You need to be the author of this object to perform this action.'
 
-    def applies_to?(user)
-      context.respond_to?(:is_author?) && context.is_author?(user)
+    def applies_to?(object)
+      context = self.context || original_context
+      context.respond_to?(:is_author?) && context.is_author?(object)
     end
   
     def to_css_class

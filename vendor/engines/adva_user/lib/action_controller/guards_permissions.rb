@@ -52,8 +52,8 @@ module ActionController
       
       def has_permission?(action, type)
         user = current_user || Anonymous.new
-        context =  current_role_context
-        user.has_role? context.role_authorizing(action, type), context # TODO refactor
+        role = current_role_context.role_authorizing action, type
+        user.has_role? role, current_role_context
       end
       
       def map_from_controller_action

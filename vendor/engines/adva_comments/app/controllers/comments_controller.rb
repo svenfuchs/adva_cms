@@ -12,6 +12,9 @@ class CommentsController < BaseController
   before_filter :set_comment_params, :only => [:preview, :create]
   
   def show
+    has_permission?(:update, :comment)
+    # p current_user
+    # p @comment.role_authorizing(:update, :comment)
   end
 
   def preview
@@ -24,8 +27,8 @@ class CommentsController < BaseController
     @comment = @commentable.comments.build(params[:comment])
     if @comment.save
       flash[:notice] = "Thank you for your comment!"
-      # redirect_to params[:return_to]
-      render :action => :show
+      redirect_to comment_path(@comment)
+      # render :action => :show
     else
       flash[:comment] = params[:comment]
       flash[:error] = @comment.errors.full_messages.to_sentence
@@ -63,6 +66,6 @@ class CommentsController < BaseController
     end 
     
     def current_role_context
-      @commentable
+      @comment || @commentable
     end
 end

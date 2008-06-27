@@ -5,7 +5,6 @@
     <%= render :partial => 'comments/comment' %>
   </ol>
 </div>
-
 <% if !@comment.approved? and has_permission? :update, :comment %>
   <%= render :partial => 'comments/form'  %>
 <% end %>

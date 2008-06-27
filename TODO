@@ -14,7 +14,6 @@
 [feature] [wiki] add various filters to admin wikipage list (like on admin articles list)
 [feature] [wiki] make the 'home' wikipage permalink configurable per wiki?
 [feature] [comments] add various filters to admin comments list (like on admin articles list)
-[feature] [comments] after a comment was posted, display it on a comments/show page with messages and a form to edit it
 [feature] [comments] allow anonymous comment editing (for a couple of minutes, based on the cookie token)
 [feature] [blog] miss tricky says that xml_rpc is a must
 
@@ -223,7 +222,8 @@ check http://jquery.com/blog/2008/06/09/jquery-ui-v15-released-focus-on-consiste
 check http://github.com/rpheath/input_css/tree/master
 check http://github.com/rtomayko/rdiscount/tree/master (RedCloth replacement in C)
 check fleximage http://github.com/Squeegy/fleximage/tree/master
-
+check http://github.com/walf443/classx/tree/master
+check http://github.com/tokumine/awesome_nested_set/tree/master
 
 # Sanitizing input
 

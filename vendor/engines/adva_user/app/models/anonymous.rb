@@ -15,8 +15,9 @@ class Anonymous < ActiveRecord::Base
   #   anonymous.authenticate(credentials[:password]) ? account : false
   # end
   
-  def has_role?(name, object = nil)
-    Role.build(name, object).instance_of? Role::Anonymous
+  def has_role?(role, object = nil)
+    role = Role.build role, object unless role.is_a? Role
+    role.applies_to?(self) || role.instance_of?(Role::Anonymous)
   end
   
   def anonymous?
