@@ -1,5 +1,5 @@
 class Blog < Section  
-  permissions :article  => { :user => [:create, :update, :destroy] },
+  permissions :article  => { :user => :all },
               :comment  => { :user => :create, :author => [:update, :destroy] }
 
   def archive_months
