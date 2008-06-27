@@ -11,7 +11,7 @@
       <% end %>
     </h2>
     <% form_for :comment, @comment, :url => (@comment.new_record? ? comments_path : comment_path(@comment)), :html => {:method => (@comment.new_record? ? :post : :put)} do |f| -%>
-      <%= comment_form_hidden_fields @comment.commentable %>
+      <%= comment_form_hidden_fields commentable %>
       <% fields_for @comment.author do |author| %>
         <div id="comment_anonymous">
           <p>

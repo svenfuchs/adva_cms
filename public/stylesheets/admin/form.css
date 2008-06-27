@@ -14,7 +14,7 @@ fieldset {
 label {
 	display: block;
 	color: #444;
-	font-size: 12px;
+	font-size: 13px;
 	font-weight: bold;
 	text-shadow: #fff 1px 1px;
 	line-height: 24px;
@@ -22,7 +22,7 @@ label {
 label.light {
 	display: inline;
 	color: #333;
-	font-size: 12px;
+	font-size: 13px;
 	font-weight: normal;
 	text-shadow: none;
 	line-height: normal;
@@ -84,7 +84,7 @@ p.buttons {
 	font-size: 11px;
 }
 #sidebar input[type="text"] {
-	font-size: 12px;
+	font-size: 13px;
 	padding: 3px;
 }
 

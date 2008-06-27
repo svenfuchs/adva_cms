@@ -6,7 +6,7 @@ body {
 	background: #fff;
 	/*background-image: url(/images/gridbg.gif);*/
 	color: #333;
-	font-size: 12px;
+	font-size: 13px;
 	line-height: 18px;
 	font-family: "Lucida Grande", Verdana, Arial, sans-serif;
 	padding-bottom: 54px;
@@ -39,11 +39,11 @@ h2 {
   margin-bottom: 18px;
 }
 h3 { 
-  font-size: 12px; 
+  font-size: 13px; 
   line-height: 18px; 
 }
 h4 { 
-  font-size: 12px; 
+  font-size: 13px; 
   line-height: 18px; 
 }
 p { 
@@ -52,7 +52,7 @@ p {
 /*blockquote {
 	margin: 0 18px 18px 18px;
 	padding: 6px;
-	font-size: 12px;
+	font-size: 13px;
 	background: #dedede;
 }
 blockquote p {
@@ -80,7 +80,7 @@ ul, ol {
 }
 #header h2 {
 	float: left;
-	font-size: 12px;
+	font-size: 13px;
 	font-weight: normal;
   line-height: 18px; 	
 	margin: 18px 0 0 0;
@@ -101,7 +101,7 @@ ul, ol {
 /* CONTENT */
 h2 .meta {
 	float: right;
-	font-size: 12px;
+	font-size: 13px;
 }
 h2.list-header {	
 	/*text-align: right;*/

@@ -13,7 +13,7 @@
 }
 .menu li a {
 	font-weight: bold;
-	font-size: 12px;
+	font-size: 13px;
 	color: #777;
 	text-decoration: none;
 	text-shadow: #fff 1px 1px;
@@ -87,7 +87,7 @@
 }
 #filter input[type="text"] {
 	width: 150px;
-	font-size: 12px;
+	font-size: 13px;
 	margin-left: 5px;
 }
 #filter ul li a {

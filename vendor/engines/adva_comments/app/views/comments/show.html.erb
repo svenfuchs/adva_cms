@@ -6,5 +6,5 @@
   </ol>
 </div>
 <% if !@comment.approved? and has_permission? :update, :comment %>
-  <%= render :partial => 'comments/form'  %>
+  <%= render :partial => 'comments/form', :locals => {:commentable => @comment.commentable}  %>
 <% end %>

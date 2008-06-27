@@ -14,11 +14,11 @@
 [feature] [wiki] add various filters to admin wikipage list (like on admin articles list)
 [feature] [wiki] make the 'home' wikipage permalink configurable per wiki?
 [feature] [comments] add various filters to admin comments list (like on admin articles list)
-[feature] [comments] allow anonymous comment editing (for a couple of minutes, based on the cookie token)
 [feature] [blog] miss tricky says that xml_rpc is a must
 
 [plugin] pingback plugin
 [plugin] comment email notification
+[plugin] reverse captcha plugin
 
 [major] add spam protection for comments and wikipages (look at viking + multiengine branch)
 [major] implement search
@@ -29,16 +29,15 @@
           rational: controller specs should work and controllers behave correctly
           not matter if the plugin is installed or not
 
-[fix] wiki categories aren't that common. should be available, but probably not by default.
-      possible solution: have a section setting "manage categories for this section"? that would 
-      even allow to manage categories per Section, but requires to explicitely turn it on.
-
 [feature] admin section: have an activity center/dashboard where engines can register their
           widgets (partials) to. e.g.: "x comments are awaiting your approval",
           "Please change your administrator password!" etc.
 
+[fix] wiki categories aren't that common. should be available, but probably not by default.
+      possible solution: have a section setting "manage categories for this section"? that would 
+      even allow to manage categories per Section, but requires to explicitely turn it on.
 
-[theme] default theme: increase font size by 1px
+
 [theme] microformat everything: hcard, hatom
 
 
