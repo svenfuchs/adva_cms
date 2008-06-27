@@ -25,6 +25,8 @@ scenario :comment do
   @comments = stub_comments
   @comment.stub!(:commentable).and_return @article || @wikipage
   @comment.stub!(:commentable=)
+  
+  Comment.stub!(:find).and_return @comment
 end
 
 scenario :three_comments do

@@ -8,12 +8,23 @@ describe CommentsController do
     scenario :site, :section, :blog, :article, :comment
 
     @collection_path = '/comments'
+    @member_path = '/comments/1'
     @preview_path = '/comments/preview'
     @return_to = '/redirect/here'
     
     @params = { :commentable => {:type => 'Article', :id => 1}, 
                 :comment => {:body => 'body!', :author_name => 'name'},
                 :return_to => @return_to }
+  end
+  
+  it "should be a BaseController" do
+    controller.should be_kind_of(BaseController)
+  end
+
+  describe "GET to :show" do
+    act! { request_to :get, @member_path }    
+    it_assigns :section, :comment, :commentable
+    it_renders_template :show
   end
   
   describe "POST to preview" do
@@ -41,7 +52,7 @@ describe CommentsController do
     end
     
     describe "given valid comment params" do
-      it_redirects_to { @return_to }
+      it_renders_template 'show'
       it_assigns_flash_cookie :notice => :not_nil
     end
     

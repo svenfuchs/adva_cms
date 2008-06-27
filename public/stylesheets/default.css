@@ -133,6 +133,9 @@ div.meta {
 	height: 36px;
 	margin-right: 18px;
 }
+.meta .info {
+	margin-top: 18px !important;
+}
 .content {
 	margin-left: 220px;
 }

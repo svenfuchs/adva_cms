@@ -3,8 +3,6 @@
 [fix] admin/wikipages_controller does not guard permissions
 [fix] topics_controller does not guard permissions
 
-[fix] preview link must go to the frontend: @site.host/content_path
-
 [fix] routes for pagination are missing
 [fix] separate login and admin/login pages (same thing, different layout)
 [fix] currently broken: belongs_to_author: with_deleted => true
@@ -22,8 +20,10 @@
 
 [plugin] pingback plugin
 [plugin] comment email notification
+
 [major] add spam protection for comments and wikipages (look at viking + multiengine branch)
 [major] implement search
+
 
 [feature] add before_move and after_move hooks to better_nested_set
 [feature] make cacheable_flash behave completely transparent (i.e. do not clear flash after writing it to the cookie)
@@ -41,8 +41,6 @@
 
 [theme] default theme: increase font size by 1px
 [theme] microformat everything: hcard, hatom
-
-mongrel_rails start -p 8003 -P /var/log/sven.rails/artweb/mongrel.pid -m config/mongrel.mime.yml -e production -d
 
 
 # broken + missing specs

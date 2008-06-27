@@ -1,0 +1,13 @@
+<li class="<%= cycle 'alt', '' %> clearing" id="<%= dom_id(comment) %>">
+  <div class="meta">
+    <p><%= comment.author_link %></p>
+    <p><%= comment.created_at.to_formatted_s(:long) %></p>
+    <% unless comment.approved? %>
+      <p class="info">This comment is currently under review.</p>
+    <% end  %>
+  </div>
+  <div class="comment">
+    <%= comment.body_html %>
+    <a href="#<%= dom_id(comment) %>" title="" style="display:none;">#</a>
+  </div>
+</li>

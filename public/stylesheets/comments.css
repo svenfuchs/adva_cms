@@ -21,13 +21,13 @@
 	margin: 0;
 }
 #comments .comment {
-	padding-left: 180px;
+	padding-left: 220px;
 }
 
 /* COMMENTS FORM */
 
 #comment_form {
-	padding-left: 180px;
+	padding-left: 220px;
 	padding-bottom: 9px;
 	margin-bottom: 26px;
 	border-bottom: 1px solid #bbb;

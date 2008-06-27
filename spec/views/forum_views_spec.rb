@@ -11,11 +11,6 @@ describe "Forum views:" do
     assigns[:section] = @forum
     assigns[:topics] = @topics
 
-    # template.stub!(:links_to_content_categories).and_return 'links_to_content_categories'
-    # template.stub!(:links_to_content_tags).and_return 'links_to_content_tags'
-    # template.stub!(:link_to_content_comments).and_return 'link_to_content_comments'
-    # template.stub!(:comment_path).and_return 'path/to/comment'
-    
     template.stub!(:link_to_topic).and_return 'link_to_topic'
     template.stub!(:link_to_last_post).and_return 'link_to_last_post'
     template.stub!(:pluralize_str).and_return 'pluralized_str'

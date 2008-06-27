@@ -15,7 +15,7 @@
       <div>
         <h4>Archives</h4>
         <ul>
-        <% @section.archive_month.each do |month| %>
+        <% @section.archive_months.each do |month| %>
           <li><%= link_to month.strftime('%B %Y'), blog_path(@section, :year => month.year, :month => month.month) %></li>
         <% end %>
         </ul>

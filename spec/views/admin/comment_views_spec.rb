@@ -48,7 +48,6 @@ describe "Admin::Comments:" do
   describe "the comment partial" do
     before :each do
       template.stub!(:comment).and_return @comment
-      template.stub_render hash_including(:partial => 'comment')
     end
     
     act! { render "admin/comments/_comment" }
@@ -57,7 +56,7 @@ describe "Admin::Comments:" do
       result.body.should =~ /body/
     end
     
-    it "displays the comment body with comments stripped" do
+    it "displays the comment body with tags stripped" do
       template.should_receive(:strip_tags)
       act!
     end
