@@ -4,14 +4,15 @@ module ContentHelper
     article.published_at.to_ordinalized_s(article.published_at.year == Time.now.year ? :stub : :mdy)
   end
   
-  def content_url(*args)
-    request.protocol + request.host_with_port + content_path(*args)
+  def content_url(content, options = {})
+    protocol = options.delete(:protocol) || 'http://'
+    protocol + content.section.site.host + content_path(content, options)
   end
   
-  def content_path(content, options = nil)
+  def content_path(content, options = {})
     case content.section
     when Blog
-      article_path content.section, content.full_permalink.merge(options || {})
+      article_path content.section, content.full_permalink.merge(options)
     when Wiki
       wikipage_path *[content.section, content.permalink, options].compact
     else 

@@ -25,8 +25,12 @@ class Article < Content
 
   def full_permalink
     raise "can not create full_permalink for an article that belongs to a non-blog section" unless section.is_a? Blog
-    raise "can not create full_permalink for an unpublished article" unless published?
-    Hash[:permalink, permalink, *[:year, :month, :day].map {|key| [key, published_at.send(key)] }.flatten]
+    # raise "can not create full_permalink for an unpublished article" unless published?
+    if published?
+      Hash[:permalink, permalink, *[:year, :month, :day].map {|key| [key, published_at.send(key)] }.flatten]
+    else
+      Hash[:permalink, permalink, *[:year, :month, :day].map {|key| [key, created_at.send(key)] }.flatten]
+    end
   end
   
   def primary?
@@ -55,6 +59,10 @@ class Article < Content
   
   def published?
     !published_at.nil? and published_at <= Time.zone.now
+  end
+  
+  def published_at?(date)
+    published? and date == [:year, :month, :day].map {|key| published_at.send(key).to_s }
   end
   
   def state

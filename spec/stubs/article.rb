@@ -32,6 +32,7 @@ define Article do
            :has_excerpt? => true,
            :published_at => Time.now,
            :published? => true,
+           :published_at? => true,
            :filter => nil,
            :attributes= => nil,
            :save => true, 
