@@ -17,7 +17,7 @@ class Admin::ArticlesController < Admin::BaseController
   cache_sweeper :article_sweeper, :category_sweeper, :tag_sweeper, 
                 :only => [:create, :update, :destroy]
 
-  guards_permissions :article
+  guards_permissions :article, :update => :update_all
   
 
   def index

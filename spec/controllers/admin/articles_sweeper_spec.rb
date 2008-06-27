@@ -29,9 +29,16 @@ describe "Article page sweeping" do
       ActiveRecord::Base.observers.should include(:article_sweeper)
     end
     
-    it "should expire pages that reference an article when an article was saved" do
+    it "should expire pages that reference the article's section when the article is a new record" do
+      @article.stub!(:new_record?).and_return true
+      @sweeper.should_receive(:expire_cached_pages_by_reference).with(@article.section)
+      @sweeper.before_save(@article)
+    end
+    
+    it "should expire pages that reference an article when the article is not a new record" do
+      @article.stub!(:new_record?).and_return false
       @sweeper.should_receive(:expire_cached_pages_by_reference).with(@article)
-      @sweeper.after_save(@article)
+      @sweeper.before_save(@article)
     end
   end
 end
