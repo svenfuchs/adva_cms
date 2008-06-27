@@ -4,9 +4,6 @@
 [fix] topics_controller does not guard permissions
 
 [fix] preview link must go to the frontend: @site.host/content_path
-[fix] reordering articles does not work: could not find role for article: update_all
-[fix] delete article: could not find role for article: destroy
-[fix] delete section: could not find role for section: destroy
 [fix] don't display the title for the root section article
 
 [fix] routes for pagination are missing

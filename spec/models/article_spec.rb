@@ -82,6 +82,18 @@ describe Article do
       end
     end
     
+    describe "#primary?" do
+      it "returns true when the article is its section's primary article" do
+        @article.section.articles.stub!(:primary).and_return @article
+        @article.primary?.should be_true
+      end
+      
+      it "returns false when the article is not section's primary article" do
+        @article.section.articles.stub!(:primary).and_return nil
+        @article.primary?.should be_false
+      end
+    end
+    
     describe '#has_excerpt?' do
       it 'returns true when the excerpt is not blank' do
         @article.excerpt = 'excerpt'

@@ -29,6 +29,10 @@ class Article < Content
     Hash[:permalink, permalink, *[:year, :month, :day].map {|key| [key, published_at.send(key)] }.flatten]
   end
   
+  def primary?
+    section.articles.primary == self
+  end
+  
   def accept_comments?
     published? && (comment_age > -1) && (comment_age == 0 || comments_expired_at > Time.zone.now)
   end
