@@ -110,7 +110,7 @@ class Content < ActiveRecord::Base
   protected
   
     def set_site
-      self.site_id = section.site_id
+      self.site_id = section.site_id if section
     end
    
     def update_categories(category_ids)

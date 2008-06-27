@@ -34,20 +34,35 @@ module ActiveRecord
         column_names.each do |column|
           target.class_eval <<-code, __FILE__, __LINE__
             belongs_to :#{column}, :polymorphic => true # TODO :with_deleted => true
-            validates_presence_of :#{column}
+            validates_presence_of :#{column}, :#{column}_name, :#{column}_email
             before_save :cache_#{column}_attributes!
         
             def #{column}_name
               #{column} ? #{column}.name : read_attribute(:#{column}_name)
+            end
+        
+            def #{column}_name=(name)
+              self[:#{column}_name] = name
+              self.#{column}.name = name if #{column}
             end  
   
             def #{column}_email
               #{column} ? #{column}.email : read_attribute(:#{column}_email) if has_attribute? :#{column}_email
             end  
   
+            def #{column}_email=(email)
+              self[:#{column}_email] = email
+              self.#{column}.email = email if #{column}
+            end  
+  
             def #{column}_homepage
               #{column} ? #{column}.homepage : read_attribute(:#{column}_homepage) if has_attribute? :#{column}_homepage
             end
+  
+            def #{column}_homepage=(homepage)
+              self[:#{column}_homepage] = homepage
+              self.#{column}.homepage = homepage if #{column}
+            end  
   
             def #{column}_link(options = {})
               include_email = options[:include_email] && has_attribute?(:#{column}_email)
@@ -61,9 +76,9 @@ module ActiveRecord
             
             private
               def cache_#{column}_attributes!
-                self.#{column}_name = #{column}.name
-                self.#{column}_email = #{column}.email if respond_to? :#{column}_email=
-                self.#{column}_homepage = #{column}.homepage if respond_to? :#{column}_homepage=
+                self[:#{column}_name] = #{column}.name
+                self[:#{column}_email] = #{column}.email if respond_to? :#{column}_email=
+                self[:#{column}_homepage] = #{column}.homepage if respond_to? :#{column}_homepage=
               end            
           code
         end        

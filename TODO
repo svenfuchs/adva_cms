@@ -20,7 +20,6 @@
 [feature] [comments] after a comment was posted, display it on a comments/show page with messages and a form to edit it
 [feature] [comments] allow anonymous comment editing (for a couple of minutes, based on the cookie token)
 [feature] [blog] miss tricky says that xml_rpc is a must
-[fix] [wiki] force username present on wikipage save
 
 [interface] sites list: should have a link to settings (edit)
 
