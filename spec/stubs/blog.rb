@@ -1,7 +1,7 @@
 define Blog do
   belongs_to :site
 
-  has_many :articles, [:find, :find_published_by_permalink, :build, :primary] => stub_article,
+  has_many :articles, [:find, :find_by_permalink, :find_published_by_permalink, :build, :primary] => stub_article,
                       [:roots, :paginate, :paginate_published_in_time_delta] => stub_articles,
                       :permalinks => ['an-article'], :maximum => 4
                       

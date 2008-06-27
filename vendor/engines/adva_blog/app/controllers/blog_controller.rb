@@ -1,7 +1,10 @@
 class BlogController < BaseController
+  include ActionController::GuardsPermissions::InstanceMethods
+  
   before_filter :set_category, :set_tags, :only => :index
   before_filter :set_articles, :only => :index
   before_filter :set_article, :only => :show
+  before_filter :guard_view_permissions, :only => :show
 
   caches_page_with_references :index, :show, :track => ['@article', '@articles', '@category', {'@site' => :tag_counts, '@section' => :tag_counts}]
   authenticates_anonymous_user
@@ -50,7 +53,7 @@ class BlogController < BaseController
   
     def set_article
       args = params.values_at(:year, :month, :day, :permalink) << {:include => :author}
-      @article = @section.articles.find_published_by_permalink *args
+      @article = @section.articles.find_by_permalink *args
       raise ActiveRecord::RecordNotFound unless @article
     end
     
@@ -72,6 +75,13 @@ class BlogController < BaseController
     def set_commentable
       set_article if params[:permalink]
       super
+    end
+    
+    def guard_view_permissions
+      unless @article.published?
+        guard_permission(:update, :article)
+        @skip_caching = true
+      end
     end
     
     def current_role_context

@@ -41,8 +41,9 @@ module ActionController
     end
     
     module InstanceMethods
-      def guard_permission(type)
-        action = map_from_controller_action
+      def guard_permission(*args)
+        type = args.pop
+        action = args.pop || map_from_controller_action
         unless has_permission?(action, type)
           role =  current_role_context.role_authorizing(action, type)
           raise RoleRequired.new role
