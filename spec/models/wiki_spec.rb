@@ -15,7 +15,7 @@ describe Wiki do
 
   it "has default permissions for wikipages and comments" do # TODO what about categories?
     Wiki.default_permissions.should == 
-      { :wikipage => { :update => :user, :create => :user, :destroy => :user }, 
+      { :wikipage => { :show => :anonymous, :update => :user, :create => :user, :destroy => :user }, 
         :comment => { :update => :author, :destroy => :author, :create => :user }}
   end
 end

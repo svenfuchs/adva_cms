@@ -10,7 +10,7 @@ describe Counter do
     @forum.stub!(:build_path)
     @forum.save
     
-    @topic_attributes = {:section => @forum, :title => 'title', :body => 'body', :last_author => stub_user}
+    @topic_attributes = {:section => @forum, :title => 'title', :body => 'body', :last_author => stub_user, :last_author_name => 'name', :last_author_email => 'email@email.org'}
   end
   
   it "has_one topics_count" do

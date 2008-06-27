@@ -39,7 +39,7 @@ scenario :three_comments do
   @one_day_ago = 1.days.ago
   
   Time.stub!(:now).and_return @three_days_ago
-  topic_attributes = {:title => 'topic title', :body => 'first comment', :last_author => stub_user, :section => @forum}
+  topic_attributes = {:title => 'topic title', :body => 'first comment', :last_author => stub_user, :last_author_name => 'name', :last_author_email => 'email@email.org', :section => @forum}
   @topic = Topic.post @user, topic_attributes
   @topic.save!
   

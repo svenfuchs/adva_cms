@@ -27,6 +27,7 @@ define Article do
            :author_link => 'author_link',
            :comment_filter => 'textile-filter',
            :comment_age => 0,
+           :primary? => false,
            :accept_comments? => true,
            :has_excerpt? => true,
            :published_at => Time.now,
