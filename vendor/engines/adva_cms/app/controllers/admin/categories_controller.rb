@@ -46,7 +46,7 @@ class Admin::CategoriesController < Admin::BaseController
     end
   end
   
-  private
+  protected
   
     def set_section
       @section = @site.sections.find(params[:section_id])
@@ -58,5 +58,5 @@ class Admin::CategoriesController < Admin::BaseController
     
     def set_category
       @category = @section.categories.find(params[:id])
-    end    
+    end
 end
