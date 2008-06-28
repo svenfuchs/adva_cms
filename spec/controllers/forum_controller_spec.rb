@@ -8,7 +8,7 @@ describe ForumController do
     @site.sections.stub!(:find).and_return @forum
   end
   
-  all_paths  = %w( /de/forum )
+  all_paths  = %w( /forums/1 )
 
   it "should be a BaseController" do
     controller.should be_kind_of(BaseController)

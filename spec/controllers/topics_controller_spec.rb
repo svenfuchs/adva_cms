@@ -3,30 +3,30 @@ require File.dirname(__FILE__) + "/../spec_helper"
 describe TopicsController do
   include SpecControllerHelper
   
-  forum_path      = '/de/forum'
-  topics_path     = '/de/forum/topics'
-  topic_path      = '/de/forum/topics/a-topic'
-  new_topic_path  = '/de/forum/topics/new'
-  edit_topic_path = '/de/forum/topics/a-topic/edit'
+  forum_path      = '/forums/1'
+  topics_path     = '/forums/1/topics'
+  topic_path      = '/forums/1/topics/a-topic'
+  new_topic_path  = '/forums/1/topics/new'
+  edit_topic_path = '/forums/1/topics/a-topic/edit'
 
   cached_paths = [topic_path]
   all_paths    = cached_paths + [new_topic_path, edit_topic_path]
   
   before :each do
     scenario :forum_with_topics, :user_logged_in
-    
+
     @controller.stub!(:forum_path).and_return forum_path # TODO have a helper for this kind of stuff
     @controller.stub!(:topic_path).and_return topic_path    
 
     @controller.stub!(:has_permission?).and_return true # TODO
   end
-  
+
   it "is a BaseController" do
     controller.should be_kind_of(BaseController)
   end
 
   describe "routing" do
-    with_options :section_id => "1", :locale => 'de' do |route|
+    with_options :section_id => "1" do |route|
       route.it_maps :get,    topic_path,      :show,    :id => 'a-topic'
       route.it_maps :get,    new_topic_path,  :new
       route.it_maps :get,    edit_topic_path, :edit,    :id => 'a-topic'

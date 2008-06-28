@@ -1,4 +1,7 @@
-module RoutingFilter; end # make dependencies happy
+module RoutingFilter
+  mattr_accessor :active
+  @@active = true
+end
 
 # allows to install a filter to the route set by calling: map.filter 'locale'
 ActionController::Routing::RouteSet::Mapper.class_eval do
@@ -45,15 +48,10 @@ ActionController::Routing::RouteSet.class_eval do
     @filters ||= []
   end
   
-  # call filter stage (:before or :after) with the passed args
-  def filter_generate(base, stage, *args)
-    filters.each do |filter|
-      filter.send :"#{stage}_generate", base, *args if filter.respond_to? :"#{stage}_generate"
-    end
-  end
-  
   # wrap recognition filters around recognize_path
   def recognize_path_with_filtering(path, env)
+    return recognize_path_without_filtering(path, env) unless RoutingFilter.active
+    
     path = path.dup
     chain = [lambda{|path, env| recognize_path_without_filtering(path, env) }]
     filters.each do |filter|
@@ -64,6 +62,13 @@ ActionController::Routing::RouteSet.class_eval do
     chain.shift.call path, env
   end
   alias_method_chain :recognize_path, :filtering
+  
+  # call filter stage (:before or :after) with the passed args
+  def filter_generate(base, stage, *args)
+    filters.each do |filter|
+      filter.send :"#{stage}_generate", base, *args if filter.respond_to? :"#{stage}_generate"
+    end if RoutingFilter.active
+  end
 
   # add some useful information to the request environment
   # right, this is from jamis buck's excellent article about routes internals

@@ -2,7 +2,8 @@ require File.dirname(__FILE__) + "/../spec_helper"
 
 describe WikiController do
   include SpecControllerHelper
-  
+  with_routing_filter
+
   before :each do
     scenario :wiki_with_wikipages
     

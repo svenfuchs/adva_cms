@@ -12,7 +12,7 @@ describe SectionsController do
   end
 
   describe "GET to :show" do
-    act! { request_to :get, '/' }    
+    act! { request_to :get, '/sections/1' }    
     it_assigns :section, :article
     it_renders_template :show
     it_gets_page_cached
@@ -25,7 +25,7 @@ describe SectionsController do
     end
     
     describe "with an article permalink present" do
-      act! { request_to :get, '/section/articles/an-article' }   
+      act! { request_to :get, '/sections/1/articles/an-article' }   
       it "should find the section's primary article" do
         @section.articles.should_receive(:find_published_by_permalink).any_number_of_times.and_return @article
         act!
@@ -40,9 +40,9 @@ describe SectionsController, 'feeds' do
   before :each do
     scenario :section_with_published_article
   end
-
-  comments_paths = %w( /de/section/comments.atom
-                       /de/section/articles/an-article.atom)  
+  
+  comments_paths = %w( /sections/1/comments.atom
+                       /sections/1/articles/an-article.atom)  
   
   comments_paths.each do |path|
     describe "GET to #{path}" do

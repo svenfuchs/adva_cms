@@ -3,22 +3,22 @@ require File.dirname(__FILE__) + "/../spec_helper"
 describe BlogController do
   include SpecControllerHelper
   
-  before :each do
+  before do
     scenario :blog_with_published_article
   end
   
-  blog_paths          = %w( /de/blog
-                            /de/blog/2000
-                            /de/blog/2000/1 )                          
-  category_paths      = %w( /de/blog/categories/foo  
-                            /de/blog/categories/foo/2000
-                            /de/blog/categories/foo/2000/1 )                          
-  tags_paths          = %w( /de/blog/tags/tag-1+tag-2 )                          
-  article_paths       = %w( /de/blog/2000/1/1/an-article )
-  articles_feed_paths = %w( /de/blog.atom
-                            /de/blog/tags/foo+bar.atom ) # TODO what about categories?                            
-  comments_feed_paths = %w( /de/blog/comments.atom
-                            /de/blog/2008/1/1/an-article.atom )
+  blog_paths          = %w( /blogs/1
+                            /blogs/1/2000
+                            /blogs/1/2000/1 )                          
+  category_paths      = %w( /blogs/1/categories/foo  
+                            /blogs/1/categories/foo/2000
+                            /blogs/1/categories/foo/2000/1 )                          
+  tags_paths          = %w( /blogs/1/tags/tag-1+tag-2 )                          
+  article_paths       = %w( /blogs/1/2000/1/1/an-article )
+  articles_feed_paths = %w( /blogs/1.atom
+                            /blogs/1/tags/foo+bar.atom ) # TODO what about categories?                            
+  comments_feed_paths = %w( /blogs/1/comments.atom
+                            /blogs/1/2008/1/1/an-article.atom )
 
   collection_paths = blog_paths + category_paths + tags_paths
   all_paths = collection_paths + article_paths
@@ -90,7 +90,7 @@ describe BlogController do
           before :each do 
             controller.stub!(:current_user).and_return stub_model(User, :has_role? => false)
           end          
-          it_redirects_to { 'http://test.host/de/login' }
+          it_redirects_to { 'http://test.host/login' }
         end
       end
     end

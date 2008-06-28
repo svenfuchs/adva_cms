@@ -37,9 +37,9 @@ describe WikiController, 'Permissions' do
     request_to(method, path)
   end
   
-  { # '/wiki/pages/home' => :get, 
-    '/wiki/pages/home/edit' => :get, 
-    '/wiki/pages' => :post }.each do |path, method|
+  { # '/wikis/1/pages/home' => :get, 
+    '/wikis/1/pages/home/edit' => :get, 
+    '/wikis/1/pages' => :post }.each do |path, method|
   
     describe "#{method.to_s.upcase} to #{path}" do
       describe "with wikipage permissions set to :admin" do

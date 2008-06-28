@@ -1,21 +1,21 @@
 require File.dirname(__FILE__) + "/../spec_helper"
   
-wiki_path            = '/de/wiki'
-wiki_pages_path      = '/de/wiki/pages'
-wiki_category_path   = '/de/wiki/categories/foo'
-wiki_tag_path        = '/de/wiki/tags/foo+bar'
-wiki_page_path       = '/de/wiki/pages/a-wikipage'
-new_wikipage_path    = '/de/wiki/pages/new'
-edit_wikipage_path   = '/de/wiki/pages/a-wikipage/edit'
+wiki_path            = '/wikis/1'
+wiki_pages_path      = '/wikis/1/pages'
+wiki_category_path   = '/wikis/1/categories/1'
+wiki_tag_path        = '/wikis/1/tags/foo+bar'
+wiki_page_path       = '/wikis/1/pages/a-wikipage'
+new_wikipage_path    = '/wikis/1/pages/new'
+edit_wikipage_path   = '/wikis/1/pages/a-wikipage/edit'
                      
-wiki_page_diff_path            = '/de/wiki/pages/a-wikipage/diff/1'
-wiki_page_revision_path        = '/de/wiki/pages/a-wikipage/rev/1'
-wiki_page_revision_diff_path   = '/de/wiki/pages/a-wikipage/rev/1/diff/1'
+wiki_page_diff_path            = '/wikis/1/pages/a-wikipage/diff/1'
+wiki_page_revision_path        = '/wikis/1/pages/a-wikipage/rev/1'
+wiki_page_revision_diff_path   = '/wikis/1/pages/a-wikipage/rev/1/diff/1'
 
-wikipages_feed_paths = %w( /de/wiki.atom
-                           /de/wiki/pages/a-wikipage.atom )                          
-comments_feed_paths  = %w( /de/wiki/comments.atom
-                           /de/wiki/pages/a-wikipage/comments.atom )
+wikipages_feed_paths = %w( /wikis/1.atom
+                           /wikis/1/pages/a-wikipage.atom )                          
+comments_feed_paths  = %w( /wikis/1/comments.atom
+                           /wikis/1/pages/a-wikipage/comments.atom )
 
 cached_paths = [wiki_path, wiki_pages_path, wiki_category_path, wiki_tag_path, wiki_page_path]
 all_paths    = cached_paths + [wiki_page_revision_path, new_wikipage_path, edit_wikipage_path]
@@ -23,10 +23,6 @@ all_paths    = cached_paths + [wiki_page_revision_path, new_wikipage_path, edit_
 
 describe WikiController do
   include SpecControllerHelper
-  
-  it "should be a BaseController" do
-    controller.should be_kind_of(BaseController)
-  end
   
   before :each do
     scenario :wiki_with_wikipages, :user_logged_in
@@ -37,9 +33,13 @@ describe WikiController do
     controller.stub!(:has_permission?).and_return true
   end
   
+  it "should be a BaseController" do
+    controller.should be_kind_of(BaseController)
+  end
+  
   # TODO these overlap with specs in wiki_routes_spec  
   describe "routing" do
-    with_options :section_id => "1", :locale => 'de' do |route|
+    with_options :section_id => "1" do |route|
       route.it_maps :get,    wiki_path,                    :show
       route.it_maps :get,    wiki_page_path,               :show,    :id => 'a-wikipage'
       route.it_maps :get,    wiki_page_revision_path,      :show,    :id => 'a-wikipage', :version => '1'

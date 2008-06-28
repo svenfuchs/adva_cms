@@ -2,6 +2,7 @@ require File.dirname(__FILE__) + "/../spec_helper"
 
 describe BlogController do
   include SpecControllerHelper
+  with_routing_filter
   
   before :each do
     scenario :blog_with_published_article

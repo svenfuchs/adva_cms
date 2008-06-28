@@ -5,6 +5,8 @@ module SpecControllerHelper
       base.send :include, Stubby
       base.send :include, ResourcePathHelper
       base.send :include, SpecPageCachingHelper
+      
+      base.send :before do RoutingFilter.active = false end
     end
   end
   
@@ -56,6 +58,11 @@ end
 
 Spec::Rails::Example::ControllerExampleGroup.class_eval do
   class << self
+    def with_routing_filter
+      before do RoutingFilter.active = true end
+      after do RoutingFilter.active = false end
+    end    
+    
     def it_gets_page_cached
       it "page_caches the response" do
         with_caching{ act! }.should be_cached
