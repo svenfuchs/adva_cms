@@ -114,6 +114,7 @@ h2.list-header {
 	border-bottom: 1px solid #aaa;
 }
 div.meta {
+	font-size: 11px;
 	float: left;
 	width: 170px;
 	color: #666;

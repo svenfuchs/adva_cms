@@ -25,7 +25,7 @@
 
 
 [feature] add before_move and after_move hooks to better_nested_set
-[feature] make cacheable_flash behave completely transparent (i.e. do not clear flash after writing it to the cookie)
+[feature] make cacheable_flash behave transparent (do not clear flash after writing it to the cookie)
           rational: controller specs should work and controllers behave correctly
           not matter if the plugin is installed or not
 
