@@ -4,16 +4,15 @@ describe Comment do
   include Stubby, Matchers::ClassExtensions
   
   before :each do 
-    scenario :site, :wiki, :wikipage, :user
+    scenario :wiki_with_wikipages
     
     @comment = Comment.new :body => 'the body'
     @comment.site = @site
     @comment.section = @wiki
-    @comment.author = @user    
+    @comment.author = stub_user
     @comment.commentable = @wikipage
     @comment.commentable_type = 'Wiki'
-    @comment.commentable_id = 1
-    
+    @comment.commentable_id = @wikipage.id
   end
   
   describe 'class extensions:' do

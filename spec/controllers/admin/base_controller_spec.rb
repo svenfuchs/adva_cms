@@ -4,8 +4,7 @@ describe Admin::SitesController do
   include SpecControllerHelper
   
   before :each do
-    scenario :site, :user
-    @user.stub!(:registered?).and_return true
+    scenario :empty_site
     controller.stub!(:guard_permission)
   end
   
@@ -17,10 +16,9 @@ describe Admin::SitesController do
     end
 
     it "succeeds when user is logged in" do
-      controller.stub!(:current_user).and_return @user
+      scenario :user_logged_in
       request_to :get, '/admin/sites'
       response.should be_success
     end
   end
-  
 end

@@ -5,7 +5,7 @@ describe CommentsController do
   include SpecControllerHelper
   
   before :each do
-    scenario :site, :section, :blog, :article, :comment
+    scenario :blog_with_published_article, :blog_comments
 
     @collection_path = '/comments'
     @member_path = '/comments/1'
@@ -52,7 +52,7 @@ describe CommentsController do
     end
     
     describe "given valid comment params" do
-      it_renders_template 'show'
+      it_redirects_to { @member_path }
       it_assigns_flash_cookie :notice => :not_nil
     end
     
@@ -66,6 +66,41 @@ describe CommentsController do
       it_assigns_flash_cookie :comment => :not_nil
     end    
   end
+end
+
+describe "Comment page_caching" do
+  include SpecControllerHelper
   
+  describe CommentsController do    
+    before :each do
+      @sweeper = CommentsController.filter_chain.find CommentSweeper.instance
+    end
+    
+    it "activates the CommentSweeper as an around filter" do
+      @sweeper.should be_kind_of(ActionController::Filters::AroundFilter)
+    end
+      
+    it "configures the CommentSweeper to observe Comment create, update and destroy events" do
+      @sweeper.options[:only].should == [:create, :update, :destroy]
+    end
+  end
   
+  describe "CommentSweeper" do
+    controller_name 'comments'
+  
+    before :each do
+      scenario :blog_with_published_article, :blog_comments
+      @sweeper = CommentSweeper.instance
+      @comment.stub!(:commentable).and_return @section
+    end
+    
+    it "observes Comment" do 
+      ActiveRecord::Base.observers.should include(:comment_sweeper)
+    end
+    
+    it "expires pages that reference a comment's commentable when the comment was saved" do
+      @sweeper.should_receive(:expire_cached_pages_by_reference).with(@section)
+      @sweeper.after_save(@comment)
+    end
+  end
 end

@@ -4,7 +4,7 @@ describe Admin::ThemeFilesController do
   include SpecControllerHelper
   
   before :each do
-    scenario :site, :section, :article, :theme, :theme_file
+    scenario :empty_site, :theme_with_files
     @theme_path = '/admin/sites/1/themes/theme-1'
     set_resource_paths :file, "#{@theme_path}/"
     

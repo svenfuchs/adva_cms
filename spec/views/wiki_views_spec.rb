@@ -4,9 +4,12 @@ describe "Wiki views:" do
   include SpecViewHelper
   
   before :each do
-    scenario :site, :user, :section, :wiki, :wikipage, :category, :tag, :comment
+    assigns[:section] = @wiki = stub_wiki
+    @wikipage = stub_wikipage
+    @wikipages = stub_wikipages
+    @comment = stub_comment
     
-    assigns[:section] = @wiki
+    Section.stub!(:find).and_return @wiki
     
     @wikipage.stub!(:approved_comments).and_return [@comment, @comment]
     
@@ -152,7 +155,7 @@ describe "Wiki views:" do
       assigns[:wikipage] = @wikipage
       template.stub_render hash_including(:partial => 'categories/checkboxes')
       template.stub!(:f).and_return ActionView::Base.default_form_builder.new(:wikipage, @wikipage, template, {}, nil)
-      template.stub!(:current_user).and_return @user
+      template.stub!(:current_user).and_return stub_user
     end    
     
     it "renders wikipage form fields" do

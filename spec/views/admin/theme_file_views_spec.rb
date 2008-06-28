@@ -4,7 +4,7 @@ describe "Admin::Themes:" do
   include SpecViewHelper
   
   before :each do
-    scenario :site, :theme, :theme_file
+    scenario :empty_site, :theme_with_files
     assigns[:site] = @site
     assigns[:theme] = @theme
     assigns[:file] = @file

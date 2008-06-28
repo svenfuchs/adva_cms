@@ -17,12 +17,4 @@ define Theme do
            :errors => []
 end
 
-scenario :theme do
-  scenario :site
 
-  @theme = stub_theme
-  @themes = stub_themes
-
-  @site.themes.stub!(:find).and_return @theme # TODO
-  @site.themes.stub!(:find).with(:all).and_return @themes
-end

@@ -5,7 +5,7 @@ describe CachedPagesHelper do
   
   describe '#cached_page_date' do
     before :each do
-      scenario :cached_page
+      scenario :cached_pages
       
       @time_now = Time.local 2008, 1, 2, 12
       @yesterday = Time.local 2008, 1, 1, 12

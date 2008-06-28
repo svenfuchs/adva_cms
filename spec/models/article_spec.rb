@@ -4,7 +4,7 @@ describe Article do
   include Stubby, Matchers::ClassExtensions
   
   before :each do
-    scenario :site, :section, :category, :user
+    scenario :section_with_published_article
     
     @time_now = Time.zone.now
     Time.stub!(:now).and_return(@time_now)

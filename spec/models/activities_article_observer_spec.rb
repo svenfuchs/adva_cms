@@ -6,13 +6,12 @@ describe Activities::ArticleObserver do
   include Stubby
   
   before :each do
-    scenario :site, :section
+    scenario :section_with_published_article
   end
   
   it "should log a 'created' activity on save when the article is a new_record" do
     # wtf ... can not use the scenario :article_created here for some reason
     # sqlite breaks with a logic error
-    scenario :user
     @article = Article.new :author => stub_user, 
                            :site_id => stub_site, :section_id => stub_section, 
                            :title => 'An article', :body => 'body'

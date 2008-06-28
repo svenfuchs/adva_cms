@@ -5,12 +5,12 @@ describe "Forum views:" do
   include ContentHelper
   
   before :each do
-    scenario :site, :user, :forum
-
-    assigns[:site] = @site
-    assigns[:section] = @forum
-    assigns[:topics] = @topics
-
+    assigns[:site] = @site = stub_site
+    assigns[:section] = @forum = stub_forum    
+    assigns[:topics] = @topics = [@topic = stub_topic]
+    
+    Section.stub!(:find).and_return @forum
+    
     template.stub!(:link_to_topic).and_return 'link_to_topic'
     template.stub!(:link_to_last_post).and_return 'link_to_last_post'
     template.stub!(:pluralize_str).and_return 'pluralized_str'
@@ -36,7 +36,7 @@ describe "Forum views:" do
       end
     end
     
-    describe 'with an empty topics collection assigned' do
+    describe 'with a non-empty topics collection assigned' do
       it "renders the topic partial with the topics collection" do
         template.expect_render hash_including(:partial => 'topic', :collection => @topics)
         render "forum/show"

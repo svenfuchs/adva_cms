@@ -4,7 +4,7 @@ describe ForumController do
   include SpecControllerHelper
   
   before :each do
-    scenario :site, :forum
+    scenario :forum_with_topics
     @site.sections.stub!(:find).and_return @forum
   end
   

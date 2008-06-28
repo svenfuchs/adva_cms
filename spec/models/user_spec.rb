@@ -39,7 +39,7 @@ describe User do
     
     describe 'the roles association' do
       before :each do
-        scenario :user_has_several_roles    
+        scenario :user_having_several_roles    
       end
       
       it '#by_site returns all superuser, site and section roles for the given user' do

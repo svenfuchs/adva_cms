@@ -4,12 +4,12 @@ describe Admin::WikipagesController do
   include SpecControllerHelper
   
   before :each do
-    scenario :site, :section, :wiki, :category, :wikipage
+    scenario :wiki_with_wikipages
+    
     set_resource_paths :wikipage, '/admin/sites/1/sections/1/'
+    
     @controller.stub! :require_authentication
     @controller.stub!(:has_permission?).and_return true
-    
-    @site.sections.stub!(:find).and_return @wiki
   end
   
   it "should be an Admin::BaseController" do

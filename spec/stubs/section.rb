@@ -32,11 +32,3 @@ define Section do
 
   instance :section
 end
-              
-scenario :section do 
-  @section = stub_section
-  @sections = stub_sections
-  
-  Section.stub!(:find).and_return @section
-  Section.stub!(:types).and_return ['Section', 'Blog', 'Wiki', 'Forum']
-end

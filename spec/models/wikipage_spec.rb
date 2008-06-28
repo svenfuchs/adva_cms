@@ -4,8 +4,8 @@ describe Wikipage do
   include Stubby, Matchers::ClassExtensions
   
   before :each do
-    scenario :wiki, :user
-    @wikipage = Wikipage.new :section => @wiki, :author => @user
+    @wiki = stub_wiki
+    @wikipage = Wikipage.new :section => @wiki, :author => stub_user
   end
   
   describe 'class extensions:' do

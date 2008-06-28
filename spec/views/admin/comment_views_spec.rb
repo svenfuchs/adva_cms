@@ -4,10 +4,8 @@ describe "Admin::Comments:" do
   include SpecViewHelper
   
   before :each do
-    scenario :site, :section, :article, :comment
-
-    assigns[:site] = @site
-    assigns[:section] = @section
+    @comment = stub_comment
+    @comments = stub_comments
 
     set_resource_paths :comment, '/admin/sites/1/'    
     @admin_comment_returning_path = "#{@member_path}?return_to=here"

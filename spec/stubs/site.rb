@@ -38,20 +38,8 @@ define Site do
            :activities => [],
            :current_theme_template_paths => [],
            :current_theme_layout_paths => [],
-           :has_attribute? => true
+           :has_attribute? => true,
+           :role_context => stub_site
         
   instance :default          
-end
-
-scenario :site do
-  scenario :section, :blog, :wiki, :forum # TODO this sux a wee bit
-  
-  @site = stub_site
-  @sites = [stub_site, stub_site] # TODO lookup :all is broken
-  
-  Site.stub!(:find).and_return @site  
-  Site.stub!(:find_by_host).and_return @site
-  Site.stub!(:paginate).and_return @sites 
-  Site.stub!(:multi_sites_enabled).and_return true
-  
 end

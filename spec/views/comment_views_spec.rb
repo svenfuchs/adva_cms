@@ -5,11 +5,11 @@ describe "Comment views:" do
   include ContentHelper
   
   before :each do
-    scenario :site, :user, :article, :comment
-
-    assigns[:site] = @site
-    assigns[:comment] = @comment
-    assigns[:commentable] = @article
+    assigns[:site] = @site = stub_site
+    assigns[:comment] = @comment = stub_comment
+    assigns[:commentable] = @article = stub_article
+    
+    @comment.stub!(:commentable).and_return @article
 
     template.stub!(:has_permission?).and_return false
     template.stub!(:link_to_content).and_return 'link_to_content'

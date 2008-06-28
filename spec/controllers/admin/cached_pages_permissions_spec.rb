@@ -4,7 +4,7 @@ describe Admin::CachedPagesController, 'Permissions' do
   include SpecControllerHelper
 
   before :each do    
-    scenario :roles, :cached_page, :cached_page
+    scenario :roles, :cached_pages
 
     @site = stub_model Site, :host => 'test.host'
     @blog = stub_model Blog, :id => 1, :site => @site

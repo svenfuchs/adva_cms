@@ -4,7 +4,7 @@ describe WikiHelper do
   include Stubby, WikiHelper, UsersHelper
   
   before :each do
-    scenario :site, :section, :wiki, :wikipage
+    scenario :wiki_with_wikipages
     @controller.instance_variable_set :@locale, 'en'
     
     @user_role = Role.build :user, nil

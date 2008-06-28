@@ -13,9 +13,7 @@ class Admin::SitesController < Admin::BaseController
   helper :activities
   
   def index
-    @sites = Site.with_host_or_title params[:search_string] do
-      Site.paginate(:page => params[:page], :per_page => params[:per_page], :order => 'id')
-    end
+    @sites = Site.paginate(:page => params[:page], :per_page => params[:per_page], :order => 'id')
   end
 
   def show

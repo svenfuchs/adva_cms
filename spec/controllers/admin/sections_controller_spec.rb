@@ -4,8 +4,10 @@ describe Admin::SectionsController do
   include SpecControllerHelper
   
   before :each do
-    scenario :site, :section, :article
+    scenario :section_with_published_article
+    
     set_resource_paths :section, '/admin/sites/1/'
+    
     @controller.stub! :require_authentication
     @controller.stub!(:has_permission?).and_return true
   end

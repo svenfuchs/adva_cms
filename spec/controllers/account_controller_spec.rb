@@ -5,7 +5,7 @@ describe AccountController do
   include SpecControllerHelper
   
   before :each do
-    scenario :site, :user
+    scenario :site_with_a_user
     
     @account_path = '/account'    
     @new_account_path = '/account/new'    

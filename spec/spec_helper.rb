@@ -15,7 +15,7 @@ require File.dirname(__FILE__) + "/spec_helpers/spec_page_caching_helper"
 require File.dirname(__FILE__) + "/matchers/url_matchers"
 require File.dirname(__FILE__) + "/matchers/class_extensions"
 
-Stubby::Loader.load
+Stubby.load
 
 require "cacheable_flash/test_helpers"
 require "rspec_on_rails_on_crack"

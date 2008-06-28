@@ -17,8 +17,8 @@ module Activities
     
     def initialize_activity(record)
       returning super do |activity|
-        activity.site_id = record.commentable.site_id
-        activity.section_id = record.commentable.section_id
+        activity.site = record.commentable.site
+        activity.section = record.commentable.section
         activity.author = record.author
       end
     end

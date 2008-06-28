@@ -4,58 +4,57 @@ describe BlogController do
   include SpecControllerHelper
   
   before :each do
-    scenario :site, :section, :blog, :article, :category, :tag
-
-    @blog.articles.stub!(:paginate_published_in_time_delta).and_return @articles
-    @category.contents.stub!(:paginate_published_in_time_delta).and_return @articles
-
-    @site.sections.stub!(:find).and_return @blog
+    scenario :blog_with_published_article
   end
   
-  blog_paths     = %w( /de/blog
-                       /de/blog/2000
-                       /de/blog/2000/1 )                          
-  category_paths = %w( /de/blog/categories/foo  
-                       /de/blog/categories/foo/2000
-                       /de/blog/categories/foo/2000/1 )                          
-  tags_paths     = %w( /de/blog/tags/tag-1+tag-2 )                          
-  article_paths  = %w( /de/blog/2000/1/1/an-article )
+  blog_paths          = %w( /de/blog
+                            /de/blog/2000
+                            /de/blog/2000/1 )                          
+  category_paths      = %w( /de/blog/categories/foo  
+                            /de/blog/categories/foo/2000
+                            /de/blog/categories/foo/2000/1 )                          
+  tags_paths          = %w( /de/blog/tags/tag-1+tag-2 )                          
+  article_paths       = %w( /de/blog/2000/1/1/an-article )
+  articles_feed_paths = %w( /de/blog.atom
+                            /de/blog/tags/foo+bar.atom ) # TODO what about categories?                            
+  comments_feed_paths = %w( /de/blog/comments.atom
+                            /de/blog/2008/1/1/an-article.atom )
 
   collection_paths = blog_paths + category_paths + tags_paths
   all_paths = collection_paths + article_paths
   
-  # it "should be a BaseController" do
-  #   controller.should be_kind_of(BaseController)
-  # end
-  # 
-  # all_paths.each do |path|  
-  #   describe "GET to #{path}" do
-  #     act! { request_to :get, path }
-  #     it_gets_page_cached
-  #   end
-  # end
-  # 
-  # category_paths.each do |path|
-  #   describe "GET to #{path}" do
-  #     act! { request_to :get, path }
-  #     it_assigns :category
-  #   end
-  # end
-  # 
-  # collection_paths.each do |path|    
-  #   describe "GET to #{path}" do
-  #     act! { request_to :get, path }
-  #     it_assigns :articles
-  #     it_renders_template :index    
-  #   end
-  # end
-  #                                 
-  # tags_paths.each do |path|    
-  #   describe "GET to #{path}" do
-  #     act! { request_to :get, path }
-  #     it_assigns :tags, %(foo bar)
-  #   end
-  # end
+  it "should be a BaseController" do
+    controller.should be_kind_of(BaseController)
+  end
+  
+  all_paths.each do |path|  
+    describe "GET to #{path}" do
+      act! { request_to :get, path }
+      it_gets_page_cached
+    end
+  end
+  
+  category_paths.each do |path|
+    describe "GET to #{path}" do
+      act! { request_to :get, path }
+      it_assigns :category
+    end
+  end
+  
+  collection_paths.each do |path|    
+    describe "GET to #{path}" do
+      act! { request_to :get, path }
+      it_assigns :articles
+      it_renders_template :index    
+    end
+  end
+                                  
+  tags_paths.each do |path|    
+    describe "GET to #{path}" do
+      act! { request_to :get, path }
+      it_assigns :tags, %(foo bar)
+    end
+  end
                                   
   article_paths.each do |path|    
     describe "GET to #{path}" do
@@ -94,6 +93,52 @@ describe BlogController do
           it_redirects_to { 'http://test.host/de/login' }
         end
       end
+    end
+  end
+
+  articles_feed_paths.each do |path|
+    describe "GET to #{path}" do
+      act! { request_to :get, path }
+      it_renders_template 'index', :format => :atom
+      it_gets_page_cached
+    end
+  end
+  
+  comments_feed_paths.each do |path|
+    describe "GET to #{path}" do
+      act! { request_to :get, path }
+      it_renders_template 'comments/comments', :format => :atom
+      it_gets_page_cached
+    end
+  end
+end
+
+describe "Blog page_caching" do
+  include SpecControllerHelper
+  
+  describe BlogController do
+    it "page_caches the :index action" do
+      cached_page_filter_for(:index).should_not be_nil
+    end
+    
+    it "tracks read access for a bunch of models for the :index action page caching" do
+      BlogController.track_options[:index].should == ['@article', '@articles', '@category', {'@site' => :tag_counts, '@section' => :tag_counts}]
+    end
+    
+    it "page_caches the :show action" do
+      cached_page_filter_for(:show).should_not be_nil
+    end
+    
+    it "tracks read access for a bunch of models for the :show action page caching" do
+      BlogController.track_options[:show].should == ['@article', '@articles', '@category', {"@section" => :tag_counts, "@site" => :tag_counts}]
+    end
+    
+    it "page_caches the comments action" do
+      cached_page_filter_for(:comments).should_not be_nil
+    end
+    
+    it "tracks read access on @commentable for comments action page caching" do
+      BlogController.track_options[:comments].should include('@commentable')
     end
   end
 end

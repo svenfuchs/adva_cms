@@ -83,7 +83,6 @@ class Topic < ActiveRecord::Base
 
   protected
     def set_site
-      # TODO why not just always set the site_id? and in what cases would the section be nil?
-      self.site_id = section.site_id # if site_id.nil? && section
+      self.site_id = section.site_id
     end
 end

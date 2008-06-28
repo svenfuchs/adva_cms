@@ -11,7 +11,7 @@ describe Admin::UsersController do
     describe "with scope #{scope.inspect}" do
   
       before :each do
-        scenario :site, :section, :article, :user
+        scenario :site_with_a_user
         set_resource_paths :user, "/admin/#{scope}"
     
         @controller.stub! :require_authentication
@@ -52,7 +52,7 @@ describe Admin::UsersController do
         it_assigns :user
         it_renders_template :new
         
-        it "instantiates a new user from section.users" do
+        it "instantiates a new user" do
           User.should_receive(:new).and_return @user
           act!
         end    

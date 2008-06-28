@@ -4,7 +4,7 @@ describe Admin::ArticlesController do
   include SpecControllerHelper
   
   before :each do
-    scenario :site, :section, :blog, :category, :article
+    scenario :section_with_published_article
     set_resource_paths :article, '/admin/sites/1/sections/1/'
     @controller.stub! :require_authentication
     @controller.stub!(:has_permission?).and_return true
@@ -37,7 +37,7 @@ describe Admin::ArticlesController do
     end
     
     describe "when the section is a Blog" do
-      before :each do @site.sections.stub!(:find).and_return @blog end
+      before :each do @site.sections.stub!(:find).and_return stub_blog end
       it_renders_template 'admin/blog/index'
     end
     
@@ -201,4 +201,46 @@ describe Admin::ArticlesController do
   end
   
   it "should have update_all and rollback actions specified"
+end
+
+describe Admin::ArticlesController, "page_cache" do
+  include SpecControllerHelper
+  
+  before :each do
+    @filter = Admin::ArticlesController.filter_chain.find ArticleSweeper.instance      
+  end
+  
+  it "activates the ArticleSweeper as an around filter" do
+    @filter.should be_kind_of(ActionController::Filters::AroundFilter)
+  end
+    
+  it "configures the ArticleSweeper to observe Comment create, update, rollback and destroy events" do
+    @filter.options[:only].should == [:create, :update, :destroy]
+  end
+end
+  
+describe "ArticleSweeper" do
+  include SpecControllerHelper
+  controller_name 'admin/articles'
+
+  before :each do
+    scenario :section_with_published_article
+    @sweeper = ArticleSweeper.instance
+  end
+  
+  it "observes Article" do 
+    ActiveRecord::Base.observers.should include(:article_sweeper)
+  end
+  
+  it "should expire pages that reference the article's section when the article is a new record" do
+    @article.stub!(:new_record?).and_return true
+    @sweeper.should_receive(:expire_cached_pages_by_reference).with(@article.section)
+    @sweeper.before_save(@article)
+  end
+  
+  it "should expire pages that reference an article when the article is not a new record" do
+    @article.stub!(:new_record?).and_return false
+    @sweeper.should_receive(:expire_cached_pages_by_reference).with(@article)
+    @sweeper.before_save(@article)
+  end
 end

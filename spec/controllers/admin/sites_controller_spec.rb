@@ -4,18 +4,16 @@ describe Admin::SitesController do
   include SpecControllerHelper
   
   before :each do
-    scenario :site, :section, :article, :user, :comment
+    scenario :empty_site, :user_logged_in
+
     set_resource_paths :site, '/admin/'
     
-    stub_comment.stub!(:commentable).and_return @article
     @site.activities.stub!(:find_coinciding_grouped_by_dates).and_return []
     Site.stub!(:new).and_return @site
     
     @controller.stub! :require_authentication
     @controller.stub! :protect_single_site_mode
     @controller.stub!(:has_permission?).and_return true
-    
-    @controller.stub!(:current_user).and_return @user
   end
   
   it "should be an Admin::BaseController" do
@@ -54,7 +52,7 @@ describe Admin::SitesController do
   end 
   
   describe "GET to :new" do
-    act! { request_to :get, @new_member_path }    
+    act! { request_to :get, @new_member_path }
     it_assigns :site
     it_renders_template :new
     it_guards_permissions :create, :site

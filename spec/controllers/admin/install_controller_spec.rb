@@ -4,13 +4,14 @@ describe Admin::InstallController do
   include SpecControllerHelper
   
   before :each do
-    scenario :site, :section, :article, :user
+    scenario :empty_site
+    
+    @section = stub_section
+    @user = stub_user
     
     User.stub!(:find).and_return nil
     Site.stub!(:find).and_return nil
     Site.stub!(:new).and_return @site
-    
-    @site.sections.stub!(:<<)
     
     controller.stub!(:authenticate_user)
     @install_path = '/admin/install'
@@ -57,6 +58,10 @@ describe Admin::InstallController do
     end
     
     describe "given valid site and section params" do
+      before :each do
+        User.stub!(:create_superuser).and_return @user
+      end
+      
       it_assigns_flash_cookie :notice => :not_nil
       it_renders_template :confirmation
       

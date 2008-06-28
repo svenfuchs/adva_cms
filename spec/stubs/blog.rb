@@ -31,11 +31,3 @@ define Blog do
   instance :blogs_blog,
            :path => 'blogs/blog'
 end
-
-scenario :blog do 
-  @blog = stub_blog
-  
-  Section.stub!(:find).and_return @blog
-  Section.stub!(:types).and_return ['Section', 'Blog', 'Wiki']
-end
-  

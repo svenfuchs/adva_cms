@@ -4,8 +4,9 @@ describe "Admin::Sites Views:" do
   include SpecViewHelper
   
   before :each do
-    scenario :site, :section, :user
-
+    @site = stub_site
+    @sites = [@site, @site]
+    
     set_resource_paths :site, '/admin/'
     template.stub!(:admin_sites_path).and_return @collection_path
     template.stub!(:admin_site_path).and_return @member_path

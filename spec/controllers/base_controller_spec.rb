@@ -4,7 +4,7 @@ describe BaseController do
   include SpecControllerHelper
   
   before :each do
-    scenario :site
+    scenario :empty_site
   end
   
   it "should set the current locale" do

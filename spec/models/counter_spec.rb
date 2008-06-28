@@ -4,8 +4,6 @@ describe Counter do
   include Stubby
   
   before :each do
-    scenario :site, :user
-    
     @forum = Forum.new :title => 'forum', :site => stub_site
     @forum.stub!(:build_path)
     @forum.save

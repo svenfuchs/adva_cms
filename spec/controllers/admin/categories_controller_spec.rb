@@ -4,8 +4,10 @@ describe Admin::CategoriesController do
   include SpecControllerHelper
   
   before :each do
-    scenario :site, :section, :category, :article
+    scenario :blog_with_published_article
+    
     set_resource_paths :category, '/admin/sites/1/sections/1/'
+    
     @controller.stub! :require_authentication
     @controller.stub!(:has_permission?).and_return true
   end
@@ -131,5 +133,38 @@ describe Admin::CategoriesController do
       it_renders_template :edit
       it_assigns_flash_cookie :error => :not_nil
     end
+  end
+end
+
+describe Admin::CategoriesController, "page_caching" do
+  include SpecControllerHelper
+  
+  it "should activate the CategorySweeper" do
+    Admin::CategoriesController.should_receive(:cache_sweeper) do |*args|
+      args.should include(:category_sweeper)
+    end
+    load 'admin/categories_controller.rb'
+  end
+
+  it "should have the CategorySweeper observe Category create, update and destroy events" do
+    Admin::CategoriesController.should_receive(:cache_sweeper) do |*args|
+      options = args.extract_options!
+      options[:only].should == [:create, :update, :destroy]
+    end
+    load 'admin/categories_controller.rb'
+  end
+end
+  
+describe Admin::CategoriesController, "CategorySweeper" do
+  include SpecControllerHelper
+  
+  before :each do
+    @category.stub!(:section).and_return stub_section
+    @sweeper = CategorySweeper.instance
+  end
+  
+  it "should expire pages that reference an category when an category was saved" do
+    @sweeper.should_receive(:expire_cached_pages_by_section).with(stub_section)
+    @sweeper.after_save(stub_category)
   end
 end

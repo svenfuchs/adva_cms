@@ -4,7 +4,7 @@ describe Admin::CommentsController do
   include SpecControllerHelper
   
   before :each do
-    scenario :site, :comment, :article
+    scenario :blog_with_published_article, :blog_comments
     set_resource_paths :comment, '/admin/sites/1/'
     @controller.stub! :require_authentication
   end

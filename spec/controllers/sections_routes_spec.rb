@@ -4,11 +4,7 @@ describe SectionsController do
   include SpecControllerHelper
   
   before :each do
-    scenario :site, :section, :article
-    
-    @site.sections.stub!(:root).and_return @section
-    @section.articles.stub!(:permalinks).and_return ['an-article']
-    
+    scenario :section_with_published_article    
     controller.instance_variable_set :@site, @site
   end
   

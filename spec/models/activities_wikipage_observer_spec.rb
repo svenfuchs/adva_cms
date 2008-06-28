@@ -8,9 +8,9 @@ describe Activities::WikipageObserver do
   it "should log a 'created' activity on save when the wikipage is a new_record" do
     # wtf ... can not use the scenario :wikipage_created here for some reason
     # sqlite breaks with a logic error
-    scenario :site, :section, :user
     @wikipage = Wikipage.new :author => stub_user, 
-                             :site_id => 1, :section_id => 1, 
+                             :site => stub_site, 
+                             :section => stub_section, 
                              :title => 'title', :body => 'body'
 
     expect_activity_new_with :actions => ['created']

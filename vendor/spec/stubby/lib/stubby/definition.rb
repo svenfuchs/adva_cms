@@ -9,6 +9,7 @@ module Stubby
     end
 
     def base_definition(name)
+      name = name.name.demodulize if name.is_a? Class
       @@base_definitions[name]
     end
 
@@ -53,6 +54,14 @@ module Stubby
     def base_definition
       @base_definition ||= Stubby.base_definitions[base_key]
     end
+
+    def instance_definitions
+      Stubby.instance_definitions(key)
+    end
+    
+    def instance_definition(instance_key)
+      Stubby.instance_definitions(key)[instance_key]
+    end
     
     def key
       @key ||= name.to_s.classify.sub('::', '')
@@ -86,14 +95,6 @@ module Stubby
         Instances.store(base_class, self.class.new, instance_key)
       end
     end
-
-    def instance_definitions
-      Stubby.instance_definitions(key)
-    end
-    
-    def instance_definition(instance_key)
-      Stubby.instance_definitions(key)[instance_key]
-    end
     
     module Loader
       class << self
@@ -102,12 +103,17 @@ module Stubby
           definition.create! &block
         end
     
-        # def instance(original_class, &block)
-        # end
+        def instance(klass, *args)
+          klass = Stubby.base_definition(klass).class
+          definition = Definition.new :base_class => klass, 
+                                      :methods => args.extract_options!, 
+                                      :name => args.shift.to_s.camelize
+          definition.create!                            
+        end        
     
         def load
           unless @loaded
-            Dir["#{Stubby::Definition.directory}/**/*"].each do |filename|
+            Dir["#{Stubby::Definition.directory}/**/*.rb"].each do |filename|
               instance_eval IO.read(filename), filename
             end
           end

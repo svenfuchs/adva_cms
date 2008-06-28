@@ -7,8 +7,3 @@ define Tag do
            :id => 2, 
            :name => 'bar'
 end
-
-scenario :tag do 
-  @tag = stub_tag(:tag_foo)
-  Tag.stub!(:find).and_return stub_tags(:all)
-end

@@ -20,7 +20,7 @@ module Stubby
       
         def load
           unless @loaded
-            Dir["#{Stubby::Scenario.directory}/**/*"].each do |filename|
+            Dir["#{Stubby::Scenario.directory}/**/*.rb"].each do |filename|
               instance_eval IO.read(filename), filename
             end
           end

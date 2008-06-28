@@ -5,10 +5,12 @@ describe "Admin::Articles:" do
   include SpecViewHelper
   
   before :each do
-    scenario :site, :section, :category, :article
-    assigns[:section] = @section
-    assigns[:site] = @site
-    assigns[:categories] = @categories = [@category, @category]
+    @article = stub_article
+    @articles = stub_articles
+    
+    assigns[:section] = @section = stub_section
+    assigns[:site] = @site = stub_site
+    assigns[:categories] = @categories = stub_categories
 
     set_resource_paths :article, '/admin/sites/1/sections/1/'
     
@@ -29,17 +31,17 @@ describe "Admin::Articles:" do
   
   describe "the index view" do
     before :each do
-      assigns[:articles] = @articles
+      assigns[:articles] = stub_articles
     end
     
     it "should display a list of articles" do
-      template.stub_render :partial => 'article', :collection => @articles
+      template.stub_render :partial => 'article', :collection => stub_articles
       render "admin/articles/index"
       response.should have_tag('table[id=articles]')
     end
     
     it "should render the article partial" do
-      template.expect_render :partial => 'article', :collection => @articles
+      template.expect_render :partial => 'article', :collection => stub_articles
       render "admin/articles/index"
     end
   end

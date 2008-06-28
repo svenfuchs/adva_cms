@@ -5,12 +5,10 @@ describe "Section views:" do
   include ContentHelper
   
   before :each do
-    scenario :site, :user, :section, :article, :comment
-
-    assigns[:site] = @site
-    assigns[:section] = @section
-    assigns[:comment] = @comment
-    assigns[:article] = @article
+    assigns[:site] = @site = stub_site
+    assigns[:section] = @section = stub_section
+    assigns[:comment] = @comment = stub_comment
+    assigns[:article] = @article = stub_article
 
     template.stub!(:link_to_content).and_return 'link_to_content'
     template.stub!(:links_to_content_categories).and_return 'links_to_content_categories'

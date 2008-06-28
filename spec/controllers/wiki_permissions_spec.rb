@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../spec_helper.rb'
 describe WikiController, 'Permissions' do
   include SpecControllerHelper
   before :each do
-    scenario :wiki, :roles
+    scenario :wiki_with_wikipages, :roles
 
     @site = stub_model Site, :host => 'test.host'
     @wiki = stub_model Wiki, :id => 1, :site => @site, :path => 'wiki'

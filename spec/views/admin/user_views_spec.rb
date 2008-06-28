@@ -4,8 +4,9 @@ describe "Admin::User:" do
   include SpecViewHelper
   
   before :each do
-    scenario :site, :user
-    assigns[:site] = @site
+    @user = stub_user
+    @users = stub_users
+    assigns[:site] = @site = stub_site
 
     set_resource_paths :user, '/admin/'
     

@@ -45,7 +45,7 @@ module Activities
     def log_activity(record)
       activity = record.instance_variable_get :@activity
       if activity && !activity.actions.empty?
-        activity.object = record        
+        activity.object = record
         activity.author = record.author if record.respond_to? :author
         activity.save!
       end

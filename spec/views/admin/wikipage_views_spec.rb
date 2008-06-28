@@ -4,7 +4,7 @@ describe "Admin::Wikipages:" do
   include SpecViewHelper
   
   before :each do
-    scenario :site, :section, :wiki, :category, :wikipage
+    scenario :wiki_with_wikipages
     assigns[:section] = @section
     assigns[:site] = @site
     assigns[:categories] = @categories = [@category, @category]

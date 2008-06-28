@@ -8,8 +8,8 @@ module Activities
     
     def initialize_activity(record)
       returning super do |activity|
-        activity.site_id = record.site_id
-        activity.section_id = record.section_id
+        activity.site = record.site
+        activity.section = record.section
         activity.author = record.author
       end
     end

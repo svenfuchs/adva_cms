@@ -10,8 +10,3 @@ define CachedPage do
            :destroy => true,
            :site => stub_site
 end
-         
-scenario :cached_page do
-  @cached_page = stub_cached_page  
-  @cached_pages = stub_cached_pages
-end

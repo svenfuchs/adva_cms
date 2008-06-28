@@ -23,12 +23,9 @@ define Site do
   instance :site,
            :id => 1,
            :name => 'site'
-  
-  instance :another,
-           :id => 2,
-           :name => 'another'
 end
+  
+instance Site, :another,
+         :id => 2,
+         :name => 'another'
 
-# scenario :site do
-#   @site = stub_site(:site)
-# end

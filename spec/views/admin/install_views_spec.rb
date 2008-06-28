@@ -4,9 +4,9 @@ describe "Admin::Install:" do
   include SpecViewHelper
   
   before :each do
-    scenario :site, :section, :user
-    assigns[:site] = @site
-    assigns[:section] = @section
+    assigns[:site] = @site = stub_site
+    assigns[:section] = @section = stub_section
+    @user = stub_user
     
     @install_path = '/admin/install'
   end

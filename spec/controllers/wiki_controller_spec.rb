@@ -1,4 +1,25 @@
 require File.dirname(__FILE__) + "/../spec_helper"
+  
+wiki_path            = '/de/wiki'
+wiki_pages_path      = '/de/wiki/pages'
+wiki_category_path   = '/de/wiki/categories/foo'
+wiki_tag_path        = '/de/wiki/tags/foo+bar'
+wiki_page_path       = '/de/wiki/pages/a-wikipage'
+new_wikipage_path    = '/de/wiki/pages/new'
+edit_wikipage_path   = '/de/wiki/pages/a-wikipage/edit'
+                     
+wiki_page_diff_path            = '/de/wiki/pages/a-wikipage/diff/1'
+wiki_page_revision_path        = '/de/wiki/pages/a-wikipage/rev/1'
+wiki_page_revision_diff_path   = '/de/wiki/pages/a-wikipage/rev/1/diff/1'
+
+wikipages_feed_paths = %w( /de/wiki.atom
+                           /de/wiki/pages/a-wikipage.atom )                          
+comments_feed_paths  = %w( /de/wiki/comments.atom
+                           /de/wiki/pages/a-wikipage/comments.atom )
+
+cached_paths = [wiki_path, wiki_pages_path, wiki_category_path, wiki_tag_path, wiki_page_path]
+all_paths    = cached_paths + [wiki_page_revision_path, new_wikipage_path, edit_wikipage_path]
+  
 
 describe WikiController do
   include SpecControllerHelper
@@ -7,53 +28,33 @@ describe WikiController do
     controller.should be_kind_of(BaseController)
   end
   
-  wiki_path          = '/de/wiki'
-  pages_path         = '/de/wiki/pages'
-  category_path      = '/de/wiki/categories/foo'
-  tag_path           = '/de/wiki/tags/foo+bar'
-  wikipage_path      = '/de/wiki/pages/a-wikipage'
-  new_wikipage_path  = '/de/wiki/pages/new'
-  edit_wikipage_path = '/de/wiki/pages/a-wikipage/edit'
-
-  diff_path          = '/de/wiki/pages/a-wikipage/diff/1'
-  revision_path      = '/de/wiki/pages/a-wikipage/rev/1'
-  revision_diff_path = '/de/wiki/pages/a-wikipage/rev/1/diff/1'
-  
-  cached_paths = [wiki_path, pages_path, category_path, tag_path, wikipage_path]
-  all_paths    = cached_paths + [revision_path, new_wikipage_path, edit_wikipage_path]
-  
   before :each do
-    scenario :site, :section, :wiki, :wikipage, :category, :tag, :user
+    scenario :wiki_with_wikipages, :user_logged_in
     
-    @site.sections.stub!(:find).and_return @wiki
+    controller.stub!(:wiki_path).and_return wiki_path
+    controller.stub!(:wikipage_path).and_return wiki_page_path
     
-    @wikipage.stub!(:new_record).and_return false
-    
-    @controller.stub!(:wiki_path).and_return wiki_path
-    @controller.stub!(:wikipage_path).and_return wikipage_path
-    @controller.stub!(:current_user).and_return stub_user
-    
-    @controller.stub!(:has_permission?).and_return true
+    controller.stub!(:has_permission?).and_return true
   end
   
   # TODO these overlap with specs in wiki_routes_spec  
   describe "routing" do
     with_options :section_id => "1", :locale => 'de' do |route|
-      route.it_maps :get,    wiki_path,          :show
-      route.it_maps :get,    wikipage_path,      :show,    :id => 'a-wikipage'
-      route.it_maps :get,    revision_path,      :show,    :id => 'a-wikipage', :version => '1'
-      route.it_maps :get,    diff_path,          :diff,    :id => 'a-wikipage', :diff_version => '1'
-      route.it_maps :get,    revision_diff_path, :diff,    :id => 'a-wikipage', :version => '1', :diff_version => '1'
+      route.it_maps :get,    wiki_path,                    :show
+      route.it_maps :get,    wiki_page_path,               :show,    :id => 'a-wikipage'
+      route.it_maps :get,    wiki_page_revision_path,      :show,    :id => 'a-wikipage', :version => '1'
+      route.it_maps :get,    wiki_page_diff_path,          :diff,    :id => 'a-wikipage', :diff_version => '1'
+      route.it_maps :get,    wiki_page_revision_diff_path, :diff,    :id => 'a-wikipage', :version => '1', :diff_version => '1'
       
-      route.it_maps :get,    pages_path,         :index
-      route.it_maps :get,    category_path,      :index,   :category_id => '1'
-      route.it_maps :get,    tag_path,           :index,   :tags => 'foo+bar'
-      
-      route.it_maps :get,    new_wikipage_path,  :new
-      route.it_maps :post,   pages_path,         :create
-      route.it_maps :get,    edit_wikipage_path, :edit,    :id => 'a-wikipage'
-      route.it_maps :put,    wikipage_path,      :update,  :id => 'a-wikipage'
-      route.it_maps :delete, wikipage_path,      :destroy, :id => 'a-wikipage'
+      route.it_maps :get,    wiki_pages_path,              :index
+      route.it_maps :get,    wiki_category_path,           :index,   :category_id => '1'
+      route.it_maps :get,    wiki_tag_path,                :index,   :tags => 'foo+bar'
+                                                           
+      route.it_maps :get,    new_wikipage_path,            :new
+      route.it_maps :post,   wiki_pages_path,              :create
+      route.it_maps :get,    edit_wikipage_path,           :edit,    :id => 'a-wikipage'
+      route.it_maps :put,    wiki_page_path,               :update,  :id => 'a-wikipage'
+      route.it_maps :delete, wiki_page_path,               :destroy, :id => 'a-wikipage'
     end
   end  
 
@@ -64,27 +65,27 @@ describe WikiController do
     end
   end
   
-  describe "GET to #{pages_path}" do
-    act! { request_to :get, pages_path }    
+  describe "GET to #{wiki_pages_path}" do
+    act! { request_to :get, wiki_pages_path }    
     # it_guards_permissions :show, :wikipage
     it_assigns :wikipages
     it_renders_template :index
   end  
   
-  describe "GET to #{category_path}" do
-    act! { request_to :get, category_path } 
+  describe "GET to #{wiki_category_path}" do
+    act! { request_to :get, wiki_category_path } 
     # it_guards_permissions :show, :wikipage   
     it_assigns :category
   end  
   
-  describe "GET to #{tag_path}" do
-    act! { request_to :get, tag_path }    
+  describe "GET to #{wiki_tag_path}" do
+    act! { request_to :get, wiki_tag_path }    
     # it_guards_permissions :show, :wikipage   
     it_assigns :tags
   end  
   
-  describe "GET to #{wikipage_path}" do
-    act! { request_to :get, wikipage_path }    
+  describe "GET to #{wiki_page_path}" do
+    act! { request_to :get, wiki_page_path }    
     
     describe "with a non-existing wikipage" do
       before :each do
@@ -119,8 +120,8 @@ describe WikiController do
     end
   end  
 
-  describe "GET to #{revision_path}" do
-    act! { request_to :get, revision_path }    
+  describe "GET to #{wiki_page_revision_path}" do
+    act! { request_to :get, wiki_page_revision_path }    
     # it_guards_permissions :show, :wikipage   
     
     it "reverts the wikipage to the given version" do
@@ -129,8 +130,8 @@ describe WikiController do
     end
   end  
 
-  describe "GET to #{diff_path}" do
-    act! { request_to :get, diff_path }    
+  describe "GET to #{wiki_page_diff_path}" do
+    act! { request_to :get, wiki_page_diff_path }    
     # it_guards_permissions :show, :wikipage   
     it_assigns :wikipage, :diff => 'the diff'
     
@@ -140,8 +141,8 @@ describe WikiController do
     end
   end
 
-  describe "GET to #{revision_diff_path}" do
-    act! { request_to :get, revision_diff_path }    
+  describe "GET to #{wiki_page_revision_diff_path}" do
+    act! { request_to :get, wiki_page_revision_diff_path }    
     # it_guards_permissions :show, :wikipage   
     it_assigns :wikipage, :diff => 'the diff'
     
@@ -164,7 +165,7 @@ describe WikiController do
   end
   
   describe "POST to :create" do
-    act! { request_to :post, pages_path, :wikipage => {} }    
+    act! { request_to :post, wiki_pages_path, :wikipage => {} }    
     it_guards_permissions :create, :wikipage   
     it_assigns :wikipage
     
@@ -232,4 +233,108 @@ describe WikiController do
       it_assigns_flash_cookie :error => :not_nil
     end
   end  
+end
+
+describe WikiController, 'feeds' do
+  include SpecControllerHelper
+  
+  before :each do
+    scenario :wiki_with_wikipages, :user_logged_in
+    controller.stub!(:has_permission?).and_return true # TODO
+  end
+
+  # TODO implement wikipage updates feed
+  # wikipages_feed_paths.each do |path|
+  #   describe "GET to #{path}" do
+  #     act! { request_to :get, path }
+  #     it_renders_template 'show', :format => :atom
+  #   end
+  # end
+  
+  comments_feed_paths.each do |path|
+    describe "GET to #{path}" do
+      act! { request_to :get, path }
+      it_renders_template 'comments/comments', :format => :atom        
+      it_gets_page_cached
+    end
+  end
 end  
+
+describe WikiController, 'page_caching' do
+  include SpecControllerHelper
+  
+  before :each do
+    @wikipage_sweeper = WikiController.filter_chain.find WikipageSweeper.instance
+    @category_sweeper = WikiController.filter_chain.find CategorySweeper.instance
+    @tag_sweeper = WikiController.filter_chain.find TagSweeper.instance
+  end
+  
+  it "activates the WikipageSweeper as an around filter" do
+    @wikipage_sweeper.should be_kind_of(ActionController::Filters::AroundFilter)
+  end
+    
+  it "configures the WikipageSweeper to observe Comment create, update, rollback and destroy events" do
+    @wikipage_sweeper.options[:only].should == [:create, :update, :rollback, :destroy]
+  end
+  
+  it "activates the CategorySweeper as an around filter" do
+    @category_sweeper.should be_kind_of(ActionController::Filters::AroundFilter)
+  end
+    
+  it "configures the CategorySweeper to observe Comment create, update, rollback and destroy events" do
+    @category_sweeper.options[:only].should == [:create, :update, :rollback, :destroy]
+  end
+  
+  it "activates the TagSweeper as an around filter" do
+    @tag_sweeper.should be_kind_of(ActionController::Filters::AroundFilter)
+  end
+    
+  it "configures the TagSweeper to observe Comment create, update, rollback and destroy events" do
+    @tag_sweeper.options[:only].should == [:create, :update, :rollback, :destroy]
+  end
+  
+  it "tracks read access for a bunch of models for the :index action page caching" do
+    WikiController.track_options[:index].should == ['@wikipage', '@wikipages', '@category', {"@section" => :tag_counts, "@site" => :tag_counts}]
+  end
+  
+  it "page_caches the :show action" do
+    cached_page_filter_for(:show).should_not be_nil
+  end
+  
+  it "tracks read access for a bunch of models for the :show action page caching" do
+    WikiController.track_options[:show].should == ['@wikipage', '@wikipages', '@category', {"@section" => :tag_counts, "@site" => :tag_counts}]
+  end
+  
+  it "page_caches the comments action" do
+    cached_page_filter_for(:comments).should_not be_nil
+  end
+  
+  it "tracks read access on @commentable for comments action page caching" do
+    WikiController.track_options[:comments].should include('@commentable')
+  end
+end 
+  
+describe "WikipageSweeper" do
+  include SpecControllerHelper
+  controller_name 'wiki'
+
+  before :each do
+    scenario :wiki_with_wikipages
+    @sweeper = WikipageSweeper.instance
+  end
+  
+  it "observes Wikipage" do 
+    ActiveRecord::Base.observers.should include(:wikipage_sweeper)
+  end
+  
+  it "should expire pages that reference a wikipage's section when the home wikipage was saved" do
+    @wikipage.should_receive(:home?).and_return true
+    @sweeper.should_receive(:expire_cached_pages_by_section).with(@wiki)
+    @sweeper.after_save(@wikipage)
+  end
+  
+  it "should expire pages that reference an wikipage when a non-home wikipage was saved" do
+    @sweeper.should_receive(:expire_cached_pages_by_reference).with(@wikipage)
+    @sweeper.after_save(@wikipage)
+  end
+end

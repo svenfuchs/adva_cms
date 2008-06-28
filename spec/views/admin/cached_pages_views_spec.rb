@@ -4,8 +4,8 @@ describe "Admin::CachedPages:" do
   include SpecViewHelper
   
   before :each do
-    scenario :site, :section, :article, :cached_page
-    assigns[:site] = @site
+    scenario :cached_pages
+    assigns[:site] = @site = stub_site
     
     set_resource_paths :cached_page, '/admin/sites/1/'
 

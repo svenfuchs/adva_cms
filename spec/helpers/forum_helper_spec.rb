@@ -4,7 +4,7 @@ describe ForumHelper do
   include Stubby
   
   before :each do
-    scenario :topic
+    scenario :forum_with_topics
     helper.stub!(:topic_path).and_return 'path/to/topic'
     helper.extend(BaseHelper)
   end

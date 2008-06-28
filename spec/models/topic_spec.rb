@@ -4,10 +4,12 @@ describe Topic do
   include Stubby, Matchers::ClassExtensions
   
   before :each do
-    scenario :site, :section, :topic, :comment, :user
+    scenario :forum_with_topics
 
     @topic = Topic.new 
     @topic.section = @section
+    
+    @user = stub_user
   end
   
   describe "class extensions:" do    
@@ -64,10 +66,12 @@ describe Topic do
     end
     
     it 'validates the presence of a title' do
+      @topic.stub!(:set_site) # otherwise conflicts with the implementation of validate_presence_of
       @topic.should validate_presence_of(:title)
     end
     
     it 'validates the presence of a body on create' do
+      @topic.stub!(:set_site) # otherwise conflicts with the implementation of validate_presence_of
       @topic.should validate_presence_of(:body) # TODO :on => :create
     end
   end
@@ -105,6 +109,7 @@ describe Topic do
     describe '#reply' do
       before :each do
         @attributes = {:body => 'body'}
+        @comment = stub_comment
         @topic.comments.stub!(:build).and_return @comment
       end
       
@@ -184,7 +189,7 @@ describe Topic do
     
     describe '#previous' do
       before :each do
-        scenario :two_topics
+        scenario :forum_with_two_topic_fixtures
       end
       
       it 'returns the previous topic if present' do
@@ -198,7 +203,7 @@ describe Topic do
     
     describe '#next' do
       before :each do
-        scenario :two_topics
+        scenario :forum_with_two_topic_fixtures
       end
       
       it 'returns the next topic' do
@@ -212,8 +217,7 @@ describe Topic do
     
     describe '#after_comment_update' do
       before :each do
-        scenario :comment
-        # @topic.section.stub!(:after_topic_update)
+        @comment = stub_comment
         @topic.stub!(:update_attributes!)
         @topic.stub!(:destroy)
       end

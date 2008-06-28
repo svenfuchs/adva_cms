@@ -4,12 +4,8 @@ describe WikiController do
   include SpecControllerHelper
   
   before :each do
-    scenario :site, :section, :wiki, :wikipage, :category
+    scenario :wiki_with_wikipages
     
-    @site.sections.stub!(:root).and_return @wiki
-    @wiki.categories.stub!(:find_by_path).and_return @category
-
-    Section.stub!(:find).and_return @wiki
     controller.instance_variable_set :@site, @site
   end 
   

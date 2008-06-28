@@ -4,7 +4,8 @@ describe Admin::CachedPagesController do
   include SpecControllerHelper
   
   before :each do
-    scenario :site, :section, :article, :cached_page
+    scenario :empty_site, :cached_pages
+
     set_resource_paths :cached_page, '/admin/sites/1/'
     @controller.stub! :require_authentication
     @controller.stub!(:has_permission?).and_return true

@@ -4,12 +4,12 @@ describe CommentsHelper do
   include Stubby, UrlMatchers, CommentsHelper
   
   before :each do
-    scenario :site, :section, :article, :comment
+    scenario :blog_with_published_article, :blog_comments
   end
   
   it '#comments_feed_title joins the titles of site, section and commentable' do
     helper.comments_feed_title(@site, @section, @article).should == 
-      'Comments: site title &raquo; section title &raquo; An article'
+      'Comments: site title &raquo; blog title &raquo; An article'
   end
   
   it '#link_to_remote_comment_preview returns a rote link to preview_comments_path' do

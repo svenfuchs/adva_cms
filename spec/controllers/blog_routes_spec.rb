@@ -4,13 +4,7 @@ describe BlogController do
   include SpecControllerHelper
   
   before :each do
-    scenario :site, :section, :blog, :category, :article
-    
-    @site.sections.stub!(:root).and_return @blog
-    @section.articles.stub!(:permalinks).and_return ['an-article']
-    
-    Section.stub!(:find).and_return @blog 
-    
+    scenario :blog_with_published_article
     controller.instance_variable_set :@site, @site
   end
 
@@ -18,7 +12,7 @@ describe BlogController do
     with_options :section_id => '1' do |r|
       r.maps_to_index '/'
       r.maps_to_index '/blog'
-      # r.maps_to_index '/blogs/blog'
+      #r.maps_to_index '/blogs/blog'
     
       r.maps_to_index '/2008', :year => '2008'
       r.maps_to_index '/2008/1', :year => '2008', :month => '1'
@@ -151,8 +145,7 @@ describe BlogController do
     rewrites_url @category_path,           :to => '/de/categories/foo',            :on => [:root_section]
     rewrites_url @category_path,           :to => '/blog/categories/foo',          :on => [:default_locale]
     rewrites_url @category_path,           :to => '/de/blog/categories/foo'        
-                                                                                   
-    # TODO fix this crap                                                           
+                        
     rewrites_url @formatted_blog_path,     :to => '/blog.rss',                     :on => [:default_locale, :root_section]
     rewrites_url @formatted_blog_path,     :to => '/de/blog.rss',                  :on => [:root_section]
     rewrites_url @formatted_blog_path,     :to => '/blog.rss',                     :on => [:default_locale]

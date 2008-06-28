@@ -52,13 +52,6 @@ class Site < ActiveRecord::Base
       find_by_host(host) || raise(ActiveRecord::RecordNotFound, "Could not find site for hostname #{host}.")
     end
   
-    def with_host_or_title(search_string)
-      conditions = search_string.blank? ? nil : ["host LIKE ? OR title LIKE ?"] + ["%#{search_string}%"] * 2
-      with_scope( :find => { :conditions => conditions } ) do
-        yield
-      end
-    end
-  
     # TODO how to make this an association or assoc extension so we can use it
     # in admin/users_controller?
     def find_users_and_superusers(id, options = {})

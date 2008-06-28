@@ -4,10 +4,11 @@ describe "Admin::Categories:" do
   include SpecViewHelper
   
   before :each do
-    scenario :site, :section, :category
-    
-    assigns[:section] = @section
-    assigns[:site] = @site
+    @categories = stub_categories
+    @category = stub_category
+
+    assigns[:site] = @site = stub_site
+    assigns[:section] = @section = stub_section
 
     set_resource_paths :category, '/admin/sites/1/sections/1/'
     

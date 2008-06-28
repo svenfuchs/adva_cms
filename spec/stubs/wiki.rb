@@ -31,9 +31,4 @@ define Wiki do
 
 end
 
-scenario :wiki do 
-  @wiki = stub_wiki
-  
-  Section.stub!(:find).and_return @wiki
-  Section.stub!(:types).and_return ['Section', 'Blog', 'Wiki', 'Forum']
-end
+

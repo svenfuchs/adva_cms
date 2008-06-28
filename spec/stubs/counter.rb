@@ -6,6 +6,3 @@ define Counter do
           
   instance :counter
 end
-
-scenario :counter do 
-end

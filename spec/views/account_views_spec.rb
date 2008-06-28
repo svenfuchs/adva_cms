@@ -4,10 +4,8 @@ describe "Account views:" do
   include SpecViewHelper
   
   before :each do
-    scenario :site, :user
-
-    assigns[:site] = @site
-    @account.stub!(:user).and_return @user
+    assigns[:site] = stub_site
+    @account.stub!(:user).and_return stub_user
 
     template.stub!(:link_to_content).and_return 'link_to_content'
     template.stub!(:links_to_content_categories).and_return 'links_to_content_categories'

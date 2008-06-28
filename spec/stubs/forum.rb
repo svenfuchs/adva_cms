@@ -25,16 +25,4 @@ define Forum do
 
   instance :forum
 end
-
-scenario :forum do 
-  @forum = stub_forum
-  @topic = stub_topic
-  @topics = stub_topics
-  
-  Section.stub!(:find).and_return @forum
-  Section.stub!(:types).and_return ['Section', 'Blog', 'Wiki']
-  Section.stub!(:paths).and_return ['section', 'blog', 'forum', 'wiki']
-  
-  # @site.stub_collection! :sections, @sections, [:find, :build, :root] => @blog if @site
-end
   

@@ -215,13 +215,15 @@ describe 'Roles: ' do
         :section => { :article  => { :update => :moderator, :create => :moderator, :destroy => :moderator, :show => :moderator }, 
                       :category => { :update => :moderator, :create => :moderator, :destroy => :moderator, :show => :moderator } },
 
-        :blog    => { :article  => { :show => :anonymous, :update => :user, :create => :user, :destroy => :user }, 
+        :blog    => { :category => { :update => :moderator, :create => :moderator, :destroy => :moderator, :show => :moderator },
+                      :article  => { :show => :anonymous, :update => :user, :create => :user, :destroy => :user }, 
                       :comment  => { :update => :author, :destroy => :author, :create => :user } },
 
         :forum   => { :comment  => { :update => :author, :destroy => :author, :create => :user }, 
                       :topic    => { :moderate => :moderator, :update => :user, :destroy => :moderator, :create => :user } },
 
-        :wiki    => { :comment  => { :update => :author, :destroy => :author, :create => :user }, 
+        :wiki    => { :category => { :update => :moderator, :create => :moderator, :destroy => :moderator, :show => :moderator },
+                      :comment  => { :update => :author, :destroy => :author, :create => :user }, 
                       :wikipage => { :show => :anonymous, :update => :user, :create => :user, :destroy => :user}}
       }
     end

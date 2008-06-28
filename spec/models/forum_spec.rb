@@ -4,7 +4,6 @@ describe Forum do
   include Stubby, Matchers::ClassExtensions
   
   before :each do
-    scenario :counter
     @forum = Forum.new
   end
   
@@ -36,7 +35,7 @@ describe Forum do
     end
     
     it "#recent_topic returns the most recent topic" do
-      scenario :two_topics
+      scenario :forum_with_two_topic_fixtures
       @forum.recent_topic.should == @latest_topic
     end
     
@@ -45,7 +44,7 @@ describe Forum do
     end
     
     it "#recent_comment returns the most recent topic" do
-      scenario :three_comments
+      scenario :forum_with_three_comments
       @forum.recent_comment.should == @latest_comment
     end
     

@@ -13,15 +13,12 @@ describe TopicsController do
   all_paths    = cached_paths + [new_topic_path, edit_topic_path]
   
   before :each do
-    scenario :site, :section, :forum
+    scenario :forum_with_topics, :user_logged_in
     
-    @site.sections.stub!(:find).and_return @forum
-    @topic.stub!(:new_record).and_return false
-    
-    @controller.stub!(:forum_path).and_return forum_path
+    @controller.stub!(:forum_path).and_return forum_path # TODO have a helper for this kind of stuff
     @controller.stub!(:topic_path).and_return topic_path    
-    @controller.stub!(:current_user).and_return stub_user    
-    @controller.stub!(:has_permission?).and_return true
+
+    @controller.stub!(:has_permission?).and_return true # TODO
   end
   
   it "is a BaseController" do
@@ -119,6 +116,5 @@ describe TopicsController do
       it_renders_template :show
       it_assigns_flash_cookie :error => :not_nil
     end
-  end 
-
+  end
 end

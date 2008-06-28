@@ -4,7 +4,7 @@ describe Admin::ThemesController do
   include SpecControllerHelper
   
   before :each do
-    scenario :site, :section, :article, :theme
+    scenario :empty_site, :theme_with_files
 
     @site.stub!(:theme_names_will_change!)
     

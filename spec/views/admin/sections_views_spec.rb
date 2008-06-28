@@ -4,10 +4,8 @@ describe "Admin::Sections Views:" do
   include SpecViewHelper
   
   before :each do
-    scenario :site, :section, :blog, :user
-    
-    assigns[:site] = @site
-    assigns[:section] = @section
+    assigns[:site] = @site = stub_site
+    assigns[:section] = @section = stub_section
 
     set_resource_paths :section, '/admin/'
     template.stub!(:admin_sections_path).and_return @collection_path
@@ -55,7 +53,7 @@ describe "Admin::Sections Views:" do
     end
     
     it "renders the admin/sections/settings/blog partial if the section is a Blog" do
-      assigns[:section] = @blog
+      assigns[:section] = stub_blog
       template.expect_render hash_including(:partial => 'admin/sections/settings/blog')
       render "admin/sections/_form"
     end
