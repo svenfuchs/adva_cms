@@ -1,3 +1,4 @@
+require 'rubygems'
 require 'active_support'
 # require File.dirname(__FILE__) + "/no_rails"
 # require 'spec'
@@ -6,7 +7,8 @@ $LOAD_PATH << File.expand_path(File.dirname(__FILE__) + "/../lib")
 
 require "stubby"
 
-Stubby.directory = File.dirname(__FILE__) + "/stubs"
+Stubby::Definition.directory = File.dirname(__FILE__) + "/stubs"
+Stubby::Scenario.directory = File.dirname(__FILE__) + "/scenarios"
 
 Spec::Runner.configure do |config|
   # == Fixtures

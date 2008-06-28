@@ -17,7 +17,7 @@ class Section < ActiveRecord::Base; end
 class User < ActiveRecord::Base; end
 class ApiKey < ActiveRecord::Base; end
 
-Stubby::Loader.load
+Stubby.load
 
 describe "Stubby" do
   include Stubby
@@ -123,7 +123,6 @@ describe "Stubby" do
         sites.should == [stub_site, stub_site(:another)]
       end
     end
-    
   end
   
   describe "a has_many_proxy" do                                                

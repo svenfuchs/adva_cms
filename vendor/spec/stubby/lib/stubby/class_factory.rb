@@ -10,7 +10,7 @@ module Stubby
     
     def initialize(base_class, name, original_class, methods = {}, &block)      
       @klass = ::Class.new(base_class)
-      target = base_class == Stubby::Base ? Stubby::Classes : base_class
+      target = base_class == Stubby::Stub ? Stubby::Classes : base_class
       target.const_set name.sub('::', ''), @klass
       
       @klass.original_class = original_class

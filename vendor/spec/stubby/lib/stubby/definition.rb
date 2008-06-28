@@ -1,5 +1,25 @@
 module Stubby
+  mattr_accessor :base_definitions, :instance_definitions
+  @@base_definitions = {}
+  @@instance_definitions = {}
+  
+  class << self
+    def included(base)
+      base.after :each do Stubby::Instances.clear! end    
+    end
+
+    def base_definition(name)
+      @@base_definitions[name]
+    end
+
+    def instance_definitions(name)
+      @@instance_definitions[name] ||= {}
+    end   
+  end
+  
   class Definition
+    cattr_accessor :directory
+
     attr_reader :name, :class, :original_class, :base_class, :methods
     attr_accessor :default_instance_key
     
@@ -9,7 +29,7 @@ module Stubby
     end
     
     def register
-      if base_class == Base
+      if base_class == Stub
         Stubby.base_definitions[key] = self
       else
         base_definition.default_instance_key ||= instance_key
@@ -23,7 +43,7 @@ module Stubby
     end
     
     def base_class
-      @base_class ||= Base
+      @base_class ||= Stub
     end
     
     def base_key
@@ -73,6 +93,27 @@ module Stubby
     
     def instance_definition(instance_key)
       Stubby.instance_definitions(key)[instance_key]
+    end
+    
+    module Loader
+      class << self
+        def define(original_class, &block)
+          definition = Definition.new :original_class => original_class
+          definition.create! &block
+        end
+    
+        # def instance(original_class, &block)
+        # end
+    
+        def load
+          unless @loaded
+            Dir["#{Stubby::Definition.directory}/**/*"].each do |filename|
+              instance_eval IO.read(filename), filename
+            end
+          end
+          @loaded = true
+        end 
+      end
     end
   end  
 end

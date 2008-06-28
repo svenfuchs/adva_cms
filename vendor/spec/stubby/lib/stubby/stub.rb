@@ -1,15 +1,5 @@
-# class Object
-#   alias :treequal_without_stubby :===
-#   def self.===(object)
-#     if object.respond_to? :stubby?
-#       return object.class == self
-#     end
-#     super
-#   end
-# end
-
 module Stubby
-  class Base        
+  class Stub        
     class << self
       attr_accessor :original_class
       

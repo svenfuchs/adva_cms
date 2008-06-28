@@ -29,6 +29,6 @@ define Site do
            :name => 'another'
 end
 
-scenario :site do
-  @site = stub_site(:site)
-end
+# scenario :site do
+#   @site = stub_site(:site)
+# end
