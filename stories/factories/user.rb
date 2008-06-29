@@ -1,3 +1,5 @@
+User.delete_all!
+
 factory :user, 
         :name => 'name', 
         :email => 'email@email.org', 

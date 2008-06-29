@@ -1,3 +1,5 @@
+Section.delete_all
+
 factories :site
 
 factory :section,
