@@ -10,6 +10,7 @@ end
 
 include FactoriesAndWorkers::Factory
 
+
 def factories(*names)
   names.each do |name|
     require File.expand_path(File.dirname(__FILE__) + "/factories/#{name}")

@@ -20,6 +20,24 @@ Story "Viewing a blog index page", %(
     Then "the page shows the article excerpt"
     Then "the page does not show the article body"
     Then "the page shows read the rest of this entry"
+    Then "the page shows 0 comments"
+  end
+
+  Scenario "A blog index page with an article that has an approved comment" do
+    Given "an article"
+    And "the article is published"
+    And "the article has a comment"
+    And "the comment is approved"
+    When "the user GETs /"
+    Then "the page shows 1 comment"
+  end
+
+  Scenario "A blog index page with an article that has an unapproved comment" do
+    Given "an article"
+    And "the article is published"
+    And "the article has a comment"
+    When "the user GETs /"
+    Then "the page shows 0 comments"
   end
 
   Scenario "A blog index page with an article that does not have an exerpt" do
