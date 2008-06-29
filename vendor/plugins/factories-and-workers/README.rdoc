@@ -1,0 +1,126 @@
+=The Factory
+
+The Factory idea was inspired completely by Dan Manges' blog post "Fixin' Fixtures with Factory" @ http://www.dcmanges.com/blog/38
+
+The Factory is a module that has three methods for each model: +build_model+, +create_model+ and +valid_model_attributes+.
+( For semantic purposes, +default_model_attributes+ is also available as an alias to +valid_model_attributes+. )
+
+These methods create objects in a valid state, with default attributes and associations. When using the +create_model+ and +build_model+ methods, you can pass in a hash to override any of the default attributes if needed.
+Typically, you should create a file named 'factories.rb' in either the spec or test directory in your project to declare factory methods and default attributes.
+It will be loaded during plugin initialization (see init.rb). You could also explicitly require it from test_helper.rb
+
+A minimal factories.rb file:
+
+  include FactoriesAndWorkers::Factory    # mixin to Object, which is especially useful for script/console work; season to taste.
+
+  factory :user, :name => "default name"
+
+This would define methods named +build_user+, +create_user+, and +valid_user_attributes+ to be available in any Object in the project.
+If you wanted to override the default valid attributes, you could call:
+  create_user( :name => "a different name" )
+
+
+A more complicated example:
+
+  factory :role, :title => "role title"
+  
+  factory :user, {
+    :first_name => "Joe",
+    :last_name  => "Momma",
+    :password   => "$UNIQ(7)",                      # the $UNIQ(n) magic variable interpolates to a unique string of length n
+    :login      => "user_$COUNT",                   # the $COUNT magic variable interpolates to an incremental number, beginning with 1   
+    :role       => :belongs_to_model,
+    :created_at => lambda { Time.zone.now - 7 }     # lazy evaluation: will be called on object instantiation rather than factory definition
+  } do |u|                                          # code to be called in after_initialize hook
+    u.email = "#{u.first_name}.#{u.last_name}@example.com".downcase
+  end
+
+  factory :order, {
+    :quantity => 5,
+    :price    => 500,
+    :user     => :belongs_to_model
+    :number   => lambda { increment! :foo }         # increment a counter by arbitrary key
+  }
+
+  factory :special_order, {
+    :kind => 'Special'
+  }, :class => Order, :chain => lambda{ valid_order_attributes }   # reverse merges with valid_order_attributes
+
+
+A value of :belongs_to_model on an attribute adds logic to call +create_+ or +build_+, appropriately.
+For example:
+  valid_user_attributes         # assigns :role => build_role
+  build_user                    # assigns :role => build_role
+
+  create_user                   # assigns :role => create_role
+  valid_user_attributes(true)   # assigns :role => create_role
+In this way, models are not saved to the database unnecessarily.
+
+Note that if you pass a foreign key attribute as a build or create override, the corresponding default object will not be constructed.
+For example:
+  create_user( :role_id => 1 ) # will not call create_role.
+
+
+Two helper methods are available to be used in lambda blocks:
+* increment!( key ) -- increments a global counter keyed on a symbol or string
+* uniq( length ) -- returns a random string
+
+
+There is also a rake task to automagically generate template factories from your models.
+  rake factory:generate             # will print templates for all AR models
+  rake factory:generate MODEL=user  # will print template for user model
+
+
+=The FactoryWorker
+
+The FactoryWorker is a work in progress.
+
+If you create a file named 'factory_workers.rb' in either your spec or test directory, you can define snippets of code that can be ran at anytime, anywhere in your tests (this may not be true in the future, I may limit where it can be run, iono). 
+
+A factory worker is defined as so:
+
+  factory_worker :name do
+    # any ruby code you want
+  end
+
+Then, in your tests you can call 'worker :name' to run the ruby code contained in the worker.
+
+It can be useful for populating the database with objects:
+
+  factory_worker :salable_and_non_salable_products do
+    create_variant( :sku => "1" )
+    create_variant( :sku => "2" )
+    create_variant( :sku => "3", :in_stock => false )
+    create_variant( :sku => "4", :in_stock => false )
+  end
+
+The +create_variant+ method would provided by my factory setup, and creates a valid product with associated colors, sizes, and other options that I need. Now, I have 4 products in the database, 2 are in stock and 2 are not. So, in my test: find(:salable).length.should == 2
+
+And it does.
+
+Similar to rake task dependencies, you can chain workers together like this:
+
+  factory_worker :first do
+    puts "I am first"
+  end
+  
+  factory_worker :second => :first do
+    puts "I am second"
+  end
+  
+  factory_worker :third => :second do
+    puts "I am third"
+  end
+
+If you call 'worker :third', it should output:
+
+  I am first
+  I am second
+  I am third
+
+You can also chain workers like this:
+  factory_worker :several => [ :first, :second ]
+
+and even add dependencies to the chain in further statements
+  factory_worker :several => [ :third ]
+
