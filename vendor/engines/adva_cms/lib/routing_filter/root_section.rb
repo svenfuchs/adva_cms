@@ -16,8 +16,9 @@ module RoutingFilter
     # prepends the root section path to the path if the given pattern matches          
     def around_recognition(route, path, env, &block)
       if match = path.match(@@pattern) and site = Site.find_by_host(env[:host_with_port])
-        section = site.sections.root
-        path.sub! /^#{match[0]}/, "#{match[1]}/#{section.type.pluralize.downcase}/#{section.id}#{match[2]}"
+        if section = site.sections.root
+          path.sub! /^#{match[0]}/, "#{match[1]}/#{section.type.pluralize.downcase}/#{section.id}#{match[2]}"
+        end
       end
       yield path, env
     end
