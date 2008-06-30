@@ -26,12 +26,12 @@ describe CommentsHelper do
       @fields.should have_tag('input[type=?][name=?]', 'hidden', 'return_to')
     end
     
-    it 'including commentable[type]' do
-      @fields.should have_tag('input[type=?][name=?]', 'hidden', 'commentable[type]')
+    it 'including comment[commentable_type]' do
+      @fields.should have_tag('input[type=?][name=?]', 'hidden', 'comment[commentable_type]')
     end
     
-    it 'including commentable[id]' do
-      @fields.should have_tag('input[type=?][name=?]', 'hidden', 'commentable[id]')
+    it 'including comment[commentable_id]' do
+      @fields.should have_tag('input[type=?][name=?]', 'hidden', 'comment[commentable_id]')
     end
   end
   
