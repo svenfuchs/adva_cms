@@ -13,8 +13,6 @@ class CommentsController < BaseController
   
   def show
     has_permission?(:update, :comment)
-    # p current_user
-    # p @comment.role_authorizing(:update, :comment)
   end
 
   def preview
@@ -28,7 +26,6 @@ class CommentsController < BaseController
     if @comment.save
       flash[:notice] = "Thank you for your comment!"
       redirect_to comment_path(@comment)
-      # render :action => :show
     else
       flash[:comment] = params[:comment]
       flash[:error] = @comment.errors.full_messages.to_sentence
@@ -54,7 +51,8 @@ class CommentsController < BaseController
       @commentable = if @comment
         @comment.commentable
       else
-        params[:commentable][:type].constantize.find(params[:commentable][:id]) rescue nil
+        params[:comment][:commentable_type].constantize.find(params[:comment][:commentable_id]) 
+        # params[:commentable][:type].constantize.find(params[:commentable][:id]) rescue nil
       end
       raise ActiveRecord::RecordNotFound unless @commentable
     end

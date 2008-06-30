@@ -12,8 +12,7 @@ describe CommentsController do
     @preview_path = '/comments/preview'
     @return_to = '/redirect/here'
     
-    @params = { :commentable => {:type => 'Article', :id => 1}, 
-                :comment => {:body => 'body!', :author_name => 'name'},
+    @params = { :comment => {:body => 'body!', :author_name => 'name', :commentable_type => 'Article', :commentable_id => 1},
                 :return_to => @return_to }
   end
   

@@ -40,8 +40,8 @@ module CommentsHelper
   
   def comment_form_hidden_fields(commentable)
     hidden_field_tag('return_to', request.request_uri) + "\n" +
-    hidden_field_tag('commentable[type]', commentable.class.name, :id => 'commentable_type') + "\n" +
-    hidden_field_tag('commentable[id]', commentable.id, :id => 'commentable_id') + "\n"
+    hidden_field_tag('comment[commentable_type]', commentable.class.name, :id => 'comment_commentable_type') + "\n" +
+    hidden_field_tag('comment[commentable_id]', commentable.id, :id => 'comment_commentable_id') + "\n"
   end
   
   private
