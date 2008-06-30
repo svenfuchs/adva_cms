@@ -21,6 +21,13 @@ steps_for :user do
     @user.update_attributes! :verified_at => nil
   end
   
+  When "the user is recognized as a recurring anonymous" do
+    self.class.send :include, ActionController::AuthenticateAnonymous::InstanceMethods
+    get '/' # seems to be necessary to open the integration session? how else can i do that?
+    @anonymous = Anonymous.find(:first) || Anonymous.new(:name => 'anonymous', :email => 'anonymous@email.org')
+    controller.instance_variable_set :@current_user, @anonymous
+  end
+  
   When "the user logs in with $credentials" do |credentials|
     post '/session', :user => credentials
   end

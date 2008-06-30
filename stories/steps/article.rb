@@ -21,6 +21,11 @@ steps_for :article do
     @article.update_attributes! :comment_age => -1
   end
   
+  Given "a published article" do
+    $rspec_story_steps[:article].find(:given, "an article").perform(self)
+    $rspec_story_steps[:article].find(:given, "the article is published").perform(self)
+  end
+  
   Given "an unrelated category" do
     @another_category = create_category :title => 'an unrelated category'
   end

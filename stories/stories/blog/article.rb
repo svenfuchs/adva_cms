@@ -3,7 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + "/../../helper")
 Story "Viewing a blog article page", %(
   As an anonymous visitor 
   I want to access the blog article page
-  So I can read the full article), :steps_for => steps(:default, :article), :type => RailsStory do
+  So I can read the full article), :steps_for => steps(:default, :blog, :article), :type => RailsStory do
 
   Scenario "An blog article page" do
     Given "an article"
@@ -57,12 +57,8 @@ Story "Viewing a blog article page", %(
   end
 
   Scenario "An blog article page for non existing article" do
-    When "using rails error handling" do
-      # does not work. how to access the controller in a story?
-      # controller.use_rails_error_handling!
-    end
     When "the user GETs /2008/1/1/the-article-title"
-    Then "an error message is shown"
+    Then "the request does not succeed"
   end
 end
 

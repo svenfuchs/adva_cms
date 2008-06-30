@@ -3,6 +3,14 @@ steps_for :default do
     get path
   end
   
+  When "the user POSTs to" do |path, params|
+    post path, params
+  end
+  
+  When "the user PUTs to" do |path, params|
+    put path, params
+  end
+  
   Then "the page shows $text" do |text|
     text = /#{text}/i unless text.is_a? Regexp
     response.should have_text(text)
@@ -14,12 +22,21 @@ steps_for :default do
   end
   
   Then "the page has a form posting to $action" do |action|
-    response.should have_tag('form[action=?][method=?]', action, 'post')
+    @form = css_select('form[action=?][method=?]', action, 'post').first
+    @form.should_not be_nil
   end
   
   Then "the page does not have a form posting to $action" do |action|
     response.should_not have_tag('form[action=?][method=?]', action, 'post')
   end
+  
+  Then "the form contains an input tag with $attributes" do |attributes|
+    args = attributes.inject ['input'] do |args, (name, value)|
+      args.first << "[#{name}=?]"
+      args << value
+    end
+    css_select(@form, *args).should_not be_empty
+  end  
   
   Then "the $template template is rendered" do |template|
     response.should render_template(template)
@@ -29,7 +46,7 @@ steps_for :default do
     response.should redirect_to(url)
   end
   
-  Then "an error message is shown" do |url|
+  Then "the request does not succeed" do |url|
     response.should_not be_success
   end
 end

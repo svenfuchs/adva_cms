@@ -27,5 +27,4 @@ class Anonymous < ActiveRecord::Base
   def registered?
     false
   end
-
 end  
