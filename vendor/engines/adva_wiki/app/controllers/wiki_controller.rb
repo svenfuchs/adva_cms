@@ -51,6 +51,9 @@ class WikiController < BaseController
     end
   end
   
+  def edit
+  end
+  
   def update
     rollback and return if params[:version]
     
@@ -95,6 +98,7 @@ class WikiController < BaseController
     end
   
     def set_wikipage
+      # TODO do not initialize a new wikipage on :edit and :update actions
       @wikipage = @section.wikipages.find_or_initialize_by_permalink params[:id] || 'home'
       raise "could not find wikipage by permalink '#{params[:id]}'" if params[:show] && @wikipage.new_record?
       @wikipage.revert_to(params[:version]) if params[:version]
