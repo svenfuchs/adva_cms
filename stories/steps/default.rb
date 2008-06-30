@@ -1,4 +1,8 @@
 steps_for :default do
+  Given "the user has POSTed to" do |path, params|
+    post path, params
+  end
+  
   When "the user GETs $path" do |path|
     get path
   end
@@ -28,6 +32,17 @@ steps_for :default do
   
   Then "the page does not have a form posting to $action" do |action|
     response.should_not have_tag('form[action=?][method=?]', action, 'post')
+  end
+  
+  Then "the page has a form putting to $action" do |action|
+    @form = css_select('form[action=?]', action).first
+    @form.should_not be_nil
+    css_select(@form, 'input[name=?][value=?]', '_method', 'put').should_not be_empty
+  end
+  
+  Then "the page does not have a form putting to $action" do |action|
+    @form = css_select('form[action=?]', action).first
+    css_select(@form, 'input[name=?][value=?]', '_method', 'put').should be_empty if @form
   end
   
   Then "the form contains an input tag with $attributes" do |attributes|

@@ -8,6 +8,7 @@ factory :comment,
         :site_id    => lambda{ (Site.find(:first) || create_site).id },
         :section_id => lambda{ (Blog.find(:first) || create_blog).id },
         :author_id  => lambda{ (User.find(:first) || create_user).id },
+        :author     => lambda{ (User.find(:first) || create_user) }, # wtf ...
         :commentable_type => 'Article',
         :commentable_id => lambda{ (Article.find(:first) || create_published_article).id }
 
