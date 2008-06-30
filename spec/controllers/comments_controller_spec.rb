@@ -12,8 +12,8 @@ describe CommentsController do
     @preview_path = '/comments/preview'
     @return_to = '/redirect/here'
     
-    @params = { :comment => {:body => 'body!', :author_name => 'name', :commentable_type => 'Article', :commentable_id => 1},
-                :return_to => @return_to }
+    @params = { :comment => {:body => 'body!', :commentable_type => 'Article', :commentable_id => 1},
+                :anonymous => {:name => 'anonymous', :email => 'anonymous@email.org'} }
   end
   
   it "should be a BaseController" do
@@ -60,9 +60,36 @@ describe CommentsController do
         @comment.stub!(:save).and_return false 
         @comment.stub!(:errors).and_return mock('errors', :full_messages => ["Name can't be blank"])    
       end
-      it_redirects_to { @return_to }
+      it_renders_template :show
       it_assigns_flash_cookie :error => :not_nil
-      it_assigns_flash_cookie :comment => :not_nil
+    end    
+  end
+              
+  describe "PUT to :update" do
+    act! { request_to :put, @member_path, @params }    
+    
+    it "finds the comment" do
+      Comment.should_receive(:find).and_return @comment
+      act!
+    end
+    
+    it "tries to update the comment attributes" do
+      @comment.should_receive(:update_attributes).and_return true
+      act!
+    end
+    
+    describe "given valid comment params" do
+      it_redirects_to { @member_path }
+      it_assigns_flash_cookie :notice => :not_nil
+    end
+    
+    describe "given invalid comment params" do
+      before :each do 
+        @comment.stub!(:update_attributes).and_return false 
+        @comment.stub!(:errors).and_return mock('errors', :full_messages => ["Name can't be blank"])    
+      end
+      it_renders_template :show
+      it_assigns_flash_cookie :error => :not_nil
     end    
   end
 end

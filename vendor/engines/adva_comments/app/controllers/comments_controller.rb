@@ -7,7 +7,7 @@ class CommentsController < BaseController
   
   cache_sweeper :comment_sweeper, :only => [:create, :update, :destroy]
   
-  before_filter :set_comment, :only => :show
+  before_filter :set_comment, :only => [:show, :update]
   before_filter :set_commentable, :only => [:show, :preview, :create]
   before_filter :set_comment_params, :only => [:preview, :create]
   
@@ -22,20 +22,27 @@ class CommentsController < BaseController
   end
   
   def create
+    # params[:comment].delete(:approved) # TODO use attr_protected api
     @comment = @commentable.comments.build(params[:comment])
     if @comment.save
       flash[:notice] = "Thank you for your comment!"
       redirect_to comment_path(@comment)
     else
-      flash[:comment] = params[:comment]
       flash[:error] = @comment.errors.full_messages.to_sentence
-      redirect_to params[:return_to]
+      render :action => :show
     end
   end
   
   def update
-    # TODO temporarily allow to edit a comment based on the cookie
-    # params[:comment].delete(:approved)
+    # params[:comment].delete(:approved) # TODO use attr_protected api
+    if @comment.update_attributes params[:comment]
+      flash[:notice] = "Thank you for your comment!"
+      redirect_to comment_path(@comment)
+    else
+      set_commentable
+      flash[:error] = @comment.errors.full_messages.to_sentence
+      render :action => :show
+    end
   end
   
   def destroy
