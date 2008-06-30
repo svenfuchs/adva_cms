@@ -66,6 +66,10 @@ class User < ActiveRecord::Base
     end
   end
   
+  def verified?
+    !verified_at.nil?
+  end
+  
   def verified!
     update_attributes :verified_at => Time.zone.now if verified_at.nil?
   end
