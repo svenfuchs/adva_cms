@@ -3,7 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + "/../../helper")
 Story "Viewing a blog article page", %(
   As an anonymous visitor 
   I want to access the blog article page
-  So I can read the full article), :steps_for => steps(:default, :blog, :article), :type => RailsStory do
+  So I can read the full article), :steps_for => steps(:all), :type => RailsStory do
 
   Scenario "An blog article page" do
     Given "an article"

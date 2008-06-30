@@ -18,7 +18,7 @@ class AccountController < BaseController
     elsif @user.new_record? and @user.save
       AccountMailer.deliver_signup_verification @user, verification_url(@user)
       render :action => 'verification_sent'
-    else      
+    else
       flash[:error] = 'The user account could not be registered.'
       render :action => :new    
     end
@@ -35,8 +35,7 @@ class AccountController < BaseController
     redirect_to '/'
   end
 
-
-  def verify   
+  def verify
     if current_user.verified!
       flash[:notice] = "Successfully verified the E-mail address for #{current_user.name}"
     else

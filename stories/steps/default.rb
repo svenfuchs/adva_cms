@@ -51,6 +51,14 @@ steps_for :default do
       args << value
     end
     css_select(@form, *args).should_not be_empty
+  end
+  
+  Then "the form does not contain an input tag with $attributes" do |attributes|
+    args = attributes.inject ['input'] do |args, (name, value)|
+      args.first << "[#{name}=?]"
+      args << value
+    end
+    css_select(@form, *args).should be_empty
   end  
   
   Then "the $template template is rendered" do |template|
@@ -63,5 +71,12 @@ steps_for :default do
   
   Then "the request does not succeed" do |url|
     response.should_not be_success
+  end
+  
+  Then "the flash contains an error message" do 
+    if flash = cookies['flash']
+      flash = JSON.parse CGI::unescape(flash)
+    end
+    flash['error'].should_not be_nil
   end
 end
