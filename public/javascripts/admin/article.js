@@ -96,7 +96,6 @@ var ArticlesList = Class.create({
       var match = tr.id.match(/^[\w]+_([\d]*)$/);
       var id = encodeURIComponent(match ? match[1] : null);
       params += (params ? '&' : '') + 'articles[' + id + '][position]=' + pos++;
-      params += (params ? '&' : '') + 'articles[' + id + '][blah]=' + pos;
     }.bind(this));
     return params;
   }
