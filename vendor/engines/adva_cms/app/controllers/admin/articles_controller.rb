@@ -163,5 +163,9 @@ class Admin::ArticlesController < Admin::BaseController
     def  current_role_context
       @article || @section
     end  
+
+    def expire_cached_pages_by_reference(record, method = nil)
+      expire_pages CachedPage.find_by_reference(record, method)
+    end
 end
 
