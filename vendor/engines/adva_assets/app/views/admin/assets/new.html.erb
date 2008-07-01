@@ -2,9 +2,9 @@
 
 <% form_for Asset.new, :url => admin_assets_path, :html => { :multipart => true, :id => 'asset_form' } do |f| %>
   <p>
-    <label id="file-label">Select files to upload</label>
-    <label id="title-label">Title</label>
-    <label id="taglist-label">Tags (space separated)</label>
+    <label id="file-label" class="inline">Select files to upload</label>
+    <label id="title-label" class="inline">Title</label>
+    <label id="taglist-label" class="inline">Tags (space separated)</label>
   </p>
   <fieldset id="files">
     <% @assets.each_with_index do |asset, i| %>
