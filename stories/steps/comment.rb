@@ -2,6 +2,7 @@ factories :articles
 
 steps_for :comment do
   Given "a comment" do
+    Comment.delete_all
     @comment = create_comment
   end
   

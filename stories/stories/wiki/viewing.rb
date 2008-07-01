@@ -8,12 +8,12 @@ Story "Viewing a wiki page", %(
   So I can read all the useful information), :steps_for => steps(:all), :type => RailsStory do
 
   Scenario "Viewing an empty wiki" do
-    Given "a wiki"
-    And "no home wikipage"
+    Given "a wiki that allows anonymous users to create and update wikipages"
+    And "no wikipage"
     When "the user GETs /"
-    Then "the page has a form posting to /"
+    Then "the page has a form posting to /pages"
   end
-
+  
   Scenario "Viewing the wiki home wikipage" do
     Given "a wiki"
     And "a home wikipage"
@@ -21,22 +21,20 @@ Story "Viewing a wiki page", %(
     Then "the page shows the home wikipage body"
     And "the edit link is only visible for certain roles"
   end
-
+  
   Scenario "Viewing a wikipage" do
     Given "a wiki"
     And "a wikipage"
-    When "the user GETs /pages/a-wikipage"
+    When "the user GETs /pages/the-wikipage-title"
     Then "the page shows the wikipage body"
     And "the edit link is only visible for certain roles"
   end
-
+  
   Scenario "Viewing a wikipage revision" do
     Given "a wiki"
-    And "a wikipage"
-    And "the wikipage has a revision"
-    When "the user GETs /pages/a-wikipage/rev/1"
-    Then "the page shows the wikipage body (versioned)"
-    And "the edit link is only visible for certain roles"
-    And "the page has a rollback link putting to the version number to /pages/a-wikipage"
+    And "a wikipage that has a revision"
+    When "the user GETs /pages/the-wikipage-title/rev/1"
+    Then "the page shows the old wikipage body"
+    And "the page has a rollback link putting to the version number to /pages/the-wikipage-title"
   end
 end

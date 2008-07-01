@@ -79,4 +79,8 @@ steps_for :default do
     end
     flash['error'].should_not be_nil
   end
+  
+  Then "the edit link is only visible for certain roles" do
+    response.should have_tag('.visible-for a[href$=?]', 'edit')
+  end
 end

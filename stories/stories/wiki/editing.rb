@@ -18,15 +18,6 @@ Story "Editing a wikipage", %(
     And "the form contains an input tag with $attributes", {:name => 'anonymous[name]'}
     And "the form contains an input tag with $attributes", {:name => 'anonymous[email]'}
   end
-  
-  # Scenario "A recurring anonymous user edits a wikipage (in a wiki that allows it)" do
-  #   Given "a wiki"
-  #   And "a wikipage"
-  #   And "the wiki has :update permissions for anonymous users"
-  #   And "the user is a recurring anonymous"
-  #   When "the user GETs /pages/a-wikipage/edit"
-  #   Then "the form fields for the anonymous author's name and email are pre-filled with his name and email"
-  # end
 
   Scenario "An anonymous user can not edit a wikipage (because required permissions are missing)" do
     Given "a wiki that allows registered users to create and update wikipages"
