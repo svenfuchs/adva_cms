@@ -42,7 +42,6 @@ ActiveRecord::Schema.define(:version => 0) do
   create_table "asset_assignments", :force => true do |t|
     t.integer  "content_id"
     t.integer  "asset_id"
-    t.integer  "position"
     t.string   "label"
     t.datetime "created_at"
     t.boolean  "active"
@@ -219,6 +218,7 @@ ActiveRecord::Schema.define(:version => 0) do
     t.string  "tag_layout"
     t.string  "permalink_style"
     t.text    "permissions"
+    t.string  "foo"
   end
 
   create_table "taggings", :force => true do |t|
