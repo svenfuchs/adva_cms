@@ -75,6 +75,7 @@ apache multisite config http://www.appelsiini.net/2007/6/mephisto-multiple-site-
 # forum
     
     use categories to model sub-forums + forum lists?
+    use a separate Board model for sub-forums?
 
     recent posts list
     feeds

@@ -11,11 +11,19 @@ Story "Managing a site's sections", %(
     When "the user GETs /admin/sites/1/sections"
     Then "the page has an empty list of sections"
     When "the user GETs /admin/sites/1/sections/new"
-    Then "the page has a form posting to /admin/sites/1/sections/1/articles"
+    Then "the page has a form posting to /admin/sites/1/sections"
     And "the 'safe as draft' checkbox is checked"
-    When "the user POSTs to", '/admin/sites/1/sections/1/articles', :article => valid_article_attributes.update(:draft => 1)
-    Then "a new article is saved"
-    And "the article has a position set"
-    And "the user is redirected to /admin/sites/1/sections/1/articles/1"
+    When "the user POSTs to", '/admin/sites/1/sections', :section => valid_section_attributes
+    Then "a new section is saved"
+    And "the user is redirected to /admin/sites/1/sections/1"
+  end
+  
+  Scenario "An admin updates a section's settings" do
+    Given "a site with a section"
+    And "the user is logged in as admin"
+    When "the user GETs /admin/sites/1/sections/1"
+    Then "the page has a form putting to /admin/sites/1/sections/1"
+    When "the user PUTs to", '/admin/sites/1/sections/1', :section => valid_section_attributes(:title => 'updated title')
+    Then "the section's title is 'updated title'"
   end
 end
