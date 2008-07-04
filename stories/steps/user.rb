@@ -5,7 +5,9 @@ steps_for :user do
     @user = create_user :name => role, :email => "#{role}@email.org", :login => role
     case role.to_sym
     when :admin
-      @user.roles << Role.build(role.to_sym, Site.find(:first) || create_site)
+      @site ||= Site.find(:first) || create_site
+      @site.users << @user
+      @user.roles << Role.build(role.to_sym, @site)
     else      
       @user.roles << Role.build(role.to_sym)
     end
@@ -16,6 +18,14 @@ steps_for :user do
   
   Given "a user" do
     @user = User.find(:first) || create_user   
+  end
+  
+  Given "another user" do
+    @other_user = create_user :name => 'another user name', :email => 'another_user@email.org', :login => 'another-login', :password => 'password', :password_confirmation => 'password'
+  end
+  
+  Given "the other user is a member of the site" do
+    @site.users << @other_user
   end
   
   Given "an unverified user" do
@@ -83,5 +93,51 @@ steps_for :user do
 
   Then "a verification email is sent to the user's email address" do
     ActionMailer::Base.deliveries.first
+  end
+  
+  # TODO somehow namespace these to: admin
+  
+  When "the user visits the site's user list page" do
+    get "/admin/sites/#{@site.to_param}/users"
+    response.should be_success
+  end
+  
+  When "the user visits the other user's show page" do
+    get "/admin/sites/#{@site.to_param}/users/#{@other_user.to_param}"
+    response.should be_success
+  end
+  
+  Then "the page has a user account creation form" do
+    action = "/admin/sites/#{@site.to_param}/users"
+    response.should have_tag('form[action=?][method=?]', action, 'post')
+  end
+  
+  Then "the page has a user account edit form" do
+    action = "/admin/sites/#{@site.to_param}/users/#{@other_user.to_param}"
+    response.should have_tag('form[action=?]', action) do |form|
+      form.should have_tag('input[name=?][value=?]', '_method', 'put')
+    end
+  end
+  
+  When "the user fills in the user account creation form with valid values" do
+    fills_in 'name', :with => 'a new user name'
+    fills_in 'email', :with => 'new_user@email.org'
+    fills_in 'login', :with => 'new_user'
+    fills_in 'password', :with => 'password'
+    fills_in 'password confirmation', :with => 'password'
+  end
+  
+  Then "a new user account is created" do 
+    User.find_by_name('a new user name').should_not be_nil
+  end
+  
+  Then "the other user's name is 'an updated name'" do
+    @other_user.reload
+    @other_user.name.should == 'an updated name'
+  end
+  
+  Then "the user is redirected to a site's user show page" do
+    request.request_uri.should =~ %r(/admin/sites/[\d]*/users/[\d]*)
+    response.should render_template('admin/users/show')
   end
 end

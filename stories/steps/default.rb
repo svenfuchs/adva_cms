@@ -93,9 +93,9 @@ steps_for :default do
     response.should render_template(template)
   end
   
-  Then "the user is redirected to $url" do |url|
-    response.should redirect_to(url)
-  end
+  # Then "the user is redirected to $url" do |url|
+  #   response.should redirect_to(url)
+  # end
   
   Then "the request does not succeed" do |url|
     response.should_not be_success

@@ -5,7 +5,7 @@
   <%= render :partial => 'roles', :locals => {:f => f} if current_user.has_role?(:admin, @site) %>
 
   <p class="buttons">
-    <%= submit_tag 'Create profile' %>
+    <%= submit_tag 'Create' %>
     <%= link_to "cancel", admin_users_path %>
   </p>
 <% end -%>
