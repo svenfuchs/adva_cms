@@ -30,10 +30,10 @@ Story "Deleting a blog article", %(
       And "the user is logged in as admin"
     When "the user visits the blog page"
     Then "the page has a list of articles"
-    When "the user clicks on 'test article'"
+    When "the user clicks the link to article"
     Then "the page has a article editing form"
     When "the user clicks on 'Delete this article'"
     Then "the user is redirected to the blog's articles page"
-      And "an article with title 'test article' is deleted"
+      And "the article is deleted"
   end
 end

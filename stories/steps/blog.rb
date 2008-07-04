@@ -6,6 +6,7 @@ steps_for :blog do
   end
 
   Given "the blog allows anonymous users to create comments" do
+    raise "this step expects @blog to be set" unless @blog
     @blog.permissions = {:comment => {:anonymous => :create}}
   end
   
@@ -19,7 +20,11 @@ steps_for :blog do
     @blog.articles.should be_empty
   end
 
-  Given "a blog has an article"
+  Given "a blog has an article" do
+    @article = create_article
+    @blog = @article.section
+    @blog.articles.should have(1).record
+  end
 
   When "the user visits the blog page" do
     get "/admin/sites/#{@blog.site.id}/sections/#{@blog.id}/articles"

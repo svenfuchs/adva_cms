@@ -47,6 +47,11 @@ steps_for :article do
     fills_in 'article[body]', :with =>'the article body'
     fills_in 'article[tag_list]', :with => '\"test article\"'
   end
+
+  When "the user clicks the link to article" do
+    raise "this step excepts the variable @article to be set" unless @article
+    When "the user clicks on '#{@article.title}'"
+  end
  
   Then "the page has a article creation form" do
     action = "/admin/sites/#{@blog.site.to_param}/sections/#{@blog.to_param}/articles"
@@ -54,12 +59,36 @@ steps_for :article do
     @article_count = Article.find(:all).size
   end
 
+  Then "the page has a article editing form" do
+    raise "this step excepts the variable @article to be set" unless @article
+    raise "this step excepts the variable @blog to be set" unless @blog
+    action = "/admin/sites/#{@blog.site.to_param}/sections/#{@blog.to_param}/articles/#{@article.to_param}"
+    response.should have_tag('form[action=?][method=?]', action, 'post')
+    response.should have_tag('input[name=?][value=?]', '_method', 'put')
+    @article_count = Article.find(:all).size
+  end
+
+  Then "the page has a list of articles" do
+    response.should have_tag('table#articles.list')
+  end
+
   Then "a new article is saved" do
-    raise "Variable @article_count must be set before this step!" unless @article_count
+    raise "this step excepts the variable @article_count to be set" unless @article_count
     (@article_count + 1).should == Article.find(:all).size
   end
 
   Then "the user is rendered to the blog's articles edit page" do
+    request.request_uri.should =~ %r(/admin/sites/[\d]*/sections/[\d]*/articles/[\d]*/edit)
     response.should render_template('edit')
+  end
+
+  Then "the user is redirected to the blog's articles page" do
+    request.request_uri.should =~ %r(/admin/sites/[\d]*/sections/[\d]*/articles)
+    response.should render_template('admin/blog/index')
+  end
+
+  Then "the article is deleted" do
+    raise "this step excepts the variable @article_count to be set" unless @article
+    (@article_count - 1).should == Article.find(:all).size
   end
 end
