@@ -24,6 +24,9 @@ class Admin::CategoriesController < Admin::BaseController
     end
   end
   
+  def edit
+  end
+
   def update
     if @category.update_attributes params[:category]
       flash[:notice] = "The category has been updated."

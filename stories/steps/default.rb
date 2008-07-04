@@ -19,6 +19,16 @@ steps_for :default do
   #   response.should render_template("#{resource.gsub(" ","_").pluralize}/show")
   # end
   
+  Then "a new $klass is saved" do |klass|
+    klass.classify.constantize.count.should == 1
+  end
+  
+  Then "the $object's $name is: $value" do |object, name, value|
+    object = instance_variable_get("@#{object}")
+    object.reload
+    object.send(name).should == value
+  end
+  
   Then "the page shows $text" do |text|
     text = /#{text}/i unless text.is_a? Regexp
     response.should have_text(text)
@@ -27,6 +37,10 @@ steps_for :default do
   Then "the page does not show $text" do |text|
     text = /#{text}/i unless text.is_a? Regexp
     response.should_not have_text(/#{text}/i)
+  end
+  
+  Then "the page has an empty list" do
+    response.should have_tag('div[class=?]', 'empty')
   end
   
   Then "the page has a form posting to $action" do |action|
