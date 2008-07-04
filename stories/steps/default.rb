@@ -18,20 +18,16 @@ steps_for :default do
   When "the user PUTs to" do |path, params|
     put path, params
   end
- 
-  When "fills in '$field' with '$value'" do |field, value|
-    fills_in field, :with => value
-  end
-
-  When "clicks the button '$button'" do |button|
-    clicks_button button
-  end
 
   # TODO hardcoded to the core
   When "the 'save as draft' checkbox is already checked" do
     response.should have_tag('input#article-draft[value=?]', 1)
   end
  
+  # Then "the $actor sees the $resource show page" do |actor, resource|
+  #   response.should render_template("#{resource.gsub(" ","_").pluralize}/show")
+  # end
+  
   Then "the page shows $text" do |text|
     text = /#{text}/i unless text.is_a? Regexp
     response.should have_text(text)
