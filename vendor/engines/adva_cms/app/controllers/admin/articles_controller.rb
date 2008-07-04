@@ -36,6 +36,9 @@ class Admin::ArticlesController < Admin::BaseController
     @article = @section.articles.build :comment_age => @section.comment_age, :filter => @section.content_filter
   end
 
+  def edit
+  end
+
   def create
     @article = @section.articles.build params[:article]
     if @article.save

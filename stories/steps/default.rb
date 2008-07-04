@@ -7,10 +7,6 @@ steps_for :default do
     get path
   end
   
-  When "the user clicks on '$link'" do |link|
-    clicks_link link
-  end
-
   When "the user POSTs to" do |path, params|
     post path, params
   end
@@ -20,7 +16,7 @@ steps_for :default do
   end
 
   # TODO hardcoded to the core
-  When "the 'save as draft' checkbox is already checked" do
+  Then "the 'save as draft' checkbox is checked by default" do
     response.should have_tag('input#article-draft[value=?]', 1)
   end
  
@@ -58,7 +54,7 @@ steps_for :default do
     css_select(@form, 'input[name=?][value=?]', '_method', 'put').should be_empty if @form
   end
 
-  Then "the page has an empty list of articles" do
+  Then "the page has an empty list" do
     response.should have_tag("div.empty")
   end
   

@@ -41,4 +41,25 @@ steps_for :article do
   Given "the comment is approved" do
     @approved_comment.update_attributes! :approved => true
   end
+
+  When "the user fills in the article creation form with valid values" do
+    fills_in 'title', :with => 'the article title'
+    fills_in 'article[body]', :with =>'the article body'
+    fills_in 'article[tag_list]', :with => '\"test article\"'
+  end
+ 
+  Then "the page has a article creation form" do
+    action = "/admin/sites/#{@blog.site.to_param}/sections/#{@blog.to_param}/articles"
+    response.should have_tag('form[action=?][method=?]', action, 'post')
+    @article_count = Article.find(:all).size
+  end
+
+  Then "a new article is saved" do
+    raise "Variable @article_count must be set before this step!" unless @article_count
+    (@article_count + 1).should == Article.find(:all).size
+  end
+
+  Then "the user is rendered to the blog's articles edit page" do
+    response.should render_template('edit')
+  end
 end
