@@ -14,6 +14,10 @@ steps_for :default do
   When "the user PUTs to" do |path, params|
     put path, params
   end
+
+  # Then "the $actor sees the $resource show page" do |actor, resource|
+  #   response.should render_template("#{resource.gsub(" ","_").pluralize}/show")
+  # end
   
   Then "the page shows $text" do |text|
     text = /#{text}/i unless text.is_a? Regexp
