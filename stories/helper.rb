@@ -4,6 +4,7 @@ require 'spec/story'
 require 'spec/mocks'
 require 'spec/rails/story_adapter'
 require 'active_record/fixtures'
+require 'webrat'
 
 Spec::Runner.configure do |config|
   config.include Spec::Story

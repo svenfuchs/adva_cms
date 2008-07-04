@@ -15,6 +15,11 @@ steps_for :default do
     put path, params
   end
 
+  # TODO hardcoded to the core
+  Then "the 'save as draft' checkbox is checked by default" do
+    response.should have_tag('input#article-draft[value=?]', 1)
+  end
+ 
   # Then "the $actor sees the $resource show page" do |actor, resource|
   #   response.should render_template("#{resource.gsub(" ","_").pluralize}/show")
   # end
@@ -36,7 +41,7 @@ steps_for :default do
   
   Then "the page does not show $text" do |text|
     text = /#{text}/i unless text.is_a? Regexp
-    response.should_not have_text(/#{text}/i)
+    response.should_not have_text(text)
   end
   
   Then "the page has an empty list" do
@@ -61,6 +66,10 @@ steps_for :default do
   Then "the page does not have a form putting to $action" do |action|
     @form = css_select('form[action=?]', action).first
     css_select(@form, 'input[name=?][value=?]', '_method', 'put').should be_empty if @form
+  end
+
+  Then "the page has an empty list" do
+    response.should have_tag("div.empty")
   end
   
   Then "the form contains an input tag with $attributes" do |attributes|

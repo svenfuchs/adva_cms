@@ -23,6 +23,7 @@
       <%= render :widget => :menu_site %>
     </div>
     
+    <%= yield :form if @content_for_form %>          
     <div id="main">
       <div id="flashes"><%= render :partial => 'shared/flash' %></div>
       <%= render :widget => :menu_section %>
@@ -32,7 +33,6 @@
       <% if @content_for_filter %>
         <div id="filter"><%= yield :filter %></div>
       <% end %>
-      <%= yield :form if @content_for_form %>          
       <div id="content">
         <%= yield %>      
       </div>
