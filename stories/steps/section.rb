@@ -5,11 +5,11 @@ steps_for :section do
     @section = create_section
   end
   
-  Given "a site with a section" do
+  Given "a site with a Section" do
     Site.delete_all
     Section.delete_all
     @site = create_site
-    @section = create_section :site => @site
+    @section = create_section :site => @site, :type => 'Section'
   end
   
   Given "a site with no sections" do
@@ -20,6 +20,10 @@ steps_for :section do
   
   When "the user visits the new section page" do
     get "/admin/sites/#{@site.to_param}/sections/new"
+  end
+  
+  When "the user visits the section's show page" do
+    get "/admin/sites/#{@site.to_param}/sections/#{@section.to_param}"
   end
   
   When "the user fills in the section creation form with valid values" do
@@ -40,12 +44,12 @@ steps_for :section do
     end
   end
   
-  Then "the user is redirected the sections show page" do
+  Then "the user is redirected the section's show page" do
     request.request_uri.should =~ %r(/admin/sites/[\d]*/sections/[\d]*)
     response.should render_template('admin/sections/show')
   end
   
-  Then "a new Section is saved" do
+  Then "a new Section is created" do
     Section.count.should == 1
   end
 end

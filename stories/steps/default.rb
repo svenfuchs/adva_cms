@@ -29,7 +29,7 @@ steps_for :default do
   end
   
   Then "the $object's $name is: $value" do |object, name, value|
-    object = instance_variable_get("@#{object}")
+    object = instance_variable_get("@#{object.downcase}")
     object.reload
     object.send(name).should == value
   end
@@ -45,6 +45,7 @@ steps_for :default do
   end
   
   Then "the page has an empty list" do
+    puts response.body
     response.should have_tag('div[class=?]', 'empty')
   end
   
