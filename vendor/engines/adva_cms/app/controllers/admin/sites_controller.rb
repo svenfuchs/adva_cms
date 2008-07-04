@@ -40,6 +40,9 @@ class Admin::SitesController < Admin::BaseController
       render :action => :new
     end
   end
+  
+  def edit
+  end
  
   def update
     if @site.update_attributes params[:site]
