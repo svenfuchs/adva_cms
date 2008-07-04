@@ -3,7 +3,12 @@ factories :user
 steps_for :user do
   Given "the user is logged in as $role" do |role|
     @user = create_user :name => role, :email => "#{role}@email.org", :login => role
-    @user.roles << Role.build(role.to_sym, Site.find(:first) || create_site)
+    case role.to_sym
+    when :admin
+      @user.roles << Role.build(role.to_sym, Site.find(:first) || create_site)
+    else      
+      @user.roles << Role.build(role.to_sym)
+    end
     @user.verified!
     
     post "/session", :user => {:login => @user.login, :password => @user.password}
