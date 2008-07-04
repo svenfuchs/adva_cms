@@ -7,6 +7,10 @@ steps_for :default do
     get path
   end
   
+  When "the user clicks on '$link'" do |link|
+    clicks_link link
+  end
+
   When "the user POSTs to" do |path, params|
     post path, params
   end
@@ -14,7 +18,20 @@ steps_for :default do
   When "the user PUTs to" do |path, params|
     put path, params
   end
-  
+ 
+  When "fills in '$field' with '$value'" do |field, value|
+    fills_in field, :with => value
+  end
+
+  When "clicks the button '$button'" do |button|
+    clicks_button button
+  end
+
+  # TODO hardcoded to the core
+  When "the 'save as draft' checkbox is already checked" do
+    response.should have_tag('input#article-draft[value=?]', 1)
+  end
+ 
   Then "the page shows $text" do |text|
     text = /#{text}/i unless text.is_a? Regexp
     response.should have_text(text)
@@ -22,7 +39,7 @@ steps_for :default do
   
   Then "the page does not show $text" do |text|
     text = /#{text}/i unless text.is_a? Regexp
-    response.should_not have_text(/#{text}/i)
+    response.should_not have_text(text)
   end
   
   Then "the page has a form posting to $action" do |action|
@@ -43,6 +60,10 @@ steps_for :default do
   Then "the page does not have a form putting to $action" do |action|
     @form = css_select('form[action=?]', action).first
     css_select(@form, 'input[name=?][value=?]', '_method', 'put').should be_empty if @form
+  end
+
+  Then "the page has an empty list of articles" do
+    response.should have_tag("div.empty")
   end
   
   Then "the form contains an input tag with $attributes" do |attributes|
