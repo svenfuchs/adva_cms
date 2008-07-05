@@ -1,0 +1,34 @@
+Story: Publishing a blog article
+  As an admin
+  I want to write blog articles in the admin area
+  So they get published in the frontend
+  
+  Scenario: An admin writes a blog article
+    Given a blog with no articles
+    And the user is logged in as admin
+    When the user visits the blog articles list page
+    Then the page has an empty list
+    When the user clicks on 'Create one now'
+    Then the page has a article creation form
+    And the 'save as draft' checkbox is checked by default
+    When the user fills in the article creation form with valid values
+    And the user clicks the 'Save article' button
+    Then the user is rendered to the blog's articles edit page
+    And a new article is saved
+
+
+Story: Deleting a blog article
+  As an admin
+  I want to delete a blog article in the admin area
+  So that the article is removed from the system
+
+  Scenario: An admin deletes a blog article
+    Given a blog with an article
+    And the user is logged in as admin
+    When the user visits the blog articles list page
+    Then the page has a list of articles
+    When the user clicks the link to article
+    Then the page has a article editing form
+    When the user clicks on 'Delete this article'
+    Then the user is redirected to the blog's articles page
+    And the article is deleted
