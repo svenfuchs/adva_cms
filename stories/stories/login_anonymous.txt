@@ -1,0 +1,11 @@
+Story: Anonymous login
+  As an anonymous user
+  I can post my name, email and homepage
+  So the system remembers me as an anonymous user
+  
+  Scenario: After submitting a comment as an anonymous the user is recognized by the system
+    Given no anonymous accounts exist
+    When the user submits a comment as an anonymous
+    Then an anonymous account exists
+    When the user visits the comments show page
+    Then the system authenticates the user as a known anonymous 

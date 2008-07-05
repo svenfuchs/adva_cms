@@ -1,0 +1,25 @@
+Story: Rolling back a wikipage to a previous revision 
+  As a user with a given role that allows me to update wikipages
+  I want to rollback a wikipage to a previous revision
+  So the wikipage has the old content
+  
+  Scenario: An anonymous user rolls back a wikipage
+    Given a wiki that allows anonymous users to create and update wikipages
+    And a wikipage that has a revision
+    When the user visits the wikipage page
+    And the user clicks on "rollback to this version"
+    Then a new version of the wikipage is created
+    And the wikipage's body is set to 'the old wikipage body'
+
+
+Story: Rolling back a wikipage is disallowed
+  As a user with a given role that does not allow me to update wikipages
+  I can not rollback a wikipage to a previous revision
+  So I can not change the wiki content
+  
+  Scenario: An anonymous user can not rollback a wikipage
+    Given a wiki that allows registered users to create and update wikipages
+    And a wikipage that has a revision
+    When the user visits the wikipage page
+    And the user clicks on "rollback to this version"
+    Then the user is redirected to /login

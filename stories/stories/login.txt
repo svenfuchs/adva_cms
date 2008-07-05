@@ -1,0 +1,31 @@
+Story: Log in
+  As a user
+  I can login
+  So I can by identified by the system
+
+  Scenario: The login page
+    When the user GETs /login
+    Then the page has a form posting to /session
+
+  Scenario: A verified user logs in with valid credentials
+    Given a verified user
+    When the user logs in with valid credentials
+    Then the system authenticates the user
+
+  Scenario: A verified user logs in with invalid credentials
+    Given a verified user
+    When the user logs in with invalid credentials
+    Then the system does not authenticate the user
+    And the session/new template is rendered
+
+  Scenario: A not verified user logs in with valid credentials
+    Given an unverified user
+    When the user logs in with valid credentials
+    Then the system does not authenticate the user
+    And the session/new template is rendered
+
+  Scenario: A not verified user logs in with invalid credentials
+    Given an unverified user
+    When the user logs in with invalid credentials
+    Then the system does not authenticate the user
+    Then the session/new template is rendered

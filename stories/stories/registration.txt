@@ -1,0 +1,20 @@
+Story: Registration
+  As a visitor
+  I can register
+  So I can login to the system
+  
+  Scenario: The registration page
+  
+  Scenario: A user registers and verifies his account
+    Given no user exists
+    When the user visits the user registration page
+    Then the page has a user registration form
+    When the user fills in the user registration form with valid values
+    And the user clicks the 'Register' button
+    Then an unverified user exists
+    And a verification email is sent to the user's email address
+  
+  Scenario: A user registers and verifies his account
+    Given an unverified user
+    When the user verifies his account
+    Then the user is verified
