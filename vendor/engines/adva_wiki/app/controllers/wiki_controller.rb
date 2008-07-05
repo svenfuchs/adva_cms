@@ -56,7 +56,6 @@ class WikiController < BaseController
   
   def update
     rollback and return if params[:version]
-    
     if @wikipage.update_attributes params[:wikipage]
       flash[:notice] = "The wikipage has been updated."
       redirect_to wikipage_path(:section_id => @section, :id => @wikipage.permalink)
@@ -145,7 +144,7 @@ class WikiController < BaseController
       unless updated_at
         raise "Can not update wikipage: timestamp missing. Please make sure that your form has a hidden field: updated_at." 
       end
-      unless Time.zone.parse(updated_at) == @wikipage.updated_at
+      if @wikipage.updated_at && (Time.zone.parse(updated_at) != @wikipage.updated_at)
         flash[:error] = "In the meantime this wikipage has been updated by someone else. Please resolve any conflicts."
         # TODO filter_chain has been halted because of the rendering, so we have 
         # to call this manually ... which is stupid. Maybe an around_filter
