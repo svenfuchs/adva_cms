@@ -4,7 +4,8 @@ describe Site do
   include Matchers::ClassExtensions
   fixtures :sites, :sections
   
-  before :each do 
+  before :each do
+    User.delete_all!
     @site = sites(:site_1)
     @home = sections(:home)
     @about = sections(:about)

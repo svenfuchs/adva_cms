@@ -12,9 +12,8 @@ Story "Managing a site's sections", %(
       Then "the page has a section creation form"
       When "the user fills in the section creation form with valid values"
        And "the user clicks the 'Save' button"
-      Then "a new Section is created"
+      Then "a new Section was created with the title 'a new section title'"
        And "the user is redirected the section's show page"
-       And "the page has a section edit form"
   end
   
   Scenario "An admin updates a Section's settings" do

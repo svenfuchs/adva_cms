@@ -19,11 +19,11 @@ steps_for :section do
   end
   
   When "the user visits the new section page" do
-    get "/admin/sites/#{@site.to_param}/sections/new"
+    get new_admin_section_path(@site)
   end
   
   When "the user visits the section's show page" do
-    get "/admin/sites/#{@site.to_param}/sections/#{@section.to_param}"
+    get admin_section_path(@section.site, @section)
   end
   
   When "the user fills in the section creation form with valid values" do
@@ -31,25 +31,23 @@ steps_for :section do
     fills_in 'title', :with => 'a new section title'
   end
   
+  Then "a new Section was created with the title 'a new section title'" do
+    @section = Section.find_by_title 'a new section title'
+    @section.should_not be_nil
+  end
+  
   Then "the page has a section creation form" do
-    action = "/admin/sites/#{@site.to_param}/sections"
-    response.should have_tag('form[action=?][method=?]', action, 'post')
+    action = admin_sections_path(@site)
+    response.should have_form_posting_to(action)
   end
   
   Then "the page has a section edit form" do
-    @section = Section.find :first
-    action = "/admin/sites/#{@section.site.to_param}/sections/#{@section.to_param}"
-    response.should have_tag('form[action=?]', action) do |form|
-      form.should have_tag('input[name=?][value=?]', '_method', 'put')
-    end
+    action = admin_section_path(@site, @section)
+    response.should have_form_putting_to(action)
   end
   
   Then "the user is redirected the section's show page" do
-    request.request_uri.should =~ %r(/admin/sites/[\d]*/sections/[\d]*)
+    request.request_uri.should == admin_section_path(@site, @section)
     response.should render_template('admin/sections/show')
-  end
-  
-  Then "a new Section is created" do
-    Section.count.should == 1
   end
 end

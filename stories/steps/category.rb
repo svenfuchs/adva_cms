@@ -16,11 +16,11 @@ steps_for :category do
   end
   
   When "the user visits the blog's categories list page" do
-    get "/admin/sites/#{@blog.site.to_param}/sections/#{@blog.to_param}/categories"
+    get admin_categories_path(@blog.site, @blog)
   end
   
   When "the user visits the blog category's edit page" do
-    get "/admin/sites/#{@blog.site.to_param}/sections/#{@blog.to_param}/categories/#{@category.to_param}/edit"
+    get edit_admin_category_path(@blog.site, @blog, @category)
   end
   
   When "the user fills in the category creation form with valid values" do
@@ -28,29 +28,27 @@ steps_for :category do
   end
   
   Then "the user sees the blog categories list page" do
-    webrat_session.current_page.url.should =~ %r(/admin/sites/[\d]*/sections/[\d]*/categories)
+    request.request_uri.should == admin_categories_path(@blog.site, @blog)
     response.should render_template('admin/categories/index')
   end
   
   Then "the page has a category creation form" do
-    action = "/admin/sites/#{@blog.site.to_param}/sections/#{@blog.to_param}/categories"
+    action = admin_categories_path(@blog.site, @blog)
     response.should have_tag('form[action=?][method=?]', action, 'post')
   end
   
   Then "the page has a category edit form" do
-    action = "/admin/sites/#{@blog.site.to_param}/sections/#{@blog.to_param}/categories/#{@category.to_param}"
-    response.should have_tag('form[action=?]', action) do |form|
-      form.should have_tag('input[name=?][value=?]', '_method', 'put')
-    end
+    action = admin_category_path(@blog.site, @blog, @category)
+    response.should have_form_putting_to(action)
   end
 
   Then "the user is redirected the blog categories list page" do
-    webrat_session.current_page.url.should =~ %r(/admin/sites/[\d]*/sections/[\d]*/categories)
+    request.request_uri.should == admin_categories_path(@blog.site, @blog)
     response.should render_template('admin/categories/index')
   end
 
   Then "the user is redirected the blog category's edit page" do
-    webrat_session.current_page.url.should =~ %r(/admin/sites/[\d]*/sections/[\d]*/categories/[\d]*/edit)
+    request.request_uri.should == edit_admin_category_path(@blog.site, @blog, @category)
     response.should render_template('admin/categories/edit')
   end
   

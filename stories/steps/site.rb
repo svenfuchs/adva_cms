@@ -12,11 +12,11 @@ steps_for :site do
   end
   
   When "the user visits the sites list page" do
-    get "/admin/sites"
+    get admin_sites_path
   end
   
   When "the user visits the site's edit page" do
-    get "/admin/sites/#{@site.to_param}/edit"
+    get edit_admin_site_path(@site)
   end
   
   When "the user fills in the site creation form with valid values" do
@@ -31,15 +31,12 @@ steps_for :site do
   
   Then "the page has a site creation form" do
     action = "/admin/sites"
-    response.should have_tag('form[action=?][method=?]', action, 'post')
+    response.should have_form_posting_to(action)
   end
   
   Then "the page has a site edit form" do
-    @section = Section.find :first
-    action = "/admin/sites/#{@site.to_param}"
-    response.should have_tag('form[action=?]', action) do |form|
-      form.should have_tag('input[name=?][value=?]', '_method', 'put')
-    end
+    action = admin_site_path(@site)
+    response.should have_form_putting_to(action)
   end
   
   Then "the user is redirected the site's show page" do

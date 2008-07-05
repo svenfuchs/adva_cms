@@ -1,5 +1,6 @@
 ENV["RAILS_ENV"] = "test"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
+
 require 'spec/story'
 require 'spec/mocks'
 require 'spec/rails/story_adapter'
@@ -32,4 +33,13 @@ def steps(*names)
   else
     names.each{|name| require step_dir + "/#{name}" }
   end
+end
+
+Spec::Rails::Matchers.module_eval do
+  def have_form_putting_to(url_or_path)
+    return simple_matcher("have a form submitting via PUT to '#{url_or_path}'") do |response|
+      have_tag("form[method=post][action=#{url_or_path}]").matches?(response)
+      have_tag("input[name=_method][type=hidden][value=put]").matches?(response)
+    end
+  end  
 end

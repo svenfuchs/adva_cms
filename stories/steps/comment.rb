@@ -26,5 +26,4 @@ steps_for :comment do
     comment.body.should == 'the updated comment body'
     comment.changed?.should be_false
   end
-  
 end

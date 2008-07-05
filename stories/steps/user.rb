@@ -98,25 +98,13 @@ steps_for :user do
   # TODO somehow namespace these to: admin
   
   When "the user visits the site's user list page" do
-    get "/admin/sites/#{@site.to_param}/users"
+    get admin_site_users_path(@site)
     response.should be_success
   end
   
   When "the user visits the other user's show page" do
-    get "/admin/sites/#{@site.to_param}/users/#{@other_user.to_param}"
+    get admin_site_user_path(@site, @other_user)
     response.should be_success
-  end
-  
-  Then "the page has a user account creation form" do
-    action = "/admin/sites/#{@site.to_param}/users"
-    response.should have_tag('form[action=?][method=?]', action, 'post')
-  end
-  
-  Then "the page has a user account edit form" do
-    action = "/admin/sites/#{@site.to_param}/users/#{@other_user.to_param}"
-    response.should have_tag('form[action=?]', action) do |form|
-      form.should have_tag('input[name=?][value=?]', '_method', 'put')
-    end
   end
   
   When "the user fills in the user account creation form with valid values" do
@@ -134,6 +122,16 @@ steps_for :user do
   Then "the other user's name is 'an updated name'" do
     @other_user.reload
     @other_user.name.should == 'an updated name'
+  end
+  
+  Then "the page has a user account creation form" do
+    action = admin_site_users_path(@site)
+    response.should have_form_posting_to(action)
+  end
+  
+  Then "the page has a user account edit form" do
+    action = admin_site_user_path(@site, @other_user)
+    response.should have_form_putting_to(action)
   end
   
   Then "the user is redirected to a site's user show page" do

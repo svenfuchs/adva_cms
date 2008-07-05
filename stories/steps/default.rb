@@ -45,7 +45,6 @@ steps_for :default do
   end
   
   Then "the page has an empty list" do
-    puts response.body
     response.should have_tag('div[class=?]', 'empty')
   end
   

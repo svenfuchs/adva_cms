@@ -22,8 +22,8 @@ steps_for :article do
   end
   
   Given "a published article" do
-    $rspec_story_steps[:article].find(:given, "an article").perform(self)
-    $rspec_story_steps[:article].find(:given, "the article is published").perform(self)
+    Given "an article"
+    Given "the article is published"
   end
   
   Given "an unrelated category" do
@@ -49,14 +49,14 @@ steps_for :article do
   end
  
   Then "the page has a article creation form" do
-    action = "/admin/sites/#{@blog.site.to_param}/sections/#{@blog.to_param}/articles"
-    response.should have_tag('form[action=?][method=?]', action, 'post')
-    @article_count = Article.find(:all).size
+    action = admin_articles_path(@blog.site, @blog)
+    response.should have_form_posting_to(action)
+    @article_count = Article.count
   end
 
   Then "a new article is saved" do
     raise "Variable @article_count must be set before this step!" unless @article_count
-    (@article_count + 1).should == Article.find(:all).size
+    (@article_count + 1).should == Article.count
   end
 
   Then "the user is rendered to the blog's articles edit page" do
