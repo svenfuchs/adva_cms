@@ -1,5 +1,5 @@
 require File.expand_path(File.dirname(__FILE__) + "/../../../helper")
-
+ 
 Story "Managing cached pages", %(
   As an admin
   I want to manage my site's cached pages
