@@ -15,6 +15,25 @@ steps_for :blog do
     @blog = create_blog
     @article_count = 0
   end
+
+  Given "a blog with an article" do
+    Article.delete_all
+    @article = create_article
+    @blog = @article.section
+  end 
+  
+  Given "a blog with a category" do
+    Category.delete_all
+    Section.delete_all
+    @blog = create_blog
+    @category = create_category :section => @blog
+  end
+
+  Given "a blog with no categories" do
+    Category.delete_all
+    Section.delete_all
+    @blog = create_blog
+  end
   
   Given 'a blog article' do
     Article.delete_all

@@ -1,19 +1,13 @@
 factories :user
 
 steps_for :user do
-  Given "the user is logged in as $role" do |role|
-    @user = create_user :name => role, :email => "#{role}@email.org", :login => role
-    case role.to_sym
-    when :admin
-      @site ||= Site.find(:first) || create_site
-      @site.users << @user
-      @user.roles << Role.build(role.to_sym, @site)
-    else      
-      @user.roles << Role.build(role.to_sym)
-    end
-    @user.verified!
-    
-    post "/session", :user => {:login => @user.login, :password => @user.password}
+  Given "no anonymous account exists" do
+    Anonymous.delete_all
+  end
+  
+  Then "an anonymous account exists" do
+    @anonymous = Anonymous.find(:first)
+    @anonymous.should_not be_nil
   end
   
   Given "no user exists" do
@@ -26,96 +20,55 @@ steps_for :user do
     @user_count = 1
   end
   
-  Given "a verified user" do
-    Given "a user"  
-    @user.verified!
+  Given "another user" do
+    @other_user = create_user :name => 'another user name', :email => 'another_user@email.org', :login => 'another-login', :password => 'password', :password_confirmation => 'password'
   end
   
-  Given "an unverified user" do
-    Given "a user"  
-    @user.update_attributes! :verified_at => nil
+  Given "the other user is a member of the site" do
+    @site.users << @other_user
   end
   
-  Given "no anonymous account exists" do
-    Anonymous.delete_all
+  # ADMIN VIEWS
+  
+  When "the user visits the admin site user list page" do
+    get admin_site_users_path(@site)
+    response.should be_success
   end
   
-  When "the user goes to the login page" do
-    get login_path
+  When "the user visits the admin site other user show page" do
+    get admin_site_user_path(@site, @other_user)
+    response.should be_success
   end
   
-  When "the user goes to the user registration page" do
-    get new_account_path
-  end
-
-  When "the user fills in the login form with valid credentials" do
-    fills_in :login, :with => 'login'
-    fills_in :password, :with => 'password'
-  end
-
-  When "the user fills in the login form with invalid credentials" do
-    fills_in :login, :with => 'invalid login'
-    fills_in :password, :with => 'invalid password'
-  end
-
-  When "the user fills in the user registration form with valid values" do
-    fills_in :name, :with => 'name'
-    fills_in :email, :with => 'email@email.org'
-    fills_in :login, :with => 'login'
-    fills_in :password, :with => 'password'
-    fills_in "Password confirmation", :with => 'password'
+  When "the user fills in the admin user account creation form with valid values" do
+    fills_in 'name', :with => 'a new user name'
+    fills_in 'email', :with => 'new_user@email.org'
+    fills_in 'login', :with => 'new_user'
+    fills_in 'password', :with => 'password'
+    fills_in 'password confirmation', :with => 'password'
   end
   
-  When "the user verifies their account" do
-    token = @user.assign_token! 'verify'
-    AccountController.hidden_actions.delete 'verify'
-    AccountController.instance_variable_set(:@action_methods, nil)
-    get "/account/verify?token=#{@user.id}%3B#{token}"
-    @user = controller.current_user
+  Then "a new user account is created" do 
+    User.find_by_name('a new user name').should_not be_nil
   end
   
-  Then "the user is verified" do
-    @user.verified?.should be_true
+  Then "the other user's name is 'an updated name'" do
+    @other_user.reload
+    @other_user.name.should == 'an updated name'
   end
   
-  Then "an unverified user exists" do
-    @user = User.find(:first)
-    @user.verified?.should be_false
+  Then "the page has an admin user account creation form" do
+    action = admin_site_users_path(@site)
+    response.should have_form_posting_to(action)
   end
   
-  Then "an anonymous account exists" do
-    @anonymous = Anonymous.find(:first)
-    @anonymous.should_not be_nil
+  Then "the page has an admin user account edit form" do
+    action = admin_site_user_path(@site, @other_user)
+    response.should have_form_putting_to(action)
   end
   
-  Then "the page has a login form" do
-    response.should have_form_posting_to(session_path)
+  Then "the user is redirected to the admin site user show page" do
+    request.request_uri.should =~ %r(/admin/sites/[\d]*/users/[\d]*)
+    response.should render_template('admin/users/show')
   end
-  
-  Then "the page has a user registration form" do
-    response.should have_form_posting_to(account_path)
-  end
-  
-  Then "the system authenticates the user" do
-    controller.current_user.should == @user
-  end
-  
-  Then "the system does not authenticate the user" do
-    controller.current_user.should be_nil
-  end
-  
-  Then "the system authenticates the user as a known anonymous" do
-    controller.current_user.should == @anonymous
-  end
-  
-  Then "a verification email is sent to the user's email address" do
-    ActionMailer::Base.deliveries.first.should_not be_nil
-  end
-  
-  Then "the user sees the login page" do
-    request.request_uri.should == login_path
-    response.should render_template('session/new')
-  end
-  
-  
 end

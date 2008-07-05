@@ -25,13 +25,9 @@ steps_for :default do
   Then "the page shows the $template template" do |template|
     response.should render_template(template)
   end
-  
-  Then "the user is redirected to the url $url" do |url|
-    response.should redirect_to(url)
-  end
-  
-  Then "the request does not succeed" do
-    response.should_not be_success
+
+  Then "the page has an empty list" do
+    response.should have_tag("div.empty")
   end
   
   Then "the form contains anonymous name and email fields" do
@@ -42,6 +38,14 @@ steps_for :default do
   Then "the form does not contain anonymous name and email fields" do
     @form.should_not have_tag('input[name=?]', 'anonymous[name]')
     @form.should_not have_tag('input[name=?]', 'anonymous[email]')
+  end
+  
+  Then "the user is redirected to the url $url" do |url|
+    response.should redirect_to(url)
+  end
+  
+  Then "the request does not succeed" do
+    response.should_not be_success
   end
   
   Then "the flash contains an error message" do 

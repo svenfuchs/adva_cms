@@ -6,14 +6,14 @@ Story: Publishing a section article
   Scenario: An admin writes a section article
     Given a section with no articles
     And the user is logged in as admin
-    When the user visits the section articles list page
+    When the user visits the admin section articles list page
     Then the page has an empty list
     When the user clicks on 'Create one now'
-    Then the page has a article creation form
+    Then the page has an admin article creation form
     And the 'save as draft' checkbox is checked by default
-    When the user fills in the article creation form with valid values
+    When the user fills in the admin article creation form with valid values
     And the user clicks the 'Save article' button
-    Then the user is rendered to the section's articles edit page
+    Then the user is rendered to the admin section articles edit page
     And a new article is saved
 
 
@@ -25,7 +25,7 @@ Story: Reordering section articles
   Scenario An admin reorders section articles do
     Given a section with two articles
     And the user is logged in as admin
-    When the user visits the section articles list page
+    When the user visits the admin section articles list page
     Then the page has a reorder articles link
     When the user moves the second article to the top
     Then the second article is sorted to the top
@@ -39,10 +39,10 @@ Story: Deleting a section article
   Scenario: An admin deletes a section article
     Given a section with an article
     And the user is logged in as admin
-    When the user visits the section articles list page
+    When the user visits the admin section articles list page
     Then the page has a list of articles
     When the user clicks the link to article
-    Then the page has a article editing form
+    Then the page has an admin article editing form
     When the user clicks on 'Delete this article'
-    Then the user is redirected to the section's articles page
+    Then the user is redirected to the admin section articles page
     And the article is deleted

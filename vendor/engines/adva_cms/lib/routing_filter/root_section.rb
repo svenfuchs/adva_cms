@@ -24,7 +24,7 @@ module RoutingFilter
     end
 
     def after_generate(base, result, *args)
-      if site = base.instance_variable_get(:@site) and root = site.sections.root     
+      if site = base.instance_variable_get(:@site) and root = site.sections.root
         # TODO are after filters applied in a reverse order or what?     
         pattern = %r(^(/[\w]{2})?(/(?:#{root.type.pluralize.downcase}|sections)/#{root.id}(\.|/|$)))
         # pattern = %r(^(/[\w]{2})?(/#{root.path}(\.|/|$)))
