@@ -1,32 +1,38 @@
 factories :sections, :articles
 
 steps_for :blog do
-  Given "a blog" do
+  Given 'a blog' do
     @blog = create_blog
-  end
-
-  Given "the blog allows anonymous users to create comments" do
-    raise "this step expects @blog to be set" unless @blog
-    @blog.permissions = {:comment => {:anonymous => :create}}
   end
   
   Given "a blog that allows anonymous users to create comments" do
     Given "a blog"
-    Given "the blog allows anonymous users to create comments"
+    @blog.update_attributes! 'permissions' => {'comment' => {'anonymous' => 'create'}}
   end
-
-  Given "a blog with no articles" do
-    Given "a blog"
-    @blog.articles.should be_empty
+  
+  Given 'a blog with no articles' do
+    Article.delete_all
+    @blog = create_blog
+    @article_count = 0
   end
-
-  Given "a blog with an article" do
+  
+  Given 'a blog article' do
+    Article.delete_all
     @article = create_article
-    @blog = @article.section
-    @blog.articles.should have(1).record
+    @article_count = 1
   end
-
-  When "the user visits the blog articles list page" do
-    get admin_articles_path(@blog.site, @blog)
+  
+  Given 'a published blog article' do
+    Given 'a blog article'
+    @article.update_attributes! :published_at => '2008-01-01 12:00:00'
   end
-end  
+  
+  Given 'an unpublished blog article' do
+    Given 'a blog article'
+  end
+  
+  Given 'a published blog article with no excerpt' do
+    Given 'a published blog article'
+    @article.update_attributes! :excerpt => '', :excerpt_html => ''
+  end
+end

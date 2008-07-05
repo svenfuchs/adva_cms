@@ -7,18 +7,17 @@ steps_for :wiki do
   end
   
   Given "a wiki that allows anonymous users to create and update wikipages" do
-    Section.delete_all
-    @wiki = create_wiki
+    Given "a wiki"
     @wiki.update_attributes! 'permissions' => {'wikipage' => {'create' => 'anonymous', 'update' => 'anonymous'}}
   end
   
   Given "a wiki that allows registered users to create and update wikipages" do
-    Section.delete_all
-    @wiki = create_wiki
+    Given "a wiki"
     @wiki.update_attributes! 'permissions' => {'wikipage' => {'create' => 'user', 'update' => 'user'}}
   end
   
   Given "a wikipage" do
+    Given "a wiki"
     Wikipage.delete_all
     Wikipage::Version.delete_all
     @wikipage = create_wikipage
@@ -26,6 +25,7 @@ steps_for :wiki do
   end
   
   Given "a home wikipage" do
+    Given "a wiki"
     Wikipage.delete_all
     Wikipage::Version.delete_all
     @wikipage = create_wikipage :title => 'Home', :body => 'the home wikipage body'
@@ -44,19 +44,46 @@ steps_for :wiki do
     @wikipage_versions_count = 2
   end
   
+  When "the user visits the wikipage page" do
+    get wikipage_path(@wiki, @wikipage.permalink)
+  end
+  
+  When "the user visits the wiki home page" do
+    get wiki_path(@wiki)
+  end
+  
+  When "the user visits the wikipage edit page" do
+    get edit_wikipage_path(@wiki, @wikipage.permalink)
+  end
+  
+  When "the user visits the wikipage revision page" do
+    get wikipage_rev_path(@wiki, @wikipage.permalink, 1)
+  end
+  
+  When "the user tries to update the wikipage with valid parameters" do
+    valid_data = {:updated_at => "2008-01-01 12:00:00 UTC", :title => "the wikipage title", :body => "the wikipage body" }
+    put wikipage_path(@wiki, @wikipage.permalink), :wikipage => valid_data
+  end
+  
   Then "a new version of the wikipage is created" do
     @wikipage.reload
     @wikipage.versions.count.should == @wikipage_versions_count + 1
   end
   
-  Then "the page has a rollback link putting to the version number to $path" do |path|
-    response.should have_tag('a[href=?]', "#{path}?version=1", /rollback/)
+  Then "the page has a wikipage creation form" do
+    action = '/pages' # TODO for some reason wikipages_path(@wiki) is not a root wiki path here
+    response.should have_form_posting_to(action)
+    @form = css_select 'form[action=?]', action
   end
   
-  Then "the wikipage has the attributes $attributes" do |attributes| 
-    @wikipage.reload
-    attributes.each do |name, value|
-      @wikipage.send(name).should == value
-    end
+  Then "the page has a wikipage edit form" do
+    action = wikipage_path(@wiki, @wikipage)
+    response.should have_form_putting_to(action)
+    @form = css_select 'form[action=?]', action
   end
-end  
+  
+  Then "the page has a link for rolling back the wikipage" do
+    path = wikipage_path(@wiki, @wikipage.permalink, :version => 1)
+    response.should have_tag('a[href=?]', path, /rollback/)
+  end
+end

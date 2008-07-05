@@ -7,7 +7,7 @@ Story: Registration
   
   Scenario: A user registers and verifies his account
     Given no user exists
-    When the user visits the user registration page
+    When the user goes to the user registration page
     Then the page has a user registration form
     When the user fills in the user registration form with valid values
     And the user clicks the 'Register' button
@@ -16,5 +16,5 @@ Story: Registration
   
   Scenario: A user registers and verifies his account
     Given an unverified user
-    When the user verifies his account
+    When the user verifies their account
     Then the user is verified

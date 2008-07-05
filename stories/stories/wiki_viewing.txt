@@ -6,26 +6,26 @@ Story: Viewing a wiki page
   Scenario: Viewing an empty wiki
     Given a wiki that allows anonymous users to create and update wikipages
     And no wikipage
-    When the user visits the wikipage home page
-    Then the page has a form posting to /pages
+    When the user visits the wiki home page
+    Then the page has a wikipage creation form
   
   Scenario: Viewing the wiki home wikipage
     Given a wiki
     And a home wikipage
-    When the user visits the wikipage home page
-    Then the page shows the home wikipage body
+    When the user visits the wiki home page
+    Then the page shows 'the home wikipage body'
     And the edit link is only visible for certain roles
   
   Scenario: Viewing a wikipage
     Given a wiki
     And a wikipage
-    When the user visits the wikipage show page
-    Then the page shows the wikipage body
+    When the user visits the wikipage page
+    Then the page shows 'the wikipage body'
     And the edit link is only visible for certain roles
   
   Scenario: Viewing a wikipage revision
     Given a wiki
     And a wikipage that has a revision
     When the user visits the wikipage revision page
-    Then the page shows the old wikipage body
+    Then the page shows 'the old wikipage body'
     And the page has a link for rolling back the wikipage

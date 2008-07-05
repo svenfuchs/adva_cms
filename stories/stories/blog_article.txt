@@ -5,7 +5,7 @@ Story: Viewing a blog article page
 
   Scenario: An blog article page
     Given a published blog article
-    When the user GETs /2008/1/1/the-article-title
+    When the user goes to the url /2008/1/1/the-article-title
     Then the page shows 'the article title'
     Then the page shows 'the article excerpt'
     Then the page shows 'the article body'
@@ -13,38 +13,38 @@ Story: Viewing a blog article page
 
   Scenario: An blog article page with commenting allowed
     Given a published blog article
-    When the user GETs /2008/1/1/the-article-title
+    When the user goes to the url /2008/1/1/the-article-title
     Then the page has a comment creation form
 
   Scenario: An blog article page with commenting not allowed
     Given a published blog article
     And the article does not allow commenting
-    When the user GETs /2008/1/1/the-article-title
+    When the user goes to the url /2008/1/1/the-article-title
     Then the page does not have a comment creation form
 
   Scenario: An blog article page with an approved comment
-    Given an unpublished blog article
+    Given a published blog article
     And the article has an approved comment
-    When the user GETs /2008/1/1/the-article-title
+    When the user goes to the url /2008/1/1/the-article-title
     Then the page shows 'the comment body'
     Then the page shows '1 comment'
 
   Scenario: An blog article page with an unapproved comment
     Given a published blog article
     And the article has an unapproved comment
-    When the user GETs /2008/1/1/the-article-title
+    When the user goes to the url /2008/1/1/the-article-title
     Then the page does not show 'the comment body'
     Then the page does not show '1 comment'
 
   Scenario: An blog article page for an unpublished article
     Given an unpublished blog article
-    When the user GETs /2008/1/1/the-article-title
-    Then the user is redirected to /login
+    When the user goes to the url /2008/1/1/the-article-title
+    Then the user is redirected to the url /login
 
   Scenario: An blog article page for non existing article
-    Given a blog with no article
-    When the user GETs /2008/1/1/the-article-title
-    Then the requestes not succeed
+    Given a blog with no articles
+    When the user goes to the url /2008/1/1/the-article-title
+    Then the request does not succeed
 
 
 Story: Previewing a blog article page
@@ -55,6 +55,6 @@ Story: Previewing a blog article page
   Scenario: An blog article page for an unpublished article
     Given an unpublished blog article
     And the user is logged in as admin
-    When the user GETs /2008/1/1/the-article-title
+    When the user goes to the url /2008/1/1/the-article-title
     Then the page shows 'the article title'
   

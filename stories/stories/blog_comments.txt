@@ -5,9 +5,9 @@ Story: Commenting on an article
   
   Scenario: An anonymous user comments on an article
     Given a blog that allows anonymous users to create comments
-    And a published article
+    And a published blog article
     And the article has no comments
-    When the user GETs /2008/1/1/the-article-title
+    When the user goes to the url /2008/1/1/the-article-title
     Then the page has a comment creation form
     And the form contains anonymous name and email fields
     When the user fills in the form with his name, email and comment
@@ -17,14 +17,14 @@ Story: Commenting on an article
   
   Scenario: An anonymous user updates a comment that he has submitted
     Given a blog that allows anonymous users to create comments
-    And a published article
+    And a published blog article
     And the article has no comments
-    And the user has submitted a comment to the blog article
-    When the user goes to the comment show page
+    When the user has submitted a comment to the blog article
+    And the user goes to the comment show page
     Then the page shows 'the comment body'
     Then the page has a comment edit form
     And the form contains anonymous name and email fields
-    When the user fills in body with 'the updated body'
-    And the user clicks 'Save Comment'
-    Then the comment is updated
+    When the user fills in comment_body with 'the updated body'
+    And the user clicks the 'Save Comment' button
+    Then the comment's body is set to 'the updated body'
     And the user is redirected to the comment show page

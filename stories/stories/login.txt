@@ -4,28 +4,35 @@ Story: Log in
   So I can by identified by the system
 
   Scenario: The login page
-    When the user GETs /login
-    Then the page has a form posting to /session
 
   Scenario: A verified user logs in with valid credentials
     Given a verified user
-    When the user logs in with valid credentials
+    When the user goes to the login page
+    Then the page has a login form
+    When the user fills in the login form with valid credentials
+    And the user clicks the 'Login' button
     Then the system authenticates the user
 
   Scenario: A verified user logs in with invalid credentials
     Given a verified user
-    When the user logs in with invalid credentials
+    When the user goes to the login page
+    When the user fills in the login form with invalid credentials
+    And the user clicks the 'Login' button
     Then the system does not authenticate the user
-    And the session/new template is rendered
-
+    And the page shows the session/new template
+  
   Scenario: A not verified user logs in with valid credentials
     Given an unverified user
-    When the user logs in with valid credentials
+    When the user goes to the login page
+    When the user fills in the login form with valid credentials
+    And the user clicks the 'Login' button
     Then the system does not authenticate the user
-    And the session/new template is rendered
-
+    And the page shows the session/new template
+  
   Scenario: A not verified user logs in with invalid credentials
     Given an unverified user
-    When the user logs in with invalid credentials
+    When the user goes to the login page
+    When the user fills in the login form with invalid credentials
+    And the user clicks the 'Login' button
     Then the system does not authenticate the user
-    Then the session/new template is rendered
+    And the page shows the session/new template

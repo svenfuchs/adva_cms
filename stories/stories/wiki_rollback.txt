@@ -6,8 +6,8 @@ Story: Rolling back a wikipage to a previous revision
   Scenario: An anonymous user rolls back a wikipage
     Given a wiki that allows anonymous users to create and update wikipages
     And a wikipage that has a revision
-    When the user visits the wikipage page
-    And the user clicks on "rollback to this version"
+    When the user visits the wikipage revision page
+    And the user clicks on 'rollback to this revision'
     Then a new version of the wikipage is created
     And the wikipage's body is set to 'the old wikipage body'
 
@@ -20,6 +20,6 @@ Story: Rolling back a wikipage is disallowed
   Scenario: An anonymous user can not rollback a wikipage
     Given a wiki that allows registered users to create and update wikipages
     And a wikipage that has a revision
-    When the user visits the wikipage page
-    And the user clicks on "rollback to this version"
-    Then the user is redirected to /login
+    When the user visits the wikipage revision page
+    And the user clicks on 'rollback to this revision'
+    Then the user sees the login page

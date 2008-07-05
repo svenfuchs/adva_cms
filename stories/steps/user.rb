@@ -16,67 +16,84 @@ steps_for :user do
     post "/session", :user => {:login => @user.login, :password => @user.password}
   end
   
-  Given "a user" do
-    @user = User.find(:first) || create_user   
-  end
-  
-  Given "another user" do
-    @other_user = create_user :name => 'another user name', :email => 'another_user@email.org', :login => 'another-login', :password => 'password', :password_confirmation => 'password'
-  end
-  
-  Given "the other user is a member of the site" do
-    @site.users << @other_user
-  end
-  
-  Given "an unverified user" do
-    @user = User.find(:first) || create_user   
-    @user.update_attributes! :verified_at => nil
-  end  
-  
   Given "no user exists" do
     User.delete_all!
+    @user_count = 0
   end
   
-  Given "the user is verified" do
+  Given "a user" do
+    @user = User.find(:first) || create_user   
+    @user_count = 1
+  end
+  
+  Given "a verified user" do
+    Given "a user"  
     @user.verified!
   end
   
-  Given "the user is not verified" do
+  Given "an unverified user" do
+    Given "a user"  
     @user.update_attributes! :verified_at => nil
   end
   
-  Given "no anonymous accounts exist" do
+  Given "no anonymous account exists" do
     Anonymous.delete_all
   end
   
-  When "the user logs in with $credentials" do |credentials|
-    post '/session', :user => credentials
+  When "the user goes to the login page" do
+    get login_path
   end
   
-  When "the user verifies his account" do
+  When "the user goes to the user registration page" do
+    get new_account_path
+  end
+
+  When "the user fills in the login form with valid credentials" do
+    fills_in :login, :with => 'login'
+    fills_in :password, :with => 'password'
+  end
+
+  When "the user fills in the login form with invalid credentials" do
+    fills_in :login, :with => 'invalid login'
+    fills_in :password, :with => 'invalid password'
+  end
+
+  When "the user fills in the user registration form with valid values" do
+    fills_in :name, :with => 'name'
+    fills_in :email, :with => 'email@email.org'
+    fills_in :login, :with => 'login'
+    fills_in :password, :with => 'password'
+    fills_in "Password confirmation", :with => 'password'
+  end
+  
+  When "the user verifies their account" do
     token = @user.assign_token! 'verify'
     AccountController.hidden_actions.delete 'verify'
     AccountController.instance_variable_set(:@action_methods, nil)
-    get "/account/verify?token=#{@user.id}%3B#{token}"    
+    get "/account/verify?token=#{@user.id}%3B#{token}"
     @user = controller.current_user
-  end
-  
-  Then "a user exists" do
-    @user = User.find :first
-    @user.should_not be_nil
   end
   
   Then "the user is verified" do
     @user.verified?.should be_true
   end
   
-  Then "the user is not verified" do
+  Then "an unverified user exists" do
+    @user = User.find(:first)
     @user.verified?.should be_false
   end
   
   Then "an anonymous account exists" do
     @anonymous = Anonymous.find(:first)
     @anonymous.should_not be_nil
+  end
+  
+  Then "the page has a login form" do
+    response.should have_form_posting_to(session_path)
+  end
+  
+  Then "the page has a user registration form" do
+    response.should have_form_posting_to(account_path)
   end
   
   Then "the system authenticates the user" do
@@ -89,53 +106,16 @@ steps_for :user do
   
   Then "the system authenticates the user as a known anonymous" do
     controller.current_user.should == @anonymous
-  end    
-
+  end
+  
   Then "a verification email is sent to the user's email address" do
-    ActionMailer::Base.deliveries.first
+    ActionMailer::Base.deliveries.first.should_not be_nil
   end
   
-  # TODO somehow namespace these to: admin
-  
-  When "the user visits the site's user list page" do
-    get admin_site_users_path(@site)
-    response.should be_success
+  Then "the user sees the login page" do
+    request.request_uri.should == login_path
+    response.should render_template('session/new')
   end
   
-  When "the user visits the other user's show page" do
-    get admin_site_user_path(@site, @other_user)
-    response.should be_success
-  end
   
-  When "the user fills in the user account creation form with valid values" do
-    fills_in 'name', :with => 'a new user name'
-    fills_in 'email', :with => 'new_user@email.org'
-    fills_in 'login', :with => 'new_user'
-    fills_in 'password', :with => 'password'
-    fills_in 'password confirmation', :with => 'password'
-  end
-  
-  Then "a new user account is created" do 
-    User.find_by_name('a new user name').should_not be_nil
-  end
-  
-  Then "the other user's name is 'an updated name'" do
-    @other_user.reload
-    @other_user.name.should == 'an updated name'
-  end
-  
-  Then "the page has a user account creation form" do
-    action = admin_site_users_path(@site)
-    response.should have_form_posting_to(action)
-  end
-  
-  Then "the page has a user account edit form" do
-    action = admin_site_user_path(@site, @other_user)
-    response.should have_form_putting_to(action)
-  end
-  
-  Then "the user is redirected to a site's user show page" do
-    request.request_uri.should =~ %r(/admin/sites/[\d]*/users/[\d]*)
-    response.should render_template('admin/users/show')
-  end
 end
