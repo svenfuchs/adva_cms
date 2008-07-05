@@ -33,7 +33,7 @@
       </p>
       <p id="preview"></p>
       <p>
-        <%= submit_tag 'Submit Comment' %>
+        <%= submit_tag (@comment.new_record? ? 'Submit Comment' : 'Save Comment') %>
         <%= link_to_remote_comment_preview %>
         <img src="/images/indicator.gif" id="comment-preview-spinner" style="display: none;" />
       </p>
