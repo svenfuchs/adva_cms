@@ -118,7 +118,7 @@ module Webrat
     end
     
     def open_in_browser(path) # :nodoc
-      `open #{path}`
+      # `open #{path}`
     end
 
     # Issues a request for the URL pointed to by a link on the current page,
