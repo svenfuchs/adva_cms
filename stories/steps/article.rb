@@ -54,6 +54,13 @@ steps_for :article do
     When "the user clicks on '#{@article.title}'"
   end
 
+  When "the user visits the admin blog article edit page" do
+    When "the user visits the admin blog articles list page"
+    Then "the page has a list of articles"
+    When "the user clicks on the article link"
+    Then "the page has a admin article editing form"
+  end
+
   Then "the page has an admin article creation form" do
     action = admin_articles_path(@blog.site, @blog)
     response.should have_form_posting_to(action)
@@ -86,8 +93,14 @@ steps_for :article do
     response.should have_tag("input#article-draft[type=?][value=?]", 'checkbox', 1)
   end
 
-  Then "the page has the article on front page" do
+  Then "the page displays the article" do
     raise "this step expects the variable @article to be set" unless @article
     response.should have_tag("div#article_#{@article.id}.entry")
   end
+
+  Then "the page displays the article as preview" do
+    raise "this step expects the variable @article to be set" unless @article
+    response.should have_tag("div#article_#{@article.id}[class=?]", 'entry clearing')
+  end
+
 end

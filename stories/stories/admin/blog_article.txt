@@ -16,17 +16,24 @@ Story: Publishing a blog article
     Then the user is redirected to the admin blog article's edit page
     And a new article is saved
 
-  Scenario: An admin publishes a blog article
+  Scenario: An admin preview a blog article
     Given a blog with an article
     And the user is logged in as admin
     When the user visits the admin blog articles list page
     Then the page has a list of articles
     When the user clicks on the article link
     Then the page has a admin article editing form
-    When the user unchecks 'Yes, save this article as a draft'
+    When the user clicks on 'Preview'
+    Then the page displays the article as preview
+
+  Scenario: An admin publishes a blog article
+    Given a blog with an article
+    And the user is logged in as admin
+    When the user visits the admin blog article edit page
+    And the user unchecks 'Yes, save this article as a draft'
     And the user clicks the 'Apply changes' button
     And the user goes to the url /
-    Then the page has the article on front page
+    Then the page displays the article
 
 Story: Deleting a blog article
   As an admin
@@ -36,10 +43,7 @@ Story: Deleting a blog article
   Scenario: An admin deletes a blog article
     Given a blog with an article
     And the user is logged in as admin
-    When the user visits the admin blog articles list page
-    Then the page has a list of articles
-    When the user clicks on the article link
-    Then the page has a admin article editing form
-    When the user clicks on 'Delete this article'
+    When the user visits the admin blog article edit page
+    And the user clicks on 'Delete this article'
     Then the user is redirected to the admin blog articles list page
     And the article is deleted
