@@ -89,6 +89,11 @@ steps_for :authentication do
     controller.current_user.should == @anonymous
   end
   
+  Then "the system authenticates the user as $role" do |role|
+    Then "the system authenticates the user"
+    @user.has_role?(role.to_sym).should be_true
+  end
+  
   Then "a verification email is sent to the user's email address" do
     ActionMailer::Base.deliveries.first.should_not be_nil
   end

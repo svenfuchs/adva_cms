@@ -9,7 +9,7 @@ class Admin::InstallController < ApplicationController
   def index
     params[:site] ||= {}
     params[:section] ||= {:title => 'Home', :type => 'Section'}
-    
+
     @site = Site.new params[:site].merge(:host => request.host_with_port)
     @section = @site.sections.build params[:section]
     @site.sections << @section
