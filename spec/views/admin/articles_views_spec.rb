@@ -86,7 +86,12 @@ describe "Admin::Articles:" do
       response.should have_tag('input[name=?]', 'article[title]')
       response.should have_tag('textarea[name=?]', 'article[body]')
     end
-    
+
+    it "should work with taglist containing double quotes" do
+      @article.stub!(:tag_list).and_return(["foo bar"])
+      response.should have_tag('input#article_tag_list[value=?]', )
+    end
+
     it "should have the draft checkbox check when assigned article is a draft" do
       @article.stub!(:draft?).and_return(true)
       render "admin/articles/_form"

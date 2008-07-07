@@ -183,12 +183,14 @@ module ActiveRecord #:nodoc:
         end
         
         def save_cached_tag_list
+          #p "save cached tag list"
           if self.class.caching_tag_list?
             self[self.class.cached_tag_list_column_name] = tag_list.to_s
           end
         end
         
         def save_tags
+          #p "save tags"
           return unless @tag_list
           
           new_tag_names = @tag_list - tags.map(&:name)
