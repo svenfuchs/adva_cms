@@ -88,12 +88,12 @@ class User < ActiveRecord::Base
   
   def has_role?(role, object = nil)
     role = Role.build role, object unless role.is_a? Role
-    role.applies_to?(self) || roles.detect {|r| r.includes? role }
+    role.applies_to?(self) || !!roles.detect {|r| r.includes? role }
   end
   
   def has_exact_role?(name, object = nil)
     role = Role.build(name, object)
-    role.applies_to?(self) || roles.detect {|r| r == role }
+    role.applies_to?(self) || !!roles.detect {|r| r == role }
   end
     
   def to_s

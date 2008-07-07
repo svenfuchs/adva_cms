@@ -4,61 +4,61 @@ Story: Viewing a blog article page
   So I can read the full article
 
   Scenario: An blog article page
-    Given page cache is enabled and no pages are cached
+    Given page cache is enabled and empty
     And a published blog article
     When the user goes to the url /2008/1/1/the-article-title
     Then the page shows 'the article title'
     And the page shows 'the article excerpt'
     And the page shows 'the article body'
     And the page does not show 'read the rest of this entry'
-    And the page has been cached
+    And the page is cached
 
   Scenario: An blog article page with commenting allowed
-    Given page cache is enabled and no pages are cached
+    Given page cache is enabled and empty
     And a published blog article
     When the user goes to the url /2008/1/1/the-article-title
     Then the page has a comment creation form
-    And the page has been cached
+    And the page is cached
 
   Scenario: An blog article page with commenting not allowed
-    Given page cache is enabled and no pages are cached
+    Given page cache is enabled and empty
     And a published blog article
     And the article does not allow commenting
     When the user goes to the url /2008/1/1/the-article-title
     Then the page does not have a comment creation form
-    And the page has been cached
+    And the page is cached
 
   Scenario: An blog article page with an approved comment
-    Given page cache is enabled and no pages are cached
+    Given page cache is enabled and empty
     And a published blog article
     And the article has an approved comment
     When the user goes to the url /2008/1/1/the-article-title
     Then the page shows 'the comment body'
     And the page shows '1 comment'
-    And the page has been cached
+    And the page is cached
 
   Scenario: An blog article page with an unapproved comment
-    Given page cache is enabled and no pages are cached
+    Given page cache is enabled and empty
     And a published blog article
     And the article has an unapproved comment
     When the user goes to the url /2008/1/1/the-article-title
     Then the page does not show 'the comment body'
     And the page does not show '1 comment'
-    And the page has been cached
+    And the page is cached
 
   Scenario: An blog article page for an unpublished article
-    Given page cache is enabled and no pages are cached
+    Given page cache is enabled and empty
     And an unpublished blog article
     When the user goes to the url /2008/1/1/the-article-title
     Then the user is redirected to the url /login
-    And the page has not been cached
+    And the page is not cached
 
   Scenario: An blog article page for non existing article
-    Given page cache is enabled and no pages are cached
+    Given page cache is enabled and empty
     And a blog with no articles
     When the user goes to the url /2008/1/1/the-article-title
     Then the request does not succeed
-    And the page has not been cached
+    And the page is not cached
 
 
 Story: Previewing a blog article page
@@ -67,10 +67,10 @@ Story: Previewing a blog article page
   So I can preview it
 
   Scenario: An blog article page for an unpublished article
-    Given page cache is enabled and no pages are cached
+    Given page cache is enabled and empty
     And an unpublished blog article
     And the user is logged in as admin
     When the user goes to the url /2008/1/1/the-article-title
     Then the page shows 'the article title'
-    And the page has not been cached
+    And the page is not cached
   

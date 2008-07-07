@@ -4,9 +4,11 @@ Story: Viewing a blog index page
   So I can see all the cool blog articles
 
   Scenario: An empty blog index page
-    Given an unpublished blog article
+    Given page cache is enabled and empty
+    And an unpublished blog article
     When the user goes to the url /
     Then the page does not show 'the article title'
+    And the page is cached
 
   Scenario: A blog index page with an article that has an exerpt
     Given a published blog article

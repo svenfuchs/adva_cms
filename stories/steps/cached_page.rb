@@ -1,7 +1,7 @@
 factories :sections, :articles
 
 steps_for :cached_page do
-  Given "page cache is enabled and no pages are cached" do
+  Given "page cache is enabled and empty" do
     ActionController::Base.page_cache_directory = RAILS_ROOT + '/tmp/cache'
     ActionController::Base.perform_caching = true    
     Given 'no pages are cached'
@@ -15,13 +15,14 @@ steps_for :cached_page do
     end
   end
   
-  Then "the page has been cached" do
-    path = ActionController::Base.page_cache_directory + request.request_uri + '.html'
+  Then "the page is cached" do
+    path = ActionController::Base.send :page_cache_path, request.request_uri
     File.exists?(path).should be_true
   end
   
-  Then "the page has not been cached" do
-    path = ActionController::Base.page_cache_directory + request.request_uri + '.html'
+  Then "the page is not cached" do
+    path = ActionController::Base.send :page_cache_path, request.request_uri
     File.exists?(path).should be_false
   end
+  
 end
