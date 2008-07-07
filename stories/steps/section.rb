@@ -17,6 +17,19 @@ steps_for :section do
     Section.delete_all
     @site = create_site
   end
+
+  Given "a section with no articles" do
+    Given "a section"
+    @section.articles.should be_empty
+  end
+
+  Given "a section with an article" do
+    Article.delete_all
+    Given "a section"
+    @article = create_article
+    @article.section = @section
+    @article.save!
+  end
   
   When "the user visits the admin section creation page" do
     get new_admin_section_path(@site)

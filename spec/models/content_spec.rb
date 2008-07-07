@@ -301,5 +301,13 @@ describe Content do
       @content.save_version?.should be_true
     end
   end
-
+  
+  describe "tagging" do
+    it "works with the quotes on a taglist" do
+      @content.tag_list = '"foo bar"'
+      @content.save!
+      @content.reload
+      @content.tag_list.should == ["foo bar"]
+    end
+  end
 end

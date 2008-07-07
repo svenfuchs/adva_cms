@@ -13,7 +13,7 @@ Story: Publishing a blog article
     And the 'Save as draft?' checkbox is checked by default
     When the user fills in the admin article creation form with valid values
     And the user clicks the 'Save article' button
-    Then the user is redirected to the admin blog article's edit page
+    Then the user is redirected to the admin blog articles edit page
     And a new article is saved
 
   Scenario: An admin preview a blog article
@@ -23,7 +23,7 @@ Story: Publishing a blog article
     When the user visits the admin blog articles list page
     Then the page has a list of articles
     When the user clicks on the article link
-    Then the page has a admin article editing form
+    Then the page has an admin article editing form
     When the user clicks on 'Preview'
     Then the page displays the article as preview
     And the page is not cached
@@ -47,5 +47,5 @@ Story: Deleting a blog article
     And the user is logged in as admin
     When the user visits the admin blog article edit page
     And the user clicks on 'Delete this article'
-    Then the user is redirected to the admin blog articles list page
+    Then the user is redirected to the admin blog articles page
     And the article is deleted

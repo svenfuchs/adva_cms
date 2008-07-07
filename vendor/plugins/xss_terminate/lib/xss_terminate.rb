@@ -76,11 +76,13 @@ module XssTerminate
     end
         
     def sanitize_attributes!
+      #p "sanitize attributes #{self.inspect}"
       return if xss_terminate_options[:none]
       select_attributes_to_sanitize.each do |attribute|
         filter = select_sanitize_filter(attribute)
         sanitize_attribute! filter, @attributes[attribute]
       end 
+      #p "sanitized attributes #{self.inspect}"
     end
     
     def sanitize_attribute!(filter, value)
