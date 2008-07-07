@@ -1,3 +1,7 @@
+[fix] preview of section articles is not displaying article
+[fix] section on front end goes to home and not to the correct section
+[fix] tags inside double quotes does not show correctly on article edit view
+
 [fix] comments_controller does not guard permissions
 [fix] users_controller does not guard permissions
 [fix] admin/wikipages_controller does not guard permissions
