@@ -3,6 +3,8 @@ factories :sections, :wikipages
 steps_for :wiki do  
   Given "a wiki" do
     Section.delete_all
+    Wikipage.delete_all
+    Category.delete_all
     @wiki = create_wiki
   end
   
