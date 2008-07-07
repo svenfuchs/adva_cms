@@ -52,6 +52,16 @@ steps_for :user do
     User.find_by_name('a new user name').should_not be_nil
   end
   
+  Then "an admin account is created" do
+    User.count.should == 1
+    @user = User.find_by_name('Admin')
+    @user.should_not be_nil
+  end
+  
+  Then "the admin account is verified" do
+    @user.verified?.should be_true
+  end
+  
   Then "the other user's name is 'an updated name'" do
     @other_user.reload
     @other_user.name.should == 'an updated name'

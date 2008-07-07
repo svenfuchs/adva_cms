@@ -3,6 +3,7 @@ factories :site
 steps_for :site do
   Given "no site exists" do
     Site.delete_all
+    @site_count = 0
   end
   
   Given "a site" do
@@ -25,8 +26,20 @@ steps_for :site do
     fills_in 'hostname', :with => 'www.example.com'
   end
   
+  When "the user fills in the site install form with valid values" do
+    fills_in 'website name', :with => 'a new site name'
+    fills_in 'website title', :with => 'a new site title'
+    fills_in 'title', :with => 'the root section'
+  end
+  
   Then "a new Site is created" do
     Site.count.should == @site_count + 1
+    @site = Site.find :first
+  end
+  
+  Then "the root section is saved" do
+    @site.sections.count.should == 1
+    @site.sections.root.title.should == 'the root section'
   end
   
   Then "the page has an admin site creation form" do
@@ -47,5 +60,13 @@ steps_for :site do
   Then "the user is redirected the admin site edit page" do
     request.request_uri.should =~ %r(/admin/sites/[\d]*/edit)
     response.should render_template('admin/sites/edit')
+  end
+  
+  Then "the user sees the install page" do
+    response.should render_template('admin/install/index')
+  end
+  
+  Then "the page has a site install form" do
+    response.should have_form_posting_to(install_path)
   end
 end
