@@ -53,7 +53,7 @@ steps_for :article do
     raise "this step expects the variable @article to be set" unless @article
     When "the user clicks on '#{@article.title}'"
   end
- 
+
   Then "the page has an admin article creation form" do
     action = admin_articles_path(@blog.site, @blog)
     response.should have_form_posting_to(action)
@@ -80,5 +80,14 @@ steps_for :article do
   Then "the user is redirected to the admin blog article's edit page" do
     request.request_uri.should =~ %r(/admin/sites/[\d]*/sections/[\d]*/articles/[\d]*/edit)
     response.should render_template('edit')
+  end
+
+  Then "the 'Save as draft?' checkbox is checked by default" do
+    response.should have_tag("input#article-draft[type=?][value=?]", 'checkbox', 1)
+  end
+
+  Then "the page has the article on front page" do
+    raise "this step expects the variable @article to be set" unless @article
+    response.should have_tag("div#article_#{@article.id}.entry")
   end
 end

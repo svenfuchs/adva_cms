@@ -14,6 +14,10 @@ steps_for(:webrat) do
   When "the user checks $checkbox" do |checkbox|
     checks checkbox
   end
+
+  When "the user unchecks '$checkbox'" do |checkbox|
+    unchecks checkbox
+  end
   
   When "the user clicks the '$button' button" do |button|
     clicks_button button

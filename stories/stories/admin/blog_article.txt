@@ -10,12 +10,23 @@ Story: Publishing a blog article
     Then the page has an empty list
     When the user clicks on 'Create one now'
     Then the page has an admin article creation form
-    And the 'save as draft' checkbox is checked by default
+    And the 'Save as draft?' checkbox is checked by default
     When the user fills in the admin article creation form with valid values
     And the user clicks the 'Save article' button
     Then the user is redirected to the admin blog article's edit page
     And a new article is saved
 
+  Scenario: An admin publishes a blog article
+    Given a blog with an article
+    And the user is logged in as admin
+    When the user visits the admin blog articles list page
+    Then the page has a list of articles
+    When the user clicks on the article link
+    Then the page has a admin article editing form
+    When the user unchecks 'Yes, save this article as a draft'
+    And the user clicks the 'Apply changes' button
+    And the user goes to the url /
+    Then the page has the article on front page
 
 Story: Deleting a blog article
   As an admin
