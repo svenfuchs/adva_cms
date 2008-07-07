@@ -4,15 +4,15 @@ Story: Installing the initial site (and admin account)
   So I can get going quickly
   
   Scenario: A user installs the intial site
-    Given no site
-    And no user account
-    When the user visits the domain root
-    Then sees the install page
+    Given no site exists
+    And no user exists
+    When the user goes to the url /
+    Then the user sees the install page
     And the page has a site install form
-    When a user fills in the site install form with valid values
-    And clicks the 'Create' button
-    Then a new site is saved
-    And a the root section is saved
+    When the user fills in the site install form with valid values
+    And the user clicks the 'Create' button
+    Then a new Site is created
+    And the root section is saved
     And an admin account is created
-    And an admin account is verified
-    And the user is authenticated as the admin
+    And the admin account is verified
+    And the system authenticates the user as superuser

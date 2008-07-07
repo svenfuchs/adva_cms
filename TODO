@@ -48,7 +48,6 @@
 [specs] implement themes + theme_file specs
 [specs] implement assets specs
 [specs] spec registration, login, authentication
-[specs] integration/stories
 [specs] spec usage of xss_terminate in one place (so that one can easily 
         see which attributes get filtered and which don't)
 [specs] controllers: spec various error conditions like record not found

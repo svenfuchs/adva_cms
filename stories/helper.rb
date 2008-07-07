@@ -6,6 +6,7 @@ require 'spec/mocks'
 require 'spec/rails/story_adapter'
 require 'active_record/fixtures'
 
+
 Spec::Runner.configure do |config|
   config.include Spec::Story
 end
