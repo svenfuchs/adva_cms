@@ -13,6 +13,7 @@ steps_for :blog do
   Given 'a blog with no articles' do
     Article.delete_all
     @blog = create_blog
+    @blog.articles.should be_empty
     @article_count = 0
   end
 
@@ -33,6 +34,11 @@ steps_for :blog do
     Category.delete_all
     Section.delete_all
     @blog = create_blog
+  end
+
+  Given "a blog with no assets" do
+    # Articles have the assets of blog
+    Given "a blog with no articles"
   end
   
   Given 'a blog article' do

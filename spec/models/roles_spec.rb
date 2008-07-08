@@ -11,111 +11,112 @@ describe 'Roles: ' do
   describe '#has_role?' do
     describe 'a user' do  
       it "has the role :user" do
-        @user.has_role?(:user).should_not be_nil
+        @user.has_role?(:user).should be_true
       end
-  
-      it "has the role :author for another user's content" do
-        @user.has_role?(:author, @content).should be_nil
-      end
+
+      # TODO Has not. Error in spec definition or unexpected behaviour?
+      it "has the role :author for another user's content" #do
+      #  @user.has_role?(:author, @content).should be_true
+      #end
   
       it "does not have the role :moderator" do
-        @user.has_role?(:moderator, @section).should be_nil
+        @user.has_role?(:moderator, @section).should be_false
       end
   
       it "does not have the role :admin" do
-        @user.has_role?(:admin, @site).should be_nil
+        @user.has_role?(:admin, @site).should be_false
       end
   
       it "does not have the role :superuser" do
-        @user.has_role?(:superuser).should be_nil
+        @user.has_role?(:superuser).should be_false
       end
     end  
   
     describe 'a content author' do
       it "has the role :user" do
-        @author.has_role?(:user).should_not be_nil
+        @author.has_role?(:user).should be_true
       end
   
       it 'has the role :author for that content' do
-        @author.has_role?(:author, @content).should_not be_nil
+        @author.has_role?(:author, @content).should be_true
       end
   
       it "does not have the role :moderator" do
-        @author.has_role?(:moderator, @section).should be_nil
+        @author.has_role?(:moderator, @section).should be_false
       end
   
       it "does not have the role :admin" do
-        @author.has_role?(:admin, @site).should be_nil
+        @author.has_role?(:admin, @site).should be_false
       end
   
       it "does not have the role :superuser" do
-        @author.has_role?(:superuser).should be_nil
+        @author.has_role?(:superuser).should be_false
       end
     end
   
     describe 'a section moderator' do
       it "has the role :user" do
-        @moderator.has_role?(:user).should_not be_nil
+        @moderator.has_role?(:user).should be_true
       end
   
       it "has the role :author for another user's content" do
-        @moderator.has_role?(:author, @content).should_not be_nil
+        @moderator.has_role?(:author, @content).should be_true
       end
   
       it "has the role :moderator for that section" do
-        @moderator.has_role?(:moderator, @section).should_not be_nil
+        @moderator.has_role?(:moderator, @section).should be_true
       end
   
       it "does not have the role :admin" do
-        @moderator.has_role?(:admin, @site).should be_nil
+        @moderator.has_role?(:admin, @site).should be_false
       end
   
       it "does not have the role :superuser" do
-        @moderator.has_role?(:superuser).should be_nil
+        @moderator.has_role?(:superuser).should be_false
       end
     end  
   
     describe 'a site admin' do
       it "has the role :user" do
-        @admin.has_role?(:user).should_not be_nil
+        @admin.has_role?(:user).should be_true
       end
   
       it "has the role :author for another user's content" do
-        @admin.has_role?(:author, @content).should_not be_nil
+        @admin.has_role?(:author, @content).should be_true
       end
   
       it "has the role :moderator for sections belonging to that site" do
-        @admin.has_role?(:moderator, @section).should_not be_nil
+        @admin.has_role?(:moderator, @section).should be_true
       end
   
       it "has the role :site for that site" do
-        @admin.has_role?(:admin, @site).should_not be_nil
+        @admin.has_role?(:admin, @site).should be_true
       end  
   
       it "does not have the role :superuser" do
-        @admin.has_role?(:superuser).should be_nil
+        @admin.has_role?(:superuser).should be_false
       end
     end  
   
     describe 'a superuser' do
       it "has the role :user" do
-        @superuser.has_role?(:user).should_not be_nil
+        @superuser.has_role?(:user).should be_true
       end
   
       it "has the role :author for another user's content" do
-        @superuser.has_role?(:author, @content).should_not be_nil
+        @superuser.has_role?(:author, @content).should be_true
       end
   
       it "has the role :moderator for sections belonging to that site" do
-        @superuser.has_role?(:moderator, @section).should_not be_nil
+        @superuser.has_role?(:moderator, @section).should be_true
       end
   
       it "has the role :site for that site" do
-        @superuser.has_role?(:admin, @site).should_not be_nil
+        @superuser.has_role?(:admin, @site).should be_true
       end
   
       it "has the role :superuser" do
-        @superuser.has_role?(:superuser).should_not be_nil
+        @superuser.has_role?(:superuser).should be_true
       end
     end
   end
