@@ -1,12 +1,13 @@
 class AccountController < BaseController
   authentication_required :except => [:new, :create]
   renders_with_error_proc :below_field
+  caches_page_with_references :new
   
   layout 'simple'
 
   def new
     @user = User.new
-  end
+  end  
 
   def create
     # TODO won't work any more because Site has_many users through memberships
@@ -22,6 +23,9 @@ class AccountController < BaseController
       flash[:error] = 'The user account could not be registered.'
       render :action => :new    
     end
+  end
+  
+  def verification_sent
   end
 
   def restore

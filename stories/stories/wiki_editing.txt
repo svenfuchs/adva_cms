@@ -5,28 +5,34 @@ Story: Editing a wikipage
   So I can contribute to the wiki
   
   Scenario: An anonymous user edits a wikipage
-  #   Given a wiki that allows anonymous users to create and update wikipages
-  #   And a wikipage
-  #   When the user visits the wikipage edit page
-  #   Then the page has a wikipage edit form
-  #   And the form contains anonymous name and email fields
-  #   When the user fills in wikipage_body with 'the updated wikipage body'
-  #   And the user fills in the anonymous name and email fields
-  #   And the user clicks the 'Save' button
-  #   Then a new version of the wikipage is created
-  #   And the wikipage's body is set to 'the updated wikipage body'
-  # 
-  # Scenario: A registered user edits a wikipage
-  #   Given a wiki that allows registered users to create and update wikipages
-  #   And a wikipage
-  #   And the user is logged in as user
-  #   When the user visits the wikipage edit page
-  #   Then the page has a wikipage edit form
-  #   And the form does not contain anonymous name and email fields
-  #   When the user fills in wikipage_body with 'the updated wikipage body'
-  #   And the user clicks the 'Save' button
-  #   Then a new version of the wikipage is created
-  #   And the wikipage's body is set to 'the updated wikipage body'
+    Given page cache is enabled and empty
+    And a wiki that allows anonymous users to create and update wikipages
+    And a wikipage
+    When the user visits the wikipage page
+    Then the page shows 'the wikipage body'
+    And the page is cached
+    When the user clicks on 'edit'
+    Then the page has a wikipage edit form
+    And the form contains anonymous name and email fields
+    And the page is not cached
+    When the user fills in wikipage_body with 'the updated wikipage body'
+    And the user fills in the anonymous name and email fields
+    And the user clicks the 'Save' button
+    Then a new version of the wikipage is created
+    And the page shows 'the updated wikipage body'
+    And the page is cached
+  
+  Scenario: A registered user edits a wikipage
+    Given a wiki that allows registered users to create and update wikipages
+    And a wikipage
+    And the user is logged in as user
+    When the user visits the wikipage edit page
+    Then the page has a wikipage edit form
+    And the form does not contain anonymous name and email fields
+    When the user fills in wikipage_body with 'the updated wikipage body'
+    And the user clicks the 'Save' button
+    Then a new version of the wikipage is created
+    And the wikipage's body is set to 'the updated wikipage body'
 
 
 Story: Editing a wikipage is disallowed
@@ -34,12 +40,14 @@ Story: Editing a wikipage is disallowed
   I cannot edit a wikipage
   So I can can not change the wiki content
 
-  # Scenario: An anonymous user can not edit a wikipage
-  #   Given a wiki that allows registered users to create and update wikipages
-  #   And a wikipage
-  #   When the user visits the wikipage edit page
-  #   Then the user is redirected to the url /login
-
+  Scenario: An anonymous user can not edit a wikipage
+    Given page cache is enabled and empty
+    And a wiki that allows registered users to create and update wikipages
+    And a wikipage
+    When the user visits the wikipage edit page
+    Then the user is redirected to the url /login
+    And the page is not cached
+  
   Scenario: An anonymous user can not save a wikipage
     Given a wiki that allows registered users to create and update wikipages
     And a wikipage

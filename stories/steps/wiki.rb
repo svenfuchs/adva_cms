@@ -2,10 +2,12 @@ factories :sections, :wikipages
 
 steps_for :wiki do  
   Given "a wiki" do
-    Section.delete_all
-    Wikipage.delete_all
-    Category.delete_all
-    @wiki = create_wiki
+    @wiki ||= begin 
+      Given "no wikipage"
+      Section.delete_all
+      Category.delete_all
+      create_wiki
+    end
   end
   
   Given "a wiki that allows anonymous users to create and update wikipages" do
@@ -20,16 +22,14 @@ steps_for :wiki do
   
   Given "a wikipage" do
     Given "a wiki"
-    Wikipage.delete_all
-    Wikipage::Version.delete_all
+    Given "no wikipage"
     @wikipage = create_wikipage
     @wikipage_versions_count = 1
   end
   
   Given "a home wikipage" do
     Given "a wiki"
-    Wikipage.delete_all
-    Wikipage::Version.delete_all
+    Given "no wikipage"
     @wikipage = create_wikipage :title => 'Home', :body => 'the home wikipage body'
   end
   
@@ -39,8 +39,8 @@ steps_for :wiki do
   end
   
   Given "a wikipage that has a revision" do
-    Wikipage.delete_all
-    Wikipage::Version.delete_all
+    Given "a wiki"
+    Given "no wikipage"
     @wikipage = create_wikipage :body => 'the old wikipage body'
     @wikipage.update_attributes! :body => 'the wikipage body'
     @wikipage_versions_count = 2

@@ -4,12 +4,19 @@ Story: Rolling back a wikipage to a previous revision
   So the wikipage has the old content
   
   Scenario: An anonymous user rolls back a wikipage
-    Given a wiki that allows anonymous users to create and update wikipages
+    Given page cache is enabled and empty
+    And a wiki that allows anonymous users to create and update wikipages
     And a wikipage that has a revision
-    When the user visits the wikipage revision page
+    When the user visits the wikipage page
+    Then the page shows 'the wikipage body'
+    And the page is cached
+    When the user clicks on 'previous revision'
+    # When the user visits the wikipage revision page
     And the user clicks on 'rollback to this revision'
     Then a new version of the wikipage is created
     And the wikipage's body is set to 'the old wikipage body'
+    And the page shows 'the old wikipage body'
+    And the page is cached
 
 
 Story: Rolling back a wikipage is disallowed

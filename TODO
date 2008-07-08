@@ -148,6 +148,20 @@ apache multisite config http://www.appelsiini.net/2007/6/mephisto-multiple-site-
 
 # Rails 
 
+got bitten by this for the second time now:
+
+def caches_page(*actions)
+# return unless perform_caching
+
+page caching is turned off globally
+test_1 requires class MyModel caches_page :foo end
+no after_filter is added
+test_2 turns page caching on and requires class MyModel (which was already loaded, so requiring is skipped)
+still no after_filter added so page caching does not kick in
+
+
+
+
 Asset Helpers: apparently they need a server restart to rebuild a cached file when it got deleted
 
 There's no method to expire compiled templates. http://pastie.org/private/2vqi8gnfwfepjtb3mz6aa
@@ -197,6 +211,7 @@ Themes
     http://www.bestwpthemes.com/
     http://railsgrunt.com/
     http://labs.reevoo.com/
+    http://haddock.org/
     
 Research other CMS features
     wordpress

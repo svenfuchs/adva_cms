@@ -1,6 +1,8 @@
 class SessionController < BaseController
   authentication_required :except => [:new, :create]  
   renders_with_error_proc :below_field
+  caches_page_with_references :new
+  
   layout 'login'
 
   def new

@@ -6,13 +6,15 @@ Story: Log in
   Scenario: The login page
 
   Scenario: A verified user logs in with valid credentials
-    Given a verified user
+    Given page cache is enabled and empty
+    And a verified user
     When the user goes to the login page
     Then the page has a login form
+    And the page is cached
     When the user fills in the login form with valid credentials
     And the user clicks the 'Login' button
     Then the system authenticates the user
-
+  
   Scenario: A verified user logs in with invalid credentials
     Given a verified user
     When the user goes to the login page

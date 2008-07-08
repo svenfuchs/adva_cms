@@ -11,72 +11,96 @@ Story: Viewing a blog index page
     And the page is cached
 
   Scenario: A blog index page with an article that has an exerpt
-    Given a published blog article
+    Given page cache is enabled and empty
+    And a published blog article
     When the user goes to the url /
     Then the page shows 'the article title'
     Then the page shows 'the article excerpt'
     Then the page does not show 'the article body'
     Then the page shows 'read the rest of this entry'
     Then the page shows '0 comments'
+    And the page is cached
 
   Scenario: A blog index page with an article that does not have an exerpt
-    Given a published blog article with no excerpt
+    Given page cache is enabled and empty
+    And a published blog article with no excerpt
     When the user goes to the url /
     Then the page shows 'the article title'
     Then the page does not show 'the article excerpt'
     Then the page shows 'the article body'
     Then the page does not show 'read the rest of this entry'
+    And the page is cached
   
   Scenario: An empty blog category index page
-    Given a published blog article
+    Given page cache is enabled and empty
+    And a published blog article
     And an unrelated category
     When the user goes to the url /categories/an-unrelated-category
     Then the page does not show 'the article title'
+    And the page is cached
   
   Scenario: A blog index page with an article that has an approved comment
-    Given a published blog article
+    Given page cache is enabled and empty
+    And a published blog article
     And the article has an approved comment
     When the user goes to the url /
     Then the page shows '1 comment'
+    And the page is cached
   
   Scenario: A blog index page with an article that has an unapproved comment
-    Given a published blog article
+    Given page cache is enabled and empty
+    And a published blog article
     And the article has an unapproved comment
     When the user goes to the url /
     Then the page shows '0 comments'
+    And the page is cached
   
   Scenario: A blog category index page with an article
-    Given a published blog article
+    Given page cache is enabled and empty
+    And a published blog article
     When the user goes to the url /categories/a-category
     Then the page shows 'the article title'
+    And the page is cached
   
   Scenario: An empty blog tag index page
-    Given a published blog article
+    Given page cache is enabled and empty
+    And a published blog article
     And an unrelated tag
     When the user goes to the url /tags/baz
     Then the page does not show 'the article title'
+    And the page is cached
   
   Scenario: A blog tag index page with an article
-    Given a published blog article
+    Given page cache is enabled and empty
+    And a published blog article
     When the user goes to the url /tags/foo
     Then the page shows 'the article title'
+    And the page is cached
   
   Scenario: An empty blog year archive page
-    Given a published blog article
+    Given page cache is enabled and empty
+    And a published blog article
     When the user goes to the url /2007
     Then the page does not show 'the article title'
+    And the page is cached
   
   Scenario: A blog year archive page with an article
-    Given a published blog article
+    Given page cache is enabled and empty
+    And a published blog article
     When the user goes to the url /2008
     Then the page shows 'the article title'
+    And the page is cached
   
   Scenario: An empty blog month archive page
-    Given a published blog article
+    Given page cache is enabled and empty
+    And a published blog article
     When the user goes to the url /2007/1
     Then the page does not show 'the article title'
+    And the page is cached
   
   Scenario: A blog month archive page with an article
-    Given a published blog article
+    Given page cache is enabled and empty
+    And a published blog article
     When the user goes to the url /2008/1
     Then the page shows 'the article title'
+    And the page is cached

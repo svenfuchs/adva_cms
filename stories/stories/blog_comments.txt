@@ -1,4 +1,4 @@
-# TODO page caching, access control
+# TODO page caching?, access control
 
 Story: Commenting on an article
   As a user with a given role that allows me to comment in a blog
