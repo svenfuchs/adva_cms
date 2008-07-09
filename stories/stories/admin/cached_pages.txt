@@ -11,7 +11,7 @@ Story: Managing cached pages
     Then the page has an empty list
 
   Scenario: An admin views cached pages list
-    Given a blog
+    Given a site
     And a page is cached
     And the user is logged in as admin
     When the user visits the site's cache index page
@@ -19,7 +19,7 @@ Story: Managing cached pages
 
   Scenario: An admin expires a cached page manually
     Given a blog
-    And page is cached
+    And a page is cached
     And the user is logged in as admin
     When the user visits the site's cache index page
     And the user clicks on 'Clear'
@@ -27,7 +27,7 @@ Story: Managing cached pages
 
   Scenario: An admin expires all cached pages manually
     Given a blog
-    And page is cached
+    And a page is cached
     And another page is cached
     And the user is logged in as admin
     When the user visits the site's cache index page

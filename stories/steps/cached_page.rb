@@ -12,7 +12,20 @@ steps_for :cached_page do
     cache_dir = ActionController::Base.page_cache_directory
     FileUtils.rm_r(Dir.glob(cache_dir + "/*")) unless cache_dir.blank? or cache_dir == RAILS_ROOT + "/public"
   end
+
+  Given 'a page is cached' #do
+  #  path = ActionController::Base.send :page_cache_path, '/'
+    # Cache page here 
+  #  Pathname.new(path).should exist
+  #end
   
+  When "the user visits the site's cache index page" do
+    raise "this step expects the variable @blog or @site to be set" unless @blog or @site
+    object = (@blog || @site)
+    site = object.is_a?(Site) ? object : object.site
+    get admin_cached_pages_path(site)
+  end
+
   Then "the page is cached" do
     path = ActionController::Base.send :page_cache_path, request.request_uri
     Pathname.new(path).should exist

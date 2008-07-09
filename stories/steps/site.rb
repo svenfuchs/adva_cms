@@ -11,6 +11,11 @@ steps_for :site do
     @site = create_site
     @site_count = Site.count
   end
+
+  Given "a site with no assets" do
+    Given "a site"
+    @site.assets.should be_empty
+  end
   
   When "the user visits the admin sites list page" do
     get admin_sites_path
