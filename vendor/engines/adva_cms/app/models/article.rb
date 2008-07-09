@@ -5,8 +5,8 @@ class Article < Content
           :comments_count, :has_excerpt?
   end  
   
-  filters_attributes :sanitize => [:excerpt, :excerpt_html, :body, :body_html]
-  
+  filters_attributes :sanitize => [:excerpt, :excerpt_html, :body, :body_html], :except => :cached_tag_list
+
   write_inheritable_attribute :default_find_options, { :order => 'contents.published_at desc' }
   
   before_create :set_position

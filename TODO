@@ -1,5 +1,10 @@
+This is just a collection of ideas, notes, ressource and less important stuff.
 
-[fix] separate login and admin/login pages (same thing, different layout) ?
+Please refer to the issue tracker at 
+http://artweb-design.lighthouseapp.com/projects/13992-adva_cms/overview
+
+
+[theme]   separate login and admin/login pages (same thing, different layout) ?
 [feature] admin section: have an activity center/dashboard where engines can register their
           widgets (partials) to. e.g.: "x comments are awaiting your approval",
           "Please change your administrator password!" etc.
@@ -25,8 +30,6 @@ defensio http://blog.teksol.info/2008/3/4/mephisto-defensio-refactored-to-patter
 authentication http://authentication.rubyforge.org/
 
 apache multisite config http://www.appelsiini.net/2007/6/mephisto-multiple-site-config
-
-------------------------------------------------------------------------------
 
 
 # users

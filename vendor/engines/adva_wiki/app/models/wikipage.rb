@@ -1,5 +1,5 @@
 class Wikipage < Content  
-  filters_attributes :sanitize => :body, :except => :body_html # TODO hu??
+  filters_attributes :sanitize => :body, :except => [:body_html, :cached_tag_list] # TODO hu?? why is body_html excluded?
   before_create :set_published
   
   # TODO I don't think we need this any more
