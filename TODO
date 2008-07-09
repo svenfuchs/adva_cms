@@ -1,38 +1,5 @@
-[fix] preview of section articles is not displaying article
-[fix] section on front end goes to home and not to the correct section
-[fix] tags inside double quotes does not show correctly on article edit view
 
-[fix] comments_controller does not guard permissions
-[fix] users_controller does not guard permissions
-[fix] admin/wikipages_controller does not guard permissions
-[fix] topics_controller does not guard permissions
-
-[fix] routes for pagination are missing
-[fix] separate login and admin/login pages (same thing, different layout)
-[fix] currently broken: belongs_to_author: with_deleted => true
-[fix] js'ify all dates and use js date format
-[fix] adapt has_counter for approved_comments      
-
-[feature] [content] pipe all filtered column results (*_html) through whitelist sanitizer
-[feature] [wiki] implement wikipage admin area (analog to articles area)
-[feature] [wiki] add various filters to admin wikipage list (like on admin articles list)
-[feature] [wiki] make the 'home' wikipage permalink configurable per wiki?
-[feature] [comments] add various filters to admin comments list (like on admin articles list)
-[feature] [blog] miss tricky says that xml_rpc is a must
-
-[plugin] pingback plugin
-[plugin] comment email notification
-[plugin] reverse captcha plugin
-
-[major] add spam protection for comments and wikipages (look at viking + multiengine branch)
-[major] implement search
-
-
-[feature] add before_move and after_move hooks to better_nested_set
-[feature] make cacheable_flash behave transparent (do not clear flash after writing it to the cookie)
-          rational: controller specs should work and controllers behave correctly
-          not matter if the plugin is installed or not
-
+[fix] separate login and admin/login pages (same thing, different layout) ?
 [feature] admin section: have an activity center/dashboard where engines can register their
           widgets (partials) to. e.g.: "x comments are awaiting your approval",
           "Please change your administrator password!" etc.
@@ -41,23 +8,16 @@
       possible solution: have a section setting "manage categories for this section"? that would 
       even allow to manage categories per Section, but requires to explicitely turn it on.
 
-
 [theme] microformat everything: hcard, hatom
 
 
-# broken + missing specs
+# missing specs
 
-[specs] spec widgets
-[specs] spec and implement admin/wikipage section
-[specs] implement themes + theme_file specs
-[specs] implement assets specs
-[specs] spec registration, login, authentication
+[specs] controllers: spec various error conditions like record not found
 [specs] spec usage of xss_terminate in one place (so that one can easily 
         see which attributes get filtered and which don't)
-[specs] controllers: spec various error conditions like record not found
-[specs] controllers: simplify specs by circumventing the routing filters
-        (i.e. use paths like they would be recognized when no filters are
-        being used)
+[specs] spec assets
+[specs] spec widgets
 
 # resources
 viking http://github.com/technoweenie/viking/tree/master
@@ -67,7 +27,6 @@ authentication http://authentication.rubyforge.org/
 apache multisite config http://www.appelsiini.net/2007/6/mephisto-multiple-site-config
 
 ------------------------------------------------------------------------------
-
 
 
 # users
@@ -126,12 +85,7 @@ apache multisite config http://www.appelsiini.net/2007/6/mephisto-multiple-site-
 
 # themes
 
-[feature] make ActionMailer themeable
 [enhance] decouple admin interface through using a themeable instead of site
-[feature] add drop-in erb- and haml-safemode support, make public controllers use safemode
-[feature] use caches_page_with_references or just expire the whole cache dir
-[feature] clone pre-installed themes
-[enhance] make theme.files.find work without globbing all files
 [major] add liquid layer (drops + helpers) (?) » add an ActionView Liquid template handler?
 [major] port a simple liquid theme and test it with drops (?)
 
@@ -139,53 +93,57 @@ apache multisite config http://www.appelsiini.net/2007/6/mephisto-multiple-site-
 
 [major] add attachments for wikipages (are they also in beast?)
 
-# CacheableFlash
-
-  after_filter won't be called when the filter chain is halted. maybe an 
-  around_filter is a better choice?
-  
-  after_filter :write_flash_to_cookie
-
 # Rails 
 
-got bitten by this for the second time now:
+    got bitten by this for the second time now:
 
-def caches_page(*actions)
-# return unless perform_caching
+        def caches_page(*actions)
+        # return unless perform_caching
 
-page caching is turned off globally
-test_1 requires class MyModel caches_page :foo end
-no after_filter is added
-test_2 turns page caching on and requires class MyModel (which was already loaded, so requiring is skipped)
-still no after_filter added so page caching does not kick in
+        page caching is turned off globally
+        test_1 requires class MyModel caches_page :foo end
+        no after_filter is added
+        test_2 turns page caching on and requires class MyModel (which was already loaded, so requiring is skipped)
+        still no after_filter added so page caching does not kick in
 
+    Asset Helpers: apparently they need a server restart to rebuild a cached file when it got deleted
 
+    Currently there's no method to expire compiled templates. 
+        http://pastie.org/private/2vqi8gnfwfepjtb3mz6aa
+        Lifo says Rails edge makes it easier
 
+    Role::Admin.new :object => nil seems to run into SystemStackError with:
+        class Role belongs_to :object, :polymorphic => true
+        class Role::Admin < Role
 
-Asset Helpers: apparently they need a server restart to rebuild a cached file when it got deleted
+    force certain after_filters to be run even if the filter chain has been halted:
+        :after_filter => :bla, :force => true
 
-There's no method to expire compiled templates. http://pastie.org/private/2vqi8gnfwfepjtb3mz6aa
+    section.articles.maximum(:position) returns nil when table is empty. shouldn't that be 0?
 
-Role::Admin.new :object => nil seems to run into SystemStackError with:
-  class Role belongs_to :object, :polymorphic => true
-  class Role::Admin < Role
+    ActionController::Base#layout can't be restricted to certain formats, can it? (see BlogController + feeds)
 
-force certain after_filters to be run even if the filter chain has been halted:
-    :after_filter => :bla, :force => true
+    section.radio_button :type, type (and other helpers) should create an id="section_type_blog"
+    even when the section is a blog (i.e. that's an STI related bug)
 
-section.articles.maximum(:position) returns nil when table is empty. shouldn't that be 0?
+    wikipage routing/controller: change :id to :permalink ... doesn't seem to work with resources
+        http://dev.rubyonrails.org/ticket/6814 => wontfix
+        http://archive.jvoorhis.com/articles/2006/08/01/announcing-resource_hacks => seems to break url_helpers
+        def to_param
+          "#{username.gsub(/[^a-z0-9]+/i, '-')}" if self.username
+        end
 
-ActionController::Base#layout can't be restricted to certain formats, can it? (see BlogController + feeds)
+# better_nested_set
 
-section.radio_button :type, type (and other helpers) should create an id="section_type_blog"
-even when the section is a blog (i.e. that's an STI related bug)
+    add before_move and after_move hooks to better_nested_set
 
-wikipage routing/controller: change :id to :permalink ... doesn't seem to work with resources
-    http://dev.rubyonrails.org/ticket/6814 => wontfix
-    http://archive.jvoorhis.com/articles/2006/08/01/announcing-resource_hacks => seems to break url_helpers
-    def to_param
-      "#{username.gsub(/[^a-z0-9]+/i, '-')}" if self.username
-    end
+# cacheable_flash
+
+    make cacheable_flash behave transparent (do not clear flash after writing it to the cookie)
+    rational: controller specs should work and controllers behave correctly
+    not matter if the plugin is installed or not
+
+    after_filter won't be called when the filter chain is halted. maybe an around_filter is a better choice?
 
 # rspec
 

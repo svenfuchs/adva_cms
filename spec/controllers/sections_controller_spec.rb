@@ -12,24 +12,60 @@ describe SectionsController do
   end
 
   describe "GET to :show" do
+    before :each do 
+      @article.stub!(:published?).and_return true
+    end
     act! { request_to :get, '/sections/1' }    
     it_assigns :section, :article
-    it_renders_template :show
-    it_gets_page_cached
-    
-    describe "with no article permalink present" do
+
+    describe "with no article permalink given" do
+      it_renders_template :show
+      it_gets_page_cached
+
       it "should find the section's primary article" do
         @section.articles.should_receive(:primary).any_number_of_times.and_return @article
         act!
       end  
     end
     
-    describe "with an article permalink present" do
+    describe "with an article permalink given" do
       act! { request_to :get, '/sections/1/articles/an-article' }   
+      
       it "should find the section's primary article" do
-        @section.articles.should_receive(:find_published_by_permalink).any_number_of_times.and_return @article
+        @section.articles.should_receive(:find_by_permalink).any_number_of_times.and_return @article
         act!
       end  
+      
+      describe "when the article is published" do
+        it_renders_template :show
+        it_gets_page_cached
+      end
+      
+      describe "when the article is not published" do
+        before :each do 
+          @article.stub!(:published?).and_return false
+          @article.stub!(:role_authorizing).and_return Role.build(:author)
+        end
+        
+        describe "and the user has :update permissions" do
+          before :each do 
+            controller.stub!(:current_user).and_return stub_model(User, :has_role? => true)
+          end
+          
+          it_renders_template :show
+          it "skips caching for the rendered page" do
+            act!
+            controller.instance_variable_get(:@skip_caching).should be_true
+          end
+        end
+        
+        describe "and the user does not have :update permissions" do
+          before :each do 
+            controller.stub!(:current_user).and_return stub_model(User, :has_role? => false)
+          end          
+          it_redirects_to { 'http://test.host/login' }
+        end
+      end
     end
   end
 end

@@ -1,5 +1,8 @@
 class SectionsController < BaseController
+  include ActionController::GuardsPermissions::InstanceMethods
+  
   before_filter :set_article
+  before_filter :guard_view_permissions, :only => :show
 
   caches_page_with_references :show, :track => ['@article']
   
@@ -13,16 +16,28 @@ class SectionsController < BaseController
   protected
   
     def set_section
-      @section = params[:id].blank? ? @site.sections.root : @site.sections.find(params[:id])
+      @section = params[:section_id].blank? ? @site.sections.root : @site.sections.find(params[:section_id])
       raise SectionRoutingError.new("Section must be a Section: #{@section.inspect}") unless @section.is_a? Section
     end
   
     def set_article
-      @article = if params[:permalink].blank?
-        @section.articles.primary
+      if params[:permalink].blank?
+        @article = @section.articles.primary
       else
-        @section.articles.find_published_by_permalink params[:permalink]
+        @article = @section.articles.find_by_permalink params[:permalink], :include => :author
+        raise ActiveRecord::RecordNotFound unless @article
       end
+    end
+    
+    def guard_view_permissions
+      unless @article.published?
+        guard_permission(:update, :article)
+        @skip_caching = true
+      end
+    end
+    
+    def current_role_context
+      @article || @section
     end
     
     # experimental ... not sure if that's a good idea, but it would reduce quite 
