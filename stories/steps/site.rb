@@ -74,4 +74,9 @@ steps_for :site do
   Then "the page has a site install form" do
     response.should have_form_posting_to(install_path)
   end
+  
+  Then "the user sees an empty homepage" do
+    request.request_uri.should == '/'
+    response.should render_template('section/show')    
+  end
 end

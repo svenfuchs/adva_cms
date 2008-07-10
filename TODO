@@ -4,6 +4,7 @@ Please refer to the issue tracker at
 http://artweb-design.lighthouseapp.com/projects/13992-adva_cms/overview
 
 
+
 [theme]   separate login and admin/login pages (same thing, different layout) ?
 [feature] admin section: have an activity center/dashboard where engines can register their
           widgets (partials) to. e.g.: "x comments are awaiting your approval",

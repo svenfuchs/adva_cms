@@ -30,7 +30,7 @@ class SectionsController < BaseController
     end
     
     def guard_view_permissions
-      unless @article.published?
+      if @article && @article.draft?
         guard_permission(:update, :article)
         @skip_caching = true
       end
