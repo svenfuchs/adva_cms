@@ -58,7 +58,11 @@ map.connect 'cached_pages',     :controller  => 'admin/cached_pages',
                                 :name_prefix => 'admin_',
                                 :conditions  => { :method => :delete }
                                 
-map.resources :cached_pages,    :controller  => 'admin/cached_pages', # TODO map manually, we only use two of these
+map.resources :cached_pages,    :controller  => 'admin/cached_pages', # TODO map manually? we only use some of these
+                                :path_prefix => 'admin/sites/:site_id',
+                                :name_prefix => 'admin_'
+                                
+map.resources :plugins,         :controller  => 'admin/plugins', # TODO map manually? we only use some of these
                                 :path_prefix => 'admin/sites/:site_id',
                                 :name_prefix => 'admin_'
                                 

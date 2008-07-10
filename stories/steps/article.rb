@@ -28,21 +28,30 @@ steps_for :article do
   end
 
   Then "a new article is saved" do
-    raise "this step expects @article_count to be set" unless @article_count
+    raise "step expects @article_count to be set" unless @article_count
     (@article_count + 1).should == Article.count
   end
 
   Then "the article is deleted" do
-    raise "this step expects @article_count to be set" unless @article_count
+    raise "step expects @article_count to be set" unless @article_count
     (@article_count - 1).should == Article.find(:all).size
   end
   
   # ADMIN VIEW
 
   When "the user visits the admin $section articles list page" do |section|
-    raise "this step expects the variable @blog or @section to be set" unless @blog or @section
-    object = (@blog or @section)
-    get admin_articles_path(object.site, object)
+    raise "step expects the variable @blog or @section to be set" unless @blog or @section
+    section = @blog || @section
+    get admin_articles_path(section.site, section)
+  end
+  
+  When "the user creates and publishes a new article" do
+    lambda {
+      When "the user visits the admin blog article creation page"
+      When "the user fills in the admin article creation form with valid values"
+      When "the user unchecks 'Yes, save this article as a draft'"
+      When "the user clicks the 'Save article' button"
+    }.should change(Article, :count).by(1)
   end
 
   When "the user fills in the admin article creation form with valid values" do
@@ -52,29 +61,35 @@ steps_for :article do
   end
 
   When "the user clicks on the article link" do
-    raise "this step expects the variable @article to be set" unless @article
+    raise "step expects the variable @article to be set" unless @article
     When "the user clicks on '#{@article.title}'"
   end
 
+  When "the user visits the admin blog article creation page" do
+    raise "step expects the variable @blog or @section to be set" unless @blog
+    get new_admin_article_path(@blog.site, @blog)
+    @article_count = 0
+  end
+
   When "the user visits the admin $section article edit page" do |section|
-    raise "this step expects the variable @article and @blog or @section to be set" unless @article and (@blog or @section)
-    object = (@blog or @section)
-    get edit_admin_article_path(object.site, object, @article)
+    raise "step expects the variable @article and @blog or @section to be set" unless @article and (@blog or @section)
+    section = @blog || @section
+    get edit_admin_article_path(section.site, section, @article)
     @article_count = Article.count
   end
 
   Then "the page has an admin article creation form" do
-    raise "this step expects the variable @section or @blog to be set" unless @blog or @section
-    object = (@blog or @section)
-    action = admin_articles_path(object.site, object)
+    raise "step expects the variable @section or @blog to be set" unless @blog or @section
+    section = @blog || @section
+    action = admin_articles_path(section.site, section)
     response.should have_form_posting_to(action)
     @article_count = Article.count
   end
 
   Then "the page has an admin article editing form" do
-    raise "this step expects the variable @article and @blog or @section to be set" unless @article and (@blog or @section)
-    object = (@blog or @section)
-    action = admin_article_path(object.site, object, @article)
+    raise "step expects the variable @article and @blog or @section to be set" unless @article and (@blog or @section)
+    section = @blog || @section
+    action = admin_article_path(section.site, section, @article)
     response.should have_form_putting_to(action)
     @article_count = Article.count
   end
@@ -102,17 +117,21 @@ steps_for :article do
     response.should have_tag("input#article-draft[type=?][value=?]", 'checkbox', 1)
   end
   
+  Then "the blog has sent pings" do
+    
+  end
+  
   # TODO sections seems to have other problems too, because newly created section
   # from website leads to home and not to correct section.
   #Then "the page displays the article" do
-  #  raise "this step expects the variable @article to be set" unless @article
+  #  raise "step expects the variable @article to be set" unless @article
   #  response.should have_tag("div#article_#{@article.id}.entry")
   #end
 
   # TODO Preview for section does not work.
   # Preview link from section articles leads to empty page.
   #Then "the page displays the article as preview" do
-  #  raise "this step expects the variable @article to be set" unless @article
+  #  raise "step expects the variable @article to be set" unless @article
   #  response.should have_tag("div#article_#{@article.id}[class=?]", 'entry clearing')
   #end
 

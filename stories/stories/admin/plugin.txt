@@ -1,0 +1,18 @@
+Story: Managing a site's plugins
+  As an admin
+  I want to manage my site's plugins
+  So I can see what's installed and change config options
+  
+  Scenario: An admin reviews the plugin list
+    Given a site
+    And the user is logged in as admin
+    When the user visits the admin plugin list page
+    Then the list contains all the plugins installed 
+    
+  Scenario: An admin reviews the details of a plugin
+    Given a site
+    And the user is logged in as admin
+    When the user visits the admin plugin show page for the test plugin
+    Then the page shows the test plugin about info
+    And the page has a plugin config edit form
+    

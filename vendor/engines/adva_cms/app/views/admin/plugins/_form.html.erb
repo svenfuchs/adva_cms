@@ -1,0 +1,12 @@
+<fieldset>
+  <% @plugin.default_options.each do |name, option| %>
+    <p>  
+      <%= f.label name, name %>
+      <% if option[:type] == :text %>
+        <%= f.text_area name, :class => 'short' %>
+      <% else %>
+        <%= f.text_field name %>
+      <% end %>
+    </p>
+  <% end %>
+</fieldset>

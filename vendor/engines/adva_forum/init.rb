@@ -4,3 +4,4 @@ Dependencies.load_once_paths -= Dependencies.load_once_paths.select{|path| path 
 config.to_prepare do
   Section.register_type 'Forum'
 end
+

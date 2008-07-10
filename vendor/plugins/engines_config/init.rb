@@ -1,0 +1,1 @@
+Engines::Plugin.send :include, Engines::Plugin::Configurable

@@ -59,7 +59,7 @@ Story: Viewing a blog article page
     When the user goes to the url /2008/1/1/the-article-title
     Then the request does not succeed
     And the page is not cached
-
+  
 
 Story: Previewing a blog article page
   As an admin

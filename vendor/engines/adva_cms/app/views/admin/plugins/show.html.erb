@@ -1,0 +1,35 @@
+<%= render :partial => 'action_nav' %>
+
+<% content_for :sidebar do %>
+  <h4>About</h4>
+  <% if @plugin.about['summary'] %>
+    <p><%= @plugin.about['summary'] %></p>
+  <% end %>
+  <% if @plugin.about['version'] %>
+    <p>Version: <%= @plugin.about['version'] %></p>
+  <% end %>
+  <% if @plugin.about['author'] %>
+    <p>Author: <%= @plugin.about['author'] %></p>
+  <% end %>
+  <% if @plugin.about['homepage'] %>
+    <p>Homepage: <%= @plugin.about['homepage'] %></p>
+  <% end %>
+<% end %>
+
+<% if @plugin.about['description'] %>
+  <h3>Plugin: <%= @plugin.name %></h3>
+  <p><%= @plugin.about['description'] %></p>
+<% end %>  
+
+<h3>Settings</h3>
+
+<% unless @plugin.default_options.empty? %>
+  <% form_for :plugin, @plugin, :url => admin_plugin_path(@site), :html => { :method => :put } do |f| -%>
+    <%= render :partial => 'form', :locals => {:f => f} %>
+    <p class="buttons">
+      <%= f.submit :Save %>
+    </p>
+  <% end -%>
+<% else %>
+  <p class="empty">This plugin does not have any config options listed.</p>
+<% end %>

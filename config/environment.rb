@@ -38,7 +38,7 @@ Rails::Initializer.run do |config|
   # in vendor/plugins are loaded in alphabetical order.
   # :all can be used as a placeholder for all plugins not explicitly named
   # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
-  config.plugins = [ :theme_support, :better_nested_set, :safemode, :all ]
+  config.plugins = [ :engines_config, :theme_support, :better_nested_set, :safemode, :all ]
 
   config.plugin_paths << "#{RAILS_ROOT}/vendor/engines"
   config.plugin_paths << "#{RAILS_ROOT}/vendor/spec" if Rails.env == 'test'

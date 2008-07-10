@@ -2,7 +2,7 @@
   <% if Site.multi_sites_enabled %>
     <li><%= site_select_tag %></li>
   <% end %>
-  <li><%= link_to 'Plugins', '#' %></li>
+  <li><%= link_to 'Plugins', admin_plugins_path(@site) %></li>
   <li><%= link_to 'Account', '#' %></li>
   <li><%= link_to 'Logout', logout_path, :method => :delete %></li>
 </ul>

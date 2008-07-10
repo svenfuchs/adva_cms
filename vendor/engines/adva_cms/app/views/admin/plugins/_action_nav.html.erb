@@ -1,0 +1,8 @@
+<% content_for :action_nav do %>
+  <ul id="action_nav" class="menu clearing">
+    <li><%= link_to "Plugins", admin_plugins_path(@site) %></li>
+    <% if @plugin %>
+      <li><%= link_to "Restore Defaults", '#' %></li>
+    <% end %>
+  </ul>
+<% end %>

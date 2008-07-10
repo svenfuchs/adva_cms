@@ -15,6 +15,6 @@ module ResourcePathHelper
   end
   
   def resource_member_path(path_prefix, name, member, action = nil)
-    "#{resource_collection_path(path_prefix, name)}/#{member.id}" + (action ? "/#{action}" : '')
+    "#{resource_collection_path(path_prefix, name)}/#{member.to_param}" + (action ? "/#{action}" : '')
   end  
 end
