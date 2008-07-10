@@ -1,6 +1,6 @@
 class Admin::PluginsController < Admin::BaseController
   before_filter :set_plugins, :only => :index
-  before_filter :set_plugin, :only => [:show, :edit, :update]
+  before_filter :set_plugin, :only => [:show, :edit, :update, :destroy]
   
   def index    
   end
@@ -12,6 +12,13 @@ class Admin::PluginsController < Admin::BaseController
     @plugin.options = params[:plugin]
     @plugin.save!
     flash[:notice] = "The plugin settings have been updated."
+    redirect_to admin_plugin_path(@site, @plugin)
+  end
+  
+  def destroy
+    @plugin.options = {}
+    @plugin.save!
+    flash[:notice] = "The default settings have been restored."
     redirect_to admin_plugin_path(@site, @plugin)
   end
   

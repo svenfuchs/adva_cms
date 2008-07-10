@@ -79,7 +79,7 @@ describe "Admin::Plugins:" do
 
     it "should display a link to restore the default values" do
       render "admin/plugins/_action_nav"
-      response[:action_nav].should have_tag('a[href=?]', '#', 'Restore Defaults')
+      response[:action_nav].should have_tag('a[href=?]', admin_plugin_path(@site, @plugin), 'Restore Defaults')
     end
   end
   

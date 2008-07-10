@@ -43,7 +43,7 @@ describe SectionsController do
       
       describe "when the article is not published" do
         before :each do 
-          @article.stub!(:published?).and_return false
+          @article.stub!(:draft?).and_return true
           @article.stub!(:role_authorizing).and_return Role.build(:author)
         end
         

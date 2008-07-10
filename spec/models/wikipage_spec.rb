@@ -14,7 +14,7 @@ describe Wikipage do
     end
     
     it 'does not sanitize the body_html attribute' do
-      Wikipage.should filter_attributes(:except => :body_html)
+      Wikipage.should filter_attributes(:except => [:body_html, :cached_tag_list])
     end
   end
   

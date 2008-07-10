@@ -33,6 +33,7 @@ define Article do
            :published_at => Time.now,
            :published? => true,
            :published_at? => true,
+           :draft? => false,
            :filter => nil,
            :attributes= => nil,
            :save => true, 
