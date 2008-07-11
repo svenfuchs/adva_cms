@@ -43,6 +43,11 @@ steps_for :section do
     chooses 'Section'
     fills_in 'title', :with => 'a new section title'
   end
+
+  When "the user goes to the section url on frontend" do
+    raise "step expects the variable @section to be set" unless @section
+    get "/#{@section.permalink}"
+  end
   
   Then "a new Section was created with the title 'a new section title'" do
     @section = Section.find_by_title 'a new section title'

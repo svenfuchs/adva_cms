@@ -121,18 +121,14 @@ steps_for :article do
     
   end
   
-  # TODO sections seems to have other problems too, because newly created section
-  # from website leads to home and not to correct section.
-  #Then "the page displays the article" do
-  #  raise "step expects the variable @article to be set" unless @article
-  #  response.should have_tag("div#article_#{@article.id}.entry")
-  #end
+  Then "the page displays the article" do
+    raise "step expects the variable @article to be set" unless @article
+    response.should have_tag("div#article_#{@article.id}.entry")
+  end
 
-  # TODO Preview for section does not work.
-  # Preview link from section articles leads to empty page.
-  #Then "the page displays the article as preview" do
-  #  raise "step expects the variable @article to be set" unless @article
-  #  response.should have_tag("div#article_#{@article.id}[class=?]", 'entry clearing')
-  #end
+  Then "the page displays the article as preview" do
+    raise "step expects the variable @article to be set" unless @article
+    response.should have_tag("div#article_#{@article.id}[class=?]", 'entry')
+  end
 
 end

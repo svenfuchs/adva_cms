@@ -20,7 +20,7 @@ Story: Publishing a section article
     Given a section with an article
     And the user is logged in as admin
     When the user visits the admin section article edit page
-    When the user clicks on 'Preview'
+    And the user clicks on 'Preview'
     Then the page displays the article as preview
 
   Scenario: An admin publishes a blog article
@@ -29,7 +29,7 @@ Story: Publishing a section article
     When the user visits the admin section article edit page
     And the user unchecks 'Yes, save this article as a draft'
     And the user clicks the 'Apply changes' button
-    And the user goes to the url /sections
+    And the user goes to the section url on frontend
     Then the page displays the article
 
 Story: Reordering section articles
@@ -44,7 +44,6 @@ Story: Reordering section articles
     Then the page has a reorder articles link
     When the user moves the second article to the top
     Then the second article is sorted to the top
-
 
 Story: Deleting a section article
   As an admin

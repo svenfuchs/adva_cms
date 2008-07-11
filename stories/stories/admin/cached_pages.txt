@@ -11,7 +11,7 @@ Story: Managing cached pages
     Then the page has an empty list
 
   Scenario: An admin views cached pages list
-    Given a site
+    Given a blog
     And a page is cached
     And the user is logged in as admin
     When the user visits the site's cache index page
