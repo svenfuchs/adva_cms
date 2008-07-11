@@ -4,17 +4,11 @@ steps_for :asset do
     get admin_assets_path(@site)
   end
   
-  #When "the user fills in the admin asset creation form with valid values" #do
-    #fills_in 'assets[][uploaded_data]', :with => 'data'
-    #fills_in 'assets[][title]', :with =>'test asset data'
-    #fills_in 'assets[][tag_list]', :with => 'test'
-  #end
-
-  When "the user fills in the admin asset creation form with valid values and clicks 'Upload Asset(s)' button" #do
-    # TODO find a webratty way to test file uploads, and then use above method
-  #  raise "this step expects the variable @site to be set" unless @site
-  #  post(admin_assets_path(@site), :assets=>[{:uploaded_data => TestUploadedFile('foo'), :title => 'title', :tag_list => 'foo bar'}], :content_type => 'multipart/form-data')
-  #end
+  When "the user fills in the admin asset creation form with valid values" do
+    attaches_file 'assets[0][uploaded_data]', RAILS_ROOT + '/public/images/rails.png'
+    fills_in 'assets[0][title]', :with =>'test asset data'
+    fills_in 'assets[0][tag_list]', :with => 'foo bar'
+  end
 
   Then "the page has an admin asset creation form" do
     raise "this step expects the variable @site to be set" unless @site
@@ -31,5 +25,9 @@ steps_for :asset do
   Then "the user is redirected to admin sites assets list page" do
     request.request_uri.should =~ %r(/admin/sites/[\d]*/assets)
     response.should render_template("admin/assets/index")
+  end
+  
+  Then "the page has a list of assets with at least one asset" do
+    response.should have_tag('#assets-list .assets-row div img')
   end
 end

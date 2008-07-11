@@ -24,7 +24,7 @@ class Admin::AssetsController < Admin::BaseController
   end
   
   def create
-    @assets = @site.assets.build(params[:assets])
+    @assets = @site.assets.build(params[:assets].values)
     Asset.transaction { @assets.each &:save! }
     
     respond_to do |format|
