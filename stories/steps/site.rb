@@ -25,9 +25,6 @@ steps_for :site do
     get edit_admin_site_path(@site)
   end
   
-  # When "the user visits the admin plugin list page" do    
-  # end
-  
   When "the user fills in the admin site creation form with valid values" do
     fills_in 'website name', :with => 'a new site name'
     fills_in 'website title', :with => 'a new site title'

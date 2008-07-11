@@ -6,7 +6,7 @@ describe Admin::PluginsController do
   before :each do
     scenario :empty_site
     
-    @plugin = Engines.plugins[:plugin_test]
+    @plugin = Engines.plugins[:test_plugin]
     set_resource_paths :plugin, '/admin/sites/1/'
     
     @controller.stub! :require_authentication
@@ -20,9 +20,9 @@ describe Admin::PluginsController do
   describe "routing" do
     with_options :path_prefix => '/admin/sites/1/', :site_id => "1" do |route|
       route.it_maps :get, "plugins", :index
-      route.it_maps :get, "plugins/plugin_test", :show, :id => 'plugin_test'
-      route.it_maps :get, "plugins/plugin_test/edit", :edit, :id => 'plugin_test'
-      route.it_maps :put, "plugins/plugin_test", :update, :id => 'plugin_test'
+      route.it_maps :get, "plugins/test_plugin", :show, :id => 'test_plugin'
+      route.it_maps :get, "plugins/test_plugin/edit", :edit, :id => 'test_plugin'
+      route.it_maps :put, "plugins/test_plugin", :update, :id => 'test_plugin'
     end
   end
   

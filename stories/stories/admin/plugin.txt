@@ -9,10 +9,13 @@ Story: Managing a site's plugins
     When the user visits the admin plugin list page
     Then the list contains all the plugins installed 
     
-  Scenario: An admin reviews the details of a plugin
+  Scenario: An admin reviews the settings of a plugin
     Given a site
     And the user is logged in as admin
     When the user visits the admin plugin show page for the test plugin
     Then the page shows the test plugin about info
     And the page has a plugin config edit form
+    When the user fills in the plugin config edit form
+    And the user clicks the 'Save' button
+    Then the plugin's configuration is saved
     

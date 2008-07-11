@@ -5,7 +5,7 @@ describe "Admin::Plugins:" do
   
   before :each do
     @plugins = Engines.plugins
-    @plugin = Engines.plugins[:plugin_test]
+    @plugin = Engines.plugins[:test_plugin]
     
     assigns[:site] = @site = stub_site
     
