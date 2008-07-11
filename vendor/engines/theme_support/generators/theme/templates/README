@@ -1,3 +1,10 @@
+
+Generating a new theme is only half the work, to use your theme you need to
+copy it into your site's subdirectory or create a sym-link:
+  cd themes/site-1"
+  ln -s ../theme_name .  ## symlink OR
+  cp -R ../theme_name . 
+
 # Overriding Views
 
 You can override views by putting custom `rhtml` or `liquid`

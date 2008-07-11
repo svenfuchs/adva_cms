@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml2/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <%%= stylesheet_link_tag 'default', 'common', 'comments', 'forms', 'forum', :cache => 'cache/default' %>
+    <%%= theme_stylesheet_link_tag '<%= file_name %>' %>
+    <%%= javascript_include_tag 'prototype', 'effects', 'lowpro', 'flash', 'cookie', 'json', 'roles', 'application', :cache => 'cache/default' %>
+    <title><%%= @site.title %></title>
+
+    <%%= @topic ? authorize_elements(@topic) : authorize_elements %>
+
+  </head>
+  <body>
+    <div id="page">
+      <div id="header" class="clearing">
+        <h1><%%= @site.title %></h1>
+        <h2><%%= @site.subtitle %></h2>
+        <%%= render :widget => :sections %>
+      </div>
+      <div id="main">
+        <%%= render :partial => 'shared/flash' %>  
+        <%%= yield %>
+      </div>
+      <%%= yield :footer or render :partial => 'shared/footer' %>
+    </div>
+  </body>
+</html>
