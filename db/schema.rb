@@ -174,6 +174,12 @@ ActiveRecord::Schema.define(:version => 0) do
     t.datetime "updated_at"
   end
 
+  create_table "plugin_configs", :force => true do |t|
+    t.integer "site_id"
+    t.string  "name"
+    t.text    "options"
+  end
+
   create_table "roles", :force => true do |t|
     t.integer "user_id"
     t.integer "context_id"

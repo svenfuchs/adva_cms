@@ -15,20 +15,21 @@ Story: Managing cached pages
     And a page is cached
     And the user is logged in as admin
     When the user visits the site's cache index page
-    Then the page has list of cached pages with one entry
+    Then the page has a list of cached pages
 
   Scenario: An admin expires a cached page manually
     Given a blog
     And a page is cached
     And the user is logged in as admin
     When the user visits the site's cache index page
-    And the user clicks on 'Clear'
+    And the user clicks on 'Clear' within cached page
     Then the cached page's record and file are deleted
 
   Scenario: An admin expires all cached pages manually
     Given a blog
+    And a section
     And a page is cached
-    And another page is cached
+    And the other page is cached
     And the user is logged in as admin
     When the user visits the site's cache index page
     And the user clicks on 'Clear all'
