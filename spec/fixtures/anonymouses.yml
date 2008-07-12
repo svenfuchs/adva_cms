@@ -1,0 +1,7 @@
+an_anonymous:
+  name: anonymous
+  email: anonymous@email.org
+  homepage: http://www.example.org
+  agent: the-agent
+  ip: 1.1.1.1
+  referer: the-referer

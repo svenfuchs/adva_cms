@@ -2,11 +2,14 @@ require 'spam_engine/exceptions'
 
 module SpamEngine
   class Base
-    attr_reader :site, :options, :logger
+    attr_reader :options
 
-    def initialize(site, options = {})
-      @site, @options = site, options
-      @logger = site.logger
+    def initialize(options = {})
+      @options = options || {}
+    end
+    
+    def name
+      self.class.name.demodulize
     end
 
     # The default sort order is the original order.
@@ -33,6 +36,10 @@ module SpamEngine
     # Determines if a single comment is either ham or spam.
     def ham?(permalink_url, comment, options={})
       raise SubclassResponsibilityError
+    end
+    
+    def mark_spaminess(spaminess, permalink_url, comment)
+      send "mark_as_#{spaminess}", permalink_url, comment
     end
 
     # Marks false positives as ham.

@@ -1,0 +1,11 @@
+<div id="site_spam_settings_akismet" class="site_spam_settings <%= 'active' if active %>">
+  <h4>Settings</h4>
+  <p>
+    <label for="site_spam_options_akismet_key">Akismet API Key</label>
+    <%= text_field_tag "site[spam_options][akismet_key]", @site.spam_options[:akismet_key], :id => 'site_spam_options_akismet_key' %>
+  </p>
+  <p>
+    <label for="site_spam_options_akismet_url">Blog url</label>
+    <%= text_field_tag "site[spam_options][akismet_url]", @site.spam_options[:akismet_url], :id => 'site_spam_options_akismet_url' %>
+  </p>
+</div>

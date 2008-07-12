@@ -29,6 +29,10 @@ describe Site do
       Site.serialized_attributes.should include('permissions')
     end
     
+    it "serializes the spam options" do
+      Site.serialized_attributes.should include('spam_options')
+    end
+    
     it 'has default permissions' do
       Site.default_permissions.should == 
         { :site    => { :show => :admin, :create => :superuser, :update => :admin, :destroy => :superuser, :manage => :admin }, 
@@ -111,6 +115,17 @@ describe Site do
     
     it "validates the presence of a title" do
       @site.should validate_presence_of(:title)
+    end
+  end
+  
+  describe "spam_engine:" do
+    it "should return the None spam engine when none configured" do
+      Site.new.spam_engine.should be_kind_of(SpamEngine::None) 
+    end
+
+    it "should return the Defensio spam engine when spam_options :engine is set to 'defensio'" do
+      site = Site.new :spam_options => {:engine => "Defensio"}
+      site.spam_engine.should be_kind_of(SpamEngine::Defensio) 
     end
   end
 end

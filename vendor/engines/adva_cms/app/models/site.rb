@@ -45,8 +45,7 @@ class Site < ActiveRecord::Base
   
   validates_presence_of :host, :name, :title
   
-  cattr_accessor :multi_sites_enabled, :cache_sweeper_logging, :spam_engines
-  @@spam_engines = []
+  cattr_accessor :multi_sites_enabled, :cache_sweeper_logging
 
   class << self  
     def find_by_host!(host)
@@ -59,10 +58,6 @@ class Site < ActiveRecord::Base
       condition = ["memberships.site_id = ? OR (memberships.site_id IS NULL AND roles.type = ?)", id, 'Role::Superuser']
       User.find :all, options.merge(:include => [:roles, :memberships], :conditions => condition)
     end
-    
-    def register_spam_engine(klass)
-      @@spam_engines << klass.name
-    end    
   end 
   
   def owner
@@ -87,8 +82,16 @@ class Site < ActiveRecord::Base
     host
   end
   
+  def approve_comments?
+    !!spam_options[:approve_comments]
+  end
+  
+  def spam_options
+    read_attribute(:spam_options) || {}
+  end
+  
   def spam_engine
-    @spam_engine ||= SpamEngine.adapter(self, spam_options || {})
+    @spam_engine ||= SpamEngine.adapter(self.spam_options)
   end
 
   private

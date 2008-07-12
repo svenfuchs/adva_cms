@@ -5,6 +5,7 @@ class Admin::CommentsController < Admin::BaseController
   before_filter :set_contents, :set_comments, :only => :index
   before_filter :set_comment, :only => [:show, :edit, :update, :destroy]        
   before_filter :set_commentable, :set_comment_params, :only => :create
+  after_filter :postback_spaminess, :only => [:update]
   
   cache_sweeper :comment_sweeper, :only => [:create, :update, :destroy]
   
@@ -85,6 +86,13 @@ class Admin::CommentsController < Admin::BaseController
     
     def set_filter
       params[:filter] ||= 'all'
+    end
+    
+    def postback_spaminess
+      if @comment.approved_changed?
+        spaminess = @comment.approved? ? :ham : :spam
+        @site.spam_engine.mark_spaminess spaminess, content_url(@comment.commentable), @comment
+      end
     end
 end
 

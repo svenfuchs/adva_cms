@@ -77,7 +77,7 @@ class Section < ActiveRecord::Base
   end
   
   def approve_comments?
-    true
+    site.approve_comments?
   end
   
   def check_comment(url, comment, options = {})

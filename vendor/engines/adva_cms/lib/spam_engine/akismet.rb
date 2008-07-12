@@ -1,10 +1,6 @@
 module SpamEngine
   class Akismet < Base
-    class << self
-      def settings_template(site)
-        load_template(File.join(File.dirname(__FILE__), "akismet_settings.html.erb")).render(:site => site, :options => site.spam_engine_options)
-      end
-    end
+    SpamEngine.register self
 
     def statistics_template
       "<p>The Akismet API does not extract statistics about it's performance.</p>"

@@ -19,7 +19,8 @@ define Comment do
            :frozen? => false,
            :role_authorizing => Role.build(:author),
            :commentable= => nil,
-           :check_spam => false
+           :check_spam => false,
+           :approved_changed? => false
 
   instance :comment
 end

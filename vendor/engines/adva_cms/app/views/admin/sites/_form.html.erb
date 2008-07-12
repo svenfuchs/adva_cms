@@ -32,7 +32,23 @@
 <fieldset>
   <p>  
     <%= f.label :comment_filter, 'Comments filter' %>
-    <span class="hint">When comments are posted, they use this markup</span>
+    <span class="hint">When comments are posted, they use this markup.</span>
     <%= f.select :comment_filter, filter_options %>
   </p>
+</fieldset>
+  
+<h4>Spam protection</h4>
+<fieldset>  
+  <h4>Spam detection engine</h4>
+  <span class="hint">When comments are posted, the following engine is used to check their spam status.</span>
+  <p>
+    <% SpamEngine.names.each do |name| %>
+      <%= radio_button_tag 'site[spam_options][engine]', name, name == @site.spam_engine.name, :class => "site_spam_options_engine" %>
+      <%= label :site, "spam_options_engine_#{name.downcase}", name, :class => 'inline light' %>
+    <% end %>
+  </p>
+  
+  <% SpamEngine.names.each do |name| %>
+    <%= render :partial => "admin/spam/#{name.downcase}_settings", :locals => {:active => name == @site.spam_engine.name} %>
+  <% end %>
 </fieldset>

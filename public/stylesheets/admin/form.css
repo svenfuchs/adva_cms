@@ -88,6 +88,13 @@ p.buttons {
 	padding: 3px;
 }
 
+.site_spam_settings {
+	display: none;
+}
+.site_spam_settings.active {
+	display: block;
+}
+
 /* errors */
 
 .field_with_error input,

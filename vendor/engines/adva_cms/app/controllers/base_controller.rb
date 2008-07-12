@@ -3,6 +3,7 @@ require 'widgets'
 class BaseController < ApplicationController
   class SectionRoutingError < ActionController::RoutingError; end
   helper :base, :content, :comments, :users
+  include ContentHelper # WTF!
 
   include CacheableFlash
   include Widgets
