@@ -19,8 +19,9 @@ module ThemeAssetTagHelper
   end
 
   def add_theme_path(theme_name, source)
+
     if theme = controller.current_themes.detect{|theme| theme.id == theme_name.to_s.downcase}
-      "themes/#{theme.local_path}/#{source}"
+      "#{theme.id}/#{source}"
     else
       raise "could not find theme #{theme_name}"
     end
