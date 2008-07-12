@@ -3,6 +3,7 @@ This is just a collection of ideas, notes, ressource and less important stuff.
 Please refer to the issue tracker at 
 http://artweb-design.lighthouseapp.com/projects/13992-adva_cms/overview
 
+francois@teksol.info
 
 
 [theme]   separate login and admin/login pages (same thing, different layout) ?
@@ -28,9 +29,15 @@ http://artweb-design.lighthouseapp.com/projects/13992-adva_cms/overview
 # resources
 viking http://github.com/technoweenie/viking/tree/master
 defensio http://blog.teksol.info/2008/3/4/mephisto-defensio-refactored-to-patterns
+acts_as_snook http://github.com/rsl/acts_as_snook/tree/master
+mollom http://mollom.com/features
+ruby-mollom http://github.com/DefV/ruby-mollom/tree/master
+
 authentication http://authentication.rubyforge.org/
 
 apache multisite config http://www.appelsiini.net/2007/6/mephisto-multiple-site-config
+/public/cache/www.example.org/
+
 
 
 # users

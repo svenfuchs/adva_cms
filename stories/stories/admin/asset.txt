@@ -1,6 +1,4 @@
 # TODO 
-# edit asset
-# delete asset
 # add assets to bucket
 # attach to article
 
@@ -15,7 +13,7 @@ Story: Managing assets
     When the user visits admin sites assets list page
     Then the page has an empty list
   
-  Scenario: An admin uploads an asset
+  Scenario: An admin uploads, updates and deletes an asset
     Given a site with no assets
     And the user is logged in as admin
     When the user visits admin sites assets list page
@@ -26,3 +24,18 @@ Story: Managing assets
     Then a new asset is saved
     And the user is redirected to admin sites assets list page
     Then the page has a list of assets with at least one asset
+    When the user clicks on 'Edit'
+    Then the page has an admin asset edit form
+    When the user fills in the admin asset edit form
+    And the user clicks the 'Save' button
+    Then the asset is updated
+    When the user clicks on 'Delete'
+    Then the asset is deleted
+  
+  Scenario: An admin adds an asset to the bucket
+    Given a site with an asset
+    And the user is logged in as admin
+    When the user visits admin sites assets list page
+    And the user clicks on 'Add to bucket'
+    Then the asset is added to the bucket
+    And the asset immediately shows up on the page

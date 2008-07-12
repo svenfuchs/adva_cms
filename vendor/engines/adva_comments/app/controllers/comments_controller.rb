@@ -24,6 +24,7 @@ class CommentsController < BaseController
   def create
     # params[:comment].delete(:approved) # TODO use attr_protected api
     @comment = @commentable.comments.build(params[:comment])
+    @comment.check_approval content_url(comment.commentable), options
     if @comment.save
       flash[:notice] = "Thank you for your comment!"
       redirect_to comment_path(@comment)

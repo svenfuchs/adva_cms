@@ -1,0 +1,84 @@
+h1. VikingGem
+
+h2. What
+
+Spam in your inbox and spam on your blog. The only place spam isn't is on your 
+dinner plate (I hope). 
+
+Luckily there are two great services available to help keep spam at bay on 
+your blog: "Akismet&trade;":akismet, and "Defensio&trade;":defensio. Both 
+services can be integrated into your application to help fend off spam. 
+
+Based on the excellent "Ruby on Rails&trade;":ror 
+"plugin of the same name":http://github.com/technoweenie/viking/tree/master, 
+VikingGem brings you easy access to the "Akismet&trade;":akismet, and 
+"Defensio&trade;":defensio spam protection services, but without the need for 
+you to use "Rails&trade;":ror. VikingGem is Ruby web framework agnostic.
+
+VikingGem also provides a few extra tweaks, and a slightly cleaner code base 
+to make it easier for you to dive in and grok its inner-workings.
+
+h2. Installing
+
+<pre>sudo gem install vikinggem</pre>
+
+h2. The basics
+
+Coming soon!
+
+h3. Documentation
+
+The RDocs are extensive and "available for you to peruse":rdocs. Patches for 
+documentation are always welcome and encouraged (see "How to submit patches").
+
+h2. Demonstration of usage
+
+Coming soon!
+
+h2. Forum
+
+Need help? Want to chat about things you'd like to see different in VikingGem? 
+A "Google Group":forum is available for you to use.
+
+h2. How to submit patches
+
+Read the "8 steps for fixing other people's code":fixing_code and for section 
+"8b: Submit patch to Google Groups":fixing_code_8b, use the Google Group above.
+
+You can fetch the source from either:
+
+* rubyforge (stable): "http://rubyforge.org/scm/?group_id=6110":stable_scm
+
+<pre>git clone git://rubyforge.org/vikinggem.git</pre>
+
+* github (edge): "http://github.com/jherdman/viking/tree/master":edge_scm
+
+<pre>git clone git://github.com/jherdman/viking.git</pre>
+
+h3. Build and test instructions
+
+<pre>
+cd vikinggem
+rake spec
+rake install_gem
+</pre>
+
+h2. License
+
+This code is free to use under the terms of the "MIT license":mit_license.
+
+h2. Contact
+
+Comments are welcome. Send an email to "James Herdman, Jed Hurt, Technoweenie":mailto:james.herdman@gmail.com 
+via the "forum":forum
+
+[akismet]http://akismet.com/
+[defensio]http://defensio.com/
+[ror]http://rubyonrails.org
+[rdocs]:http://vikinggem.rubyforge.org/rdoc/
+[forum]:http://groups.google.com/group/viking
+[stable_scm]:http://rubyforge.org/scm/?group_id=6110
+[edge_scm]:http://github.com/jherdman/viking/tree/master
+[fixing_code]:http://drnicwilliams.com/2007/06/01/8-steps-for-fixing-other-peoples-code/
+[fixing_code_8b]:http://drnicwilliams.com/2007/06/01/8-steps-for-fixing-other-peoples-code/#8b-google-groups
+[mit_license]:http://www.opensource.org/licenses/mit-license.php

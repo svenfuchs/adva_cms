@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <link rel="stylesheet" href="stylesheets/screen.css" type="text/css" media="screen" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>
+      VikingGem
+  </title>
+  <script src="javascripts/rounded_corners_lite.inc.js" type="text/javascript"></script>
+<style>
+
+</style>
+  <script type="text/javascript">
+    window.onload = function() {
+      settings = {
+          tl: { radius: 10 },
+          tr: { radius: 10 },
+          bl: { radius: 10 },
+          br: { radius: 10 },
+          antiAlias: true,
+          autoPad: true,
+          validTags: ["div"]
+      }
+      var versionBox = new curvyCorners(settings, document.getElementById("version"));
+      versionBox.applyCornersToAll();
+    }
+  </script>
+</head>
+<body>
+<div id="main">
+    <h1>VikingGem</h1>
+    <div id="version" class="clickable" onclick='document.location = "http://rubyforge.org/projects/vikinggem"; return false'>
+      <p>Get Version</p>
+      <a href="http://rubyforge.org/projects/vikinggem" class="numbers">0.0.3</a>
+    </div>
+    <h2>What</h2>
+
+
+	<p>Spam in your inbox and spam on your blog. The only place spam isn&#8217;t is on your 
+dinner plate (I hope).</p>
+
+
+	<p>Luckily there are two great services available to help keep spam at bay on 
+your blog: <a href="http://akismet.com/">Akismet&trade;</a>, and <a href="http://defensio.com/">Defensio&trade;</a>. Both 
+services can be integrated into your application to help fend off spam.</p>
+
+
+	<p>Based on the excellent <a href="http://rubyonrails.org">Ruby on Rails&trade;</a> 
+<a href="http://github.com/technoweenie/viking/tree/master">plugin of the same name</a>, 
+VikingGem brings you easy access to the <a href="http://akismet.com/">Akismet&trade;</a>, and 
+<a href="http://defensio.com/">Defensio&trade;</a> spam protection services, but without the need for 
+you to use <a href="http://rubyonrails.org">Rails&trade;</a>. VikingGem is Ruby web framework agnostic.</p>
+
+
+	<p>VikingGem also provides a few extra tweaks, and a slightly cleaner code base 
+to make it easier for you to dive in and grok its inner-workings.</p>
+
+
+	<h2>Installing</h2>
+
+
+<pre>sudo gem install vikinggem</pre>
+
+	<h2>The basics</h2>
+
+
+	<p>Coming soon!</p>
+
+
+	<h3>Documentation</h3>
+
+
+	<p>The RDocs are extensive and <a href=":http://vikinggem.rubyforge.org/rdoc/">available for you to peruse</a>. Patches for 
+documentation are always welcome and encouraged (see &#8220;How to submit patches&#8221;).</p>
+
+
+	<h2>Demonstration of usage</h2>
+
+
+	<p>Coming soon!</p>
+
+
+	<h2>Forum</h2>
+
+
+	<p>Need help? Want to chat about things you&#8217;d like to see different in VikingGem? 
+A <a href=":http://groups.google.com/group/viking">Google Group</a> is available for you to use.</p>
+
+
+	<h2>How to submit patches</h2>
+
+
+	<p>Read the <a href=":http://drnicwilliams.com/2007/06/01/8-steps-for-fixing-other-peoples-code/">8 steps for fixing other people&#8217;s code</a> and for section 
+<a href=":http://drnicwilliams.com/2007/06/01/8-steps-for-fixing-other-peoples-code/#8b-google-groups">8b: Submit patch to Google Groups</a>, use the Google Group above.</p>
+
+
+	<p>You can fetch the source from either:</p>
+
+
+	<ul>
+	<li>rubyforge (stable): <a href=":http://rubyforge.org/scm/?group_id=6110">http://rubyforge.org/scm/?group_id=6110</a></li>
+	</ul>
+
+
+<pre>git clone git://rubyforge.org/vikinggem.git</pre>
+
+	<ul>
+	<li>github (edge): <a href=":http://github.com/jherdman/viking/tree/master">http://github.com/jherdman/viking/tree/master</a></li>
+	</ul>
+
+
+<pre>git clone git://github.com/jherdman/viking.git</pre>
+
+	<h3>Build and test instructions</h3>
+
+
+<pre>
+cd vikinggem
+rake spec
+rake install_gem
+</pre>
+
+	<h2>License</h2>
+
+
+	<p>This code is free to use under the terms of the <a href=":http://www.opensource.org/licenses/mit-license.php"><span class="caps">MIT</span> license</a>.</p>
+
+
+	<h2>Contact</h2>
+
+
+	<p>Comments are welcome. Send an email to <a href="mailto:james.herdman@gmail.com">James Herdman, Jed Hurt, Technoweenie</a> 
+via the <a href=":http://groups.google.com/group/viking">forum</a></p>
+    <p class="coda">
+      <a href="james.herdman@gmail.com">James Herdman, Jed Hurt, Technoweenie</a>, 25th April 2008<br>
+      Theme extended from <a href="http://rb2js.rubyforge.org/">Paul Battley</a>
+    </p>
+</div>
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-4086476-2");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+
+</body>
+</html>

@@ -74,7 +74,11 @@ class Section < ActiveRecord::Base
 
   def accept_comments?
     comment_age.to_i > -1
-  end  
+  end
+  
+  def check_comment(comment, url, options)
+    approve_comments? || site.check_comment(comment, url, options)
+  end
   
   protected
   

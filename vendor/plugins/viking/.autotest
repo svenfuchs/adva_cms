@@ -1,0 +1,29 @@
+Autotest.add_hook :initialize do |at|
+  at.clear_mappings
+  
+  # Any change to spec_helper should result in all specs being run
+  at.add_mapping %r%^spec/spec_helper\.rb$% do |_, m|
+    at.files_matching %r%^spec/.*_spec\.rb$%
+  end
+  
+  # Any change to an example should result in running itself
+  at.add_mapping %r%^spec/(lib|core_ext)/.*_spec\.rb$% do |filename, _|
+    filename
+  end
+  
+  # Any core extension should result in all specs being run
+  at.add_mapping %r%^lib/core_ext/.*\.rb$% do |_, m|
+    at.files_matching %r%^spec/.*_spec\.rb$%
+  end
+  
+  # Any change to viking.rb should run all specs
+  at.add_mapping %r%^lib/viking.rb$% do |_, m|
+    at.files_matching %r%^spec/.*_spec\.rb$%
+  end
+  
+  # Any change to an engine should result in that spec being run
+  at.add_mapping %r%^lib/viking/(.*)\.rb$% do |_, m|
+    at.files_matching %r%^spec/lib/#{m[1]}_spec\.rb$%
+  end
+end
+

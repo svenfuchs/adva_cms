@@ -8,7 +8,6 @@ class Site < ActiveRecord::Base
   permissions :site    => { :superuser => [:create, :destroy], :admin => [:show, :update, :manage] },
               :section => { :admin => :all },
               :theme   => { :admin => :all }
-
   
   has_many :sections, :dependent => :destroy, :order => :lft do
     def root
@@ -45,8 +44,9 @@ class Site < ActiveRecord::Base
   
   validates_presence_of :host, :name, :title
   
-  cattr_accessor :multi_sites_enabled, :cache_sweeper_logging  
-    
+  cattr_accessor :multi_sites_enabled, :cache_sweeper_logging, :spam_guards
+  @@spam_guards = []
+
   class << self  
     def find_by_host!(host)
       find_by_host(host) || raise(ActiveRecord::RecordNotFound, "Could not find site for hostname #{host}.")
@@ -58,6 +58,10 @@ class Site < ActiveRecord::Base
       condition = ["memberships.site_id = ? OR (memberships.site_id IS NULL AND roles.type = ?)", id, 'Role::Superuser']
       User.find :all, options.merge(:include => [:roles, :memberships], :conditions => condition)
     end
+    
+    def register_spam_guard(name, klass)
+      @@spam_guards << [name, klass.name]
+    end    
   end
   
   def owner

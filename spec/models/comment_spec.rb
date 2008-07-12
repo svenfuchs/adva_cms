@@ -63,7 +63,7 @@ describe Comment do
     end
 
     it 'authorizes commenting before create' do
-      Comment.before_create.should include(:authorize_commenting!)
+      Comment.before_create.should include(:authorize_commenting)
     end
 
     it 'updates the commentable after create' do
@@ -98,15 +98,15 @@ describe Comment do
       end
     end
     
-    describe '#authorize_commenting!' do
+    describe '#authorize_commenting' do
       it 'it checks if the commentable accepts comments' do
         @comment.commentable.should_receive(:accept_comments?).and_return true
-        @comment.authorize_commenting!
+        @comment.send :authorize_commenting
       end
       
       it 'it raises CommentNotAllowed if the commentable does not accept comments' do
         @comment.commentable.stub!(:accept_comments?).and_return false
-        lambda{ @comment.authorize_commenting! }.should raise_error
+        lambda{ @comment.send :authorize_commenting }.should raise_error
       end
     end
     

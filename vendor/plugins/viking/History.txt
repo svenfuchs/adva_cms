@@ -1,0 +1,14 @@
+== 0.0.3 2008-04-25
+
+* 1 minor release:
+  * Made contents of script/ executable
+
+== 0.0.2 2008-04-22
+
+* 1 minor release:
+  * Changed Manifest to include spec_helper.rb and website
+
+== 0.0.1 2008-04-22
+
+* 1 major enhancement:
+  * Initial release

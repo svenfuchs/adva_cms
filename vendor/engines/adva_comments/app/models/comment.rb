@@ -17,7 +17,7 @@ class Comment < ActiveRecord::Base
   validates_presence_of :body, :commentable
   
   before_validation  :set_owners
-  before_create :authorize_commenting!
+  before_create :authorize_commenting
   after_create  :update_commentable
   after_destroy :update_commentable
   
@@ -36,14 +36,19 @@ class Comment < ActiveRecord::Base
   def unapproved?
     !approved?
   end
-
-  def authorize_commenting!
-    unless commentable.accept_comments?
-      raise CommentNotAllowed, "Comments are not allowed for this #{commentable.class.name.demodulize.humanize.downcase}." 
-    end
-  end   
   
-  private
+  def check_approval(url, options)
+    self.approved = section.check_comment(self, url, options)
+  end
+
+  protected
+  
+    def authorize_commenting
+      unless commentable.accept_comments?
+        raise CommentNotAllowed, "Comments are not allowed for this #{commentable.class.name.demodulize.humanize.downcase}." 
+      end
+    end
+  
     def set_owners
       if commentable # TODO in what cases would commentable be nil here?
         self.site = commentable.site 

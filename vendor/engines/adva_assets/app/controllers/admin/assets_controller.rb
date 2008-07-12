@@ -37,6 +37,9 @@ class Admin::AssetsController < Admin::BaseController
   rescue ActiveRecord::RecordInvalid => e
     render :action => 'new'
   end
+  
+  def edit
+  end
 
   def update
     @asset.update_attributes! params[:asset]
