@@ -18,7 +18,13 @@ class ThemeController < ApplicationController
 private
   
   def set_file
-    theme = Theme.find(params[:theme_id], params[:subdir])
+
+    if params[:subdir]
+      theme = Theme.find(params[:theme_id], params[:subdir])
+    else
+      site = Site.find_by_host(request.host_with_port) 
+      theme = site.themes.find(params[:theme_id])
+    end
     @file = if params[:file].first == 'preview.png'
       theme.preview
     else
