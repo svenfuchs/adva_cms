@@ -80,6 +80,10 @@ module ActionController
           find_current_user if session[:uid]
         end
       end
+      
+      def authenticated?
+        !!current_user
+      end
   
       # Will store the current params so that we can return here on
       # successful login. If you want to redirect to the login yourself

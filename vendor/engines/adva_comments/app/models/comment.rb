@@ -28,17 +28,18 @@ class Comment < ActiveRecord::Base
   def filter
     commentable.comment_filter
   end
-  
-  # def approved?
-  #   approved.to_s == '1'
-  # end
 
   def unapproved?
     !approved?
   end
   
-  def check_approval(url, options)
-    self.approved = section.check_comment(self, url, options)
+  def spam_info
+    read_attribute(:spam_info) || {}
+  end
+  
+  def check_spam(url, options)
+    spam_info = section.check_comment(url, self, options)
+    self.update_attributes :spam_info => spam_info, :approved => !!spam_info[:spam]
   end
 
   protected

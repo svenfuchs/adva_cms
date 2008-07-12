@@ -107,6 +107,7 @@ ActiveRecord::Schema.define(:version => 0) do
     t.integer  "approved",                       :default => 0, :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "spam_info"
   end
 
   create_table "content_versions", :force => true do |t|
@@ -224,6 +225,8 @@ ActiveRecord::Schema.define(:version => 0) do
     t.string  "tag_layout"
     t.string  "permalink_style"
     t.text    "permissions"
+    t.string  "spam_engine"
+    t.text    "spam_options"
   end
 
   create_table "taggings", :force => true do |t|

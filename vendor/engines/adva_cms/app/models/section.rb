@@ -76,8 +76,12 @@ class Section < ActiveRecord::Base
     comment_age.to_i > -1
   end
   
-  def check_comment(comment, url, options)
-    approve_comments? || site.check_comment(comment, url, options)
+  def approve_comments?
+    true
+  end
+  
+  def check_comment(url, comment, options = {})
+    site.spam_engine.check_comment(url, comment, options)
   end
   
   protected

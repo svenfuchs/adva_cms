@@ -17,6 +17,7 @@ module ActionController
         return if authenticates_anonymous_user?
         include InstanceMethods
         alias_method_chain :current_user, :anonymous
+        alias_method_chain :authenticated?, :anonymous
       end
       
       def authenticates_anonymous_user?
@@ -27,6 +28,10 @@ module ActionController
     module InstanceMethods
       def current_user_with_anonymous
         @current_user ||= (current_user_without_anonymous || login_or_register_anonymous)
+      end
+      
+      def authenticated_with_anonymous?
+        !!current_user and !current_user.is_a?(Anonymous)
       end
   
       def login_or_register_anonymous

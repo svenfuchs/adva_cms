@@ -18,7 +18,8 @@ define Comment do
            :has_attribute? => true,
            :frozen? => false,
            :role_authorizing => Role.build(:author),
-           :commentable= => nil
+           :commentable= => nil,
+           :check_spam => false
 
   instance :comment
 end

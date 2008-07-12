@@ -5,6 +5,7 @@ class Site < ActiveRecord::Base
 
   acts_as_role_context :roles => :admin
   serialize :permissions
+  serialize :spam_options
   permissions :site    => { :superuser => [:create, :destroy], :admin => [:show, :update, :manage] },
               :section => { :admin => :all },
               :theme   => { :admin => :all }
@@ -44,8 +45,8 @@ class Site < ActiveRecord::Base
   
   validates_presence_of :host, :name, :title
   
-  cattr_accessor :multi_sites_enabled, :cache_sweeper_logging, :spam_guards
-  @@spam_guards = []
+  cattr_accessor :multi_sites_enabled, :cache_sweeper_logging, :spam_engines
+  @@spam_engines = []
 
   class << self  
     def find_by_host!(host)
@@ -59,10 +60,10 @@ class Site < ActiveRecord::Base
       User.find :all, options.merge(:include => [:roles, :memberships], :conditions => condition)
     end
     
-    def register_spam_guard(name, klass)
-      @@spam_guards << [name, klass.name]
+    def register_spam_engine(klass)
+      @@spam_engines << klass.name
     end    
-  end
+  end 
   
   def owner
     nil
@@ -84,6 +85,10 @@ class Site < ActiveRecord::Base
   def perma_host
     # host.sub(':', '-')
     host
+  end
+  
+  def spam_engine
+    @spam_engine ||= SpamEngine.adapter(self, spam_options || {})
   end
 
   private

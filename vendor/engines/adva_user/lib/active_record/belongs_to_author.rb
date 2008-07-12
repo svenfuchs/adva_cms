@@ -69,6 +69,18 @@ module ActiveRecord
               text = include_email ? "\#{#{column}_name} (\#{#{column}_email})" : #{column}_name
               #{column}_homepage.blank? ? text : %Q(<a href="\#{#{column}_homepage}">\#{#{column}_name}</a>)
             end 
+  
+            def #{column}_ip
+              #{column}.ip if #{column} && #{column}.respond_to?(:ip)
+            end
+  
+            def #{column}_agent
+              #{column}.agent if #{column} && #{column}.respond_to?(:agent)
+            end
+  
+            def #{column}_referer
+              #{column}.referer if #{column} && #{column}.respond_to?(:referer)
+            end
             
             def is_#{column}?(user)
               self.#{column} == user

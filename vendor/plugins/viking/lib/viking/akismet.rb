@@ -182,7 +182,7 @@ module Viking
       attr_accessor :verified_key
 
       def http_instance
-        Net::HTTP.new([options[:api_key], self.class.host].join("."), options[:proxy_host], options[:proxy_port])
+        http = Net::HTTP.new([options[:api_key], self.class.host].join("."), options[:proxy_host], options[:proxy_port])
         http.read_timeout = http.open_timeout = Viking.timeout_threshold
         http
       end

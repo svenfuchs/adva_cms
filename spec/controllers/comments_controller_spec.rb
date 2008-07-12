@@ -6,6 +6,8 @@ describe CommentsController do
   
   before :each do
     scenario :blog_with_published_article, :blog_comments
+    
+    controller.class.send :include, ContentHelper
 
     @collection_path = '/comments'
     @member_path = '/comments/1'
@@ -53,6 +55,12 @@ describe CommentsController do
     describe "given valid comment params" do
       it_redirects_to { @member_path }
       it_assigns_flash_cookie :notice => :not_nil
+      
+      it "checks the comment's spaminess" do
+        url = "http://test.host/sections/1/articles/an-article"
+        @comment.should_receive(:check_spam).with(url, :authenticated => false)
+        act!
+      end
     end
     
     describe "given invalid comment params" do

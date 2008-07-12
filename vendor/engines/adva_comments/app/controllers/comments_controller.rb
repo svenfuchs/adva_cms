@@ -1,5 +1,6 @@
 class CommentsController < BaseController
   include ActionController::GuardsPermissions::InstanceMethods
+  helper :content
   helper_method :has_permission?
 
   authenticates_anonymous_user
@@ -24,8 +25,8 @@ class CommentsController < BaseController
   def create
     # params[:comment].delete(:approved) # TODO use attr_protected api
     @comment = @commentable.comments.build(params[:comment])
-    @comment.check_approval content_url(comment.commentable), options
     if @comment.save
+      @comment.check_spam content_url(@comment.commentable), {:authenticated => authenticated?}
       flash[:notice] = "Thank you for your comment!"
       redirect_to comment_path(@comment)
     else

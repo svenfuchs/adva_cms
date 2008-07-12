@@ -5,6 +5,7 @@ a_wikipage:
   permalink: a_wikipage
   version: 2
 an_article:
+  site_id: <%= Fixtures.identify('site_1') %>
   section_id: <%= Fixtures.identify('blog') %>
   type: Article
   title: An article (Version 2)

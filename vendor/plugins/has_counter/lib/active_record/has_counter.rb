@@ -29,10 +29,12 @@ module ActiveRecord
           owner_name = options[:as] || self.name.underscore
           name.to_s.classify.constantize.class_eval do
             after_create do |record|
-              record.send(owner_name).send(counter_name).increment! 
+              counter = record.send(owner_name).send(counter_name)
+              counter.increment! if counter
             end          
             after_destroy do |record|
-              record.send(owner_name).send(counter_name).decrement!
+              counter = record.send(owner_name).send(counter_name)
+              counter.decrement! if counter
             end
           end
         end
