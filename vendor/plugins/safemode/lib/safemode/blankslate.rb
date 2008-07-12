@@ -31,6 +31,11 @@ module Safemode
       def allowed?(name)
         allowed_methods.include? name.to_s
       end
+    
+      # otherwise breaks, e.g. Rails::Generator::Spec
+      def ancestors
+        []
+      end
     end
   end
 end
