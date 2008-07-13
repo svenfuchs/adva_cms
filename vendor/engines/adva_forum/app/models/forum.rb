@@ -6,6 +6,7 @@ class Forum < Section
 
   has_option :topics_per_page, :default => 25
   has_option :comments_per_page, :default => 25    
+  has_option :posts_per_page, :default => 25
 
   has_counter :topics, :comments, :as => :section
 
