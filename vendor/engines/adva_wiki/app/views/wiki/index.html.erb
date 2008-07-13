@@ -31,7 +31,7 @@
 
   <div class="empty">
     There are no wikipages in <%= @section.title %>.
-    <%#= link_to "Create one now &raquo;", new_admin_wikipage_path(@site) %>
+    <%= link_to "Create one now &raquo;", new_wikipage_path(@section) %>
   </div>
 
 <% end %>
