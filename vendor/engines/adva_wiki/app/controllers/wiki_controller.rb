@@ -2,8 +2,8 @@ class WikiController < BaseController
   before_filter :set_category, :set_tags, :only => [:index]
   before_filter :set_categories, :only => [:edit]
   before_filter :set_tags, :only => [:index]
-  before_filter :set_wikipage, :except => [:index]
-  before_filter :set_wikipages, :only => [:index]
+  before_filter :set_wikipage, :except => [:index, :new, :create]
+  before_filter :set_wikipages, :only => [:index, :new, :create]
   before_filter :set_author_params, :only => [:create, :update]
   before_filter :optimistic_lock, :only => [:update]
 
@@ -23,7 +23,11 @@ class WikiController < BaseController
     end    
     # TODO @section.render_options.update(:action => 'show')
   end
-  
+
+  def new
+    @wikipage = Wikipage.new(:title => 'new page')
+  end
+
   def show
     set_categories if @wikipage.new_record?
     if !@wikipage.new_record?
