@@ -1,0 +1,5 @@
+# require 'spam_engine'
+# require 'spam_engine/filter'
+# require 'spam_engine/filter/default'
+# require 'spam_engine/filter/akismet'
+# require 'spam_engine/filter/defensio'

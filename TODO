@@ -3,8 +3,6 @@ This is just a collection of ideas, notes, ressource and less important stuff.
 Please refer to the issue tracker at 
 http://artweb-design.lighthouseapp.com/projects/13992-adva_cms/overview
 
-francois@teksol.info
-
 
 [theme]   separate login and admin/login pages (same thing, different layout) ?
 [feature] admin section: have an activity center/dashboard where engines can register their
@@ -212,6 +210,63 @@ check http://github.com/rtomayko/rdiscount/tree/master (RedCloth replacement in 
 check fleximage http://github.com/Squeegy/fleximage/tree/master
 check http://github.com/walf443/classx/tree/master
 check http://github.com/tokumine/awesome_nested_set/tree/master
+
+
+
+# Spam protection
+
+Users should be able to add and configure custom spam filters easily.
+Users should be able to configure the applications response to spam filter 
+results flexibly.
+
+Spam filters can be registered to the application (e.g. from a plugin). There
+are built-in spam filters for Akismet and Defensio as well as a Default Filter.
+
+For a Site (maybe later: for a Section) one can activate and configure which
+spam filters are active. One can also change the order in which the spam filters
+will be run.
+
+When a Comment is created a spam filter chain is assembled and run. Each filter
+can add to the spam analysis results. The results are then accumulated to a
+final spaminess value. The individual analysis results can be saved for 
+statistical reports.
+
+Filters can decide to halt the execution of futher filters on certain conditions.
+E.g. when the user is logged in with a certain role a filter might skip executing
+additional filters and report a spaminess of 0.
+
+After the filter chain has been run the application judges how to handle the
+comment. It might be approved, pushed to the moderation queue, marked as spam
+or even deleted.
+
+In any case when a Comment is eventually marked as ham or spam by either the
+application or the user every filter is given the chance to report back to
+their backend if the spam status does not match their initial analysis.
+
+class Comment
+  acts_as_spam_report_set  
+end
+
+acts_as_spam_report_set
+  has_many :spam_reports
+  attr :spaminess
+  
+  def add_spam_report(filter, result)
+    spam_reports << SpamReport.create! :priority => filter.priority, ...
+  end
+  
+  def update_spaminess
+    sum = spam_reports.inject(0){|report, sum| sum += report.spaminess }
+    self.spaminess = sum / spam_reports.size
+  end
+  
+class SpamReport
+  attr :priority
+  attr :engine
+  attr :spaminess
+  attr :data
+end
+
 
 # Sanitizing input
 

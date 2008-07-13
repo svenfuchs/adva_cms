@@ -18,8 +18,3 @@ require 'routing'
 TagList.delimiter = ' '
 Tag.destroy_unused = true
 Tag.class_eval do def to_param; name end end
-
-require 'spam_engine'
-require 'spam_engine/none'
-require 'spam_engine/akismet'
-require 'spam_engine/defensio'

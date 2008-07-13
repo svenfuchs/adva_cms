@@ -37,18 +37,30 @@ class Comment < ActiveRecord::Base
     read_attribute(:spam_info) || {}
   end
   
+  has_many :spam_reports, :as => :subject
+  
+  def spam_threshold
+    50 # TODO have a config option on site for this
+  end
+  
   def ham?
-    spam_info[:spam] == false
+    spaminess < spam_threshold
   end
   
   def spam?
-    spam_info[:spam] == true
+    spaminess >= spam_threshold
   end
   
-  def check_spam(url, options = {})
-    spam_info = section.check_comment(url, self, options)
-    approved = section.approve_comments? || !!spam_info[:spam]
-    self.update_attributes :spam_info => spam_info, :approved => approved
+  def check_approval(context = {})
+    spam_reports << section.spam_engine.check_comment(self, context)
+    update_spaminess
+    self.approved = ham?
+    save!
+  end
+  
+  def update_spaminess
+    sum = spam_reports(true).inject(0){|report, sum| sum + report.spaminess }
+    self.spaminess = sum > 0 ? sum / spam_reports.count : 0
   end
 
   protected

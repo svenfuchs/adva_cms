@@ -58,7 +58,7 @@ describe CommentsController do
       
       it "checks the comment's spaminess" do
         url = "http://test.host/sections/1/articles/an-article"
-        @comment.should_receive(:check_spam).with(url, :authenticated => false)
+        @comment.should_receive(:check_approval).with(url, :authenticated => false)
         act!
       end
     end

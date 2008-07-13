@@ -153,34 +153,37 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Comment, "spam control" do
   before :each do
-    @section = stub('section', :check_comment => {:spam => false}, :approve_comments? => false)
+    @report = SpamReport.new(:engine => name, :spaminess => 0, :data => {:spam => false, :spaminess => 0, :signature => 'signature'})
+    @spam_engine = stub('spam_engine', :check_comment => @report)
+    @section = stub('section', :spam_engine => @spam_engine, :approve_comments? => false)
+    
     @comment = Comment.new
     @comment.stub!(:section).and_return @section
-    @url = 'http://www.domain.org/an-article'
+    @context = {:url => 'http://www.domain.org/an-article'}
   end
   
-  describe "#check_spam" do
+  describe "#check_approval" do
     it "saves the spam info hash as returned by Section#check_comment" do
       @comment.should_receive(:update_attributes).with hash_including(:spam_info => {:spam => false})
-      @comment.check_spam @url
+      @comment.check_approval @context
     end
     
     it "approves the comment when the spam info hash contains :spam => false" do
       @section.stub!(:check_comment).and_return :spam => false
       @comment.should_receive(:update_attributes).with hash_including(:approved => true)
-      @comment.check_spam @url
+      @comment.check_approval @context
     end
     
     it "disapproves the comment when the spam info hash contains :spam => true" do
       @section.stub!(:check_comment).and_return :spam => true
       @comment.should_receive(:update_attributes).with hash_including(:approved => false)
-      @comment.check_spam @url
+      @comment.check_approval @context
     end
     
     it "approves the comment when Section#approve_comments? is true" do
       @section.stub!(:approve_comments?).and_return true
       @comment.should_receive(:update_attributes).with hash_including(:approved => true)
-      @comment.check_spam @url
+      @comment.check_approval @context
     end
   end
   
@@ -194,20 +197,20 @@ describe Comment, "spam control" do
   # describe '#check_comment' do
   #   it "approves the comment when the site's spam_option :engine is 'None' and approve_comments is true" do
   #     sites(:site_1).update_attributes :spam_options => {:engine => 'None', :approve_comments => true}
-  #     @comment.check_spam('http://www.example.org/an-article', @comment)
+  #     @comment.check_approval('http://www.example.org/an-article', @comment)
   #     @comment.approved?.should be_true
   #   end
   # 
   #   it "does not approve the comment when the site's spam_option :engine is 'None' and approve_comments is not true" do
   #     sites(:site_1).update_attributes :spam_options => {:engine => 'None', :approve_comments => false}
-  #     @comment.check_spam('http://www.example.org/an-article', @comment)
+  #     @comment.check_approval('http://www.example.org/an-article', @comment)
   #     @comment.approved?.should be_false
   #   end
   # 
   #   it "calls #check_comment on the None SpamEngine when the site's spam_option :engine is 'None'" do
   #     sites(:site_1).update_attributes :spam_options => {:engine => 'None', :approve_comments => false}
   #     @comment.section.site.spam_engine.should be_instance_of(SpamEngine::None)
-  #     @comment.check_spam('http://www.example.org/an-article', @comment)
+  #     @comment.check_approval('http://www.example.org/an-article', @comment)
   #     @comment.spam_info.should == {}
   #   end
   # end
