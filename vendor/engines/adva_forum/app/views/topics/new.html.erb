@@ -1,4 +1,5 @@
 <h2>New topic</h2>
+<%= error_messages_for :topic %>
 <% form_for :topic, :url => topics_path(@section) do |f| -%>
   <%= render :partial => 'form', :locals => {:f => f} %>
   <p>
