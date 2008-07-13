@@ -23,6 +23,7 @@ class Topic < ActiveRecord::Base
     def post(author, attributes)
       topic = Topic.new attributes
       topic.last_author = author
+      topic.last_author_email = author.email
       topic.reply author, :body => attributes[:body]
       # revise topic, attributes
       topic
