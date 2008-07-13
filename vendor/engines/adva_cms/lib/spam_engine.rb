@@ -1,4 +1,7 @@
 module SpamEngine
+  class NotConfigured < RuntimeError
+  end
+  
   mattr_accessor :adapters
   @@adapters = []
 

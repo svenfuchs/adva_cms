@@ -1,5 +1,3 @@
-require 'spam_engine/exceptions'
-
 module SpamEngine
   class Base
     attr_reader :options

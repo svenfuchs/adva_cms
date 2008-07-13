@@ -2,10 +2,6 @@ module SpamEngine
   class None < Base
     SpamEngine.register self
 
-    def statistics_template
-      ""
-    end
-
     def announce_article(permalink_url, article)
     end
 

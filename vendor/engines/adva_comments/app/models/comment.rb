@@ -45,7 +45,7 @@ class Comment < ActiveRecord::Base
     spam_info[:spam] == true
   end
   
-  def check_spam(url, options)
+  def check_spam(url, options = {})
     spam_info = section.check_comment(url, self, options)
     approved = section.approve_comments? || !!spam_info[:spam]
     self.update_attributes :spam_info => spam_info, :approved => approved
