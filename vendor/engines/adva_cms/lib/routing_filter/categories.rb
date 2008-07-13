@@ -4,8 +4,10 @@ module RoutingFilter
       unless path =~ %r(^/admin) # TODO ... should be defined through the dsl in routes.rb
         types = Section.types.map{|type| type.downcase.pluralize }.join('|')
         if match = path.match(%r(/(?:#{types})/([\d]+)/categories/([^\./$]+)(?=/|\.|$)))
-          if section = Section.find(match[1]) && category = Category.find_by_path(match[2])
-            path.sub! "/categories/#{category.path}", "/categories/#{category.id}"
+          if section = Section.find(match[1])
+            if category = Category.find_by_path_and_section_id(match[2], section.id)
+              path.sub! "/categories/#{category.path}", "/categories/#{category.id}"
+            end
           end
         end
       end
@@ -14,7 +16,7 @@ module RoutingFilter
 
     def after_generate(base, result, *args)
       return if result =~ %r(^/admin/)
-      
+
       if match = result.match(%r(/categories/([\d]+)))
         category = Category.find match[1]
         result.sub! "/categories/#{match[1]}", "/categories/#{category.path}"
