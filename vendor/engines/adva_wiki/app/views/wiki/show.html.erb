@@ -3,7 +3,7 @@
     <p><%= link_to 'all pages', wikipages_path %></p>
     <h4>revision: <%= @wikipage.version %></h4>
     <p>
-      <%= @wikipage.updated_at.strftime('%d.%m.%y %H:%M') %><br />
+      <%= @wikipage.updated_at.to_s(:long) %><br />
       by: <%= @wikipage.author_link %>
     </p>
 
