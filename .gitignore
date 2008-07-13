@@ -10,4 +10,4 @@ public/cache/*
 public/images/themes/*
 public/javascripts/cache/*
 public/stylesheets/cache/*
-themes/*
+themes/site-*
