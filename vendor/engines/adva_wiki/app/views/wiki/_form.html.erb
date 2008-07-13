@@ -6,10 +6,10 @@
   <%= f.label :body %>
   <%= f.text_area :body %>
 </p>
-<% unless @wikipage.categories.blank? %>
+<% unless @section.categories.blank? %>
   <p>
     <label>Categories</label>
-    <% @wikipage.categories.each do |category| %>
+    <% @section.categories.each do |category| %>
       <%= content_category_checkbox(@wikipage, category) %>
       <label for="wikipage_category_<%= category.id %>" class="inline"><%= category.title %></label>
     <% end %>
