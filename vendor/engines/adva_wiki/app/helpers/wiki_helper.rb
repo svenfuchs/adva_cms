@@ -8,7 +8,7 @@ module WikiHelper
             alias :wikipage_#{kind}_with_home :wikipage_#{kind}
             def wikipage_#{kind}(*args)
               returning wikipage_#{kind}_with_home(*args) do |url|
-                url.sub! %r(/pages/home\\b), ''
+                url.sub! %r(/pages/home$), ''
               end
             end
           CODE
@@ -43,7 +43,7 @@ module WikiHelper
     separator = options[:separator] || ' &middot; '
     
 	  links = []	  
-	  links << link_to('return to home', wiki_path(@section)) + separator unless wikipage.permalink == "home" 
+	  links << link_to('return to home', wiki_path(@section)) + separator unless wikipage.home?
     
 	  if wikipage.version == wikipage.versions.last.version
 	    links << authorized_tag(:span, :update, wikipage) do
