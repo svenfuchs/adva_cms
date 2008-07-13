@@ -57,8 +57,8 @@ describe CommentsController do
       it_assigns_flash_cookie :notice => :not_nil
       
       it "checks the comment's spaminess" do
-        url = "http://test.host/sections/1/articles/an-article"
-        @comment.should_receive(:check_approval).with(url, :authenticated => false)
+        permalink = "http://test.host/sections/1/articles/an-article"
+        @comment.should_receive(:check_approval).with(:permalink => permalink, :authenticated => false)
         act!
       end
     end

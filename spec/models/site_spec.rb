@@ -120,12 +120,12 @@ describe Site do
   
   describe "spam_engine:" do
     it "should return the None spam engine when none configured" do
-      Site.new.spam_engine.should be_kind_of(SpamEngine::None) 
+      Site.new.spam_engine.should be_kind_of(SpamEngine::FilterChain) 
     end
 
     it "should return the Defensio spam engine when spam_options :engine is set to 'defensio'" do
-      site = Site.new :spam_options => {:engine => "Defensio"}
-      site.spam_engine.should be_kind_of(SpamEngine::Defensio) 
+      site = Site.new :spam_options => {:defensio => {:key => 'defensio key', :url => 'defensio url'}}
+      site.spam_engine.should be_kind_of(SpamEngine::FilterChain) 
     end
   end
 end

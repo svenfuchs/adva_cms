@@ -23,7 +23,7 @@ module SpamEngine
         end
         
         def comment_options(comment, context)
-          { :permalink            => context[:url], 
+          { :permalink            => context[:permalink], 
             :user_ip              => comment.author_ip, 
             :user_agent           => comment.author_agent, 
             :referrer             => comment.author_referer,

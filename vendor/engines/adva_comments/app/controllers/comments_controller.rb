@@ -25,7 +25,7 @@ class CommentsController < BaseController
     params[:comment].delete(:approved) # TODO use attr_protected api
     @comment = @commentable.comments.build(params[:comment])
     if @comment.save
-      @comment.check_approval content_url(@comment.commentable), {:authenticated => authenticated?}
+      @comment.check_approval :permalink => content_url(@comment.commentable), :authenticated => authenticated?
       flash[:notice] = "Thank you for your comment!"
       redirect_to comment_path(@comment)
     else

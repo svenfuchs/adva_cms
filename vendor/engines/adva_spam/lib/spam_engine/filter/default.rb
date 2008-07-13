@@ -4,7 +4,7 @@ module SpamEngine
       SpamEngine::Filter.register self
     
       def check_comment(comment, context = {})
-        spaminess = always_ham ? 0 : authenticated_ham ? 0 : 100
+        spaminess = always_ham ? 0 : authenticated_ham && context[:authenticated] ? 0 : 100
         SpamReport.new :engine => name, :spaminess => spaminess
       end
       

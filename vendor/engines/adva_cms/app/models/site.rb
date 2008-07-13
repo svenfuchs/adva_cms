@@ -91,7 +91,7 @@ class Site < ActiveRecord::Base
   end
   
   def spam_engine
-    @spam_engine ||= SpamEngine.adapter(self.spam_options)
+    @spam_engine ||= SpamEngine::FilterChain.assemble(self.spam_options)
   end
 
   private

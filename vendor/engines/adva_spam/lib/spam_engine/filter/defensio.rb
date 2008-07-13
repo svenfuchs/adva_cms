@@ -30,7 +30,7 @@ module SpamEngine
           :comment_type => "comment",
 
           # Optional parameters
-          :permalink => context[:url],
+          :permalink => context[:permalink],
           :comment_content => comment.body,
           :comment_author_email => comment.author_email,
           :comment_author_url => comment.author_homepage,
@@ -38,6 +38,43 @@ module SpamEngine
           :user_logged_in => context[:authenticated],
           :trusted_user => context[:authenticated] }
         end
+
+        # def info(comment)
+        #   return "" if comment.spam_info.blank?
+        #   signature = comment.spam_info[:signature] || ""
+        #   spaminess = comment.spam_info[:spaminess] || 0
+        #   spaminess *= 100
+        #   "Spaminess: %.1f%%, Signature: %s" % [spaminess, signature]
+        # end
+        # 
+        # def classes(comment)
+        #   return "" if comment.spam_info.blank?
+        #   case (comment.spam_info[:spaminess] || 0) * 100
+        #   when 0
+        #     "spam0"
+        #   when 0...30
+        #     "spam30"
+        #   when 30...75
+        #     "spam75"
+        #   else
+        #     "spam100"
+        #   end
+        # end
+        # 
+        # def sort_block
+        #   lambda {|c| 1.0 - (c.spam_info.blank? ? 0 : (c.spam_info[:spaminess] || 0))}
+        # end
+        # 
+        # def errors
+        #   returning([]) do |es|
+        #     es << "The Defensio key is missing" if options[:defensio_key].blank?
+        #     es << "The Defensio url is missing" if options[:defensio_url].blank?
+        # 
+        #     unless self.valid_key?
+        #       es << "The Defensio API says your key is invalid"
+        #     end
+        #   end
+        # end
     end    
   end  
 end
