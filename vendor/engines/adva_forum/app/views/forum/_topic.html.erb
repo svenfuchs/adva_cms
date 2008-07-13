@@ -7,7 +7,7 @@
     <%= topic.comments_count %>
   </td>
   <td>
-    <%= link_to_last_post(topic) %>
-    <%= topic.last_author_name %>
+    <%= link_to_last_post(topic.title, topic) %>
+    by <%= topic.last_author_name %>
   </td>
 </tr> 

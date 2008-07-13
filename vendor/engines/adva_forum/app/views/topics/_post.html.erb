@@ -1,7 +1,7 @@
 <div class="entry clearing" id="<%= dom_id post %>">
   <div class="meta">
     <p>
-      <%= post.created_at.strftime('%d.%m.%y %H:%M') %>
+      <%= post.created_at.to_s(:long) %>
     </p>
     <p>
       <%= gravatar_img post.author %>

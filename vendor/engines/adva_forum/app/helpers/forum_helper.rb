@@ -9,7 +9,7 @@ module ForumHelper
   def link_to_last_post(*args)
     options = args.extract_options!
     topic = args.pop
-    text = args.pop || topic.last_comment.created_at.strftime('%d.%m.%y %H:%M')
+    text = args.pop || topic.last_comment.created_at.to_s(:long)
     options[:anchor] = dom_id(topic.last_comment)
     options[:page] = topic.last_page if topic.last_page > 1
     link_to text, topic_path(topic.section, topic.permalink, options)
