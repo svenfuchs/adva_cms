@@ -1,9 +1,0 @@
-<div id="site_spam_settings_none" class="site_spam_settings <%= 'active' if active %>">
-  <h4>Settings</h4>
-  <p>
-    <%= check_box_tag 'site[spam_options][approve_comments]', "1", @site.approve_comments?, :id => 'site_spam_options_approve_comments' %>
-    <label class="inline light" for="site_spam_options_approve_comments">
-      Approve and publish all comments automatically.
-    </label>
-  </p>
-</div>
