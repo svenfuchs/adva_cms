@@ -1,0 +1,10 @@
+<div id="site_spam_settings_defensio" class="site_spam_settings <%= 'active' if active %>">
+  <p>
+    <label for="site_spam_options_defensio_key" class="light block">API Key</label>
+    <%= text_field_tag "site[spam_options][defensio][key]", site.spam_options(:defensio, :key), :id => 'site_spam_options_defensio_key' %>
+  </p>
+  <p>
+    <label for="site_spam_options_defensio_url" class="light block">Blog url</label>
+    <%= text_field_tag "site[spam_options][defensio][url]", site.spam_options(:defensio, :key), :id => 'site_spam_options_defensio_url' %>
+  </p>
+</div>

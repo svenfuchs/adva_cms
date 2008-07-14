@@ -1,8 +1,6 @@
 module SpamEngine
   module Filter
     class Default < Base
-      SpamEngine::Filter.register self
-      
       def initialize(options = {})
         super options.reverse_merge(:always_ham => false, :authenticated_ham => false)
       end

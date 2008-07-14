@@ -174,11 +174,6 @@ describe Comment, "spam control" do
       @comment.check_approval @context
     end
     
-    it "adds the spam report to its spam_reports collection" do
-      @comment.spam_reports.should_receive(:<<).with(@report)
-      @comment.check_approval @context
-    end
-    
     it "calculates its spaminess from its spam_reports" do
       @comment.should_receive(:calculate_spaminess).and_return 999
       @comment.check_approval @context

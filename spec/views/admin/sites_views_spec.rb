@@ -117,4 +117,27 @@ describe "Admin::Sites Views:" do
       end
     end
   end
+  
+  describe "the form partial" do
+    before :each do
+      @site.stub!(:spam_options).and_return Site.new.spam_options
+      template.stub!(:site).and_return @site
+      template.stub!(:filter_options).and_return []
+      template.stub!(:f).and_return ActionView::Base.default_form_builder.new(:section, @section, template, {}, nil)
+    end
+    
+    it "renders checkboxes for selecting the active spam filters" do
+      render "admin/sites/_form"
+      SpamEngine::Filter.names.each do |name|
+        response.should have_tag('input[type=?][name=?][value=?]', 'checkbox', 'site[spam_options][engines][]', name)
+      end
+    end
+    
+    it "renders the settings partials for each registered spam filter" do
+      SpamEngine::Filter.names.each do |name|
+        template.expect_render hash_including(:partial => "spam/#{name.downcase}_settings")
+      end
+      render "admin/sites/_form"
+    end
+  end
 end

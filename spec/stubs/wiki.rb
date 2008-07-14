@@ -4,7 +4,8 @@ define Wiki do
   has_many :wikipages,  [:find, :find_by_permalink, :find_or_initialize_by_permalink, :build, :create] => stub_wikipage, 
                          :paginate => stub_wikipages
                      
-  has_many :categories, [:find, :build, :root] => stub_category, [:paginate, :roots] => stub_categories
+  has_many :categories, [:find, :build, :root, :find_by_path] => stub_category, 
+                        [:paginate, :roots] => stub_categories
         
   has_many :comments, :build => stub_comment
   has_many [:approved_comments, :unapproved_comments], stub_comments

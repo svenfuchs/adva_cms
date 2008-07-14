@@ -5,7 +5,7 @@ define Blog do
                       [:roots, :paginate, :paginate_published_in_time_delta] => stub_articles,
                       :permalinks => ['an-article'], :maximum => 4
                       
-  has_many :categories, [:find, :build, :root] => stub_category, 
+  has_many :categories, [:find, :build, :root, :find_by_path] => stub_category, 
                         [:paginate, :roots] => stub_categories
         
   has_many :comments, :build => stub_comment

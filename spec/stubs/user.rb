@@ -22,7 +22,8 @@ define User do
            :update_attributes => true, 
            :destroy => true,
            :verified! => nil,
-           :assign_token => 'token'
+           :assign_token => 'token',
+           :email= => nil
 
   instance :user,
            :id => 1,

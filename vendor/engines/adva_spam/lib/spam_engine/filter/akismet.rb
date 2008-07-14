@@ -1,8 +1,6 @@
 module SpamEngine
   module Filter
     class Akismet < Base
-      SpamEngine::Filter.register self
-    
       def check_comment(comment, context = {})
         is_ham = backend.check_comment(comment_options(comment, context))
         comment.spam_reports << SpamReport.new(:engine => name, :spaminess => (is_ham ? 0 : 100))

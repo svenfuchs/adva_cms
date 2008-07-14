@@ -5,7 +5,7 @@ module RoutingFilter
         types = Section.types.map{|type| type.downcase.pluralize }.join('|')
         if match = path.match(%r(/(?:#{types})/([\d]+)/categories/([^\./$]+)(?=/|\.|$)))
           if section = Section.find(match[1])
-            if category = Category.find_by_path_and_section_id(match[2], section.id)
+            if category = section.categories.find_by_path(match[2])
               path.sub! "/categories/#{category.path}", "/categories/#{category.id}"
             end
           end

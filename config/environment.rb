@@ -30,9 +30,12 @@ Rails::Initializer.run do |config|
   # config.gem "hpricot", :version => '0.6', :source => "http://code.whytheluckystiff.net"
   # config.gem "aws-s3", :lib => "aws/s3"
   config.gem 'BlueCloth', :lib => "bluecloth"
-  config.gem 'RedCloth', :lib => "redcloth"
+  config.gem 'RedCloth',  :lib => "redcloth"
   config.gem 'rubypants', :lib => 'ruby_pants'
   config.gem 'json'
+  
+  config.gem 'rspec',       :lib => 'spec',       :version => '1.1.4'
+  config.gem 'rspec-rails', :lib => 'spec/rails', :version => '1.1.4'
 
   # Only load the plugins named here, in the order given. By default, all plugins 
   # in vendor/plugins are loaded in alphabetical order.

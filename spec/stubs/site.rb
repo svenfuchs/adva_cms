@@ -39,6 +39,7 @@ define Site do
            :current_theme_template_paths => [],
            :current_theme_layout_paths => [],
            :has_attribute? => true,
+           :spam_filter_active? => false,
            :role_context => stub_site
         
   instance :default          

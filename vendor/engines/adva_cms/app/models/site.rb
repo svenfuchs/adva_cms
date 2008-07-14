@@ -86,8 +86,17 @@ class Site < ActiveRecord::Base
     !!spam_options[:approve_comments]
   end
   
-  def spam_options
-    read_attribute(:spam_options) || {:default => {}}
+  def spam_options(*keys)
+    result = read_attribute(:spam_options) || {:default => {}}
+    keys.each do |key|
+      return nil unless result.has_key?(key)
+      result = result[key]
+    end
+    result
+  end
+  
+  def spam_filter_active?(name)
+    spam_options.keys.include?(name.to_s.downcase.to_sym)
   end
   
   def spam_engine

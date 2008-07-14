@@ -167,7 +167,7 @@ describe "Wiki views:" do
     describe "with the wikipage having categories" do
       it "renders the categories/checkboxes partial" do
         @wikipage.stub!(:categories).and_return [stub_category]
-        template.should_receive(:content_category_checkbox).and_return('content_category_checkbox')
+        template.should_receive(:content_category_checkbox).any_number_of_times.and_return('content_category_checkbox')
         render :partial => 'wiki/form'
         response.body.should =~ /content_category_checkbox/
       end

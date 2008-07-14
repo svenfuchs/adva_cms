@@ -92,6 +92,7 @@ describe WikiHelper do
     describe "with a home wikipage that is the current/last version" do
       before :each do
         @wikipage.stub!(:permalink).and_return 'home'
+        @wikipage.stub!(:home?).and_return true
         @result = wiki_edit_links(@wikipage)
       end
     

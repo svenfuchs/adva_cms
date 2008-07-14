@@ -31,7 +31,7 @@ describe ForumHelper do
     end
     
     it "given no String preceeds the topic in the argument list it uses the last comment's created_at date as link text" do
-      helper.link_to_last_post(@topic).should =~ /[\d]+\.[\d]+\.[\d]+\ [\d]+\:[\d]+/
+      helper.link_to_last_post(@topic).should =~ /[\w]+ [\d]+, [\d]+\ [\d]+\:[\d]+/
     end
     
     it "given a String preceeding the topic in the argument list uses the String as link text" do

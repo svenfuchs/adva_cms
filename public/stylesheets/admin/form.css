@@ -27,6 +27,9 @@ label.light {
 	text-shadow: none;
 	line-height: normal;
 }
+label.block {
+	display: block;
+}
 .hint {
 	display: block;
 	font-size: 11px;
@@ -88,12 +91,16 @@ p.buttons {
 	padding: 3px;
 }
 
-.site_spam_settings {
+/*.site_spam_settings {
 	display: none;
 }
 .site_spam_settings.active {
 	display: block;
+}*/
+#site_spam_settings_fields div {
+	padding-left: 25px;
 }
+
 
 /* errors */
 

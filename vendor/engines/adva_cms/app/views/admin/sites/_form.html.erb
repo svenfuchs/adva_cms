@@ -38,17 +38,24 @@
 </fieldset>
   
 <h4>Spam protection</h4>
-<fieldset>  
-  <h4>Spam detection engine</h4>
-  <span class="hint">When comments are posted, the following engine is used to check their spam status.</span>
-  <p>
-    <% SpamEngine.names.each do |name| %>
-      <%= radio_button_tag 'site[spam_options][engine]', name, name == @site.spam_engine.name, :class => "site_spam_options_engine" %>
-      <%= label :site, "spam_options_engine_#{name.downcase}", name, :class => 'inline light' %>
-    <% end %>
-  </p>
-  
-  <% SpamEngine.names.each do |name| %>
-    <%= render :partial => "admin/spam/#{name.downcase}_settings", :locals => {:active => name == @site.spam_engine.name} %>
+<fieldset id="site_spam_settings_fields">  
+  <h4>Spam filters</h4>
+  <span class="hint">When comments are posted, the following engines is used to check their spam status.</span>
+  <% SpamEngine::Filter.names.each do |name| %>
+    <p>
+      <%= check_box_tag "site[spam_options][engines][]", name, site.spam_filter_active?(name), :class => "site_spam_options_engine", :id => "site_spam_options_engine_#{name.downcase}" %>
+      <%= label :site, "spam_options_engine_#{name.downcase}", name, :class => 'inline' %>
+    </p>
+    <%= render :partial => "spam/#{name.downcase}_settings", :locals => {:site => site, :active => site.spam_filter_active?(name)} %>
   <% end %>
 </fieldset>
+
+
+
+
+
+
+
+
+
+

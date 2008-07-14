@@ -1,0 +1,43 @@
+<%
+  spam = @statistics.spam.to_i
+  ham = @statistics.ham.to_i
+  spam_pct = spam.to_f / (spam + ham) * 100.0
+  ham_pct = 100.0 - spam_pct
+  stats_chd = sprintf("t:%.1f,%.1f", spam_pct, ham_pct)
+
+  accuracy = @statistics.accuracy.to_f * 100.0
+  mapped_accuracy = ((accuracy - 95) * 5.0)
+  accuracy_chd = sprintf("t:%.1f|%.1f", mapped_accuracy, 100.0)
+
+  false_positives, false_negatives = @statistics.false_positives.to_i, @statistics.false_negatives.to_i
+  false_positives_pct = false_positives.to_f / (false_positives + false_negatives) * 100.0
+  false_negatives_pct = 100.0 - false_positives_pct
+  retraining_chd = sprintf("t:%.1f,%.1f", false_positives_pct, false_negatives_pct)
+%>
+<style type="text/css">
+  #defensio_stats { width: 450px; }
+  .graph { margin: 1em 0; }
+  .graph h4 { font-size: 90%; }
+  #accuracy { float: right; }
+</style>
+<dl class="setform">
+  <dd id="defensio_stats">
+    <h3>Defensio Performance Statistics</h3>
+    <div class="graph" id="accuracy">
+      <h4>Accuracy</h4>
+      <p><img src="http://chart.apis.google.com/chart?chxt=y&chxp=0,0,<%= "%.1f" % mapped_accuracy %>,100&chxl=0:|95|<%= "%.1f" % accuracy %>|100&cht=bvs&chco=00aa00,cc0000&chd=<%= accuracy_chd %>&chs=100x350&chl=Accuracy" width="100" height="350" alt="Accuracy: <%= accuracy %>"/></p>
+    </div>
+    <div class="graph" id="spam_ham">
+      <h4>Spam: <%= spam %>, Ham: <%= ham %></h4>
+      <p>
+      <img src="http://chart.apis.google.com/chart?cht=p3&chd=<%= stats_chd %>&chs=250x100&chl=Spam|Ham" width="250" height="100" alt="Spam: <%= spam %>, Ham: <%= ham %>"/>
+      </p>
+    </div>
+    <div class="graph" id="falses">
+      <h4>False Positives: <%= false_positives %>, False Negatives: <%= false_negatives %></h4>
+      <p>
+      <img src="http://chart.apis.google.com/chart?cht=bvg&chs=200x200&chbh=90&chl=False+Positives|False+Negatives&chd=<%= retraining_chd %>" width="200" height="200" alt="False Positives: <%= false_positives %>, False Negatives: <%= false_negatives %>"/>
+      </p>
+    </div>
+  </dd>
+</dl>

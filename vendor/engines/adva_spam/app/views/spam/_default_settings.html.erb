@@ -1,0 +1,14 @@
+<div id="site_spam_settings_default" class="site_spam_settings <%= 'active' if active %>">
+  <p>
+    <%= check_box_tag 'site[spam_options][always_ham]', "1", site.spam_options(:default, :always_ham), :id => 'site_spam_options_always_ham' %>
+    <label class="inline light" for="site_spam_options_always_ham">
+      Approve all comments automatically.
+    </label>
+  </p>
+  <p>
+    <%= check_box_tag 'site[spam_options][authenticated_ham]', "1", site.spam_options(:default, :authenticated_ham), :id => 'site_spam_options_authenticated_ham' %>
+    <label class="inline light" for="site_spam_options_authenticated_ham">
+      Approve comments posted by authenticated users.
+    </label>
+  </p>
+</div>

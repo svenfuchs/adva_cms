@@ -1,8 +1,6 @@
 module SpamEngine
   module Filter
     class Defensio < Base
-      SpamEngine::Filter.register self
-      
       def check_comment(comment, context = {})
         result = backend.check_comment(comment_options(comment, context))
         comment.spam_reports << SpamReport.new(:engine => name, :spaminess => result[:spaminess], :data => result)
