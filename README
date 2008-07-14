@@ -1,8 +1,8 @@
-# Prerequisites
+## Prerequisites
 
 Rails 2.1
 
-# Installation
+## Installation
 
 * cp db/database.example.yml db/database.yml
 * run rake db:migrate:all to setup the database (Sqlite for toying)
@@ -17,3 +17,33 @@ started.
 
 The forum section type currently does not work, so don't add a forum to your
 site.
+
+## Running specs and stories
+
+To run the specs use:
+
+    script/spec -O spec/spec.opts <path>
+  
+with `<path>` being a directory containing specs, a single spec filename
+or a path glob specification like `spec/controllers/blog*`
+
+E.g.
+
+    script/spec -O spec/spec.opts spec # will run all stories
+    script/spec -O spec/spec.opts spec/controllers/blog_controller_spec.rb # will run the blog_controller spec
+    ruby stories/run.rb stories/stories/*routes* # will run all routes specs
+
+
+Same thing with the stories, except that you run the stories/run.rb script.
+To run the stories use:
+
+    ruby stories/run.rb <path>
+
+with `<path>` being a directory containing stories, a single story filename
+or a path glob specification like `stories/stories/blog*`
+
+E.g.
+
+    ruby stories/run.rb stories # will run all stories
+    ruby stories/run.rb stories/stories/login.txt # will run the login story
+    ruby stories/run.rb stories/stories/blog* # will run all blog stories
