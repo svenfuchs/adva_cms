@@ -7,30 +7,30 @@ Story: Managing assets
   I want to manage my site's assets
   So I can get use them on the site
 
-  Scenario: An admin views the assets list
-    Given a site with no assets
-    And the user is logged in as admin
-    When the user visits admin sites assets list page
-    Then the page has an empty list
-  
-  Scenario: An admin uploads, updates and deletes an asset
-    Given a site with no assets
-    And the user is logged in as admin
-    When the user visits admin sites assets list page
-    And the user clicks on 'New asset'
-    Then the page has an admin asset creation form
-    When the user fills in the admin asset creation form with valid values
-    And the user clicks the 'Upload' button
-    Then a new asset is saved
-    And the user is redirected to admin sites assets list page
-    Then the page has a list of assets with at least one asset
-    When the user clicks on 'Edit'
-    Then the page has an admin asset edit form
-    When the user fills in the admin asset edit form
-    And the user clicks the 'Save' button
-    Then the asset is updated
-    When the user clicks on 'Delete'
-    Then the asset is deleted
+  # Scenario: An admin views the assets list
+  #   Given a site with no assets
+  #   And the user is logged in as admin
+  #   When the user visits admin sites assets list page
+  #   Then the page has an empty list
+  # 
+  # Scenario: An admin uploads, updates and deletes an asset
+  #   Given a site with no assets
+  #   And the user is logged in as admin
+  #   When the user visits admin sites assets list page
+  #   And the user clicks on 'New asset'
+  #   Then the page has an admin asset creation form
+  #   When the user fills in the admin asset creation form with valid values
+  #   And the user clicks the 'Upload' button
+  #   Then a new asset is saved
+  #   And the user is redirected to admin sites assets list page
+  #   Then the page has a list of assets with at least one asset
+  #   When the user clicks on 'Edit'
+  #   Then the page has an admin asset edit form
+  #   When the user fills in the admin asset edit form
+  #   And the user clicks the 'Save' button
+  #   Then the asset is updated
+  #   When the user clicks on 'Delete'
+  #   Then the asset is deleted
   
   Scenario: An admin adds an asset to the bucket
     Given a site with an asset

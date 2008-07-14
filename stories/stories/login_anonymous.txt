@@ -7,7 +7,7 @@ Story: Anonymous login
     Given no anonymous account exists
     And a blog that allows anonymous users to create comments
     And a published blog article
-    When the user has submitted a comment to the blog article
+    When the user posts a comment to the blog article
     Then an anonymous account exists
     When the user goes to the comment show page
     Then the system authenticates the user as a known anonymous 

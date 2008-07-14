@@ -98,7 +98,7 @@ steps_for :article do
     response.should have_tag('table#articles.list')
   end
 
-  Then "the user is redirected to the admin blog articles page" do |section|
+  Then "the user is redirected to the admin blog articles page" do
     request.request_uri.should =~ %r(/admin/sites/[\d]*/sections/[\d]*/articles)
     response.should render_template("admin/blog/index")
   end
@@ -117,9 +117,8 @@ steps_for :article do
     response.should have_tag("input#article-draft[type=?][value=?]", 'checkbox', 1)
   end
   
-  Then "the blog has sent pings" do
-    
-  end
+  # Then "the blog has sent pings" do    
+  # end
   
   Then "the page displays the article" do
     raise "step expects the variable @article to be set" unless @article
@@ -128,7 +127,7 @@ steps_for :article do
 
   Then "the page displays the article as preview" do
     raise "step expects the variable @article to be set" unless @article
-    response.should have_tag("div#article_#{@article.id}[class=?]", 'entry')
+    response.should have_tag("div#article_#{@article.id}[class*=?]", 'entry')
   end
 
 end

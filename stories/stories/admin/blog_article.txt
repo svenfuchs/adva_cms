@@ -16,7 +16,7 @@ Story: Publishing a blog article
     Then the user is redirected to the admin blog articles edit page
     And a new article is saved
 
-  Scenario: An admin preview a blog article
+  Scenario: An admin previews a blog article
     Given page cache is enabled and empty
     And a blog with an article
     And the user is logged in as admin

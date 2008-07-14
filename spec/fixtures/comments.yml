@@ -2,7 +2,7 @@ a_comment:
   body: comment body
   site: site_1
   section: home
-  author: an_anonymous,
-  author_type: Anonymous,
+  author: an_anonymous
+  author_type: Anonymous
   commentable: an_article
-  commentable_type: Article,
+  commentable_type: Article

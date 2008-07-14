@@ -1,14 +1,13 @@
 # TODO page caching?, access control
 
-Story: Commenting on an article
+Story: Commenting on a blog article
   As a user with a given role that allows me to comment in a blog
   I want to comment on an article
   So I can share my opinions
   
   Scenario: An anonymous user comments on an article
     Given a blog that allows anonymous users to create comments
-    And a published blog article
-    And the article has no comments
+    And a published blog article with no comments
     When the user goes to the url /2008/1/1/the-article-title
     Then the page has a comment creation form
     And the form contains anonymous name and email fields
@@ -19,9 +18,8 @@ Story: Commenting on an article
   
   Scenario: An anonymous user updates a comment that he has submitted
     Given a blog that allows anonymous users to create comments
-    And a published blog article
-    And the article has no comments
-    When the user has submitted a comment to the blog article
+    And a published blog article with no comments
+    When the user posts a comment to the blog article
     And the user goes to the comment show page
     Then the page shows 'the comment body'
     Then the page has a comment edit form
@@ -30,3 +28,51 @@ Story: Commenting on an article
     And the user clicks the 'Save Comment' button
     Then the comment's body is set to 'the updated body'
     And the user is redirected to the comment show page
+    
+Story: Spam control for blog comments
+  As a blog admin
+  I want to control blog spam according to my requirements
+  So I don't need to deal with spam too much
+  
+  Scenario: A site w/ default filter and :always_ham set to false does not approve an anonymous comment 
+    Given a site with the Default spam filter and :always_ham set to false
+    And a blog that allows anonymous users to create comments
+    And a published blog article with no comments
+    When the user posts a comment to the blog article
+    Then the comment is not approved
+  
+  Scenario: A site w/ default filter and :always_ham set to true approves an anonymous comment 
+    Given a site with the Default spam filter and :always_ham set to true
+    And a blog that allows anonymous users to create comments
+    And a published blog article with no comments
+    When the user posts a comment to the blog article
+    Then the comment is approved
+  
+  Scenario: A site w/ default filter and :authenticated_ham set to false does not approve an anonymous comment 
+    Given a site with the Default spam filter and :authenticated_ham set to false
+    And a blog that allows anonymous users to create comments
+    And a published blog article with no comments
+    When the user posts a comment to the blog article
+    Then the comment is not approved
+  
+  Scenario: A site w/ default filter and :authenticated_ham set to true approves an authenticated comment 
+    Given a site with the Default spam filter and :authenticated_ham set to true
+    And a blog that allows anonymous users to create comments
+    And a published blog article with no comments
+    And the user is logged in
+    When the user posts a comment to the blog article
+    Then the comment is approved
+  
+  Scenario: A site w/ Akismet filter returning 'spam' does not approve a comment 
+    Given a site with the Akismet spam filter
+    And a blog that allows anonymous users to create comments
+    And a published blog article with no comments
+    When the user posts a comment which Akismet thinks is spam
+    Then the comment is not approved
+  
+  Scenario: A site w/ Akismet filter returning 'ham' approves a comment 
+    Given a site with the Akismet spam filter
+    And a blog that allows anonymous users to create comments
+    And a published blog article with no comments
+    When the user posts a comment which Akismet thinks is ham
+    Then the comment is approved

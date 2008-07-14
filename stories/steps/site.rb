@@ -3,18 +3,34 @@ factories :site
 steps_for :site do
   Given "no site exists" do
     Site.delete_all
+    Section.delete_all
     @site_count = 0
   end
   
   Given "a site" do
-    Given "no site exists"
-    @site = create_site
+    @site ||= begin 
+      Given 'no site exists'
+      create_site
+    end
     @site_count = Site.count
   end
-
+  
   Given "a site with no assets" do
     Given "a site"
     @site.assets.should be_empty
+  end
+
+  Given "a site with the $engine spam filter and :$option set to $value" do |engine, option, value|
+    Given "a site"
+    value = eval(value) if ['true', 'false'].include? value
+    options = {engine.downcase.to_sym => {option.to_sym => value}}
+    @site.update_attributes! :spam_options => options
+  end
+
+  Given "a site with the $engine spam filter" do |engine|
+    Given "a site"
+    options = {engine.downcase.to_sym => {:key => 'key', :url => 'http://domain.org'}}
+    @site.update_attributes! :spam_options => options
   end
   
   When "the user visits the admin sites list page" do

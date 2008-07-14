@@ -5,7 +5,7 @@ module SpamEngine
       
       def check_comment(comment, context = {})
         result = backend.check_comment(comment_options(comment, context))
-        SpamReport.new(:engine => name, :spaminess => result[:spaminess], :data => result)
+        comment.spam_reports << SpamReport.new(:engine => name, :spaminess => result[:spaminess], :data => result)
       end
       
       def mark_as_ham(comment, context = {})

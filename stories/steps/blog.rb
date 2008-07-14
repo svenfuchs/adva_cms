@@ -2,7 +2,10 @@ factories :sections, :articles
 
 steps_for :blog do
   Given 'a blog' do
-    @blog = create_blog
+    @blog ||= begin
+      Given 'a site'
+      create_blog :site => @site
+    end
   end
   
   Given "a blog that allows anonymous users to create comments" do
@@ -42,8 +45,9 @@ steps_for :blog do
   end
   
   Given 'a blog article' do
+    Given 'a blog'
     Article.delete_all
-    @article = create_article
+    @article = create_article 
     @article_count = 1
   end
   
@@ -59,5 +63,10 @@ steps_for :blog do
   Given 'a published blog article with no excerpt' do
     Given 'a published blog article'
     @article.update_attributes! :excerpt => '', :excerpt_html => ''
+  end
+  
+  Given 'a published blog article with no comments' do
+    Given 'a published blog article'
+    Given "the article has no comments"
   end
 end

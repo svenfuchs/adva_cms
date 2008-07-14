@@ -1,7 +1,7 @@
 steps_for :asset do
   Given "a site with an asset" do
     Given "a site"
-     
+    raise "STEP NOT IMPLEMENTED: a site with an asset"
   end
   
   When "the user visits admin sites assets list page" do

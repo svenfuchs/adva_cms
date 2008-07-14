@@ -87,7 +87,7 @@ class Site < ActiveRecord::Base
   end
   
   def spam_options
-    read_attribute(:spam_options) || {}
+    read_attribute(:spam_options) || {:default => {}}
   end
   
   def spam_engine

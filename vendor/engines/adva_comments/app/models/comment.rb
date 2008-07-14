@@ -52,14 +52,14 @@ class Comment < ActiveRecord::Base
   end
   
   def check_approval(context = {})
-    spam_reports << section.spam_engine.check_comment(self, context)
+    section.spam_engine.check_comment(self, context)
     self.spaminess = calculate_spaminess
     self.approved = ham?
     save!
   end
   
   def calculate_spaminess
-    sum = spam_reports(true).inject(0){|report, sum| sum + report.spaminess }
+    sum = spam_reports(true).inject(0){|sum, report| sum + report.spaminess }
     sum > 0 ? sum / spam_reports.count : 0
   end
 

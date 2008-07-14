@@ -1,6 +1,13 @@
 factories :user
 
 steps_for :authentication do
+  Given "the user is logged in" do 
+    Given "a user"
+    @user.verified!    
+    post "/session", :user => {:login => @user.login, :password => 'password'}
+    controller.authenticated?.should be_true
+  end
+  
   Given "the user is logged in as $role" do |role|
     @user = create_user :name => role, :email => "#{role}@email.org", :login => role
     case role.to_sym
