@@ -1,19 +1,19 @@
 <div id="site_spam_settings_default" class="site_spam_settings <%= 'active' if active %>">
   <p>
-    <%= radio_button_tag 'site[spam_options][default][auto_approve]', "none", site.spam_options(:default, :auto_approve) == 'none', :id => 'site_spam_options_default_auto_approve_none' %>
-    <label class="inline light" for="site_spam_options_default_auto_approve_none">
+    <%= radio_button_tag 'site[spam_options][default][ham]', "none", site.spam_options(:default, :ham) == 'none', :id => 'site_spam_options_default_ham_none' %>
+    <label class="inline light" for="site_spam_options_default_ham_none">
       Do not automatically approve any comments.
     </label>
   </p>
   <p>
-    <%= radio_button_tag 'site[spam_options][default][auto_approve]', "authenticated", site.spam_options(:default, :auto_approve) == 'authenticated', :id => 'site_spam_options_default_auto_approve_authenticated' %>
-    <label class="inline light" for="site_spam_options_default_auto_approve_authenticated">
+    <%= radio_button_tag 'site[spam_options][default][ham]', "authenticated", site.spam_options(:default, :ham) == 'authenticated', :id => 'site_spam_options_default_ham_authenticated' %>
+    <label class="inline light" for="site_spam_options_default_ham_authenticated">
       Approve comments posted by authenticated users.
     </label>
   </p>
   <p>
-    <%= radio_button_tag 'site[spam_options][default][auto_approve]', "all", site.spam_options(:default, :auto_approve) == 'all', :id => 'site_spam_options_default_auto_approve_all' %>
-    <label class="inline light" for="site_spam_options_default_auto_approve_all">
+    <%= radio_button_tag 'site[spam_options][default][ham]', "all", site.spam_options(:default, :ham) == 'all', :id => 'site_spam_options_default_ham_all' %>
+    <label class="inline light" for="site_spam_options_default_ham_all">
       Approve all comments automatically.
     </label>
   </p>

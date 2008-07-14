@@ -2,9 +2,9 @@ module SpamEngine
   module Filter
     class Default < Base
       def check_comment(comment, context = {})
-        spaminess = auto_approve?(context) ? 0 : 100
+        spaminess = ham?(context) ? 0 : 100
         comment.spam_reports << SpamReport.new(:engine => name, :spaminess => spaminess)
-        spaminess != 0 # i.e. stop the filter chain if the comment was auto_approved
+        spaminess != 0 # i.e. stop the filter chain if the comment was hamd
       end
       
       def mark_as_ham(comment, context = {})
@@ -17,9 +17,9 @@ module SpamEngine
       
       protected
       
-        def auto_approve?(context)
-          options[:auto_approve] == 'all' or 
-          options[:auto_approve] == 'authenticated' && context[:authenticated]
+        def ham?(context)
+          options[:ham] == 'all' or 
+          options[:ham] == 'authenticated' && context[:authenticated]
         end
     end
   end  

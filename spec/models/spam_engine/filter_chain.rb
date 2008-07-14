@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 describe 'SpamEngine:', 'the FilterChain' do
   before :each do
     options = {
-      :default => {:auto_approve => 'none', :priority => 1},
+      :default => {:ham => 'none', :priority => 1},
       :akismet => {:key => 'akismet key', :url => 'akismet url', :priority => 2},
       :defensio => {:key => 'defensio key', :url => 'defensio url', :priority => 3}
     }
@@ -16,7 +16,7 @@ describe 'SpamEngine:', 'the FilterChain' do
   
   it "when called #assemble returns a filter chain with filters assembled" do
     @default.should be_instance_of(SpamEngine::Filter::Default)
-    @default.options.should == {:auto_approve => 'none', :priority => 1}
+    @default.options.should == {:ham => 'none', :priority => 1}
     
     @akismet.should be_instance_of(SpamEngine::Filter::Akismet)
     @akismet.options.should == {:key => 'akismet key', :url => 'akismet url', :priority => 2}

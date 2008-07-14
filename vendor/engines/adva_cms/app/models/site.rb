@@ -1,23 +1,3 @@
-class Hash
-  def deep_symbolize_keys
-    inject({}){|result, (key, value)|
-      value = value.deep_symbolize_keys if value.is_a? Hash
-      result[(key.to_sym rescue key) || key] = value
-      result
-    }
-  end
-  
-  def deep_symbolize_keys!
-    replace deep_symbolize_keys
-  end
-  
-  def deep_compact!(&block)
-    block = lambda{|key, value| value.nil? } unless block_given?
-    each{|key, value| store key, value.deep_compact(&block) if value.is_a? Hash }
-    reject! &block
-  end
-end
-
 class Site < ActiveRecord::Base
   # TODO make sure the theme name doesn't have any slashes (forbid anything besides [\w\-_\.] ?)
   acts_as_themed  
@@ -111,7 +91,7 @@ class Site < ActiveRecord::Base
   end
   
   def spam_options(*keys)
-    result = read_attribute(:spam_options) || {:default => {:auto_approve => 'authenticated'}}
+    result = read_attribute(:spam_options) || {:default => {:ham => 'authenticated'}}
     keys.each do |key|
       return nil unless result.has_key?(key)
       result = result[key]
