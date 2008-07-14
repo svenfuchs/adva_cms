@@ -103,11 +103,15 @@ class Site < ActiveRecord::Base
   end
   
   def spam_options=(options)
-    write_attribute :spam_options, normalize_spam_options(options)
+    if options.is_a? Hash
+      options = options.deep_symbolize_keys 
+      options.deep_compact!{|key, value| value == '' }
+    end
+    write_attribute :spam_options, options
   end
   
   def spam_options(*keys)
-    result = read_attribute(:spam_options) || {:default => {:auto_approve => 'none'}}
+    result = read_attribute(:spam_options) || {:default => {:auto_approve => 'authenticated'}}
     keys.each do |key|
       return nil unless result.has_key?(key)
       result = result[key]
@@ -125,15 +129,6 @@ class Site < ActiveRecord::Base
 
   private
   
-    def normalize_spam_options(options)
-      options = options.deep_symbolize_keys # no idea why the bang version fails
-      # engines = options.delete(:engines) || []
-      # engines = engines.map(&:downcase).map(&:to_sym) + [:default]
-      # options.reject!{|key, value| !engines.include?(key) }
-      options.deep_compact!{|key, value| value == '' }
-      options
-    end
-  
     def downcase_host
       self.host = host.to_s.downcase
     end
@@ -142,28 +137,6 @@ class Site < ActiveRecord::Base
       CachedPage.delete_all_by_site_id id
     end
   
-  # @@template_handlers = {}
-  
-  # # Register a class that knows how to handle template files with the given
-  # # extension. This can be used to implement new template types.
-  # # The constructor for the class must take a Site instance
-  # # as a parameter, and the class must implement a #render method that
-  # # has the following signature
-  # # def render(section, layout, template, assigns ={}, controller = nil)
-  # # and return the rendered template as a string.
-  # def self.register_template_handler(extension, klass)
-  #   @@template_handlers[extension] = klass
-  # end
-  # register_template_handler(".liquid", Mephisto::Liquid::LiquidTemplate)
-  # 
-  # def self.extensions
-  #   @@template_handlers.keys
-  # end
-
-  # has_many :memberships, :dependent => :destroy
-  # has_many :members, :through => :memberships, :source => :user
-  # has_many :admins,  :through => :memberships, :source => :user, :conditions => ['memberships.admin = ? or users.admin = ?', true, true]
-  # 
   # before_validation :set_default_attributes
   # validates_presence_of :permalink_style, :search_path, :tag_path
   # validates_format_of     :search_path, :tag_path, :with => Format::STRING
