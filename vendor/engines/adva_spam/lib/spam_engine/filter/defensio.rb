@@ -3,7 +3,8 @@ module SpamEngine
     class Defensio < Base
       def check_comment(comment, context = {})
         result = backend.check_comment(comment_options(comment, context))
-        comment.spam_reports << SpamReport.new(:engine => name, :spaminess => result[:spaminess], :data => result)
+        spaminess = result[:spam] ? 100 : 0 # TODO we might want to use the real spaminess returned
+        comment.spam_reports << SpamReport.new(:engine => name, :spaminess => spaminess, :data => result)
       end
       
       def mark_as_ham(comment, context = {})
