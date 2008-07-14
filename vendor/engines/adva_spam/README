@@ -1,0 +1,45 @@
+Spam protection for user contributed contents. Right now only implements spam
+protection for comments.
+
+Spam filters can be registered to the application (e.g. from a plugin). There
+are built-in filters for Akismet and Defensio which wrap around Viking [1] as
+well as a Default Filter that allows to auto-approve all comments or all
+comments posted by an authenticated user.
+
+For a Site (maybe later: for a Section) one can activate and configure which
+spam filters are active. One can also change the order in which the spam
+filters will be run (this is currently not implemented in the admin interface
+though).
+
+When a Comment is created a spam filter chain is assembled and run. Each
+filter can add to the spam analysis results. The results are then accumulated
+to a final spaminess value. The individual analysis results are saved for
+statistical reports.
+
+Filters can decide to halt the execution of further filters on certain
+conditions by returning true. E.g. when the auto-approve configuration applies
+the default filter skips the execution of any additional filters.
+
+After the filter chain has been run the spam analysis results of all filters
+are accumulated to a overall spaminess value (currently implemented as the 
+avarage of all spaminess values).
+
+Based on this overall spaminess he application judges how to handle the
+comment. It might be approved, pushed to the moderation queue, marked as spam
+or even deleted. The current implementation is that a spammy comment will be
+held as unapproved while a hammy comment will be approved.
+
+When a Comment is eventually marked as ham or spam (by either the application
+or the user) every filter is given the chance to report back to their backend
+(currently not implemented).
+
+
+# CREDITS
+
+This is heavily inspired on the work of François Beausoleil's [2] refactoring
+of Mephisto's spam protection in [3]. Also, it uses Rick Olson's great Viking
+antispam plugin [1], which is included in the application.
+
+[1] Viking: http://github.com/technoweenie/viking
+[2] http://blog.teksol.info/
+[3] http://github.com/francois/mephisto/tree/multiengine
