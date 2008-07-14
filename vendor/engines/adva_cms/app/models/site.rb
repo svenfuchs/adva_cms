@@ -1,3 +1,23 @@
+class Hash
+  def deep_symbolize_keys
+    inject({}){|result, (key, value)|
+      value = value.deep_symbolize_keys if value.is_a? Hash
+      result[(key.to_sym rescue key) || key] = value
+      result
+    }
+  end
+  
+  def deep_symbolize_keys!
+    replace deep_symbolize_keys
+  end
+  
+  def deep_compact!(&block)
+    block = lambda{|key, value| value.nil? } unless block_given?
+    each{|key, value| store key, value.deep_compact(&block) if value.is_a? Hash }
+    reject! &block
+  end
+end
+
 class Site < ActiveRecord::Base
   # TODO make sure the theme name doesn't have any slashes (forbid anything besides [\w\-_\.] ?)
   acts_as_themed  
@@ -82,12 +102,12 @@ class Site < ActiveRecord::Base
     host
   end
   
-  def approve_comments?
-    !!spam_options[:approve_comments]
+  def spam_options=(options)
+    write_attribute :spam_options, normalize_spam_options(options)
   end
   
   def spam_options(*keys)
-    result = read_attribute(:spam_options) || {:default => {}}
+    result = read_attribute(:spam_options) || {:default => {:auto_approve => 'none'}}
     keys.each do |key|
       return nil unless result.has_key?(key)
       result = result[key]
@@ -96,7 +116,7 @@ class Site < ActiveRecord::Base
   end
   
   def spam_filter_active?(name)
-    spam_options.keys.include?(name.to_s.downcase.to_sym)
+    (spam_options[:filters] || []).include?(name)
   end
   
   def spam_engine
@@ -104,6 +124,15 @@ class Site < ActiveRecord::Base
   end
 
   private
+  
+    def normalize_spam_options(options)
+      options = options.deep_symbolize_keys # no idea why the bang version fails
+      # engines = options.delete(:engines) || []
+      # engines = engines.map(&:downcase).map(&:to_sym) + [:default]
+      # options.reject!{|key, value| !engines.include?(key) }
+      options.deep_compact!{|key, value| value == '' }
+      options
+    end
   
     def downcase_host
       self.host = host.to_s.downcase

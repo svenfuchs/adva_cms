@@ -41,7 +41,7 @@ class Section < ActiveRecord::Base
   validates_numericality_of :articles_per_page, :only_integer => true, :message => "can only be whole number."
   # TODO validates_inclusion_of :articles_per_page, :in => 1..30, :message => "can only be between 1 and 30."  
 
-  delegate :spam_engine, :approve_comments?, :to => :site
+  delegate :spam_engine, :to => :site
   
   class << self
     def register_type(type)

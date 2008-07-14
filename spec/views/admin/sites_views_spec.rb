@@ -129,7 +129,8 @@ describe "Admin::Sites Views:" do
     it "renders checkboxes for selecting the active spam filters" do
       render "admin/sites/_form"
       SpamEngine::Filter.names.each do |name|
-        response.should have_tag('input[type=?][name=?][value=?]', 'checkbox', 'site[spam_options][engines][]', name)
+        next if name == 'Default'
+        response.should have_tag('input[type=?][name=?][value=?]', 'checkbox', 'site[spam_options][filters][]', name)
       end
     end
     

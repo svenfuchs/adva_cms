@@ -18,7 +18,7 @@ module SpamEngine
     protected
     
       def run(method, *args)
-        each{|filter| filter.send(method, *args) } # TODO catch exceptions
+        each {|filter| return unless filter.send(method, *args)}
       end
     
       def sort_by_priority!

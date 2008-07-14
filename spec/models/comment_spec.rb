@@ -155,7 +155,7 @@ describe Comment, "spam control" do
   before :each do
     @report = SpamReport.new(:engine => name, :spaminess => 0, :data => {:spam => false, :spaminess => 0, :signature => 'signature'})
     @spam_engine = stub('spam_engine', :check_comment => @report)
-    @section = stub('section', :spam_engine => @spam_engine, :approve_comments? => false)
+    @section = stub('section', :spam_engine => @spam_engine)
     
     @comment = Comment.new
     @comment.stub!(:section).and_return @section

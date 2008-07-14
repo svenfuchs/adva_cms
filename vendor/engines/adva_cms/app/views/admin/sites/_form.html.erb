@@ -40,11 +40,11 @@
 <h4>Spam protection</h4>
 <fieldset id="site_spam_settings_fields">  
   <h4>Spam filters</h4>
-  <span class="hint">When comments are posted, the following engines is used to check their spam status.</span>
+  <span class="hint">When comments are posted, the following filters are used to check their spam status.</span>
   <% SpamEngine::Filter.names.each do |name| %>
     <p>
-      <%= check_box_tag "site[spam_options][engines][]", name, site.spam_filter_active?(name), :class => "site_spam_options_engine", :id => "site_spam_options_engine_#{name.downcase}" %>
-      <%= label :site, "spam_options_engine_#{name.downcase}", name, :class => 'inline' %>
+      <%= check_box_tag "site[spam_options][filters][]", name, site.spam_filter_active?(name), :class => "site_spam_options_filter", :id => "site_spam_options_filter_#{name.downcase}" unless name == 'Default' %>
+      <%= label :site, "spam_options_filter_#{name.downcase}", name, :class => 'inline' %>
     </p>
     <%= render :partial => "spam/#{name.downcase}_settings", :locals => {:site => site, :active => site.spam_filter_active?(name)} %>
   <% end %>

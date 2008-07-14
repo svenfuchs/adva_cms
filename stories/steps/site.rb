@@ -20,16 +20,18 @@ steps_for :site do
     @site.assets.should be_empty
   end
 
-  Given "a site with the $engine spam filter and :$option set to $value" do |engine, option, value|
+  Given "a site with the $engine spam filter and $option set to $value" do |engine, option, value|
     Given "a site"
-    value = eval(value) if ['true', 'false'].include? value
+    value = eval(value) if ['true', 'false'].include?(value) 
     options = {engine.downcase.to_sym => {option.to_sym => value}}
     @site.update_attributes! :spam_options => options
   end
 
   Given "a site with the $engine spam filter" do |engine|
     Given "a site"
-    options = {engine.downcase.to_sym => {:key => 'key', :url => 'http://domain.org'}}
+    engine = engine.downcase.to_sym
+    options = {engine => {}}
+    options[engine].merge! :key => 'key', :url => 'http://domain.org' if [:akismet, :defensio].include?(engine)
     @site.update_attributes! :spam_options => options
   end
   
