@@ -9,7 +9,7 @@ describe ThemeAssetTagHelper do
     theme.stub!(:local_path).and_return('site-1/theme-1')
     @controller.stub!(:current_themes).and_return [theme]
     
-    @theme_path = "themes/site-1/theme-1/something"
+    @theme_path = "theme-1/something"
   end
   
   def controller
@@ -28,7 +28,7 @@ describe ThemeAssetTagHelper do
     end
     
     it "should add the theme path to multiple sources and leave options untouched" do
-      add_theme_paths('theme-1', ['something', 'else', {:foo => :bar}]).should == [@theme_path, 'themes/site-1/theme-1/else', {:foo => :bar}]
+      add_theme_paths('theme-1', ['something', 'else', {:foo => :bar}]).should == [@theme_path, 'theme-1/else', {:foo => :bar}]
     end
   end
   
