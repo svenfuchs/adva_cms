@@ -37,7 +37,6 @@ apache multisite config http://www.appelsiini.net/2007/6/mephisto-multiple-site-
 /public/cache/www.example.org/
 
 
-
 # users
 
 [feature] ajax users online feature?

@@ -8,6 +8,9 @@ class Admin::ThemesController < Admin::BaseController
   def index
     @themes = @site.themes.find(:all)
   end
+  
+  def show
+  end
 
   def new
     @theme = Theme.new

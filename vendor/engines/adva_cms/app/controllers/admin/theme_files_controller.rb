@@ -5,6 +5,9 @@ class Admin::ThemeFilesController < Admin::BaseController
   before_filter :set_file, :only => [:show, :update, :destroy]
   
   guards_permissions :theme, :update => [:show, :new, :create, :edit, :update, :destroy]
+  
+  def show
+  end
 
   def new
     @file = Theme::File.new @theme

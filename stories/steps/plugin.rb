@@ -15,13 +15,13 @@ steps_for :plugin do
   end
   
   Then "the list contains all the plugins installed" do
-    Engines.plugins.each do |plugin|
+    @site.plugins.each do |plugin|
       response.should have_text(/#{plugin.name}/)
     end
   end
   
   Then "the page shows the test plugin about info" do
-    plugin = Engines.plugins[:test_plugin]
+    plugin = @site.plugins[:test_plugin]
     response.should have_text(/#{plugin.name}/)
     [:version, :author, :homepage, :summary, :description].each do |attr|
       response.should have_text(/#{plugin.about[attr]}/) if plugin.about[attr]
@@ -33,7 +33,7 @@ steps_for :plugin do
   end
   
   Then "the plugin's configuration is saved" do
-    config = Engines.plugins[:test_plugin].send(:config)
+    config = @site.plugins[:test_plugin].send(:config)
     config.reload
     config.options.should == {'string' => 'custom string', 'text' => 'custom text'}
   end

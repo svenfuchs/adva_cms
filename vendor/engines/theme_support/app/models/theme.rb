@@ -5,6 +5,9 @@ class Theme
   
   @@default_preview_path = RAILS_ROOT + '/public/plugin_assets/theme_support/images/preview.png'
   
+  cattr_accessor :root_dir
+  @@root_dir = RAILS_ROOT
+  
   attr_accessor :path, :id, :errors
     
   class << self
@@ -24,10 +27,6 @@ class Theme
     
     def to_id(str)
       str.gsub(/[^\w\-_]/, '_').downcase
-    end
-    
-    def root_dir
-      RAILS_ROOT
     end
     
     def base_dir

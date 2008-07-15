@@ -1,5 +1,16 @@
-<%= link_to "New theme", new_admin_theme_path %>
+<% if @themes.size > 0 %>
 
-<ul id="themelist">
-  <%= render :partial => 'theme', :collection => @themes %>
-</ul>
+  <%= link_to "New theme", new_admin_theme_path %>
+
+  <ul id="themelist">
+    <%= render :partial => 'theme', :collection => @themes %>
+  </ul>
+
+<% else %>  
+
+  <div class="empty">
+    You currently do not have any themes created.
+    <%= link_to "Create one now &raquo;", new_admin_theme_path %>
+  </div>
+
+<% end %>

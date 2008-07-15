@@ -19,6 +19,12 @@ steps_for :site do
     Given "a site"
     @site.assets.should be_empty
   end
+  
+  Given "a site with no themes" do
+    Given "a site"
+    raise "About to rm -rf Theme.base_dir. Set it to something else than #{Theme.base_dir}." if Theme.base_dir.blank? || ['/', RAILS_ROOT + '/themes'].include?(Theme.base_dir)
+    FileUtils.rm_rf Theme.base_dir
+  end
 
   Given "a site with the $engine spam filter and $option set to $value" do |engine, option, value|
     Given "a site"

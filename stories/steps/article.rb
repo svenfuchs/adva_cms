@@ -10,6 +10,7 @@ steps_for :article do
   end
   
   Given "the article has a comment" do
+    Comment.delete_all
     @comment = create_comment :commentable => @article
   end
   
@@ -20,6 +21,7 @@ steps_for :article do
   
   Given "the article has an unapproved comment" do
     Given "the article has a comment"
+    @comment.update_attributes! :approved => false
   end
   
   Then "the article has an unapproved comment" do

@@ -7,7 +7,9 @@ require 'spec/rails/story_adapter'
 require 'active_record/fixtures'
 
 ActionController::Base.page_cache_directory = RAILS_ROOT + '/tmp/cache'
-ActionController::Base.perform_caching = true    
+ActionController::Base.perform_caching = true
+
+Theme.root_dir = RAILS_ROOT + '/tmp'
 
 Spec::Runner.configure do |config|
   config.include Spec::Story
