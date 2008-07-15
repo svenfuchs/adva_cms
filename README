@@ -35,7 +35,7 @@ or a path glob specification like `spec/controllers/blog*`
 
 E.g.
 
-    script/spec -O spec/spec.opts spec # will run all stories
+    script/spec -O spec/spec.opts spec # will run all specs
     script/spec -O spec/spec.opts spec/controllers/blog_controller_spec.rb # will run the blog_controller spec
     ruby stories/run.rb stories/stories/*routes* # will run all routes specs
 
