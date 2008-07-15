@@ -1,0 +1,38 @@
+Story: Theming a site
+  As an admin
+  I want to theme my site
+  So it looks great
+  
+  Scenario: An admin creates a new theme
+    Given a site with no themes
+    And the user is logged in as admin
+    When the user visits the the admin themes index page
+    Then the page has an empty list
+    When the user clicks on 'New theme'
+    Then the page has an admin theme creation form
+    When the user fills in the admin theme creation form with valid values
+    And the user clicks the 'Save' button
+    Then the user is redirected to the admin themes index page
+    And the theme is saved
+    
+  Scenario: An admin creates a new theme template 
+    GivenScenario: An admin creates a new theme
+    When the user goes to the theme show page
+    And the user clicks on "Create a new file"
+    Then the page has an admin theme file creation form
+    When the user fills in the admin theme file creation form with valid values
+    And the user clicks the 'Save' button
+    Then the user is redirected to the admin theme show page
+    And the page shows the filename of the new theme template
+    
+  Scenario: A theme template modifies the look of the site
+    Given page cache is enabled and empty
+    And a site
+    When the user goes to the url /
+    Then the page is cached
+    And the page does not show 'this is the theme template'
+    GivenScenario: An admin creates a new theme template
+    When the user goes to the url /
+    Then the page is cached
+    And the page shows 'this is the theme template'
+    

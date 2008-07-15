@@ -25,10 +25,10 @@ class Admin::PluginsController < Admin::BaseController
   protected
   
     def set_plugins
-      @plugins = Engines.plugins
+      @plugins = @site.plugins
     end
     
     def set_plugin
-      @plugin = Engines.plugins[params[:id]] or raise ActiveRecord::RecordNotFound
+      @plugin = @site.plugins[params[:id]] or raise ActiveRecord::RecordNotFound
     end
 end

@@ -9,7 +9,7 @@ class Site < ActiveRecord::Base
   permissions :site    => { :superuser => [:create, :destroy], :admin => [:show, :update, :manage] },
               :section => { :admin => :all },
               :theme   => { :admin => :all }
-  
+        
   has_many :sections, :dependent => :destroy, :order => :lft do
     def root
       find_by_parent_id nil, :order => 'lft'
@@ -80,6 +80,10 @@ class Site < ActiveRecord::Base
   def perma_host
     # host.sub(':', '-')
     host
+  end
+  
+  def plugins
+    @plugins ||= Plugins.new self, Engines.plugins
   end
   
   def spam_options=(options)

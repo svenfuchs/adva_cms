@@ -6,7 +6,10 @@ describe Admin::PluginsController do
   before :each do
     scenario :empty_site
     
-    @plugin = Engines.plugins[:test_plugin]
+    @plugin = Engines.plugins[:test_plugin].clone
+    @plugin.owner = @site
+    @site.stub!(:plugins).and_return Engines::Plugin::List.new([@plugin])
+    
     set_resource_paths :plugin, '/admin/sites/1/'
     
     @controller.stub! :require_authentication

@@ -6,11 +6,14 @@ module Engines
       class Config < ActiveRecord::Base  
         set_table_name 'plugin_configs'
         serialize :options, Hash
+        belongs_to :owner, :polymorphic => true
     
         def after_initialize
           write_attribute(:options, {}) if read_attribute(:options).nil?
         end
       end
+      
+      attr_accessor :owner
     
       def configurable?
         not default_options.empty?
@@ -57,7 +60,10 @@ module Engines
       private
   
       def config
-        @config ||= Config.find_or_initialize_by_name(conf_name)
+        @config ||= begin
+          Config.find_by_name_and_owner_type_and_owner_id(conf_name, @owner.class.name, @owner.id) ||
+          Config.new(:name => conf_name, :owner => @owner)
+        end
       end
       
       # allow subclasses to hook in here

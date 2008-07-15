@@ -118,13 +118,41 @@ describe Site do
     end
   end
   
+  describe "plugins:" do
+    it "should clone Engines.plugins" do
+      @site.plugins.first.object_id.should_not == Engines.plugins.first.object_id
+    end
+    
+    it "should set plugin owner to site" do
+      @site.plugins.first.instance_variable_get(:@owner).should == @site
+    end
+    
+    it "should save a plugin_configs per site" do
+      Engines::Plugin::Config.delete_all
+      
+      plugin_1 = sites(:site_1).plugins[:test_plugin]
+      plugin_2 = sites(:site_2).plugins[:test_plugin]
+
+      plugin_1.string = 'site_1 string'
+      plugin_1.save!
+      plugin_1.instance_variable_set :@config, nil # force reload
+      
+      plugin_2.string = 'site_2 string'
+      plugin_2.save!
+      plugin_2.instance_variable_set :@config, nil
+      
+      plugin_1.string.should == 'site_1 string'
+      plugin_2.string.should == 'site_2 string'      
+    end
+  end
+  
   describe "spam_engine:" do
     it "should return the Default spam engine when none configured" do
       engine = Site.new.spam_engine
       engine.should be_kind_of(SpamEngine::FilterChain) 
       engine.first.should be_kind_of(SpamEngine::Filter::Default) 
     end
-
+  
     it "should return the Defensio spam engine when spam_options :engine is set to 'defensio'" do
       site = Site.new :spam_options => {:defensio => {:key => 'defensio key', :url => 'defensio url'}}
       engine = Site.new.spam_engine

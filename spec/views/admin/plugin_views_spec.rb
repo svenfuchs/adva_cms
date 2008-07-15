@@ -4,10 +4,11 @@ describe "Admin::Plugins:" do
   include SpecViewHelper
   
   before :each do
-    @plugins = Engines.plugins
-    @plugin = Engines.plugins[:test_plugin]
-    
     assigns[:site] = @site = stub_site
+    
+    @plugin = Engines.plugins[:test_plugin].clone
+    @plugin.owner = @site
+    @plugins = Engines::Plugin::List.new([@plugin])
     
     set_resource_paths :plugin, '/admin/sites/1/'
 
