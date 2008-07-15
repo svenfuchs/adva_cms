@@ -47,6 +47,7 @@ steps_for :blog do
   Given 'a blog article' do
     Given 'a blog'
     Article.delete_all
+    Category.delete_all
     @article = create_article 
     @article_count = 1
   end
