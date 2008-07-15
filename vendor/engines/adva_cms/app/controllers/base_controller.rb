@@ -33,7 +33,7 @@ class BaseController < ApplicationController
                               
   protected
   
-    def current_page # TODO move to helpers
+    def current_page
       @page ||= params[:page].blank? ? 1 : params[:page].to_i
     end
   

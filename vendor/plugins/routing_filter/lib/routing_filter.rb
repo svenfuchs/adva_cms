@@ -51,7 +51,6 @@ ActionController::Routing::RouteSet.class_eval do
   # wrap recognition filters around recognize_path
   def recognize_path_with_filtering(path, env)
     return recognize_path_without_filtering(path, env) unless RoutingFilter.active
-    
     path = path.dup
     chain = [lambda{|path, env| recognize_path_without_filtering(path, env) }]
     filters.each do |filter|

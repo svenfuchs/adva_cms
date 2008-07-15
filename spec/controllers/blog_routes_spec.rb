@@ -13,14 +13,11 @@ describe BlogController do
     with_options :section_id => '1' do |r|
       r.maps_to_index '/'
       r.maps_to_index '/blog'
-      #r.maps_to_index '/blogs/blog'
     
       r.maps_to_index '/2008', :year => '2008'
       r.maps_to_index '/2008/1', :year => '2008', :month => '1'
       r.maps_to_index '/blog/2008', :year => '2008'
       r.maps_to_index '/blog/2008/1', :year => '2008', :month => '1'
-      # r.maps_to_index '/blogs/blog/2008', :year => '2008'
-      # r.maps_to_index '/blogs/blog/2008/1', :year => '2008', :month => '1'
           
       r.maps_to_index '/categories/foo', :category_id => '1'
       r.maps_to_index '/categories/foo/2008', :category_id => '1', :year => '2008'
@@ -40,17 +37,38 @@ describe BlogController do
       r.maps_to_show '/blog/2008/1/1/an-article', :year => '2008', :month => '1', :day => '1', :permalink => 'an-article'
     end
     
+    with_options :section_id => '1', :page => 2 do |r|
+      r.maps_to_index '/pages/2', :page => 2
+      r.maps_to_index '/blog/pages/2', :page => 2
+    
+      r.maps_to_index '/2008/pages/2', :year => '2008', :page => 2
+      r.maps_to_index '/2008/1/pages/2', :year => '2008', :month => '1', :page => 2
+      r.maps_to_index '/blog/2008/pages/2', :year => '2008', :page => 2
+      r.maps_to_index '/blog/2008/1/pages/2', :year => '2008', :month => '1', :page => 2
+          
+      r.maps_to_index '/categories/foo/pages/2', :category_id => '1', :page => 2
+      r.maps_to_index '/categories/foo/2008/pages/2', :category_id => '1', :year => '2008', :page => 2
+      r.maps_to_index '/categories/foo/2008/1/pages/2', :category_id => '1', :year => '2008', :month => '1', :page => 2
+      r.maps_to_index '/blog/categories/foo/pages/2', :category_id => '1', :page => 2
+      r.maps_to_index '/blog/categories/foo/2008/pages/2', :category_id => '1', :year => '2008', :page => 2
+      r.maps_to_index '/blog/categories/foo/2008/1/pages/2', :category_id => '1', :year => '2008', :month => '1', :page => 2
+      
+      r.maps_to_index '/tags/foo+bar/pages/2', :tags => 'foo+bar', :page => 2
+      r.maps_to_index '/tags/foo+bar/2008/pages/2', :tags => 'foo+bar', :year => '2008', :page => 2
+      r.maps_to_index '/tags/foo+bar/2008/1/pages/2', :tags => 'foo+bar', :year => '2008', :month => '1', :page => 2
+      r.maps_to_index '/blog/tags/foo+bar/pages/2', :tags => 'foo+bar', :page => 2
+      r.maps_to_index '/blog/tags/foo+bar/2008/pages/2', :tags => 'foo+bar', :year => '2008', :page => 2
+      r.maps_to_index '/blog/tags/foo+bar/2008/1/pages/2', :tags => 'foo+bar', :year => '2008', :month => '1', :page => 2
+    end
+    
     with_options :section_id => '1', :locale => 'de' do |r|
       r.maps_to_index '/de'
       r.maps_to_index '/de/blog'
-      # r.maps_to_index '/de/blogs/blog'
     
       r.maps_to_index '/de/2008', :year => '2008'
       r.maps_to_index '/de/2008/1', :year => '2008', :month => '1'
       r.maps_to_index '/de/blog/2008', :year => '2008'
       r.maps_to_index '/de/blog/2008/1', :year => '2008', :month => '1'
-      # r.maps_to_index '/de/blogs/blog/2008', :year => '2008'
-      # r.maps_to_index '/de/blogs/blog/2008/1', :year => '2008', :month => '1'
           
       r.maps_to_index '/de/categories/foo', :category_id => '1'
       r.maps_to_index '/de/categories/foo/2008', :category_id => '1', :year => '2008'
@@ -69,7 +87,7 @@ describe BlogController do
       r.maps_to_show '/de/2008/1/1/an-article', :year => '2008', :month => '1', :day => '1', :permalink => 'an-article'
       r.maps_to_show '/de/blog/2008/1/1/an-article', :year => '2008', :month => '1', :day => '1', :permalink => 'an-article'
     end
-  
+      
     with_options :section_id => '1', :format => 'rss' do |r|
     
       # articles feeds
@@ -119,6 +137,11 @@ describe BlogController do
     @archive_path            = lambda { blog_path(@blog, :year => '2008', :month => '1') }
     @tag_path                = lambda { blog_tag_path(@blog, 'foo+bar') }
     @category_path           = lambda { blog_category_path(@blog, @category) }
+    
+    @paged_blog_path         = lambda { blog_path(@blog, :page => 2) }
+    @paged_archive_path      = lambda { blog_path(@blog, :year => '2008', :month => '1', :page => 2) }
+    @paged_tag_path          = lambda { blog_tag_path(@blog, 'foo+bar', :page => 2) }
+    @paged_category_path     = lambda { blog_category_path(@blog, @category, :page => 2) }
                              
     @formatted_blog_path     = lambda { formatted_blog_path(@blog, :rss) }
     @formatted_tag_path      = lambda { formatted_blog_tag_path(@blog, 'foo+bar', :rss) }
@@ -145,8 +168,13 @@ describe BlogController do
     rewrites_url @category_path,           :to => '/categories/foo',               :on => [:default_locale, :root_section]
     rewrites_url @category_path,           :to => '/de/categories/foo',            :on => [:root_section]
     rewrites_url @category_path,           :to => '/blog/categories/foo',          :on => [:default_locale]
-    rewrites_url @category_path,           :to => '/de/blog/categories/foo'        
-                        
+    rewrites_url @category_path,           :to => '/de/blog/categories/foo'
+
+    rewrites_url @paged_blog_path,         :to => '/de/blog/pages/2'
+    rewrites_url @paged_archive_path,      :to => '/de/blog/2008/1/pages/2'
+    rewrites_url @paged_tag_path,          :to => '/de/blog/tags/foo+bar/pages/2'
+    rewrites_url @paged_category_path,     :to => '/de/blog/categories/foo/pages/2'
+
     rewrites_url @formatted_blog_path,     :to => '/blog.rss',                     :on => [:default_locale, :root_section]
     rewrites_url @formatted_blog_path,     :to => '/de/blog.rss',                  :on => [:root_section]
     rewrites_url @formatted_blog_path,     :to => '/blog.rss',                     :on => [:default_locale]

@@ -18,8 +18,7 @@ with_options :controller => 'blog', :action => 'index', :requirements => { :meth
                                 
   blog.formatted_blog          "blogs/:section_id.:format"
   blog.formatted_blog_category "blogs/:section_id/categories/:category_id.:format"
-  blog.formatted_blog_tag      "blogs/:section_id/tags/:tags.:format"
-                                               
+  blog.formatted_blog_tag      "blogs/:section_id/tags/:tags.:format"               
 end                             
 
                                 

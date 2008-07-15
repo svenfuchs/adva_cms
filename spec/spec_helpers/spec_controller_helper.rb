@@ -91,6 +91,18 @@ Spec::Rails::Example::ControllerExampleGroup.class_eval do
       it_maps method, "#{path}/", action, options unless path == '/' || path =~ /\.\w+$/
     end 
     
+    def it_maps(method, path, action, options = {})
+      options = options.dup
+      path = "#{options.delete(:path_prefix)}#{path}"
+      ignore = Array(options.delete(:ignore) || []) + [:controller, :method, :path_prefix, :name_prefix]     
+
+      it "maps #{method.to_s.upcase} to #{path} to :#{action} with #{options.keys.map(&:to_s).to_sentence} set" do
+        result = params_from method, path, {:host_with_port => 'test.host'}
+        result.slice! *(result.keys - ignore)
+        result.should == options.merge(:action => action.to_s)
+      end      
+    end   
+    
     def rewrites_url(url, options)
       section, path, conditions = options.values_at(:section, :to, :on)
       conditions = Array(conditions)

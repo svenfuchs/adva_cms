@@ -413,17 +413,5 @@ module RspecOnRailsOnCrack
         end
       end
     end
-    
-    def it_maps(method, path, action, options = {})
-      options = options.dup
-      path = "#{options.delete(:path_prefix)}#{path}"
-      ignore = Array(options.delete(:ignore) || []) + [:controller, :method, :path_prefix, :name_prefix]     
-
-      it "maps #{method.to_s.upcase} to #{path} to :#{action} with #{options.keys.map(&:to_s).to_sentence} set" do
-        result = params_from method, path, {:host_with_port => 'test.host'}
-        result.slice! *(result.keys - ignore)
-        result.should == options.merge(:action => action.to_s)
-      end      
-    end   
   end
 end

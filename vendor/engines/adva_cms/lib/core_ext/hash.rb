@@ -13,7 +13,8 @@ class Hash
   
   def deep_compact!(&block)
     block = lambda{|key, value| value.nil? } unless block_given?
-    each{|key, value| store key, value.deep_compact(&block) if value.is_a? Hash }
+    each{|key, value| store key, value.deep_compact!(&block) if value.is_a? Hash }
     reject! &block
+    self
   end
 end
