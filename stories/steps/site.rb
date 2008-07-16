@@ -49,7 +49,7 @@ steps_for :site do
     get edit_admin_site_path(@site)
   end
 
-  When "the user visits the admin site index page" do
+  When "the user visits the admin site show page" do
     get admin_site_path(@site)
   end
   

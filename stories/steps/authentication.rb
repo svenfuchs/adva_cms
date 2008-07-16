@@ -9,6 +9,7 @@ steps_for :authentication do
   end
   
   Given "the user is logged in as $role" do |role|
+    User.delete_all!
     @user = create_user :name => role, :email => "#{role}@email.org", :login => role
     case role.to_sym
     when :admin

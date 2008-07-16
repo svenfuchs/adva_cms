@@ -17,6 +17,10 @@ steps_for :asset do
   When "the user fills in the admin asset edit form" do
     fills_in 'asset[title]', :with => 'updated title'
   end
+  
+  When "the user adds an asset to the bucket" do
+    post "/admin/sites/#{@site.id}/assets/bucket?asset_id=#{@asset.id}"
+  end
 
   Then "the page has an admin asset creation form" do
     raise "this step expects the variable @site to be set" unless @site
@@ -52,4 +56,11 @@ steps_for :asset do
   Then "the asset is deleted" do
     Asset.exists?(@asset.id).should be_false
   end 
+  
+  Then "the asset is added to the bucket" do
+    session[:bucket].keys.should include(@asset.id)
+  end
+  
+  Then "the asset immediately shows up on the page" do
+  end
 end

@@ -18,4 +18,17 @@ Story: Managing a site's plugins
     When the user fills in the plugin config edit form
     And the user clicks the 'Save' button
     Then the plugin's configuration is saved
+  
+  Scenario: A superuser does not see a link to the plugins page before selecting a page
+    Given a site
+    And the user is logged in as superuser
+    When the user visits the admin sites list page
+    Then the page should not have 'Plugins' link
+
+  Scenario: A superuser should see a link to the plugins page after selecting a page
+    Given a site
+    And the user is logged in as superuser
+    When the user visits the admin site show page
+    Then the page should have 'Plugins' link
+
     
