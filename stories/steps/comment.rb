@@ -18,7 +18,10 @@ steps_for :comment do
   
   When "the user posts a comment which Akismet thinks is $result" do |result|
     result = result == 'ham'
-    Viking.stub!(:connect).and_return(mock('akismet', :check_comment => result))
+    # TODO this is just a quickfix
+    # For some reason mock call causes method not found error on ubuntu
+    akismet_mock = Spec::Mocks::Mock.new('akismet', :check_comment => result)
+    Viking.stub!(:connect).and_return(akismet_mock)
     When "the user posts a comment to the blog article"
   end
   

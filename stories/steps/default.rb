@@ -62,4 +62,12 @@ steps_for :default do
   Then "the 'Save as draft?' checkbox is checked by default" do
     response.should have_tag("input#article-draft[type=?][value=?]", 'checkbox', 1)
   end
+
+  Then "the page should not have '$link' link" do |link|
+    response.should_not have_tag("a", link)
+  end
+
+  Then "the page should have '$link' link" do |link|
+    response.should have_tag("a", link)
+  end
 end

@@ -48,6 +48,10 @@ steps_for :site do
   When "the user visits the admin site edit page" do
     get edit_admin_site_path(@site)
   end
+
+  When "the user visits the admin site index page" do
+    get admin_site_path(@site)
+  end
   
   When "the user fills in the admin site creation form with valid values" do
     fills_in 'website name', :with => 'a new site name'

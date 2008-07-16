@@ -21,6 +21,7 @@ steps_for :authentication do
     @user.verified!
     
     post "/session", :user => {:login => @user.login, :password => @user.password}
+    controller.authenticated?.should be_true
   end  
   
   Given "a verified user" do

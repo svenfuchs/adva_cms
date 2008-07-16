@@ -1,8 +1,7 @@
 steps_for :asset do
-  Given "a site with an asset" do
-    Given "a site"
-    raise "STEP NOT IMPLEMENTED: a site with an asset"
-  end
+  Given "a site with an asset" # do
+  #  Given "a site"
+  #end
   
   When "the user visits admin sites assets list page" do
     raise "this step expects the variable @site to be set" unless @site
