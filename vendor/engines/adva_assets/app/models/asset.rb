@@ -1,6 +1,6 @@
 class Asset < ActiveRecord::Base
   cattr_accessor :base_dir
-  @@base_dir = RAILS_ROOT + 'public/assets'
+  @@base_dir = RAILS_ROOT + '/public/assets'
   
   # used for extra mime types that dont follow the convention
   @@extra_content_types = { :audio => ['application/ogg'], :movie => ['application/x-shockwave-flash'], :pdf => ['application/pdf'] }.freeze

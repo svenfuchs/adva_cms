@@ -62,5 +62,7 @@ steps_for :asset do
   end
   
   Then "the asset immediately shows up on the page" do
+    response.should have_text(%r(new Insertion.Bottom\("bucket-assets",.*#{@asset.filename}))
+    response.should_not have_text(%r(<html.*>)) # no layout
   end
 end
