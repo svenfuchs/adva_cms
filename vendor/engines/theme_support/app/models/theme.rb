@@ -64,21 +64,37 @@ class Theme
     raise ThemeError.new('invalid file path #{path}. a path may not contain any of: \'"<>') if @path.to_s =~ /['"<>]/
     path = path.to_s
     path.untaint
-    @path = Pathname.new path
-    @id = path.scan(/[-\w]+$/i).flatten.first
+    mv Pathname.new(path)
+    @id = path.to_s.scan(/[-\w]+$/i).flatten.first
     @id.untaint
   end
 
-  [:name, :version, :homepage, :author, :summary].each do |attr_name|
+  [:version, :homepage, :author, :summary].each do |attr_name|
     eval <<-END
       def #{attr_name}
         about['#{attr_name}']
       end
-      
+
       def #{attr_name}=(value)
         about['#{attr_name}'] = sanitize! value, :escape
       end
     END
+  end
+  
+  def id=(id)
+    if self.id and self.id != id
+      self.path = Pathname.new(self.path.to_s.gsub(%r(/#{self.id}$), "/#{id}"))
+    end
+    @id = id
+  end
+  
+  def name
+    about['name']
+  end
+  
+  def name=(name)
+    about['name'] = name
+    self.id = self.class.to_id(name)
   end
   
   def author_link
@@ -158,6 +174,15 @@ class Theme
   def mkdir
     raise ThemeError.new("can't create directory #{@path}") unless @path.to_s =~ %r(^#{Theme.base_dir})
     FileUtils.mkdir_p @path.to_s 
+  end
+  
+  def mv(path)
+    raise ThemeError.new("can't rename to directory #{path}") unless path.to_s =~ %r(^#{Theme.base_dir})
+    if @path and path != @path
+      raise ThemeError.new("can't rename to existing directory #{path}") if ::File.exists?(path)
+      FileUtils.mv @path.to_s, path.to_s 
+    end
+    @path = path
   end
   
   def destroy

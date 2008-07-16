@@ -4,8 +4,10 @@ describe Theme::File do
   include SpecThemeHelper
   
   before :each do
-    setup_theme_mocks
     Theme.stub!(:root_dir).and_return('/path/to')
+    Theme.stub!(:base_dir).and_return('/path/to/themes')
+    setup_theme_mocks
+    
     @theme = Theme.new :path => '/path/to/themes/site-1/theme-1/'
 
     @name = 'image-1.png'
@@ -141,6 +143,8 @@ describe Theme::Files do
   include SpecThemeHelper
   
   before :each do
+    Theme.stub!(:root_dir).and_return('/path/to')
+    Theme.stub!(:base_dir).and_return('/path/to/themes')
     setup_theme_mocks
   end
   

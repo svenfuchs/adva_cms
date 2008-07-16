@@ -7,10 +7,14 @@ describe Theme do
               'summary' => 'awesome' }
   
   before :each do
-    File.stub!(:directory?).and_return true
+    Theme.root_dir = RAILS_ROOT + '/tmp'
   end
   
   describe "finders called without subdir" do    
+    before :each do
+      File.stub!(:directory?).and_return true
+    end  
+    
     it "should find and return an installed theme" do
       expect_find_one_theme_with 'theme_1'
     end
@@ -21,6 +25,10 @@ describe Theme do
   end
   
   describe "finders called without subdir" do      
+    before :each do
+      File.stub!(:directory?).and_return true
+    end  
+    
     it "should find and return an installed theme" do
       expect_find_one_theme_with 'theme_1', '/subdir/'
     end
@@ -32,26 +40,27 @@ describe Theme do
   
   describe "#create" do
     before :each do
-      @path = "#{Theme.base_dir}/themes/site-1/a_theme"
+      @path = "#{Theme.base_dir}/site-1/"
       @attrs = @@about.clone.merge('path' => @path)
       FileUtils.stub!(:mkdir_p)
       ::File.stub!(:open)
     end
     
     it "should create the theme directory" do
-      FileUtils.should_receive(:mkdir_p).with(@path)
-      Theme.create! @attrs.merge(:name => 'theme-1')
+      FileUtils.should_receive(:mkdir_p).with(@path + 'theme-1')
+      Theme.create! @attrs.merge('name' => 'theme-1')
     end
-
+  
     it "should save the about.yml file" do
-      ::File.should_receive(:open).with(Pathname.new("#{@path}/about.yml"), 'wb')
-      Theme.create! @attrs.merge(:name => 'theme-1')
+      ::File.should_receive(:open).with(Pathname.new("#{@path}theme-1/about.yml"), 'wb')
+      Theme.create! @attrs.merge('name' => 'theme-1')
     end
   end
   
   describe "about" do
     before :each do
-      path = Pathname.new("#{RAILS_ROOT}/themes/theme_1")
+      File.stub!(:directory?).and_return true
+      path = Pathname.new("#{Theme.base_dir}/theme_1")
       Pathname.stub!(:new).and_return path
       path.stub!(:+).and_return path
       path.stub!(:exist?).and_return true
@@ -85,6 +94,43 @@ describe Theme do
     end
   end
   
+  it "also updates the theme id when assigned a different name" do
+    File.stub!(:directory?).and_return true
+    @theme = call_find(:find, 'theme_1')
+    @theme.should_receive(:id=).with 'new_theme_name'
+    @theme.name = 'new theme name'
+  end  
+  
+  it "#id= moves the theme directory when the id changes" do
+    @path = "#{Theme.base_dir}/site-1/"
+    @theme = Theme.create! @@about.clone.merge('path' => @path, 'name' => 'theme_name')
+    @theme.should_receive(:mv).with(Pathname.new("#{@path}new_theme_name"))
+    @theme.id = 'new_theme_name'
+  end
+
+  describe "#mv" do
+    before :each do
+      FileUtils.stub!(:mv)
+      @path = "#{Theme.base_dir}/site-1/"
+      @name = 'theme_name'
+      @theme = Theme.create! @@about.clone.merge('path' => @path, 'name' => @name)
+    end
+    
+    it "renames the theme directory" do
+      from = "#{@path}#{@name}"
+      to = "#{@path}new_theme_name"
+      FileUtils.should_receive(:mv).with(from, to)
+      @theme.mv to
+    end
+    
+    it "fails when the theme directory could not be renamed" do
+      @other_theme = Theme.create! @@about.clone.merge('path' => @path, 'name' => 'other_theme_name')
+      error = Theme::ThemeError
+      lambda{ @theme.mv "#{@path}other_theme_name" }.should raise_error(error)
+    end
+  end
+  
+  
   def expect_find_one_theme_with(id, subdir = nil)
     theme = call_find(:find, id, subdir)
     theme.should be_instance_of(Theme)
@@ -100,7 +146,7 @@ describe Theme do
   
   def call_find(finder, *args)    
     subdir = args.size > 1 ? args.last : nil
-    Dir.stub!(:glob).and_return [1, 2].collect{|ix| "#{RAILS_ROOT}/themes/#{subdir}theme_#{ix}" }
+    Dir.stub!(:glob).and_return [1, 2].collect{|ix| "#{Theme.base_dir}/#{subdir}theme_#{ix}" }
     t = Theme.send finder, *args 
   end    
 end

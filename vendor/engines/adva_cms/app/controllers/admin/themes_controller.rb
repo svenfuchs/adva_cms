@@ -30,7 +30,7 @@ class Admin::ThemesController < Admin::BaseController
   def update
     if @theme.update_attributes params[:theme]
       flash[:notice] = "The theme has been updated."
-      redirect_to admin_theme_path
+      redirect_to admin_theme_path(@site, @theme.id)
     else
       flash.now[:error] = "The theme could not be updated: #{@theme.errors.to_sentence}."
       render :action => :show
