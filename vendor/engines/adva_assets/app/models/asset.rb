@@ -1,4 +1,7 @@
 class Asset < ActiveRecord::Base
+  cattr_accessor :base_dir
+  @@base_dir = RAILS_ROOT + 'public/assets'
+  
   # used for extra mime types that dont follow the convention
   @@extra_content_types = { :audio => ['application/ogg'], :movie => ['application/x-shockwave-flash'], :pdf => ['application/pdf'] }.freeze
   cattr_reader :extra_content_types
@@ -65,7 +68,7 @@ class Asset < ActiveRecord::Base
 
   def full_filename(thumbnail = nil)
     file_system_path = (thumbnail ? thumbnail_class : self).attachment_options[:file_system_path]
-    File.join(RAILS_ROOT, 'public/assets', permalink, thumbnail_name_for(thumbnail))
+    File.join(base_dir, permalink, thumbnail_name_for(thumbnail))
   end
 
   def title
