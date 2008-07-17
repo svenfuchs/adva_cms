@@ -8,7 +8,8 @@ class Site < ActiveRecord::Base
   serialize :spam_options
   permissions :site    => { :superuser => [:create, :destroy], :admin => [:show, :update, :manage] },
               :section => { :admin => :all },
-              :theme   => { :admin => :all }
+              :theme   => { :admin => :all },
+              :user    => { :admin => :all }
         
   has_many :sections, :dependent => :destroy, :order => :lft do
     def root
