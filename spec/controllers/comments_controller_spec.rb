@@ -16,6 +16,8 @@ describe CommentsController do
     
     @params = { :comment => {:body => 'body!', :commentable_type => 'Article', :commentable_id => 1},
                 :anonymous => {:name => 'anonymous', :email => 'anonymous@email.org'} }
+    
+    @controller.stub!(:has_permission?).and_return true
   end
   
   it "should be a BaseController" do
@@ -26,6 +28,7 @@ describe CommentsController do
     act! { request_to :get, @member_path }    
     it_assigns :section, :comment, :commentable
     it_renders_template :show
+    it_guards_permissions :show, :comment
   end
   
   describe "POST to preview" do
@@ -36,11 +39,13 @@ describe CommentsController do
     act! { request_to :post, @preview_path, @params }    
     it_assigns :comment
     it_renders_template 'preview'
+    it_guards_permissions :create, :comment
   end
               
   describe "POST to :create" do
     act! { request_to :post, @collection_path, @params }    
     it_assigns :commentable, lambda { @article }
+    it_guards_permissions :create, :comment
     
     it "instantiates a new comment from commentable.comments" do
       @article.comments.should_receive(:build).and_return @comment
@@ -75,6 +80,7 @@ describe CommentsController do
               
   describe "PUT to :update" do
     act! { request_to :put, @member_path, @params }    
+    it_guards_permissions :update, :comment
     
     it "finds the comment" do
       Comment.should_receive(:find).and_return @comment

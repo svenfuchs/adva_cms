@@ -1,18 +1,15 @@
 class CommentsController < BaseController
-  include ActionController::GuardsPermissions::InstanceMethods
-  helper_method :has_permission?
-
   authenticates_anonymous_user
   layout 'default'
-  
-  cache_sweeper :comment_sweeper, :only => [:create, :update, :destroy]
   
   before_filter :set_comment, :only => [:show, :update]
   before_filter :set_commentable, :only => [:show, :preview, :create]
   before_filter :set_comment_params, :only => [:preview, :create]
   
+  cache_sweeper :comment_sweeper, :only => [:create, :update, :destroy]
+  guards_permissions :comment, :create => :preview
+  
   def show
-    has_permission?(:update, :comment)
   end
 
   def preview
