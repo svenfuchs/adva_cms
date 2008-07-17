@@ -2,7 +2,7 @@ class Admin::PluginsController < Admin::BaseController
   before_filter :set_plugins, :only => :index
   before_filter :set_plugin, :only => [:show, :edit, :update, :destroy]
   
-  guards_permissions :plugin
+  guards_permissions :site, :manage => [:index, :show, :update, :destroy]
   
   def index    
   end

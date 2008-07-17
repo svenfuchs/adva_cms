@@ -16,6 +16,8 @@ module ActionController
         include InstanceMethods
         extend ClassMethods
         
+        helper_method :has_permission?
+        
         class_inheritable_accessor :action_map
         set_action_map options.except(:only, :except)
 
