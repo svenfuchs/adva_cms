@@ -67,7 +67,7 @@ describe Comment do
     end
 
     it 'updates the commentable after create' do
-      Comment.after_create.should include(:update_commentable)
+      Comment.after_save.should include(:update_commentable)
     end
 
     it 'updates the commentable after destroy' do

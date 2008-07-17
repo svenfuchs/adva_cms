@@ -3,6 +3,10 @@ scenario :forum_with_three_comments do
   @forum.stub!(:build_path).and_return 'forum'
   @forum.save!
   
+  counter = stub('approved_comments_counter', :increment! => true, :decrement! => true)
+  @forum.stub!(:approved_comments_counter).and_return counter
+  stub_site.stub!(:approved_comments_counter).and_return counter
+  
   @three_days_ago = 3.days.ago
   @two_days_ago = 2.days.ago
   @one_day_ago = 1.days.ago
