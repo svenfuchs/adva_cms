@@ -18,12 +18,6 @@ describe Forum do
   it "has a topics counter" do
     Forum.should have_counter(:topics)
   end
-    
-  it "has default permissions for topics and comments" do
-    Forum.default_permissions.should == 
-      { :topic =>   { :create => :user, :update => :user, :destroy => :moderator, :moderate => :moderator }, 
-        :comment => { :create => :user, :update => :author, :destroy => :author} }
-  end
   
   describe "associations" do
     it "has many topics" do

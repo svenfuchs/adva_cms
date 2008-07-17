@@ -32,14 +32,6 @@ describe Site do
     it "serializes the spam options" do
       Site.serialized_attributes.should include('spam_options')
     end
-    
-    it 'has default permissions' do
-      Site.default_permissions.should == 
-        { :site    => { :show => :admin, :create => :superuser, :update => :admin, :destroy => :superuser, :manage => :admin }, 
-          :section => { :show => :admin, :create => :admin, :update => :admin, :destroy => :admin }, 
-          :theme   => { :show => :admin, :create => :admin, :update => :admin, :destroy => :admin }, 
-          :user    => { :show => :admin, :create => :admin, :update => :admin, :destroy => :admin } }
-    end
   
     it "has a comments counter" do
       Site.should have_counter(:comments)

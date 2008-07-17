@@ -19,12 +19,6 @@ describe Section do
       Section.should act_as_role_context(:roles => :moderator)
     end
     
-    it "has default permissions for articles and categories" do
-      Section.default_permissions.should == 
-        { :category => { :show => :moderator, :create => :moderator, :update => :moderator, :destroy => :moderator }, 
-          :article  => { :show => :moderator, :create => :moderator, :update => :moderator, :destroy => :moderator } }
-    end
-    
     it "serializes its actual permissions" do
       Section.serialized_attributes.should include('permissions')
     end
