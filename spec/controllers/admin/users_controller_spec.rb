@@ -36,7 +36,7 @@ describe Admin::UsersController do
   
       describe "GET to :index" do
         act! { request_to :get, @collection_path }    
-        # it_guards_permissions :show, :user TODO
+        it_guards_permissions :show, :user # TODO depending on scope superuser or admin is required!
         it_assigns :users
         it_renders_template :index
       end
@@ -45,12 +45,14 @@ describe Admin::UsersController do
         act! { request_to :get, @member_path }    
         it_assigns :user
         it_renders_template :show
+        
       end
   
       describe "GET to :new" do
         act! { request_to :get, @new_member_path }    
         it_assigns :user
         it_renders_template :new
+        it_guards_permissions :create, :user
         
         it "instantiates a new user" do
           User.should_receive(:new).and_return @user
@@ -61,6 +63,7 @@ describe Admin::UsersController do
       describe "POST to :create" do
         act! { request_to :post, @collection_path }    
         it_assigns :user
+        it_guards_permissions :create, :user
         
         if scope.blank?
           it "instantiates a new user from User" do
@@ -90,6 +93,7 @@ describe Admin::UsersController do
         act! { request_to :get, @edit_member_path }    
         it_assigns :user
         it_renders_template :edit
+        it_guards_permissions :update, :user
         
         it "fetches a user from User" do
           User.should_receive(:find).and_return @user
@@ -100,7 +104,8 @@ describe Admin::UsersController do
       describe "PUT to :update" do
         act! { request_to :put, @member_path }    
         it_assigns :user    
-    
+        it_guards_permissions :update, :user
+        
         it "fetches a user from User" do
           User.should_receive(:find).and_return @user
           act!
@@ -126,7 +131,8 @@ describe Admin::UsersController do
       describe "DELETE to :destroy" do
         act! { request_to :delete, @member_path }    
         it_assigns :user
-    
+        it_guards_permissions :destroy, :user
+        
         it "fetches a user from User" do
           User.should_receive(:find).and_return @user
           act!
