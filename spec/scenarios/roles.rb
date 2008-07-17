@@ -1,5 +1,7 @@
 scenario :roles do
   @site = stub_model Site, :id => 1
+  @another_site = stub_model Site, :id => 2
+  
   @section = stub_model Section, :id => 1, :site => @site
   
   @admin_role     = Role.build :admin, @site

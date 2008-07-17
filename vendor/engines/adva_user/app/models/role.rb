@@ -105,9 +105,9 @@ class Role < ActiveRecord::Base
     self.has_context = true
     self.message = 'You need to be the author of this object to perform this action.'
 
-    def applies_to?(object)
+    def applies_to?(user)
       context = self.context || original_context
-      context.respond_to?(:is_author?) && context.is_author?(object)
+      context.respond_to?(:is_author?) && context.is_author?(user)
     end
   
     def to_css_class
@@ -125,6 +125,12 @@ class Role < ActiveRecord::Base
 
   class Admin < Moderator
     self.has_context = true
+
+    # TODO would this work? - also for moderators and superusers
+    # def applies_to?(user)
+    #   context = self.context || original_context
+    #   context.respond_to?(:is_admin?) && context.is_admin?(user)
+    # end
   
     def to_css_class
       to_default_css_class

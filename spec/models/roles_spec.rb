@@ -13,7 +13,7 @@ describe 'Roles: ' do
       it "has the role :user" do
         @user.has_role?(:user).should be_true
       end
-
+  
       # TODO Has not. Error in spec definition or unexpected behaviour?
       it "has the role :author for another user's content" #do
       #  @user.has_role?(:author, @content).should be_true
@@ -80,18 +80,26 @@ describe 'Roles: ' do
       it "has the role :user" do
         @admin.has_role?(:user).should be_true
       end
-  
+        
       it "has the role :author for another user's content" do
         @admin.has_role?(:author, @content).should be_true
       end
-  
+        
       it "has the role :moderator for sections belonging to that site" do
         @admin.has_role?(:moderator, @section).should be_true
       end
-  
-      it "has the role :site for that site" do
+        
+      it "has the role :admin for that site" do
         @admin.has_role?(:admin, @site).should be_true
-      end  
+      end
+      
+      it "does not have role :admin for another site" do
+        @admin.has_role?(:admin, @another_site).should be_false
+      end
+      
+      it "does not have role :admin for a non-existent site" do
+        @admin.has_role?(:admin, nil).should be_false
+      end
   
       it "does not have the role :superuser" do
         @admin.has_role?(:superuser).should be_false
@@ -102,19 +110,19 @@ describe 'Roles: ' do
       it "has the role :user" do
         @superuser.has_role?(:user).should be_true
       end
-  
+      
       it "has the role :author for another user's content" do
         @superuser.has_role?(:author, @content).should be_true
       end
-  
+      
       it "has the role :moderator for sections belonging to that site" do
         @superuser.has_role?(:moderator, @section).should be_true
       end
-  
+      
       it "has the role :site for that site" do
         @superuser.has_role?(:admin, @site).should be_true
       end
-  
+      
       it "has the role :superuser" do
         @superuser.has_role?(:superuser).should be_true
       end
@@ -125,31 +133,31 @@ describe 'Roles: ' do
     it "inverts passed permissions hash and merges it to default_permissions"    
     it "expands :all to [:show, :create, :update, :destroy]"
   end
-
+  
   describe '#role_authorizing' do
     describe 'on a site with default_permissions' do
       it 'returns a superuser role for the :create action' do
         @site.role_authorizing(:create).should == @superuser_role
       end
-
+  
       it 'returns a superuser role for the :update action' do
         @site.role_authorizing(:update).should == @admin_role
       end
-
+  
       it 'returns a superuser role for the :destroy action' do
         @site.role_authorizing(:destroy).should == @superuser_role
       end
     end
-
+  
     describe 'on a section with default_permissions' do
       it 'returns an admin role for the :create action' do
         @section.role_authorizing(:create).should == @admin_role
       end
-
+  
       it 'returns an admin role for the :update action' do
         @section.role_authorizing(:update).should == @admin_role
       end
-
+  
       it 'returns an admin role for the :destroy action' do
         @section.role_authorizing(:destroy).should == @admin_role
       end
@@ -212,17 +220,17 @@ describe 'Roles: ' do
         :site    => { :theme    => { :show => :admin, :update => :admin, :create => :admin, :destroy => :admin }, 
                       :section  => { :show => :admin, :update => :admin, :create => :admin, :destroy => :admin }, 
                       :site     => { :show => :admin, :update => :admin, :create => :superuser, :destroy => :superuser, :manage => :admin } },
-
+  
         :section => { :article  => { :update => :moderator, :create => :moderator, :destroy => :moderator, :show => :moderator }, 
                       :category => { :update => :moderator, :create => :moderator, :destroy => :moderator, :show => :moderator } },
-
+  
         :blog    => { :category => { :update => :moderator, :create => :moderator, :destroy => :moderator, :show => :moderator },
                       :article  => { :show => :anonymous, :update => :user, :create => :user, :destroy => :user }, 
                       :comment  => { :update => :author, :destroy => :author, :create => :user } },
-
+  
         :forum   => { :comment  => { :update => :author, :destroy => :author, :create => :user }, 
                       :topic    => { :moderate => :moderator, :update => :user, :destroy => :moderator, :create => :user } },
-
+  
         :wiki    => { :category => { :update => :moderator, :create => :moderator, :destroy => :moderator, :show => :moderator },
                       :comment  => { :update => :author, :destroy => :author, :create => :user }, 
                       :wikipage => { :show => :anonymous, :update => :user, :create => :user, :destroy => :user}}
@@ -232,19 +240,19 @@ describe 'Roles: ' do
     it 'should return proper permissions for Site' do
       Site.default_permissions.to_hash.should == @default_permissions[:site]
     end
-
+  
     it 'should return proper permissions for Section' do
       Section.default_permissions.to_hash.should == @default_permissions[:section]
     end
-
+  
     it 'should return proper permissions for Blog' do
       Blog.default_permissions.to_hash.should == @default_permissions[:blog]
     end
-
+  
     it 'should return proper permissions for Forum' do
       Forum.default_permissions.to_hash.should == @default_permissions[:forum]
     end
-
+  
     it 'should return proper permissions for Wiki' do
       Wiki.default_permissions.to_hash.should == @default_permissions[:wiki]
     end
