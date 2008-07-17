@@ -30,7 +30,7 @@ describe Admin::WikipagesController do
   
   describe "GET to :index" do
     act! { request_to :get, @collection_path }    
-    # it_guards_permissions :show, :wikipage
+    it_guards_permissions :show, :wikipage
     it_assigns :wikipages
     it_renders_template :index
   end
@@ -39,7 +39,8 @@ describe Admin::WikipagesController do
   #   act! { request_to :get, @new_member_path }    
   #   it_assigns :wikipage
   #   it_renders_template :new
-  #   
+  #   it_guards_permissions :create, :wikipage
+  #
   #   it "instantiates a new wikipage from section.wikipages" do
   #     @section.wikipages.should_receive(:build).and_return @wikipage
   #     act!
@@ -49,7 +50,8 @@ describe Admin::WikipagesController do
   # describe "POST to :create" do
   #   act! { request_to :post, @collection_path }    
   #   it_assigns :wikipage
-  #   
+  #   it_guards_permissions :create, :wikipage
+  #
   #   it "instantiates a new wikipage from section.wikipages" do
   #     @section.wikipages.should_receive(:build).and_return @wikipage
   #     act!
@@ -71,7 +73,8 @@ describe Admin::WikipagesController do
   #   act! { request_to :get, @edit_member_path }    
   #   it_assigns :wikipage
   #   it_renders_template :edit
-  #   
+  #   it_guards_permissions :update, :wikipage
+  #
   #   it "fetches a wikipage from section.wikipages" do
   #     @section.wikipages.should_receive(:find).and_return @wikipage
   #     act!
@@ -81,7 +84,8 @@ describe Admin::WikipagesController do
   # describe "PUT to :update" do
   #   act! { request_to :put, @member_path }    
   #   it_assigns :wikipage    
-  #   
+  #   it_guards_permissions :update, :wikipage
+  #
   #   it "fetches a wikipage from section.wikipages" do
   #     @section.wikipages.should_receive(:find).and_return @wikipage
   #     act!
@@ -107,7 +111,8 @@ describe Admin::WikipagesController do
   # describe "DELETE to :destroy" do
   #   act! { request_to :delete, @member_path }    
   #   it_assigns :wikipage
-  #   
+  #   it_guards_permissions :destroy, :wikipage
+  #
   #   it "fetches a wikipage from section.wikipages" do
   #     @section.wikipages.should_receive(:find).and_return @wikipage
   #     act!
