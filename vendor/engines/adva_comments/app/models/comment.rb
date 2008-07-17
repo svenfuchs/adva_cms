@@ -18,7 +18,7 @@ class Comment < ActiveRecord::Base
   
   before_validation  :set_owners
   before_create :authorize_commenting
-  after_create  :update_commentable
+  after_save    :update_commentable
   after_destroy :update_commentable
   
   def owner
@@ -31,6 +31,14 @@ class Comment < ActiveRecord::Base
 
   def unapproved?
     !approved?
+  end
+  
+  def just_approved?
+    approved? && approved_changed?
+  end
+  
+  def just_unapproved?
+    !approved? && approved_changed? 
   end
   
   def spam_info

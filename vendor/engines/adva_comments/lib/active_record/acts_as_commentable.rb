@@ -7,15 +7,17 @@ module ActiveRecord
     module ActMacro
       def acts_as_commentable(options = {})
         return if acts_as_commentable?
-        
-        # TODO somehow the various accept_comments? options seem a bit chaotic
-        # this doesn't even seem to be used anymore
-        # write_inheritable_attribute :accept_comments?, options.delete(:accept_comments?) || true
 
         options[:order] = 'comments.created_at'
         options[:as] = :commentable if options.delete(:polymorphic)
 
         has_counter :comments, :as => options[:as] || name.underscore
+                
+        has_counter :approved_comments, 
+                    :as => options[:as] || name.underscore,
+                    :class_name => 'Comment', 
+                    :after_create => false,
+                    :after_destroy => false
   
         with_options options do |c|
           c.has_many :comments, :dependent => :delete_all do
@@ -40,22 +42,23 @@ module ActiveRecord
     end
   
     module InstanceMethods
-      def comments_count
-        @comments_count ||= comments.count # TODO implement as a counter
+      def after_comment_update(comment)
+        method = if comment.frozen?
+          :decrement!
+        elsif comment.just_approved? 
+          :increment!
+        elsif comment.just_unapproved? 
+          :decrement!
+        end
+        approved_comments_counter.send method if method
       end
       
-      def approved_comments_count
-        @approved_comments_count ||= approved_comments.count # TODO implement as a counter
-      end
-      
-      # def accept_comments?
-      #   @accept_comments ||= begin
-      #     case accessor = self.class.read_inheritable_attribute(:accept_comments?) || :accept_comments?
-      #       when Symbol then send(accessor)
-      #       when Proc   then accessor.call(self)
-      #       else accessor
-      #     end
-      #   end
+      # def comments_count
+      #   @comments_count ||= comments.count # TODO implement as a counter
+      # end
+      # 
+      # def approved_comments_count
+      #   @approved_comments_count ||= approved_comments.count # TODO implement as a counter
       # end
     end
   end

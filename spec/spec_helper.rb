@@ -2,8 +2,6 @@
 # from the project root directory.
 ENV["RAILS_ENV"] = "test"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
-# require 'spec'
-# require 'spec/rails'
 
 require File.dirname(__FILE__) + '/spec_helpers/spec_controller_helper'
 require File.dirname(__FILE__) + '/spec_helpers/spec_model_helper'

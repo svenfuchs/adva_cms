@@ -1,24 +1,24 @@
 ## Has Counter
 
-Allows to cache the number of records for a has\_many association.
+Allows to cache the number of records for a `has_many` association.
 
-Yes, this is the same thing you can do by setting the :counter\_cache option
-on the corresponding belongs\_to association.
+Yes, this is the same thing you can do by setting the `:counter_cache` option
+on the corresponding `belongs_to` association.
 
-The reason for reinventing the counter\_cache wheel here is that counter_cache
-is a bit inflexible. We need to "hardcode" the counter_cache column and
-thereby clutter the schema. This can especially get annoying in combo with
-STI, when - e.g. one subclass needs some counter\_caches that are specific to
-this subclass only.
+The reason for reinventing the `counter_cache` wheel here is that
+`counter_cache` is a bit inflexible. We need to "hardcode" the counter_cache
+column and thereby clutter the schema. This can especially get annoying in
+combo with STI, when - e.g. one subclass needs some `counter_caches` that are
+specific to this subclass only.
 
-Instead, with has\_counter, counters can be separated into an external table 
+Instead, with `has_counter`, counters can be separated into an external table 
 with generic column names. 
 
-The ActiveRecord counter\_cache mechanism also requires to put the
-:counter\_cache directive on the belongs\_to association of the counted class,
+The ActiveRecord `counter_cache` mechanism also requires to put the
+`:counter_cache` directive on the `belongs_to` association of the counted class,
 which adds some tight coupleing that we might want to avoid.
 
-Instead, with has\_counter, we can observe the counted class and update our
+Instead, with `has_counter`, we can observe the counted class and update our
 counters "from the outside", so the counted class does not need to know about
 the fact that somebody else keeps a counter on it.
 
