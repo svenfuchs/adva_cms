@@ -31,14 +31,14 @@ describe Admin::PluginsController do
   
   describe "GET to :index" do
     act! { request_to :get, @collection_path }    
-    # it_guards_permissions :show, :plugin
+    it_guards_permissions :show, :plugin
     it_assigns :plugins
     it_renders_template :index
   end
   
   describe "GET to :show" do
     act! { request_to :get, @member_path }    
-    # it_guards_permissions :show, :plugin
+    it_guards_permissions :show, :plugin
     it_assigns :plugin
     it_renders_template :show
   end
@@ -48,6 +48,7 @@ describe Admin::PluginsController do
     it_assigns :plugin    
     it_redirects_to { @member_path }
     it_assigns_flash_cookie :notice => :not_nil
+    it_guards_permissions :update, :plugin
     
     it "updates the plugin's config options" do
       @plugin.should_receive(:options=).with 'name' => 'value'
@@ -65,6 +66,7 @@ describe Admin::PluginsController do
     it_assigns :plugin
     it_redirects_to { @member_path }
     it_assigns_flash_cookie :notice => :not_nil
+    it_guards_permissions :destroy, :plugin
     
     it "resets the plugin's config options" do
       @plugin.should_receive(:options=).with({})

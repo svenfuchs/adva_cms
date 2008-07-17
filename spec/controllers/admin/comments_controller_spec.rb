@@ -7,6 +7,7 @@ describe Admin::CommentsController do
     scenario :blog_with_published_article, :blog_comments
     set_resource_paths :comment, '/admin/sites/1/'
     @controller.stub! :require_authentication
+    @controller.stub!(:has_permission?).and_return true
   end
   
   it "should be an Admin::BaseController" do
@@ -29,13 +30,15 @@ describe Admin::CommentsController do
     act! { request_to :get, @collection_path }    
     it_assigns :comments
     it_renders_template :index
+    it_guards_permissions :show, :comment
   end
    
   # describe "GET to :show" do
   #   act! { request_to :get, @member_path }    
   #   it_assigns :comment
   #   it_renders_template :show
-  #   
+  #   it_guards_permissions :show, :comment
+  #
   #   it "fetches a comment from site.comments" do
   #     @site.comments.should_receive(:find).and_return @comment
   #     act!
@@ -46,7 +49,8 @@ describe Admin::CommentsController do
   #   act! { request_to :get, @new_member_path }    
   #   it_assigns :comment
   #   it_renders_template :new
-  #   
+  #   it_guards_permissions :create, :comment
+  #
   #   it "instantiates a new comment from site.comments" do
   #     @site.comments.should_receive(:build).and_return @comment
   #     act!
@@ -56,7 +60,8 @@ describe Admin::CommentsController do
   # describe "POST to :create" do
   #   act! { request_to :post, @collection_path }    
   #   it_assigns :comment
-  #   
+  #   it_guards_permissions :create, :comment
+  #
   #   it "instantiates a new comment from site.comments" do
   #     @site.comments.should_receive(:build).and_return @comment
   #     act!
@@ -78,6 +83,7 @@ describe Admin::CommentsController do
     act! { request_to :get, @edit_member_path }    
     it_assigns :comment
     it_renders_template :edit
+    it_guards_permissions :update, :comment
     
     it "fetches a comment from site.comments" do
       @site.comments.should_receive(:find).and_return @comment
@@ -87,7 +93,8 @@ describe Admin::CommentsController do
   
   describe "PUT to :update" do
     act! { request_to :put, @member_path, :return_to => '/redirect/here' }    
-    it_assigns :comment    
+    it_assigns :comment
+    it_guards_permissions :update, :comment
     
     it "fetches a comment from site.comments" do
       @site.comments.should_receive(:find).and_return @comment
@@ -114,6 +121,7 @@ describe Admin::CommentsController do
   describe "DELETE to :destroy" do
     act! { request_to :delete, @member_path, :return_to => '/redirect/here' }    
     it_assigns :comment
+    it_guards_permissions :destroy, :comment
     
     it "fetches a comment from site.comments" do
       @site.comments.should_receive(:find).and_return @comment
