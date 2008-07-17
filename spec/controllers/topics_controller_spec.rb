@@ -43,15 +43,16 @@ describe TopicsController do
   end
   
   describe "GET to #{topic_path}" do
-    act! { request_to :get, topic_path }    
-    # it_guards_permissions :show, :topic TODO
+    act! { request_to :get, topic_path }
     it_assigns :topic
     it_renders_template :show
+    it_guards_permissions :show, :topic
   end  
   
   describe "POST to :create" do
     act! { request_to :post, topics_path, :topic => {} }    
     it_assigns :topic
+    it_guards_permissions :create, :topic
     
     it "posts a new topic to forum.topics" do
       @forum.topics.should_receive(:post).and_return @topic
@@ -74,11 +75,13 @@ describe TopicsController do
     act! { request_to :get, edit_topic_path }    
     it_assigns :topic
     it_renders_template :edit
+    it_guards_permissions :update, :topic
   end
   
   describe "PUT to :update" do
     act! { request_to :put, topic_path, :topic => {} }    
     it_assigns :topic    
+    it_guards_permissions :update, :topic
     
     it "updates the topic with the topic params" do
       @topic.should_receive(:revise).and_return true
@@ -100,6 +103,7 @@ describe TopicsController do
   describe "DELETE to :destroy" do
     act! { request_to :delete, topic_path }    
     it_assigns :topic
+    it_guards_permissions :destroy, :topic
     
     it "should try to destroy the topic" do
       @topic.should_receive :destroy
