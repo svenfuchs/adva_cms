@@ -1,5 +1,5 @@
 class Wikipage < Content  
-  filters_attributes :sanitize => :body, :except => [:body_html, :cached_tag_list] # TODO hu?? why is body_html excluded?
+  filters_attributes :sanitize => :body_html, :except => [:body, :cached_tag_list]
   before_create :set_published
   
   def after_initialize

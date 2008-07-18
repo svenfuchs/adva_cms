@@ -88,6 +88,7 @@ module ActiveRecord
             
             private
               def cache_#{column}_attributes!
+                return unless #{column}
                 self[:#{column}_name] = #{column}.name
                 self[:#{column}_email] = #{column}.email if respond_to? :#{column}_email=
                 self[:#{column}_homepage] = #{column}.homepage if respond_to? :#{column}_homepage=

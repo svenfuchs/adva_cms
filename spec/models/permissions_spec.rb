@@ -8,18 +8,18 @@ describe 'Models #default_permissions' do
                     :section  => { :show => :admin, :update => :admin, :create => :admin, :destroy => :admin }, 
                     :site     => { :show => :admin, :update => :admin, :create => :superuser, :destroy => :superuser, :manage => :admin } },
 
-      :section => { :article  => { :update => :moderator, :create => :moderator, :destroy => :moderator, :show => :moderator }, 
-                    :category => { :update => :moderator, :create => :moderator, :destroy => :moderator, :show => :moderator } },
+      :section => { :article  => { :show => :moderator, :update => :moderator, :create => :moderator, :destroy => :moderator }, 
+                    :category => { :show => :moderator, :update => :moderator, :create => :moderator, :destroy => :moderator } },
 
-      :blog    => { :category => { :update => :moderator, :create => :moderator, :destroy => :moderator, :show => :moderator },
-                    :article  => { :show => :anonymous, :update => :user, :create => :user, :destroy => :user }, 
-                    :comment  => { :update => :author, :destroy => :author, :create => :user } },
+      :blog    => { :category => { :show => :moderator, :create => :moderator, :update => :moderator, :destroy => :moderator },
+                    :article  => { :show => :moderator, :create => :moderator, :update => :moderator, :destroy => :moderator }, 
+                    :comment  => { :show => :anonymous, :create => :user, :update => :author, :destroy => :moderator } },
 
-      :forum   => { :comment  => { :update => :author, :destroy => :author, :create => :user }, 
-                    :topic    => { :moderate => :moderator, :update => :user, :destroy => :moderator, :create => :user } },
+      :forum   => { :comment  => { :show => :anonymous, :create => :user, :update => :author, :destroy => :author }, 
+                    :topic    => { :show => :anonymous, :create => :user, :update => :author, :destroy => :moderator, :moderate => :moderator } },
 
-      :wiki    => { :category => { :update => :moderator, :create => :moderator, :destroy => :moderator, :show => :moderator },
-                    :comment  => { :update => :author, :destroy => :author, :create => :user }, 
+      :wiki    => { :category => { :show => :anonymous, :create => :moderator, :update => :moderator, :destroy => :moderator }, 
+                    :comment  => { :show => :anonymous, :create => :user, :update => :author, :destroy => :moderator },
                     :wikipage => { :show => :anonymous, :update => :user, :create => :user, :destroy => :user}}
     }
   end

@@ -5,8 +5,7 @@ class Article < Content
           :comments_count, :has_excerpt?
   end  
   
-  filters_attributes :sanitize => [:excerpt, :excerpt_html, :body, :body_html], :except => :cached_tag_list
-
+  filters_attributes :except => [:excerpt, :excerpt_html, :body, :body_html, :cached_tag_list]
   write_inheritable_attribute :default_find_options, { :order => 'contents.published_at desc' }
   
   before_create :set_position
@@ -80,6 +79,6 @@ class Article < Content
   protected
   
     def set_position
-      self.position ||= section.articles.maximum(:position).to_i + 1
+      self.position ||= section.articles.maximum(:position).to_i + 1 if section
     end
 end

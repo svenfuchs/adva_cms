@@ -1,8 +1,8 @@
 class Forum < Section
   acts_as_commentable
 
-  permissions :topic   => { :user => [:create, :update], :moderator => [:destroy, :moderate] },
-              :comment => { :user => :create, :author => [:update, :destroy] }
+  permissions :topic    => { :anonymous => :show, :user => :create, :author => :update, :moderator => [:destroy, :moderate] },
+              :comment  => { :anonymous => :show, :user => :create, :author => [:update, :destroy] }
 
   has_option :topics_per_page, :default => 25
   has_option :comments_per_page, :default => 25    

@@ -95,5 +95,9 @@ class Admin::CommentsController < Admin::BaseController
         @site.spam_engine.mark_spaminess spaminess, content_url(@comment.commentable), @comment
       end
     end
+    
+    def current_role_context
+      @comment ? @comment.commentable : @content || @section || @site
+    end
 end
 

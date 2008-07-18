@@ -33,8 +33,8 @@ Rails::Initializer.run do |config|
   config.gem 'RedCloth',  :lib => "redcloth"
   config.gem 'rubypants', :lib => 'ruby_pants'
   config.gem 'json'
-  config.gem 'rspec',     :lib => 'spec'
-  config.gem 'rspec-rails', :lib => 'spec'
+  # config.gem 'rspec',     :lib => 'spec'
+  # config.gem 'rspec-rails', :lib => 'spec'
 
   # Only load the plugins named here, in the order given. By default, all plugins 
   # in vendor/plugins are loaded in alphabetical order.

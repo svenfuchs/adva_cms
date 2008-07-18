@@ -32,7 +32,8 @@ module ActiveRecord
         
           # Wire up the counted class so that it updates our counter
           update = lambda{|record, event|
-            if counter = record.send(owner_name).send(counter_name)
+            owner = record.send(owner_name)
+            if owner && counter = owner.send(counter_name)
               method = options[event]
               method = method.call(record) if Proc === method
               counter.send method if method

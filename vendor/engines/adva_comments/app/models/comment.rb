@@ -6,8 +6,8 @@ class Comment < ActiveRecord::Base
   end  
 
   acts_as_role_context :roles => :author  
+  filtered_column :body
   filters_attributes :sanitize => :body_html
-  filtered_column :body  
 
   belongs_to :site
   belongs_to :section
@@ -74,7 +74,7 @@ class Comment < ActiveRecord::Base
   protected
   
     def authorize_commenting
-      unless commentable.accept_comments?
+      if commentable && !commentable.accept_comments?
         raise CommentNotAllowed, "Comments are not allowed for this #{commentable.class.name.demodulize.humanize.downcase}." 
       end
     end

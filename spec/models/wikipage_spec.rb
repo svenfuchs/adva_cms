@@ -9,12 +9,12 @@ describe Wikipage do
   end
   
   describe 'class extensions:' do
-    it 'sanitizes the body attribute' do
-      Wikipage.should filter_attributes(:sanitize => :body)
+    it 'sanitizes the body_html attribute' do
+      Wikipage.should filter_attributes(:sanitize => :body_html)
     end
     
-    it 'does not sanitize the body_html attribute' do
-      Wikipage.should filter_attributes(:except => [:body_html, :cached_tag_list])
+    it 'does not sanitize the body and cached_tag_list attributes' do
+      Wikipage.should filter_attributes(:except => [:body, :cached_tag_list])
     end
   end
   
@@ -40,4 +40,13 @@ describe Wikipage do
       @wikipage.accept_comments?.should be_false
     end
   end  
+
+  describe "filtering" do
+    it "it does not allow using insecure html in the wikipage body" do
+      @wikipage = Wikipage.new :body => 'p{position:absolute; top:50px; left:10px; width:150px; height:150px}. secure html'
+      @wikipage.should_receive(:filter).any_number_of_times.and_return 'textile_filter'
+      @wikipage.save(false)
+      @wikipage.body_html.should == %(<p>secure html</p>)
+    end
+  end
 end

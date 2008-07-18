@@ -20,7 +20,7 @@ describe Article do
   
   describe "class extensions:" do
     it "sanitizes the attributes excerpt, excerpt_html, body and body_html" do
-      Article.should filter_attributes(:sanitize => [:excerpt, :excerpt_html, :body, :body_html])
+      Article.should filter_attributes(:except => [:excerpt, :excerpt_html, :body, :body_html, :cached_tag_list])
     end
   end
   
@@ -198,4 +198,13 @@ describe Article do
       article.position.should == 6
     end
   end  
+  
+  describe "filtering" do
+    it "it allows using insecure html in article body and excerpt" do
+      @article = Article.new :body => 'p{position:absolute; top:50px; left:10px; width:150px; height:150px}. insecure css'
+      @article.should_receive(:filter).any_number_of_times.and_return 'textile_filter'
+      @article.save(false)
+      @article.body_html.should == %(<p style="position:absolute; top:50px; left:10px; width:150px; height:150px;">insecure css</p>)
+    end
+  end
 end

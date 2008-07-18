@@ -110,7 +110,7 @@ module XssTerminate
     end
     
     def select_sanitize_filter(attribute)
-      XssTerminate.sanitize_filters.detect do |filter| 
+      XssTerminate.sanitize_filters.detect do |filter|
         xss_terminate_options[filter].include?(attribute.to_sym)
       end || XssTerminate.default_filter 
     end

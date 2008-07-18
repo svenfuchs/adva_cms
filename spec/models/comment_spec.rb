@@ -151,6 +151,15 @@ describe Comment do
   end
 end
 
+describe Comment, "filtering" do
+  it "it does not allow using insecure html in the comment body" do
+    @comment = Comment.new :body => 'p{position:absolute; top:50px; left:10px; width:150px; height:150px}. secure html'
+    @comment.should_receive(:filter).any_number_of_times.and_return 'textile_filter'
+    @comment.save(false)
+    @comment.body_html.should == %(<p>secure html</p>)
+  end
+end
+
 describe Comment, "spam control" do
   before :each do
     @report = SpamReport.new(:engine => name, :spaminess => 0, :data => {:spam => false, :spaminess => 0, :signature => 'signature'})

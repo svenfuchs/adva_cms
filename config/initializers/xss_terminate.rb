@@ -1,5 +1,5 @@
 XssTerminate.untaint_after_find = true
-XssTerminate.default_filter = :escape
+# XssTerminate.default_filter = :escape # why would we want to do this?
 
 ActiveRecord::Base.class_eval do
   class << self

@@ -1,8 +1,8 @@
 class Wiki < Section
   has_many :wikipages, :foreign_key => 'section_id'
   
-  permissions :category => { :moderator => :all },
-              :wikipage => { :user => [:create, :update, :destroy], :anonymous => :show },
-              :comment  => { :user => :create, :author => [:update, :destroy] }
+  permissions :category => { :anonymous => :show, :moderator => [:create, :update, :destroy] },
+              :wikipage => { :anonymous => :show, :user => [:create, :update, :destroy] },
+              :comment  => { :anonymous => :show, :user => :create, :author => :update, :moderator => :destroy }
 
 end

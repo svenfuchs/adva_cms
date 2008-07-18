@@ -86,7 +86,7 @@ module Matchers
         column = @args.first
         @target.send "#{column}=", '*strong*'
         @target.should_receive(:filter).any_number_of_times.and_return 'textile_filter'
-        @target.send :process_filters          
+        @target.send :process_filters     
         @result = @target.send("#{column}_html")
         @result == '<p><strong>strong</strong></p>'
       end
