@@ -29,19 +29,19 @@ class Theme
       import_from_zip(file)
     end
     
-    def make_tmp_dir
-      random = Time.now.to_i.to_s.split('').sort_by{rand}
-      returning Pathname.new(RAILS_ROOT + "/tmp/themes/tmp_#{random}/") do |dir|
-        FileUtils.mkdir_p dir unless dir.exist?
-      end
-    end
-    
     def to_id(str)
       str.gsub(/[^\w\-_]/, '_').downcase
     end
     
     def base_dir
       ::File.join(root_dir, "themes")
+    end
+    
+    def make_tmp_dir
+      random = Time.now.to_i.to_s.split('').sort_by{rand}
+      returning Pathname.new(RAILS_ROOT + "/tmp/themes/tmp_#{random}/") do |dir|
+        FileUtils.mkdir_p dir unless dir.exist?
+      end
     end
     
     protected
@@ -201,7 +201,7 @@ class Theme
     @validated = true
   end  
   
-  def export!(options = {})
+  def export(options = {})
     options.reverse_merge! :as => :zip
     send :"export_as_#{options[:as]}", Theme.make_tmp_dir
   end
