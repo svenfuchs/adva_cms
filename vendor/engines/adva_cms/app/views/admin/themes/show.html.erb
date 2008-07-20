@@ -6,4 +6,6 @@
 
 <% content_for :sidebar do %>
   <%= render :partial => 'admin/theme_files/files' %>
+  <h4>Export</h4>
+  <p><%= link_to 'Download as zip', export_admin_theme_path(@site, @theme.id) %></p>
 <% end %>

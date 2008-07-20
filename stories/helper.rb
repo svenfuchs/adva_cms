@@ -15,6 +15,7 @@ Asset.base_dir = RAILS_ROOT + '/tmp/assets'
 cache_dirs = ActionController::Base.page_cache_directory, Theme.base_dir, Asset.base_dir
 cache_dirs.each{|dir| FileUtils.rm_rf dir unless dir.empty? or dir == '/' }
 FileUtils.rm_rf Dir[RAILS_ROOT + "/tmp/webrat*"]
+# FileUtils.rm_rf Dir[RAILS_ROOT + "/tmp/stories"]
 
 Spec::Runner.configure do |config|
   config.include Spec::Story

@@ -25,6 +25,17 @@ class Theme
       end
     end
     
+    def import(file)
+      import_from_zip(file)
+    end
+    
+    def make_tmp_dir
+      random = Time.now.to_i.to_s.split('').sort_by{rand}
+      returning Pathname.new(RAILS_ROOT + "/tmp/themes/tmp_#{random}/") do |dir|
+        FileUtils.mkdir_p dir unless dir.exist?
+      end
+    end
+    
     def to_id(str)
       str.gsub(/[^\w\-_]/, '_').downcase
     end
@@ -45,6 +56,19 @@ class Theme
       pattern = ::File.join *[base_dir, subdir, '[-_a-zA-Z0-9]*'].compact
       Dir.glob(pattern).collect { |file| file if ::File.directory?(file) }.compact
     end  
+    
+    def import_from_zip(file)
+      name = file.original_filename.gsub(/(^.*(\\|\/))|(\.zip$)/, '').gsub(/[^\w\.\-]/, '_')
+      tmp_dir = Theme.make_tmp_dir
+      Zip::ZipFile.open(file.path) do |zip|
+        zip.each do |entry|
+          path = tmp_dir + name + entry.name
+          FileUtils.mkdir_p ::File.dirname(path)
+          entry.extract path
+        end
+      end
+      Theme.new :path => tmp_dir + name
+    end
   end
 
   def initialize(attrs = {})
@@ -82,6 +106,7 @@ class Theme
   end
   
   def id=(id)
+    id.gsub! %r([^\w-]), ''
     if self.id and self.id != id
       self.path = Pathname.new(self.path.to_s.gsub(%r(/#{self.id}$), "/#{id}"))
     end
@@ -93,6 +118,7 @@ class Theme
   end
   
   def name=(name)
+    name.gsub! %r(/|\\), ''
     about['name'] = name
     self.id = self.class.to_id(name)
   end
@@ -112,6 +138,10 @@ class Theme
         nil
       end
     end[templates, assets, others]
+  end
+  
+  def about_file
+    Theme::Other.new self, self.about_filename
   end
 
   def templates
@@ -171,13 +201,21 @@ class Theme
     @validated = true
   end  
   
+  def export!(options = {})
+    options.reverse_merge! :as => :zip
+    send :"export_as_#{options[:as]}", Theme.make_tmp_dir
+  end
+  
   def mkdir
     raise ThemeError.new("can't create directory #{@path}") unless @path.to_s =~ %r(^#{Theme.base_dir})
     FileUtils.mkdir_p @path.to_s 
   end
   
   def mv(path)
-    raise ThemeError.new("can't rename to directory #{path}") unless path.to_s =~ %r(^#{Theme.base_dir})
+    # TODO this is crap. do not move the theme on create by default even if there's no
+    # theme path set, yet. Also, took the following check out so we're able to create a theme
+    # on a tmp directory and move it afterwards
+    # raise ThemeError.new("can't rename to directory #{path}") unless path.to_s =~ %r(^#{Theme.base_dir})
     if @path and path != @path
       raise ThemeError.new("can't rename to existing directory #{path}") if ::File.exists?(path)
       FileUtils.mv @path.to_s, path.to_s 
@@ -209,6 +247,16 @@ protected
   
   def write_about_file
     ::File.open(about_filename, 'wb'){|f| f.write about.to_yaml }
+  end
+  
+  def export_as_zip(dir)    
+    returning dir + "#{id}.zip" do |filename| 
+      filename.unlink if filename.exist?
+      Zip::ZipFile.open filename, Zip::ZipFile::CREATE do |zip|
+        zip.add('about.yml', about_filename)
+        files.flatten.each{|file| zip.add(file.localpath.to_s, file.fullpath.to_s) }
+      end
+    end
   end
 
   class Sanitizer

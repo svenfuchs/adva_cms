@@ -40,7 +40,9 @@ map.connect                     'admin/sites/:site_id/sections',
                                 
 map.resources :themes,          :controller  => 'admin/themes',
                                 :path_prefix => 'admin/sites/:site_id',
-                                :name_prefix => 'admin_'
+                                :name_prefix => 'admin_',
+                                :collection  => { :import => :any },
+                                :member      => { :export => :get }
                                 
 map.admin_site_selected_themes  'admin/sites/:site_id/themes/selected',
                                 :controller   => 'admin/themes',

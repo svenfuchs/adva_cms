@@ -1,6 +1,7 @@
 <% if @themes.size > 0 %>
 
-  <%= link_to "New theme", new_admin_theme_path %>
+  <%= link_to "New theme", new_admin_theme_path(@site) %> &middot;
+  <%= link_to "Import theme", import_admin_themes_path(@site) %>
 
   <ul id="themelist">
     <%= render :partial => 'theme', :collection => @themes %>

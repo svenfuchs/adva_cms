@@ -1,9 +1,9 @@
 class Admin::ThemesController < Admin::BaseController
   layout "admin"  
   
-  before_filter :set_theme, :only => [:show, :use, :preview, :edit, :update, :destroy]
+  before_filter :set_theme, :only => [:show, :use, :edit, :update, :destroy, :export]
   
-  guards_permissions :theme, :update => [:select, :unselect]
+  guards_permissions :theme, :update => [:select, :unselect], :show => :export, :create => :import
 
   def index
     @themes = @site.themes.find(:all)
@@ -49,6 +49,26 @@ class Admin::ThemesController < Admin::BaseController
     end
   end
   
+  def import
+    if request.post?
+      file = ensure_uploaded_theme_file_saved params[:theme][:file]
+      p file
+      if @site.themes.import file
+        flash.now[:notice] = "The theme has been imported."
+        redirect_to admin_themes_path
+      else
+        flash.now[:error] = "The file could not be imported as a theme."
+      end
+    end
+  end
+  
+  def export
+    zip_path = @theme.export!
+    send_file(zip_path.to_s, :stream => false) rescue raise "Error sending #{zip_path} file"
+  ensure
+    FileUtils.rm_r File.dirname(zip_path)
+  end
+  
   def select
     @site.theme_names_will_change!
     @site.theme_names << params[:id]
@@ -78,5 +98,17 @@ class Admin::ThemesController < Admin::BaseController
   
     def set_theme
       @theme = @site.themes.find(params[:id]) or raise "can not find theme #{params[:id]}"
+    end
+    
+    def ensure_uploaded_theme_file_saved(file)
+      if file.path
+        file
+      else
+        tmp_file = ActionController::UploadedTempfile.new("uploaded-theme")
+        tmp_file.write file.read
+        tmp_file.original_path = file.original_path
+        tmp_file.read # no idea why we need this here, otherwise the zip can't be opened in Theme::import
+        tmp_file
+      end      
     end
 end

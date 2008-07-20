@@ -99,6 +99,11 @@ class Theme
       !!(fullpath.to_s =~ /^#{theme.path.to_s}/) && self.class.valid_path?(fullpath.to_s)
     end
     
+    def mv(path)
+      FileUtils.mkdir_p ::File.dirname(path)
+      FileUtils.mv fullpath, path
+    end
+    
     private
     
     def strip_subdir(path)

@@ -48,4 +48,20 @@ Story: Managing themes
     Then the theme is selected
     When the user goes to the url /
     Then the page is cached
-    And the page shows 'this is the new theme template'    
+    And the page shows 'this is the new theme template'
+    
+  Scenario: An admin exports, deletes and re-imports a theme
+    GivenScenario: An admin creates a new theme template
+    When the user goes to the admin theme show page
+    And the user downloads the theme
+    And the user goes to the admin theme list page
+    And the user clicks on 'Uninstall'
+    Then the theme was deleted
+    When the user goes to the admin theme import page
+    Then the page has a theme import form
+    When the user fills in the form with valid values
+    
+    And the user clicks the 'Import' button
+    Then the theme was imported
+    And the user is redirected to the admin theme list page
+    

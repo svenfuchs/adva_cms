@@ -83,6 +83,18 @@ module ThemeSupport
           def build(attributes)
             Theme.new(attributes.merge :path => fetch(:owner).themes_dir)
           end
+          
+          def import(file)
+            theme = Theme.import(file)
+            path = Pathname.new fetch(:owner).themes_dir + Theme.to_id(theme.name)
+            tmp_path = theme.path
+            path.rmtree if path.exist? # TODO look for a unique name if this one is already taken?
+            theme.about_file.mv path + 'about.yml' # TODO maybe make this Theme#mv instead of copying the actual dir?
+            theme.files.flatten.each do |file|
+              file.mv path + file.localpath if file.valid?
+            end
+            FileUtils.rm_r tmp_path.dirname
+          end
         end[:owner, self]
       end
       
