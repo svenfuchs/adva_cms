@@ -19,7 +19,7 @@ class CommentsController < BaseController
   end
   
   def create
-    params[:comment].delete(:approved) # TODO use attr_protected api
+    params[:comment].delete(:approved) # TODO use attr_protected api?
     @comment = @commentable.comments.build(params[:comment])
     if @comment.save      
       @comment.check_approval :permalink => content_url(@comment.commentable), :authenticated => authenticated?
@@ -32,7 +32,7 @@ class CommentsController < BaseController
   end
   
   def update
-    params[:comment].delete(:approved) # TODO use attr_protected api
+    params[:comment].delete(:approved) # TODO use attr_protected api?
     if @comment.update_attributes params[:comment]
       flash[:notice] = "Thank you for your comment!"
       redirect_to comment_path(@comment)

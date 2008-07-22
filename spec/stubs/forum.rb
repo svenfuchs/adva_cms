@@ -22,8 +22,8 @@ define Forum do
            :comments_per_page => 15,
            :valid? => true,
            :has_attribute? => true,
-           :topics_count => stub_counter,
-           :comments_count => stub_counter
+           :topics_count => 0,
+           :comments_count => 0
 
   instance :forum
 end

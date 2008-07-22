@@ -9,11 +9,13 @@ define Board do
 
   methods  :id => 1,
            :title => 'board title', 
-           :description => 'board description'
+           :description => 'board description',
            :topics_per_page => 15,
            :comments_per_page => 15,
            :topics_count => stub_counter,
            :comments_count => stub_counter,
+           :last_updated_at => Time.now,
+           :last_author_name => 'last author name',
            :save => true,
            :update_attributes => true,
            :destroy => true
