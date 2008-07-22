@@ -8,7 +8,7 @@ class WikiController < BaseController
   before_filter :optimistic_lock, :only => [:update]
 
   authenticates_anonymous_user
-  acts_as_commentable
+  has_many_comments
   
   caches_page_with_references :index, :show, :track => ['@wikipage', '@wikipages', '@category', {'@site' => :tag_counts, '@section' => :tag_counts}]
   cache_sweeper :wikipage_sweeper, :category_sweeper, :tag_sweeper, :only => [:create, :update, :rollback, :destroy]

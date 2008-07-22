@@ -9,7 +9,7 @@ module ActiveRecord
     module ActMacro
       def has_counter(*names)
         options = names.extract_options!
-        options.reverse_merge! :after_create  => :increment!, 
+        options.reverse_merge! :after_create  => :increment!,
                                :after_destroy => :decrement!
         
         names.each do |name|
@@ -26,14 +26,14 @@ module ActiveRecord
                                 :conditions => "name = '#{name}'",
                                 :dependent => :delete
         
-          after_create do |forum|
-            counter = Counter.create! :owner => forum, :name => name.to_s
+          after_create do |owner|
+            counter = Counter.create! :owner => owner, :name => name.to_s
           end
         
           # Wire up the counted class so that it updates our counter
           update = lambda{|record, event|
-            owner = record.send(owner_name)
-            if owner && counter = owner.send(counter_name)
+            owner = record.send(owner_name) if record.respond_to? owner_name
+            if owner && owner.is_a?(self) && counter = owner.send(counter_name)
               method = options[event]
               method = method.call(record) if Proc === method
               counter.send method if method

@@ -1,18 +1,19 @@
 module ActiveRecord
-  module ActsAsCommentable
+  module HasManyComments
     def self.included(base)
       base.extend ActMacro  
     end
 
     module ActMacro
-      def acts_as_commentable(options = {})
-        return if acts_as_commentable?
+      def has_many_comments(options = {})
+        return if has_many_comments?
 
         options[:order] = 'comments.created_at'
         options[:as] = :commentable if options.delete(:polymorphic)
+        
+        has_counter :comments, 
+                    :as => options[:as] || name.underscore
 
-        has_counter :comments, :as => options[:as] || name.underscore
-                
         has_counter :approved_comments, 
                     :as => options[:as] || name.underscore,
                     :class_name => 'Comment', 
@@ -32,12 +33,12 @@ module ActiveRecord
           c.has_many :unapproved_comments, :conditions => ["comments.approved = ? AND comments.commentable_type <> 'Topic'", 0], :class_name => 'Comment'
           # c.has_one  :recent_comment, :order => "comments.created_at DESC"
         end
-        
+
         include InstanceMethods
       end
 
-      def acts_as_commentable?
-        included_modules.include? ActiveRecord::ActsAsCommentable::InstanceMethods
+      def has_many_comments?
+        included_modules.include? ActiveRecord::HasManyComments::InstanceMethods
       end
     end
   
@@ -52,14 +53,6 @@ module ActiveRecord
         end
         approved_comments_counter.send method if method
       end
-      
-      # def comments_count
-      #   @comments_count ||= comments.count # TODO implement as a counter
-      # end
-      # 
-      # def approved_comments_count
-      #   @approved_comments_count ||= approved_comments.count # TODO implement as a counter
-      # end
     end
   end
 end

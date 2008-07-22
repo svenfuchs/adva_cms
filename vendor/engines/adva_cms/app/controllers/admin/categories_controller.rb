@@ -16,7 +16,7 @@ class Admin::CategoriesController < Admin::BaseController
   def create    
     @category = @section.categories.build params[:category]
     if @category.save
-      flash[:notice] = "The category has been saved."
+      flash[:notice] = "The category has been created."
       redirect_to admin_categories_path
     else
       flash.now[:error] = "The category could not be created."

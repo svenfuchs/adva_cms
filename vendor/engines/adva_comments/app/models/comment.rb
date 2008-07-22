@@ -11,6 +11,7 @@ class Comment < ActiveRecord::Base
 
   belongs_to :site
   belongs_to :section
+  belongs_to :board
   belongs_to :commentable, :polymorphic => true
   belongs_to_author
 
@@ -88,6 +89,7 @@ class Comment < ActiveRecord::Base
   
     def update_commentable
       commentable.after_comment_update(self) if commentable && commentable.respond_to?(:after_comment_update)
+      board.after_comment_update(self) if board
     end  
   
 end

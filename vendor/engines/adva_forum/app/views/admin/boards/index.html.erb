@@ -1,0 +1,41 @@
+<h2>Boards</h2>
+
+<% unless @boards.empty? %>
+  <p class="hint">
+    <%= link_to "New Board", new_admin_board_path %>
+    <% unless @boards.size < 2 %>
+      &middot;
+      <%= link_to_function 'Reorder boards', "boards_tree.toggle(this, 'Done reordering');", :id => 'reorder_boards' %>
+      <%= image_tag 'indicator.gif', :id => 'boards_indicator', :style => 'display: none;' %>
+    <% end %>
+  </p>
+
+  <table id="boards" class="list">
+    <thead>
+      <tr>
+        <th scope="col">Board</th>
+      </tr>
+    </thead>
+    <tbody id="articles-body">
+    <%= render :partial => 'board', :collection => @boards %>
+    </tbody>
+  </table>
+
+  <script>
+    // var boards_tree = new SortableTree('boards', {
+    //   onDrop: function(drag, drop, event) {
+    //     <%#= remote_function(:url => admin_boards_path(@site),
+    //                         :method =>   :put,
+    //                         :with   =>   "drag.to_params()",
+    //                         :loading =>  "$('boards_indicator').show()",
+    //                         :complete => "$('boards_indicator').hide()" ) %>
+    //   }
+    // });
+  </script>
+  
+<% else %>
+  <div class="empty">
+    You don't have any boards created in <%= @section.title %>. 
+    <%= link_to "Create one now &raquo;", new_admin_board_path %>
+  </div>
+<% end %>

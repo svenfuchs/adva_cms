@@ -1818,7 +1818,7 @@ Element.Methods = {
 
   removeClassName: function(element, className) {
     if (!(element = $(element))) return;
-    element.className = element.className.replace(
+		element.className = element.className.replace(
       new RegExp("(^|\\s+)" + className + "(\\s+|$)"), ' ').strip();
     return element;
   },

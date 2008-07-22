@@ -1,6 +1,6 @@
 class Topic < ActiveRecord::Base
   has_permalink :title
-  acts_as_commentable :polymorphic => true
+  has_many_comments :as => :commentable
 
   acts_as_role_context :roles => :author, :implicit_roles => lambda{|user|
     comments.by_author(user).map{|comment| Role.build :author, comment }
@@ -8,7 +8,8 @@ class Topic < ActiveRecord::Base
 
   belongs_to :site
   belongs_to :section
-  belongs_to_author :last_author   
+  belongs_to :board
+  belongs_to_author :last_author, :validate => false
   belongs_to :last_comment, :class_name => 'Comment', :foreign_key => :last_comment_id
 
   before_validation :set_site  
@@ -37,6 +38,7 @@ class Topic < ActiveRecord::Base
   def reply(author, attributes)
     returning comments.build(attributes) do |comment|
       comment.author = author
+      comment.board = self.board
       comment.commentable = self
     end
   end
@@ -55,32 +57,31 @@ class Topic < ActiveRecord::Base
   end
 
   def paged?
-    comments_count > @section.posts_per_page
+    comments_count > @section.comments_per_page
   end
   
   def last_page
-    @last_page ||= [(comments_count.to_f / section.posts_per_page.to_f).ceil.to_i, 1].max
+    @last_page ||= [(comments_count.to_f / section.comments_per_page.to_f).ceil.to_i, 1].max
   end
 
   def previous
-    section.topics.find :first, :conditions => ['last_updated_at < ?', last_updated_at], :order => :last_updated_at
+    collection = board ? board.topics : section.topics
+    collection.find :first, :conditions => ['last_updated_at < ?', last_updated_at], :order => :last_updated_at
   end
 
   def next
-    section.topics.find :first, :conditions => ['last_updated_at > ?', last_updated_at], :order => :last_updated_at
+    collection = board ? board.topics : section.topics
+    collection.find :first, :conditions => ['last_updated_at > ?', last_updated_at], :order => :last_updated_at
   end
   
-  def after_comment_update(comment)
+  def after_comment_update_with_topic(comment)
     if comment = comment.frozen? ? comments.last_one : comment
-      update_attributes! :last_updated_at => comment.created_at,
-                         :last_comment_id => comment.id,
-                         :last_author => comment.author,
-                         :comments_count => comments.count
+      update_attributes! :last_updated_at => comment.created_at, :last_comment_id => comment.id, :last_author => comment.author
     else
       self.destroy
     end
-    # section.after_topic_update(self)
   end
+  alias_method_chain :after_comment_update, :topic
 
   protected
     def set_site

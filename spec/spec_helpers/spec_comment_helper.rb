@@ -1,5 +1,5 @@
 class Commentable < AbstractActiveRecord
-  acts_as_commentable
+  has_many_comments
 
   attr_accessor :title
   attr_accessor :section

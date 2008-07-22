@@ -20,6 +20,10 @@ describe Forum do
   end
   
   describe "associations" do
+    it "has many boards" do
+      @forum.should have_many(:boards)
+    end    
+    
     it "has many topics" do
       @forum.should have_many(:topics)
     end    

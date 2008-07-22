@@ -57,7 +57,6 @@ class CommentsController < BaseController
         @comment.commentable
       else
         params[:comment][:commentable_type].constantize.find(params[:comment][:commentable_id]) 
-        # params[:commentable][:type].constantize.find(params[:commentable][:id]) rescue nil
       end
       raise ActiveRecord::RecordNotFound unless @commentable
     end

@@ -10,6 +10,7 @@ steps_for :comment do
   end
   
   When "the user posts a comment to the blog article" do
+    Comment.delete_all
     When "the user goes to the url /2008/1/1/the-article-title"
     And "the user fills in the form with his name, email and comment"
     And "the user clicks the 'Submit comment' button"

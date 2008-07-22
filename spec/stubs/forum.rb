@@ -1,6 +1,8 @@
 define Forum do
   belongs_to :site
   
+  has_many :boards, :find => stub_board, 
+                    :build => stub_board
   has_many :topics, :find_by_permalink => stub_topic,
                     :post => stub_topic
   has_one  :topics_counter, stub_counter

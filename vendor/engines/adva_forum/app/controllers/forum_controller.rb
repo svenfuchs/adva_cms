@@ -1,9 +1,10 @@
 class ForumController < BaseController
+  before_filter :set_board, :only => :show
   before_filter :set_topics, :only => :show
   caches_page_with_references :show, :track => ['@topics']
   
   authenticates_anonymous_user
-  acts_as_commentable
+  has_many_comments
 
   def show
     # beast does this:
@@ -18,10 +19,15 @@ class ForumController < BaseController
       super
       raise SectionRoutingError.new("Section must be a Forum: #{@section.inspect}") unless @section.is_a? Forum
     end
+    
+    def set_board
+      @board = @section.boards.find params[:board_id] if params[:board_id]
+    end
   
     def set_topics
-      @topics = @section.topics.paginate :page => current_page, 
-                                         :per_page => @section.topics_per_page,
-                                         :include => :last_comment
+      collection = @board ? @board.topics : @section.topics
+      @topics = collection.paginate :page => current_page, 
+                                    :per_page => @section.topics_per_page,
+                                    :include => :last_comment
     end
 end

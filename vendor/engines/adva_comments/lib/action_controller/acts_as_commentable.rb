@@ -7,8 +7,8 @@ module ActionController
     end
 
     module ActMacro
-      def acts_as_commentable(options = {})
-        return if acts_as_commentable?
+      def has_many_comments(options = {})
+        return if has_many_comments?
         include InstanceMethods
 
         before_filter :set_commentable, :only => :comments
@@ -16,7 +16,7 @@ module ActionController
         helper :comments        
       end
 
-      def acts_as_commentable?
+      def has_many_comments?
         included_modules.include?(ActionController::ActsAsCommentable::InstanceMethods)
       end
     end

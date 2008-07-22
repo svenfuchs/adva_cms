@@ -14,6 +14,7 @@ describe TopicsController do
   
   before :each do
     scenario :forum_with_topics, :user_logged_in
+    @forum.stub!(:boards).and_return []
 
     @controller.stub!(:forum_path).and_return forum_path # TODO have a helper for this kind of stuff
     @controller.stub!(:topic_path).and_return topic_path    

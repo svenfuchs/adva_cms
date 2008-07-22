@@ -1,0 +1,23 @@
+<h2>
+  <%= @section.title %>
+  <span class="meta">
+    <%= pluralize_str @section.topics_count, '%s topic' %>,
+    <%= pluralize_str @section.comments_count, '%s post' %> &middot;
+    <%= link_to 'New topic', @board ? new_board_topic_path(@section, @board) : new_topic_path(@section) %>
+  </span>
+</h2>
+
+<table class="list">
+  <thead>
+    <tr>
+      <th>Topic</th>
+      <th width="1%">Posts</th>
+      <th width="30%">Last post</th>
+    </tr>  
+  </thead>
+  <tbody>
+  <%= render :partial => 'topic', :collection => @topics %>
+  </tbody>
+</table>
+
+<%= will_paginate @topics, :id => 'pagination' %>

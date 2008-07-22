@@ -52,7 +52,6 @@ class Admin::ThemesController < Admin::BaseController
   def import
     if request.post?
       file = ensure_uploaded_theme_file_saved params[:theme][:file]
-      p file
       if @site.themes.import file
         flash.now[:notice] = "The theme has been imported."
         redirect_to admin_themes_path

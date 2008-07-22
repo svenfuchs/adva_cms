@@ -14,7 +14,7 @@ class Section < ActiveRecord::Base
   has_option :articles_per_page, :default => 15    
   has_permalink :title, :scope => :site_id
   acts_as_nested_set
-  acts_as_commentable
+  has_many_comments
   instantiates_with_sti
   
   belongs_to :site

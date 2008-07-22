@@ -33,7 +33,7 @@ module UsersHelper
     options[:class] ||= ''
     options[:class] = options[:class].split(/ /)
     options[:class] << 'visible-for' << roles.map(&:to_css_class).join(' ')
-    options[:class] = options[:class].flatten.join(' ')
+    options[:class] = options[:class].flatten.uniq.join(' ')
   end
   
   def authorizing_css_classes(roles, options = {})

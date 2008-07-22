@@ -1,0 +1,11 @@
+<h3>Edit Board</h3>
+
+<% form_for :board, @board, :url => admin_board_path, :html => {:method => :put} do |f| %>
+  <fieldset>
+    <%= render :partial => 'form', :locals => {:f => f} %>
+  </fieldset>
+  <p class="buttons">
+  	<%= submit_tag 'Save' %>	
+  	<%= link_to 'Delete', admin_board_path, { :confirm => "Are you sure you wish to delete this board?", :method => :delete } %>
+  </p>
+<% end %>

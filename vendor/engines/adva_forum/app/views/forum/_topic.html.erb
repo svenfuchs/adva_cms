@@ -7,7 +7,8 @@
     <%= topic.comments_count %>
   </td>
   <td>
-    <%= link_to_last_post(topic.title, topic) %>
+    <%= topic.last_updated_at.strftime('%d.%m.%y %H:%M') %>
     by <%= topic.last_author_name %>
+    <%= link_to_last_post('view', topic) %>
   </td>
 </tr> 

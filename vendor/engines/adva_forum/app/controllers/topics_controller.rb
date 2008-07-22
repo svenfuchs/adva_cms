@@ -2,16 +2,20 @@ class TopicsController < BaseController
   helper :forum
   before_filter :set_topic, :only => [:show, :edit, :update, :destroy, :previous, :next]
   before_filter :set_posts, :only => :show
+  before_filter :set_board, :only => [:new, :update]
   caches_page_with_references :show, :track => ['@topic', '@posts']
   
-  guards_permissions :topic
+  guards_permissions :topic, :show => [:previous, :next]
+  
+  def index
+  end
   
   def show
     @comment = Post.new
   end
 
   def new
-    @topic = Topic.new
+    @topic = Topic.new :board => @board
   end
 
   def create 
@@ -48,7 +52,7 @@ class TopicsController < BaseController
   
   def previous
     topic = @topic.previous || @topic
-    flash[:notice] = 'There is no previous topic. Showing the last one.' if topic == @topic
+    flash[:notice] = 'There is no previous topic. Showing the first one.' if topic == @topic
     redirect_to topic_path(@section, topic.permalink)
   end
   
@@ -63,9 +67,14 @@ class TopicsController < BaseController
     def set_section
       super Forum
     end
+    
+    def set_board
+      @board = @section.boards.find params[:board_id] if params[:board_id]
+      raise "Could not set board while posting to #{@section.path.inspect}" if @section.boards.any? && @board.blank?
+    end
 
     def set_topic
-      @topic = @section.topics.find_by_permalink(params[:id])
+      @topic = @section.topics.find_by_permalink params[:id]
       redirect_to forum_path(@section) unless @topic # this happens after the last comment has been deleted
     end
 

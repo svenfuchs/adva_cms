@@ -18,9 +18,14 @@ module ActiveRecord
     module ActMacro
       def belongs_to_author(*args)
         return if belongs_to_author?
+        
         options = args.extract_options!
+        options.reverse_merge! :validate => true
+        validate = options.delete :validate
+        
         column_names = args.empty? ? [:author] : args
-        HelperMethods.define_author_methods self, column_names
+        
+        HelperMethods.define_author_methods self, column_names, validate
         include InstanceMethods
       end
 
@@ -30,11 +35,11 @@ module ActiveRecord
     end
     
     module HelperMethods      
-      def self.define_author_methods(target, column_names)
+      def self.define_author_methods(target, column_names, validate)
         column_names.each do |column|
           target.class_eval <<-code, __FILE__, __LINE__
             belongs_to :#{column}, :polymorphic => true # TODO :with_deleted => true
-            validates_presence_of :#{column}, :#{column}_name, :#{column}_email
+            validates_presence_of :#{column}, :#{column}_name, :#{column}_email if #{validate.inspect}
             before_save :cache_#{column}_attributes!
         
             def #{column}_name

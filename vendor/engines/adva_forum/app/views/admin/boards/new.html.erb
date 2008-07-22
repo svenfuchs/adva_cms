@@ -1,0 +1,11 @@
+<h2>New Board</h2>
+  
+<% form_for :board, @board, :url => admin_boards_path do |f| %>
+  <fieldset>
+    <%= render :partial => 'form', :locals => {:f => f} %>
+  </fieldset>
+	<p class="buttons">
+	  <%= submit_tag 'Save' %> or
+	  <%= link_to 'Cancel', admin_boards_path %>
+	</p>
+<% end %>

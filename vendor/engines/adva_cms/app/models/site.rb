@@ -1,7 +1,7 @@
 class Site < ActiveRecord::Base
   # TODO make sure the theme name doesn't have any slashes (forbid anything besides [\w\-_\.] ?)
   acts_as_themed  
-  acts_as_commentable
+  has_many_comments
 
   acts_as_role_context :roles => :admin
   serialize :permissions

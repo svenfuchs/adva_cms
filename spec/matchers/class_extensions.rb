@@ -34,7 +34,7 @@ module Matchers
   
     class ActAsCommentable < Base
       def does_match?
-        @target.acts_as_commentable?
+        @target.has_many_comments?
       end
     end
   

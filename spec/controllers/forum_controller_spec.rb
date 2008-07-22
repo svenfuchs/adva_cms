@@ -8,7 +8,8 @@ describe ForumController do
     @site.sections.stub!(:find).and_return @forum
   end
   
-  all_paths  = %w( /forums/1 )
+  all_paths  = %w( /forums/1 
+                   /forums/1/boards/1 )
 
   it "should be a BaseController" do
     controller.should be_kind_of(BaseController)
@@ -20,4 +21,6 @@ describe ForumController do
       it_gets_page_cached
     end
   end
+  
+  
 end

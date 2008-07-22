@@ -1,0 +1,12 @@
+<% if @section.topics_count > 0 %>
+
+  <%= render :partial => 'topics' %>
+
+<% else %>
+
+  <p class="empty">
+    There are no topics in this forum.
+    <%= link_to "Post one now &raquo;", new_topic_path(@section) %>
+  </p>
+
+<% end %>

@@ -32,6 +32,7 @@ class Admin::BaseController < ApplicationController
     case section
       when Wiki     then admin_wikipages_path section.site, section
       when Blog     then admin_articles_path section.site, section
+      when Forum    then admin_section_path section.site, section
       when Section  then admin_articles_path section.site, section
       # else                 admin_articles_path section.site, section
     end                                        
