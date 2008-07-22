@@ -15,6 +15,8 @@ module ContentHelper
       article_path content.section, content.full_permalink.merge(options)
     when Wiki
       wikipage_path *[content.section, content.permalink, options].compact
+    when Forum
+      topic_path content.section
     else 
       section_article_path *[content.section, content.permalink, options].compact
     end    

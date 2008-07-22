@@ -11,7 +11,7 @@ class TopicsController < BaseController
   end
   
   def show
-    @comment = Post.new
+    @post = Post.new
   end
 
   def new

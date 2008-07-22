@@ -1,0 +1,40 @@
+<div id="post_form">
+  <div id="post_user" style="display: none;">
+    <p>Hi <span>user</span>, you are logged in.</p>
+  </div>
+  <h2>
+    <% if @post.new_record? %>
+      Leave your reply
+    <% else %>
+      Edit your post
+    <% end %>
+  </h2>
+  <% form_for :post, @post, :url => (@post.new_record? ? topic_posts_path(@section, @topic) : topic_post_path(@section, @topic, @post)), :html => {:method => (@post.new_record? ? :post : :put)} do |f| -%>
+    <%= comment_form_hidden_fields @topic %>
+    <% fields_for @post.author do |author| %>
+      <div id="post_anonymous">
+        <p>
+          <%= author.label :name, 'Name' %>
+          <%= author.text_field :name %>
+        </p>
+        <p> 
+          <%= author.label :email, 'E-Mail' %>
+          <%= author.text_field :email %>
+        </p>
+        <p> 
+          <%= author.label :homepage %>
+          <%= author.text_field :homepage %>
+        </p>
+      </div>
+    <% end %>
+    <p>
+      <%= f.text_area :body %>
+    </p>
+    <p id="preview"></p>
+    <p>
+      <%= submit_tag (@post.new_record? ? 'Submit Post' : 'Save Post') %>
+      <%#= link_to_remote_post_preview %>
+      <img src="/images/indicator.gif" id="post-preview-spinner" style="display: none;" />
+    </p>
+  <% end %>
+</div>
