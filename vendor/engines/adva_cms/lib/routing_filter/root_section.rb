@@ -11,7 +11,7 @@ module RoutingFilter
     # /.rss and /de.rss
     
     # TODO ... should be defined through the dsl in routes.rb
-    @@pattern = %r(^/?(/[\w]{2})?(/articles|/pages|/categories|/tags|/\d{4}|\.|/?$))
+    @@pattern = %r(^/?(/[\w]{2})?(/articles|/pages|/boards|/topics|/categories|/tags|/\d{4}|\.|/?$))
 
     # prepends the root section path to the path if the given pattern matches          
     def around_recognition(route, path, env, &block)
