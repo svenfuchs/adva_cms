@@ -6,6 +6,7 @@ scenario :forum_with_topics do
   @topics = stub_topics
   
   @site.sections.stub!(:find).and_return @forum
+  @site.sections.stub!(:root).and_return @forum
 
   Section.stub!(:find).and_return @forum
   Section.stub!(:paths).and_return ['section', 'blog', 'forum', 'wiki']

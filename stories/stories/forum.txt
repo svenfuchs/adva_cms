@@ -1,0 +1,23 @@
+Story: Posting to a forum
+  As a user
+  I want to post to a forum
+  So I can participate in the discussion
+  
+  Scenario: An anonymous user creates a new topic in a forum without boards
+    Given a forum that allows anonymous users to post comments
+    Given the forum has no boards
+    When the user goes to the forum page
+    Then the page shows an empty list of topics
+    When the user clicks on 'Post one now'
+    Then the page has a topic creation form
+    When the user fills in the topic creation form with valid values
+    And the user clicks on the 'Post Topic' button
+    Then the new topic is created
+    And the initial topic comment is created
+    And the user is redirected to the topic show page
+    And the page shows 'the topic title'
+    And the page shows 'the initial comment body'
+
+
+
+

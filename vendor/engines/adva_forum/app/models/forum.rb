@@ -5,7 +5,7 @@ class Forum < Section
               :comment  => { :anonymous => :show, :user => :create, :author => [:update, :destroy] }
 
   has_option :topics_per_page, :default => 25
-  has_option :comments_per_page, :default => 25    
+  has_option :comments_per_page, :default => 10 
   # has_option :posts_per_page, :default => 25
 
   has_counter :topics, :comments, :as => :section

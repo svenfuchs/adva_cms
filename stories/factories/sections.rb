@@ -13,4 +13,7 @@ factory :blog, valid_section_attributes.update(:type => 'Blog', :title => 'the b
 factory :wiki, valid_section_attributes.update(:type => 'Wiki', :title => 'the wiki title'),
         :class => :section
         
+factory :forum, valid_section_attributes.update(:type => 'Forum', :title => 'the forum title'),
+        :class => :section
+        
 

@@ -11,15 +11,16 @@
   </span>
 </h2>
 
-<!-- post count, voices count -->
 <%= render :partial => 'post', :collection => @posts %>
+
+<p class="clearing">
+  <%= will_paginate @posts, :id => 'pagination' %>
+</p>
 
 <p class="clearing">
   <%= link_to_prev_topic('&larr; previous', @topic, :class => :previous) %>
   <%= link_to_next_topic('next &rarr;', @topic, :class => :next) %>
 </p>
-
-<%= will_paginate @posts, :id => 'pagination' %>
 
 <%= render :partial => 'posts/form' %>
 
