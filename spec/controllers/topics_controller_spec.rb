@@ -122,4 +122,20 @@ describe TopicsController do
       it_assigns_flash_cookie :error => :not_nil
     end
   end
+  
+  describe "guarding permissions" do
+    act! { request_to :post, topics_path, :topic => { 'title' => 'title', 'body' => 'body', 'locked' => 1, 'sticky' => 1 } }
+    
+    it "should reject sticky and locked parameter values when user does not have permission to moderate a topic" do
+      controller.should_receive(:has_permission?).with(:moderate, :topic).and_return(false)
+      act!
+      controller.params[:topic].keys.should_not include('locked', 'sticky')
+    end
+    
+    it "should not reject sticky and locked parameter values when user does have permission to moderate a topic" do
+      controller.should_receive(:has_permission?).with(:moderate, :topic).and_return(true)
+      act!
+      controller.params[:topic].keys.should include('locked', 'sticky')
+    end
+  end
 end

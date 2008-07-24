@@ -8,6 +8,7 @@ class TopicsController < BaseController
   caches_page_with_references :show, :track => ['@topic', '@posts']
   
   guards_permissions :topic, :show => [:previous, :next]
+  before_filter :guard_topic_permissions, :only => [:create, :update]
   
   def index
   end
@@ -21,14 +22,11 @@ class TopicsController < BaseController
   end
 
   def create 
-    @topic = @section.topics.post current_user, params[:topic] # TODO check sticky, locked against permissions
-    
+    @topic = @section.topics.post current_user, params[:topic]
     if @topic.save
       flash[:notice] = 'The topic has been created.'
       redirect_to topic_path(@section, @topic.permalink)
     else
-      p @topic.errors
-      p current_user
       flash[:error] = 'The topic could not be created.'
       render :action => :new
     end
@@ -85,6 +83,12 @@ class TopicsController < BaseController
 
     def set_posts
       @posts = @topic.comments.paginate :page => current_page, :per_page => @section.comments_per_page
+    end
+    
+    def guard_topic_permissions
+      unless has_permission? :moderate, :topic
+        params[:topic].reject!{|key, value| ['sticky', 'locked'].include? key } if params[:topic]
+      end
     end
     
     def current_role_context
