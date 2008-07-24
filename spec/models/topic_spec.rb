@@ -85,7 +85,7 @@ describe Topic do
       end
       
       it "initializes a new Topic with the given attributes" do
-        Topic.should_receive(:new).with(@attributes).and_return @topic
+        Topic.should_receive(:new).with(@attributes.merge(:author => @user)).and_return @topic
         Topic.post @user, @attributes
       end
       

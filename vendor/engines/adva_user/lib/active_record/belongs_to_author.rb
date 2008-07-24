@@ -35,8 +35,9 @@ module ActiveRecord
             belongs_to :#{column}, :polymorphic => true # TODO :with_deleted => true
             if #{validate.inspect}
               validates_presence_of :#{column}
-              validates_presence_of :#{column}_name if column_names.include?("#{column}_name")
-              validates_presence_of :#{column}_email if column_names.include?("#{column}_email") 
+              validates_associated  :#{column}
+              # validates_presence_of :#{column}_name if column_names.include?("#{column}_name")
+              # validates_presence_of :#{column}_email if column_names.include?("#{column}_email") 
             end
             before_save :cache_#{column}_attributes!
         

@@ -17,6 +17,7 @@ describe "Admin::User:" do
 
     template.stub!(:gravatar_img)
     template.stub!(:current_user).and_return @user
+    template.stub!(:will_paginate).and_return "will_paginate"
   end
 
   describe "the :index view" do

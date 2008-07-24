@@ -4989,3 +4989,94 @@
   [4;35;1mCounter Update (0.000091)[0m   [0mUPDATE "counters" SET "count" = 0 WHERE "id" = 572[0m
   [4;36;1mCounterSpec::Content Load (0.000367)[0m   [0;1mSELECT * FROM "contents" WHERE ("contents"."id" = 308) [0m
   [4;35;1mCounter Load (0.000341)[0m   [0mSELECT * FROM "counters" WHERE ("counters".owner_id = 308 AND "counters".owner_type = 'CounterSpec::Content' AND (name = 'approved_comments')) LIMIT 1[0m
+  [4;36;1mSQL (0.001680)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.000617)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.000604)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mCounter Delete all (0.003181)[0m   [0mDELETE FROM "counters" WHERE 1=1[0m
+  [4;36;1mCounterSpec::Content Delete all (0.001742)[0m   [0;1mDELETE FROM "contents" WHERE 1=1[0m
+  [4;35;1mCounterSpec::Comment Delete all (0.000752)[0m   [0mDELETE FROM "comments" WHERE 1=1[0m
+  [4;36;1mCounterSpec::Content Create (0.000559)[0m   [0;1mINSERT INTO "contents" ("title") VALUES('first content')[0m
+  [4;35;1mCounterSpec::Comment Create (0.000491)[0m   [0mINSERT INTO "comments" ("content_id", "text", "approved") VALUES(309, 'first comment', NULL)[0m
+  [4;36;1mCounterSpec::Content Load (0.000255)[0m   [0;1mSELECT * FROM "contents" WHERE ("contents"."id" = 309) [0m
+  [4;35;1mCounter Load (0.000251)[0m   [0mSELECT * FROM "counters" WHERE ("counters".owner_id = 309 AND "counters".owner_type = 'CounterSpec::Content' AND (name = 'comments')) LIMIT 1[0m
+  [4;36;1mCounter Create (0.000279)[0m   [0;1mINSERT INTO "counters" ("name", "owner_id", "count", "owner_type") VALUES('comments', 309, 0, 'CounterSpec::Content')[0m
+  [4;35;1mCounter Load (0.000181)[0m   [0mSELECT * FROM "counters" WHERE ("counters".owner_id = 309 AND "counters".owner_type = 'CounterSpec::Content' AND (name = 'approved_comments')) LIMIT 1[0m
+  [4;36;1mCounter Create (0.000139)[0m   [0;1mINSERT INTO "counters" ("name", "owner_id", "count", "owner_type") VALUES('approved_comments', 309, 0, 'CounterSpec::Content')[0m
+  [4;35;1mCounter Create (0.000123)[0m   [0mINSERT INTO "counters" ("name", "owner_id", "count", "owner_type") VALUES('comments', 309, 0, 'CounterSpec::Content')[0m
+  [4;36;1mCounter Create (0.000106)[0m   [0;1mINSERT INTO "counters" ("name", "owner_id", "count", "owner_type") VALUES('approved_comments', 309, 0, 'CounterSpec::Content')[0m
+  [4;35;1mCounter Load (0.000422)[0m   [0mSELECT * FROM "counters" WHERE ("counters".owner_id = 309 AND "counters".owner_type = 'CounterSpec::Content' AND (name = 'comments')) LIMIT 1[0m
+  [4;36;1mCounter Delete all (0.001965)[0m   [0;1mDELETE FROM "counters" WHERE 1=1[0m
+  [4;35;1mCounterSpec::Content Delete all (0.001775)[0m   [0mDELETE FROM "contents" WHERE 1=1[0m
+  [4;36;1mCounterSpec::Comment Delete all (0.001876)[0m   [0;1mDELETE FROM "comments" WHERE 1=1[0m
+  [4;35;1mCounterSpec::Content Create (0.000552)[0m   [0mINSERT INTO "contents" ("title") VALUES('first content')[0m
+  [4;36;1mCounterSpec::Comment Create (0.000492)[0m   [0;1mINSERT INTO "comments" ("content_id", "text", "approved") VALUES(310, 'first comment', NULL)[0m
+  [4;35;1mCounterSpec::Content Load (0.000264)[0m   [0mSELECT * FROM "contents" WHERE ("contents"."id" = 310) [0m
+  [4;36;1mCounter Load (0.000146)[0m   [0;1mSELECT * FROM "counters" WHERE ("counters".owner_id = 310 AND "counters".owner_type = 'CounterSpec::Content' AND (name = 'comments')) LIMIT 1[0m
+  [4;35;1mCounter Create (0.000203)[0m   [0mINSERT INTO "counters" ("name", "owner_id", "count", "owner_type") VALUES('comments', 310, 0, 'CounterSpec::Content')[0m
+  [4;36;1mCounter Load (0.000138)[0m   [0;1mSELECT * FROM "counters" WHERE ("counters".owner_id = 310 AND "counters".owner_type = 'CounterSpec::Content' AND (name = 'approved_comments')) LIMIT 1[0m
+  [4;35;1mCounter Create (0.000118)[0m   [0mINSERT INTO "counters" ("name", "owner_id", "count", "owner_type") VALUES('approved_comments', 310, 0, 'CounterSpec::Content')[0m
+  [4;36;1mCounter Create (0.000166)[0m   [0;1mINSERT INTO "counters" ("name", "owner_id", "count", "owner_type") VALUES('comments', 310, 0, 'CounterSpec::Content')[0m
+  [4;35;1mCounter Create (0.000162)[0m   [0mINSERT INTO "counters" ("name", "owner_id", "count", "owner_type") VALUES('approved_comments', 310, 0, 'CounterSpec::Content')[0m
+  [4;36;1mCounter Load (0.000499)[0m   [0;1mSELECT * FROM "counters" WHERE ("counters".owner_id = 310 AND "counters".owner_type = 'CounterSpec::Content' AND (name = 'comments')) LIMIT 1[0m
+  [4;35;1mCounter Delete all (0.002016)[0m   [0mDELETE FROM "counters" WHERE 1=1[0m
+  [4;36;1mCounterSpec::Content Delete all (0.001706)[0m   [0;1mDELETE FROM "contents" WHERE 1=1[0m
+  [4;35;1mCounterSpec::Comment Delete all (0.001762)[0m   [0mDELETE FROM "comments" WHERE 1=1[0m
+  [4;36;1mCounterSpec::Content Create (0.000488)[0m   [0;1mINSERT INTO "contents" ("title") VALUES('first content')[0m
+  [4;35;1mCounterSpec::Comment Create (0.000486)[0m   [0mINSERT INTO "comments" ("content_id", "text", "approved") VALUES(311, 'first comment', NULL)[0m
+  [4;36;1mCounterSpec::Content Load (0.000527)[0m   [0;1mSELECT * FROM "contents" WHERE ("contents"."id" = 311) [0m
+  [4;35;1mCounter Load (0.000164)[0m   [0mSELECT * FROM "counters" WHERE ("counters".owner_id = 311 AND "counters".owner_type = 'CounterSpec::Content' AND (name = 'comments')) LIMIT 1[0m
+  [4;36;1mCounter Create (0.000250)[0m   [0;1mINSERT INTO "counters" ("name", "owner_id", "count", "owner_type") VALUES('comments', 311, 0, 'CounterSpec::Content')[0m
+  [4;35;1mCounter Load (0.000142)[0m   [0mSELECT * FROM "counters" WHERE ("counters".owner_id = 311 AND "counters".owner_type = 'CounterSpec::Content' AND (name = 'approved_comments')) LIMIT 1[0m
+  [4;36;1mCounter Create (0.000127)[0m   [0;1mINSERT INTO "counters" ("name", "owner_id", "count", "owner_type") VALUES('approved_comments', 311, 0, 'CounterSpec::Content')[0m
+  [4;35;1mCounter Create (0.000129)[0m   [0mINSERT INTO "counters" ("name", "owner_id", "count", "owner_type") VALUES('comments', 311, 0, 'CounterSpec::Content')[0m
+  [4;36;1mCounter Create (0.000151)[0m   [0;1mINSERT INTO "counters" ("name", "owner_id", "count", "owner_type") VALUES('approved_comments', 311, 0, 'CounterSpec::Content')[0m
+  [4;35;1mCounterSpec::Comment Destroy (0.000402)[0m   [0m DELETE FROM "comments"
+ WHERE "id" = 253
+[0m
+  [4;36;1mCounter Create (0.000205)[0m   [0;1mINSERT INTO "counters" ("name", "owner_id", "count", "owner_type") VALUES('comments', 311, 0, 'CounterSpec::Content')[0m
+  [4;35;1mCounter Create (0.000117)[0m   [0mINSERT INTO "counters" ("name", "owner_id", "count", "owner_type") VALUES('approved_comments', 311, 0, 'CounterSpec::Content')[0m
+  [4;36;1mCounter Load (0.000498)[0m   [0;1mSELECT * FROM "counters" WHERE ("counters".owner_id = 311 AND "counters".owner_type = 'CounterSpec::Content' AND (name = 'comments')) LIMIT 1[0m
+  [4;35;1mCounter Delete all (0.002046)[0m   [0mDELETE FROM "counters" WHERE 1=1[0m
+  [4;36;1mCounterSpec::Content Delete all (0.001698)[0m   [0;1mDELETE FROM "contents" WHERE 1=1[0m
+  [4;35;1mCounterSpec::Comment Delete all (0.000820)[0m   [0mDELETE FROM "comments" WHERE 1=1[0m
+  [4;36;1mCounterSpec::Content Create (0.000393)[0m   [0;1mINSERT INTO "contents" ("title") VALUES('first content')[0m
+  [4;35;1mCounterSpec::Comment Create (0.000547)[0m   [0mINSERT INTO "comments" ("content_id", "text", "approved") VALUES(312, 'first comment', NULL)[0m
+  [4;36;1mCounterSpec::Content Load (0.000289)[0m   [0;1mSELECT * FROM "contents" WHERE ("contents"."id" = 312) [0m
+  [4;35;1mCounter Load (0.000148)[0m   [0mSELECT * FROM "counters" WHERE ("counters".owner_id = 312 AND "counters".owner_type = 'CounterSpec::Content' AND (name = 'comments')) LIMIT 1[0m
+  [4;36;1mCounter Create (0.000204)[0m   [0;1mINSERT INTO "counters" ("name", "owner_id", "count", "owner_type") VALUES('comments', 312, 0, 'CounterSpec::Content')[0m
+  [4;35;1mCounter Load (0.000148)[0m   [0mSELECT * FROM "counters" WHERE ("counters".owner_id = 312 AND "counters".owner_type = 'CounterSpec::Content' AND (name = 'approved_comments')) LIMIT 1[0m
+  [4;36;1mCounter Create (0.000109)[0m   [0;1mINSERT INTO "counters" ("name", "owner_id", "count", "owner_type") VALUES('approved_comments', 312, 0, 'CounterSpec::Content')[0m
+  [4;35;1mCounter Create (0.000146)[0m   [0mINSERT INTO "counters" ("name", "owner_id", "count", "owner_type") VALUES('comments', 312, 0, 'CounterSpec::Content')[0m
+  [4;36;1mCounter Create (0.000109)[0m   [0;1mINSERT INTO "counters" ("name", "owner_id", "count", "owner_type") VALUES('approved_comments', 312, 0, 'CounterSpec::Content')[0m
+  [4;35;1mCounter Load (0.000466)[0m   [0mSELECT * FROM "counters" WHERE ("counters".owner_id = 312 AND "counters".owner_type = 'CounterSpec::Content' AND (name = 'approved_comments')) LIMIT 1[0m
+  [4;36;1mCounter Delete all (0.002006)[0m   [0;1mDELETE FROM "counters" WHERE 1=1[0m
+  [4;35;1mCounterSpec::Content Delete all (0.001340)[0m   [0mDELETE FROM "contents" WHERE 1=1[0m
+  [4;36;1mCounterSpec::Comment Delete all (0.001650)[0m   [0;1mDELETE FROM "comments" WHERE 1=1[0m
+  [4;35;1mCounterSpec::Content Create (0.000685)[0m   [0mINSERT INTO "contents" ("title") VALUES('first content')[0m
+  [4;36;1mCounterSpec::Comment Create (0.000538)[0m   [0;1mINSERT INTO "comments" ("content_id", "text", "approved") VALUES(313, 'first comment', 1)[0m
+  [4;35;1mCounterSpec::Content Load (0.000295)[0m   [0mSELECT * FROM "contents" WHERE ("contents"."id" = 313) [0m
+  [4;36;1mCounter Load (0.000166)[0m   [0;1mSELECT * FROM "counters" WHERE ("counters".owner_id = 313 AND "counters".owner_type = 'CounterSpec::Content' AND (name = 'comments')) LIMIT 1[0m
+  [4;35;1mCounter Create (0.000232)[0m   [0mINSERT INTO "counters" ("name", "owner_id", "count", "owner_type") VALUES('comments', 313, 0, 'CounterSpec::Content')[0m
+  [4;36;1mCounter Load (0.000144)[0m   [0;1mSELECT * FROM "counters" WHERE ("counters".owner_id = 313 AND "counters".owner_type = 'CounterSpec::Content' AND (name = 'approved_comments')) LIMIT 1[0m
+  [4;35;1mCounter Create (0.000117)[0m   [0mINSERT INTO "counters" ("name", "owner_id", "count", "owner_type") VALUES('approved_comments', 313, 0, 'CounterSpec::Content')[0m
+  [4;36;1mCounter Create (0.000112)[0m   [0;1mINSERT INTO "counters" ("name", "owner_id", "count", "owner_type") VALUES('approved_comments', 313, 0, 'CounterSpec::Content')[0m
+  [4;35;1mCounter Delete all (0.001031)[0m   [0mDELETE FROM "counters" WHERE 1=1[0m
+  [4;36;1mCounterSpec::Content Delete all (0.001744)[0m   [0;1mDELETE FROM "contents" WHERE 1=1[0m
+  [4;35;1mCounterSpec::Comment Delete all (0.000729)[0m   [0mDELETE FROM "comments" WHERE 1=1[0m
+  [4;36;1mCounterSpec::Content Create (0.000374)[0m   [0;1mINSERT INTO "contents" ("title") VALUES('first content')[0m
+  [4;35;1mCounterSpec::Comment Create (0.000413)[0m   [0mINSERT INTO "comments" ("content_id", "text", "approved") VALUES(314, 'first comment', 1)[0m
+  [4;36;1mCounterSpec::Content Load (0.000258)[0m   [0;1mSELECT * FROM "contents" WHERE ("contents"."id" = 314) [0m
+  [4;35;1mCounter Load (0.000142)[0m   [0mSELECT * FROM "counters" WHERE ("counters".owner_id = 314 AND "counters".owner_type = 'CounterSpec::Content' AND (name = 'comments')) LIMIT 1[0m
+  [4;36;1mCounter Create (0.000241)[0m   [0;1mINSERT INTO "counters" ("name", "owner_id", "count", "owner_type") VALUES('comments', 314, 0, 'CounterSpec::Content')[0m
+  [4;35;1mCounter Load (0.000144)[0m   [0mSELECT * FROM "counters" WHERE ("counters".owner_id = 314 AND "counters".owner_type = 'CounterSpec::Content' AND (name = 'approved_comments')) LIMIT 1[0m
+  [4;36;1mCounter Create (0.000115)[0m   [0;1mINSERT INTO "counters" ("name", "owner_id", "count", "owner_type") VALUES('approved_comments', 314, 0, 'CounterSpec::Content')[0m
+  [4;35;1mCounter Create (0.000174)[0m   [0mINSERT INTO "counters" ("name", "owner_id", "count", "owner_type") VALUES('approved_comments', 314, 0, 'CounterSpec::Content')[0m

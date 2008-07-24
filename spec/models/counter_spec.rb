@@ -6,9 +6,9 @@ describe Counter do
   before :each do
     @forum = Forum.new :title => 'forum', :site => stub_site
     @forum.stub!(:build_path)
-    @forum.save
+    @forum.save!
     
-    @topic_attributes = {:section => @forum, :title => 'title', :body => 'body', :last_author => stub_user, :last_author_name => 'name', :last_author_email => 'email@email.org'}
+    @topic_attributes = {:section => @forum, :title => 'title', :body => 'body', :author => stub_user, :last_author => stub_user, :last_author_name => 'name', :last_author_email => 'email@email.org'}
   end
   
   it "has_one topics_count" do

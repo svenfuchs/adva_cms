@@ -11,7 +11,7 @@ module ActiveRecord
         options = names.extract_options!
         options.reverse_merge! :after_create  => :increment!,
                                :after_destroy => :decrement!
-        
+
         names.each do |name|
           counter_name = :"#{name}_counter"
           owner_name = options[:as] || self.name.demodulize.underscore
@@ -26,9 +26,21 @@ module ActiveRecord
                                 :conditions => "name = '#{name}'",
                                 :dependent => :delete
         
-          after_create do |owner|
-            counter = Counter.create! :owner => owner, :name => name.to_s
-          end
+          class_eval <<-code, __FILE__, __LINE__
+            def #{counter_name}_with_lazy_creation(force_reload = false) 
+              result = #{counter_name}_without_lazy_creation force_reload
+              if result.nil?
+                Counter.create!(:owner => self, :name => #{name.to_s.inspect})
+                result = #{counter_name}_without_lazy_creation true
+              end
+              result
+            end
+            alias_method_chain counter_name, :lazy_creation
+          code
+        
+          # after_create do |owner|
+          #   Counter.create! :owner => owner, :name => name.to_s
+          # end
         
           # Wire up the counted class so that it updates our counter
           update = lambda{|record, event|

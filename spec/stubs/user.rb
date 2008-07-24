@@ -3,7 +3,8 @@ define Anonymous do
            :anonymous? => true,
            :registered? => false,
            :update_attributes => true, 
-           :destroy => true
+           :destroy => true,
+           :valid? => true
 
   instance :user,
            :id => 1,
@@ -23,7 +24,8 @@ define User do
            :destroy => true,
            :verified! => nil,
            :assign_token => 'token',
-           :email= => nil
+           :email= => nil,
+           :valid? => true
 
   instance :user,
            :id => 1,

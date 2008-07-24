@@ -5,6 +5,7 @@ describe Content do
   include Matchers::ClassExtensions
   
   before :each do
+    User.delete_all!
     scenario :section_with_published_article
     @time_now = Time.zone.now
     @author = User.new :name => 'name', :email => 'email@test.org', :homepage => 'http://homepage.com', :login => 'login', :password => 'password', :password_confirmation => 'password'
@@ -109,27 +110,32 @@ describe Content do
   end  
   
   describe "validations" do
-    it "validate presence of a title" do
+    it "validates presence of a title" do
       @content.should validate_presence_of(:title)
     end
   
-    it "validate presence of a body" do
+    it "validates presence of a body" do
       @content.should validate_presence_of(:body)
     end
   
-    it "validate presence of an author (through belongs_to_author)" do
+    it "validates presence of an author (through belongs_to_author)" do
       @content.should validate_presence_of(:author)
     end
   
-    it "validate presence of an author_name (through belongs_to_author)" do
-      @content.author.stub!(:name).and_return nil
-      @content.should validate_presence_of(:author_name)
+    it "validates that the author is valid (through belongs_to_author)" do
+      @content.author.email = nil
+      @content.valid?.should be_false
     end
-  
-    it "validate presence of an author_email (through belongs_to_author)" do
-      @content.author.stub!(:email).and_return nil
-      @content.should validate_presence_of(:author_email)
-    end
+      
+    # it "validate presence of an author_name (through belongs_to_author)" do
+    #   @content.author.stub!(:name).and_return nil
+    #   @content.should validate_presence_of(:author_name)
+    # end
+    #   
+    # it "validate presence of an author_email (through belongs_to_author)" do
+    #   @content.author.stub!(:email).and_return nil
+    #   @content.should validate_presence_of(:author_email)
+    # end
     
     it "validates the uniqueness of the permalink per site" do
       @content.should validate_uniqueness_of(:permalink) # :scope => :site_id

@@ -1,7 +1,7 @@
 factories :user, :sections
 
-factory :comment,
-        :body    => 'the post body',
+factory :post,
+        :body       => 'the post body',
         :site_id    => lambda{ (Site.find(:first) || create_site).id },
         :section_id => lambda{ (Forum.find(:first) || create_forum).id },
         :author_id  => lambda{ (User.find(:first) || create_user).id },
