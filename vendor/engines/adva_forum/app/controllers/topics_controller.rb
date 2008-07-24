@@ -22,10 +22,13 @@ class TopicsController < BaseController
 
   def create 
     @topic = @section.topics.post current_user, params[:topic] # TODO check sticky, locked against permissions
+    
     if @topic.save
       flash[:notice] = 'The topic has been created.'
       redirect_to topic_path(@section, @topic.permalink)
     else
+      p @topic.errors
+      p current_user
       flash[:error] = 'The topic could not be created.'
       render :action => :new
     end
