@@ -14,6 +14,10 @@ input[type=password] {
 	padding: 0 4px;
 	margin: -2px 12px -2px 0;
 }
+input[type=text].wide,
+input[type=password].wide {
+	width: 80%;
+}
 textarea {
 	width: 80%;	
 	height: 270px;

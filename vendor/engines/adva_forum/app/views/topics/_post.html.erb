@@ -6,7 +6,7 @@
     <p>
       <%= gravatar_img post.author %>
       <%= post.author_link %><br>
-      <%= post.author.roles.map(&:name).map(&:to_s).map(&:camelize).join(', ') %><br> <!-- TODO -->
+      <%#= post.author.roles.map(&:name).map(&:to_s).map(&:camelize).join(', ') %><br> <!-- TODO does not work with anonymous users -->
     </p>
   </div>
   <div class="body">

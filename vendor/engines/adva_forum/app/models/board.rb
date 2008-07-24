@@ -32,6 +32,10 @@ class Board < ActiveRecord::Base
   alias_method_chain :after_comment_update, :board
   
   protected
+  
+    def owner
+      section
+    end
     
     def set_site
       self.site_id = section.site_id if section

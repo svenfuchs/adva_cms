@@ -19,7 +19,7 @@ class BaseController < ApplicationController
   #                          :force_template_types => ['html.serb', 'liquid']
   #                          :force_template_types => lambda {|c| ['html.serb', 'liquid'] unless c.class.name =~ /^Admin::/ }
   
-  # TODO move these to has_many_comments (?)
+  # TODO move these to acts_as_commentable (?)
   caches_page_with_references :comments, :track => ['@commentable']
   
   def comments

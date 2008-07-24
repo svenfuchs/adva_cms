@@ -1,8 +1,24 @@
 <%= f.hidden_field :board_id %>
+<% fields_for @topic.author do |author| %>
+  <div id="anonymous_author">
+    <p>
+      <%= author.label :name, 'Name' %>
+      <%= author.text_field :name %>
+    </p>
+    <p> 
+      <%= author.label :email, 'E-Mail' %>
+      <%= author.text_field :email %>
+    </p>
+    <p> 
+      <%= author.label :homepage %>
+      <%= author.text_field :homepage %>
+    </p>
+  </div>
+<% end %>
 
 <p>
   <%= f.label :title %>
-  <%= f.text_field :title %>
+  <%= f.text_field :title, :class => 'wide' %>
 </p>
 <% if @topic.new_record? %>
   <p>
@@ -10,12 +26,12 @@
   	<%= f.text_area :body %>
   </p>
 <% end %>
-<p>
-  <%= f.label :sticky %>
+
+<% authorized_tag :p, :moderate, @topic do %>
   <%= f.check_box :sticky %>
-</p>
-<p>
-  <%= f.label :locked %>
+  <%= f.label :sticky, 'Sticky', :class => 'inline' %>
   <%= f.check_box :locked %>
-</p>
+  <%= f.label :locked, 'Locked', :class => 'inline' %>
+<% end %>
+
 <p id="preview"></p>

@@ -1,4 +1,6 @@
 class TopicsController < BaseController
+  authenticates_anonymous_user
+  
   helper :forum
   before_filter :set_topic, :only => [:show, :edit, :update, :destroy, :previous, :next]
   before_filter :set_posts, :only => :show
@@ -11,15 +13,15 @@ class TopicsController < BaseController
   end
   
   def show
-    @post = Post.new
+    @post = Post.new :author => current_user
   end
 
   def new
-    @topic = Topic.new :board => @board
+    @topic = Topic.new :section => @section, :board => @board, :author => current_user
   end
 
   def create 
-    @topic = @section.topics.post current_user, params[:topic] # sticky, locked if permissions
+    @topic = @section.topics.post current_user, params[:topic] # TODO check sticky, locked against permissions
     if @topic.save
       flash[:notice] = 'The topic has been created.'
       redirect_to topic_path(@section, @topic.permalink)

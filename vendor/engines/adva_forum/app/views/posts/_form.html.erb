@@ -1,5 +1,5 @@
 <div id="post_form">
-  <div id="post_user" style="display: none;">
+  <div id="registered_author" style="display: none;">
     <p>Hi <span>user</span>, you are logged in.</p>
   </div>
   <h2>
@@ -10,9 +10,8 @@
     <% end %>
   </h2>
   <% form_for :post, @post, :url => (@post.new_record? ? topic_posts_path(@section, @topic) : topic_post_path(@section, @topic, @post)), :html => {:method => (@post.new_record? ? :post : :put)} do |f| -%>
-    <%= comment_form_hidden_fields @topic %>
     <% fields_for @post.author do |author| %>
-      <div id="post_anonymous">
+      <div id="anonymous_author">
         <p>
           <%= author.label :name, 'Name' %>
           <%= author.text_field :name %>

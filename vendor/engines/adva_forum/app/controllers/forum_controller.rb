@@ -4,7 +4,7 @@ class ForumController < BaseController
   caches_page_with_references :show, :track => ['@topics']
   
   authenticates_anonymous_user
-  has_many_comments
+  acts_as_commentable # TODO hu?
 
   def show
     # beast does this:

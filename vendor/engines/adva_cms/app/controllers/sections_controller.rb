@@ -7,7 +7,7 @@ class SectionsController < BaseController
   caches_page_with_references :show, :track => ['@article']
   
   authenticates_anonymous_user
-  has_many_comments
+  acts_as_commentable
 
   def show
     render @section.render_options

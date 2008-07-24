@@ -9,8 +9,10 @@ class Topic < ActiveRecord::Base
   belongs_to :site
   belongs_to :section
   belongs_to :board
-  belongs_to_author :last_author, :validate => false
   belongs_to :last_comment, :class_name => 'Comment', :foreign_key => :last_comment_id
+
+  belongs_to_author
+  belongs_to_author :last_author, :validate => false
 
   before_validation :set_site  
 
@@ -22,7 +24,7 @@ class Topic < ActiveRecord::Base
 
   class << self
     def post(author, attributes)
-      topic = Topic.new attributes
+      topic = Topic.new attributes.merge(:author => author)
       topic.last_author = author
       topic.last_author_email = author.email
       topic.reply author, :body => attributes[:body]
@@ -32,7 +34,7 @@ class Topic < ActiveRecord::Base
   end
   
   def owner
-    section
+    board || section
   end
     
   def reply(author, attributes)

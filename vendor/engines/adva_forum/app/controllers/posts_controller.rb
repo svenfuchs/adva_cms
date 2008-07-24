@@ -1,4 +1,6 @@
 class PostsController < BaseController
+  authenticates_anonymous_user
+
   before_filter :set_topic
   before_filter :set_post, :only => [:edit, :update, :destroy]
 
@@ -44,6 +46,7 @@ class PostsController < BaseController
   
     def set_post
       @post = @topic.comments.find params[:id]
+      @post.author = Anonymous.new
     end
     
     def current_role_context

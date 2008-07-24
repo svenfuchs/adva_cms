@@ -1,19 +1,16 @@
 var CommentForm = {
-  show: function(name) {
+  init: function() {
     var username = Cookie.get('uname');
     if (username) {
-      $$('#' + name + '_user span')[0].update(username);
-      $(name + '_user').show();
-      $(name + '_anonymous').hide();
+			try { $$('#registered_author span')[0].update(username); } catch(err) {}
+			try { $('registered_author').show(); } catch(err) {}
+			try { $('anonymous_author').hide(); } catch(err) {}
     }
   }        
 }
 
 Event.onReady(function() {
-  if($('post_form')) {
-	  CommentForm.show('post');
-  }
-  if($('comment_form')) {
-	  CommentForm.show('comment');
+  if($('anonymous_author')) {
+	  CommentForm.init();
   }
 });  

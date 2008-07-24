@@ -5,6 +5,6 @@
     <%= submit_tag 'Save' %>
     <%= link_to_remote_comment_preview %> or
     <img src="/images/indicator.gif" id="comment-preview-spinner" style="display: none;" />
-    <%= link_to('Cancel', forum_path(@section)) %>
+    <%= link_to('Cancel', topic_path(@section, @topic.permalink)) %>
   </p>
 <% end %>
