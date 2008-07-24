@@ -17,6 +17,14 @@ steps_for :forum do
     }
   end
   
+  Given "a forum that allows anonymous users to post comments" do
+    Given "a forum"
+    @forum.update_attributes! 'permissions' => {
+      'topic'   => {'show' => 'anonymous', 'create' => 'anonymous'},
+      'comment' => {'show' => 'anonymous', 'create' => 'anonymous'}
+    }
+  end
+  
   Given "the forum has no boards" do
     Board.delete_all
     Topic.delete_all
@@ -52,11 +60,24 @@ steps_for :forum do
   
   When "the user fills in the topic creation form with valid values" do
     fills_in 'title', :with => 'the topic title'
-    fills_in 'body', :with =>'the initial comment body'
+    fills_in 'body', :with => 'the initial comment body'
+  end
+  
+  When "the user fills in the topic creation form with name, email and valid topic values" do
+    fills_in 'name', :with => 'anonymous'
+    fills_in 'e-mail', :with => 'anonymous@email.com'
+    fills_in 'title', :with => 'the topic title'
+    fills_in 'body', :with => 'the initial comment body'
   end
   
   When "the user fills in the post creation form with valid values" do
-    fills_in 'post[body]', :with =>'the reply body'
+    fills_in 'post[body]', :with => 'the reply body'
+  end
+  
+  When "the user fills in the post creation form with name, email and valid topic values" do
+    fills_in 'name', :with => 'anonymous'
+    fills_in 'e-mail', :with => 'anonymous@email.com'
+    fills_in 'post[body]', :with => 'the reply body'
   end
   
   Then "the new topic is created" do

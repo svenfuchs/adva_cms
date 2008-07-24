@@ -44,5 +44,41 @@ Story: Posting to a forum
     And the user is redirected to the topic show page
     And the page shows 'the reply body'
 
+  Scenario: An anonymous user creates a new topic in a forum without boards
+    Given a forum that allows anonymous users to post comments
+    And the forum has no boards
+    When the user goes to the forum page
+    Then the page shows an empty list of topics
+    When the user clicks on 'Post one now'
+    Then the page has a topic creation form
+    When the user fills in the topic creation form with name, email and valid topic values 
+    And the user clicks the 'Post Topic' button 
+    Then the new topic is created
+    And the initial topic comment is created
+    And the user is redirected to the topic show page
+    And the page shows 'the topic title'
+    And the page shows 'the initial comment body'
 
-
+  Scenario: An anonymous user creates a new topic in a forum with boards
+    Given a forum that allows anonymous users to post comments
+    And the forum has a board
+    When the user goes to the board page
+    Then the page shows an empty list of topics
+    When the user clicks on 'Post one now'
+    Then the page has a topic creation form
+    When the user fills in the topic creation form with name, email and valid topic values
+    And the user clicks the 'Post Topic' button 
+    Then the new topic is created
+    And the initial topic comment is created
+    And the user is redirected to the topic show page
+    And the page shows 'the topic title'
+    And the page shows 'the initial comment body'
+    
+  Scenario: An anonymous user posts a reply on a topic in a forum without boards
+    GivenScenario: An anonymous user creates a new topic in a forum without boards
+    Then the page has a post creation form
+    When the user fills in the post creation form with name, email and valid topic values
+    And the user clicks the 'Submit Post' button
+    Then the new reply is created
+    And the user is redirected to the topic show page
+    And the page shows 'the reply body'
