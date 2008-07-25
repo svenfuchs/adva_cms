@@ -7,7 +7,7 @@ describe WikiHelper do
     scenario :wiki_with_wikipages
     @controller.instance_variable_set :@locale, 'en'
     
-    @user_role = Role.build :user, nil
+    @user_role = Role.build :user, Wikipage.new(:author => User.new)
     @wikipage.stub!(:role_authorizing).and_return @user_role
     @wikipage.versions.first.stub!(:role_authorizing).and_return @user_role
     @wikipage.versions.last.stub!(:role_authorizing).and_return @user_role
