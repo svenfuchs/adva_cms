@@ -98,6 +98,10 @@ steps_for :authentication do
     controller.current_user.should == @anonymous
   end
   
+  Then "the anonymous id is saved to a cookie" do
+    cookies['aid'].should == @anonymous.id.to_s
+  end
+  
   Then "the system authenticates the user as $role" do |role|
     Then "the system authenticates the user"
     @user.has_role?(role.to_sym).should be_true

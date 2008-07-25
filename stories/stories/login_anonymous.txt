@@ -10,4 +10,5 @@ Story: Anonymous login
     When the user posts a comment to the blog article
     Then an anonymous account exists
     When the user goes to the comment show page
-    Then the system authenticates the user as a known anonymous 
+    Then the system authenticates the user as a known anonymous
+    And the anonymous id is saved to a cookie

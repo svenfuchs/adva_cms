@@ -54,11 +54,12 @@ module ActionController
       
       def login_anonymous!(anonymous)
         # set a new session token and expiration
-        token = anonymous.assign_token('anonymous', 1.hour.from_now)
+        token = anonymous.assign_token('anonymous', 3.hour.from_now)
         anonymous.save
         session[:anonymous_token] = "#{anonymous.id};#{token}"
+        cookies[:aid] = anonymous.id.to_s
       end
-  
+    
       def request_info
         { :ip      => request.env["REMOTE_ADDR"],
           :agent   => request.env["HTTP_USER_AGENT"],
