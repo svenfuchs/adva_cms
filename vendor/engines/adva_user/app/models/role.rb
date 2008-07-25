@@ -111,7 +111,7 @@ class Role < ActiveRecord::Base
     end
   
     def to_css_class
-      to_default_css_class
+      [context.author_type.underscore, context.author_id].join('-') + ' ' + to_default_css_class
     end
   end
 
