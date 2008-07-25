@@ -57,7 +57,7 @@ module ActionController
         token = anonymous.assign_token('anonymous', 3.hour.from_now)
         anonymous.save
         session[:anonymous_token] = "#{anonymous.id};#{token}"
-        cookies[:aid] = anonymous.id.to_s
+        cookies[:aid] = anonymous.id.to_s unless anonymous.new_record?
       end
     
       def request_info

@@ -17,6 +17,9 @@ module UsersHelper
           var roles = new Array('anonymous-' + aid);
           authorize_elements(roles);
         });
+        // new Ajax.Request('/anonymouses/' + aid + '.js', { 
+        //   method: 'get', asynchronous: false, evalScripts: true, 
+        // })
       }
     js
   end
