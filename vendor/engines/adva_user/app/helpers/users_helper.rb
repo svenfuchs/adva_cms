@@ -11,6 +11,13 @@ module UsersHelper
           method: 'get', asynchronous: false, evalScripts: true, 
         })
       }
+      var aid = Cookie.get('aid');
+      if(aid) {
+        Event.onReady(function() {
+          var roles = new Array('anonymous-' + aid);
+          authorize_elements(roles);
+        });
+      }
     js
   end
   
