@@ -5,7 +5,7 @@ describe Content do
   include Matchers::ClassExtensions
   
   before :each do
-    User.delete_all!
+    User.delete_all
     scenario :section_with_published_article
     @time_now = Time.zone.now
     @author = User.new :name => 'name', :email => 'email@test.org', :homepage => 'http://homepage.com', :login => 'login', :password => 'password', :password_confirmation => 'password'

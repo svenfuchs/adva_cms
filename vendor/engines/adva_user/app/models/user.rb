@@ -1,5 +1,4 @@
 class User < ActiveRecord::Base
-  acts_as_paranoid
   acts_as_authenticated_user
   
   has_many :sites, :through => :memberships

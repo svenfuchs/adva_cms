@@ -165,6 +165,38 @@ apache multisite config http://www.appelsiini.net/2007/6/mephisto-multiple-site-
     end    
     
 
+
+KILL PARANOIDS ----------------------------------------------------------------------
+
+assets
+  user_id
+
+memberships
+  user_id
+
+roles
+  user_id
+  
+activities
+  author_id
+
+boards
+  last_author_id
+
+comments
+  author_id
+
+content_versions
+  author_id
+
+contents
+  author_id
+
+topics
+  last_author_id
+  author_id
+
+
 PROJECT ----------------------------------------------------------------------
 
 

@@ -5,7 +5,7 @@ describe Site do
   fixtures :sites, :sections
   
   before :each do
-    User.delete_all!
+    User.delete_all
     @site = sites(:site_1)
     @home = sections(:home)
     @about = sections(:about)
@@ -83,11 +83,11 @@ describe Site do
       end
     end
     
-    it "calls destroy! on associated users when destroyed" do
+    it "calls destroy on associated users when destroyed" do
       user = @site.users.create :name => 'user', :email => 'email@foo.bar', :login => 'login', :password => 'password', :password_confirmation => 'password'
       user.should_not be_false
       @site.destroy
-      lambda{ User.find_with_deleted user.id }.should raise_error(ActiveRecord::RecordNotFound)
+      lambda{ User.find user.id }.should raise_error(ActiveRecord::RecordNotFound)
     end  
   end
   

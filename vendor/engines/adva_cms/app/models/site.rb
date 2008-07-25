@@ -31,7 +31,7 @@ class Site < ActiveRecord::Base
     end
   end
   
-  has_many :users, :through => :memberships, :dependent => :destroy!
+  has_many :users, :through => :memberships, :dependent => :destroy
   has_many :memberships, :dependent => :delete_all
 
   has_many :assets, :order => 'assets.created_at desc', :conditions => 'parent_id is null', :dependent => :destroy do

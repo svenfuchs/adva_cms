@@ -1,4 +1,4 @@
-User.delete_all!
+User.delete_all
 
 factory :user, 
         :name => 'name', 

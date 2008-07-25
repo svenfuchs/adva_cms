@@ -14,11 +14,7 @@ describe User do
     Time.zone.stub!(:now).and_return @time_now
   end
   
-  describe 'class extensions:' do
-    it 'acts as paranoid' do
-      User.should act_as_paranoid
-    end
-    
+  describe 'class extensions:' do    
     it 'acts as authenticated user' do
       User.should act_as_authenticated_user
     end                                           

@@ -11,7 +11,7 @@ steps_for :user do
   end
   
   Given "no user exists" do
-    User.delete_all!
+    User.delete_all
     @user_count = 0
   end
   

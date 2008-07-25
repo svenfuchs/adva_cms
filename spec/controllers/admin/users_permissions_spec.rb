@@ -7,7 +7,7 @@ describe Admin::UsersController, 'Permissions' do
     scenario :roles
 
     @site = stub_model Site, :host => 'test.host'
-    # @user = stub_model User, :id => 1, :destroy => true
+    @user.stub!(:destroy).and_return true
     
     Site.stub!(:find).and_return @site
     Site.stub!(:paginate_users_and_superusers).and_return [@user]

@@ -44,12 +44,6 @@ module Matchers
       end
     end
   
-    class ActAsParanoid < Base
-      def does_match?
-        @target.included_modules.include? Caboose::Acts::Paranoid::InstanceMethods
-      end
-    end
-  
     class ActAsRoleContext < Base
       def does_match?
         @target.acts_as_role_context? && @target.roles == Array(@options[:roles])
