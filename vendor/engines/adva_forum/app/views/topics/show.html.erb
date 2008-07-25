@@ -11,7 +11,7 @@
   </span>
 </h2>
 
-<%= render :partial => 'post', :collection => @posts %>
+<%= render :partial => 'topics/post', :collection => @posts %>
 
 <p class="clearing">
   <%= will_paginate @posts, :id => 'pagination' %>

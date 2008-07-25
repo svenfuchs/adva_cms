@@ -1,6 +1,8 @@
 define Topic do
   belongs_to :site, stub_site
   belongs_to :section
+  belongs_to :board
+  belongs_to :author
   has_many   :comments
   has_one    :last_comment, stub_comment
   has_one    :comments_counter, stub_counter

@@ -14,11 +14,11 @@ class TopicsController < BaseController
   end
   
   def show
-    @post = Post.new :author => current_user
+    @post = Post.new # :author => current_user
   end
 
   def new
-    @topic = Topic.new :section => @section, :board => @board, :author => current_user
+    @topic = Topic.new :section => @section, :board => @board #, :author => current_user
   end
 
   def create 
