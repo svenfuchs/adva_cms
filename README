@@ -10,7 +10,7 @@ Rails 2.1
 
 ## Installation
 
-* cp db/database.example.yml db/database.yml
+* cp config/database.example.yml config/database.yml
 * run rake db:migrate:all to setup the database (Sqlite for toying)
 * start the server
 * visit http://localhost:3000
