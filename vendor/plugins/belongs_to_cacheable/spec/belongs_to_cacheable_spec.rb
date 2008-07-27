@@ -5,12 +5,12 @@ User = SpecHelper::User
 
 describe "belongs_to_cacheable:", "the attributes helper method" do
   it "finds the expected cached attribute names for author" do
-    names = ActiveRecord::BelongsToCacheable::HelperMethods.cached_attributes(Article, :author)
+    names = Article.new.cached_attributes(:author)
     names.should == ["name", "email"]
   end
   
   it "finds the expected cached attribute names for last_author" do
-    names = ActiveRecord::BelongsToCacheable::HelperMethods.cached_attributes(Article, :last_author)
+    names = Article.new.cached_attributes(:last_author)
     names.should == ["name"]
   end
 end
