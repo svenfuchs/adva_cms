@@ -126,16 +126,6 @@ describe Content do
       @content.author.email = nil
       @content.valid?.should be_false
     end
-      
-    # it "validate presence of an author_name (through belongs_to_author)" do
-    #   @content.author.stub!(:name).and_return nil
-    #   @content.should validate_presence_of(:author_name)
-    # end
-    #   
-    # it "validate presence of an author_email (through belongs_to_author)" do
-    #   @content.author.stub!(:email).and_return nil
-    #   @content.should validate_presence_of(:author_email)
-    # end
     
     it "validates the uniqueness of the permalink per site" do
       @content.should validate_uniqueness_of(:permalink) # :scope => :site_id
