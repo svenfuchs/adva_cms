@@ -9,10 +9,21 @@ module ActiveRecord
         options = args.extract_options!
         options.reverse_merge! :validate => true
         validate = options.delete :validate # TODO make this more flexible
+        associations = args
         
-        args.each do |assocication|
-          HelperMethods.define_methods self, assocication, validate
-        end
+        define_method :method_missing_with_belongs_to_cacheable do |name, *args|
+          # remove the method from the alias chain after it was called once 
+          # TODO how to remove it entirely?
+          alias :method_missing :method_missing_without_belongs_to_cacheable
+
+          # define the methods
+          associations.each do |association|
+            HelperMethods.define_methods self.class, association, validate
+          end
+
+          respond_to?(name) ? send(name, *args) : method_missing(name, *args)
+        end        
+        alias_method_chain :method_missing, :belongs_to_cacheable
       end
     end
     
@@ -30,7 +41,7 @@ module ActiveRecord
           cache_attributes_code = attributes.map do |attribute|
             "self[:#{name}_#{attribute}] = #{name}.#{attribute}"
           end.join("\n")
-        
+
           target.class_eval <<-code, __FILE__, __LINE__
             belongs_to :#{name}, :polymorphic => true # TODO :with_deleted => true
             if #{validate.inspect}

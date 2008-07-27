@@ -2,6 +2,14 @@ class Activity < ActiveRecord::Base
   belongs_to :site
   belongs_to :section
   belongs_to :object, :polymorphic => true
+  
+  def method_missing_with_object_attributes(name, *args)
+    attrs = self[:object_attributes]
+    return attrs[name.to_s] if attrs && attrs.has_key?(name.to_s)
+    method_missing_without_object_attributes name, *args
+  end
+  alias_method_chain :method_missing, :object_attributes
+  
   belongs_to_author
 
   serialize :actions
@@ -60,12 +68,6 @@ class Activity < ActiveRecord::Base
   def coincides_with?(other, delta = nil)
     delta ||= 1.hour
     created_at - other.created_at <= delta.to_i 
-  end
-  
-  def method_missing(name, *args)
-    attrs = self[:object_attributes]
-    return attrs[name.to_s] if attrs && attrs.has_key?(name.to_s)
-    super
   end
   
   def all_actions
