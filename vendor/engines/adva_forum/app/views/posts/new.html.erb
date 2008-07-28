@@ -1,13 +1,2 @@
-<h2>New Reply</h2>
-
-<% form_for :post, @post, :url => topic_posts_path(@section, @topic) do |f| %>
-  <p>
-    <%= f.text_area :body %>
-  </p>
-  <p>
-    <%= submit_tag 'Post Reply' %>
-    <%= link_to_remote_comment_preview %> or
-    <img src="/images/indicator.gif" id="comment-preview-spinner" style="display: none;" />
-    <%= link_to 'Cancel', params[:return_to] if params[:return_to] %>
-  </p>
-<% end %>
+<%= link_to 'Back', 'javascript:history.back();', :style => 'float:left;' %>
+<%= render :partial => 'form' %>

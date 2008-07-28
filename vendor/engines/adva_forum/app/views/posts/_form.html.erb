@@ -10,7 +10,7 @@
     <% end %>
   </h2>
   <% form_for :post, @post, :url => (@post.new_record? ? topic_posts_path(@section, @topic) : topic_post_path(@section, @topic, @post)), :html => {:method => (@post.new_record? ? :post : :put)} do |f| -%>
-    <% fields_for Anonymous.new do |author| %>
+    <% fields_for @post.author || Anonymous.new do |author| %>
       <div id="anonymous_author">
         <p>
           <%= author.label :name, 'Name' %>
@@ -32,7 +32,7 @@
     <p id="preview"></p>
     <p>
       <%= submit_tag (@post.new_record? ? 'Submit Post' : 'Save Post') %>
-      <%#= link_to_remote_post_preview %>
+      <%#= link_to_remote_post_preview TODO %>
       <img src="/images/indicator.gif" id="post-preview-spinner" style="display: none;" />
     </p>
   <% end %>
