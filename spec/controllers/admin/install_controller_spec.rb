@@ -3,6 +3,14 @@ require File.dirname(__FILE__) + "/../../spec_helper"
 describe Admin::InstallController do
   include SpecControllerHelper
   
+  # describe "setting up the database" do
+  #   it "should set up database with rake db:migrate:all" do
+  #     lambda do
+  #       system "rake db:drop --silent; rake db:migrate:all --silent"
+  #     end.should_not raise_error
+  #   end
+  # end
+  
   before :each do
     scenario :empty_site
     

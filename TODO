@@ -16,6 +16,10 @@ http://artweb-design.lighthouseapp.com/projects/13992-adva_cms/overview
 [theme] microformat everything: hcard, hatom
 
 
+git commit -a --author "mseppae <marko.seppa@gmail.com>"
+
+
+
 # missing specs
 
 [specs] controllers: spec various error conditions like record not found
