@@ -40,9 +40,9 @@ Story: Posting to a forum
     Then the page has a post creation form
     When the user fills in the post creation form with valid values
     And the user clicks the 'Submit Post' button
-    Then the new reply is created
+    Then the new post is created
     And the user is redirected to the topic show page
-    And the page shows 'the reply body'
+    And the page shows 'the post body'
 
   Scenario: An anonymous user creates a new topic in a forum without boards
     Given a forum that allows anonymous users to post comments
@@ -77,8 +77,38 @@ Story: Posting to a forum
   Scenario: An anonymous user posts a reply on a topic in a forum without boards
     GivenScenario: An anonymous user creates a new topic in a forum without boards
     Then the page has a post creation form
-    When the user fills in the post creation form with name, email and valid topic values
+    When the user fills in the post creation form with name, email and valid post values
     And the user clicks the 'Submit Post' button
-    Then the new reply is created
+    Then the new post is created
     And the user is redirected to the topic show page
-    And the page shows 'the reply body'
+    And the page shows 'the post body'
+    
+  Scenario: An anonymous user posts invalid data for a forum post
+    GivenScenario: An anonymous user creates a new topic in a forum without boards
+    Then the page has a post creation form
+    When the user fills in the post creation form with only a name and a post body
+    And the user clicks the 'Submit Post' button
+    Then no post is created
+    And the page has a post creation form
+    And the flash contains an error message
+    And the post creation form fields contain the posted values
+    When the user fills in the post creation form with an email
+    And the user clicks the 'Submit Post' button
+    Then the new post is created
+    And the user is redirected to the topic show page
+    And the page shows 'the post body'
+    
+  Scenario: An anonymous user updates a forum post with invalid data
+    GivenScenario: An anonymous user creates a new topic in a forum without boards
+    Then the page has an edit link for the post that is visible for the anonymous user
+    When the user clicks on the post's edit link
+    Then the page has a post edit form
+    When the user clears the post body from the post edit form
+    And the user clicks the 'Save Post' button
+    Then the post is not updated
+    And the flash contains an error message
+    When the user fills in the post edit form with a post body
+    And the user clicks the 'Save Post' button
+    Then the post is updated
+    And the user is redirected to the topic show page
+    And the page shows 'the updated body'

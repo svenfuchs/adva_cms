@@ -18,6 +18,9 @@ class PostsController < BaseController
       render :action => "new"
     end
   end
+  
+  def edit
+  end
 
   def update
     if @post.update_attributes(params[:post])
@@ -46,7 +49,6 @@ class PostsController < BaseController
   
     def set_post
       @post = @topic.comments.find params[:id]
-      @post.author = Anonymous.new
     end
     
     def current_role_context

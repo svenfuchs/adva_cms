@@ -5,11 +5,12 @@ describe Topic do
   
   before :each do
     scenario :forum_with_topics
-
-    @topic = Topic.new 
-    @topic.section = @section
     
     @user = stub_user
+
+    @topic = Topic.new :title => 'topic title', :body => 'body, just so it validates', :author => @user
+    @topic.site = @site
+    @topic.section = @section
   end
   
   describe "class extensions:" do    
@@ -109,8 +110,7 @@ describe Topic do
     describe '#reply' do
       before :each do
         @attributes = {:body => 'body'}
-        @comment = stub_comment
-        @topic.comments.stub!(:build).and_return @comment
+        @comment = Comment.new :commentable => @topic
       end
       
       it 'builds a new comment with the given attributes' do
@@ -119,13 +119,22 @@ describe Topic do
       end
       
       it 'sets the comment author' do
+        @topic.comments.stub!(:build).and_return @comment
         @comment.should_receive(:author=).with @user
         @topic.reply @user, @attributes
       end
       
       it 'sets itself as the commentable' do
+        @topic.comments.stub!(:build).and_return @comment
         @comment.should_receive(:commentable=).with @topic
         @topic.reply @user, @attributes
+      end
+      
+      it 'returns a valid comment when a valid, new author and a body were given' do
+        @topic.save!
+        anonymous = Anonymous.new :name => 'anonymous', :email => 'anonymous@email.org'
+        comment = @topic.reply anonymous, @attributes
+        lambda { comment.save }.should_not raise_error
       end
     end
     
@@ -138,7 +147,7 @@ describe Topic do
         @topic.stub!(:locked?).and_return false
         @topic.accept_comments?.should be_true
       end
-
+  
       it 'returns false when it is locked' do
         @topic.stub!(:locked?).and_return true
         @topic.accept_comments?.should be_false

@@ -1,7 +1,7 @@
 scenario :forum_with_topics do 
   scenario :empty_site
 
-  @forum = stub_forum
+  @section = @forum = stub_forum
   @topic = stub_topic
   @topics = stub_topics
   
@@ -10,4 +10,10 @@ scenario :forum_with_topics do
 
   Section.stub!(:find).and_return @forum
   Section.stub!(:paths).and_return ['section', 'blog', 'forum', 'wiki']
+
+  counter = stub('approved_comments_counter', :increment! => true, :decrement! => true)
+  @section.stub!(:approved_comments_counter).and_return counter
+  @site.stub!(:approved_comments_counter).and_return counter
+  
+
 end

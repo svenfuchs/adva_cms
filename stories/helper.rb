@@ -1,6 +1,11 @@
 ENV["RAILS_ENV"] = "test"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 
+$:.unshift File.expand_path(File.dirname(__FILE__) + "/../vendor/gems/rspec-rails-1.1.4/lib")
+$:.unshift File.expand_path(File.dirname(__FILE__) + "/../vendor/gems/rspec-1.1.4/lib")
+
+require 'spec'
+require 'spec/rails'
 require 'spec/story'
 require 'spec/mocks'
 require 'spec/rails/story_adapter'
