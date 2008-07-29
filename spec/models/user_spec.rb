@@ -132,11 +132,20 @@ describe User do
     
     it '.superusers returns all superusers' do
       User.should_receive(:find) do |arg, options|
-        arg == :all &&
-        (options[:conditions] & ['roles.type = ?', 'Role::Superuser']).size == 2 &&
+        arg == :all and
+        options[:conditions] == ['roles.type = ?', 'Role::Superuser'] and
         Array(options[:include]).include?(:roles)
       end
       User.superusers
+    end
+    
+    it '.admins_and_superusers returns all site admins and superusers' do
+      User.should_receive(:find) do |arg, options|
+        arg == :all and
+        options[:conditions] == ['roles.type IN (?)', ['Role::Superuser', 'Role::Admin']] and
+        Array(options[:include]).include?(:roles)
+      end
+      User.admins_and_superusers
     end
 
     describe '.create_superuser' do

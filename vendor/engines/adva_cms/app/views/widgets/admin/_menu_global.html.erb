@@ -5,6 +5,10 @@
   <% unless @site.nil? %>
     <li><%= link_to 'Plugins', admin_plugins_path(@site) %></li>
   <% end %>
+  <li>Global:</li>
+  <% if current_user.has_role?(:superuser) %>
+    <li><%= link_to 'Users', admin_users_path %></li>
+  <% end %>
   <li>Logged in as: <%= link_to current_user.name, (@site ? admin_site_user_path(@site, current_user) : admin_user_path(current_user)) %></li>
   <li><%= link_to 'Logout', logout_path, :method => :delete %></li>
 </ul>

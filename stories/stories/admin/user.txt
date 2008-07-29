@@ -5,7 +5,7 @@ Story: Managing users
   Scenario: An admin creates a new user account
     Given a site
     And the user is logged in as admin
-    When the user visits the admin site user list page
+    When the user visits the site's user list in the admin interface
     And the user clicks on 'Add user'
     Then the page has an admin user account creation form
     When the user fills in the admin user account creation form with valid values
@@ -25,3 +25,17 @@ Story: Managing users
     And the user clicks the 'Save' button
     Then the other user's name is 'an updated name'
     And the user is redirected to the admin site user show page
+    
+  Scenario: A superuser reviews the global users list
+    Given a site
+    And the user is logged in as superuser
+    And a site admin and a site member account
+    When the user visits the global user list in the admin interface
+    Then the page shows a list of users with 2 entries
+    
+  Scenario: A superuser reviews a site's users list
+    Given a site
+    And the user is logged in as superuser
+    And a site admin and a site member account
+    When the user visits the site's user list in the admin interface
+    Then the page shows a list of users with 3 entries

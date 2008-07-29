@@ -39,13 +39,24 @@ describe Admin::UsersController do
         it_guards_permissions :show, :user # TODO depending on scope superuser or admin is required!
         it_assigns :users
         it_renders_template :index
+        
+        if scope.blank?
+          it "fetches users from User.admins_and_superusers" do
+            User.should_receive(:admins_and_superusers).and_return @users
+            act!
+          end
+        else
+          it "fetches users from @site.users_and_superusers" do
+            @site.should_receive(:users_and_superusers).and_return @users
+            act!
+          end
+        end        
       end
   
       describe "GET to :show" do
         act! { request_to :get, @member_path }    
         it_assigns :user
         it_renders_template :show
-        
       end
   
       describe "GET to :new" do

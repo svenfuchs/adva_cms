@@ -40,6 +40,10 @@ class User < ActiveRecord::Base
       find :all, :include => :roles, :conditions => ['roles.type = ?', 'Role::Superuser']
     end
     
+    def admins_and_superusers
+      find :all, :include => :roles, :conditions => ['roles.type IN (?)', ['Role::Superuser', 'Role::Admin']]
+    end
+    
     def create_superuser(params)
       user = User.new(params)
       user.verified_at = Time.zone.now
