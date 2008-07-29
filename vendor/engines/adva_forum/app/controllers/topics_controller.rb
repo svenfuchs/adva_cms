@@ -14,11 +14,11 @@ class TopicsController < BaseController
   end
   
   def show
-    @post = Post.new # :author => current_user
+    @post = Post.new
   end
 
   def new
-    @topic = Topic.new :section => @section, :board => @board #, :author => current_user
+    @topic = Topic.new :section => @section, :board => @board
   end
 
   def create 
@@ -30,6 +30,9 @@ class TopicsController < BaseController
       flash[:error] = 'The topic could not be created.'
       render :action => :new
     end
+  end
+
+  def edit
   end
 
   def update    

@@ -58,6 +58,14 @@ steps_for :forum do
     fills_in 'body', :with => 'the initial comment body'
   end
   
+  When "the user clears the topic title" do
+    fills_in 'title', :with => ''
+  end
+  
+  When "the user fills in a different topic title" do
+    fills_in 'title', :with => 'the updated topic title'
+  end
+  
   When "the user fills in the post creation form with valid values" do
     fills_in 'post[body]', :with => 'the post body'
   end
@@ -85,6 +93,11 @@ steps_for :forum do
     fills_in 'post[body]', :with => 'the updated body'
   end
   
+  When "the user clicks on the topic's edit link" do
+    link = find_link 'edit', ".meta span.anonymous-#{controller.current_user.id}"
+    link.click
+  end
+  
   When "the user clicks on the post's edit link" do
     link = find_link 'edit', ".entry span.anonymous-#{controller.current_user.id}"
     link.click
@@ -98,6 +111,10 @@ steps_for :forum do
     response.should have_form_posting_to('/topics')
   end
   
+  Then "the page has a topic edit form" do
+    response.should have_form_putting_to("/topics/#{@topic.id}")
+  end
+  
   Then "the page has a post creation form" do
     response.should have_form_posting_to("/topics/#{@topic.id}/posts")
     @post_count = Post.count
@@ -105,6 +122,12 @@ steps_for :forum do
   
   Then "the page has a post edit form" do
     response.should have_form_putting_to("/topics/#{@topic.id}/posts/#{@post.id}")
+  end
+  
+  Then "the page has an edit link for the topic that is visible for the anonymous user" do
+    response.should have_tag('span[class*=?]', "anonymous-#{controller.current_user.id}") do |span|
+      span.should have_tag('a[href^=?]', "/topics/#{@topic.permalink}/edit")
+    end
   end
   
   Then "the page has an edit link for the post that is visible for the anonymous user" do
@@ -123,6 +146,16 @@ steps_for :forum do
     @topic.comments.count.should == 1
     @post = @topic.comments.first
     @post.body.should == 'the initial comment body'
+  end
+  
+  Then "the topic is updated" do
+    @topic.reload
+    @topic.title.should == 'the updated topic title'
+  end
+  
+  Then "the topic is not updated" do
+    @topic.reload
+    @topic.title.should_not be_blank
   end
   
   Then "the new post is created" do
