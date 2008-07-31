@@ -11,6 +11,10 @@ module SpamEngine
         self.class.name.demodulize
       end
       
+      def priority
+        name == 'Default' ? 0 : 1
+      end
+      
       def valid?(*args)
         raise "not implemented. implement #valid? in your filter class."
       end
