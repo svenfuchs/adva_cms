@@ -18,19 +18,22 @@ class ThemeController < ApplicationController
 private
   
   def set_file
-
-    if params[:subdir]
-      theme = Theme.find(params[:theme_id], params[:subdir])
-    else
-      site = Site.find_by_host(request.host_with_port) 
-      theme = site.themes.find(params[:theme_id])
-    end
+    theme = find_theme or return error
     @file = if params[:file].first == 'preview.png'
       theme.preview
     else
       theme.files.find Theme::File.to_id(params.values_at(:type, :file))
-    end or raise "can not find file #{params[:file]} in theme #{theme.name}"
+    end or return error
   end
+  
+  def find_theme
+    if params[:subdir]
+      Theme.find(params[:theme_id], params[:subdir])
+    else
+      site = Site.find_by_host(request.host_with_port) 
+      site.themes.find(params[:theme_id])
+    end
+  end    
 
   def cache_file
     self.class.cache_page response.body, request.request_uri
