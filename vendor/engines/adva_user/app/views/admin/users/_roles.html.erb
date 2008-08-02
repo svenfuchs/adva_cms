@@ -16,7 +16,7 @@
       <%= hidden_field_tag "user[roles][1][type]", 'Role::Admin' %>
       <%= hidden_field_tag "user[roles][1][context_id]", @site.id %>
       <%= hidden_field_tag "user[roles][1][context_type]", @site.class.name %>
-      <%= f.label "roles_admin_site_#{@site.id}", "Admin for: #{@site.name}", :class => 'light' %>
+      <%= f.label "user_roles_admin_site_#{@site.id}", "Admin for: #{@site.name}", :class => 'light' %>
     </p>
   <% end %>
 </fieldset>

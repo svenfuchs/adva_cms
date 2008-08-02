@@ -58,7 +58,11 @@ class User < ActiveRecord::Base
   def attributes=(attributes)
     attributes.symbolize_keys!
     roles = attributes.delete :roles
-    returning super do update_roles roles if roles end
+    memberships = attributes.delete :memberships
+    returning super do 
+      update_roles roles if roles 
+      update_memberships memberships if memberships
+    end
   end
   
   def update_roles(roles)
@@ -66,6 +70,13 @@ class User < ActiveRecord::Base
     roles.values.each do |role|
       next unless role.delete('selected') == '1'
       self.roles << Role.create!(role)
+    end
+  end
+  
+  def update_memberships(memberships)
+    memberships.values.each do |site_id, active|
+      site = Site.find site_id
+      active ? (self.sites << site) : self.sites.delete(site)
     end
   end
   
@@ -97,6 +108,10 @@ class User < ActiveRecord::Base
   def has_exact_role?(name, object = nil)
     role = Role.build(name, object)
     role.applies_to?(self) || !!roles.detect {|r| r == role }
+  end
+  
+  def is_site_member?(site)
+    self.sites.include? site
   end
     
   def to_s

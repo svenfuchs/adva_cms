@@ -38,7 +38,8 @@ class Admin::UsersController < Admin::BaseController
   def update
     if @user.update_attributes(params[:user])
       flash[:notice] = "The user account has been updated."
-      redirect_to member_path(@user)
+      target = @site && @user.is_site_member(@site) ? member_path(@user) : collection_path(@user)
+      redirect_to target
     else
       flash.now[:error] = "The user account could not be updated."
       render :action => :edit
@@ -85,7 +86,8 @@ class Admin::UsersController < Admin::BaseController
       if params[:user][:roles].has_key?('superuser') && !current_user.has_role?(:superuser) ||
          params[:user][:roles].has_key?('admin') && !current_user.has_role?(:admin, @site)
         raise "unauthorized parameter" # TODO raise something more meaningful
-      end
+      end      
+      # TODO as well check for membership site_id if !user.has_role?(:superuser)
     end
   
     def collection_path
