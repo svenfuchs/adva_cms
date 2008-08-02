@@ -55,7 +55,6 @@ class Admin::ThemeFilesController < Admin::BaseController
     def expire_pages_by_site!
       # this misses assets like stylesheets which aren't tracked
       # expire_pages CachedPage.find_all_by_site_id(@site.id)
-      CachedPage.delete_all_by_site_id(@site.id)
       expire_site_page_cache
     end
   

@@ -131,7 +131,15 @@ class Site < ActiveRecord::Base
     end
     
     def flush_page_cache
-      CachedPage.delete_all_by_site_id id
+      # TODO this really belongs to the controller, remove the before_destroy hook
+      
+      # CachedPage.delete_all_by_site_id id
+      # if page_cache_directory.to_s =~ /\/public$/ 
+      #   # expire_pages CachedPage.find_all_by_site_id(@site.id)
+      # else
+      #   @site.cached_pages.delete_all
+      #   page_cache_directory.rmtree rescue Errno::ENOENT
+      # end      
     end
   
   # before_validation :set_default_attributes

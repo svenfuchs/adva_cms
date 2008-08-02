@@ -66,13 +66,14 @@ ActionController::Base.class_eval do
   end
   
   def expire_site_page_cache
-    cache_dir = page_cache_directory
+    cache_dir = page_cache_directory    
     if cache_dir =~ /\/public$/ 
       # TODO can not simply kill the whole cache dir unless in multisite mode
       # this misses assets as stylesheets from themes though because they are
       # not referenced as cached, yet
       expire_pages CachedPage.find_all_by_site_id(@site.id)
     else
+      @site.cached_pages.delete_all
       cache_dir.rmtree rescue Errno::ENOENT
     end
   end

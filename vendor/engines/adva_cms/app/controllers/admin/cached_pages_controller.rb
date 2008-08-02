@@ -19,8 +19,7 @@ class Admin::CachedPagesController < Admin::BaseController
   end
   
   def clear
-    @site.cached_pages.each { |page| self.class.expire_page page.url }
-    @site.cached_pages.delete_all
+    expire_site_page_cache
     
     flash[:notice] = 'The cache has been cleared.'
     redirect_to admin_cached_pages_path
