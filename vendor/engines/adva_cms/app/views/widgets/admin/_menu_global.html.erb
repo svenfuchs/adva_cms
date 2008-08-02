@@ -1,13 +1,11 @@
 <ul id="menu_global" class="clearing">
-  <% if Site.multi_sites_enabled %>
-    <li><%= site_select_tag %></li>
-  <% end %>
-  <% unless @site.nil? %>
-    <li><%= link_to 'Plugins', admin_plugins_path(@site) %></li>
-  <% end %>
-  <li>Global:</li>
   <% if current_user.has_role?(:superuser) %>
-    <li><%= link_to 'Users', admin_users_path %></li>
+    <li><%= admin_global_select_tag request.path %></li>
+  <% elsif Site.multi_sites_enabled %>
+    <li><%= admin_site_select_tag current_user %></li>
+  <% end %>
+  <% if @site %>
+    <li><%= link_to 'Plugins', admin_plugins_path(@site) %></li>
   <% end %>
   <li>Logged in as: <%= link_to current_user.name, (@site ? admin_site_user_path(@site, current_user) : admin_user_path(current_user)) %></li>
   <li><%= link_to 'Logout', logout_path, :method => :delete %></li>

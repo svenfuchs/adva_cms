@@ -9,7 +9,7 @@ describe "Widgets:", "the admin/menu_global widget" do
       @user = stub_user
       template.stub!(:current_user).and_return @user
       
-      template.stub!(:site_select_tag).and_return('site_select_tag')
+      template.stub!(:admin_site_select_tag).and_return('admin_site_select_tag')
       template.stub!(:admin_plugins_path).and_return('admin_plugins_path')
       template.stub!(:admin_site_user_path).and_return('admin_site_user_path')
       template.stub!(:admin_user_path).and_return('admin_user_path')

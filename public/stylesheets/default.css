@@ -1,164 +1,358 @@
-* {
-	margin: 0;
-	padding: 0;
-}
 body {
-	background: #fff;
-	/*background-image: url(/images/gridbg.gif);*/
-	color: #333;
-	font-size: 13px;
-	line-height: 18px;
-	font-family: "Lucida Grande", Verdana, Arial, sans-serif;
-	padding-bottom: 54px;
-}
-#page {
-	margin: 0 auto;
-	padding: 0;
-	width: 60%;
+  padding: 0 0 40px 0; 
+  margin: 0 0 20px 0;
+  background: #eee;
 }
 
-a {
-	color: #333;
-	text-decoration: underline;
-	text-decoration: none;
-	border-bottom: 1px dotted #333;
-}
-a:hover {
-	background-color: #ff6;
-}
-h1 { 
-	font-weight: normal;
-  font-size: 24px; 
-  line-height: 36px;
-  margin-bottom: 18px; 
-}
-h2 { 
-	font-weight: normal;
-  font-size: 18px; 
-  line-height: 18px; 
-  margin-bottom: 18px;
-}
-h3 { 
-  font-size: 13px; 
-  line-height: 18px; 
-}
-h4 { 
-  font-size: 13px; 
-  line-height: 18px; 
-}
-p { 
-  margin-bottom: 18px; 
-}
-/*blockquote {
-	margin: 0 18px 18px 18px;
-	padding: 6px;
-	font-size: 13px;
-	background: #dedede;
-}
-blockquote p {
-	margin: 0px;
-}*/
-ul {
-	list-style-type: square;
-}
-ul, ol {
-	margin-left: 2em;
-  margin-bottom: 18px;
+html, body, h1, h2, h3, table, ul, ol, fieldset, p, input, textarea {
+  font-family: Helvetica, Arial, sans-serif;
+	color: #444;
 }
 
-/* HEADER */
-
-#header {
-	padding: 17px 0 21px 0;
-	margin-bottom: 26px;
-	border-bottom: 1px solid #666;
-	text-align: left;
+#container {
+  margin: 0 40px 0 40px;
+  padding: 10px 40px 20px 40px;
+  background: #fff;
+  border-top: 5px solid #999;
+  position: relative;
+  min-width: 920px;
 }
-#header h1 {
+
+#main {
+  min-width: 640px;
+  min-height: 400px;
+  padding-right: 30%;
+}
+
+#main h3 {
+  font-size: 14px;
+}
+
+#sidebar {
+	position: absolute;
+  top: 0px; 
+	right: 20px;
+  padding-top: 12px;
+  width: 24%;
+}
+
+h1 {
 	float: left;
-	margin: 6px 12px 0 0;
+  margin: 20px 0px 20px 40px;
+  padding: 0;
+  font-size: 26px;
+  line-height: 1;
 }
-#header h2 {
-	float: left;
-	font-size: 13px;
-	font-weight: normal;
-  line-height: 18px; 	
-	margin: 18px 0 0 0;
-	color: #666;
+
+h1 a {
+  color: #000;
 }
+
+h1 .subtitle {
+  color: #c00;
+}
+
 #header ul {
 	float: right;
 	list-style-type: none;
-  line-height: 18px; 	
-	margin-top: 18px;
-  margin-bottom: 0;
+  padding: 0;
+  margin: 26px 40px 0px 0px;
 }
 #header li {
 	float: left;
 	margin-left: 12px;
 }
 
-/* CONTENT */
-h2 .meta {
-	float: right;
-	font-size: 13px;
-}
-h2.list-header {	
-	/*text-align: right;*/
-	padding: 0 0 9px 220px;
-	margin-bottom: 18px;
-}
-.entry {
-	padding-bottom: 9px;
-	margin-bottom: 26px;
-	border-bottom: 1px solid #aaa;
-}
-div.meta {
-	font-size: 11px;
-	float: left;
-	width: 170px;
-	color: #666;
-	/*margin-bottom: 18px;*/
-}
-.meta a {
-	color: #666;
-	border-color: #666;
-}
-.meta ul {
-	list-style-type: none;
-	margin-left: 0px;	
-}
-.meta img {
-	float: left;
-	width: 36px;
-	height: 36px;
-	margin-right: 18px;
-}
-.meta .info {
-	margin-top: 18px !important;
-}
-.content {
-	margin-left: 220px;
-}
-.util,
-.util a {
-	color: #888;
-	border-color: #888;
-}
-.previous {
-	float: left;
-}
-.next {
-	float: right;
+h2 {
+  margin: 30px 0 5px;
+  font-size: 20px;
 }
 
-/* FOOTER */
+#main h2 {
+  color: #c00;
+}
+
+#main h3 {
+  color: #c00;
+}
+
+#sidebar h2 {
+  font-size: 16px;
+}
+
+#sidebar h2:first-child {
+  margin-top: 30px;
+	line-height: 24px;
+}
+
+#sidebar h3 {
+  font-size: 14px;
+	margin-bottom: 0px;
+}
+
+p, li, td {
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.meta p {
+  color: #aaa !important;
+}
+
+.wiki.meta {
+	margin-top: 48px;
+}
+
+p sup {
+  font-size: 60%;
+}
+
+p.footnote {
+  font-size: 12px;
+  font-style: italic;
+}
+
+p[id=fn1] {
+  border-top: 1px solid #bbb;
+  padding-top: 10px;
+  margin-top: 30px;
+}
+
+ul, ol {
+  margin: 10px 0 20px;
+  padding-left: 30px;
+}
+
+li {
+  margin-bottom: 8px;
+}
+
+a {
+  color: #c00;
+}
+
+h2 .links {
+  font-size: 60%;
+}
+
+a img {
+  border: none;
+}
+
+pre {
+  padding: 10px; margin: 20px 0;
+}
+
+code {
+  font: 12px Consolas, Monaco, "Courier New", monospace;
+  color: #007EA5;
+  line-height: 1.3;
+}
+
+pre code {
+  color: #fff;
+}
+
+p.banner {
+  text-align: center;
+}
+
+.flash {
+	font-size: 16px;
+	font-weight: bold;
+	color: #444;
+	height: 48px !important;
+	margin: 0 !important;
+	line-height: 48px;
+	text-align: center;
+	border-bottom: 2px solid #ddd;
+}
+#flash-notice {
+	background-color: #ffff66 !important;
+}
+#flash-error {
+	color: white !important;
+	font-weight: normal;
+	background-color: #c00 !important;
+}
+
+/** secondary content **/
+
+#sidebar ul {
+  margin: 0 0 20px;
+  padding: 0;
+  list-style: none;
+}
+
+#sidebar li {
+  margin-bottom: 10px;
+  line-height: 1.2;
+}
+
+#sidebar li .meta {
+  font-size: 12px;
+}
+
+#reevoo {
+  margin: 40px 0;
+}
+
+/** table styles **/
+
+table {
+  font-size: 18px;
+  border-collapse: collapse;
+  background: #fff;
+  width: 100%;
+}
+
+th {
+  text-align: left;
+  font-size: 70%;
+}
+
+th, td {
+  padding: 10px;
+}
+
+tr {
+  border-bottom: 1px solid #ddd;
+}
+
+tr.odd th, tr.odd td {
+  background-color: #EDF6FF;
+}
+
+/** form styles **/
+
+#container form {
+  margin: 20px 0;
+  padding: 10px;
+  background: #eee;
+  color: #555;
+  border-top: 5px solid #aaa;
+}
+
+#container.field {
+  padding: 10px;
+}
+
+#container .controls {
+  padding: 10px;
+  clear: both;
+}
+
+#container label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: #999;
+  padding: 2px;
+}
+
+#container fieldset {
+  padding: 5px;
+  border: none;
+}
+
+#container fieldset legend {
+  font-size: 18px;
+  font-weight: bold;
+  background: #ddd;
+  color: #555;
+  margin: 0; padding: 5px 10px;
+}
+
+/** entries **/
+div.entry {
+  margin-bottom: 30px;
+}
+
+.links {
+	margin: 0px;
+	padding: 0px;
+	list-style-type: none;
+}
+.links li {
+	float: left;
+	margin-left: 0px;
+}
+.links li:before {
+	content: " · ";
+}
+.links li:first-child {
+	margin-left: 0px;
+}
+.links li:first-child:before {
+	content: "";
+}
+.links {
+  display: block;
+  zoom: 1; /* gives layout to ie? */
+}
+.links:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+* html .links {
+  height: 1%;
+}
+
+/** comments **/
+#comment_form {
+	padding-left: 0px;
+	border-bottom: 0px;
+	margin-bottom: 0px;
+}
+#comment_form input[type="text"] {
+	font-size: 14px;
+	height: auto !important;
+	padding: 2px 5px !important;
+	border: 1px solid #aaa;
+}
+#comment_form textarea {
+	width: 98%;
+	padding: 5px !important;
+	font-size: 14px;
+  font-family: Helvetica, Arial, sans-serif;
+	border: 1px solid #aaa;
+}
+
+#comments ol,
+#comments li,
+.comment {
+	border: 0px !important;
+	margin: 0px !important;
+	padding: 0px !important;
+}
+.comment {
+  font-family: Helvetica, Arial, sans-serif;
+  padding-left: 50px;
+  position: relative;
+}
+.comment h4 {
+  font-size: 14px;
+	margin: 10px 0px 0px 0px;
+}
+#comments li:first-child h4 {
+	margin-top: 20px;
+}
+.comment:last-of-type {
+  border-bottom: none;
+}
+.comment .info {
+  font-size: 12px;
+  color: #888;
+}
+
+
 
 #footer {
 	padding-left: 220px;
 	padding-bottom: 9px;
-	margin-bottom: 26px;
-	border-bottom: 1px solid #bbb;
 }
 #footer div {
 	float: left;
@@ -175,13 +369,16 @@ div.meta {
 	float: left;
 	clear: both;
 	color: #888;
+	margin-left: 40px;
+	font-size: 11px;
 }
 #feeds {
 	float: right;
 	list-style-type: none;
-	margin-left: 0;
+	margin-right: 40px;
 }
 #feeds li {
 	float: left;
 	margin-left: 12px;
+	font-size: 11px;
 }
