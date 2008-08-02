@@ -65,11 +65,15 @@ ActionController::Base.class_eval do
     CachedPage.expire_pages(pages)
   end
   
-  # def expire_page_cache
-  #   # TODO should only remove pages in the site's subdirectory
-  #   cache_dir = self.class.page_cache_directory
-  #   unless cache_dir == RAILS_ROOT + "/public"
-  #     FileUtils.rm_r(Dir.glob(cache_dir + "/*")) rescue Errno::ENOENT
-  #   end
-  # end
+  def expire_site_page_cache
+    cache_dir = page_cache_directory
+    if cache_dir =~ /\/public$/ 
+      # TODO can not simply kill the whole cache dir unless in multisite mode
+      # this misses assets as stylesheets from themes though because they are
+      # not referenced as cached, yet
+      expire_pages CachedPage.find_all_by_site_id(@site.id)
+    else
+      cache_dir.rmtree rescue Errno::ENOENT
+    end
+  end
 end

@@ -69,10 +69,8 @@ class BaseController < ApplicationController
     end
 
     def page_cache_directory
-      root = Pathname.new(File.expand_path(RAILS_ROOT))
-      Site.multi_sites_enabled ? 
-        (root + (RAILS_ENV == 'test' ? 'tmp' : 'public') + 'cache' + @site.perma_host) :
-        (root + (RAILS_ENV == 'test' ? 'tmp/cache' : 'public'))
+      raise "@site not set" unless @site
+      @site.page_cache_directory
     end
     
     def rescue_action(exception)

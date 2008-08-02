@@ -82,6 +82,18 @@ class Site < ActiveRecord::Base
     # host.sub(':', '-')
     host
   end
+
+  def page_cache_directory
+    root = Pathname.new(File.expand_path(RAILS_ROOT))
+    if RAILS_ENV == 'test'
+      root + (self.class.multi_sites_enabled ? 'tmp/cache/' + perma_host : 'tmp/cache')
+    else
+      root + (self.class.multi_sites_enabled ? 'public/cache/' + perma_host : 'public')
+    end
+    # self.class.multi_sites_enabled ? 
+    #   (root + (RAILS_ENV == 'test' ? 'tmp' : 'public') + 'cache' + @site.perma_host) :
+    #   (root + (RAILS_ENV == 'test' ? 'tmp/cache' : 'public'))
+  end
   
   def plugins
     @plugins ||= Plugins.new self, Engines.plugins

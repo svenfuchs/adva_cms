@@ -59,4 +59,9 @@ class Admin::BaseController < ApplicationController
     def current_role_context
       @section || @site || Site.new
     end
+
+    def page_cache_directory
+      raise "@site not set" unless @site
+      @site.page_cache_directory
+    end
 end
