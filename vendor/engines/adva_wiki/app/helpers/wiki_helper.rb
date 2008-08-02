@@ -40,37 +40,48 @@ module WikiHelper
   # end
   
   def wiki_edit_links(wikipage, options = {})
-    separator = options[:separator] || ' &middot; '
+    separator = options[:separator] || '' # || ' &middot; '
     
-	  links = []	  
-	  links << link_to('return to home', wiki_path(@section)) + separator unless wikipage.home?
+	  links = []
+	  links << content_tag(:li, options[:prepend]) if options[:prepend]
+	  links << content_tag(:li) do
+	    link_to('return to home', wiki_path(@section))
+    end unless wikipage.home?
     
 	  if wikipage.version == wikipage.versions.last.version
-	    links << authorized_tag(:span, :update, wikipage) do
-	      link_to('edit this page', edit_wikipage_path(@section, wikipage.permalink)) + separator
+	    links << authorized_tag(:li, :update, wikipage) do
+	      link_to('edit this page', edit_wikipage_path(@section, wikipage.permalink))
       end
-	    links << authorized_tag(:span, :destroy, wikipage) do
-	      link_to('delete this page', wikipage_path(@section, wikipage.permalink), { :confirm => "Are you sure you wish to delete this page?", :method => :delete }) + separator
+	    links << authorized_tag(:li, :destroy, wikipage) do
+	      link_to('delete this page', wikipage_path(@section, wikipage.permalink), { :confirm => "Are you sure you wish to delete this page?", :method => :delete })
       end unless wikipage.home?
     else
-	    links << authorized_tag(:span, :update, wikipage) do
-	      link_to('rollback to this revision', wikipage_path_with_home(@section, wikipage.permalink, :version => wikipage.version), { :confirm => "Are you sure you wish to rollback to this version?", :method => :put }) + separator
+	    links << authorized_tag(:li, :update, wikipage) do
+	      link_to('rollback to this revision', wikipage_path_with_home(@section, wikipage.permalink, :version => wikipage.version), { :confirm => "Are you sure you wish to rollback to this version?", :method => :put })
       end
     end
 
     if wikipage.versions.size > 1
       if wikipage.version > wikipage.versions.first.version
-  	    links << link_to('view previous revision', wikipage_rev_path(:section_id => @section.id, :id => wikipage.permalink, :version => (wikipage.version - 1))) + separator
+  	    links << content_tag(:li) do
+  	      link_to('view previous revision', wikipage_rev_path(:section_id => @section.id, :id => wikipage.permalink, :version => (wikipage.version - 1)))
+	      end
       end
       if wikipage.version < wikipage.versions.last.version - 1
-  	    links << link_to('view next revision', wikipage_rev_path(:section_id => @section.id, :id => wikipage.permalink, :version => (wikipage.version + 1))) + separator
+  	    links << content_tag(:li) do
+  	      link_to('view next revision', wikipage_rev_path(:section_id => @section.id, :id => wikipage.permalink, :version => (wikipage.version + 1)))
+	      end
 	    end
       if wikipage.version < wikipage.versions.last.version
-  	    links << link_to('return to current revision', wikipage_path(@section, wikipage.permalink)) + separator
+  	    links << content_tag(:li) do
+  	      link_to('return to current revision', wikipage_path(@section, wikipage.permalink))
+	      end
       end
     end
     
-    links.join("\n").gsub(/#{separator}\Z/, '') # hackish, but no idea how to do it better
+	  links << content_tag(:li, options[:append]) if options[:append]
+    
+    content_tag :ul, links * "\n", :class => 'links'
   end
   
 end
