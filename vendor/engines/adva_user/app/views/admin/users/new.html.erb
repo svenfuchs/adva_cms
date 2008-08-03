@@ -3,6 +3,7 @@
 <% form_for :user, @user, :url => collection_path do |f| -%>
   <%= render :partial => 'form', :locals => {:f => f} %>  
   <%= render :partial => 'roles', :locals => {:f => f} if current_user.has_role?(:admin, @site) %>
+  <%= render :partial => 'memberships', :locals => {:f => f} if @site %>
 
   <p class="buttons">
     <%= submit_tag 'Create' %>

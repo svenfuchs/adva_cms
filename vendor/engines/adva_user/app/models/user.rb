@@ -74,9 +74,13 @@ class User < ActiveRecord::Base
   end
   
   def update_memberships(memberships)
-    memberships.values.each do |site_id, active|
+    memberships.each do |site_id, active|
       site = Site.find site_id
-      active ? (self.sites << site) : self.sites.delete(site)
+      if active
+        self.sites << site unless is_site_member?(site)
+      else 
+        self.sites.delete site if is_site_member?(site)
+      end
     end
   end
   

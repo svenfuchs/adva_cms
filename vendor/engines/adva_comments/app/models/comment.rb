@@ -49,7 +49,7 @@ class Comment < ActiveRecord::Base
   has_many :spam_reports, :as => :subject
   
   def spam_threshold
-    50 # TODO have a config option on site for this
+    51 # TODO have a config option on site for this
   end
   
   def ham?

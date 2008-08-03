@@ -23,7 +23,6 @@ class Admin::UsersController < Admin::BaseController
     @user = @site ? @site.users.build : User.new    
     if @user.update_attributes(params[:user])
       @user.verified!
-      @site.users << @user if @site
       flash[:notice] = "The user account has been created."
       redirect_to member_path(@user)
     else
@@ -47,10 +46,10 @@ class Admin::UsersController < Admin::BaseController
   
   def destroy
     if @user.destroy
-      flash[:notice] = "The user account has been deactivated."
+      flash[:notice] = "The user account has been deleted."
       redirect_to collection_path
     else
-      flash.now[:error] = "The user account could not be deactivated."
+      flash.now[:error] = "The user account could not be deleted."
       render :action => :edit
     end
   end

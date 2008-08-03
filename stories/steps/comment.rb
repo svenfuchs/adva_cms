@@ -18,7 +18,7 @@ steps_for :comment do
   end
   
   When "the user posts a comment which Akismet thinks is $result" do |result|
-    result = result == 'ham'
+    result = result.downcase == 'ham'
     # TODO this is just a quickfix
     # For some reason mock call causes method not found error on ubuntu
     akismet_mock = Spec::Mocks::Mock.new('akismet', :check_comment => result)

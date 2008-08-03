@@ -6,6 +6,10 @@ module SpamEngine
       def initialize(options = {})
         @options = options
       end
+      
+      def options
+        @options || {}
+      end
     
       def name
         self.class.name.demodulize
@@ -37,7 +41,7 @@ module SpamEngine
       end
       
       def method_missing(method, *args)
-        return options[method] if respond_to?(method)
+        return options[method] if options.has_key?(method)
         raise NotConfigured if [:key, :url].include? method
         super
       end
