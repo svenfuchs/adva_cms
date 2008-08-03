@@ -167,19 +167,6 @@ apache multisite config http://www.appelsiini.net/2007/6/mephisto-multiple-site-
         ActionController::Routing::Routes.recognize_path(path, env)
       end
     end    
-    
-
-
-ACCESS CONTROL ---------------------------------------------------------------
-
-Backend:
-
-- when a user goes to /admin he should see those sites listed to which he has
-  access to
-- when a user tries to access an action he does not have sufficient permissions
-  for he should see a page which explains the situation and has a javascript
-  "back" link 
-
 
 
 

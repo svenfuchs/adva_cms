@@ -4,7 +4,7 @@ module Admin::BaseHelper
   def admin_site_select_tag(path, user)
     # TODO only show sites where the user actually has access to!
     options  = []
-    options += Site.find(:all).collect { |site| [site.name, path] }
+    options += Site.find(:all).collect { |site| [site.name, admin_site_path(site)] }
     select_tag 'site-select', options_for_select(options, path)
   end
 
@@ -13,7 +13,7 @@ module Admin::BaseHelper
     options  = [['Sites overview', admin_sites_path]]
     options << ['Superusers + Admins', admin_users_path]
     options << ['------------------', '#']
-    options += Site.find(:all).collect { |site| [site.name, path] }
+    options += Site.find(:all).collect { |site| [site.name, admin_site_path(site)] }
     select_tag 'site-select', options_for_select(options, path)
   end
 end
