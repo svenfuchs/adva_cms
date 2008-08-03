@@ -127,9 +127,16 @@ describe Admin::UsersController do
           act!
         end
     
-        describe "given valid user params" do
+        describe "given valid user params (not removing the user's site membership)" do
           it_redirects_to { @member_path }
           it_assigns_flash_cookie :notice => :not_nil
+        end
+
+        describe "given valid user params (removing the user's site membership)" do
+          before :each do
+            @user.stub!(:is_site_member?).and_return false
+          end
+          it_redirects_to { @collection_path }
         end
     
         describe "given invalid user params" do
@@ -170,5 +177,6 @@ describe Admin::UsersController do
   
   it "disallows a non-superuser to add a superuser role"
   it "disallows a non-admin to change any roles"
-  
+  it "disallows a site-admin to directly add any memberships"
+  it "disallows a non-superuser to view another user's profile outside of a site scope"
 end

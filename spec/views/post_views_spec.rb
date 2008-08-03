@@ -42,8 +42,9 @@ describe "Post views:" do
     it "should be fixed"
   end
    
-  describe "the topics/form partial" do
+  describe "the posts/form partial" do
     before :each do
+      @post.stub!(:author).and_return Anonymous.new
       template.stub!(:f).and_return ActionView::Base.default_form_builder.new(:topic, @topic, template, {}, nil)
       template.stub!(:topic_posts_path).and_return 'topic_posts_path'
     end

@@ -4,28 +4,61 @@ require 'base_helper'
 describe "Widgets:", "the admin/menu_global widget" do
   include SpecViewHelper
   
-  describe "the link to the global user list" do
+  before :each do
+    @user = stub_user
+    template.stub!(:current_user).and_return @user
+    
+    helpers = [:admin_global_select_tag, :admin_site_select_tag,
+               :admin_plugins_path, :admin_site_user_path,
+               :admin_user_path, :logout_path]            
+    helpers.each do |helper| template.stub!(helper).and_return helper.to_s end
+  end                                      
+  act! { render 'widgets/admin/_menu_global' }
+                                           
+  describe "when the user is a superuser" do
     before :each do
-      @user = stub_user
-      template.stub!(:current_user).and_return @user
-      
-      template.stub!(:admin_site_select_tag).and_return('admin_site_select_tag')
-      template.stub!(:admin_plugins_path).and_return('admin_plugins_path')
-      template.stub!(:admin_site_user_path).and_return('admin_site_user_path')
-      template.stub!(:admin_user_path).and_return('admin_user_path')
-      template.stub!(:logout_path).and_return('logout_path')
-    end
-  
-    it "should be visible when the user is a superuser" do
-      @user.should_receive(:has_role?).with(:superuser).and_return true
-      render 'widgets/admin/_menu_global'
-      response.should have_tag('a[href=?]', '/admin/users')
+      @user.stub!(:has_role?).with(:superuser).and_return true
     end
     
-    it "should not be visible when the user is not a superuser" do
-      @user.should_receive(:has_role?).with(:superuser).and_return false
-      render 'widgets/admin/_menu_global'
-      response.should_not have_tag('a[href=?]', '/admin/users')
+    it "shows the global site select menu when the user is a superuser" do
+      template.should_receive(:admin_global_select_tag)
+      act!
     end
+    
+    it "does not show the admin site select menu" do
+      template.should_not_receive(:admin_site_select_tag)
+      act!
+    end
+  end
+
+  describe "when the user is not a superuser" do
+    before :each do
+      @user.stub!(:has_role?).with(:superuser).and_return false
+    end
+    
+    it "does not show the global site select menu when the user is a superuser" do
+      template.should_not_receive(:admin_global_select_tag)
+      act!
+    end
+    
+    it "shows the admin site select menu" do
+      template.should_receive(:admin_site_select_tag)
+      act!
+    end
+  end
+
+  it "shows the current user's name" do
+    act!
+    response.should have_text(/#{@user.name}/)
+  end
+  
+  it "shows a link to the current user profile" do
+    act!
+    response.should have_tag('a[href=?]', "admin_user_path")
+  end
+  
+  it "shows a logout link" do
+    act!
+    response.should have_tag('a[href=?]', "logout_path")
   end
 end

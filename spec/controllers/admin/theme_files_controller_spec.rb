@@ -50,8 +50,7 @@ describe Admin::ThemeFilesController do
       it_assigns_flash_cookie :notice => :not_nil
     
       it "expires page cache for the current site" do
-        CachedPage.should_receive(:find_all_by_site_id).with(@site.id).and_return 'the references'
-        controller.should_receive(:expire_pages).with('the references')
+        controller.should_receive(:expire_site_page_cache)
         act!
       end
     end
@@ -83,8 +82,7 @@ describe Admin::ThemeFilesController do
       it_assigns_flash_cookie :notice => :not_nil
     
       it "expires page cache for the current site" do
-        CachedPage.should_receive(:find_all_by_site_id).with(@site.id).and_return 'the references'
-        controller.should_receive(:expire_pages).with('the references')
+        controller.should_receive(:expire_site_page_cache)
         act!
       end
     end
@@ -116,8 +114,7 @@ describe Admin::ThemeFilesController do
       it_assigns_flash_cookie :notice => :not_nil
     
       it "expires page cache for the current site" do
-        CachedPage.should_receive(:find_all_by_site_id).with(@site.id).and_return 'the references'
-        controller.should_receive(:expire_pages).with('the references')
+        controller.should_receive(:expire_site_page_cache)
         act!
       end
     end

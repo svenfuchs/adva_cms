@@ -40,7 +40,8 @@ define Site do
            :current_theme_layout_paths => [],
            :has_attribute? => true,
            :spam_filter_active? => false,
-           :role_context => stub_site
+           :role_context => stub_site,
+           :page_cache_directory => RAILS_ROOT + '/tmp/cache'
         
   instance :default          
 end

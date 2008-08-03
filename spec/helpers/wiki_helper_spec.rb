@@ -221,21 +221,21 @@ describe WikiHelper do
       end
     end
     
-    describe "a span with the visible-for and user classes" do
+    describe "a tag with the visible-for and user classes" do
       it "encloses the edit link" do
         @result = wiki_edit_links(@wikipage)
-        @result.should =~ /<span class="visible-for user[^>]*>[^<]*<a href="[^>]*edit"/
+        @result.should =~ /<[^>]* class="visible-for user[^>]*>[^<]*<a href="[^>]*edit"/
       end
 
       it "encloses the delete link" do
         @result = wiki_edit_links(@wikipage)
-        @result.should =~ /<span class="visible-for user[^>]*>[^<]*<a href="[^>]*a-wikipage"[^>]*delete/
+        @result.should =~ /<[^>]* class="visible-for user[^>]*>[^<]*<a href="[^>]*a-wikipage"[^>]*delete/
       end
 
       it "encloses the rollback link" do
         @wikipage.stub!(:version).and_return 2
         @result = wiki_edit_links(@wikipage)
-        @result.should =~ /<span class="visible-for user[^>]*>[^<]*<a href="[^>]*wikipage_path_with_home"[^>]*rollback/
+        @result.should =~ /<[^>]* class="visible-for user[^>]*>[^<]*<a href="[^>]*wikipage_path_with_home"[^>]*rollback/
       end
     end
   end

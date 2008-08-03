@@ -11,6 +11,7 @@ Story: Managing users
     When the user fills in the admin user account creation form with valid values
     And the user clicks the 'Create' button
     Then a new user account is created
+    And the user is a member of the site
     And the user is redirected to the admin site user show page
 
   Scenario: An admin updates a user's profile

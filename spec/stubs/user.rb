@@ -20,6 +20,7 @@ define User do
            :has_exact_role? => false,
            :anonymous? => false,
            :registered? => true,
+           :is_site_member? => true,
            :update_attributes => true, 
            :destroy => true,
            :verified! => nil,

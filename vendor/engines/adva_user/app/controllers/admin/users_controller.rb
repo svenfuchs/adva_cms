@@ -38,8 +38,7 @@ class Admin::UsersController < Admin::BaseController
   def update
     if @user.update_attributes(params[:user])
       flash[:notice] = "The user account has been updated."
-      target = @site && @user.is_site_member(@site) ? member_path(@user) : collection_path(@user)
-      redirect_to target
+      redirect_to @user.is_site_member?(@site) ? member_path(@user) : collection_path
     else
       flash.now[:error] = "The user account could not be updated."
       render :action => :edit
@@ -91,7 +90,7 @@ class Admin::UsersController < Admin::BaseController
     end
   
     def collection_path
-      @site ? admin_site_users_path : admin_users_path
+      @site ? admin_site_users_path(@site.id) : admin_users_path
     end
     
     def member_path(user = nil)
