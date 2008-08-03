@@ -66,7 +66,7 @@ class Role < ActiveRecord::Base
     context_type ? [context_type, context_id, name].join('-').downcase : name
   end
   
-  def message
+  def message(action = nil, type = nil)
     self.class.message || begin
       article = %(a e i o u).include?(name.to_s[0, 1].downcase) ? 'an' : 'a'
       "You need to be #{article} #{name} to perform this action."        

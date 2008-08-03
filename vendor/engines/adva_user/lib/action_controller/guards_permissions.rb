@@ -1,7 +1,11 @@
 module ActionController
   class RoleRequired < SecurityError
-    def initialize(role)
-      super Role.build(role).message
+    attr_accessor :required_role
+    def initialize(role, action, type)
+      @required_role = role
+      @action = action
+      @type = type
+      super Role.build(role).message(action, type)
     end
   end
   
@@ -53,7 +57,7 @@ module ActionController
         
         unless has_permission?(action, type)
           role =  current_role_context.role_authorizing(action, type)
-          raise RoleRequired.new role
+          raise RoleRequired.new role, action, type
         end
       end
       
