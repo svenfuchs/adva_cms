@@ -170,35 +170,15 @@ apache multisite config http://www.appelsiini.net/2007/6/mephisto-multiple-site-
     
 
 
-KILL PARANOIDS ----------------------------------------------------------------------
+THEME AND ASSETS CACHING ------------------------------------------------------
 
-assets
-  user_id
+public/cache/site.host/stylesheets/default.css
+public/cache/site.host/themes/theme.id/stylesheets/custom.css # theme css file
 
-memberships
-  user_id
+<%= stylesheet_link_tag 'foo', 'bar' :cache => 'default' %>
+<%= theme_stylesheet_link_tag 'rails_i18n', 'custom' %>
 
-roles
-  user_id
-  
-activities
-  author_id
 
-boards
-  last_author_id
-
-comments
-  author_id
-
-content_versions
-  author_id
-
-contents
-  author_id
-
-topics
-  last_author_id
-  author_id
 
 
 PROJECT ----------------------------------------------------------------------

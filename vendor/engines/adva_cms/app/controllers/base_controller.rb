@@ -3,6 +3,7 @@ require 'widgets'
 class BaseController < ApplicationController
   class SectionRoutingError < ActionController::RoutingError; end
   helper :base, :content, :comments, :users
+  helper_method :page_cache_subdirectory
   include ContentHelper # WTF!
 
   include CacheableFlash
@@ -18,6 +19,10 @@ class BaseController < ApplicationController
   acts_as_themed_controller :current_themes => lambda {|c| c.site.current_themes if c.site }
   #                          :force_template_types => ['html.serb', 'liquid']
   #                          :force_template_types => lambda {|c| ['html.serb', 'liquid'] unless c.class.name =~ /^Admin::/ }
+  
+  def asset_cache_directory
+    "cache/#{@site.host}"
+  end
   
   # TODO move these to acts_as_commentable (?)
   caches_page_with_references :comments, :track => ['@commentable']
@@ -71,6 +76,11 @@ class BaseController < ApplicationController
     def page_cache_directory
       raise "@site not set" unless @site
       @site.page_cache_directory
+    end
+
+    def page_cache_subdirectory
+      raise "@site not set" unless @site
+      @site.page_cache_subdirectory
     end
     
     def rescue_action(exception)

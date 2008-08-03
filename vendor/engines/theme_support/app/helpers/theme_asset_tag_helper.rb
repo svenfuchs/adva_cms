@@ -1,7 +1,6 @@
 module ThemeAssetTagHelper
   def theme_image_tag(theme_name, source, options = {})
-    add_theme_path(theme_name, source)
-    image_tag source
+    image_tag *add_theme_path(theme_name, source)
   end
 
   def theme_stylesheet_link_tag(theme_name, *sources)
@@ -19,9 +18,8 @@ module ThemeAssetTagHelper
   end
 
   def add_theme_path(theme_name, source)
-
     if theme = controller.current_themes.detect{|theme| theme.id == theme_name.to_s.downcase}
-      "#{theme.id}/#{source}"
+      "themes/#{theme.id}/#{source}"
     else
       raise "could not find theme #{theme_name}"
     end
