@@ -31,7 +31,7 @@ describe Admin::CategoriesController, 'Permissions' do
     lambda{ request_to(method, path) }.should raise_error(ActionController::RoleRequired) # TODO
   end
   
-  { '/admin/sites/1/sections/1/categories' => :get,
+  { # '/admin/sites/1/sections/1/categories' => :get, # deactivated all :show permissions in the backend
     '/admin/sites/1/sections/1/categories/1/edit' => :get }.each do |path, method|
   
     describe "#{method.to_s.upcase} to #{path}" do
@@ -72,12 +72,12 @@ describe Admin::CategoriesController, 'Permissions' do
           @user.stub!(:roles).and_return []
           @section.stub!(:permissions).and_return :category => { :show => :user, :update => :user }
         end
-        
+      
         it "grants access to a user" do
           @user.stub!(:registered?).and_return true
           should_grant_access(method, path)
         end
-      
+    
         it "denies access to a non-user" do
           @user.stub!(:registered?).and_return false
           should_deny_access(method, path)

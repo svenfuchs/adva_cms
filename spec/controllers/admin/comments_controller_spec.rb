@@ -30,7 +30,7 @@ describe Admin::CommentsController do
     act! { request_to :get, @collection_path }    
     it_assigns :comments
     it_renders_template :index
-    it_guards_permissions :show, :comment
+    # it_guards_permissions :show, :comment # deactivated all :show permissions in the backend
   end
    
   # describe "GET to :show" do

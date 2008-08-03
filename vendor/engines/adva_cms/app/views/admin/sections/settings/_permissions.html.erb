@@ -3,6 +3,7 @@
     <% @section.permissions.sorted.each do |type, permissions| %>
     <h4><%= type.to_s.camelize.pluralize %></h4>
     <% permissions.each do |action, role| %>
+      <% next if action.to_sym == :show # TODO :show permissions do not make any sense right now, so we completely deactivate them %>
       <p>  
         <%= select_tag "section[permissions][#{type}][#{action}]", options_for_select(Role.names.zip(Role.names.map(&:downcase)), role.to_s), :id => "section_required_roles_#{action}" %>
         can <%= action %>.

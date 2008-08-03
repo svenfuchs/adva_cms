@@ -39,7 +39,7 @@ describe Admin::SectionsController do
     act! { request_to :get, @member_path }    
     it_assigns :section
     it_renders_template :show    
-    it_guards_permissions :show, :section
+    # it_guards_permissions :show, :section # deactivated all :show permissions in the backend
     
     it "fetches a section from site.sections" do
       @site.sections.should_receive(:find).and_return @section

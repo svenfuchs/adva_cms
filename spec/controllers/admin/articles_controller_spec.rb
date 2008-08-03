@@ -29,7 +29,7 @@ describe Admin::ArticlesController do
   describe "GET to :index" do
     act! { request_to :get, @collection_path }    
     it_assigns :articles
-    it_guards_permissions :show, :article
+    # it_guards_permissions :show, :article # deactivated all :show permissions in the backend
     
     describe "when the section is a Section" do
       before :each do @site.sections.stub!(:find).and_return @section end
@@ -77,7 +77,7 @@ describe Admin::ArticlesController do
   describe "GET to :show" do    
     act! { request_to :get, @member_path }
     it_assigns :article
-    it_guards_permissions :show, :article
+    # it_guards_permissions :show, :article # deactivated all :show permissions in the backend
   
     it "reverts the article when given a :version param" do
       @article.should_receive(:revert_to).any_number_of_times.with "1"

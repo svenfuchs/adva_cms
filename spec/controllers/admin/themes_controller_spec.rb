@@ -37,14 +37,14 @@ describe Admin::ThemesController do
   
   describe "GET to :index" do
     act! { request_to :get, @collection_path }    
-    it_guards_permissions :show, :theme
+    # it_guards_permissions :show, :theme # deactivated all :show permissions in the backend
     it_assigns :themes
     it_renders_template :index
   end
   
   describe "GET to :show" do    
     act! { request_to :get, @member_path }
-    it_guards_permissions :show, :theme
+    # it_guards_permissions :show, :theme # deactivated all :show permissions in the backend
     it_assigns :theme
   end  
   

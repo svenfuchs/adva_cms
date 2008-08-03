@@ -170,13 +170,15 @@ apache multisite config http://www.appelsiini.net/2007/6/mephisto-multiple-site-
     
 
 
-THEME AND ASSETS CACHING ------------------------------------------------------
+ACCESS CONTROL ---------------------------------------------------------------
 
-public/cache/site.host/stylesheets/default.css
-public/cache/site.host/themes/theme.id/stylesheets/custom.css # theme css file
+Backend:
 
-<%= stylesheet_link_tag 'foo', 'bar' :cache => 'default' %>
-<%= theme_stylesheet_link_tag 'rails_i18n', 'custom' %>
+- when a user goes to /admin he should see those sites listed to which he has
+  access to
+- when a user tries to access an action he does not have sufficient permissions
+  for he should see a page which explains the situation and has a javascript
+  "back" link 
 
 
 

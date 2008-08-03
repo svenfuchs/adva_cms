@@ -47,7 +47,7 @@ describe TopicsController do
     act! { request_to :get, topic_path }
     it_assigns :topic
     it_renders_template :show
-    it_guards_permissions :show, :topic
+    # it_guards_permissions :show, :topic # deactivated all :show permissions in the backend
   end  
   
   describe "POST to :create" do
