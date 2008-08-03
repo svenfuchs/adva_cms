@@ -9,3 +9,15 @@ ActionView::Helpers::AssetTagHelper.module_eval do
   end
   alias_method_chain :write_asset_file_contents, :path_munging
 end
+
+class ActionController::Base
+  def self.reset_file_exist_cache!
+    @@file_exist_cache = nil
+  end
+end
+
+class ActionView::Base
+  def self.reset_file_exist_cache!
+    @@file_exist_cache = nil
+  end
+end
