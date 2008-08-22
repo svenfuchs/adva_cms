@@ -1,9 +1,5 @@
 <ul id="menu_global" class="clearing">
-  <% if current_user.has_role?(:superuser) %>
-    <li><%= admin_global_select_tag request.path %></li>
-  <% elsif Site.multi_sites_enabled %>
-    <li><%= admin_site_select_tag request.path, current_user %></li>
-  <% end %>
+  <li><%= admin_site_select_tag %></li>
   <% if @site %>
     <li><%= link_to 'Plugins', admin_plugins_path(@site) %></li>
   <% end %>
