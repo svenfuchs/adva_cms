@@ -27,7 +27,8 @@ describe Admin::CachedPagesController, 'Permissions' do
   end
   
   def should_deny_access(method, path)
-    lambda{ request_to(method, path) }.should raise_error(ActionController::RoleRequired) # TODO
+    controller.expect_render(:template => 'shared/messages/insufficient_permissions')
+    request_to(method, path)
   end
   
   { '/admin/sites/1/cached_pages' => :get }.each do |path, method|
