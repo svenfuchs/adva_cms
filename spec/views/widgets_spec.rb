@@ -20,13 +20,9 @@ describe "Widgets:", "the admin/menu_global widget" do
       @user.stub!(:has_role?).with(:superuser).and_return true
     end
     
-    it "shows the global site select menu when the user is a superuser" do
-      template.should_receive(:admin_global_select_tag)
-      act!
-    end
     
-    it "does not show the admin site select menu" do
-      template.should_not_receive(:admin_site_select_tag)
+    it "shows the admin site select menu" do
+      template.should_receive(:admin_site_select_tag)
       act!
     end
   end
@@ -34,11 +30,6 @@ describe "Widgets:", "the admin/menu_global widget" do
   describe "when the user is not a superuser" do
     before :each do
       @user.stub!(:has_role?).with(:superuser).and_return false
-    end
-    
-    it "does not show the global site select menu when the user is a superuser" do
-      template.should_not_receive(:admin_global_select_tag)
-      act!
     end
     
     it "shows the admin site select menu" do
