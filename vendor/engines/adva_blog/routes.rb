@@ -3,25 +3,25 @@
 # section and wiki).
 
 with_options :controller => 'blog', :action => 'index', :requirements => { :method => :get } do |blog|
-                                
+
   blog.blog                    "blogs/:section_id/:year/:month",
                                 :year => nil, :month => nil,
                                 :requirements => { :method => :get, :year => /\d{4}/, :month => /\d{1,2}/ }
-                                
+
   blog.blog_category           "blogs/:section_id/categories/:category_id/:year/:month",
                                 :year => nil, :month => nil,
                                 :requirements => { :method => :get, :year => /\d{4}/, :month => /\d{1,2}/}
-                                
+
   blog.blog_tag                "blogs/:section_id/tags/:tags/:year/:month",
                                 :year => nil, :month => nil,
                                 :requirements => { :method => :get, :year => /\d{4}/, :month => /\d{1,2}/ }
-                                
+
   blog.formatted_blog          "blogs/:section_id.:format"
   blog.formatted_blog_category "blogs/:section_id/categories/:category_id.:format"
-  blog.formatted_blog_tag      "blogs/:section_id/tags/:tags.:format"               
-end                             
+  blog.formatted_blog_tag      "blogs/:section_id/tags/:tags.:format"
+end
 
-                                
+
 map.article                    "blogs/:section_id/:year/:month/:day/:permalink",
                                 :controller   => 'blog',
                                 :action       => "show",
