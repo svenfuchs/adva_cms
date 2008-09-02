@@ -10,7 +10,7 @@ class CreateAttachments < ActiveRecord::Migration
       t.string :thumbnail
       t.integer :wikipage_id
 
-      t.timestamps 
+      t.timestamps
     end
   end
 
