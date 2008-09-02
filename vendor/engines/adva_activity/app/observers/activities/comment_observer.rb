@@ -1,7 +1,7 @@
 module Activities
   class CommentObserver < Activities::Logger
     observe :comment
-  
+
     logs_activity do |log|
       log.edited :if => [:body_changed?, {:not => :new_record?}]
       log.approved :if => [:approved_changed?, :approved?]
@@ -14,7 +14,7 @@ module Activities
       type = record.commentable.has_attribute?('type') ? record.commentable['type'] : record.commentable_type
       attrs.update 'commentable_type' => type, 'commentable_title' => record.commentable.title
     end
-    
+
     def initialize_activity(record)
       returning super do |activity|
         activity.site = record.commentable.site

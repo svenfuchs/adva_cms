@@ -3,12 +3,12 @@ class CreateActivitiesTable < ActiveRecord::Migration
     create_table :activities, :force => true do |t|
       t.references :site
       t.references :section
-      
+
       t.references :author, :polymorphic => true
       t.string     :author_name, :limit => 40
       t.string     :author_email, :limit => 40
-      t.string     :author_homepage      
-      
+      t.string     :author_homepage
+
       t.string     :actions
       t.integer    :object_id
       t.string     :object_type, :limit => 15

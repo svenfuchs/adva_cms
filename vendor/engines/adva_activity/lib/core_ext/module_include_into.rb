@@ -9,7 +9,7 @@ Module.class_eval do
   #     include_into "Foo", "Bar"
   #   end
   #
-  # You can also specify a hash to have your module's methods alias_method_chained to the target 
+  # You can also specify a hash to have your module's methods alias_method_chained to the target
   # class' methods.
   #
   #   module FooMethods
@@ -31,15 +31,15 @@ Module.class_eval do
   # add any class mixins that have been registered for this class
   def auto_include!
     if mixins = @@class_mixins[name]
-      mixins.each do |name, aliases| 
+      mixins.each do |name, aliases|
         include name.constantize
         aliases.each { |args| alias_chain *args }
       end
     end
   end
-  
+
   def alias_chain(target, feature)
-    (class << self; self end).class_eval <<-EOC, __FILE__, __LINE__      
+    (class << self; self end).class_eval <<-EOC, __FILE__, __LINE__
       def method_added_with_#{target}_#{feature}(method)
         if method == :#{target} && !method_defined?(:#{target}_without_#{feature})
           alias_method_chain :#{target}, :#{feature}
@@ -58,6 +58,6 @@ Class.class_eval do
       klass.auto_include!
     end
   end
-  
+
   alias_method_chain :inherited, :mixins
 end

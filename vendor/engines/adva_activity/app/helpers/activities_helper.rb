@@ -10,7 +10,7 @@ module ActivitiesHelper
     end
     %(<ul class="activities">#{html}</ul>)
   end
-  
+
   def activity_css_classes(activity)
     type = activity.object_attributes['type'] || activity.object_type
     "#{type}-#{activity.all_actions.last}".downcase
@@ -26,22 +26,22 @@ module ActivitiesHelper
       activity.created_at.send *(short ? [:to_s, :time_only] :  [:to_ordinalized_s, :plain])
     end
   end
-  
+
   def activity_object_edit_url(activity)
     type = activity.object_attributes['type'] || activity.object_type
     send "edit_admin_#{type}_path".downcase, activity.site_id, activity.section_id, activity.object_id
   end
-  
+
   def activity_commentable_edit_url(activity)
     type = activity.object_attributes['commentable_type']
     send "edit_admin_#{type}_path".downcase, activity.site_id, activity.section_id, activity.commentable_id
   end
-  
+
   def link_to_activity_commentable(activity)
     link_to truncate(activity.commentable_title, 100), activity_commentable_url(activity)
   end
-  
-  def link_to_activity_user(activity)    
+
+  def link_to_activity_user(activity)
     if activity.author.registered?
       link_to activity.author_name, admin_site_user_path(activity.author)
     else
