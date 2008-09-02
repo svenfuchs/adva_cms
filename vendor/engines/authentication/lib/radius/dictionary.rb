@@ -125,7 +125,7 @@ module Radius
 	  end
 	else
 	  $stderr.print "Warning: Weird dictionary line: #{line}\n"
-	end	  
+	end
       }
     end
 

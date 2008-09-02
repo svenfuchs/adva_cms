@@ -165,7 +165,7 @@ module Radius
 	  val = case type
 		when 'string' then value
 		when 'integer'
-		  @dict.val_has_name(tval) ? 
+		  @dict.val_has_name(tval) ?
 		  @dict.val_name(tval, value.unpack("N")[0]) :
 		    value.unpack("N")[0]
 		when 'ipaddr' then inet_ntoa(value.unpack("N")[0])
@@ -194,7 +194,7 @@ module Radius
       p_attr = "CCa*"		# pack template for attribute
       p_vsa = "CCNCCa*"		# pack template for VSA's
       p_vsa_3com = "CCNNa*"	# used by 3COM devices
-    
+
       codes = {
 	'Access-Request' => 1,
 	'Access-Accept' => 2,
@@ -211,7 +211,7 @@ module Radius
 	val = case @dict.attr_type(attr)
 	      when "string" then value
 	      when "integer"
-		[@dict.attr_has_val(anum) ? 
+		[@dict.attr_has_val(anum) ?
 	         @dict.val_num(anum, value) : value].pack("N")
 	      when "ipaddr" then [inet_aton(value)].pack("N")
 	      when "date" then [value].pack("N")

@@ -9,7 +9,7 @@ class SingleTokenTest < Test::Unit::TestCase
 
   def setup
     @tokener = Authentication::SingleToken.new
-    
+
     @joe = users(:joe)
     @key = @tokener.assign_token @joe, 'standard', 3.days.from_now
     @joe.save!

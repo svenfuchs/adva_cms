@@ -1,13 +1,13 @@
 require 'ldap'
 
 module Authentication
-  
+
 class Ldap
   attr_reader :options
-  
+
   def initialize(options={})
     @options = options.reverse_merge(
-      :host => '127.0.0.1', 
+      :host => '127.0.0.1',
       :port => LDAP::LDAP_PORT,
       :base => "dc=example,dc=com",
       :bind_dn => nil,
@@ -16,7 +16,7 @@ class Ldap
       :uid_column => 'name'
     )
   end
-  
+
   def authenticate(user, password)
     # connect to the ldap server
     conn = LDAP::Conn.new(options[:host],options[:port])
@@ -44,6 +44,6 @@ class Ldap
   end
 
 end
-  
+
 end
 

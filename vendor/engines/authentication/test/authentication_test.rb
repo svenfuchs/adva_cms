@@ -143,7 +143,7 @@ class AuthenticationTest < Test::Unit::TestCase
 
     [first, last].each do |auth|
       message = auth.last_message
-      
+
       assert_equal :assign_password, message.first
       assert_equal jane, message[1]
       assert_equal 'testing', message[2]

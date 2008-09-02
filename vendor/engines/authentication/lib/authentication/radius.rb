@@ -1,10 +1,10 @@
 require 'radius/auth'
 
 module Authentication
-  
+
 class Radius
   attr_reader :options
-  
+
   def initialize(options={})
     @options = options.reverse_merge!(
       :host => '127.0.0.1',
@@ -14,7 +14,7 @@ class Radius
       :uid_column => 'name'
     )
   end
-  
+
   def authenticate(user, password)
 
   	begin
@@ -31,7 +31,7 @@ class Radius
 
     return false
   end
-  
+
 end
 
 end

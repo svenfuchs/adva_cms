@@ -26,7 +26,7 @@ require 'authentication/single_token'
 module Authentication
 
   mattr_accessor :default_scheme
-  self.default_scheme = { 
+  self.default_scheme = {
       :authenticate_with => 'Authentication::SaltedHash',
       :token_with => [
         'Authentication::RememberMe',
@@ -139,7 +139,7 @@ module Authentication
     # mechanism.
     def acts_as_authenticated_user(options={})
       options.reverse_merge! Authentication.default_scheme
-  
+
       # Process arguments and store in instantiated auth modules
       {
         :authenticate_with => :authentication_modules,
@@ -158,10 +158,10 @@ module Authentication
           memo
         end
         class_inheritable_accessor mod_type
-        private 
+        private
         self.send "#{mod_type.to_s}=".to_sym, mods
       end
-  
+
       include Authentication::InstanceMethods
       if method_defined?(:password=) # TODO rather have these in the client class?
         before_validation :assign_password
@@ -219,7 +219,7 @@ module Authentication
       end
       nil
     end
-    
+
     def assign_token!(*args)
       returning assign_token(*args) do |token|
         save!
@@ -234,7 +234,7 @@ module Authentication
     # ability to change passwords.
     attr_writer :password
 
-    # For confirmation validation    
+    # For confirmation validation
     # previously this was private, which seems to cause validates_presence_of :password
     # to fail, therefor made it public
     attr_reader :password
@@ -249,7 +249,7 @@ module Authentication
     # the common case of empty passwords on a form from blanking out a
     # password. The side effect is that you cannot specifically have a
     # blank password.
-    def assign_password      
+    def assign_password
       return true if password.blank?
       self.class.authentication_modules.each do |mod|
         mod.assign_password self, password if mod.respond_to? :assign_password
