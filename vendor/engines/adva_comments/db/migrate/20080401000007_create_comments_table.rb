@@ -8,7 +8,7 @@ class CreateCommentsTable < ActiveRecord::Migration
       t.references :author, :polymorphic => true
       t.string     :author_name, :limit => 40
       t.string     :author_email, :limit => 40
-      t.string     :author_homepage      
+      t.string     :author_homepage
       t.text       :body
       t.text       :body_html
       t.integer    :approved, :null => false, :default => 0

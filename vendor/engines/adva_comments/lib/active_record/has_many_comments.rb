@@ -1,7 +1,7 @@
 module ActiveRecord
   module HasManyComments
     def self.included(base)
-      base.extend ActMacro  
+      base.extend ActMacro
     end
 
     module ActMacro
@@ -10,16 +10,16 @@ module ActiveRecord
 
         options[:order] = 'comments.created_at'
         options[:as] = :commentable if options.delete(:polymorphic)
-        
-        has_counter :comments, 
+
+        has_counter :comments,
                     :as => options[:as] || name.underscore
 
-        has_counter :approved_comments, 
+        has_counter :approved_comments,
                     :as => options[:as] || name.underscore,
-                    :class_name => 'Comment', 
+                    :class_name => 'Comment',
                     :after_create => false,
                     :after_destroy => false
-  
+
         with_options options do |c|
           c.has_many :comments, :dependent => :delete_all do
             def by_author(author)
@@ -41,14 +41,14 @@ module ActiveRecord
         included_modules.include? ActiveRecord::HasManyComments::InstanceMethods
       end
     end
-  
+
     module InstanceMethods
       def after_comment_update(comment)
         method = if comment.frozen?
           :decrement!
-        elsif comment.just_approved? 
+        elsif comment.just_approved?
           :increment!
-        elsif comment.just_unapproved? 
+        elsif comment.just_unapproved?
           :decrement!
         end
         approved_comments_counter.send method if method

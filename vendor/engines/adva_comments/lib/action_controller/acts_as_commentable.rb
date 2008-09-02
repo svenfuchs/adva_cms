@@ -1,7 +1,7 @@
 module ActionController
   module ActsAsCommentable
     def self.included(base)
-      base.class_eval do 
+      base.class_eval do
         extend ActMacro
       end
     end
@@ -13,7 +13,7 @@ module ActionController
 
         before_filter :set_commentable, :only => :comments
         before_filter :set_comment, :except => :comments
-        helper :comments        
+        helper :comments
       end
 
       def acts_as_commentable?
@@ -23,16 +23,16 @@ module ActionController
 
     module InstanceMethods
       def comments
-        @comments = @commentable.approved_comments    
+        @comments = @commentable.approved_comments
         respond_to do |format|
-          format.atom do        
+          format.atom do
             render :template => 'comments/comments', :layout => false
           end
         end
       end
-      
-      protected      
-      
+
+      protected
+
         def set_comment
           @comment = Comment.new params[:comment]
           @comment.author = Anonymous.new
