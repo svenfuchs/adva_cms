@@ -1,7 +1,7 @@
 class SessionController < BaseController
-  authentication_required :except => [:new, :create]  
+  authentication_required :except => [:new, :create]
   renders_with_error_proc :below_field
-  
+
   layout 'login'
 
   def new
@@ -29,7 +29,7 @@ class SessionController < BaseController
   end
 
   private
-  
+
     # def reset_session_except(*keys)
     #   preserve = keys.map{|key| session[key] }
     #   reset_session

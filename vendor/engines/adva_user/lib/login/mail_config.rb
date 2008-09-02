@@ -22,7 +22,7 @@ module Login
       return "[#{SUBJECT_PREFIX}] " if Object.const_defined?('SUBJECT_PREFIX')
       ''
     end
-  
+
     # Email message appear to come from. The constant takes priority
     # but if no constant is defined then the email is extracted from
     # the given param which can be any link that you want the email

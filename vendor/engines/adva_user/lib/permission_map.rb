@@ -9,11 +9,11 @@
 #
 # E.g.:
 #
-#   :comment => {:user => :create, :admin => [:edit, :delete]} 
+#   :comment => {:user => :create, :admin => [:edit, :delete]}
 #
-# becomes: 
+# becomes:
 #
-#   :comment => {:create => :user, :edit => :admin, :delete => :admin}        
+#   :comment => {:create => :user, :edit => :admin, :delete => :admin}
 
 class PermissionMap < Hash
   def default_actions
@@ -21,19 +21,19 @@ class PermissionMap < Hash
   end
 
   def initialize(permissions)
-    permissions.clone.each do |type, roles| 
+    permissions.clone.each do |type, roles|
       roles.each do |role, actions|
         actions = actions == :all ? default_actions : Array(actions)
         set type, Hash[*(actions.zip [role] * actions.size).flatten]
       end
-    end    
+    end
   end
-  
+
   def set(type, permissions)
     self[type] ||= {}
     self[type].update permissions
   end
-  
+
   def sorted
     sorted = ActiveSupport::OrderedHash.new
     sorted_keys.each do |type|
@@ -48,12 +48,12 @@ class PermissionMap < Hash
     end
     sorted
   end
-  
+
   def sorted_keys(keys = nil)
     keys ||= self.keys
     keys.map(&:to_s).sort.map(&:to_sym)
   end
-  
+
   def update(other)
     merged = self.dup
     other.each do |type, permissions|

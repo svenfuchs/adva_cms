@@ -9,10 +9,10 @@ module ActionController
       mod.extend ClassMethods
       mod.send :include, InstanceMethods
     end
-  
+
     # Methods available as macro-style methods on any controller
     module ClassMethods
-  
+
       # Sets up the controller so that authentication is required. If
       # the user is not authenticated then they will be redirected to
       # the login screen.
@@ -41,20 +41,20 @@ module ActionController
         skip_before_filter :require_authentication, options
       end
     end
-  
+
     # Methods callable from within actions
-    module InstanceMethods  
+    module InstanceMethods
       def authenticate_user(credentials)
         returning User.authenticate(credentials) do |user|
           if user
             # prevent session hijacking - unnecessary according to http://dev.rubyonrails.org/ticket/10108
             # reset_session_except :return_location
-            session[:uid] = user.id 
+            session[:uid] = user.id
             set_user_cookie!
           end
         end
       end
-  
+
       # Will retrieve the current_user. Will not force a login but
       # simply load the current user if a person is logged in. If
       # you need the user object loaded with extra options (such as
@@ -73,18 +73,18 @@ module ActionController
       # an action.
       def current_user
         @current_user ||= begin
-          # Check for session[:uid] here? That would mean that for token auth the 
-          # user always needs to be logged out (e.g. in AccountController#create). 
+          # Check for session[:uid] here? That would mean that for token auth the
+          # user always needs to be logged out (e.g. in AccountController#create).
           # Looks a bit more robust this way:
-          try_login 
+          try_login
           find_current_user if session[:uid]
         end
       end
-      
+
       def authenticated?
         !!current_user
       end
-  
+
       # Will store the current params so that we can return here on
       # successful login. If you want to redirect to the login yourself
       # (perhaps you are applying your own security instead of just
@@ -93,9 +93,9 @@ module ActionController
       def store_return_location
         session[:return_location] = params
       end
-  
+
       private
-  
+
         # Will actually test to see if the user is authorized
         def require_authentication
 
@@ -117,52 +117,52 @@ module ActionController
             redirect_to login_url and false
           end
         end
-  
+
         def logout
           reset_session
           forget_me!
         end
-    
+
         def forget_me!
           cookies[:remember_me] = nil
           cookies[:uid] = nil
           cookies[:uname] = nil
         end
-  
+
         def remember_me!
           token = current_user.assign_token!('remember me')
           cookies[:remember_me] = { :value => "#{current_user.id};#{token}", :expires => 10.years.from_now }
         end
-    
+
         def set_user_cookie!
           cookies[:uid] = current_user.id.to_s
           cookies[:uname] = current_user.name
         end
-  
+
         # There are a few ways that a user can login without going through
         # a login screen. These methods all rely on authenticating with
         # the information given in the request. If any of these methods
         # are successful then session[:uid] will be set with the current
         # user id and current_user will return the current user
-        def try_login     
+        def try_login
           if user = http_auth_login || validation_login || remember_me_login
             session[:uid] = user.id
           end
         end
-  
+
         # Will attempt to authenticate with HTTP Auth. HTTP Auth will not
         # be required. We are just checking if it is provided mainly for
         # RESTful requests.
         def http_auth_login
           # FIXME: Implement
         end
-  
+
         # Will use the URL param :token to see if we can do a token
         # authentication.
         def validation_login
           validate_token User, params[:token]
         end
-  
+
         # Will check for a :remember_me cookie for a token that will
         # authenticate the user.
         def remember_me_login
@@ -183,7 +183,7 @@ module ActionController
           end
           nil
         end
-      
+
         def find_current_user
           User.find_by_id(session[:uid], authentication_find_options[User])
         end

@@ -3,7 +3,7 @@ class PasswordController < BaseController
   renders_with_error_proc :below_field
 
   layout 'simple'
-  
+
   # send a reset password link
   def create
     if user = User.find_by_email(params[:email])
