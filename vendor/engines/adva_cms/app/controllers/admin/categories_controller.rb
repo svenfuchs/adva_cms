@@ -2,10 +2,10 @@ class Admin::CategoriesController < Admin::BaseController
   before_filter :set_section
   before_filter :set_categories, :only => [:index]
   before_filter :set_category,   :only => [:edit, :update, :destroy]
-  
+
   cache_sweeper :category_sweeper, :only => [:create, :update, :destroy]
   guards_permissions :category
-  
+
   def index
   end
 
@@ -13,7 +13,7 @@ class Admin::CategoriesController < Admin::BaseController
     @category = @section.categories.build
   end
 
-  def create    
+  def create
     @category = @section.categories.build params[:category]
     if @category.save
       flash[:notice] = "The category has been created."
@@ -23,7 +23,7 @@ class Admin::CategoriesController < Admin::BaseController
       render :action => "new"
     end
   end
-  
+
   def edit
   end
 
@@ -36,7 +36,7 @@ class Admin::CategoriesController < Admin::BaseController
       render :action => 'edit'
     end
   end
-  
+
   def update_all
     @section.categories.update(params[:categories].keys, params[:categories].values)
     render :text => 'OK'
@@ -51,17 +51,17 @@ class Admin::CategoriesController < Admin::BaseController
       render :action => 'edit'
     end
   end
-  
+
   protected
-  
+
     def set_section
       @section = @site.sections.find(params[:section_id])
-    end   
-    
+    end
+
     def set_categories
       @categories = @section.categories.paginate :conditions => {:parent_id => nil}, :page => current_page
     end
-    
+
     def set_category
       @category = @section.categories.find(params[:id])
     end

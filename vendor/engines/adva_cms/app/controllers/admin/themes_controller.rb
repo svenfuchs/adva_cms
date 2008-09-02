@@ -1,14 +1,14 @@
 class Admin::ThemesController < Admin::BaseController
-  layout "admin"  
-  
+  layout "admin"
+
   before_filter :set_theme, :only => [:show, :use, :edit, :update, :destroy, :export]
-  
+
   guards_permissions :theme, :update => [:select, :unselect], :show => :export, :create => :import
 
   def index
     @themes = @site.themes.find(:all)
   end
-  
+
   def show
   end
 
@@ -26,7 +26,7 @@ class Admin::ThemesController < Admin::BaseController
       render :action => :new
     end
   end
-   
+
   def update
     if @theme.update_attributes params[:theme]
       flash[:notice] = "The theme has been updated."
@@ -36,7 +36,7 @@ class Admin::ThemesController < Admin::BaseController
       render :action => :show
     end
   end
-  
+
   def destroy
     if @theme.destroy
       expire_pages_by_site!
@@ -48,7 +48,7 @@ class Admin::ThemesController < Admin::BaseController
       render :action => :show
     end
   end
-  
+
   def import
     if request.post?
       file = ensure_uploaded_theme_file_saved params[:theme][:file]
@@ -60,14 +60,14 @@ class Admin::ThemesController < Admin::BaseController
       end
     end
   end
-  
+
   def export
     zip_path = @theme.export
     send_file(zip_path.to_s, :stream => false) rescue raise "Error sending #{zip_path} file"
   ensure
     FileUtils.rm_r File.dirname(zip_path)
   end
-  
+
   def select
     @site.theme_names_will_change!
     @site.theme_names << params[:id]
@@ -76,7 +76,7 @@ class Admin::ThemesController < Admin::BaseController
     expire_pages_by_site!
     redirect_to admin_themes_path
   end
-  
+
   def unselect
     @site.theme_names_will_change!
     @site.theme_names.delete params[:id]
@@ -84,23 +84,23 @@ class Admin::ThemesController < Admin::BaseController
     expire_pages_by_site!
     redirect_to admin_themes_path
   end
-  
+
   private
-  
+
     def expire_pages_by_site!
       # this misses assets like stylesheets which aren't tracked
       # expire_pages CachedPage.find_all_by_site_id(@site.id)
       expire_site_page_cache
     end
-  
+
     def set_site
       @site = Site.find(params[:site_id])
     end
-  
+
     def set_theme
       @theme = @site.themes.find(params[:id]) or raise "can not find theme #{params[:id]}"
     end
-    
+
     def ensure_uploaded_theme_file_saved(file)
       if file.path
         file
@@ -110,6 +110,6 @@ class Admin::ThemesController < Admin::BaseController
         tmp_file.original_path = file.original_path
         tmp_file.read # no idea why we need this here, otherwise the zip can't be opened in Theme::import
         tmp_file
-      end      
+      end
     end
 end

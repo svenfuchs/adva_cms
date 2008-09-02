@@ -1,6 +1,6 @@
 class ArticleSweeper < PageCacheTagging::Sweeper
   observe Article
-  
+
   def before_save(article)
     if article.new_record?
       expire_cached_pages_by_reference article.section

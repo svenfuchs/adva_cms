@@ -1,18 +1,18 @@
 class Admin::SectionsController < Admin::BaseController
   layout "admin"
-  
+
   before_filter :set_section, :only => [:show, :update, :destroy]
   before_filter :normalize_params, :only => :update_all
-  
+
   cache_sweeper :section_sweeper, :only => [:create, :update, :destroy]
   guards_permissions :section, :update => :update_all
-  
+
   def index
   end
-  
+
   def show
   end
-  
+
   def new
     @section = @site.sections.build(:type => Section.types.first)
   end
@@ -27,10 +27,10 @@ class Admin::SectionsController < Admin::BaseController
       render :action => "new"
     end
   end
-  
+
   def edit
   end
- 
+
   def update
     if @section.update_attributes params[:section]
       flash[:notice] = "The section has been updated."
@@ -50,7 +50,7 @@ class Admin::SectionsController < Admin::BaseController
       render :action => 'show'
     end
   end
-  
+
   def update_all
     # TODO add a after_move hook to better_nested_set
     # for now we can omit this because this action will only be called when
@@ -60,17 +60,17 @@ class Admin::SectionsController < Admin::BaseController
     @site.sections.update_paths! # if moving
     render :text => 'OK'
   end
-  
+
   protected
-  
+
     def set_site
       @site = Site.find(params[:site_id])
     end
-  
+
     def set_section
       @section = @site.sections.find(params[:id])
     end
-    
+
     def normalize_params(hash = nil)
       hash ||= params
       hash.each do |key, value|

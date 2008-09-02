@@ -1,14 +1,14 @@
-module ContentHelper  
+module ContentHelper
   def published_at_formatted(article)
     return 'not published' unless article && article.published?
     article.published_at.to_ordinalized_s(article.published_at.year == Time.now.year ? :stub : :mdy)
   end
-  
+
   def content_url(content, options = {})
     protocol = options.delete(:protocol) || 'http://'
     protocol + content.section.site.host + content_path(content, options)
   end
-  
+
   def content_path(content, options = {})
     case content.section
     when Blog
@@ -17,18 +17,18 @@ module ContentHelper
       wikipage_path *[content.section, content.permalink, options].compact
     when Forum
       topic_path content.section
-    else 
+    else
       section_article_path *[content.section, content.permalink, options].compact
-    end    
+    end
   end
-  
+
   def link_to_content(*args)
     content = args.pop
     return unless content
     text = args.pop || content.title
     link_to text, content_path(content)
   end
-  
+
   def link_to_admin_object(object)
     case object
     when Content
@@ -40,7 +40,7 @@ module ContentHelper
       link_to object.name, admin_site_path(object)
     end
   end
-  
+
   def link_to_content_comments_count(content, options = {:total => true})
     total = content.comments_count
     approved = content.approved_comments_count
@@ -52,7 +52,7 @@ module ContentHelper
     end
     link_to_content_comments text, content
   end
-  
+
   def link_to_content_comments(*args)
     text = args.shift if args.first.is_a? String
     content, comment = *args
@@ -61,12 +61,12 @@ module ContentHelper
     path = content_path content, :anchor => (comment ? dom_id(comment) : 'comments')
     link_to text, path
   end
-  
+
   def link_to_content_comment(*args)
     args.insert(args.size - 1, args.last.commentable)
     link_to_content_comments(*args)
   end
-  
+
   def link_to_category(*args)
     text = args.shift if args.first.is_a? String
     category = args.pop
@@ -74,7 +74,7 @@ module ContentHelper
     route_name = "#{section.class.name.downcase}_category_path"
     link_to text || category.title, send(route_name, :section_id => section.id, :category_id => category.id)
   end
-  
+
   def links_to_content_categories(content, format_string = nil)
     return if content.categories.empty?
     links = content.categories.map{|category| link_to_category content.section, category }
@@ -87,13 +87,13 @@ module ContentHelper
     route_name = "#{section.class.name.downcase}_tag_path"
     link_to args.pop || tag.name, send(route_name, :section_id => section.id, :tags => tag)
   end
-  
+
   def links_to_content_tags(content, format_string = nil)
     return if content.tags.empty?
     links = content.tags.map{|tag| link_to_tag content.section, tag }
     format_string ? format_string % links.join(', ') : links
   end
-  
+
   def content_category_checkbox(content, category)
     type = content.type.downcase
     checked = content.categories.include?(category)

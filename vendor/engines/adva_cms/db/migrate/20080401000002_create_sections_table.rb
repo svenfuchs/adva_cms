@@ -12,14 +12,14 @@ class CreateSectionsTable < ActiveRecord::Migration
       t.string      :layout
       t.string      :template
       t.text        :options
-      t.integer     :contents_count   
+      t.integer     :contents_count
 	    t.integer     :comment_age
-	    t.string      :content_filter   
+	    t.string      :content_filter
       t.text        :permissions
     end
   end
 
   def self.down
-    drop_table :sections    
+    drop_table :sections
   end
 end

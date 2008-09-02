@@ -6,7 +6,7 @@ module RoutingFilter
         params[:page] = $1.to_i if $1
       end
     end
-    
+
     # def before_generate(base, options)
     #   options.delete(:page)
     # end

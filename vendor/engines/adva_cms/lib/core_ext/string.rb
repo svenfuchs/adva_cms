@@ -1,5 +1,5 @@
 
-class String  
+class String
   # taken from permalink_fu
   # http://svn.techno-weenie.net/projects/plugins/permalink_fu
   def to_permalink
@@ -9,12 +9,12 @@ class String
     s.downcase!         #
     s.gsub!(/\ +/, '-') # spaces to dashes, preferred separator char everywhere
     s
-  end  
+  end
 
   # def diff_to(other, format = :unified, context_lines = 3)
   #   data_self = self.split(/\n/).map! { |e| e.chomp }
   #   data_other = data_other.split(/\n/).map! { |e| e.chomp }
-  # 
+  #
   #   output = ""
   #   diffs = Diff::LCS.diff(data_other, data_self)
   #   return output if diffs.empty?
@@ -26,7 +26,7 @@ class String
   #                                  file_length_difference)
   #       file_length_difference = hunk.file_length_difference
   #       next unless oldhunk
-  # 
+  #
   #       # Hunks may overlap, which is why we need to be careful when our
   #       # diff includes lines of context. Otherwise, we might print
   #       # redundant lines.
@@ -40,7 +40,7 @@ class String
   #       output << "\n"
   #     end
   #   end
-  # 
+  #
   #   #Handle the last remaining hunk
   #   output << oldhunk.diff(format) << "\n"
   # end

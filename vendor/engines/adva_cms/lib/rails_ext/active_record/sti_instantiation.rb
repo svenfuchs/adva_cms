@@ -7,15 +7,15 @@ module ActiveRecord::StiInstantiation
       extend ClassMethods
       instantiates_with_sti?
     end
-  
+
     def instantiates_with_sti?
       included_modules.include?(ActiveRecord::StiInstantiation::InstanceMethods)
     end
   end
-  
+
   module InstanceMethods
   end
-  
+
   module ClassMethods
     def new(*a, &b)
       if (h = a.first).is_a? Hash and (type = h[:type] || h['type']) and (klass = type.constantize) != self

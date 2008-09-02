@@ -9,9 +9,9 @@ class ActionView::Base
         send :"#{name}#{$1}", *args
       else
         method_missing_without_returning_paths name.to_sym, *args
-      end    
+      end
     end
-    alias_method_chain :method_missing, :returning_paths 
+    alias_method_chain :method_missing, :returning_paths
   end
 end
 
@@ -23,8 +23,8 @@ module BaseHelper
     when Section, Blog
       link_to 'Articles', admin_articles_path(@site, @section)
     end
-  end  
-  
+  end
+
   # does exactly the same as the form_for helper does, but splits off the
   # form head tag and captures it to the content_for :form collector
   def split_form_for(*args, &block)
@@ -36,10 +36,10 @@ module BaseHelper
     lines.pop
 
     concat lines.join("\n"), block.binding
-  end  
-  
-  # same as Rails text helper, but returns only the pluralized string without 
-  # the number botched into it  
+  end
+
+  # same as Rails text helper, but returns only the pluralized string without
+  # the number botched into it
   def pluralize_str(count, singular, plural = nil)
     str = if count.to_i == 1
       singular
@@ -52,19 +52,19 @@ module BaseHelper
     end
     str % count.to_i
   end
-  
+
   def todays_short_date
     Time.zone.now.to_ordinalized_s(:stub)
   end
- 
+
   def yesterdays_short_date
     Time.zone.now.yesterday.to_ordinalized_s(:stub)
   end
-  
+
   def filter_options
-    FilteredColumn.filters.keys.inject([]) do |arr, key| 
+    FilteredColumn.filters.keys.inject([]) do |arr, key|
       arr << [FilteredColumn.filters[key].filter_name, key.to_s]
     end.unshift ['Plain HTML', '']
   end
-  
+
 end

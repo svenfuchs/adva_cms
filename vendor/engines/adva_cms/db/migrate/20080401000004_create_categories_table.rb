@@ -12,6 +12,6 @@ class CreateCategoriesTable < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table :categories    
+    drop_table :categories
   end
 end

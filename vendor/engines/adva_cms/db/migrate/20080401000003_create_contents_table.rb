@@ -16,9 +16,9 @@ class CreateContentsTable < ActiveRecord::Migration
       t.references :author, :polymorphic => true
       t.string     :author_name, :limit => 40
       t.string     :author_email, :limit => 40
-      t.string     :author_homepage      
+      t.string     :author_homepage
 
-      t.integer    :version 
+      t.integer    :version
       t.string     :filter
       t.integer    :comment_age, :default => 0
       t.string     :cached_tag_list
@@ -26,12 +26,12 @@ class CreateContentsTable < ActiveRecord::Migration
 
       t.datetime   :published_at
       t.timestamps
-    end    
+    end
     Content.create_versioned_table
   end
 
   def self.down
-    drop_table :contents    
+    drop_table :contents
     Content.drop_versioned_table
   end
 end

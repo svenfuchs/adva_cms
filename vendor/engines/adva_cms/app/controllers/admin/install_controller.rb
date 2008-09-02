@@ -1,11 +1,11 @@
 class Admin::InstallController < ApplicationController
   include CacheableFlash
-  
+
   before_filter :protect_install, :except => :confirmation
-  
+
   layout 'simple'
   renders_with_error_proc :below_field
-  
+
   def index
     params[:site] ||= {}
     params[:section] ||= {:title => 'Home', :type => 'Section'}
@@ -13,7 +13,7 @@ class Admin::InstallController < ApplicationController
     @site = Site.new params[:site].merge(:host => request.host_with_port)
     @section = @site.sections.build params[:section]
     @site.sections << @section
-    
+
     if request.post?
       if @site.valid? && @section.valid?
         @site.save
@@ -29,13 +29,13 @@ class Admin::InstallController < ApplicationController
       end
     end
   end
-  
+
   protected
-    
+
     def protect_install
       if Site.find(:first) || User.find(:first)
         flash[:error] = 'Installation is already complete. Please log in with your admin account.'
-        redirect_to admin_sites_path 
+        redirect_to admin_sites_path
       end
     end
 end

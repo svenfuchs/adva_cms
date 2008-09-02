@@ -23,6 +23,6 @@ class CreateSitesTable < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table :sites    
+    drop_table :sites
   end
 end

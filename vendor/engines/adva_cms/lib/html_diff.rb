@@ -1,6 +1,6 @@
 require 'rubygems'
 begin
-  require 'diff/lcs' 
+  require 'diff/lcs'
 rescue MissingSourceFile => e
 end
 
@@ -13,7 +13,7 @@ module HtmlDiff
       format.finish
     end
   end
-  
+
   class Formatter
     def initialize
       @html = ''
@@ -33,13 +33,13 @@ module HtmlDiff
       start(:"diff-add") unless @state == :"diff-add"
       @html << event.new_element
     end
-  
+
     def start(state)
       finish unless @state == state
       @state = state
       @html << %Q(<span class="#{state}">)
     end
-  
+
     def finish
       @html << '</span>' if @state
       @html
