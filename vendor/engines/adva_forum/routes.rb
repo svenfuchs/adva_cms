@@ -1,10 +1,10 @@
 map.forum 'forums/:section_id',
-           :controller   => 'forum',                            
+           :controller   => 'forum',
            :action       => "show",
            :requirements => { :method => :get }
 
 map.forum_board 'forums/:section_id/boards/:board_id',
-           :controller   => 'forum',                            
+           :controller   => 'forum',
            :action       => 'show',
            :requirements => { :method => :get }
 

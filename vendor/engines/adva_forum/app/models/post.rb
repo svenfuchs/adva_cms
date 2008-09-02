@@ -1,6 +1,6 @@
-class Post < Comment  
+class Post < Comment
   # TODO do we need this model anyway?
-  
+
   # belongs_to :topic, :counter_cache => true
   # attr_accessible :body
   # def self.search(query, options = {})
@@ -10,11 +10,11 @@ class Post < Comment
   #   options[:order]      ||= " #{Post.table_name}.created_at DESC"
   #   options[:count]      ||= " #{Post.table_name}.id"
   #   paginate options
-  # end  
+  # end
 
   # def update_cached_fields
   #   topic.update_cached_post_fields(self)
-  # end  
+  # end
   # def topic_is_not_locked
   #   errors.add_to_base("Topic is locked") if topic && topic.locked?
   # end

@@ -3,9 +3,9 @@ class BoardsController < BaseController
   before_filter :set_board, :only => [:show, :edit, :update, :destroy, :previous, :next]
   before_filter :set_topics, :only => :show
   caches_page_with_references :show, :track => ['@board', '@topics']
-  
+
   guards_permissions :board
-  
+
   def show
     @comment = Post.new
   end
@@ -14,7 +14,7 @@ class BoardsController < BaseController
     @board = Topic.new
   end
 
-  def create 
+  def create
     @board = @section.boards.topic current_user, params[:board] # sticky, locked if permissions
     if @board.save
       flash[:notice] = 'The board has been created.'
@@ -25,8 +25,8 @@ class BoardsController < BaseController
     end
   end
 
-  def update    
-    if @board.revise current_user, params[:board] 
+  def update
+    if @board.revise current_user, params[:board]
       flash[:notice] = 'The board has been updated.'
       redirect_to board_path(@section, @board.permalink)
     else
@@ -45,13 +45,13 @@ class BoardsController < BaseController
       render :action => :show
     end
   end
-  
+
   def previous
     board = @board.previous || @board
     flash[:notice] = 'There is no previous board. Showing the last one.' if board == @board
     redirect_to board_path(@section, board.permalink)
   end
-  
+
   def next
     board = @board.next || @board
     flash[:notice] = 'There is no next board. Showing the last one.' if board == @board
@@ -59,7 +59,7 @@ class BoardsController < BaseController
   end
 
   protected
-  
+
     def set_section
       super Forum
     end
@@ -69,10 +69,10 @@ class BoardsController < BaseController
     end
 
     def set_topics
-      @topics = @board.comments.paginate :page => current_page, 
+      @topics = @board.comments.paginate :page => current_page,
                                         :per_page => @section.comments_per_page # TODO
     end
-    
+
     def current_role_context
       @board || @section
     end

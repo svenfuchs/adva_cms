@@ -2,10 +2,10 @@ class Admin::BoardsController < Admin::BaseController
   before_filter :set_section
   before_filter :set_boards, :only => [:index]
   before_filter :set_board,  :only => [:edit, :update, :destroy]
-  
+
   # cache_sweeper :board_sweeper, :only => [:create, :update, :destroy]
   # guards_permissions :board
-  
+
   def index
   end
 
@@ -13,7 +13,7 @@ class Admin::BoardsController < Admin::BaseController
     @board = @section.boards.build
   end
 
-  def create    
+  def create
     @board = @section.boards.build params[:board]
     if @board.save
       flash[:notice] = "The board has been created."
@@ -23,7 +23,7 @@ class Admin::BoardsController < Admin::BaseController
       render :action => "new"
     end
   end
-  
+
   def edit
   end
 
@@ -36,7 +36,7 @@ class Admin::BoardsController < Admin::BaseController
       render :action => 'edit'
     end
   end
-  
+
   def update_all
     @section.boards.update(params[:boards].keys, params[:boards].values)
     render :text => 'OK'
@@ -51,17 +51,17 @@ class Admin::BoardsController < Admin::BaseController
       render :action => 'edit'
     end
   end
-  
+
   protected
-  
+
     def set_section
       @section = @site.sections.find(params[:section_id])
-    end   
-    
+    end
+
     def set_boards
       @boards = @section.boards :order => :position
     end
-    
+
     def set_board
       @board = @section.boards.find(params[:id])
     end

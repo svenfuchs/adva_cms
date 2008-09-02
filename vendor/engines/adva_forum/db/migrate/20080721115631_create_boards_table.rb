@@ -13,13 +13,13 @@ class CreateBoardsTable < ActiveRecord::Migration
       t.timestamps
       t.datetime   :last_updated_at
     end
-    
+
     add_column :topics, :board_id, :integer
   end
 
   def self.down
-    drop_table :boards    
-    
+    drop_table :boards
+
     remove_column :topics, :board_id
   end
 end

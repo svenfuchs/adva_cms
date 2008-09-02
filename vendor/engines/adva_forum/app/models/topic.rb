@@ -14,12 +14,12 @@ class Topic < ActiveRecord::Base
   belongs_to_author
   belongs_to_author :last_author, :validate => false
 
-  before_validation :set_site  
+  before_validation :set_site
 
   validates_presence_of :section, :title
   validates_presence_of :body, :on => :create
 
-  attr_accessor :body  
+  attr_accessor :body
   delegate :comment_filter, :to => :site
 
   class << self
@@ -32,11 +32,11 @@ class Topic < ActiveRecord::Base
       topic
     end
   end
-  
+
   def owner
     board || section
   end
-    
+
   def reply(author, attributes)
     returning comments.build(attributes) do |comment|
       comment.author = author
@@ -44,16 +44,16 @@ class Topic < ActiveRecord::Base
       comment.commentable = self
     end
   end
-  
+
   def revise(author, attributes)
     self.sticky, self.locked = attributes.delete(:sticky), attributes.delete(:locked) # if author.has_permission ...
     self.update_attributes attributes
-  end  
-  
+  end
+
   # def hit!
   #   self.class.increment_counter :hits, id
   # end
-  
+
   def accept_comments?
     !locked?
   end
@@ -61,7 +61,7 @@ class Topic < ActiveRecord::Base
   def paged?
     comments_count > @section.comments_per_page
   end
-  
+
   def last_page
     @last_page ||= [(comments_count.to_f / section.comments_per_page.to_f).ceil.to_i, 1].max
   end
@@ -75,7 +75,7 @@ class Topic < ActiveRecord::Base
     collection = board ? board.topics : section.topics
     collection.find :first, :conditions => ['last_updated_at > ?', last_updated_at], :order => :last_updated_at
   end
-  
+
   def after_comment_update_with_topic(comment)
     if comment = comment.frozen? ? comments.last_one : comment
       update_attributes! :last_updated_at => comment.created_at, :last_comment_id => comment.id, :last_author => comment.author

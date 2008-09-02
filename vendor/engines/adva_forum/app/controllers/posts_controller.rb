@@ -18,7 +18,7 @@ class PostsController < BaseController
       render :action => "new"
     end
   end
-  
+
   def edit
   end
 
@@ -42,15 +42,15 @@ class PostsController < BaseController
     def set_section
       super Forum
     end
-  
+
     def set_topic
       @topic = @section.topics.find params[:topic_id]
     end
-  
+
     def set_post
       @post = @topic.comments.find params[:id]
     end
-    
+
     def current_role_context
       @post || @topic
     end
