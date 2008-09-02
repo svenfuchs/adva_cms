@@ -13,7 +13,7 @@ class Theme
                          '.gif'  => 'image/gif',
                          '.swf'  => 'application/x-shockwave-flash',
                          '.ico'  => 'image/x-icon' }
-    
+
     attr_reader :theme, :localpath, :path, :fullpath
     delegate :basename, :extname, :to => :localpath
 
@@ -23,8 +23,8 @@ class Theme
     #             e.g. 'stylesheets/common/main.css'
     # path      - absolute path with leading type like 'image' etc. (used in an image_tag, matches the theme route)
     #             e.g. 'stylesheets/themes/site-1/minimal/common/main.css'
-    
-    class << self      
+
+    class << self
       def extname(path)
         '.' + ::File.basename(path).split('.')[1, 2].join('.')
       end
@@ -32,18 +32,18 @@ class Theme
       def filename_pattern
         "{#{subdirs.join(',')}}/**/*"
       end
-      
+
       def to_id(path)
         path = path.join('-') if path.is_a?(Array)
         path.to_s.gsub(/[\/\.]/, '-').gsub(/^-/, '')
       end
-      
+
       def valid_path?(path)
         # TODO this disallows all sorts of special characters in paths. is that really appropriate?
         path.to_s !~ /[^\w\.\-\/\\\: ]/
       end
     end
-    
+
     def initialize(theme, full_or_localpath = nil, data = nil)
       @theme = theme
       if full_or_localpath
@@ -54,58 +54,58 @@ class Theme
         @fullpath = theme.path.join(@localpath)
       end
     end
-    
+
     def id
       self.class.to_id(@localpath)
     end
-    
+
     def path
       @localpath.to_s.blank? ? '' : Pathname.new('/') + subdir + path_prefix + strip_subdir(@localpath)
     end
-    
+
     def path_prefix
       theme.path.sub(Theme.root_dir, '').sub(/^\//, '')
     end
-      
+
     def sanitize(path)
       # TODO anything else to sanitize a filename?
       path.to_s.gsub!(/[^\w\.\-\/]/, '_')
       path.untaint
     end
-    
+
     def gsub(*args)
       self.class.new to_s.gsub(*args)
     end
-    
+
     def replace(other)
       @localpath = other.localpath
       @fullpath = other.fullpath
       @data = nil
     end
-    
+
     def ==(other)
       path == other.path
     end
-    
+
     def <=>(other)
       path <=> other.path
     end
-    
+
     def file?
       fullpath && fullpath.file?
     end
-    
+
     def valid_path?
       !!(fullpath.to_s =~ /^#{theme.path.to_s}/) && self.class.valid_path?(fullpath.to_s)
     end
-    
+
     def mv(path)
       FileUtils.mkdir_p ::File.dirname(path)
       FileUtils.mv fullpath, path
     end
-    
+
     private
-    
+
     def strip_subdir(path)
       path.sub(%r((#{self.class.subdirs.join('|')})/), '')
     end

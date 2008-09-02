@@ -8,7 +8,7 @@ module ThemeAssetTagHelper
     stylesheet_link_tag *add_theme_paths(theme_name, sources)
   end
 
-  def theme_javascript_include_tag(theme_name, *sources)    
+  def theme_javascript_include_tag(theme_name, *sources)
     sources = [theme_name] if sources.empty?
     javascript_include_tag *add_theme_paths(theme_name, sources)
   end

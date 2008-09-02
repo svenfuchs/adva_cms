@@ -4,15 +4,15 @@
 
 
 # ActionController
-  
+
 # TODO abstract this to force_type(types, ...)
-# 
+#
 # module ClassMethods
 #   def force_liquid(value)
 #     write_inheritable_attribute "force_liquid", value
 #   end
 # end
-# 
+#
 # def force_liquid?
 #   self.class.read_inheritable_attribute("force_liquid") ? true : false
 # end
@@ -27,9 +27,9 @@
 #     ext
 #   end
 #   alias_method_chain :pick_template_extension, :liquid_check
-#   
+#
 # private
-# 
+#
 #   def force_liquid?
 #     controller.force_liquid? unless controller.nil?
 #   end
@@ -43,7 +43,7 @@
 #         end
 #       end
 #       # Used with ActionMailers
-#       if local_assigns.include? :current_theme 
+#       if local_assigns.include? :current_theme
 #         return local_assigns.delete :current_theme
 #       end
 #     end

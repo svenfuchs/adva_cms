@@ -1,30 +1,30 @@
 module ThemeSupport
-  module ActionController  
+  module ActionController
     def self.included(base)
-      base.class_eval do 
+      base.class_eval do
         extend ActMacro
         delegate :acts_as_themed_controller?, :to => "self.class"
       end
     end
-  
+
     module ActMacro
       def acts_as_themed_controller(options = {})
         return if acts_as_themed_controller?
         helper ThemeAssetTagHelper
         include InstanceMethods
-        
+
         before_filter :add_theme_view_paths
-        
+
         write_inheritable_attribute :force_template_types, options[:force_template_types] || []
         write_inheritable_attribute :current_themes, options[:current_themes] || []
       end
-    
+
       def acts_as_themed_controller?
         included_modules.include?(ThemeSupport::ActionController::InstanceMethods)
       end
     end
-    
-    module InstanceMethods  
+
+    module InstanceMethods
       [:force_template_types, :current_themes].each do |name|
         module_eval <<-eoc, __FILE__, __LINE__
           def #{name}
@@ -36,19 +36,19 @@ module ThemeSupport
           end
         eoc
       end
-      
+
       def add_theme_view_paths
         if respond_to? :current_theme_paths
           current_theme_paths.each do |path|
             response.template.finder.prepend_view_path "#{path}/templates"
           end
-        end        
+        end
       end
-  
+
       def current_theme_paths
         current_themes ? current_themes.map{|theme| theme.path.to_s } : []
-      end   
-    
+      end
+
       def authorize_template_extension!(template, ext)
         return if allowed_template_type?(ext)
         raise ThemeSupport::TemplateTypeError.new(template, force_template_types)
@@ -56,7 +56,7 @@ module ThemeSupport
 
       def allowed_template_type?(ext)
         force_template_types.blank? || force_template_types.include?(ext)
-      end   
+      end
     end
   end
 end

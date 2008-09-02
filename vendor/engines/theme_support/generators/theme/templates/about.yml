@@ -1,4 +1,4 @@
---- 
+---
 name: <%= class_name.underscore.humanize.titleize %>
 author: "me"
 version: "0.1"

@@ -17,7 +17,7 @@ class Theme
           file
         end
       end
-      
+
       def create(theme, options)
         if options[:data].is_a? String
           file = build theme, options[:localpath], options[:data]
@@ -27,15 +27,15 @@ class Theme
         end
       end
     end
-    
+
     attr_accessor :errors
-    
+
     def initialize(theme = nil, full_or_localpath = nil, data = nil)
       @data = data
       @errors = []
       super
     end
-    
+
     def update_attributes(attrs)
       attrs.symbolize_keys!
       @data = attrs[:data]
@@ -43,16 +43,16 @@ class Theme
         rename attrs[:localpath]
       end
     end
-    
+
     def text?
       true
     end
-    
+
     def data
       @data ||= read
     end
-    
-    def read      
+
+    def read
       ::File.open(fullpath) {|f| f.read } if file?
     end
 
@@ -62,27 +62,27 @@ class Theme
       ::File.open(fullpath, 'wb') { |f| f.write @data }
       true
     end
-    
+
     def valid?
       true # TODO implement
     end
-    
+
     def mkdir
       FileUtils.mkdir_p fullpath.dirname.to_s
     end
-    
+
     def destroy
       fullpath.unlink
       true
     rescue Exception => e
       errors << e.message
       false
-    end   
-    
+    end
+
     def rename(path)
       unless path.blank? || path == localpath
         to = self.class.new @theme, path
-        raise "invalid filename \"#{path}\"" unless to.valid? 
+        raise "invalid filename \"#{path}\"" unless to.valid?
         to.mkdir
         fullpath.rename to.fullpath # TODO raise if file exists
         replace to

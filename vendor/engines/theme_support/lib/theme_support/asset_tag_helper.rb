@@ -1,5 +1,5 @@
 ActionView::Helpers::AssetTagHelper.module_eval do
-  # TODO wow, this sux. patch asset_tag_helpers to use an overwriteable 
+  # TODO wow, this sux. patch asset_tag_helpers to use an overwriteable
   # mattr_accessor instead of constants for directories
   def write_asset_file_contents_with_path_munging(joined_asset_path, asset_paths)
     if respond_to?(:page_cache_subdirectory)

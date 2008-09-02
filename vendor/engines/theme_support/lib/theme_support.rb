@@ -10,5 +10,4 @@ module ThemeSupport
       super "Template '#{template}' must be one of these types: #{allowed_types.join(', ')}"
     end
   end
-end  
-  
+end
