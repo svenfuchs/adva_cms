@@ -6,7 +6,7 @@ module AssetsHelper
   def asset_image_for(asset, thumbnail = :tiny, options = {})
     image_tag(*asset_image_args_for(asset, thumbnail, options))
   end
-  
+
   def bucket_assets
     return [] unless session[:bucket]
     @bucket_assets ||= @site.assets.find session[:bucket].keys

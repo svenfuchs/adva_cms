@@ -13,10 +13,10 @@ class Admin::AssetsBucketController < Admin::BaseController
   def destroy
     session[:bucket] = nil
   end
-  
+
   private
-  
+
     def set_asset
       @asset = @site.assets.find params[:asset_id]
-    end  
+    end
 end

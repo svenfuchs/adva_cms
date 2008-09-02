@@ -1,7 +1,7 @@
 class Asset < ActiveRecord::Base
   cattr_accessor :base_dir
   @@base_dir = RAILS_ROOT + '/public/assets'
-  
+
   # used for extra mime types that dont follow the convention
   @@extra_content_types = { :audio => ['application/ogg'], :movie => ['application/x-shockwave-flash'], :pdf => ['application/pdf'] }.freeze
   cattr_reader :extra_content_types
@@ -17,10 +17,10 @@ class Asset < ActiveRecord::Base
 
   belongs_to :site
   has_many :contents, :through => :asset_assignments
-  has_many :asset_assignments, :order => 'position', :dependent => :delete_all  
-  has_attachment :storage => :file_system, 
-                 :thumbnails => { :thumb => '120>', :tiny => '50>' }, 
-                 :max_size => 30.megabytes, 
+  has_many :asset_assignments, :order => 'position', :dependent => :delete_all
+  has_attachment :storage => :file_system,
+                 :thumbnails => { :thumb => '120>', :tiny => '50>' },
+                 :max_size => 30.megabytes,
                  :processor => (Object.const_defined?(:ASSET_IMAGE_PROCESSOR) ? ASSET_IMAGE_PROCESSOR : nil)
 
   acts_as_taggable
@@ -34,11 +34,11 @@ class Asset < ActiveRecord::Base
     def movie?(content_type)
       content_type.to_s =~ /^video/ || extra_content_types[:movie].include?(content_type)
     end
-        
+
     def audio?(content_type)
       content_type.to_s =~ /^audio/ || extra_content_types[:audio].include?(content_type)
     end
-    
+
     def other?(content_type)
       ![:image, :movie, :audio].any? { |a| send("#{a}?", content_type) }
     end
@@ -59,12 +59,12 @@ class Asset < ActiveRecord::Base
       types.collect! { |t| '(' + send("#{t}_condition") + ')' }
     end
   end
-  
-  # attachment_fu fix: prevent files from being reprocessed and filenames regenerated 
+
+  # attachment_fu fix: prevent files from being reprocessed and filenames regenerated
   # when no file has been uploaded (e.g. only tags being saved)
   def save_attachment?
     @temp_paths && File.file?(temp_path.to_s)
-  end  
+  end
 
   def full_filename(thumbnail = nil)
     file_system_path = (thumbnail ? thumbnail_class : self).attachment_options[:file_system_path]
@@ -116,7 +116,7 @@ class Asset < ActiveRecord::Base
       pieces.unshift site.perma_host if Site.multi_sites_enabled
       pieces * '/'
     end
-    
+
     def set_site_from_parent
       self.site_id = parent.site_id if parent_id
     end
