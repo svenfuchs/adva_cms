@@ -6,21 +6,21 @@ module SpamEngine
         spaminess = result[:spam] ? 100 : 0 # TODO we might want to use the real spaminess returned
         comment.spam_reports << SpamReport.new(:engine => name, :spaminess => spaminess, :data => result)
       end
-      
+
       def mark_as_ham(comment, context = {})
         key && url
       end
-      
+
       def mark_as_spam(comment, context = {})
         key && url
       end
-      
+
       protected
-      
+
         def backend
           @backend ||= Viking.connect("defensio", :api_key => key, :blog => url)
         end
-        
+
         def comment_options(comment, context)
         { # Required parameters
           :user_ip => comment.author_ip,
@@ -45,7 +45,7 @@ module SpamEngine
         #   spaminess *= 100
         #   "Spaminess: %.1f%%, Signature: %s" % [spaminess, signature]
         # end
-        # 
+        #
         # def classes(comment)
         #   return "" if comment.spam_info.blank?
         #   case (comment.spam_info[:spaminess] || 0) * 100
@@ -59,21 +59,21 @@ module SpamEngine
         #     "spam100"
         #   end
         # end
-        # 
+        #
         # def sort_block
         #   lambda {|c| 1.0 - (c.spam_info.blank? ? 0 : (c.spam_info[:spaminess] || 0))}
         # end
-        # 
+        #
         # def errors
         #   returning([]) do |es|
         #     es << "The Defensio key is missing" if options[:defensio_key].blank?
         #     es << "The Defensio url is missing" if options[:defensio_url].blank?
-        # 
+        #
         #     unless self.valid_key?
         #       es << "The Defensio API says your key is invalid"
         #     end
         #   end
         # end
-    end    
-  end  
+    end
+  end
 end

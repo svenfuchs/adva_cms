@@ -1,5 +1,5 @@
 module SpamEngine
-  module Filter  
+  module Filter
     mattr_accessor :filters
     @@filters = []
 
@@ -7,7 +7,7 @@ module SpamEngine
       def register(klass)
         @@filters << klass.name
       end
-    
+
       def names
         filters.map &:demodulize
       end

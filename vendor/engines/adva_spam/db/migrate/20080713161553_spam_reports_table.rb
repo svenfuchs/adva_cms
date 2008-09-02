@@ -9,6 +9,6 @@ class SpamReportsTable < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table :spam_reports    
+    drop_table :spam_reports
   end
 end
