@@ -103,6 +103,11 @@ module Spec
           @actual_received_count += 1
         end
       end
+
+      def called_max_times?
+        @expected_received_count == :any ||
+          @actual_received_count >= @expected_received_count
+      end
       
       protected
 
@@ -202,8 +207,7 @@ module Spec
       end
 
       def with(*args, &block)
-        @method_block = block if block
-        @args_expectation = ArgumentExpectation.new(args)
+        @args_expectation = ArgumentExpectation.new(args, &block)
         self
       end
       

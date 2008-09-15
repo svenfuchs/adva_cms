@@ -601,9 +601,6 @@ describe "have_rjs behaviour_type", :type => :controller do
       with_tag("div", 1)
       with_tag("#1")
     end
-    lambda {
-      response.should have_rjs(:insert, :top, "test2")
-    }.should raise_error(SpecFailed)
     response.should have_rjs(:insert, :bottom) {|rjs|
       with_tag("div", 1)
       with_tag("#2")
@@ -628,6 +625,17 @@ describe "have_rjs behaviour_type", :type => :controller do
       with_tag("div", 1)
       with_tag("#4")
     }
+  end
+  
+  it "should find rjs using :insert (positioned)" do
+    pending("await fix for http://rails.lighthouseapp.com/projects/8994-ruby-on-rails/tickets/982")
+    render_rjs do |page|
+      page.insert_html :top, "test1", "<div id=\"1\">foo</div>"
+      page.insert_html :bottom, "test2", "<div id=\"2\">bar</div>"
+    end
+    lambda {
+      response.should have_rjs(:insert, :top, "test2")
+    }.should raise_error(SpecFailed)
   end
 end
 
@@ -781,3 +789,26 @@ describe "have_tag", :type => :controller do
   end
 end
 
+describe 'selecting in HTML that contains a mock with null_object' do
+  module HTML
+    class Document
+      def initialize_with_strict_error_checking(text, strict=false, xml=false)
+        initialize_without_strict_error_checking(text, true, xml)
+      end
+      alias_method :initialize_without_strict_error_checking, :initialize
+      alias_method :initialize, :initialize_with_strict_error_checking
+    end
+  end
+  
+  describe 'modified HTML::Document' do
+    it 'should raise error on valid HTML even though false is specified' do
+      lambda {HTML::Document.new("<b>#<Spec::Mocks::Mock:0x267b4f0></b>", false, false)}.should raise_error
+    end
+  end
+    
+  it 'should not print errors from assert_select' do
+    mock = mock("Dog", :null_object => true)
+    html = "<b>#{mock.colour}</b>"
+    lambda {html.should have_tag('b')}.should_not raise_error
+  end
+end

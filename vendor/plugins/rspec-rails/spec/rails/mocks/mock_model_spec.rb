@@ -25,12 +25,23 @@ describe "mock_model" do
   end
 end
 
+describe "mock_mode with params" do
+  it "should not mutate its parameters" do
+    params = {:a => 'b'}
+    model = mock_model(MockableModel, params)
+    params.should == {:a => 'b'}
+  end
+end
+
 describe "mock_model with stubbed id", :type => :view do
   before(:each) do
     @model = mock_model(MockableModel, :id => 1)
   end
   it "should be named using the stubbed id value" do
     @model.instance_variable_get(:@name).should == "MockableModel_1"
+  end
+  it "should return string of id value for to_param" do
+    @model.to_param.should == "1"
   end
 end
 
@@ -62,3 +73,18 @@ describe "mock_model as association", :type => :view do
       @real.mockable_model.should == @mock_model
   end
 end
+
+describe "mock_model #as_new_record" do
+  it "should say it is a new record" do
+    mock_model(MockableModel).as_new_record.should be_new_record
+  end
+
+  it "should have a nil id" do
+    mock_model(MockableModel).as_new_record.id.should be(nil)
+  end
+
+  it "should have a nil to_param" do
+    mock_model(MockableModel).as_new_record.to_param.should be(nil)
+  end
+end
+

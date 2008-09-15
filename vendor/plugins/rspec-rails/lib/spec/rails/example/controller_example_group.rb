@@ -158,7 +158,9 @@ module Spec
 
         protected
         def _assigns_hash_proxy
-          @_assigns_hash_proxy ||= AssignsHashProxy.new @controller
+          @_assigns_hash_proxy ||= AssignsHashProxy.new self do
+            @response.template
+          end
         end
 
         private
@@ -183,20 +185,22 @@ module Spec
               unless integrate_views?
                 if @template.respond_to?(:finder)
                   (class << @template.finder; self; end).class_eval do
-                    define_method :file_exists? do
-                      true
-                    end
+                    define_method :file_exists? do; true; end
                   end
                 else
                   (class << @template; self; end).class_eval do
-                    define_method :file_exists? do
-                      true
-                    end
+                    define_method :file_exists? do; true; end
                   end
                 end
                 (class << @template; self; end).class_eval do
                   define_method :render_file do |*args|
-                    @first_render ||= args[0]
+                    @first_render ||= args[0] unless args[0] =~ /^layouts/
+                    @_first_render ||= args[0] unless args[0] =~ /^layouts/
+                  end
+                  
+                  define_method :_pick_template do |*args|
+                    @_first_render ||= args[0] unless args[0] =~ /^layouts/
+                    PickedTemplate.new
                   end
                 end
               end
@@ -206,7 +210,9 @@ module Spec
               expect_render_mock_proxy.render(options, &block)
               @performed_render = true
             else
-              unless matching_stub_exists(options)
+              if matching_stub_exists(options)
+                @performed_render = true
+              else
                 super(options, deprecated_status_or_extra_options, &block)
               end
             end
@@ -265,6 +271,11 @@ module Spec
         end
 
         Spec::Example::ExampleGroupFactory.register(:controller, self)
+      end
+      
+      class PickedTemplate
+        def render_template(*ignore_args); end
+        def render_partial(*ignore_args);  end
       end
     end
   end

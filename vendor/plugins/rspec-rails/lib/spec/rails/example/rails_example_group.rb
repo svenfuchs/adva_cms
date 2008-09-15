@@ -1,6 +1,8 @@
 require 'spec/interop/test'
 
-ActionView::Base.cache_template_extensions = false
+if ActionView::Base.respond_to?(:cache_template_extension)
+  ActionView::Base.cache_template_extensions = false
+end
 
 module Spec
   module Rails
@@ -9,11 +11,15 @@ module Spec
       class RailsExampleGroup < Test::Unit::TestCase
         
         # Rails >= r8570 uses setup/teardown_fixtures explicitly
-        before(:each) do
-          setup_fixtures if self.respond_to?(:setup_fixtures)
-        end
-        after(:each) do
-          teardown_fixtures if self.respond_to?(:teardown_fixtures)
+        # However, Rails >= r8664 extracted these out to use ActiveSupport::Callbacks.
+        # The latter case is handled at the TestCase level, in interop/testcase.rb
+        unless ActiveSupport.const_defined?(:Callbacks) and self.include?(ActiveSupport::Callbacks)
+          before(:each) do
+            setup_fixtures if self.respond_to?(:setup_fixtures)
+          end
+          after(:each) do
+            teardown_fixtures if self.respond_to?(:teardown_fixtures)
+          end
         end
         
         include Spec::Rails::Matchers
