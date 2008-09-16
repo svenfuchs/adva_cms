@@ -43,7 +43,7 @@ class Admin::BaseController < ApplicationController
 
     def require_authentication
       unless current_user and current_user.has_role?(Role.build(:admin, @site))
-        return redirect_to_login("You need to be a moderator to view this page.")
+        return redirect_to_login("You need to be an admin to view this page.")
       end
       super
     end
