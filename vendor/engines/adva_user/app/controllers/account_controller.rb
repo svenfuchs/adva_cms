@@ -15,7 +15,7 @@ class AccountController < BaseController
     @user = @site.users.build params[:user]
     if @user.deleted_at
       restore
-    elsif @user.new_record? and @user.save
+    elsif @user.new_record? and @site.save
       AccountMailer.deliver_signup_verification @user, verification_url(@user)
       render :action => 'verification_sent'
     else

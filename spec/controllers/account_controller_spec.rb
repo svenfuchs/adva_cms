@@ -10,11 +10,11 @@ describe AccountController do
     @account_path = '/account'
     @new_account_path = '/account/new'
 
-    @params = { :user => { :name => 'name',
-                           :email => 'email@email.org',
-                           :login => 'login',
-                           :password => 'password',
-                           :password_confirmation => 'password' } }
+    @params = { :user => { 'name' => 'name',
+                           'email' => 'email@email.org',
+                           'login' => 'login',
+                           'password' => 'password',
+                           'password_confirmation' => 'password' } }
   end
 
   describe "GET to :new" do
@@ -27,6 +27,7 @@ describe AccountController do
     before :each do
       @user.stub!(:new_record?).and_return true
       @user.stub!(:save).and_return true
+      @site.stub!(:save).and_return true
 
       AccountMailer.stub!(:deliver_signup_verification)
     end
@@ -38,8 +39,8 @@ describe AccountController do
       it_renders_template :verification_sent
 
       it "adds the new account to the site's accounts collection" do
+        @site.users.should_receive(:build).with(@params[:user]).and_return(@user)
         act!
-        assigns[:site].users.should include(assigns[:user])
       end
 
       it "sends a validation email to the user" do
@@ -50,7 +51,7 @@ describe AccountController do
 
     describe "given invalid account params" do
       before :each do
-        @user.stub!(:save).and_return false
+        @site.stub!(:save).and_return false
       end
 
       it_renders_template :new
