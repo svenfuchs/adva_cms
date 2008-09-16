@@ -37,6 +37,9 @@
   <% end %>  
 <% end %>
 <p class="buttons">
-  <%= f.submit "Save" %> or
+  <%= f.submit "Save" %>
+  <% unless @wikipage.new_record? or @wikipage.home? %>
+    <%= link_to('delete', wikipage_path(@section, @wikipage.permalink), { :confirm => "Are you sure you wish to delete this page?", :method => :delete }) %>
+  <% end %> or
   <%= link_to "cancel", wikipage_path(@section, @wikipage.permalink) %>
 </p>

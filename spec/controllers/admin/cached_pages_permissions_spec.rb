@@ -25,10 +25,14 @@ describe Admin::CachedPagesController, 'Permissions' do
       request_to(method, path).should redirect_to('http://test.host/pages/a-article')
     end
   end
-  
-  def should_deny_access(method, path)
+
+  def should_show_insufficient_permissions(method, path)
     controller.expect_render(:template => 'shared/messages/insufficient_permissions')
     request_to(method, path)
+  end
+
+  def should_deny_access(method, path)
+    request_to(method, path).should redirect_to('http://test.host/login')
   end
   
   { '/admin/sites/1/cached_pages' => :get }.each do |path, method|
@@ -44,9 +48,9 @@ describe Admin::CachedPagesController, 'Permissions' do
           should_grant_access(method, path)
         end
       
-        it "denies access to a non-superuser" do
+        it "denies access to an admin" do
           @user.stub!(:roles).and_return [@admin_role]
-          should_deny_access(method, path)
+          should_show_insufficient_permissions(method, path)
         end
       end
 
@@ -66,22 +70,22 @@ describe Admin::CachedPagesController, 'Permissions' do
         end
       end
       
-      describe "with :manage_site permissions set to :user" do
-        before :each do 
-          @user.stub!(:roles).and_return []
-          @site.stub!(:permissions).and_return :site => {:manage => :user}
-        end
-        
-        it "grants access to a user" do
-          @user.stub!(:registered?).and_return true
-          should_grant_access(method, path)
-        end
-      
-        it "denies access to a non-user" do
-          @user.stub!(:registered?).and_return false
-          should_deny_access(method, path)
-        end
-      end
+      # describe "with :manage_site permissions set to :user" do
+      #   before :each do 
+      #     @user.stub!(:roles).and_return []
+      #     @site.stub!(:permissions).and_return :site => {:manage => :user}
+      #   end
+      #   
+      #   it "grants access to a user" do
+      #     @user.stub!(:registered?).and_return true
+      #     should_grant_access(method, path)
+      #   end
+      # 
+      #   it "denies access to a non-user" do
+      #     @user.stub!(:registered?).and_return false
+      #     should_deny_access(method, path)
+      #   end
+      # end
     end
   end
 end

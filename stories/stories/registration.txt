@@ -10,7 +10,7 @@ Story: Registration
     And no user exists
     When the user goes to the user registration page
     Then the page has a user registration form
-    And the page is cached
+    And the page is not cached
     When the user fills in the user registration form with valid values
     And the user clicks the 'Register' button
     Then an unverified user exists

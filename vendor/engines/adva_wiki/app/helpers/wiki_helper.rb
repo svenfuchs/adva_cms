@@ -52,9 +52,9 @@ module WikiHelper
 	    links << authorized_tag(:li, :update, wikipage) do
 	      link_to('edit this page', edit_wikipage_path(@section, wikipage.permalink))
       end
-	    links << authorized_tag(:li, :destroy, wikipage) do
-	      link_to('delete this page', wikipage_path(@section, wikipage.permalink), { :confirm => "Are you sure you wish to delete this page?", :method => :delete })
-      end unless wikipage.home?
+      # links << authorized_tag(:li, :destroy, wikipage) do
+      #   link_to('delete this page', wikipage_path(@section, wikipage.permalink), { :confirm => "Are you sure you wish to delete this page?", :method => :delete })
+      # end unless wikipage.home?
     else
 	    links << authorized_tag(:li, :update, wikipage) do
 	      link_to('rollback to this revision', wikipage_path_with_home(@section, wikipage.permalink, :version => wikipage.version), { :confirm => "Are you sure you wish to rollback to this version?", :method => :put })

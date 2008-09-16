@@ -53,7 +53,7 @@ module ActionController
 
         # TODO :show permissions do not make any sense right now, so we
         # completely deactivate them
-        return if action.to_sym == :show
+        # return if action.to_sym == :show
 
         unless has_permission?(action, type)
           role =  current_role_context.role_authorizing(action, type)

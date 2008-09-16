@@ -1,7 +1,6 @@
 class Admin::BaseController < ApplicationController
   layout "admin"
 
-  authentication_required
   renders_with_error_proc :below_field
   include CacheableFlash
   include Widgets
@@ -9,6 +8,8 @@ class Admin::BaseController < ApplicationController
   before_filter :set_site, :set_locale, :set_timezone
   helper :base, :content, :comments, :users
   helper_method :admin_section_path_for
+
+  authentication_required
 
   attr_accessor :site
 
@@ -39,6 +40,19 @@ class Admin::BaseController < ApplicationController
   end
 
   protected
+
+    def require_authentication
+      unless current_user and current_user.has_role?(Role.build(:admin, @site))
+        return redirect_to_login("You need to be a moderator to view this page.")
+      end
+      super
+    end
+
+    def redirect_to_login(notice = nil)
+      store_return_location
+      flash[:notice] = notice
+      redirect_to login_path
+    end
 
     def rescue_action(exception)
       if exception.is_a? ActionController::RoleRequired
