@@ -5,7 +5,7 @@
 unless Rake::TaskManager.methods.include?(:redefine_task)
   module Rake
     module TaskManager
-      
+
       def redefine_task(task_class, args, &block)
         task_name, deps = resolve_args([args])
         task_name = task_class.scope_name(@scope, task_name)
@@ -18,7 +18,7 @@ unless Rake::TaskManager.methods.include?(:redefine_task)
         task.enhance(deps, &block)
         task
       end
-      
+
     end
     class Task
       class << self
@@ -34,9 +34,9 @@ namespace :db do
   namespace :migrate do
     desc 'Migrate database and plugins to current status.'
     task :all => [ 'db:migrate', 'db:migrate:plugins' ]
-    
+
     desc 'Migrate plugins to current status.'
-    task({:plugins => :environment}, :version) do |task, args|
+    task({:plugins => :environment}) do |task, args|
       version = args[:version] || ENV['VERSION']
       Engines.plugins.each do |plugin|
         next unless File.exists? plugin.migration_directory
@@ -46,7 +46,7 @@ namespace :db do
     end
 
     desc 'Migrate a specified plugin.'
-    task({:plugin => :environment}, :name, :version) do |task, args|
+    task({:plugin => :environment}) do |task, args|
       name = args[:name] || ENV['NAME']
       if plugin = Engines.plugins[name]
         version = args[:version] || ENV['VERSION']
@@ -55,30 +55,30 @@ namespace :db do
       else
         puts "Plugin #{name} does not exist."
       end
-    end    
-  end
-end
-
-
-namespace :db do  
-  namespace :fixtures do
-    namespace :plugins do
-      
-      desc "Load plugin fixtures into the current environment's database."
-      task :load => :environment do
-        require 'active_record/fixtures'
-        ActiveRecord::Base.establish_connection(RAILS_ENV.to_sym)
-        Dir.glob(File.join(RAILS_ROOT, 'vendor', 'plugins', ENV['PLUGIN'] || '**', 
-                 'test', 'fixtures', '*.yml')).each do |fixture_file|
-          Fixtures.create_fixtures(File.dirname(fixture_file), File.basename(fixture_file, '.*'))
-        end
-      end
-      
     end
   end
 end
 
-# this is just a modification of the original task in railties/lib/tasks/documentation.rake, 
+
+namespace :db do
+  namespace :fixtures do
+    namespace :plugins do
+
+      desc "Load plugin fixtures into the current environment's database."
+      task :load => :environment do
+        require 'active_record/fixtures'
+        ActiveRecord::Base.establish_connection(RAILS_ENV.to_sym)
+        Dir.glob(File.join(RAILS_ROOT, 'vendor', 'plugins', ENV['PLUGIN'] || '**',
+                 'test', 'fixtures', '*.yml')).each do |fixture_file|
+          Fixtures.create_fixtures(File.dirname(fixture_file), File.basename(fixture_file, '.*'))
+        end
+      end
+
+    end
+  end
+end
+
+# this is just a modification of the original task in railties/lib/tasks/documentation.rake,
 # because the default task doesn't support subdirectories like <plugin>/app or
 # <plugin>/component. These tasks now include every file under a plugin's code paths (see
 # Plugin#code_paths).
@@ -105,7 +105,7 @@ namespace :doc do
           files.include("#{plugin_base}/{#{Engines.plugins[plugin].code_paths.join(",")}}/**/*.rb")
         end
         if File.exists?("#{plugin_base}/README")
-          files.include("#{plugin_base}/README")    
+          files.include("#{plugin_base}/README")
           options << "--main '#{plugin_base}/README'"
         end
         files.include("#{plugin_base}/CHANGELOG") if File.exists?("#{plugin_base}/CHANGELOG")
@@ -144,25 +144,25 @@ Report any issues on http://dev.rails-engines.org. Thanks!
 
 -~===============( ... as you were ... )============================~-}
   end
-  
+
   namespace :plugins do
 
     desc "Run the plugin tests in vendor/plugins/**/test (or specify with PLUGIN=name)"
-    task :all => [:warn_about_multiple_plugin_testing_with_engines, 
+    task :all => [:warn_about_multiple_plugin_testing_with_engines,
                   :units, :functionals, :integration]
-    
+
     desc "Run all plugin unit tests"
     Rake::TestTask.new(:units => :setup_plugin_fixtures) do |t|
       t.pattern = "vendor/plugins/#{ENV['PLUGIN'] || "**"}/test/unit/**/*_test.rb"
       t.verbose = true
     end
-    
+
     desc "Run all plugin functional tests"
     Rake::TestTask.new(:functionals => :setup_plugin_fixtures) do |t|
       t.pattern = "vendor/plugins/#{ENV['PLUGIN'] || "**"}/test/functional/**/*_test.rb"
       t.verbose = true
     end
-    
+
     desc "Integration test engines"
     Rake::TestTask.new(:integration => :setup_plugin_fixtures) do |t|
       t.pattern = "vendor/plugins/#{ENV['PLUGIN'] || "**"}/test/integration/**/*_test.rb"
@@ -173,8 +173,8 @@ Report any issues on http://dev.rails-engines.org. Thanks!
     task :setup_plugin_fixtures => :environment do
       Engines::Testing.setup_plugin_fixtures
     end
-    
+
     # Patch the default plugin testing task to have setup_plugin_fixtures as a prerequisite
     Rake::Task["test:plugins"].prerequisites << "test:plugins:setup_plugin_fixtures"
-  end  
+  end
 end
