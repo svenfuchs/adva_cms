@@ -56,5 +56,5 @@ Spec::Rails::Matchers.module_eval do
       have_tag("form[method=post][action=#{url_or_path}]").matches?(response)
       have_tag("input[name=_method][type=hidden][value=put]").matches?(response)
     end
-  end  
+  end
 end

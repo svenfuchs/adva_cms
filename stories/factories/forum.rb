@@ -18,4 +18,3 @@ factory :topic,
         :site    => lambda{ Site.find(:first) || create_site },
         :section => lambda{ (Forum.find(:first) || create_forum).id },
         :author  => lambda{ User.find(:first) || create_user }
-        

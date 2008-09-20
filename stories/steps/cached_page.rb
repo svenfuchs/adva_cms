@@ -6,7 +6,7 @@ steps_for :cached_page do
   Given "page cache is enabled and empty" do
     Given 'no pages are cached'
   end
-    
+
   Given 'no pages are cached' do
     CachedPage.delete_all
     cache_dir = ActionController::Base.page_cache_directory
@@ -15,15 +15,15 @@ steps_for :cached_page do
 
   Given 'a page is cached' do
     @path = ActionController::Base.send :page_cache_path, '/'
-    get '/' 
+    get '/'
     @cached_page = CachedPage.find(:first)
     Pathname.new(@path).should exist
   end
-  
+
   Given 'the other page is cached' do
     raise "this step expects the variable @section to be set" unless @section
     @other_path = ActionController::Base.send :page_cache_path, "/#{@section.permalink}"
-    get "/#{@section.permalink}" 
+    get "/#{@section.permalink}"
     @other_cached_page = CachedPage.find(:first)
     Pathname.new(@other_path).should exist
   end
@@ -47,7 +47,7 @@ steps_for :cached_page do
     path = ActionController::Base.send :page_cache_path, request.request_uri
     Pathname.new(path).should exist
   end
-  
+
   Then "the page is not cached" do
     path = ActionController::Base.send :page_cache_path, request.request_uri
     Pathname.new(path).should_not exist

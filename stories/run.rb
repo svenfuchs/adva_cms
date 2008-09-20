@@ -9,5 +9,5 @@ end.flatten
 paths.each do |path|
   with_steps_for *steps(:all) do
     run path, :type => RailsStory
-  end  
+  end
 end

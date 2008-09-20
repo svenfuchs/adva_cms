@@ -2,22 +2,22 @@ steps_for :asset do
   Given "a site with an asset" # do
   #  Given "a site"
   #end
-  
+
   When "the user visits admin sites assets list page" do
     raise "this step expects the variable @site to be set" unless @site
     get admin_assets_path(@site)
   end
-  
+
   When "the user fills in the admin asset creation form with valid values" do
     attaches_file 'assets[0][uploaded_data]', RAILS_ROOT + '/public/images/rails.png'
     fills_in 'assets[0][title]', :with => 'title'
     fills_in 'assets[0][tag_list]', :with => 'foo bar'
   end
-  
+
   When "the user fills in the admin asset edit form" do
     fills_in 'asset[title]', :with => 'updated title'
   end
-  
+
   When "the user adds an asset to the bucket" do
     post "/admin/sites/#{@site.id}/assets/bucket?asset_id=#{@asset.id}"
   end
@@ -28,7 +28,7 @@ steps_for :asset do
     response.should have_form_posting_to(action)
     @asset_count = Asset.count
   end
-  
+
   Then "a new asset is saved" do
     raise "this step expects the variable @asset_count to be set" unless @asset_count
     (@asset_count + 1).should == Asset.count
@@ -39,28 +39,28 @@ steps_for :asset do
     request.request_uri.should =~ %r(/admin/sites/[\d]*/assets)
     response.should render_template("admin/assets/index")
   end
-  
+
   Then "the page has a list of assets with at least one asset" do
     response.should have_tag('#assets-list .assets-row div img')
   end
-  
+
   Then "the page has an admin asset edit form" do
     response.should have_form_putting_to(admin_asset_path(@site, @asset))
   end
-  
+
   Then "the asset is updated" do
     @asset.reload
     @asset.title = 'updated title'
-  end 
-  
+  end
+
   Then "the asset is deleted" do
     Asset.exists?(@asset.id).should be_false
-  end 
-  
+  end
+
   Then "the asset is added to the bucket" do
     session[:bucket].keys.should include(@asset.id)
   end
-  
+
   Then "the asset immediately shows up on the page" do
     response.should have_text(%r(new Insertion.Bottom\("bucket-assets",.*#{@asset.filename}))
     response.should_not have_text(%r(<html.*>)) # no layout

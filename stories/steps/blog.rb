@@ -7,12 +7,12 @@ steps_for :blog do
       create_blog :site => @site
     end
   end
-  
+
   Given "a blog that allows anonymous users to create comments" do
     Given "a blog"
     @blog.update_attributes! 'permissions' => {'comment' => {'show' => 'anonymous', 'create' => 'anonymous'}}
   end
-  
+
   Given 'a blog with no articles' do
     Article.delete_all
     @blog = create_blog
@@ -24,8 +24,8 @@ steps_for :blog do
     Article.delete_all
     @article = create_article
     @blog = @article.section
-  end 
-  
+  end
+
   Given "a blog with a category" do
     Category.delete_all
     Section.delete_all
@@ -43,29 +43,29 @@ steps_for :blog do
     # Articles have the assets of blog
     Given "a blog with no articles"
   end
-  
+
   Given 'a blog article' do
     Given 'a blog'
     Article.delete_all
     Category.delete_all
-    @article = create_article 
+    @article = create_article
     @article_count = 1
   end
-  
+
   Given 'a published blog article' do
     Given 'a blog article'
     @article.update_attributes! :published_at => '2008-01-01 12:00:00'
   end
-  
+
   Given 'an unpublished blog article' do
     Given 'a blog article'
   end
-  
+
   Given 'a published blog article with no excerpt' do
     Given 'a published blog article'
     @article.update_attributes! :excerpt => '', :excerpt_html => ''
   end
-  
+
   Given 'a published blog article with no comments' do
     Given 'a published blog article'
     Given "the article has no comments"

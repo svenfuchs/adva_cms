@@ -4,26 +4,26 @@ steps_for :article do
   Given 'the article does not allow commenting' do
     @article.update_attributes! :comment_age => -1
   end
-  
+
   Given "the article has no comments" do
     @article.comments.clear
   end
-  
+
   Given "the article has a comment" do
     Comment.delete_all
     @comment = create_comment :commentable => @article
   end
-  
+
   Given "the article has an approved comment" do
     Given "the article has a comment"
     @comment.update_attributes! :approved => true
   end
-  
+
   Given "the article has an unapproved comment" do
     Given "the article has a comment"
     @comment.update_attributes! :approved => false
   end
-  
+
   Then "the article has an unapproved comment" do
     @article.unapproved_comments.count.should == 1
     @comment = @article.unapproved_comments.first
@@ -38,7 +38,7 @@ steps_for :article do
     raise "step expects @article_count to be set" unless @article_count
     (@article_count - 1).should == Article.find(:all).size
   end
-  
+
   # ADMIN VIEW
 
   When "the user visits the admin $section articles list page" do |section|
@@ -46,7 +46,7 @@ steps_for :article do
     section = @blog || @section
     get admin_articles_path(section.site, section)
   end
-  
+
   When "the user creates and publishes a new article" do
     lambda {
       When "the user visits the admin blog article creation page"
@@ -104,7 +104,7 @@ steps_for :article do
     request.request_uri.should =~ %r(/admin/sites/[\d]*/sections/[\d]*/articles)
     response.should render_template("admin/blog/index")
   end
-  
+
   Then "the user is redirected to the admin section articles page" do
     request.request_uri.should =~ %r(/admin/sites/[\d]*/sections/[\d]*/articles)
     response.should render_template("admin/articles/index")
@@ -118,10 +118,10 @@ steps_for :article do
   Then "the 'Save as draft?' checkbox is checked by default" do
     response.should have_tag("input#article-draft[type=?][value=?]", 'checkbox', 1)
   end
-  
-  # Then "the blog has sent pings" do    
+
+  # Then "the blog has sent pings" do
   # end
-  
+
   Then "the page displays the article" do
     raise "step expects the variable @article to be set" unless @article
     response.should have_tag("div#article_#{@article.id}.entry")
