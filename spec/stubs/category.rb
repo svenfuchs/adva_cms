@@ -1,21 +1,21 @@
 define Category do
   belongs_to :section
   has_many :children, stub_categories(:child)
-  
-  methods  :valid? => true, 
-           :save => true, 
-           :update_attributes => true, 
+
+  methods  :valid? => true,
+           :save => true,
+           :update_attributes => true,
            :destroy => true,
            :has_attribute? => true
-           
+
   instance :category,
            :id => 1,
-           :title => 'Foo', 
+           :title => 'Foo',
            :path => 'foo'
-          
+
   instance :child,
-           :id => 2, 
-           :title => 'Bar', 
+           :id => 2,
+           :title => 'Bar',
            :path => 'bar',
            :children => []
 

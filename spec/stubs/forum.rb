@@ -1,7 +1,7 @@
 define Forum do
   belongs_to :site
-  
-  has_many :boards, :find => stub_board, 
+
+  has_many :boards, :find => stub_board,
                     :build => stub_board
   has_many :topics, :find_by_permalink => stub_topic,
                     :post => stub_topic
@@ -9,9 +9,9 @@ define Forum do
   has_one  :comments_counter, stub_counter
 
   methods  :id => 1,
-           :type => 'Forum', 
+           :type => 'Forum',
            :path => 'forum',
-           :title => 'forum title', 
+           :title => 'forum title',
            :permalink => 'forum',
            :comment_age => 0,
            :render_options => {},
@@ -27,4 +27,4 @@ define Forum do
 
   instance :forum
 end
-  
+

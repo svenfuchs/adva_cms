@@ -3,6 +3,6 @@ define Counter do
           :increment! => nil,
           :decrement! => nil,
           :set => nil
-          
+
   instance :counter
 end

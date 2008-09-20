@@ -1,10 +1,10 @@
 scenario :site_with_a_user do
   scenario :empty_site
-  
+
   @user = stub_user
   @users = stub_users
   @users.stub!(:paginate).and_return @users
-  
+
   User.stub!(:new).and_return @user
   User.stub!(:find).and_return @user
   User.stub!(:paginate).and_return @users

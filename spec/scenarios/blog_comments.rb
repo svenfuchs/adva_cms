@@ -5,7 +5,7 @@ scenario :blog_comments do
   @comments = stub_comments
   @comment.stub!(:commentable).and_return @article
   @comment.stub!(:commentable=)
-  
+
   Comment.stub!(:find).and_return @comment
 end
 

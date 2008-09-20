@@ -5,8 +5,8 @@ module UrlMatchers
   def have_parameter(*expected)
     HaveParameter.new(expected)
   end
-  alias_method :have_parameters, :have_parameter  
-  
+  alias_method :have_parameters, :have_parameter
+
   class HaveParameter
     def initialize(expected)
       @expected = expected
@@ -17,10 +17,10 @@ module UrlMatchers
       uri = target =~ /^http:/ ? "http://test.host#{target}" : target
       query = URI.parse(uri).query || ''
       params = CGI.parse(query)
-      
+
       # when expected is empty, that means that we expect any parameters to be present
-      return !params.empty? if @expected.empty? 
-      
+      return !params.empty? if @expected.empty?
+
       present = @expected.collect do |expected|
         expected if params.keys.include? expected.to_s
       end.compact

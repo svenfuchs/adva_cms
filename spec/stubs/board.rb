@@ -1,14 +1,14 @@
 define Board do
   belongs_to :site
   belongs_to :section
-  
+
   has_many :topics, :find_by_permalink => stub_topic,
                     :post => stub_topic
   has_one  :topics_counter, stub_counter
   has_one  :comments_counter, stub_counter
 
   methods  :id => 1,
-           :title => 'board title', 
+           :title => 'board title',
            :description => 'board description',
            :topics_per_page => 15,
            :comments_per_page => 15,
@@ -22,4 +22,4 @@ define Board do
 
   instance :board
 end
-  
+

@@ -2,10 +2,10 @@ define Comment do
   belongs_to :author, stub_user
   # belongs_to :commentable
   belongs_to :board
-  
+
   methods  :id => 1,
            :board= => nil,
-           :body => 'body', 
+           :body => 'body',
            :body_html => 'body html',
            :author= => nil, # TODO add this to Stubby
            :author_name => 'author_name',

@@ -4,7 +4,7 @@ define CachedPage do
 
   instance :cached_page,
            :id => 1,
-           :url => 'http://foo.bar/baz', 
+           :url => 'http://foo.bar/baz',
            :email => 'foo@bar.baz',
            :save => true,
            :destroy => true,

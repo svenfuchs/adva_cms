@@ -1,27 +1,27 @@
 define Anonymous do
-  methods  :has_role? => false, 
+  methods  :has_role? => false,
            :anonymous? => true,
            :registered? => false,
-           :update_attributes => true, 
+           :update_attributes => true,
            :destroy => true,
            :valid? => true
 
   instance :user,
            :id => 1,
-           :name => 'name', 
+           :name => 'name',
            :email => 'foo@bar.baz',
            :homepage => 'http://foo.bar.baz'
 end
 
 define User do
   has_many :roles
-  
-  methods  :has_role? => false, 
+
+  methods  :has_role? => false,
            :has_exact_role? => false,
            :anonymous? => false,
            :registered? => true,
            :is_site_member? => true,
-           :update_attributes => true, 
+           :update_attributes => true,
            :destroy => true,
            :verified! => nil,
            :assign_token => 'token',
@@ -30,7 +30,7 @@ define User do
 
   instance :user,
            :id => 1,
-           :name => 'name', 
+           :name => 'name',
            :email => 'foo@bar.baz',
            :homepage => 'http://foo.bar.baz',
            :login => 'login',

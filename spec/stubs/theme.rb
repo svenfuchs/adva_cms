@@ -1,7 +1,7 @@
 define Theme do
   has_many :theme_files, :_as => :files, :find => stub_theme_file
   has_one  :comments_counter, stub_counter
-  
+
   instance :theme,
            :id => 'theme-1',
            :name => 'Theme 1',

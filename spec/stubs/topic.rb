@@ -6,7 +6,7 @@ define Topic do
   has_many   :comments
   has_one    :last_comment, stub_comment
   has_one    :comments_counter, stub_counter
-  
+
   methods    :sticky? => false,
              :locked? => false,
              :save => true,
@@ -17,7 +17,7 @@ define Topic do
              :last_comment => stub_comment,
              :last_updated_at => Time.now(),
              :last_author_name => 'last_author_name'
-             
+
   instance   :topic,
              :id => 1,
              :title => 'a topic',

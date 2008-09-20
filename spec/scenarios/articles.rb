@@ -1,8 +1,8 @@
 scenario :blank_article do
   Article.delete_all
-  @article = Article.new :author => stub_user, 
-                         :site_id => stub_site, :section_id => stub_section, 
-                         :title => 'An article', 
+  @article = Article.new :author => stub_user,
+                         :site_id => stub_site, :section_id => stub_section,
+                         :title => 'An article',
                          :body => 'body'
 end
 
@@ -13,7 +13,7 @@ end
 
 scenario :article_created do
   scenario :article_exists
-  @article.id = nil                       
+  @article.id = nil
   stub_methods @article, :new_record? => true
 end
 
@@ -48,13 +48,13 @@ end
 
 scenario :six_articles_published_in_three_months do
   Article.delete_all
-  
+
   @site = Site.create! :host => 'host', :name => 'site', :title => 'title'
   @blog = Blog.create! :title => 'title', :site => @site
-  
+
   1.upto(3) do |month|
     1.upto(month) do |day|
-      Article.create :author => stub_user, :site => @site, :section => @blog, 
+      Article.create :author => stub_user, :site => @site, :section => @blog,
                      :title => "Article on day #{day} in month #{month}", :body => 'body',
                      :published_at => Time.zone.local(2008, month, day)
     end

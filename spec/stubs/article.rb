@@ -4,7 +4,7 @@ define Article do
   has_many :categories
   has_many :tags
   has_one  :comments_counter, stub_counter
-  
+
   belongs_to :site
   belongs_to :section
   belongs_to :author, stub_user
@@ -36,14 +36,14 @@ define Article do
            :draft? => false,
            :filter => nil,
            :attributes= => nil,
-           :save => true, 
-           :save_without_revision => true, 
-           :update_attributes => true, 
+           :save => true,
+           :save_without_revision => true,
+           :update_attributes => true,
            :has_attribute? => true,
            :destroy => true,
            :save_version_on_create => nil,
            :increment_counter => nil,
            :decrement_counter => nil
 
-  instance :article           
+  instance :article
 end

@@ -12,7 +12,7 @@ define Wikipage do
   methods  :id => 1,
            :type => 'Wikipage',
            :title => 'A wikipage',
-           :permalink => 'a-wikipage', 
+           :permalink => 'a-wikipage',
            :body => 'body',
            :body_html => 'body html',
            :tag_list => 'foo bar',
@@ -35,14 +35,14 @@ define Wikipage do
            :save_version_on_create => nil,
            :user= => nil,
            :has_attribute? => true
- 
+
   instance :wikipage,
            :version => 4
 
   instance :rev1,
            :version => 1
-     
+
   instance :rev4,
-           :version => 4        
+           :version => 4
 end
 

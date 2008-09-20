@@ -1,21 +1,21 @@
 define Site do
   has_many :sections, [stub_section, stub_wiki, stub_blog, stub_forum],
-                      [:find, :build, :root] => stub_section, 
-                      :paths => ['section', 'sections/section', 'blog', 'blogs/blog', 
+                      [:find, :build, :root] => stub_section,
+                      :paths => ['section', 'sections/section', 'blog', 'blogs/blog',
                                  'forums/forum', 'forum', 'wikis/wiki', 'wiki']
   has_many :themes, [:find, :build, :root] => stub_theme
   has_many :users, :build => stub_user
   has_many :users_and_superusers, stub_users
-        
+
   has_many :comments, [:find, :build] => stub_comment, :paginate => stub_comments
   has_many [:approved_comments, :unapproved_comments], stub_comments
-        
-  has_many :cached_pages, :find => stub_cached_page, 
-                          :paginate => stub_cached_pages, 
-                          :delete_all => nil, 
+
+  has_many :cached_pages, :find => stub_cached_page,
+                          :paginate => stub_cached_pages,
+                          :delete_all => nil,
                           :total_entries => 2
   has_one  :comments_counter, stub_counter
-                     
+
   methods  :id => 1,
            :name => 'site-1',
            :host => 'test.host',
@@ -42,6 +42,6 @@ define Site do
            :spam_filter_active? => false,
            :role_context => stub_site,
            :page_cache_directory => RAILS_ROOT + '/tmp/cache'
-        
-  instance :default          
+
+  instance :default
 end

@@ -3,13 +3,13 @@
 module SpecPageCachingHelper
   ActionController::Base.public_class_method :page_cache_path
 
-  def with_caching 
+  def with_caching
     ActionController::Base.perform_caching = true
     returning yield do
       ActionController::Base.perform_caching = false
     end
   end
-  
+
   module ResponseHelper
     def cached?
       File.exists? ActionController::Base.page_cache_path(request.path)
@@ -19,7 +19,7 @@ module SpecPageCachingHelper
 end
 
 # this monkeypatches ActionController so that the caches_page after_filter
-# gets installed even when perform_caching is false at that point. the 
+# gets installed even when perform_caching is false at that point. the
 # controller still won't cache anything as long as perform_caching is set
 # to false. but when we switch it to true in the process of testing it will
 # actually kick in.

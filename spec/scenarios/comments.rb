@@ -2,7 +2,7 @@ scenario :comment_exists do
   @comment = Comment.new :author => stub_user, :commentable => stub_article, :body => 'body', :section => stub_section, :site => stub_site
   stub_methods @comment, :new_record? => false, :body_changed? => false
 
-  stub_article.stub!(:[]).with('type').and_return 'Article' # TODO add #with to Stubby?  
+  stub_article.stub!(:[]).with('type').and_return 'Article' # TODO add #with to Stubby?
 end
 
 scenario :comment_created do

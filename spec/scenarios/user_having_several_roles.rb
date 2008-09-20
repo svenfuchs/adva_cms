@@ -1,7 +1,7 @@
 scenario :user_having_several_roles do
   @user = User.new
   @user.save(false)
-  
+
   @site = stub_site
   @section = stub_section
   @topic = stub_topic

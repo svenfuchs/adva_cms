@@ -5,7 +5,7 @@ class Commentable < AbstractActiveRecord
   attr_accessor :section
   attr_accessor :section_id
   attr_accessor :comment_filter
-  
+
   def after_initialize
     @comment_filter = 'textile'
   end

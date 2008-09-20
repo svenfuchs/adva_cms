@@ -1,4 +1,4 @@
-module ResourcePathHelper  
+module ResourcePathHelper
   def set_resource_paths(resource, path_prefix, name_prefix = '')
     member = instance_variable_get :"@#{resource}"
     paths = { "#{name_prefix}collection_path" => resource_collection_path(path_prefix, resource),
@@ -9,12 +9,12 @@ module ResourcePathHelper
       instance_variable_set :"@#{name}", value
     end
   end
-  
+
   def resource_collection_path(path_prefix, name, action = nil)
     "#{path_prefix}#{name.to_s.pluralize}" + (action ? "/#{action}" : '')
   end
-  
+
   def resource_member_path(path_prefix, name, member, action = nil)
     "#{resource_collection_path(path_prefix, name)}/#{member.to_param}" + (action ? "/#{action}" : '')
-  end  
+  end
 end
