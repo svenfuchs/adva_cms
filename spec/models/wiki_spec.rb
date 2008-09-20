@@ -4,7 +4,7 @@ describe Wiki do
   before :each do
     @wiki = Wiki.new
   end
-  
+
   it "is a kind of Section" do
     @wiki.should be_kind_of(Section)
   end

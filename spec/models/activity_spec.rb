@@ -4,56 +4,56 @@ describe Activity do
   before :each do
     attributes = {:object_type => 'Article', :object_id => 1}
     @activity = Activity.new attributes.update(:actions => ['edited', 'revised'], :created_at => Time.zone.now)
-    @others = [10, 70, 80].collect do |minutes_ago| 
+    @others = [10, 70, 80].collect do |minutes_ago|
       actions = minutes_ago == 80 ? ['created'] : ['edited']
       Activity.new attributes.update(:actions => actions, :created_at => minutes_ago.minutes.ago)
-    end    
+    end
 
     @yesterdays = [Activity.new(attributes.update(:created_at => 1.day.ago))]
     @older = [Activity.new(attributes.update(:created_at => 2.days.ago))]
-    
+
     @activities = [@activity] + @others + @yesterdays + @older
     @activities.sort!{|left, right| right.created_at <=> left.created_at }
   end
-  
+
   describe 'associations' do
     it 'belongs to a site' do
       @activity.should belong_to(:site)
     end
-    
+
     it 'belongs to a section' do
       @activity.should belong_to(:section)
     end
-    
+
     it 'belongs to an object' do
       @activity.should belong_to(:object)
     end
-    
+
     it 'belongs to an author' do
       @activity.should belong_to(:author)
     end
-    
+
   end
-  
+
   describe 'validations' do
     it 'validates the presence of a site' do
       @activity.should validate_presence_of(:site)
     end
-    
+
     it 'validates the presence of a section' do
       @activity.should validate_presence_of(:section)
     end
-    
+
     it 'validates the presence of an object' do
       @activity.should validate_presence_of(:object)
     end
-    
+
   end
-  
+
   describe 'class methods:' do
     describe '#find_coinciding_grouped_by_dates' do
       it "should find coinciding activities grouped by given dates" do
-        Activity.should_receive(:find).and_return @activities      
+        Activity.should_receive(:find).and_return @activities
         today, yesterday = Time.zone.now.to_date, 1.day.ago.to_date
         result = Activity.find_coinciding_grouped_by_dates today, yesterday
         result.should == [[@activity], @yesterdays, @older]
@@ -75,7 +75,7 @@ describe Activity do
       it "should return true when it's own and the other object's created_at values difference is smaller or equal to the given delta value" do
         @activity.coincides_with?(@others.first).should be_true
       end
-  
+
       it "should return true when it's own and the other object's created_at values difference is greater than the given delta value" do
         @activity.coincides_with?(@others.last).should be_false
       end
@@ -94,14 +94,14 @@ describe Activity do
         @activity.to.should == @activity.created_at
       end
     end
-  
+
     describe '#all_actions' do
       it "should return all actions from all siblings in a chronological order" do
         @activity.siblings = @others
         @activity.all_actions.should == ['created', 'edited', 'edited', 'edited', 'revised']
       end
     end
-  
+
     describe "for missing methods" do
       it "should check it's object_attributes hash's keys" do
         @activity.should_receive(:[]).with(:object_attributes).and_return 'foo' => 'bar'
