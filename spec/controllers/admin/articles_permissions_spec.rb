@@ -75,12 +75,12 @@ describe Admin::ArticlesController, 'Permissions' do
       #     @user.stub!(:roles).and_return []
       #     Blog.stub!(:default_permissions).and_return :article => {:update => :moderator}
       #   end
-      # 
+      #
       #   it "grants access to a moderator" do
       #     @user.stub!(:roles).and_return [@moderator_role]
       #     should_grant_access(method, path)
       #   end
-      #   
+      #
       #   it "denies access to a non-moderator" do
       #     @user.stub!(:roles).and_return []
       #     should_deny_access(method, path)
