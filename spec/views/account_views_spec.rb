@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe "Account views:" do
   include SpecViewHelper
-  
+
   before :each do
     assigns[:site] = stub_site
     @account.stub!(:user).and_return stub_user
@@ -12,20 +12,20 @@ describe "Account views:" do
     template.stub!(:links_to_content_tags).and_return 'links_to_content_tags'
     template.stub!(:link_to_content_comments).and_return 'link_to_content_comments'
     template.stub!(:comment_path).and_return 'path/to/comment'
-    
-    template.stub_render hash_including(:partial => 'comments/list')    
-    template.stub_render hash_including(:partial => 'comments/form')    
+
+    template.stub_render hash_including(:partial => 'comments/list')
+    template.stub_render hash_including(:partial => 'comments/form')
   end
-  
+
   describe "new view" do
     before :each do
     end
-    
+
     it "renders a form posting to /account" do
       render 'account/new'
       response.should have_tag('form[method=?][action=?]', 'post', '/account')
     end
-    
+
     it "renders form fields for the account data" do
       render 'account/new'
       response.should have_tag('input[name=?]', 'user[login]')
