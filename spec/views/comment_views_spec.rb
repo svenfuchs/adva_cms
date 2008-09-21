@@ -5,6 +5,9 @@ describe "Comment views:" do
   include ContentHelper
 
   before :each do
+    I18n.locale = :en
+    Thread.current['site'] = stub_site
+
     assigns[:site] = @site = stub_site
     assigns[:comment] = @comment = stub_comment
     assigns[:commentable] = @article = stub_article

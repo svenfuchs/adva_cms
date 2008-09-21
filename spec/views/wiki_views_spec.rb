@@ -4,6 +4,9 @@ describe "Wiki views:" do
   include SpecViewHelper
 
   before :each do
+    I18n.locale = :en
+    Thread.current['site'] = stub_site
+
     assigns[:section] = @wiki = stub_wiki
     @wikipage = stub_wikipage
     @wikipages = stub_wikipages

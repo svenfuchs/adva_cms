@@ -27,7 +27,8 @@ describe "Routing Filter::Locale" do
 
     before :each do
       @base = mock 'base'
-      @base.instance_variable_set :@locale, 'de'
+      # @base.instance_variable_set :@locale, 'de'
+      I18n.locale = :de
     end
 
     it "should unshift the current locale to the args when they are a non empty array" do

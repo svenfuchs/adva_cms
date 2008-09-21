@@ -5,6 +5,9 @@ describe "Blog views:" do
   include ContentHelper
 
   before :each do
+    I18n.locale = :en
+    Thread.current['site'] = stub_site
+
     assigns[:site] = stub_user
     assigns[:section] = stub_blog
     assigns[:comment] = stub_comment

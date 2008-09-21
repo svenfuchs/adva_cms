@@ -5,6 +5,9 @@ describe "Widgets:", "the admin/menu_global widget" do
   include SpecViewHelper
 
   before :each do
+    I18n.locale = :en
+    Thread.current['site'] = stub_site
+
     @user = stub_user
     template.stub!(:current_user).and_return @user
 

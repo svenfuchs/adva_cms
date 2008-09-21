@@ -1,6 +1,6 @@
 module RoutingFilter
   class Categories < Base
-    def around_recognition(route, path, env, &block)
+    def around_recognize(path, env, &block)
       unless path =~ %r(^/admin) # TODO ... should be defined through the dsl in routes.rb
         types = Section.types.map{|type| type.downcase.pluralize }.join('|')
         if match = path.match(%r(/(?:#{types})/([\d]+)/categories/([^\./$]+)(?=/|\.|$)))
@@ -14,12 +14,12 @@ module RoutingFilter
       yield path, env
     end
 
-    def after_generate(base, result, *args)
-      return if result =~ %r(^/admin/)
-
-      if match = result.match(%r(/categories/([\d]+)))
-        category = Category.find match[1]
-        result.sub! "/categories/#{match[1]}", "/categories/#{category.path}"
+    def around_generate(*args, &block)
+      returning yield do |result|
+        if result !~ %r(^/admin/) and result =~ %r(/categories/([\d]+))
+          category = Category.find $1
+          result.sub! "/categories/#{$1}", "/categories/#{category.path}"
+        end
       end
     end
   end

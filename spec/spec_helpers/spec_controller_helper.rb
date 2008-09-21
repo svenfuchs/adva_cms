@@ -116,7 +116,8 @@ Spec::Rails::Example::ControllerExampleGroup.class_eval do
           end
 
           locale = conditions.include?(:default_locale) ? 'en' : 'de'
-          @controller.instance_variable_set(:@locale, locale)
+          I18n.locale = locale
+          # @controller.instance_variable_set(:@locale, locale)
 
           # @current_section.should_receive(:root_section?).and_return(is_root)
         end

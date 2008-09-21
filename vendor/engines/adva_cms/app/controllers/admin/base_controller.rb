@@ -68,7 +68,7 @@ class Admin::BaseController < ApplicationController
     end
 
     def set_locale
-      @locale = 'en' # currently only used for blog_article_url generation
+      I18n.locale = params[:locale] || :en
     end
 
     def set_timezone
@@ -77,6 +77,7 @@ class Admin::BaseController < ApplicationController
 
     def set_site
       @site = Site.find(params[:site_id])
+      Thread.current['site'] = @site
     end
 
     def current_role_context

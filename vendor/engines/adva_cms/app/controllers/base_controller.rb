@@ -43,11 +43,10 @@ class BaseController < ApplicationController
     end
 
     def set_locale
-      # TODO move default_locale to ... err ... where?
-      @locale = params[:locale] || 'en'
+      I18n.locale = params[:locale] || :en
       # TODO raise something more meaningful
-      @locale =~ /^[\w]{2}$/ or raise 'invalid locale' if params[:locale]
-      @locale.untaint
+      I18n.locale =~ /^[\w]{2}$/ or raise 'invalid locale' if params[:locale]
+      I18n.locale.untaint
     end
 
     def set_timezone
@@ -56,6 +55,7 @@ class BaseController < ApplicationController
 
     def set_site
       @site = Site.find_by_host(request.host_with_port)
+      Thread.current['site'] = @site
     end
 
     def set_section(type = nil)
