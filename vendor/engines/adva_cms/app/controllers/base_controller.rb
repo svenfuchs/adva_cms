@@ -30,28 +30,11 @@ class BaseController < ApplicationController
   def comments
     @comments = @commentable.approved_comments
     respond_to do |format|
-      format.atom do
-        render :template => 'comments/comments', :layout => false
-      end
+      format.atom { render :template => 'comments/comments', :layout => false }
     end
   end
 
   protected
-
-    def current_page
-      @page ||= params[:page].blank? ? 1 : params[:page].to_i
-    end
-
-    def set_locale
-      I18n.locale = params[:locale] || :en
-      # TODO raise something more meaningful
-      I18n.locale =~ /^[\w]{2}$/ or raise 'invalid locale' if params[:locale]
-      I18n.locale.untaint
-    end
-
-    def set_timezone
-      Time.zone = @site.timezone if @site
-    end
 
     def set_site
       @site = Site.find_by_host(request.host_with_port)
@@ -65,12 +48,27 @@ class BaseController < ApplicationController
       end
     end
 
-    def set_commentable
-      @commentable = @article || @section || @site
+    def set_locale
+      I18n.locale = params[:locale] || :en
+      # TODO raise something more meaningful
+      I18n.locale =~ /^[\w]{2}$/ or raise 'invalid locale' if params[:locale]
+      I18n.locale.untaint
+    end
+
+    def set_timezone
+      Time.zone = @site.timezone if @site
     end
 
     def set_cache_root
       self.class.page_cache_directory = page_cache_directory.to_s
+    end
+
+    def current_page
+      @page ||= params[:page].blank? ? 1 : params[:page].to_i
+    end
+
+    def set_commentable
+      @commentable = @article || @section || @site
     end
 
     def page_cache_directory
