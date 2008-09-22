@@ -11,6 +11,57 @@ class String
     s
   end
 
+  # different implementation of #to_permalink to fix issues raised in
+  # http://artweb-design.lighthouseapp.com/projects/13992/tickets/52-umlauts-in-permalinks
+  # TODO: different rules in other languages? base it on CLDR?
+  # def to_permalink
+  #   s = self.dup
+  # 
+  #   replacements = { 
+  #     # replacement         special character(s) to be replaced
+  #     "A" =>                [ "À", "Á", "Â", "Ã", "Å"],
+  #     "Ae" =>               [ "Ä", "Æ" ],
+  #     "C" =>                [ "Ç" ],
+  #     "D" =>                [ "Ð" ],
+  #     "E" =>                [ "È", "É", "Ê", "Ë" ],
+  #     "I" =>                [ "Ì", "Í", "Î", "Ï" ],
+  #     "N" =>                [ "Ñ" ],
+  #     "O" =>                [ "Ò", "Ó", "Ô", "Õ", "Ø" ],
+  #     "Oe" =>               [ "Ö" ],
+  #     "U" =>                [ "Ù", "Ú", "Û" ],
+  #     "Ue" =>               [ "Ü" ],
+  #     "Y" =>                [ "Ý" ],
+  # 
+  #     "p" =>                [ "Þ"],
+  #     "a" =>                [ "à", "á", "â", "ã", "å" ],
+  #     "ae" =>               [ "ä", "æ" ],
+  #     "c" =>                [ "ç" ],
+  #     "d" =>                [ "ð" ],
+  #     "e" =>                [ "è", "é", "ê", "ë" ],
+  #     "i" =>                [ "ì", "í", "î", "ï" ],
+  #     "n" =>                [ "ñ" ],
+  #     "o" =>                [ "ò", "ó", "ô", "õ", "ø" ],
+  #     "oe" =>               [ "ö" ],
+  #     "ss" =>               [ "ß" ],
+  #     "u" =>                [ "ù", "ú", "û" ],
+  #     "ue" =>               [ "ü" ],
+  #     "y" =>                [ "ý" ]
+  #   }
+  # 
+  #   replacements.each_pair do |replacement, search_chars|
+  #     search_chars.each do |ch|
+  #       s.gsub!(ch, replacement)
+  #     end
+  #   end
+  # 
+  #   s.gsub!(/[\'´`]/, '') # remove '
+  #   s.gsub!(/([^\-\.A-Za-z0-9_])/, "-") # replace all special chars with hyphens
+  #   s.gsub!(/([\-.][\-.]+)/, "-") # replace multiple hyphens with single hyphen
+  #   s.gsub!(/(^[\-.]|[\-.]$)/, "") # remove leading and trailing hyphen
+  # 
+  #   s
+  # end
+
   # def diff_to(other, format = :unified, context_lines = 3)
   #   data_self = self.split(/\n/).map! { |e| e.chomp }
   #   data_other = data_other.split(/\n/).map! { |e| e.chomp }
