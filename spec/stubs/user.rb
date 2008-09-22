@@ -23,7 +23,7 @@ define User do
            :is_site_member? => true,
            :update_attributes => true,
            :destroy => true,
-           :verified! => nil,
+           :verify! => nil,
            :assign_token => 'token',
            :email= => nil,
            :valid? => true

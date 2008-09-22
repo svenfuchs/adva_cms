@@ -39,7 +39,7 @@ class AccountController < BaseController
   end
 
   def verify
-    if current_user.verified!
+    if current_user.verify!
       flash[:notice] = "Successfully verified the E-mail address for #{current_user.name}"
     else
       flash[:notice] = "The E-mail address for #{current_user.name} is already verified."

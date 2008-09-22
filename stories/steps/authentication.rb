@@ -3,7 +3,7 @@ factories :user
 steps_for :authentication do
   Given "the user is logged in" do
     Given "a user"
-    @user.verified!
+    @user.verify!
     post "/session", :user => {:login => @user.login, :password => 'password'}
     controller.authenticated?.should be_true
   end
@@ -19,7 +19,7 @@ steps_for :authentication do
     else
       @user.roles << Role.build(role.to_sym)
     end
-    @user.verified!
+    @user.verify!
 
     post "/session", :user => {:login => @user.login, :password => @user.password}
     controller.authenticated?.should be_true
@@ -27,7 +27,7 @@ steps_for :authentication do
 
   Given "a verified user" do
     Given "a user"
-    @user.verified!
+    @user.verify!
   end
 
   Given "an unverified user" do

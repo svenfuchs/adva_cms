@@ -186,9 +186,9 @@ describe User do
       @user.attributes= {:roles => 'roles'}
     end
 
-    it '#verified! sets the verified_at timestamp and saves the user' do
+    it '#verify! sets the verified_at timestamp and saves the user' do
       @user.should_receive(:update_attributes).with :verified_at => @time_now
-      @user.verified!
+      @user.verify!
     end
 
     it '#restore! restores the user record' do

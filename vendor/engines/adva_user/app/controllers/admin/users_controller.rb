@@ -22,7 +22,7 @@ class Admin::UsersController < Admin::BaseController
   def create
     @user = @site ? @site.users.build : User.new
     if @user.update_attributes(params[:user])
-      @user.verified!
+      @user.verify!
       flash[:notice] = "The user account has been created."
       redirect_to member_path(@user)
     else
