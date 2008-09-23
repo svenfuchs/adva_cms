@@ -6,7 +6,8 @@ class BlogController < BaseController
   before_filter :set_article, :only => :show
   before_filter :guard_view_permissions, :only => :show
 
-  caches_page_with_references :index, :show, :track => ['@article', '@articles', '@category', {'@site' => :tag_counts, '@section' => :tag_counts}]
+  caches_page_with_references :index, :show, 
+    :track => ['@article', '@articles', '@category', {'@site' => :tag_counts, '@section' => :tag_counts}]
   authenticates_anonymous_user
   acts_as_commentable
 
