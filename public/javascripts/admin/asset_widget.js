@@ -74,7 +74,7 @@ var AssetWidget = {
 		}
   },
 	isAttached: function(element) {
-		return $('attached-asset-' + this.assetId(element)) ? true : false;
+		return $('attached_asset_' + this.assetId(element)) ? true : false;
 	},
 	updateSelected: function() {
 		if(!$('assets-widget')) return;
@@ -104,7 +104,7 @@ var AssetWidget = {
 				asset.removeClassName('selected'); 
 			});
 			ids.each(function(id) { 			
-				var asset = $(prefix + '-asset-' + id);
+				var asset = $(prefix + '_asset_' + id);
 				if (asset) { asset.addClassName('selected'); }
 		  });
 		}.bind(this));		
@@ -114,11 +114,11 @@ var AssetWidget = {
 	},	
   showAttachTools: function(id) {
     if(this.isEdit()) {
-		  ['attach', 'detach'].each(function(prefix){ $(prefix + '-' + id).show(); })
+		  ['attach', 'detach'].each(function(prefix){ $(prefix + '_' + id).show(); })
     }
   },  
   hideAttachTools: function(id) {
-		['attach', 'detach'].each(function(prefix){ $(prefix + '-' + id).hide(); })
+		['attach', 'detach'].each(function(prefix){ $(prefix + '_' + id).hide(); })
   },
 	search: function(query) {
     if(!query) return;

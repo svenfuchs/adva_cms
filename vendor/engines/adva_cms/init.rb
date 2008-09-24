@@ -7,7 +7,6 @@ require 'time_hacks'
 require 'core_ext/hash'
 require 'core_ext/kernel'
 require 'core_ext/string'
-require 'rails_ext/active_record/dom_id'
 require 'rails_ext/active_record/sti_instantiation'
 
 require 'routing'
