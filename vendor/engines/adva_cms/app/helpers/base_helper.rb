@@ -16,12 +16,12 @@ class ActionView::Base
 end
 
 module BaseHelper
-  def link_to_section_main_action
-    case @section
+  def link_to_section_main_action(site, section)
+    case section
     when Wiki
-      link_to 'Wikipages', admin_wikipages_path(@site, @section)
+      link_to 'Wikipages', admin_wikipages_path(site, section)
     when Section, Blog
-      link_to 'Articles', admin_articles_path(@site, @section)
+      link_to 'Articles', admin_articles_path(site, section)
     end
   end
 

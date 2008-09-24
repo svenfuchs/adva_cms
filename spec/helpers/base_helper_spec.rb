@@ -1,7 +1,32 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe BaseHelper do
-  it '#link_to_section_main_action should probably be solved differently'
+  # TODO: should maybe solved differently? since we're testing for implementation here, it might be worth some
+  #   investigation ...
+  describe "#link_to_section_main_action" do
+    before(:each) do
+      @site = stub_model(Site)
+      @site.stub!(:to_param).and_return(1)
+    end
+
+    it "builds a link to Wikipages index if section is a Wiki" do
+      @section = stub_model(Wiki)
+      helper.should_receive(:admin_wikipages_path).with(@site, @section).and_return('/path/to/wikipages')
+      helper.link_to_section_main_action(@site, @section)
+    end
+
+    it "builds a link to Articles index if section is a Blog" do
+      @section = stub_model(Blog)
+      helper.should_receive(:admin_articles_path).with(@site, @section).and_return('/path/to/articles')
+      helper.link_to_section_main_action(@site, @section)
+    end
+
+    it "builds a link to Articles index if section is a Section" do
+      @section = stub_model(Section)
+      helper.should_receive(:admin_articles_path).with(@site, @section).and_return('/path/to/articles')
+      helper.link_to_section_main_action(@site, @section)
+    end
+  end
 
   describe '#split_form_for' do
     before :each do
