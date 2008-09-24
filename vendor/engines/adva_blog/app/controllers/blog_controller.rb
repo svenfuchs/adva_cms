@@ -26,10 +26,7 @@ class BlogController < BaseController
 
   protected
 
-    def set_section
-      super
-      raise SectionRoutingError.new("Section must be a Blog: #{@section.inspect}") unless @section.is_a? Blog
-    end
+    def set_section; super(Blog); end
 
     def set_articles
       options = { :page => current_page, :tags => @tags }

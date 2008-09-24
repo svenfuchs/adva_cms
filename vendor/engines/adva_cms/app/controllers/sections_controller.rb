@@ -15,10 +15,7 @@ class SectionsController < BaseController
 
   protected
 
-    def set_section
-      @section = params[:section_id].blank? ? @site.sections.root : @site.sections.find(params[:section_id])
-      raise SectionRoutingError.new("Section must be a Section: #{@section.inspect}") unless @section.is_a? Section
-    end
+    def set_section; super(Section); end
 
     def set_article
       if params[:permalink].blank?

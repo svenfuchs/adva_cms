@@ -86,10 +86,7 @@ class WikiController < BaseController
 
   private
 
-    def set_section
-      super
-      raise SectionRoutingError.new("Section must be a Wiki: #{@section.inspect}") unless @section.is_a? Wiki
-    end
+    def set_section; super(Wiki); end
 
     def set_wikipage
       # TODO do not initialize a new wikipage on :edit and :update actions

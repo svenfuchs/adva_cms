@@ -60,9 +60,7 @@ class BoardsController < BaseController
 
   protected
 
-    def set_section
-      super Forum
-    end
+    def set_section; super(Forum); end
 
     def set_board
       @board = @section.boards.find params[:id]

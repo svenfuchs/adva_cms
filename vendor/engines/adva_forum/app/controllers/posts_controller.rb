@@ -39,9 +39,7 @@ class PostsController < BaseController
   end
 
   protected
-    def set_section
-      super Forum
-    end
+    def set_section; super(Forum); end
 
     def set_topic
       @topic = @section.topics.find params[:topic_id]

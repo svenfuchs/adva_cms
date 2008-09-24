@@ -15,10 +15,7 @@ class ForumController < BaseController
 
   protected
 
-    def set_section
-      super
-      raise SectionRoutingError.new("Section must be a Forum: #{@section.inspect}") unless @section.is_a? Forum
-    end
+    def set_section; super(Forum); end
 
     def set_board
       @board = @section.boards.find params[:board_id] if params[:board_id]
