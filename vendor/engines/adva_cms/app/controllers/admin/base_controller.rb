@@ -80,6 +80,10 @@ class Admin::BaseController < ApplicationController
       Thread.current['site'] = @site
     end
 
+    def set_section
+      @section =  @site.sections.find(params[:section_id]) if params[:section_id]
+    end
+
     def current_role_context
       @section || @site || Site.new
     end

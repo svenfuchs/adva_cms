@@ -27,9 +27,7 @@ class Admin::WikipagesController < Admin::BaseController
 
   private
 
-    def set_section
-      @section = @site.sections.find params[:section_id]
-    end
+    def set_section; super; end
 
     def set_wikipage
       @wikipage = @section.wikipages.find params[:id]

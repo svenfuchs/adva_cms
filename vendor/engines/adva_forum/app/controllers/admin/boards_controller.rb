@@ -54,9 +54,7 @@ class Admin::BoardsController < Admin::BaseController
 
   protected
 
-    def set_section
-      @section = @site.sections.find(params[:section_id])
-    end
+    def set_section; super; end
 
     def set_boards
       @boards = @section.boards :order => :position

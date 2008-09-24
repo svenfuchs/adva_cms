@@ -49,9 +49,7 @@ class Admin::CommentsController < Admin::BaseController
 
   private
 
-    def set_section
-      @section = Section.find(params[:section_id]) if params[:section_id]
-    end
+    def set_section; super; end
 
     def set_contents
       source = @section || @site

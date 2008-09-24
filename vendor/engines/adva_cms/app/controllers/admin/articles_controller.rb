@@ -94,9 +94,7 @@ class Admin::ArticlesController < Admin::BaseController
 
   protected
 
-    def set_section
-      @section = @site.sections.find params[:section_id]
-    end
+    def set_section; super; end
 
     def set_article
       @article = @section.articles.find params[:id]
