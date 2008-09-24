@@ -1,9 +1,9 @@
 class WikipageSweeper < ActionController::Caching::Sweeper
   observe Wikipage
 
-  def after_save(record)
-    expire_record(record.permalink)
-    expire_parent_links(record.permalink)
+  def after_save(wikipage)
+    expire_record(wikipage.permalink)
+    expire_parent_links(wikipage.permalink)
   end
 
   def expire_record(permalink)
