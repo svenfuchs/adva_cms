@@ -84,4 +84,10 @@ module WikiHelper
     content_tag :ul, links * "\n", :class => 'links'
   end
 
+  def collection_title(category=nil, tags=nil)
+    title = []
+    title << "about #{category.title}" if category
+    title << "tagged #{tags.to_sentence}" if tags
+    title.empty? ? 'All pages' : 'Pages ' + title.join(', ')
+  end
 end

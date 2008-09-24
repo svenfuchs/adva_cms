@@ -243,4 +243,27 @@ describe WikiHelper do
       end
     end
   end
+
+  describe '#collection_title' do
+    before(:each) do
+      @category.stub!(:title).and_return('Category Title')
+      @tags = ['Tag 1', 'Tag 2']
+    end
+
+    it "should show the full collection title if all parameters are given" do
+      helper.collection_title(@category, @tags).should == "Pages about Category Title, tagged Tag 1 and Tag 2"
+    end
+
+    it "should show the collection title with category title if only category is given" do
+      helper.collection_title(@category, nil).should == "Pages about Category Title"
+    end
+
+    it "should show the collection title with tags if only tags are given" do
+      helper.collection_title(nil, @tags).should == "Pages tagged Tag 1 and Tag 2"
+    end
+
+    it "should show the default collection title if no parameters are given" do
+      helper.collection_title(nil, nil).should == "All pages"
+    end
+  end
 end

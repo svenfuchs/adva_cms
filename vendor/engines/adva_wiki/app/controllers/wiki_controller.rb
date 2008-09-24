@@ -14,8 +14,6 @@ class WikiController < BaseController
   cache_sweeper :wikipage_sweeper, :category_sweeper, :tag_sweeper, :only => [:create, :update, :rollback, :destroy]
   guards_permissions :wikipage, :except => [:index, :show, :diff]
 
-  helper_method :collection_title
-
   def index
     respond_to do |format|
       format.html { render @section.render_options }
@@ -87,13 +85,6 @@ class WikiController < BaseController
   end
 
   private
-
-    def collection_title
-      title = []
-      title << "about #{@category.title}" if @category
-      title << "tagged #{@tags.to_sentence}" if @tags
-      title.empty? ? 'All pages' : 'Pages ' + title.join(', ')
-    end
 
     def set_section
       super
