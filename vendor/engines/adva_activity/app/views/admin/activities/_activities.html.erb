@@ -1,12 +1,9 @@
 <%#= link_to 'Subscribe', overview_url, :class => 'feed right' %>
-
 <div class="activities">
   <h3>Today <%= todays_short_date %></h3>
   <%= render_activities activities[0], true %>
-
   <h3>Yesterday <%= yesterdays_short_date %></h3>
   <%= render_activities activities[1], true %>
-
   <h3>Before <%= yesterdays_short_date %></h3>
   <%= render_activities activities[2] %>
 </div>

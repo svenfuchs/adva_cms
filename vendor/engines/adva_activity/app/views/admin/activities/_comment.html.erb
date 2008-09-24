@@ -4,11 +4,8 @@
     <%= link_to_activity_user activity %><br />
     <%= link_to_content activity.object.commentable if activity.object %>
   </p>
-  
   <h4>Comment <%= activity.all_actions.to_sentence(:skip_last_comma => true) %></h4>
-  
   <blockquote><p>&quot;<%= truncate strip_tags(activity.body), 100 %>&quot;</p></blockquote>
-
   <% if activity.object -%>
     <ul>
     <% unless activity.object.commentable_type == 'Topic' %>
@@ -22,5 +19,4 @@
     <li><%= link_to 'Delete', admin_comment_returning_path(activity.object), :method => :delete, :confirm => "Are you sure you wish to delete this comment?" %></li>
     </ul>
   <% end -%>    
-  
 </li>
