@@ -6,6 +6,7 @@ require 'redcloth'
 require 'time_hacks'
 require 'core_ext/hash'
 require 'core_ext/kernel'
+require 'core_ext/module'
 require 'core_ext/string'
 require 'rails_ext/active_record/sti_instantiation'
 
