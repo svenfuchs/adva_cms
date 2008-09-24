@@ -12,7 +12,7 @@ module Activities
       attrs = record.send(:clone_attributes)
       attrs = attrs.slice 'commentable_id', 'body', 'author_name', 'author_email', 'author_url'
       type = record.commentable.has_attribute?('type') ? record.commentable['type'] : record.commentable_type
-      attrs.update 'commentable_type' => type, 'commentable_title' => record.commentable.title
+      attrs.update('commentable_type' => type, 'commentable_title' => record.commentable.title)
     end
 
     def initialize_activity(record)

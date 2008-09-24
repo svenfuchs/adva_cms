@@ -71,7 +71,7 @@ class Activity < ActiveRecord::Base
   end
 
   def all_actions
-    (siblings.reverse.map(&:actions).compact.flatten + actions)
+    siblings.reverse.map(&:actions).compact.flatten + actions
   end
 
   def from

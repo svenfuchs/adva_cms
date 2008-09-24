@@ -6,7 +6,7 @@ module Activities
 
     class << self
       def logs_activity(options = {})
-        options.assert_valid_keys :attributes
+        options.assert_valid_keys(:attributes)
         self.activity_attributes += options[:attributes] if options[:attributes]
         yield Configurator.new(self) if block_given?
       end
