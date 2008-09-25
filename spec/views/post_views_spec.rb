@@ -5,7 +5,6 @@ describe "Post views:" do
   include ContentHelper
 
   before :each do
-    I18n.locale = :en
     Thread.current[:site] = stub_site
 
     assigns[:section] = @forum = stub_forum
