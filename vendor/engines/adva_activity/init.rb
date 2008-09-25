@@ -10,4 +10,5 @@ end
 
 Activities.include_into 'Site'
 
-ActiveRecord::Base.observers += %w(activities/article_observer activities/comment_observer activities/wikipage_observer)
+ActiveRecord::Base.observers += ['activities/activity_observer', 'activities/article_observer',
+                                 'activities/comment_observer', 'activities/wikipage_observer']
