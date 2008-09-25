@@ -24,7 +24,7 @@
       <% end %>
     </tbody>
   </table>
-  
+  <p><%= link_to "Create new wikipage &raquo;", new_wikipage_path(@section) %></p>
   <%= will_paginate @wikipages, :id => 'pagination' %>
   
 <% else %>
