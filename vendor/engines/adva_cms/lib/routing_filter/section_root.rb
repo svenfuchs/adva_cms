@@ -4,7 +4,7 @@ module RoutingFilter
   class SectionRoot < Base
     # prepends the root section path to the path if the given pattern matches
     def around_recognize(path, env, &block)
-      if root = find_root_by_host(env)
+      if path !~ %r(^/admin) and root = find_root_by_host(env)
         path.sub! recognize_pattern do
           "#{$1}/#{root.type.pluralize.downcase}/#{root.id}#{$2}"
         end
@@ -37,7 +37,7 @@ module RoutingFilter
       end
     
       def current_root
-        Thread.current[:site].sections.root
+        Thread.current[:site].sections.root if Thread.current[:site]
       end
   end
 end
