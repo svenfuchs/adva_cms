@@ -77,7 +77,7 @@ class Admin::BaseController < ApplicationController
 
     def set_site
       @site = Site.find(params[:site_id])
-      Thread.current['site'] = @site
+      Thread.current[:site] = @site
     end
 
     def set_section

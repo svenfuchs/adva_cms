@@ -38,7 +38,7 @@ class BaseController < ApplicationController
 
     def set_site
       @site = Site.find_by_host(request.host_with_port)
-      Thread.current['site'] = @site
+      Thread.current[:site] = @site
     end
 
     def set_section(type = nil)

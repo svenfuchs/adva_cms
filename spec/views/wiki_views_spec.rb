@@ -5,7 +5,7 @@ describe "Wiki views:" do
 
   before :each do
     I18n.locale = :en
-    Thread.current['site'] = stub_site
+    Thread.current[:site] = stub_site
 
     assigns[:section] = @wiki = stub_wiki
     @wikipage = stub_wikipage

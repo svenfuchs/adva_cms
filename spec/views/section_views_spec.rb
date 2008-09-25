@@ -6,7 +6,7 @@ describe "Section views:" do
 
   before :each do
     I18n.locale = :en
-    Thread.current['site'] = stub_site
+    Thread.current[:site] = stub_site
 
     assigns[:site] = @site = stub_site
     assigns[:section] = @section = stub_section

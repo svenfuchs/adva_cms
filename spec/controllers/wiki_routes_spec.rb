@@ -8,7 +8,7 @@ describe WikiController do
     scenario :wiki_with_wikipages
 
     controller.instance_variable_set :@site, @site
-    Thread.current['site'] = @site
+    Thread.current[:site] = @site
   end
 
   describe "routing" do

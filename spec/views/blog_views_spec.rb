@@ -6,7 +6,7 @@ describe "Blog views:" do
 
   before :each do
     I18n.locale = :en
-    Thread.current['site'] = stub_site
+    Thread.current[:site] = stub_site
 
     assigns[:site] = stub_user
     assigns[:section] = stub_blog

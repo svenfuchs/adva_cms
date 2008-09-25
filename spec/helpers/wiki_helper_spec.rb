@@ -6,7 +6,7 @@ describe WikiHelper do
   before :each do
     scenario :wiki_with_wikipages
     I18n.locale = :en
-    Thread.current['site'] = @site
+    Thread.current[:site] = @site
 
     @user_role = Role.build :user, Wikipage.new(:author => User.new)
     @wikipage.stub!(:role_authorizing).and_return @user_role

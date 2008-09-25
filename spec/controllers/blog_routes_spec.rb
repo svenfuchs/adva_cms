@@ -7,7 +7,7 @@ describe BlogController do
   before :each do
     scenario :blog_with_published_article
     controller.instance_variable_set :@site, @site
-    Thread.current['site'] = @site
+    Thread.current[:site] = @site
   end
 
   describe "routing" do

@@ -6,7 +6,7 @@ describe "Comment views:" do
 
   before :each do
     I18n.locale = :en
-    Thread.current['site'] = stub_site
+    Thread.current[:site] = stub_site
 
     assigns[:site] = @site = stub_site
     assigns[:comment] = @comment = stub_comment

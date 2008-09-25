@@ -37,7 +37,7 @@ module RoutingFilter
       end
     
       def current_root
-        Thread.current['site'].sections.root
+        Thread.current[:site].sections.root
       end
   end
 end
