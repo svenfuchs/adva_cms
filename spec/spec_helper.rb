@@ -25,6 +25,8 @@ require "cacheable_flash/test_helpers"
 require "rspec_on_rails_on_crack"
 # AGW::CacheTest.setup
 
+I18n.locale = :en # set this up globally as it will be setup in base controllers
+
 ActionController::TestResponse.send :include, CacheableFlash::TestHelpers
 
 Spec::Rails::Example::ControllerExampleGroup.class_eval do
