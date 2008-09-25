@@ -14,7 +14,7 @@ module RoutingFilter
 
     def around_generate(*args, &block)
       returning yield do |result|
-        if root = current_root and result =~ generate_pattern(root)
+        if result !~ %r(^/admin/) and root = current_root and result =~ generate_pattern(root)
           result.sub! $2, $3 unless $3 == '.'
           result.replace '/' if result.empty?
         end
