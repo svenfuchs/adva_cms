@@ -52,6 +52,11 @@ class User < ActiveRecord::Base
       user.roles << Role::Superuser.create!
       user
     end
+
+    def find_all_by_site_and_role(site, role)
+      return superusers if (role = role.to_s.classify) == 'Superuser'
+      find(:all, :include => :roles, :conditions => ["roles.context_type = 'Site' AND roles.context_id = ? AND roles.type = ?", site.id, "Role::#{role}"])
+    end
   end
 
   # Using callbacks for such lowlevel things is just awkward. So let's hook in here.
