@@ -11,4 +11,15 @@
 
 ActiveRecord::Schema.define(:version => 0) do
 
+  create_table "plugin_configs", :force => true do |t|
+    t.integer "site_id"
+    t.string  "name"
+    t.text    "options"
+  end
+
+  create_table "plugin_schema_info", :id => false, :force => true do |t|
+    t.string  "plugin_name"
+    t.integer "version"
+  end
+
 end
