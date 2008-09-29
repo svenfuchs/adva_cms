@@ -20,6 +20,9 @@ class Admin::ArticlesController < Admin::BaseController
   guards_permissions :article, :update => :update_all
 
 
+  # cache_sweeper :article_ping_observer
+  
+
   def index
     # TODO params[:per_page] ??
     options = {:page => current_page, :per_page => params[:per_page], :order => 'contents.position, contents.id DESC'}
