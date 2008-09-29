@@ -49,7 +49,7 @@ class BaseController < ApplicationController
     end
 
     def set_locale
-      I18n.locale = params[:locale] || :en
+      I18n.locale = params[:locale] || I18n.default_locale
       # TODO raise something more meaningful
       I18n.locale =~ /^[\w]{2}$/ or raise 'invalid locale' if params[:locale]
       I18n.locale.untaint
