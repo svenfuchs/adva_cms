@@ -8,6 +8,7 @@ describe Admin::ArticlesController do
    set_resource_paths :article, '/admin/sites/1/sections/1/'
    @controller.stub! :require_authentication
    @controller.stub!(:has_permission?).and_return true
+   @controller.stub!(:current_user).and_return stub_user
  end
 
  it "should be an Admin::BaseController" do

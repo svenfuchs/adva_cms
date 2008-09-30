@@ -38,7 +38,7 @@ class ArticlePingObserver < ActionController::Caching::Sweeper
       end
     end
 
-    def pom_get_ping(url, article, extra)
+    def pom_get_ping(url, article, extra = [])
       url = pom_get_url(url, article, extra)
       Net::HTTP.get(URI.parse(URI.escape(url)))
     end
@@ -57,7 +57,7 @@ class ArticlePingObserver < ActionController::Caching::Sweeper
 
   private
 
-    def pom_get_url(url, article, extra)
+    def pom_get_url(url, article, extra = [])
       "#{url}?title=#{blog_title(article)}&blogurl=#{blog_url(article)}&rssurl=#{blog_feed_url(article)}" + Array(extra) * '&'
     end
 
