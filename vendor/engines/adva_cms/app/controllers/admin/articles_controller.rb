@@ -19,6 +19,7 @@ class Admin::ArticlesController < Admin::BaseController
 
   guards_permissions :article, :update => :update_all
 
+  # TODO remove this dependency from here and put it into the plugin
   cache_sweeper :article_ping_observer, :only => [:create, :update]
 
   def index
@@ -54,7 +55,6 @@ class Admin::ArticlesController < Admin::BaseController
 
   def update
     rollback and return if params[:version]
-    
     @article.attributes = params[:article]
     if save_with_revision? ? @article.save : @article.save_without_revision
       flash[:notice] = "The article has been updated"
@@ -107,7 +107,7 @@ class Admin::ArticlesController < Admin::BaseController
     end
 
     def params_author
-      set_article_param :author, current_user
+      set_article_param(:author, current_user) or raise "current_user not set"
     end
 
     def params_category_ids

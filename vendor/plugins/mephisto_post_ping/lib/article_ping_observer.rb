@@ -7,10 +7,6 @@ class ArticlePingObserver < ActionController::Caching::Sweeper
   SERVICES = []
 
   def after_save(article)
-    exit
-    p "article ping observer"
-    p article
-    p "<<<"
     return unless article.published?
 
     SERVICES.each do |service|
@@ -18,14 +14,14 @@ class ArticlePingObserver < ActionController::Caching::Sweeper
       # next if service[:tag] && article.tags(true).select { |tag| true if tag[:name] == service[:tag].to_s }.length == 0
 
       logger.info "sending #{service[:type]} ping to #{service[:url]}" # wtf, why can't this go into the thread?
-      Thread.new(service, article) do |service, article|
+      # Thread.new(service, article) do |service, article|
         #begin
           result = ping_service(service, article)
           logger.info "#{service[:type]} ping result => '#{result.inspect}'"
         #rescue Exception => e
         #  logger.error "unable to send #{service[:type]} ping to #{service[:url]} #{e.message}"
         #end
-      end
+      # end
     end
   end
 
@@ -42,9 +38,9 @@ class ArticlePingObserver < ActionController::Caching::Sweeper
       end
     end
 
-    def pom_get_ping(url, article, extra = [])
-      pom_get_url = pom_get_url(url, article, extra)
-      Net::HTTP.get(URI.parse(URI.escape(pom_get_url)))
+    def pom_get_ping(url, article, extra)
+      url = pom_get_url(url, article, extra)
+      Net::HTTP.get(URI.parse(URI.escape(url)))
     end
 
     def rest_ping(url, article)
@@ -61,8 +57,8 @@ class ArticlePingObserver < ActionController::Caching::Sweeper
 
   private
 
-    def pom_get_url(url, article, extra = [])
-      "#{url}?title=#{blog_title(article)}&blogurl=#{blog_url(article)}&rssurl=#{blog_feed_url(article)}" + extra * '&'
+    def pom_get_url(url, article, extra)
+      "#{url}?title=#{blog_title(article)}&blogurl=#{blog_url(article)}&rssurl=#{blog_feed_url(article)}" + Array(extra) * '&'
     end
 
     def blog_title(article)
@@ -70,11 +66,11 @@ class ArticlePingObserver < ActionController::Caching::Sweeper
     end
 
     def blog_url(article)
-      controller.blog_url(article.section)
+      controller.send :blog_url, article.section
     end
 
     def blog_feed_url(article)
-      controller.formatted_blog_url(article.section, :format => :atom)
+      controller.send :formatted_blog_url, article.section, :format => :atom
     end
 
     def rest_params(article)
