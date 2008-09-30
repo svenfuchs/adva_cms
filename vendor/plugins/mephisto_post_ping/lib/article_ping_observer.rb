@@ -1,6 +1,4 @@
 require 'thread'
-require 'net/http'
-require 'uri'
 
 class ArticlePingObserver < ActionController::Caching::Sweeper
   observe Article
@@ -39,18 +37,21 @@ class ArticlePingObserver < ActionController::Caching::Sweeper
     end
 
     def pom_get_ping(url, article, extra = [])
+      require_net_http_and_uri
       url = pom_get_url(url, article, extra)
       Net::HTTP.get(URI.parse(URI.escape(url)))
     end
 
     def rest_ping(url, article)
       # see the weblogs rest ping spec @ http://www.weblogs.com/api.html
+      require_net_http_and_uri
       result = Net::HTTP.post_form URI.parse(url), rest_params(article)
       return result if result.kind_of?(Net::HTTPSuccess)
       raise Exception.new("result: #{result.inspect}")
     end
 
     def xmlrpc_ping(url, article)
+      require 'xmlrpc/client'
       # see the weblogs xmlrpc ping spec @ http://www.weblogs.com/api.html
       XMLRPC::Client.new2(url).call2 'weblogUpdates.extendedPing', *xmlrpc_params(article)
     end
@@ -75,6 +76,11 @@ class ArticlePingObserver < ActionController::Caching::Sweeper
 
     def rest_params(article)
       { "name" => blog_title(article), "url" => blog_url(article) }
+    end
+
+    def require_net_http_and_uri
+      require 'net/http'
+      require 'uri'
     end
 
     def xmlrpc_params(article)

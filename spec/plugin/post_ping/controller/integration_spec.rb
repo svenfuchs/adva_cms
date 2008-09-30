@@ -26,16 +26,16 @@ describe "ArticlePingObserver controller integration", :type => :controller do
     end
   end
 
-  # it "does not ping a blog service if the article is not published" do
-  #   @observer.should_not_receive(:ping_service)
-  #   publish_article!
-  # end
-  # 
-  # it "calls the after_save callback if the article is published" do
-  #   Article.should_receive(:find).and_return(@article)
-  #   @observer.should_receive(:after_save).with(@article)
-  #   publish_article!
-  # end
+  it "does not ping a blog service if the article is not published" do
+    @observer.should_not_receive(:ping_service)
+    publish_article!
+  end
+  
+  it "calls the after_save callback if the article is published" do
+    Article.should_receive(:find).and_return(@article)
+    @observer.should_receive(:after_save).with(@article)
+    publish_article!
+  end
   
   it "pings ping-o-matic if the article is published and pom_get is set as a service" do
     ArticlePingObserver::SERVICES << { :url => "http://ping-o-matic.com", :type => :pom_get }
@@ -44,17 +44,26 @@ describe "ArticlePingObserver controller integration", :type => :controller do
     publish_article!
   end
 
-#    it "does a rest_ping ping if article is published and rest_ping is set as service" do
-#      ArticlePingObserver::SERVICES << { :url => "http://rest_ping.com/", :type => :rest }
-#      Article.should_receive(:find).and_return(@article)
-#      @observer.should_receive(:rest_ping).with("http://rest_ping.com/", @article)
-#      request_to :put, "/admin/sites/#{@site.id}/sections/#{@blog.id}/articles/#{@article.id}", {:"published_at(1i)" => "2008", :"published_at(2i)"=>"9", :"published_at(3i)"=>"29"}
-#    end
+  it "does a rest_ping ping if article is published and rest_ping is set as service" do
+    rest_ping_url = "http://rest-ping.com"
+    parsed_rest_ping_url = URI.parse(rest_ping_url)
+    rest_params = {"name"=>"blog title", "url"=>"http://test.host/blogs/1"}
+    ArticlePingObserver::SERVICES << { :url => rest_ping_url, :type => :rest }
+    
+    URI.should_receive(:parse).with(rest_ping_url).and_return(parsed_rest_ping_url)
+    Net::HTTP.should_receive(:post_form).with(parsed_rest_ping_url, rest_params).and_return(mock_model(Net::HTTPSuccess))
+    publish_article!
+  end
 
-#    it "does a xmlrpc_ping ping if article is published and xmlrpc_ping is set as service" do
-#      ArticlePingObserver::SERVICES << { :url => "http://xmlrpc_ping.com/", :type => :xmlrpc }
-#      Article.should_receive(:find).and_return(@article)
-#      @observer.should_receive(:xmlrpc_ping).with("http://xmlrpc_ping.com/", @article)
-#      request_to :put, "/admin/sites/#{@site.id}/sections/#{@blog.id}/articles/#{@article.id}", {:"published_at(1i)" => "2008", :"published_at(2i)"=>"9", :"published_at(3i)"=>"29"}
-#    end
+  it "does a xmlrpc_ping ping if article is published and xmlrpc_ping is set as service" do
+    require 'xmlrpc/client'
+    xmlrpc_ping_url = "http://xmlrpc-ping.com"
+    xmlrpc_client = XMLRPC::Client.new2(xmlrpc_ping_url)
+    xmlrpc_params = ["blog title", "http://test.host/blogs/1", "http://test.host/blogs/1.atom", ""]
+    ArticlePingObserver::SERVICES << { :url => xmlrpc_ping_url, :type => :xmlrpc }
+
+    XMLRPC::Client.should_receive(:new2).and_return(xmlrpc_client) 
+    xmlrpc_client.should_receive(:call2).with('weblogUpdates.extendedPing', *xmlrpc_params)
+    publish_article!
+  end
 end
