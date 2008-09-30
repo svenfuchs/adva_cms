@@ -178,6 +178,26 @@ describe User do
         User.create_superuser @attributes
       end
     end
+
+    describe ".find_all_by_site_and_role" do
+      it "finds all admins of a given site" do
+        User.should_receive(:find) do |arg, options|
+          arg == :all &&
+          options[:conditions] == ["roles.context_type = 'Site' AND roles.context_id = ? AND roles.type = 'Role::?'"] &&
+          Array(options[:include]).include?(:roles)
+        end
+        User.find_all_by_site_and_role(stub_site, 'Admin')
+      end
+
+      it "finds all admins of a given site when admin role is passed as a symbol" # TODO: necessary?
+
+      it "finds all admins of a given site when admin role is passed as a lower case string" # TODO: necessary?
+
+      it "finds all superusers" do
+        User.should_receive(:superusers)
+        User.find_all_by_site_and_role(stub_site, 'Superuser')
+      end
+    end
   end
 
   describe 'instance methods' do

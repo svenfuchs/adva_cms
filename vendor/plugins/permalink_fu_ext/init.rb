@@ -1,6 +1,6 @@
 # PermalinkFu doesn't work with STI by default. Here's a fix for that.
 
-PermalinkFu::ClassMethods.module_eval do      
+PermalinkFu::ClassMethods.module_eval do
   alias :has_permalink_without_fix :has_permalink
   def has_permalink(*args)
     has_permalink_without_fix(*args)
@@ -15,7 +15,7 @@ PermalinkFu::ClassMethods.module_eval do
         end
       end
     end
-  end   
+  end
 end
 
 # allow an option :separator for joining several permalink attributes
@@ -30,10 +30,56 @@ PermalinkFu.module_eval do
       result.empty? ? nil : result
     end
   end
-  
+
   def create_permalink_for(attr_names)
-    attr_names.collect do |attr_name| 
+    attr_names.collect do |attr_name|
       PermalinkFu.escape(send(attr_name).to_s)
     end.compact.join(self.class.permalink_options[:separator] || '-')
+  end
+end
+
+# use custom translation logic
+PermalinkFu.module_eval do
+  class << self
+    def escape_with_custom_translation_logic(str)
+      character_translations.each_pair do |search_chars, replacement|
+        Array(search_chars).each { |character| str.gsub!(character, replacement) }
+      end
+      escape_without_custom_translation_logic(str)
+    end
+    alias_method_chain :escape, :custom_translation_logic
+
+    private
+    def character_translations
+      {
+        %w(À Á Â Ã Å)  => "A",
+        %w(Ä Æ)        => "Ae",
+        "Ç"            => "C",
+        "Ð"            => "D",
+        %w(È É Ê Ë)    => "E",
+        %w(Ì Í Î Ï)    => "I",
+        "Ñ"            => "N",
+        %w(Ò Ó Ô Õ Ø)  => "O",
+        "Ö"            => "Oe",
+        %w(Ù Ú Û)      => "U",
+        "Ü"            => "Ue",
+        "Ý"            => "Y",
+
+        "Þ"            => "p",
+        %w(à á â ã å)  => "a",
+        %w(ä æ)        => "ae",
+        "ç"            => "c",
+        "ð"            => "d",
+        %w(è é ê ë)    => "e",
+        %w(ì í î ï)    => "i",
+        "ñ"            => "n",
+        %w(ò ó ô õ ø)  => "o",
+        "ö"            => "oe",
+        "ß"            => "ss",
+        %w(ù ú û)      => "u",
+        "ü"            => "ue",
+        "ý"            => "y"
+      }
+    end
   end
 end

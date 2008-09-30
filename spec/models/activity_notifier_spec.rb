@@ -25,44 +25,53 @@ describe Activities::ActivityObserver do
   end
 
   describe "for articles" do
+    before(:each) do
+      @activity.stub!(:object).and_return(stub_article)
+      @activity.stub!(:author_name).and_return(stub_article.author_name)
+      @activity.stub!(:author_email).and_return(stub_article.author_email)
+    end
+
     it "sets the mail up correctly" do
       @mail.subject = "[#{stub_site.name} / #{stub_section.title}] New Article posted"
       @mail.from    = "#{stub_site.name} <#{stub_site.email}>"
-      # TODO: include recipients
-      @mail.body    = "#{stub_article.author_name} just posted a new Article on #{stub_site.name} in section #{stub_section.title}."
+      @mail.body    = "#{stub_article.author_name} <#{stub_article.author_email}> just posted a new Article on #{stub_site.name} in section #{stub_section.title}."
+      @mail.to      = "#{stub_user.email}"
 
-      @activity.stub!(:object).and_return(stub_article)
-      @activity.stub!(:author_name).and_return(stub_article.author_name)
-
-      ActivityNotifier.create_new_content_notification(@activity).encoded.should == @mail.encoded
+      ActivityNotifier.create_new_content_notification(@activity, stub_user).encoded.should == @mail.encoded
     end
   end
 
   describe "for comments" do
+    before(:each) do
+      @activity.stub!(:object).and_return(stub_comment)
+      @activity.stub!(:author_name).and_return(stub_comment.author_name)
+      @activity.stub!(:author_email).and_return(stub_comment.author_email)
+    end
+
     it "sets the mail up correctly" do
       @mail.subject = "[#{stub_site.name} / #{stub_section.title}] New Comment posted"
       @mail.from    = "#{stub_site.name} <#{stub_site.email}>"
-      # TODO: include recipients
-      @mail.body    = "#{stub_comment.author_name} just posted a new Comment on #{stub_site.name} in section #{stub_section.title}."
+      @mail.body    = "#{stub_comment.author_name} <#{stub_comment.author_email}> just posted a new Comment on #{stub_site.name} in section #{stub_section.title}."
+      @mail.to      = "#{stub_user.email}"
 
-      @activity.stub!(:object).and_return(stub_comment)
-      @activity.stub!(:author_name).and_return(stub_comment.author_name)
-
-      ActivityNotifier.create_new_content_notification(@activity).encoded.should == @mail.encoded
+      ActivityNotifier.create_new_content_notification(@activity, stub_user).encoded.should == @mail.encoded
     end
   end
 
   describe "for wikipages" do
+    before(:each) do
+      @activity.stub!(:object).and_return(stub_wikipage)
+      @activity.stub!(:author_name).and_return(stub_wikipage.author_name)
+      @activity.stub!(:author_email).and_return(stub_wikipage.author_email)
+    end
+
     it "sets the mail up correctly" do
       @mail.subject = "[#{stub_site.name} / #{stub_section.title}] New Wikipage posted"
       @mail.from    = "#{stub_site.name} <#{stub_site.email}>"
-      # TODO: include recipients
-      @mail.body    = "#{stub_wikipage.author_name} just posted a new Wikipage on #{stub_site.name} in section #{stub_section.title}."
+      @mail.body    = "#{stub_wikipage.author_name} <#{stub_wikipage.author_email}> just posted a new Wikipage on #{stub_site.name} in section #{stub_section.title}."
+      @mail.to      = "#{stub_user.email}"
 
-      @activity.stub!(:object).and_return(stub_wikipage)
-      @activity.stub!(:author_name).and_return(stub_wikipage.author_name)
-
-      ActivityNotifier.create_new_content_notification(@activity).encoded.should == @mail.encoded
+      ActivityNotifier.create_new_content_notification(@activity, stub_user).encoded.should == @mail.encoded
     end
   end
 
