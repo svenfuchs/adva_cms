@@ -7,6 +7,10 @@ class ArticlePingObserver < ActionController::Caching::Sweeper
   SERVICES = []
 
   def after_save(article)
+    exit
+    p "article ping observer"
+    p article
+    p "<<<"
     return unless article.published?
 
     SERVICES.each do |service|
@@ -15,12 +19,12 @@ class ArticlePingObserver < ActionController::Caching::Sweeper
 
       logger.info "sending #{service[:type]} ping to #{service[:url]}" # wtf, why can't this go into the thread?
       Thread.new(service, article) do |service, article|
-        begin
+        #begin
           result = ping_service(service, article)
           logger.info "#{service[:type]} ping result => '#{result.inspect}'"
-        rescue Exception => e
-          logger.error "unable to send #{service[:type]} ping to #{service[:url]} #{e.message}"
-        end
+        #rescue Exception => e
+        #  logger.error "unable to send #{service[:type]} ping to #{service[:url]} #{e.message}"
+        #end
       end
     end
   end

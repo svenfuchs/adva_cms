@@ -19,9 +19,7 @@ class Admin::ArticlesController < Admin::BaseController
 
   guards_permissions :article, :update => :update_all
 
-
-  # cache_sweeper :article_ping_observer
-  
+  cache_sweeper :article_ping_observer, :only => [:create, :update]
 
   def index
     # TODO params[:per_page] ??
@@ -56,7 +54,7 @@ class Admin::ArticlesController < Admin::BaseController
 
   def update
     rollback and return if params[:version]
-
+    
     @article.attributes = params[:article]
     if save_with_revision? ? @article.save : @article.save_without_revision
       flash[:notice] = "The article has been updated"
