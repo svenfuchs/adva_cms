@@ -12,6 +12,6 @@
   <% end %> 
   </td>
   <td><%= published_at_formatted article %></td>
-  <td><%= link_to h(article.author.name), admin_site_user_path(@site, article.author) %></td>
+  <td><%= link_to h(article.author_name), admin_site_user_path(@site, article.author) %></td>
   <td><%= article.published? ? link_to("view", content_path(article), :class => 'view') : '&nbsp;' %></td>
 </tr>
