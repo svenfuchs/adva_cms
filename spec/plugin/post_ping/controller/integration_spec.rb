@@ -12,6 +12,7 @@ describe "ArticlePingObserver controller integration", :type => :controller do
     @blog = Blog.create :title => 'blog title', :site => @site
     @user = stub_user
     @article = Article.create :title => 'article title', :body => 'article body', :section => @blog, :author => @user
+    User.stub!(:find).and_return(@user)
 
     @controller.stub! :require_authentication
     @controller.stub!(:has_permission?).and_return true
