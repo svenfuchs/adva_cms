@@ -6,9 +6,11 @@ describe Admin::ArticlesController do
  before :each do
    scenario :section_with_published_article
    set_resource_paths :article, '/admin/sites/1/sections/1/'
+   @parameters = {:article => {:author => 1}}
    @controller.stub! :require_authentication
    @controller.stub!(:has_permission?).and_return true
    @controller.stub!(:current_user).and_return stub_user
+   User.stub!(:find).and_return stub_user
  end
 
  it "should be an Admin::BaseController" do
@@ -99,7 +101,7 @@ describe Admin::ArticlesController do
  end
 
  describe "POST to :create" do
-   act! { request_to :post, @collection_path }
+   act! { request_to :post, @collection_path, @parameters }
    it_assigns :article
    it_guards_permissions :create, :article
 
@@ -133,7 +135,7 @@ describe Admin::ArticlesController do
  end
 
  describe "PUT to :update" do
-   act! { request_to :put, @member_path }
+   act! { request_to :put, @member_path, @parameters }
    it_assigns :article
    it_guards_permissions :update, :article
 
@@ -160,7 +162,7 @@ describe Admin::ArticlesController do
 
    it "saves a new revision when given a :save_revision param" do
      @article.should_receive :save
-     request_to :put, @member_path, :save_revision => "1"
+     request_to :put, @member_path, @parameters.merge(:save_revision => "1")
    end
 
    it "does not save a new revision when given no :save_revision param" do
@@ -170,7 +172,7 @@ describe Admin::ArticlesController do
 
    it "reverts the article before saving when given a version param" do
      @article.should_receive(:revert_to).any_number_of_times.with "1"
-     request_to :put, @member_path, :version => "1"
+     request_to :put, @member_path, @parameters.merge(:version => "1")
    end
  end
 

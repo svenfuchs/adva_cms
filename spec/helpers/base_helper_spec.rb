@@ -102,6 +102,7 @@ describe BaseHelper do
   describe 'author selection' do
     before(:each) do
       @user = mock_model User
+      @user.stub!(:id).and_return 1
     end
     
     it '#author_options returns a nested array containing the current user as a fallback option if the site does not have any members' do
@@ -110,6 +111,7 @@ describe BaseHelper do
       @user.should_receive(:name).and_return('test user')
       @user.should_receive(:id).and_return(1)
       @site.should_receive(:users).and_return []
+      @article = mock_model Article
   
       helper.author_options.should == [['test user', 1]]
     end
@@ -122,6 +124,17 @@ describe BaseHelper do
       @site.should_receive(:users).exactly(2).times.and_return [@user]
   
       helper.author_options.should == [['test user', 1]]
+    end
+
+    it "#author_preselect returns an id of current_user if article does not have any author" do
+      @article.should_receive(:author).and_return(nil)
+      helper.should_receive(:current_user).and_return(@user)
+      helper.author_preselect.should == 1
+    end
+
+    it "#author_preselect returns an id of the author" do
+      @article.should_receive(:author).exactly(2).times.and_return(@user)
+      helper.author_preselect.should == 1
     end
   end
 end

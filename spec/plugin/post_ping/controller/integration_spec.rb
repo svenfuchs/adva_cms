@@ -10,7 +10,8 @@ describe "ArticlePingObserver controller integration", :type => :controller do
 
     @site = Site.create :title => 'site title', :name => 'site name', :host => 'localhost'
     @blog = Blog.create :title => 'blog title', :site => @site
-    @article = Article.create :title => 'article title', :body => 'article body', :section => @blog, :author => stub_user
+    @user = stub_user
+    @article = Article.create :title => 'article title', :body => 'article body', :section => @blog, :author => @user
 
     @controller.stub! :require_authentication
     @controller.stub!(:has_permission?).and_return true
@@ -22,7 +23,7 @@ describe "ArticlePingObserver controller integration", :type => :controller do
   
   def publish_article!
     Article.with_observers('article_ping_observer') do 
-      request_to :put, @member_url, :article => @published_at_params
+      request_to :put, @member_url, :article => @published_at_params.merge(:author => @user.id)
     end
   end
 

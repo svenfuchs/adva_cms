@@ -107,7 +107,8 @@ class Admin::ArticlesController < Admin::BaseController
     end
 
     def params_author
-      set_article_param(:author, current_user) or raise "current_user not set"
+      author = User.find(params[:article][:author]) || current_user
+      set_article_param(:author, author) or raise "author and current_user not set"
     end
 
     def params_category_ids

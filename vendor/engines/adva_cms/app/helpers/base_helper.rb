@@ -71,4 +71,8 @@ module BaseHelper
     return [[current_user.name, current_user.id]] if @site.users.empty?
     @site.users.collect {|member| [member.name, member.id]}.sort
   end
+
+  def author_preselect
+    @article.author ? @article.author.id : current_user.id
+  end
 end
