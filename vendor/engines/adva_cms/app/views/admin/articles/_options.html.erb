@@ -8,6 +8,10 @@
 
 <h4>Optional settings</h4>
 <p>
+  <%= f.label :author %>
+  <%= f.select :author, author_options, :html => {:name => 'author_selection'} %>
+</p>
+<p>
   <%= f.label :filter %>
   <%= f.select :filter, filter_options %>
 </p>

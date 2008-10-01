@@ -67,4 +67,8 @@ module BaseHelper
     end.unshift ['Plain HTML', '']
   end
 
+  def author_options
+    return [[current_user.name, current_user.id]] if @site.users.empty?
+    @site.users.collect {|member| [member.name, member.id]}.sort
+  end
 end

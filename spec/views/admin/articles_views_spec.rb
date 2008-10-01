@@ -117,6 +117,7 @@ describe "Admin::Articles:" do
       template.stub!(:f).and_return ActionView::Base.default_form_builder.new(:article, @article, template, {}, nil)
       template.stub!(:filter_options).and_return []
       template.stub!(:comment_expiration_options).and_return []
+      template.stub!(:author_options).and_return([["current user"], [1]])
     end
 
     it "should render the categories/checkboxes partial" do
@@ -127,6 +128,11 @@ describe "Admin::Articles:" do
     it "should render the assets/widget/widget partial" do
       template.expect_render hash_including(:partial => 'admin/assets/widget/widget')
       render "admin/articles/_options"
+    end
+
+    it "should have the selectbox for selecting an author for an article" do
+      render "admin/articles/_options"
+      response.should have_tag('select[id=?]', 'article_author')
     end
   end
 end

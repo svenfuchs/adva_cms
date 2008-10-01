@@ -98,4 +98,30 @@ describe BaseHelper do
                                           ["Markdown with Smarty Pants", "smartypants_filter"],
                                           ["Textile", "textile_filter"]].sort
   end
+  
+  describe 'author selection' do
+    before(:each) do
+      @user = mock_model User
+    end
+    
+    it '#author_options returns a nested array containing the current user as a fallback option if the site does not have any members' do
+      helper.stub!(:current_user).and_return(@user)
+  
+      @user.should_receive(:name).and_return('test user')
+      @user.should_receive(:id).and_return(1)
+      @site.should_receive(:users).and_return []
+  
+      helper.author_options.should == [['test user', 1]]
+    end
+  
+    it '#author_options returns a nested array containing the members of the site' do
+      @user.stub!(:name).and_return('test user')
+      @user.stub!(:id).and_return(1)
+  
+      helper.should_not_receive(:current_user)
+      @site.should_receive(:users).exactly(2).times.and_return [@user]
+  
+      helper.author_options.should == [['test user', 1]]
+    end
+  end
 end
