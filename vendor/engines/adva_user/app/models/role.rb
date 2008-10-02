@@ -62,6 +62,10 @@ class Role < ActiveRecord::Base
     Role.build self.class.superclass.role_name, context
   end
 
+  def to_css_class
+    to_default_css_class
+  end
+
   def to_default_css_class
     context_type ? [context_type, context_id, name.to_s].join('-').downcase : name.to_s
   end
@@ -85,7 +89,7 @@ class Role < ActiveRecord::Base
     end
 
     def to_css_class
-      'anonymous'
+      to_default_css_class
     end
   end
 
@@ -97,7 +101,7 @@ class Role < ActiveRecord::Base
     end
 
     def to_css_class
-      'user'
+      to_default_css_class
     end
   end
 
@@ -139,10 +143,10 @@ class Role < ActiveRecord::Base
 
   class Superuser < Admin
     self.has_context = false
+    # TODO superusers are allowed to do everything, so we don't need to state this explicitely
 
     def to_css_class
-      # TODO superusers are allowed to do everything, so we don't need to state this explicitely
-      'superuser'
+      to_default_css_class
     end
   end
 end
