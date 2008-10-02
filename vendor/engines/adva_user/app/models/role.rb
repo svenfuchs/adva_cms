@@ -63,7 +63,7 @@ class Role < ActiveRecord::Base
   end
 
   def to_default_css_class
-    context_type ? [context_type, context_id, name].join('-').downcase : name
+    context_type ? [context_type, context_id, name.to_s].join('-').downcase : name.to_s
   end
 
   def message(action = nil, type = nil)
