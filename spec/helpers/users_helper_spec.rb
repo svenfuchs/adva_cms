@@ -1,49 +1,6 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe UsersHelper do
-  describe '#authorize_elements' do
-    it "returns a javascript tag that executes /user/[uid]/roles.js"
-  end
-
-  describe "#authorized_link_to" do
-    before :each do
-      helper.stub!(:add_authorizing_css_classes!)
-      helper.stub!(:link_to)
-    end
-
-    it "adds authorizing css classes to the :class option" do
-      helper.should_receive(:add_authorizing_css_classes!)
-      helper.authorized_link_to('text', 'url', :update, Object.new)
-    end
-
-    it "delegates to link_to" do
-      helper.should_receive(:link_to).with 'text', 'url', {}
-      helper.authorized_link_to('text', 'url', :update, Object.new)
-    end
-  end
-
-  describe '#add_authorizing_css_classes' do
-    it "adds css classes that allow a user to see an element to the given options"
-  end
-
-  describe '#authorizing_css_classes' do
-    before :each do
-      @role = Role.build :superuser
-    end
-
-    it "turns the given roles to css classes that allow a user to see an element" do
-      helper.authorizing_css_classes([@role]).should == 'superuser'
-    end
-
-    it "given the option :quote it encloses the classes in single quotes" do
-      helper.authorizing_css_classes([@role], {:quote => true}).should == "'superuser'"
-    end
-
-    it "given the option :separator it joins the classes using it" do
-      helper.authorizing_css_classes([@role, @role], {:separator => ','}).should == "superuser,superuser"
-    end
-  end
-
   describe '#who' do
     before :each do
       @user = User.new :name => 'name'

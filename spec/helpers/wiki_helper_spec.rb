@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe WikiHelper do
-  include Stubby, WikiHelper, UsersHelper
+  include Stubby, WikiHelper, UsersHelper, RolesHelper
 
   before :each do
     scenario :wiki_with_wikipages
