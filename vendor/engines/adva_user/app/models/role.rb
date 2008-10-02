@@ -30,6 +30,10 @@ class Role < ActiveRecord::Base
     def role_name
       @role_name ||= name.demodulize.downcase.to_sym
     end
+
+    def has_context?
+      has_context
+    end
   end
 
   # need to keep the original context because we need it for expanding the included roles
@@ -53,7 +57,7 @@ class Role < ActiveRecord::Base
 
   def expand(options = {})
     self.class.with_children.map do |klass|
-      # next unless options[:all] || klass.has_context
+      # next unless options[:all] || klass.has_context?
       Role.build klass.role_name, original_context
     end.compact
   end
@@ -72,7 +76,7 @@ class Role < ActiveRecord::Base
   protected
 
     def adjusted_context(name)
-      context.role_context(name) if self.class.has_context && context
+      context.role_context(name) if self.class.has_context? && context
     end
 
   class Anonymous < Role
