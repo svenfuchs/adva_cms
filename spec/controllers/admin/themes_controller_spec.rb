@@ -13,6 +13,7 @@ describe Admin::ThemesController do
     set_resource_paths :theme, '/admin/sites/1/'
     @selected_themes_path = "#{@collection_path}/selected"
     @selected_theme_path = "#{@collection_path}/selected/theme-1"
+    @import_theme_path = "#{@collection_path}/import/"
     @controller.stub! :require_authentication
     @controller.stub!(:has_permission?).and_return true
   end
@@ -32,6 +33,8 @@ describe Admin::ThemesController do
       route.it_maps :delete, "themes/theme-1", :destroy, :id => 'theme-1'
       route.it_maps :post, "themes/selected", :select
       route.it_maps :delete, "themes/selected/theme-1", :unselect, :id => 'theme-1'
+      route.it_maps :post, "themes/import", :import
+      route.it_maps :get, "themes/import", :import
     end
   end
 
@@ -172,6 +175,15 @@ describe Admin::ThemesController do
 
     it "expires page cache for the current site" do
       controller.should_receive(:expire_site_page_cache)
+      act!
+    end
+  end
+
+  describe "POST to :import" do
+    act! { request_to :post, @import_theme_path, :theme => {:file => ''}}
+
+    it "should not try to upload a theme if theme is imported without a file" do
+      controller.should_not_receive(:ensure_uploaded_theme_file_saved)
       act!
     end
   end

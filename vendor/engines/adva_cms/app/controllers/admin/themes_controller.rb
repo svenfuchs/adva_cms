@@ -50,7 +50,7 @@ class Admin::ThemesController < Admin::BaseController
   end
 
   def import
-    if request.post?
+    if request.post? && ! params[:theme][:file].blank?
       file = ensure_uploaded_theme_file_saved params[:theme][:file]
       if @site.themes.import file
         flash.now[:notice] = "The theme has been imported."
