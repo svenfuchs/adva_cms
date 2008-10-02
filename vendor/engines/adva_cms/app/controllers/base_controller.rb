@@ -2,7 +2,7 @@ require 'widgets'
 
 class BaseController < ApplicationController
   class SectionRoutingError < ActionController::RoutingError; end
-  helper :base, :content, :comments, :users
+  helper :base, :content, :comments, :users, :roles
   helper_method :page_cache_subdirectory
   include ContentHelper # WTF!
 
