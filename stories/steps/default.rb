@@ -14,6 +14,12 @@ steps_for :default do
     object.send(name).to_s.should == value
   end
 
+  Then "the $object's comments are set to 'Never expire'" do |object|
+    object = instance_variable_get("@#{object.downcase}")
+    object.reload
+    object.comment_age.should == 0
+  end
+
   Then "the page shows '$text'" do |text|
     response.should have_text(%r(#{text})i)
   end

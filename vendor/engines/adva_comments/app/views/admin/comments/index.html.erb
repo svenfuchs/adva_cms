@@ -17,7 +17,7 @@
     </li>
     <% end %>
   <% else %>
-    <li class="alt">This <%= (@content || @section).type.downcase %> has no 
+    <li class="alt">This <%= (@content || @section) ? (@content || @section).type.downcase : 'site' %> has no 
     <%= params[:filter].to_s.humanize.downcase unless params[:filter] == 'all' %> comments.</li>
   <% end %>
 </ul>

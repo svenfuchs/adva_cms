@@ -31,12 +31,22 @@ steps_for :section do
     @article.save!
   end
 
+  Given "the section commenting is set to 'Never expire'" do
+    raise "this step expects the variable @section to be set" unless @section
+    @section.comment_age = 0
+    @section.save!
+  end
+
   When "the user visits the admin section creation page" do
     get new_admin_section_path(@site)
   end
 
   When "the user visits the admin section show page" do
     get admin_section_path(@section.site, @section)
+  end
+  
+  When "the user visits the admin section comments page" do
+    get admin_site_comments_path(@section.site, :section_id => @section.id)
   end
 
   When "the user fills in the admin section creation form with valid values" do

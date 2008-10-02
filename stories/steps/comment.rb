@@ -62,4 +62,8 @@ steps_for :comment do
   Then "the comment is not approved" do
     @comment.approved?.should be_false
   end
+  
+  Then "the page has a comments list" do
+    response.should have_tag("ul#comments_list")
+  end
 end
