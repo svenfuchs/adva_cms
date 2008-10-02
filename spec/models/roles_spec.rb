@@ -212,36 +212,4 @@ describe 'Roles: ' do
       role.new.message.should == message
     end
   end
-
-  describe '#to_css_class' do
-
-    it "returns 'anonymous' for an anonymous role" do
-      @anonymous_role.to_css_class.should == 'anonymous'
-    end
-
-    it "returns 'user' for a user role" do
-      @user_role.to_css_class.should == 'user'
-    end
-
-    it "returns 'user-1 content-1-author' for an author role when the author is a user" do
-      @author_role.to_css_class.should == 'user-1 content-1-author'
-    end
-
-    it "returns 'anonymous-1 content-1-author' for an author role when the author is an anonymous" do
-      @content.should_receive(:author_type).and_return('Anonymous')
-      @author_role.to_css_class.should == 'anonymous-1 content-1-author'
-    end
-
-    it "returns 'section-1-moderator' for a user role" do
-      @moderator_role.to_css_class.should == 'section-1-moderator'
-    end
-
-    it "returns 'site-1-admin' for a admin role" do
-      @admin_role.to_css_class.should == 'site-1-admin'
-    end
-
-    it "returns 'superuser' for a superuser role" do
-      @superuser_role.to_css_class.should == 'superuser'
-    end
-  end
 end

@@ -62,14 +62,6 @@ class Role < ActiveRecord::Base
     Role.build self.class.superclass.role_name, context
   end
 
-  def to_css_class
-    to_default_css_class
-  end
-
-  def to_default_css_class
-    context_type ? [context_type, context_id, name.to_s].join('-').downcase : name.to_s
-  end
-
   def message(action = nil, type = nil)
     self.class.message || begin
       article = %(a e i o u).include?(name.to_s[0, 1].downcase) ? 'an' : 'a'
@@ -87,10 +79,6 @@ class Role < ActiveRecord::Base
     def applies_to?(user)
       true
     end
-
-    def to_css_class
-      to_default_css_class
-    end
   end
 
   class User < Anonymous
@@ -98,10 +86,6 @@ class Role < ActiveRecord::Base
 
     def applies_to?(user)
       user.registered?
-    end
-
-    def to_css_class
-      to_default_css_class
     end
   end
 
@@ -113,18 +97,10 @@ class Role < ActiveRecord::Base
       context = self.context || original_context
       context.respond_to?(:is_author?) && context.is_author?(user)
     end
-
-    def to_css_class
-      [context.author_type.underscore, context.author_id].join('-') + ' ' + to_default_css_class
-    end
   end
 
   class Moderator < Author
     self.has_context = true
-
-    def to_css_class
-      to_default_css_class
-    end
   end
 
   class Admin < Moderator
@@ -135,18 +111,10 @@ class Role < ActiveRecord::Base
     #   context = self.context || original_context
     #   context.respond_to?(:is_admin?) && context.is_admin?(user)
     # end
-
-    def to_css_class
-      to_default_css_class
-    end
   end
 
   class Superuser < Admin
     self.has_context = false
     # TODO superusers are allowed to do everything, so we don't need to state this explicitely
-
-    def to_css_class
-      to_default_css_class
-    end
   end
 end
