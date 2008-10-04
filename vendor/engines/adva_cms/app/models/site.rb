@@ -77,10 +77,8 @@ class Site < ActiveRecord::Base
   #   Content.tag_counts :conditions => "site_id = #{id}"
   # end
 
-  # TODO hu?
   def perma_host
-    # host.sub(':', '-')
-    host
+    host.sub(':', '.')  # Needed to create valid directories in ms-win
   end
 
   def page_cache_directory
