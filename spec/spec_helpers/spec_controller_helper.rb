@@ -40,10 +40,11 @@ module SpecControllerHelper
   end
 
   def cache_page_filters
+    # no need to require Proc#to_ruby just for this, plus is this a good way to do it?
     controller.class.filter_chain.select do |filter|
       filter.is_a?(ActionController::Filters::AfterFilter) &&
-      filter.method.is_a?(Proc) &&
-      filter.method.to_ruby =~ /c.cache_page/
+      filter.method.is_a?(Proc)
+#      filter.method.to_ruby =~ /c.cache_page/
     end
   end
 
