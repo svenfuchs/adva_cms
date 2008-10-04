@@ -59,18 +59,3 @@ Story: Viewing a blog article page
     When the user goes to the url /2008/1/1/the-article-title
     Then the request does not succeed
     And the page is not cached
-  
-
-Story: Previewing a blog article page
-  As an admin
-  I want to access an unpublished blog article's page
-  So I can preview it
-
-  Scenario: An blog article page for an unpublished article
-    Given page cache is enabled and empty
-    And an unpublished blog article
-    And the user is logged in as admin
-    When the user goes to the url /2008/1/1/the-article-title
-    Then the page shows 'the article title'
-    And the page is not cached
-  

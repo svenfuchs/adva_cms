@@ -1,4 +1,4 @@
-Story: Viewing a wiki page
+Story: Viewing a wikipage
   As a visitor 
   I want to access a wiki's pages
   So I can read all the useful information

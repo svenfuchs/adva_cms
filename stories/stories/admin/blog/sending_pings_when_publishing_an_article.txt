@@ -1,0 +1,34 @@
+# Story: Sending pings when publishing an article
+#   As an admin
+#   I want the blog to send pings to ping services when I publish an article
+#   So my article gets more traffic
+#   
+#   Scenario: Publishing a new article triggers pings
+#     Given a blog with no articles
+#     And the user is logged in as admin
+#     When the user creates and publishes a new article
+#     Then the blog has sent pings
+#   
+#   Scenario: Publishing an existing article triggers pings
+#     Given a blog with an article
+#     When the user is logged in as admin
+#     When the user updates and publishes the article
+#     Then the blog has sent pings
+#   
+#   Scenario: Updating a published article does not trigger pings
+#     Given a blog with a published article
+#     When the user is logged in as admin
+#     When the user updates the article
+#     Then the blog has not sent any pings
+#   
+#   Scenario: Updating an unpublished article does not trigger pings
+#     Given a blog with an unpublished article
+#     When the user is logged in as admin
+#     When the user updates the article
+#     Then the blog has not sent any pings
+#   
+#   Scenario: Unpublishing an article does not trigger pings
+#     Given a blog with a published article
+#     When the user is logged in as admin
+#     When the user unpublishes the article
+#     Then the blog has not sent any pings

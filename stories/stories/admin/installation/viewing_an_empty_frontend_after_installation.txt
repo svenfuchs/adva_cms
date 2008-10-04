@@ -1,0 +1,13 @@
+Story: Viewing an empty frontend after installation
+  As a user
+  I want to access the frontend after installation without doing anything else
+  So I can leave the admin interface early
+  
+  Scenario:
+    Given no site exists
+    And no user exists
+    When the user goes to the url /
+    When the user fills in the site install form with valid values
+    And the user clicks the 'Create' button
+    When the user clicks on 'logout'
+    Then the user sees an empty homepage

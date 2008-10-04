@@ -1,0 +1,12 @@
+Story: Reordering section articles
+  As an admin
+  I want to reorder section articles
+  So I can control which article is displayed as the primary article
+
+  Scenario An admin reorders section articles do
+    Given a section with two articles
+    And the user is logged in as admin
+    When the user visits the admin section articles list page
+    Then the page has a reorder articles link
+    When the user moves the second article to the top
+    Then the second article is sorted to the top

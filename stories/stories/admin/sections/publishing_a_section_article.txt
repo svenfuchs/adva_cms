@@ -31,32 +31,3 @@ Story: Publishing a section article
     And the user clicks the 'Apply changes' button
     And the user goes to the section url on frontend
     Then the page displays the article
-
-Story: Reordering section articles
-  As an admin
-  I want to reorder section articles
-  So I can control which article is displayed as the primary article
-
-  Scenario An admin reorders section articles do
-    Given a section with two articles
-    And the user is logged in as admin
-    When the user visits the admin section articles list page
-    Then the page has a reorder articles link
-    When the user moves the second article to the top
-    Then the second article is sorted to the top
-
-Story: Deleting a section article
-  As an admin
-  I want to delete a section article in the admin area
-  So that the article is removed from the system
-
-  Scenario: An admin deletes a section article
-    Given a section with an article
-    And the user is logged in as admin
-    When the user visits the admin section articles list page
-    Then the page has a list of articles
-    When the user clicks on the article link
-    Then the page has an admin article editing form
-    When the user clicks on 'Delete this article'
-    Then the user is redirected to the admin section articles page
-    And the article is deleted

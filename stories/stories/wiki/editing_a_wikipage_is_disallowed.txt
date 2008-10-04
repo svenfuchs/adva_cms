@@ -1,0 +1,18 @@
+Story: Editing a wikipage is disallowed
+  As a user with a given role that does not allow me to create and update wikipages
+  I cannot edit a wikipage
+  So I can can not change the wiki content
+
+  Scenario: An anonymous user can not edit a wikipage
+    Given page cache is enabled and empty
+    And a wiki that allows registered users to create and update wikipages
+    And a wikipage
+    When the user visits the wikipage edit page
+    Then the user is redirected to the url /login
+    And the page is not cached
+  
+  Scenario: An anonymous user can not save a wikipage
+    Given a wiki that allows registered users to create and update wikipages
+    And a wikipage
+    When the user tries to update the wikipage with valid parameters
+    Then the user is redirected to the url /login

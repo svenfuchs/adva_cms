@@ -1,7 +1,4 @@
-# TODO 
-# attach to article
-
-Story: Managing assets
+Story: Managing assets (TODO: attach to article)
   As an admin
   I want to manage my site's assets
   So I can get use them on the site
