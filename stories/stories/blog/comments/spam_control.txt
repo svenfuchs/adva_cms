@@ -1,35 +1,3 @@
-# TODO page caching?, access control
-
-Story: Commenting on a blog article
-  As a user with a given role that allows me to comment in a blog
-  I want to comment on an article
-  So I can share my opinions
-  
-  Scenario: An anonymous user comments on an article
-    Given a blog that allows anonymous users to create comments
-    And a published blog article with no comments
-    When the user goes to the url /2008/1/1/the-article-title
-    Then the page has a comment creation form
-    And the form contains anonymous name and email fields
-    When the user fills in the form with his name, email and comment
-    And the user clicks the 'Submit comment' button
-    Then the article has an unapproved comment
-    And the user is redirected to the comment show page
-  
-  Scenario: An anonymous user updates a comment that he has submitted
-    Given a blog that allows anonymous users to create comments
-    And a published blog article with no comments
-    When the user posts a comment to the blog article
-    And the user goes to the comment show page
-    Then the page shows 'the comment body'
-    Then the page has a comment edit form
-    And the form contains anonymous name and email fields
-    When the user fills in comment_body with 'the updated body'
-    And the user clicks the 'Save Comment' button
-    Then the comment's body is set to 'the updated body'
-    And the user is redirected to the comment show page
-    
-
 Story: Spam control for blog comments
   As a blog admin
   I want to control blog spam according to my requirements
@@ -77,4 +45,3 @@ Story: Spam control for blog comments
     And a published blog article with no comments
     When the user posts a comment which Akismet thinks is ham
     Then the comment is approved
-    
