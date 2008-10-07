@@ -7,6 +7,11 @@ steps_for :default do
     fills_in 'anonymous[name]', :with => 'anonymous'
     fills_in 'anonymous[email]', :with => 'anonymous@email.org'
   end
+  
+  When "the user fills in the anonymous name and email fields with incorrect data" do
+    fills_in 'anonymous[name]', :with => ''
+    fills_in 'anonymous[email]', :with => 'anonymous@email'
+  end
 
   Then "the $object's $name is set to '$value'" do |object, name, value|
     object = instance_variable_get("@#{object.downcase}")

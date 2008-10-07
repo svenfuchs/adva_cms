@@ -53,9 +53,9 @@ class User < ActiveRecord::Base
       user
     end
 
-    def find_all_by_site_and_role(site, role)
+    def by_context_and_role(context, role)
       return superusers if (role = role.to_s.classify) == 'Superuser'
-      find(:all, :include => :roles, :conditions => ["roles.context_type = 'Site' AND roles.context_id = ? AND roles.type = ?", site.id, "Role::#{role}"])
+      find(:all, :include => :roles, :conditions => ["roles.context_type = ? AND roles.context_id = ? AND roles.type = ?", context.class, context.id, "Role::#{role}"])
     end
   end
 

@@ -179,14 +179,14 @@ describe User do
       end
     end
 
-    describe ".find_all_by_site_and_role" do
+    describe ".by_context_and_role" do
       it "finds all admins of a given site" do
         User.should_receive(:find) do |arg, options|
           arg == :all &&
-          options[:conditions] == ["roles.context_type = 'Site' AND roles.context_id = ? AND roles.type = 'Role::?'"] &&
+          options[:conditions] == ["roles.context_type = ? AND roles.context_id = ? AND roles.type = 'Role::?'", stub_site.class, stub_site.id, 'Admin'] &&
           Array(options[:include]).include?(:roles)
         end
-        User.find_all_by_site_and_role(stub_site, 'Admin')
+        User.by_context_and_role(stub_site, 'Admin')
       end
 
       it "finds all admins of a given site when admin role is passed as a symbol" # TODO: necessary?
@@ -195,7 +195,7 @@ describe User do
 
       it "finds all superusers" do
         User.should_receive(:superusers)
-        User.find_all_by_site_and_role(stub_site, 'Superuser')
+        User.by_context_and_role(stub_site, 'Superuser')
       end
     end
   end
