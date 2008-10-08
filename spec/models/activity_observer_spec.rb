@@ -13,8 +13,8 @@ describe Activities::ActivityObserver do
     end
 
     it "finds all admins of the site and superusers who should be notified" do
-      User.should_receive(:find_all_by_site_and_role).with(@activity.site, :admin).and_return([])
-      User.should_receive(:find_all_by_site_and_role).with(@activity.site, :superuser).and_return(stub_users)
+      User.should_receive(:by_context_and_role).with(@activity.site, :admin).and_return([])
+      User.should_receive(:by_context_and_role).with(@activity.site, :superuser).and_return(stub_users)
 
       Activities::ActivityObserver.send(:find_subscribers, @activity)
     end

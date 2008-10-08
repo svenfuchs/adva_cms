@@ -61,6 +61,10 @@ class Site < ActiveRecord::Base
     end
   end
 
+  def multi_sites_enabled?
+    self.class.multi_sites_enabled
+  end
+  
   def owner
     nil
   end
@@ -79,18 +83,6 @@ class Site < ActiveRecord::Base
 
   def perma_host
     host.sub(':', '.')  # Needed to create valid directories in ms-win
-  end
-
-  def page_cache_directory
-    Pathname.new(File.expand_path(RAILS_ROOT)) + page_cache_subdirectory
-  end
-
-  def page_cache_subdirectory
-    if RAILS_ENV == 'test'
-      self.class.multi_sites_enabled ? 'tmp/cache/' + perma_host : 'tmp/cache'
-    else
-      self.class.multi_sites_enabled ? 'public/cache/' + perma_host : 'public'
-    end
   end
 
   def plugins
