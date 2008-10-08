@@ -4,6 +4,7 @@ define Site do
                       :paths => ['section', 'sections/section', 'blog', 'blogs/blog',
                                  'forums/forum', 'forum', 'wikis/wiki', 'wiki']
   has_many :themes, [:find, :build, :root] => stub_theme
+  has_many :assets, [:find, :build] => stub_asset
   has_many :users, :build => stub_user
   has_many :users_and_superusers, stub_users
 
