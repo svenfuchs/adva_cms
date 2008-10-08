@@ -26,6 +26,12 @@ describe BaseHelper do
       helper.should_receive(:admin_articles_path).with(@site, @section).and_return('/path/to/articles')
       helper.link_to_section_main_action(@site, @section)
     end
+    
+    it "builds a link to Boards index if section is a Forum" do
+      @section = stub_model(Forum)
+      helper.should_receive(:admin_boards_path).with(@site, @section).and_return('/path/to/boards')
+      helper.link_to_section_main_action(@site, @section)
+    end
   end
 
   describe '#split_form_for' do

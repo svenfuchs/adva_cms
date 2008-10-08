@@ -20,6 +20,8 @@ module BaseHelper
     case section
     when Wiki
       link_to 'Wikipages', admin_wikipages_path(site, section)
+    when Forum
+      link_to 'Boards', admin_boards_path(site, section)
     when Section, Blog
       link_to 'Articles', admin_articles_path(site, section)
     end
