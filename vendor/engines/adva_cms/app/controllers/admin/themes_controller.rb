@@ -50,16 +50,18 @@ class Admin::ThemesController < Admin::BaseController
   end
 
   def import
-    if request.post? && ! params[:theme][:file].blank?
-      file = ensure_uploaded_theme_file_saved params[:theme][:file]
-      if @site.themes.import file
-        flash.now[:notice] = "The theme has been imported."
-        redirect_to admin_themes_path
+    if request.post? 
+      if ! params[:theme][:file].blank?
+        file = ensure_uploaded_theme_file_saved params[:theme][:file]
+        if @site.themes.import file
+          flash.now[:notice] = "The theme has been imported."
+          redirect_to admin_themes_path
+        else
+          flash.now[:error] = "The file could not be imported as a theme."
+        end
       else
-        flash.now[:error] = "The file could not be imported as a theme."
+        flash.now[:error] = "The theme import failed."
       end
-    else
-      flash.now[:error] = "The theme import failed."
     end
   end
 
