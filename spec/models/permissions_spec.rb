@@ -6,7 +6,8 @@ describe 'Models #default_permissions' do
       :site    => { :theme    => { :show => :admin, :update => :admin, :create => :admin, :destroy => :admin },
                     :user     => { :show => :admin, :update => :admin, :create => :admin, :destroy => :admin },
                     :section  => { :show => :admin, :update => :admin, :create => :admin, :destroy => :admin },
-                    :site     => { :show => :admin, :update => :admin, :create => :superuser, :destroy => :superuser, :manage => :admin } },
+                    :site     => { :show => :admin, :update => :admin, :create => :superuser, :destroy => :superuser, :manage => :admin },
+                    :comment  => { :show => :admin, :update => :admin, :create => :admin, :destroy => :admin } },
 
       :section => { :article  => { :show => :moderator, :update => :moderator, :create => :moderator, :destroy => :moderator },
                     :category => { :show => :moderator, :update => :moderator, :create => :moderator, :destroy => :moderator } },

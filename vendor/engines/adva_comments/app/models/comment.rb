@@ -6,6 +6,7 @@ class Comment < ActiveRecord::Base
   end
 
   acts_as_role_context :roles => :author
+
   filtered_column :body
   filters_attributes :sanitize => :body_html
 

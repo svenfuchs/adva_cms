@@ -9,7 +9,8 @@ class Site < ActiveRecord::Base
   permissions :site    => { :superuser => [:create, :destroy], :admin => [:show, :update, :manage] },
               :section => { :admin => :all },
               :theme   => { :admin => :all },
-              :user    => { :admin => :all }
+              :user    => { :admin => :all },
+              :comment => { :admin => :all }
 
   has_many :sections, :dependent => :destroy, :order => :lft do
     def root
