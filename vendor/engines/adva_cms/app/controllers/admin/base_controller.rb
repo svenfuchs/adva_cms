@@ -5,9 +5,9 @@ class Admin::BaseController < ApplicationController
   include CacheableFlash
   include Widgets
 
-  before_filter :set_site, :set_locale, :set_timezone
+  before_filter :set_site, :set_locale, :set_timezone, :set_cache_root
   helper :base, :content, :comments, :users
-  helper_method :admin_section_path_for
+  helper_method :admin_section_path_for, :perma_host
 
   authentication_required
 
@@ -87,4 +87,18 @@ class Admin::BaseController < ApplicationController
     def current_role_context
       @section || @site || Site.new
     end
+    
+    def perma_host; 'admin' end
+    
+    def page_cache_directory
+      if Rails.env == 'test'
+         Site.multi_sites_enabled ? 'tmp/cache/' + perma_host : 'tmp/cache'
+       else
+         Site.multi_sites_enabled ? 'public/cache/' + perma_host : 'public'
+       end          
+    end
+    
+    def set_cache_root
+      self.class.page_cache_directory = page_cache_directory.to_s
+    end    
 end

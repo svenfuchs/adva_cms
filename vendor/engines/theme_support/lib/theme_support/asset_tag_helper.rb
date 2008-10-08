@@ -8,6 +8,7 @@ module ActionView::Helpers::AssetTagHelper
     if ActionController::Base.perform_caching && cache
       joined_javascript_name = File.join( 'cache', perma_host, (cache == true ? 'all' : cache) + '.js' )
       joined_javascript_path = File.join(JAVASCRIPTS_DIR, joined_javascript_name)
+      
       write_asset_file_contents(joined_javascript_path, compute_javascript_paths(sources))
       javascript_src_tag(joined_javascript_name, options)
     else
