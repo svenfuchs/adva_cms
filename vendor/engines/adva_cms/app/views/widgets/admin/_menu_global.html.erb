@@ -3,6 +3,6 @@
   <% if @site %>
     <li><%= link_to 'Plugins', admin_plugins_path(@site) %></li>
   <% end %>
-  <li>Logged in as: <%= link_to current_user.name, (@site ? admin_site_user_path(@site, current_user) : admin_user_path(current_user)) %></li>
+  <li>Logged in as: <%= link_to current_user.name, (@site && !@site.new_record? ? admin_site_user_path(@site, current_user) : admin_user_path(current_user)) %></li>
   <li><%= link_to 'Logout', logout_path, :method => :delete %></li>
 </ul>
