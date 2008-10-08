@@ -95,16 +95,6 @@ class Admin::ThemesController < Admin::BaseController
       expire_site_page_cache
     end
 
-    def import_theme(theme)
-      file = ensure_uploaded_theme_file_saved theme
-      if @site.themes.import file
-        flash.now[:notice] = "The theme has been imported."
-        redirect_to admin_themes_path
-      else
-        flash.now[:error] = "The file could not be imported as a theme."
-      end
-    end
-
     def set_site
       @site = Site.find(params[:site_id])
     end
