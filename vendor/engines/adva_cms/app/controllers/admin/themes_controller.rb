@@ -2,7 +2,8 @@ class Admin::ThemesController < Admin::BaseController
   layout "admin"
 
   before_filter :set_theme, :only => [:show, :use, :edit, :update, :destroy, :export]
-
+  before_filter :ensure_uploaded_theme_file_saved!, :only => :import
+  
   guards_permissions :theme, :update => [:select, :unselect], :show => :export, :create => :import
 
   def index
@@ -50,18 +51,15 @@ class Admin::ThemesController < Admin::BaseController
   end
 
   def import
-    if request.post? 
-      if ! params[:theme][:file].blank?
-        file = ensure_uploaded_theme_file_saved params[:theme][:file]
-        if @site.themes.import file
-          flash.now[:notice] = "The theme has been imported."
-          redirect_to admin_themes_path
-        else
-          flash.now[:error] = "The file could not be imported as a theme."
-        end
-      else
-        flash.now[:error] = "The theme import failed."
-      end
+    return unless request.post?
+    
+    if params[:theme][:file].blank?
+      flash.now[:error] = "The theme file cannot be blank."
+    elsif @site.themes.import @file
+      flash.now[:notice] = "The theme has been imported."
+      redirect_to admin_themes_path
+    else
+      flash.now[:error] = "The file could not be imported as a theme."
     end
   end
 
@@ -97,6 +95,16 @@ class Admin::ThemesController < Admin::BaseController
       expire_site_page_cache
     end
 
+    def import_theme(theme)
+      file = ensure_uploaded_theme_file_saved theme
+      if @site.themes.import file
+        flash.now[:notice] = "The theme has been imported."
+        redirect_to admin_themes_path
+      else
+        flash.now[:error] = "The file could not be imported as a theme."
+      end
+    end
+
     def set_site
       @site = Site.find(params[:site_id])
     end
@@ -105,15 +113,17 @@ class Admin::ThemesController < Admin::BaseController
       @theme = @site.themes.find(params[:id]) or raise "can not find theme #{params[:id]}"
     end
 
-    def ensure_uploaded_theme_file_saved(file)
+    def ensure_uploaded_theme_file_saved!
+      return if request.get? || params[:theme][:file].blank?
+      
+      file = params[:theme][:file]
       if file.path
-        file
+        @file = file
       else
-        tmp_file = ActionController::UploadedTempfile.new("uploaded-theme")
-        tmp_file.write file.read
-        tmp_file.original_path = file.original_path
-        tmp_file.read # no idea why we need this here, otherwise the zip can't be opened in Theme::import
-        tmp_file
+        @file = ActionController::UploadedTempfile.new("uploaded-theme")
+        @file.write file.read
+        @file.original_path = file.original_path
+        @file.read # no idea why we need this here, otherwise the zip can't be opened in Theme::import
       end
     end
 end

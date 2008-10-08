@@ -188,4 +188,9 @@ describe Admin::ThemesController do
       act!
     end
   end
+  
+  describe "GET to :import" do
+    act! { request_to :get, @import_theme_path }
+    it_assigns_flash_cookie :error => nil
+  end
 end
