@@ -5,26 +5,31 @@ describe "the action pack asset_helpers" do
 
   before :each do
     helper.stub!(:join_asset_file_contents).and_return "joined_asset_file_contents"
-    helper.stub!(:page_cache_subdirectory).and_return 'tmp/cache/site.host'
+    helper.stub!(:perma_host).and_return 'test.site'
 
     ActionController::Base.perform_caching = true
-    @cache_dir = "#{RAILS_ROOT}/#{helper.page_cache_subdirectory}"
-    FileUtils.rm_r @cache_dir if File.exists? @cache_dir
   end
 
   after :each do
     ActionController::Base.perform_caching = false
-    FileUtils.rm_r @cache_dir if File.exists? @cache_dir
   end
 
-  it "scopes the stylesheet cache file path to the site's page_cache_subdirectory" do
+  it "caches the stylesheets in the site's stylesheet cache directory" do
+    cache_dir = File.join( Rails.root, 'public', 'stylesheets', 'cache', helper.perma_host )
+    FileUtils.rm_r cache_dir if File.exists? cache_dir
+    File.exists?("#{cache_dir}/default.css").should be_false
     helper.stylesheet_link_tag('foo', 'bar', :cache => 'default') =~ /href="([^"\?]*)(\?|")/
-    File.exists?("#{@cache_dir}/stylesheets/default.css").should be_true
+    File.exists?("#{cache_dir}/default.css").should be_true
+    FileUtils.rm_r cache_dir if File.exists? cache_dir
   end
 
-  it "scopes the javascript cache file path to the site's page_cache_subdirectory" do
+  it "caches the javascripts in the site's javascript cache directory" do
+    cache_dir = File.join( Rails.root, 'public', 'javascripts', 'cache', helper.perma_host )
+    FileUtils.rm_r cache_dir if File.exists? cache_dir
+    File.exists?("#{cache_dir}/default.js").should be_false
     helper.javascript_include_tag('foo', 'bar', :cache => 'default') =~ /src="([^"\?]*)(\?|")/
-    File.exists?("#{@cache_dir}/javascripts/default.js").should be_true
+    File.exists?("#{cache_dir}/default.js").should be_true
+    FileUtils.rm_r cache_dir if File.exists? cache_dir
   end
 end
 

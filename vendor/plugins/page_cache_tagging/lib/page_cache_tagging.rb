@@ -64,7 +64,7 @@ ActionController::Base.class_eval do
     pages.each { |page| expire_page(page.url) }
     CachedPage.expire_pages(pages)
   end
-  
+
   def expire_site_page_cache
     cache_dir = page_cache_directory
     if cache_dir =~ /\/public$/ 

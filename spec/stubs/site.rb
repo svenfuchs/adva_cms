@@ -41,7 +41,8 @@ define Site do
            :has_attribute? => true,
            :spam_filter_active? => false,
            :role_context => stub_site,
-           :page_cache_directory => RAILS_ROOT + '/tmp/cache'
+           :page_cache_directory => RAILS_ROOT + '/tmp/cache',
+           :multi_sites_enabled? => true
 
   instance :default
 end
