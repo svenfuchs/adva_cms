@@ -135,4 +135,18 @@ describe "Admin::Articles:" do
       response.should have_tag('select[id=?]', 'article_author')
     end
   end
+  
+  describe "the article partial" do
+    before :each do
+      template.stub!(:article).and_return(@article)
+      template.stub! :link_to
+      template.stub! :published_at_formatted
+      template.stub! :content_path
+    end
+    
+    it "should check if article has comments enabled" do
+      @article.should_receive(:accept_comments?).and_return false
+      render "admin/articles/_article"
+    end
+  end
 end

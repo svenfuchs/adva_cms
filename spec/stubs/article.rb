@@ -43,7 +43,8 @@ define Article do
            :destroy => true,
            :save_version_on_create => nil,
            :increment_counter => nil,
-           :decrement_counter => nil
+           :decrement_counter => nil,
+           :state => :published
 
   instance :article
 end
