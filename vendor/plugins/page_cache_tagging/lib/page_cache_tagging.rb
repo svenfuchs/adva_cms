@@ -33,8 +33,7 @@ module PageCacheTagging
 
     def render_with_read_access_tracking(*args)
       options = args.last.is_a?(Hash) ? args.last : {}
-      @skip_caching = options.delete(:skip_caching) || @skip_caching
-      track_read_access 
+      @skip_caching = options.delete(:skip_caching) || !(track_options.has_key?(params[:action].to_sym)) || @skip_caching
       returning render_without_read_access_tracking(*args) do
         save_cache_references unless @skip_caching
       end
@@ -48,6 +47,7 @@ module PageCacheTagging
 
     def save_cache_references
       return unless perform_caching
+      track_read_access
       references = @read_access_tracker.references
       CachedPage.create_with_references @site, @section, request.path, references
     end
