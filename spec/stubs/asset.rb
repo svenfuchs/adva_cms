@@ -6,6 +6,7 @@ define Asset do
   methods  :id => 1,
            :content_type => "text/plain",
            :filename => "test.txt",
+           :public_filename => "public filename",
            :size => 123,
            :thumbnail => nil,
            :width => nil,
@@ -16,6 +17,7 @@ define Asset do
            :save => true,
            :save! => true,
            :update_attributes => true,
+           :update_attributes! => true,
            :destroy => true
 
   instance :asset

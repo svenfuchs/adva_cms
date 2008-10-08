@@ -3,6 +3,6 @@ scenario :site_with_assets do
 
   @asset = stub_asset
   @assets = stub_assets
-
+    
   Asset.stub!(:find).and_return @asset
 end

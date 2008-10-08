@@ -179,10 +179,11 @@ describe Admin::ThemesController do
     end
   end
 
-  describe "POST to :import" do
+  describe "POST to :import, without a file" do
     act! { request_to :post, @import_theme_path, :theme => {:file => ''}}
-
-    it "should not try to upload a theme if theme is imported without a file" do
+    it_assigns_flash_cookie :error => :not_nil
+    
+    it "should not try to upload a theme" do
       controller.should_not_receive(:ensure_uploaded_theme_file_saved)
       act!
     end

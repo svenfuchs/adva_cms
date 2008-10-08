@@ -58,6 +58,8 @@ class Admin::ThemesController < Admin::BaseController
       else
         flash.now[:error] = "The file could not be imported as a theme."
       end
+    else
+      flash.now[:error] = "The theme import failed."
     end
   end
 

@@ -35,6 +35,7 @@ class Admin::AssetsController < Admin::BaseController
       format.js { responds_to_parent { render :action => 'create' } }
     end
   rescue ActiveRecord::RecordInvalid => e
+    flash[:error] = "The asset upload failed."
     render :action => 'new'
   end
 
@@ -43,8 +44,10 @@ class Admin::AssetsController < Admin::BaseController
 
   def update
     @asset.update_attributes! params[:asset]
+    flash[:notice] = "The asset has been updated."
     redirect_to admin_assets_path
   rescue ActiveRecord::RecordInvalid
+    flash[:error] = "The asset update failed."
     render :action => 'edit'
   end
 
