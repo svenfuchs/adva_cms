@@ -1,7 +1,7 @@
 class Admin::CommentsController < Admin::BaseController
   layout "admin"
 
-  before_filter :set_section, :set_content, :set_filter
+  before_filter :set_section, :set_content
   before_filter :set_contents, :set_comments, :only => :index
   before_filter :set_comment, :only => [:show, :edit, :update, :destroy]
   before_filter :set_commentable, :set_comment_params, :only => :create
@@ -52,7 +52,10 @@ class Admin::CommentsController < Admin::BaseController
 
   private
 
-    def set_section; super; end
+    def set_section
+      @section = @site.sections.find(params[:section_id]) if params[:section_id]
+      super 
+    end
 
     def set_contents
       source = @section || @site
@@ -76,18 +79,30 @@ class Admin::CommentsController < Admin::BaseController
 
     def set_comments
       source = @content || @section || @site
-      collection = source.send params[:filter] != 'all' ? "#{params[:filter]}_comments" : 'comments'
-      options = {:page => current_page, :per_page => params[:per_page], :order => 'created_at DESC'}
-      @comments = collection.paginate options
+      collection = source.comments
+      @comments = collection.paginate filter_options 
     end
 
     def set_comment
       source = @section || @site
       @comment = source.comments.find(params[:id])
     end
-
-    def set_filter
-      params[:filter] ||= 'all'
+    
+    def filter_options
+      options = {:page => current_page, :per_page => params[:per_page], :order => 'created_at DESC'}
+      case params[:filter]
+      when 'state'
+        params[:state] == 'approved' ? options[:conditions] = "approved = '1'" : options[:conditions] = "unapproved = '0'"
+      when 'body'
+        options[:conditions] = Comment.send(:sanitize_sql, ["LOWER(body) LIKE :query", {:query => "%#{params[:query].downcase}%"}])
+      when 'author_name'
+        options[:conditions] = Comment.send(:sanitize_sql, ["LOWER(author_name) LIKE :query", {:query => "%#{params[:query].downcase}%"}])
+      when 'author_email'
+        options[:conditions] = Comment.send(:sanitize_sql, ["LOWER(author_email) LIKE :query", {:query => "%#{params[:query].downcase}%"}])
+      when 'author_website'
+        options[:conditions] = Comment.send(:sanitize_sql, ["LOWER(author_homepage) LIKE :query", {:query => "%#{params[:query].downcase}%"}])
+      end
+      options
     end
 
     def postback_spaminess

@@ -1,11 +1,29 @@
 <% content_for :filter do %>
-  <label for="comments-filter" class="inline">
-    Show comments:
-  </label>
-  <select id="comments-filter" name="filter">
-    <%= options_for_select ['All', 'Unapproved', 'Approved'], params[:filter].to_s.humanize %>
-  </select>
-<% end %>
+  <% form_tag admin_comments_path, :method => 'get', :id => 'comment-search' do -%>
+    <label for="search" class="inline">
+      Show comments:
+    </label>
+    <select name="filter" id="filterlist">
+      <%= options_for_select [['All', 					'all'],
+ 							  ['Whose state is', 		'state'],
+							  ['Whose body contains', 	'body'],
+							  ['Whose author is', 		'author_name'],
+							  ['Authors email is', 		'author_email'],
+							  ['Authors website is', 	'author_website']], params[:filter] %>
+    </select>
+    <select name="state" id="states">
+      <%= options_for_select  [['Approved',		'approved'],
+		  					   ['Unapproved',	'unapproved']], params[:state] %>      
+    </select>
+	<% if @section -%>
+	  <%= hidden_field_tag :section_id, @section.id %>
+	<% elsif @content -%>
+	  <%= hidden_field_tag :content_id, @content.id %>
+    <% end -%>
+	<%= text_field_tag 'query', params[:query], :id => 'query', :style => 'display: none' %>
+    <input type="submit" id="button" value="Go" style="display: none" />
+  <% end -%>
+<% end -%>
 
 <h3>Comments on <%= link_to_admin_object(@content || @section || @site) %></h3>
 
@@ -17,8 +35,7 @@
     </li>
     <% end %>
   <% else %>
-    <li class="alt">This <%= (@content || @section) ? (@content || @section).type.downcase : 'site' %> has no 
-    <%= params[:filter].to_s.humanize.downcase unless params[:filter] == 'all' %> comments.</li>
+    <li class="alt">This <%= (@content || @section) ? (@content || @section).type.downcase : 'site' %> has no comments matching your query.</li>
   <% end %>
 </ul>
 

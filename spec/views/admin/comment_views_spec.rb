@@ -12,6 +12,7 @@ describe "Admin::Comments:" do
 
     template.stub!(:admin_section_path_for).and_return '/admin/sites/1/sections/1'
     template.stub!(:admin_comment_path).and_return @member_path
+    template.stub!(:admin_comments_path).and_return @collection_path
     template.stub!(:admin_comment_returning_path).and_return @admin_comment_returning_path
     template.stub!(:edit_admin_comment_path).and_return @edit_member_path
 
@@ -30,7 +31,7 @@ describe "Admin::Comments:" do
     act! { render "admin/comments/index" }
 
     it "should display a filter for filtering the comments list" do
-      result[:filter].should have_tag('select[id=?]', 'comments-filter')
+      result[:filter].should have_tag('select[id=?]', 'filterlist')
     end
 
     it "should display a list of comments" do

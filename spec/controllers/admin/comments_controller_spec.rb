@@ -25,6 +25,75 @@ describe Admin::CommentsController do
       route.it_maps :delete, "comments/1", :destroy, :id => '1'
     end
   end
+  
+  describe "filters" do
+    before :each do
+      @section = stub_blog
+      @section.comments.stub!(:paginate).and_return @comments
+      @parameters = {:section_id => @section.id}
+      @controller.stub!(:set_content)
+      @controller.stub!(:set_contents)
+      @default_options = { :order=>"created_at DESC", :per_page=>nil, :page=> @site.id }
+      
+      @site.sections.should_receive(:find).with("#{@section.id}").and_return(@section)
+    end
+    
+    it "should have :order, :per_page and :page parameters set as a default options" do
+      query_params = { :filter => 'all' }
+      
+      options = hash_including(:order=>"created_at DESC", :per_page=>nil, :page=> @site.id)
+      @section.comments.should_receive(:paginate).with(options).and_return(@comments)
+      request_to :get, @collection_path, @parameters.merge(query_params)
+    end
+    
+    it "should fetch approved comments when :filter == state and :state == approved" do
+      query_params = { :filter => 'state', :state => 'approved' }
+      
+      options = hash_including(:conditions => "approved = '1'")
+      @section.comments.should_receive(:paginate).with(options).and_return(@comments)
+      request_to :get, @collection_path, @parameters.merge(query_params)
+    end
+
+    it "should fetch unapproved comments when :filter == state and :state == unapproved" do
+      query_params = { :filter => 'state', :state => 'unapproved' }
+  
+      options = hash_including(:conditions => "unapproved = '0'")
+      @section.comments.should_receive(:paginate).with(options).and_return(@comments)
+      request_to :get, @collection_path, @parameters.merge(query_params)
+    end
+
+    it "should fetch comments by checking the body when :filter == body" do
+      query_params = { :filter => 'body', :query => 'foo' }
+  
+      options = hash_including(:conditions => "LOWER(body) LIKE '%foo%'")
+      @section.comments.should_receive(:paginate).with(options).and_return(@comments)
+      request_to :get, @collection_path, @parameters.merge(query_params)
+    end
+
+    it "should fetch comments by checking the author name when :filter == author_name" do
+      query_params = { :filter => 'author_name', :query => 'foo' }
+  
+      options = hash_including(:conditions => "LOWER(author_name) LIKE '%foo%'")
+      @section.comments.should_receive(:paginate).with(options).and_return(@comments)
+      request_to :get, @collection_path, @parameters.merge(query_params)
+    end
+
+    it "should fetch comments by checking author email when :filter == author_email" do
+      query_params = { :filter => 'author_email', :query => 'foo@bar.baz' }
+  
+      options = hash_including(:conditions => "LOWER(author_email) LIKE '%foo@bar.baz%'")
+      @section.comments.should_receive(:paginate).with(options).and_return(@comments)
+      request_to :get, @collection_path, @parameters.merge(query_params)
+    end
+
+    it "should fetch comments by checking author website when :filter == author_website" do
+      query_params = { :filter => 'author_website', :query => 'homepage' }
+  
+      options = hash_including(:conditions => "LOWER(author_homepage) LIKE '%homepage%'")
+      @section.comments.should_receive(:paginate).with(options).and_return(@comments)
+      request_to :get, @collection_path, @parameters.merge(query_params)
+    end
+  end
 
   describe "GET to :index" do
     act! { request_to :get, @collection_path }

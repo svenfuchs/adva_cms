@@ -8,7 +8,7 @@ define Section do
   has_many :categories, [:find, :build, :root, :find_by_path] => stub_category,
                         [:paginate, :roots] => stub_categories
 
-  has_many :comments, :build => stub_comment
+  has_many :comments, :build => stub_comment, :find => stub_comments
   has_many [:approved_comments, :unapproved_comments], stub_comments
   has_one  :comments_counter, stub_counter
 
