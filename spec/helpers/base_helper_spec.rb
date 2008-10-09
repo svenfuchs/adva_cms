@@ -26,7 +26,7 @@ describe BaseHelper do
       helper.should_receive(:admin_articles_path).with(@site, @section).and_return('/path/to/articles')
       helper.link_to_section_main_action(@site, @section)
     end
-    
+
     it "builds a link to Boards index if section is a Forum" do
       @section = stub_model(Forum)
       helper.should_receive(:admin_boards_path).with(@site, @section).and_return('/path/to/boards')
@@ -104,31 +104,31 @@ describe BaseHelper do
                                           ["Markdown with Smarty Pants", "smartypants_filter"],
                                           ["Textile", "textile_filter"]].sort
   end
-  
+
   describe 'author selection' do
     before(:each) do
       @user = mock_model User
       @user.stub!(:id).and_return 1
     end
-    
+
     it '#author_options returns a nested array containing the current user as a fallback option if the site does not have any members' do
       helper.stub!(:current_user).and_return(@user)
-  
+
       @user.should_receive(:name).and_return('test user')
       @user.should_receive(:id).and_return(1)
       @site.should_receive(:users).and_return []
       @article = mock_model Article
-  
+
       helper.author_options.should == [['test user', 1]]
     end
-  
+
     it '#author_options returns a nested array containing the members of the site' do
       @user.stub!(:name).and_return('test user')
       @user.stub!(:id).and_return(1)
-  
+
       helper.should_not_receive(:current_user)
       @site.should_receive(:users).exactly(2).times.and_return [@user]
-  
+
       helper.author_options.should == [['test user', 1]]
     end
 
@@ -141,6 +141,58 @@ describe BaseHelper do
     it "#author_preselect returns an id of the author" do
       @article.should_receive(:author).exactly(2).times.and_return(@user)
       helper.author_preselect.should == 1
+    end
+  end
+
+  describe "#datetime_with_microformat" do
+    before :each do
+      @utc_time = Time.utc(2008, 10, 9, 12, 0, 0)
+      Time.zone = 'Vienna'
+      @local_time = Time.local(2008, 10, 9, 12, 0, 0)
+    end
+
+    it "displays a UTC time" do
+      @utc_time.should_receive(:to_s).with(:standard).and_return("October 09, 2008 @ 12:00 PM")
+
+      helper.should_receive(:time_ago_in_words).with(@utc_time).and_return("3 hours ago")
+      helper.datetime_with_microformat(@utc_time).should == '<abbr class="datetime" title="2008-10-09T12:00:00Z"><span title="October 09, 2008 @ 12:00 PM">3 hours ago</span></abbr>'
+    end
+
+    it "displays a non-UTC time" do
+      @local_time.stub!(:to_s).with(:standard).and_return("October 09, 2008 @ 12:00 PM")
+
+      helper.should_receive(:time_ago_in_words).with(@local_time).and_return("3 hours ago")
+      helper.datetime_with_microformat(@local_time).should == '<abbr class="datetime" title="2008-10-09T12:00:00+02:00"><span title="October 09, 2008 @ 12:00 PM">3 hours ago</span></abbr>'
+    end
+
+    it "displays a UTC time with a given date format" do
+      @utc_time.stub!(:to_s).with(:plain).and_return("October 09 12:00 PM")
+
+      helper.should_receive(:time_ago_in_words).with(@utc_time).and_return("3 hours ago")
+      helper.datetime_with_microformat(@utc_time, :format => :plain).should == '<abbr class="datetime" title="2008-10-09T12:00:00Z"><span title="October 09 12:00 PM">3 hours ago</span></abbr>'
+    end
+
+    it "displays a non-UTC time with a given date format" do
+      @local_time.stub!(:to_s).with(:plain).and_return("October 09 12:00 PM")
+
+      helper.should_receive(:time_ago_in_words).with(@local_time).and_return("3 hours ago")
+      helper.datetime_with_microformat(@local_time, :format => :plain).should == '<abbr class="datetime" title="2008-10-09T12:00:00+02:00"><span title="October 09 12:00 PM">3 hours ago</span></abbr>'
+    end
+
+    it "displays a UTC time with a given custom date format" do
+      @utc_time.stub!(:strftime).with('%Y/%m/%d').and_return("2008/10/09")
+      #@utc_time.stub!(:to_s).with('%Y/%m/%d').and_return("2008/10/09") # with localized_dates plugin
+
+      helper.should_receive(:time_ago_in_words).with(@utc_time).and_return("3 hours ago")
+      helper.datetime_with_microformat(@utc_time, :format => '%Y/%m/%d').should == '<abbr class="datetime" title="2008-10-09T12:00:00Z"><span title="2008/10/09">3 hours ago</span></abbr>'
+    end
+
+    it "displays a non-UTC time with a given custom date format" do
+      helper.should_receive(:time_ago_in_words).with(@local_time).and_return("3 hours ago")
+      @local_time.stub!(:strftime).with('%Y/%m/%d').and_return("2008/10/09")
+      #@local_time.stub!(:to_s).with('%Y/%m/%d').and_return("2008/10/09") # with localized_dates plugin
+
+      helper.datetime_with_microformat(@local_time, :format => '%Y/%m/%d').should == '<abbr class="datetime" title="2008-10-09T12:00:00+02:00"><span title="2008/10/09">3 hours ago</span></abbr>'
     end
   end
 end
