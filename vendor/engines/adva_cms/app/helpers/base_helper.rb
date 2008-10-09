@@ -69,7 +69,7 @@ module BaseHelper
     # yuck ... use the localized_dates plugin as soon as we're on Rails 2.2?
     formatted_datetime = options[:format].is_a?(Symbol) ? datetime.to_s(options[:format]) : datetime.strftime(options[:format])
 
-    %{<abbr class="datetime" title="#{datetime.xmlschema}"><span title="#{formatted_datetime}">#{formatted_datetime}</span></abbr>}
+    %{<abbr class="datetime" title="#{datetime.utc.xmlschema}"><span title="#{formatted_datetime}">#{formatted_datetime}</span></abbr>}
   end
 
   def filter_options

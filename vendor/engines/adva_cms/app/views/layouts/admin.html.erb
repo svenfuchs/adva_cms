@@ -4,14 +4,14 @@
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />   
     <title>Admin <%= controller.controller_name %></title>
     
-    <%= stylesheet_link_tag    'admin/base', 'admin/layout/base', 'admin/activities', 
-                               'admin/assets', 'admin/form', 'admin/lists', 'admin/sortable_tree', 
-                               'admin/themes', 'admin/users', 'admin/widgets', 
+    <%= stylesheet_link_tag    'admin/base', 'admin/layout/base', 'admin/activities',
+                               'admin/assets', 'admin/form', 'admin/lists', 'admin/sortable_tree',
+                               'admin/themes', 'admin/users', 'admin/widgets',
                                :cache => true %>
                                
-    <%= javascript_include_tag 'prototype', 'effects', 'dragdrop', 'lowpro', 
-                               'sortable_tree/sortable_tree', 'flash', 'json', 'cookie', 
-                               'admin/admin.js', 'admin/article.js', 'admin/asset.js', 'admin/asset_widget.js', 
+    <%= javascript_include_tag 'prototype', 'effects', 'dragdrop', 'lowpro',
+                               'sortable_tree/sortable_tree', 'flash', 'json', 'cookie',
+                               'admin/admin.js', 'admin/article.js', 'admin/asset.js', 'admin/asset_widget.js',
                                'admin/smart_form.js', 'admin/sortable_tree.js', 'admin/spotlight.js', 'admin/comment.js',
                                :cache => true %>
     <%= yield :head %>

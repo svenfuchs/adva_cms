@@ -3,12 +3,12 @@
   <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />   
     <title><%= controller.controller_name %></title>
-    <%= stylesheet_link_tag    'admin/base', 'admin/form', 'admin/layout/base', 
-                               'admin/layout/simple', 
+    <%= stylesheet_link_tag    'admin/base', 'admin/form', 'admin/layout/base',
+                               'admin/layout/simple',
                                :cache => 'cache/admin/simple' %>
                                
-    <%= javascript_include_tag 'prototype', 'effects', 'dragdrop', 'lowpro', 
-                               'sortable_tree/sortable_tree', 'flash', 'json', 'cookie', 
+    <%= javascript_include_tag 'prototype', 'effects', 'dragdrop', 'lowpro',
+                               'sortable_tree/sortable_tree', 'flash', 'json', 'cookie',
                                :cache => 'cache/admin/simple' %>
     <%= yield :head %>
   </head>

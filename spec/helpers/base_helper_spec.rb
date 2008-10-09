@@ -148,45 +148,51 @@ describe BaseHelper do
     before :each do
       @utc_time = Time.utc(2008, 10, 9, 12, 0, 0)
       Time.zone = 'Vienna'
-      @local_time = Time.local(2008, 10, 9, 12, 0, 0)
+      @local_time = Time.local(2008, 10, 9, 14, 0, 0)
     end
 
     it "displays a UTC time" do
       @utc_time.stub!(:to_s).with(:standard).and_return("October 09, 2008 @ 12:00 PM")
+        @utc_time.stub!(:utc).and_return(@utc_time)
 
       helper.datetime_with_microformat(@utc_time).should == '<abbr class="datetime" title="2008-10-09T12:00:00Z"><span title="October 09, 2008 @ 12:00 PM">October 09, 2008 @ 12:00 PM</span></abbr>'
     end
 
-    it "displays a non-UTC time" do
-      @local_time.stub!(:to_s).with(:standard).and_return("October 09, 2008 @ 12:00 PM")
+    it "displays a non-UTC time and converts it to UTC" do
+      @local_time.stub!(:to_s).with(:standard).and_return("October 09, 2008 @ 2:00 PM")
+      @local_time.should_receive(:utc).and_return(@utc_time)
 
-      helper.datetime_with_microformat(@local_time).should == '<abbr class="datetime" title="2008-10-09T12:00:00+02:00"><span title="October 09, 2008 @ 12:00 PM">October 09, 2008 @ 12:00 PM</span></abbr>'
+      helper.datetime_with_microformat(@local_time).should == '<abbr class="datetime" title="2008-10-09T12:00:00Z"><span title="October 09, 2008 @ 2:00 PM">October 09, 2008 @ 2:00 PM</span></abbr>'
     end
 
     it "displays a UTC time with a given date format" do
       @utc_time.stub!(:to_s).with(:plain).and_return("October 09 12:00 PM")
+        @utc_time.stub!(:utc).and_return(@utc_time)
 
       helper.datetime_with_microformat(@utc_time, :format => :plain).should == '<abbr class="datetime" title="2008-10-09T12:00:00Z"><span title="October 09 12:00 PM">October 09 12:00 PM</span></abbr>'
     end
 
-    it "displays a non-UTC time with a given date format" do
+    it "displays a non-UTC time with a given date format and converts it to UTC" do
       @local_time.stub!(:to_s).with(:plain).and_return("October 09 12:00 PM")
+      @local_time.should_receive(:utc).and_return(@utc_time)
 
-      helper.datetime_with_microformat(@local_time, :format => :plain).should == '<abbr class="datetime" title="2008-10-09T12:00:00+02:00"><span title="October 09 12:00 PM">October 09 12:00 PM</span></abbr>'
+      helper.datetime_with_microformat(@local_time, :format => :plain).should == '<abbr class="datetime" title="2008-10-09T12:00:00Z"><span title="October 09 12:00 PM">October 09 12:00 PM</span></abbr>'
     end
 
     it "displays a UTC time with a given custom date format" do
       @utc_time.stub!(:strftime).with('%Y/%m/%d').and_return("2008/10/09")
+      @utc_time.stub!(:utc).and_return(@utc_time)
       #@utc_time.stub!(:to_s).with('%Y/%m/%d').and_return("2008/10/09") # with localized_dates plugin
 
       helper.datetime_with_microformat(@utc_time, :format => '%Y/%m/%d').should == '<abbr class="datetime" title="2008-10-09T12:00:00Z"><span title="2008/10/09">2008/10/09</span></abbr>'
     end
 
-    it "displays a non-UTC time with a given custom date format" do
+    it "displays a non-UTC time with a given custom date format and converts it to UTC" do
       @local_time.stub!(:strftime).with('%Y/%m/%d').and_return("2008/10/09")
+      @local_time.should_receive(:utc).and_return(@utc_time)
       #@local_time.stub!(:to_s).with('%Y/%m/%d').and_return("2008/10/09") # with localized_dates plugin
 
-      helper.datetime_with_microformat(@local_time, :format => '%Y/%m/%d').should == '<abbr class="datetime" title="2008-10-09T12:00:00+02:00"><span title="2008/10/09">2008/10/09</span></abbr>'
+      helper.datetime_with_microformat(@local_time, :format => '%Y/%m/%d').should == '<abbr class="datetime" title="2008-10-09T12:00:00Z"><span title="2008/10/09">2008/10/09</span></abbr>'
     end
   end
 end
