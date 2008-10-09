@@ -63,13 +63,13 @@ module BaseHelper
     Time.zone.now.yesterday.to_ordinalized_s(:stub)
   end
 
-  def time_ago_in_words_with_microformat(datetime, options={})
+  def datetime_with_microformat(datetime, options={})
     options.symbolize_keys!
     options[:format] ||= :standard
     # yuck ... use the localized_dates plugin as soon as we're on Rails 2.2?
     formatted_datetime = options[:format].is_a?(Symbol) ? datetime.to_s(options[:format]) : datetime.strftime(options[:format])
 
-    %{<abbr class="datetime" title="#{datetime.xmlschema}"><span title="#{formatted_datetime}">#{time_ago_in_words(datetime)}</span></abbr>}
+    %{<abbr class="datetime" title="#{datetime.xmlschema}"><span title="#{formatted_datetime}">#{formatted_datetime}</span></abbr>}
   end
 
   def filter_options

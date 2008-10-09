@@ -15,7 +15,7 @@ describe "Comment views:" do
 
     template.stub!(:has_permission?).and_return false
     template.stub!(:link_to_content).and_return 'link_to_content'
-    template.stub!(:time_ago_in_words_with_microformat).and_return 'Once upon a time ...'
+    template.stub!(:datetime_with_microformat).and_return 'Once upon a time ...'
 
     template.stub_render hash_including(:partial => 'comments/comment')
     template.stub_render hash_including(:partial => 'comments/form')

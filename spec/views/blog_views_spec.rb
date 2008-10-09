@@ -18,7 +18,7 @@ describe "Blog views:" do
     template.stub!(:link_to_content_comments).and_return 'link_to_content_comments'
     template.stub!(:comment_path).and_return 'path/to/comment'
     template.stub!(:collection_title).and_return 'path/to/comment'
-    template.stub!(:time_ago_in_words_with_microformat).and_return 'Once upon a time ...'
+    template.stub!(:datetime_with_microformat).and_return 'Once upon a time ...'
 
     template.stub_render hash_including(:partial => 'comments/list')
     template.stub_render hash_including(:partial => 'comments/form')

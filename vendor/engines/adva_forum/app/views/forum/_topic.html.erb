@@ -7,7 +7,7 @@
     <%= topic.comments_count %>
   </td>
   <td>
-    <%= time_ago_in_words_with_microformat(topic.last_updated_at, :format => '%d.%m.%y %H:%M') %>
+    <%= datetime_with_microformat(topic.last_updated_at, :format => '%d.%m.%y %H:%M') %>
     by <%= topic.last_author_name %>
     <%= link_to_last_post('view', topic) %>
   </td>

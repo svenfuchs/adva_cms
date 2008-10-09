@@ -19,7 +19,7 @@
           <% if @section.accept_comments? %>
             <td><%= link_to_content_comments_count wikipage %></td>
           <% end %> 
-          <td><%= time_ago_in_words_with_microformat(wikipage.updated_at, :format => :long) %></td>
+          <td><%= datetime_with_microformat(wikipage.updated_at, :format => :long) %></td>
         </tr>
       <% end %>
     </tbody>

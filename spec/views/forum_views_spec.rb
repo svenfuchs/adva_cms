@@ -18,7 +18,7 @@ describe "Forum views:" do
     template.stub!(:link_to_last_post).and_return 'link_to_last_post'
     template.stub!(:pluralize_str).and_return 'pluralized_str'
     template.stub!(:will_paginate).and_return 'will_paginate'
-    template.stub!(:time_ago_in_words_with_microformat).and_return 'Once upon a time ...'
+    template.stub!(:datetime_with_microformat).and_return 'Once upon a time ...'
 
     template.stub_render hash_including(:partial => 'forum/topic')
   end
