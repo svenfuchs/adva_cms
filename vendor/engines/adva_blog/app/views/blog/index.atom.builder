@@ -2,7 +2,7 @@ atom_feed :url => request.url do |feed|
   title = "#{@site.title} » #{@section.title}"
   title = title + " » Category #{@category.title}" if @category
   title = title + " » #{@tags.size == 1 ? 'Tag' : 'Tags'}: #{@tags.join(', ')}" unless @tags.blank?
-  
+
   feed.title title
   feed.updated @articles.first ? @articles.first.updated_at : Time.now.utc
 

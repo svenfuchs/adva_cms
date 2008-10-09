@@ -29,6 +29,7 @@ describe "Wiki views:" do
     template.stub!(:collection_title).and_return 'path/to/comment'
     template.stub!(:wiki_edit_links).and_return %w(some wiki edit links)
     template.stub!(:will_paginate).and_return 'will_paginate'
+    template.stub!(:time_ago_in_words_with_microformat).and_return 'Once upon a time ...'
 
     template.stub_render hash_including(:partial => 'comments/list')
     template.stub_render hash_including(:partial => 'comments/form')

@@ -2,7 +2,7 @@
   <div id="<%= dom_id article %>" class="entry clearing">
   	<div class="meta">
   	  <p>
-  	    <%= article.published_at.to_formatted_s(:long) if article.published_at %><br />
+  	    <%= time_ago_in_words_with_microformat(article.published_at, :format => :long) if article.published_at %><br />
   	    by: <%= article.author_name %><br />
     	  <%= link_to_content_comments article unless mode == :single %>
   	  </p>

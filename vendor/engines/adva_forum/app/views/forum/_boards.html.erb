@@ -24,7 +24,7 @@
       <td>
         <%= pluralize_str board.topics_count, '%d topic' %>, 
         <%= pluralize_str board.comments_count, '%d post' %><br>
-        <%= board.last_updated_at.inspect %>
+        <%= time_ago_in_words_with_microformat(board.last_updated_at) %>
         <%= 'by ' + board.last_author_name if board.last_author_name %>
       </td>
     </tr>

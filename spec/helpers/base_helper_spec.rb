@@ -144,7 +144,7 @@ describe BaseHelper do
     end
   end
 
-  describe "#datetime_with_microformat" do
+  describe "#time_ago_in_words_with_microformat" do
     before :each do
       @utc_time = Time.utc(2008, 10, 9, 12, 0, 0)
       Time.zone = 'Vienna'
@@ -155,28 +155,28 @@ describe BaseHelper do
       @utc_time.should_receive(:to_s).with(:standard).and_return("October 09, 2008 @ 12:00 PM")
 
       helper.should_receive(:time_ago_in_words).with(@utc_time).and_return("3 hours ago")
-      helper.datetime_with_microformat(@utc_time).should == '<abbr class="datetime" title="2008-10-09T12:00:00Z"><span title="October 09, 2008 @ 12:00 PM">3 hours ago</span></abbr>'
+      helper.time_ago_in_words_with_microformat(@utc_time).should == '<abbr class="datetime" title="2008-10-09T12:00:00Z"><span title="October 09, 2008 @ 12:00 PM">3 hours ago</span></abbr>'
     end
 
     it "displays a non-UTC time" do
       @local_time.stub!(:to_s).with(:standard).and_return("October 09, 2008 @ 12:00 PM")
 
       helper.should_receive(:time_ago_in_words).with(@local_time).and_return("3 hours ago")
-      helper.datetime_with_microformat(@local_time).should == '<abbr class="datetime" title="2008-10-09T12:00:00+02:00"><span title="October 09, 2008 @ 12:00 PM">3 hours ago</span></abbr>'
+      helper.time_ago_in_words_with_microformat(@local_time).should == '<abbr class="datetime" title="2008-10-09T12:00:00+02:00"><span title="October 09, 2008 @ 12:00 PM">3 hours ago</span></abbr>'
     end
 
     it "displays a UTC time with a given date format" do
       @utc_time.stub!(:to_s).with(:plain).and_return("October 09 12:00 PM")
 
       helper.should_receive(:time_ago_in_words).with(@utc_time).and_return("3 hours ago")
-      helper.datetime_with_microformat(@utc_time, :format => :plain).should == '<abbr class="datetime" title="2008-10-09T12:00:00Z"><span title="October 09 12:00 PM">3 hours ago</span></abbr>'
+      helper.time_ago_in_words_with_microformat(@utc_time, :format => :plain).should == '<abbr class="datetime" title="2008-10-09T12:00:00Z"><span title="October 09 12:00 PM">3 hours ago</span></abbr>'
     end
 
     it "displays a non-UTC time with a given date format" do
       @local_time.stub!(:to_s).with(:plain).and_return("October 09 12:00 PM")
 
       helper.should_receive(:time_ago_in_words).with(@local_time).and_return("3 hours ago")
-      helper.datetime_with_microformat(@local_time, :format => :plain).should == '<abbr class="datetime" title="2008-10-09T12:00:00+02:00"><span title="October 09 12:00 PM">3 hours ago</span></abbr>'
+      helper.time_ago_in_words_with_microformat(@local_time, :format => :plain).should == '<abbr class="datetime" title="2008-10-09T12:00:00+02:00"><span title="October 09 12:00 PM">3 hours ago</span></abbr>'
     end
 
     it "displays a UTC time with a given custom date format" do
@@ -184,7 +184,7 @@ describe BaseHelper do
       #@utc_time.stub!(:to_s).with('%Y/%m/%d').and_return("2008/10/09") # with localized_dates plugin
 
       helper.should_receive(:time_ago_in_words).with(@utc_time).and_return("3 hours ago")
-      helper.datetime_with_microformat(@utc_time, :format => '%Y/%m/%d').should == '<abbr class="datetime" title="2008-10-09T12:00:00Z"><span title="2008/10/09">3 hours ago</span></abbr>'
+      helper.time_ago_in_words_with_microformat(@utc_time, :format => '%Y/%m/%d').should == '<abbr class="datetime" title="2008-10-09T12:00:00Z"><span title="2008/10/09">3 hours ago</span></abbr>'
     end
 
     it "displays a non-UTC time with a given custom date format" do
@@ -192,7 +192,7 @@ describe BaseHelper do
       @local_time.stub!(:strftime).with('%Y/%m/%d').and_return("2008/10/09")
       #@local_time.stub!(:to_s).with('%Y/%m/%d').and_return("2008/10/09") # with localized_dates plugin
 
-      helper.datetime_with_microformat(@local_time, :format => '%Y/%m/%d').should == '<abbr class="datetime" title="2008-10-09T12:00:00+02:00"><span title="2008/10/09">3 hours ago</span></abbr>'
+      helper.time_ago_in_words_with_microformat(@local_time, :format => '%Y/%m/%d').should == '<abbr class="datetime" title="2008-10-09T12:00:00+02:00"><span title="2008/10/09">3 hours ago</span></abbr>'
     end
   end
 end

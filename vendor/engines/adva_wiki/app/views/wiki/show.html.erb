@@ -3,7 +3,7 @@
     <p><%= link_to 'all pages', wikipages_path %></p>
     <h4>revision: <%= @wikipage.version %></h4>
     <p>
-      <%= @wikipage.updated_at.to_s(:long) %><br />
+      <%= time_ago_in_words_with_microformat(@wikipage.updated_at, :format => :long) %><br />
       by: <%= @wikipage.author_link %>
     </p>
 

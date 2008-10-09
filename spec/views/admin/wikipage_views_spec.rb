@@ -17,6 +17,7 @@ describe "Admin::Wikipages:" do
     template.stub!(:edit_admin_wikipage_path).and_return(@edit_member_path)
 
     template.stub!(:will_paginate)
+    template.stub!(:time_ago_in_words_with_microformat).and_return 'Once upon a time ...'
   end
 
   describe "the index view" do

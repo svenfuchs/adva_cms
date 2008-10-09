@@ -63,7 +63,7 @@ module BaseHelper
     Time.zone.now.yesterday.to_ordinalized_s(:stub)
   end
 
-  def datetime_with_microformat(datetime, options={})
+  def time_ago_in_words_with_microformat(datetime, options={})
     options.symbolize_keys!
     options[:format] ||= :standard
     # yuck ... use the localized_dates plugin as soon as we're on Rails 2.2?
