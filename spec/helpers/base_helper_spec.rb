@@ -151,6 +151,12 @@ describe BaseHelper do
       @local_time = Time.local(2008, 10, 9, 14, 0, 0)
     end
 
+    it "displays the passed object when passed a non-Date/Time object" do
+      helper.datetime_with_microformat(nil).should be_nil
+      helper.datetime_with_microformat(1).should == 1
+      helper.datetime_with_microformat('1').should == '1'
+    end
+
     it "displays a UTC time" do
       @utc_time.stub!(:to_s).with(:standard).and_return("October 09, 2008 @ 12:00 PM")
         @utc_time.stub!(:utc).and_return(@utc_time)

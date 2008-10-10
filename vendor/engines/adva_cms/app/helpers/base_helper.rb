@@ -64,6 +64,8 @@ module BaseHelper
   end
 
   def datetime_with_microformat(datetime, options={})
+    return datetime unless datetime.respond_to?(:strftime)
+
     options.symbolize_keys!
     options[:format] ||= :standard
     # yuck ... use the localized_dates plugin as soon as we're on Rails 2.2?
