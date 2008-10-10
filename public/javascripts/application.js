@@ -9,7 +9,7 @@ var CommentForm = {
   }
 }
 
-Date.UTC_now = function() {
+Date.UTCNow = function() {
   d = new Date();
   utc = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate(), d.getUTCHours(), d.getUTCMinutes(), d.getUTCSeconds()));
   // we need to correct the timezone offset because JS sucks really bad with timezones ...
@@ -21,7 +21,7 @@ Date.parseISO8601 = function(iso8601_date) {
   return new Date(Date.parse(iso8601_date.replace(/-/g, '/').replace('T', ' ').substr(0, 19))); // always has exactly 19 chars
 }
 
-distance_of_time_in_words = function(seconds) {
+distanceOfTimeInWords = function(seconds) {
   d = seconds/60; // in minutes
 
   if (d < 1) return 'less than a minute';
@@ -35,12 +35,17 @@ distance_of_time_in_words = function(seconds) {
   else return (Math.round(d/1440) + ' days');
 }
 
-time_ago_in_words = function(iso8601_date) {
+timeAgoInWords = function(iso8601_date) {
   utc_date = Date.parseISO8601(iso8601_date);
-  utc_now  = Date.UTC_now();
+  utc_now  = Date.UTCNow();
   d = (utc_now.getTime() - utc_date.getTime())/1000; // in seconds
 
-  return distance_of_time_in_words(d) + ' ago';
+  return distanceOfTimeInWords(d) + ' ago';
+}
+
+createAndFormatDateSpan = function(abbr) {
+  // create a new span element and set its title to the abbr's innerHTML and its value to the timeAgoInWords string
+  abbr.update(new Element('span', { title: abbr.innerHTML }).update(timeAgoInWords(abbr.title))); // only used for past dates right now so we can safely use time_ago_in_words here
 }
 
 Event.onReady(function() {
@@ -49,6 +54,6 @@ Event.onReady(function() {
   }
   // parse all microformatted dates and re-format them as time distance
   $$('abbr.datetime').each(function(abbr) {
-    abbr.firstDescendant().update(time_ago_in_words(abbr.title)) // only used for past dates right now so we can safely use time_ago_in_words here
+    createAndFormatDateSpan(abbr);
   });
 });
