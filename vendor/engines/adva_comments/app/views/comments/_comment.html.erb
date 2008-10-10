@@ -1,7 +1,7 @@
 <li class="<%= cycle 'alt', '' %> clearing" id="<%= dom_id(comment) %>">
   <div class="meta">
     <p><%= comment.author_link %></p>
-    <p><%= datetime_with_microformat(comment.created_at, :format => :long) if comment.created_at %></p>
+    <p><%= datetime_with_microformat(comment.created_at, :format => :long) %></p>
     <% unless comment.approved? %>
       <p class="info">This comment is currently under review.</p>
     <% end  %>
