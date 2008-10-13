@@ -9,6 +9,10 @@ describe RolesController do
     User.stub!(:find).and_return @user
   end
 
+  it "page_caches the :index action" do
+    cached_page_filter_for(:index).should_not be_nil
+  end
+
   describe "GET to :index" do
     act! { request_to :get, '/users/1/roles.js' }
     it_assigns :user, :site

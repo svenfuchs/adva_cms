@@ -1,7 +1,7 @@
 class RolesController < BaseController
   layout false
   helper :users, :roles
-  caches_page :index
+  caches_page_with_references :index
   before_filter :set_user, :set_object, :set_roles
 
   def index
