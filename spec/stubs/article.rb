@@ -36,6 +36,7 @@ define Article do
            :draft? => false,
            :filter => nil,
            :attributes= => nil,
+           :valid? => true,
            :save => true,
            :save_without_revision => true,
            :update_attributes => true,

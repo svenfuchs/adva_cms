@@ -43,6 +43,7 @@ class Admin::ArticlesController < Admin::BaseController
 
   def create
     @article = @section.articles.build params[:article]
+    trigger_event_if_valid @article
     if @article.save
       flash[:notice] = "The article has been created."
       redirect_to edit_admin_article_path(:id => @article.id)
@@ -56,6 +57,8 @@ class Admin::ArticlesController < Admin::BaseController
   def update
     rollback and return if params[:version]
     @article.attributes = params[:article]
+    trigger_event_if_valid @article
+    Event.trigger(:article_updated, @article, self) if @article.valid?
     if save_with_revision? ? @article.save : @article.save_without_revision
       flash[:notice] = "The article has been updated"
       redirect_to edit_admin_article_path
@@ -84,6 +87,7 @@ class Admin::ArticlesController < Admin::BaseController
 
   def destroy
     if @article.destroy
+#      Event.trigger(:article_updated, @article, self)
       flash[:notice] = "The article has been deleted."
       redirect_to admin_articles_path
     else

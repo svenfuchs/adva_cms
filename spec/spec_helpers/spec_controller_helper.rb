@@ -76,6 +76,23 @@ Spec::Rails::Example::ControllerExampleGroup.class_eval do
         act!
       end
     end
+    
+    def it_triggers_event(type)
+     it "triggers a #{type.inspect} event" do
+       Event.should_receive(:trigger) do |*args|
+         args[0].should == type
+         /#{args[1].class.name.underscore}/.should =~ type.to_s
+         args[2].should respond_to(:controller_name)
+       end
+       act!
+     end
+    end
+    
+    def it_does_not_trigger_any_event
+      it "does not trigger any event" do
+        Event.should_not_receive(:trigger)
+      end
+    end
 
     def maps_to_index(path, options = {})
       maps_to_action(path, :index, options)
