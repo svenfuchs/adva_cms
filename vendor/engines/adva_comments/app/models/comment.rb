@@ -36,11 +36,20 @@ class Comment < ActiveRecord::Base
   end
 
   def just_approved?
-    approved? && approved_changed?
+    !original_state.approved? and approved?
   end
 
   def just_unapproved?
-    !approved? && approved_changed?
+    !original_state.unapproved? and unapproved?
+  end
+  
+  def state_changes
+    state_changes = if just_approved?
+      [:approved]
+    elsif just_unapproved?
+      [:unapproved]
+    end || []
+    super + state_changes 
   end
 
   def spam_info

@@ -42,6 +42,10 @@ describe CommentsController do
   end
 
   describe "POST to :create" do
+    before :each do
+      @comment.stub!(:new_record?).and_return true
+    end
+    
     act! { request_to :post, @collection_path, @params }
     it_assigns :commentable, lambda { @article }
     it_guards_permissions :create, :comment
@@ -59,6 +63,7 @@ describe CommentsController do
     describe "given valid comment params" do
       it_redirects_to { @member_path }
       it_assigns_flash_cookie :notice => :not_nil
+      it_triggers_event :comment_created
 
       it "checks the comment's spaminess" do
         permalink = "http://test.host/sections/1/articles/an-article"
@@ -74,6 +79,7 @@ describe CommentsController do
       end
       it_renders_template :show
       it_assigns_flash_cookie :error => :not_nil
+      it_does_not_trigger_any_event
     end
   end
 
@@ -94,15 +100,36 @@ describe CommentsController do
     describe "given valid comment params" do
       it_redirects_to { @member_path }
       it_assigns_flash_cookie :notice => :not_nil
+      it_triggers_event :comment_updated
     end
 
     describe "given invalid comment params" do
       before :each do
+        @comment.stub!(:valid?).and_return false
         @comment.stub!(:update_attributes).and_return false
         @comment.stub!(:errors).and_return mock('errors', :full_messages => ["Name can't be blank"])
       end
       it_renders_template :show
       it_assigns_flash_cookie :error => :not_nil
+      it_does_not_trigger_any_event
+    end
+  end
+  
+  describe "DELETE to :destroy" do
+    before :each do
+      @comment.stub!(:frozen?).and_return true
+    end
+    
+    act! { request_to :delete, @member_path }
+    it_assigns :comment
+    it_guards_permissions :destroy, :comment
+    it_triggers_event :comment_deleted
+    it_redirects_to { '/' }
+    it_assigns_flash_cookie :notice => :not_nil
+ 
+    it "destroys the comment" do
+      @comment.should_receive :destroy
+      act!
     end
   end
 end

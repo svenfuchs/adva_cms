@@ -51,6 +51,10 @@ describe TopicsController do
   end  
   
   describe "POST to :create" do
+    before :each do
+      @topic.stub!(:new_record?).and_return true
+    end
+    
     act! { request_to :post, topics_path, :topic => {} }    
     it_assigns :topic
     it_guards_permissions :create, :topic
@@ -63,12 +67,16 @@ describe TopicsController do
     describe "given valid topic params" do
       it_redirects_to { topic_path }
       it_assigns_flash_cookie :notice => :not_nil
+      it_triggers_event :topic_created
     end
     
     describe "given invalid topic params" do
-      before :each do @topic.should_receive(:save).and_return false end
+      before :each do
+        @forum.topics.should_receive(:post).and_return nil
+      end
       it_renders_template :new
       it_assigns_flash_cookie :error => :not_nil
+      it_does_not_trigger_any_event
     end    
   end
 
@@ -85,23 +93,31 @@ describe TopicsController do
     it_guards_permissions :update, :topic
     
     it "updates the topic with the topic params" do
-      @topic.should_receive(:revise).and_return true
+      @topic.should_receive(:save).and_return true
       act!
     end
     
     describe "given valid topic params" do
       it_redirects_to { topic_path }
       it_assigns_flash_cookie :notice => :not_nil
+      it_triggers_event :topic_updated
     end
     
     describe "given invalid topic params" do
-      before :each do @topic.stub!(:revise).and_return false end
+      before :each do 
+        @topic.stub!(:save).and_return false 
+      end
       it_renders_template :edit
       it_assigns_flash_cookie :error => :not_nil
+      it_does_not_trigger_any_event
     end
   end
   
   describe "DELETE to :destroy" do
+    before :each do
+      @topic.stub!(:frozen?).and_return true
+    end
+    
     act! { request_to :delete, topic_path }    
     it_assigns :topic
     it_guards_permissions :destroy, :topic
@@ -114,12 +130,14 @@ describe TopicsController do
     describe "when destroy succeeds" do
       it_redirects_to { forum_path }
       it_assigns_flash_cookie :notice => :not_nil
+      it_triggers_event :topic_deleted
     end
     
     describe "when destroy fails" do
       before :each do @topic.stub!(:destroy).and_return false end
       it_renders_template :show
       it_assigns_flash_cookie :error => :not_nil
+      it_does_not_trigger_any_event
     end
   end
   

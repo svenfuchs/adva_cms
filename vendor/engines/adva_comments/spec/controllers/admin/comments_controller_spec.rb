@@ -178,39 +178,38 @@ describe Admin::CommentsController do
     describe "given valid comment params" do
       it_redirects_to { '/redirect/here' }
       it_assigns_flash_cookie :notice => :not_nil
+      it_triggers_event :comment_updated
     end
 
     describe "given invalid comment params" do
-      before :each do @comment.stub!(:update_attributes).and_return false end
+      before :each do 
+        @comment.stub!(:update_attributes).and_return false
+      end
       it_renders_template :edit
       it_assigns_flash_cookie :error => :not_nil
+      it_does_not_trigger_any_event
     end
   end
 
   describe "DELETE to :destroy" do
+    before :each do
+      @comment.stub!(:frozen?).and_return true
+    end
     act! { request_to :delete, @member_path, :return_to => '/redirect/here' }
     it_assigns :comment
     it_guards_permissions :destroy, :comment
-
+    it_redirects_to { '/redirect/here' }
+    it_assigns_flash_cookie :notice => :not_nil
+    it_triggers_event :comment_deleted
+    
     it "fetches a comment from site.comments" do
       @site.comments.should_receive(:find).and_return @comment
       act!
     end
 
-    it "should try to destroy the comment" do
+    it "destroys the comment" do
       @comment.should_receive :destroy
       act!
-    end
-
-    describe "when destroy succeeds" do
-      it_redirects_to { '/redirect/here' }
-      it_assigns_flash_cookie :notice => :not_nil
-    end
-
-    describe "when destroy fails" do
-      before :each do @comment.stub!(:destroy).and_return false end
-      it_redirects_to { '/redirect/here' }
-      it_assigns_flash_cookie :error => :not_nil
     end
   end
 end

@@ -29,6 +29,7 @@ define Wikipage do
            :valid? => true,
            :save => true,
            :update_attributes => true,
+           :attributes= => true,
            :destroy => true,
            :revert_to => stub_wikipage,
            :diff_against_version => 'the diff',

@@ -165,6 +165,10 @@ describe WikiController do
   end
 
   describe "POST to :create" do
+    before :each do
+      @wikipage.stub!(:new_record?).and_return true
+    end
+    
     act! { request_to :post, wiki_pages_path, :wikipage => {} }
     it_guards_permissions :create, :wikipage
     it_assigns :wikipage
@@ -177,12 +181,16 @@ describe WikiController do
     describe "given valid wikipage params" do
       it_redirects_to { wikipage_path }
       it_assigns_flash_cookie :notice => :not_nil
+      it_triggers_event :wikipage_created
     end
 
     describe "given invalid wikipage params" do
-      before :each do @wiki.wikipages.should_receive(:create).and_return false end
+      before :each do 
+        @wiki.wikipages.should_receive(:create).and_return false 
+      end
       it_renders_template :new
       it_assigns_flash_cookie :error => :not_nil
+      it_does_not_trigger_any_event
     end
   end
 
@@ -203,19 +211,28 @@ describe WikiController do
     describe "given valid wikipage params" do
       it_redirects_to { wikipage_path }
       it_assigns_flash_cookie :notice => :not_nil
+      it_triggers_event :wikipage_updated
     end
 
     describe "given invalid wikipage params" do
-      before :each do @wikipage.stub!(:update_attributes).and_return false end
+      before :each do 
+        @wikipage.stub!(:update_attributes).and_return false 
+      end
       it_renders_template :edit
       it_assigns_flash_cookie :error => :not_nil
+      it_does_not_trigger_any_event
     end
   end
 
   describe "DELETE to :destroy" do
+    before :each do
+      @wikipage.stub!(:frozen?).and_return true
+    end
+    
     act! { request_to :delete, wikipage_path }
     it_guards_permissions :destroy, :wikipage
     it_assigns :wikipage
+    it_triggers_event :wikipage_deleted
 
     it "should try to destroy the wikipage" do
       @wikipage.should_receive :destroy

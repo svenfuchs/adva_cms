@@ -91,6 +91,7 @@ Spec::Rails::Example::ControllerExampleGroup.class_eval do
     def it_does_not_trigger_any_event
       it "does not trigger any event" do
         Event.should_not_receive(:trigger)
+        act!
       end
     end
 

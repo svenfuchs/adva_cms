@@ -35,7 +35,20 @@ class Admin::UsersController < Admin::BaseController
   end
 
   def update
-    if @user.update_attributes(params[:user])
+    @user.attributes = params[:user]
+    trigger_event_if_valid @user
+    if @user.save
+      flash[:notice] = "The user account has been updated."
+      redirect_to @user.is_site_member?(@site) ? member_path(@user) : collection_path
+    else
+      flash.now[:error] = "The user account could not be updated."
+      render :action => :edit
+    end
+  end
+
+  def update
+    if @user.update_attributes params[:user]
+      trigger_event_if_valid @user
       flash[:notice] = "The user account has been updated."
       redirect_to @user.is_site_member?(@site) ? member_path(@user) : collection_path
     else

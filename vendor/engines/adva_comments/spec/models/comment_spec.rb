@@ -97,6 +97,21 @@ describe Comment do
         @comment.approved?.should be_false
       end
     end
+    
+    describe '#state_changes' do
+      it "returns :updated, :approved when the comment was just approved" do
+        @comment.original_state.stub!(:new_record?).and_return false
+        @comment.approved = 1
+        @comment.state_changes.should == [:updated, :approved]
+      end
+      
+      it "returns :updated, :unapproved when the comment was just unapproved" do
+        @comment.original_state.stub!(:new_record?).and_return false
+        @comment.original_state.approved = 1
+        @comment.approved = 0
+        @comment.state_changes.should == [:updated, :unapproved]
+      end
+    end
 
     describe '#authorize_commenting' do
       it 'it checks if the commentable accepts comments' do

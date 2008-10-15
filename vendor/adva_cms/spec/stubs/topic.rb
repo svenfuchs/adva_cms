@@ -9,9 +9,10 @@ define Topic do
 
   methods    :sticky? => false,
              :locked? => false,
+             :valid? => true,
              :save => true,
              :destroy => true,
-             :revise => true,
+             :revise => nil,
              :comments_count => 1,
              :last_page => 2,
              :last_comment => stub_comment,

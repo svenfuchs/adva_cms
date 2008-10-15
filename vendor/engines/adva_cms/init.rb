@@ -9,6 +9,7 @@ require 'core_ext/kernel'
 require 'core_ext/module'
 require 'core_ext/string'
 require 'rails_ext/active_record/sti_instantiation'
+require 'rails_ext/active_record/remember_state'
 require 'rails_ext/action_controller/event_helper'
 
 require 'routing'

@@ -103,27 +103,31 @@ describe Admin::ArticlesController do
   describe "POST to :create" do
     before :each do
       @article.stub!(:new_record?).and_return true
+      @section.articles.stub!(:create).and_return @article
     end
     
     act! { request_to :post, @collection_path, @parameters }
     it_assigns :article
     it_guards_permissions :create, :article
-    it_triggers_event :article_created
     
     it "instantiates a new article from section.articles" do
-      @section.articles.should_receive(:build).and_return @article
+      @section.articles.should_receive(:create).and_return @article
       act!
     end
  
     describe "given valid article params" do
       it_redirects_to { @edit_member_path }
       it_assigns_flash_cookie :notice => :not_nil
+      it_triggers_event :article_created
     end
  
     describe "given invalid article params" do
-      before :each do @article.stub!(:save).and_return false end
+      before :each do 
+        @section.articles.stub!(:create).and_return false 
+      end
       it_renders_template :new
       it_assigns_flash_cookie :error => :not_nil
+      it_does_not_trigger_any_event
     end
   end
  
@@ -143,6 +147,7 @@ describe Admin::ArticlesController do
     act! { request_to :put, @member_path, @parameters }
     it_assigns :article
     it_guards_permissions :update, :article
+    it_triggers_event :article_updated
  
     it "fetches an article from section.articles" do
       @section.articles.should_receive(:find).any_number_of_times.and_return @article
@@ -180,11 +185,16 @@ describe Admin::ArticlesController do
       request_to :put, @member_path, @parameters.merge(:version => "1")
     end
   end
- 
+  
   describe "DELETE to :destroy" do
+    before :each do
+      @article.stub!(:frozen?).and_return true
+    end
+    
     act! { request_to :delete, @member_path }
     it_assigns :article
     it_guards_permissions :destroy, :article
+    it_triggers_event :article_deleted
  
     it "fetches an article from section.articles" do
       @section.articles.should_receive(:find).any_number_of_times.and_return @article

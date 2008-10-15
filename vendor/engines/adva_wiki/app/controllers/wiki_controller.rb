@@ -45,6 +45,7 @@ class WikiController < BaseController
 
   def create
     if @wikipage = @section.wikipages.create(params[:wikipage])
+      trigger_event @wikipage
       flash[:notice] = "The wikipage has been saved."
       redirect_to wikipage_path(:section_id => @section, :id => @wikipage.permalink)
     else
@@ -59,6 +60,7 @@ class WikiController < BaseController
   def update
     rollback and return if params[:version]
     if @wikipage.update_attributes params[:wikipage]
+      trigger_event @wikipage
       flash[:notice] = "The wikipage has been updated."
       redirect_to wikipage_path(:section_id => @section, :id => @wikipage.permalink)
     else
@@ -70,12 +72,14 @@ class WikiController < BaseController
   def rollback
     @wikipage.revert_to(params[:version])
     @wikipage.save
+    # trigger_event @wikipage
     flash[:notice] = "The wikipage has been rolled back to revision #{params[:version]}"
     redirect_to wikipage_path(:section_id => @section, :id => @wikipage.permalink)
   end
 
   def destroy
     if @wikipage.destroy
+      trigger_event @wikipage
       flash[:notice] = 'Wikipage destroyed.'
       redirect_to wiki_path(@section)
     else

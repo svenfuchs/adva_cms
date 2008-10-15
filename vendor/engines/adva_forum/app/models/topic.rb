@@ -47,7 +47,7 @@ class Topic < ActiveRecord::Base
 
   def revise(author, attributes)
     self.sticky, self.locked = attributes.delete(:sticky), attributes.delete(:locked) # if author.has_permission ...
-    self.update_attributes attributes
+    self.attributes = attributes
   end
 
   # def hit!
