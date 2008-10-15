@@ -1,6 +1,6 @@
+$LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + "/../../../../vendor/plugins/rspec/lib"))
 require 'spec'
 require 'spec/rake/spectask'
-
 
 desc "Run all specs"
 Spec::Rake::SpecTask.new("adva_cms:test:specs") do |t|
