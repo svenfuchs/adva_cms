@@ -1,5 +1,6 @@
 ENV["RAILS_ENV"] = "test"
-require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
+#require File.expand_path(File.dirname(__FILE__) + "/../../../config/environment") # new
+require File.expand_path(File.dirname(__FILE__) + "/../config/environment") # old
 
 $:.unshift File.expand_path(File.dirname(__FILE__) + "/../vendor/gems/rspec-rails-1.1.4/lib")
 $:.unshift File.expand_path(File.dirname(__FILE__) + "/../vendor/gems/rspec-1.1.4/lib")
@@ -46,7 +47,7 @@ def steps(*names)
       File.basename(path).gsub(/#{File.extname(path)}$/, '').to_sym
     end
   else
-    names.each{|name| require step_dir + "/#{name}" }
+    names.each { |name| require step_dir + "/#{name}" }
   end
 end
 

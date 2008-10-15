@@ -8,3 +8,5 @@ require 'rake/testtask'
 require 'rake/rdoctask'
 
 require 'tasks/rails'
+
+load File.dirname(__FILE__) + '/vendor/adva_cms/lib/tasks/adva_cms.rake'

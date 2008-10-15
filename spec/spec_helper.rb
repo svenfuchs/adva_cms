@@ -9,36 +9,6 @@ $:.unshift File.expand_path(File.dirname(__FILE__) + "/../vendor/gems/rspec-1.1.
 require 'spec'
 require 'spec/rails'
 
-require File.dirname(__FILE__) + '/spec_helpers/spec_controller_helper'
-require File.dirname(__FILE__) + '/spec_helpers/spec_model_helper'
-require File.dirname(__FILE__) + '/spec_helpers/spec_view_helper'
-require File.dirname(__FILE__) + "/spec_helpers/spec_theme_helper"
-require File.dirname(__FILE__) + "/spec_helpers/spec_resource_path_helper"
-require File.dirname(__FILE__) + "/spec_helpers/spec_page_caching_helper"
-require File.dirname(__FILE__) + "/spec_helpers/mock_invalid_record"
-
-require File.dirname(__FILE__) + "/matchers/url_matchers"
-require File.dirname(__FILE__) + "/matchers/class_extensions"
-
-Stubby.load
-
-require "cacheable_flash/test_helpers"
-require "rspec_on_rails_on_crack"
-# AGW::CacheTest.setup
-
-I18n.default_locale = :en # set this up globally as it will be setup in base controllers
-RoutingFilter::Locale.default_locale = I18n.default_locale
-
-ActionController::TestResponse.send :include, CacheableFlash::TestHelpers
-
-Spec::Rails::Example::ControllerExampleGroup.class_eval do
-  def params_from(method, path, env = {:host_with_port => 'test.host'})
-    ensure_that_routes_are_loaded
-    env.merge!({:method => method})
-    ActionController::Routing::Routes.recognize_path(path, env)
-  end
-end
-
 Spec::Runner.configure do |config|
   # If you're not using ActiveRecord you should remove these
   # lines, delete config/database.yml and disable :active_record

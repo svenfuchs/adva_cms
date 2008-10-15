@@ -44,7 +44,7 @@ Rails::Initializer.run do |config|
   config.plugins = [ :engines_config, :theme_support, :better_nested_set, :safemode, :adva_cms, :all ]
 
   config.plugin_paths << "#{RAILS_ROOT}/vendor/engines"
-  config.plugin_paths << "#{RAILS_ROOT}/vendor/spec" if Rails.env == 'test'
+  config.plugin_paths << "#{RAILS_ROOT}/vendor/spec" if ENV['RAILS_ENV'] == 'test'
 
   # Add additional load paths for your own custom dirs
   # config.load_paths += %W( #{RAILS_ROOT}/extras )
