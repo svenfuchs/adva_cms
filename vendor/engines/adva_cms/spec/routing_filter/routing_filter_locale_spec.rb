@@ -1,4 +1,4 @@
-return nil
+=begin
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe "Routing Filter::Locale" do
@@ -70,3 +70,4 @@ describe "Routing Filter::Locale" do
     end
   end
 end
+=end
