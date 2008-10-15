@@ -1,1 +1,1 @@
-Event.observers << AccountMailer
+Event.observers << UserMailer

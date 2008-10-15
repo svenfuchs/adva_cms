@@ -6,7 +6,7 @@ map.logout 'logout',       :controller => 'session',
 
 map.resource :session,     :controller => 'session'
 map.resource :password,    :controller => 'password'
-map.resource :account,     :controller => 'account',
+map.resource :user,        :controller => 'user',
                            :member => { :verify => :get }
 
 map.resources :users,      :path_prefix => "admin",

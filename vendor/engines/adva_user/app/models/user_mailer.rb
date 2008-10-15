@@ -1,5 +1,5 @@
 # A mailer to send notications related to changes in a user profiles.
-class AccountMailer < ActionMailer::Base
+class UserMailer < ActionMailer::Base
   include Login::MailConfig
 
   class << self
@@ -23,10 +23,10 @@ class AccountMailer < ActionMailer::Base
   # Will send a message to the given user so the user can re-activate
   # their deleted user account. The activation_link is the link that
   # will implement the actual reactivation when the user clicks.
-  def reactivate_account(user, activation_url)
+  def reactivate_user(user, activation_url)
     recipients user.email
     from system_email(activation_url)
-    subject "#{subject_prefix}Account Reactivation"
+    subject "#{subject_prefix}User Reactivation"
     body :user => user, :activation_url => activation_url
   end
 end

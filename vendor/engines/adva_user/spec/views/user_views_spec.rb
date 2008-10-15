@@ -1,13 +1,13 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe "Account views:" do
+describe "User views:" do
   include SpecViewHelper
 
   before :each do
     Thread.current[:site] = stub_site
 
     assigns[:site] = stub_site
-    @account.stub!(:user).and_return stub_user
+    @user.stub!(:user).and_return stub_user
 
     template.stub!(:link_to_content).and_return 'link_to_content'
     template.stub!(:links_to_content_categories).and_return 'links_to_content_categories'
@@ -23,18 +23,18 @@ describe "Account views:" do
     before :each do
     end
 
-    it "renders a form posting to /account" do
-      render 'account/new'
-      response.should have_tag('form[method=?][action=?]', 'post', '/account')
+    it "renders a form posting to /user" do
+      render 'user/new'
+      response.should have_tag('form[method=?][action=?]', 'post', '/user')
     end
 
-    it "renders form fields for the account data" do
-      render 'account/new'
+    it "renders form fields for the user data" do
+      render 'user/new'
       response.should have_tag('input[name=?]', 'user[login]')
     end
 
-    it "renders form fields for the account's user data" do
-      render 'account/new'
+    it "renders form fields for the user's data" do
+      render 'user/new'
       response.should have_tag('input[name=?]', 'user[name]')
     end
   end

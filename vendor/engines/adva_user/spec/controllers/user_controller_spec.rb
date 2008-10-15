@@ -1,15 +1,15 @@
 require File.dirname(__FILE__) + "/../spec_helper"
 
-describe AccountController do
+describe UserController do
   include Stubby
   include SpecControllerHelper
 
   before :each do
     scenario :site_with_a_user
 
-    @account_path = '/account'
-    @new_account_path = '/account/new'
-    @verify_account_path = '/account/verify'
+    @user_path = '/user'
+    @new_user_path = '/user/new'
+    @verify_user_path = '/user/verify'
 
     @params = { :user => { 'name' => 'name',
                            'email' => 'email@email.org',
@@ -19,7 +19,7 @@ describe AccountController do
   end
 
   describe "GET to :new" do
-    act! { request_to :get, @new_account_path }
+    act! { request_to :get, @new_user_path }
     it_assigns :user
     it_renders_template :new
   end
@@ -29,28 +29,28 @@ describe AccountController do
       @user.stub!(:new_record?).and_return true
       @user.stub!(:save).and_return true
       @site.stub!(:save).and_return true
-      AccountMailer.stub!(:deliver_signup_verification)
+      UserMailer.stub!(:deliver_signup_verification)
     end
 
-    act! { request_to :post, @account_path, @params }
+    act! { request_to :post, @user_path, @params }
     it_assigns :user
 
-    describe "given valid account params" do
+    describe "given valid user params" do
       it_renders_template :verification_sent
       it_triggers_event :user_registered
 
-      it "adds the new account to the site's accounts collection" do
+      it "adds the new user to the site's users collection" do
         @site.users.should_receive(:build).with(@params[:user]).and_return(@user)
         act!
       end
 
       it "sends a validation email to the user" do
-        AccountMailer.should_receive(:deliver_signup_verification)
+        UserMailer.should_receive(:deliver_signup_verification)
         act!
       end
     end
 
-    describe "given invalid account params" do
+    describe "given invalid user params" do
       before :each do
         @site.stub!(:save).and_return false
       end
@@ -67,7 +67,7 @@ describe AccountController do
       controller.stub!(:current_user).and_return @user
     end
       
-    act! { request_to :get, @verify_account_path }
+    act! { request_to :get, @verify_user_path }
     
     describe "given the user has been logged in from params[:token]" do
       before :each do
@@ -96,11 +96,11 @@ describe AccountController do
       controller.stub!(:current_user).and_return @user
     end
     
-    act! { request_to :delete, @account_path }
+    act! { request_to :delete, @user_path }
     it_triggers_event :user_deleted
     it_assigns_flash_cookie :notice => :not_nil
     
-    it "deletes the current user account" do
+    it "deletes the current user" do
       @user.should_receive(:destroy)
       act!
     end

@@ -1,4 +1,4 @@
-class AccountController < BaseController
+class UserController < BaseController
   authentication_required :except => [:new, :create]
   renders_with_error_proc :below_field
 
@@ -14,7 +14,7 @@ class AccountController < BaseController
       trigger_event @user, :registered
       render :action => 'verification_sent'
     else
-      flash[:error] = 'The user account could not be registered.'
+      flash[:error] = 'The user could not be registered.'
       render :action => :new
     end
   end
@@ -26,9 +26,9 @@ class AccountController < BaseController
   #   # was: params[:token].split(';').last
   #   # TODO this won't work because the salted hash thingy won't find a deleted user
   #   if @user.authenticate(params[:user][:password]) && @user.restore!
-  #     flash[:notice] = "The user account has been restored"
+  #     flash[:notice] = "The user has been restored"
   #   else
-  #     flash[:error] = "The user account could not be restored."
+  #     flash[:error] = "The user could not be restored."
   #   end
   #   redirect_to '/'
   # end

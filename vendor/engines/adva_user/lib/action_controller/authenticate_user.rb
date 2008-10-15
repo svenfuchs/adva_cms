@@ -74,7 +74,7 @@ module ActionController
       def current_user
         @current_user ||= begin
           # Check for session[:uid] here? That would mean that for token auth the
-          # user always needs to be logged out (e.g. in AccountController#create).
+          # user always needs to be logged out (e.g. in UserController#create).
           # Looks a bit more robust this way:
           try_login
           find_current_user if session[:uid]
@@ -104,7 +104,7 @@ module ActionController
           # plugin alreaddy have these controllers/actions on an
           # exception list but this prevents a mistake an overridden
           # controller from preventing the normal login behavior.
-          %w(session password account).each do |c|
+          %w(session password user).each do |c|
   	        %w(new create).each do |a|
               return if (controller_name == c) && (action_name == a)
             end
