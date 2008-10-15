@@ -1,4 +1,4 @@
-require 'test_helper'
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'test_helper' ))
 
 class UserRegistrationTest < ActionController::IntegrationTest
   
@@ -7,7 +7,6 @@ class UserRegistrationTest < ActionController::IntegrationTest
     
     # go to user registration page
     visits "account/new"
-    assert_response :success
 
     # fill in the form
     fills_in "name", :with => 'name'
