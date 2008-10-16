@@ -64,5 +64,8 @@ class BlogIndexTest < ActionController::IntegrationTest
       # assert_select "div.content", /Recent studies have proven that adva-cms really kicks ass - it's not just what the developers tell you!/
       # TODO: improve HTML markup so assert_select is easier
     end
+
+    # check that the page is cached
+    # assert_page_cached
   end
 end
