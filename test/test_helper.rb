@@ -20,7 +20,7 @@ class Test::Unit::TestCase
   # don't care one way or the other, switching from MyISAM to InnoDB tables
   # is recommended.
   #
-  # The only drawback to using transactional fixtures is when you actually 
+  # The only drawback to using transactional fixtures is when you actually
   # need to test transactions.  Since your test is bracketed by a transaction,
   # any transactions started in your code will be automatically rolled back.
   self.use_transactional_fixtures = true
@@ -44,12 +44,12 @@ end
 class Event
   module TestLog
     Event.observers << self
-    
+
     class << self
       def clear!
         @@events = nil
       end
-      
+
       def was_triggered?(type)
         @@events.include? type
       end
@@ -69,6 +69,6 @@ module CacheableFlash
       return {} unless cookies['flash']
       flash = CGI::unescape cookies['flash']
       HashWithIndifferentAccess.new JSON.parse(flash)
-    end    
+    end
   end
 end
