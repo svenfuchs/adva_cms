@@ -1,12 +1,22 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'test_helper' ))
 
+def assert_events_triggered(*types)
+  actual = types.select{|type| Event::TestLog.was_triggered?(type) }
+  assert_equal actual.size, types.size, "expected events #{types.inspect} to be triggered but only found #{actual.inspect}"
+end
+
 class UserRegistrationTest < ActionController::IntegrationTest
+  include CacheableFlash::TestHelpers
   
-  def test_user_registers
-    setup_site
+  def setup
+    Event::TestLog.clear!
+  end
+  
+  def test_user_registers_and_verifies_the_email
+    Factory :site_with_section
     
     # go to user registration page
-    visits "account/new"
+    visits "user/new"
 
     # fill in the form
     fills_in "name", :with => 'name'
@@ -22,19 +32,36 @@ class UserRegistrationTest < ActionController::IntegrationTest
     assert !user.verified?
     
     # should render the account/verification_sent template
-    assert_template 'account/verification_sent'
+    assert_template 'user/verification_sent'
+    
+    # should have triggered a :user_registered event
+    assert_events_triggered :user_created, :user_registered
     
     # should have sent an email notification
     assert ActionMailer::Base.deliveries.any?, 'ActionMailer should have sent a notification'
-    assert ActionMailer::Base.deliveries.first.to.include?(user.email)
+    email = ActionMailer::Base.deliveries.first
+    assert email.to.include?(user.email)
+    
+    # extract the verification url from the email
+    # http://www.example.com/user/verify?token=1%3Bbd69ea84ed49b61623da2c4d74de2936eb0b0229
+    email.body =~ /^(http:.*)$/
+    url = $1
+    assert_not_nil url, 'email should contain a url'
+    
+    # and visit it
+    get url
+    
+    # should have triggered a :user_verified event
+    assert_events_triggered :user_updated, :user_verified
+    
+    # user should be verified
+    user.reload
+    assert user.verified?, 'user should be verified'
+    
+    # should be redirected to /
+    assert_redirected_to '/', 'user should be redirected to /'
+    
+    # should see a flash notice
+    assert_not_nil flash_cookie["notice"], 'flash cookie should have a notice'
   end
-  
-  protected
-  
-    def setup_site
-      @site = Site.new :host => 'www.example.com', :title => 'site 1 title', :name => 'site 1'
-      @home = @site.sections.build :title => 'Home', :type => 'Section'
-      @site.sections << @home
-      @site.save
-    end
 end

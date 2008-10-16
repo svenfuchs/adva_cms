@@ -2,6 +2,10 @@ ENV["RAILS_ENV"] = "test"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'test_help'
 
+require 'factory_girl'
+require File.expand_path(File.dirname(__FILE__) + "/factories")
+
+
 class Test::Unit::TestCase
   # Transactional fixtures accelerate your tests by wrapping each test method
   # in a transaction that's rolled back on completion.  This ensures that the
@@ -35,4 +39,36 @@ class Test::Unit::TestCase
   fixtures :all
 
   # Add more helper methods to be used by all tests here...
+end
+
+class Event
+  module TestLog
+    Event.observers << self
+    
+    class << self
+      def clear!
+        @@events = nil
+      end
+      
+      def was_triggered?(type)
+        @@events.include? type
+      end
+
+      def handle_event!(event)
+        @@events ||= []
+        @@events << event.type
+      end
+    end
+  end
+end
+
+# modified the original helper
+module CacheableFlash
+  module TestHelpers
+    def flash_cookie
+      return {} unless cookies['flash']
+      flash = CGI::unescape cookies['flash']
+      HashWithIndifferentAccess.new JSON.parse(flash)
+    end    
+  end
 end

@@ -11,6 +11,7 @@ require 'spec/story'
 require 'spec/mocks'
 require 'spec/rails/story_adapter'
 require 'active_record/fixtures'
+require 'factories-and-workers'
 
 ActionController::Base.page_cache_directory = RAILS_ROOT + '/tmp/cache'
 ActionController::Base.perform_caching = true
