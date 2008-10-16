@@ -4,10 +4,14 @@ class PasswordController < BaseController
 
   layout 'simple'
 
-  # send a reset password link
+  def new
+  end
+
   def create
-    if user = User.find_by_email(params[:email])
-      PasswordMailer.deliver_reset_password user, reset_link(user)
+    if user = User.find_by_email(params[:user][:email])
+      token = user.assign_token 'password'
+      user.save!
+      trigger_event user, :password_reset_requested, :token => "#{user.id};#{token}"
       flash[:notice] = 'Notice sent. Please check your email.'
       redirect_to login_url
     else
@@ -15,25 +19,18 @@ class PasswordController < BaseController
       render :action => :new
     end
   end
-
-  # use a reset password link
-  def update
-    current_user.update_attributes!(params[:user].slice(:password, :password_confirmation))
-    PasswordMailer.deliver_updated_password current_user, reset_link(current_user)
-    flash[:notice] = 'Password successfully updated'
-    redirect_to '/'
-  rescue ActiveRecord::RecordInvalid => e
-    @user = e.record
-    render :action => 'edit'
+  
+  def edit
   end
 
-  private
-
-    # return a link that will allow a user to reset their password
-    def reset_link(user)
-      token = user.assign_token 'password'
-      user.save!
-      token = "#{user.id};#{token}"
-      reset_link = url_for :action => 'edit', :token => token
+  def update
+    if current_user.update_attributes(params[:user].slice(:password, :password_confirmation))
+      trigger_event current_user, :password_updated
+      flash[:notice] = 'Password successfully updated'
+      redirect_to '/'
+    else
+      flash[:error] = 'Could not update the password'
+      render :action => :edit
     end
+  end
 end

@@ -58,8 +58,11 @@ class WikiController < BaseController
   end
 
   def update
-    rollback and return if params[:version]
-    if @wikipage.update_attributes params[:wikipage]
+    params[:wikipage][:version] ? rollback : update_attributes
+  end
+
+  def update_attributes
+    if @wikipage.update_attributes(params[:wikipage])
       trigger_events @wikipage
       flash[:notice] = "The wikipage has been updated."
       redirect_to wikipage_path(:section_id => @section, :id => @wikipage.permalink)
@@ -70,11 +73,14 @@ class WikiController < BaseController
   end
 
   def rollback
-    @wikipage.revert_to(params[:version])
-    @wikipage.save
-    # trigger_events @wikipage
-    flash[:notice] = "The wikipage has been rolled back to revision #{params[:version]}"
-    redirect_to wikipage_path(:section_id => @section, :id => @wikipage.permalink)
+    if @wikipage.revert_to!(params[:wikipage][:version])
+      trigger_event @wikipage, :rolledback
+      flash[:notice] = "The wikipage has been rolled back to revision #{params[:version]}"
+      redirect_to wikipage_path(:section_id => @section, :id => @wikipage.permalink)
+    else
+      flash.now[:error] = "The wikipage could not be rolled back to revision #{params[:version]}."
+      render :action => :edit
+    end
   end
 
   def destroy

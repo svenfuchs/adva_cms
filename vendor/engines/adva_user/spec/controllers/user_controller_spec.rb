@@ -45,7 +45,7 @@ describe UserController do
       end
       
       it "sends a validation email to the user" do
-        UserMailer.should_receive(:deliver_signup_verification)
+        UserMailer.should_receive(:deliver_signup_verification_email)
         act!
       end
     end

@@ -7,8 +7,8 @@ class Event
   attr_reader :source      # the origin or the event, e.g. payment processor
 
   class << self
-    def trigger(type, object, source)
-      event = Event.new type, object, source
+    def trigger(type, object, source, options = {})
+      event = Event.new type, object, source, options
       observers.each do |observer| 
         callback = :"handle_#{event.type}!" 
         if observer.respond_to? callback
@@ -20,7 +20,12 @@ class Event
     end
   end
 
-  def initialize(type, object, source)
-    @type, @object, @source = type, object, source
+  def initialize(type, object, source, options = {})
+    @type, @object, @source, @options = type, object, source, options
+  end
+  
+  def method_missing(name, *args)
+    return @options[name] if @options.has_key?(name)
+    super
   end
 end

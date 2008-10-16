@@ -18,7 +18,7 @@ describe Event, '#trigger' do
   end
 
   it "instantiates a new Event" do
-    Event.should_receive(:new).with(:foo, :object, :source).and_return mock('event', :type => :foo)
+    Event.should_receive(:new).with(:foo, :object, :source, {}).and_return mock('event', :type => :foo)
     Event.trigger :foo, :object, :source
   end
 

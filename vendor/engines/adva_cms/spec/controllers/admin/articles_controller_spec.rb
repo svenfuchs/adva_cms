@@ -6,7 +6,7 @@ describe Admin::ArticlesController do
   before :each do
     scenario :section_with_published_article
     set_resource_paths :article, '/admin/sites/1/sections/1/'
-    @parameters = {:article => {:author => 1}}
+    @params = {:article => {:author => 1}}
     @controller.stub! :require_authentication
     @controller.stub!(:has_permission?).and_return true
     @controller.stub!(:current_user).and_return stub_user
@@ -106,7 +106,7 @@ describe Admin::ArticlesController do
       @article.stub!(:state_changes).and_return([:created])
     end
     
-    act! { request_to :post, @collection_path, @parameters }
+    act! { request_to :post, @collection_path, @params }
     it_assigns :article
     it_guards_permissions :create, :article
     
@@ -147,10 +147,9 @@ describe Admin::ArticlesController do
     before :each do
       @article.stub!(:state_changes).and_return([:updated])
     end
-    act! { request_to :put, @member_path, @parameters }
+    act! { request_to :put, @member_path, @params }
     it_assigns :article
     it_guards_permissions :update, :article
-    it_triggers_event :article_updated
  
     it "fetches an article from section.articles" do
       @section.articles.should_receive(:find).any_number_of_times.and_return @article
@@ -162,30 +161,71 @@ describe Admin::ArticlesController do
       act!
     end
  
-    describe "given valid article params" do
-      it_redirects_to { @edit_member_path }
-      it_assigns_flash_cookie :notice => :not_nil
+    describe "given no version param" do
+      describe "and given valid article params" do
+        before :each do
+          @article.stub!(:save).and_return true
+          @article.stub!(:save_without_revision).and_return true
+        end
+        
+        it_redirects_to { @edit_member_path }
+        it_assigns_flash_cookie :notice => :not_nil
+        it_triggers_event :article_updated
+         
+        it "saves a new revision when given a :save_revision param" do
+          @article.should_receive :save
+          request_to :put, @member_path, @params.merge(:save_revision => "1")
+        end
+ 
+        it "does not save a new revision when given no :save_revision param" do
+          @article.should_receive :save_without_revision
+          act!
+        end
+      end
+      
+      describe "and given invalid article params" do
+        before :each do
+          @article.stub!(:save_without_revision).and_return false
+        end
+        it_renders_template :edit
+        it_assigns_flash_cookie :error => :not_nil
+        it_does_not_trigger_any_event
+      end
+    end
+      
+    describe "given a version param" do 
+      act! { request_to :put, @member_path, @params.merge({:article => {:version => "1"}}) }
+      
+      describe "and the article can be rolled back to the given version" do
+        before :each do
+          @article.stub!(:revert_to!).and_return true
+        end
+        
+        it_triggers_event :article_rolledback
+        it_assigns_flash_cookie :notice => :not_nil
+        it_redirects_to { @edit_member_path }
+      
+        it "reverts the article before saving" do
+          @article.should_receive(:revert_to!).any_number_of_times.with "1"
+          act!
+        end
+      end
+      
+      describe "and the article can not be rolled back to the given version" do
+        before :each do
+          @article.stub!(:revert_to!).and_return false
+        end
+        
+        it_does_not_trigger_any_event
+        it_assigns_flash_cookie :error => :not_nil
+        it_redirects_to { @edit_member_path }
+      end
     end
  
     describe "given invalid article params" do
       before :each do @article.stub!(:save_without_revision).and_return false end
       it_renders_template :edit
       it_assigns_flash_cookie :error => :not_nil
-    end
- 
-    it "saves a new revision when given a :save_revision param" do
-      @article.should_receive :save
-      request_to :put, @member_path, @parameters.merge(:save_revision => "1")
-    end
- 
-    it "does not save a new revision when given no :save_revision param" do
-      @article.should_receive :save_without_revision
-      act!
-    end
- 
-    it "reverts the article before saving when given a version param" do
-      @article.should_receive(:revert_to).any_number_of_times.with "1"
-      request_to :put, @member_path, @parameters.merge(:version => "1")
     end
   end
   

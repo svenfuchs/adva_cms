@@ -31,6 +31,7 @@ class Admin::ArticlesController < Admin::BaseController
   end
 
   def show
+    @article.revert_to params[:version] if params[:version]
     render @section.render_options(:layout => 'default').merge(:template => "#{@section.type.downcase}/show")
   end
 
@@ -52,9 +53,12 @@ class Admin::ArticlesController < Admin::BaseController
       render :action => 'new'
     end
   end
-
+  
   def update
-    rollback and return if params[:version]
+    params[:article][:version].blank? ? update_attributes : rollback
+  end
+
+  def update_attributes
     @article.attributes = params[:article]
     if save_with_revision? ? @article.save : @article.save_without_revision
       trigger_events @article
@@ -66,12 +70,17 @@ class Admin::ArticlesController < Admin::BaseController
       render :action => 'edit'
     end
   end
-
+  
   def rollback
-    @article.save
-    # trigger_events @article
-    flash[:notice] = "The article has been rolled back to revision #{params[:version]}"
-    redirect_to edit_admin_article_path
+    version = params[:article][:version]
+    if @article.revert_to!(version)
+      trigger_event @article, :rolledback
+      flash[:notice] = "The article has been rolled back to revision #{version}"
+      redirect_to edit_admin_article_path
+    else
+      flash[:error] = "The article could not be rolled back to revision #{version}"
+      redirect_to edit_admin_article_path
+    end
   end
 
   def update_all
@@ -97,12 +106,11 @@ class Admin::ArticlesController < Admin::BaseController
   end
 
   protected
-
+  
     def set_section; super; end
 
     def set_article
       @article = @section.articles.find params[:id]
-      @article.revert_to params[:version] if params[:version]
     end
 
     def set_categories

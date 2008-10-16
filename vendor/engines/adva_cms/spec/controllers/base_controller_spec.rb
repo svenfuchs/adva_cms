@@ -26,7 +26,7 @@ describe BaseController, 'event helper' do
   describe "#trigger_event" do
     it "triggers an event if the given object is valid" do
       site = Site.new
-      Event.should_receive(:trigger).with(:site_created, site, controller)
+      Event.should_receive(:trigger).with(:site_created, site, controller, {})
       controller.trigger_event site, :created
     end
   end

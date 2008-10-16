@@ -39,14 +39,6 @@ class UserController < BaseController
     redirect_to '/'
   end
 
-  def verification_url(user)
-    url_with_token user, 'verification', :action => 'verify'
-  end
-
-  def reactivation_url(user)
-    url_with_token user, 'reactivation', :action => 'create', :user => {:login => user.login}
-  end
-
   private
 
     def url_with_token(user, purpose, params)

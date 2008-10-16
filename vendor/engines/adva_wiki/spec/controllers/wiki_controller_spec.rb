@@ -194,7 +194,7 @@ describe WikiController do
     end
   end
 
-  describe "PUT to :update" do
+  describe "PUT to :update", "with no :version param" do
     before :each do
       controller.stub!(:optimistic_lock)
       @wikipage.stub!(:state_changes).and_return([:updated])
@@ -219,6 +219,38 @@ describe WikiController do
       before :each do 
         @wikipage.stub!(:update_attributes).and_return false 
       end
+      it_renders_template :edit
+      it_assigns_flash_cookie :error => :not_nil
+      it_does_not_trigger_any_event
+    end
+  end
+
+  describe "PUT to :update", "with a :version param" do
+    before :each do
+      controller.stub!(:optimistic_lock)
+      @wikipage.stub!(:revert_to!).and_return true
+    end
+
+    act! { request_to :put, wikipage_path, {:wikipage => {:version => 1} } }
+    it_guards_permissions :update, :wikipage
+    it_assigns :wikipage
+
+    it "tries to roll the wikipage back to the given version" do
+      @wikipage.should_receive(:revert_to!).and_return true
+      act!
+    end
+
+    describe "given the wikipage can be rolled back the given version" do
+      it_redirects_to { wikipage_path }
+      it_assigns_flash_cookie :notice => :not_nil
+      it_triggers_event :wikipage_rolledback
+    end
+
+    describe "given the wikipage can not be rolled back the given version" do
+      before :each do
+        @wikipage.stub!(:revert_to!).and_return false
+      end
+      
       it_renders_template :edit
       it_assigns_flash_cookie :error => :not_nil
       it_does_not_trigger_any_event
