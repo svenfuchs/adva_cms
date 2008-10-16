@@ -17,3 +17,10 @@ Factory.define :site_with_wiki, :class => Site do |s|
   s.host 'www.example.com'
   s.sections{|s| [s.association(:wiki)] }
 end
+
+Factory.define :site_with_blog, :class => Site do |s|
+  s.name "adva-cms Test"
+  s.title "adva-cms Testsite"
+  s.host "www.adva-cms.org"
+  s.sections { |s| [s.association(:blog)] }
+end
