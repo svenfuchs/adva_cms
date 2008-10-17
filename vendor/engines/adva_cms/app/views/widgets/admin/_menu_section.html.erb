@@ -6,7 +6,7 @@
       <% if @section.accept_comments? %>
         <li><%= link_to 'Comments', admin_comments_path(:section_id => @section) %></li>
       <% end %>
-      <% if @section.instance_of?(Section) || @section.instance_of?(Blog) %>
+      <% if @section.instance_of?(Section) || @section.instance_of?(Blog) || @section.instance_of?(Wiki) %>
         <li><%= link_to 'Categories', admin_categories_path(@site, @section) %></li>
       <% end %>
       <li><%= link_to 'Settings', admin_section_path(@site, @section) %></li>

@@ -86,6 +86,7 @@ module BaseHelper
   end
 
   def author_preselect
-    @article.author ? @article.author.id : current_user.id
+    content = (@article || @wikipage)
+    content.author ? content.author.id : current_user.id
   end
 end

@@ -55,12 +55,17 @@ module WikiHelper
       # links << authorized_tag(:li, :destroy, wikipage) do
       #   link_to('delete this page', wikipage_path(@section, wikipage.permalink), { :confirm => "Are you sure you wish to delete this page?", :method => :delete })
       # end unless wikipage.home?
-    else
-	    links << authorized_tag(:li, :update, wikipage) do
-	      link_to('rollback to this revision', wikipage_path_with_home(@section, wikipage.permalink, :version => wikipage.version), { :confirm => "Are you sure you wish to rollback to this version?", :method => :put })
-      end
     end
+    
+    links << wiki_version_links(wikipage)
+	  links << content_tag(:li, options[:append]) if options[:append]
 
+    content_tag :ul, links * "\n", :class => 'links'
+  end
+  
+  def wiki_version_links(wikipage)
+    links = []
+    
     if wikipage.versions.size > 1
       if wikipage.version > wikipage.versions.first.version
   	    links << content_tag(:li) do
@@ -77,11 +82,14 @@ module WikiHelper
   	      link_to('return to current revision', wikipage_path(@section, wikipage.permalink))
 	      end
       end
+      if wikipage.version != wikipage.versions.last.version
+	      links << authorized_tag(:li, :update, wikipage) do
+	        link_to('rollback to this revision', wikipage_path_with_home(@section, wikipage.permalink, :version => wikipage.version), { :confirm => "Are you sure you wish to rollback to this version?", :method => :put })
+        end
+      end
     end
-
-	  links << content_tag(:li, options[:append]) if options[:append]
-
-    content_tag :ul, links * "\n", :class => 'links'
+    
+    links
   end
 
   def collection_title(category=nil, tags=nil)

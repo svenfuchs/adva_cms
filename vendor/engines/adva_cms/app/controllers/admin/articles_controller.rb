@@ -174,7 +174,7 @@ class Admin::ArticlesController < Admin::BaseController
       options
     end
 
-    def  current_role_context
+    def current_role_context
       @article || @section
     end
 

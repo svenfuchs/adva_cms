@@ -1,0 +1,19 @@
+<% content_for :sidebar do %>
+	<% fields_for :wikipage do |f| -%>
+		<%= render :partial => 'options', :locals => { :f => f } %>
+	<% end %>
+<% end %>
+
+<p>
+  <%= f.label :title %>
+  <%= f.text_field :title %>
+</p>
+<p>
+  <%= f.label :body %>
+  <%= f.text_area :body %>
+</p>
+<p>
+  <%= f.label :tag_list, 'Tags' %>
+  <%= f.text_field :tag_list %>
+  <span class="hint">Separate tags by spaces. Enclose tags with quotes to include spaces.</span>  
+</p>

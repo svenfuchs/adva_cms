@@ -1,4 +1,9 @@
 <% if @wikipages.size > 0 -%>
+  <p>
+    <%= link_to "New Wikipage", new_admin_wikipage_path(@site) %> &middot;
+    <%= link_to_function 'Reorder Wikipages', "wikipages_list.toggle(this, 'Done reordering');", :id => 'reorder_sections' %>
+    <%= image_tag 'indicator.gif', :id => 'wikipages_indicator', :style => 'display: none;' %>
+  </p>
 
   <p class="total">
     Total: <%= content_tag :strong, @wikipages.total_entries %> wikipages.
@@ -15,18 +20,31 @@
         <th scope="col"></th>
       </tr>
     </thead>
-    <tbody>
+    <tbody id="wikipages-body">
       <%= render :partial => 'wikipage', :collection => @wikipages %>
     </tbody>
   </table>
 
   <%= will_paginate @wikipages, :id => 'pagination' %>
 
+  <script type="text/javascript">
+    var wikipages_list = new WikipagesList($('wikipages-body'), {
+      onUpdate: function(drag, drop, event) {
+        <%= remote_function(:url => admin_wikipages_path(@site, @section),
+                            :method =>   :put,
+                            :with   =>   "wikipages_list.serialize()",
+                            :loading =>  "$('wikipages_indicator').show()",
+                            :complete => "$('wikipages_indicator').hide()" ) %>
+      }
+    });
+  </script>
+
 <% else %>
 
   <div class="empty" style="margin-bottom:20px">
     <% unless params[:filter] %>
-      You have no wikipages.
+      You have no pages on your wiki.
+      <%= link_to "Create one now &raquo;", new_admin_wikipage_path(@site) %>
     <% else %>
       You don't seem to have any wikipages matching that criteria.
     <% end %>

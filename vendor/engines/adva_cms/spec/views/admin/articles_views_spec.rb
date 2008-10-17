@@ -63,8 +63,10 @@ describe "Admin::Articles:" do
     end
 
     it "should render the form partial" do
+      template.stub! :link_to
+      template.stub! :content_url
       template.expect_render hash_including(:partial => 'form')
-      render "admin/articles/new"
+      render "admin/articles/edit"
     end
   end
 
@@ -130,7 +132,7 @@ describe "Admin::Articles:" do
       render "admin/articles/_options"
     end
 
-    it "should have the selectbox for selecting an author for an article" do
+    it "should have the sele  ctbox for selecting an author for an article" do
       render "admin/articles/_options"
       response.should have_tag('select[id=?]', 'article_author')
     end

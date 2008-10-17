@@ -16,6 +16,8 @@ define Wiki do
            :layout => 'layout',
            :content_filter => 'textile-filter',
            :accept_comments? => true,
+           :comment_filter => 'textile-filter',
+           :filter => nil,
            :valid? => true,
            :root_section? => true,
            :tag_counts => [],

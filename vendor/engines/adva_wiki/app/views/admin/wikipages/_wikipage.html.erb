@@ -1,8 +1,8 @@
 <tr id="wikipage_<%= wikipage.id %>">
-  <td><%= link_to wikipage.title, wikipage_path(@section.id, wikipage.permalink) %></td>
+  <td><%= link_to wikipage.title, edit_admin_wikipage_path(@site, @section, wikipage) %></td>
   <td><%= wikipage.version %></td>
   <td><%= wikipage.updated_at.strftime('%d.%m.%Y %H:%M') %></td>
-  <td><%= wikipage.author_link %></td>
+  <td><%= link_to wikipage.author_link, admin_site_user_path(@site, wikipage.author) %></td>
   <td>
     <% if wikipage.comments.size == 0 %>
       none
