@@ -15,10 +15,14 @@ WillPaginate::Finder::ClassMethods.class_eval do
 end
 
 class Content < ActiveRecord::Base
+  acts_as_versioned :if_changed => [:title, :body, :excerpt], :limit => 5
+  class Version < ActiveRecord::Base
+    filters_attributes :none => true
+  end
+    
   acts_as_taggable
   acts_as_role_context :roles => :author
   has_many_comments :polymorphic => true
-  acts_as_versioned :if_changed => [:title, :body, :excerpt], :limit => 5
   non_versioned_columns << 'cached_tag_list' << 'assets_count' << 'state'
   instantiates_with_sti
 
