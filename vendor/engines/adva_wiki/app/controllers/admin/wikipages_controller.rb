@@ -53,7 +53,7 @@ class Admin::WikipagesController < Admin::BaseController
 
   def rollback
     if @wikipage.revert_to!(params[:version])
-      # trigger_events @wikipage, :rolledback
+      trigger_events @wikipage, :rolledback
       flash[:notice] = "The wikipage has been rolled back to revision #{params[:version]}"
       redirect_to edit_admin_wikipage_path
     else
@@ -64,7 +64,7 @@ class Admin::WikipagesController < Admin::BaseController
   
   def destroy
     if @wikipage.destroy
-      # trigger_events @wikipage
+      trigger_events @wikipage
       flash[:notice] = "The wikipage has been deleted."
       redirect_to admin_wikipages_path
     else
