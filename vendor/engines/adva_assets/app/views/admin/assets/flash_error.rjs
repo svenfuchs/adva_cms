@@ -1,0 +1,2 @@
+page.flash.errors "The asset upload failed."
+page << "AssetWidget.updateSelected();"

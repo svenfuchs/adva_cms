@@ -28,7 +28,7 @@
       Upload an asset 
       <img class="spinner" src="/images/indicator.gif" alt="spinner" style="display: none" />
     </label><br />
-    <%= file_field_tag "assets[][uploaded_data]", :id => "asset-uploaded-data" %>
+    <%= file_field_tag "assets[0][uploaded_data]", :id => "asset-uploaded-data" %>
     <input id="upload-assets-button" type="button" value="Upload" />
     <ul id="uploaded-assets" class="asset-list"></ul>
   </div>
