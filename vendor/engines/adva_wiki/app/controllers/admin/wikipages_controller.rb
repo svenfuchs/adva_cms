@@ -24,7 +24,7 @@ class Admin::WikipagesController < Admin::BaseController
   
   def create
     if @wikipage = @section.wikipages.create(params[:wikipage])
-      # trigger_events @wikipage
+      trigger_events @wikipage
       flash[:notice] = "The wikipage has been successfully created."
       redirect_to edit_admin_wikipage_path(@site, @section, @wikipage)
     else
@@ -42,7 +42,7 @@ class Admin::WikipagesController < Admin::BaseController
 
   def update_attributes
     if @wikipage.update_attributes(params[:wikipage])
-      # trigger_events @wikipage
+      trigger_events @wikipage
       flash[:notice] = "The wikipage has been successfully updated."
       redirect_to edit_admin_wikipage_path
     else

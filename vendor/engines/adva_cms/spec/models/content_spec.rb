@@ -276,6 +276,7 @@ describe Content do
   describe "versioning" do
     it "does not create a new version if neither title, excerpt nor body attributes have changed" do
       @content.save!
+      @content.clear_changes!
       @content.save_version?.should be_false
     end
 

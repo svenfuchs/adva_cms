@@ -36,11 +36,11 @@ class Comment < ActiveRecord::Base
   end
 
   def just_approved?
-    !original_state.approved? and approved?
+    approved_changed? and approved?
   end
 
   def just_unapproved?
-    !original_state.unapproved? and unapproved?
+    approved_changed? and unapproved?
   end
   
   def state_changes

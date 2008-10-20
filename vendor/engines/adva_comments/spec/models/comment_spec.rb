@@ -100,14 +100,13 @@ describe Comment do
     
     describe '#state_changes' do
       it "returns :updated, :approved when the comment was just approved" do
-        @comment.original_state.stub!(:new_record?).and_return false
         @comment.approved = 1
         @comment.state_changes.should == [:updated, :approved]
       end
       
       it "returns :updated, :unapproved when the comment was just unapproved" do
-        @comment.original_state.stub!(:new_record?).and_return false
-        @comment.original_state.approved = 1
+        @comment.approved = 1
+        @comment.clear_changes!
         @comment.approved = 0
         @comment.state_changes.should == [:updated, :unapproved]
       end
