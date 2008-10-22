@@ -8,11 +8,8 @@ class Site < ActiveRecord::Base
                          :roles => [:admin],
                          :parent => Account
 
-  attr_accessor :account, :permissions
-
-  def initialize(account)
-    @account = account
-  end
+  belongs_to :account
+  attr_accessor :permissions
 end
 
 class Section < ActiveRecord::Base
@@ -20,30 +17,29 @@ class Section < ActiveRecord::Base
                          :roles => [:moderator],
                          :parent => Site
 
-  attr_accessor :site, :permissions
-
-  def initialize(site)
-    @site = site
-  end
+  belongs_to :site
+  attr_accessor :permissions
 end
 
 class Content < ActiveRecord::Base
   acts_as_role_context_2 :roles => [:author],
                          :parent => Section
 
-  attr_accessor :section, :permissions
+  belongs_to :section
+  attr_accessor :permissions
+end
 
-  def initialize(section)
-    @section = section
-  end
+class Comment < ActiveRecord::Base
+  acts_as_role_context_2 :roles => [:author],
+                         :parent => Content
+
+  belongs_to :content
+  attr_accessor :permissions
 end
 
 class User < ActiveRecord::Base
-  attr_accessor :roles
-
-  def initialize(roles = [])
-    @roles = roles
-  end
+  belongs_to :account
+  has_many :roles, :class_name => 'Rbac::Role::Base'
 
   def has_role?(role, options = {})
     role = Rbac::Role.build role, options unless role.is_a? Rbac::Role::Base

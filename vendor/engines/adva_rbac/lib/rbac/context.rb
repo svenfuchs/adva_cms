@@ -31,13 +31,21 @@ module Rbac
         def roles
           options[:roles] ||= []
         end
+        
+        def self_and_parents
+          [self] + all_parents
+        end
+        
+        def all_parents
+          [superclass] + (superclass != Base ? Array(superclass.try(:all_parents)) : [])
+        end
     
         def parent
           superclass
         end
     
         def all_children
-          children + children.map(&:all_children).flatten
+          self.children + self.children.map(&:all_children).flatten
         end
     
         def children
@@ -68,22 +76,20 @@ module Rbac
       end
         
       def role_authorizing(action)
-        # TODO should return a Role object here instead of this
-        permissions[action] || parent.try(:role_authorizing, action)
+        if permissions[action]
+          begin
+            Rbac::Role.build permissions[action], :context => self
+          rescue
+            raise "could not find role for #{action} (on: #{self.inspect})"
+          end
+        else
+          parent.try(:role_authorizing, action)
+        end
       end
       
       def permissions
         subject.try(:permissions) || {}
       end
-
-      # def role_authorizing(action, type = nil)
-      #   type ||= self.class.name.demodulize.downcase.to_sym
-      #   role = permissions[type][action] if respond_to?(:permissions) && permissions[type]
-      #   returning Role.build(role, self) || owner && owner.role_authorizing(action, type) do |role|
-      #     raise "could not find role for #{type}: #{action} (on: #{self.inspect})" unless role
-      #     role.original_context = self
-      #   end
-      # end
     end
   end
 end

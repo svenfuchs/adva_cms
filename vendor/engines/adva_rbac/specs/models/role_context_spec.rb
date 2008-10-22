@@ -36,7 +36,7 @@
 # 
 # describe Rbac::Context, '.all_children' do
 #   it "returns the child classes of a role context class and all child classes of its child classes" do
-#     Rbac::Context::Site.all_children.should == [Rbac::Context::Section, Rbac::Context::Content]
+#     Rbac::Context::Site.all_children.should == [Rbac::Context::Section, Rbac::Context::Content, Rbac::Context::Comment]
 #   end
 # end
 # 
@@ -54,34 +54,50 @@
 # end
 # 
 # describe Rbac::Context, '#role_authorizing', :type => :rbac_context do
+#   include SpecRolesHelper
+#   
+#   before :each do
+#     define_roles!
+#     @author_role    = Rbac::Role.build(:author, :context => @content)
+#     @owner_role     = Rbac::Role.build(:owner, :context => @account)
+#     @superuser_role = Rbac::Role.build(:superuser)
+#   end
+#   
+#   after :each do
+#     Rbac::Role.constants.each do |name|
+#       Rbac::Role.send :remove_const, name unless name == "Base"
+#     end
+#     Rbac::Role::Base.children = []
+#   end
+#   
 #   it "returns the default permissions for a given action (given the root context)" do
-#     Rbac::Context.root.role_authorizing(:'create article').should == :superuser
+#     Rbac::Context.root.role_authorizing(:'create article').should == @superuser_role
 #   end
 # 
 #   describe "with no permissions configured" do
 #     it "all child contexts return the default permissions for a given action (given a content)" do
-#       @account.role_authorizing(:'create article').should == :superuser
+#       @account.role_authorizing(:'create article').should == @superuser_role
 #     end
-# 
+#   
 #     it "all child contexts return the default permissions for a given action (given a content)" do
-#       @content.role_authorizing(:'create article').should == :superuser
+#       @content.role_authorizing(:'create article').should == @superuser_role
 #     end
 #   end
 # 
 #   describe "with permissions locally configured in child contexts" do
 #     it "all child contexts return the default permissions for a given action (given a content)" do
 #       @account.permissions = {:'create article' => :owner}
-#       @account.role_authorizing(:'create article').should == :owner
+#       @account.role_authorizing(:'create article').should == @owner_role
 #     end
 # 
 #     it "all child contexts return the default permissions for a given action (given a content)" do
 #       @content.permissions = {:'create article' => :author}
-#       @content.role_authorizing(:'create article').should == :author
+#       @content.role_authorizing(:'create article').should == @author_role
 #     end
-# 
+#     
 #     it "child context permissions do not affect parent contexts" do
 #       @content.permissions = {:'create article' => :author}
-#       @section.role_authorizing(:'create article').should == :superuser
+#       @section.role_authorizing(:'create article').should == @superuser_role
 #     end
 #   end
 # end
@@ -141,10 +157,4 @@
 #     end
 #   end
 # end
-# 
-# 
-# 
-# 
-# 
-# 
-# 
+

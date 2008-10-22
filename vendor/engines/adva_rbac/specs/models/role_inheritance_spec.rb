@@ -20,18 +20,46 @@
 # 
 # describe Rbac::Role, ".build", :type => :rbac_role do
 #   before :each do
-#     Rbac::Role.define :admin
-# 
-#     @site = Site.new mock('account')
-#     @role = Rbac::Role.build :admin, :context => @site
+#     Rbac::Role.define :moderator, :require_context => Section
+#     Rbac::Role.define :admin, :require_context => Site, :parent => :moderator
 #   end
 #   
 #   it "instantiates a role with the given type" do
+#     @role = Rbac::Role.build :admin, :context => @site
 #     @role.should be_instance_of(Rbac::Role::Admin)
 #   end
 # 
-#   it "sets the given context on the instantiated role" do
-#     @role.context.should == @site.role_context
+#   it "adjusts the given context to fit the required context type of the role" do
+#     @role = Rbac::Role.build :admin, :context => @content
+#     @role.context.should == @site
+#   end
+# end
+# 
+# describe Rbac::Role, "#adjust_context", :type => :rbac_role do
+#   before :each do
+#     Rbac::Role.define :user
+#     Rbac::Role.define :moderator, :require_context => Section, :parent => :user
+#     Rbac::Role.define :admin, :require_context => Site, :parent => :moderator
+#   end
+#   
+#   it "returns the given context if require_context is not set" do
+#     @role = Rbac::Role.build :user, :context => @site
+#     @role.send(:adjust_context, @site).should == @site
+#   end
+#   
+#   it "returns the given context if it has the same type as require_context" do
+#     @role = Rbac::Role.build :admin, :context => @site
+#     @role.send(:adjust_context, @site).should == @site
+#   end
+#   
+#   it "returns the given context's parent context which has the same type as require_context" do
+#     @role = Rbac::Role.build :admin, :context => @content
+#     @role.send(:adjust_context, @content).should == @site
+#   end
+#   
+#   it "returns the given context if it is a child type of the require_context" do
+#     @role = Rbac::Role.build :moderator, :context => @site
+#     @role.send(:adjust_context, @site).should == @site
 #   end
 # end
 # 

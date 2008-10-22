@@ -1,69 +1,69 @@
 # require File.dirname(__FILE__) + '/../spec_local_helper'
 # 
 # describe Rbac::Role, ".granted_to?", :type => :rbac_role do
+#   include SpecRolesHelper
+#   
 #   before :each do
-#     Rbac::Role.define :anonymous, 
-#                       :grant => true
-#                       
-#     Rbac::Role.define :user, 
-#                       :grant => :registered?, 
-#                       :parent => :anonymous
-# 
-#     Rbac::Role.define :author, 
-#                       :require_context => true, 
-#                       :grant => lambda{|context, user| context && !!context.subject.try(:is_author?, user) }, 
-#                       :parent => :user
-# 
-#     Rbac::Role.define :moderator, 
-#                       :require_context => true, 
-#                       :parent => :author 
-# 
-#     Rbac::Role.define :admin,
-#                       :require_context => true, 
-#                       :parent => :moderator
-# 
-#     Rbac::Role.define :owner,
-#                       :require_context => true, 
-#                       :parent => :admin
-# 
-#     Rbac::Role.define :superuser, 
-#                       :parent => :owner
-# 
+#     define_roles!
 #     @user.stub! :registered?
 #   end
 #   
-#   it "returns the value given as the :grant option (true)" do
-#     Rbac::Role.build(:anonymous).granted_to?(@user).should be_true
+#   describe "without any options" do
+#     it "returns the value given as the :grant option (true)" do
+#       Rbac::Role.build(:anonymous).granted_to?(@user).should be_true
+#     end
+#   
+#     it "returns the value given as the :grant option (false)" do
+#       Rbac::Role.define :cthulu, :grant => false
+#       Rbac::Role.build(:cthulu).granted_to?(@user).should be_false
+#     end
+#   
+#     it "calls the method specified as the :grant option (Symbol)" do
+#       @user.should_receive :registered?
+#       Rbac::Role.build(:user).granted_to? @user
+#     end
+#   
+#     it "calls proc specified as the :grant option (Proc)" do
+#       @content.should_receive(:is_author?).with(@user)
+#       Rbac::Role.build(:author, :context => @content).granted_to? @user
+#     end
+#   
+#     it "grants the role :user to a user when he is logged in" do
+#       @user.stub!(:registered?).and_return true
+#       Rbac::Role.build(:user).granted_to?(@user).should be_true
+#     end
+#   
+#     it "grants the role :superuser to a user when the user has the :superuser role" do
+#       @user.stub!(:roles).and_return [Rbac::Role.build(:superuser)]
+#       Rbac::Role.build(:superuser).granted_to?(@user).should be_true
+#     end
+#   
+#     it "grants the role :admin to a user when the user has the :admin role for the given site" do
+#       @user.stub!(:roles).and_return [Rbac::Role.build(:admin, :context => @site)]
+#       Rbac::Role.build(:admin, :context => @site).granted_to?(@user).should be_true
+#     end
 #   end
 #   
-#   it "returns the value given as the :grant option (false)" do
-#     Rbac::Role.define :cthulu, :grant => false
-#     Rbac::Role.build(:cthulu).granted_to?(@user).should be_false
-#   end
+#   describe "with the :inherit option set to false" do
+#     it "grants the role :superuser to a user who has the :superuser role" do
+#       @user.stub!(:roles).and_return [Rbac::Role.build(:superuser)]
+#       Rbac::Role.build(:superuser).granted_to?(@user, :inherit => false).should be_true
+#     end
 #   
-#   it "calls the method specified as the :grant option (Symbol)" do
-#     @user.should_receive :registered?
-#     Rbac::Role.build(:user).granted_to? @user
-#   end
+#     it "does not grant the role :admin to a user who has the :superuser role" do
+#       @user.stub!(:roles).and_return [Rbac::Role.build(:superuser)]
+#       Rbac::Role.build(:admin, :context => @site).granted_to?(@user, :inherit => false).should be_false
+#     end
 #   
-#   it "calls proc specified as the :grant option (Proc)" do
-#     @content.should_receive(:is_author?).with(@user)
-#     Rbac::Role.build(:author, :context => @content).granted_to? @user
-#   end
+#     it "does not grant the role :author to a user who has the :superuser role" do
+#       @user.stub!(:roles).and_return [Rbac::Role.build(:superuser)]
+#       Rbac::Role.build(:author, :context => @content).granted_to?(@user, :inherit => false).should be_false
+#     end
 #   
-#   it "grants the role :user to a user when he is logged in" do
-#     @user.stub!(:registered?).and_return true
-#     Rbac::Role.build(:user).granted_to?(@user).should be_true
-#   end
-#   
-#   it "grants the role :admin to a user when the user has the :admin role for the given site" do
-#     @user.stub!(:roles).and_return [Rbac::Role.build(:admin, :context => @site)]
-#     Rbac::Role.build(:admin, :context => @site).granted_to?(@user).should be_true
-#   end
-#   
-#   it "grants the role :superuser to a user when the user has the :superuser role" do
-#     @user.stub!(:roles).and_return [Rbac::Role.build(:superuser)]
-#     Rbac::Role.build(:superuser).granted_to?(@user).should be_true
+#     it "does not grant the role :user to a user who has the :superuser role" do
+#       @user.stub!(:roles).and_return [Rbac::Role.build(:superuser)]
+#       Rbac::Role.build(:user).granted_to?(@user, :inherit => false).should be_false
+#     end
 #   end
 #   
 #   
