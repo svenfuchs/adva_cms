@@ -8,7 +8,9 @@ define Anonymous do
 
   instance :user,
            :id => 1,
-           :name => 'name',
+           :first_name => 'John',
+           :last_name => 'Doe',
+           :name => 'John Doe',
            :email => 'foo@bar.baz',
            :homepage => 'http://foo.bar.baz'
 end
@@ -31,7 +33,9 @@ define User do
 
   instance :user,
            :id => 1,
-           :name => 'name',
+           :first_name => 'John',
+           :last_name => 'Doe',
+           :name => 'John Doe',
            :email => 'foo@bar.baz',
            :homepage => 'http://foo.bar.baz',
            :login => 'login',

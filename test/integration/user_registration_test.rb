@@ -19,7 +19,8 @@ class UserRegistrationTest < ActionController::IntegrationTest
     visits "user/new"
 
     # fill in the form
-    fills_in "name", :with => 'name'
+    fills_in "first name", :with => 'John'
+    fills_in "last name", :with => 'Doe'
     fills_in "email", :with => 'email@test.com'
     fills_in "login", :with => 'login'
     fills_in "password", :with => 'password'
@@ -27,7 +28,7 @@ class UserRegistrationTest < ActionController::IntegrationTest
     clicks_button "Register"
 
     # the user should be there and not verified
-    user = User.find_by_name('name')
+    user = User.find_by_email('email@test.com')
     assert_not_nil user
     assert !user.verified?
 

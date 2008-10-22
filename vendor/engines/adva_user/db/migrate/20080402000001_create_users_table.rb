@@ -1,7 +1,8 @@
 class CreateUsersTable < ActiveRecord::Migration
   def self.up
     create_table :users do |t|
-      t.string     :name,             :limit => 40
+      t.string     :first_name,       :limit => 40
+      t.string     :last_name,        :limit => 40
       t.string     :email,            :limit => 100
       t.string     :homepage
       t.string     :about

@@ -11,7 +11,8 @@ describe UserController do
     @new_user_path = '/user/new'
     @verify_user_path = '/user/verify'
 
-    @params = { :user => { 'name' => 'name',
+    @params = { :user => { 'first_name' => 'John',
+                           'last_name' => 'Doe',       
                            'email' => 'email@email.org',
                            'login' => 'login',
                            'password' => 'password',
@@ -63,7 +64,7 @@ describe UserController do
   
   describe "GET to :verify" do
     before :each do
-      @user = User.new :name => 'name'
+      @user = User.new :first_name => 'John', :last_name => 'Doe'
       @user.stub!(:state_changes).and_return([:verified])
       controller.stub!(:current_user).and_return @user
     end
@@ -91,7 +92,7 @@ describe UserController do
   
   describe "DELETE to :destroy" do
     before :each do
-      @user = User.new :name => 'name'
+      @user = User.new :first_name => 'John', :last_name => 'Doe'
       @user.stub!(:destroy)
       @user.stub!(:state_changes).and_return([:deleted])
       controller.stub!(:current_user).and_return @user

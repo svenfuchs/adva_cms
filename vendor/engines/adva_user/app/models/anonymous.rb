@@ -4,8 +4,9 @@ class Anonymous < ActiveRecord::Base
   acts_as_authenticated_user :token_with => 'Authentication::SingleToken',
                              :authenticate_with => nil
 
-  validates_presence_of :name, :email
-  validates_length_of   :name, :within => 3..40
+  validates_presence_of :first_name, :last_name, :email
+  validates_length_of   :first_name, :within => 3..40
+  validates_length_of   :last_name, :within => 3..40
   validates_format_of   :email, :with => /(\A(\s*)\Z)|(\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z)/i
 
   # TODO - don't we need this anymore?
@@ -20,6 +21,8 @@ class Anonymous < ActiveRecord::Base
     role.applies_to?(self) || role.instance_of?(Role::Anonymous)
   end
 
+  def name; "#{first_name} #{last_name}" end
+  
   def anonymous?
     true
   end

@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe UsersHelper do
   describe '#who' do
     before :each do
-      @user = User.new :name => 'name'
+      @user = User.new :first_name => 'John', :last_name => 'Doe'
       helper.stub!(:current_user)
     end
 
@@ -13,7 +13,7 @@ describe UsersHelper do
     end
 
     it "returns the given user's name if the given user is not the current user" do
-      helper.who(@user).should == 'name'
+      helper.who(@user).should == 'John Doe'
     end
   end
 

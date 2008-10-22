@@ -1,7 +1,8 @@
 class CreateAnonymousesTable < ActiveRecord::Migration
   def self.up
     create_table :anonymouses do |t|
-      t.string     :name,             :limit => 40
+      t.string     :first_name,       :limit => 40
+      t.string     :last_name,        :limit => 40
       t.string     :email,            :limit => 100
       t.string     :homepage
 

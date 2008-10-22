@@ -88,6 +88,7 @@ describe "Admin::User:" do
       render "admin/users/edit"
       response.should have_tag('form[action=?]', @member_path) do |form|
         form.should have_tag('input[name=?][value=?]', '_method', 'put')
+        form.should have_tag('input[name=?][value=?]', '_method', 'put')
       end
     end
 
@@ -124,6 +125,7 @@ describe "Admin::User:" do
     it "renders user settings fields" do
       render "admin/users/_form"
       response.should have_tag('input[name=?]', 'user[email]')
+      response.should have_tag('input[name=?]', 'user[email]')
     end
   end
 
@@ -141,12 +143,14 @@ describe "Admin::User:" do
       it "does not render a checkbox for adding the admin role" do
         render "admin/users/_roles"
         response.should_not have_tag('input[type=?][name=?][value=?]', 'hidden', 'user[roles][1][type]', 'Role::Admin')
+        response.should_not have_tag('input[type=?][name=?][value=?]', 'hidden', 'user[roles][1][type]', 'Role::Admin')
       end
     end
 
     describe "when rendered inside of site scope" do
       it "renders a checkbox for adding the admin role" do
         render "admin/users/_roles"
+        response.should have_tag('input[type=?][name=?][value=?]', 'hidden', 'user[roles][1][type]', 'Role::Admin')
         response.should have_tag('input[type=?][name=?][value=?]', 'hidden', 'user[roles][1][type]', 'Role::Admin')
       end
     end
@@ -156,6 +160,7 @@ describe "Admin::User:" do
 
       it "renders a checkbox for adding the superuser role" do
         render "admin/users/_roles"
+        response.should have_tag('input[type=?][name=?][value=?]', 'hidden', 'user[roles][0][type]', 'Role::Superuser')
         response.should have_tag('input[type=?][name=?][value=?]', 'hidden', 'user[roles][0][type]', 'Role::Superuser')
       end
     end
@@ -167,7 +172,8 @@ describe "Admin::User:" do
 
       it "does not render a checkbox for adding the superuser role" do
         render "admin/users/_roles"
-        response.should_not have_tag('input[type=?][name=?][value=?]', 'hidden', 'user[roles][0][type]', 'Role::Superuser')
+        response.should_not have_tag('input[type=?][first_name=?][value=?]', 'hidden', 'user[roles][0][type]', 'Role::Superuser')
+        response.should_not have_tag('input[type=?][last_name=?][value=?]', 'hidden', 'user[roles][0][type]', 'Role::Superuser')
       end
     end
   end

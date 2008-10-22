@@ -4,7 +4,8 @@ describe User do
   include Stubby, Matchers::ClassExtensions
 
   before :each do
-    @user = User.new :name => 'not-taken',
+    @user = User.new :first_name => 'not',
+                     :last_name => 'taken',
                      :email => 'not-taken@email.org',
                      :login => 'not-taken',
                      :password => 'not-taken',
@@ -57,8 +58,12 @@ describe User do
   end
 
   describe 'validations:' do
-    it "validates the presence of a name" do
-      @user.should validate_presence_of(:name)
+    it "validates the presence of a first name" do
+      @user.should validate_presence_of(:first_name)
+    end
+
+    it "validates the presence of a last name" do
+      @user.should validate_presence_of(:last_name)
     end
 
     it "validates the presence of an email adress" do
@@ -69,10 +74,6 @@ describe User do
       @user.should validate_presence_of(:login)
     end
 
-    it "validates the uniqueness of the name" do
-      @user.should validate_uniqueness_of(:name)
-    end
-
     it "validates the uniqueness of the email" do
       @user.should validate_uniqueness_of(:email)
     end
@@ -81,8 +82,12 @@ describe User do
       @user.should validate_uniqueness_of(:login)
     end
 
-    it "validates the length of the name" do
-      @user.should validate_length_of(:name, :within => 1..40)
+    it "validates the length of the last name" do
+      @user.should validate_length_of(:last_name, :within => 1..40)
+    end
+
+    it "validates the length of the first name" do
+      @user.should validate_length_of(:first_name, :within => 1..40)
     end
 
     it "validates the presence of a password" do
