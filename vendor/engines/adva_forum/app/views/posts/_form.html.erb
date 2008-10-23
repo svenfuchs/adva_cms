@@ -10,7 +10,7 @@
     <% end %>
   </h2>
   <% form_for :post, @post, :url => (@post.new_record? ? topic_posts_path(@section, @topic) : topic_post_path(@section, @topic, @post)), :html => {:method => (@post.new_record? ? :post : :put)} do |f| -%>
-    <% fields_for @post.author || Anonymous.new do |author| %>
+    <% fields_for @post.author || User.anonymous do |author| %>
       <div id="anonymous_author">
         <p>
           <%= author.label :name, 'Name' %>

@@ -119,8 +119,8 @@ describe "Topic views:" do
 
     it "renders form inputs for an anonymous author" do
       render "topics/_form"
-      response.should have_tag('input[name=?]', 'anonymous[name]')
-      response.should have_tag('input[name=?]', 'anonymous[email]')
+      response.should have_tag('input[name=?]', 'user[name]')
+      response.should have_tag('input[name=?]', 'user[email]')
     end
 
     it "shows an authorized tag with the topic edit link" do

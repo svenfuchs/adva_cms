@@ -1,3 +1,4 @@
+=begin
 require File.dirname(__FILE__) + '/../spec_local_helper'
 
 describe Rbac::Role, ".define", :type => :rbac do
@@ -114,3 +115,4 @@ describe Rbac::Role, "#include?", :type => :rbac do
   end
 end
 
+=end

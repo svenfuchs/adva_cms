@@ -1,3 +1,4 @@
+=begin
 require File.dirname(__FILE__) + '/../spec_local_helper'
 
 describe Rbac::Context, 'dynamic class creation' do
@@ -151,3 +152,4 @@ describe Rbac::Context, "#include?", :type => :rbac do
   end
 end
 
+=end

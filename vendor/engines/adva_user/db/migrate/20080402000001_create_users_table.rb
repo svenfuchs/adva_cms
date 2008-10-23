@@ -12,9 +12,15 @@ class CreateUsersTable < ActiveRecord::Migration
       t.string     :password_hash,    :limit => 40
       t.string     :password_salt,    :limit => 40
       
+      t.string     :ip
+      t.string     :agent
+      t.string     :referer
+
       t.string     :remember_me,      :limit => 40
       t.string     :token_key,        :limit => 40
       t.datetime   :token_expiration
+
+      t.boolean    :anonymous,        :default => false    
       
       t.timestamps
       t.datetime   :verified_at

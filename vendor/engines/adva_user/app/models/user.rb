@@ -1,6 +1,10 @@
 class User < ActiveRecord::Base
   acts_as_authenticated_user
 
+# TODO how do we work this in?
+#  acts_as_authenticated_user :token_with => 'Authentication::SingleToken',
+#                             :authenticate_with => nil
+
   has_many :sites, :through => :memberships
   has_many :memberships, :dependent => :delete_all
   has_many :roles, :dependent => :delete_all, :class_name => 'Rbac::Role::Base' do
@@ -21,11 +25,13 @@ class User < ActiveRecord::Base
     end
   end
 
-  validates_presence_of     :first_name, :email, :login
+  validates_presence_of     :first_name, :email
+  validates_presence_of     :login, :unless => :anonymous?
   validates_uniqueness_of   :email, :login # i.e. account attributes are unique per application, not per site
   validates_length_of       :first_name, :within => 1..40
-  validates_length_of       :last_name, :within => 0..40
-  validates_format_of       :email, :with => /(\A(\s*)\Z)|(\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z)/i
+  validates_length_of       :last_name, :allow_nil => true, :within => 1..40
+  validates_format_of       :email, :allow_nil => true,
+    :with => /(\A(\s*)\Z)|(\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z)/i
 
   validates_presence_of     :password, :password_confirmation, :if => :password_required?
   validates_length_of       :password, :within => 4..40,       :if => :password_required?
@@ -58,6 +64,11 @@ class User < ActiveRecord::Base
       return superusers if (role = role.to_s.classify) == 'Superuser'
       find(:all, :include => :roles, :conditions => ["roles.context_type = ? AND roles.context_id = ? AND roles.type = ?", context.class.to_s, context.id, "Rbac::Role::#{role}"])
     end
+    
+    def anonymous(attributes = {})
+      attributes[:anonymous] = true
+      new attributes
+    end  
   end
 
   # Using callbacks for such lowlevel things is just awkward. So let's hook in here.
@@ -102,12 +113,8 @@ class User < ActiveRecord::Base
     update_attributes :deleted_at => nil if deleted_at
   end
 
-  def anonymous?
-    false
-  end
-
   def registered?
-    !new_record?
+    !new_record? && !anonymous?
   end
 
   # def has_role?(role, object = nil)
@@ -134,8 +141,12 @@ class User < ActiveRecord::Base
     self.sites.include? site
   end
 
+  def name=(name)
+    self.first_name = name
+  end
+  
   def name
-    "#{first_name} #{last_name}"
+    last_name ? "#{first_name} #{last_name}" : first_name
   end
   
   def to_s
@@ -145,6 +156,6 @@ class User < ActiveRecord::Base
   protected
 
     def password_required?
-      password_hash.nil? || !password.blank?
+      !anonymous? && ( password_hash.nil? || !password.blank? )
     end
 end

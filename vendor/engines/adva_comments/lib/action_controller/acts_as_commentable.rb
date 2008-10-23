@@ -35,7 +35,7 @@ module ActionController
 
         def set_comment
           @comment = Comment.new params[:comment]
-          @comment.author = Anonymous.new
+          @comment.author = User.anonymous
         end
     end
   end

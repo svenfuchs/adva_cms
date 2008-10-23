@@ -63,7 +63,7 @@ module ActionController
 
       def has_permission?(action, type)
         action = :"#{action} #{type}"
-        user = current_user || Anonymous.new
+        user = current_user || User.anonymous
         role = current_role_context.role_authorizing action
         user.has_role? role, :context => current_role_context
       end

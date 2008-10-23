@@ -46,7 +46,7 @@ describe "Post views:" do
 
   describe "the posts/form partial" do
     before :each do
-      @post.stub!(:author).and_return Anonymous.new
+      @post.stub!(:author).and_return User.anonymous
       template.stub!(:f).and_return ActionView::Base.default_form_builder.new(:topic, @topic, template, {}, nil)
       template.stub!(:topic_posts_path).and_return 'topic_posts_path'
     end
@@ -58,8 +58,8 @@ describe "Post views:" do
 
     it "renders form inputs for an anonymous author" do
       render "posts/_form"
-      response.should have_tag('input[name=?]', 'anonymous[name]')
-      response.should have_tag('input[name=?]', 'anonymous[email]')
+      response.should have_tag('input[name=?]', 'user[name]')
+      response.should have_tag('input[name=?]', 'user[email]')
     end
   end
 end

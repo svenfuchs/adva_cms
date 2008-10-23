@@ -1,18 +1,3 @@
-define Anonymous do
-  methods  :has_role? => false,
-           :anonymous? => true,
-           :registered? => false,
-           :update_attributes => true,
-           :destroy => true,
-           :valid? => true
-
-  instance :user,
-           :id => 1,
-           :name => 'John Doe',
-           :email => 'foo@bar.baz',
-           :homepage => 'http://foo.bar.baz'
-end
-
 define User do
   has_many :roles
 

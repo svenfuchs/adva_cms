@@ -62,10 +62,6 @@ describe User do
       @user.should validate_presence_of(:first_name)
     end
 
-    it "validates the presence of a last name" do
-      @user.should validate_presence_of(:last_name)
-    end
-
     it "validates the presence of an email adress" do
       @user.should validate_presence_of(:email)
     end

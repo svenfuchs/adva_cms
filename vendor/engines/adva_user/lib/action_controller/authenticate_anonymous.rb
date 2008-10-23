@@ -31,11 +31,11 @@ module ActionController
       end
 
       def authenticated_with_anonymous?
-        !!current_user and !current_user.is_a?(Anonymous)
+        !!current_user and !current_user.anonymous?
       end
 
       def login_or_register_anonymous
-        anonymous = try_login_anonymous || Anonymous.new
+        anonymous = try_login_anonymous || User.anonymous
         anonymous = register_or_update_anonymous anonymous if params[:anonymous]
         login_anonymous! anonymous if anonymous
         anonymous
@@ -43,7 +43,7 @@ module ActionController
 
       def try_login_anonymous
         # try to authenticate if token is present
-        validate_token Anonymous, session[:anonymous_token] if session[:anonymous_token]
+        validate_token User, session[:anonymous_token] if session[:anonymous_token]
       end
 
       def register_or_update_anonymous(anonymous)

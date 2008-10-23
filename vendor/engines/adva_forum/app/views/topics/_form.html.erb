@@ -1,5 +1,5 @@
 <%= f.hidden_field :board_id %>
-<% fields_for Anonymous.new do |author| %>
+<% fields_for User.anonymous do |author| %>
   <div id="anonymous_author">
     <p>
       <%= author.label :name, 'Name' %>

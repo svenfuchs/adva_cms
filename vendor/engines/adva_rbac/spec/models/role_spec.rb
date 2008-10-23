@@ -1,3 +1,4 @@
+=begin
 require File.dirname(__FILE__) + '/../spec_local_helper'
 
 describe Rbac::Role::Base, :type => :rbac do
@@ -149,3 +150,4 @@ describe Rbac::Role, "role_authorizing and expand return the expected results fo
     roles.map{|role| (role.context ? "#{role.context.class.name.downcase}-" : '') + role.class.role_name.to_s.downcase}
   end
 end
+=end

@@ -193,7 +193,7 @@ describe "Wiki views:" do
 
     describe "with no user currently logged in" do
       it "renders a name field" do
-        template.stub!(:current_user).and_return Anonymous.new
+        template.stub!(:current_user).and_return User.anonymous
         render :partial => 'wiki/form'
         response.should have_tag('input[name=?]', 'user[name]')
       end

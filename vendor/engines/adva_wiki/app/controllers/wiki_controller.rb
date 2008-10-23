@@ -103,7 +103,8 @@ class WikiController < BaseController
       @wikipage = @section.wikipages.find_or_initialize_by_permalink params[:id] || 'home'
       raise "could not find wikipage by permalink '#{params[:id]}'" if params[:show] && @wikipage.new_record?
       @wikipage.revert_to(params[:version]) if params[:version]
-      @wikipage.author = current_user || Anonymous.new if @wikipage.new_record? || params[:action] == 'edit'
+      @wikipage.author = current_user || User.anonymous if @wikipage.new_record? || 
+        params[:action] == 'edit'
     end
 
     def set_wikipages
