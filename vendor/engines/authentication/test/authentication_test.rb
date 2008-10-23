@@ -16,19 +16,19 @@ class AuthenticationTest < Test::Unit::TestCase
   end
 
   def test_create_user_without_token_or_password
-    assert_nothing_raised { User.create! :name => 'John' }
+    assert_nothing_raised { User.create! :first_name => 'John', :last_name => 'Doe' }
   end
 
   def test_password_confirmation
-    john = User.new :name => 'John'
+    john = User.new :first_name => 'John', :last_name => 'Doe'
     john.password = 'test'
     john.password_confirmation = 'test'
     assert_nothing_raised {john.save!}
 
-    josh = User.new :name => 'Josh'
-    josh.password = 'different'
-    josh.password_confirmation = 'password'
-    assert_raise(ActiveRecord::RecordInvalid) {josh.save!}
+    jane = User.new :first_name => 'Jane', :last_name => 'Doe'
+    jane.password = 'different'
+    jane.password_confirmation = 'password'
+    assert_raise(ActiveRecord::RecordInvalid) {jane.save!}
   end
 
   def test_authentication_first_success
@@ -135,7 +135,7 @@ class AuthenticationTest < Test::Unit::TestCase
     first = RecordedUser.authentication_modules.first
     last = RecordedUser.authentication_modules.last
 
-    jane = RecordedUser.new :name => 'Jane'
+    jane = RecordedUser.new :first_name => 'Jane', :last_name => 'Doe'
     jane.password = 'testing'
     jane.password_confirmation = 'testing'
     jane.save!
@@ -151,7 +151,7 @@ class AuthenticationTest < Test::Unit::TestCase
   end
 
   def test_blank_password_does_not_overwrite
-    jenny = User.new :name => 'Jenny'
+    jenny = User.new :first_name => 'Jenny'
     jenny.password = 'test'
     jenny.password_confirmation = 'test'
     jenny.save!
@@ -166,7 +166,7 @@ class AuthenticationTest < Test::Unit::TestCase
   private
 
   def jack_with_test_password
-    @jack = RecordedUser.new :name => 'Jack'
+    @jack = RecordedUser.new :first_name => 'Jack'
     @jack.password = 'test'
     @jack.password_confirmation = 'test'
     @jack.save!
@@ -174,7 +174,7 @@ class AuthenticationTest < Test::Unit::TestCase
   end
 
   def jack_token
-    @jack = RecordedUser.new :name => 'Jack'
+    @jack = RecordedUser.new :first_name => 'Jack'
     tok = @jack.assign_token 'test'
     @jack.save!
     @jack.reload

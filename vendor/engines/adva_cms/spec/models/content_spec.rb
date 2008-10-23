@@ -8,7 +8,9 @@ describe Content do
     User.delete_all
     scenario :section_with_published_article
     @time_now = Time.zone.now
-    @author = User.new :name => 'name', :email => 'email@test.org', :homepage => 'http://homepage.com', :login => 'login', :password => 'password', :password_confirmation => 'password'
+    @author = User.new :first_name => 'John', :last_name => 'Doe',
+      :email => 'email@test.org', :homepage => 'http://homepage.com', 
+      :login => 'login', :password => 'password', :password_confirmation => 'password'
     @content = Content.new :site_id => 1, :section_id => 1, :title => "this content's title",
                            :body => "*body*", :excerpt => "*excerpt*", :author => @author,
                            :published_at => @time_now

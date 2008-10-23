@@ -146,12 +146,12 @@ describe Comment do
 
   it "returns a link as author_link when author_url is present" do
     @comment.stub!(:author_homepage).and_return 'http://somewhere.com'
-    @comment.author_link.should == '<a href="http://somewhere.com">name</a>'
+    @comment.author_link.should == '<a href="http://somewhere.com">John Doe</a>'
   end
 
   it "returns author_name as author_link when author_url is not present" do
     @comment.stub!(:author_homepage).and_return nil
-    @comment.author_link.should == 'name'
+    @comment.author_link.should == 'John Doe'
   end
 
   it "calls commentable.accept_comments? before creating a comment" do

@@ -84,7 +84,9 @@ describe Site do
     end
 
     it "calls destroy on associated users when destroyed" do
-      user = @site.users.create :name => 'user', :email => 'email@foo.bar', :login => 'login', :password => 'password', :password_confirmation => 'password'
+      user = @site.users.create :first_name => 'John', :last_name => 'Doe', 
+        :email => 'email@foo.bar', :login => 'login', :password => 'password', 
+        :password_confirmation => 'password'
       user.should_not be_false
       @site.destroy
       lambda{ User.find user.id }.should raise_error(ActiveRecord::RecordNotFound)
