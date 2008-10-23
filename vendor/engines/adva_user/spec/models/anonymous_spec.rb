@@ -4,7 +4,7 @@ describe Anonymous do
   include Matchers::ClassExtensions
 
   before :each do
-    @anonymous = Anonymous.new :first_name => 'John', :last_name => 'Doe'
+    @anonymous = Anonymous.new :name => 'John Doe'
   end
 
   describe 'class extensions:' do
@@ -15,11 +15,7 @@ describe Anonymous do
 
   describe 'validations:' do
     it 'validates the presence of a name' do
-      @anonymous.should validate_presence_of(:first_name)
-    end
-
-    it 'validates the presence of a name' do
-      @anonymous.should validate_presence_of(:last_name)
+      @anonymous.should validate_presence_of(:name)
     end
 
     it 'validates the presence of an email' do
@@ -27,11 +23,7 @@ describe Anonymous do
     end
 
     it 'validates the length of the name (3-40 chars)' do
-      @anonymous.should validate_length_of(:first_name, :within => 3..40)
-    end
-
-    it 'validates the length of the name (3-40 chars)' do
-      @anonymous.should validate_length_of(:last_name, :within => 3..40)
+      @anonymous.should validate_length_of(:name, :within => 3..40)
     end
 
     describe 'validates the format of the email' do

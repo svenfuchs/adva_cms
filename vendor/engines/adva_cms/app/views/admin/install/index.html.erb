@@ -46,8 +46,13 @@
   <fieldset>
     <% fields_for @user do |user| %>
     	<p>
-    	  <%= user.label :name %>
-    		<%= user.text_field :name, :class => 'big' %>
+    	  <%= user.label :first_name %>
+    		<%= user.text_field :first_name, :class => 'big' %>
+    	</p>
+
+    	<p>
+    	  <%= user.label :last_name %>
+    		<%= user.text_field :last_name, :class => 'big' %>
     	</p>
 
     	<p>

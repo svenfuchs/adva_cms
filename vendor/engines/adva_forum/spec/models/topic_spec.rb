@@ -132,7 +132,7 @@ describe Topic do
 
       it 'returns a valid comment when a valid, new author and a body were given' do
         @topic.save!
-        anonymous = Anonymous.new :first_name => 'anonymous', :email => 'anonymous@email.org'
+        anonymous = Anonymous.new :name => 'anonymous', :email => 'anonymous@email.org'
         comment = @topic.reply anonymous, @attributes
         lambda { comment.save }.should_not raise_error
       end

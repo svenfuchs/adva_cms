@@ -8,8 +8,6 @@ define Anonymous do
 
   instance :user,
            :id => 1,
-           :first_name => 'John',
-           :last_name => 'Doe',
            :name => 'John Doe',
            :email => 'foo@bar.baz',
            :homepage => 'http://foo.bar.baz'
