@@ -42,7 +42,7 @@ class Admin::BaseController < ApplicationController
   protected
 
     def require_authentication
-      unless current_user and current_user.has_role?(Rbac::Role.build(:admin, :context => @site))
+      unless current_user and current_user.has_role?(:admin, :context => current_role_context)
         return redirect_to_login("You need to be an admin to view this page.")
       end
       super
