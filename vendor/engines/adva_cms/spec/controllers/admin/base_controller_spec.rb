@@ -14,6 +14,12 @@ describe Admin::SitesController do
       request_to :get, '/admin/sites'
       response.should redirect_to(login_url)
     end
+    
+    it "updates current_role_context" do
+      controller.should_receive(:update_role_context!).with({"action"=>"index", "controller"=>"admin/sites"})
+      request_to :get, '/admin/sites'
+      response.should redirect_to(login_url)
+    end
   end
 end
 
@@ -43,6 +49,7 @@ describe Admin::SitesController, "with logged in user " do
     
     it "uses current_role_context for context of a role" do
       @user.stub!(:has_role?).and_return(true)
+      controller.stub!(:update_role_context!)
       
       controller.should_receive(:current_role_context)
       controller.send :require_authentication
