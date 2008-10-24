@@ -36,7 +36,7 @@ class User < ActiveRecord::Base
   validates_presence_of     :password, :password_confirmation, :if => :password_required?
   validates_length_of       :password, :within => 4..40,       :if => :password_required?
   validates_confirmation_of :password,                         :if => :password_required?
-
+  
   class << self
     def authenticate(credentials)
       return false unless user = User.find_by_login(credentials[:login])

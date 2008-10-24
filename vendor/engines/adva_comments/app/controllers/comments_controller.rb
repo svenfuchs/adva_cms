@@ -20,7 +20,7 @@ class CommentsController < BaseController
   before_filter :set_comment_params, :only => [:preview, :create]
 
   cache_sweeper :comment_sweeper, :only => [:create, :update, :destroy]
-  guards_permissions :comment, :create => :preview
+  guards_permissions :comment, :except => :show, :create => :preview
 
   def show
   end

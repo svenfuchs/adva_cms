@@ -4,7 +4,7 @@ class BoardsController < BaseController
   before_filter :set_topics, :only => :show
   caches_page_with_references :show, :track => ['@board', '@topics']
 
-  guards_permissions :board
+  guards_permissions :board, :except => :show
 
   def show
     @comment = Post.new

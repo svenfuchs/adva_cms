@@ -7,7 +7,7 @@ class TopicsController < BaseController
   before_filter :set_board, :only => [:new, :update]
   caches_page_with_references :show, :track => ['@topic', '@posts']
 
-  guards_permissions :topic, :show => [:previous, :next]
+  guards_permissions :topic, :except => [:show, :index], :show => [:previous, :next]
   before_filter :guard_topic_permissions, :only => [:create, :update]
 
   def index

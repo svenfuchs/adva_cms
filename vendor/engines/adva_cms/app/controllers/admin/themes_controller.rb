@@ -4,7 +4,7 @@ class Admin::ThemesController < Admin::BaseController
   before_filter :set_theme, :only => [:show, :use, :edit, :update, :destroy, :export]
   before_filter :ensure_uploaded_theme_file_saved!, :only => :import
   
-  guards_permissions :theme, :update => [:select, :unselect], :show => :export, :create => :import
+  guards_permissions :theme, :except => [:index, :show], :update => [:select, :unselect], :show => :export, :create => :import
 
   def index
     @themes = @site.themes.find(:all)

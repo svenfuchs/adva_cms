@@ -12,7 +12,7 @@ class Admin::WikipagesController < Admin::BaseController
   widget :menu_section,  :partial => 'widgets/admin/menu_section',
                          :only  => { :controller => ['admin/wikipages'] }
 
-  guards_permissions :wikipage, :except => :show
+  guards_permissions :wikipage, :except => [:show, :index]
 
   def index
     @wikipages = @section.wikipages.paginate :page => current_page, :per_page => params[:per_page]

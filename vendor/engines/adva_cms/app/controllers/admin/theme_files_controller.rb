@@ -1,10 +1,10 @@
-class Admin::ThemeFilesController < Admin::BaseController
+  class Admin::ThemeFilesController < Admin::BaseController
   layout "admin"
 
   before_filter :set_theme
   before_filter :set_file, :only => [:show, :update, :destroy]
 
-  guards_permissions :theme, :update => [:show, :new, :create, :edit, :update, :destroy]
+  guards_permissions :theme, :except => [:show, :index], :update => [:show, :new, :create, :edit, :update, :destroy]
 
   def show
   end

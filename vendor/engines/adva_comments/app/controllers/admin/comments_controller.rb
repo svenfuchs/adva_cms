@@ -8,7 +8,7 @@ class Admin::CommentsController < Admin::BaseController
   after_filter :postback_spaminess, :only => [:update]
 
   cache_sweeper :comment_sweeper, :only => [:create, :update, :destroy]
-  guards_permissions :comment
+  guards_permissions :comment, :except => [:show, :index]
 
   def index
   end

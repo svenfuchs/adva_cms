@@ -5,7 +5,7 @@ class Admin::SectionsController < Admin::BaseController
   before_filter :normalize_params, :only => :update_all
 
   cache_sweeper :section_sweeper, :only => [:create, :update, :destroy]
-  guards_permissions :section, :update => :update_all
+  guards_permissions :section, :except => :show, :update => :update_all
 
   def index
   end

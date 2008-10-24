@@ -7,7 +7,7 @@ class Admin::UsersController < Admin::BaseController
 
   helper_method :collection_path, :member_path, :new_member_path, :edit_member_path
 
-  guards_permissions :user
+  guards_permissions :user, :except => [:show, :index]
 
   def index
   end
@@ -72,7 +72,7 @@ class Admin::UsersController < Admin::BaseController
     end
 
     def set_user
-      options = @site ? {:include => [:roles, :memberships], :conditions => ['memberships.site_id = ? OR roles.type = ?', @site.id, 'Role::Superuser']} : {}
+      options = @site ? {:include => [:roles, :memberships], :conditions => ['memberships.site_id = ? OR roles.type = ?', @site.id, 'Rbac::Role::Superuser']} : {}
       @user = User.find params[:id], options
     end
 
