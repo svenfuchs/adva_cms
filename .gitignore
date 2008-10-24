@@ -14,5 +14,5 @@ public/javascripts/cache/*
 public/stylesheets/cache/*
 themes/site-*
 *.swp
-vendor/engines/adva_rbac/spec/db/*
+vendor/engines/adva_rbac/spec/db/*.sqlite3
 vendor/engines/adva_rbac/spec/log/*
