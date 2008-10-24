@@ -111,7 +111,7 @@ describe Admin::ArticlesController do
     it_guards_permissions :create, :article
     
     it "instantiates a new article from section.articles" do
-      @section.articles.should_receive(:create).and_return @article
+      @section.articles.should_receive(:build).and_return @article
       act!
     end
  
@@ -123,7 +123,8 @@ describe Admin::ArticlesController do
  
     describe "given invalid article params" do
       before :each do 
-        @section.articles.stub!(:create).and_return false 
+        @section.articles.stub!(:build).and_return @article
+        @article.stub!(:save).and_return false 
       end
       it_renders_template :new
       it_assigns_flash_cookie :error => :not_nil
