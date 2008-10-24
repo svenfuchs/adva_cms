@@ -1,6 +1,6 @@
 <h2>New topic</h2>
 <%= error_messages_for :topic %>
-<% form_for :topic, :url => topics_path(@section) do |f| -%>
+<% form_for :topic, @topic, :url => topics_path(@section), :html => { :method => :post } do |f| -%>
   <%= render :partial => 'form', :locals => {:f => f} %>
   <p>
     <%= submit_tag 'Post Topic' %>

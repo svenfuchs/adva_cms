@@ -22,7 +22,9 @@ class TopicsController < BaseController
   end
 
   def create
-    if @topic = @section.topics.post(current_user, params[:topic])
+    @topic = @section.topics.post(current_user, params[:topic])
+    
+    if @topic.save
       trigger_events @topic
       flash[:notice] = 'The topic has been created.'
       redirect_to topic_path(@section, @topic.permalink)

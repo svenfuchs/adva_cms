@@ -5,7 +5,7 @@ class Comment < ActiveRecord::Base
     allow :new_record?
   end
 
-  acts_as_role_context :parent => Content
+  acts_as_role_context # :parent => Content
 
   filtered_column :body
   filters_attributes :sanitize => :body_html
