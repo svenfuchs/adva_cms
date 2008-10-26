@@ -12,8 +12,7 @@ describe PasswordController do
     @edit_password_path = '/password/edit'
 
     @params = { :user => { :email => 'email@email.org',
-                           :password => 'password',
-                           :password_confirmation => 'password' } }
+                           :password => 'password' } }
   end
 
   describe "GET to :new" do

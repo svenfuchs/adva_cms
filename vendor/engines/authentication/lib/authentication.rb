@@ -166,7 +166,6 @@ module Authentication
       if method_defined?(:password=) # TODO rather have these in the client class?
         before_validation :assign_password
         # after_save :reset_password
-        # validates_confirmation_of :password
       end
     end
   end

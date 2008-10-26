@@ -19,18 +19,6 @@ class AuthenticationTest < Test::Unit::TestCase
     assert_nothing_raised { User.create! :first_name => 'John', :last_name => 'Doe' }
   end
 
-  def test_password_confirmation
-    john = User.new :first_name => 'John', :last_name => 'Doe'
-    john.password = 'test'
-    john.password_confirmation = 'test'
-    assert_nothing_raised {john.save!}
-
-    jane = User.new :first_name => 'Jane', :last_name => 'Doe'
-    jane.password = 'different'
-    jane.password_confirmation = 'password'
-    assert_raise(ActiveRecord::RecordInvalid) {jane.save!}
-  end
-
   def test_authentication_first_success
     first = RecordedUser.authentication_modules.first
     first.send_back :authenticate, true
@@ -137,7 +125,6 @@ class AuthenticationTest < Test::Unit::TestCase
 
     jane = RecordedUser.new :first_name => 'Jane', :last_name => 'Doe'
     jane.password = 'testing'
-    jane.password_confirmation = 'testing'
     jane.save!
     jane.reload
 
@@ -153,11 +140,9 @@ class AuthenticationTest < Test::Unit::TestCase
   def test_blank_password_does_not_overwrite
     jenny = User.new :first_name => 'Jenny'
     jenny.password = 'test'
-    jenny.password_confirmation = 'test'
     jenny.save!
     jenny.reload
     jenny.password = ""
-    jenny.password_confirmation = ""
     jenny.save!
     jenny.reload
     assert jenny.authenticate('test')
@@ -168,7 +153,6 @@ class AuthenticationTest < Test::Unit::TestCase
   def jack_with_test_password
     @jack = RecordedUser.new :first_name => 'Jack'
     @jack.password = 'test'
-    @jack.password_confirmation = 'test'
     @jack.save!
     @jack.reload
   end

@@ -24,7 +24,7 @@ class PasswordController < BaseController
   end
 
   def update
-    if current_user.update_attributes(params[:user].slice(:password, :password_confirmation))
+    if current_user.update_attributes(params[:user].slice(:password))
       trigger_event current_user, :password_updated
       flash[:notice] = 'Password successfully updated'
       redirect_to '/'

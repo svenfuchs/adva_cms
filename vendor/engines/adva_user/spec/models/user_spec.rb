@@ -8,8 +8,7 @@ describe User do
                      :last_name => 'taken',
                      :email => 'not-taken@email.org',
                      :login => 'not-taken',
-                     :password => 'not-taken',
-                     :password_confirmation => 'not-taken'
+                     :password => 'not-taken'
 
     @time_now = Time.now
     Time.zone.stub!(:now).and_return @time_now
@@ -66,10 +65,6 @@ describe User do
       @user.should validate_presence_of(:email)
     end
 
-    it "validates the presence of a login" do
-      @user.should validate_presence_of(:login)
-    end
-
     it "validates the uniqueness of the email" do
       @user.should validate_uniqueness_of(:email)
     end
@@ -90,17 +85,10 @@ describe User do
       @user.should validate_presence_of(:password)
     end
 
-    it "validates the presence of a password confirmation" do
-      @user.should validate_presence_of(:password_confirmation)
-    end
-
     it "validates the length of the password" do
       @user.should validate_length_of(:password, :within => 4..40)
     end
 
-    it "validates the confirmation of the password" do
-      @user.should validate_confirmation_of(:password)
-    end
   end
 
   describe 'class methods' do

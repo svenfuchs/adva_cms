@@ -15,8 +15,7 @@ describe UserController do
                            'last_name' => 'Doe',       
                            'email' => 'email@email.org',
                            'login' => 'login',
-                           'password' => 'password',
-                           'password_confirmation' => 'password' } }
+                           'password' => 'password' } }
   end
 
   describe "GET to :new" do

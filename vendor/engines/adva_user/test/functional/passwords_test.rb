@@ -63,8 +63,7 @@ class PasswordsControllerTest < Test::Unit::TestCase
 
   def test_change_password
     @request.session[:uid] = users(:joe).id
-    post :update, :user =>\
-      {:password => 'test', :password_confirmation => 'test'}
+    post :update, :user => { :password => 'test' }
     assert_equal 'Password successfully updated', flash[:notice]
     assert_message_sent @deliveries_count
     assert_redirected_to home_url
@@ -72,8 +71,7 @@ class PasswordsControllerTest < Test::Unit::TestCase
 
   def test_change_password_not_matched
     @request.session[:uid] = users(:joe).id
-    post :update, :user =>
-      {:password => 'test', :password_confirmation => 'tested'}
+    post :update, :user => { :password => 'test' }
     assert_message_not_sent @deliveries_count
     assert_template 'passwords/edit'
   end

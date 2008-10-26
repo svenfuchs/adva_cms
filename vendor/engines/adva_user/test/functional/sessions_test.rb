@@ -17,7 +17,6 @@ class SessionsControllerTest < Test::Unit::TestCase
     # Assign a password we can auth against
     joe = users(:joe)
     joe.password = 'testing'
-    joe.password_confirmation = 'testing'
     joe.verified_at = Time.now if joe.respond_to? :verified_at
     joe.save!
     joe.reload

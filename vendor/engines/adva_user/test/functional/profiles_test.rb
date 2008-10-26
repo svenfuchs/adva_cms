@@ -26,8 +26,7 @@ class ProfilesControllerTest < Test::Unit::TestCase
     jack = 'jack@example.com'
     put :create, :user => {
       username_field.to_sym => jack,
-      :password => 'regtest',
-      :password_confirmation => 'regtest'
+      :password => 'regtest'
     }
     assert_nil session[:uid]
     assert_nil flash[:notice]
@@ -38,8 +37,7 @@ class ProfilesControllerTest < Test::Unit::TestCase
   def test_failed_registration
     put :create, :user => {
       username_field.to_sym => 'jane@example.com',
-      :password => 'bad',
-      :password_confirmation => 'password'
+      :password => 'bad'
     }
     assert_template 'profiles/new'
   end

@@ -10,7 +10,7 @@ describe Content do
     @time_now = Time.zone.now
     @author = User.new :first_name => 'John', :last_name => 'Doe',
       :email => 'email@test.org', :homepage => 'http://homepage.com', 
-      :login => 'login', :password => 'password', :password_confirmation => 'password'
+      :login => 'login', :password => 'password'
     @content = Content.new :site_id => 1, :section_id => 1, :title => "this content's title",
                            :body => "*body*", :excerpt => "*excerpt*", :author => @author,
                            :published_at => @time_now
