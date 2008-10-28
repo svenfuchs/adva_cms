@@ -1,9 +1,4 @@
 ActiveRecord::Schema.define(:version => 0) do
-  
-  # create_table "accounts", :force => true do |t|
-  #   t.string :name
-  # end
-
   create_table "anonymouses", :force => true do |t|
   end
 
@@ -36,12 +31,10 @@ ActiveRecord::Schema.define(:version => 0) do
   end
 
   create_table "sites", :force => true do |t|
-    t.integer "account_id"
     t.text :permissions
   end
 
   create_table "users", :force => true do |t|
-    t.integer  :account_id
   end
 
 end

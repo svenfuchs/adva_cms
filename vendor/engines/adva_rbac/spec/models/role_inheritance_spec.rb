@@ -1,4 +1,3 @@
-=begin
 require File.dirname(__FILE__) + '/../spec_local_helper'
 
 describe Rbac::Role, ".define", :type => :rbac do
@@ -114,5 +113,3 @@ describe Rbac::Role, "#include?", :type => :rbac do
     Rbac::Role.build(:admin, :context => @site).should_not include_role(:moderator, :context => @other_content)
   end
 end
-
-=end

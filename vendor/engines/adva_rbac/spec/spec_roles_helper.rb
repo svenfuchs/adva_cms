@@ -24,11 +24,6 @@ module SpecRolesHelper
                       :parent => :moderator,
                       :message => 'You need to be an admin to perform this action.'
 
-    # Rbac::Role.define :owner,
-    #                   :require_context => Account, 
-    #                   :parent => :admin,
-    #                   :message => 'You need to be the owner of this account to perform this action.'
-
     Rbac::Role.define :superuser, 
                       :parent => :admin, #:owner,
                       :message => 'You need to be a superuser to perform this action.'
@@ -65,20 +60,18 @@ class RbacExampleGroup < Spec::Example::ExampleGroup
     
     Rbac::Context.permissions = { :'create article' => :superuser }
 
-    #@account = Account.new
-    @site = Site.new #:account => @account
+    @site = Site.new
     @section = Section.new :site => @site
     @content = Content.new :section => @section
     
-    @site_2 = Site.new #:account => @account
+    @site_2 = Site.new
     @section_2 = Section.new :site => @site_2
     
-    #@other_account = Account.new
-    @other_site = Site.new #:account => @other_account
+    @other_site = Site.new
     @other_section = Section.new :site => @other_site
     @other_content = Content.new :section => @other_section    
 
-    @user = User.new #:account => @account
+    @user = User.new
   end
   
   after :each do

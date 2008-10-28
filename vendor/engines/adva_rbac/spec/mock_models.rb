@@ -1,13 +1,5 @@
-# class Account < ActiveRecord::Base
-#   acts_as_role_context
-#   attr_accessor :permissions
-# end
-
 class Site < ActiveRecord::Base
   acts_as_role_context :actions => ["manage themes", "manage assets"]
-                       #:parent => Account
-
-  #belongs_to :account
 end
 
 class Section < ActiveRecord::Base
@@ -34,7 +26,6 @@ class Board < ActiveRecord::Base
 end
 
 class User < ActiveRecord::Base
-  #belongs_to :account
   has_many :roles, :class_name => 'Rbac::Role::Base'
 
   def has_role?(role, options = {})
@@ -46,5 +37,4 @@ class User < ActiveRecord::Base
     role = Role.build(name, object)
     role.exactly_granted_to? self
   end
-  
 end

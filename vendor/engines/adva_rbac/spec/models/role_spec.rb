@@ -1,4 +1,3 @@
-=begin
 require File.dirname(__FILE__) + '/../spec_local_helper'
 
 describe Rbac::Role::Base, :type => :rbac do
@@ -78,11 +77,6 @@ describe Rbac::Role, '.all_children', :type => :rbac do
       Rbac::Role::Admin.all_children.should == expected
     end         
 
-    # it "returns :superuser classes for :owner" do
-    #   expected = [Rbac::Role::Superuser]
-    #   Rbac::Role::Owner.all_children.should == expected
-    # end         
-
     it "returns no classes for :superuser" do
       expected = []
       Rbac::Role::Superuser.all_children.should == expected
@@ -124,10 +118,6 @@ describe Rbac::Role, '#expand', :type => :rbac do
     @admin_role.expand(@content).should == [@admin_role, @superuser_role]
   end
 
-  # it 'called on a owner role it returns itself, and a superuser role' do
-  #   @owner_role.expand(@content).should == [Rbac::Role::Owner, @superuser_role]
-  # end
-
   it 'called on a superuser role it returns only itself' do
     @superuser_role.expand(@content).should == [@superuser_role]
   end
@@ -150,4 +140,3 @@ describe Rbac::Role, "role_authorizing and expand return the expected results fo
     roles.map{|role| (role.context ? "#{role.context.class.name.downcase}-" : '') + role.class.role_name.to_s.downcase}
   end
 end
-=end

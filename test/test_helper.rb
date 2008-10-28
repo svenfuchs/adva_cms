@@ -3,9 +3,9 @@ require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'test_help'
 
 require 'factory_girl'
+p File.expand_path(File.join(File.dirname(__FILE__), '..', 'factories'))
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'factories'))
-
-require 'assertions'
+require File.expand_path(File.join(File.dirname(__FILE__), 'assertions'))
 
 class Test::Unit::TestCase
   # Transactional fixtures accelerate your tests by wrapping each test method

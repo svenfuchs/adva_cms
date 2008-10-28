@@ -6,8 +6,7 @@ describe Admin::SectionsController, 'Permissions' do
   before :each do
     scenario :roles
 
-    @account = stub_model Account
-    @site = stub_model Site, :host => 'test.host', :account => @account
+    @site = stub_model Site, :host => 'test.host'
     @section = stub_model Section, :id => 1, :site => @site, :destroy => true
 
     Site.stub!(:find).and_return @site

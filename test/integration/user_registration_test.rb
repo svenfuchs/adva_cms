@@ -24,7 +24,6 @@ class UserRegistrationTest < ActionController::IntegrationTest
     fills_in "email", :with => 'email@test.com'
     fills_in "login", :with => 'login'
     fills_in "password", :with => 'password'
-    fills_in "password confirmation", :with => 'password'
     clicks_button "Register"
 
     # the user should be there and not verified

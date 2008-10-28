@@ -1,11 +1,9 @@
 class Site < ActiveRecord::Base
   # TODO make sure the theme name doesn't have any slashes (forbid anything besides [\w\-_\.] ?)
   acts_as_themed
-  belongs_to :account
   has_many_comments
 
   acts_as_role_context :actions => ["manage themes", "manage assets"]
-                       # :parent => Account,
                          
   serialize :permissions
   serialize :spam_options

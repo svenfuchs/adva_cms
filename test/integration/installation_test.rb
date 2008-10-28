@@ -34,7 +34,8 @@ class InstallationTest < ActionController::IntegrationTest
 
     # check that admin account is created and verified
     assert_equal 1, User.count
-    @admin = User.find_by_name('Admin')
+    
+    @admin = User.find_by_first_name('admin')
     assert_not_nil @admin
     assert @admin.verified?
 

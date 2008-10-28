@@ -1,4 +1,3 @@
-=begin
 require File.dirname(__FILE__) + '/../spec_local_helper'
 
 describe Rbac::Role, ".granted_to?", :type => :rbac do
@@ -110,72 +109,6 @@ describe Rbac::Role, ".granted_to?", :type => :rbac do
     end
   end
   
-  # describe "the site :admin role includes all roles in the context of the site" do
-  #   before :each do
-  #     @user.roles << Rbac::Role.build(:admin, :context => @site)
-  #   end
-  #   
-  #   # it "grants the user the :owner role for the account" do
-  #   #   [@site, @section, @site_2, @section_2, @content].each do |context|
-  #   #     @user.should have_role(:owner, :context => @account)
-  #   #   end
-  #   # end
-  # 
-  #   # it "grants the user the :admin role for all sites and sections included in the account" do
-  #   #   [@site, @section, @site_2, @section_2, @content].each do |context|
-  #   #     @user.should have_role(:admin, :context => context)
-  #   #   end
-  #   # end
-  # 
-  #   it "grants the user the :moderator role for the account and all sites and sections that belong to the account" do
-  #     [@site, @section, @site_2, @section_2, @content].each do |context|
-  #       @user.should have_role(:moderator, :context => context)
-  #     end
-  #   end
-  # 
-  #   it "grants the user the :author role for all documents that belong to the account" do
-  #     @user.should have_role(:author, :context => @content)
-  #   end
-  # 
-  #   it "grants the user the :user role" do
-  #     @user.should have_role(:user)
-  #   end
-  # 
-  #   it "grants the user the :anonymous role" do
-  #     @user.should have_role(:anonymous)
-  #   end
-  # end
-  
-  # describe "the account :owner role does not include any roles in the context of other accounts" do
-  #   before :each do
-  #     @user.roles << Rbac::Role.build(:owner, :context => @account)
-  #   end
-  # 
-  #   it "does not grant the user the :superuser role" do
-  #     @user.should_not have_role(:superuser)
-  #   end
-  # 
-  #   it "does not grant the user the :owner role for other accounts" do
-  #     @user.should_not have_role(:owner, :context => @other_site)
-  #   end
-  # 
-  #   it "does not grant the user the :admin role for any sites or sections not included in the account" do
-  #     [@other_site, @other_section, @other_content].each do |context|
-  #       @user.should_not have_role(:admin, :context => context)
-  #     end
-  #   end
-  # 
-  #   it "does not grant the user the :moderator role for other accounts or any sites or sections that do not belong to the account" do
-  #     [@other_site, @other_section, @other_content].each do |context|
-  #       @user.should_not have_role(:moderator, :context => context)
-  #     end
-  #   end
-  # 
-  #   it "does not grant the user the :author role for any documents that do not belong to the account" do
-  #     @user.should_not have_role(:author, :context => @other_content)
-  #   end
-  # end
-  
   describe "the :site admin role includes all roles in the context of the site" do
     before :each do
       @user.roles << Rbac::Role.build(:admin, :context => @site)
@@ -211,14 +144,8 @@ describe Rbac::Role, ".granted_to?", :type => :rbac do
     
     it "does not grant the user the :superuser role" do
       @user.should_not have_role(:superuser)
-    end 
-  
-    # it "does not grant the user the :owner role for any account" do
-    #   [].each do |context|
-    #     @user.should_not have_role(:owner, :context => context)
-    #   end
-    # end 
-  
+    end
+    
     it "does not grant the user the :admin role for any unrelated sites" do
       @user.should_not have_role(:admin, :context => @other_site)
     end 
@@ -233,47 +160,7 @@ describe Rbac::Role, ".granted_to?", :type => :rbac do
       @user.should_not have_role(:author, :context => @other_content)
     end
   end
-
-  # describe "When the :moderator is defined in the account context then it includes the :author role for all documents that belong to the account" do
-  #   before :each do
-  #     @user.roles << Rbac::Role.build(:moderator, :context => @account)
-  #   end
-  #   
-  #   it "grants the user the :moderator role for the account and all sites and sections" do
-  #     [@site, @section, @content].each do |context|
-  #       @user.should have_role(:moderator, :context => context)
-  #     end
-  #   end
-  #   
-  #   it "grants the user the :author role for all documents that belong to the account" do
-  #     @user.should have_role(:author, :context => @content)
-  #   end
-  #   
-  #   it "grants the user the :user role" do
-  #     @user.should have_role(:user)
-  #   end
-  #   
-  #   it "grants the user the :anonymous role" do
-  #     @user.should have_role(:anonymous)
-  #   end
-  #   
-  #   it "does not grant the user the :superuser role" do
-  #     @user.should_not have_role(:superuser)
-  #   end
-  #   
-  #   # it "does not grant the user the :owner role for any account" do
-  #   #   [].each do |context|
-  #   #     @user.should_not have_role(:owner, :context => context)
-  #   #   end
-  #   # end
-  #   
-  #   it "does not grant the user the :admin role for any site" do
-  #     [@site, @site_2, @other_site].each do |context|
-  #       @user.should_not have_role(:admin, :context => context)
-  #     end
-  #   end
-  # end
-
+  
   describe "When the :moderator is defined in the site context then it includes the :author role for all documents that belong to the site" do
     before :each do
       @user.roles << Rbac::Role.build(:moderator, :context => @site)
@@ -301,12 +188,6 @@ describe Rbac::Role, ".granted_to?", :type => :rbac do
       @user.should_not have_role(:superuser)
     end
   
-    # it "does not grant the user the :owner role for any account" do
-    #   [].each do |context|
-    #     @user.should_not have_role(:owner, :context => context)
-    #   end
-    # end
-    
     it "does not grant the user the :admin role for any site" do
       [@site, @site_2, @other_site].each do |context|
         @user.should_not have_role(:admin, :context => context)
@@ -347,12 +228,6 @@ describe Rbac::Role, ".granted_to?", :type => :rbac do
       @user.should_not have_role(:superuser)
     end
   
-    # it "does not grant the user the :owner role for any account" do
-    #   [].each do |context|
-    #     @user.should_not have_role(:owner, :context => context)
-    #   end
-    # end
-  
     it "does not grant the user the :admin role for any site" do
       [@site, @site_2, @other_site].each do |context|
         @user.should_not have_role(:admin, :context => context)
@@ -392,12 +267,6 @@ describe Rbac::Role, ".granted_to?", :type => :rbac do
       @user.should_not have_role(:superuser)
     end 
         
-    # it "does not grant the user the :owner role for any account" do
-    #   [].each do |context|
-    #     @user.should_not have_role(:owner, :context => context)
-    #   end
-    # end 
-        
     it "does not grant the user the :admin role for any site" do
       [@site, @site_2, @other_site].each do |context|
         @user.should_not have_role(:admin, :context => context)
@@ -427,12 +296,6 @@ describe Rbac::Role, ".granted_to?", :type => :rbac do
     it "does not grant the user the :superuser role" do
       @user.should_not have_role(:superuser)
     end
-
-    # it "does not grant the user the :owner role for any account" do
-    #   [].each do |context|
-    #     @user.should_not have_role(:owner, :context => context)
-    #   end
-    # end
 
     it "does not grant the user the :admin role for any site" do
       [@site, @site_2, @other_site].each do |context|
@@ -465,13 +328,7 @@ describe Rbac::Role, ".granted_to?", :type => :rbac do
     it "does not grant the user the :superuser role" do
       @user.should_not have_role(:superuser)
     end
-
-    # it "does not grant the user the :owner role for any account" do
-    #   [].each do |context|
-    #     @user.should_not have_role(:owner, :context => context)
-    #   end
-    # end
-
+    
     it "does not grant the user the :admin role for any site" do
       [@site, @site_2, @other_site].each do |context|
         @user.should_not have_role(:admin, :context => context)
@@ -495,4 +352,3 @@ describe Rbac::Role, ".granted_to?", :type => :rbac do
     end
   end
 end
-=end
