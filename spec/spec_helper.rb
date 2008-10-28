@@ -8,6 +8,8 @@ $:.unshift File.expand_path(File.dirname(__FILE__) + "/../vendor/gems/rspec-1.1.
 
 require 'spec'
 require 'spec/rails'
+require 'factory_girl'
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'factories'))
 
 Spec::Runner.configure do |config|
   # If you're not using ActiveRecord you should remove these
