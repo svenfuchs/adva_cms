@@ -14,7 +14,7 @@ describe CommentsController do
     @return_to = '/redirect/here'
 
     @params = { :comment => {:body => 'body!', :commentable_type => 'Article', :commentable_id => 1},
-                :anonymous => {:name => 'anonymous', :email => 'anonymous@email.org'} }
+                :user => {:name => 'anonymous', :email => 'anonymous@email.org'} }
 
     @controller.stub!(:has_permission?).and_return true
   end

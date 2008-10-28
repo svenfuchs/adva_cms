@@ -4,7 +4,7 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', 'test_helper' )
 #   As a user with a given role that allows me to comment in a blog
 #   I want to comment on an article
 #   So I can share my opinions
-class BlogArticleTest < ActionController::IntegrationTest
+class BlogCommentTest < ActionController::IntegrationTest
   include CacheableFlash::TestHelpers
 
   # TODO: make caching work correctly
@@ -20,7 +20,8 @@ class BlogArticleTest < ActionController::IntegrationTest
     article = Factory :published_blog_article
     site.sections.first.articles = [article]
     # allow anonymous comments
-    site.sections.first.update_attributes! 'permissions' => {'comment' => {'show' => 'anonymous', 'create' => 'anonymous'}}
+    site.sections.first.update_attributes! 'permissions' => 
+      {'comment' => {'show' => 'anonymous', 'create' => 'anonymous'}}
 
     # go to article show page
     get "/2008/10/16/adva-cms-kicks-ass"
@@ -29,14 +30,14 @@ class BlogArticleTest < ActionController::IntegrationTest
     assert_select "div#comment_form" do
       # ... and the form contains anonymous fiels.
       assert_select "div#anonymous_author" do
-        assert_select "input#anonymous_name"
-        assert_select "input#anonymous_email"
+        assert_select "input#user_name"
+        assert_select "input#user_email"
       end
     end
 
     # fill in data and submit the form
-    fills_in "anonymous_name", :with => "John Doe"
-    fills_in "anonymous_email", :with => "john@example.com"
+    fills_in "user_name", :with => "John Doe"
+    fills_in "user_email", :with => "john@example.com"
     fills_in "comment_body", :with => "Really good article!"
     clicks_button "Submit comment"
 
@@ -44,6 +45,7 @@ class BlogArticleTest < ActionController::IntegrationTest
     assert_response :success
 
     # check that the article has now one unapproved comment
+    assert_equal 1, article.comments.count
     assert_equal 1, article.unapproved_comments.count
     comment = article.unapproved_comments.first
 
@@ -63,8 +65,8 @@ class BlogArticleTest < ActionController::IntegrationTest
 
     # check that the page has an edit form
     assert_select "form[action=?]", comment_path(comment) do
-      assert_select "input#anonymous_name"
-      assert_select "input#anonymous_email"
+      assert_select "input#user_name"
+      assert_select "input#user_email"
     end
 
     # update the body and submit the form
