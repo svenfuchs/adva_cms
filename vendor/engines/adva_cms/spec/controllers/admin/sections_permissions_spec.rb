@@ -6,7 +6,8 @@ describe Admin::SectionsController, 'Permissions' do
   before :each do
     scenario :roles
 
-    @site = stub_model Site, :host => 'test.host'
+    @account = stub_model Account
+    @site = stub_model Site, :host => 'test.host', :account => @account
     @section = stub_model Section, :id => 1, :site => @site, :destroy => true
 
     Site.stub!(:find).and_return @site
@@ -43,7 +44,9 @@ describe Admin::SectionsController, 'Permissions' do
     describe "#{method.to_s.upcase} to #{path}" do
       describe "with sections permissions set to :superuser" do
         before :each do
-          @site.stub!(:permissions).and_return :section => { :show => :superuser, :update => :superuser, :destroy => :superuser }
+          permissions = {:'create section' => :superuser, :'update section' => :superuser, :'destroy section' => :superuser}
+          @site.stub!(:permissions).and_return permissions
+          
         end
 
         it "grants access to an superuser" do
@@ -59,7 +62,8 @@ describe Admin::SectionsController, 'Permissions' do
 
       describe "with sections permissions set to :admin" do
         before :each do
-          @site.stub!(:permissions).and_return :section => { :show => :admin, :update => :admin, :destroy => :admin }
+          permissions = {:'create section' => :admin, :'update section' => :admin, :'destroy section' => :admin}
+          @site.stub!(:permissions).and_return permissions
         end
 
         it "grants access to an admin" do

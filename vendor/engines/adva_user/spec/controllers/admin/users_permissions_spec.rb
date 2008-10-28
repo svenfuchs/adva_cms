@@ -48,7 +48,8 @@ describe Admin::UsersController, 'Permissions' do
     describe "#{method.to_s.upcase} to #{path}" do
       describe "with user permissions set to :superuser" do
         before :each do
-          @site.stub!(:permissions).and_return :user => { :show => :superuser, :update => :superuser, :destroy => :superuser }
+          permissions = {:'create user' => :superuser, :'update user' => :superuser, :'destroy user' => :superuser}
+          @site.stub!(:permissions).and_return permissions
         end
 
         it "grants access to an superuser" do
@@ -64,7 +65,8 @@ describe Admin::UsersController, 'Permissions' do
 
       describe "with user permissions set to :admin" do
         before :each do
-          @site.stub!(:permissions).and_return :user => { :show => :admin, :update => :admin, :destroy => :admin }
+          permissions = {:'create user' => :admin, :'update user' => :admin, :'destroy user' => :admin}
+          @site.stub!(:permissions).and_return permissions
         end
 
         it "grants access to an admin" do

@@ -4,7 +4,12 @@ module Rbac
       def define(name, options = {})
         parent = const_get options[:parent].to_s.camelize if options[:parent]
         require_context = options[:require_context]
-        require_context = require_context.role_context_class unless [NilClass, FalseClass, TrueClass].include?(require_context.class)
+        
+        if require_context.respond_to?(:role_context_class)
+          require_context = require_context.role_context_class 
+        elsif ![NilClass, FalseClass, TrueClass].include?(require_context.class)
+          raise "class #{require_context.inspect} does not act_as_role_context"
+        end
         
         parent ||= Rbac::Role::Base
         klass = Class.new(parent)
@@ -57,20 +62,27 @@ module Rbac
       
       def initialize(attrs = {})
         super()
-        valid_context = attrs[:context] && attrs[:context] != Rbac::Context.root
-        self.context = adjust_context attrs[:context] if valid_context
-        raise "role #{self.class.name} needs a context" if require_context and !context
+        if self.class.require_context
+          attrs ||= {}
+          valid_context = attrs[:context] && attrs[:context] != Rbac::Context.root
+          self.context = adjust_context attrs[:context] if valid_context
+          raise "role #{self.class.name} needs a context" if require_context and !context
+        end
+      end
+
+      def name
+        self.class.role_name
       end
       
       def include?(role)
-        is_a?(role.class) && (!has_context or !role.has_context or context.role_context.include?(role.context.role_context))
+        is_a?(role.class) && (!has_context? or !role.has_context? or context.role_context.include?(role.context.role_context))
       end
 
       def ==(role)
-        instance_of?(role.class) && (!has_context or !role.has_context or context == role.context)
+        instance_of?(role.class) && (!has_context? or !role.has_context? or context == role.context)
       end
       
-      def has_context
+      def has_context?
         !!context
       end
 
@@ -101,6 +113,7 @@ module Rbac
         end
       
         def explicitely_granted_to?(user, options = {})
+          return false unless user.respond_to? :roles
           options[:inherit] = true unless options.has_key?(:inherit)
           !!user.roles.detect{|role| options[:inherit] ? role.include?(self) : role == self }
         end

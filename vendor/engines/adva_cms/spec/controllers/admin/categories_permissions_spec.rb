@@ -42,7 +42,8 @@ describe Admin::CategoriesController, 'Permissions' do
     describe "#{method.to_s.upcase} to #{path}" do
       describe "with category permissions set to :superuser" do
         before :each do
-          @section.stub!(:permissions).and_return :category => { :show => :superuser, :update => :superuser }
+          permissions = {:'create category' => :superuser, :'update category' => :superuser, :'destroy category' => :superuser}
+          @section.stub!(:permissions).and_return permissions
         end
 
         it "grants access to an superuser" do
@@ -58,7 +59,8 @@ describe Admin::CategoriesController, 'Permissions' do
 
       describe "with category permissions set to :admin" do
         before :each do
-          @section.stub!(:permissions).and_return :category => { :show => :admin, :update => :admin }
+          permissions = {:'create category' => :admin, :'update category' => :admin, :'destroy category' => :admin}
+          @section.stub!(:permissions).and_return permissions
         end
 
         it "grants access to an admin" do

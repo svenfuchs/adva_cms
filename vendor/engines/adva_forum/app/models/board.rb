@@ -2,7 +2,7 @@ class Board < ActiveRecord::Base
   has_many_comments
   has_counter :topics
   belongs_to_author :last_author, :validate => false
-  acts_as_role_context
+  acts_as_role_context :parent => Section
 
   delegate :topics_per_page, :comments_per_page, :to => :section
 

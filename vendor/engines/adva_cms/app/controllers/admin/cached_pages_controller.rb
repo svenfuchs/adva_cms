@@ -6,7 +6,7 @@ class Admin::CachedPagesController < Admin::BaseController
 
   layout 'admin', :except => [:destroy]
 
-  guards_permissions :site, :manage => [:index, :destroy, :clear]
+  guards_permissions :cached_page, :manage => [:index, :destroy, :clear]
 
   # Makes rspec happy
   def index

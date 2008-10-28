@@ -47,7 +47,8 @@ describe WikiController, 'Permissions' do
     describe "#{method.to_s.upcase} to #{path}" do
       describe "with wikipage permissions set to :admin" do
         before :each do
-          @wiki.stub!(:permissions).and_return :wikipage => { :show => :admin, :create => :admin, :update => :admin }
+          permissions = {:'create wikipage' => :admin, :'update wikipage' => :admin, :'destroy wikipage' => :admin}
+          @wiki.stub!(:permissions).and_return permissions
         end
 
         it "grants access to an admin" do
@@ -64,7 +65,8 @@ describe WikiController, 'Permissions' do
       describe "with wikipage permissions set to :user" do
         before :each do
           @user.stub!(:roles).and_return []
-          @wiki.stub!(:permissions).and_return :wikipage => { :show => :user, :create => :user, :update => :user }
+          permissions = {:'create wikipage' => :user, :'update wikipage' => :user, :'destroy wikipage' => :user}
+          @wiki.stub!(:permissions).and_return permissions
         end
 
         it "grants access to an user" do

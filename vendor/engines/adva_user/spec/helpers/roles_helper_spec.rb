@@ -75,7 +75,7 @@ describe RolesHelper do
 
   describe '#authorizing_css_classes' do
     before :each do
-      @role = Role.build :superuser
+      @role = Rbac::Role.build :superuser
     end
 
     it "turns the given roles to css classes that allow a user to see an element" do

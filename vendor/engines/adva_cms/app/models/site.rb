@@ -1,16 +1,14 @@
 class Site < ActiveRecord::Base
   # TODO make sure the theme name doesn't have any slashes (forbid anything besides [\w\-_\.] ?)
   acts_as_themed
+  belongs_to :account
   has_many_comments
 
-  acts_as_role_context :roles => :admin
+  acts_as_role_context :actions => ["manage themes", "manage assets"]
+                       # :parent => Account,
+                         
   serialize :permissions
   serialize :spam_options
-  permissions :site    => { :superuser => [:create, :destroy], :admin => [:show, :update, :manage] },
-              :section => { :admin => :all },
-              :theme   => { :admin => :all },
-              :user    => { :admin => :all },
-              :comment => { :admin => :all }
 
   has_many :sections, :dependent => :destroy, :order => :lft do
     def root

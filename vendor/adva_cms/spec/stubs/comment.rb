@@ -22,7 +22,7 @@ define Comment do
            :destroy => true,
            :has_attribute? => true,
            :frozen? => false,
-           :role_authorizing => Role.build(:author),
+#           :role_authorizing => Rbac::Role.build(:author, :context => stub_comment),
            :commentable= => nil,
            :check_approval => false,
            :approved_changed? => false

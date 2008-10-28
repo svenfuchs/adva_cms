@@ -26,9 +26,9 @@ describe Topic do
       Topic.should act_as_role_context(:roles => :author)
     end
 
-    it 'specifies implicit roles (author roles for comments)' do
-      @topic.should respond_to(:implicit_roles)
-    end
+    # it 'specifies implicit roles (author roles for comments)' do
+    #   @topic.should respond_to(:implicit_roles)
+    # end
 
     it "has a comments counter" do
       Topic.should have_counter(:comments)

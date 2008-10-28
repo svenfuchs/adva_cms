@@ -33,7 +33,7 @@ steps_for :user do
 
     @admin = create_user  :name => 'admin name', :email => 'admin@email.org', :login => 'admin-login', :password => 'password', :password_confirmation => 'password'
     @site.users << @admin
-    @admin.roles << Role.build(:admin, @site)
+    @admin.roles << Rbac::Role.build(:admin, :context => @site)
 
     @user = create_user :name => 'another user name', :email => 'another_user@email.org', :login => 'another-login', :password => 'password', :password_confirmation => 'password'
     @site.users << @user

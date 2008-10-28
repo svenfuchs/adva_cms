@@ -41,18 +41,18 @@ describe User do
 
       it '#by_site returns all superuser, site and section roles for the given user' do
         roles = @user.roles.by_site(@site)
-        roles.map(&:type).should == ['Role::Superuser', 'Role::Admin', 'Role::Moderator']
+        roles.map(&:type).should == ['Rbac::Role::Superuser', 'Rbac::Role::Admin', 'Rbac::Role::Moderator']
       end
 
       it '#by_context returns all roles by_site for the given object' do
         roles = @user.roles.by_context(@site)
-        roles.map(&:type).should == ['Role::Superuser', 'Role::Admin', 'Role::Moderator']
+        roles.map(&:type).should == ['Rbac::Role::Superuser', 'Rbac::Role::Admin', 'Rbac::Role::Moderator']
       end
 
       it '#by_context adds the implicit roles for the given object if it has any' do
         @topic.stub!(:implicit_roles).and_return [@comment_author_role]
         roles = @user.roles.by_context(@topic)
-        roles.map(&:type).should == ['Role::Superuser', 'Role::Admin', 'Role::Moderator', 'Role::Author']
+        roles.map(&:type).should == ['Rbac::Role::Superuser', 'Rbac::Role::Admin', 'Rbac::Role::Moderator', 'Rbac::Role::Author']
       end
     end
   end
@@ -138,7 +138,7 @@ describe User do
     it '.superusers returns all superusers' do
       User.should_receive(:find) do |arg, options|
         arg == :all and
-        options[:conditions] == ['roles.type = ?', 'Role::Superuser'] and
+        options[:conditions] == ['roles.type = ?', 'Rbac::Role::Superuser'] and
         Array(options[:include]).include?(:roles)
       end
       User.superusers
@@ -147,7 +147,7 @@ describe User do
     it '.admins_and_superusers returns all site admins and superusers' do
       User.should_receive(:find) do |arg, options|
         arg == :all and
-        options[:conditions] == ['roles.type IN (?)', ['Role::Superuser', 'Role::Admin']] and
+        options[:conditions] == ['roles.type IN (?)', ['Rbac::Role::Superuser', 'Rbac::Role::Admin']] and
         Array(options[:include]).include?(:roles)
       end
       User.admins_and_superusers
@@ -159,7 +159,7 @@ describe User do
         User.stub!(:new).and_return @user
         @user.stub!(:save)
         @user.stub!(:roles).and_return []
-        Role::Superuser.stub!(:create)
+        Rbac::Role::Superuser.stub!(:create)
       end
 
       it 'saves a new user without validation' do
@@ -178,7 +178,7 @@ describe User do
       end
 
       it 'adds a superuser role' do
-        Role::Superuser.should_receive :create!
+        Rbac::Role::Superuser.should_receive :create!
         @user.roles.should_receive(:<<)
         User.create_superuser @attributes
       end
@@ -188,7 +188,7 @@ describe User do
       it "finds all admins of a given site" do
         User.should_receive(:find) do |arg, options|
           arg == :all &&
-          options[:conditions] == ["roles.context_type = ? AND roles.context_id = ? AND roles.type = 'Role::?'", stub_site.class, stub_site.id, 'Admin'] &&
+          options[:conditions] == ["roles.context_type = ? AND roles.context_id = ? AND roles.type = 'Rbac::Role::?'", stub_site.class, stub_site.id, 'Admin'] &&
           Array(options[:include]).include?(:roles)
         end
         User.by_context_and_role(stub_site, 'Admin')
@@ -246,9 +246,9 @@ describe User do
       before :each do
         scenario :roles
         @user.stub!(:roles).and_return []
-        Role.stub!(:create!).and_return stub_model(Role)
-        @attributes = { 'roles' => { "0" => { "type" => "Role::Superuser", "selected" => "1" },
-                                     "1" => { "type" => "Role::Admin", "context_id" => "1", "context_type" => "Site", "selected" => "1"} } }
+        Rbac::Role.stub!(:create!).and_return stub_model(Rbac::Role::Base)
+        @attributes = { 'roles' => { "0" => { "type" => "Rbac::Role::Superuser", "selected" => "1" },
+                                     "1" => { "type" => "Rbac::Role::Admin", "context_id" => "1", "context_type" => "Site", "selected" => "1"} } }
       end
 
       it 'clears existing roles' do
@@ -257,13 +257,13 @@ describe User do
       end
 
       it 'creates new roles' do
-        Role.should_receive(:create!).twice
+        Rbac::Role.should_receive(:create!).twice
         @user.attributes = @attributes
       end
 
       it 'ignores parameters that do not have the :selected flag set' do
         @attributes['roles']['0']['selected'] = '0'
-        Role.should_receive(:create!).once
+        Rbac::Role.should_receive(:create!).once
         @user.attributes = @attributes
       end
     end

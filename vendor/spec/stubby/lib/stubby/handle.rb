@@ -12,6 +12,6 @@ module Stubby
       
     def inspect
       "<Stubby::Handle:#{__id__}>"
-    end
+    end    
   end    
 end

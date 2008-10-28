@@ -40,7 +40,8 @@ describe Admin::ArticlesController, 'Permissions' do
     describe "#{method.to_s.upcase} to #{path}" do
       describe "with :article/:update permissions set to :superuser" do
         before :each do
-          Blog.stub!(:default_permissions).and_return :article => {:update => :superuser}
+          permissions = {:'create article' => :superuser, :'update article' => :superuser, :'destroy article' => :superuser}
+          @blog.stub!(:permissions).and_return permissions
         end
 
         it "grants access to an superuser" do
@@ -56,7 +57,8 @@ describe Admin::ArticlesController, 'Permissions' do
 
       describe "with :article/:update permissions set to :admin" do
         before :each do
-          Blog.stub!(:default_permissions).and_return :article => {:update => :admin}
+          permissions = {:'create article' => :admin, :'update article' => :admin, :'destroy article' => :admin}
+          @blog.stub!(:permissions).and_return permissions
         end
 
         it "grants access to an admin" do
@@ -73,7 +75,7 @@ describe Admin::ArticlesController, 'Permissions' do
       # describe "with :article/:update permissions set to :moderator" do
       #   before :each do
       #     @user.stub!(:roles).and_return []
-      #     Blog.stub!(:default_permissions).and_return :article => {:update => :moderator}
+      #     Rbac::Context.stub!(:permissions).and_return :"update article" => :moderator
       #   end
       #
       #   it "grants access to a moderator" do

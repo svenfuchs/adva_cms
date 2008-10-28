@@ -4,9 +4,9 @@ scenario :roles do
 
   @section = stub_model Section, :id => 1, :site => @site
 
-  @admin_role     = Role.build :admin, @site
-  @moderator_role = Role.build :moderator, @section
-  @superuser_role = Role.build :superuser
+  @admin_role     = Rbac::Role.build :admin, :context => @site
+  @moderator_role = Rbac::Role.build :moderator, :context => @section
+  @superuser_role = Rbac::Role.build :superuser
 
   @user      = stub_model User, :id => 1, :registered? => true, :roles => []
   @author    = stub_model User, :id => 2, :registered? => true, :roles => []
@@ -17,7 +17,7 @@ scenario :roles do
   @content = stub_model Content, :id => 1, :section => @section, :author => @author, :author_id => 1, :author_type => 'User'
   @wikipage = stub_model Wikipage, :section => @section, :author => @author
 
-  @user_role = Role.build :user, @content
-  @author_role = Role.build :author, @content
-  @anonymous_role = Role.build :anonymous
+  @author_role    = Rbac::Role.build :author, :context => @content
+  @user_role      = Rbac::Role.build :user #, :context => @content
+  @anonymous_role = Rbac::Role.build :anonymous
 end

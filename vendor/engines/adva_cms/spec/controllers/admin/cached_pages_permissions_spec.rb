@@ -40,7 +40,8 @@ describe Admin::CachedPagesController, 'Permissions' do
     describe "#{method.to_s.upcase} to #{path}" do
       describe "with :manage_site permissions set to :superuser" do
         before :each do
-          @site.stub!(:permissions).and_return :site => {:manage => :superuser}
+          permissions = {:'manage cached_page' => :superuser}
+          @site.stub!(:permissions).and_return permissions
         end
 
         it "grants access to an superuser" do
@@ -56,7 +57,8 @@ describe Admin::CachedPagesController, 'Permissions' do
 
       describe "with :manage_site permissions set to :admin" do
         before :each do
-          @site.stub!(:permissions).and_return :site => {:manage => :admin}
+          permissions = {:'manage cached_page' => :admin}
+          @site.stub!(:permissions).and_return permissions
         end
 
         it "grants access to an admin" do

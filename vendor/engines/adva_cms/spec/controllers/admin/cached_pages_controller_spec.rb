@@ -27,14 +27,14 @@ describe Admin::CachedPagesController do
     act! { request_to :get, @collection_path }
     it_assigns :cached_pages
     it_renders_template :index
-    it_guards_permissions :manage, :site
+    it_guards_permissions :manage, :cached_page
   end
 
   describe "DELETE to :destroy" do
     act! { request_to :delete, @member_path }
     it_assigns :cached_page
     it_renders :template, :destroy, :format => :js
-    it_guards_permissions :manage, :site
+    it_guards_permissions :manage, :cached_page
 
     it "fetches a cached_page from site.cached_pages" do
       @site.cached_pages.should_receive(:find).and_return @cached_page
@@ -50,7 +50,7 @@ describe Admin::CachedPagesController do
   describe "DELETE to :clear" do
     act! { request_to :delete, @collection_path }
     it_redirects_to { @collection_path }
-    it_guards_permissions :manage, :site
+    it_guards_permissions :manage, :cached_page
 
     before :each do
       controller.class.stub!(:expire_page)

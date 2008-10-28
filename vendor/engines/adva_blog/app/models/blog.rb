@@ -1,8 +1,4 @@
 class Blog < Section  
-  permissions :category => { :moderator => :all },
-              :article  => { :moderator => :all },
-              :comment  => { :anonymous => :show, :user => :create, :author => :update, :moderator => :destroy }
-
   def archive_months
     article_counts_by_month.transpose.first
   end

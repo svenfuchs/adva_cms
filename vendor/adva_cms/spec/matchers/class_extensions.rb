@@ -46,7 +46,7 @@ module Matchers
 
     class ActAsRoleContext < Base
       def does_match?
-        @target.acts_as_role_context? && @target.roles == Array(@options[:roles])
+        @target.acts_as_role_context? # TODO match options?
       end
     end
 

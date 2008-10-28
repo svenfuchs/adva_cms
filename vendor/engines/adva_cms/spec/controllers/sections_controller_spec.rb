@@ -45,7 +45,7 @@ describe SectionsController do
       describe "when the article is not published" do
         before :each do
           @article.stub!(:draft?).and_return true
-          @article.stub!(:role_authorizing).and_return Role.build(:author)
+          @article.stub!(:role_authorizing).and_return Rbac::Role.build(:author, :context => @article)
         end
 
         describe "and the user has :update permissions" do

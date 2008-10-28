@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
 
   has_many :sites, :through => :memberships
   has_many :memberships, :dependent => :delete_all
-  has_many :roles, :dependent => :delete_all do
+  has_many :roles, :dependent => :delete_all, :class_name => 'Rbac::Role::Base' do
     def by_context(object)
       roles = by_site object
       # TODO in theory we could skip the implicit roles here if roles were already found
@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
 
     def by_site(object)
       site = object.is_a?(Site) ? object : object.site
-      sql = "type = 'Role::Superuser' OR
+      sql = "type = 'Rbac::Role::Superuser' OR
              context_id = ? AND context_type = 'Site' OR
              context_id IN (?) AND context_type = 'Section'"
       find :all, :conditions => [sql, site.id, site.section_ids]
@@ -38,11 +38,11 @@ class User < ActiveRecord::Base
     end
 
     def superusers
-      find :all, :include => :roles, :conditions => ['roles.type = ?', 'Role::Superuser']
+      find :all, :include => :roles, :conditions => ['roles.type = ?', 'Rbac::Role::Superuser']
     end
 
     def admins_and_superusers
-      find :all, :include => :roles, :conditions => ['roles.type IN (?)', ['Role::Superuser', 'Role::Admin']]
+      find :all, :include => :roles, :conditions => ['roles.type IN (?)', ['Rbac::Role::Superuser', 'Rbac::Role::Admin']]
     end
 
     def create_superuser(params)
@@ -50,13 +50,13 @@ class User < ActiveRecord::Base
       user.verified_at = Time.zone.now
       user.send :assign_password
       user.save false
-      user.roles << Role::Superuser.create!
+      user.roles << Rbac::Role::Superuser.create!
       user
     end
 
     def by_context_and_role(context, role)
       return superusers if (role = role.to_s.classify) == 'Superuser'
-      find(:all, :include => :roles, :conditions => ["roles.context_type = ? AND roles.context_id = ? AND roles.type = ?", context.class.to_s, context.id, "Role::#{role}"])
+      find(:all, :include => :roles, :conditions => ["roles.context_type = ? AND roles.context_id = ? AND roles.type = ?", context.class.to_s, context.id, "Rbac::Role::#{role}"])
     end
   end
 
@@ -75,7 +75,7 @@ class User < ActiveRecord::Base
     self.roles.clear
     roles.values.each do |role|
       next unless role.delete('selected') == '1'
-      self.roles << Role.create!(role)
+      self.roles << Rbac::Role.create!(role)
     end
   end
 
@@ -110,14 +110,24 @@ class User < ActiveRecord::Base
     !new_record?
   end
 
-  def has_role?(role, object = nil)
-    role = Role.build role, object unless role.is_a? Role
-    role.applies_to?(self) || !!roles.detect {|r| r.includes? role }
+  # def has_role?(role, object = nil)
+  #   role = Rbac::Role.build role, :context => object unless role.is_a? Rbac::Role::Base
+  #   role.applies_to?(self) || !!roles.detect {|r| r.includes? role }
+  # end
+  # 
+  # def has_exact_role?(name, object = nil)
+  #   role = Rbac::Role.build(name, :context => object)
+  #   role.applies_to?(self) || !!roles.detect {|r| r == role }
+  # end
+
+  def has_role?(role, options = {})
+    role = Rbac::Role.build role, options unless role.is_a? Rbac::Role::Base
+    role.granted_to? self
   end
 
   def has_exact_role?(name, object = nil)
     role = Role.build(name, object)
-    role.applies_to?(self) || !!roles.detect {|r| r == role }
+    role.exactly_granted_to? self
   end
 
   def is_site_member?(site)

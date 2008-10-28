@@ -85,7 +85,7 @@ class Admin::UsersController < Admin::BaseController
       return unless params[:user] && params[:user][:roles]
 
       if params[:user][:roles].has_key?('superuser') && !current_user.has_role?(:superuser) ||
-         params[:user][:roles].has_key?('admin') && !current_user.has_role?(:admin, @site)
+         params[:user][:roles].has_key?('admin') && !current_user.has_role?(:admin, :context => @site)
         raise "unauthorized parameter" # TODO raise something more meaningful
       end
       # TODO as well check for membership site_id if !user.has_role?(:superuser)

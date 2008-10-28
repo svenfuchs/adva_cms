@@ -23,6 +23,12 @@ Stubby::Scenario.directory = File.dirname(__FILE__) + "/scenarios"
 
 Stubby.load
 
+Stubby::Stub.class_eval do
+  def role_context
+    self.class.role_context_class.new(self)
+  end
+end
+
 # load extensions
 require "cacheable_flash/test_helpers"
 require "rspec_on_rails_on_crack"

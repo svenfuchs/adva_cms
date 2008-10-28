@@ -15,9 +15,9 @@ steps_for :authentication do
     when :admin
       @site ||= Site.find(:first) || create_site
       @site.users << @user
-      @user.roles << Role.build(role.to_sym, @site)
+      @user.roles << Rbac::Role.build(role.to_sym, :context => @site)
     else
-      @user.roles << Role.build(role.to_sym)
+      @user.roles << Rbac::Role.build(role.to_sym)
     end
     @user.verify!
 

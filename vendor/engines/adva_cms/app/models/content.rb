@@ -21,7 +21,7 @@ class Content < ActiveRecord::Base
   end
     
   acts_as_taggable
-  acts_as_role_context :roles => :author
+  acts_as_role_context :parent => Section
   has_many_comments :polymorphic => true
   non_versioned_columns << 'cached_tag_list' << 'assets_count' << 'state'
   instantiates_with_sti

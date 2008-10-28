@@ -33,7 +33,7 @@ module Rbac
         end
         
         def self_and_parents
-          [self] + all_parents
+          @self_and_parents ||= [self] + all_parents
         end
         
         def all_parents
@@ -74,22 +74,22 @@ module Rbac
           Rbac::Context.root
         end
       end
-        
+
       def role_authorizing(action)
-        if permissions[action]
-          begin
-            Rbac::Role.build permissions[action], :context => self
-          rescue
-            raise "could not find role for #{action} (on: #{self.inspect})"
-          end
-        else
-          parent.try(:role_authorizing, action)
-        end
+        Rbac::Role.build role_authorizing_name(action), :context => self
       end
       
-      def permissions
-        subject.try(:permissions) || {}
-      end
+      protected
+      
+        def role_authorizing_name(action)
+          permissions[action.to_sym] || 
+          parent.try(:role_authorizing_name, action) || 
+          raise("could not find role for #{action} (on: #{self.inspect})")
+        end
+      
+        def permissions
+          subject.try(:permissions) || {}
+        end
     end
   end
 end

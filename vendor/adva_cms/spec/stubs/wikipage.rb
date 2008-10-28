@@ -17,6 +17,8 @@ define Wikipage do
            :body_html => 'body html',
            :tag_list => 'foo bar',
            :author= => nil, # TODO add this to Stubby
+           :author_id => 1,
+           :author_type => 'User',
            :author_name => 'author_name',
            :author_email => 'author_email',
            :author_homepage => 'author_homepage',

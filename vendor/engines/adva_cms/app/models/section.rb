@@ -6,9 +6,10 @@ class Section < ActiveRecord::Base
   @@types = ['Section']
   cattr_reader :types
 
-  acts_as_role_context :roles => :moderator
-  permissions :article  => { :moderator => :all },
-              :category => { :moderator => :all }
+  acts_as_role_context :actions => ["create article", "update article", "delete article"],
+                       :parent => Site
+                       
+  
   serialize :permissions
 
   has_option :articles_per_page, :default => 15

@@ -5,7 +5,7 @@ module ActionController
       @required_role = role
       @action = action
       @type = type
-      super Role.build(role).message(action, type)
+      super role.message
     end
   end
 
@@ -56,15 +56,16 @@ module ActionController
         # return if action.to_sym == :show
 
         unless has_permission?(action, type)
-          role =  current_role_context.role_authorizing(action, type)
+          role =  current_role_context.role_authorizing("#{action} #{type}")
           raise RoleRequired.new role, action, type
         end
       end
 
       def has_permission?(action, type)
+        action = :"#{action} #{type}"
         user = current_user || Anonymous.new
-        role = current_role_context.role_authorizing action, type
-        user.has_role? role, current_role_context
+        role = current_role_context.role_authorizing action
+        user.has_role? role, :context => current_role_context
       end
 
       def map_from_controller_action

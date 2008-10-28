@@ -1,17 +1,15 @@
 module RolesHelper
   def role_to_default_css_class(role)
-    if role
-      role.context_type ? [role.context_type, role.context_id, role.name.to_s].join('-').downcase : role.name.to_s
-    end
+    return unless role
+    role.has_context? ? [role.context_type, role.context_id, role.name.to_s].join('-').downcase : role.name.to_s
   end
 
   def role_to_css_class(role)
-    if role
-      if role.instance_of? Role::Author
-        [role.context.author_type.underscore, role.context.author_id].join('-') + ' ' + role_to_default_css_class(role)
-      else
-        role_to_default_css_class(role)
-      end
+    return unless role
+    if role.instance_of? Rbac::Role::Author
+      [role.context.author_type.underscore, role.context.author_id].join('-') + ' ' + role_to_default_css_class(role)
+    else
+      role_to_default_css_class(role)
     end
   end
 
@@ -54,8 +52,8 @@ module RolesHelper
   # can be matched with the current user's roles in order to toggle the visibility
   # of an element
   def add_authorizing_css_classes!(options, action, object)
-    roles = object.role_authorizing(action).expand
-
+    action = :"#{action} #{object.class.name.downcase}"
+    roles = object.role_authorizing(action).expand(object)
     options[:class] ||= ''
     options[:class] = options[:class].split(/ /)
     options[:class] << 'visible-for' << roles.map { |role| role_to_css_class(role) }.join(' ')
