@@ -1,8 +1,8 @@
 class CreateUsersTable < ActiveRecord::Migration
   def self.up
     create_table :users do |t|
-      t.string     :first_name,       :limit => 40, :default => ''
-      t.string     :last_name,        :limit => 40, :default => ''
+      t.string     :first_name,       :limit => 40
+      t.string     :last_name,        :limit => 40
       t.string     :email,            :limit => 100
       t.string     :homepage
       t.string     :about
@@ -20,8 +20,8 @@ class CreateUsersTable < ActiveRecord::Migration
       t.string     :token_key,        :limit => 40
       t.datetime   :token_expiration
 
-      t.boolean    :anonymous,        :default => false    
-      
+      t.boolean    :anonymous,        :default => false
+
       t.timestamps
       t.datetime   :verified_at
       t.datetime   :deleted_at

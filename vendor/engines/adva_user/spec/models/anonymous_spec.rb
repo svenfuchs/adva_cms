@@ -29,12 +29,12 @@ describe User do
     describe 'validates the format of the email' do
       it 'succeeds with a valid email address' do
         @anonymous.email = 'valid@email.org'
-        @anonymous.valid?.should be_true        
+        @anonymous.should be_valid
       end
 
       it 'fails with an invalid email address' do
         @anonymous.email = 'invalid-email.org'
-        @anonymous.valid?.should be_false
+        @anonymous.should_not be_valid
       end
     end
   end

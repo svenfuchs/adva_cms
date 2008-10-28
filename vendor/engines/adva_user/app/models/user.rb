@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
   acts_as_authenticated_user
 
   before_create :populate_login
-  
+
 # TODO how do we work this in?
 #  acts_as_authenticated_user :token_with => 'Authentication::SingleToken',
 #                             :authenticate_with => nil
@@ -36,7 +36,7 @@ class User < ActiveRecord::Base
 
   validates_presence_of     :password,                         :if => :password_required?
   validates_length_of       :password, :within => 4..40,       :if => :password_required?
-  
+
   class << self
     def authenticate(credentials)
       return false unless user = User.find_by_login(credentials[:login])
@@ -64,11 +64,11 @@ class User < ActiveRecord::Base
       return superusers if (role = role.to_s.classify) == 'Superuser'
       find(:all, :include => :roles, :conditions => ["roles.context_type = ? AND roles.context_id = ? AND roles.type = ?", context.class.to_s, context.id, "Rbac::Role::#{role}"])
     end
-    
+
     def anonymous(attributes = {})
       attributes[:anonymous] = true
       new attributes
-    end  
+    end
   end
 
   # Using callbacks for such lowlevel things is just awkward. So let's hook in here.
@@ -121,7 +121,7 @@ class User < ActiveRecord::Base
   #   role = Rbac::Role.build role, :context => object unless role.is_a? Rbac::Role::Base
   #   role.applies_to?(self) || !!roles.detect {|r| r.includes? role }
   # end
-  # 
+  #
   # def has_exact_role?(name, object = nil)
   #   role = Rbac::Role.build(name, :context => object)
   #   role.applies_to?(self) || !!roles.detect {|r| r == role }
@@ -144,11 +144,11 @@ class User < ActiveRecord::Base
   def name=(name)
     self.first_name = name
   end
-  
+
   def name
     last_name ? "#{first_name} #{last_name}" : first_name
   end
-  
+
   def to_s
     name
   end
