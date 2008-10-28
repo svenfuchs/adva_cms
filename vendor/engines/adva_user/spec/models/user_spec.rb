@@ -74,9 +74,14 @@ describe User do
     end
 
     it "validates the length of the last name" do
-      @user.should validate_length_of(:last_name, :within => 1..40)
+      @user.should validate_length_of(:last_name, :within => 0..40)
     end
 
+    it "creates a user with blank last name" do
+      @user.last_name = ''
+      @user.save.should be_true
+    end
+    
     it "validates the length of the first name" do
       @user.should validate_length_of(:first_name, :within => 1..40)
     end
