@@ -33,8 +33,8 @@ class User < ActiveRecord::Base
     role.granted_to? self
   end
 
-  def has_exact_role?(name, object = nil)
-    role = Role.build(name, object)
-    role.exactly_granted_to? self
-  end
+  # def has_exact_role?(name, object = nil)
+  #   role = Role.build(name, object)
+  #   role.exactly_granted_to? self
+  # end
 end

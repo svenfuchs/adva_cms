@@ -2,7 +2,7 @@ define User do
   has_many :roles
 
   methods  :has_role? => false,
-           :has_exact_role? => false,
+           # :has_exact_role? => false,
            :anonymous? => false,
            :registered? => true,
            :is_site_member? => true,

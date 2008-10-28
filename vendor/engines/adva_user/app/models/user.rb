@@ -117,25 +117,15 @@ class User < ActiveRecord::Base
     !new_record? && !anonymous?
   end
 
-  # def has_role?(role, object = nil)
-  #   role = Rbac::Role.build role, :context => object unless role.is_a? Rbac::Role::Base
-  #   role.applies_to?(self) || !!roles.detect {|r| r.includes? role }
-  # end
-  #
-  # def has_exact_role?(name, object = nil)
-  #   role = Rbac::Role.build(name, :context => object)
-  #   role.applies_to?(self) || !!roles.detect {|r| r == role }
-  # end
-
   def has_role?(role, options = {})
     role = Rbac::Role.build role, options unless role.is_a? Rbac::Role::Base
-    role.granted_to? self
+    role.granted_to? self, options
   end
 
-  def has_exact_role?(name, object = nil)
-    role = Role.build(name, object)
-    role.exactly_granted_to? self
-  end
+  # def has_exact_role?(name, options = {})
+  #   role = Rbac::Role.build role, options unless role.is_a? Rbac::Role::Base
+  #   role.granted_to? self, :inherit => false
+  # end
 
   def is_site_member?(site)
     self.sites.include? site
