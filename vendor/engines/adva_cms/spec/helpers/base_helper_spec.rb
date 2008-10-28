@@ -74,7 +74,7 @@ describe BaseHelper do
     end
 
     it "returns the passed singluar's pluralization if count equals 1 and no plural has been passed" do
-      Inflector.should_receive(:pluralize).and_return 'cherries'
+      ActiveSupport::Inflector.should_receive(:pluralize).and_return 'cherries'
       helper.pluralize_str(2, @singular).should == 'cherries'
     end
 

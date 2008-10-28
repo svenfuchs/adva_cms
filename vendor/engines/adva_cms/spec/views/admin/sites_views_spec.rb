@@ -49,9 +49,15 @@ describe "Admin::Sites Views:" do
 
   describe "the :show view" do
     before :each do
+      template.stub_render hash_including(:partial => 'sections')
       template.stub_render hash_including(:partial => 'admin/activities/activities')
       template.stub_render hash_including(:partial => 'user_activity')
       template.stub_render hash_including(:partial => 'unapproved_comments')
+    end
+
+    it "renders sections partial" do
+      template.expect_render hash_including(:partial => 'sections')
+      render "admin/sites/show"
     end
 
     it "renders activities list partial" do

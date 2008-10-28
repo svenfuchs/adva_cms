@@ -9,7 +9,7 @@
 #   inflect.uncountable %w( fish sheep )
 # end
 
-Inflector.inflections_without_route_reloading do |inflect|
+ActiveSupport::Inflector.inflections_without_route_reloading do |inflect|
   inflect.singular 'Anonymous', 'Anonymous'
   inflect.singular 'anonymous', 'anonymous'
   inflect.irregular 'anonymous', 'anonymouses'

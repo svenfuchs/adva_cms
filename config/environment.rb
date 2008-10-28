@@ -33,7 +33,7 @@ Rails::Initializer.run do |config|
   config.gem 'RedCloth',  :lib => "redcloth"
   config.gem 'rubypants', :lib => 'ruby_pants'
   config.gem 'rubyzip',   :lib => 'zip/zip'
-  config.gem 'haml',      :lib => 'haml'  
+  config.gem 'haml',      :lib => 'haml'
   config.gem 'json'
   # config.gem 'rspec',     :lib => 'spec'
   # config.gem 'rspec-rails', :lib => 'spec'

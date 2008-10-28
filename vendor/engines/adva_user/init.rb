@@ -8,5 +8,5 @@ ActiveRecord::Base.send :include, ActiveRecord::BelongsToAuthor
 ActionView::Base.send :include, Login::HelperIntegration
 
 # remove plugin from load_once_paths 
-Dependencies.load_once_paths -= Dependencies.load_once_paths.select{|path| path =~ %r(^#{File.dirname(__FILE__)}) }
+ActiveSupport::Dependencies.load_once_paths -= ActiveSupport::Dependencies.load_once_paths.select{|path| path =~ %r(^#{File.dirname(__FILE__)}) }
 

@@ -24,7 +24,7 @@
   </p>
   <p>
     <%= f.label :timezone, 'Website Timezone' %>
-    <%= f.time_zone_select :timezone, [ TimeZone['UTC'] ], :selected => site.timezone %>
+    <%= f.time_zone_select :timezone, [ ActiveSupport::TimeZone['UTC'] ], :selected => site.timezone %>
   </p>
 </fieldset>
   

@@ -47,8 +47,8 @@ module BaseHelper
       singular
     elsif plural
       plural
-    elsif Object.const_defined?("Inflector")
-      Inflector.pluralize(singular)
+    elsif ActiveSupport.const_defined?("Inflector")
+      ActiveSupport::Inflector.pluralize(singular)
     else
       singular + "s"
     end
