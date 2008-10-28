@@ -166,7 +166,7 @@ describe WikiController do
 
   describe "POST to :create" do
     before :each do
-      @wikipage.stub!(:new_record?).and_return true
+      @wikipage.stub!(:state_changes).and_return([:created])
     end
     
     act! { request_to :post, wiki_pages_path, :wikipage => {} }
@@ -197,6 +197,7 @@ describe WikiController do
   describe "PUT to :update" do
     before :each do
       controller.stub!(:optimistic_lock)
+      @wikipage.stub!(:state_changes).and_return([:updated])
     end
 
     act! { request_to :put, wikipage_path, :wikipage => {} }
@@ -226,7 +227,7 @@ describe WikiController do
 
   describe "DELETE to :destroy" do
     before :each do
-      @wikipage.stub!(:frozen?).and_return true
+      @wikipage.stub!(:state_changes).and_return([:deleted])
     end
     
     act! { request_to :delete, wikipage_path }

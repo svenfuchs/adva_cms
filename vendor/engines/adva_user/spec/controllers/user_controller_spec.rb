@@ -26,7 +26,7 @@ describe UserController do
 
   describe "POST to :create" do
     before :each do
-      @user.stub!(:new_record?).and_return true
+      @user.stub!(:state_changes).and_return([:registered])
       @user.stub!(:save).and_return true
       @site.stub!(:save).and_return true
       UserMailer.stub!(:deliver_signup_verification)
@@ -43,7 +43,7 @@ describe UserController do
         @site.users.should_receive(:build).with(@params[:user]).and_return(@user)
         act!
       end
-
+      
       it "sends a validation email to the user" do
         UserMailer.should_receive(:deliver_signup_verification)
         act!
@@ -54,7 +54,7 @@ describe UserController do
       before :each do
         @site.stub!(:save).and_return false
       end
-
+    
       it_does_not_trigger_any_event
       it_renders_template :new
       it_assigns_flash_cookie :error => :not_nil
@@ -64,6 +64,7 @@ describe UserController do
   describe "GET to :verify" do
     before :each do
       @user = User.new :name => 'name'
+      @user.stub!(:state_changes).and_return([:verified])
       controller.stub!(:current_user).and_return @user
     end
       
@@ -92,7 +93,7 @@ describe UserController do
     before :each do
       @user = User.new :name => 'name'
       @user.stub!(:destroy)
-      @user.stub!(:frozen?).and_return true
+      @user.stub!(:state_changes).and_return([:deleted])
       controller.stub!(:current_user).and_return @user
     end
     

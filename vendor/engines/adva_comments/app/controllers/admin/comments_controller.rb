@@ -32,7 +32,7 @@ class Admin::CommentsController < Admin::BaseController
 
   def update
     if @comment.update_attributes params[:comment]
-      trigger_event @comment
+      trigger_events @comment
       flash[:notice] = "The comment has been updated."
       redirect_to params[:return_to]
     else
@@ -43,7 +43,7 @@ class Admin::CommentsController < Admin::BaseController
 
   def destroy
     @comment.destroy
-    trigger_event @comment
+    trigger_events @comment
     flash[:notice] = "The comment has been deleted."
     redirect_to params[:return_to] || admin_site_comments_path
   end

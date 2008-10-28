@@ -23,7 +23,7 @@ class TopicsController < BaseController
 
   def create
     if @topic = @section.topics.post(current_user, params[:topic])
-      trigger_event @topic
+      trigger_events @topic
       flash[:notice] = 'The topic has been created.'
       redirect_to topic_path(@section, @topic.permalink)
     else
@@ -38,7 +38,7 @@ class TopicsController < BaseController
   def update
     @topic.revise current_user, params[:topic]
     if @topic.save
-      trigger_event @topic
+      trigger_events @topic
       flash[:notice] = 'The topic has been updated.'
       redirect_to topic_path(@section, @topic.permalink)
     else
@@ -49,7 +49,7 @@ class TopicsController < BaseController
 
   def destroy
     if @topic.destroy
-      trigger_event @topic
+      trigger_events @topic
       flash[:notice] = 'The topic has been deleted.'
       redirect_to forum_path(@section)
     else

@@ -35,7 +35,7 @@ class CommentsController < BaseController
     params[:comment].delete(:approved) # TODO use attr_protected api?
     @comment = @commentable.comments.build(params[:comment])
     if @comment.save
-      trigger_event @comment
+      trigger_events @comment
       @comment.check_approval :permalink => content_url(@comment.commentable), :authenticated => authenticated?
       flash[:notice] = "Thank you for your comment!"
       redirect_to comment_path(@comment)
@@ -48,7 +48,7 @@ class CommentsController < BaseController
   def update
     params[:comment].delete(:approved) # TODO use attr_protected api?
     if @comment.update_attributes(params[:comment])
-      trigger_event @comment
+      trigger_events @comment
       flash[:notice] = "Thank you for your comment!"
       redirect_to comment_path(@comment)
     else
@@ -60,7 +60,7 @@ class CommentsController < BaseController
 
   def destroy
     @comment.destroy
-    trigger_event @comment
+    trigger_events @comment
     flash[:notice] = "The comment has been deleted."
     redirect_to "/"
   end

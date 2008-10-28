@@ -52,7 +52,7 @@ describe TopicsController do
   
   describe "POST to :create" do
     before :each do
-      @topic.stub!(:new_record?).and_return true
+      @topic.stub!(:state_changes).and_return([:created])
     end
     
     act! { request_to :post, topics_path, :topic => {} }    
@@ -88,6 +88,9 @@ describe TopicsController do
   end
   
   describe "PUT to :update" do
+    before :each do
+      @topic.stub!(:state_changes).and_return([:updated])
+    end
     act! { request_to :put, topic_path, :topic => {} }    
     it_assigns :topic    
     it_guards_permissions :update, :topic
@@ -115,7 +118,7 @@ describe TopicsController do
   
   describe "DELETE to :destroy" do
     before :each do
-      @topic.stub!(:frozen?).and_return true
+      @topic.stub!(:state_changes).and_return([:deleted])
     end
     
     act! { request_to :delete, topic_path }    
@@ -142,6 +145,9 @@ describe TopicsController do
   end
   
   describe "guarding permissions" do
+    before :each do
+      @topic.stub!(:state_changes).and_return([:created])
+    end
     act! { request_to :post, topics_path, :topic => { 'title' => 'title', 'body' => 'body', 'locked' => 1, 'sticky' => 1 } }
     
     it "should reject sticky and locked parameter values when user does not have permission to moderate a topic" do

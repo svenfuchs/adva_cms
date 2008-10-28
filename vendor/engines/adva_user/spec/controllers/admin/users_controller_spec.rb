@@ -73,6 +73,10 @@ describe Admin::UsersController do
       end
 
       describe "POST to :create" do
+        before :each do
+          @user.stub!(:state_changes).and_return [:created]
+        end
+        
         act! { request_to :post, @collection_path }
         it_assigns :user
         it_guards_permissions :create, :user
@@ -92,12 +96,14 @@ describe Admin::UsersController do
         describe "given valid user params" do
           it_redirects_to { @member_path }
           it_assigns_flash_cookie :notice => :not_nil
+          it_triggers_event :user_created
         end
 
         describe "given invalid user params" do
           before :each do @user.stub!(:update_attributes).and_return false end
           it_renders_template :new
           it_assigns_flash_cookie :error => :not_nil
+          it_does_not_trigger_any_event
         end
       end
 
@@ -114,6 +120,10 @@ describe Admin::UsersController do
       end
 
       describe "PUT to :update" do
+        before :each do
+          @user.stub!(:state_changes).and_return [:updated]
+        end
+        
         act! { request_to :put, @member_path }
         it_assigns :user
         it_guards_permissions :update, :user
@@ -138,16 +148,22 @@ describe Admin::UsersController do
             @user.stub!(:is_site_member?).and_return false
           end
           it_redirects_to { @collection_path }
+          it_triggers_event :user_updated
         end
 
         describe "given invalid user params" do
           before :each do @user.stub!(:update_attributes).and_return false end
           it_renders_template :edit
           it_assigns_flash_cookie :error => :not_nil
+          it_does_not_trigger_any_event
         end
       end
 
       describe "DELETE to :destroy" do
+        before :each do
+          @user.stub!(:state_changes).and_return [:deleted]
+        end
+        
         act! { request_to :delete, @member_path }
         it_assigns :user
         it_guards_permissions :destroy, :user
@@ -165,12 +181,14 @@ describe Admin::UsersController do
         describe "when destroy succeeds" do
           it_redirects_to { @collection_path }
           it_assigns_flash_cookie :notice => :not_nil
+          it_triggers_event :user_deleted
         end
 
         describe "when destroy fails" do
           before :each do @user.stub!(:destroy).and_return false end
           it_renders_template :edit
           it_assigns_flash_cookie :error => :not_nil
+          it_does_not_trigger_any_event
         end
       end
     end

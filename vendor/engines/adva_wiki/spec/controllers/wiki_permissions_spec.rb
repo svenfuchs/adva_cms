@@ -8,6 +8,8 @@ describe WikiController, 'Permissions' do
     @site = stub_model Site, :host => 'test.host'
     @wiki = stub_model Wiki, :id => 1, :site => @site, :path => 'wiki'
     @wikipage = stub_model Wikipage, :section => @wiki
+    
+    @wiki.wikipages.stub!(:create).and_return @wikipage
     @wiki.wikipages.stub!(:find).and_return @wikipage
     @wiki.wikipages.stub!(:find_or_initialize_by_permalink).and_return @wikipage
 
@@ -17,6 +19,7 @@ describe WikiController, 'Permissions' do
     @site.sections.stub!(:paths).and_return ['wiki']
     @site.sections.stub!(:root).and_return @wiki
 
+    controller.stub!(:trigger_events)
     controller.stub!(:current_user).and_return @user
     controller.stub!(:wikipage_path).and_return('http://test.host/pages/a-wikipage')
     @admin_role.context = @site

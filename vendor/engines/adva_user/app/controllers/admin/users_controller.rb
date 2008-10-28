@@ -22,7 +22,8 @@ class Admin::UsersController < Admin::BaseController
   def create
     @user = @site ? @site.users.build : User.new
     if @user.update_attributes(params[:user])
-      @user.verify!
+      @user.verify! # TODO hu??
+      trigger_events @user
       flash[:notice] = "The user account has been created."
       redirect_to member_path(@user)
     else
@@ -35,20 +36,8 @@ class Admin::UsersController < Admin::BaseController
   end
 
   def update
-    @user.attributes = params[:user]
-    trigger_event_if_valid @user
-    if @user.save
-      flash[:notice] = "The user account has been updated."
-      redirect_to @user.is_site_member?(@site) ? member_path(@user) : collection_path
-    else
-      flash.now[:error] = "The user account could not be updated."
-      render :action => :edit
-    end
-  end
-
-  def update
     if @user.update_attributes params[:user]
-      trigger_event_if_valid @user
+      trigger_events @user
       flash[:notice] = "The user account has been updated."
       redirect_to @user.is_site_member?(@site) ? member_path(@user) : collection_path
     else
@@ -59,6 +48,7 @@ class Admin::UsersController < Admin::BaseController
 
   def destroy
     if @user.destroy
+      trigger_events @user
       flash[:notice] = "The user account has been deleted."
       redirect_to collection_path
     else

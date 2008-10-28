@@ -161,6 +161,9 @@ describe Admin::CommentsController do
   end
 
   describe "PUT to :update" do
+    before :each do
+      @comment.stub!(:state_changes).and_return([:updated])
+    end
     act! { request_to :put, @member_path, :return_to => '/redirect/here' }
     it_assigns :comment
     it_guards_permissions :update, :comment
@@ -193,7 +196,7 @@ describe Admin::CommentsController do
 
   describe "DELETE to :destroy" do
     before :each do
-      @comment.stub!(:frozen?).and_return true
+      @comment.stub!(:state_changes).and_return([:deleted])
     end
     act! { request_to :delete, @member_path, :return_to => '/redirect/here' }
     it_assigns :comment

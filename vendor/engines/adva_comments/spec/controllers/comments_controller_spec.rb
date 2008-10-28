@@ -43,7 +43,7 @@ describe CommentsController do
 
   describe "POST to :create" do
     before :each do
-      @comment.stub!(:new_record?).and_return true
+      @comment.stub!(:state_changes).and_return([:created])
     end
     
     act! { request_to :post, @collection_path, @params }
@@ -84,6 +84,9 @@ describe CommentsController do
   end
 
   describe "PUT to :update" do
+    before :each do
+      @comment.stub!(:state_changes).and_return([:updated])
+    end
     act! { request_to :put, @member_path, @params }
     it_guards_permissions :update, :comment
 
@@ -117,7 +120,7 @@ describe CommentsController do
   
   describe "DELETE to :destroy" do
     before :each do
-      @comment.stub!(:frozen?).and_return true
+      @comment.stub!(:state_changes).and_return([:deleted])
     end
     
     act! { request_to :delete, @member_path }

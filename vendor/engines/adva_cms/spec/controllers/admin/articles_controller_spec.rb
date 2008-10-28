@@ -102,8 +102,8 @@ describe Admin::ArticlesController do
  
   describe "POST to :create" do
     before :each do
-      @article.stub!(:new_record?).and_return true
       @section.articles.stub!(:create).and_return @article
+      @article.stub!(:state_changes).and_return([:created])
     end
     
     act! { request_to :post, @collection_path, @parameters }
@@ -144,6 +144,9 @@ describe Admin::ArticlesController do
   end
  
   describe "PUT to :update" do
+    before :each do
+      @article.stub!(:state_changes).and_return([:updated])
+    end
     act! { request_to :put, @member_path, @parameters }
     it_assigns :article
     it_guards_permissions :update, :article
@@ -188,7 +191,7 @@ describe Admin::ArticlesController do
   
   describe "DELETE to :destroy" do
     before :each do
-      @article.stub!(:frozen?).and_return true
+      @article.stub!(:state_changes).and_return([:deleted])
     end
     
     act! { request_to :delete, @member_path }
