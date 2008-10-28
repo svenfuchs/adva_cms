@@ -1,3 +1,4 @@
+=begin
 require File.dirname(__FILE__) + '/../spec_local_helper'
 
 describe Rbac::Role, ".granted_to?", :type => :rbac do
@@ -352,3 +353,4 @@ describe Rbac::Role, ".granted_to?", :type => :rbac do
     end
   end
 end
+=end
