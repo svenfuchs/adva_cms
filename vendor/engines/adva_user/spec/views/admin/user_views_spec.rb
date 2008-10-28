@@ -156,7 +156,9 @@ describe "Admin::User:" do
     end
 
     describe "with the current user being a superuser" do
-      before :each do @user.stub!(:has_role?).with(:superuser).and_return true end
+      before :each do 
+        @user.stub!(:has_role?).and_return true 
+      end
 
       it "renders a checkbox for adding the superuser role" do
         render "admin/users/_roles"
@@ -167,7 +169,7 @@ describe "Admin::User:" do
 
     describe "with the current user not being a superuser" do
       before :each do
-        @user.stub!(:has_role?).with(:superuser).and_return false
+        @user.stub!(:has_role?).and_return false
       end
 
       it "does not render a checkbox for adding the superuser role" do

@@ -19,10 +19,11 @@ module ActiveRecord
         parent_class = parent.try(:role_context_class) || Rbac::Context::Base
         
         options.update :parent => parent.name.underscore.to_sym if parent
-        
-        self.role_context_class = Class.new(parent_class)
-        Rbac::Context.const_set(self.name, self.role_context_class).class_eval do
-          self.options = options
+
+        self.role_context_class = if Rbac::Context.const_defined?(self.name)
+          "Rbac::Context::#{self.name}".constantize
+        else
+          create_context_class(parent_class, options)
         end
         
         # if options[:implicit_roles]
@@ -32,6 +33,15 @@ module ActiveRecord
 
       def acts_as_role_context?
         included_modules.include?(ActiveRecord::ActsAsRoleContext::InstanceMethods)
+      end
+      
+      def create_context_class(parent_class, options)
+        returning Class.new(parent_class) do |klass|
+          Rbac::Context.const_set(self.name, klass)
+          klass.class_eval do
+            self.options = options
+          end
+        end
       end
     end
 
