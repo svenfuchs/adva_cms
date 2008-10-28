@@ -1,16 +1,7 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'test_helper' ))
 
-def assert_page_cached
-  # TODO: implement this
-  # path = ActionController::Base.send(:page_cache_path, '/')
-  # get '/'
-  # cached_page = CachedPage.find(:first)
-  # assert Pathname.new(path).exist?
-  assert true
-end
-
 # Story: Viewing a blog index page
-#   As an anonymous visitor 
+#   As an anonymous visitor
 #   I want to access the blog index pages
 #   So I can see all the cool blog articles
 class BlogIndexTest < ActionController::IntegrationTest
@@ -72,8 +63,7 @@ class BlogIndexTest < ActionController::IntegrationTest
 
   def test_view_a_blog_with_an_article_that_does_not_have_an_excerpt
     site = Factory :site_with_blog
-    article = Factory :published_blog_article
-    article.excerpt = nil
+    article = Factory.build(:published_blog_article, :excerpt => nil)
     site.sections.first.articles = [article]
 
     # go to root page
@@ -96,16 +86,163 @@ class BlogIndexTest < ActionController::IntegrationTest
     assert_page_cached
   end
 
-  def test_view_an_empty_blog_category_page
+  # TODO: cleanup
+  def test_view_a_blog_that_has_an_article_with_one_approved_comment
+    site = Factory :site_with_blog
+    article = Factory :published_blog_article
+    comment = Factory.build(:approved_comment, :commentable_type => "Article", :commentable_id => article.id, :author => article.author)
+    comment.save!
+    site.sections.first.articles = [article]
+
+    # go to root page
+    get "/"
+
+    # check that the page shows "1 comment"
+    assert_select "div.meta a", "1 comment"
+
+    # check that the page is cached
+    assert_page_cached
+  end
+
+  # TODO: cleanup
+  def test_view_a_blog_that_has_an_article_with_one_unapproved_comment
+    site = Factory :site_with_blog
+    article = Factory :published_blog_article
+    comment = Factory.build(:unapproved_comment, :commentable_type => "Article", :commentable_id => article.id, :author => article.author)
+    comment.save!
+    site.sections.first.articles = [article]
+
+    # go to root page
+    get "/"
+
+    # check that the page shows "0 comments"
+    assert_select "div.meta a", "0 comments"
+
+    # check that the page is cached
+    assert_page_cached
+  end
+
+  def test_view_a_category_with_no_articles
     Factory :published_blog_article
 
-    # go to category index page
-    get "/categories/an-unrelated-category"
+    # go to category show page
+    get "/categories/private-rantings"
 
-    # TODO: shouldn't we check here that the categories page is displayed?
+    # TODO: shouldn't we check here that the category page is displayed?
 
     # check that the page doesn't show the article
     assert !(response.body === /adva-cms kicks ass!/)
+
+    # check that the page is cached
+    assert_page_cached
+  end
+
+  def test_view_a_category_with_one_article
+    site = Factory :site_with_blog
+    article = Factory.build(:published_blog_article, :categories => [Factory.build(:category, :section => site.sections.first)])
+    site.sections.first.articles = [article]
+
+    # go to category show page
+    get "/categories/general-information"
+
+    # TODO: shouldn't we check here that the category page is displayed?
+
+    # check that the page shows the article
+    assert_select "div.content h2", "adva-cms kicks ass!"
+
+    # check that the page is cached
+    assert_page_cached
+  end
+
+  def test_view_a_tag_with_no_articles
+    site = Factory :site_with_blog
+    article = Factory.build(:published_blog_article, :tags => [Factory(:unrelated_tag)])
+    site.sections.first.articles = [article]
+
+    # go to tag show page
+    get "/tags/java"
+
+    # TODO: shouldn't we check here that the tag page is displayed?
+
+    # check that the page doesn't show the article
+    assert !(response.body === /adva-cms kicks ass!/)
+
+    # check that the page is cached
+    assert_page_cached
+  end
+
+  def test_view_a_tag_with_one_article
+    site = Factory :site_with_blog
+    article = Factory.build(:published_blog_article, :tags => [Factory(:tag)])
+    site.sections.first.articles = [article]
+
+    # go to tag show page
+    get "/tags/rails"
+
+    # TODO: shouldn't we check here that the tag page is displayed?
+
+    # check that the page shows the article
+    assert_select "div.content h2", "adva-cms kicks ass!"
+
+    # check that the page is cached
+    assert_page_cached
+  end
+
+  def test_view_blog_year_archive_with_no_articles
+    site = Factory :site_with_blog
+    article = Factory :published_blog_article
+    site.sections.first.articles = [article]
+
+    # go to the year archive page
+    get "/2007"
+
+    # check that the page doesn't show the article
+    assert !(response.body === /adva-cms kicks ass!/)
+
+    # check that the page is cached
+    assert_page_cached
+  end
+
+  def test_view_blog_year_archive_with_one_article
+    site = Factory :site_with_blog
+    article = Factory :published_blog_article
+    site.sections.first.articles = [article]
+
+    # go to the year archive page
+    get "/2008"
+
+    # check that the page shows the article
+    assert_select "div.content h2", "adva-cms kicks ass!"
+
+    # check that the page is cached
+    assert_page_cached
+  end
+
+  def test_view_blog_month_archive_with_no_articles
+    site = Factory :site_with_blog
+    article = Factory :published_blog_article
+    site.sections.first.articles = [article]
+
+    # go to the month archive page
+    get "/2008/9"
+
+    # check that the page doesn't show the article
+    assert !(response.body === /adva-cms kicks ass!/)
+
+    # check that the page is cached
+    assert_page_cached
+  end
+
+  def test_view_blog_momth_archive_with_one_article
+    site = Factory :site_with_blog
+    article = Factory :published_blog_article
+    site.sections.first.articles = [article]
+
+    # go to the month archive page
+    get "/2008/10"
+
+    # check that the page shows the article
+    assert_select "div.content h2", "adva-cms kicks ass!"
 
     # check that the page is cached
     assert_page_cached
