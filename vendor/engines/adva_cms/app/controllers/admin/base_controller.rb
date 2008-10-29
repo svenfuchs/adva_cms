@@ -35,18 +35,6 @@ class Admin::BaseController < ApplicationController
     send :"new_admin_#{section.class.content_type}_path", section.site, section
   end
 
-  # # TODO delegate this to the section class? or the controller, even?
-  # # like Admin::WikipagesController.default_route_helper
-  # def admin_section_path_for(section)
-  #   case section
-  #     when Wiki     then admin_wikipages_path section.site, section
-  #     when Blog     then admin_articles_path section.site, section
-  #     when Forum    then admin_section_path section.site, section
-  #     when Section  then admin_articles_path section.site, section
-  #     # else                 admin_articles_path section.site, section
-  #   end
-  # end
-
   protected
 
     def require_authentication

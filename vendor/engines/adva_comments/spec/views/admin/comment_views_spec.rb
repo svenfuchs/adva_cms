@@ -10,7 +10,6 @@ describe "Admin::Comments:" do
     set_resource_paths :comment, '/admin/sites/1/'
     @admin_comment_returning_path = "#{@member_path}?return_to=here"
 
-    template.stub!(:admin_section_path_for).and_return '/admin/sites/1/sections/1'
     template.stub!(:admin_comment_path).and_return @member_path
     template.stub!(:admin_comments_path).and_return @collection_path
     template.stub!(:admin_comment_returning_path).and_return @admin_comment_returning_path
