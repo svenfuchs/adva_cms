@@ -4,41 +4,41 @@ module Rbac
       def define(name, options = {})
         parent = const_get options[:parent].to_s.camelize if options[:parent]
         require_context = options[:require_context]
-        
+
         if require_context.respond_to?(:role_context_class)
-          require_context = require_context.role_context_class 
+          require_context = require_context.role_context_class
         elsif ![NilClass, FalseClass, TrueClass].include?(require_context.class)
           raise "class #{require_context.inspect} does not act_as_role_context"
         end
-        
+
         parent ||= Rbac::Role::Base
         klass = Class.new(parent)
-        
+
         const_set(name.to_s.camelize, klass).class_eval do
           self.require_context = require_context
           self.granter         = options[:grant]
           self.message         = options[:message]
         end
       end
-      
+
       def build(name, options = {})
         const_get(name.to_s.camelize).new options
       end
     end
-    
+
     class Base < ActiveRecord::Base
       self.store_full_sti_class = true
       # instantiates_with_sti
       set_table_name 'roles'
-      
+
       belongs_to :context, :polymorphic => true
 
       class_inheritable_accessor :granter, :require_context, :message
       self.require_context = false
-      
+
       class << self
         attr_writer :children
-        
+
         def inherited(klass)
           self.children << klass
         end
@@ -46,11 +46,11 @@ module Rbac
         def with_children
           [self] + all_children
         end
-        
+
         def children
           @children ||= []
         end
-    
+
         def all_children
           children + children.map(&:all_children).flatten
         end
@@ -59,7 +59,7 @@ module Rbac
           @role_name ||= name.demodulize.downcase.to_sym
         end
       end
-      
+
       def initialize(attrs = {})
         super()
         if self.class.require_context
@@ -73,7 +73,7 @@ module Rbac
       def name
         self.class.role_name
       end
-      
+
       def include?(role)
         is_a?(role.class) && (!has_context? or !role.has_context? or context.role_context.include?(role.context.role_context))
       end
@@ -81,7 +81,7 @@ module Rbac
       def ==(role)
         instance_of?(role.class) && (!has_context? or !role.has_context? or context == role.context)
       end
-      
+
       def has_context?
         !!context
       end
@@ -91,7 +91,7 @@ module Rbac
           klass.new :context => context
         end.compact
       end
-      
+
       def granted_to?(user, options = {})
         !!case granter
         when true, false
@@ -102,8 +102,8 @@ module Rbac
           granter.call context, user
         end || explicitely_granted_to?(user, options)
       end
-      
-      protected 
+
+      protected
         def adjust_context(context)
           context = context.role_context unless context.is_a? Rbac::Context::Base
           bubble = context.class.self_and_parents.include?(require_context)
@@ -111,7 +111,7 @@ module Rbac
             return context.subject if !bubble or require_context == context.class
           end while context = context.parent
         end
-      
+
         def explicitely_granted_to?(user, options = {})
           return false unless user.respond_to? :roles
           options[:inherit] = true unless options.has_key?(:inherit)
