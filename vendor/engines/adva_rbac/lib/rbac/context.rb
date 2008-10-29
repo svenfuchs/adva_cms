@@ -6,20 +6,25 @@ module Rbac
       def root
         @root ||= Base.new(self)
       end
+      
+      def create_class(name, parent, options)
+        returning Class.new(Rbac::Context::Base) do |klass|
+          Rbac::Context.const_set(name, klass)
+          klass.class_eval do
+            self.options = options
+            self.parent = parent.try(:role_context_class) || Rbac::Context::Base
+            self.parent.children << self
+            self.parent_accessor = parent.name.underscore.to_sym if parent # TODO make this more flexible
+          end
+        end
+      end
     end
     
     class Base
-      class_inheritable_accessor :options
-      self.options = {}
-      
-      class_inheritable_accessor :children
-      self.children = []
+      class_inheritable_accessor :parent, :parent_accessor, :options, :children
+      self.options, self.children = {}, []
       
       class << self
-        def inherited(child_class)
-          self.children << child_class
-        end
-        
         def all_actions
           actions + all_children.map(&:actions).flatten
         end
@@ -37,11 +42,7 @@ module Rbac
         end
         
         def all_parents
-          [superclass] + (superclass != Base ? Array(superclass.try(:all_parents)) : [])
-        end
-    
-        def parent
-          superclass
+          [parent] + (parent != Base ? Array(parent.try(:all_parents)) : [])
         end
     
         def all_children
@@ -68,8 +69,8 @@ module Rbac
       end
     
       def parent
-        if options[:parent]
-          subject.send(options[:parent]).role_context
+        if parent_accessor
+          subject.send(parent_accessor).role_context
         elsif self != Rbac::Context.root
           Rbac::Context.root
         end

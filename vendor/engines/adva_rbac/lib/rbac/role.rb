@@ -12,12 +12,12 @@ module Rbac
         end
 
         parent ||= Rbac::Role::Base
-        klass = Class.new(parent)
-
-        const_set(name.to_s.camelize, klass).class_eval do
+        const_set(name.to_s.camelize, Class.new(Rbac::Role::Base)).class_eval do
+          self.parent = parent
+          self.parent.children << self
           self.require_context = require_context
-          self.granter         = options[:grant]
-          self.message         = options[:message]
+          self.grant = options[:grant]
+          self.message = options[:message]
         end
       end
 
@@ -33,14 +33,18 @@ module Rbac
 
       belongs_to :context, :polymorphic => true
 
-      class_inheritable_accessor :granter, :require_context, :message
+      class_inheritable_accessor :parent, :require_context, :grant, :message
       self.require_context = false
 
       class << self
         attr_writer :children
 
-        def inherited(klass)
-          self.children << klass
+        def self_and_parents
+          @self_and_parents ||= [self] + all_parents
+        end
+      
+        def all_parents
+          [parent] + (parent != Base ? Array(parent.try(:all_parents)) : [])
         end
 
         def with_children
@@ -73,9 +77,13 @@ module Rbac
       def name
         self.class.role_name
       end
+      
+      def child_of?(klass)
+        self.class.self_and_parents.include?(klass)
+      end
 
       def include?(role)
-        is_a?(role.class) && (!has_context? or !role.has_context? or context.role_context.include?(role.context.role_context))
+        child_of?(role.class) && (!has_context? or !role.has_context? or context.role_context.include?(role.context.role_context))
       end
 
       def ==(role)
@@ -93,13 +101,13 @@ module Rbac
       end
 
       def granted_to?(user, options = {})
-        !!case granter
+        !!case grant
         when true, false
-          granter
+          grant
         when Symbol
-          user.send granter
+          user.send grant
         when Proc
-          granter.call context, user
+          grant.call context, user
         end || explicitely_granted_to?(user, options)
       end
 

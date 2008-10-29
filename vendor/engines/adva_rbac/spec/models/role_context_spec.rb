@@ -5,12 +5,12 @@ describe Rbac::Context, 'dynamic class creation' do
     lambda{ Rbac::Context::Section }.should_not raise_error
   end
 
-  it "inherits the created RoleContext class from the parent's RoleContext class if a parent is given" do
-    Rbac::Context::Section.superclass.should == Rbac::Context::Site
+  it "sets the created RoleContext class parent to the given parent" do
+    Rbac::Context::Section.parent.should == Rbac::Context::Site
   end
 
-  it "inherits the created RoleContext class from the RoleContext::Base class if no parent is given" do
-    Rbac::Context::Site.superclass.should == Rbac::Context::Base
+  it "sets the created RoleContext class parent to RoleContext::Base if no parent is given" do
+    Rbac::Context::Site.parent.should == Rbac::Context::Base
   end
 end
 
@@ -55,14 +55,14 @@ end
 
 describe Rbac::Context, '#role_authorizing', :type => :rbac do
   include SpecRolesHelper
-  
+
   before :each do
     define_roles!
     @author_role    = Rbac::Role.build(:author, :context => @content)
     @admin_role     = Rbac::Role.build(:admin, :context => @site)
     @superuser_role = Rbac::Role.build(:superuser)
   end
-  
+
   it "returns the default permissions for a given action (given the root context)" do
     Rbac::Context.root.role_authorizing(:'create article').should == @superuser_role
   end
@@ -71,7 +71,7 @@ describe Rbac::Context, '#role_authorizing', :type => :rbac do
     it "all child contexts return the default permissions for a given action (given a content)" do
       @site.role_authorizing(:'create article').should == @superuser_role
     end
-  
+
     it "all child contexts return the default permissions for a given action (given a content)" do
       @content.role_authorizing(:'create article').should == @superuser_role
     end
@@ -87,7 +87,7 @@ describe Rbac::Context, '#role_authorizing', :type => :rbac do
       @section.permissions = {:'create article' => :author}
       @content.role_authorizing(:'create article').should == @author_role
     end
-    
+
     it "child context permissions do not affect parent contexts" do
       @section.permissions = {:'create article' => :author}
       @site.role_authorizing(:'create article').should == @superuser_role
@@ -113,29 +113,29 @@ describe Rbac::Context, "#include?", :type => :rbac do
       @site.role_context.include?(@site.role_context).should be_true
     end
   end
-  
+
   describe "a context with one of it's parent contexts" do
     it "returns false for a site when the given context is the global root context" do
       @site.role_context.include?(Rbac::Context.root).should be_false
     end
-  
+
     it "returns false for a content when the given context is the content's section" do
       @content.role_context.include?(@section.role_context).should be_false
     end
-  
+
     it "returns false for a content when the given context is the content's section's site" do
       @content.role_context.include?(@site.role_context).should be_false
     end
-  
+
     it "returns false for a content when the given context is the content's section's site" do
       @content.role_context.include?(@site.role_context).should be_false
     end
-  
+
     it "returns false for a content when the given context is the global root context" do
       @content.role_context.include?(Rbac::Context.root).should be_false
     end
   end
-  
+
   describe "a context with an unrelated context" do
     it "returns false for a site when the given context is a different site" do
       @site.role_context.include?(@other_site.role_context).should be_false

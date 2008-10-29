@@ -8,13 +8,13 @@ describe Rbac::Role, ".define", :type => :rbac do
 
   it "inherits the new Role class from Rbac::Role::Base if no parent option is given" do
     Rbac::Role.define :admin
-    Rbac::Role::Admin.superclass.should == Rbac::Role::Base
+    Rbac::Role::Admin.parent.should == Rbac::Role::Base
   end
 
   it "inherits the new Role class according to the given parent option" do
     Rbac::Role.define :moderator
     Rbac::Role.define :admin, :parent => :moderator
-    Rbac::Role::Admin.superclass.should == Rbac::Role::Moderator
+    Rbac::Role::Admin.parent.should == Rbac::Role::Moderator
   end
 end
 
@@ -76,7 +76,7 @@ describe Rbac::Role, "#include?", :type => :rbac do
     @content.stub!(:is_author?).and_return true
     Rbac::Role.build(:author, :context => @content).should include_role(:user)
   end
-
+  
   it "is true for Admin(:context => site).include? User" do
     Rbac::Role.build(:admin, :context => @site).should include_role(:user)
   end
@@ -88,27 +88,27 @@ describe Rbac::Role, "#include?", :type => :rbac do
   it "is true for Moderator(:context => site).include? Moderator(:context => site.content)" do
     Rbac::Role.build(:moderator, :context => @site).should include_role(:moderator, :context => @content)
   end
-
+  
   it "is true for Admin(:context => site).include? Moderator(:context => site)" do
     Rbac::Role.build(:admin, :context => @site).should include_role(:moderator, :context => @site)
   end
-
+  
   it "is true for Admin(:context => site).include? Moderator(:context => site.content)" do
     Rbac::Role.build(:admin, :context => @site).should include_role(:moderator, :context => @content)
   end
-
+  
   it "is false for Moderator(:context => site.content).include? Moderator(:context => site)" do
     Rbac::Role.build(:moderator, :context => @content).should_not include_role(:moderator, :context => @site)
   end
-
+  
   it "is false for Moderator(:context => site).include? Admin(:context => site)" do
     Rbac::Role.build(:moderator, :context => @site).should_not include_role(:admin, :context => @site)
   end
-
+  
   it "is false for Admin(:context => site).include? Admin(:context => other_site)" do
     Rbac::Role.build(:admin, :context => @site).should_not include_role(:moderator, :context => @other_site)
   end
-
+  
   it "is false for Admin(:context => site).include? Admin(:context => other_site.content)" do
     Rbac::Role.build(:admin, :context => @site).should_not include_role(:moderator, :context => @other_content)
   end
