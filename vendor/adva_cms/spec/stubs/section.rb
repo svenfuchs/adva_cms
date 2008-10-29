@@ -24,6 +24,7 @@ define Section do
            :comment_age => 0,
            :articles_per_page => 15,
            :accept_comments? => true,
+           :children => [],
            :valid? => true,
            :save => true,
            :update_attributes => true,

@@ -24,7 +24,8 @@ define Blog do
            :content_filter => 'textile-filter',
            :archive_months => [],
            :valid? => true,
-           :has_attribute? => true
+           :has_attribute? => true,
+           :children => []
 
   instance :blog
 

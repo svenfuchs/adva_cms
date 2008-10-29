@@ -49,6 +49,8 @@ describe "Admin::Sites Views:" do
 
   describe "the :show view" do
     before :each do
+      assigns[:site] = @site
+      @site.sections.stub!(:roots).and_return []
       template.stub_render hash_including(:partial => 'sections')
       template.stub_render hash_including(:partial => 'admin/activities/activities')
       template.stub_render hash_including(:partial => 'user_activity')
@@ -111,7 +113,6 @@ describe "Admin::Sites Views:" do
     end
 
     it "renders the site form partial" do
-      assigns[:site] = @site
       template.expect_render :partial => 'form', :locals => hash_including(:site => @site)
       render "admin/sites/edit"
     end
@@ -120,6 +121,24 @@ describe "Admin::Sites Views:" do
       render "admin/sites/edit"
       response.should have_tag('form[action=?]', @member_path) do |form|
         form.should have_tag('input[name=?][value=?]', '_method', 'put')
+      end
+    end
+  end
+  
+  describe "the section partial" do
+    before :each do
+      @section, @blog, @wiki = stub_section, stub_blog, stub_wiki
+      @section.stub!(:children).and_return [@blog, @wiki]
+      
+      assigns[:site] = stub_site
+      template.stub!(:sections).and_return [@section]
+    end
+    
+    it "renders a nested list of site sections" do
+      render "admin/sites/_sections"
+      response.should have_tag('ul li', /#{@section.title}/) do
+        with_tag('ul li', @blog.title)
+        with_tag('ul li', @wiki.title)
       end
     end
   end

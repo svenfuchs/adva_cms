@@ -21,7 +21,8 @@ define Wiki do
            :valid? => true,
            :root_section? => true,
            :tag_counts => [],
-           :has_attribute? => true
+           :has_attribute? => true,
+           :children => []
 
   instance :wiki,
            :id => 1,
