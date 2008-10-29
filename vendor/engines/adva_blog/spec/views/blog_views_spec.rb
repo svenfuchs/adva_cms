@@ -19,6 +19,7 @@ describe "Blog views:" do
     template.stub!(:comment_path).and_return 'path/to/comment'
     template.stub!(:collection_title).and_return 'path/to/comment'
     template.stub!(:datetime_with_microformat).and_return 'Once upon a time ...'
+    template.stub!(:authorized_tag).and_return('authorized tags')
 
     template.stub_render hash_including(:partial => 'comments/list')
     template.stub_render hash_including(:partial => 'comments/form')
@@ -50,6 +51,11 @@ describe "Blog views:" do
       template.expect_render hash_including(:partial => 'comments/list')
       render "blog/show"
     end
+    
+    it "should display the edit link only for authorized user" do
+      template.should_receive(:authorized_tag).with(:span, :update, @article).and_return('authorized tags')
+      render "blog/show"
+    end 
 
     describe "with an article that accepts comments" do
       it "should render the comments/form partial" do

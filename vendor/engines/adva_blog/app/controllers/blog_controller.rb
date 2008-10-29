@@ -1,6 +1,7 @@
 class BlogController < BaseController
   include ActionController::GuardsPermissions::InstanceMethods
-
+  helper :roles
+  
   before_filter :set_category, :set_tags, :only => :index
   before_filter :set_articles, :only => :index
   before_filter :set_article, :only => :show
