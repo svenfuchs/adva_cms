@@ -5,7 +5,7 @@ class Section < ActiveRecord::Base
 
   @@types = ['Section']
   cattr_reader :types
-
+  
   acts_as_role_context :actions => ["create article", "update article", "delete article"],
                        :parent => Site
                        
@@ -48,6 +48,10 @@ class Section < ActiveRecord::Base
     def register_type(type)
       @@types << type
       @@types.sort!.uniq!
+    end
+    
+    def content_type
+      'Article'
     end
   end
 

@@ -27,5 +27,11 @@ class Forum < Section
 
   validates_numericality_of :comments_per_page, :only_integer => true, :message => "can only be whole number."
   # TODO validates_inclusion_of :comments_per_page, :in => 1..30, :message => "can only be between 1 and 30."
+  
+  class << self
+    def content_type
+      'Topic'
+    end
+  end
 
 end

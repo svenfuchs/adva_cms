@@ -19,6 +19,10 @@ describe Forum do
     Forum.should have_counter(:topics)
   end
 
+  it ".content_type returns 'Topic'" do # NOT SURE ABOUT THIS ...
+    Forum.content_type.should == 'Topic'
+  end
+
   describe "associations" do
     it "has many boards" do
       @forum.should have_many(:boards)

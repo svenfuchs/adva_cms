@@ -13,7 +13,7 @@ describe Section do
     @section = Section.new :title => 'section'
     @section.site = @site
   end
-
+  
   describe "class extensions:" do
     it "acts as a role context for the moderator role" do
       Section.should act_as_role_context(:roles => :moderator)
@@ -121,6 +121,10 @@ describe Section do
   end
 
   describe "class methods:" do
+    it ".content_type returns 'Article'" do
+      Section.content_type.should == 'Article'
+    end
+    
     it ".types returns a collection of registered Section types" do
       Section.types.should include('Section')
     end
