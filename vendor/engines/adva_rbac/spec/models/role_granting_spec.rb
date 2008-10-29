@@ -1,5 +1,4 @@
-=begin
-require File.dirname(__FILE__) + '/../spec_local_helper'
+require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Rbac::Role, ".granted_to?", :type => :rbac do
   include SpecRolesHelper
@@ -353,4 +352,5 @@ describe Rbac::Role, ".granted_to?", :type => :rbac do
     end
   end
 end
+=begin
 =end

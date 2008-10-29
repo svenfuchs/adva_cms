@@ -1,5 +1,4 @@
-=begin
-require File.dirname(__FILE__) + '/../spec_local_helper'
+require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Rbac::Context, 'dynamic class creation' do
   it "creates a new class inside the Rbac::Context namespace" do
@@ -151,4 +150,5 @@ describe Rbac::Context, "#include?", :type => :rbac do
     end
   end
 end
+=begin
 =end
