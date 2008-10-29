@@ -30,7 +30,7 @@ describe ContentHelper, '#link_to_admin_object' do
     scenario :section_with_published_article
     # TODO for some reason can't expect the methods to be called with should_receive
     helper.stub!(:edit_admin_article_path).and_return 'edit_admin_article_path'
-    helper.stub!(:admin_section_path_for).and_return 'admin_section_path_for'
+    helper.stub!(:admin_section_contents_path).and_return 'admin_section_contents_path'
     helper.stub!(:admin_site_path).and_return 'admin_site_path'
   end
 
@@ -38,8 +38,8 @@ describe ContentHelper, '#link_to_admin_object' do
     helper.link_to_admin_object(@article).should =~ /edit_admin_article_path/
   end
 
-  it "given the passed object is a Section it returns a link to admin_section_path_for(object)" do
-    helper.link_to_admin_object(@section) =~ /admin_section_path_for/
+  it "given the passed object is a Section it returns a link to admin_section_contents_path(object)" do
+    helper.link_to_admin_object(@section) =~ /admin_section_contents_path/
   end
 
   it "given the passed object is a Site it returns a link to admin_site_path" do

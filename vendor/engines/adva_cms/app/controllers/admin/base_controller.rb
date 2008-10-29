@@ -7,7 +7,7 @@ class Admin::BaseController < ApplicationController
 
   before_filter :set_site, :set_locale, :set_timezone, :set_cache_root
   helper :base, :content, :comments, :users
-  helper_method :admin_section_path_for, :perma_host
+  helper_method :admin_section_contents_path, :new_admin_content_path, :perma_host
 
   authentication_required
 
@@ -26,19 +26,27 @@ class Admin::BaseController < ApplicationController
                          :except => { :controller => ['admin/sections'], :action => [:index, :new] },
                          :only  => { :controller => ['admin/sections', 'admin/articles', 'admin/wikipages', 'admin/categories', 'admin/comments'] }
 
-
-  # TODO delegate this to the section class? or the controller, even?
-  # like Admin::WikipagesController.default_route_helper
-  def admin_section_path_for(section)
-    case section
-      when Wiki     then admin_wikipages_path section.site, section
-      when Blog     then admin_articles_path section.site, section
-      when Forum    then admin_section_path section.site, section
-      when Section  then admin_articles_path section.site, section
-      # else                 admin_articles_path section.site, section
-    end
+  def admin_section_contents_path(section)
+    type = section.class.content_type.pluralize.downcase
+    send(:"admin_#{type}_path", section.site, section)
   end
-  
+
+  def new_admin_content_path(section)
+    send :"new_admin_#{section.class.content_type}_path", section.site, section
+  end
+
+  # # TODO delegate this to the section class? or the controller, even?
+  # # like Admin::WikipagesController.default_route_helper
+  # def admin_section_path_for(section)
+  #   case section
+  #     when Wiki     then admin_wikipages_path section.site, section
+  #     when Blog     then admin_articles_path section.site, section
+  #     when Forum    then admin_section_path section.site, section
+  #     when Section  then admin_articles_path section.site, section
+  #     # else                 admin_articles_path section.site, section
+  #   end
+  # end
+
   protected
 
     def require_authentication
@@ -84,26 +92,26 @@ class Admin::BaseController < ApplicationController
     def set_section
       @section =  @site.sections.find(params[:section_id]) if params[:section_id]
     end
-    
+
     def update_role_context!(params)
-      set_section if params[:section_id] and !@section 
+      set_section if params[:section_id] and !@section
     end
 
     def current_role_context
       @section || @site || Site.new
     end
-    
+
     def perma_host; 'admin' end
-    
+
     def page_cache_directory
       if Rails.env == 'test'
          Site.multi_sites_enabled ? 'tmp/cache/' + perma_host : 'tmp/cache'
        else
          Site.multi_sites_enabled ? 'public/cache/' + perma_host : 'public'
-       end          
+       end
     end
-    
+
     def set_cache_root
       self.class.page_cache_directory = page_cache_directory.to_s
-    end    
+    end
 end

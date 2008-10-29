@@ -1,5 +1,5 @@
 <li id="<%= dom_id section %>">
-  <%= link_to section.title, admin_section_path(@site, section) %>
+  <%= link_to section.title, admin_section_contents_path(section) %>
   <ul>
     <%= render :partial => 'section', :collection => section.children %>
   </ul>

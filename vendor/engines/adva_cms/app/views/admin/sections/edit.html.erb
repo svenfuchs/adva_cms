@@ -1,0 +1,9 @@
+<h3>Edit <%= @section.type.titleize %></h3>
+
+<% form_for :section, @section, :url => admin_section_path(@site, @section), :html => {:method => :put} do |f| %>
+  <%= render :partial => 'form', :locals => {:f => f} %>
+  <p class="buttons">
+	  <%= submit_tag 'Save' %>
+	  <%= link_to 'Delete', admin_section_path(@site, @section), { :confirm => "Are you sure you wish to delete this section?", :method => :delete } %>
+	</p>
+<% end %>

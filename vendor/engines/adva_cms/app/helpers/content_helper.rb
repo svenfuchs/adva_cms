@@ -35,7 +35,7 @@ module ContentHelper
       path = send :"edit_admin_#{object.class.name.downcase}_path", object.site, object.section, object
       link_to object.title, path
     when Section
-      link_to object.title, admin_section_path_for(object)
+      link_to object.title, admin_section_contents_path(object)
     when Site
       link_to object.name, admin_site_path(object)
     end

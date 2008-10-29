@@ -30,7 +30,7 @@ map.resources :sites,           :controller   => 'admin/sites',
 map.resources :sections,        :controller  => 'admin/sections',
                                 :path_prefix => 'admin/sites/:site_id',
                                 :name_prefix => 'admin_'
-
+                                
 # the resources :collection option does not allow to put to the collection url
 # so we connect another route, which seems slightly more restful
 map.connect                     'admin/sites/:site_id/sections',

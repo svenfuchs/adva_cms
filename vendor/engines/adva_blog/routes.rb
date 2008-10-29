@@ -36,3 +36,4 @@ map.formatted_blog_article_comments "blogs/:section_id/:year/:month/:day/:permal
                                 :controller   => 'blog',
                                 :action       => "comments",
                                 :requirements => { :method => :get, :year => /\d{4}/, :month => /\d{1,2}/, :day => /\d{1,2}/ }
+

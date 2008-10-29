@@ -7,9 +7,11 @@ describe Admin::SectionsController do
     scenario :section_with_published_article
 
     set_resource_paths :section, '/admin/sites/1/'
+    @admin_section_contents_path = 'admin_section_contents_path'
 
     @controller.stub! :require_authentication
     @controller.stub!(:has_permission?).and_return true
+    # @controller.stub!(:admin_section_contents_path).and_return @admin_section_contents_path
   end
 
   it "should be an Admin::BaseController" do
@@ -35,17 +37,9 @@ describe Admin::SectionsController do
   #   # it_guards_permissions :index, :section
   # end
 
-  describe "GET to :show" do
-    act! { request_to :get, @member_path }
-    it_assigns :section
-    it_renders_template :show
-    # it_guards_permissions :show, :section # deactivated all :show permissions in the backend
-
-    it "fetches a section from site.sections" do
-      @site.sections.should_receive(:find).and_return @section
-      act!
-    end
-  end
+  # use admin_section_contents_path instead
+  # describe "GET to :show" do
+  # end
 
   describe "GET to :new" do
     act! { request_to :get, @new_member_path }
@@ -70,7 +64,7 @@ describe Admin::SectionsController do
     end
 
     describe "given valid section params" do
-      it_redirects_to { @member_path }
+      it_redirects_to { @controller.admin_section_contents_path(@section) }
       it_assigns_flash_cookie :notice => :not_nil
     end
 
@@ -81,16 +75,17 @@ describe Admin::SectionsController do
     end
   end
 
-  # describe "GET to :edit" do
-  #   act! { request_to :get, @edit_member_path }
-  #   it_assigns :section
-  #   it_renders_template :edit
-  #
-  #   it "fetches a section from site.sections" do
-  #     @site.sections.should_receive(:find).and_return @section
-  #     act!
-  #   end
-  # end
+  describe "GET to :edit" do
+    act! { request_to :get, @edit_member_path }
+    it_assigns :section
+    it_renders_template :edit
+    # it_guards_permissions :show, :section # deactivated all :show permissions in the backend
+
+    it "fetches a section from site.sections" do
+      @site.sections.should_receive(:find).and_return @section
+      act!
+    end
+  end
 
   describe "PUT to :update" do
     act! { request_to :put, @member_path }
@@ -108,7 +103,7 @@ describe Admin::SectionsController do
     end
 
     describe "given valid section params" do
-      it_redirects_to { @member_path }
+      it_redirects_to { @edit_member_path }
       it_assigns_flash_cookie :notice => :not_nil
     end
 

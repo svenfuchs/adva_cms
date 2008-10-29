@@ -132,6 +132,7 @@ describe "Admin::Sites Views:" do
       
       assigns[:site] = stub_site
       template.stub!(:sections).and_return [@section]
+      template.stub!(:admin_section_contents_path).and_return 'admin_section_contents_path'
     end
     
     it "renders a nested list of site sections" do

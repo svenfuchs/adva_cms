@@ -28,6 +28,7 @@ map.formatted_wikipage_comments  'wikis/:section_id/pages/:id/comments.:format',
                                   :action       => "comments",
                                   :requirements => { :method => :get }
 
+
 map.resources :wikipages,         :path_prefix => "admin/sites/:site_id/sections/:section_id",
                                   :name_prefix => "admin_",
                                   :namespace   => "admin/"

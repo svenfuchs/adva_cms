@@ -42,7 +42,7 @@ steps_for :section do
   end
 
   When "the user visits the admin section show page" do
-    get admin_section_path(@section.site, @section)
+    get admin_section_path(@section)
   end
   
   When "the user visits the admin section comments page" do
@@ -70,12 +70,12 @@ steps_for :section do
   end
 
   Then "the page has an admin section edit form" do
-    action = admin_section_path(@site, @section)
+    action = admin_section_path(@section)
     response.should have_form_putting_to(action)
   end
 
   Then "the user is redirected to the admin section show page" do
-    request.request_uri.should == admin_section_path(@site, @section)
+    request.request_uri.should == admin_section_path(@section)
     response.should render_template('admin/sections/show')
   end
 end

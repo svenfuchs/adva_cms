@@ -1,17 +1,17 @@
 class Admin::SectionsController < Admin::BaseController
   layout "admin"
 
-  before_filter :set_section, :only => [:show, :update, :destroy]
+  before_filter :set_section, :only => [:edit, :update, :destroy]
   before_filter :normalize_params, :only => :update_all
 
   cache_sweeper :section_sweeper, :only => [:create, :update, :destroy]
-  guards_permissions :section, :except => :show, :update => :update_all
+  guards_permissions :section, :update => :update_all # :except => :show, 
 
   def index
   end
 
-  def show
-  end
+  # def show
+  # end
 
   def new
     @section = @site.sections.build(:type => Section.types.first)
@@ -21,7 +21,7 @@ class Admin::SectionsController < Admin::BaseController
     @section = @site.sections.build params[:section]
     if @section.save
       flash[:notice] = "The section has been created."
-      redirect_to admin_section_path(:id => @section)
+      redirect_to admin_section_contents_path(@section)
     else
       flash.now[:error] = "The section could not be created."
       render :action => "new"
@@ -34,7 +34,7 @@ class Admin::SectionsController < Admin::BaseController
   def update
     if @section.update_attributes params[:section]
       flash[:notice] = "The section has been updated."
-      redirect_to admin_section_path
+      redirect_to edit_admin_section_path(@site, @section)
     else
       flash.now[:error] = "The section could not be updated."
       render :action => 'show'

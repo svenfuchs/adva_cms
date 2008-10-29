@@ -17,9 +17,9 @@ describe "Admin::Sections Views:" do
     template.stub_render hash_including(:partial => 'form')
   end
 
-  describe "the :show view" do
+  describe "the :edit view" do
     it "displays a form to edit settings (putting to :update)" do
-      render "admin/sections/show"
+      render "admin/sections/edit"
       response.should have_tag('form[action=?]', @member_path) do
         with_tag 'input[name=?][value=?]', '_method', 'put'
       end
@@ -27,7 +27,7 @@ describe "Admin::Sections Views:" do
 
     it "renders the form partial" do
       template.expect_render hash_including(:partial => 'form')
-      render "admin/sections/show"
+      render "admin/sections/edit"
     end
   end
 
@@ -68,6 +68,7 @@ describe "Admin::Sections Views:" do
     before :each do
       @section.stub!(:children).and_return(@sections)
       template.stub!(:section).and_return(@section)
+      template.stub!(:admin_section_contents_path).and_return 'admin_section_contents_path'
     end
 
     it "renders itself for nested sections" do

@@ -15,8 +15,8 @@ describe Admin::SectionsController, 'Permissions' do
     controller.stub!(:current_user).and_return @user
     @admin_role.context = @site
 
-    controller.stub!(:admin_section_path).and_return '/redirect_here'
     controller.stub!(:new_admin_section_path).and_return '/redirect_here'
+    controller.stub!(:edit_admin_section_path).and_return '/redirect_here'
   end
 
   def should_grant_access(method, path)
