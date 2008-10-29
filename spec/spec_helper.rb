@@ -8,7 +8,10 @@ $:.unshift File.expand_path(File.dirname(__FILE__) + "/../vendor/gems/rspec-1.1.
 
 require 'spec'
 require 'spec/rails'
+
+$:.push File.expand_path(File.dirname(__FILE__) + '/../vendor/gems/thoughtbot-factory_girl-1.1.3/lib')
 require 'factory_girl'
+
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'factories'))
 
 Spec::Runner.configure do |config|

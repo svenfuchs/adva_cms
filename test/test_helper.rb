@@ -2,8 +2,9 @@ ENV["RAILS_ENV"] = "test"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'test_help'
 
+$:.push File.expand_path(File.dirname(__FILE__) + '/../vendor/gems/thoughtbot-factory_girl-1.1.3/lib')
 require 'factory_girl'
-p File.expand_path(File.join(File.dirname(__FILE__), '..', 'factories'))
+
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'factories'))
 require File.expand_path(File.join(File.dirname(__FILE__), 'test_helpers', 'assertions'))
 require File.expand_path(File.join(File.dirname(__FILE__), 'test_helpers', 'integration_steps'))
