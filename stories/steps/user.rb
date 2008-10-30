@@ -2,11 +2,11 @@ factories :user
 
 steps_for :user do
   Given "no anonymous account exists" do
-    Anonymous.delete_all
+    User.delete_all 'anonymous = 1'
   end
 
   Then "an anonymous account exists" do
-    @anonymous = Anonymous.find(:first)
+    @anonymous = User.find_by_anonymous(true)
     @anonymous.should_not be_nil
   end
 

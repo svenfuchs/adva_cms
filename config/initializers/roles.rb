@@ -49,7 +49,7 @@ Rbac::Context.permissions = {
   :'destroy theme'      => :admin,
   :'manage theme'       => :admin,
   
-  :'manage cached_page' => :superuser,
+  :'manage cached_page' => :admin,
                       
   :'create user'        => :admin,
   :'update user'        => :admin,

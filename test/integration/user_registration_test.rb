@@ -29,7 +29,7 @@ class UserRegistrationTest < ActionController::IntegrationTest
     # the user should be there and not verified
     user = User.find_by_email('email@test.com')
     assert_not_nil user
-    assert !user.verified?
+    assert !user.verified?, 'user should not be verified'
 
     # should render the account/verification_sent template
     assert_template 'user/verification_sent'

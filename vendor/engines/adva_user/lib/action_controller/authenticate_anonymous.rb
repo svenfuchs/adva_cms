@@ -36,7 +36,7 @@ module ActionController
 
       def login_or_register_anonymous
         anonymous = try_login_anonymous || User.anonymous
-        anonymous = register_or_update_anonymous anonymous if params[:anonymous]
+        anonymous = register_or_update_anonymous anonymous if params[:user]
         login_anonymous! anonymous if anonymous
         anonymous
       end
@@ -47,8 +47,8 @@ module ActionController
       end
 
       def register_or_update_anonymous(anonymous)
-        # if any params are passed either register a new Anonymous or update the existing one
-        anonymous.update_attributes params[:anonymous].merge(request_info)
+        # if :name and :email params are passed either register a new Anonymous or update the existing one
+        anonymous.update_attributes params[:user].merge(request_info)
         anonymous
       end
 

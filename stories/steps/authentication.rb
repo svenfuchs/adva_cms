@@ -40,7 +40,7 @@ steps_for :authentication do
   end
 
   When "the user goes to the user registration page" do
-    get new_account_path
+    get new_user_path
   end
 
   When "the user fills in the login form with valid credentials" do
@@ -54,23 +54,27 @@ steps_for :authentication do
   end
 
   When "the user fills in the user registration form with valid values" do
-    fills_in :name, :with => 'name'
+    fills_in :"first name", :with => 'first name'
+    fills_in :"last name", :with => 'last name'
     fills_in :email, :with => 'email@email.org'
     fills_in :login, :with => 'login'
     fills_in :password, :with => 'password'
-    fills_in "Password confirmation", :with => 'password'
+    # fills_in "Password confirmation", :with => 'password'
   end
 
   When "the user verifies their account" do
     token = @user.assign_token! 'verify'
     AccountController.hidden_actions.delete 'verify'
-    AccountController.instance_variable_set(:@action_methods, nil)
+    AccountController.instance_variable_set(:@action_methods, nil) # WTF ...
+    p token
+    p @user
     get "/account/verify?token=#{@user.id}%3B#{token}"
     @user = controller.current_user
   end
 
   Then "the user is verified" do
-    @user.verified?.should be_true
+    p @user
+    @user.should be_verified
   end
 
   Then "an unverified user exists" do
@@ -83,7 +87,7 @@ steps_for :authentication do
   end
 
   Then "the page has a user registration form" do
-    response.should have_form_posting_to(account_path)
+    response.should have_form_posting_to(user_path)
   end
 
   Then "the system authenticates the user" do

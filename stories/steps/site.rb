@@ -98,6 +98,7 @@ steps_for :site do
   end
 
   Then "the user sees the install page" do
+    puts response.body
     response.should render_template('admin/install/index')
   end
 

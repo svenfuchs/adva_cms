@@ -1,7 +1,7 @@
 <h2>Register a user account</h2>
 
 <% form_for :user, :url => user_path, :html => {:id => 'register'} do |f| %>
-  <h4>Profile</h4>
+  <h4>Your Profile</h4>
 
   <fieldset>  
     <p>
@@ -11,22 +11,13 @@
       <%= f.text_field :last_name  %>
     </p>  
     <p>   
-      <%= f.label :email %>
-      <%= f.text_field :email  %>
-    </p>  
-    <p>   
       <%= f.label :homepage %>
       <%= f.text_field :homepage  %>
     </p> 
-  </fieldset>
-
-  <h4>User</h4>
-
-  <fieldset>
-    <p>
-      <%= f.label :login %>
-      <%= f.text_field :login  %>
-    </p> 
+    <p>   
+      <%= f.label :email %>
+      <%= f.text_field :email  %>
+    </p>  
     <p>
       <%= f.label :password %>
       <%= f.password_field :password  %>
