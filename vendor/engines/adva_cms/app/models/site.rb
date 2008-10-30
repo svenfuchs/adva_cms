@@ -61,7 +61,7 @@ class Site < ActiveRecord::Base
   def multi_sites_enabled?
     self.class.multi_sites_enabled
   end
-  
+
   def owner
     nil
   end
