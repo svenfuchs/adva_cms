@@ -17,10 +17,13 @@ module ActiveRecord::StiInstantiation
   end
 
   module ClassMethods
-    def new(*a, &b)
-      if (h = a.first).is_a? Hash and (type = h[:type] || h['type']) and (klass = type.constantize) != self
-        raise "wtF hax!!"  unless klass < self  # klass should be a descendant of us
-        klass.new(*a, &b)
+    def new(*args, &block)
+      options = args.first.is_a?(Hash) ? args.first : {}
+      type = options[:type] || options['type']
+
+      if type and (klass = type.constantize) != self
+        raise "STI instantiation error: class #{klass.name} should be a descendant of #{self.name}" unless klass < self
+        klass.new(*args, &block)
       else
         super
       end
