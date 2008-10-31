@@ -8,7 +8,7 @@ Different from others, adva cms lives in vendor directory and keeps your
 main app directory clean and dandy. So you can reclaim app directory and 
 use it only for your own application files.
 
-Moreover, adva makes it extensible: you can only pick those engines/features
+Adva makes it extensible: you can only pick those engines/features
 you really need for your application and omit the rest. All engines are
 designed to work together seamlessly, so the whole platform feels much more
 consistent for similar but separate Rails applications.
