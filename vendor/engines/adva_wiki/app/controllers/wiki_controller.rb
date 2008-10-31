@@ -12,7 +12,7 @@ class WikiController < BaseController
 
   caches_page_with_references :index, :show, :track => ['@wikipage', '@wikipages', '@category', {'@site' => :tag_counts, '@section' => :tag_counts}]
   cache_sweeper :wikipage_sweeper, :category_sweeper, :tag_sweeper, :only => [:create, :update, :rollback, :destroy]
-  guards_permissions :wikipage, :except => [:index, :show, :diff]
+  guards_permissions :wikipage, :except => [:index, :show, :diff], :rollback => :edit
 
   def index
     respond_to do |format|
@@ -58,7 +58,7 @@ class WikiController < BaseController
   end
 
   def update
-    params[:wikipage][:version] ? rollback : update_attributes
+    params[:version] ? rollback : update_attributes # TODO should be params[:wikipage][:version]
   end
 
   def update_attributes
@@ -73,7 +73,8 @@ class WikiController < BaseController
   end
 
   def rollback
-    if @wikipage.revert_to!(params[:wikipage][:version])
+    @wikipage.revert_to(params[:version])
+    if @wikipage.save
       trigger_event @wikipage, :rolledback
       flash[:notice] = "The wikipage has been rolled back to revision #{params[:version]}"
       redirect_to wikipage_path(:section_id => @section, :id => @wikipage.permalink)

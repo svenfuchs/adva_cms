@@ -10,7 +10,7 @@ steps_for :blog do
 
   Given "a blog that allows anonymous users to create comments" do
     Given "a blog"
-    @blog.update_attributes! 'permissions' => {'comment' => {'show' => 'anonymous', 'create' => 'anonymous'}}
+    @blog.update_attributes! 'permissions' => {'create comment' => 'anonymous'}
   end
 
   Given 'a blog with no articles' do

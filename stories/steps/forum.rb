@@ -11,18 +11,12 @@ steps_for :forum do
 
   Given "a forum that allows registered users to post comments" do
     Given "a forum"
-    @forum.update_attributes! 'permissions' => {
-      'topic'   => {'show' => 'anonymous', 'create' => 'user'},
-      'comment' => {'show' => 'anonymous', 'create' => 'user'}
-    }
+    @forum.update_attributes! 'permissions' => { 'create topic' => 'user', 'create comment' => 'user' }
   end
 
   Given "a forum that allows anonymous users to post comments" do
     Given "a forum"
-    @forum.update_attributes! 'permissions' => {
-      'topic'   => {'show' => 'anonymous', 'create' => 'anonymous'},
-      'comment' => {'show' => 'anonymous', 'create' => 'anonymous'}
-    }
+    @forum.update_attributes! 'permissions' => { 'create topic' => 'anonymous', 'create comment' => 'anonymous' }
   end
 
   Given "the forum has no boards" do
@@ -181,7 +175,7 @@ steps_for :forum do
   end
 
   Then "the post creation form fields contain the posted values" do
-    response.should have_tag('input[name=?][value=?]', 'anonymous[name]', 'anonymous')
+    response.should have_tag('input[name=?][value=?]', 'user[name]', 'anonymous')
     response.should have_tag('textarea[name=?]', 'post[body]', 'the post body')
   end
 

@@ -4,13 +4,13 @@ steps_for :default do
   end
 
   When "the user fills in the anonymous name and email fields" do
-    fills_in 'anonymous[name]', :with => 'anonymous'
-    fills_in 'anonymous[email]', :with => 'anonymous@email.org'
+    fills_in 'user[name]', :with => 'anonymous'
+    fills_in 'user[email]', :with => 'anonymous@email.org'
   end
   
   When "the user fills in the anonymous name and email fields with incorrect data" do
-    fills_in 'anonymous[name]', :with => ''
-    fills_in 'anonymous[email]', :with => 'anonymous@email'
+    fills_in 'user[name]', :with => ''
+    fills_in 'user[email]', :with => 'anonymous@email'
   end
 
   Then "the $object's $name is set to '$value'" do |object, name, value|
@@ -42,13 +42,13 @@ steps_for :default do
   end
 
   Then "the form contains anonymous name and email fields" do
-    @form.should have_tag('input[name=?]', 'anonymous[name]')
-    @form.should have_tag('input[name=?]', 'anonymous[email]')
+    @form.should have_tag('input[name=?]', 'user[name]')
+    @form.should have_tag('input[name=?]', 'user[email]')
   end
 
   Then "the form does not contain anonymous name and email fields" do
-    @form.should_not have_tag('input[name=?]', 'anonymous[name]')
-    @form.should_not have_tag('input[name=?]', 'anonymous[email]')
+    @form.should_not have_tag('input[name=?]', 'user[name]')
+    @form.should_not have_tag('input[name=?]', 'user[email]')
   end
 
   Then "the user is redirected to the url $url" do |url|

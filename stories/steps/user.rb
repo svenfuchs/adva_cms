@@ -21,7 +21,7 @@ steps_for :user do
   end
 
   Given "another user" do
-    @other_user = create_user :name => 'another user name', :email => 'another_user@email.org', :login => 'another-login', :password => 'password', :password_confirmation => 'password'
+    @other_user = create_user :name => 'another user name', :email => 'another_user@email.org', :password => 'password'
   end
 
   Given "the other user is a member of the site" do
@@ -31,11 +31,11 @@ steps_for :user do
   Given "a site admin and a site member account" do
     @site ||= Site.find(:first) || create_site
 
-    @admin = create_user  :name => 'admin name', :email => 'admin@email.org', :login => 'admin-login', :password => 'password', :password_confirmation => 'password'
+    @admin = create_user  :name => 'admin name', :email => 'admin@email.org', :password => 'password'
     @site.users << @admin
     @admin.roles << Rbac::Role.build(:admin, :context => @site)
 
-    @user = create_user :name => 'another user name', :email => 'another_user@email.org', :login => 'another-login', :password => 'password', :password_confirmation => 'password'
+    @user = create_user :name => 'another user name', :email => 'another_user@email.org', :password => 'password'
     @site.users << @user
   end
 
@@ -57,15 +57,14 @@ steps_for :user do
   end
 
   When "the user fills in the admin user account creation form with valid values" do
-    fills_in 'name', :with => 'a new user name'
+    fills_in 'first name', :with => "a new user's first name"
+    fills_in 'last name', :with => "a new user last name"
     fills_in 'email', :with => 'new_user@email.org'
-    fills_in 'login', :with => 'new_user'
     fills_in 'password', :with => 'password'
-    fills_in 'password confirmation', :with => 'password'
   end
 
   Then "a new user account is created" do
-    @user = User.find_by_name('a new user name')
+    @user = User.find_by_first_name("a new user's first name")
     @user.should_not be_nil
   end
 

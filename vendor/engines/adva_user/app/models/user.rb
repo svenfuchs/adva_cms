@@ -1,11 +1,9 @@
 class User < ActiveRecord::Base
   acts_as_authenticated_user
 
-  before_validation_on_create :populate_login
-
-# TODO how do we work this in?
-#  acts_as_authenticated_user :token_with => 'Authentication::SingleToken',
-#                             :authenticate_with => nil
+  # TODO how do we work this in?
+  #  acts_as_authenticated_user :token_with => 'Authentication::SingleToken',
+  #                             :authenticate_with => nil
 
   has_many :sites, :through => :memberships
   has_many :memberships, :dependent => :delete_all
@@ -27,8 +25,8 @@ class User < ActiveRecord::Base
     end
   end
 
-  validates_presence_of     :first_name, :email, :login
-  validates_uniqueness_of   :email, :login # i.e. account attributes are unique per application, not per site
+  validates_presence_of     :first_name, :email
+  validates_uniqueness_of   :email # i.e. account attributes are unique per application, not per site
   validates_length_of       :first_name, :within => 1..40
   validates_length_of       :last_name, :allow_nil => true, :within => 0..40
   validates_format_of       :email, :allow_nil => true,
@@ -39,7 +37,7 @@ class User < ActiveRecord::Base
 
   class << self
     def authenticate(credentials)
-      return false unless user = User.find_by_login(credentials[:login])
+      return false unless user = User.find_by_email(credentials[:email])
       user.authenticate(credentials[:password]) ? user : false
     end
 
@@ -147,10 +145,5 @@ class User < ActiveRecord::Base
 
     def password_required?
       !anonymous? && ( password_hash.nil? || !password.blank? )
-    end
-
-  private
-    def populate_login
-      self.login = login.blank? ? email : login
     end
 end

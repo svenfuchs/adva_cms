@@ -16,7 +16,7 @@ module RoutingFilter
     end
 
     def around_generate(*args, &block)
-      returning yield do |result|
+      returning yield do |result| 
         if result !~ %r(^/admin/) and result =~ generate_pattern
           section = Section.find $2.to_i
           result.sub! "#{$1}/#{$2}", "#{section.path}#{$3}"

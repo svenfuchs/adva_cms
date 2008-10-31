@@ -20,9 +20,7 @@ define User do
            :name => 'John Doe',
            :email => 'foo@bar.baz',
            :homepage => 'http://foo.bar.baz',
-           :login => 'login',
            :password => 'password',
-           :password_confirmation => 'password',
            :created_at => Time.now,
            :updated_at => Time.now,
            :deleted_at => nil

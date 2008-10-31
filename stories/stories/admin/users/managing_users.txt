@@ -22,9 +22,9 @@ Story: Managing users
     When the user visits the admin site other user show page
     And the user clicks on 'Edit user'
     Then the page has an admin user account edit form
-    When the user fills in name with 'an updated name'
+    When the user fills in email with 'updated-email@email.org'
     And the user clicks the 'Save' button
-    Then the other user's name is 'an updated name'
+    Then the other user's email is 'updated-email@email.org'
     And the user is redirected to the admin site user show page
     
   Scenario: A superuser reviews the global users list
@@ -39,4 +39,4 @@ Story: Managing users
     And the user is logged in as superuser
     And a site admin and a site member account
     When the user visits the site's user list in the admin interface
-    Then the page shows a list of users with 3 entries
+    Then the page shows a list of users with 2 entries

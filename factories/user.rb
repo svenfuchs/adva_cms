@@ -2,8 +2,7 @@ Factory.define :user do |u|
   u.first_name "John"
   u.last_name "Doe"
   u.email "john.doe@example.com"
-  u.login "johndoe"
-  u.password "jane"
+  u.password "password123"
   u.verified_at Time.local(2008, 10, 16, 22, 0, 0)
 end
 

@@ -12,9 +12,8 @@ describe UserController do
     @verify_user_path = '/user/verify'
 
     @params = { :user => { 'first_name' => 'John',
-                           'last_name' => 'Doe',       
+                           'last_name' => 'Doe',
                            'email' => 'email@email.org',
-                           'login' => 'login',
                            'password' => 'password' } }
   end
 

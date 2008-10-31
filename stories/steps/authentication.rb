@@ -4,13 +4,13 @@ steps_for :authentication do
   Given "the user is logged in" do
     Given "a user"
     @user.verify!
-    post "/session", :user => {:login => @user.login, :password => 'password'}
+    post "/session", :user => {:email => @user.email, :password => 'password'}
     controller.authenticated?.should be_true
   end
 
   Given "the user is logged in as $role" do |role|
     User.delete_all
-    @user = create_user :name => role, :email => "#{role}@email.org", :login => role
+    @user = create_user :name => role, :email => "#{role}@email.org"
     case role.to_sym
     when :admin
       @site ||= Site.find(:first) || create_site
@@ -21,7 +21,7 @@ steps_for :authentication do
     end
     @user.verify!
 
-    post "/session", :user => {:login => @user.login, :password => @user.password}
+    post "/session", :user => {:email => @user.email, :password => @user.password}
     controller.authenticated?.should be_true
   end
 
@@ -44,12 +44,12 @@ steps_for :authentication do
   end
 
   When "the user fills in the login form with valid credentials" do
-    fills_in :login, :with => 'login'
+    fills_in :email, :with => 'email@email.org'
     fills_in :password, :with => 'password'
   end
 
   When "the user fills in the login form with invalid credentials" do
-    fills_in :login, :with => 'invalid login'
+    fills_in :email, :with => 'invalid-email@email.org'
     fills_in :password, :with => 'invalid password'
   end
 
@@ -57,9 +57,7 @@ steps_for :authentication do
     fills_in :"first name", :with => 'first name'
     fills_in :"last name", :with => 'last name'
     fills_in :email, :with => 'email@email.org'
-    fills_in :login, :with => 'login'
     fills_in :password, :with => 'password'
-    # fills_in "Password confirmation", :with => 'password'
   end
 
   When "the user verifies their account" do

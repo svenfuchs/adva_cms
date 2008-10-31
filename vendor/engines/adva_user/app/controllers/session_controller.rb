@@ -15,9 +15,9 @@ class SessionController < BaseController
       redirect_to session[:return_location] || '/'
       session[:return_location]
     else
-      @user = User.new :login => params[:user][:login]
+      @user = User.new :email => params[:user][:email]
       @remember_me = params[:user][:remember_me]
-      flash.now[:error] = 'Could not login with this login and password.'
+      flash.now[:error] = 'Could not login with this email and password.'
       render :action => 'new'
     end
   end

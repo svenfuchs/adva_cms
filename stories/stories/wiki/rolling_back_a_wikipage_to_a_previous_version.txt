@@ -11,7 +11,6 @@ Story: Rolling back a wikipage to a previous revision
     Then the page shows 'the wikipage body'
     And the page is cached
     When the user clicks on 'previous revision'
-    # When the user visits the wikipage revision page
     And the user clicks on 'rollback to this revision'
     Then a new version of the wikipage is created
     And the wikipage's body is set to 'the old wikipage body'

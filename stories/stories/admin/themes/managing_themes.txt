@@ -60,8 +60,6 @@ Story: Managing themes
     When the user goes to the admin theme import page
     Then the page has a theme import form
     When the user fills in the form with valid values
-    
     And the user clicks the 'Import' button
     Then the theme was imported
     And the user is redirected to the admin theme list page
-    

@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'test_helper' ))
+require File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'test_helper' ))
 
 def assert_events_triggered(*types)
   actual = types.select{|type| Event::TestLog.was_triggered?(type) }
@@ -17,7 +17,7 @@ class UserDeletionTest < ActionController::IntegrationTest
   def test_user_deletes_user_account
     # user logs in to the site
     visits '/login'
-    fills_in 'login', :with => @user.login
+    fills_in 'email', :with => @user.email
     fills_in 'password', :with => @user.password
     clicks_button 'Login'
 

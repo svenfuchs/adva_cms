@@ -30,14 +30,11 @@ describe "User views:" do
 
     it "renders form fields for the user data" do
       render 'user/new'
-      response.should have_tag('input[name=?]', 'user[login]')
-      response.should have_tag('input[name=?]', 'user[login]')
-    end
-
-    it "renders form fields for the user's data" do
-      render 'user/new'
+      response.should have_tag('input[name=?]', 'user[email]')
+      response.should have_tag('input[name=?]', 'user[password]')
       response.should have_tag('input[name=?]', 'user[first_name]')
       response.should have_tag('input[name=?]', 'user[last_name]')
+      response.should have_tag('input[name=?]', 'user[homepage]')
     end
   end
 end

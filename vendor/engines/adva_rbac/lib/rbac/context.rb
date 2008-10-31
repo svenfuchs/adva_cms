@@ -89,7 +89,8 @@ module Rbac
         end
       
         def permissions
-          subject.try(:permissions) || {}
+          permissions = subject.try(:permissions) || {}
+          permissions.symbolize_keys
         end
     end
   end

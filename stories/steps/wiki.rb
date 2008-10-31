@@ -12,12 +12,18 @@ steps_for :wiki do
 
   Given "a wiki that allows anonymous users to create and update wikipages" do
     Given "a wiki"
-    @wiki.update_attributes! 'permissions' => {'wikipage' => {'create' => 'anonymous', 'update' => 'anonymous'}}
+    @wiki.update_attributes! 'permissions' => { 
+      'create wikipage' => 'anonymous', 'create comment' => 'anonymous',
+      'update wikipage' => 'anonymous', 'create comment' => 'anonymous'
+    }
   end
 
   Given "a wiki that allows registered users to create and update wikipages" do
     Given "a wiki"
-    @wiki.update_attributes! 'permissions' => {'wikipage' => {'create' => 'user', 'update' => 'user'}}
+    @wiki.update_attributes! 'permissions' => { 
+      'create wikipage' => 'user', 'create comment' => 'user',
+      'update wikipage' => 'user', 'create comment' => 'user'
+    }
   end
 
   Given "a wikipage" do

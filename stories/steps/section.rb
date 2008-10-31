@@ -41,8 +41,8 @@ steps_for :section do
     get new_admin_section_path(@site)
   end
 
-  When "the user visits the admin section show page" do
-    get admin_section_path(@site, @section)
+  When "the user visits the admin section edit page" do
+    get edit_admin_section_path(@site, @section)
   end
   
   When "the user visits the admin section comments page" do

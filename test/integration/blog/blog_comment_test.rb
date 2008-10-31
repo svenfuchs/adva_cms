@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'test_helper' ))
+require File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'test_helper' ))
 
 # Story: Commenting on a blog article (TODO page caching?, access control)
 #   As a user with a given role that allows me to comment in a blog
@@ -20,8 +20,7 @@ class BlogCommentTest < ActionController::IntegrationTest
     article = Factory :published_blog_article
     site.sections.first.articles = [article]
     # allow anonymous comments
-    site.sections.first.update_attributes! 'permissions' => 
-      {'comment' => {'show' => 'anonymous', 'create' => 'anonymous'}}
+    site.sections.first.update_attributes :permissions => {'create comment' => 'anonymous'}
 
     # go to article show page
     get "/2008/10/16/adva-cms-kicks-ass"

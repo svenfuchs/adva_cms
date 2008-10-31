@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'test_helper' ))
+require File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'test_helper' ))
 
 def assert_events_triggered(*types)
   actual = types.select{|type| Event::TestLog.was_triggered?(type) }
@@ -22,7 +22,6 @@ class UserRegistrationTest < ActionController::IntegrationTest
     fills_in "first name", :with => 'John'
     fills_in "last name", :with => 'Doe'
     fills_in "email", :with => 'email@test.com'
-    fills_in "login", :with => 'login'
     fills_in "password", :with => 'password'
     clicks_button "Register"
 

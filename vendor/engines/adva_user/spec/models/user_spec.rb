@@ -7,7 +7,6 @@ describe User do
     @user = User.new :first_name => 'not',
                      :last_name => 'taken',
                      :email => 'not-taken@email.org',
-                     :login => 'not-taken',
                      :password => 'not-taken'
 
     @time_now = Time.now
@@ -69,10 +68,6 @@ describe User do
       @user.should validate_uniqueness_of(:email)
     end
 
-    it "validates the uniqueness of the login" do
-      @user.should validate_uniqueness_of(:login)
-    end
-
     it "validates the length of the last name" do
       @user.should validate_length_of(:last_name, :within => 0..40)
     end
@@ -99,12 +94,12 @@ describe User do
   describe 'class methods' do
     describe '.authenticate' do
       before :each do
-        User.stub!(:find_by_login).and_return @user
-        @credentials = {:login => 'login', :password => 'password'}
+        User.stub!(:find_by_email).and_return @user
+        @credentials = {:email => 'email@email.org', :password => 'password'}
       end
 
-      it 'fails if no user with the given login exists' do
-        User.should_receive(:find_by_login).with('login').and_return nil
+      it 'fails if no user with the given email exists' do
+        User.should_receive(:find_by_email).with('email@email.org').and_return nil
         User.authenticate(@credentials).should be_false
       end
 
@@ -144,7 +139,7 @@ describe User do
 
     describe '.create_superuser' do
       before :each do
-        @attributes = {:login => 'login'}
+        @attributes = {:email => 'email@email.org'}
         User.stub!(:new).and_return @user
         @user.stub!(:save)
         @user.stub!(:roles).and_return []

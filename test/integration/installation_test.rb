@@ -4,7 +4,8 @@ class InstallationTest < ActionController::IntegrationTest
   include CacheableFlash::TestHelpers
 
   def setup
-    #
+    Site.delete_all
+    User.delete_all
   end
 
   def test_a_user_installs_the_initial_site_and_then_logs_out_and_views_the_empty_frontend
@@ -14,8 +15,6 @@ class InstallationTest < ActionController::IntegrationTest
     # user should see the install template
     assert_template "admin/install/index"
 
-    # TODO: test for form? -> And the page has a site install form
-
     # fill in the form and submit the form
     fills_in "website name",  :with => "adva-cms Test"
     fills_in "website title", :with => "adva-cms Testsite"
@@ -24,9 +23,8 @@ class InstallationTest < ActionController::IntegrationTest
 
     # check that a new site is created
     assert_equal 1, Site.count
-    @site = Site.find(1)
+    @site = Site.first
     assert_not_nil @site
-    # maybe use assert_nothing_raised since find(1) would raise an error if no object exists
 
     # check that root section is created
     assert_equal 1, @site.sections.count
@@ -53,5 +51,8 @@ class InstallationTest < ActionController::IntegrationTest
 
     # check that the user sees the frontend
     assert_template "sections/show"
+    
+    #check that the frontend contains the site title
+    assert response.body =~ /adva-cms Testsite/, "frontend should contain site title"
   end
 end
