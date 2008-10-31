@@ -12,6 +12,7 @@ public/cache/*
 public/images/themes/*
 public/javascripts/cache/*
 public/stylesheets/cache/*
+themes
 themes/site-*
 *.swp
 vendor/engines/adva_rbac/spec/db/*.sqlite3
