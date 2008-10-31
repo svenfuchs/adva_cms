@@ -8,4 +8,9 @@ class LambdaTable
   def self.lookup(key)
     @@table[key]
   end
+  
+  # mostly for testing
+  def self.clear
+    @@table = Hash.new
+  end
 end
