@@ -1,57 +1,53 @@
+Welcome to Adva
+===============
+
+Adva cms is a cutting edge open source application platform 
+based on Ruby on Rails and Rails Engines.
+
+Different from others, adva cms lives in vendor directory and keeps your
+main app directory clean and dandy. So you can reclaim app directory and 
+use it only for your own application files.
+
+Adva makes it extensible: you can only pick those engines/features you
+really need for your application and omit the rest. All engines are
+designed to work together seamlessly, so the whole platform feels much
+more consistent for similar but separate Rails applications.
+
 Find out more about adva-cms at: http://adva-cms.org
 
-## Bugs
 
-Our infinitely awesome Lighthouse is at: http://artweb-design.lighthouseapp.com/projects/13992-adva_cms/overview
+Installation
+============
 
-Please use it :)
+You need Rails version 2.1.2 or newer
 
-## Prerequisites
-
-Rails 2.1
-
-## Installation
-
+* git clone http://github.com/svenfuchs/adva_cms/tree/master
 * cp config/database.example.yml config/database.yml
 * run rake db:migrate:all to setup the database (Sqlite for toying)
 * start the server
 * visit http://localhost:3000
 
-Optionally tweak config/database.yml (e.g. for MySQL) and run rake db:create, 
-then continue as above.
-
-You should be directed to an installation screen. Fill out the form and you're
-started.
-
-The forum section type currently does not work, so don't add a forum to your
-site.
-
-## Running specs and stories
-
-To run the specs use:
-
-    script/spec -O spec/spec.opts <path>
-  
-with `<path>` being a directory containing specs, a single spec filename
-or a path glob specification like `spec/controllers/blog*`
-
-E.g.
-
-    script/spec -O spec/spec.opts spec # will run all specs
-    script/spec -O spec/spec.opts spec/controllers/blog_controller_spec.rb # will run the blog_controller spec
-    ruby stories/run.rb stories/stories/*routes* # will run all routes specs
+You should be directed to an installation screen. 
+Fill out the form and you're started.
 
 
-Same thing with the stories, except that you run the stories/run.rb script.
-To run the stories use:
+Adva development
+================
 
-    ruby stories/run.rb <path>
+Please report bugs to Lighthouse: 
+http://artweb-design.lighthouseapp.com/projects/13992-adva_cms/overview
 
-with `<path>` being a directory containing stories, a single story filename
-or a path glob specification like `stories/stories/blog*`
+Git repository:
+http://github.com/svenfuchs/adva_cms/tree/master
 
-E.g.
+Adva mailing list:
+http://groups.google.com/group/adva-cms
 
-    ruby stories/run.rb stories # will run all stories
-    ruby stories/run.rb stories/stories/login.txt # will run the login story
-    ruby stories/run.rb stories/stories/blog* # will run all blog stories
+Adva irc:
+irc://irc.freenode.net#adva-cms
+
+Running specs and stories
+
+    rake adva_cms:test         # Runs all adva specs and stories
+    rake adva_cms:test:specs   # Runs all adva specs
+    rake adva_cms:test:stories # Runs all adva stories
