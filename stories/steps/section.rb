@@ -78,4 +78,9 @@ steps_for :section do
     request.request_uri.should == controller.admin_section_contents_path(@section)
     response.should render_template('admin/articles/index')
   end
+
+  Then "the user is redirected to the admin section's edit page" do
+    request.request_uri.should == controller.send(:edit_admin_section_path, @section.site, @section)
+    response.should render_template('admin/sections/edit')
+  end
 end

@@ -21,7 +21,7 @@ Story: Managing a site's sections
     When the user fills in title with 'an updated title'
     And the user clicks the 'Save' button
     Then the section's title is set to 'an updated title'
-    And the user is redirected to the admin section's contents page
+    And the user is redirected to the admin section's edit page
 
   Scenario: An admin allows section commenting
     Given a site with a Section
@@ -31,7 +31,7 @@ Story: Managing a site's sections
     When the user selects Comments as 'Never expire'
     And the user clicks the 'Save' button
     Then the section's comments are set to 'Never expire'
-    And the user is redirected to the admin section's contents page
+    And the user is redirected to the admin section's edit page
 
   Scenario: An admin views an overview of a sections comments
     Given a site with a Section
