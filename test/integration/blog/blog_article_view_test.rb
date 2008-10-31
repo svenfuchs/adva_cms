@@ -157,19 +157,24 @@ class BlogArticleViewTest < ActionController::IntegrationTest
   end
   
   def test_view_blog_article_with_permissions_to_edit_article
-    site = Factory :site_with_blog
     article = Factory :published_blog_article
-    site.sections.first.articles = [article]
-  
+    site = article.site
+    blog = article.section
+    
     # go to article show page
-    get "/2008/10/16/adva-cms-kicks-ass"
+    get article_path(blog, 2008, 10, 16, article.permalink)
     
     # check that the article show page is rendered
     assert_template "blog/show"
-  
+    
+    # edit link should be visible for only certain people
+    admin       = "site-#{site.id}-admin"
+    moderator   = "section-#{blog.id}-moderator"
+    owner       = "content-#{article.id}-owner"
+    visible_for = "#{moderator} #{admin} #{owner} superuser"
+    
     # check that the page shows the edit link
-    edit_link = "/admin/sites/#{site.id}/sections/#{article.section.id}/articles/#{article.id}/edit"
-    assert_select "span.visible-for", true, "The page should contain authorized span." do
+    assert_select "span.visible-for #{visible_for}", true, "The page should contain authorized span for #{visible_for}." do
       assert_select "a[href$='edit']", true, "The page should contain the edit link."
     end
   
