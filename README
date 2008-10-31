@@ -1,4 +1,5 @@
-= Wecolme to Adva
+Wecolme to Adva
+===============
 
 Adva cms is a cutting edge open source application platform 
 based on Ruby on Rails and Rails Engines.
@@ -15,7 +16,8 @@ consistent for similar but separate Rails applications.
 Find out more about adva-cms at: http://adva-cms.org
 
 
-= Installation
+Installation
+============
 
 You need Rails version 2.1.2 or newer
 
@@ -28,7 +30,8 @@ You should be directed to an installation screen.
 Fill out the form and you're started.
 
 
-= Adva development
+Adva development
+================
 
 Please report bugs to Lighthouse: 
 http://artweb-design.lighthouseapp.com/projects/13992-adva_cms/overview
