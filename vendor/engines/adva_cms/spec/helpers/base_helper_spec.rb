@@ -107,42 +107,35 @@ describe BaseHelper do
 
   describe 'author selection' do
     before(:each) do
-      @user = mock_model User
-      @user.stub!(:id).and_return 1
+      @user     = mock_model User, :id => 1, :name => 'John Doe'
+      @member_1 = mock_model User, :id => 2, :name => 'Donald Duck'
+      @member_2 = mock_model User, :id => 3, :name => 'Uncle Scrooge'
+      helper.stub!(:current_user).and_return(@user)
     end
 
     it '#author_options returns a nested array containing the current user as a fallback option if the site does not have any members' do
-      helper.stub!(:current_user).and_return(@user)
-
-      @user.should_receive(:name).and_return('John Doe')
-      @user.should_receive(:id).and_return(1)
-      @site.should_receive(:users).and_return []
-      @article = mock_model Article
-
+      @site.stub!(:users).and_return []
       helper.author_options.should == [['John Doe', 1]]
     end
 
     it '#author_options returns a nested array containing the members of the site' do
-      @user.stub!(:first_name).and_return('John')
-      @user.stub!(:last_name).and_return('Doe')
-      @user.stub!(:name).and_return('John Doe')
-      @user.stub!(:id).and_return(1)
-
-      helper.should_not_receive(:current_user)
-      @site.should_receive(:users).exactly(2).times.and_return [@user]
-
+      @site.stub!(:users).and_return [@user]
       helper.author_options.should == [['John Doe', 1]]
     end
-
-    it "#author_preselect returns an id of current_user if article does not have any author" do
-      @article.should_receive(:author).and_return(nil)
-      helper.should_receive(:current_user).and_return(@user)
-      helper.author_preselect.should == 1
+    
+    it '#author_options returns always current_user as an option along with the members of the site' do
+      @site.stub!(:users).and_return [@member_1, @member_2]
+      helper.author_options.should == [['Donald Duck', 2], ['John Doe', 1], ['Uncle Scrooge', 3]]
+    end
+    
+    it '#author_options returns always current_user as an option along with the members of the site and make sure user names are unique' do
+      @site.should_receive(:users).exactly(2).times.and_return [@member_1, @member_2, @user]
+      helper.author_options.should == [['Donald Duck', 2], ['John Doe', 1], ['Uncle Scrooge', 3]]
     end
 
-    it "#author_preselect returns an id of the author" do
-      @article.should_receive(:author).exactly(2).times.and_return(@user)
-      helper.author_preselect.should == 1
+    it "#author_preselect returns an id of current_user if article does not have any author or if content cannot be determined" do
+      helper.stub!(:current_user).and_return(@member_1)
+      helper.author_preselect.should == 2
     end
   end
 

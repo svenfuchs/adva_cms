@@ -81,12 +81,16 @@ module BaseHelper
   end
 
   def author_options
-    return [[current_user.name, current_user.id]] if @site.users.empty?
-    @site.users.collect {|member| [member.name, member.id]}.sort
+    members = [[current_user.name, current_user.id]]
+    return members if @site.users.empty?
+    
+    members += @site.users.collect {|member| [member.name, member.id]}
+    members.uniq.sort
   end
 
   def author_preselect
     content = (@article || @wikipage)
+    return current_user.id if content.nil?
     content.author ? content.author.id : current_user.id
   end
 end
