@@ -94,9 +94,25 @@ class WikiTest < ActionController::IntegrationTest
     
     # check that the index page is cached
     assert_page_cached
+  end
+  
+  # Scenario: Viewing a wikipage
+  def test_view_wikis_wikipage
+    site = Factory :site_with_wiki
+    wiki = site.sections.first
+    wiki.wikipages << Factory(:wikipage)
+    wikipage = wiki.wikipages.first
     
     # go to wikipage show page
     get "/pages/wiki-home"
+    
+    # authorized link should be visible only for following people:
+    user            = "user-#{wikipage.author.id}"
+    site_admin      = "site-#{site.id}-admin"
+    wiki_moderator  = "section-#{wiki.id}-moderator"
+    wikipage_author = "content-#{wikipage.author.id}-author"
+    wikipage_owner  = "content-#{wikipage.author.id}-owner"
+    visible_for = "user #{user} #{wikipage_author} #{wiki_moderator} #{site_admin} #{wikipage_owner} superuser"
     
     # the page renders the wikipage show page
     assert_template 'wiki/show', "Wikipage should have a template for show view"
@@ -107,15 +123,35 @@ class WikiTest < ActionController::IntegrationTest
       assert_select "div.meta", true, "The page should contain meta information." do
         # ... with link to wikipages index ...
         assert_select "a[href$='pages']", true, "The page should contain a link to wikipages index."
+        # ... with revision number ...
+        assert_select "h4", /revision: /, "The meta information of the wikipage should contain a revision number."
+        # ... with author name ...
+        assert_select "p", /by: John Doe/, "The meta information of the wikipage should contain the name of the author"
       end
       # ... with wikipage content ...
       assert_select "div.content" do
-        
+        # ... with link to a wikipage ...
+        assert_select "a[href$='pages/#{wikipage.permalink}']", true, "The page should contain a link to the wikipage."
+        # ... with wikipage body ...
+        assert_select "p", /this is a wiki home page/, "The content of the wikipage should contain the body of wikipage."
+        # ... with link list ...
+        assert_select "ul.links", true, "The page should have list of links" do
+          # ... with link to the home ...
+          assert_select "a[href='/']", true, "The page should contain a link to the home."
+          # ... with authorized links ...
+          assert_select "li[class~='visible-for #{visible_for}']", true, "The page should contain authorized span for #{visible_for}." do
+            # ... with authorized edit link ...
+            assert_select "a[href$='edit']", true, "The page should contain the edit link."
+          end
+          # ... with link to go to previous version ...
+          assert_select "a[href$='rev/1']", true, "The page should contain the previous revision link."
+        end
       end
     end
+    
+    # check that the index page is cached
+    assert_page_cached
   end
-  
-  # Scenario: Viewing a wikipage
   
   # Scenario: Viewing a wikipage revision
 end

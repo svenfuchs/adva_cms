@@ -2,30 +2,6 @@ Story: Viewing a wikipage
   As a visitor 
   I want to access a wiki's pages
   So I can read all the useful information
-
-  Scenario: Viewing an empty wiki
-    Given page cache is enabled and empty
-    And a wiki that allows anonymous users to create and update wikipages
-    And no wikipage
-    When the user visits the wiki home page
-    Then the page has a wikipage creation form
-    And the page is not cached
-  
-  Scenario: Viewing the wiki home wikipage
-    Given page cache is enabled and empty
-    And a home wikipage
-    When the user visits the wiki home page
-    Then the page shows 'the home wikipage body'
-    And the edit link is only visible for certain roles
-    And the page is cached
-  
-  Scenario: Viewing a wikipage
-    Given page cache is enabled and empty
-    And a wikipage
-    When the user visits the wikipage page
-    Then the page shows 'the wikipage body'
-    And the edit link is only visible for certain roles
-    And the page is cached
   
   Scenario: Viewing a wikipage revision
     Given page cache is enabled and empty
