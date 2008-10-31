@@ -90,7 +90,10 @@ describe BlogController do
           before :each do
             controller.stub!(:current_user).and_return stub_model(User, :has_role? => false)
           end
-          it_redirects_to { 'http://test.host/login' }
+
+          it "it returns a 404 status" do
+            lambda { act! }.should raise_error(ActiveRecord::RecordNotFound)
+          end
         end
       end
     end

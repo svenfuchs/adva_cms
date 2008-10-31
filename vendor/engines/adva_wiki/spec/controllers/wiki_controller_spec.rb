@@ -36,7 +36,7 @@ describe WikiController do
   it "should be a BaseController" do
     controller.should be_kind_of(BaseController)
   end
-
+  
   # TODO these overlap with specs in wiki_routes_spec
   describe "routing" do
     with_options :section_id => "1" do |route|
@@ -45,11 +45,11 @@ describe WikiController do
       route.it_maps :get,    wiki_page_revision_path,      :show,    :id => 'a-wikipage', :version => '1'
       route.it_maps :get,    wiki_page_diff_path,          :diff,    :id => 'a-wikipage', :diff_version => '1'
       route.it_maps :get,    wiki_page_revision_diff_path, :diff,    :id => 'a-wikipage', :version => '1', :diff_version => '1'
-
+  
       route.it_maps :get,    wiki_pages_path,              :index
       route.it_maps :get,    wiki_category_path,           :index,   :category_id => '1'
       route.it_maps :get,    wiki_tag_path,                :index,   :tags => 'foo+bar'
-
+  
       route.it_maps :get,    new_wikipage_path,            :new
       route.it_maps :post,   wiki_pages_path,              :create
       route.it_maps :get,    edit_wikipage_path,           :edit,    :id => 'a-wikipage'
@@ -57,36 +57,36 @@ describe WikiController do
       route.it_maps :delete, wiki_page_path,               :destroy, :id => 'a-wikipage'
     end
   end
-
+  
   cached_paths.each do |path|
     describe "GET to #{path}" do
       act! { request_to :get, path }
       it_gets_page_cached
     end
   end
-
+  
   describe "GET to #{wiki_pages_path}" do
     act! { request_to :get, wiki_pages_path }
     it_assigns :wikipages
     it_renders_template :index
     # it_guards_permissions :show, :wikipage
   end
-
+  
   describe "GET to #{wiki_category_path}" do
     act! { request_to :get, wiki_category_path }
     it_assigns :category
     # it_guards_permissions :show, :wikipage
   end
-
+  
   describe "GET to #{wiki_tag_path}" do
     act! { request_to :get, wiki_tag_path }
     it_assigns :tags
     # it_guards_permissions :show, :wikipage
   end
-
+  
   describe "GET to #{wiki_page_path}" do
     act! { request_to :get, wiki_page_path }
-
+  
     describe "with a non-existing wikipage" do
       before :each do
         @wikipage = Wikipage.new
@@ -95,16 +95,16 @@ describe WikiController do
       end
       it_guards_permissions :create, :wikipage
       it_assigns :wikipage, :categories
-
+  
       describe "and the current user having sufficient permissions to add a page" do
         it_renders_template :new
-
+  
         it "it skips page_caching" do
           controller.expect_render hash_including(:skip_caching => true)
           act!
         end
       end
-
+  
       describe "and the current user not having sufficient permissions to add a page" do
         before :each do
           controller.stub!(:has_permission?).and_return false
@@ -112,112 +112,112 @@ describe WikiController do
         it_redirects_to { login_path }
       end
     end
-
+  
     describe "with an existing wikipage" do
       it_assigns :wikipage
       it_renders_template :show
       # it_guards_permissions :show, :wikipage
     end
   end
-
+  
   describe "GET to #{wiki_page_revision_path}" do
     act! { request_to :get, wiki_page_revision_path }
     # it_guards_permissions :show, :wikipage
-
+  
     it "reverts the wikipage to the given version" do
       @wikipage.should_receive(:revert_to).at_least :once
       act!
     end
   end
-
+  
   describe "GET to #{wiki_page_diff_path}" do
     act! { request_to :get, wiki_page_diff_path }
     it_assigns :wikipage, :diff => 'the diff'
     # it_guards_permissions :show, :wikipage
-
+  
     it "diffs the wikipage against the given version" do
       @wikipage.should_receive(:diff_against_version)
       act!
     end
   end
-
+  
   describe "GET to #{wiki_page_revision_diff_path}" do
     act! { request_to :get, wiki_page_revision_diff_path }
     it_assigns :wikipage, :diff => 'the diff'
     # it_guards_permissions :show, :wikipage
-
+  
     it "reverts the wikipage to the given version" do
       @wikipage.should_receive(:revert_to).at_least :once
       act!
     end
-
+  
     it "diffs the wikipage against the given version" do
       @wikipage.should_receive(:diff_against_version)
       act!
     end
   end
-
+  
   describe "GET to #{edit_wikipage_path}" do
     act! { request_to :get, edit_wikipage_path }
     it_guards_permissions :update, :wikipage
     it_assigns :wikipage, :categories
     it_renders_template :edit
   end
-
+  
   describe "POST to :create" do
     before :each do
       @wikipage.stub!(:state_changes).and_return([:created])
     end
-    
+  
     act! { request_to :post, wiki_pages_path, :wikipage => {} }
     it_guards_permissions :create, :wikipage
     it_assigns :wikipage
-
+  
     it "instantiates a new wikipage from section.wikipages" do
       @wiki.wikipages.should_receive(:create).and_return @wikipage
       act!
     end
-
+  
     describe "given valid wikipage params" do
       it_redirects_to { wikipage_path }
       it_assigns_flash_cookie :notice => :not_nil
       it_triggers_event :wikipage_created
     end
-
+  
     describe "given invalid wikipage params" do
-      before :each do 
-        @wiki.wikipages.should_receive(:create).and_return false 
+      before :each do
+        @wiki.wikipages.should_receive(:create).and_return false
       end
       it_renders_template :new
       it_assigns_flash_cookie :error => :not_nil
       it_does_not_trigger_any_event
     end
   end
-
+  
   describe "PUT to :update", "with no :version param" do
     before :each do
       controller.stub!(:optimistic_lock)
       @wikipage.stub!(:state_changes).and_return([:updated])
     end
-
+  
     act! { request_to :put, wikipage_path, :wikipage => {} }
     it_guards_permissions :update, :wikipage
     it_assigns :wikipage
-
+  
     it "updates the wikipage with the wikipage params" do
       @wikipage.should_receive(:update_attributes).and_return true
       act!
     end
-
+  
     describe "given valid wikipage params" do
       it_redirects_to { wikipage_path }
       it_assigns_flash_cookie :notice => :not_nil
       it_triggers_event :wikipage_updated
     end
-
+  
     describe "given invalid wikipage params" do
-      before :each do 
-        @wikipage.stub!(:update_attributes).and_return false 
+      before :each do
+        @wikipage.stub!(:update_attributes).and_return false
       end
       it_renders_template :edit
       it_assigns_flash_cookie :error => :not_nil
@@ -228,15 +228,16 @@ describe WikiController do
   describe "PUT to :update", "with a :version param" do
     before :each do
       controller.stub!(:optimistic_lock)
-      @wikipage.stub!(:revert_to!).and_return true
+      @wikipage.stub!(:revert_to).and_return true
+      @wikipage.stub!(:save).and_return true
     end
 
-    act! { request_to :put, wikipage_path, {:wikipage => {:version => 1} } }
+    act! { request_to :put, wikipage_path, { :version => 1 } }
     it_guards_permissions :update, :wikipage
     it_assigns :wikipage
 
     it "tries to roll the wikipage back to the given version" do
-      @wikipage.should_receive(:revert_to!).and_return true
+      @wikipage.should_receive(:revert_to).and_return true
       act!
     end
 
@@ -245,12 +246,13 @@ describe WikiController do
       it_assigns_flash_cookie :notice => :not_nil
       it_triggers_event :wikipage_rolledback
     end
-
+    
     describe "given the wikipage can not be rolled back the given version" do
       before :each do
-        @wikipage.stub!(:revert_to!).and_return false
+        @wikipage.stub!(:revert_to).and_return false
+        @wikipage.stub!(:save).and_return false
       end
-      
+    
       it_renders_template :edit
       it_assigns_flash_cookie :error => :not_nil
       it_does_not_trigger_any_event
@@ -261,7 +263,7 @@ describe WikiController do
     before :each do
       @wikipage.stub!(:state_changes).and_return([:deleted])
     end
-    
+
     act! { request_to :delete, wikipage_path }
     it_guards_permissions :destroy, :wikipage
     it_assigns :wikipage

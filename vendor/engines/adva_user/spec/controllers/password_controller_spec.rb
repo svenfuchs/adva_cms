@@ -35,7 +35,7 @@ describe PasswordController do
     
     describe "given an invalid email address" do
       before :each do
-        User.stub!(:find_by_email).with(@params[:email]).and_return nil
+        User.stub!(:find_by_email).with(@params[:user][:email]).and_return nil
       end
       
       it_does_not_trigger_any_event
