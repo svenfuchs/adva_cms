@@ -21,8 +21,6 @@ class BaseController < ApplicationController
   #                          :force_template_types => ['html.serb', 'liquid']
   #                          :force_template_types => lambda {|c| ['html.serb', 'liquid'] unless c.class.name =~ /^Admin::/ }
 
-  def perma_host; @site.perma_host end
-
   # TODO move these to acts_as_commentable (?)
   caches_page_with_references :comments, :track => ['@commentable']
 
@@ -84,15 +82,22 @@ class BaseController < ApplicationController
       @section || @site
     end
 
+    def perma_host
+      @site.perma_host 
+    end
+
     def page_cache_directory
       if Rails.env == 'test'
-         @site.multi_sites_enabled? ? 'tmp/cache/' + perma_host : 'tmp/cache'
+         Site.multi_sites_enabled ? 'tmp/cache/' + perma_host : 'tmp/cache'
        else
-         @site.multi_sites_enabled? ? 'public/cache/' + perma_host : 'public'
-       end          
+         Site.multi_sites_enabled ? 'public/cache/' + perma_host : 'public'
+       end
     end
     
     def set_cache_root
       self.class.page_cache_directory = page_cache_directory.to_s
     end
 end
+
+
+

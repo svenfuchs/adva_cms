@@ -64,14 +64,11 @@ steps_for :authentication do
     token = @user.assign_token! 'verify'
     AccountController.hidden_actions.delete 'verify'
     AccountController.instance_variable_set(:@action_methods, nil) # WTF ...
-    p token
-    p @user
     get "/account/verify?token=#{@user.id}%3B#{token}"
     @user = controller.current_user
   end
 
   Then "the user is verified" do
-    p @user
     @user.should be_verified
   end
 

@@ -82,9 +82,9 @@ steps_for :user do
     @user.verified?.should be_true
   end
 
-  Then "the other user's name is 'an updated name'" do
+  Then "the other user's email is 'updated-email@email.org'" do
     @other_user.reload
-    @other_user.name.should == 'an updated name'
+    @other_user.email.should == 'updated-email@email.org'
   end
 
   Then "the page shows a list of users with $count entries" do |count|

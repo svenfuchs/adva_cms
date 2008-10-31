@@ -62,7 +62,9 @@ steps_for :asset do
   end
 
   Then "the asset immediately shows up on the page" do
-    response.should have_text(%r(new Insertion.Bottom\("bucket-assets",.*#{@asset.filename}))
+    assert_select_rjs :insert, :bottom, 'Element' do
+      assert_select 'li a[href=?]', @asset.public_filename_with_host
+    end
     response.should_not have_text(%r(<html.*>)) # no layout
   end
 end

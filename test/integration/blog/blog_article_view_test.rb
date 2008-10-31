@@ -161,7 +161,7 @@ class BlogArticleViewTest < ActionController::IntegrationTest
     assert_not_page_cached
   end
   
-  def test_view_blog_article_with_permissions_to_edit_article
+  def test_preview_blog_article_with_permissions_to_edit_article 
     site = Factory :site
     blog = Factory :blog
     article = Factory :published_blog_article

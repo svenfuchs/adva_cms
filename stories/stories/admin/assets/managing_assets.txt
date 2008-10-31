@@ -21,7 +21,7 @@ Story: Managing assets (TODO: attach to article)
     And the user is redirected to admin sites assets list page
     Then the page has a list of assets with at least one asset
   
-  Scenario: An admin updates an asset
+  Scenario: An admin updates an asset and edits it
     GivenScenario: An admin uploads an asset
     When the user clicks on 'Edit'
     Then the page has an admin asset edit form

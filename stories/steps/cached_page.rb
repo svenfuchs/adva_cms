@@ -14,16 +14,16 @@ steps_for :cached_page do
   end
 
   Given 'a page is cached' do
-    @path = ActionController::Base.send :page_cache_path, '/'
     get '/'
+    @path = controller.page_cache_directory + ActionController::Base.send(:page_cache_file, '/')
     @cached_page = CachedPage.find(:first)
     Pathname.new(@path).should exist
   end
 
   Given 'the other page is cached' do
     raise "this step expects the variable @section to be set" unless @section
-    @other_path = ActionController::Base.send :page_cache_path, "/#{@section.permalink}"
     get "/#{@section.permalink}"
+    @other_path = controller.page_cache_directory + ActionController::Base.send(:page_cache_file, "/#{@section.permalink}")
     @other_cached_page = CachedPage.find(:first)
     Pathname.new(@other_path).should exist
   end

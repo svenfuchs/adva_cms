@@ -74,7 +74,7 @@ ActionController::Base.class_eval do
       expire_pages CachedPage.find_all_by_site_id(@site.id)
     else
       @site.cached_pages.delete_all
-      cache_dir.rmtree rescue Errno::ENOENT
+      Pathname.new(cache_dir).rmtree rescue Errno::ENOENT
     end
     
     # expire asset_tag_helper file_exist_cache so that assets will be re-cached
