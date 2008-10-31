@@ -10,6 +10,11 @@ class BlogIndexTest < ActionController::IntegrationTest
   # TODO: make caching work correctly
 
   def setup
+    Site.delete_all
+    Section.delete_all
+    Content.delete_all
+    User.delete_all
+
     #enable_page_caching!
     #flush_page_cache!
   end

@@ -15,6 +15,11 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', '..', '..', 'te
 
 class BlogArticleDeleteTest < ActionController::IntegrationTest
   def setup
+    Site.delete_all
+    Section.delete_all
+    Content.delete_all
+    User.delete_all
+
     @site = Factory :site
     @blog = Factory :blog
     @article = Factory :published_blog_article

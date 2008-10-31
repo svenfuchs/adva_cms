@@ -5,6 +5,9 @@
   	    <%= datetime_with_microformat(article.published_at, :format => :long) %><br />
   	    by: <%= article.author_name %><br />
     	  <%= link_to_content_comments article unless mode == :single %>
+    	  <% authorized_tag :span, :update, article do -%>
+      		<%= link_to 'edit', edit_admin_article_path(@site, @section, article) %>
+		    <% end -%>
   	  </p>
   	  <p>
       	<%= links_to_content_categories article, "in: %s<br />" %>

@@ -8,7 +8,12 @@ end
 class UserRegistrationTest < ActionController::IntegrationTest
   include CacheableFlash::TestHelpers
 
+  
   def setup
+    Site.delete_all
+    Section.delete_all
+    User.delete_all
+    
     Event::TestLog.clear!
   end
 

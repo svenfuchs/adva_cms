@@ -8,6 +8,14 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', 'test_helper' )
 class WikiTest < ActionController::IntegrationTest
   include CacheableFlash::TestHelpers
   
+  def setup
+    Site.delete_all
+    Section.delete_all
+    Content.delete_all
+    Content::Version.delete_all
+    User.delete_all
+  end
+  
   # Scenario: Viewing an empty wiki
   def test_view_empty_wiki_with_default_permissions
     site = Factory :site_with_wiki
