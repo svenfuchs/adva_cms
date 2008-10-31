@@ -8,10 +8,10 @@ Different from others, adva cms lives in vendor directory and keeps your
 main app directory clean and dandy. So you can reclaim app directory and 
 use it only for your own application files.
 
-Adva makes it extensible: you can only pick those engines/features
-you really need for your application and omit the rest. All engines are
-designed to work together seamlessly, so the whole platform feels much more
-consistent for similar but separate Rails applications.
+Adva makes it extensible: you can only pick those engines/features you
+really need for your application and omit the rest. All engines are
+designed to work together seamlessly, so the whole platform feels much
+more consistent for similar but separate Rails applications.
 
 Find out more about adva-cms at: http://adva-cms.org
 
@@ -21,6 +21,7 @@ Installation
 
 You need Rails version 2.1.2 or newer
 
+* git clone http://github.com/svenfuchs/adva_cms/tree/master
 * cp config/database.example.yml config/database.yml
 * run rake db:migrate:all to setup the database (Sqlite for toying)
 * start the server
