@@ -45,10 +45,7 @@ http://groups.google.com/group/adva-cms
 Adva irc:
 irc://irc.freenode.net#adva-cms
 
-
-== Running specs and stories
-
-To run adva specs and stories use:
+Running specs and stories
 
     rake adva_cms:test         # Runs all adva specs and stories
     rake adva_cms:test:specs   # Runs all adva specs
