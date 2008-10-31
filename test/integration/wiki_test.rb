@@ -174,6 +174,14 @@ class WikiTest < ActionController::IntegrationTest
     # go to wikipage show page
     get "/pages/wiki-home"
     
+    # authorized link should be visible only for following people:
+    user            = "user-#{wikipage.author.id}"
+    site_admin      = "site-#{site.id}-admin"
+    wiki_moderator  = "section-#{wiki.id}-moderator"
+    wikipage_author = "content-#{wikipage.author.id}-author"
+    wikipage_owner  = "content-#{wikipage.author.id}-owner"
+    visible_for     = "user #{user} #{wikipage_author} #{wiki_moderator} #{site_admin} #{wikipage_owner} superuser"
+    
     assert_select "div.content" do
       # the page should display updated wikipage body
       assert_select "p", /Updated wikipage body./, "The content of the wikipage should contain the body of the updated wikipage."
@@ -193,8 +201,11 @@ class WikiTest < ActionController::IntegrationTest
     # The page should have a link return to current version
     assert_select "a[href$='#{wikipage.permalink}']", true, "The page should contain the link for returning to present version"
     
-    # The page should have a link to go to previous version
-    assert_select "a[href$='#{wikipage.permalink}?version=#{wikipage.version - 1}']", true, "The page should contain the link to rollback."
+    # The page should have an authorized links ...
+    assert_select "li[class~='visible-for #{visible_for}']", true, "The page should contain authorized span for #{visible_for}." do 
+      # ... for rollback ...
+      assert_select "a[href$='#{wikipage.permalink}?version=#{wikipage.version - 1}']", true, "The page should contain the link to rollback."
+    end
     
     # check that the index page is cached
     assert_page_cached
