@@ -10,7 +10,7 @@
 
 <% form_for :user, @user, :url => member_path, :html => {:method => :put} do |f| -%>
   <%= render :partial => 'form', :locals => {:f => f} %>  
-  <%= render :partial => 'roles', :locals => {:f => f} if current_user.has_role?(:admin, :context => @site) %>
+  <%= render :partial => 'roles', :locals => {:f => f} if @site || current_user.has_role?(:admin, :context => @site) %>
   <%= render :partial => 'memberships', :locals => {:f => f} if @site %>
 
   <p class="buttons">
