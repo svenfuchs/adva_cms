@@ -1,0 +1,14 @@
+<h2>Import a theme</h2>
+
+<% form_for :theme, @theme, :url => import_admin_themes_path(@site), :html => {:multipart => true} do |f| %>
+  <fieldset>
+    <p>
+      <%= f.label :file, 'Zip file' %>
+      <%= f.file_field :file %>
+    </p>
+  </fieldset>
+    <p class="buttons">
+      <%= f.submit 'Import' %>
+      <%= link_to "cancel", admin_themes_path %>
+    </p>
+<% end %>

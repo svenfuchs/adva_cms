@@ -1,0 +1,26 @@
+<fieldset>
+  <p>
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.label :author %>
+    <%= f.text_field :author %>
+  </p>
+  <p>
+    <%= f.label :homepage %>
+    <%= f.text_field :homepage %>
+  </p>
+  <p>
+    <%= f.label :version %>
+    <%= f.text_field :version, :class => 'short' %>
+  </p>
+  <p>
+    <%= f.label :summary %>
+    <%= f.text_area :summary, :class => 'short' %>
+  </p>
+  <p class="buttons">
+    <%= f.submit 'Save' %>
+    <%= link_to "cancel", admin_themes_path %>
+  </p>
+</fieldset>
