@@ -21,9 +21,8 @@ def dir_pattern(path)
 end
 
 paths = ARGV.clone
-paths.shift
 paths = files_to_load(paths)
-p paths
+
 unless paths.empty?
   root_path = File.dirname(__FILE__).gsub(/vendor.*/, '')
   puts 'Running integration tests:'
