@@ -1,0 +1,30 @@
+# Logfile created on Tue Oct 28 13:41:00 +0100 2008 by /
+  [4;36;1mSQL (0.000689)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.000749)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.000698)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.000694)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.000625)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.000756)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mRbac::Role::Base Delete all (0.001768)[0m   [0;1mDELETE FROM "roles" WHERE 1=1[0m
+  [4;35;1mRbac::Role::User Create (0.000598)[0m   [0mINSERT INTO "roles" ("context_id", "context_type", "type", "user_id") VALUES(NULL, NULL, 'Rbac::Role::User', NULL)[0m
+  [4;36;1mRbac::Role::User Load (0.000326)[0m   [0;1mSELECT * FROM "roles" WHERE ( ("roles"."type" = 'Rbac::Role::User' ) ) LIMIT 1[0m
+  [4;35;1mSite Create (0.000574)[0m   [0mINSERT INTO "sites" ("account_id", "permissions") VALUES(NULL, NULL)[0m
+  [4;36;1mRbac::Role::Admin Create (0.000175)[0m   [0;1mINSERT INTO "roles" ("context_id", "context_type", "type", "user_id") VALUES(1, 'Site', 'Rbac::Role::Admin', NULL)[0m

@@ -1,0 +1,32 @@
+td.topic {
+	padding-left: 36px !important;
+	background: url(/images/adva_cms/icons/comment.gif) no-repeat 9px 10px;
+}
+td.locked {
+	background: url(/images/adva_cms/icons/icon_padlock.gif) no-repeat 9px 10px;
+}
+
+/* POSTS FORM */
+
+#post_form {
+	padding-left: 170px;
+	padding-bottom: 9px;
+	margin-bottom: 26px;
+	border-bottom: 1px solid #bbb;
+}
+#post_user {
+	float: right;
+	margin-top: 3px;
+}
+#post_form label {
+	display: block;
+	float: left;
+	width: 100px;
+}
+#post_form input {
+	width: 180px;
+}
+#post_form textarea {
+	height: 150px;
+	width: 99%;
+}

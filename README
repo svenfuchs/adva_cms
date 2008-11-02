@@ -1,53 +1,54 @@
-Welcome to Adva
-===============
+Welcome to adva-cms
+===================
+ 
+adva-cms is a cutting edge open source application platform based on Ruby on
+Rails and Rails Engines.
 
-Adva cms is a cutting edge open source application platform 
-based on Ruby on Rails and Rails Engines.
+Different from others, adva-cms lives in vendor directory and keeps your main
+app directory clean and dandy. So you can reclaim app directory and use it
+only for your own application files.
 
-Different from others, adva cms lives in vendor directory and keeps your
-main app directory clean and dandy. So you can reclaim app directory and 
-use it only for your own application files.
-
-Adva makes it extensible: you can only pick those engines/features you
-really need for your application and omit the rest. All engines are
-designed to work together seamlessly, so the whole platform feels much
-more consistent for similar but separate Rails applications.
-
+Adva makes it extensible: you can only pick those engines/features you really
+need for your application and omit the rest. All engines are designed to work
+together seamlessly, so the whole platform feels much more consistent for
+similar but separate Rails applications.
+ 
 Find out more about adva-cms at: http://adva-cms.org
-
-
+ 
+ 
 Installation
 ============
-
+ 
 You need Rails version 2.1.2 or newer
-
+ 
 * git clone http://github.com/svenfuchs/adva_cms/tree/master
 * cp config/database.example.yml config/database.yml
 * run rake db:migrate:all to setup the database (Sqlite for toying)
 * start the server
 * visit http://localhost:3000
-
+ 
 You should be directed to an installation screen. 
 Fill out the form and you're started.
-
-
-Adva development
-================
-
+ 
+ 
+adva-cms development
+====================
+ 
 Please report bugs to Lighthouse: 
 http://artweb-design.lighthouseapp.com/projects/13992-adva_cms/overview
-
+ 
 Git repository:
 http://github.com/svenfuchs/adva_cms/tree/master
-
-Adva mailing list:
+ 
+adva-cms mailing list:
 http://groups.google.com/group/adva-cms
-
-Adva irc:
+ 
+adva-cms irc:
 irc://irc.freenode.net#adva-cms
-
+ 
 Running specs and stories
-
+ 
     rake adva_cms:test         # Runs all adva specs and stories
     rake adva_cms:test:specs   # Runs all adva specs
     rake adva_cms:test:stories # Runs all adva stories
+ 
