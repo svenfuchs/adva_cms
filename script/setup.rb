@@ -12,4 +12,4 @@ patch_file config_path + '/environment.rb',
 
 patch_file config_path + '/routes.rb',
            "ActionController::Routing::Routes.draw do |map|",
-           "\tAdvaCms::Routes.from_plugins(map)\n"
+           "\tmap.from_plugins\n"
