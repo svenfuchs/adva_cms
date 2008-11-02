@@ -41,7 +41,7 @@ describe UsersHelper do
     end
 
     it "returns a default image url if the given email adress is blank" do
-      helper.gravatar_url.should == 'avatar.gif'
+      helper.gravatar_url.should == '/images/adva_cms/avatar.gif'
     end
 
     it "the resulting gravatar url includes a gravatar_id parameter with the given email adress turned into a md5 hexdigest" do
@@ -53,7 +53,7 @@ describe UsersHelper do
     end
 
     it "the resulting gravatar url includes a default parameter" do
-      helper.gravatar_url(@email).should =~ %r(default=http://test.host/images/avatar.gif)
+      helper.gravatar_url(@email).should =~ %r(default=http://test.host/images/adva_cms/avatar.gif)
     end
   end
 end
