@@ -19,13 +19,30 @@ Find out more about adva-cms at: http://adva-cms.org
 Installation
 ============
  
-You need Rails version 2.1.2 or newer
- 
-* git clone http://github.com/svenfuchs/adva_cms/tree/master
-* cp config/database.example.yml config/database.yml
-* run rake db:migrate:all to setup the database (Sqlite for toying)
-* start the server
-* visit http://localhost:3000
+You need Rails version 2.1.2 or newer.
+
+  rails adva-app
+  cd adva-app
+  git clone git://github.com/svenfuchs/adva_cms.git vendor/adva
+  cd vendor/adva
+  git co --track -b library origin/library
+  cd ../..
+  echo "load 'vendor/adva/plugins/engines/tasks/engines.rake'" >> Rakefile
+
+  add to environment.rb
+    require File.join(File.dirname(__FILE__), '../vendor/adva/engines/adva_cms/boot')
+  
+  add to routes.rb
+    map.filter 'locale'
+    map.filter 'categories' # TODO fix: around_filter seems to call filters in reverse order
+    map.filter 'section_root'
+    map.filter 'section_paths'
+    map.filter 'pagination'
+    AdvaCms::Routes.from_plugins(map)
+  
+  run rake db:migrate:all to setup the database (Sqlite for toying)
+  start the server
+  visit http://localhost:3000
  
 You should be directed to an installation screen. 
 Fill out the form and you're started.
