@@ -27,19 +27,7 @@ You need Rails version 2.1.2 or newer.
   cd vendor/adva
   git co --track -b library origin/library
   cd ../..
-  echo "load 'vendor/adva/plugins/engines/tasks/engines.rake'" >> Rakefile
-
-  add to environment.rb
-    require File.join(File.dirname(__FILE__), '../vendor/adva/engines/adva_cms/boot')
-  
-  add to routes.rb
-    map.filter 'locale'
-    map.filter 'categories' # TODO fix: around_filter seems to call filters in reverse order
-    map.filter 'section_root'
-    map.filter 'section_paths'
-    map.filter 'pagination'
-    AdvaCms::Routes.from_plugins(map)
-  
+  ruby vendor/adva/script/setup.rb
   run rake db:migrate:all to setup the database (Sqlite for toying)
   start the server
   visit http://localhost:3000
