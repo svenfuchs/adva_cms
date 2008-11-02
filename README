@@ -24,9 +24,6 @@ You need Rails version 2.1.2 or newer.
   rails adva-app
   cd adva-app
   git clone git://github.com/svenfuchs/adva_cms.git vendor/adva
-  cd vendor/adva
-  git co --track -b library origin/library
-  cd ../..
   ruby vendor/adva/script/setup.rb
   run rake db:migrate:all to setup the database (Sqlite for toying)
   start the server
