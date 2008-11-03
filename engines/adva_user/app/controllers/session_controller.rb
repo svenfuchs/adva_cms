@@ -1,4 +1,6 @@
 class SessionController < BaseController
+  skip_before_filter :set_site, :set_section, :set_cache_root
+  
   authentication_required :except => [:new, :create]
   renders_with_error_proc :below_field
 
