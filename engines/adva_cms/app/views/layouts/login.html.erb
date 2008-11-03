@@ -3,10 +3,16 @@
   <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />   
     <title><%= controller.controller_name %></title>
-    <%= stylesheet_link_tag 'adva_cms/admin/base', 'adva_cms/admin/form', 
-                            'adva_cms/admin/layout/base', 'adva_cms/admin/layout/login', 
-                            :cache => 'cache/admin/login' %>
-    <%= javascript_include_tag 'prototype', 'effects', 'dragdrop', 'lowpro', 'flash', 'json', 'cookie', :cache => 'cache/admin/login' %>
+    
+    <%= stylesheet_link_tag    'adva_cms/admin/base', 'adva_cms/admin/form', 
+                               'adva_cms/admin/layout/base', 'adva_cms/admin/layout/login', 
+                               :cache => 'cache/admin/login' %>
+                            
+    <%= javascript_include_tag 'adva_cms/prototype', 'adva_cms/effects', 
+                               'adva_cms/dragdrop', 'adva_cms/lowpro', 
+                               'adva_cms/flash', 'adva_cms/json', 
+                               'adva_cms/cookie', 
+                               :cache => 'cache/admin/login' %>
     <%= yield :head %>
   </head>
   <body>   
