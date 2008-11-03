@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 rails_root = File.expand_path(File.dirname(__FILE__) + '/../../..')
 
 def patch_file(path, after, insert)
@@ -6,7 +8,7 @@ def patch_file(path, after, insert)
   File.open(path, 'w'){|f| f.write(content) }
 end
 
-File.unlink rails_root + '/public/index.html'
+File.unlink rails_root + '/public/index.html' rescue Errno::ENOENT
 
 patch_file rails_root + '/config/environment.rb',
            "require File.join(File.dirname(__FILE__), 'boot')",
