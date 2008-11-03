@@ -1,5 +1,7 @@
 <ul id="menu_global" class="clearing">
-  <li><%= admin_site_select_tag %></li>
+  <% if Site.multi_sites_enabled %>
+    <li><%= admin_site_select_tag %></li>
+  <% end %>
   <% if @site %>
     <li><%= link_to 'Plugins', admin_plugins_path(@site) %></li>
   <% end %>

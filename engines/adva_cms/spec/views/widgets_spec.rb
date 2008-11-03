@@ -15,13 +15,17 @@ describe "Widgets:", "the admin/menu_global widget" do
                :admin_user_path, :logout_path]
     helpers.each do |helper| template.stub!(helper).and_return helper.to_s end
   end
+  
   act! { render 'widgets/admin/_menu_global' }
 
-  describe "when the user is a superuser" do
+  describe "when in multi-site mode" do
     before :each do
-      @user.stub!(:has_role?).with(:superuser).and_return true
+      @multi_sites_enabled, Site.multi_sites_enabled = Site.multi_sites_enabled, true
     end
-
+    
+    after :each do
+      Site.multi_sites_enabled = @multi_sites_enabled
+    end
 
     it "shows the admin site select menu" do
       template.should_receive(:admin_site_select_tag)
@@ -29,13 +33,17 @@ describe "Widgets:", "the admin/menu_global widget" do
     end
   end
 
-  describe "when the user is not a superuser" do
+  describe "when not in multi-site mode" do
     before :each do
-      @user.stub!(:has_role?).with(:superuser).and_return false
+      @multi_sites_enabled, Site.multi_sites_enabled = Site.multi_sites_enabled, false
+    end
+    
+    after :each do
+      Site.multi_sites_enabled = @multi_sites_enabled
     end
 
     it "shows the admin site select menu" do
-      template.should_receive(:admin_site_select_tag)
+      template.should_not_receive(:admin_site_select_tag)
       act!
     end
   end
