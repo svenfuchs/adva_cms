@@ -10,9 +10,9 @@ Factory.sequence :host do |n|
 end
 
 Factory.define :site do |s|
-  s.title 'Site Title'
-  s.name  'Site Name'
-  s.host  'www.example.com'
+  s.title { Factory.next :site_title }
+  s.name { Factory.next :site_name }
+  s.host { Factory.next :host }
 end
 
 Factory.define :other_site, :class => Site do |s|
