@@ -34,16 +34,16 @@ describe "Admin::Install:" do
     before :each do
       assigns[:user] = @user
 
-      @edit_admin_site_user_path = '/admin/sites/1/users/1/edit'
+      @edit_admin_user_path = '/admin/users/1/edit'
       @admin_site_path = 'admin/sites/1'
 
-      template.stub!(:edit_admin_user_path).and_return @edit_admin_site_user_path
+      template.stub!(:edit_admin_user_path).and_return @edit_admin_user_path
       template.stub!(:admin_site_path).and_return @admin_site_path
     end
 
     it "should display a link to the current user's profile" do
       render "admin/install/confirmation"
-      response.should have_tag('a[href=?]', @edit_admin_site_user_path)
+      response.should have_tag('a[href=?]', @edit_admin_user_path)
     end
 
     it "should display a link to the sites admin section" do

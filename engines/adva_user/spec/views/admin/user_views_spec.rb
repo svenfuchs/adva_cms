@@ -59,20 +59,20 @@ describe "Admin::User:" do
       render "admin/users/new"
     end
 
-    describe "with the current user being an admin" do
+    describe "with the current user having permissions to manage roles" do
       it "renders the roles partial" do
-        @user.should_not_receive(:has_role?).with(:admin, :context => @site).and_return true
+        template.should_receive(:has_permission?).with('manage roles').and_return true
         template.expect_render hash_including(:partial => 'roles')
         render "admin/users/edit"
       end
     end
 
-    describe "with the current user not being an admin" do
-      it "does not render the roles partial" # do
-      #   @user.should_receive(:has_role?).with(:admin, :context => @site).and_return false
-      #   template.should_not_receive(:render).with hash_including(:partial => 'roles')
-      #   render "admin/users/edit"
-      # end
+    describe "with the current user not having permissions to manage roles" do
+      it "does not render the roles partial" do
+        template.should_receive(:has_permission?).with('manage roles').and_return false
+        template.should_not_receive(:render).with hash_including(:partial => 'roles')
+        render "admin/users/edit"
+      end
     end
   end
 
@@ -80,6 +80,7 @@ describe "Admin::User:" do
     before :each do
       assigns[:user] = @user
       template.stub_render hash_including(:partial => 'form')
+      template.stub!(:has_permission?).and_return false
     end
 
     it "displays a form to edit the user" do
@@ -95,21 +96,20 @@ describe "Admin::User:" do
       render "admin/users/edit"
     end
 
-    describe "with the current user being an admin" do
-      it "renders the roles partial" # do
-      #   @user.should_receive(:has_role?).with(:admin, :context => @site).and_return true
-      #   template.should_not_receive(:render).with hash_including(:partial => 'roles')
-      #   # template.expect_render hash_including(:partial => 'roles')
-      #   render "admin/users/edit"
-      # end
+    describe "with the current user having permissions to manage roles" do
+      it "renders the roles partial" do
+        template.should_receive(:has_permission?).with('manage roles').and_return true
+        template.expect_render hash_including(:partial => 'roles')
+        render "admin/users/edit"
+      end
     end
 
-    describe "with the current user not being an admin" do
-      it "does not render the roles partial" # do
-      #   @user.should_receive(:has_role?).with(:admin, :context => @site).and_return false
-      #   template.should_not_receive(:render).with hash_including(:partial => 'roles')
-      #   render "admin/users/edit"
-      # end
+    describe "with the current user not having permissions to manage roles" do
+      it "does not render the roles partial" do
+        template.should_receive(:has_permission?).with('manage roles').and_return false
+        template.should_not_receive(:render).with hash_including(:partial => 'roles')
+        render "admin/users/edit"
+      end
     end
   end
 

@@ -1,0 +1,141 @@
+superuser(root)     »   owner(root)          »   ?
+superuser(root)     »   owner(account)       »   true
+superuser(root)     »   owner(site)          »   true
+superuser(root)     »   owner(section)       »   true
+superuser(root)     »   owner(content)       »   true
+                                                 
+superuser(root)     »   admin(root)          »   ?
+superuser(root)     »   admin(account)       »   ?
+superuser(root)     »   admin(site)          »   true
+superuser(root)     »   admin(section)       »   true
+superuser(root)     »   admin(content)       »   true
+                                                 
+superuser(root)     »   moderator(root)      »   ?
+superuser(root)     »   moderator(account)   »   ?
+superuser(root)     »   moderator(site)      »   ?
+superuser(root)     »   moderator(section)   »   true
+superuser(root)     »   moderator(content)   »   true
+                                                 
+superuser(root)     »   author(root)         »   ?
+superuser(root)     »   author(account)      »   ?
+superuser(root)     »   author(site)         »   ?
+superuser(root)     »   author(section)      »   ?
+superuser(root)     »   author(content)      »   true
+                                                 
+superuser(root)     »   user(?)              »   true
+superuser(root)     »   anonymous(?)         »   true
+
+------------------------------------------------------------------------------
+                                               
+admin(site)         »   admin(root)          »   (false)
+admin(site)         »   admin(account)       »   (false)
+admin(site)         »   admin(site)          »   true
+admin(site)         »   admin(section)       »   true
+admin(site)         »   admin(content)       »   true
+                                                 
+admin(site)         »   moderator(root)      »   (false)
+admin(site)         »   moderator(account)   »   (false)
+admin(site)         »   moderator(site)      »   true
+admin(site)         »   moderator(section)   »   true
+admin(site)         »   moderator(content)   »   true
+                                                 
+admin(site)         »   author(root)         »   ?
+admin(site)         »   author(account)      »   ?
+admin(site)         »   author(site)         »   ?
+admin(site)         »   author(section)      »   ?
+admin(site)         »   author(content)      »   true
+                                                 
+admin(site)         »   user(?)              »   true
+admin(site)         »   anonymous(?)         »   true
+
+------------------------------------------------------------------------------
+                                               
+moderator(account)  »   admin(root)          »   (false)
+moderator(account)  »   admin(account)       »   (false)
+moderator(account)  »   admin(site)          »   (false)
+moderator(account)  »   admin(section)       »   (false)
+moderator(account)  »   admin(content)       »   (false)
+
+moderator(account)  »   moderator(root)      »   (false)
+moderator(account)  »   moderator(account)   »   true
+moderator(account)  »   moderator(site)      »   true
+moderator(account)  »   moderator(section)   »   true
+moderator(account)  »   moderator(content)   »   true
+
+moderator(account)  »   author(root)         »   ?
+moderator(account)  »   author(account)      »   true
+moderator(account)  »   author(site)         »   true
+moderator(account)  »   author(section)      »   true
+moderator(account)  »   author(content)      »   true
+
+moderator(account)  »   user(?)              »   true
+moderator(account)  »   anonymous(?)         »   true
+
+------------------------------------------------------------------------------
+                                               
+moderator(site)     »   admin(root)          »   (false)
+moderator(site)     »   admin(account)       »   (false)
+moderator(site)     »   admin(site)          »   (false)
+moderator(site)     »   admin(section)       »   (false)
+moderator(site)     »   admin(content)       »   (false)
+
+moderator(site)     »   moderator(root)      »   (false)
+moderator(site)     »   moderator(account)   »   (false)
+moderator(site)     »   moderator(site)      »   true
+moderator(site)     »   moderator(section)   »   true
+moderator(site)     »   moderator(content)   »   true
+
+moderator(site)     »   author(root)         »   ?
+moderator(site)     »   author(account)      »   (false)
+moderator(site)     »   author(site)         »   true
+moderator(site)     »   author(section)      »   true
+moderator(site)     »   author(content)      »   true
+
+moderator(site)     »   user(?)              »   true
+moderator(site)     »   anonymous(?)         »   true
+
+------------------------------------------------------------------------------
+                                               
+moderator(section)  »   admin(root)          »   (false)
+moderator(section)  »   admin(account)       »   (false)
+moderator(section)  »   admin(site)          »   (false)
+moderator(section)  »   admin(section)       »   (false)
+moderator(section)  »   admin(content)       »   (false)
+
+moderator(section)  »   moderator(root)      »   (false)
+moderator(section)  »   moderator(account)   »   (false)
+moderator(section)  »   moderator(site)      »   (false)
+moderator(section)  »   moderator(section)   »   true
+moderator(section)  »   moderator(content)   »   true
+
+moderator(section)  »   author(root)         »   ?
+moderator(section)  »   author(account)      »   (false)
+moderator(section)  »   author(site)         »   (false)
+moderator(section)  »   author(section)      »   true
+moderator(section)  »   author(content)      »   true
+
+moderator(section)  »   user(?)              »   true
+moderator(section)  »   anonymous(?)         »   true
+
+------------------------------------------------------------------------------
+                                               
+author(content)     »   admin(root)          »   (false)
+author(content)     »   admin(account)       »   (false)
+author(content)     »   admin(site)          »   (false)
+author(content)     »   admin(section)       »   (false)
+author(content)     »   admin(content)       »   (false)
+                    
+author(content)     »   moderator(root)      »   (false)
+author(content)     »   moderator(account)   »   (false)
+author(content)     »   moderator(site)      »   (false)
+author(content)     »   moderator(section)   »   (false)
+author(content)     »   moderator(content)   »   (false)
+                    
+author(content)     »   author(root)         »   (false)
+author(content)     »   author(account)      »   (false)
+author(content)     »   author(site)         »   (false)
+author(content)     »   author(section)      »   (false)
+author(content)     »   author(content)      »   true
+                    
+author(content)     »   user(?)              »   true
+author(content)     »   anonymous(?)         »   true
