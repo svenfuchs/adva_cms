@@ -3,7 +3,14 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', 'test_helper' )
 class InstallationTest < ActionController::IntegrationTest
   include CacheableFlash::TestHelpers
 
-  def test_a_user_installs_the_initial_site_and_then_logs_out_and_views_the_empty_frontend
+  def test_a_user_goes_through_site_install_process
+    install_initial_site!
+    update_initial_password!
+    manage_new_site!
+    log_out_and_view_empty_frontend!
+  end
+  
+  def install_initial_site!
     # go to root page
     get "/"
 
@@ -36,9 +43,26 @@ class InstallationTest < ActionController::IntegrationTest
 
     # check that the system authenticates the user as a superuser
     assert admin.has_role?(:superuser)
+  end
+  
+  def update_initial_password!
+    # go to the user profile page
+    clicks_link "Change your password right now"
 
-    # go to admin main page and then log out
-    clicks_link "Manage your new site &raquo;"
+    # update the password and save
+    fills_in "password", :with => 'updated password'
+    clicks_button "Save"
+  end
+  
+  def manage_new_site!
+    # go to admin main page
+    get admin_site_path(Site.first)
+
+    # check that the user sees the site dashboard
+    assert_template "admin/sites/show"
+  end
+  
+  def log_out_and_view_empty_frontend!
     clicks_link "Logout"
 
     # check that the user sees the frontend
