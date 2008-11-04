@@ -2,6 +2,7 @@ class Admin::InstallController < ApplicationController
   include CacheableFlash
 
   before_filter :protect_install, :except => :confirmation
+  helper_method :perma_host
 
   layout 'simple'
   renders_with_error_proc :below_field
@@ -32,6 +33,10 @@ class Admin::InstallController < ApplicationController
   end
 
   protected
+
+    def perma_host
+      @site.try(:perma_host) || 'admin'
+    end
 
     def protect_install
       if Site.find(:first) || User.find(:first)
