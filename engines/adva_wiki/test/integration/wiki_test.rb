@@ -99,7 +99,7 @@ class WikiTest < ActionController::IntegrationTest
     wikipage_author = "content-#{@wikipage.id}-author"
     wikipage_owner  = "content-#{@wikipage.id}-owner"
     visible_for = "user #{user} #{wikipage_author} #{wiki_moderator} #{site_admin} #{wikipage_owner} superuser"
-
+  
     # the page should show the wikipage ...
     assert_select "div#wikipage_#{@wikipage.id}", true, "The page should containt the wikipage" do
       # ... with meta info of wikipage ...

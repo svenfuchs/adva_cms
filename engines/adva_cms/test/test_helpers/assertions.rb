@@ -11,3 +11,9 @@ def assert_not_page_cached
   # TODO: implement this!
   assert true
 end
+
+def assert_events_triggered(*types)
+  actual = types.select{|type| Event::TestLog.was_triggered?(type) }
+  assert_equal actual.size, types.size, "expected events #{types.inspect} to be triggered but only found #{actual.inspect}"
+end
+

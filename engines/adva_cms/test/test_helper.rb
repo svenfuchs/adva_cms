@@ -47,10 +47,11 @@ ActionController::IntegrationTest.send :include, FactoryScenario
 class Event
   module TestLog
     Event.observers << self
+    @@events = []
 
     class << self
       def clear!
-        @@events = nil
+        @@events = []
       end
 
       def was_triggered?(type)

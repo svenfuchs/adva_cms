@@ -1,10 +1,5 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'test_helper' ))
 
-def assert_events_triggered(*types)
-  actual = types.select{|type| Event::TestLog.was_triggered?(type) }
-  assert_equal actual.size, types.size, "expected events #{types.inspect} to be triggered but only found #{actual.inspect}"
-end
-
 class UserDeletionTest < ActionController::IntegrationTest
   include CacheableFlash::TestHelpers
 

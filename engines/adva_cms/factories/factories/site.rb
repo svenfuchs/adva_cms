@@ -5,14 +5,14 @@ Factory.sequence :site_name do |n|
   "Site Name #{n}"
 end
 Factory.sequence :host do |n|
-  # Need default domain to work with webrat
   "www#{n}.example.com"
 end
 
 Factory.define :site do |s|
   s.title { Factory.next :site_title }
   s.name { Factory.next :site_name }
-  s.host { Factory.next :host }
+  # s.host { Factory.next :host } # TODO doesn't work for all the adva-cms frontend integration tests
+  s.host 'www.example.com'
 end
 
 Factory.define :other_site, :class => Site do |s|

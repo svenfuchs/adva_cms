@@ -39,7 +39,9 @@ class BaseController < ApplicationController
     end
 
     def set_section(type = nil)
-      @section = params[:section_id].blank? ? @site.sections.root : @site.sections.find(params[:section_id])
+      if @site
+        @section = params[:section_id].blank? ? @site.sections.root : @site.sections.find(params[:section_id])
+      end
       if type && !@section.is_a?(type)
         raise SectionRoutingError.new("Section must be a #{type.name}: #{@section.inspect}")
       end
@@ -83,7 +85,7 @@ class BaseController < ApplicationController
     end
 
     def perma_host
-      @site.perma_host 
+      @site ? @site.perma_host : ''
     end
 
     def page_cache_directory
