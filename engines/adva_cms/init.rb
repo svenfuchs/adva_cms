@@ -59,7 +59,7 @@ should edit the files within the <plugin_name>/assets/ directory itself.}
       return if plugin.public_directory.nil?
       begin
         %w(images javascripts stylesheets).each do |subdir|
-          source = File.join(plugin.public_directory, subdir)
+          source = File.join(plugin.public_directory, subdir).gsub(RAILS_ROOT + '/', '')
           destination = File.join(Engines.public_directory, subdir, plugin.name)
           Engines.mirror_files_from(source, destination)
           if File.exist?(destination)
