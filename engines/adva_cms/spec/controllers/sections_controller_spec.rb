@@ -63,7 +63,7 @@ describe SectionsController do
           before :each do
             controller.stub!(:current_user).and_return stub_model(User, :has_role? => false)
           end
-          it_redirects_to { 'http://test.host/login' }
+          it_redirects_to { login_url(:return_to => request.url) }
         end
       end
     end

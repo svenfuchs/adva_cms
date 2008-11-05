@@ -30,9 +30,9 @@ describe Admin::ArticlesController, 'Permissions' do
     controller.expect_render(:template => 'shared/messages/insufficient_permissions')
     request_to(method, path)
   end
-
+  
   def should_deny_access(method, path)
-    request_to(method, path).should redirect_to('http://test.host/login')
+    request_to(method, path).should redirect_to(login_url(:return_to => request.url))
   end
 
   { '/admin/sites/1/sections/1/articles/1/edit' => :get }.each do |path, method|

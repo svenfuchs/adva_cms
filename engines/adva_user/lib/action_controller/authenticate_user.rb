@@ -115,8 +115,7 @@ module ActionController
           # If we cannot get the current user store the requested page
           # and send them to the login page.
           if current_user.nil? or current_user.anonymous?
-            store_return_location
-            redirect_to login_url and false
+            redirect_to login_url(:return_to => request.url) and false
           end
         end
 
