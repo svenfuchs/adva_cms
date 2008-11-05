@@ -10,10 +10,10 @@ describe LambdaTable do
 
   it "returns the registered lambda" do
     LambdaTable.clear
-    LambdaTable.register( :foo, lambda { 'Hello World' } )    
+    LambdaTable.register( :foo, lambda { 'Hello World' } )
     result = LambdaTable.lookup( :foo )
     result.should_not be_nil
-    result.call.should == 'Hello World' 
+    result.call.should == 'Hello World'
   end
 
 end

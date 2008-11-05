@@ -40,6 +40,11 @@ class UserController < BaseController
   end
 
   private
+  
+    def redirect_to(:location)
+      redirect = Registry.get(:redirect_to, :location)
+      redirect ? redirect.call(self) : '/'
+    end
 
     def verify_redirect
       la = LambdaTable.lookup( :login_redirect )    # use the same url as login
