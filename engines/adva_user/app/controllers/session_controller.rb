@@ -14,7 +14,7 @@ class SessionController < BaseController
     if authenticate_user params[:user]
       remember_me! if params[:user][:remember_me]
       flash[:notice] = 'Login Successful'
-      redirect_to params[:return_to] || default_login_redirect
+      redirect_to return_from(:login)
     else
       @user = User.new :email => params[:user][:email]
       @remember_me = params[:user][:remember_me]
@@ -30,11 +30,6 @@ class SessionController < BaseController
   end
 
   private
-    def default_login_redirect
-      la = LambdaTable.lookup( :login_redirect )
-      la ? la.call(self) : '/'
-    end
-
     # def reset_session_except(*keys)
     #   preserve = keys.map{|key| session[key] }
     #   reset_session

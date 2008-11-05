@@ -1,4 +1,3 @@
-require 'core_ext/object_try'
 require 'active_record/acts_as_role_context'
 
 ActiveRecord::Base.send :include, ActiveRecord::ActsAsRoleContext

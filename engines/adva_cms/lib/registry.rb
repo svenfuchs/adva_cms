@@ -4,38 +4,38 @@ class Registry < Hash
       @@instance ||= new
     end
     
-    def get(*args)
-      instance.set(*args)
+    def method_missing(name, *args)
+      instance.send name, *args
     end
+  end
 
-    def set(*args)
-      instance.set(*args)
-    end
-    
-    def clear
-      instance.clear
-    end
+  def initialize
+    blk = lambda {|h,k| h[k] = Registry.new(&blk)}
+    super &blk
   end
 
   def set(*args)
-    value = args.pop
-    key = args.shift
-    target(args)[key] = value
+    value, last_key = args.pop, args.pop
+    target = args.inject(self){|result, key| result[key] }
+    value = to_registry(value) if value.is_a?(Hash)
+    target[last_key] = value
   end
 
   def get(*keys)
-    key = keys.pop
-    target(args)[key]
+    keys.inject self do |result, key| 
+      return nil unless result.has_key?(key)
+      result[key]
+    end
   end
   
   protected
   
-    def target(keys)
-      target = self
-      while key = args.shift
-        target[key] = {} unless target[key]
-        target = target[key]
+    def to_registry(hash)
+      registry = Registry.new
+      hash.each do |key, value|
+        value = to_registry(value) if value.is_a?(Hash)
+        registry[key] = value
       end
-      target
+      registry
     end
 end

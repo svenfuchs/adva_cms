@@ -9,6 +9,7 @@ class UserRegistrationTest < ActionController::IntegrationTest
   include CacheableFlash::TestHelpers
   
   def setup
+    ActionMailer::Base.deliveries = []
     Event::TestLog.clear!
     factory_scenario :site_with_a_section
   end

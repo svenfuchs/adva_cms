@@ -79,6 +79,20 @@ class BaseController < ApplicationController
       redirect_to login_path(:return_to => request.url)
     end
 
+    # def redirect_to(options = {}, response_status = {})
+    #   return super unless options.is_a?(Symbol)
+    #   options.is_a?(Symbol) ? super : super(return_from(options), response_status)
+    # end
+    
+    def return_from(action)
+      params[:return_to] || begin
+        url = Registry.get(:redirect, action)
+        url = Registry.get(:redirect, url) if url.is_a?(Symbol)
+        url = url.call(self) if url.is_a?(Proc)
+        url || '/'
+      end
+    end
+    
     def current_role_context
       @section || @site
     end

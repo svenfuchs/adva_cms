@@ -29,7 +29,7 @@ class UserController < BaseController
     else
       flash[:error] = "The E-mail address for #{current_user.name} is already verified."
     end
-    redirect_to verify_redirect
+    redirect_to return_from(:verify)
   end
 
   def destroy
@@ -41,16 +41,6 @@ class UserController < BaseController
 
   private
   
-    def redirect_to(:location)
-      redirect = Registry.get(:redirect_to, :location)
-      redirect ? redirect.call(self) : '/'
-    end
-
-    def verify_redirect
-      la = LambdaTable.lookup( :login_redirect )    # use the same url as login
-      la ? la.call(self) : '/'
-    end
-
     def url_with_token(user, purpose, params)
       token = user.assign_token purpose
       user.save
