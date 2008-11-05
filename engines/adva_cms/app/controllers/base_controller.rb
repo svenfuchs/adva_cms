@@ -75,9 +75,8 @@ class BaseController < ApplicationController
     end
 
     def redirect_to_login(notice = nil)
-      store_return_location
       flash[:notice] = notice
-      redirect_to login_path
+      redirect_to login_path, :return_to => request.url
     end
 
     def current_role_context

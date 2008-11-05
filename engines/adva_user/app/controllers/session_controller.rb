@@ -14,8 +14,7 @@ class SessionController < BaseController
     if authenticate_user params[:user]
       remember_me! if params[:user][:remember_me]
       flash[:notice] = 'Login Successful'
-      redirect_to session[:return_location] || default_login_redirect
-      session[:return_location]
+      redirect_to params[:return_to] || default_login_redirect
     else
       @user = User.new :email => params[:user][:email]
       @remember_me = params[:user][:remember_me]
