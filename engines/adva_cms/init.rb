@@ -42,7 +42,7 @@ ActionController::Dispatcher.to_prepare do
   end 
 end
 
-Engines.public_directory = RAILS_ROOT + "/public"
+Engines.public_directory = "public"
 Engines::Assets.class_eval do
     @@warning = %{Files in this directory are automatically generated from your plugins.
 They are copied from the 'assets' directories of each plugin into this directory
