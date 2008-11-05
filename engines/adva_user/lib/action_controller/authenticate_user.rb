@@ -84,15 +84,17 @@ module ActionController
       def authenticated?
         !!current_user
       end
-
-      # Will store the current params so that we can return here on
-      # successful login. If you want to redirect to the login yourself
-      # (perhaps you are applying your own security instead of just
-      # determining if the user is logged in) then you will want to
-      # call this before issuing your redirect to the login screen.
-      def store_return_location
-        session[:return_location] = params
-      end
+      
+      # killed this because it's just the wrong way to do it
+      # 
+      # # Will store the current params so that we can return here on
+      # # successful login. If you want to redirect to the login yourself
+      # # (perhaps you are applying your own security instead of just
+      # # determining if the user is logged in) then you will want to
+      # # call this before issuing your redirect to the login screen.
+      # def store_return_location
+      #   session[:return_location] = params
+      # end
 
       private
 
@@ -113,8 +115,7 @@ module ActionController
           # If we cannot get the current user store the requested page
           # and send them to the login page.
           if current_user.nil? or current_user.anonymous?
-            store_return_location
-            redirect_to login_url and false
+            redirect_to login_url(:return_to => request.url) and false
           end
         end
 

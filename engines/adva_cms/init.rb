@@ -42,7 +42,7 @@ ActionController::Dispatcher.to_prepare do
   end 
 end
 
-Engines.public_directory = RAILS_ROOT + "/public"
+Engines.public_directory = "public"
 Engines::Assets.class_eval do
     @@warning = %{Files in this directory are automatically generated from your plugins.
 They are copied from the 'assets' directories of each plugin into this directory
@@ -59,7 +59,7 @@ should edit the files within the <plugin_name>/assets/ directory itself.}
       return if plugin.public_directory.nil?
       begin
         %w(images javascripts stylesheets).each do |subdir|
-          source = File.join(plugin.public_directory, subdir)
+          source = File.join(plugin.public_directory, subdir).gsub(RAILS_ROOT + '/', '')
           destination = File.join(Engines.public_directory, subdir, plugin.name)
           Engines.mirror_files_from(source, destination)
           if File.exist?(destination)

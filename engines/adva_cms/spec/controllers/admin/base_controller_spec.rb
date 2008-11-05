@@ -13,13 +13,13 @@ describe Admin::SitesController do
   describe "#require_authentication" do
     it "redirects to login_url when user is not logged in" do
       request_to :get, '/admin/sites'
-      response.should redirect_to(login_url)
+      response.should redirect_to(login_url(:return_to => request.url))
     end
 
     it "updates current_role_context" do
       controller.should_receive(:update_role_context!).with({"action"=>"index", "controller"=>"admin/sites"})
       request_to :get, '/admin/sites'
-      response.should redirect_to(login_url)
+      response.should redirect_to(login_url(:return_to => request.url))
     end
 
     it "uses current_role_context for context of a role" do

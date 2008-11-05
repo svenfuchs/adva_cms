@@ -13,7 +13,7 @@ class WikiTest < ActionController::IntegrationTest
     get "/wiki"
     
     # user is redirected to login
-    assert_redirected_to '/login'
+    assert_redirected_to login_path(:return_to => request.url)
   end
   
   def test_view_empty_wiki_with_anonymous_permissions
@@ -33,21 +33,21 @@ class WikiTest < ActionController::IntegrationTest
     
     # the page has wikipage form ...
     # ... with a title field ...
-    assert_select "label[for='wikipage_title']", true, "Wikipage form should have a label for a title form field."
-    assert_select "input[id='wikipage_title']", true, "Wikipage form should have a title form field."
+    assert_select "label[for='wikipage_title']", true
+    assert_select "input[id='wikipage_title']", true
     
     # ... and a permalink field ...
-    assert_select "label[for='wikipage_permalink']", true, "Wikipage form should have a label for a permalink form field."
-    assert_select "input[id='wikipage_permalink']", true, "Wikipage form should have a permalink form field."
+    assert_select "label[for='wikipage_permalink']", true
+    assert_select "input[id='wikipage_permalink']", true
     
     # ... and a body field ...
-    assert_select "label[for='wikipage_body']", true, "Wikipage form should have a label for a body form field."
-    assert_select "textarea[id='wikipage_body']", true, "Wikipage form should have a body form field."
+    assert_select "label[for='wikipage_body']", true
+    assert_select "textarea[id='wikipage_body']", true
     
     # ... and a tag list field ...
-    assert_select "label[for='wikipage_tag_list']", true, "Wikipage form should have a label for a tag list form field."
-    assert_select "input[id='wikipage_tag_list']", true, "Wikipage form should have a tag list form field."
-    assert_select "span.hint", true, "Wikipage form should have a hint span for tags."
+    assert_select "label[for='wikipage_tag_list']", true
+    assert_select "input[id='wikipage_tag_list']", true
+    assert_select "span.hint", true
     
     # check that the page is not cached
     assert_not_page_cached
@@ -68,11 +68,9 @@ class WikiTest < ActionController::IntegrationTest
     # wiki index page should have list of wikipages ...
     assert_select "table#wikipages.list", true, "The page should contain a list of wikipages" do
       assert_select "tbody#wikipages-body", true do
-        assert_select "tr#wikipage_#{@section.id}", true do
-          # ... with links to wikipages show actions ...
-          assert_select "a[href$='#{@wikipage.permalink}']", true, "The page should contain a show link for wikipage."
-          # ... and display wikipage timestamp.
-          assert_select "abbr.datetime", true, "The page should contain a timestamp for wikipage"
+        assert_select "tr#wikipage_#{@wikipage.id}", true do
+          assert_select "a[href$='#{@wikipage.permalink}']", true
+          assert_select "abbr.datetime", true
         end
       end
     end
@@ -101,33 +99,22 @@ class WikiTest < ActionController::IntegrationTest
     visible_for = "user #{user} #{wikipage_author} #{wiki_moderator} #{site_admin} #{wikipage_owner} superuser"
   
     # the page should show the wikipage ...
-    assert_select "div#wikipage_#{@wikipage.id}", true, "The page should containt the wikipage" do
-      # ... with meta info of wikipage ...
-      assert_select "div.meta", true, "The page should contain meta information." do
-        # ... with link to wikipages index ...
-        assert_select "a[href$='pages']", true, "The page should contain a link to wikipages index."
-        # ... with revision number ...
-        assert_select "h4", /revision: #{@wikipage.version}/, "The meta information of the wikipage should contain a revision number."
-        # ... with author name ...
-        assert_select "p", /by: John Doe/, "The meta information of the wikipage should contain the name of the author"
+    assert_select "div#wikipage_#{@wikipage.id}", true do
+      assert_select "div.meta", true do
+        assert_select "a[href$='pages']", true
+        assert_select "h4", /revision: #{@wikipage.version}/
+        assert_select "p", /by: John Doe/
       end
-      # ... with wikipage content ...
+    
       assert_select "div.content" do
-        # ... with link to a wikipage ...
-        assert_select "a[href$='pages/#{@wikipage.permalink}']", true, "The page should contain a link to the wikipage."
-        # ... with wikipage body ...
-        assert_select "p", /this is a wiki home page/, "The content of the wikipage should contain the body of wikipage."
-        # ... with link list ...
-        assert_select "ul.links", true, "The page should have list of links" do
-          # ... with link to the home ...
-          assert_select "a[href='/']", true, "The page should contain a link to the home."
-          # ... with authorized links ...
+        assert_select "a[href$='pages/#{@wikipage.permalink}']", true
+        assert_select "p", /this is a wiki home page/
+        assert_select "ul.links", true do
+          assert_select "a[href='/']", true
           assert_select "li[class~='visible-for #{visible_for}']", true, "The page should contain authorized span for #{visible_for}." do
-            # ... with authorized edit link ...
-            assert_select "a[href$='edit']", true, "The page should contain the edit link."
+            assert_select "a[href$='edit']", true
           end
-          # ... with link to go to previous version ...
-          assert_select "a[href$='rev/#{@wikipage.version - 1}']", true, "The page should contain the previous revision link."
+          assert_select "a[href$='rev/#{@wikipage.version - 1}']", true
         end
       end
     end

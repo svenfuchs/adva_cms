@@ -109,7 +109,7 @@ describe WikiController do
         before :each do
           controller.stub!(:has_permission?).and_return false
         end
-        it_redirects_to { login_path }
+        it_redirects_to { login_url(:return_to => request.url) }
       end
     end
   

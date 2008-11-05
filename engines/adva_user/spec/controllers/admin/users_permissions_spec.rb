@@ -37,7 +37,7 @@ describe Admin::UsersController, 'Permissions' do
   end
 
   def should_deny_access(method, path)
-    request_to(method, path).should redirect_to('http://test.host/login')
+    request_to(method, path).should redirect_to(login_url(:return_to => request.url))
   end
 
   { '/admin/sites/1/users/1' => :get,
