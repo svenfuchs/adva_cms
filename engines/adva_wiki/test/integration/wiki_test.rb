@@ -81,7 +81,7 @@ class WikiTest < ActionController::IntegrationTest
     assert_page_cached
   end
   
-  def test_view_wikis_wikipage
+  def test_user_views_a_wikipage
     factory_scenario :site_with_a_wiki, :home_wikipage_with_revision
     
     # go to wikipage show page
@@ -95,8 +95,8 @@ class WikiTest < ActionController::IntegrationTest
     site_admin      = "site-#{@site.id}-admin"
     wiki_moderator  = "section-#{@section.id}-moderator"
     wikipage_author = "content-#{@wikipage.id}-author"
-    wikipage_owner  = "content-#{@wikipage.id}-owner"
-    visible_for = "user #{user} #{wikipage_author} #{wiki_moderator} #{site_admin} #{wikipage_owner} superuser"
+    account_owner   = defined?(Rbac::Role::Owner) ? "account-#{@wikipage.id}-owner " : ''
+    visible_for = "user #{user} #{wikipage_author} #{wiki_moderator} #{site_admin} #{account_owner}superuser"
   
     # the page should show the wikipage ...
     assert_select "div#wikipage_#{@wikipage.id}", true do
@@ -123,7 +123,7 @@ class WikiTest < ActionController::IntegrationTest
     assert_page_cached
   end
   
-  def test_viewing_wikipages_revision
+  def test_user_views_a_wikipage_revision
     factory_scenario :site_with_a_wiki, :home_wikipage_with_revision
     
     # create a new version
@@ -137,8 +137,8 @@ class WikiTest < ActionController::IntegrationTest
     site_admin      = "site-#{@site.id}-admin"
     wiki_moderator  = "section-#{@section.id}-moderator"
     wikipage_author = "content-#{@wikipage.id}-author"
-    wikipage_owner  = "content-#{@wikipage.id}-owner"
-    visible_for     = "user #{user} #{wikipage_author} #{wiki_moderator} #{site_admin} #{wikipage_owner} superuser"
+    account_owner   = defined?(Rbac::Role::Owner) ? "account-#{@wikipage.id}-owner " : ''
+    visible_for     = "user #{user} #{wikipage_author} #{wiki_moderator} #{site_admin} #{account_owner}superuser"
     
     assert_select "div.content" do
       # the page should display updated wikipage body
