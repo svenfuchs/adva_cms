@@ -4,8 +4,12 @@ class Registry < Hash
       @@instance ||= new
     end
     
-    def method_missing(name, *args)
-      instance.send name, *args
+    def get(*args)
+      instance.get *args
+    end
+    
+    def set(*args)
+      instance.set *args
     end
   end
 
