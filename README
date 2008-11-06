@@ -1,7 +1,7 @@
-Welcome to adva-cms
+Welcome to Adva-cms
 ===================
  
-adva-cms is a cutting edge open source application platform based on Ruby on
+Adva-cms is a cutting edge open source application platform based on Ruby on
 Rails and Rails Engines.
 
 Different from others, adva-cms lives in vendor directory and keeps your main
@@ -19,22 +19,25 @@ Find out more about adva-cms at: http://adva-cms.org
 Installation
 ============
  
-You need Rails version 2.1.2 or newer.
+You need Rails 2.1.2 or newer.
 
-  rails adva-app
-  cd adva-app
-  git clone git://github.com/svenfuchs/adva_cms.git vendor/adva
-  ruby vendor/adva/script/setup
-  run rake db:migrate:all to setup the database (Sqlite for toying)
-  start the server
-  visit http://localhost:3000
+  rails my-app
+  cd my-app
+  git init
+
+  git submodule add git://github.com/svenfuchs/adva_cms.git vendor/adva
+  ruby vendor/adva/script/setup   # adds adva rake tasks and required files
+  rake db:migrate:all             # migrates all adva migrations
+
+  ruby script/server
+  firefox http://localhost:3000
  
-You should be directed to an installation screen. 
-Fill out the form and you're started.
+You should see Adva installation screen. 
+Fill out the form and you're started, enjoy!
+
  
- 
-adva-cms development
-====================
+Development
+===========
  
 Please report bugs to Lighthouse: 
 http://artweb-design.lighthouseapp.com/projects/13992-adva_cms/overview

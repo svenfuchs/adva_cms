@@ -15,6 +15,8 @@ module CacheableFlash
     end
 
     cookies['flash'] = cookie_flash.to_json    
-    flash.clear
+    
+    # JMH -- removed this. why not allow the receiving view to decide which type of flash msg to use?    
+    # flash.clear 
   end
 end
