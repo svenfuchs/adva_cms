@@ -14,7 +14,6 @@ require 'rails_ext/active_record/sticky_changes'
 require 'rails_ext/action_controller/event_helper'
 
 require 'routing'
-require 'lambda_table'
 require 'roles'
 
 
