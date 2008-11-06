@@ -4,9 +4,10 @@ module Spec
 
       class RedirectTo  #:nodoc:
 
-        def initialize(request, expected)
+        def initialize(request, expected, options)
           @expected = expected
           @request = request
+          @options = options
         end
 
         def matches?(response)
@@ -16,9 +17,11 @@ module Spec
           if @expected.instance_of? Hash
             return false unless @actual =~ %r{^\w+://#{@request.host}}
             return false unless actual_redirect_to_valid_route
-            return actual_hash == expected_hash
+            actual_hash == expected_hash
+          elsif @options[:exact]
+            @actual == expected_url
           else
-            return @actual == expected_url
+            @actual =~ %r{^#{expected_url}}
           end
         end
 
@@ -104,8 +107,8 @@ module Spec
       #   response.should redirect_to("path/to/action")
       #   response.should redirect_to("http://test.host/path/to/action")
       #   response.should redirect_to(:action => 'list')
-      def redirect_to(opts)
-        RedirectTo.new(request, opts)
+      def redirect_to(target, options = {:exact => true})
+        RedirectTo.new(request, target, options)
       end
     end
 

@@ -9,7 +9,7 @@ steps_for :asset do
   end
 
   When "the user fills in the admin asset creation form with valid values" do
-    attaches_file 'assets[0][uploaded_data]', RAILS_ROOT + '/public/images/rails.png'
+    attaches_file 'assets[0][uploaded_data]', RAILS_ROOT + '/public/images/rails.test.png'
     fills_in 'assets[0][title]', :with => 'title'
     fills_in 'assets[0][tag_list]', :with => 'foo bar'
   end

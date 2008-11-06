@@ -52,6 +52,7 @@ steps_for :default do
   end
 
   Then "the user is redirected to the url $url" do |url|
+    url = login_url(:return_to => request.url) if url == ':login'
     response.should redirect_to(url)
   end
 

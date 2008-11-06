@@ -111,7 +111,7 @@ steps_for :authentication do
   end
 
   Then "the user sees the login page" do
-    request.request_uri.should == login_path
+    request.request_uri.should =~ /^#{login_path}/
     response.should render_template('session/new')
   end
 end

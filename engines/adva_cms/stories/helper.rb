@@ -23,6 +23,11 @@ cache_dirs.each{|dir| FileUtils.rm_rf dir unless dir.empty? or dir == '/' }
 FileUtils.rm_rf Dir[RAILS_ROOT + "/tmp/webrat*"]
 # FileUtils.rm_rf Dir[RAILS_ROOT + "/tmp/stories"]
 
+asset_target = RAILS_ROOT + "/public/images/rails.test.png"
+File.unlink asset_target if File.exists? asset_target
+File.cp RAILS_ROOT + "/vendor/adva/engines/adva_cms/stories/assets/rails.test.png", asset_target
+
+
 Spec::Runner.configure do |config|
   config.include Spec::Story
 end
