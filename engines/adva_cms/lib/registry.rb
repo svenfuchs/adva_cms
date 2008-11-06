@@ -11,6 +11,10 @@ class Registry < Hash
     def set(*args)
       instance.set *args
     end
+    
+    def clear
+      instance.clear
+    end
   end
 
   def initialize

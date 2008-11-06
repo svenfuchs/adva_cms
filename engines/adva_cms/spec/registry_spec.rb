@@ -36,3 +36,21 @@ describe Registry, '#get' do
     @registry.get(:foo, :missing).should be_nil
   end
 end
+
+describe Registry, '#clear' do
+  before :each do
+    @registry = Registry.instance
+    @registry.set :foo, :bar, :baz, :buz
+  end
+  
+  it "clears registry" do
+    @registry.get(:foo, :bar).should == {:baz => :buz}
+    Registry.clear
+    @registry.get(:foo, :bar).should be_nil
+    @registry.should be_empty    
+  end
+  
+  it "returns nil if an intermediary key is missing" do
+    @registry.get(:foo, :missing).should be_nil
+  end
+end
