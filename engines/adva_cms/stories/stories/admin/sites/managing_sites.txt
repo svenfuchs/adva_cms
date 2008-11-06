@@ -3,16 +3,18 @@ Story: Managing sites
   I want to manage my sites
   So I can add, update and delete sites
   
-  Scenario: An admin creates a new site
-    Given a site
-    And the user is logged in as superuser
-    When the user visits the admin sites list page
-    When the user clicks on 'New'
-    Then the page has an admin site creation form
-    When the user fills in the admin site creation form with valid values
-    And the user clicks the 'Create' button
-    Then a new Site is created
-    And the user is redirected the admin site show page
+  # would need to temporarily set Site.multi_sites_enabled = true for this story
+  #
+  # Scenario: An admin creates a new site
+  #   Given a site
+  #   And the user is logged in as superuser
+  #   When the user visits the admin sites list page
+  #   When the user clicks on 'New'
+  #   Then the page has an admin site creation form
+  #   When the user fills in the admin site creation form with valid values
+  #   And the user clicks the 'Create' button
+  #   Then a new Site is created
+  #   And the user is redirected the admin site show page
 
   Scenario: An admin updates a site's settings
     Given a site
