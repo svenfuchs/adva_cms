@@ -139,7 +139,7 @@ class WikiTest < ActionController::IntegrationTest
     wikipage_author = "content-#{@wikipage.id}-author"
     account_owner   = defined?(Rbac::Role::Owner) ? "account-#{@wikipage.id}-owner " : ''
     visible_for     = "user #{user} #{wikipage_author} #{wiki_moderator} #{site_admin} #{account_owner}superuser"
-    
+
     assert_select "div.content" do
       # the page should display updated wikipage body
       assert_select "p", /Updated wikipage body./, "The content of the wikipage should contain the body of the updated wikipage."
