@@ -12,9 +12,7 @@ module Rbac
           Rbac::Context.const_set(name, klass)
           klass.class_eval do
             self.options = options
-            self.parent = parent.try(:role_context_class) || Rbac::Context::Base
-            self.parent.children << self
-            self.parent_accessor = parent.name.underscore.to_sym if parent # TODO make this more flexible
+            self.parent = parent
           end
         end
       end
@@ -51,6 +49,13 @@ module Rbac
     
         def children
           options[:children] ||= []
+        end
+      
+        def parent=(parent)
+          self.parent.children -= [self] if self.parent
+          write_inheritable_attribute :parent, parent.try(:role_context_class) || Rbac::Context::Base
+          self.parent.children << self
+          self.parent_accessor = parent.name.underscore.to_sym if parent # TODO make this more flexible
         end
       end
 
