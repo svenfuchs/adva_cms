@@ -29,8 +29,8 @@ paths = files_to_load(ARGV)
 
 unless paths.empty?
   root_path = File.expand_path(File.dirname(__FILE__)).gsub(/vendor.*/, '')
-  puts 'Running stories:'
-  paths.each{|path| puts path.gsub(root_path, '') }
+  puts 'Running stories ...'
+  # paths.each{|path| puts path.gsub(root_path, '') }
 
   require File.dirname(__FILE__) + "/helper"
 

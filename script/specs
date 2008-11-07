@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
 $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + "/../plugins/rspec/lib"))
 require 'spec'
+puts 'Running specs ...'
 exit ::Spec::Runner::CommandLine.run(::Spec::Runner::OptionParser.parse(ARGV, STDERR, STDOUT))

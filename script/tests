@@ -27,7 +27,7 @@ paths = files_to_load(paths)
 
 unless paths.empty?
   root_path = File.dirname(__FILE__).gsub(/vendor.*/, '')
-  puts 'Running integration tests:'
-  paths.each{|path| puts path.gsub(root_path, '') }
+  puts 'Running integration tests ...'
+  # paths.each{|path| puts path.gsub(root_path, '') }
   paths.each{|path| require path }
 end
