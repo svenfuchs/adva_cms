@@ -9,8 +9,8 @@ Factory.define :unpublished_blog_article, :class => Article do |a|
   a.excerpt "In this article you will find proof that TYPO3 is really hard to use."
   a.created_at Time.local(2008, 10, 16, 22, 0, 0)
   a.author { |a| a.association(:user) }
-  a.site_id { |a| a.association(:site_with_blog).id }
-  a.section_id { |a| a.association(:blog).id }
+  # a.site_id { |a| a.association(:site_with_blog).id }
+  # a.section_id { |a| a.association(:blog).id }
 end
 
 Factory.define :published_blog_article, :class => Article do |a|
@@ -20,6 +20,6 @@ Factory.define :published_blog_article, :class => Article do |a|
   a.created_at Time.local(2008, 10, 16, 22, 0, 0)
   a.published_at Time.local(2008, 10, 16, 22, 0, 0)
   a.author { |a| a.association(:user) }
-  a.site_id { |a| a.association(:site_with_blog).id }
-  a.section_id { |a| a.association(:blog).id }
+  # a.site_id { |a| a.association(:site_with_blog).id }
+  # a.section_id { |a| a.association(:blog).id }
 end
