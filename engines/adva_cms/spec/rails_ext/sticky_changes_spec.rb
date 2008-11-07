@@ -14,12 +14,11 @@ describe "ActiveRecord", "sticky changes:" do
   
   describe "#state_changes" do
     it "returns [:created] when original state was new record" do
-      @site = Site.create :host => 'example.com', :title => 'title', :name => 'name'
+      @site = Site.create :host => '2.example.com', :title => 'title', :name => 'name'
       @site.state_changes.should == [:created]
     end
     
     it "returns [:updated] when original state was changed" do
-      @site = Site.first
       @site.update_attributes :title => 'updated title'
       @site.state_changes.should == [:updated]
     end
@@ -30,7 +29,6 @@ describe "ActiveRecord", "sticky changes:" do
     end
     
     it "returns an empty array if no state changes are detected" do
-      @site = Site.first
       @site.state_changes.should == []
     end
   end
