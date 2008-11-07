@@ -74,7 +74,7 @@ module Webrat
       nil
     end
     
-    def find_field_by_label(possible_fields, label)      
+    def find_field_by_label(possible_fields, label)
       matching_fields = []
       
       possible_fields.each do |possible_field|

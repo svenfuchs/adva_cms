@@ -72,7 +72,7 @@ class Admin::SitesController < Admin::BaseController
 
     def params_site
       params[:site] ||= {}
-      params[:site].reverse_update :timezone => Time.zone.name, :host => request.host_with_port, :email => current_user.email, :comment_filter => 'smartypants_filter'
+      params[:site].reverse_update 'timezone' => Time.zone.name, 'host' => request.host_with_port, 'email' => current_user.email, 'comment_filter' => 'smartypants_filter'
     end
 
     def params_section
