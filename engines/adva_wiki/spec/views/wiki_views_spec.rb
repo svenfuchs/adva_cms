@@ -31,9 +31,9 @@ describe "Wiki views:" do
     template.stub!(:will_paginate).and_return 'will_paginate'
     template.stub!(:datetime_with_microformat).and_return 'Once upon a time ...'
 
-    template.stub_render hash_including(:partial => 'comments/list')
-    template.stub_render hash_including(:partial => 'comments/form')
-    template.stub_render hash_including(:partial => 'footer')
+    template.stub!(:render).with hash_including(:partial => 'comments/list')
+    template.stub!(:render).with hash_including(:partial => 'comments/form')
+    template.stub!(:render).with hash_including(:partial => 'footer')
   end
 
   describe "index view" do
@@ -94,14 +94,14 @@ describe "Wiki views:" do
     end
 
     it "renders the comments/list partial" do
-      template.expect_render hash_including(:partial => 'comments/list')
+      template.should_receive(:render).with hash_including(:partial => 'comments/list')
       render "wiki/show"
     end
 
     describe "with a wikipage that accepts comments" do
       it "renders the comments/form partial" do
         @wikipage.should_receive(:accept_comments?).and_return true
-        template.expect_render hash_including(:partial => 'comments/form')
+        template.should_receive(:render).with hash_including(:partial => 'comments/form')
         render "wiki/show"
       end
     end
@@ -119,7 +119,7 @@ describe "Wiki views:" do
     before :each do
       assigns[:wikipage] = @wikipage
       template.stub!(:wikipages_path).and_return '/wiki/pages'
-      template.stub_render hash_including(:partial => 'form')
+      template.stub!(:render).with hash_including(:partial => 'form')
     end
 
     it "renders a form posting to /wiki/pages" do
@@ -128,7 +128,7 @@ describe "Wiki views:" do
     end
 
     it "renders the form partial" do
-      template.expect_render hash_including(:partial => 'form')
+      template.should_receive(:render).with hash_including(:partial => 'form')
       render "wiki/new"
     end
   end
@@ -137,7 +137,7 @@ describe "Wiki views:" do
     before :each do
       assigns[:wikipage] = @wikipage
       template.stub!(:wikipage_path_with_home).and_return '/wiki/pages/a-wikipage'
-      template.stub_render hash_including(:partial => 'form')
+      template.stub!(:render).with hash_including(:partial => 'form')
     end
 
     it "renders a form putting to /wiki/pages/a-wikipage" do
@@ -148,7 +148,7 @@ describe "Wiki views:" do
     end
 
     it "renders the form partial" do
-      template.expect_render hash_including(:partial => 'form')
+      template.should_receive(:render).with hash_including(:partial => 'form')
       render "wiki/edit"
     end
   end
@@ -156,7 +156,7 @@ describe "Wiki views:" do
   describe "the form partial" do
     before :each do
       assigns[:wikipage] = @wikipage
-      template.stub_render hash_including(:partial => 'categories/checkboxes')
+      template.stub!(:render).with hash_including(:partial => 'categories/checkboxes')
       template.stub!(:f).and_return ActionView::Base.default_form_builder.new(:wikipage, @wikipage, template, {}, nil)
       template.stub!(:current_user).and_return stub_user
     end

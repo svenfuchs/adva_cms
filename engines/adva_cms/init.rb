@@ -16,6 +16,7 @@ require 'rails_ext/action_controller/event_helper'
 require 'routing'
 require 'roles'
 
+I18n.load_path += Dir[File.dirname(__FILE__) + '/lib/locale/en/*']
 
 # turn this on to get detailed cache sweeper logging in production mode
 # Site.cache_sweeper_logging = true

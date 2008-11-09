@@ -149,7 +149,7 @@ describe Admin::CategoriesController, "page_caching" do
   it "should have the CategorySweeper observe Category create, update and destroy events" do
     Admin::CategoriesController.should_receive(:cache_sweeper) do |*args|
       options = args.extract_options!
-      options[:only].should == [:create, :update, :destroy]
+      options[:only].to_a.map(&:to_s).sort.should == ['create', 'destroy', 'update']
     end
     load 'admin/categories_controller.rb'
   end

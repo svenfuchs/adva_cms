@@ -16,7 +16,8 @@ describe BaseController do
   end
 
   it "finds the current site from site_id param" do
-    @controller.request.should_receive(:host_with_port)
+    controller.stub!(:request).and_return mock('request')
+    controller.request.should_receive(:host_with_port)
     Site.should_receive(:find_by_host).and_return @site
     @controller.send :set_site
   end

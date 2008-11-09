@@ -42,9 +42,13 @@ require "rspec_on_rails_on_crack"
 # AGW::CacheTest.setup
 ActionController::TestResponse.send(:include, CacheableFlash::TestHelpers)
 
-# set locale
-I18n.default_locale = :en # set this up globally as it will be setup in base controllers
-
+Spec::Rails::Example::RailsExampleGroup.class_eval do
+  before :each do
+    I18n.default_locale = :en # reset this because it will be changed in base controllers
+    I18n.locale = nil
+  end
+end
+  
 Spec::Rails::Example::ControllerExampleGroup.class_eval do
   def params_from(method, path, env = {:host_with_port => 'test.host'})
     ensure_that_routes_are_loaded

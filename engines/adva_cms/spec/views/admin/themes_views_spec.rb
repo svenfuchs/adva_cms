@@ -36,7 +36,7 @@ describe "Admin::Themes:" do
   describe "the :show view" do
     before :each do
       assigns[:theme] = @theme
-      template.stub_render hash_including(:partial => 'form')
+      template.stub!(:render).with hash_including(:partial => 'form')
     end
 
     it "displays a form to edit the theme" do
@@ -47,7 +47,7 @@ describe "Admin::Themes:" do
     end
 
     it "renders the form partial" do
-      template.expect_render hash_including(:partial => 'form')
+      template.should_receive(:render).with hash_including(:partial => 'form')
       render "admin/themes/show"
     end
   end
@@ -55,7 +55,7 @@ describe "Admin::Themes:" do
   describe "the :new view" do
     before :each do
       assigns[:theme] = @theme
-      template.stub_render hash_including(:partial => 'form')
+      template.stub!(:render).with hash_including(:partial => 'form')
     end
 
     it "displays a form to add a new theme" do
@@ -64,7 +64,7 @@ describe "Admin::Themes:" do
     end
 
     it "renders the form partial" do
-      template.expect_render hash_including(:partial => 'form')
+      template.should_receive(:render).with hash_including(:partial => 'form')
       render "admin/themes/new"
     end
   end

@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 def files_to_load(paths)
+  paths.reject!{|path| path =~ /^--/ } # ignore options
   paths = ['.'] if paths.empty?
   result = []
   paths.each do |path|

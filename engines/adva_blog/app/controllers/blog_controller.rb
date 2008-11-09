@@ -14,14 +14,14 @@ class BlogController < BaseController
 
   def index
     respond_to do |format|
-      format.html { render @section.render_options }
+      format.html { render } # @section.render_options TODO breaks specs on Rails 2.2
       format.atom { render :layout => false }
     end
   end
 
   def show
     respond_to do |format|
-      format.html { render @section.render_options }
+      format.html { render } # @section.render_options TODO breaks specs on Rails 2.2
     end
   end
 

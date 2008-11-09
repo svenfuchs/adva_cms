@@ -11,7 +11,7 @@ define Wiki do
   has_many [:approved_comments, :unapproved_comments], stub_comments
   has_one  :comments_counter, stub_counter
 
-  methods  :render_options => {},
+  methods  :render_options => {:template => nil, :layout => nil},
            :template => 'template',
            :layout => 'layout',
            :content_filter => 'textile-filter',

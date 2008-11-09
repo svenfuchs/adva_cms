@@ -20,7 +20,7 @@ describe Section do
     end
 
     it "serializes its actual permissions" do
-      Section.serialized_attributes.should include('permissions')
+      Section.serialized_attributes.keys.should include('permissions')
     end
 
     it "has an option :articles_per_page" do

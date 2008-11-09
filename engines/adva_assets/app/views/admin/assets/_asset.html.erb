@@ -1,6 +1,6 @@
 <div>
   <%= link_to(asset_image_for(asset, size || :tiny), asset.public_filename, :target => '_blank') %>
-  <%= "<h4>#{truncate(asset.title, 20)}</h4>" if !asset.image? %>
+  <%= "<h4>#{truncate(asset.title, :length => 20)}</h4>" if !asset.image? %>
   <ul class="asset-tools" style="display: none;">
     <li class="edit"><%= link_to 'Edit', edit_admin_asset_path(@site, asset), :title => 'Edit this file' %></li>
     <li class="delete"><%= link_to 'Delete', admin_asset_path(@site, asset), :title => 'Delete this asset', :confirm => 'Are you sure you wish to delete this?', :method => :delete %></li>

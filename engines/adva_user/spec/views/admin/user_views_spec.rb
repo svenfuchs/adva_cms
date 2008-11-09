@@ -34,7 +34,7 @@ describe "Admin::User:" do
   describe "the :show view" do
     before :each do
       assigns[:user] = @user
-      template.stub_render hash_including(:partial => 'form')
+      template.stub!(:render).with hash_including(:partial => 'form')
     end
 
     it "displays a the user profile" do
@@ -46,7 +46,7 @@ describe "Admin::User:" do
   describe "the :new view" do
     before :each do
       assigns[:user] = @user
-      template.stub_render hash_including(:partial => 'form')
+      template.stub!(:render).with hash_including(:partial => 'form')
     end
 
     it "displays a form to add a new user" do
@@ -55,14 +55,14 @@ describe "Admin::User:" do
     end
 
     it "renders the form partial" do
-      template.expect_render hash_including(:partial => 'form')
+      template.should_receive(:render).with hash_including(:partial => 'form')
       render "admin/users/new"
     end
 
     describe "with the current user having permissions to manage roles" do
       it "renders the roles partial" do
         template.should_receive(:has_permission?).with('manage', 'roles').and_return true
-        template.expect_render hash_including(:partial => 'roles')
+        template.should_receive(:render).with hash_including(:partial => 'roles')
         render "admin/users/edit"
       end
     end
@@ -79,7 +79,7 @@ describe "Admin::User:" do
   describe "the :edit view" do
     before :each do
       assigns[:user] = @user
-      template.stub_render hash_including(:partial => 'form')
+      template.stub!(:render).with hash_including(:partial => 'form')
       template.stub!(:has_permission?).and_return false
     end
 
@@ -92,14 +92,14 @@ describe "Admin::User:" do
     end
 
     it "renders the form partial" do
-      template.expect_render hash_including(:partial => 'form')
+      template.should_receive(:render).with hash_including(:partial => 'form')
       render "admin/users/edit"
     end
 
     describe "with the current user having permissions to manage roles" do
       it "renders the roles partial" do
         template.should_receive(:has_permission?).with('manage', 'roles').and_return true
-        template.expect_render hash_including(:partial => 'roles')
+        template.should_receive(:render).with hash_including(:partial => 'roles')
         render "admin/users/edit"
       end
     end

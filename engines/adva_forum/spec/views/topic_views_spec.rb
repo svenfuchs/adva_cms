@@ -21,8 +21,8 @@ describe "Topic views:" do
     template.stub!(:link_to_next_topic).and_return 'link_to_next_topic'
     template.stub!(:will_paginate).and_return 'will_paginate'
 
-    template.stub_render hash_including(:partial => 'topics/post')
-    template.stub_render hash_including(:partial => 'posts/form')
+    template.stub!(:render).with hash_including(:partial => 'topics/post')
+    template.stub!(:render).with hash_including(:partial => 'posts/form')
   end
 
   describe "the show view" do
@@ -48,12 +48,12 @@ describe "Topic views:" do
     end
 
     it "renders the topics/post partial with the posts collection" do
-      template.expect_render hash_including(:partial => 'topics/post')
+      template.should_receive(:render).with hash_including(:partial => 'topics/post')
       render "topics/show"
     end
 
     it "renders the posts/form" do
-      template.expect_render hash_including(:partial => 'posts/form')
+      template.should_receive(:render).with hash_including(:partial => 'posts/form')
       render "topics/show"
     end
   end
@@ -66,7 +66,7 @@ describe "Topic views:" do
     end
 
     it "renders the topics/form partial" do
-      template.expect_render hash_including(:partial => 'form')
+      template.should_receive(:render).with hash_including(:partial => 'form')
       render "topics/new"
     end
   end
@@ -78,7 +78,7 @@ describe "Topic views:" do
     end
 
     it "renders the topics/form partial" do
-      template.expect_render hash_including(:partial => 'form')
+      template.should_receive(:render).with hash_including(:partial => 'form')
       render "topics/edit"
     end
   end

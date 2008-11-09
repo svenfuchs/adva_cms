@@ -20,9 +20,9 @@ describe "Admin::Articles:" do
     template.stub!(:edit_admin_article_path).and_return(@edit_member_path)
     template.stub!(:will_paginate)
 
-    template.stub_render hash_including(:partial => 'options')
-    template.stub_render hash_including(:partial => 'categories/checkboxes')
-    template.stub_render hash_including(:partial => 'admin/assets/widget/widget')
+    template.stub!(:render).with hash_including(:partial => 'options')
+    template.stub!(:render).with hash_including(:partial => 'categories/checkboxes')
+    template.stub!(:render).with hash_including(:partial => 'admin/assets/widget/widget')
 
     (class << template; self; end).class_eval do
       include BaseHelper
@@ -35,13 +35,13 @@ describe "Admin::Articles:" do
     end
 
     it "should display a list of articles" do
-      template.stub_render :partial => 'article', :collection => stub_articles
+      template.stub!(:render).with :partial => 'article', :collection => stub_articles
       render "admin/articles/index"
       response.should have_tag('table[id=articles]')
     end
 
     it "should render the article partial" do
-      template.expect_render :partial => 'article', :collection => stub_articles
+      template.should_receive(:render).with :partial => 'article', :collection => stub_articles
       render "admin/articles/index"
     end
   end
@@ -52,7 +52,7 @@ describe "Admin::Articles:" do
     end
 
     it "should render the form partial" do
-      template.expect_render hash_including(:partial => 'form')
+      template.should_receive(:render).with hash_including(:partial => 'form')
       render "admin/articles/new"
     end
   end
@@ -65,7 +65,7 @@ describe "Admin::Articles:" do
     it "should render the form partial" do
       template.stub! :link_to
       template.stub! :content_url
-      template.expect_render hash_including(:partial => 'form')
+      template.should_receive(:render).with hash_including(:partial => 'form')
       render "admin/articles/edit"
     end
   end
@@ -79,7 +79,7 @@ describe "Admin::Articles:" do
     end
 
     it "should render the options partial to the sidebar" do
-      template.expect_render hash_including(:partial => 'options')
+      template.should_receive(:render).with hash_including(:partial => 'options')
       render "admin/articles/_form"
     end
 
@@ -123,12 +123,12 @@ describe "Admin::Articles:" do
     end
 
     it "should render the categories/checkboxes partial" do
-      template.expect_render hash_including(:partial => 'categories/checkboxes')
+      template.should_receive(:render).with hash_including(:partial => 'categories/checkboxes')
       render "admin/articles/_options"
     end
 
     it "should render the assets/widget/widget partial" do
-      template.expect_render hash_including(:partial => 'admin/assets/widget/widget')
+      template.should_receive(:render).with hash_including(:partial => 'admin/assets/widget/widget')
       render "admin/articles/_options"
     end
 

@@ -51,29 +51,29 @@ describe "Admin::Sites Views:" do
     before :each do
       assigns[:site] = @site
       @site.sections.stub!(:roots).and_return []
-      template.stub_render hash_including(:partial => 'sections')
-      template.stub_render hash_including(:partial => 'admin/activities/activities')
-      template.stub_render hash_including(:partial => 'user_activity')
-      template.stub_render hash_including(:partial => 'unapproved_comments')
+      template.stub!(:render).with hash_including(:partial => 'sections')
+      template.stub!(:render).with hash_including(:partial => 'admin/activities/activities')
+      template.stub!(:render).with hash_including(:partial => 'user_activity')
+      template.stub!(:render).with hash_including(:partial => 'unapproved_comments')
     end
 
     it "renders sections partial" do
-      template.expect_render hash_including(:partial => 'sections')
+      template.should_receive(:render).with hash_including(:partial => 'sections')
       render "admin/sites/show"
     end
 
     it "renders activities list partial" do
-      template.expect_render hash_including(:partial => 'admin/activities/activities')
+      template.should_receive(:render).with hash_including(:partial => 'admin/activities/activities')
       render "admin/sites/show"
     end
 
     it "renders user_activities partial" do
-      template.expect_render hash_including(:partial => 'user_activity')
+      template.should_receive(:render).with hash_including(:partial => 'user_activity')
       render "admin/sites/show"
     end
 
     it "renders unapproved_comments partial" do
-      template.expect_render hash_including(:partial => 'unapproved_comments')
+      template.should_receive(:render).with hash_including(:partial => 'unapproved_comments')
       render "admin/sites/show"
     end
   end
@@ -82,7 +82,7 @@ describe "Admin::Sites Views:" do
     before :each do
       assigns[:site] = @site
       assigns[:section] = @section
-      template.stub_render :partial => 'form', :locals => hash_including(:site => @site)
+      template.stub!(:render).with :partial => 'form', :locals => hash_including(:site => @site)
     end
 
     it "has a form tag that POSTs to collection_path" do
@@ -91,7 +91,7 @@ describe "Admin::Sites Views:" do
     end
 
     it "renders the site form partial" do
-      template.expect_render :partial => 'form', :locals => hash_including(:site => @site)
+      template.should_receive(:render).with :partial => 'form', :locals => hash_including(:site => @site)
       render "admin/sites/new"
     end
 
@@ -109,11 +109,11 @@ describe "Admin::Sites Views:" do
   describe "the :edit view" do
     before :each do
       assigns[:site] = @site
-      template.stub_render :partial => 'form', :locals => hash_including(:site => @site)
+      template.stub!(:render).with :partial => 'form', :locals => hash_including(:site => @site)
     end
 
     it "renders the site form partial" do
-      template.expect_render :partial => 'form', :locals => hash_including(:site => @site)
+      template.should_receive(:render).with :partial => 'form', :locals => hash_including(:site => @site)
       render "admin/sites/edit"
     end
 
@@ -162,7 +162,7 @@ describe "Admin::Sites Views:" do
 
     it "renders the settings partials for each registered spam filter" do
       SpamEngine::Filter.names.each do |name|
-        template.expect_render hash_including(:partial => "spam/#{name.downcase}_settings")
+        template.should_receive(:render).with hash_including(:partial => "spam/#{name.downcase}_settings")
       end
       render "admin/sites/_form"
     end

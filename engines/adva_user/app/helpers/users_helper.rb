@@ -13,6 +13,7 @@ module UsersHelper
     return default if email.blank?
     require 'digest/md5'
     digest = Digest::MD5.hexdigest(email)
-    "http://www.gravatar.com/avatar.php?size=#{size}&gravatar_id=#{digest}&default=http://#{request.host_with_port}#{ActionController::AbstractRequest.relative_url_root}/images/adva_cms/avatar.gif"
+    # TODO #{ActionController::AbstractRequest.relative_url_root} missing in Rails 2.2
+    "http://www.gravatar.com/avatar.php?size=#{size}&gravatar_id=#{digest}&default=http://#{request.host_with_port}/images/adva_cms/avatar.gif"
   end
 end

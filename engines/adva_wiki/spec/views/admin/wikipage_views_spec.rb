@@ -16,9 +16,9 @@ describe "Admin::Wikipages:" do
     template.stub!(:new_admin_wikipage_path).and_return @new_member_path
     template.stub!(:edit_admin_wikipage_path).and_return(@edit_member_path)
 
-    template.stub_render hash_including(:partial => 'options')
-    template.stub_render hash_including(:partial => 'categories/checkboxes')
-    template.stub_render hash_including(:partial => 'admin/assets/widget/widget')
+    template.stub!(:render).with hash_including(:partial => 'options')
+    template.stub!(:render).with hash_including(:partial => 'categories/checkboxes')
+    template.stub!(:render).with hash_including(:partial => 'admin/assets/widget/widget')
 
     template.stub!(:will_paginate)
     template.stub!(:datetime_with_microformat).and_return 'Once upon a time ...'
@@ -34,19 +34,19 @@ describe "Admin::Wikipages:" do
     end
     
     it "should have a link to create wikipage form" do
-      template.stub_render :partial => 'wikipage', :collection => @wikipages
+      template.stub!(:render).with :partial => 'wikipage', :collection => @wikipages
       render "admin/wikipages/index"
       response.should have_tag('a[href=?]', @new_member_path)
     end
 
     it "should display a list of wikipages" do
-      template.stub_render :partial => 'wikipage', :collection => @wikipages
+      template.stub!(:render).with :partial => 'wikipage', :collection => @wikipages
       render "admin/wikipages/index"
       response.should have_tag('table[id=wikipages]')
     end
 
     it "should render the wikipage partial" do
-      template.expect_render :partial => 'wikipage', :collection => @wikipages
+      template.should_receive(:render).with :partial => 'wikipage', :collection => @wikipages
       render "admin/wikipages/index"
     end
     
@@ -68,7 +68,7 @@ describe "Admin::Wikipages:" do
     end
 
     it "should render the form partial" do
-      template.expect_render hash_including(:partial => 'form')
+      template.should_receive(:render).with hash_including(:partial => 'form')
       render "admin/wikipages/new"
     end
   end
@@ -81,7 +81,7 @@ describe "Admin::Wikipages:" do
     it "should render the form partial" do
       template.stub! :link_to
       template.stub! :content_url
-      template.expect_render hash_including(:partial => 'form')
+      template.should_receive(:render).with hash_including(:partial => 'form')
       render "admin/wikipages/edit"
     end
   end
@@ -93,7 +93,7 @@ describe "Admin::Wikipages:" do
     end
 
     it "should render the options partial to the sidebar" do
-      template.expect_render hash_including(:partial => 'options')
+      template.should_receive(:render).with hash_including(:partial => 'options')
       render "admin/wikipages/_form"
     end
 
@@ -121,12 +121,12 @@ describe "Admin::Wikipages:" do
     end
     
     it "should render the categories/checkboxes partial" do
-      template.expect_render hash_including(:partial => 'categories/checkboxes')
+      template.should_receive(:render).with hash_including(:partial => 'categories/checkboxes')
       render "admin/wikipages/_options"
     end
     
     it "should render the assets/widget/widget partial" do
-      template.expect_render hash_including(:partial => 'admin/assets/widget/widget')
+      template.should_receive(:render).with hash_including(:partial => 'admin/assets/widget/widget')
       render "admin/wikipages/_options"
     end
 

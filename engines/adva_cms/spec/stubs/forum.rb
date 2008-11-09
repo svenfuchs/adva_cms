@@ -14,7 +14,7 @@ define Forum do
            :title => 'forum title',
            :permalink => 'forum',
            :comment_age => 0,
-           :render_options => {},
+           :render_options => {:template => nil, :layout => nil},
            :template => 'template',
            :layout => 'layout',
            :content_filter => 'textile-filter',

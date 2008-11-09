@@ -150,7 +150,7 @@ end
 #   it "should have the BoardSweeper observe Board create, update and destroy events" do
 #     Admin::BoardsController.should_receive(:cache_sweeper) do |*args|
 #       options = args.extract_options!
-#       options[:only].should == [:create, :update, :destroy]
+#       options[:only].to_a.sort.should == ['create', 'update', 'destroy']
 #     end
 #     load 'admin/boards_controller.rb'
 #   end

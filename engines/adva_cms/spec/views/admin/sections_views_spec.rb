@@ -14,7 +14,7 @@ describe "Admin::Sections Views:" do
     template.stub!(:filter_options).and_return []
     template.stub!(:comment_expiration_options).and_return []
 
-    template.stub_render hash_including(:partial => 'form')
+    template.stub!(:render).with hash_including(:partial => 'form')
   end
 
   describe "the :edit view" do
@@ -26,7 +26,7 @@ describe "Admin::Sections Views:" do
     end
 
     it "renders the form partial" do
-      template.expect_render hash_including(:partial => 'form')
+      template.should_receive(:render).with hash_including(:partial => 'form')
       render "admin/sections/edit"
     end
   end
@@ -43,23 +43,23 @@ describe "Admin::Sections Views:" do
 
   describe "the form partial" do
     before :each do
-      template.stub_render hash_including(:partial => 'admin/sections/settings/permissions')
+      template.stub!(:render).with hash_including(:partial => 'admin/sections/settings/permissions')
       template.stub!(:f).and_return ActionView::Base.default_form_builder.new(:section, @section, template, {}, nil)
     end
 
     it "renders the admin/sections/settings/section partial if the section is a Section" do
-      template.expect_render hash_including(:partial => 'admin/sections/settings/section')
+      template.should_receive(:render).with hash_including(:partial => 'admin/sections/settings/section')
       render "admin/sections/_form"
     end
 
     it "renders the admin/sections/settings/blog partial if the section is a Blog" do
       assigns[:section] = stub_blog
-      template.expect_render hash_including(:partial => 'admin/sections/settings/blog')
+      template.should_receive(:render).with hash_including(:partial => 'admin/sections/settings/blog')
       render "admin/sections/_form"
     end
 
     it "renders the admin/sections/settings/permissions partial" do
-      template.expect_render hash_including(:partial => 'admin/sections/settings/permissions')
+      template.should_receive(:render).with hash_including(:partial => 'admin/sections/settings/permissions')
       render "admin/sections/_form"
     end
   end
@@ -72,7 +72,7 @@ describe "Admin::Sections Views:" do
     end
 
     it "renders itself for nested sections" do
-      template.expect_render hash_including(:partial => 'section')
+      template.should_receive(:render).with hash_including(:partial => 'section')
       render "admin/sections/_section"
     end
   end

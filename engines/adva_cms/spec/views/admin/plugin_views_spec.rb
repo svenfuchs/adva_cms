@@ -22,7 +22,7 @@ describe "Admin::Plugins:" do
   describe "the :index view" do
     before :each do
       assigns[:plugins] = @plugins
-      template.stub_render hash_including(:partial => 'plugin')
+      template.stub!(:render).with hash_including(:partial => 'plugin')
     end
 
     it "should display a list of cached pages" do
@@ -31,7 +31,7 @@ describe "Admin::Plugins:" do
     end
 
     it "should render the plugin partial with the plugins collection" do
-      template.expect_render hash_including(:partial => 'plugin', :collection => @plugins)
+      template.should_receive(:render).with hash_including(:partial => 'plugin', :collection => @plugins)
       render "admin/plugins/index"
     end
   end
@@ -39,7 +39,7 @@ describe "Admin::Plugins:" do
   describe "the :show view" do
     before :each do
       assigns[:plugin] = @plugin
-      template.stub_render hash_including(:partial => 'form')
+      template.stub!(:render).with hash_including(:partial => 'form')
     end
 
     it "should display author information for the plugin" do
@@ -63,7 +63,7 @@ describe "Admin::Plugins:" do
     end
 
     it "should render the form partial" do
-      template.expect_render hash_including(:partial => 'form')
+      template.should_receive(:render).with hash_including(:partial => 'form')
       render "admin/plugins/show"
     end
   end

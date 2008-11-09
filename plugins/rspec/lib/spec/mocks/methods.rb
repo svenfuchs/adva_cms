@@ -30,7 +30,7 @@ module Spec
       end
       
       def as_null_object
-        __mock_proxy.act_as_null_object
+        __mock_proxy.as_null_object
       end
       
       def null_object?
@@ -43,7 +43,7 @@ module Spec
         if Mock === self
           @mock_proxy ||= Proxy.new(self, @name, @options)
         else
-          @mock_proxy ||= Proxy.new(self, self.class.name)
+          @mock_proxy ||= Proxy.new(self)
         end
       end
     end

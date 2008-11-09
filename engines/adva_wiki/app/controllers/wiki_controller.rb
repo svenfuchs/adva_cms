@@ -16,7 +16,7 @@ class WikiController < BaseController
 
   def index
     respond_to do |format|
-      format.html { render @section.render_options }
+      format.html { render } # @section.render_options TODO causes specs to fail in Rails 2.2
       format.atom { render :layout => false }
     end
     # TODO @section.render_options.update(:action => 'show')
@@ -29,7 +29,7 @@ class WikiController < BaseController
   def show
     set_categories if @wikipage.new_record?
     if !@wikipage.new_record?
-      render @section.render_options
+      render # @section.render_options TODO causes specs to fail in Rails 2.2
     elsif has_permission? :create, :wikipage
       render :action => :new, :skip_caching => true
     else

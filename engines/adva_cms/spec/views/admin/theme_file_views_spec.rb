@@ -20,7 +20,7 @@ describe "Admin::Themes:" do
 
   describe "the :show view" do
     before :each do
-      template.stub_render hash_including(:partial => 'form')
+      template.stub!(:render).with hash_including(:partial => 'form')
     end
 
     it "renders a form to edit the file" do
@@ -31,14 +31,14 @@ describe "Admin::Themes:" do
     end
 
     it "renders the form partial" do
-      template.expect_render hash_including(:partial => 'form')
+      template.should_receive(:render).with hash_including(:partial => 'form')
       render "admin/theme_files/show"
     end
   end
 
   describe "the :new view" do
     before :each do
-      template.stub_render hash_including(:partial => 'form')
+      template.stub!(:render).with hash_including(:partial => 'form')
     end
 
     it "renders a form to add a new file" do
@@ -47,7 +47,7 @@ describe "Admin::Themes:" do
     end
 
     it "renders the form partial" do
-      template.expect_render hash_including(:partial => 'form')
+      template.should_receive(:render).with hash_including(:partial => 'form')
       render "admin/theme_files/new"
     end
   end

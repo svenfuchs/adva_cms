@@ -7,6 +7,10 @@ WillPaginate.enable_actionpack
 ActionController::Routing::Routes.draw do |map|
   map.connect 'dummy/page/:page', :controller => 'dummy'
   map.connect 'dummy/dots/page.:page', :controller => 'dummy', :action => 'dots'
+  map.connect 'ibocorp/:page', :controller => 'ibocorp',
+                               :requirements => { :page => /\d+/ },
+                               :defaults => { :page => 1 }
+                               
   map.connect ':controller/:action/:id'
 end
 
@@ -38,9 +42,9 @@ class WillPaginate::ViewTestCase < Test::Unit::TestCase
 
       locals = { :collection => collection, :options => options }
 
-      if defined? ActionView::Template
+      if defined? ActionView::InlineTemplate
         # Rails 2.1
-        args = [ ActionView::Template.new(@view, @template, false, locals, true, nil) ]
+        args = [ ActionView::InlineTemplate.new(@view, @template, locals) ]
       else
         # older Rails versions
         args = [nil, @template, nil, locals]
@@ -79,7 +83,7 @@ class WillPaginate::ViewTestCase < Test::Unit::TestCase
         assert_match pattern, el['href']
         if numbers
           el['href'] =~ pattern
-          pages << $1.to_i
+          pages << ($1.nil?? nil : $1.to_i)
         end
       end
 
@@ -129,6 +133,10 @@ class DummyController
   def initialize
     @request = DummyRequest.new
     @url = ActionController::UrlRewriter.new(@request, @request.params)
+  end
+
+  def params
+    @request.params
   end
   
   def url_for(params)

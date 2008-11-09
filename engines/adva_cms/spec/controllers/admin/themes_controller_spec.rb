@@ -84,7 +84,7 @@ describe Admin::ThemesController do
     it_assigns :theme
 
     it "fetches an theme from site.themes" do
-      @site.themes.should_receive(:find).and_return @theme
+      @site.themes.should_receive(:find).with('theme-1').and_return @theme
       act!
     end
 
@@ -111,7 +111,7 @@ describe Admin::ThemesController do
     it_assigns :theme
 
     it "fetches an theme from site.themes" do
-      @site.themes.should_receive(:find).and_return @theme
+      @site.themes.should_receive(:find).with('theme-1').and_return @theme
       act!
     end
 

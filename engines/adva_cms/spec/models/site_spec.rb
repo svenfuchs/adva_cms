@@ -26,11 +26,11 @@ describe Site do
     end
 
     it "serializes its actual permissions" do
-      Site.serialized_attributes.should include('permissions')
+      Site.serialized_attributes.keys.should include('permissions')
     end
 
     it "serializes the spam options" do
-      Site.serialized_attributes.should include('spam_options')
+      Site.serialized_attributes.keys.should include('spam_options')
     end
 
     it "has a comments counter" do
