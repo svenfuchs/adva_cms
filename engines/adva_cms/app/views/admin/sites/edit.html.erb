@@ -1,3 +1,8 @@
+<ul>
+  <li><%= link_to 'Cache', admin_cached_pages_path(@site) %></li>
+  <li><%= link_to 'Themes', admin_themes_path(@site) %></li>
+</ul>
+
 <h3>Site Settings</h3>
 
 <% form_for :site, @site, :url => admin_site_path, :html => { :method => :put } do |f| -%>

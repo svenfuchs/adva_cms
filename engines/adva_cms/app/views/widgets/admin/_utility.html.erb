@@ -1,0 +1,15 @@
+<div id="utility-links" class="clearfix">
+  <!-- 
+  <ul class="breadcrumb">
+    <li><a href="#">Dashboard</a> &raquo;</li>
+    <li><a href="#">Accounts</a> &raquo;</li>
+    <li class="active"><a href="#">small Account</a></li>
+  </ul>
+  -->
+  <ul class="userlinks">
+    <li>Logged in as: <%= link_to current_user.name, admin_user_path(current_user) %></li>
+    <li><%= link_to 'Logout', logout_path, :method => :delete %></li>
+    <li class="last"><%= link_to 'Website »', "http://#{@site.host}" %></li>
+  </ul>
+</div>
+

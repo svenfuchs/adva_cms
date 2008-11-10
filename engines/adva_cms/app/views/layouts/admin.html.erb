@@ -1,54 +1,65 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />   
-    <title>Admin <%= controller.controller_name %></title>
-    
-    <%= stylesheet_link_tag    'adva_cms/admin/base', 'adva_cms/admin/layout/base', 
-                               'adva_cms/admin/activities', 'adva_cms/admin/assets', 
-                               'adva_cms/admin/form', 'adva_cms/admin/lists', 
-                               'adva_cms/admin/sortable_tree', 'adva_cms/admin/themes', 
-                               'adva_cms/admin/users', 'adva_cms/admin/widgets',
-                               :cache => true %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Admin <%= controller.controller_name %></title>
+
+  <style type="text/css"> @import '/stylesheets/adva_cms/admin/styles.css';</style>
+  <%= stylesheet_link_tag    'adva_cms/admin/activities', 'adva_cms/admin/assets', 
+                             'adva_cms/admin/form', 'adva_cms/admin/lists', 
+                             'adva_cms/admin/sortable_tree', 'adva_cms/admin/themes', 
+                             'adva_cms/admin/users', 'adva_cms/admin/widgets',
+                             :cache => true %>
+  <link rel="stylesheet" type="text/css" href="/stylesheets/adva_cms/admin/print.css" media="print" />
+  <!--[if lte IE 6]><link rel="stylesheet" href="/stylesheets/adva_cms/admin/styles.ie6.css" type="text/css" media="screen"/><![endif]-->
                                
-    <%= javascript_include_tag 'adva_cms/prototype', 'adva_cms/effects', 
-                               'adva_cms/dragdrop', 'adva_cms/lowpro',
-                               'adva_cms/sortable_tree/sortable_tree', 'adva_cms/flash', 
-                               'adva_cms/json', 'adva_cms/cookie',
-                               'adva_cms/admin/admin.js', 'adva_cms/admin/article.js', 
-                               'adva_cms/admin/asset.js', 'adva_cms/admin/asset_widget.js',
-                               'adva_cms/admin/smart_form.js', 'adva_cms/admin/sortable_tree.js', 
-                               'adva_cms/admin/spotlight.js', 'adva_cms/admin/comment.js',
-							                 'adva_cms/admin/wikipage.js', :cache => true %>
-    <%= yield :head %>
-  </head>
-  <body>   
-    <div id="header">
-      <%= render :widget => :menu_global %>
-      <!-- <h1><%= @site.name if @site %></h1> -->
-      <%= render :widget => :menu_site %>
-    </div>
-    
-    <%= yield :form if @content_for_form %>          
-    <div id="main">
-      <div id="flashes"><%= render :partial => 'shared/flash' %></div>
-      <%= render :widget => :menu_section %>
-      <% if @content_for_action_nav %>
-        <div id="action_nav_container"><%= yield :action_nav %></div>
-      <% end %>
-      <% if @content_for_filter %>
-        <div id="filter"><%= yield :filter %></div>
-      <% end %>
-      <div id="content">
-        <%= yield %>      
-      </div>
+  <%= javascript_include_tag 'adva_cms/prototype', 'adva_cms/effects', 
+                             'adva_cms/dragdrop', 'adva_cms/lowpro',
+                             'adva_cms/sortable_tree/sortable_tree', 'adva_cms/flash', 
+                             'adva_cms/json', 'adva_cms/cookie',
+                             'adva_cms/admin/admin.js', 'adva_cms/admin/article.js', 
+                             'adva_cms/admin/asset.js', 'adva_cms/admin/asset_widget.js',
+                             'adva_cms/admin/smart_form.js', 'adva_cms/admin/sortable_tree.js', 
+                             'adva_cms/admin/spotlight.js', 'adva_cms/admin/comment.js',
+						                 'adva_cms/admin/wikipage.js', :cache => true %>
+						                 
+</head>
+<body>
+  <ul id="acc-links">
+  	  <li><a href="#main-nav">Skip to Navigation</a></li>
+  		<li><a href="#content">Skip to Content</a></li>
+  </ul>
+
+  <div id="container">
+  	<div id="header">
+      <%= render :partial => 'widgets/admin/utility' %>
+      <%= render :partial => 'widgets/admin/navigation' %>
     </div>
 
-    <div id="sidebar">
-      <%= yield :sidebar %>
-      <%= render :widget => :section_tree %>
-    </div>
-    <%= '</form>' if @content_for_form %>
-    
-  </body>
+  	<div id="content" class="clearfix">
+  		<%= render :partial => 'widgets/admin/language_select' %>
+  		<%= yield :form if @content_for_form %>
+  	  <div id="main-content"><div id="main-content-wrapper">
+  	    <%= render :partial => 'shared/flash' %>
+  		  <div class="padded">
+          <%= render :widget => :menu_section %>
+          <% if @content_for_action_nav %>
+            <%= yield :action_nav %>
+          <% end %>
+          <% if @content_for_filter %>
+            <div id="filter"><%= yield :filter %></div>
+          <% end %>
+
+          <%= yield %>
+  			</div>
+  		</div></div>
+
+      <div id="sidebar">
+        <%= yield :sidebar %>
+        <%= render :widget => :section_tree %>
+      </div>
+      <%= '</form>' if @content_for_form %>
+  	</div>
+  </div>
+</body>
 </html>

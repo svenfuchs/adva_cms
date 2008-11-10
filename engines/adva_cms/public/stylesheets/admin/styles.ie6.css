@@ -1,0 +1,11 @@
+button { 
+  width:auto; 
+  overflow:visible; }
+
+
+
+#main-content h2 a{right:30px;}
+.assistance h3 a.info{left:-35px !important;}
+table.table-list .thumb  .you{margin:45px 0 0 0;}
+
+#sidebar table.table-list .thumb  .you{right:-5px;}

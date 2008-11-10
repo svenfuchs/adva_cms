@@ -1,0 +1,10 @@
+# flash
+  changed flash container from div to p: check frontend css
+  p.flash needs a min-height for when it's empty
+  
+# navigation + subnav
+  make buttons highlight active state
+  
+# generate breadcrumbs
+
+# fix /admin/users/1   
