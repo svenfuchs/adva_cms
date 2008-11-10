@@ -107,8 +107,18 @@ describe Site do
       @site.should validate_presence_of(:host)
     end
 
-    it "validates the presence of a title" do
-      @site.should validate_presence_of(:title)
+    it "validates the presence of a name" do
+      @site.should validate_presence_of(:name)
+    end
+    
+    it "should have title == name when title is blank" do
+      site = Factory.create(:site, :name => 'Example', :title => nil)
+      site.title.should == 'Example'
+    end
+    
+    it "should have title when title is present" do
+      site = Factory.create(:site, :name => 'Example', :title => 'Title')
+      site.title.should == 'Title'
     end
   end
 

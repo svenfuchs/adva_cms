@@ -20,7 +20,6 @@ describe "Admin::Install:" do
     it "should render form fields for creating a new site" do
       render "admin/install/index"
       response.should have_tag('input[type=?][name=?]', 'text', 'site[name]')
-      response.should have_tag('input[type=?][name=?]', 'text', 'site[title]')
     end
 
     it "should render form fields for creating a new root section" do

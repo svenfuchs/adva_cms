@@ -19,7 +19,6 @@ class InstallationTest < ActionController::IntegrationTest
 
     # fill in the form and submit the form
     fills_in "website name",  :with => "adva-cms Test"
-    fills_in "website title", :with => "adva-cms Testsite"
     fills_in "title",         :with => "Home"
     clicks_button "Create"
 
@@ -69,6 +68,6 @@ class InstallationTest < ActionController::IntegrationTest
     assert_template "sections/show"
     
     #check that the frontend contains the site title
-    assert response.body =~ /adva-cms Testsite/, "frontend should contain site title"
+    assert response.body =~ /adva-cms Test/, "frontend should contain site title"
   end
 end
