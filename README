@@ -52,4 +52,13 @@ Adva irc:
 irc://irc.freenode.net#adva-cms
  
 Running specs and int tests
-ruby script/test-adva  # Runs all Adva specs and int tests
+  ruby script/test-adva  # Runs all Adva specs and int tests
+
+Pushing your code to mainstream or to your adva clone
+  Here is quick way to push your code up: 
+    cd vendor/adva
+    open .git/config
+    change: url = git://github.com/svenfuchs/adva_cms.git
+    to your adva clone: url = git@github.com:MY_GITHUB_USERNAME/adva_cms.git
+    or to mainstream: url = git@github.com:svenfuchs/adva_cms.git
+    git push origin master
