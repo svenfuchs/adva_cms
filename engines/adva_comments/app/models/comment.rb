@@ -1,9 +1,11 @@
 class Comment < ActiveRecord::Base
   class CommentNotAllowed < StandardError; end
 
+=begin
   class Jail < Safemode::Jail
     allow :new_record?
   end
+=end
 
   acts_as_role_context # :parent => Content
 

@@ -1,7 +1,9 @@
 class Section < ActiveRecord::Base
+=begin
   class Jail < Safemode::Jail
     allow :id, :type, :categories, :tag_counts
   end
+=end
 
   @@types = ['Section']
   cattr_reader :types

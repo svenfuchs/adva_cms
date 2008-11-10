@@ -1,8 +1,11 @@
 class Tag < ActiveRecord::Base
+
+=begin
   class Jail < Safemode::Jail
     allow :id, :name
   end
-  
+=end
+
   has_many :taggings
   
   validates_presence_of :name
