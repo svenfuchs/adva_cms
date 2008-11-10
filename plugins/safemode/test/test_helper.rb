@@ -114,6 +114,7 @@ class Comment
   end
 end
 
+=begin
 class Article::Jail < Safemode::Jail
   allow :title, :comments, :is_article?
   
@@ -128,3 +129,4 @@ end
 class Comment::Jail < Safemode::Jail
   allow :article, :text
 end
+=end
