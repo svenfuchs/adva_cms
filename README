@@ -51,9 +51,5 @@ http://groups.google.com/group/adva-cms
 adva-cms irc:
 irc://irc.freenode.net#adva-cms
  
-Running specs and stories
- 
-    rake adva_cms:test         # Runs all adva specs and stories
-    rake adva_cms:test:specs   # Runs all adva specs
-    rake adva_cms:test:stories # Runs all adva stories
- 
+Running specs and int tests
+ruby vendor/adva/script/test-all  # Runs all adva specs and int tests
