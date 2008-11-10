@@ -133,6 +133,11 @@ describe Section do
       Section.register_type('Galerie')
       Section.types.should include('Galerie')
     end
+    
+    it ".register_type should not shift 'Section' from the first place" do
+      Section.register_type('123-section')
+      Section.types.first.should == 'Section'
+    end
   end
 
   describe "public instance methods" do

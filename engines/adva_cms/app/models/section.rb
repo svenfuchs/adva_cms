@@ -49,7 +49,7 @@ class Section < ActiveRecord::Base
   class << self
     def register_type(type)
       @@types << type
-      @@types.sort!.uniq!
+      @@types.uniq!
     end
     
     def content_type
