@@ -14,7 +14,7 @@ def files_to_load(paths)
     end
   end
   result.reject!{|path| path =~ /plugins|rspec/ }
-  result
+  result.sort
 end
 
 def dir_pattern(path)

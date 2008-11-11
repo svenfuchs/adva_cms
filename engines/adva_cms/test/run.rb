@@ -11,7 +11,7 @@ def files_to_load(paths)
       raise "File or directory not found: #{path}"
     end
   end
-  result
+  result.sort
 end
 
 def dir_pattern(path)
