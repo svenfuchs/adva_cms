@@ -12,9 +12,11 @@
 	float: left;
 }
 .menu li a {
-	font-weight: bold;
-	font-size: 13px;
-	color: #777;
+	position: relative;
+	font-weight: normal;
+	font-size: 10px;
+	color: #4c4c4c;
+	bottom: 0px;
 	text-decoration: none;
 	text-shadow: #fff 1px 1px;
 }
@@ -22,17 +24,25 @@
 	position: absolute;
 	bottom: 32px;
 }
-.site_menu li {
-	margin-left: 5px;
-	padding: 5px 15px;
-	background-color: #f0f0f0;
+.site_menu li  {
+	height: 40px;
+	width: 80px;
+	text-align: center;
+	background-color: #DDD;
+}
+.site_menu li a  {
+	padding-top: 22px;
+	top: 0px;
+	display: block;
 }
 #site_menu_primary {
-	left: 50px;
+	left: 30px;
+	top: 30px;
 }
 
 #site_menu_secondary {
 	right: 50px;
+	top: 30px;
 }
 #section_menu_container,
 #action_nav_container {
@@ -60,6 +70,38 @@
 	background-color: #eee;
 	border-left: 1px solid #eee;
 }
+
+/* main menu items */
+
+#overview {
+	background: url(/images/adva_cms/admin/main-nav-overview.png);
+}
+
+#section {
+	background: url(/images/adva_cms/admin/main-nav-sections.png);
+}
+
+#assets {
+	background: url(/images/adva_cms/admin/main-nav-assets.png);
+}
+
+#settings {
+	background: url(/images/adva_cms/admin/main-nav-settings.png);
+}
+
+#cache {
+
+}
+
+#themes {
+	background: url(/images/adva_cms/admin/main-nav-themes.png);
+}
+
+#account {
+	background: url(/images/adva_cms/admin/main-nav-account.png);
+}
+
+
 
 /* filter */
 

@@ -2,7 +2,7 @@
   <h4>Recent activity</h4>
   <ul>
     <% users.each do |user| %>
-      <li class="clearing" style="margin-bottom: 12px;">
+      <li class="clearing" style="margin-bottom: 1px;">
         <%= gravatar_img user %><%= link_to who(user), :controller => 'users', :action => 'show', :id => user %><br /> 
         showed up <%= distance_of_time_in_words_to_now(user.updated_at) %> ago
       </li>

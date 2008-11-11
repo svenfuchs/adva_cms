@@ -2,7 +2,7 @@ html, body {
 	padding: 0px;
 	margin: 0px;
 	color: #333;
-	background-color: #f6f6f6;
+	background-color: #e6e6e6;
  	font: 12px "Lucida Grande",Lucida,Helvetica,sans-serif;
 	line-height: 1.5em;
 }
@@ -14,9 +14,23 @@ ul, li {
 img {
 	border-width: 0px;
 }
-a { 
-	outline: none; 
+a {
+	text-decoration: none;
+	color: #990000;
 }
+a:link {
+text-decoration: none;
+	color: #990000;
+}
+a:visited {
+text-decoration: none;
+	color: #990000;
+}
+a:hover {
+	text-decoration: underline;
+	color: #cc0000;
+}
+
 
 .clearing {
   display: block;
@@ -51,7 +65,7 @@ a {
 /* flash, errors, notices */
 
 #flashes div {
-	line-height: 40px;
+	line-height: 25px;
 }
 #flash-notice {
   background: #cfc;

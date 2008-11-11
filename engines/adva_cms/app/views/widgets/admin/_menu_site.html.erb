@@ -1,14 +1,14 @@
 <% if @site %>
   <ul id="site_menu_primary" class="menu site_menu">
-    <li><%= link_to 'Overview', admin_site_path(@site) %></li>
-    <li><%= link_to 'Sections', new_admin_section_path(@site) %></li>
-    <li><%= link_to 'Assets', admin_assets_path(@site) %></li>
+    <li id="overview"><%= link_to 'Overview', admin_site_path(@site) %></li>
+    <li id="section"><%= link_to 'Sections', new_admin_section_path(@site) %></li>
+    <li id="assets"><%= link_to 'Assets', admin_assets_path(@site) %></li>
   </ul>
   <ul id="site_menu_secondary" class="menu site_menu">
-    <li><%= link_to 'Settings', edit_admin_site_path(@site) %></li>
-    <li><%= link_to 'Cache', admin_cached_pages_path(@site) %></li>
-    <li><%= link_to 'Themes', admin_themes_path(@site) %></li>
-    <li><%= link_to 'Users', admin_site_users_path(@site) %></li>
-    <li><%= link_to 'Website »', "http://#{@site.host}" %></li>
+    <li id="settings"><%= link_to 'Settings', edit_admin_site_path(@site) %></li>
+    <li id="cache"><%= link_to 'Cache', admin_cached_pages_path(@site) %></li>
+    <li id="themes"><%= link_to 'Themes', admin_themes_path(@site) %></li>
+    <li  id="account"><%= link_to 'Users', admin_site_users_path(@site) %></li>
+    <li  id="preview"><%= link_to 'Website »', "http://#{@site.host}" %></li>
   </ul>
 <% end %>
