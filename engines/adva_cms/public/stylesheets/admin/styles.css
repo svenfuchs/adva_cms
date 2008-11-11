@@ -40,7 +40,7 @@ fieldset br{ clear:both;}
 fieldset{ border:none;}
 
 input.text{
-  width:300px;
+  width:95%;
   height:16px;
   background:#FFF;
   font-weight:bold;
@@ -49,7 +49,7 @@ input.text{
   border:1px solid #CCCCCC;}
 
 fieldset select{
-  width: 308px;
+  width: 98%;
   border:1px solid #CCCCCC;
   margin: 0 0 25px 0;}
 
@@ -62,7 +62,6 @@ fieldset label{
   font-weight:bold;
   position:relative;
   display:block;}
-
 
 
 button.submit {
@@ -105,14 +104,25 @@ ul#acc-links{display:none;}
 ul li.last {border:none !important;}
 .right{float:right !important;}
 .noborder{border:none !important;}
-
+.inline{
+	display:inline !important;
+}
+.empty {
+  padding: 10px;
+  padding-left: 35px;
+  background: #eee url(/images/adva_cms/icons/minus.gif) 10px 50% no-repeat; 
+}
+.divider {
+	border-top: 1px solid #ccc;
+	padding: 20px 0px 0px 12px;
+}
 
 /*-------------------------------------------------------------------------
                          PAGE STYLES
 *-------------------------------------------------------------------------*/
 #container{
   max-width:2000px;
-  min-width:1200px;
+  min-width:870px;
   margin:0 auto;}
 
 
@@ -120,7 +130,7 @@ ul li.last {border:none !important;}
                          HEADER
 *-------------------------------------------------------------------------*/
 #header{
-  padding: 0 0 4px 0;
+  padding: 0 0 5px 0;
   font-size:1.1em;
   background:url('/images/adva_cms/supermario/bg_borderheader.gif') repeat-x bottom left;}
 
@@ -212,6 +222,7 @@ ul.userlinks li{
 *-------------------------------------------------------------------------*/
 #content{
   font-size:1.2em;
+  clear:both;
   padding: 0 20px 0 0;}
 
 #content table{
@@ -219,30 +230,34 @@ ul.userlinks li{
 
 /* LANGUAGE DROPDOWN
 -------------------------------------------------------------------------*/
-.language{
-  padding: 10px 0 !important;}
 
-.language fieldset{
-  float:right;
+fieldset.language{
   margin:0 !important;
   background:none !important;
-  padding:0 !important;}
+  float:right;
+  padding:10px 0 !important;}
 
 .language label{
   float:left;
+  text-align:right;
+  width:100px;
   padding-right:10px;
-  display:block;}
+  display:block;
+	line-height: normal !important;
+}
 
 .language select{
   width:161px;
+  background:#FFF;
   margin:0 !important;}
 
 /*-------------------------------------------------------------------------
                          MAIN CONTENT
 *-------------------------------------------------------------------------*/
 #main-content{
-  width:65%;
+  width:68%;
   float:left;
+  clear:both;
   margin-bottom:-15px;
   padding-bottom:70px;
   background:#FFF url('/images/adva_cms/supermario/bg_contentshadow.gif') repeat-y top right;}
@@ -255,7 +270,7 @@ ul.userlinks li{
   color:#999999;
   font-size:2.4em;
   position:relative;
-  padding: 0 0 5px 0;
+  padding: 20px 0 5px 0;
   border-bottom:5px solid #E6E6E6;
   font-weight:normal !important;}
 
@@ -267,17 +282,17 @@ ul.userlinks li{
   right:0px;}
 
 #main-content .padded{
-  padding:5px 20px;}
+  padding: 0px 20px;}
 
 /* CONFIRMATION AND ERROR MESSAGES
 -------------------------------------------------------------------------*/
-p.confirm,
+p.notice,
 p.error{
   text-align:center;
-  padding: 5px 0 !important;
+  padding: 10px 0 !important;
   font-weight:bold;}
 
-p.confirm{ background:#CCFFCC;}
+p.notice{ background:#CCFFCC;}
 p.error{background:#FECCCB;}
 
 /* SUB NAVIGATION
@@ -285,7 +300,7 @@ p.error{background:#FECCCB;}
 ul.sub-nav{
   background:url('/images/adva_cms/supermario/bg_subnav.gif') repeat-x bottom left;
   font-size:1.2em;
-  margin: 0 0 20px 0;
+  margin: 20px 0 20px 0;
   height:40px;}
 
 ul.sub-nav li{
@@ -293,26 +308,32 @@ ul.sub-nav li{
   padding: 0 2px 0 0;
   background:url('/images/adva_cms/supermario/border_subnav.gif') repeat-y top right;}
 
+ul.sub-nav li.right{
+  padding: 0 0 0 2px;
+  background:url('/images/adva_cms/supermario/border_subnav.gif') repeat-y top left;}
+
 ul.sub-nav li a,
 ul.sub-nav li a span{
   float:left;
   display:block;}
 
 ul.sub-nav a{
-  color:#4C4C4C !important;}
+  color:#4C4C4C !important;
+  background:url('/images/adva_cms/supermario/bg_subnavtableft.gif') no-repeat top left;}
 
 ul.sub-nav a:hover{
   color:#FFF !important;
-  text-decoration:none !important;
-  background:url('/images/adva_cms/supermario/bg_subnavtableft.gif') no-repeat top left;}
-
-ul.sub-nav a:hover span{
-  background:url('/images/adva_cms/supermario/bg_subnavtabright.gif') no-repeat top right;}
+  background-position: 0 -40px !important;
+  text-decoration:none !important;}
 
 ul.sub-nav li a span{
   padding: 13px 27px 0 22px;
   margin: 0 0 0 5px;
-  height: 27px;}
+  height: 27px;
+  background:url('/images/adva_cms/supermario/bg_subnavtabright.gif') no-repeat top right;}
+
+ul.sub-nav a:hover span{
+  background-position: right -40px !important;}
 
 
 /* MAIN CONTENT ELEMENTS
@@ -332,7 +353,7 @@ ul.sub-nav li a span{
   padding:0 20px;}
 
 .account-type .type{
-  width:25%;  }
+  width:23%;  }
 
 .account-type .type p{
   padding: 0 0 5px 10px;}
@@ -355,11 +376,11 @@ ul.sub-nav li a span{
 
 .account-type .info .wrapper{
   background:url('/images/adva_cms/supermario/border_account.gif') repeat-y top right;  
-  padding: 15px 20px; }
+  padding:15px 3%; }
 
 .account-type .info span{
   float:left;
-  width:130px;
+  width:50%;
   text-align:right;
   display:block;
   padding: 0 15px 0 0;
@@ -389,7 +410,7 @@ ul.sub-nav li a span{
 .account-type .domain input.text{
   border:1px solid #CCCCCC;
   background:#F6F6F6;
-  width:260px;
+  width:95%;
   font-weight:bold;
   height:16px;
   padding:4px;}
@@ -409,7 +430,8 @@ ul.sub-nav li a span{
 /* Avatar */
 .avatar{
   background:#F6F6F6;
-  margin: 0 0 15px 0;}
+  /*margin: 0 0 15px 0; removed this (Sv) */
+}
 
 .avatar .avatar-thumb{
   width:20%;
@@ -422,23 +444,74 @@ ul.sub-nav li a span{
 
 .avatar .options{
   background:url('/images/adva_cms/supermario/border_account.gif') repeat-y top right;
-  width:30%;
+  width:29%;
   float:left;}
 
 .avatar .options .wrapper{
   background:url('/images/adva_cms/supermario/border_account.gif') repeat-y top left;
-  padding: 15px 20px;}
+  padding: 15px 0;}
+
+.avatar .options ul{
+  padding-left:10px;}
 
 .avatar .options li{
   padding: 0 0 4px 0;}
 
 .avatar  .upload{
-  width:45%;
+  width:40%;
+  background:none;
+  padding: 15px 0 0 3%;
   float:left;}
 
-.avatar  .upload fieldset{
-  background:none;
-  padding: 15px 0 0 20px;}
+/* Members */
+ul.members{
+  padding-bottom:20px;}
+
+ul.members li{
+  border-bottom:1px solid #E5E5E5;
+  padding: 15px 0 0 0;
+  min-height:70px;
+  height:auto !important;
+  height:70px;}
+
+ul.members li .thumb{
+  float:left;
+  position:absolute;
+  display:block;
+  width:80px;
+  padding: 0 0 0 50px;}
+
+ul.members li .thumb img{
+  border:1px solid #CCCCCC;}
+
+ul.members li .thumb .you{
+  position:absolute;
+  display:block;
+  width:34px;
+  height:16px;
+  margin: 45px 0 0 40px;
+  background:url('/images/adva_cms/supermario/icon_you.gif') no-repeat top left;}
+
+ul.members li .membername{
+  width:75%;
+  padding-left:140px;}
+
+ul.members li .membername p{
+  float:left;
+  width:60%;}
+
+ul.members li  p.membertype{
+  width:30% !important;}
+
+ul.members p{
+  padding-bottom:0;}
+
+ul.members li span.links{
+  display:block; 
+  margin: 20px 0 0 0;}
+
+
+
 
 
 /* MAIN CONTENT TABLES
@@ -467,31 +540,6 @@ table.table-list td.links{
   width:35%;
   color:#B8B8B8;}
 
-table.table-list .thumb{
-  text-align:right !important;
-  width:15%;}
-
-table.table-list .thumb a {
-  position:relative;}
-
-table.table-list .thumb img{
-  border:1px solid #CCCCCC;}
-
-table.table-list .thumb  .you{
-  position:absolute;
-  display:block;
-  width:34px;
-  height:16px;
-  background:url('/images/adva_cms/supermario/icon_you.gif') no-repeat top left;
-  margin: 25px 0 0 0;
-  right:-10px;}
-
-table.table-list td.membertype{
-  text-align:left;}
-
-table.table-list td.membertype p{
-  padding:20px 0 0 0 !important;}
-
 table.table-list  tr.heading td{
   vertical-align:middle;
   padding-bottom:0;
@@ -514,7 +562,7 @@ table.table-list  tr.heading td.title{
   font-size:1.4em !important;}
 
 .account-summary th.type a{
-  color:#000 !important;}
+  color:#333 !important;}
 
 .account-summary th.type img{
   margin: 0 5px 0 0;
@@ -528,32 +576,29 @@ table.table-list  tr.heading td.title{
   background:url('/images/adva_cms/supermario/icon_site.gif') no-repeat top left;
   padding: 0 0 0 20px;}
 
-span.member,
-span.owner{
+p.member,
+p.owner{
   font-weight:bold;
   display:block;
-  width:30%;
-  margin: 0 0 0 20px;
-  text-align:left;
-  padding: 0 0 0 20px;}
+  padding: 0 0 0 22px;}
 
-span.member a.email,
-span.owner a.email{
+.membername a.email,
+.membername a.email{
   display:block;
   margin: 5px 0 0 0;
   font-weight:normal !important;
   color:#333333 !important;}
 
-
-span.member{
+p.member{
   background:url('/images/adva_cms/supermario/icon_member.png') no-repeat top left;}
 
-span.owner{
+p.owner{
   background:url('/images/adva_cms/supermario/icon_owner.gif') no-repeat top left;}
 
 a.check,
 a.alert{
-  padding-left:20px;}
+  padding-left:20px;
+  padding-top:1px;}
 
 a.check{
   background:url('/images/adva_cms/supermario/icon_check.png') no-repeat center left;}
@@ -595,12 +640,12 @@ table.table-history ul.signin{
 
 
 fieldset fieldset.col{
-  width:320px;
-  padding: 20px 0 5px 30px;
+  width:45%;
+  padding: 20px 0 5px 2%;
   float:left;}
 
 fieldset fieldset.col label{
-  width:310px;}
+  width:95%;}
 
 fieldset fieldset.col label span{
   position:absolute;
@@ -612,25 +657,27 @@ fieldset fieldset.col label span{
   margin-top:0;}
 
 fieldset .zip{
-  width: 70px;
+  width: 20%;
+  clear:both;
+  padding: 0 20px 0 0;
   float:left;}
 
 fieldset .zip input.text{
-  width:55px;}
+  width:95%;}
 
 fieldset .city{
-  width:240px;
+  width:70%;
   float:left;}
 
 fieldset .city input.text{
-  width:227px !important;}
+  width:95% !important;}
 
 .radio-wrap,
 .bday-wrap  {
   height:50px;}
 
 .radio-wrap span{
-  width:140px;
+  width:42%;
   float:left;}
 
 .radio-wrap label{
@@ -655,9 +702,9 @@ fieldset .city input.text{
   float:left;
   margin-right:5px;}
 
-.bday-wrap .day{width:52px !important;}
-.bday-wrap .month{width:100px !important;}
-.bday-wrap .year{width:70px !important;}
+.bday-wrap .day{width:15% !important;}
+.bday-wrap .month{width:40% !important;}
+.bday-wrap .year{width:25% !important;}
 
 
 
@@ -665,7 +712,7 @@ fieldset .city input.text{
                          SIDEBAR
 *-------------------------------------------------------------------------*/
 #sidebar{
-  width:33%;
+  width:30%;
   padding:30px 0 0 0;
   float:right;}
 
@@ -689,8 +736,13 @@ fieldset .city input.text{
 #sidebar  li{
   background:#EBEBEB;}
 
-ul  li.highlight{
-  background:#E0E0E0 !important;}
+
+
+ul li.highlight{
+  background-color:#eaeaea !important;}
+
+#sidebar ul li.highlight{
+  background-color:#e0e0e0 !important;}
 
 ul.list-accounts li{
   background:#EBEBEB;}
@@ -721,6 +773,26 @@ ul.list-comments li span{
 
 ul.list-comments li span.add {
   background:url('/images/adva_cms/supermario/icon_commentadd.png') no-repeat top left !important;}
+
+
+#sidebar #sections li a {
+	padding-left: 22px;
+	background-repeat: no-repeat;
+	background-position: top left;
+}
+#sidebar li.blog a {
+	background-image: url('/images/adva_cms/supermario/icon_commentadd.png');
+}
+#sidebar li.forum a {
+	background-image: url('/images/adva_cms/supermario/icon_commentadd.png');
+}
+#sidebar li.section a {
+	background-image: url('/images/adva_cms/supermario/icon_commentadd.png');
+}
+#sidebar li.wiki a {
+	background-image: url('/images/adva_cms/supermario/icon_commentadd.png');
+}
+
 
 table.table-plans{
   text-align:center;
@@ -782,10 +854,11 @@ table.table-plans tr.highlight .active{
   background:url('/images/adva_cms/supermario/roundedbottomright.gif') no-repeat bottom right;
   padding:10px 0 5px 0;}
 
-#sidebar .table-list td{
-  text-align:left;
-  background:#EBEBEB;
-  border:none;}
+#sidebar ul.members .thumb{
+ padding:0 0  0 10px;}
 
-#sidebar .table-list td.thumb{
-  padding-right:20px !important;}
+#sidebar ul.members li{
+  padding:10px 0  0 0 !important;}
+
+#sidebar ul.members .membername{
+  padding-left:80px;}

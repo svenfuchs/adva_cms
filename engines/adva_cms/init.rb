@@ -74,3 +74,4 @@ should edit the files within the <plugin_name>/assets/ directory itself.}
     end
   end
 end
+

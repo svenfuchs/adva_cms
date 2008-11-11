@@ -6,12 +6,13 @@
 #categories, #categories ul,
 #sections, #sections ul { 
 	padding-left: 20px; 
-	line-height: 28px;
+	/*line-height: 28px;*/
 }
 .blog {
 	padding: 0px 15px;
 	margin-top: 1px;
 	margin-right: 20px;
+	line-height: 1.5em;
 	background-color: #eee;
 }
 #categories, #sections {

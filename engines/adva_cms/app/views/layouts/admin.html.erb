@@ -55,8 +55,8 @@
   		</div></div>
 
       <div id="sidebar">
-        <%= yield :sidebar %>
         <%= render :widget => :section_tree %>
+        <%= yield :sidebar %>
       </div>
       <%= '</form>' if @content_for_form %>
   	</div>

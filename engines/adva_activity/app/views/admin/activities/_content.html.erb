@@ -1,4 +1,4 @@
-<li class="activity <%= activity_css_classes(activity) %> <%= cycle '', 'alt' %>">
+<li class="activity <%= activity_css_classes(activity) %> <%= cycle '', 'highlight', :name => "activities" %> clearfix">
   <p class="meta">
     <%= activity_datetime activity, recent %><br />
     <%= link_to_activity_user activity %>

@@ -1,3 +1,22 @@
++ language select
++ flash
++ zebra tables
+
+- settings: add subnav
+
+- active/inactive menu
+- asset widget
+- repair form elements 
+
+
+# page site/settings/themes: fix sub-nav
+# page site/settings/cache: fix sub-nav
+# page assets/index: filter bar is missing?
+
+# flash bug: shows message twice
+
+# recent activity (site/show): displays all site-users and superusers
+
 # flash
   changed flash container from div to p: check frontend css
   p.flash needs a min-height for when it's empty

@@ -14,7 +14,8 @@
 }
 .activities .meta {
 	float: right;
-	margin: 0px 0px 4px 10px;
+	margin: 0px 0px 4px 0px;
+	padding-bottom: 0px;
 	text-align: right;
 }
 .activities .activity li {	
