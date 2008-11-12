@@ -19,7 +19,7 @@ Find out more about adva-cms at: http://adva-cms.org
 Installation
 ============
  
-You need Rails 2.1.2 or newer.
+You need Rails 2.2.0 or newer.
 
   rails my-app
   cd my-app
