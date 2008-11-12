@@ -42,7 +42,8 @@
   	  <div id="main-content"><div id="main-content-wrapper">
   	    <%= render :partial => 'shared/flash' %>
   		  <div class="padded">
-          <%= render :widget => :menu_section %>
+          <%= render :partial => 'widgets/admin/menu_section' %>
+          <%#= render :widget => :menu_section %>
           <% if @content_for_action_nav %>
             <%= yield :action_nav %>
           <% end %>
@@ -55,7 +56,8 @@
   		</div></div>
 
       <div id="sidebar">
-        <%= render :widget => :section_tree %>
+        <%= render :partial => 'widgets/admin/section_tree' if @site %>
+        <%#= render :widget => :section_tree %>
         <%= yield :sidebar %>
       </div>
       <%= '</form>' if @content_for_form %>
