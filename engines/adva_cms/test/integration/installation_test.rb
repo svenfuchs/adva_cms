@@ -5,7 +5,6 @@ class InstallationTest < ActionController::IntegrationTest
 
   def test_a_user_goes_through_site_install_process
     install_initial_site!
-    update_initial_password!
     manage_new_site!
     log_out_and_view_empty_frontend!
   end
@@ -18,8 +17,10 @@ class InstallationTest < ActionController::IntegrationTest
     assert_template "admin/install/index"
 
     # fill in the form and submit the form
-    fills_in "website name",  :with => "adva-cms Test"
-    fills_in "title",         :with => "Home"
+    fills_in :site_name,     :with => "adva-cms Test"
+    fills_in :user_email,    :with => "test@example.org"
+    fills_in :user_password, :with => "test_password"
+    fills_in :section_title, :with => "Home"
     clicks_button "Create"
 
     # check that a new site is created
@@ -42,15 +43,10 @@ class InstallationTest < ActionController::IntegrationTest
 
     # check that the system authenticates the user as a superuser
     assert admin.has_role?(:superuser)
-  end
-  
-  def update_initial_password!
-    # go to the user profile page
-    clicks_link "Change your password right now"
-
-    # update the password and save
-    fills_in "password", :with => 'updated password'
-    clicks_button "Save"
+    
+    # check that confirmation page has correct user attributes
+    assert_select 'p#user_profile', /test@example.org/
+    assert_select 'p#user_profile', /test_password/
   end
   
   def manage_new_site!

@@ -40,11 +40,6 @@ describe "Admin::Install:" do
       template.stub!(:admin_site_path).and_return @admin_site_path
     end
 
-    it "should display a link to the current user's profile" do
-      render "admin/install/confirmation"
-      response.should have_tag('a[href=?]', @edit_admin_user_path)
-    end
-
     it "should display a link to the sites admin section" do
       render "admin/install/confirmation"
       response.should have_tag('a[href=?]', @admin_site_path)

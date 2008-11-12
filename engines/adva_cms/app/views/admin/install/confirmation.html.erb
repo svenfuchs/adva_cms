@@ -1,25 +1,15 @@
 <h2>Success!</h2>
 
 <p>
-  You have successfully created your site. 
+  You have successfully created your site. Enjoy!
+</p>
+
+<p id='user_profile'>
+  E-Mail: <strong><%= @user.email %></strong><br />
+  Password: <strong><%= @user.password %></strong><br />
 </p>
 
 <p>
-  We have also created an admin account for you so you can login to your
-  admin section in future. (You are already logged in with that account now.)
-</p>
-
-<p>
-  E-Mail: <%= @user.email %><br />
-  Password: <%= @user.password %>
-</p>
-
-<p>
-  <strong>Be sure to change your admin email and password!</strong> 
-</p>
-
-<p>
-  <%= link_to 'Change your password right now &raquo;', edit_admin_user_path(@user) %><br />
-  <%= link_to 'Manage your new site &raquo;', admin_site_path(@site) %>
+  <strong><%= link_to 'Manage your new site &raquo;', admin_site_path(@site) %></strong>
 </p>
 

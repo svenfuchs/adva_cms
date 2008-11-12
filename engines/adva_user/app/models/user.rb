@@ -52,6 +52,9 @@ class User < ActiveRecord::Base
     def create_superuser(params)
       user = User.new(params)
       user.verified_at = Time.zone.now
+      user.email = 'admin@example.org' if user.email.blank?
+      user.password = 'admin' if user.password.blank?
+      user.first_name = user.default_first_name
       user.send :assign_password
       user.save false
       user.roles << Rbac::Role::Superuser.create!
@@ -141,9 +144,14 @@ class User < ActiveRecord::Base
     name
   end
 
+  def default_first_name
+    self.first_name.blank? ? self.email.split('@').first : self.first_name
+  end
+
   protected
 
     def password_required?
       !anonymous? && ( password_hash.nil? || !password.blank? )
     end
+
 end

@@ -136,8 +136,29 @@ describe User do
       end
       User.admins_and_superusers
     end
-
+    
     describe '.create_superuser' do
+      it 'should use email to generate empty first_name' do
+        @user = User.create_superuser(:email => 'first.name@example.com')
+        @user.first_name == 'first.name'
+      end
+
+      it 'should use default values if attributes are nil' do
+        @user = User.create_superuser(:email => nil, :password => nil, :first_name => nil)
+        @user.email.should == 'admin@example.org'
+        @user.password.should == 'admin'
+        @user.first_name == 'admin'
+      end
+      
+      it 'should use params values' do
+        @user = User.create_superuser(:email => 'test@example.org', :password => 'test', :first_name => 'name')
+        @user.email.should == 'test@example.org'
+        @user.password.should == 'test'
+        @user.first_name == 'name'
+      end
+    end
+
+    describe '.create_superuser (using mocks)' do
       before :each do
         @attributes = {:email => 'email@email.org'}
         User.stub!(:new).and_return @user

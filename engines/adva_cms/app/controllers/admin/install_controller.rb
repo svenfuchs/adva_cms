@@ -14,13 +14,14 @@ class Admin::InstallController < ApplicationController
     @site = Site.new params[:site].merge(:host => request.host_with_port)
     @section = @site.sections.build params[:section]
     @site.sections << @section
+    @user = User.new
 
     if request.post?
       if @site.valid? && @section.valid?
         @site.save
-        credentials = {:email => 'admin@example.org', :password => 'admin'}
-        @user = User.create_superuser credentials.update(:first_name => 'admin')
-        authenticate_user credentials
+
+        @user = User.create_superuser params[:user]
+        authenticate_user(:email => @user.email, :password => @user.password)
 
         flash.now[:notice] = 'Congratulations! You have successfully set up your site.'
         render :action => :confirmation
@@ -32,7 +33,6 @@ class Admin::InstallController < ApplicationController
   end
 
   protected
-
     def perma_host
       @site.try(:perma_host) || 'admin'
     end

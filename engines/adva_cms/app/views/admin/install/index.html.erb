@@ -17,6 +17,17 @@
       	<%= site.text_field :name, :class => 'big' %>
       </p>
     <% end %>
+    <% fields_for @user do |user| %>
+    	<p>
+    	  <%= user.label :email, 'Admin e-mail' %>
+    		<%= user.text_field 'email', :class => 'big' %>
+    	</p>
+
+    	<p>
+    	  <%= user.label :password %>
+    		<%= user.password_field 'password', :class => 'big' %>
+    	</p>
+    <% end %>
   </fieldset>  
   
   <h3>Website home section</h3>  
@@ -37,33 +48,6 @@
       </p>
     <% end %>
   </fieldset>   
-  <!-- 
-  <h3>Your admin account</h3>
-  <fieldset>
-    <% fields_for @user do |user| %>
-    	<p>
-    	  <%= user.label :first_name %>
-    		<%= user.text_field :first_name, :class => 'big' %>
-    	</p>
-
-    	<p>
-    	  <%= user.label :last_name %>
-    		<%= user.text_field :last_name, :class => 'big' %>
-    	</p>
-
-    	<p>
-    	  <%= user.label :email, 'E-Mail' %>
-    		<%= user.text_field 'email', :class => 'big' %>
-    	</p>
-
-    	<p>
-    	  <%= user.label :password %>
-    		<%= user.password_field 'password', :class => 'big' %>
-    	</p>
-
-    <% end %>
-  </fieldset>  
-   -->
   
   <p class="buttons">
     <%= submit_tag "Create site & account »" %>
