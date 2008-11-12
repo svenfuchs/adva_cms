@@ -73,7 +73,7 @@ button.submit {
   text-align:center; 
   font-size:1.2em;
   outline:none;
-  background:url('/images/adva_cms/supermario/button_left.gif')  no-repeat top left;}
+  background:url('/images/adva_cms/admin/ui/button_left.gif')  no-repeat top left;}
 
 button.submit span{
   height:22px;  
@@ -83,7 +83,7 @@ button.submit span{
   display:block;
   position:relative;
   top:-1px;
-  background:url('/images/adva_cms/supermario/button_right.gif')  no-repeat top right;}
+  background:url('/images/adva_cms/admin/ui/button_right.gif')  no-repeat top right;}
 
 p.button{text-align:right;}
 
@@ -108,6 +108,7 @@ ul li.last {border:none !important;}
 	display:inline !important;
 }
 .empty {
+	margin-top: 20px;
   padding: 10px;
   padding-left: 35px;
   background: #eee url(/images/adva_cms/icons/minus.gif) 10px 50% no-repeat; 
@@ -132,10 +133,10 @@ ul li.last {border:none !important;}
 #header{
   padding: 0 0 5px 0;
   font-size:1.1em;
-  background:url('/images/adva_cms/supermario/bg_borderheader.gif') repeat-x bottom left;}
+  background:url('/images/adva_cms/admin/ui/bg_borderheader.gif') repeat-x bottom left;}
 
 #header #utility-links{
-  background:#E6E6E6 url('/images/adva_cms/supermario/bg_utility.gif') repeat-x bottom left;
+  background:#E6E6E6 url('/images/adva_cms/admin/ui/bg_utility.gif') repeat-x bottom left;
   padding: 10px 20px;}
 
 #header  ul.breadcrumb{
@@ -162,10 +163,10 @@ ul.userlinks li{
 #navigation{
   padding: 0 20px;
   min-height:40px;
-  background:url('/images/adva_cms/supermario/bg_nav.gif') repeat-x top left;}
+  background:url('/images/adva_cms/admin/ui/bg_nav.gif') repeat-x top left;}
 
 #navigation ul {
-  background:url('/images/adva_cms/supermario/border_nav.gif') repeat-y top left;
+  background:url('/images/adva_cms/admin/ui/border_nav.gif') repeat-y top left;
   padding: 0 0 0 2px;
   float:left;
   height:40px;}
@@ -175,7 +176,7 @@ ul.userlinks li{
   padding: 0 2px 0 0;
   height:40px;
   float:left;
-  background:url('/images/adva_cms/supermario/border_nav.gif') repeat-y top right;}
+  background:url('/images/adva_cms/admin/ui/border_nav.gif') repeat-y top right;}
 
 #navigation ul li a{
   display:block;
@@ -193,28 +194,28 @@ ul.userlinks li{
   background-position: 0 -40px !important;}
 
 #navigation ul li.dashboard a{
-  background:url('/images/adva_cms/supermario/nav_dashboard.gif') no-repeat top left;}
+  background:url('/images/adva_cms/admin/ui/nav_dashboard.gif') no-repeat top left;}
 
 #navigation ul li.overview a{
-  background:url('/images/adva_cms/supermario/nav_overview.gif') no-repeat top left;}
+  background:url('/images/adva_cms/admin/ui/nav_overview.gif') no-repeat top left;}
 
 #navigation ul li.sections a{
-  background:url('/images/adva_cms/supermario/nav_sections.gif') no-repeat top left;}
+  background:url('/images/adva_cms/admin/ui/nav_sections.gif') no-repeat top left;}
 
 #navigation ul li.assets a{
-  background:url('/images/adva_cms/supermario/nav_assets.gif') no-repeat top left;}
+  background:url('/images/adva_cms/admin/ui/nav_assets.gif') no-repeat top left;}
 
 #navigation ul li.siteuser a{
-  background:url('/images/adva_cms/supermario/nav_siteuser.gif') no-repeat top left;}
+  background:url('/images/adva_cms/admin/ui/nav_siteuser.gif') no-repeat top left;}
 
 #navigation ul li.settings a{
-  background:url('/images/adva_cms/supermario/nav_settings.gif') no-repeat top left;}
+  background:url('/images/adva_cms/admin/ui/nav_settings.gif') no-repeat top left;}
 
 #navigation ul li.accounts a{
-  background:url('/images/adva_cms/supermario/nav_account.gif') no-repeat top left;}
+  background:url('/images/adva_cms/admin/ui/nav_account.gif') no-repeat top left;}
 
 #navigation ul li.profile a{
-  background:url('/images/adva_cms/supermario/nav_profile.gif') no-repeat top left;}
+  background:url('/images/adva_cms/admin/ui/nav_profile.gif') no-repeat top left;}
 
 
 /*-------------------------------------------------------------------------
@@ -260,11 +261,11 @@ fieldset.language{
   clear:both;
   margin-bottom:-15px;
   padding-bottom:70px;
-  background:#FFF url('/images/adva_cms/supermario/bg_contentshadow.gif') repeat-y top right;}
+  background:#FFF url('/images/adva_cms/admin/ui/bg_contentshadow.gif') repeat-y top right;}
 
 #main-content-wrapper{
   padding-right:7px;
-  background:url('/images/adva_cms/supermario/bg_contentshadowtop.gif') no-repeat top right;}
+  background:url('/images/adva_cms/admin/ui/bg_contentshadowtop.gif') no-repeat top right;}
 
 #main-content h2{
   color:#999999;
@@ -284,6 +285,14 @@ fieldset.language{
 #main-content .padded{
   padding: 0px 20px;}
 
+#main-content h3 {
+	margin-top: 20px;
+}
+
+#main-content h4 {
+	margin: 20px 0 0 0;
+}
+
 /* CONFIRMATION AND ERROR MESSAGES
 -------------------------------------------------------------------------*/
 p.notice,
@@ -298,19 +307,19 @@ p.error{background:#FECCCB;}
 /* SUB NAVIGATION
 -------------------------------------------------------------------------*/
 ul.sub-nav{
-  background:url('/images/adva_cms/supermario/bg_subnav.gif') repeat-x bottom left;
+  background:url('/images/adva_cms/admin/ui/bg_subnav.gif') repeat-x bottom left;
   font-size:1.2em;
-  margin: 20px 0 20px 0;
+  margin: 20px 0 0px 0;
   height:40px;}
 
 ul.sub-nav li{
   float:left;
   padding: 0 2px 0 0;
-  background:url('/images/adva_cms/supermario/border_subnav.gif') repeat-y top right;}
+  background:url('/images/adva_cms/admin/ui/border_subnav.gif') repeat-y top right;}
 
 ul.sub-nav li.right{
   padding: 0 0 0 2px;
-  background:url('/images/adva_cms/supermario/border_subnav.gif') repeat-y top left;}
+  background:url('/images/adva_cms/admin/ui/border_subnav.gif') repeat-y top left;}
 
 ul.sub-nav li a,
 ul.sub-nav li a span{
@@ -319,7 +328,7 @@ ul.sub-nav li a span{
 
 ul.sub-nav a{
   color:#4C4C4C !important;
-  background:url('/images/adva_cms/supermario/bg_subnavtableft.gif') no-repeat top left;}
+  background:url('/images/adva_cms/admin/ui/bg_subnavtableft.gif') no-repeat top left;}
 
 ul.sub-nav a:hover{
   color:#FFF !important;
@@ -330,7 +339,7 @@ ul.sub-nav li a span{
   padding: 13px 27px 0 22px;
   margin: 0 0 0 5px;
   height: 27px;
-  background:url('/images/adva_cms/supermario/bg_subnavtabright.gif') no-repeat top right;}
+  background:url('/images/adva_cms/admin/ui/bg_subnavtabright.gif') no-repeat top right;}
 
 ul.sub-nav a:hover span{
   background-position: right -40px !important;}
@@ -376,10 +385,10 @@ ul.sub-nav a:hover span{
 .account-type .info{
   width:35%;
   float:left;
-  background:url('/images/adva_cms/supermario/border_account.gif') repeat-y top left;  }
+  background:url('/images/adva_cms/admin/ui/border_account.gif') repeat-y top left;  }
 
 .account-type .info .wrapper{
-  background:url('/images/adva_cms/supermario/border_account.gif') repeat-y top right;  
+  background:url('/images/adva_cms/admin/ui/border_account.gif') repeat-y top right;  
   padding:15px 3%; }
 
 .account-type .info span{
@@ -395,13 +404,13 @@ ul.sub-nav a:hover span{
   text-align:left;}
 
 .account-type .info span.yellow{
-  background:url('/images/adva_cms/supermario/bullet_yellow.gif') no-repeat center right;}
+  background:url('/images/adva_cms/admin/ui/bullet_yellow.gif') no-repeat center right;}
 
 .account-type .info span.orange{
-  background:url('/images/adva_cms/supermario/bullet_orange.gif') no-repeat center right;}
+  background:url('/images/adva_cms/admin/ui/bullet_orange.gif') no-repeat center right;}
 
 .account-type .info span.green{
-  background:url('/images/adva_cms/supermario/bullet_green.gif') no-repeat center right;}
+  background:url('/images/adva_cms/admin/ui/bullet_green.gif') no-repeat center right;}
 
 .account-type .domain{
   width:40%;}
@@ -437,8 +446,8 @@ ul.sub-nav a:hover span{
 
 
 /* History */
-.history{
-  padding:10px 0;}
+/*.history{
+  padding:10px 0;}*/
 
 .history h3{
   font-size:1.3em;
@@ -464,12 +473,12 @@ ul.sub-nav a:hover span{
   margin: 0 10px 0 30px;}
 
 .avatar .options{
-  background:url('/images/adva_cms/supermario/border_account.gif') repeat-y top right;
+  background:url('/images/adva_cms/admin/ui/border_account.gif') repeat-y top right;
   width:29%;
   float:left;}
 
 .avatar .options .wrapper{
-  background:url('/images/adva_cms/supermario/border_account.gif') repeat-y top left;
+  background:url('/images/adva_cms/admin/ui/border_account.gif') repeat-y top left;
   padding: 15px 0;}
 
 .avatar .options ul{
@@ -511,7 +520,7 @@ ul.members li .thumb .you{
   width:34px;
   height:16px;
   margin: 45px 0 0 40px;
-  background:url('/images/adva_cms/supermario/icon_you.gif') no-repeat top left;}
+  background:url('/images/adva_cms/admin/ui/icon_you.gif') no-repeat top left;}
 
 ul.members li .membername{
   width:75%;
@@ -594,7 +603,7 @@ table.table-list  tr.heading td.title{
   text-align:left;}
 
 .account-summary td.account a{
-  background:url('/images/adva_cms/supermario/icon_site.gif') no-repeat top left;
+  background:url('/images/adva_cms/admin/ui/icon_site.gif') no-repeat top left;
   padding: 0 0 0 20px;}
 
 p.member,
@@ -611,10 +620,10 @@ p.owner{
   color:#333333 !important;}
 
 p.member{
-  background:url('/images/adva_cms/supermario/icon_member.png') no-repeat top left;}
+  background:url('/images/adva_cms/admin/ui/icon_member.png') no-repeat top left;}
 
 p.owner{
-  background:url('/images/adva_cms/supermario/icon_owner.gif') no-repeat top left;}
+  background:url('/images/adva_cms/admin/ui/icon_owner.gif') no-repeat top left;}
 
 a.check,
 a.alert{
@@ -622,10 +631,10 @@ a.alert{
   padding-top:1px;}
 
 a.check{
-  background:url('/images/adva_cms/supermario/icon_check.png') no-repeat center left;}
+  background:url('/images/adva_cms/admin/ui/icon_check.png') no-repeat center left;}
 
 a.alert{
-  background:url('/images/adva_cms/supermario/icon_alert.png') no-repeat center left;}
+  background:url('/images/adva_cms/admin/ui/icon_alert.png') no-repeat center left;}
 
 
 table.table-history td{
@@ -645,19 +654,19 @@ table.table-history  ul li{
   padding: 0 0 5px 0;}
 
 table.table-history ul.login{
-  background:url('/images/adva_cms/supermario/icon_login.png') no-repeat top left;}
+  background:url('/images/adva_cms/admin/ui/icon_login.png') no-repeat top left;}
 
 table.table-history ul.paid{
-  background:url('/images/adva_cms/supermario/icon_check.png') no-repeat top left;}
+  background:url('/images/adva_cms/admin/ui/icon_check.png') no-repeat top left;}
 
 table.table-history ul.received{
-  background:url('/images/adva_cms/supermario/icon_alert.png') no-repeat top left;}
+  background:url('/images/adva_cms/admin/ui/icon_alert.png') no-repeat top left;}
 
 table.table-history ul.setup{
-  background:url('/images/adva_cms/supermario/icon_add.png') no-repeat top left;}
+  background:url('/images/adva_cms/admin/ui/icon_add.png') no-repeat top left;}
 
 table.table-history ul.signin{
-  background:url('/images/adva_cms/supermario/icon_signin.png') no-repeat top left;}
+  background:url('/images/adva_cms/admin/ui/icon_signin.png') no-repeat top left;}
 
 
 fieldset fieldset.col{
@@ -708,11 +717,11 @@ fieldset .city input.text{
   padding: 2px 0 2px 0 !important;}
 
 .radio-wrap .female{
-  background:url('/images/adva_cms/supermario/icon_female.gif') no-repeat center right;
+  background:url('/images/adva_cms/admin/ui/icon_female.gif') no-repeat center right;
   padding-right:17px !important;}
 
 .radio-wrap .male{
-  background:url('/images/adva_cms/supermario/icon_male.gif') no-repeat center right;
+  background:url('/images/adva_cms/admin/ui/icon_male.gif') no-repeat center right;
   padding-right:21px !important;}
 
 .radio-wrap input{
@@ -769,7 +778,7 @@ ul.accounts li{
   background:#EBEBEB;}
 
 ul.accounts li.owner{
-  background:url('/images/adva_cms/supermario/icon_ownersmall.gif') no-repeat center left;}
+  background:url('/images/adva_cms/admin/ui/icon_ownersmall.gif') no-repeat center left;}
 
 ul.accounts li.active{
   background:#FFF !important;}
@@ -782,18 +791,18 @@ ul.accounts li a.owner{
   padding: 0 0 0 19px;}
 
 ul.accounts li a.member{
-  background:url('/images/adva_cms/supermario/icon_membersmall.png') no-repeat top left;}
+  background:url('/images/adva_cms/admin/ui/icon_membersmall.png') no-repeat top left;}
 
 ul.accounts li a.owner{
-  background:url('/images/adva_cms/supermario/icon_ownersmall.gif') no-repeat top left;}
+  background:url('/images/adva_cms/admin/ui/icon_ownersmall.gif') no-repeat top left;}
 
 ul.list-comments li span{
   display:block;
-  background:url('/images/adva_cms/supermario/icon_commentwrite.png') no-repeat top left;
+  background:url('/images/adva_cms/admin/ui/icon_commentwrite.png') no-repeat top left;
   padding-left:20px}
 
 ul.list-comments li span.add {
-  background:url('/images/adva_cms/supermario/icon_commentadd.png') no-repeat top left !important;}
+  background:url('/images/adva_cms/admin/ui/icon_commentadd.png') no-repeat top left !important;}
 
 
 #sidebar #sections li a {
@@ -802,16 +811,16 @@ ul.list-comments li span.add {
 	background-position: top left;
 }
 #sidebar li.blog a {
-	background-image: url('/images/adva_cms/supermario/icon_commentadd.png');
+	background-image: url('/images/adva_cms/admin/ui/icon_commentadd.png');
 }
 #sidebar li.forum a {
-	background-image: url('/images/adva_cms/supermario/icon_commentadd.png');
+	background-image: url('/images/adva_cms/admin/ui/icon_commentadd.png');
 }
 #sidebar li.section a {
-	background-image: url('/images/adva_cms/supermario/icon_commentadd.png');
+	background-image: url('/images/adva_cms/admin/ui/icon_commentadd.png');
 }
 #sidebar li.wiki a {
-	background-image: url('/images/adva_cms/supermario/icon_commentadd.png');
+	background-image: url('/images/adva_cms/admin/ui/icon_commentadd.png');
 }
 
 
@@ -841,7 +850,7 @@ table.table-plans tr.highlight .active{
   background:#F2F2F2 !important;}
 
 .assistance{
-  background:#FFF url('/images/adva_cms/supermario/roundedtopleft.gif') no-repeat top left;
+  background:#FFF url('/images/adva_cms/admin/ui/roundedtopleft.gif') no-repeat top left;
   margin: 0 0 25px 0;}
 
 .assistance h3{
@@ -859,20 +868,20 @@ table.table-plans tr.highlight .active{
   margin: 0 0 0 15px;
   text-indent:-9999px;
   overflow:hidden;
-  background:url('/images/adva_cms/supermario/icon_info.gif') no-repeat top left;}
+  background:url('/images/adva_cms/admin/ui/icon_info.gif') no-repeat top left;}
 
 .assistance p{
   padding: 5px 15px !important;
   line-height:1.3em;}
 
 .assistance .topr{
-  background:url('/images/adva_cms/supermario/roundedtopright.gif') no-repeat top right;}
+  background:url('/images/adva_cms/admin/ui/roundedtopright.gif') no-repeat top right;}
 
 .assistance .botl{
-  background:url('/images/adva_cms/supermario/roundedbottomleft.gif') no-repeat bottom left;}
+  background:url('/images/adva_cms/admin/ui/roundedbottomleft.gif') no-repeat bottom left;}
 
 .assistance .botr{
-  background:url('/images/adva_cms/supermario/roundedbottomright.gif') no-repeat bottom right;
+  background:url('/images/adva_cms/admin/ui/roundedbottomright.gif') no-repeat bottom right;
   padding:10px 0 5px 0;}
 
 #sidebar ul.members .thumb{
@@ -881,5 +890,4 @@ table.table-plans tr.highlight .active{
 #sidebar ul.members li{
   padding:10px 0  0 0 !important;}
 
-#sidebar ul.members .membername{
-  padding-left:80px;}
+#sidebar ul.members .membername{  padding-left:80px;}

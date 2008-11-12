@@ -15,7 +15,13 @@ require 'rails_ext/action_controller/event_helper'
 
 require 'routing'
 require 'roles'
-require 'event' # need to force event to be loaded now, so it won't be reloaded between requests
+
+require 'event'    # need to force these to be loaded now, so Rails won't 
+require 'registry' # reload them between requests
+
+# uncomment this to have Engines copy assets to the public directory on 
+# every request (default: copies on server startup)
+# Engines.replicate_assets = :request
 
 # turn this on to get detailed cache sweeper logging in production mode
 # Site.cache_sweeper_logging = true
@@ -41,6 +47,3 @@ ActionController::Dispatcher.to_prepare do
     end
   end 
 end
-
-
-

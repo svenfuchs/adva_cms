@@ -107,8 +107,9 @@
 
 #filter {
 	position: relative;
+	padding-top: 2px;
 	padding-right: 10px;
-	border-bottom: 1px solid #ccc;
+	/*border-bottom: 1px solid #ccc;*/
 	line-height: 34px;
 	text-align: right;
 	background: url(/images/adva_cms/filter-bg.png) repeat-x top left;
@@ -129,7 +130,7 @@
 }
 #filter input[type="text"] {
 	width: 150px;
-	font-size: 13px;
+	font-size: 12px;
 	margin-left: 5px;
 }
 #filter ul li a {
