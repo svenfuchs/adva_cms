@@ -15,7 +15,9 @@ require 'rails_ext/action_controller/event_helper'
 
 require 'routing'
 require 'roles'
-require 'event' # need to force event to be loaded now, so it won't be reloaded between requests
+
+require 'event'    # need to force these to be loaded now, so Rails won't 
+require 'registry' # reload them between requests
 
 # turn this on to get detailed cache sweeper logging in production mode
 # Site.cache_sweeper_logging = true
