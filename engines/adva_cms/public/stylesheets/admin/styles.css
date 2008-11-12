@@ -108,6 +108,7 @@ ul li.last {border:none !important;}
 	display:inline !important;
 }
 .empty {
+	margin-top: 20px;
   padding: 10px;
   padding-left: 35px;
   background: #eee url(/images/adva_cms/icons/minus.gif) 10px 50% no-repeat; 
@@ -284,6 +285,14 @@ fieldset.language{
 #main-content .padded{
   padding: 0px 20px;}
 
+#main-content h3 {
+	margin-top: 20px;
+}
+
+#main-content h4 {
+	margin: 20px 0 0 0;
+}
+
 /* CONFIRMATION AND ERROR MESSAGES
 -------------------------------------------------------------------------*/
 p.notice,
@@ -300,7 +309,7 @@ p.error{background:#FECCCB;}
 ul.sub-nav{
   background:url('/images/adva_cms/supermario/bg_subnav.gif') repeat-x bottom left;
   font-size:1.2em;
-  margin: 20px 0 20px 0;
+  margin: 20px 0 0px 0;
   height:40px;}
 
 ul.sub-nav li{
@@ -416,8 +425,8 @@ ul.sub-nav a:hover span{
   padding:4px;}
 
 /* History */
-.history{
-  padding:10px 0;}
+/*.history{
+  padding:10px 0;}*/
 
 .history h3{
   font-size:1.3em;
