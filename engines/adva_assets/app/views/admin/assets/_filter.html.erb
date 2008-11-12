@@ -1,4 +1,4 @@
-<% form_tag admin_assets_path, :id => 'assets-search-form', :method => 'get', :class => 'clear' do -%>
+<% form_tag admin_assets_path, :id => 'assets-search-form', :method => 'get' do -%>
   <div id="spin"><img style="display: none;" src="/images/indicator.gif" alt="spinner" id="search-assets-spinner" /></div>
   
   <ul id="type">
@@ -19,7 +19,7 @@
     <%= check_box_tag 'filter[audio]',  '1', false, :id => 'faudio-check' %>
     <%= check_box_tag 'filter[image]',  '1', false, :id => 'fpictures-check' %>
     <%= check_box_tag 'filter[other]',  '1', false, :id => 'fothers-check' %>
-    <%= check_box_tag 'filter[movie]',  '1', false, :id => 'fmovies-check'%>    
+    <%= check_box_tag 'filter[movie]',  '1', false, :id => 'fmovies-check'%>
     <%= check_box_tag 'conditions[tags]',  '1', false, :id => 'ctags-check' %>
     <%= check_box_tag 'conditions[title]', '1', false, :id => 'ctitle-check' %>
     <%= check_box_tag 'conditions[date]',  '1', false, :id => 'cdate-check' %>
