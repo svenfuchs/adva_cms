@@ -1,7 +1,5 @@
-- active/inactive menu
-- asset widget
-- repair form elements 
-
+# fix asset widget css
+# fix form elements css
 
 # flash bug: shows message twice
 # recent activity (site/show): displays all site-users and superusers
