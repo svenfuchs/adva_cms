@@ -358,6 +358,10 @@ ul.sub-nav a:hover span{
   padding: 15px 0;
   float:left;}
 
+.account-type .account_name{
+  padding: 15px 0;
+  float:left;}
+
 .account-type .wrapper{
   padding:0 20px;}
 
@@ -423,6 +427,23 @@ ul.sub-nav a:hover span{
   font-weight:bold;
   height:16px;
   padding:4px;}
+
+.account-type .account_name{
+  width:40%;}
+
+.account-type .account_name label{
+  font-weight:bold;
+  display:block;
+  padding: 0 0 3px 0;}
+
+.account-type .account_name input.text{
+  border:1px solid #CCCCCC;
+  background:#F6F6F6;
+  width:95%;
+  font-weight:bold;
+  height:16px;
+  padding:4px;}
+
 
 /* History */
 /*.history{
@@ -753,26 +774,26 @@ ul li.highlight{
 #sidebar ul li.highlight{
   background-color:#e0e0e0 !important;}
 
-ul.list-accounts li{
+ul.accounts li{
   background:#EBEBEB;}
 
-ul.list-accounts li.owner{
+ul.accounts li.owner{
   background:url('/images/adva_cms/admin/ui/icon_ownersmall.gif') no-repeat center left;}
 
-ul.list-accounts li.active{
+ul.accounts li.active{
   background:#FFF !important;}
 
-ul.list-accounts li.active a{
+ul.accounts li.active a{
   color:#333 !important;}
 
-ul.list-accounts li a.member,
-ul.list-accounts li a.owner{
+ul.accounts li a.member,
+ul.accounts li a.owner{
   padding: 0 0 0 19px;}
 
-ul.list-accounts li a.member{
+ul.accounts li a.member{
   background:url('/images/adva_cms/admin/ui/icon_membersmall.png') no-repeat top left;}
 
-ul.list-accounts li a.owner{
+ul.accounts li a.owner{
   background:url('/images/adva_cms/admin/ui/icon_ownersmall.gif') no-repeat top left;}
 
 ul.list-comments li span{
@@ -869,5 +890,4 @@ table.table-plans tr.highlight .active{
 #sidebar ul.members li{
   padding:10px 0  0 0 !important;}
 
-#sidebar ul.members .membername{
-  padding-left:80px;}
+#sidebar ul.members .membername{  padding-left:80px;}
