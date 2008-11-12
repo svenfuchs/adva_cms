@@ -19,8 +19,7 @@ class Admin::InstallController < ApplicationController
       if @site.valid? && @section.valid?
         @site.save
         credentials = {:email => 'admin@example.org', :password => 'admin'}
-        @user = User.create_superuser credentials.update(:first_name => 'admin', 
-          :email => "admin@admin.org")
+        @user = User.create_superuser credentials.update(:first_name => 'admin')
         authenticate_user credentials
 
         flash.now[:notice] = 'Congratulations! You have successfully set up your site.'
