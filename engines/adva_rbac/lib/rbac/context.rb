@@ -74,8 +74,8 @@ module Rbac
       end
     
       def parent
-        if parent_accessor
-          subject.send(parent_accessor).role_context
+        if parent_accessor and parent = subject.send(parent_accessor)
+          parent.role_context
         elsif self != Rbac::Context.root
           Rbac::Context.root
         end
