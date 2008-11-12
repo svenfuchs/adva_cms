@@ -10,6 +10,9 @@
     <% if current_user %>
       <li>Logged in as: <%= link_to current_user.name, admin_user_path(current_user) %></li>
       <li <% unless @site %>class="last"<% end %>><%= link_to 'Logout', logout_path, :method => :delete %></li>
+    <% else %>
+      <li>You're not logged in</li> 
+      <li <% unless @site %>class="last"<% end %>><%= link_to 'Log In', :controller => 'session', :action => 'new' %></li>    
     <% end %>
     <% if @site %>
       <li class="last"><%= link_to 'Website »', "http://#{@site.host}" %></li>
