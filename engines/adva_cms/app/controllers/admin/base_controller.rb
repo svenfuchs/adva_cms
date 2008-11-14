@@ -23,7 +23,7 @@ class Admin::BaseController < ApplicationController
                          :except  => { :controller => 'admin/sites', :action => [:index, :new] },
                          :only    => { :controller => ['admin/sites', 'admin/sections', 'admin/articles', 'admin/wikipages'] }
 
-  widget :menu_section,  :partial => 'widgets/admin/menu_section',
+  widget :sub_nav,       :partial => 'widgets/admin/sub_nav',
                          :except => { :controller => ['admin/sections'], :action => [:index, :new] },
                          :only  => { :controller => ['admin/sections', 'admin/articles', 'admin/wikipages', 'admin/categories', 'admin/comments'] }
 

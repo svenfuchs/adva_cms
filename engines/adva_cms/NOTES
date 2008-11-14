@@ -1,11 +1,12 @@
-- site settings: spam form layout
-- assets new: upload layout 
 - sections new: remove second level nav
-- categories list layout
 - article new & edit: publish date layout & sidebar
 - article new & edit: sidebar - category, bucket and optional settings - layout
-- background shadow bug
+- assets new: upload layout 
 + site - create new site: some parts of the layout
+
+- categories list layout
+- background shadow bug
+- site settings: spam form layout
 
 
 - profile area ?
