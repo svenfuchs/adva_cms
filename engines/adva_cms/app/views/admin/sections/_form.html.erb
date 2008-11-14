@@ -1,26 +1,34 @@
-<h4>General settings</h4>
-<fieldset>
-	<p>
+<h2>General settings</h2>
+
+<fieldset class="clearfix">
+
+  <fieldset class="col">
     <%= f.label :title %>
     <%= f.text_field :title %>
-  </p>
-  <p>  
+  </fieldset>
+  
+  <fieldset class="col">  
     <%= f.label :permalink %>
     <%= f.text_field :permalink %>
-  </p>
+  </fieldset>
+  
+</fieldset>
+
+
   <% unless @site.current_theme_template_paths.empty? %>
-    <p>
+
       <%= f.label :template %>
       <%= f.select :template, @site.current_theme_template_paths, :include_blank => true  %>
-    </p>
+
   <% end %>
+
   <% unless @site.current_theme_layout_paths.empty? %>
-    <p>
+
       <%= f.label :layout %>
       <%= f.select :layout, @site.current_theme_layout_paths, :include_blank => true  %>
-    </p>  
+  
   <% end %>
-</fieldset>
+
 
 <%= render :partial => "admin/sections/settings/#{@section.type.underscore}", :locals => {:f => f} %>
 

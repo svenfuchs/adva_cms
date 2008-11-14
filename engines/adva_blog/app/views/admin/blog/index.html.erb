@@ -21,7 +21,7 @@
 
 <% if @articles.size > 0 -%>
 
-  <p><%= link_to "New Article", new_admin_article_path(@site) %></p>
+  <p class ="red_text_nav"><%= link_to "New Article", new_admin_article_path(@site) %></p>
 
   <p class="total">
     Total: <strong><%= @articles.total_entries %></strong> <%= pluralize_str @articles.total_entries, 'article' %>.

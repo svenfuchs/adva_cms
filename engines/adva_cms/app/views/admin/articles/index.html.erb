@@ -1,4 +1,5 @@
 <% if @articles.size > 0 -%>
+
   <p>
     <%= link_to "New Article", new_admin_article_path(@site) %> &middot;
     <%= link_to_function 'Reorder Articles', "articles_list.toggle(this, 'Done reordering');", :id => 'reorder_sections' %>

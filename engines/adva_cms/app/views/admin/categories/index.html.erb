@@ -1,7 +1,7 @@
 <h2>Categories</h2>
 
 <% unless @categories.empty? %>
-  <p class="hint">
+  <p class="red_text_nav">
     <%= link_to "New Category", new_admin_category_path %>
     <% unless @section.categories.size < 2 %>
       &middot;

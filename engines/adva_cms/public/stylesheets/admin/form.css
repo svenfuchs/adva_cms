@@ -5,7 +5,7 @@ form h4 {
 	color: #444;
 	margin-bottom: 10px;
 }
-#main-content fieldset {
+#main-content fieldset.clearfix {
 	clear: both;
 	background-color: #f6f6f6;
 	border-width: 0px;
@@ -42,7 +42,7 @@ label.block {
 input[type="text"],
 input[type="password"],
 textarea {
-	width: 300px;
+	width:95%;
 	border: 1px solid #ccc;
 	padding: 4px;
 	font-size: 13px;
@@ -52,7 +52,7 @@ textarea {
 }
 textarea.short {
 	width: 100%;
-	height: 100px;
+	height: 80px;
 }
 input.big {
 	width: 100%;
