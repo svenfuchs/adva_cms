@@ -786,15 +786,14 @@ fieldset .city input.text{
   font-weight:normal;
   right:0;}
 
-#sidebar li{
-  padding: 7px;}
-
 #sidebar ul,
 #sidebar table{
   margin: 0 0 25px 0;}
 
-#sidebar  li{
-  background:#EBEBEB;}
+#sidebar li{
+  padding: 7px;
+  background:#EBEBEB;
+}
 
 
 
@@ -841,16 +840,16 @@ ul.list-comments li span.add {
 	background-position: top left;
 }
 #sidebar li.blog a {
-	background-image: url('/images/adva_cms/admin/ui/icon_commentadd.png');
+	background-image: url('/images/adva_cms/admin/ui/icon_section_blog.png');
 }
 #sidebar li.forum a {
-	background-image: url('/images/adva_cms/admin/ui/icon_commentadd.png');
+	background-image: url('/images/adva_cms/admin/ui/icon_section_forum.png');
 }
 #sidebar li.section a {
-	background-image: url('/images/adva_cms/admin/ui/icon_commentadd.png');
+	background-image: url('/images/adva_cms/admin/ui/icon_section_static.png');
 }
 #sidebar li.wiki a {
-	background-image: url('/images/adva_cms/admin/ui/icon_commentadd.png');
+	background-image: url('/images/adva_cms/admin/ui/icon_section_wiki.png');
 }
 
 

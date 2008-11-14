@@ -2,14 +2,14 @@
 
 <% form_for Asset.new, :url => admin_assets_path, :html => { :multipart => true, :id => 'asset_form' } do |f| %>
   <p>
-    <label id="file-label" class="inline">Select files to upload</label>
-    <label id="title-label" class="inline">Title</label>
-    <label id="taglist-label" class="inline">Tags (space separated)</label>
+    <label id="file-label">Select files to upload</label>
+    <label id="title-label">Title</label>
+    <label id="taglist-label">Tags (space separated)</label>
   </p>
   <fieldset id="files">
     <% @assets.each_with_index do |asset, i| %>
       <p>
-        <%= file_field_tag "assets[#{i}][uploaded_data]", :id => "assets_data_#{i}" %>
+        <%= file_field_tag "assets[#{i}][uploaded_data]", :id => "assets_data_#{i}", :class => 'file_field' %>
         <%= text_field_tag "assets[#{i}][title]", asset.title, :class => 'title_field' %>
         <%= text_field_tag "assets[#{i}][tag_list]", asset.tag_list, :class => 'taglist_field' %>
         <a href="#" class="remove-file" title="remove this file field" style="display: none;"><%= image_tag '/images/icons/delete.png' %></a>
