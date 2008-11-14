@@ -1,9 +1,10 @@
-- sections new: remove second level nav
-- article new & edit: publish date layout & sidebar
-- article new & edit: sidebar - category, bucket and optional settings - layout
++ sections new: remove second level nav
++ article new & edit: publish date layout & sidebar
++ article new & edit: sidebar - category, bucket and optional settings - layout
 - assets new: upload layout 
 + site - create new site: some parts of the layout
 
+- fix taborder (e.g. user profile)
 - categories list layout
 - background shadow bug
 - site settings: spam form layout

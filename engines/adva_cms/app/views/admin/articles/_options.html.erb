@@ -1,26 +1,28 @@
-<% unless @categories.empty? %>
-  <h4>Publish in these categories</h4>
-  <%= render :partial => 'categories/checkboxes', :locals => { :categories => @categories, :content => @article } %>
-<% end %>
-
 <h4>Assets</h4>  
 <%= render :partial => 'admin/assets/widget/widget', :locals => { :assets => { :latest => @site.assets.recent, :attached => @article.assets, :bucket => bucket_assets } } %>
 
 <h4>Optional settings</h4>
-<p>
-  <%= f.label :author %>
-  <%= f.select :author, author_options, :selected => author_preselect %>
-</p>
-<p>
-  <%= f.label :filter %>
-  <%= f.select :filter, filter_options %>
-</p>
-<p>
-  <%= f.label :comment_age, 'Comments' %>
-  <%= f.select :comment_age, comment_expiration_options %>
-</p>
-<p>
-  <%= f.label :permalink %>
-  <%= f.text_field :permalink %>
-</p>
+<fieldset>
+  <p>
+    <%= f.label :author %>
+    <%= f.select :author, author_options, :selected => author_preselect %>
+  </p>
+  <p>
+    <%= f.label :filter %>
+    <%= f.select :filter, filter_options %>
+  </p>
+  <p>
+    <%= f.label :comment_age, 'Comments' %>
+    <%= f.select :comment_age, comment_expiration_options %>
+  </p>
+  <p>
+    <%= f.label :permalink %>
+    <%= f.text_field :permalink %>
+  </p>
+</fieldset>
+
+<% unless @categories.empty? %>
+  <h4>Publish in these categories</h4>
+  <%= render :partial => 'categories/checkboxes', :locals => { :categories => @categories, :content => @article } %>
+<% end %>
 
