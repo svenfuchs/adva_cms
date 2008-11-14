@@ -3,6 +3,6 @@
     <%= activity_datetime activity, recent %><br />
     <%= link_to_activity_user activity %>
   </p>
-  <h4><%= activity.object_attributes['type'] %> <%= activity.all_actions.to_sentence(:skip_last_comma => true) %></h4>  
+  <p><%= activity.object_attributes['type'] %> <%= activity.all_actions.to_sentence(:skip_last_comma => true) %></p>
   <%= link_to activity.title, activity_object_edit_url(activity) %>
 </li>
