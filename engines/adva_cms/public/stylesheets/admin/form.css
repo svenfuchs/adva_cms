@@ -48,14 +48,14 @@ textarea {
 	font-size: 13px;
 }
 textarea {
-	width: 100%;
+	width: 98%;
 }
 textarea.short {
-	width: 100%;
+	width: 98%;
 	height: 80px;
 }
 input.big {
-	width: 100%;
+	width: 98%;
 	font-size: 20px;
 }
 input.short {
@@ -85,8 +85,16 @@ p.buttons {
 #sidebar h4 {
 	clear: both;
 }
+#sidebar fieldset {
+	padding: 0 10px;
+	background-color: #ebebeb;
+}
 #sidebar label {
 	font-size: 11px;
+	padding: 5px 0 0 0;
+}
+#sidebar label.inline {
+	font-weight: normal;
 }
 #sidebar input[type="text"] {
 	font-size: 13px;

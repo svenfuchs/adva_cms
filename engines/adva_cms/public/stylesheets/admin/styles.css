@@ -49,16 +49,19 @@ input.text{
   border:1px solid #CCCCCC;}
 
 fieldset select{
-  width: 98%;
   border:1px solid #CCCCCC;
-  margin: 0 0 25px 0;}
+  /*width: 98%;*/
+  /*margin: 0 0 25px 0;*/
+}
 
 fieldset{
   background:#F6F6F6;
-  margin: 0 0 20px 0; }
+  margin: 0 0 20px 0; 
+	padding-bottom: 20px !important;
+}
 
 fieldset label{
-  padding: 0 0 3px 0;
+  padding: 15px 0 3px 0;
   font-weight:bold;
   position:relative;
   display:block;}
@@ -470,7 +473,7 @@ ul.sub-nav a:hover span{
   border-bottom:1px solid #CCCCCC;}
 
 .history p{
-  padding: 0 0 10px 0;}
+  padding: 0 0 0 0;}
 
 /* Avatar */
 .avatar{
