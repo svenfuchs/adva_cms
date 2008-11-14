@@ -1,3 +1,24 @@
+- site settings: spam form layout
+- assets new: upload layout 
+- sections new: remove second level nav
+- categories list layout
+- article new & edit: publish date layout & sidebar
+- article new & edit: sidebar - category, bucket and optional settings - layout
+- background shadow bug
++ site - create new site: some parts of the layout
+
+
+- profile area ?
+- addings sections ?
+- after adding/editing article should it link to article overview ?
+
+
+- themes list
+- site user details layout and sidebar
+- sections settings not perfect
+
+
+
 # fix asset widget css
 # fix form elements css
 
@@ -10,3 +31,6 @@
 # generate breadcrumbs
 
 # fix /admin/users/1
+
+
+

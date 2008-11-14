@@ -1,12 +1,16 @@
 <h2>New Category</h2>
   
 <% form_for :category, @category, :url => admin_categories_path do |f| %>
-  <fieldset>
-    <p>
+  <fieldset class="clearfix">
+
+    <fieldset class="col1">
       <%= f.label :title %>
       <%= f.text_field :title %>
-  	</p>
+    </fieldset>
+
   </fieldset>
+      
+      
 	<p class="buttons">
 	  <%= submit_tag 'Save' %>
 	</p>

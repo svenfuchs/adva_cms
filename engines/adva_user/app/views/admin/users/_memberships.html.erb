@@ -1,11 +1,13 @@
 <% if @site %>
-<h4>Membership</h4>
+<h2>Membership</h2>
 
-<fieldset>
-  <p>
+<fieldset class="clearfix">
+
+  <fieldset class="col">
     <%= check_box_tag "user[memberships][#{@site.id}]", 1, @user.is_site_member?(@site), :id => "user_memberships_#{@site.id}" %>
     <%= hidden_field_tag "user[memberships][#{@site.id}]", 0 %>
     <%= f.label "user_memberships_#{@site.id}", "Member of: #{@site.name}", :class => 'light' %>
-  </p>
+
+</fieldset>
 </fieldset>
 <% end %>

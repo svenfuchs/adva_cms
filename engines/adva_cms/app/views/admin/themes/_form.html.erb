@@ -1,26 +1,28 @@
-<fieldset>
-  <p>
+<fieldset class="clearfix">
+
+  <fieldset class="col">
     <%= f.label :name %>
     <%= f.text_field :name %>
-  </p>
-  <p>
+
     <%= f.label :author %>
     <%= f.text_field :author %>
-  </p>
-  <p>
+
     <%= f.label :homepage %>
     <%= f.text_field :homepage %>
-  </p>
-  <p>
+    </fieldset>
+
+    <fieldset class="col">
     <%= f.label :version %>
     <%= f.text_field :version, :class => 'short' %>
-  </p>
-  <p>
+
     <%= f.label :summary %>
     <%= f.text_area :summary, :class => 'short' %>
-  </p>
+    
+  </fieldset>
+
+</fieldset>
+
   <p class="buttons">
     <%= f.submit 'Save' %>
     <%= link_to "cancel", admin_themes_path %>
   </p>
-</fieldset>

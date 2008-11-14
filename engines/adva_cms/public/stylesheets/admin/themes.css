@@ -4,18 +4,18 @@
   list-style: none;
 	margin: 20px 0px;
 	padding: 0px;
+	border-top:1px solid #e6e6e6;
 }
 #themelist li {
   display: block;
   position: relative;
   float: left;
-  width: 23%;
+  width: 100%;
 	margin: 0px;
 	padding: 0px;
   text-align: center;
-  padding: 0px 5px 30px 5px;
+  padding: 20px 5px 30px 5px;
   border-bottom: 1px solid #ccc;
-	margin-bottom: 20px;
 }
 #themelist h4 {
 	font-size: 14px;

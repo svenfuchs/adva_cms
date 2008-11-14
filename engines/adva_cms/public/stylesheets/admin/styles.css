@@ -217,6 +217,14 @@ ul.userlinks li{
 #navigation ul li.profile a{
   background:url('/images/adva_cms/admin/ui/nav_profile.gif') no-repeat top left;}
 
+/*-------------------------------------------------------------------------
+                         RED TEXT NAV
+*-------------------------------------------------------------------------*/
+
+.red_text_nav {
+	padding-top: 20px;
+}
+
 
 /*-------------------------------------------------------------------------
                          CONTENT
@@ -261,6 +269,7 @@ fieldset.language{
   clear:both;
   margin-bottom:-15px;
   padding-bottom:70px;
+  margin-top: 20px;
   background:#FFF url('/images/adva_cms/admin/ui/bg_contentshadow.gif') repeat-y top right;}
 
 #main-content-wrapper{
@@ -271,9 +280,16 @@ fieldset.language{
   color:#999999;
   font-size:2.4em;
   position:relative;
-  padding: 20px 0 5px 0;
-  border-bottom:5px solid #E6E6E6;
+  padding: 20px 0 0 0;
+  margin-bottom:-15px;
+  /*border-bottom:5px solid #E6E6E6;*/
   font-weight:normal !important;}
+
+#history_headline {
+	border-bottom:5px solid #E6E6E6;
+	height: 40px;
+	margin-bottom: 20px !important;
+}
 
 #main-content h2 a{
   position:absolute;
@@ -308,7 +324,6 @@ p.error{background:#FECCCB;}
 -------------------------------------------------------------------------*/
 ul.sub-nav{
   background:url('/images/adva_cms/admin/ui/bg_subnav.gif') repeat-x bottom left;
-  font-size:1.2em;
   margin: 20px 0 0px 0;
   height:40px;}
 
@@ -328,7 +343,7 @@ ul.sub-nav li a span{
 
 ul.sub-nav a{
   color:#4C4C4C !important;
-  background:url('/images/adva_cms/admin/ui/bg_subnavtableft.gif') no-repeat top left;}
+}
 
 ul.sub-nav a:hover{
   color:#FFF !important;
@@ -336,8 +351,8 @@ ul.sub-nav a:hover{
   text-decoration:none !important;}
 
 ul.sub-nav li a span{
-  padding: 13px 27px 0 22px;
-  margin: 0 0 0 5px;
+  padding: 13px 27px 0 27px;
+  margin: 0px;
   height: 27px;
   background:url('/images/adva_cms/admin/ui/bg_subnavtabright.gif') no-repeat top right;}
 
@@ -671,11 +686,18 @@ table.table-history ul.signin{
 
 fieldset fieldset.col{
   width:45%;
-  padding: 20px 0 5px 2%;
+  padding: 5px 0 5px 2%;
+  float:left;}
+
+fieldset fieldset.col1{
+  width:95%;
+  padding: 5px 0 5px 2%;
   float:left;}
 
 fieldset fieldset.col label{
-  width:95%;}
+  width:95%;
+  padding-top: 10px;
+}
 
 fieldset fieldset.col label span{
   position:absolute;
@@ -709,6 +731,11 @@ fieldset .city input.text{
 .radio-wrap span{
   width:42%;
   float:left;}
+
+.test_mark {
+	padding-top: 80px;
+}
+
 
 .radio-wrap label{
   display:block;
