@@ -63,7 +63,7 @@ steps_for :asset do
 
   Then "the asset immediately shows up on the page" do
     assert_select_rjs :insert, :bottom, 'Element' do
-      assert_select 'li a[href=?]', @asset.public_filename_with_host
+      assert_select 'li a[href=?]', @asset.public_filename
     end
     response.should_not have_text(%r(<html.*>)) # no layout
   end
