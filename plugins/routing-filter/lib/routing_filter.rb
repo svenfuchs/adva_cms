@@ -9,7 +9,7 @@ module RoutingFilter
     end
   
     def run(method, *args, &final)
-      RoutingFilter.active ? last.run(method, *args, &final) : final.call
+      RoutingFilter.active && last ? last.run(method, *args, &final) : final.call
     end
   end
 end
