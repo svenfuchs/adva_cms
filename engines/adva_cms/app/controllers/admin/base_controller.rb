@@ -92,7 +92,7 @@ class Admin::BaseController < ApplicationController
     def perma_host
       @site.try(:perma_host) || 'admin'
     end
-  
+
     def page_cache_directory
       if Rails.env == 'test'
          Site.multi_sites_enabled ? 'tmp/cache/' + perma_host : 'tmp/cache'
