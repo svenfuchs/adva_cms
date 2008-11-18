@@ -73,7 +73,7 @@ class Admin::BaseController < ApplicationController
     end
 
     def set_site
-      @site = Site.find(params[:site_id])
+      @site = Site.find(params[:site_id]) if params[:site_id]
       Thread.current[:site] = @site
     end
 
