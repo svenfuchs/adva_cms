@@ -67,7 +67,7 @@ class Admin::SitesController < Admin::BaseController
   private
 
     def require_authentication
-      required_role = @site ? :admin : :super_user
+      required_role = @site ? :admin : :superuser
       unless current_user and current_user.has_role?(required_role, :context => current_role_context) # TODO this is bad
         return redirect_to_login("You need to be a #{required_role} to view this page.")
       end

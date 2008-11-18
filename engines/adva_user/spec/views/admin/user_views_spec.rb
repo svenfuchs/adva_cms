@@ -39,7 +39,7 @@ describe "Admin::User:" do
 
     it "displays a the user profile" do
       render "admin/users/show"
-      response.should have_tag('h2', @user.name)
+      response.should have_tag('h3', @user.name)
     end
   end
 
