@@ -72,6 +72,11 @@ module Rbac
         end while context = context.parent
         false
       end
+        
+      def all_parents
+        return [] if parent == Rbac::Context.root
+        [parent] + Array(parent.try(:all_parents))
+      end
     
       def parent
         if parent_accessor and parent = subject.send(parent_accessor)

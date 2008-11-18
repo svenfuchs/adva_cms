@@ -150,5 +150,11 @@ describe Rbac::Context, "#include?", :type => :rbac do
     end
   end
 end
+
+describe Rbac::Context, "#all_parents", :type => :rbac do
+  it "returns an array with all parents" do
+    @section.role_context.all_parents.last.subject.should == @site
+  end
+end
 =begin
 =end
