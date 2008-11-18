@@ -11,6 +11,16 @@ body {
 hr { display: none; }
 img { border: none; }
 
+
+/* Signup Hack
+-------------------------------------------------------------------------*/
+
+.inline_signup{
+	padding: 0px 60px 0px 0px;
+	display:inline !important;
+}
+
+
 /* Clear Floats
 --------------------------------------------------------------------------*/
 .clear {
@@ -110,6 +120,8 @@ ul li.last {border:none !important;}
 .inline{
 	display:inline !important;
 }
+
+
 .empty {
 	margin-top: 20px;
   padding: 10px;
