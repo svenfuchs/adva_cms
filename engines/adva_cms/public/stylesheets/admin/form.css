@@ -23,6 +23,7 @@ label {
 }
 label.light {
 	display: inline;
+	margin-right: 5px;
 	color: #333;
 	font-size: 13px;
 	font-weight: normal;
