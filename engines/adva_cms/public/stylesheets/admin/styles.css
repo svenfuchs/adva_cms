@@ -338,9 +338,9 @@ p.error{background:#FECCCB;}
 /* SUB NAVIGATION
 -------------------------------------------------------------------------*/
 ul.sub-nav{
-  background:url('/images/adva_cms/admin/ui/bg_subnav.gif') repeat-x top left;
+  background:url('/images/adva_cms/admin/ui/bg_subnav.gif') repeat-x bottom left;
   margin: 20px 0 0px 0;
-  height: 39px;}
+  height:40px;}
 
 ul.sub-nav li{
   float:left;
@@ -368,7 +368,7 @@ ul.sub-nav a:hover{
 ul.sub-nav li a span{
   padding: 13px 27px 0 27px;
   margin: 0px;
-  height: 26px;
+  height: 27px;
   background:url('/images/adva_cms/admin/ui/bg_subnavtabright.gif') no-repeat top right;}
 
 ul.sub-nav a:hover span{
