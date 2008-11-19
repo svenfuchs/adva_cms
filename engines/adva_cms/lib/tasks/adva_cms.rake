@@ -36,9 +36,8 @@ namespace :adva_cms do
   desc "Migrate database and plugins to current status with preserved order."
   task :migrate do |task, args|
     require 'config/environment'
-    # collect all migration files from app and plugins
-    dir = File.dirname(__FILE__)
-    locations = ["db/migrate", "vendor/adva/engines/*/db/migrate"]
+    # collect all migration files from app and plugins and sort them based on their id/timestamp
+    locations = ["db/migrate"] + Engines.plugins.collect { |plugin| plugin.migration_directory }
     migration_files = locations.collect { |location| Dir["#{location}/*.rb"] }.flatten.sort { |x, y| File.basename(x) <=> File.basename(y) }
 
     # execute them in order
