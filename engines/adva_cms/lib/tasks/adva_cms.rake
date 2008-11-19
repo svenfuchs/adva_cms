@@ -31,3 +31,22 @@
 #     end
 #   end
 # end
+
+require 'config/environment'
+
+namespace :adva_cms do
+  desc "Migrate database and plugins to current status with preserved order."
+  task :migrate do |task, args|
+    # collect all migration files from app and plugins
+    dir = File.dirname(__FILE__)
+    locations = ["db/migrate", "vendor/adva/engines/*/db/migrate"]
+    migration_files = locations.collect { |location| Dir["#{location}/*.rb"] }.flatten.sort { |x, y| File.basename(x) <=> File.basename(y) }
+
+    # execute them in order
+    migration_files.each do |file|
+      # only migrate to the relevant version
+      version = file.scan(/([0-9]+)_([_a-z0-9]*).rb/).first.first
+      ActiveRecord::Migrator.migrate(File.dirname(file), version.to_i)
+    end
+  end
+end
