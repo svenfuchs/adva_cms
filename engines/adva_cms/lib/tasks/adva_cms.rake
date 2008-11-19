@@ -32,11 +32,10 @@
 #   end
 # end
 
-require 'config/environment'
-
 namespace :adva_cms do
   desc "Migrate database and plugins to current status with preserved order."
   task :migrate do |task, args|
+    require 'config/environment'
     # collect all migration files from app and plugins
     dir = File.dirname(__FILE__)
     locations = ["db/migrate", "vendor/adva/engines/*/db/migrate"]
