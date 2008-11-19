@@ -3,7 +3,7 @@
   <p>
     <%= link_to "New Article", new_admin_article_path(@site) %> &middot;
     <%= link_to_function 'Reorder Articles', "articles_list.toggle(this, 'Done reordering');", :id => 'reorder_sections' %>
-    <%= image_tag 'indicator.gif', :id => 'articles_indicator', :style => 'display: none;' %>
+    <%= image_tag '/images/adva_cms/indicator.gif', :id => 'articles_indicator', :style => 'display: none;' %>
   </p>
 
   <table id="articles" class="list">

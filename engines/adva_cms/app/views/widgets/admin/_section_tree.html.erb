@@ -2,7 +2,7 @@
   Sections
   <% if @site.sections.count > 1 %>
       <%= link_to_function 'Reorder sections', "sections_tree.toggle(this, 'Done reordering');", :id => 'reorder_sections' %>
-      <%= image_tag 'indicator.gif', :id => 'sections_indicator', :style => 'display: none;' %>
+      <%= image_tag '/images/adva_cms/indicator.gif', :id => 'sections_indicator', :style => 'display: none;' %>
   <% end %>
 </h3>
 
