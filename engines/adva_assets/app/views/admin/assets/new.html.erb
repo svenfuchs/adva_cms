@@ -1,12 +1,13 @@
 <%= render :partial => "action_nav" %>
-
+<h2>Upload asset</h2>
 <% form_for Asset.new, :url => admin_assets_path, :html => { :multipart => true, :id => 'asset_form' } do |f| %>
-  <p>
-    <label id="file-label">Select files to upload</label>
-    <label id="title-label">Title</label>
-    <label id="taglist-label">Tags (space separated)</label>
-  </p>
-  <fieldset id="files">
+  <fieldset class="clearfix">
+    <p>
+      <label id="file-label">Select files to upload</label>
+      <label id="title-label">Title</label>
+      <label id="taglist-label">Tags (space separated)</label>
+    </p>
+    <div id="files">
     <% @assets.each_with_index do |asset, i| %>
       <p>
         <%= file_field_tag "assets[#{i}][uploaded_data]", :id => "assets_data_#{i}", :class => 'file_field' %>
@@ -16,9 +17,9 @@
         <a href="#" class="tagall-files" id="tagall-files" style="display: none">Apply tags to all</a>
       </p>
     <% end %>
+    </div>
   </fieldset>
   <a href="#" id="asset-add-file" class="widetab">Add another file</a>  
-
   <p class="buttons">
     <%= submit_tag 'Upload Asset(s)' %> or
     <%= link_to 'Cancel', admin_assets_path %>

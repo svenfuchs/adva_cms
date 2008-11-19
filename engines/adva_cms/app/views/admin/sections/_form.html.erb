@@ -1,38 +1,22 @@
 <h2>General settings</h2>
-
 <fieldset class="clearfix">
-
-  <fieldset class="col">
+  <div class="col">
     <%= f.label :title %>
     <%= f.text_field :title %>
-  </fieldset>
-  
-  <fieldset class="col">  
+  </div>
+  <div class="col">  
     <%= f.label :permalink %>
     <%= f.text_field :permalink %>
-  </fieldset>
-  
+  </div>
 </fieldset>
-
-
-  <% unless @site.current_theme_template_paths.empty? %>
-
-      <%= f.label :template %>
-      <%= f.select :template, @site.current_theme_template_paths, :include_blank => true  %>
-
-  <% end %>
-
-  <% unless @site.current_theme_layout_paths.empty? %>
-
-      <%= f.label :layout %>
-      <%= f.select :layout, @site.current_theme_layout_paths, :include_blank => true  %>
-  
-  <% end %>
-
-
-<%= render :partial => "admin/sections/settings/#{@section.type.underscore}", :locals => {:f => f} %>
-
-<%= render :partial => "admin/sections/settings/comments", :locals => {:f => f} unless @section.type == 'Forum' %>
-
-<%= render :partial => "admin/sections/settings/permissions", :locals => {:f => f} %>
-
+<% unless @site.current_theme_template_paths.empty? %>
+    <%= f.label :template %>
+    <%= f.select :template, @site.current_theme_template_paths, :include_blank => true  %>
+<% end %>
+<% unless @site.current_theme_layout_paths.empty? %>
+    <%= f.label :layout %>
+    <%= f.select :layout, @site.current_theme_layout_paths, :include_blank => true  %>
+<% end %>
+<%= render :partial => "admin/sections/settings/#{@section.type.underscore}", :locals => { :f => f } %>
+<%= render :partial => "admin/sections/settings/comments", :locals => { :f => f } unless @section.type == 'Forum' %>
+<%= render :partial => "admin/sections/settings/permissions", :locals => { :f => f } %>
