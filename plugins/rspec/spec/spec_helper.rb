@@ -35,12 +35,16 @@ module Spec
       end
       exception
     end
+    
+    def run_with(options)
+      ::Spec::Runner::CommandLine.run(options)
+    end
   end
 end
 
-share_as :SandboxedOptions do
+def with_sandboxed_options
   attr_reader :options
-
+  
   before(:each) do
     @original_rspec_options = ::Spec::Runner.options
     ::Spec::Runner.use(@options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new))
@@ -49,8 +53,25 @@ share_as :SandboxedOptions do
   after(:each) do
     ::Spec::Runner.use(@original_rspec_options)
   end
+  
+  yield
+end
 
-  def run_with(options)
-    ::Spec::Runner::CommandLine.run(options)
+def with_sandboxed_config
+  attr_reader :config
+  
+  before(:each) do
+    @config = ::Spec::Example::Configuration.new
+    @original_configuration = ::Spec::Runner.configuration
+    spec_configuration = @config
+    ::Spec::Runner.instance_eval {@configuration = spec_configuration}
   end
-end unless Object.const_defined?(:SandboxedOptions)
+  
+  after(:each) do
+    original_configuration = @original_configuration
+    ::Spec::Runner.instance_eval {@configuration = original_configuration}
+    ::Spec::Example::ExampleGroupFactory.reset
+  end
+  
+  yield
+end

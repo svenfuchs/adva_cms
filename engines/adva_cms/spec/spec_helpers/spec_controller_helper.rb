@@ -50,7 +50,7 @@ module SpecControllerHelper
 
   def cached_page_filter_for(action)
     filters = cache_page_filters.select do |filter|
-      filter.options[:only] && filter.options[:only].include?(action)
+      filter.options[:only] && filter.options[:only].to_a.include?(action.to_s)
     end
     puts "warning - multiple caches_page filters for #{action}" if filters.size > 1
     filters.first

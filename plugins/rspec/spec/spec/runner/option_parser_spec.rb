@@ -28,6 +28,12 @@ describe "OptionParser" do
     @parser.options
   end
   
+  it "should leave the submitted argv alone" do
+    args = ["--pattern", "foo"]
+    @parser.order!(args)
+    args.should == ["--pattern", "foo"]
+  end
+  
   it "should accept files to include" do
     options = parse(["--pattern", "foo"])
     options.filename_pattern.should == "foo"
@@ -66,12 +72,18 @@ describe "OptionParser" do
     options.colour.should == false
   end
   
-  it "should print help to stdout if no args" do
-    pending 'A regression since 1.0.8' do
-      options = parse([])
-      @out.rewind
-      @out.read.should match(/Usage: spec \(FILE\|DIRECTORY\|GLOB\)\+ \[options\]/m)
-    end
+  it "should print help to stdout if no args and spec_comand?" do
+    Spec.stub!(:spec_command?).and_return(true)
+    options = parse([])
+    @out.rewind
+    @out.read.should match(/Usage: spec \(FILE\|DIRECTORY\|GLOB\)\+ \[options\]/m)
+  end
+    
+  it "should not print help to stdout if no args and NOT spec_command?" do
+    Spec.stub!(:spec_command?).and_return(false)
+    options = parse([])
+    @out.rewind
+    @out.read.should == ""
   end
   
   it "should print help to stdout" do
@@ -91,7 +103,7 @@ describe "OptionParser" do
   it "should print version to stdout" do
     options = parse(["--version"])
     @out.rewind
-    @out.read.should match(/rspec version \d+\.\d+\.\d+/n)
+    @out.read.should match(/rspec \d+\.\d+\.\d+/n)
   end
   
   it "should require file when require specified" do

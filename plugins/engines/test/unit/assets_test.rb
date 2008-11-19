@@ -24,6 +24,10 @@ class AssetsTest < Test::Unit::TestCase
     assert File.exist?(File.join(Engines.public_directory, 'test_assets', 'subfolder', 'file_in_subfolder.txt'))
   end
   
+  def test_engines_has_not_created_duplicated_file_structure
+    assert !File.exists?(File.join(Engines.public_directory, "test_assets", RAILS_ROOT))
+  end
+  
   def test_public_files_have_been_copied_from_test_assets_with_assets_dir_plugin
     Engines::Assets.mirror_files_for Engines.plugins[:test_assets_with_assets_directory]
 

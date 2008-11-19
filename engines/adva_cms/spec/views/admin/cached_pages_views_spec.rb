@@ -20,7 +20,7 @@ describe "Admin::CachedPages:" do
     before :each do
       @cached_pages.stub!(:total_entries).and_return 20
       assigns[:cached_pages] = @cached_pages
-      template.stub_render hash_including(:partial => 'cached_page')
+      template.stub!(:render).with hash_including(:partial => 'cached_page')
     end
 
     it "should display a list of cached pages" do
@@ -29,7 +29,7 @@ describe "Admin::CachedPages:" do
     end
 
     it "should render the cached_page partial with the cached_pages collection" do
-      template.stub_render hash_including(:partial => 'cached_page', :collection => @cached_pages)
+      template.stub!(:render).with hash_including(:partial => 'cached_page', :collection => @cached_pages)
       render "admin/cached_pages/index"
     end
   end

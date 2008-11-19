@@ -1,15 +1,9 @@
 module Spec
   module Example
     module ExampleMethods
-      extend ExampleGroupMethods
-      extend ModuleReopeningFix
-      include ModuleInclusionWarnings
       
-
-      PENDING_EXAMPLE_BLOCK = lambda {
-        raise Spec::Example::ExamplePendingError.new("Not Yet Implemented")
-      }
-
+      extend ModuleReopeningFix
+      
       def execute(options, instance_variables)
         options.reporter.example_started(self)
         set_instance_variables_from_hash(instance_variables)
@@ -17,13 +11,13 @@ module Spec
         execution_error = nil
         Timeout.timeout(options.timeout) do
           begin
-            before_example
+            before_each_example
             eval_block
           rescue Exception => e
             execution_error ||= e
           end
           begin
-            after_example
+            after_each_example
           rescue Exception => e
             execution_error ||= e
           end
@@ -44,17 +38,17 @@ module Spec
         raise Spec::Expectations::ExpectationNotMetError.new(message)
       end
 
-      def eval_each_fail_fast(procs) #:nodoc:
-        procs.each do |proc|
-          instance_eval(&proc)
+      def eval_each_fail_fast(examples) #:nodoc:
+        examples.each do |example|
+          instance_eval(&example)
         end
       end
 
-      def eval_each_fail_slow(procs) #:nodoc:
+      def eval_each_fail_slow(examples) #:nodoc:
         first_exception = nil
-        procs.each do |proc|
+        examples.each do |example|
           begin
-            instance_eval(&proc)
+            instance_eval(&example)
           rescue Exception => e
             first_exception ||= e
           end
@@ -64,6 +58,10 @@ module Spec
 
       def description
         @_defined_description || ::Spec::Matchers.generated_description || "NO NAME"
+      end
+      
+      def options
+        @_options
       end
 
       def __full_description
@@ -80,7 +78,7 @@ module Spec
       end
 
       def eval_block
-        return instance_eval(&(@_implementation || PENDING_EXAMPLE_BLOCK))
+        instance_eval(&@_implementation)
       end
 
       def implementation_backtrace
@@ -91,12 +89,12 @@ module Spec
       include Matchers
       include Pending
       
-      def before_example
+      def before_each_example
         setup_mocks_for_rspec
         self.class.run_before_each(self)
       end
 
-      def after_example
+      def after_each_example
         self.class.run_after_each(self)
         verify_mocks_for_rspec
       ensure

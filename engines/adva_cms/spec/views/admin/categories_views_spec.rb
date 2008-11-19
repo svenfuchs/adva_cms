@@ -23,7 +23,7 @@ describe "Admin::Categories:" do
     template.stub!(:remote_function)
     template.stub!(:form_for)
 
-    template.stub_render hash_including(:partial => 'category')
+    template.stub!(:render).with hash_including(:partial => 'category')
   end
 
   describe "the :index view" do
@@ -37,7 +37,7 @@ describe "Admin::Categories:" do
     end
 
     it "should render the category partial with the categories collection" do
-      template.stub_render hash_including(:partial => 'category', :collection => @categories)
+      template.stub!(:render).with hash_including(:partial => 'category', :collection => @categories)
       render "admin/categories/index"
     end
 
@@ -87,7 +87,7 @@ describe "Admin::Categories:" do
     end
 
     it "should render itself for nested categories" do
-      template.expect_render hash_including(:partial => 'category')
+      template.should_receive(:render).with hash_including(:partial => 'category')
       render "admin/categories/_category"
     end
   end

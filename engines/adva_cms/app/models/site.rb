@@ -38,6 +38,7 @@ class Site < ActiveRecord::Base
   has_many :cached_pages, :dependent => :destroy, :order => 'cached_pages.updated_at desc'
 
   before_validation :downcase_host
+  before_validation :populate_title
   before_destroy :flush_page_cache
 
   validates_presence_of :host, :name, :title
@@ -115,6 +116,10 @@ class Site < ActiveRecord::Base
 
     def downcase_host
       self.host = host.to_s.downcase
+    end
+    
+    def populate_title
+      self.title = self.name if self.title.blank?
     end
 
     def flush_page_cache

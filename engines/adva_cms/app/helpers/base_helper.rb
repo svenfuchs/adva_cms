@@ -30,16 +30,18 @@ module BaseHelper
   # does exactly the same as the form_for helper does, but splits off the
   # form head tag and captures it to the content_for :form collector
   def split_form_for(*args, &block)
-    buffer = eval(ActionView::Base.erb_variable, block.binding)
-    out = capture_erb_with_buffer(buffer, *args) { form_for(*args, &block) }
-
+    # breaks in Rails 2.2
+    # buffer = eval(ActionView::Base.output_buffer, block.binding)
+    # out = capture_erb_with_buffer(buffer, *args) { form_for(*args, &block) }
+    out = capture(*args) { form_for(*args, &block) } 
+    out ||= ''
     lines = out.split("\n")
     content_for :form, lines.shift
     lines.pop
-
-    concat lines.join("\n"), block.binding
+ 
+    concat lines.join("\n")
   end
-
+  
   # same as Rails text helper, but returns only the pluralized string without
   # the number botched into it
   def pluralize_str(count, singular, plural = nil)

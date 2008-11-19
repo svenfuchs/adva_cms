@@ -1,21 +1,21 @@
-module Stubby    
+module Stubby
   def lookup(key, *args)
     Stubby::Instances.lookup(key.to_s, *args)
   end
-  
+
   def stub_methods(object, methods)
-    methods.each{|name, value| object.stub!(name).and_return value }      
+    methods.each{|name, value| object.stub!(name).and_return value }
   end
-  
+
   def method_missing(name, *args)
     return lookup($1, *args) if name.to_s =~ /^stub_(.*)/
     super
   end
-  
+
   module Instances
     class InstanceNotFound < RuntimeError; end
-    
-    class << self  
+
+    class << self
       def lookup(klass, key = nil)
         if (singular = klass.singularize) != klass
           klass = singular
@@ -29,8 +29,8 @@ module Stubby
 
         definition = Stubby.base_definition(klass.classify) or raise "could not find base_definition for #{klass.classify}"
         send(method, definition, key)
-      end 
-      
+      end
+
       def find_all(definition, key)
         key = nil if key == :all
         if key
@@ -41,31 +41,31 @@ module Stubby
           by_class(definition.class)
         end
       end
-    
+
       def find_one(definition, key)
         key = definition.default_instance_key if key == :first
         by_key(definition.class)[key] || definition.instantiate(key)
       end
-      
+
       def by_class(klass)
         @by_class ||= {}
         @by_class[klass] ||= []
       end
-  
+
       def by_key(klass)
         @by_key ||= {}
         @by_key[klass] ||= {}
       end
-      
+
       def complete
         @complete ||= {}
       end
-      
+
       def store(klass, object, key)
         by_class(klass) << object
         by_key(klass)[key] = object
       end
-      
+
       def clear!
         @by_class = {}
         @by_key = {}

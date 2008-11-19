@@ -1,7 +1,9 @@
 class Section < ActiveRecord::Base
+=begin
   class Jail < Safemode::Jail
     allow :id, :type, :categories, :tag_counts
   end
+=end
 
   @@types = ['Section']
   cattr_reader :types
@@ -47,7 +49,7 @@ class Section < ActiveRecord::Base
   class << self
     def register_type(type)
       @@types << type
-      @@types.sort!.uniq!
+      @@types.uniq!
     end
     
     def content_type

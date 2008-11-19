@@ -1,5 +1,3 @@
-## based on http://dev.rubyonrails.org/changeset/9084
-
 ActiveRecord::Associations::AssociationProxy.class_eval do
   protected
   def with_scope(*args, &block)

@@ -19,7 +19,7 @@ Find out more about adva-cms at: http://adva-cms.org
 Installation
 ============
  
-You need Rails 2.1.2 or newer.
+You need Rails 2.2.0 or newer.
 
   rails my-app
   cd my-app
@@ -45,15 +45,20 @@ http://artweb-design.lighthouseapp.com/projects/13992-adva_cms/overview
 Git repository:
 http://github.com/svenfuchs/adva_cms/tree/master
  
-adva-cms mailing list:
+Adva mailing list:
 http://groups.google.com/group/adva-cms
  
-adva-cms irc:
+Adva irc:
 irc://irc.freenode.net#adva-cms
  
-Running specs and stories
- 
-    rake adva_cms:test         # Runs all adva specs and stories
-    rake adva_cms:test:specs   # Runs all adva specs
-    rake adva_cms:test:stories # Runs all adva stories
- 
+Running specs and int tests
+  ruby script/test-adva  # Runs all Adva specs and int tests
+
+Pushing your code to mainstream or to your adva clone
+  Here is quick way to push your code up: 
+    cd vendor/adva
+    open .git/config
+    change: url = git://github.com/svenfuchs/adva_cms.git
+    to your adva clone: url = git@github.com:MY_GITHUB_USERNAME/adva_cms.git
+    or to mainstream: url = git@github.com:svenfuchs/adva_cms.git
+    git push origin master

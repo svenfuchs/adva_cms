@@ -17,6 +17,8 @@ require 'routing'
 require 'roles'
 require 'event' # need to force event to be loaded now, so it won't be reloaded between requests
 
+I18n.load_path += Dir[File.dirname(__FILE__) + '/lib/locale/en/*']
+
 # turn this on to get detailed cache sweeper logging in production mode
 # Site.cache_sweeper_logging = true
 

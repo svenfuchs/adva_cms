@@ -8,7 +8,7 @@ module Spec
       EXAMPLE_FORMATTERS = { # Load these lazily for better speed
                'specdoc' => ['spec/runner/formatter/specdoc_formatter',                'Formatter::SpecdocFormatter'],
                      's' => ['spec/runner/formatter/specdoc_formatter',                'Formatter::SpecdocFormatter'],
-                'nested' => ['spec/runner/formatter/nested_text_formatter',          'Formatter::NestedTextFormatter'],
+                'nested' => ['spec/runner/formatter/nested_text_formatter',            'Formatter::NestedTextFormatter'],
                      'n' => ['spec/runner/formatter/nested_text_formatter',            'Formatter::NestedTextFormatter'],
                   'html' => ['spec/runner/formatter/html_formatter',                   'Formatter::HtmlFormatter'],
                      'h' => ['spec/runner/formatter/html_formatter',                   'Formatter::HtmlFormatter'],
@@ -136,8 +136,10 @@ module Spec
         @colour = colour
         if @colour && RUBY_PLATFORM =~ /mswin|mingw/ ;\
           begin ;\
+            replace_output = @output_stream.equal?($stdout) ;\
             require 'rubygems' ;\
             require 'Win32/Console/ANSI' ;\
+            @output_stream = $stdout if replace_output ;\
           rescue LoadError ;\
             warn "You must 'gem install win32console' to use colour on Windows" ;\
             @colour = false ;\

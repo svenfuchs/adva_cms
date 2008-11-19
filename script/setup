@@ -11,7 +11,7 @@ def patch_file(path, after, insert)
 end
 
 File.unlink rails_root + '/public/index.html' rescue Errno::ENOENT
-FileUtils.cp rails_root + '/vendor/adva/script/test-all', rails_root + '/script/test-all'
+FileUtils.cp rails_root + '/vendor/adva/script/test-all', rails_root + '/script/test-adva'
 
 patch_file rails_root + '/config/environment.rb',
            "require File.join(File.dirname(__FILE__), 'boot')",

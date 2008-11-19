@@ -60,6 +60,10 @@ class Content < ActiveRecord::Base
       end
       super options
     end
+    
+    def find_published_in_time_delta(*args, &block)
+      with_published { find_in_time_delta *args, &block }
+    end
 
     def find_in_time_delta(*args)
       options = args.extract_options!

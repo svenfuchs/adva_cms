@@ -20,24 +20,24 @@ describe "Forum views:" do
     template.stub!(:will_paginate).and_return 'will_paginate'
     template.stub!(:datetime_with_microformat).and_return 'Once upon a time ...'
 
-    template.stub_render hash_including(:partial => 'forum/topic')
+    template.stub!(:render).with hash_including(:partial => 'forum/topic')
   end
 
   describe "the show view" do
     it "with a current board assigned renders the board partial" do
       assigns[:board] = @board
-      template.expect_render hash_including(:partial => 'board')
+      template.should_receive(:render).with hash_including(:partial => 'board')
       render "forum/show"
     end
 
     it "with a forum that has boards renders the boards partial" do
-      template.expect_render hash_including(:partial => 'boards')
+      template.should_receive(:render).with hash_including(:partial => 'boards')
       render "forum/show"
     end
 
     it "with a boardless forum assigned renders the forum partial" do
       @forum.stub!(:boards).and_return []
-      template.expect_render hash_including(:partial => 'forum')
+      template.should_receive(:render).with hash_including(:partial => 'forum')
       render "forum/show"
     end
   end
@@ -70,7 +70,7 @@ describe "Forum views:" do
     describe 'with a non-empty topics collection assigned' do
       it "renders the topics partial" do
         @forum.stub!(:topics_count).and_return 2
-        template.expect_render hash_including(:partial => 'topics')
+        template.should_receive(:render).with hash_including(:partial => 'topics')
         render "forum/_board"
       end
     end
@@ -96,31 +96,35 @@ describe "Forum views:" do
     describe 'with a non-empty topics collection assigned' do
       it "renders the topics partial" do
         @forum.stub!(:topics_count).and_return 2
-        template.expect_render hash_including(:partial => 'topics')
+        template.should_receive(:render).with hash_including(:partial => 'topics')
         render "forum/_forum"
       end
     end
   end
 
   describe "the topic partial" do
+    before :each do
+      template.stub!(:topic).and_return @topic
+    end
+    
     it "displays a link to the topic" do
       template.should_receive(:link_to_topic).and_return 'link_to_topic'
-      render :partial => "forum/topic", :object => @topic
+      render "forum/_topic"
     end
 
     it "displays a link to the latest post" do
       template.should_receive(:link_to_last_post).and_return 'link_to_last_post'
-      render :partial => "forum/topic", :object => @topic
+      render "forum/_topic"
     end
 
     it "should display the topic's last_author_name" do
       @topic.should_receive(:last_author_name)
-      render :partial => "forum/topic", :object => @topic
+      render "forum/_topic"
     end
 
     it "should display the topic's comment_count" do # TODO really should use a counter for that!
       @topic.should_receive(:comments_count)
-      render :partial => "forum/topic", :object => @topic
+      render "forum/_topic"
     end
   end
 end

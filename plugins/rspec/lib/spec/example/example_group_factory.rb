@@ -7,6 +7,15 @@ module Spec
           default(ExampleGroup)
         end
 
+        def registered_or_ancestor_of_registered?(example_group_classes) # :nodoc:
+          example_group_classes.each do |example_group_class|
+            return false unless registered_types.any? do |registered_type|
+              registered_type.ancestors.include? example_group_class
+            end
+          end
+          return true
+        end
+
         # Registers an example group class +klass+ with the symbol +type+. For
         # example:
         #
@@ -41,12 +50,15 @@ module Spec
         end
         
         def create_example_group(*args, &block)
-          opts = Hash === args.last ? args.last : {}
-          superclass = determine_superclass(opts)
+          raise ArgumentError if args.empty?
+          raise ArgumentError unless block
+          args << {} unless Hash === args.last
+          args.last[:spec_path] ||= File.expand_path(caller(0)[2])
+          superclass = determine_superclass(args.last)
           superclass.describe(*args, &block)
         end
-
-        protected
+        
+      protected
 
         def determine_superclass(opts)
           key = if opts[:type]
@@ -55,6 +67,12 @@ module Spec
             $2 == '' ? nil : $2.to_sym
           end
           get(key)
+        end
+        
+      private
+        
+        def registered_types
+          @example_group_types.values
         end
 
       end

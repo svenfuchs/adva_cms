@@ -18,8 +18,8 @@ describe "Section views:" do
     template.stub!(:link_to_content_comments).and_return 'link_to_content_comments'
     template.stub!(:comment_path).and_return 'path/to/comment'
 
-    template.stub_render hash_including(:partial => 'comments/list')
-    template.stub_render hash_including(:partial => 'comments/form')
+    template.stub!(:render).with hash_including(:partial => 'comments/list')
+    template.stub!(:render).with hash_including(:partial => 'comments/form')
   end
 
   describe "show view" do
@@ -28,19 +28,19 @@ describe "Section views:" do
     end
 
     it "should render the article partial with an article in single mode" do
-      template.expect_render hash_including(:partial => 'article')
+      template.should_receive(:render).with hash_including(:partial => 'article')
       render "sections/show"
     end
 
     it "should render the comments/list partial" do
-      template.expect_render hash_including(:partial => 'comments/list')
+      template.should_receive(:render).with hash_including(:partial => 'comments/list')
       render "sections/show"
     end
 
     describe "with an article that accepts comments" do
       it "should render the comments/form partial" do
         @article.should_receive(:accept_comments?).and_return true
-        template.expect_render hash_including(:partial => 'comments/form')
+        template.should_receive(:render).with hash_including(:partial => 'comments/form')
         render "sections/show"
       end
     end

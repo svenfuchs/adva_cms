@@ -5,6 +5,7 @@ require 'spec/extensions'
 require 'spec/runner'
 require 'spec/adapters'
 require 'spec/version'
+require 'spec/dsl'
 
 if Object.const_defined?(:Test)
   require 'spec/interop/test'
@@ -23,6 +24,10 @@ module Spec
     
     def exit?
       !Object.const_defined?(:Test) || Test::Unit.run?
+    end
+
+    def spec_command?
+      $0.split('/').last == 'spec'
     end
   end
 end

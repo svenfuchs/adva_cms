@@ -45,7 +45,7 @@ require "engines/plugin/migrator"
 # == An example
 #
 # For example, our current application is at version 14 (according to the
-# +schema_migrations+ table), when we decide that we want to add a tagging plugin. The
+# +schema_info+ table), when we decide that we want to add a tagging plugin. The
 # tagging plugin chosen includes migrations to create the tables it requires
 # (say, _tags_ and _taggings_, for instance), along with the models and helpers
 # one might expect.
@@ -120,42 +120,4 @@ require "engines/plugin/migrator"
 #
 # ---
 #
-# The Engines::RailsExtensions::Migrations module defines extensions for Rails' 
-# migration systems. Specifically:
-#
-# * Adding a hook to initialize_schema_migrations_table to create the plugin schema
-#   info table.
-#
-module Engines::RailsExtensions::Migrations
-  def self.included(base) # :nodoc:
-    base.class_eval { alias_method_chain :initialize_schema_migrations_table, :engine_additions }
-  end
-
-  # Create the schema tables, and ensure that the plugin schema table
-  # is also initialized. The plugin schema info table is defined by
-  # Engines::Plugin::Migrator.schema_migrations_table_name.
-  def initialize_schema_migrations_table_with_engine_additions
-    initialize_schema_migrations_table_without_engine_additions
-
-    # create the plugin schema stuff.    
-    begin
-      execute <<-ESQL
-        CREATE TABLE #{Engines::Plugin::Migrator.schema_migrations_table_name} 
-          (plugin_name #{type_to_sql(:string)}, version #{type_to_sql(:string)})
-      ESQL
-    rescue ActiveRecord::StatementInvalid
-      # Schema has been initialized
-    end
-  end
-end
-
-module ::ActiveRecord #:nodoc:
-  module ConnectionAdapters #:nodoc:
-    module SchemaStatements #:nodoc:
-      include Engines::RailsExtensions::Migrations
-    end
-  end
-end
-
-# Set ActiveRecord to ignore the plugin schema table by default
-::ActiveRecord::SchemaDumper.ignore_tables << Engines.schema_migrations_table
+# We no longer need Engines::RailsExtensions::Migrations as we are now relying on the migration mechanism in Rails 2.1

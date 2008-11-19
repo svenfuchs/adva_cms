@@ -2,7 +2,7 @@
   <h2>Comment #<%= @comment.id %></h2>
   <p>on: <%= link_to_content @comment.commentable %></p>
   <ol>
-    <%= render :partial => 'comments/comment' %>
+    <%= render :partial => 'comments/comment', :object => @comment %>
   </ol>
 </div>
 <% if !@comment.approved? and has_permission? :update, :comment %>

@@ -40,14 +40,14 @@ describe BaseHelper do
       @head = '<form action="path/to/article" method="post">'
       @form = "the form\n</form>"
 
-      helper.stub!(:capture_erb_with_buffer).and_return "#{@head}\n#{@form}"
+      helper.stub!(:capture).and_return "#{@head}\n#{@form}"
       helper.stub! :content_for
       helper.stub! :concat
     end
 
     it 'splits off the form head tag from the generated form' do
       _erbout = ''
-      helper.should_receive(:concat).with('the form', anything())
+      helper.should_receive(:concat).with 'the form'
       helper.split_form_for *@args do 'the form' end
     end
 
@@ -107,6 +107,9 @@ describe BaseHelper do
 
   describe 'author selection' do
     before(:each) do
+      @site = mock 'Site'
+      helper.instance_variable_set(:@site, @site) # wtf
+      
       @user     = mock_model User, :id => 1, :name => 'John Doe'
       @member_1 = mock_model User, :id => 2, :name => 'Donald Duck'
       @member_2 = mock_model User, :id => 3, :name => 'Uncle Scrooge'

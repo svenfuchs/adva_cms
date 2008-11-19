@@ -1,8 +1,8 @@
-module Spec::Extensions::Main
-  def describe_access_for(controller, &block)
-    RspecOnRailsOnCrack::ControllerAccessProxy.new(self, controller).instance_eval(&block)
-  end
-end
+# module Spec::Extensions::Main
+#   def describe_access_for(controller, &block)
+#     RspecOnRailsOnCrack::ControllerAccessProxy.new(self, controller).instance_eval(&block)
+#   end
+# end
 
 module RspecOnRailsOnCrack
   class ControllerAccessProxy

@@ -10,7 +10,6 @@ module ThemeSupport
     module ActMacro
       def acts_as_themed_controller(options = {})
         return if acts_as_themed_controller?
-        helper ThemeAssetTagHelper
         include InstanceMethods
 
         before_filter :add_theme_view_paths
@@ -62,3 +61,15 @@ module ThemeSupport
 end
 
 ActionController::Base.send :include, ThemeSupport::ActionController
+
+class ActionController::Base
+  def self.reset_file_exist_cache!
+    @@file_exist_cache = nil
+  end
+end
+
+class ActionView::Base
+  def self.reset_file_exist_cache!
+    @@file_exist_cache = nil
+  end
+end

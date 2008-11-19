@@ -150,7 +150,7 @@ describe "Comment page_caching" do
     end
 
     it "configures the CommentSweeper to observe Comment create, update and destroy events" do
-      @sweeper.options[:only].should == [:create, :update, :destroy]
+      @sweeper.options[:only].to_a.sort.should == ['create', 'destroy', 'update']
     end
   end
 

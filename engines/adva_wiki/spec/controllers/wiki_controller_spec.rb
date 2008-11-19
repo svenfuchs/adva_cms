@@ -100,7 +100,7 @@ describe WikiController do
         it_renders_template :new
   
         it "it skips page_caching" do
-          controller.expect_render hash_including(:skip_caching => true)
+          controller.should_receive(:render).with hash_including(:skip_caching => true)
           act!
         end
       end
@@ -328,7 +328,7 @@ describe WikiController, 'page_caching' do
   end
 
   it "configures the WikipageSweeper to observe Comment create, update, rollback and destroy events" do
-    @wikipage_sweeper.options[:only].should == [:create, :update, :rollback, :destroy]
+    @wikipage_sweeper.options[:only].to_a.sort.should == ['create', 'destroy', 'rollback', 'update']
   end
 
   it "activates the CategorySweeper as an around filter" do
@@ -336,7 +336,7 @@ describe WikiController, 'page_caching' do
   end
 
   it "configures the CategorySweeper to observe Comment create, update, rollback and destroy events" do
-    @category_sweeper.options[:only].should == [:create, :update, :rollback, :destroy]
+    @category_sweeper.options[:only].to_a.sort.should == ['create', 'destroy', 'rollback', 'update']
   end
 
   it "activates the TagSweeper as an around filter" do
@@ -344,7 +344,7 @@ describe WikiController, 'page_caching' do
   end
 
   it "configures the TagSweeper to observe Comment create, update, rollback and destroy events" do
-    @tag_sweeper.options[:only].should == [:create, :update, :rollback, :destroy]
+    @tag_sweeper.options[:only].to_a.sort.should == ['create', 'destroy', 'rollback', 'update']
   end
 
   it "tracks read access for a bunch of models for the :index action page caching" do

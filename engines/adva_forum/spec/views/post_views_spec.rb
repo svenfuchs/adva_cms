@@ -13,7 +13,7 @@ describe "Post views:" do
 
     Section.stub!(:find).and_return @forum
 
-    template.stub_render hash_including(:partial => 'posts/form')
+    template.stub!(:render).with hash_including(:partial => 'posts/form')
   end
 
   describe "the new view" do
@@ -24,7 +24,7 @@ describe "Post views:" do
     end
 
     # it "renders the topics/form partial" do
-    #   template.expect_render hash_including(:partial => 'form')
+    #   template.should_receive(:render).with hash_including(:partial => 'form')
     #   render "posts/new"
     # end
 
@@ -38,7 +38,7 @@ describe "Post views:" do
   #    end
   #
   #    it "renders the topics/form partial" do
-  #      template.expect_render hash_including(:partial => 'form')
+  #      template.should_receive(:render).with hash_including(:partial => 'form')
   #      render "topics/edit"
   #    end
     it "should be fixed"

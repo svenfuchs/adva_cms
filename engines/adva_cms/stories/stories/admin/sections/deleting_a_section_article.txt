@@ -4,8 +4,8 @@ Story: Deleting a section article
   So that the article is removed from the system
 
   Scenario: An admin deletes a section article
-    Given a section with an article
-    And the user is logged in as admin
+    Given the user is logged in as admin
+    And a section with an article
     When the user visits the admin section articles list page
     Then the page has a list of articles
     When the user clicks on the article link

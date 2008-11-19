@@ -21,9 +21,9 @@ describe "Blog views:" do
     template.stub!(:datetime_with_microformat).and_return 'Once upon a time ...'
     template.stub!(:authorized_tag).and_return('authorized tags')
 
-    template.stub_render hash_including(:partial => 'comments/list')
-    template.stub_render hash_including(:partial => 'comments/form')
-    template.stub_render hash_including(:partial => 'footer')
+    template.stub!(:render).with hash_including(:partial => 'comments/list')
+    template.stub!(:render).with hash_including(:partial => 'comments/form')
+    template.stub!(:render).with hash_including(:partial => 'footer')
   end
 
   describe "index view" do
@@ -32,7 +32,7 @@ describe "Blog views:" do
     end
 
     it "should render the article partial with a collection of articles in list mode" do
-      template.expect_render :partial => 'article', :collection => @articles, :locals => {:mode => :many}
+      template.should_receive(:render).with :partial => 'article', :collection => @articles, :locals => {:mode => :many}
       render "blog/index"
     end
   end
@@ -43,12 +43,12 @@ describe "Blog views:" do
     end
 
     it "should render the article partial with an article in single mode" do
-      template.expect_render hash_including(:partial => 'blog/article', :locals => {:mode => :single})
+      template.should_receive(:render).with hash_including(:partial => 'blog/article', :locals => {:mode => :single})
       render "blog/show"
     end
 
     it "should render the comments/list partial" do
-      template.expect_render hash_including(:partial => 'comments/list')
+      template.should_receive(:render).with hash_including(:partial => 'comments/list')
       render "blog/show"
     end
     
@@ -60,7 +60,7 @@ describe "Blog views:" do
     describe "with an article that accepts comments" do
       it "should render the comments/form partial" do
         @article.should_receive(:accept_comments?).and_return true
-        template.expect_render hash_including(:partial => 'comments/form')
+        template.should_receive(:render).with hash_including(:partial => 'comments/form')
         render "blog/show"
       end
     end

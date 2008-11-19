@@ -15,32 +15,35 @@ class MigrationsTest < Test::Unit::TestCase
     FileUtils.rm_r(@@migration_dir) if File.exist?(@@migration_dir)
   end
   
-  def test_engine_migrations_dont_run_anything_when_migrating_from_0_to_0
-    Engines.plugins[:test_migration].migrate(0)
-    assert tables_do_not_exist?('tests', 'others', 'timestamped', 'other_timestamped')
-  end
-  
   def test_engine_migrations_can_run_down
-    Engines.plugins[:test_migration].migrate(20080428000001)
-    Engines.plugins[:test_migration].migrate(0)
-    assert tables_do_not_exist?('tests', 'others', 'timestamped', 'other_timestamped')
+    assert !table_exists?('tests'), ActiveRecord::Base.connection.tables.inspect
+    assert !table_exists?('others'), ActiveRecord::Base.connection.tables.inspect
+    assert !table_exists?('extras'), ActiveRecord::Base.connection.tables.inspect
   end
     
   def test_engine_migrations_can_run_up
+    Engines.plugins[:test_migration].migrate(3)
+    assert table_exists?('tests')
+    assert table_exists?('others')
+    assert table_exists?('extras')
+  end
+  
+  def test_engine_migrations_can_upgrade_incrementally
+    Engines.plugins[:test_migration].migrate(1)
+    assert table_exists?('tests')
+    assert !table_exists?('others')
+    assert !table_exists?('extras')
+    assert_equal 1, Engines::Plugin::Migrator.current_version(Engines.plugins[:test_migration])
+    
+    
     Engines.plugins[:test_migration].migrate(2)
-    assert tables_exist?('tests', 'others')
-  end
+    assert table_exists?('others')
+    assert_equal 2, Engines::Plugin::Migrator.current_version(Engines.plugins[:test_migration])
     
-  def test_engine_migrations_can_run_up_to_timestamped_migrations
-    Engines.plugins[:test_migration].migrate(20080428000001)
-    assert tables_exist?('tests', 'others', 'timestamped', 'other_timestamped')
-  end
     
-  def test_engine_migrations_can_run_one_step_down_from_to_timestamped_migrations
-    Engines.plugins[:test_migration].migrate(20080428000001)
-    Engines.plugins[:test_migration].migrate(20080428000000)
-    assert tables_exist?('tests', 'others', 'timestamped')
-    assert table_does_not_exist?('other_timestamped')
+    Engines.plugins[:test_migration].migrate(3)
+    assert table_exists?('extras')
+    assert_equal 3, Engines::Plugin::Migrator.current_version(Engines.plugins[:test_migration])
   end
     
   def test_generator_creates_plugin_migration_file
@@ -54,59 +57,7 @@ class MigrationsTest < Test::Unit::TestCase
     ActiveRecord::Base.connection.tables.include?(table)
   end
   
-  def tables_exist?(*tables)
-    reduce_with_logical_and(tables){|table| table_exists?(table) }
-  end
-  
-  def table_does_not_exist?(table)
-    !ActiveRecord::Base.connection.tables.include?(table)
-  end
-  
-  def tables_do_not_exist?(*tables)
-    reduce_with_logical_and(tables){|table| table_does_not_exist?(table) }
-  end
-  
-  def reduce_with_logical_and(values)
-    values.map!{|value| yield value} if block_given?
-    values.inject(true){|a, b| a && b }
-  end
-  
   def migration_file
-    Dir["#{@@migration_dir}/*_test_migration_to_version_*.rb"][0]
+    Dir["#{@@migration_dir}/*test_migration_to_version_3.rb"][0]
   end
-end
-
-class MigrationsFilenameTest < Test::Unit::TestCase
-  
-  def setup
-    ActiveRecord::Migration.verbose = false
-    @generator = PluginMigrationGenerator.new []
-    @generator.instance_variable_set(:@new_versions, {'plugin' => 0})
-    @plugin = stub('plugin', :name => 'plugin')
-  end
-  
-  def test_generator_descriptive_migration_name
-    @generator.instance_variable_set :@plugins_to_migrate, [@plugin]
-    assert_equal @generator.send(:build_migration_name), 'plugin_to_version_0'
-  end
-  
-  def test_generator_uses_descriptive_migration_name_if_possible
-    @generator.instance_variable_set :@plugins_to_migrate, [@plugin] * 9
-    assert returns_descriptive_name?
-  end
-  
-  def test_generator_uses_short_migration_name_if_exceeds_limit
-    @generator.instance_variable_set :@plugins_to_migrate, [@plugin] * 10
-    assert returns_short_name?
-  end
-
-  private
-  
-    def returns_descriptive_name?
-      @generator.send(:build_migration_name) == @generator.send(:descriptive_migration_name)
-    end
-    
-    def returns_short_name?
-      @generator.send(:build_migration_name) == @generator.send(:short_migration_name)      
-    end
 end

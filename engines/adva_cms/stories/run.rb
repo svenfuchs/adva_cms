@@ -1,10 +1,11 @@
+
+
 def files_to_load(paths)
+  paths.reject!{|path| path =~ /^--/ } # ignore options
   paths = ['.'] if paths.empty?
   result = []
   paths.each do |path|
-    if path =~ /^--/ # ignore options
-      next
-    elsif File.directory?(path)
+    if File.directory?(path)
       # puts 'pattern: ' + dir_pattern(path)
       result += Dir[File.expand_path(dir_pattern(path))]
     elsif File.file?(path)

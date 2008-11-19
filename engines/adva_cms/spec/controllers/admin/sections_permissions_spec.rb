@@ -28,7 +28,7 @@ describe Admin::SectionsController, 'Permissions' do
   end
 
   def should_show_insufficient_permissions(method, path)
-    controller.expect_render(:template => 'shared/messages/insufficient_permissions')
+    controller.should_receive(:render).with(:template => 'shared/messages/insufficient_permissions')
     request_to(method, path)
   end
 

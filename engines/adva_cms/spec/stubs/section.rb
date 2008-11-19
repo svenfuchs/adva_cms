@@ -17,7 +17,7 @@ define Section do
            :path => 'section',
            :permalink => 'section',
            :title => 'section title',
-           :render_options => {},
+           :render_options => {:template => nil, :layout => nil},
            :template => 'template',
            :layout => 'layout',
            :content_filter => 'textile-filter',

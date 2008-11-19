@@ -20,7 +20,7 @@ describe Section do
     end
 
     it "serializes its actual permissions" do
-      Section.serialized_attributes.should include('permissions')
+      Section.serialized_attributes.keys.should include('permissions')
     end
 
     it "has an option :articles_per_page" do
@@ -132,6 +132,11 @@ describe Section do
     it ".register_type adds a Section type to the type collection" do
       Section.register_type('Galerie')
       Section.types.should include('Galerie')
+    end
+    
+    it ".register_type should not shift 'Section' from the first place" do
+      Section.register_type('123-section')
+      Section.types.first.should == 'Section'
     end
   end
 

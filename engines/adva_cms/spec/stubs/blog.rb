@@ -18,7 +18,7 @@ define Blog do
            :title => 'blog title',
            :permalink => 'blog',
            :comment_age => 0,
-           :render_options => {},
+           :render_options => {:template => nil, :layout => nil},
            :template => 'template',
            :layout => 'layout',
            :content_filter => 'textile-filter',

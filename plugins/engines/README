@@ -23,7 +23,7 @@ In addition to the regular set of plugin-supported files (lib, init.rb, tasks, g
 Include these files in an <tt>app</tt> directory just like you would in a normal Rails application. If you need to override a method, view or partial, create the corresponding file in your main <tt>app</tt> directory and it will be used instead.
 
 * Controllers & Helpers: See Engines::RailsExtensions::Dependencies for more information.
-* Views: See Engines::RailsExtensions::Templates for more information.
+* Views: now handled almost entirely by ActionView itself (see Engines::Plugin#add_plugin_view_paths for more information)
 
 === Models
 

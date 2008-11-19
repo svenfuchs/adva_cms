@@ -1,0 +1,113 @@
+# Rails asset helpers
+
+Rails' asset helpers' behaviour is not changed. 
+
+(TODO) In safemode they are disabled though because the :cache option allows 
+to create files with arbitrary filenames which might result in clashes in 
+multi-site mode. For the frontend people can provide all relevant assets in 
+their themes though.
+
+# Theme asset helpers
+
+There are three theme asset helpers for including theme assets to views:
+
+  theme_image_tag 'my-theme', 'logo.png'
+  # => /themes/my-theme/images/logo.png
+
+  theme_javascript_include_tag 'my-theme', 'behaviour'
+  # => /themes/my-theme/javascripts/behaviour.js
+
+  theme_stylesheet_link_tag 'my-theme', 'styles'
+  # => /themes/my-theme/stylesheets/styles.css
+
+These files are page_cached. I.e. there's a route that kicks in when the file
+is missing and that calls the #file action on the ThemeController. This action
+looks up the respective file in the theme folder and page_caches it to the 
+respective subdirectories in public/ so they can be delivered by the frontend 
+server for subsequent requests.
+
+In single-site mode these paths map to actual file system paths relative to 
+the rails root:
+
+  public/themes/my-theme/images/logo.png
+  public/themes/my-theme/javascripts/behaviour.js
+  public/themes/my-theme/stylesheets/styles.css
+
+In multi-site mode though we need to protect sites from overwriting each 
+others assets. Thus, in multisite mode the actual filesystem paths for the 
+assets are:
+
+  public/cache/adva-cms.org/themes/my-theme/images/logo.png
+  public/cache/adva-cms.org/themes/my-theme/javascripts/behaviour.js
+  public/cache/adva-cms.org/themes/my-theme/stylesheets/styles.css
+
+This of course requires addition configuration for the frontend server (which 
+can feel difficult and therefor is the main reason for having a single-site 
+mode at all).
+
+Multiple javascript and stylesheet assets can be "cached into one" 
+(according to Rails' terminology). That just means that multiple files are 
+concatenated and saved with a new name. 
+
+With the :all parameter:
+
+  theme_javascript_include_tag 'my-theme', :all, :cache => true
+  # => '/themes/my-theme/javascripts/all.js'
+  
+all.js is saved to the actual paths:
+
+  public/themes/my-theme/javascripts/all.js                    # single-site mode
+  public/cache/adva-cms.org/themes/my-theme/javascripts/all.js # multi-site mode
+
+With explicit filenames:
+
+  theme_javascript_include_tag 'my-theme', 'foo', 'bar', :cache => baz
+  # => '/themes/my-theme/javascripts/baz.js'
+  
+  Actual paths:
+
+  public/themes/my-theme/javascripts/baz.js                    # single-site mode
+  public/cache/adva-cms.org/themes/my-theme/javascripts/baz.js # multi-site mode
+  
+Constraints for the filesystem path layout:
+
+* themes need to be be located under a common folder to keep folders clean and 
+  avoid clashes, thus there's theme/my-theme
+* single-site mode paths need to be appended as they are to whatever layout for
+  multi-site mode is chosen
+* caching theme assets within the same cache folder as page_cached html responses
+  has the advantage that a single directory can be deleted to invalidate the
+  whole cache
+  
+For this to work we can not solely rely on Rails' page_caching because asset
+tag helpers will try to "cache" javascript and stylesheet files before 
+page_caching would have the chance to kick in.
+
+Thus we proactively copy javascript and stylesheet assets to their target
+location when the theme asset tag helpers are called.
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  

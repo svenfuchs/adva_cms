@@ -277,7 +277,7 @@ describe Admin::ArticlesController, "page_cache" do
  end
 
  it "configures the ArticleSweeper to observe Comment create, update, rollback and destroy events" do
-   @filter.options[:only].should == [:create, :update, :destroy]
+   @filter.options[:only].to_a.sort.should == ['create', 'destroy', 'update']
  end
 end
 

@@ -24,7 +24,7 @@ describe "Admin::Comments:" do
     before :each do
       assigns[:comments] = @comments
       assigns[:contents] = []
-      template.stub_render hash_including(:partial => 'comment')
+      template.stub!(:render).with hash_including(:partial => 'comment')
     end
 
     act! { render "admin/comments/index" }
@@ -38,7 +38,7 @@ describe "Admin::Comments:" do
     end
 
     it "should render the comment partial" do
-      template.expect_render(hash_including(:partial => 'comment')).at_least(@comments.size).times
+      template.should_receive(:render).with(hash_including(:partial => 'comment')).at_least(@comments.size).times
       act!
     end
   end

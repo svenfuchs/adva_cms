@@ -47,35 +47,48 @@ module Spec
       #   include(My::Helpers, :type => :key)
       #
       # Declares modules to be included in multiple example groups
-      # (<tt>describe</tt> blocks). With no :type, the modules listed will be
-      # included in all example groups. Use :type to restrict the inclusion to
-      # a subset of example groups. The value assigned to :type should be a
-      # key that maps to a class that is either a subclass of
-      # Spec::Example::ExampleGroup or extends Spec::Example::ExampleGroupMethods
-      # and includes Spec::Example::ExampleMethods
+      # (<tt>describe</tt> blocks). With no <tt>:type</tt>, the modules listed
+      # will be included in all example groups.
       #
-      #   config.include(My::Pony, My::Horse, :type => :farm)
+      # Use <tt>:type</tt> to restrict
+      # the inclusion to a subset of example groups. The value assigned to
+      # <tt>:type</tt> should be a key that maps to a class that is either a
+      # subclass of Spec::Example::ExampleGroup or extends
+      # Spec::Example::ExampleGroupMethods and includes
+      # Spec::Example::ExampleMethods.
+      #
+      # For example, the rspec-rails gem/plugin extends Test::Unit::TestCase
+      # with Spec::Example::ExampleGroupMethods and includes
+      # Spec::Example::ExampleMethods in it. So if you have a module of helper
+      # methods for controller examples, you could do this:
+      #
+      #   config.include(ControllerExampleHelpers, :type => :controller)
       #
       # Only example groups that have that type will get the modules included:
       #
-      #   describe "Downtown", :type => :city do
-      #     # Will *not* get My::Pony and My::Horse included
+      #   describe Account, :type => :model do
+      #     # Will *not* include ControllerExampleHelpers
       #   end
       #
-      #   describe "Old Mac Donald", :type => :farm do
-      #     # *Will* get My::Pony and My::Horse included
+      #   describe AccountsController, :type => :controller do
+      #     # *Will* include ControllerExampleHelpers
       #   end
       #
       def include(*args)
-        args << {} unless Hash === args.last
-        modules, options = args_and_options(*args)
-        required_example_group = get_type_from_options(options)
-        required_example_group = required_example_group.to_sym if required_example_group
-        modules.each do |mod|
-          ExampleGroupFactory.get(required_example_group).send(:include, mod)
-        end
+        include_or_extend(:include, *args)
       end
-
+      
+      # :call-seq:
+      #   extend(Some::Helpers)
+      #   extend(Some::Helpers, More::Helpers)
+      #   extend(My::Helpers, :type => :key)
+      #
+      # Works just like #include, but extends the example groups
+      # with the modules rather than including them.
+      def extend(*args)
+        include_or_extend(:extend, *args)
+      end
+      
       # Defines global predicate matchers. Example:
       #
       #   config.predicate_matchers[:swim] = :can_swim?
@@ -91,11 +104,7 @@ module Spec
       # Prepends a global <tt>before</tt> block to all example groups.
       # See #append_before for filtering semantics.
       def prepend_before(*args, &proc)
-        scope, options = scope_and_options(*args)
-        example_group = ExampleGroupFactory.get(
-          get_type_from_options(options)
-        )
-        example_group.prepend_before(scope, &proc)
+        add_callback(:prepend_before, *args, &proc)
       end
       
       # Appends a global <tt>before</tt> block to all example groups.
@@ -110,40 +119,40 @@ module Spec
       #   config.prepend_before(:type => :farm)
       #
       def append_before(*args, &proc)
-        scope, options = scope_and_options(*args)
-        example_group = ExampleGroupFactory.get(
-          get_type_from_options(options)
-        )
-        example_group.append_before(scope, &proc)
+        add_callback(:append_before, *args, &proc)
       end
       alias_method :before, :append_before
 
       # Prepends a global <tt>after</tt> block to all example groups.
       # See #append_before for filtering semantics.
       def prepend_after(*args, &proc)
-        scope, options = scope_and_options(*args)
-        example_group = ExampleGroupFactory.get(
-          get_type_from_options(options)
-        )
-        example_group.prepend_after(scope, &proc)
+        add_callback(:prepend_after, *args, &proc)
       end
       alias_method :after, :prepend_after
       
       # Appends a global <tt>after</tt> block to all example groups.
       # See #append_before for filtering semantics.
       def append_after(*args, &proc)
-        scope, options = scope_and_options(*args)
-        example_group = ExampleGroupFactory.get(
-          get_type_from_options(options)
-        )
-        example_group.append_after(scope, &proc)
+        add_callback(:append_after, *args, &proc)
       end
 
     private
+    
+      def include_or_extend(*args)
+        action = args.shift
+        args << {} unless Hash === args.last
+        modules, options = Spec::Example.args_and_options(*args)
+        required_example_group = get_type_from_options(options)
+        required_example_group = required_example_group.to_sym if required_example_group
+        modules.each do |mod|
+          ExampleGroupFactory.get(required_example_group).send(action, mod)
+        end
+      end
 
-      def scope_and_options(*args)
-        args, options = args_and_options(*args)
-        scope = (args[0] || :each), options
+      def add_callback(sym, *args, &proc)
+        scope, options = Spec::Example.scope_and_options(*args)
+        example_group = ExampleGroupFactory.get(get_type_from_options(options))
+        example_group.__send__(sym, scope, &proc)
       end
 
       def get_type_from_options(options)

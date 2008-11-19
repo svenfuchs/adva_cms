@@ -23,7 +23,7 @@ describe "Admin::Boards:" do
     template.stub!(:remote_function)
     template.stub!(:form_for)
 
-    template.stub_render hash_including(:partial => 'board')
+    template.stub!(:render).with hash_including(:partial => 'board')
   end
 
   describe "the :index view" do
@@ -37,7 +37,7 @@ describe "Admin::Boards:" do
     end
 
     it "should render the board partial with the boards collection" do
-      template.stub_render hash_including(:partial => 'board', :collection => @boards)
+      template.stub!(:render).with hash_including(:partial => 'board', :collection => @boards)
       render "admin/boards/index"
     end
 

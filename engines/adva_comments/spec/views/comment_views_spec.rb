@@ -17,8 +17,8 @@ describe "Comment views:" do
     template.stub!(:link_to_content).and_return 'link_to_content'
     template.stub!(:datetime_with_microformat).and_return 'Once upon a time ...'
 
-    template.stub_render hash_including(:partial => 'comments/comment')
-    template.stub_render hash_including(:partial => 'comments/form')
+    template.stub!(:render).with hash_including(:partial => 'comments/comment')
+    template.stub!(:render).with hash_including(:partial => 'comments/form')
   end
 
   describe "show view" do
@@ -28,7 +28,7 @@ describe "Comment views:" do
     act! { render "comments/show" }
 
     it 'renders the comment partial' do
-      template.expect_render hash_including(:partial => 'comments/comment')
+      template.should_receive(:render).with hash_including(:partial => 'comments/comment')
       act!
     end
 
@@ -39,19 +39,19 @@ describe "Comment views:" do
 
     it 'renders the comment form partial when the comment is not approved and the user has the permission to update the comment' do
       template.stub!(:has_permission?).with(:update, :comment).and_return true
-      template.expect_render hash_including(:partial => 'comments/form')
+      template.should_receive(:render).with hash_including(:partial => 'comments/form')
       act!
     end
 
     it 'does not render the comment form partial when the user has no permission to update the comment' do
       template.stub!(:has_permission?).with(:update, :comment).and_return false
-      template.expect_render(hash_including(:partial => 'comments/form')).never
+      template.should_receive(:render).with(hash_including(:partial => 'comments/form')).never
       act!
     end
 
     it 'does not render the comment form partial when comment is already approved' do
       @comment.stub!(:approved?).and_return true
-      template.expect_render(hash_including(:partial => 'comments/form')).never
+      template.should_receive(:render).with(hash_including(:partial => 'comments/form')).never
       act!
     end
   end

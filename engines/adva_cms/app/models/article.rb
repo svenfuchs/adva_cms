@@ -1,9 +1,11 @@
 class Article < Content
+=begin
   class Jail < Safemode::Jail
     allow :title, :full_permalink, :excerpt_html, :body_html, :published_at,
           :section, :categories, :tags, :approved_comments, :accept_comments?,
           :comments_count, :has_excerpt?
   end
+=end
 
   filters_attributes :except => [:excerpt, :excerpt_html, :body, :body_html, :cached_tag_list]
   write_inheritable_attribute :default_find_options, { :order => 'contents.published_at desc' }

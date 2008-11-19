@@ -15,8 +15,8 @@ describe "User views:" do
     template.stub!(:link_to_content_comments).and_return 'link_to_content_comments'
     template.stub!(:comment_path).and_return 'path/to/comment'
 
-    template.stub_render hash_including(:partial => 'comments/list')
-    template.stub_render hash_including(:partial => 'comments/form')
+    template.stub!(:render).with hash_including(:partial => 'comments/list')
+    template.stub!(:render).with hash_including(:partial => 'comments/form')
   end
 
   describe "new view" do
