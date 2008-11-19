@@ -13,6 +13,19 @@ form h4 {
 	margin-top: 20px;
 	padding: 0px 20px 1px 20px;
 }
+
+/* Clemens (2008/11/19) >> */
+fieldset.clearfix div.col {
+  width: 45%;
+  padding: 5px 0;
+  float: left;
+}
+
+fieldset.clearfix div.col + div.col {
+  padding-left: 2%;
+}
+/* << */
+
 label {
 	display: block;
 	color: #444;
@@ -108,9 +121,10 @@ p.buttons {
 .site_spam_settings.active {
 	display: block;
 }*/
+/* Removed for now. Clemens (2008/11/19)
 #site_spam_settings_fields div {
 	padding-left: 25px;
-}
+} */
 
 
 /* errors */

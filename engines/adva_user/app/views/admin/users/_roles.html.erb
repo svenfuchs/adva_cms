@@ -1,17 +1,16 @@
-<h2>Roles</h2>
+<h4>Roles</h4>
 
 <fieldset class="clearfix">
-
   <fieldset class="col">
-  <% if false && current_user.has_role?(:superuser) %>
+  <% if current_user.has_role?(:superuser) %>
 
-    <%= check_box_tag "user[roles][0][selected]", 1, @user.has_role?(:superuser, :inherit => false), :id => "user_roles_superuser" %>
-    <%= hidden_field_tag "user[roles][0][selected]", 0 %>
-    <%= hidden_field_tag "user[roles][0][type]", 'Rbac::Role::Superuser' %>
-    <%= f.label "roles_superuser", "Superuser", :class => 'light' %>
-
-  <% end %>
-  <% if false && @site %>
+      <%= check_box_tag "user[roles][0][selected]", 1, @user.has_role?(:superuser, :inherit => false), :id => "user_roles_superuser" %>
+      <%= hidden_field_tag "user[roles][0][selected]", 0 %>
+      <%= hidden_field_tag "user[roles][0][type]", 'Rbac::Role::Superuser' %>
+      <%= f.label "roles_superuser", "Superuser", :class => 'light' %>
+  
+	<% end %>
+  <% if @site %>
 
       <%= check_box_tag "user[roles][1][selected]", 1, @user.has_role?(:admin, :context => @site, :inherit => false), :id => "user_roles_admin_site_#{@site.id}" %>
       <%= hidden_field_tag "user[roles][1][selected]", 0 %>
@@ -19,7 +18,7 @@
       <%= hidden_field_tag "user[roles][1][context_id]", @site.id %>
       <%= hidden_field_tag "user[roles][1][context_type]", @site.class.name %>
       <%= f.label "user_roles_admin_site_#{@site.id}", "Admin for: #{@site.name}", :class => 'light' %>
-
+  
   <% end %>
-</fieldset>
+  </fieldset>
 </fieldset>

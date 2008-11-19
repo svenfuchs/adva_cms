@@ -62,9 +62,6 @@
 #asset_form #taglist-label {
 	width: 22%;
 }
-#asset_form #taglist-label {
-	left: 560px;
-}
 #asset_form #files {
 	clear: both;
 	padding-bottom: 4px !important;

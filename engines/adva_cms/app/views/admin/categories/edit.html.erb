@@ -2,19 +2,15 @@
 
 <% form_for :category, @category, :url => admin_category_path, :html => {:method => :put} do |f| %>
   <fieldset class="clearfix">
-
-    <fieldset class="col">
+    <div class="col">
       <%= f.label :title %>
       <%= f.text_field :title %>
-      </fieldset>
-
-      <fieldset class="col"> 
+      </div>
+      <div class="col"> 
       <%= f.label :permalink %>
       <%= f.text_field :permalink %>
-    </fieldset>
-
-</fieldset>
-
+    </div>
+  </fieldset>
   <p class="buttons">
   	<%= submit_tag 'Save' %>	
   	<%= link_to 'Delete', admin_category_path, { :confirm => "Are you sure you wish to delete this category?", :method => :delete } %>

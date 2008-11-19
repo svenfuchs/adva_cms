@@ -2,11 +2,9 @@
 
 <% form_for :section, @section, :url => admin_sections_path do |f| %>
   <fieldset class="clearfix">
-    <fieldset class="col">
+    <div class="col">
       <%= f.label :title %>
       <%= f.text_field :title %>
-    </fieldset>  
-    <fieldset class="col">
       <%= f.label :type %>
       <% Section.types.each do |type| %>
         <%= f.radio_button :type, type %>
@@ -14,7 +12,11 @@
           <%= type %>
         </label>
       <% end %>
-    </fieldset>
+    </div>
+    <div class="col">
+      <%= f.label :title %>
+      <%= f.text_field :title %>
+    </div>
   </fieldset>  
   <p class="buttons">
     <%= submit_tag 'Save' %>
