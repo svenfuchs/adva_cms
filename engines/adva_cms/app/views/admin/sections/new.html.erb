@@ -3,10 +3,12 @@
 <% form_for :section, @section, :url => admin_sections_path do |f| %>
   <fieldset class="clearfix">
     <div class="col">
+      <%= f.label :title %>
+      <%= f.text_field :title %>
       <%= f.label :type %>
       <% Section.types.each do |type| %>
         <%= f.radio_button :type, type %>
-        <label for="section_type_<%= type.downcase %>" class="light" style="padding-right: 5px; padding-top: 5px;">
+        <label for="section_type_<%= type.downcase %>" class="light" style="padding-right: 5px; line-height: 22px;">
           <%= type %>
         </label>
       <% end %>
