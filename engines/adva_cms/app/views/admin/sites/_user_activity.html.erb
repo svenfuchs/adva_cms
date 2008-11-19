@@ -1,8 +1,8 @@
 <% unless users.blank? %>
-  <h4>Recent activity</h4>
-  <ul>
+  <h3>Recent activity</h3>
+  <ul id="recent_users">
     <% users.each do |user| %>
-      <li class="clearing" style="margin-bottom: 12px;">
+      <li class="<%= cycle '', 'highlight', :name => 'recent_users' %> clearfix">
         <%= gravatar_img user %><%= link_to who(user), :controller => 'users', :action => 'show', :id => user %><br /> 
         showed up <%= distance_of_time_in_words_to_now(user.updated_at) %> ago
       </li>

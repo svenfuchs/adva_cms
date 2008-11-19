@@ -6,22 +6,30 @@
 #categories, #categories ul,
 #sections, #sections ul { 
 	padding-left: 20px; 
-	line-height: 25px;
+	/*line-height: 28px;*/
+}
+.blog {
+	padding: 0px 15px;
+	margin-top: 1px;
+	margin-right: 20px;
+	line-height: 1.5em;
+	background-color: #eee;
 }
 #categories, #sections {
 	padding-left: 0px;
 }
 .sortable {
-	padding-top: 3px;
+
 	cursor: move;
 }
 .sortable li {
-	margin-top: -6px;
-	line-height: 31px;
+	margin-top: 1px;
+	margin-right: 20px;
+	background-color: #eee;
 }
 .sortable li span {
-/*	padding-left: 20px;
-	background: url(/images/adva_cms/icons/arrow_cross.png) no-repeat 0px 1px;*/
+padding-left: 20px;
+	background: url(/images/adva_cms/icons/arrow_cross_3.png) no-repeat 0px 0px;
 }
 td.sortable {
 	padding-top: 0px;

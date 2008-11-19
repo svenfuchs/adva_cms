@@ -1,7 +1,7 @@
 <% unless categories.empty? %>
   <ul class="categories">
     <% categories.each do |category| %>
-      <li>
+      <li class="<%= cycle '', 'highlight', :name => 'content_categories' %>">
         <%= check_box_tag "#{content.class.name.underscore}[category_ids][]", category.id, content.categories.include?(category), :id => "#{content.class.name.underscore}_category_#{category.id}" %>
         <label for="#{content.class.name.underscore}_category_<%= category.id %>" class="inline"><%= category.title %></label>
         <%= render :partial => 'categories/checkboxes', :locals => {:categories => category.children, :content => content} %>

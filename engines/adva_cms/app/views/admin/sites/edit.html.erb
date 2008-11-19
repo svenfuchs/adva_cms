@@ -1,4 +1,6 @@
-<h3>Site Settings</h3>
+<%= render :partial => 'action_nav' %>
+
+
 
 <% form_for :site, @site, :url => admin_site_path, :html => { :method => :put } do |f| -%>
   <%= render :partial => 'form', :locals => {:f => f, :site => @site} %>

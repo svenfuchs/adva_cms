@@ -31,14 +31,15 @@ module Rbac
       # instantiates_with_sti
       set_table_name 'roles'
 
+      belongs_to :user
       belongs_to :context, :polymorphic => true
 
       class_inheritable_accessor :parent, :require_context, :grant, :message
       self.require_context = false
-
+      
       class << self
         attr_writer :children
-
+      
         def self_and_parents
           @self_and_parents ||= [self] + all_parents
         end
@@ -46,24 +47,24 @@ module Rbac
         def all_parents
           [parent] + (parent != Base ? Array(parent.try(:all_parents)) : [])
         end
-
+      
         def with_children
           [self] + all_children
         end
-
+      
         def children
           @children ||= []
         end
-
+      
         def all_children
           children + children.map(&:all_children).flatten
         end
-
+      
         def role_name
           @role_name ||= name.demodulize.downcase.to_sym
         end
       end
-
+      
       def initialize(attrs = {})
         super()
         if self.class.require_context
@@ -73,7 +74,7 @@ module Rbac
           raise "role #{self.class.name} needs a context" if require_context and !context
         end
       end
-
+      
       def name
         self.class.role_name
       end
@@ -81,25 +82,25 @@ module Rbac
       def child_of?(klass)
         self.class.self_and_parents.include?(klass)
       end
-
+      
       def include?(role)
         child_of?(role.class) && (!has_context? or !role.has_context? or context.role_context.include?(role.context.role_context))
       end
-
+      
       def ==(role)
         instance_of?(role.class) && (!has_context? or !role.has_context? or context == role.context)
       end
-
+      
       def has_context?
         !!context
       end
-
+      
       def expand(context)
         self.class.with_children.map do |klass|
           klass.new :context => context
         end.compact
       end
-
+      
       def granted_to?(user, options = {})
         !!case grant
         when true, false
@@ -110,7 +111,7 @@ module Rbac
           grant.call context, user
         end || explicitely_granted_to?(user, options)
       end
-
+      
       protected
         def adjust_context(context)
           context = context.role_context unless context.is_a? Rbac::Context::Base
@@ -119,7 +120,7 @@ module Rbac
             return context.subject if !bubble or require_context == context.class
           end while context = context.parent
         end
-
+      
         def explicitely_granted_to?(user, options = {})
           return false unless user.respond_to? :roles
           options[:inherit] = true unless options.has_key?(:inherit)

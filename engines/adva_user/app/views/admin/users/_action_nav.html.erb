@@ -1,8 +1,8 @@
 <% content_for :action_nav do %>
-  <ul id="action_nav" class="menu clearing">
-    <li><%= link_to "Create user", new_member_path %></li>
+  <ul class="sub-nav clearfix">
+    <li><%= link_to content_tag(:span, 'Create user'), new_member_path %></li>
     <% if @user and !@user.new_record? %>
-      <li><%= link_to "Edit user", edit_member_path %></li>
+      <li><%= link_to content_tag(:span, 'Edit user'), edit_member_path %></li>
     <% end %>
   </ul>
 <% end %>

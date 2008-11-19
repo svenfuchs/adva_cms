@@ -1,13 +1,14 @@
 .users {
   list-style: none;
+  border-top:1px solid #E5E5E5;
   margin-top: 20px;
+  padding-right: 10px;
 }
 .users li {
 	float: left;
 	width: 100%;
-  background: #eee;
-  margin: 0 0 10px 0;
-  padding: 5px;
+  	padding: 5px;
+	border-bottom:1px solid #E5E5E5;
 }
 .users h3 {
 	margin: 0px;

@@ -1,13 +1,12 @@
-<h2>
-  Overview: <%= @site.title %>
+<!-- <h2>
+  Overview: <%#= @site.title %>
 </h2>
+<p><%#= link_to "Add a section", new_admin_section_path(@site) %></p>
+<%#= render :partial => 'sections', :locals => { :sections => @site.sections.roots } %> -->
 
-<p><%= link_to "Add a section", new_admin_section_path(@site) %></p>
-<%= render :partial => 'sections', :locals => { :sections => @site.sections.roots } %>
 
-
-<h2>
-  Activity
+<h2 id="history_headline">
+  History: <%= @site.title %>
 </h2>
 <%= render :partial => 'admin/activities/activities', :object => @activities %>
 

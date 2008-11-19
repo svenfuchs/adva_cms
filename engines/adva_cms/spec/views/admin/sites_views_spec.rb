@@ -61,6 +61,12 @@ describe "Admin::Sites Views:" do
       template.should_receive(:render).with hash_including(:partial => 'sections')
       render "admin/sites/show"
     end
+    
+    # TODO not true right now
+    # it "renders sections partial" do
+    #   template.expect_render hash_including(:partial => 'sections')
+    #   render "admin/sites/show"
+    # end
 
     it "renders activities list partial" do
       template.should_receive(:render).with hash_including(:partial => 'admin/activities/activities')

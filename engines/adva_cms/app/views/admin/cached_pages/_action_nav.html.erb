@@ -1,5 +1,8 @@
 <% content_for :action_nav do %>
-  <ul id="action_nav" class="menu clearing">
-    <li><%= link_to "Clear all", admin_cached_pages_path, :method => :delete %></li>
+  <ul class="sub-nav clearfix">
+    <li><%= link_to content_tag(:span, 'Site'), edit_admin_site_path(@site) %></li>
+    <li><%= link_to content_tag(:span, 'Themes'), admin_themes_path(@site) %></li>
+    <li><%= link_to content_tag(:span, 'Cache'), admin_cached_pages_path(@site) %></li>
+    <li class="right"><%= link_to content_tag(:span, 'Clear all'), admin_cached_pages_path, :method => :delete %></li>
   </ul>
 <% end %>

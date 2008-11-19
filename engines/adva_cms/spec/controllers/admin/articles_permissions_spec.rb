@@ -13,6 +13,7 @@ describe Admin::ArticlesController, 'Permissions' do
     Site.stub!(:find).and_return @site
     @site.sections.stub!(:find).and_return @blog
     @blog.articles.stub!(:find).and_return @article
+    @blog.articles.stub!(:paginate).and_return [@article]
 
     controller.stub!(:current_user).and_return @user
     @admin_role.context = @site
@@ -35,12 +36,17 @@ describe Admin::ArticlesController, 'Permissions' do
     request_to(method, path).should redirect_to(login_url(:return_to => request.url))
   end
 
-  { '/admin/sites/1/sections/1/articles/1/edit' => :get }.each do |path, method|
+  { '/admin/sites/1/sections/1/articles' => :get,
+    '/admin/sites/1/sections/1/articles/1/edit' => :get 
+    }.each do |path, method|
 
     describe "#{method.to_s.upcase} to #{path}" do
       describe "with :article/:update permissions set to :superuser" do
         before :each do
-          permissions = {:'create article' => :superuser, :'update article' => :superuser, :'destroy article' => :superuser}
+          permissions = {:'show article'    => :superuser, 
+                         :'create article'  => :superuser, 
+                         :'update article'  => :superuser, 
+                         :'destroy article' => :superuser}
           @blog.stub!(:permissions).and_return permissions
         end
 
@@ -60,12 +66,12 @@ describe Admin::ArticlesController, 'Permissions' do
           permissions = {:'create article' => :admin, :'update article' => :admin, :'destroy article' => :admin}
           @blog.stub!(:permissions).and_return permissions
         end
-
+      
         it "grants access to an admin" do
           @user.stub!(:roles).and_return [@admin_role]
           should_grant_access(method, path)
         end
-
+      
         it "denies access to a non-admin" do
           @user.stub!(:roles).and_return []
           should_deny_access(method, path)

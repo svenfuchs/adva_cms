@@ -17,7 +17,7 @@ class Admin::ArticlesController < Admin::BaseController
   cache_sweeper :article_sweeper, :category_sweeper, :tag_sweeper,
                 :only => [:create, :update, :destroy]
 
-  guards_permissions :article, :except => [:show, :index], :update => :update_all
+  guards_permissions :article, :update => :update_all
 
   # TODO remove this dependency from here and put it into the plugin
   cache_sweeper :article_ping_observer, :only => [:create, :update]

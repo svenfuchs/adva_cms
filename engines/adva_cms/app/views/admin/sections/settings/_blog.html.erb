@@ -1,12 +1,12 @@
-<h4>Blog specific settings</h4>
-<fieldset>
-  <p>
+<h2>Blog specific settings</h2>
+<fieldset class="clearfix">
+  <div class="col">
     <%= f.label :articles_per_page %>
     <%= f.text_field :articles_per_page, :class => 'short' %>
-  </p>
-  <p>  
+  </div>
+  <div class="col">  
     <%= f.label :content_filter, 'Content filter' %>
     <span class="hint">When articles are posted, they use this as the default setting.</span>
     <%= f.select :content_filter, filter_options %>
-  </p>
+  </div>
 </fieldset>

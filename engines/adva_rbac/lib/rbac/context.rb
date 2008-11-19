@@ -72,10 +72,25 @@ module Rbac
         end while context = context.parent
         false
       end
+        
+      def self_and_parents
+        @self_and_parents ||= [self] + all_parents
+      end
+        
+      def all_parents
+        return [] if parent == Rbac::Context.root
+        [parent] + Array(parent.try(:all_parents))
+      end
+      
+      def find_parent(type, options = {:include_self => true})
+        type = "Rbac::Context::#{type.to_s.classify}"
+        parents = options[:include_self] ? self_and_parents : all_parents
+        parents.detect{|parent| parent.class.name == type }
+      end
     
       def parent
-        if parent_accessor
-          subject.send(parent_accessor).role_context
+        if parent_accessor and parent = subject.send(parent_accessor)
+          parent.role_context
         elsif self != Rbac::Context.root
           Rbac::Context.root
         end

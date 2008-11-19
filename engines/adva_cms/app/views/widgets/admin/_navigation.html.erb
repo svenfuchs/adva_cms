@@ -1,0 +1,15 @@
+<div id="navigation" class="clearfix">
+  <ul>
+    <% if @site and !@site.new_record? %>
+      <li class="overview"><%= link_to 'Overview', admin_site_path(@site) %></li>
+      <li class="sections"><%= link_to 'Sections', new_admin_section_path(@site) %></li>
+      <li class="assets"><%= link_to 'Assets', admin_assets_path(@site) %></li>
+      <li class="siteuser"><%= link_to 'Site users', admin_site_users_path(@site) %></li>
+      <li class="settings"><%= link_to 'Settings', edit_admin_site_path(@site) %></li>
+    <% end %>
+  </ul>
+  <ul class="right">
+  	<li class="profile"><%= link_to 'Profile', admin_user_path(current_user) %></li>
+  </ul>
+</div>
+

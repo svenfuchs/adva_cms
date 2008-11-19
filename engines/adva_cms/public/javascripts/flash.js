@@ -15,7 +15,7 @@ var Flash = {
 
 		if(Flash.applyEffects) {
     	new Effect.Appear('flash-' + flashType, {duration: 0});
-    	setTimeout(Flash['fade' + flashType[0].toUpperCase() + flashType.slice(1, flashType.length)].bind(this), 5000)
+    	//ssetTimeout(Flash['fade' + flashType[0].toUpperCase() + flashType.slice(1, flashType.length)].bind(this), 5000)
 		} else {
 			$('flash-' + flashType).show();
 		}

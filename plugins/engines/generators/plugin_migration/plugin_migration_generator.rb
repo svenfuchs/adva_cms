@@ -2,6 +2,11 @@
 # within the database.
 class PluginMigrationGenerator < Rails::Generator::Base
   
+  # 255 characters max for Windows NTFS (http://en.wikipedia.org/wiki/Filename)
+  # minus 14 for timestamp, minus some extra chars for dot, underscore, file 
+  # extension. So let's have 230.
+  MAX_FILENAME_LENGTH = 230
+    
   def initialize(runtime_args, runtime_options={})
     super
     @options = {:assigns => {}}
@@ -67,12 +72,27 @@ class PluginMigrationGenerator < Rails::Generator::Base
       @options[:assigns][:current_versions] = @current_versions
     end
 
+    # Returns a migration name. If the descriptive migration name based on the 
+    # plugin names involved is shorter than 230 characters that one will be
+    # used. Otherwise a shorter name will be returned.
+    def build_migration_name
+      returning descriptive_migration_name do |name|        
+        name.replace short_migration_name if name.length > MAX_FILENAME_LENGTH
+      end
+    end
+
     # Construct a unique migration name based on the plugins involved and the
     # versions they should reach after this migration is run. The name constructed
     # needs to be lowercase
-    def build_migration_name
+    def descriptive_migration_name
       @plugins_to_migrate.map do |plugin| 
         "#{plugin.name}_to_version_#{@new_versions[plugin.name]}" 
       end.join("_and_").downcase
-    end  
+    end
+
+    # Short migration name that will be used if the descriptive_migration_name
+    # exceeds 230 characters
+    def short_migration_name
+      'plugin_migrations'
+    end
 end

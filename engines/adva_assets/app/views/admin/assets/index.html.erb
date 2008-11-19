@@ -9,7 +9,10 @@
 </div>
 
 <% content_for :sidebar do %>
-  <h4>Your bucket <%= link_to_remote '(clear)', :url => admin_assets_bucket_path, :method => :delete, :html => { :class => 'hint' } %></h4>
+  <h3>
+    Your bucket 
+    <%= link_to_remote 'clear', :url => admin_assets_bucket_path, :method => :delete %>
+  </h3>
   <p>Add files to your bucket temporarily in order to carry them with you when creating or revising articles.</p>
   <ul id="bucket-assets" class="clearing asset-list">
     <%= render :partial => "admin/assets/widget/asset", :collection => bucket_assets, :locals => { :content => nil, :prefix => 'bucket' } %>

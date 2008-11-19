@@ -1,0 +1,5 @@
+<ul class="sub-nav clearfix">
+  <li><%= link_to content_tag(:span, 'Site'), edit_admin_site_path(@site) %></li>
+  <li><%= link_to content_tag(:span, 'Themes'), admin_themes_path(@site) %></li>
+  <li><%= link_to content_tag(:span, 'Cache'), admin_cached_pages_path(@site) %></li>
+</ul>

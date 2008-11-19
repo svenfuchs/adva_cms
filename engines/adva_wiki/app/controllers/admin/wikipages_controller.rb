@@ -8,11 +8,10 @@ class Admin::WikipagesController < Admin::BaseController
   
   before_filter :params_author, :only => [:create, :update]
 
-  
-  widget :menu_section,  :partial => 'widgets/admin/menu_section',
-                         :only  => { :controller => ['admin/wikipages'] }
+  widget :sub_nav, :partial => 'widgets/admin/sub_nav',
+                   :only  => { :controller => ['admin/wikipages'] }
 
-  guards_permissions :wikipage, :except => [:show, :index]
+  guards_permissions :wikipage
 
   def index
     @wikipages = @section.wikipages.paginate :page => current_page, :per_page => params[:per_page]

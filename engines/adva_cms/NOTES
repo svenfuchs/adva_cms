@@ -1,0 +1,28 @@
+- fix taborder (e.g. user profile)
+- categories list layout
+- background shadow bug
+- site settings: spam form layout
+
+
+- profile area ?
+- addings sections ?
+- after adding/editing article should it link to article overview ?
+
+
+- themes list
+- site user details layout and sidebar
+- sections settings not perfect
+
+
+
+# recent activity (site/show): displays all site-users and superusers
+
+# navigation + subnav
+  make buttons highlight active state
+  
+# generate breadcrumbs
+
+# fix /admin/users/1
+
+
+

@@ -5,12 +5,27 @@ form h4 {
 	color: #444;
 	margin-bottom: 10px;
 }
-fieldset {
+#main-content fieldset.clearfix {
+	clear: both;
 	background-color: #f6f6f6;
 	border-width: 0px;
 	border-top: 5px solid #e6e6e6;
+	margin-top: 20px;
 	padding: 0px 20px 1px 20px;
 }
+
+/* Clemens (2008/11/19) >> */
+fieldset.clearfix div.col {
+  width: 45%;
+  padding: 5px 0;
+  float: left;
+}
+
+fieldset.clearfix div.col + div.col {
+  padding-left: 2%;
+}
+/* << */
+
 label {
 	display: block;
 	color: #444;
@@ -21,6 +36,7 @@ label {
 }
 label.light {
 	display: inline;
+	margin-right: 5px;
 	color: #333;
 	font-size: 13px;
 	font-weight: normal;
@@ -40,20 +56,20 @@ label.block {
 input[type="text"],
 input[type="password"],
 textarea {
-	width: 300px;
+	width:95%;
 	border: 1px solid #ccc;
 	padding: 4px;
 	font-size: 13px;
 }
 textarea {
-	width: 100%;
+	width: 98%;
 }
 textarea.short {
-	width: 100%;
-	height: 100px;
+	width: 98%;
+	height: 80px;
 }
 input.big {
-	width: 100%;
+	width: 98%;
 	font-size: 20px;
 }
 input.short {
@@ -83,8 +99,16 @@ p.buttons {
 #sidebar h4 {
 	clear: both;
 }
+#sidebar fieldset {
+	padding: 0 10px;
+	background-color: #ebebeb;
+}
 #sidebar label {
 	font-size: 11px;
+	padding: 5px 0 0 0;
+}
+#sidebar label.inline {
+	font-weight: normal;
 }
 #sidebar input[type="text"] {
 	font-size: 13px;
@@ -97,9 +121,10 @@ p.buttons {
 .site_spam_settings.active {
 	display: block;
 }*/
+/* Removed for now. Clemens (2008/11/19)
 #site_spam_settings_fields div {
 	padding-left: 25px;
-}
+} */
 
 
 /* errors */

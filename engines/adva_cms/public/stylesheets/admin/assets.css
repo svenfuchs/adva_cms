@@ -2,6 +2,7 @@
 
 #assets-list {
 	width: 800px;
+	margin-top: 20px;
 }
 .assets-row {
 	float: left;
@@ -47,26 +48,51 @@
 .asset-tools li.delete a { background-image: url(/images/adva_cms/icons/delete.png) }
 .asset-tools li.bucket a { background-image: url(/images/adva_cms/icons/attach.png) }
 
+#asset_form label {
+	float: left;
+	margin: 20px 16px 0 0;
+	font-weight: normal;
+	font-size: 11px;
+}
 #asset_form #file-label {
-	margin-left: 22px;
+	width: 270px;
+	margin-right: 0px;
 }
 #asset_form #title-label,
 #asset_form #taglist-label {
-	position: absolute;
-	left: 345px;
+	width: 22%;
 }
-#asset_form #taglist-label {
-	left: 560px;
+#asset_form #files {
+	clear: both;
+	padding-bottom: 4px !important;
+}
+#asset_form #files p {
+	clear: both;
+	padding: 4px;
+}
+#asset_form #files p a {
+	font-size: 11px;
+}
+#asset_form .file_field {
+	float: left;
+	width: 270px;
 }
 #asset_form .title_field,
 #asset_form .taglist_field {
-	width: 200px;
+	width: 22%;
+	float: left;
+	margin-right: 8px;
 }
 
 /* assets widget */
 
+#assets-widget .tabs {
+	margin: 0 0 2px 0 !important;
+}
 #assets-widget .tabs li {
   display: inline;
+	padding: 0px;
+	background: none;
 }
 #assets-widget .tabs li a {
   padding: 5px 5px 3px 20px;
@@ -109,6 +135,7 @@
 	float: left;
 	width: 90%;
 	margin-top: 0px;
+	margin-bottom: 25px;
   padding: 3px 8px 8px 8px;
 	border: 1px solid #ccc;
   background: #fff;

@@ -7,14 +7,14 @@
 	position: absolute;
 	clear: both;
   width: 68%;
-  border-right: 3px solid #e6e6e6;
-  border-bottom: 3px solid #e6e6e6;
+  border-right: 3px solid #bdbdbd;
+  border-bottom: 3px solid #bdbdbd;
 	background-color: #fff;
 	padding-bottom: 40px;
 }
 #flashes {
 	margin-top: -16px;
-	height: 40px;
+	height: 25px;
 	background-color: white;
   text-align: center;
   font-weight: bold;

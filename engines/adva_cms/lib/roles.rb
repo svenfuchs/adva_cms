@@ -32,6 +32,7 @@ Rbac.define do
               :'destroy site'       => :superuser,
               :'manage site'        => :admin,
 
+              :'show section'       => :moderator,
               :'create section'     => :admin,
               :'update section'     => :admin,
               :'destroy section'    => :admin,
@@ -44,6 +45,7 @@ Rbac.define do
 
               :'manage cached_page' => :admin,
 
+              :'show user'          => :admin,
               :'create user'        => :admin,
               :'update user'        => :admin,
               :'destroy user'       => :admin,
@@ -51,16 +53,19 @@ Rbac.define do
 
               :'manage roles'       => :admin,
 
+              :'show category'      => :moderator,
               :'create category'    => :moderator,
               :'update category'    => :moderator,
               :'destroy category'   => :moderator,
               :'manage category'    => :moderator,
 
+              :'show article'       => :moderator,
               :'create article'     => :moderator,
               :'update article'     => :moderator,
               :'destroy article'    => :moderator,
               :'manage article'     => :moderator,
 
+              :'show wikipage'      => :moderator, # i.e. show in the backend
               :'create wikipage'    => :user,
               :'update wikipage'    => :user,
               :'destroy wikipage'   => :moderator,
@@ -71,6 +76,7 @@ Rbac.define do
               :'destroy topic'      => :moderator,
               :'moderate topic'     => :moderator,
 
+              :'show comment'       => :moderator,
               :'create comment'     => :user,
               :'update comment'     => :author,
               :'destroy comment'    => :moderator,

@@ -43,13 +43,16 @@ namespace :db do
       end
     end
 
-    desc 'For engines coming from Rails version < 2.0, you need to upgrade the schema info table'
+    desc 'For engines coming from Rails version < 2.0 or for those previously updated to work with Sven Fuch\'s fork of engines, you need to upgrade the schema info table'
     task :upgrade_plugin_migrations => :environment do
-      # This task will upgrade Rails < 2.0, and also databases previously updated with
-      # db:migrate:fix_engines_migrations
+      svens_fork_table_name = 'plugin_schema_migrations'
       
-      # Old table name
-      old_sm_table = ActiveRecord::Migrator.proper_table_name(Engines.schema_info_table)
+      # Check if app was previously using Sven's fork
+      if ActiveRecord::Base.connection.table_exists?(svens_fork_table_name)
+        old_sm_table = svens_fork_table_name
+      else
+        old_sm_table = ActiveRecord::Migrator.proper_table_name(Engines.schema_info_table)
+      end
       
       unless ActiveRecord::Base.connection.table_exists?(old_sm_table)
         abort "Cannot find old migration table - assuming nothing needs to be done"

@@ -15,8 +15,13 @@ require 'rails_ext/action_controller/event_helper'
 
 require 'routing'
 require 'roles'
-require 'event' # need to force event to be loaded now, so it won't be reloaded between requests
 
+require 'event'    # need to force these to be loaded now, so Rails won't 
+require 'registry' # reload them between requests
+
+# uncomment this to have Engines copy assets to the public directory on 
+# every request (default: copies on server startup)
+# Engines.replicate_assets = :request
 I18n.load_path += Dir[File.dirname(__FILE__) + '/lib/locale/en/*']
 
 # turn this on to get detailed cache sweeper logging in production mode
@@ -42,37 +47,4 @@ ActionController::Dispatcher.to_prepare do
       end
     end
   end 
-end
-
-Engines.public_directory = "public"
-Engines::Assets.class_eval do
-    @@warning = %{Files in this directory are automatically generated from your plugins.
-They are copied from the 'assets' directories of each plugin into this directory
-each time Rails starts (script/server, script/console... and so on).
-Any edits you make will NOT persist across the next server restart; instead you
-should edit the files within the <plugin_name>/assets/ directory itself.}
-
-  class << self
-    def initialize_base_public_directory
-      # nothing to do
-    end
-
-    def mirror_files_for(plugin)
-      return if plugin.public_directory.nil?
-      begin
-        %w(images javascripts stylesheets).each do |subdir|
-          source = File.join(plugin.public_directory, subdir).gsub(RAILS_ROOT + '/', '')
-          destination = File.join(Engines.public_directory, subdir, plugin.name)
-          Engines.mirror_files_from(source, destination)
-          if File.exist?(destination)
-            warning = File.join(destination, "WARNING")
-            File.open(warning, 'w') { |f| f.puts @@warning } unless File.exist?(warning)
-          end
-        end
-      rescue Exception => e
-        Engines.logger.warn "WARNING: Couldn't create the public file structure for plugin '#{plugin.name}'; Error follows:"
-        Engines.logger.warn e
-      end
-    end
-  end
 end

@@ -17,7 +17,7 @@ class Admin::SitesController < Admin::BaseController
   end
 
   def show
-    @users = @site.users_and_superusers
+    @users = @site.users_and_superusers # TODO wanna show only *recent* users here
     @contents = @site.unapproved_comments.group_by(&:commentable)
     @activities = @site.activities.find_coinciding_grouped_by_dates(Time.zone.now.to_date, 1.day.ago.to_date)
   end
@@ -65,6 +65,13 @@ class Admin::SitesController < Admin::BaseController
   end
 
   private
+
+    def require_authentication
+      required_role = @site ? :admin : :superuser
+      unless current_user and current_user.has_role?(required_role, :context => current_role_context) # TODO this is bad
+        return redirect_to_login("You need to be a #{required_role} to view this page.")
+      end
+    end
 
     def set_site
       @site = Site.find params[:id] if params[:id]

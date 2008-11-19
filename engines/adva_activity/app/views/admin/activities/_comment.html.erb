@@ -1,10 +1,10 @@
-<li class="activity <%= activity_css_classes(activity) %> <%= cycle '', 'alt' %>">
+<li class="activity <%= activity_css_classes(activity) %> <%= cycle '', 'highlight', :name => "activities" %> clearfix">
   <p class="meta">
     <%= activity_datetime activity, recent %><br />
     <%= link_to_activity_user activity %><br />
     <%= link_to_content activity.object.commentable if activity.object %>
   </p>
-  <h4>Comment <%= activity.all_actions.to_sentence(:skip_last_comma => true) %></h4>
+  <p>Comment <%= activity.all_actions.to_sentence(:skip_last_comma => true) %></p>
   <blockquote><p>&quot;<%= truncate strip_tags(activity.body), 100 %>&quot;</p></blockquote>
   <% if activity.object -%>
     <ul>

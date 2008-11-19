@@ -1,0 +1,934 @@
+body {
+   color:#333333;
+   font: 62.5% 'Lucida Grande',Lucida,Verdana,Tahoma,Arial;
+   background:#E6E6E6;
+   padding:0;}
+
+
+/* Remove or Reset Default Styles
+-------------------------------------------------------------------------*/
+* { margin:0; padding:0; list-style-type:none;}
+hr { display: none; }
+img { border: none; }
+
+
+/* Signup Hack
+-------------------------------------------------------------------------*/
+
+.inline_signup{
+	padding: 0px 60px 0px 0px;
+	display:inline !important;
+}
+
+
+/* Clear Floats
+--------------------------------------------------------------------------*/
+.clear {
+ clear: both;
+ font-size: 0;
+ height: 0;
+ line-height: 0;
+ overflow: hidden;}
+
+.clearfix {display:inline-block;}
+.clearfix {display: block;}
+	
+.clearfix:after {
+  content:".";
+  display:block;
+  height:0;
+  clear:both;
+  visibility:hidden;}
+
+/* General Form Styles 
+-------------------------------------------------------------------------*/
+input, textarea, select { 
+	color:#333;
+	font:12px 'Lucida Grande',Lucida,Arial, sans-serif;
+	outline:none;}
+fieldset br{ clear:both;}
+fieldset{ border:none;}
+
+input.text{
+  width:95%;
+  height:16px;
+  background:#FFF;
+  font-weight:bold;
+  padding: 4px;
+  margin: 1px 0 25px 0;
+  border:1px solid #CCCCCC;}
+
+fieldset select{
+  border:1px solid #CCCCCC;
+  /*width: 98%;*/
+  /*margin: 0 0 25px 0;*/
+}
+
+fieldset{
+  background:#F6F6F6;
+  margin: 0 0 20px 0; 
+	padding-bottom: 20px !important;
+}
+
+fieldset label{
+  padding: 15px 0 3px 0;
+  font-weight:bold;
+  position:relative;
+  display:block;}
+
+
+button.submit {
+  border:none;
+  color:#595959;
+   border:0; 
+  cursor:pointer; 
+  font-weight:bold;
+  text-align:center; 
+  font-size:1.2em;
+  outline:none;
+  background:url('/images/adva_cms/admin/ui/button_left.gif')  no-repeat top left;}
+
+button.submit span{
+  height:22px;  
+  margin: 0 0 0 5px;
+  padding: 4px 30px 0 25px;
+   white-space:nowrap;
+  display:block;
+  position:relative;
+  top:-1px;
+  background:url('/images/adva_cms/admin/ui/button_right.gif')  no-repeat top right;}
+
+p.button{text-align:right;}
+
+
+/* General Link Styles 
+--------------------------------------------------------------------------*/
+a:link, a:visited {
+ color:#990000;
+ text-decoration:none;}
+
+a:hover, a:active {
+ text-decoration:underline;}
+
+
+/* General Styles
+--------------------------------------------------------------------------*/
+ul#acc-links{display:none;}
+ul li.last {border:none !important;}
+.right{float:right !important;}
+.noborder{border:none !important;}
+.inline{
+	display:inline !important;
+}
+
+
+.empty {
+	margin-top: 20px;
+  padding: 10px;
+  padding-left: 35px;
+  background: #eee url(/images/adva_cms/icons/minus.gif) 10px 50% no-repeat; 
+}
+.divider {
+	border-top: 1px solid #ccc;
+	padding: 20px 0px 0px 12px;
+}
+
+/*-------------------------------------------------------------------------
+                         PAGE STYLES
+*-------------------------------------------------------------------------*/
+#container{
+  max-width:2000px;
+  min-width:870px;
+  margin:0 auto;}
+
+
+/*-------------------------------------------------------------------------
+                         HEADER
+*-------------------------------------------------------------------------*/
+#header{
+  padding: 0 0 5px 0;
+  font-size:1.1em;
+  background:url('/images/adva_cms/admin/ui/bg_borderheader.gif') repeat-x bottom left;}
+
+#header #utility-links{
+  background:#E6E6E6 url('/images/adva_cms/admin/ui/bg_utility.gif') repeat-x bottom left;
+  padding: 10px 20px;}
+
+#header  ul.breadcrumb{
+  float:left;}
+
+ul.breadcrumb li{ 
+  float:left;
+  padding: 0 3px;}
+
+ul.breadcrumb li.active a{
+  color:#000 !important;}
+
+ul.userlinks {  
+  float:right;}
+
+ul.userlinks li{
+  float:left;
+  padding:0 5px;
+  border-right:1px solid #000;}
+
+/* NAVIGATION
+-------------------------------------------------------------------------*/
+
+#navigation{
+  padding: 0 20px;
+  min-height:40px;
+  background:url('/images/adva_cms/admin/ui/bg_nav.gif') repeat-x top left;}
+
+#navigation ul {
+  background:url('/images/adva_cms/admin/ui/border_nav.gif') repeat-y top left;
+  padding: 0 0 0 2px;
+  float:left;
+  height:40px;}
+
+
+#navigation ul li{
+  padding: 0 2px 0 0;
+  height:40px;
+  float:left;
+  background:url('/images/adva_cms/admin/ui/border_nav.gif') repeat-y top right;}
+
+#navigation ul li a{
+  display:block;
+  height:17px;
+  padding:23px 0 0 0;
+  width:77px;
+  color:#333 !important;
+  text-align:center;
+  float:left;}
+
+#navigation ul li a:hover,
+#navigation ul .active a{
+  text-decoration:none !important;
+  color:#FFF !important;
+  background-position: 0 -40px !important;}
+
+#navigation ul li.dashboard a{
+  background:url('/images/adva_cms/admin/ui/nav_dashboard.gif') no-repeat top left;}
+
+#navigation ul li.overview a{
+  background:url('/images/adva_cms/admin/ui/nav_overview.gif') no-repeat top left;}
+
+#navigation ul li.sections a{
+  background:url('/images/adva_cms/admin/ui/nav_sections.gif') no-repeat top left;}
+
+#navigation ul li.assets a{
+  background:url('/images/adva_cms/admin/ui/nav_assets.gif') no-repeat top left;}
+
+#navigation ul li.siteuser a{
+  background:url('/images/adva_cms/admin/ui/nav_siteuser.gif') no-repeat top left;}
+
+#navigation ul li.settings a{
+  background:url('/images/adva_cms/admin/ui/nav_settings.gif') no-repeat top left;}
+
+#navigation ul li.accounts a{
+  background:url('/images/adva_cms/admin/ui/nav_account.gif') no-repeat top left;}
+
+#navigation ul li.profile a{
+  background:url('/images/adva_cms/admin/ui/nav_profile.gif') no-repeat top left;}
+
+/*-------------------------------------------------------------------------
+                         RED TEXT NAV
+*-------------------------------------------------------------------------*/
+
+.red_text_nav {
+	padding-top: 20px;
+}
+
+
+/*-------------------------------------------------------------------------
+                         CONTENT
+*-------------------------------------------------------------------------*/
+#content{
+  font-size:1.2em;
+  clear:both;
+  padding: 0 20px 0 0;}
+
+#content table{
+  width:100%;}
+
+/* LANGUAGE DROPDOWN
+-------------------------------------------------------------------------*/
+
+fieldset.language{
+  margin:0 !important;
+  background:none !important;
+  float:right;
+  padding:10px 0 !important;}
+
+.language label{
+  float:left;
+  text-align:right;
+  width:100px;
+  padding-right:10px;
+  display:block;
+	line-height: normal !important;
+}
+
+.language select{
+  width:161px;
+  background:#FFF;
+  margin:0 !important;}
+
+/*-------------------------------------------------------------------------
+                         MAIN CONTENT
+*-------------------------------------------------------------------------*/
+#main-content{
+  width:68%;
+  float:left;
+  clear:both;
+  margin-bottom:-15px;
+  padding-bottom:70px;
+  margin-top: 20px;
+  background:#FFF url('/images/adva_cms/admin/ui/bg_contentshadow.gif') repeat-y top right;}
+
+#main-content-wrapper{
+  padding-right:7px;
+  background:url('/images/adva_cms/admin/ui/bg_contentshadowtop.gif') no-repeat top right;}
+
+#main-content h2{
+  color:#999999;
+  font-size:2.4em;
+  position:relative;
+  padding: 20px 0 0 0;
+  margin-bottom:-15px;
+  /*border-bottom:5px solid #E6E6E6;*/
+  font-weight:normal !important;}
+
+#history_headline {
+	border-bottom:5px solid #E6E6E6;
+	height: 40px;
+	margin-bottom: 20px !important;
+}
+
+#main-content h2 a{
+  position:absolute;
+  font-weight:normal;
+  font-size:0.5em;
+  top:20px;
+  right:0px;}
+
+#main-content .padded{
+  padding: 0px 20px;}
+
+#main-content h3 {
+	margin-top: 20px;
+}
+
+#main-content h4 {
+	margin: 20px 0 0 0;
+}
+
+/* CONFIRMATION AND ERROR MESSAGES
+-------------------------------------------------------------------------*/
+p.notice,
+p.error{
+  text-align:center;
+  padding: 10px 0 !important;
+  font-weight:bold;}
+
+p.notice{ background:#CCFFCC;}
+p.error{background:#FECCCB;}
+
+/* SUB NAVIGATION
+-------------------------------------------------------------------------*/
+ul.sub-nav{
+  background:url('/images/adva_cms/admin/ui/bg_subnav.gif') repeat-x bottom left;
+  margin: 20px 0 0px 0;
+  height:40px;}
+
+ul.sub-nav li{
+  float:left;
+  padding: 0 2px 0 0;
+  background:url('/images/adva_cms/admin/ui/border_subnav.gif') repeat-y top right;}
+
+ul.sub-nav li.right{
+  padding: 0 0 0 2px;
+  background:url('/images/adva_cms/admin/ui/border_subnav.gif') repeat-y top left;}
+
+ul.sub-nav li a,
+ul.sub-nav li a span{
+  float:left;
+  display:block;}
+
+ul.sub-nav a{
+  color:#4C4C4C !important;
+}
+
+ul.sub-nav a:hover{
+  color:#FFF !important;
+  background-position: 0 -40px !important;
+  text-decoration:none !important;}
+
+ul.sub-nav li a span{
+  padding: 13px 27px 0 27px;
+  margin: 0px;
+  height: 27px;
+  background:url('/images/adva_cms/admin/ui/bg_subnavtabright.gif') no-repeat top right;}
+
+ul.sub-nav a:hover span{
+  background-position: right -40px !important;}
+
+
+/* MAIN CONTENT ELEMENTS
+-------------------------------------------------------------------------*/
+
+/* Account Type */
+.account-type{
+  background:#F6F6F6;
+  margin: 0 0 20px 0;}
+
+.account-type .type,
+.account-type .domain{
+  padding: 15px 0;
+  float:left;}
+
+.account-type .account_name{
+  padding: 15px 0;
+  float:left;}
+
+.account-type .wrapper{
+  padding:0 20px;}
+
+.account-type .type{
+  width:23%;  }
+
+.account-type .type p{
+  padding: 0 0 5px 10px;}
+
+.account-type .type p span{
+  font-weight:bold;
+  display:block;
+  padding: 0 0 5px 0;}
+
+.account-type .type ul  span.cat{
+  width:125px;
+  float:left;
+  text-align:right;
+  display:block;}
+
+.account-type .info{
+  width:35%;
+  float:left;
+  background:url('/images/adva_cms/admin/ui/border_account.gif') repeat-y top left;  }
+
+.account-type .info .wrapper{
+  background:url('/images/adva_cms/admin/ui/border_account.gif') repeat-y top right;  
+  padding:15px 3%; }
+
+.account-type .info span{
+  float:left;
+  width:50%;
+  text-align:right;
+  display:block;
+  padding: 0 15px 0 0;
+  margin: 0 10px 5px 0;}
+
+.account-type .info span.bar{
+  width:30px !important;
+  text-align:left;}
+
+.account-type .info span.yellow{
+  background:url('/images/adva_cms/admin/ui/bullet_yellow.gif') no-repeat center right;}
+
+.account-type .info span.orange{
+  background:url('/images/adva_cms/admin/ui/bullet_orange.gif') no-repeat center right;}
+
+.account-type .info span.green{
+  background:url('/images/adva_cms/admin/ui/bullet_green.gif') no-repeat center right;}
+
+.account-type .domain{
+  width:40%;}
+
+.account-type .domain label{
+  font-weight:bold;
+  display:block;
+  padding: 0 0 3px 0;}
+
+.account-type .domain input.text{
+  border:1px solid #CCCCCC;
+  background:#F6F6F6;
+  width:95%;
+  font-weight:bold;
+  height:16px;
+  padding:4px;}
+
+.account-type .account_name{
+  width:40%;}
+
+.account-type .account_name label{
+  font-weight:bold;
+  display:block;
+  padding: 0 0 3px 0;}
+
+.account-type .account_name input.text{
+  border:1px solid #CCCCCC;
+  background:#F6F6F6;
+  width:95%;
+  font-weight:bold;
+  height:16px;
+  padding:4px;}
+
+
+/* History */
+/*.history{
+  padding:10px 0;}*/
+
+.history h3{
+  font-size:1.3em;
+  margin: 15px 0 10px 0;
+  border-bottom:1px solid #CCCCCC;}
+
+.history p{
+  padding: 0 0 0 0;}
+
+/* Avatar */
+.avatar{
+  background:#F6F6F6;
+  /*margin: 0 0 15px 0; removed this (Sv) */
+}
+
+.avatar .avatar-thumb{
+  width:20%;
+  float:left;
+  padding: 15px 0 0 0;}
+
+.avatar .avatar-thumb img{
+  border:1px solid #CCCCCC;
+  margin: 0 10px 0 30px;}
+
+.avatar .options{
+  background:url('/images/adva_cms/admin/ui/border_account.gif') repeat-y top right;
+  width:29%;
+  float:left;}
+
+.avatar .options .wrapper{
+  background:url('/images/adva_cms/admin/ui/border_account.gif') repeat-y top left;
+  padding: 15px 0;}
+
+.avatar .options ul{
+  padding-left:10px;}
+
+.avatar .options li{
+  padding: 0 0 4px 0;}
+
+.avatar  .upload{
+  width:40%;
+  background:none;
+  padding: 15px 0 0 3%;
+  float:left;}
+
+/* Members */
+ul.members{
+  padding-bottom:20px;}
+
+ul.members li{
+  border-bottom:1px solid #E5E5E5;
+  padding: 15px 0 0 0;
+  min-height:70px;
+  height:auto !important;
+  height:70px;}
+
+ul.members li .thumb{
+  float:left;
+  position:absolute;
+  display:block;
+  width:80px;
+  padding: 0 0 0 50px;}
+
+ul.members li .thumb img{
+  border:1px solid #CCCCCC;}
+
+ul.members li .thumb .you{
+  position:absolute;
+  display:block;
+  width:34px;
+  height:16px;
+  margin: 45px 0 0 40px;
+  background:url('/images/adva_cms/admin/ui/icon_you.gif') no-repeat top left;}
+
+ul.members li .membername{
+  width:75%;
+  padding-left:140px;}
+
+ul.members li .membername p{
+  float:left;
+  width:60%;}
+
+ul.members li  p.membertype{
+  width:30% !important;}
+
+ul.members p{
+  padding-bottom:0;}
+
+ul.members li span.links{
+  display:block; 
+  margin: 20px 0 0 0;}
+
+
+
+
+
+/* MAIN CONTENT TABLES
+-------------------------------------------------------------------------*/
+table.table-list{
+  margin: 0 0 20px 0;}
+
+table.table-list td{
+  border-bottom:1px solid #E5E5E5;
+  padding:10px 0;
+  vertical-align:top;
+  text-align:center;}
+
+table.table-list td.title{
+  width:30%;}
+
+table.table-list td.date{
+  width:25%;}
+
+table.table-list td.price{
+  width:10%;}
+
+table.table-list td.links{
+  text-align:right;  
+  padding:10px 20px;
+  width:35%;
+  color:#B8B8B8;}
+
+table.table-list  tr.heading td{
+  vertical-align:middle;
+  padding-bottom:0;
+  border:none;}
+
+table.table-list  tr.heading td.title{
+  text-align:left;
+  width: 50%;}
+
+.account-summary th{
+  background:#EBEBEB;
+  padding-top:10px;
+  font-weight:normal;
+  padding-left:20px;
+  padding-bottom:10px;}
+
+.account-summary th.type {
+  font-weight:bold;
+  text-align:left;
+  font-size:1.4em !important;}
+
+.account-summary th.type a{
+  color:#333 !important;}
+
+.account-summary th.type img{
+  margin: 0 5px 0 0;
+  vertical-align:middle;}
+
+.account-summary td.account{
+  padding-left:45px;
+  text-align:left;}
+
+.account-summary td.account a{
+  background:url('/images/adva_cms/admin/ui/icon_site.gif') no-repeat top left;
+  padding: 0 0 0 20px;}
+
+p.member,
+p.owner{
+  font-weight:bold;
+  display:block;
+  padding: 0 0 0 22px;}
+
+.membername a.email,
+.membername a.email{
+  display:block;
+  margin: 5px 0 0 0;
+  font-weight:normal !important;
+  color:#333333 !important;}
+
+p.member{
+  background:url('/images/adva_cms/admin/ui/icon_member.png') no-repeat top left;}
+
+p.owner{
+  background:url('/images/adva_cms/admin/ui/icon_owner.gif') no-repeat top left;}
+
+a.check,
+a.alert{
+  padding-left:20px;
+  padding-top:1px;}
+
+a.check{
+  background:url('/images/adva_cms/admin/ui/icon_check.png') no-repeat center left;}
+
+a.alert{
+  background:url('/images/adva_cms/admin/ui/icon_alert.png') no-repeat center left;}
+
+
+table.table-history td{
+  padding: 10px;
+  vertical-align:top;}
+
+table.table-history tr.highlight td{
+  background:#EBEBEB;}
+
+table.table-history td.date{
+  text-align:right;}
+
+table.table-history  ul{
+  padding: 0 0 0 30px;}
+
+table.table-history  ul li{
+  padding: 0 0 5px 0;}
+
+table.table-history ul.login{
+  background:url('/images/adva_cms/admin/ui/icon_login.png') no-repeat top left;}
+
+table.table-history ul.paid{
+  background:url('/images/adva_cms/admin/ui/icon_check.png') no-repeat top left;}
+
+table.table-history ul.received{
+  background:url('/images/adva_cms/admin/ui/icon_alert.png') no-repeat top left;}
+
+table.table-history ul.setup{
+  background:url('/images/adva_cms/admin/ui/icon_add.png') no-repeat top left;}
+
+table.table-history ul.signin{
+  background:url('/images/adva_cms/admin/ui/icon_signin.png') no-repeat top left;}
+
+
+fieldset fieldset.col{
+  width:45%;
+  padding: 5px 0 5px 2%;
+  float:left;}
+
+fieldset fieldset.col1{
+  width:95%;
+  padding: 5px 0 5px 2%;
+  float:left;}
+
+fieldset fieldset.col label{
+  width:95%;
+  padding-top: 10px;
+}
+
+fieldset fieldset.col label span{
+  position:absolute;
+  color:#808080;
+  right:0;}
+
+.error-text{
+  border:2px solid #FF0000 !important;
+  margin-top:0;}
+
+fieldset .zip{
+  width: 20%;
+  clear:both;
+  padding: 0 20px 0 0;
+  float:left;}
+
+fieldset .zip input.text{
+  width:95%;}
+
+fieldset .city{
+  width:70%;
+  float:left;}
+
+fieldset .city input.text{
+  width:95% !important;}
+
+.radio-wrap,
+.bday-wrap  {
+  height:50px;}
+
+.radio-wrap span{
+  width:42%;
+  float:left;}
+
+.test_mark {
+	padding-top: 80px;
+}
+
+
+.radio-wrap label{
+  display:block;
+  float:left;
+  width:auto !important;
+  padding: 2px 0 2px 0 !important;}
+
+.radio-wrap .female{
+  background:url('/images/adva_cms/admin/ui/icon_female.gif') no-repeat center right;
+  padding-right:17px !important;}
+
+.radio-wrap .male{
+  background:url('/images/adva_cms/admin/ui/icon_male.gif') no-repeat center right;
+  padding-right:21px !important;}
+
+.radio-wrap input{
+  float:left;
+  margin: 2px 5px 25px 0;}
+
+.bday-wrap select{
+  float:left;
+  margin-right:5px;}
+
+.bday-wrap .day{width:15% !important;}
+.bday-wrap .month{width:40% !important;}
+.bday-wrap .year{width:25% !important;}
+
+
+
+/*-------------------------------------------------------------------------
+                         SIDEBAR
+*-------------------------------------------------------------------------*/
+#sidebar{
+  width:30%;
+  padding:30px 0 0 0;
+  float:right;}
+
+#sidebar h3{
+  position:relative;  
+  font-size:1em;
+  padding: 0 0 8px 0;}
+
+#sidebar h3 a{
+  position:absolute;
+  font-weight:normal;
+  right:0;}
+
+#sidebar ul,
+#sidebar table{
+  margin: 0 0 25px 0;}
+
+#sidebar li{
+  padding: 7px;
+  background:#EBEBEB;
+}
+
+
+
+ul li.highlight{
+  background-color:#eaeaea !important;}
+
+#sidebar ul li.highlight{
+  background-color:#e0e0e0 !important;}
+
+ul.accounts li{
+  background:#EBEBEB;}
+
+ul.accounts li.owner{
+  background:url('/images/adva_cms/admin/ui/icon_ownersmall.gif') no-repeat center left;}
+
+ul.accounts li.active{
+  background:#FFF !important;}
+
+ul.accounts li.active a{
+  color:#333 !important;}
+
+ul.accounts li a.member,
+ul.accounts li a.owner{
+  padding: 0 0 0 19px;}
+
+ul.accounts li a.member{
+  background:url('/images/adva_cms/admin/ui/icon_membersmall.png') no-repeat top left;}
+
+ul.accounts li a.owner{
+  background:url('/images/adva_cms/admin/ui/icon_ownersmall.gif') no-repeat top left;}
+
+ul.list-comments li span{
+  display:block;
+  background:url('/images/adva_cms/admin/ui/icon_commentwrite.png') no-repeat top left;
+  padding-left:20px}
+
+ul.list-comments li span.add {
+  background:url('/images/adva_cms/admin/ui/icon_commentadd.png') no-repeat top left !important;}
+
+
+#sidebar #sections li a {
+	padding-left: 22px;
+	background-repeat: no-repeat;
+	background-position: top left;
+}
+#sidebar li.blog a {
+	background-image: url('/images/adva_cms/admin/ui/icon_section_blog.png');
+}
+#sidebar li.forum a {
+	background-image: url('/images/adva_cms/admin/ui/icon_section_forum.png');
+}
+#sidebar li.section a {
+	background-image: url('/images/adva_cms/admin/ui/icon_section_static.png');
+}
+#sidebar li.wiki a {
+	background-image: url('/images/adva_cms/admin/ui/icon_section_wiki.png');
+}
+
+
+table.table-plans{
+  text-align:center;
+  background:#EBEBEB}
+
+table.table-plans th{
+  font-weight:normal;
+  background:#EBEBEB;
+  padding:10px;}
+
+table.table-plans .active{
+  background:#FFFFFF;}
+
+table.table-plans td{
+  padding: 5px 10px;}
+
+table.table-plans td.plan{
+  text-align:left;
+  width:15%;}
+
+#sidebar table tr.highlight td{
+  background:#E0E0E0;}
+
+table.table-plans tr.highlight .active{
+  background:#F2F2F2 !important;}
+
+.assistance{
+  background:#FFF url('/images/adva_cms/admin/ui/roundedtopleft.gif') no-repeat top left;
+  margin: 0 0 25px 0;}
+
+.assistance h3{
+  padding: 0 15px 5px 35px !important;
+  border-bottom:1px solid #CCCCCC;}
+
+.assistance h3 a{
+  right:15px !important;}
+
+.assistance h3 a.info{
+  width:14px;
+  height:14px;
+  display:block;
+  left:0;
+  margin: 0 0 0 15px;
+  text-indent:-9999px;
+  overflow:hidden;
+  background:url('/images/adva_cms/admin/ui/icon_info.gif') no-repeat top left;}
+
+.assistance p{
+  padding: 5px 15px !important;
+  line-height:1.3em;}
+
+.assistance .topr{
+  background:url('/images/adva_cms/admin/ui/roundedtopright.gif') no-repeat top right;}
+
+.assistance .botl{
+  background:url('/images/adva_cms/admin/ui/roundedbottomleft.gif') no-repeat bottom left;}
+
+.assistance .botr{
+  background:url('/images/adva_cms/admin/ui/roundedbottomright.gif') no-repeat bottom right;
+  padding:10px 0 5px 0;}
+
+#sidebar ul.members .thumb{
+ padding:0 0  0 10px;}
+
+#sidebar ul.members li{
+  padding:10px 0  0 0 !important;}
+
+#sidebar ul.members .membername{  padding-left:80px;}

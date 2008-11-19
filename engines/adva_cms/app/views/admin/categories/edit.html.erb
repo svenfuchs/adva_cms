@@ -1,15 +1,15 @@
-<h3>Edit Category</h3>
+<h2>Edit Category</h2>
 
 <% form_for :category, @category, :url => admin_category_path, :html => {:method => :put} do |f| %>
-  <fieldset>
-  	<p>
+  <fieldset class="clearfix">
+    <div class="col">
       <%= f.label :title %>
       <%= f.text_field :title %>
-    </p>
-    <p>  
+      </div>
+      <div class="col"> 
       <%= f.label :permalink %>
       <%= f.text_field :permalink %>
-    </p>
+    </div>
   </fieldset>
   <p class="buttons">
   	<%= submit_tag 'Save' %>	

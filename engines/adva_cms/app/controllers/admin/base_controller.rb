@@ -23,7 +23,7 @@ class Admin::BaseController < ApplicationController
                          :except  => { :controller => 'admin/sites', :action => [:index, :new] },
                          :only    => { :controller => ['admin/sites', 'admin/sections', 'admin/articles', 'admin/wikipages'] }
 
-  widget :menu_section,  :partial => 'widgets/admin/menu_section',
+  widget :sub_nav,       :partial => 'widgets/admin/sub_nav',
                          :except => { :controller => ['admin/sections'], :action => [:index, :new] },
                          :only  => { :controller => ['admin/sections', 'admin/articles', 'admin/wikipages', 'admin/categories', 'admin/comments'] }
 
@@ -73,7 +73,7 @@ class Admin::BaseController < ApplicationController
     end
 
     def set_site
-      @site = Site.find(params[:site_id])
+      @site = Site.find(params[:site_id]) if params[:site_id]
       Thread.current[:site] = @site
     end
 
@@ -92,7 +92,7 @@ class Admin::BaseController < ApplicationController
     def perma_host
       @site.try(:perma_host) || 'admin'
     end
-  
+
     def page_cache_directory
       if Rails.env == 'test'
          Site.multi_sites_enabled ? 'tmp/cache/' + perma_host : 'tmp/cache'

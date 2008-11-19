@@ -5,13 +5,10 @@ class Admin::SectionsController < Admin::BaseController
   before_filter :normalize_params, :only => :update_all
 
   cache_sweeper :section_sweeper, :only => [:create, :update, :destroy]
-  guards_permissions :section, :update => :update_all # :except => :show, 
+  guards_permissions :section, :update => :update_all
 
   def index
   end
-
-  # def show
-  # end
 
   def new
     @section = @site.sections.build(:type => Section.types.first)
