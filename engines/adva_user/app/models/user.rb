@@ -142,6 +142,8 @@ class User < ActiveRecord::Base
   end
   
   def homepage
+    return nil unless self[:homepage]
+    
     self[:homepage][0..6] == 'http://' ? self[:homepage] : 'http://' + self[:homepage]
   end
 

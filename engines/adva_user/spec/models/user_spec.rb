@@ -235,6 +235,10 @@ describe User do
       @user.homepage ='http://homepage'
       @user.homepage.should == 'http://homepage'
     end
+    
+    it "#homepage returns nil if homepage is not set" do
+      @user.homepage.should == nil
+    end
 
     describe "#update_roles updates associated roles to match the given role parameters" do
       before :each do
