@@ -1,5 +1,6 @@
-<h2>Edit theme file</h2>
+<%= render :partial => 'admin/sites/action_nav' %>
 
+<h2>Edit theme file</h2>
 <% form_for :file, @file, :url => admin_theme_file_path(@site, @theme.id, @file.id), :html => { :method => :put } do |f| -%>
   <%= render :partial => 'form', :locals => {:f => f} %>
 <% end %>
