@@ -296,7 +296,7 @@ fieldset.language{
   font-size:2.4em;
   position:relative;
   padding: 20px 0 0 0;
-  margin-bottom:-15px;
+  margin-bottom:-5px;
   /*border-bottom:5px solid #E6E6E6;*/
   font-weight:normal !important;}
 
@@ -807,8 +807,6 @@ fieldset .city input.text{
   background:#EBEBEB;
 }
 
-
-
 ul li.highlight{
   background-color:#eaeaea !important;}
 
@@ -845,7 +843,11 @@ ul.list-comments li span{
 ul.list-comments li span.add {
   background:url('/images/adva_cms/admin/ui/icon_commentadd.png') no-repeat top left !important;}
 
-
+#sidebar #sections li {
+	padding: 0px;
+	line-height: 25px;
+	background-color: transparent;
+}
 #sidebar #sections li a {
 	padding-left: 22px;
 	background-repeat: no-repeat;
