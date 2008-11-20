@@ -15,4 +15,8 @@ module UsersHelper
     digest = Digest::MD5.hexdigest(email)
     "http://www.gravatar.com/avatar.php?size=#{size}&gravatar_id=#{digest}&default=http://#{request.host_with_port}#{ActionController::AbstractRequest.relative_url_root}/images/adva_cms/avatar.gif"
   end
+  
+  def link_to_cancel(site = nil)
+    site.nil? ? link_to("cancel", admin_users_path) : link_to("cancel", admin_site_users_path(site))
+  end
 end
