@@ -8,9 +8,15 @@
   </ul>
   
   <% [:attached, :latest, :bucket].each do |type| %>
+    <% unless assets[type].empty? -%>
     <ul id="<%= type %>-assets" class="panel asset-list">
       <%= render :partial => "admin/assets/widget/asset", :collection => assets[type], :locals => { :content => @article, :prefix => type } %>
     </ul>
+    <% else -%>
+    <div id="<%= type %>-assets" class="panel">
+      You have no files of this type or have yet to upload any files.
+    </div>
+    <% end -%>
   <% end %>
 
   <div id="search-assets" class="panel">

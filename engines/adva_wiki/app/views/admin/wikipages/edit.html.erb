@@ -2,13 +2,13 @@
   <%= link_to "Delete this wikipage", admin_wikipage_path, { :confirm => "Are you sure you wish to delete this wikipage?", :method => :delete } %> &middot;
   <%= link_to "Preview", content_url(@wikipage) %>
 </p>
-
+<h2>Edit wikipage</h2>
 <% split_form_for :wikipage, @wikipage, :url => admin_wikipage_path, :html => {:multipart => true, :method => :put, :id => 'content_form'} do |f| -%>
 	
 	<%= render :partial => "form", :locals => {:f => f} %>
 	
 	<p class="buttons">
-  		<%= f.submit "Apply Changes" %>
+  		<%= f.submit "Save" %> or 
   		<%= link_to "cancel", admin_wikipages_path %>
 	</p>
 <% end %>

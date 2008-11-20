@@ -1,10 +1,10 @@
-<h1>Create: <%= @wikipage.title %></h1>
+<h2>Create a new wikipage</h2>
 <% split_form_for :wikipage, @wikipage, :url => admin_wikipages_path, :html => {:multipart => true, :id => 'content_form'} do |f| -%>
 
 	<%= render :partial => "form", :locals => {:f => f} %>
 	
 	<p class="buttons">
-  		<%= f.submit "Apply Changes" %>
+  		<%= f.submit "Save" %> or 
   		<%= link_to "cancel", admin_wikipages_path %>
 	</p>
 <% end %>
