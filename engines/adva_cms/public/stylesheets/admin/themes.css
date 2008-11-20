@@ -10,7 +10,7 @@
   display: block;
   position: relative;
   float: left;
-  width: 100%;
+  width: 214px;
 	margin: 0px;
 	padding: 0px;
   text-align: center;
@@ -36,11 +36,11 @@
   padding: 5px;
   border: 1px solid #ddd;
 }
-#themelist ul {
+#themelist ul.options {
 	text-align: center;
 	padding: 4px 0px;
 }
-#themelist ul li {
+#themelist ul.options li {
 	float: none;
 	display: inline;
 	padding: 4px;
