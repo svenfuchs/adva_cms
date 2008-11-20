@@ -13,7 +13,8 @@ describe Theme::File do
     @name = 'image-1.png'
     @localpath = "images/#{@name}"
     @fullpath = "/path/to/themes/site-1/theme-1/#{@localpath}"
-    @path = "/images/themes/site-1/theme-1/#{@name}"
+    # @path = "/images/themes/site-1/theme-1/#{@name}"
+    @path = "/images/themes/theme-1/#{@name}"
   end
 
   describe "preview.png" do
@@ -30,7 +31,7 @@ describe Theme::File do
     end
 
     it "should have the correct path set" do
-      @theme.preview.path.to_s.should == "/images/themes/site-1/theme-1/preview.png"
+      @theme.preview.path.to_s.should == "/images/themes/theme-1/preview.png"
     end
   end
 
@@ -48,7 +49,8 @@ describe Theme::File do
     end
 
     it "should have the correct path set" do
-      @preview.path.to_s.should == "/images/themes/site-1/theme-1/preview.png"
+      # @preview.path.to_s.should == "/images/themes/site-1/theme-1/preview.png"
+      @preview.path.to_s.should == "/images/themes/theme-1/preview.png"
     end
   end
 
@@ -81,7 +83,8 @@ describe Theme::File do
       subdirs = "foo/bar"
       @localpath = "images/#{subdirs}/#{@name}"
       @fullpath = "/path/to/themes/site-1/theme-1/images/#{subdirs}/#{@name}"
-      @path = "/images/themes/site-1/theme-1/#{subdirs}/#{@name}"
+      # @path = "/images/themes/site-1/theme-1/#{subdirs}/#{@name}"
+      @path = "/images/themes/theme-1/#{subdirs}/#{@name}"
       @asset = Theme::Asset.new @theme, @localpath
     end
 
