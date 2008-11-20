@@ -8,13 +8,13 @@
   <li><%= link_to "Create or upload a new file", new_admin_theme_file_path(@site, @theme.id) %></li>
   <li><%= link_to 'Download theme', export_admin_theme_path(@site, @theme.id) %></li>
 </ul>
-<%= render :partial => 'admin/theme_files/files' %>
-<% end -%>
-
+<h3>Meta</h3>
 <% form_for :theme, @theme, :url => admin_theme_path(@site, @theme.id), :html => {:method => :put} do |f| %>
 	<%= render :partial => "form", :locals => {:f => f} %>
-	<p class="buttons">
-	  <%= f.submit 'Save' %> or 
-	  <%= link_to 'cancel', admin_themes_path %>
+	<p>
+	  <%= f.submit 'Save' %>
 	</p>
 <% end %>
+<% end -%>
+
+<%= render :partial => 'admin/theme_files/files' %>
