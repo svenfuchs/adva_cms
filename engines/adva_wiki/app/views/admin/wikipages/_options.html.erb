@@ -29,5 +29,10 @@
 <p>
   <%= f.label :permalink %>
   <%= f.text_field :permalink %>
+  <span class="hint">Use only ASCII characters and use dashes instead of spaces.</span> 
 </p>
-
+<p>
+  <%= f.label :tag_list, 'Tags' %>
+  <%= f.text_field :tag_list %>
+  <span class="hint">Separate tags by spaces. Enclose tags with quotes to include spaces.</span>  
+</p>

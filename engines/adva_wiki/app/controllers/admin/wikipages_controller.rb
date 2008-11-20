@@ -5,7 +5,7 @@ class Admin::WikipagesController < Admin::BaseController
   before_filter :set_section
   before_filter :set_wikipage, :only => [:show, :edit, :update, :destroy]
   before_filter :set_categories, :only => [:new, :edit]
-  
+
   before_filter :params_author, :only => [:create, :update]
 
   widget :sub_nav, :partial => 'widgets/admin/sub_nav',
@@ -16,11 +16,11 @@ class Admin::WikipagesController < Admin::BaseController
   def index
     @wikipages = @section.wikipages.paginate :page => current_page, :per_page => params[:per_page]
   end
-  
+
   def new
-    @wikipage = @section.wikipages.build(:title => 'New wikipage')
+    @wikipage = @section.wikipages.build(:title => @section.wikipages.empty? ? 'Home' : nil)
   end
-  
+
   def create
     if @wikipage = @section.wikipages.create(params[:wikipage])
       trigger_events @wikipage
@@ -31,10 +31,10 @@ class Admin::WikipagesController < Admin::BaseController
       render :action => 'new'
     end
   end
-  
+
   def edit
   end
-  
+
   def update
     params[:version] ? rollback : update_attributes
   end
@@ -60,7 +60,7 @@ class Admin::WikipagesController < Admin::BaseController
       render :action => 'edit'
     end
   end
-  
+
   def destroy
     if @wikipage.destroy
       trigger_events @wikipage
