@@ -1,13 +1,20 @@
 <%= render :partial => 'admin/sites/action_nav' %>
 
-<h2 title="stored in <%= @theme.path %>"><%= @theme.name %></h2>
+<h2 title="stored in <%= @theme.path %>">Edit theme</h2>
 
+<% content_for :sidebar do -%>
+<h3>Actions</h3>
+<ul>
+  <li><%= link_to "Create or upload a new file", new_admin_theme_file_path(@site, @theme.id) %></li>
+  <li><%= link_to 'Download theme', export_admin_theme_path(@site, @theme.id) %></li>
+</ul>
+<h3>Meta</h3>
 <% form_for :theme, @theme, :url => admin_theme_path(@site, @theme.id), :html => {:method => :put} do |f| %>
 	<%= render :partial => "form", :locals => {:f => f} %>
+	<p>
+	  <%= f.submit 'Save' %>
+	</p>
 <% end %>
+<% end -%>
 
-<% content_for :sidebar do %>
-  <%= render :partial => 'admin/theme_files/files' %>
-  <h4>Export</h4>
-  <p><%= link_to 'Download as zip', export_admin_theme_path(@site, @theme.id) %></p>
-<% end %>
+<%= render :partial => 'admin/theme_files/files' %>
