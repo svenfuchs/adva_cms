@@ -1,18 +1,18 @@
 <h2>Upload theme file</h2>
 <% form_tag admin_theme_files_path(@site, @theme.id), { :method => :post, :multipart => true } do %>
 <fieldset class="clearfix">
-  <div style="margin-bottom:20px;">
-    <p>Upload a template or an asset.</p>
-    <h3>Valid file types</h3>
-    <p>Templates: <%= Theme::Path.template_types.collect(&:first).join(', ') %></p>
-    <p>Assets: <%= Theme::Path.asset_types.collect(&:first).join(', ') %></p>
-  </div>
-  <div class="col">
+  <div class="col1">
+    <div style="margin-bottom:20px;">
+      <p>Upload a template or an asset.</p>
+      <h3>Valid file types</h3>
+      <p>Templates: <%= Theme::Path.template_types.collect(&:first).join(', ') %></p>
+      <p>Assets: <%= Theme::Path.asset_types.collect(&:first).join(', ') %></p>
+    </div>
     <p><%= file_field_tag("file[data][]", :id => 'file_data_1') %></p>
   </div>
-  <div class="col">
+  <!--<div class="col">
     <p><%= link_to "Add another file", "#", :id => "upload-add-file" %></p>
-  </div>
+  </div>-->
 </fieldset>
   <p class="buttons">
     <%= submit_tag "Upload" %> or 
