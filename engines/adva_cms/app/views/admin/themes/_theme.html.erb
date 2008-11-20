@@ -1,5 +1,5 @@
 <li class="theme<%= ' current' if @site.current_theme?(theme) %>">
-  <h4 title="stored in <%= theme.path %>"><%= theme.name %></h4>
+  <h4><%= theme.name %></h4>
   <p>
     <% unless theme.version.blank? -%>v<%= theme.version %> |<% end -%>
     by <%= theme.author_link %>
