@@ -1,6 +1,4 @@
-<li id="<%= dom_id object %>">
-  <%= link_to object.title, edit_admin_category_path(@site, @section, object) %>
-  <ul>
-    <%= render :partial => 'category', :collection => object.children %>
-  </ul>
+<tr id="<%= dom_id object %>">
+  <td><%= link_to object.title, edit_admin_category_path(@site, @section, object) %></td>
+  <%#= render :partial => 'category', :collection => object.children %>
 </li>

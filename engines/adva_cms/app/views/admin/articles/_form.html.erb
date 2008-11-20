@@ -19,9 +19,6 @@
     <span class="hint inline">(<%= link_to_function 'Add an excerpt', "$('excerpt').toggle()" %>)</span>
   </label>
   <%= f.text_area :body, :class => 'fat', :rows => 25  %>
-  <%= f.label :tag_list %>
-  <span class="hint">Enter one or more tags separated by a space. You may include spaces by enclosing a tag with quotes. (For example, <em>"Web Dev" Tutorials</em>).</span>
-  <%= f.text_field :tag_list %>
 
   <%= f.label :draft, "Save as Draft?" %>
   <label class="light"><%= check_box_tag :draft, '1', @article.draft?, :id => 'article-draft' %> Yes, save this article as a draft.</label>

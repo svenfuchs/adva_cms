@@ -1,14 +1,8 @@
-<p class ="red_text_nav">
-  <%= link_to "Delete this article", admin_article_path, { :confirm => "Are you sure you wish to delete this article?", :method => :delete } %> &middot;
-  <%#= link_to "Close comments", admin_article_path %>
-  <%= link_to "Preview", content_url(@article) %>
-</p>
-
 <% split_form_for :article, @article, :url => admin_article_path, :html => {:multipart => true, :method => :put, :id => 'content_form'} do |f| -%>
   <%= render :partial => 'form', :locals => {:f => f} %>  
   <p class="buttons">
-    <%= submit_tag 'Apply Changes', :name => 'save_revision' %>
-    <%= submit_tag 'Save without Revision' %>
+    <%= submit_tag 'Save', :name => 'save_revision' %>
+    <%= submit_tag 'Save without Revision' %> or 
     <%= link_to "cancel", admin_articles_path %>
   </p>
 <% end -%>
