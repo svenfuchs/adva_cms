@@ -1,9 +1,13 @@
-<h3>Edit File</h3>
+<h2>Edit theme file</h2>
 
 <% form_for :file, @file, :url => admin_theme_file_path(@site, @theme.id, @file.id), :html => { :method => :put } do |f| -%>
   <%= render :partial => 'form', :locals => {:f => f} %>
 <% end %>
 
 <% content_for :sidebar do %>
+<h3>Actions</h3>
+<ul>
+  <li><%= link_to 'Delete theme file', admin_theme_file_path(@site, @theme.id, @file.id), { :confirm => "Are you sure you wish to delete this file?", :method => :delete } %></li>
+</ul>
   <%= render :partial => 'admin/theme_files/files' %>
 <% end %>

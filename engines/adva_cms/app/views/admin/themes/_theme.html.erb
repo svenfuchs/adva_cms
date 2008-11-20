@@ -4,8 +4,8 @@
     <% unless theme.version.blank? -%>v<%= theme.version %> |<% end -%>
     by <%= theme.author_link %>
   </p>
-  <%= link_to image_tag(theme.preview.path.to_s), admin_theme_path(@site, theme.id) %>
-  <ul>
+  <%= link_to theme_preview_image(theme), admin_theme_path(@site, theme.id) %>
+  <ul class="options">
     <% if @site.current_theme?(theme) %>
       <li><%= link_to "Unselect", admin_site_selected_theme_path(@site, theme.id), { :confirm => "Are you sure you wish to not use this theme anymore?", :method => :delete } %></li>
     <% else %>

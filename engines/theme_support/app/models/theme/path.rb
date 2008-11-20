@@ -14,6 +14,7 @@ class Theme
                          '.swf'  => 'application/x-shockwave-flash',
                          '.ico'  => 'image/x-icon' }
 
+    cattr_reader :template_types, :asset_types
     attr_reader :theme, :localpath, :path, :fullpath
     delegate :basename, :extname, :to => :localpath
 
