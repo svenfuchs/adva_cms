@@ -2,5 +2,8 @@
   <%= gravatar_img(user) %>
   <h3><%= link_to user.name, member_path(user) %></h3>
   <p><%= user.email %></p>
-  <p><%= link_to '&raquo; Edit', edit_member_path(user) %></p>
+  <p style="margin-top:5px;">
+    <%= link_to "Edit", edit_member_path(user), :class => 'edit' %>
+    <%= link_to "Delete", member_path(user), :class => 'delete', :confirm => "Are you sure you wish to delete this user?", :method => :delete %>
+  </p>
 </li> 

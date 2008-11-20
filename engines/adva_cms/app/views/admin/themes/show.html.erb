@@ -6,7 +6,7 @@
 <h3>Actions</h3>
 <ul>
   <li><%= link_to "Create or upload a new file", new_admin_theme_file_path(@site, @theme.id) %></li>
-  <li><%= link_to 'Download theme', export_admin_theme_path(@site, @theme.id) %></li>
+  <li><%= link_to 'Download this theme', export_admin_theme_path(@site, @theme.id) %></li>
 </ul>
 <h3>Meta</h3>
 <% form_for :theme, @theme, :url => admin_theme_path(@site, @theme.id), :html => {:method => :put} do |f| %>

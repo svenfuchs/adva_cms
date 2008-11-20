@@ -36,6 +36,26 @@ table.list a.view {
 	overflow: hidden;
 	background: url(/images/adva_cms/icons/page_white_magnify.png) no-repeat;
 }
+table.list a.edit, a.edit {
+	display: block;
+	float: left;
+	width: 16px;
+	height: 16px;	
+	margin-right: 5px;
+	text-indent: 16px;
+	overflow: hidden;
+	background: url(/images/adva_cms/icons/pencil.png) no-repeat;
+}
+table.list a.delete, a.delete {
+	display: block;
+	float: left;
+	width: 16px;
+	height: 16px;	
+	margin-right: 5px;
+	text-indent: 16px;
+	overflow: hidden;
+	background: url(/images/adva_cms/icons/bin_closed.png) no-repeat;
+}
 
 /* comments list */
 
