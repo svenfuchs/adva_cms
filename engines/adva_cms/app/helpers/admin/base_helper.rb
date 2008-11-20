@@ -19,4 +19,14 @@ module Admin::BaseHelper
 
     select_tag 'site-select', options_for_select(options, selection)
   end
+  
+  def link_to_profile(site = nil, options = {})
+    name = options[:name].nil? ? 'Profile' : options[:name]
+    
+    if site.nil? || site.new_record? || current_user.has_role?(:superuser)
+      link_to(name, admin_user_path(current_user))
+    else
+      link_to(name, admin_site_user_path(site, current_user))
+    end
+  end
 end

@@ -45,3 +45,36 @@ describe Admin::BaseHelper do
     end
   end
 end
+
+require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
+
+describe Admin::BaseHelper do
+  
+  before :each do
+    @user = mock_model(User, :id => 1)
+    @user.stub!(:has_role?).with(:superuser).and_return false
+    @site = mock_model(Site, :id => 1)
+    helper.stub!(:current_user).and_return(@user)
+  end
+  
+  it "should return admin/sites/1/users/1 as a profile link if site is set" do
+    helper.link_to_profile(@site).should == "<a href=\"/admin/sites/1/users/1\">Profile</a>"
+  end
+  
+  it "should return admin/users/1 as a profile link if no site is set" do
+    helper.link_to_profile.should == "<a href=\"/admin/users/1\">Profile</a>"
+  end
+  
+  it "should return admin/users/1 as a profile link if site is a new record" do
+    helper.link_to_profile(Site.new).should == "<a href=\"/admin/users/1\">Profile</a>"
+  end
+  
+  it "should return custom link name for profile if specified" do
+    helper.link_to_profile(Site.new, :name => 'Dummy').should == "<a href=\"/admin/users/1\">Dummy</a>"
+  end
+  
+  it "should return admin/users/1 as a profile link if site is set but user is a superuser" do
+    @user.should_receive(:has_role?).with(:superuser).and_return true
+    helper.link_to_profile(@site).should == "<a href=\"/admin/users/1\">Profile</a>"
+  end
+end

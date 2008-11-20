@@ -1,14 +1,15 @@
 <% if @wikipages.size > 0 -%>
-  <p>
-    <%= link_to "New Wikipage", new_admin_wikipage_path(@site) %> &middot;
-    <%= link_to_function 'Reorder Wikipages', "wikipages_list.toggle(this, 'Done reordering');", :id => 'reorder_sections' %>
-    <%= image_tag '/images/adva_cms/indicator.gif', :id => 'wikipages_indicator', :style => 'display: none;' %>
-  </p>
-
+  <% content_for :sidebar do -%>
+    <h3>Actions</h3>
+    <ul>
+  	  <li><%= link_to "New Wikipage", new_admin_wikipage_path(@site) %></li>
+      <li><%= link_to_function 'Reorder Wikipages', "wikipages_list.toggle(this, 'Done reordering');", :id => 'reorder_sections' %>
+      <%= image_tag '/images/adva_cms/indicator.gif', :id => 'wikipages_indicator', :style => 'display: none;' %></li>
+    </ul>
+  <% end -%>
   <p class="total">
-    Total: <%= content_tag :strong, @wikipages.total_entries %> wikipages.
+    Total: <%= content_tag :strong, pluralize(@wikipages.total_entries, "wikipage") %>.
   </p>
-
   <table id="wikipages" class="list" cellspacing="0" cellpadding="0">
     <thead>
       <tr>
@@ -24,9 +25,7 @@
       <%= render :partial => 'wikipage', :collection => @wikipages %>
     </tbody>
   </table>
-
   <%= will_paginate @wikipages, :id => 'pagination' %>
-
   <script type="text/javascript">
     var wikipages_list = new WikipagesList($('wikipages-body'), {
       onUpdate: function(drag, drop, event) {
@@ -38,16 +37,13 @@
       }
     });
   </script>
-
-<% else %>
-
+<% else -%>
   <div class="empty" style="margin-bottom:20px">
-    <% unless params[:filter] %>
+    <% unless params[:filter] -%>
       You have no pages on your wiki.
       <%= link_to "Create one now &raquo;", new_admin_wikipage_path(@site) %>
-    <% else %>
+    <% else -%>
       You don't seem to have any wikipages matching that criteria.
-    <% end %>
+    <% end -%>
   </div>
-
-<% end %>
+<% end -%>
