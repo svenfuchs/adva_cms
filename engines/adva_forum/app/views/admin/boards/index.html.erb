@@ -6,7 +6,7 @@
     <% unless @boards.size < 2 %>
       &middot;
       <%= link_to_function 'Reorder boards', "boards_tree.toggle(this, 'Done reordering');", :id => 'reorder_boards' %>
-      <%= image_tag 'indicator.gif', :id => 'boards_indicator', :style => 'display: none;' %>
+      <%= image_tag '/images/adva_cms/indicator.gif', :id => 'boards_indicator', :style => 'display: none;' %>
     <% end %>
   </p>
 

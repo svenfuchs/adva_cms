@@ -8,5 +8,6 @@ class CreateMembershipsTable < ActiveRecord::Migration
   end
   
   def self.down
+    drop_table :memberships
   end
 end

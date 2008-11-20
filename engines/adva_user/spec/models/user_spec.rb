@@ -225,6 +225,20 @@ describe User do
     it '#to_s returns the name' do # TODO hu? where's that used?
       @user.to_s.should == @user.name
     end
+    
+    it "#homepage returns the http://homepage is homepage is set to 'homepage'" do
+      @user.homepage ='homepage'
+      @user.homepage.should == 'http://homepage'
+    end
+    
+    it "#homepage returns the http://homepage is homepage is set to 'http://homepage'" do
+      @user.homepage ='http://homepage'
+      @user.homepage.should == 'http://homepage'
+    end
+    
+    it "#homepage returns nil if homepage is not set" do
+      @user.homepage.should == nil
+    end
 
     describe "#update_roles updates associated roles to match the given role parameters" do
       before :each do

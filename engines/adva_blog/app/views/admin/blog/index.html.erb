@@ -21,7 +21,12 @@
 
 <% if @articles.size > 0 -%>
 
-  <p class ="red_text_nav"><%= link_to "New Article", new_admin_article_path(@site) %></p>
+  <% content_for :sidebar do -%>
+  <h3>Actions</h3>
+  <ul>
+    <li><%= link_to "New Article", new_admin_article_path(@site) %></li>
+  </ul>
+  <% end -%>
 
   <p class="total">
     Total: <strong><%= @articles.total_entries %></strong> <%= pluralize_str @articles.total_entries, 'article' %>.

@@ -1,27 +1,27 @@
 <h2>Profile</h2>
-
 <fieldset class="clearfix">
-
-  <fieldset class="col">
-    <%= f.label :first_name %>
-    <%= f.text_field :first_name  %>
-    
-    <%= f.label :homepage %>
-    <%= f.text_field :homepage  %>
-    
-    <%= f.label :password %>
-    <%= f.password_field :password  %>
-
-    </fieldset>
-
-    <fieldset class="col">
-    <%= f.label :last_name %>
-    <%= f.text_field :last_name  %>
-
-
-    <%= f.label :email %>
-    <%= f.text_field :email  %>
-
-
-</fieldset>
+  <div class="col">
+    <p>
+      <%= f.label :first_name %>
+      <%= f.text_field :first_name, :tabindex => 1 %>
+    </p>
+    <p>
+      <%= f.label :email %>
+      <%= f.text_field :email, :tabindex => 3 %>
+    </p>
+    <p>
+      <%= f.label :password %>
+      <%= f.password_field :password, :tabindex => 5 %>
+    </p>
+  </div>
+  <div class="col">
+    <p>
+      <%= f.label :last_name %>
+      <%= f.text_field :last_name, :tabindex => 2 %>
+    </p>
+    <p>
+      <%= f.label :homepage %>
+      <%= f.text_field :homepage, :tabindex => 4 %>
+    </p>
+  </div>
 </fieldset>

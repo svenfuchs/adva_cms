@@ -1,8 +1,7 @@
 begin
   require 'rails/version'
-  unless Rails::VERSION::MAJOR >= 2 ||
-         (Rails::VERSION::MAJOR >= 1 && Rails::VERSION::MINOR >= 99)
-    raise "This version of the engines plugin requires Rails 2.0 or later!"
+  unless Rails::VERSION::MAJOR >= 2 && Rails::VERSION::MINOR >= 1 && Rails::VERSION::TINY >= 1
+    raise "This version of the engines plugin requires Rails 2.1.1 or later!"
   end
 end
 

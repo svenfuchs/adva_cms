@@ -1,19 +1,22 @@
-<% unless @categories.empty? %>
-  <h4>Publish in these categories</h4>
-  <%= render :partial => 'categories/checkboxes', :locals => { :categories => @categories, :content => @wikipage } %>
-<% end %>
+<% unless @wikipage.new_record? -%>
+<h3>Actions</h3>
+<ul>
+  <li><%= link_to "Preview", content_url(@wikipage) %></li>
+  <li><%= link_to "Delete this wikipage", admin_wikipage_path, { :confirm => "Are you sure you wish to delete this wikipage?", :method => :delete } %></li>
+</ul>
+<% end -%>
 
-<h4>Assets</h4>
+<h3>Assets</h3>
 <%= render :partial => 'admin/assets/widget/widget', :locals => { :assets => { :latest => @site.assets.recent, :attached => @wikipage.assets, :bucket => bucket_assets } } %>
 
 <% if @wikipage.versions.size > 1 -%>
-	<h4>Wikipage versions</h4>
-	<p>
-		<%= wiki_version_links(@wikipage) %>
-	</p>
+<h3>Wikipage versions</h3>
+<p>
+	<%= wiki_version_links(@wikipage) %>
+</p>
 <% end -%>
 
-<h4>Optional settings</h4>
+<h3>Optional settings</h3>
 <p>
   <%= f.label :author %>
   <%= f.select :author, author_options, :selected => author_preselect %>
@@ -28,6 +31,16 @@
 </p>
 <p>
   <%= f.label :permalink %>
+  <span class="hint">Use only ASCII characters and use dashes instead of spaces.</span>
   <%= f.text_field :permalink %>
 </p>
+<p>
+  <%= f.label :tag_list, 'Tags' %>
+  <span class="hint">Separate tags by spaces. Enclose tags with quotes to include spaces.</span>
+  <%= f.text_field :tag_list %>
+</p>
 
+<% unless @categories.empty? %>
+  <h4>Publish in these categories</h4>
+  <%= render :partial => 'categories/checkboxes', :locals => { :categories => @categories, :content => @wikipage } %>
+<% end %>

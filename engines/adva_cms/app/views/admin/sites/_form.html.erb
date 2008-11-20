@@ -1,68 +1,49 @@
 <h2>General settings</h2>
 <fieldset class="clearfix">
-<fieldset class="col">
-    <%= f.label :host, 'Hostname' %>
-    <!-- <span class="hint">Include the port if it's a non-standard one. E.g. localhost:3000</span> -->
-    <%= f.text_field :host %>
-
+  <div class="col">
     <%= f.label :name, 'Website name' %>
-  	<%= f.text_field :name %>
-  	
-  	<%= f.label :subtitle, 'Website subtitle' %>
-  	<%= f.text_field :subtitle %>
-
-    
-</fieldset>
-<fieldset class="col">
-
-    <%= f.label :email, 'Administrator email' %>
-    <!--<span class="hint">Shown in emails sent from your site</span>-->
-  	<%= f.text_field :email %>
-  	
+    <%= f.text_field :name, :tabindex => 1 %>
   	<%= f.label :title, 'Website title' %>
-  	<%= f.text_field :title %>
-
+  	<%= f.text_field :title, :tabindex => 3 %>
+  	<%= f.label :email, 'Administrator email' %>
+    <!--<span class="hint">Shown in emails sent from your site</span>-->
+  	<%= f.text_field :email, :tabindex => 5 %>
+  </div>
+  <div class="col">
+    <%= f.label :host, 'Host name' %>
+    <!-- <span class="hint">Include the port if it's a non-standard one. E.g. localhost:3000</span> -->
+    <%= f.text_field :host, :tabindex => 2 %>
+  	<%= f.label :subtitle, 'Website subtitle' %>
+  	<%= f.text_field :subtitle, :tabindex => 4 %>
     <%= f.label :timezone, 'Website Timezone' %>
-    <%= f.time_zone_select :timezone, [ ActiveSupport::TimeZone['UTC'] ], :selected => site.timezone %>
-
+    <%= f.time_zone_select :timezone, [ ActiveSupport::TimeZone['UTC'] ], :selected => site.timezone, :tabindex => 6 %>
+  </div>
 </fieldset>
-</fieldset>
-  
+<%# TODO: complete tabindex for other fields %>
 <h2>Comments</h2>
 <fieldset class="clearfix">
-  <fieldset class="col"> 
+  <div class="col"> 
     <%= f.label :comment_filter, 'Comments filter' %>
     <span class="hint">When comments are posted, they use this markup.</span>
-  </fieldset>
-  <fieldset class="col"> 
-  <span class="hint">&nbsp;</span>
+  </div>
+  <div class="col"> 
+    <span class="hint">&nbsp;</span>
     <%= f.select :comment_filter, filter_options %>
+  </div>
 </fieldset>
-</fieldset>
-  
-  <!-----------------------------------------TODO---------------------------------------->
-  
+<!-----------------------------------------TODO---------------------------------------->  
 <h2>Spam protection</h2>
 <fieldset id="site_spam_settings_fields" class="clearfix">  
-  <fieldset class="col"> 
-  <h4>Spam filters</h4>
-  <span class="hint">When comments are posted, the following filters are used to check their spam status.</span>
-  <% SpamEngine::Filter.names.each do |name| %>
+  <div class="col1"> 
+    <h4>Spam filters</h4>
+    <span class="hint">When comments are posted, the following filters are used to check their spam status.</span>
+    <% SpamEngine::Filter.names.each do |name| %>
+    <h3><%= name %></h3>
     <p>
       <%= check_box_tag "site[spam_options][filters][]", name, site.spam_filter_active?(name), :class => "site_spam_options_filter", :id => "site_spam_options_filter_#{name.downcase}" unless name == 'Default' %>
-      <%= label :site, "spam_options_filter_#{name.downcase}", name, :class => 'inline' %>
+      <%= label :site, "spam_options_filter_#{name.downcase}", (name != 'Default' ? "Enable #{name} filter" : 'Settings'), :class => 'inline' %>
     </p>
     <%= render :partial => "spam/#{name.downcase}_settings", :locals => {:site => site, :active => site.spam_filter_active?(name)} %>
-  <% end %>
+    <% end %>
+  </div>
 </fieldset>
-</fieldset>
-
-
-
-
-
-
-
-
-
-

@@ -7,7 +7,7 @@ class Admin::UsersController < Admin::BaseController
 
   helper_method :collection_path, :member_path, :new_member_path, :edit_member_path
 
-  guards_permissions :user, :except => [:show, :index]
+  guards_permissions :user
 
   def index
   end

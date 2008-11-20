@@ -76,12 +76,12 @@ class Asset < ActiveRecord::Base
     t.blank? ? filename : t
   end
 
-  def public_filename_with_host(thumbnail = nil)
-    returning public_filename_without_host(thumbnail) do |s|
-      s.sub! %r(^/assets/[^/]+/), '/assets/' unless Site.multi_sites_enabled
-    end
-  end
-  alias_method_chain :public_filename, :host
+  # def public_filename_with_host(thumbnail = nil)
+  #   returning public_filename_without_host(thumbnail) do |s|
+  #     s.sub! %r(^/assets/[^/]+/), '/assets/' unless Site.multi_sites_enabled
+  #   end
+  # end
+  # alias_method_chain :public_filename, :host
 
   after_attachment_saved do |record|
     File.chmod 0644, record.full_filename
@@ -113,7 +113,8 @@ class Asset < ActiveRecord::Base
     def permalink
       date = created_at || Time.zone.now
       pieces = [date.year, date.month, date.day]
-      pieces.unshift site.perma_host if Site.multi_sites_enabled
+      # pieces.unshift site.perma_host if Site.multi_sites_enabled
+      pieces.unshift "sites/#{site.id}" if Site.multi_sites_enabled
       pieces * '/'
     end
 

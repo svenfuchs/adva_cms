@@ -1,13 +1,16 @@
 <% if @site %>
+<!---
 <h2>Membership</h2>
 
 <fieldset class="clearfix">
 
   <fieldset class="col">
-    <%= check_box_tag "user[memberships][#{@site.id}]", 1, @user.is_site_member?(@site), :id => "user_memberships_#{@site.id}" %>
-    <%= hidden_field_tag "user[memberships][#{@site.id}]", 0 %>
-    <%= f.label "user_memberships_#{@site.id}", "Member of: #{@site.name}", :class => 'light' %>
-
+-->
+    <%#= check_box_tag "user[memberships][#{@site.id}]", 1, @user.is_site_member?(@site), :id => "user_memberships_#{@site.id}" %>
+    <%= hidden_field_tag "user[memberships][#{@site.id}]", 1 %>
+    <%#= f.label "user_memberships_#{@site.id}", "Member of: #{@site.name}", :class => 'light' %>
+<!---
 </fieldset>
 </fieldset>
+-->
 <% end %>

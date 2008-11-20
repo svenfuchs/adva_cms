@@ -2,27 +2,27 @@
 
   <fieldset class="col">
     <%= f.label :name %>
-    <%= f.text_field :name %>
+    <%= f.text_field :name, :tabindex => 1 %>
 
     <%= f.label :author %>
-    <%= f.text_field :author %>
+    <%= f.text_field :author, :tabindex => 3 %>
 
     <%= f.label :homepage %>
-    <%= f.text_field :homepage %>
+    <%= f.text_field :homepage, :tabindex => 4 %>
     </fieldset>
 
     <fieldset class="col">
     <%= f.label :version %>
-    <%= f.text_field :version, :class => 'short' %>
+    <%= f.text_field :version, :class => 'short', :tabindex => 2 %>
 
     <%= f.label :summary %>
-    <%= f.text_area :summary, :class => 'short' %>
+    <%= f.text_area :summary, :class => 'short', :tabindex => 5 %>
     
   </fieldset>
 
 </fieldset>
 
   <p class="buttons">
-    <%= f.submit 'Save' %>
+    <%= f.submit 'Save' %> or 
     <%= link_to "cancel", admin_themes_path %>
   </p>

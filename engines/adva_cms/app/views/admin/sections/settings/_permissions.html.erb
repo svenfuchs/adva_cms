@@ -1,16 +1,16 @@
 <h2>Permissions</h2>
 <fieldset class="clearfix">
-
-  <fieldset class="col">
+  <div class="col">
     <%# @section.permissions.sorted.each do |type, permissions| %>
     <% [].each do |type, permissions| %>
     <h4><%= type.to_s.camelize.pluralize %></h4>
     <% permissions.each do |action, role| %>
+      <%# permissions.reject { |action, role| action.to_sym == :show }.each do |action, role| # <-- maybe this is cleaner? %>
       <% next if action.to_sym == :show # TODO :show permissions do not make any sense right now, so we completely deactivate them %> 
         <%= select_tag "section[permissions][#{type}][#{action}]", options_for_select(Role.names.zip(Role.names.map(&:downcase)), role.to_s), :id => "section_required_roles_#{action}" %>
         can <%= action %>.
         <%#= label_tag "section_permissions_#{permission}", permission.to_s.titleize %>
     <% end %>
   <% end %>
-  </fieldset>
+  </div>
 </fieldset>

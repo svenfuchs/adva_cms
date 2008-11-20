@@ -26,6 +26,8 @@ class CreateAssetsTable < ActiveRecord::Migration
   end
 
   def self.down
+    drop_table :asset_assignments
+    drop_table :assets
   end
 end
 

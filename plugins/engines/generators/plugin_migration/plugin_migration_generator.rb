@@ -6,12 +6,11 @@ class PluginMigrationGenerator < Rails::Generator::Base
   # minus 14 for timestamp, minus some extra chars for dot, underscore, file 
   # extension. So let's have 230.
   MAX_FILENAME_LENGTH = 230
-
+    
   def initialize(runtime_args, runtime_options={})
     super
     @options = {:assigns => {}}
-    
-    ensure_plugin_schema_table_exists
+    ensure_schema_table_exists    
     get_plugins_to_migrate(runtime_args)
     
     if @plugins_to_migrate.empty?
@@ -30,10 +29,9 @@ class PluginMigrationGenerator < Rails::Generator::Base
   end
   
   protected
-  
-    # Create the plugin schema table if it doesn't already exist. See
-    # Engines::RailsExtensions::Migrations#initialize_schema_migrations_table_with_engine_additions
-    def ensure_plugin_schema_table_exists
+
+    # Create the schema table if it doesn't already exist.
+    def ensure_schema_table_exists
       ActiveRecord::Base.connection.initialize_schema_migrations_table
     end
 
@@ -43,7 +41,7 @@ class PluginMigrationGenerator < Rails::Generator::Base
 
       # First, grab all the plugins which exist and have migrations
       @plugins_to_migrate = if plugin_names.empty?
-        Engines.plugins.dup
+        Engines.plugins
       else
         plugin_names.map do |name| 
           Engines.plugins[name] ? Engines.plugins[name] : raise("Cannot find the plugin '#{name}'")
@@ -84,16 +82,17 @@ class PluginMigrationGenerator < Rails::Generator::Base
     end
 
     # Construct a unique migration name based on the plugins involved and the
-    # versions they should reach after this migration is run.
+    # versions they should reach after this migration is run. The name constructed
+    # needs to be lowercase
     def descriptive_migration_name
       @plugins_to_migrate.map do |plugin| 
         "#{plugin.name}_to_version_#{@new_versions[plugin.name]}" 
-      end.join("_and_")
+      end.join("_and_").downcase
     end
 
     # Short migration name that will be used if the descriptive_migration_name
     # exceeds 230 characters
     def short_migration_name
       'plugin_migrations'
-    end  
+    end
 end

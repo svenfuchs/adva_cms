@@ -8,15 +8,21 @@
   </ul>
   
   <% [:attached, :latest, :bucket].each do |type| %>
+    <% unless assets[type].empty? -%>
     <ul id="<%= type %>-assets" class="panel asset-list">
       <%= render :partial => "admin/assets/widget/asset", :collection => assets[type], :locals => { :content => @article, :prefix => type } %>
     </ul>
+    <% else -%>
+    <div id="<%= type %>-assets" class="panel">
+      You have no files of this type or have yet to upload any files.
+    </div>
+    <% end -%>
   <% end %>
 
   <div id="search-assets" class="panel">
     <label for="search-assets-query">
       Search by tag or title 
-      <img id="search-assets-spinner" src="/images/indicator.gif" alt="spinner" style="display: none" />
+      <img id="search-assets-spinner" src="/images/adva_cms/indicator.gif" alt="spinner" style="display: none" />
     </label>
     <input type="text" size="30" name="search-assets-query" id="search-assets-query" />
     <input id="search-assets-button" type="button" value="Search" />
@@ -26,7 +32,7 @@
   <div id="upload-assets" class="panel">
     <label for="asset-uploaded-data">
       Upload an asset 
-      <img class="spinner" src="/images/indicator.gif" alt="spinner" style="display: none" />
+      <img class="spinner" src="/images/adva_cms/indicator.gif" alt="spinner" style="display: none" />
     </label><br />
     <%= file_field_tag "assets[0][uploaded_data]", :id => "asset-uploaded-data" %>
     <input id="upload-assets-button" type="button" value="Upload" />

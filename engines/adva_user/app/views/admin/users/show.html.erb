@@ -8,8 +8,8 @@
   </div>  
 <% end -%>
 
-<h3><%= @user.name %></h3>
-
+<h2><%= @user.name %></h2>
+<h3>Details</h3>
 <p>
   Email:
   <%= @user.email %>
@@ -21,7 +21,7 @@
     <%= link_to @user.homepage, @user.homepage %>
   </p>
 <% end %>
-
+<h3>Events</h3>
 <p>
   Created:
   <%= @user.created_at %>

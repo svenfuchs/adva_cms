@@ -140,6 +140,12 @@ class User < ActiveRecord::Base
   def to_s
     name
   end
+  
+  def homepage
+    return nil unless self[:homepage]
+    
+    self[:homepage][0..6] == 'http://' ? self[:homepage] : 'http://' + self[:homepage]
+  end
 
   protected
 
