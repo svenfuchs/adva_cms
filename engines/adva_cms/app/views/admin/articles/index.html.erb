@@ -1,9 +1,9 @@
-<% if @articles.size > 0 -%>
+<% unless @articles.empty? -%>
   <% content_for :sidebar do -%>
   <h3>Actions</h3>
   <ul>
-    <li><%= link_to "New Article", new_admin_article_path(@site) %></li>
-    <li><%= link_to_function 'Reorder Articles', "articles_list.toggle(this, 'Done reordering');", :id => 'reorder_sections' %>
+    <li><%= link_to 'New article', new_admin_article_path(@site) %></li>
+    <li><%= link_to_function 'Reorder articles', "articles_list.toggle(this, 'Done reordering');", :id => 'reorder_sections' %>
     <%= image_tag '/images/adva_cms/indicator.gif', :id => 'articles_indicator', :style => 'display: none;' %></li>
   </ul>
   <% end -%>
