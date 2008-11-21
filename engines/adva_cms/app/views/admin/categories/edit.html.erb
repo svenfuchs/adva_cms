@@ -3,6 +3,7 @@
 <% content_for :sidebar do -%>
 <h3>Actions</h3>
 <ul>
+  <li><%= link_to 'Create a new category', new_admin_category_path %></li>
   <li><%= link_to 'Delete this category', admin_category_path, { :confirm => "Are you sure you wish to delete this category?", :method => :delete } %></li>
 </ul>
 <% end -%>
