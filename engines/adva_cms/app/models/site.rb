@@ -37,7 +37,7 @@ class Site < ActiveRecord::Base
   end
   has_many :cached_pages, :dependent => :destroy, :order => 'cached_pages.updated_at desc'
 
-  before_validation :downcase_host
+  before_validation :downcase_host # :permalinkaze_host
   before_destroy :flush_page_cache
 
   validates_presence_of :host, :name, :title
@@ -116,6 +116,10 @@ class Site < ActiveRecord::Base
     def downcase_host
       self.host = host.to_s.downcase
     end
+    
+    # def permalinkaze_host
+    #   self.host = PermalinkFu.escape(host)
+    # end
 
     def flush_page_cache
       # TODO this really belongs to the controller, remove the before_destroy hook

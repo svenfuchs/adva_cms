@@ -91,12 +91,23 @@ describe Site do
       lambda{ User.find user.id }.should raise_error(ActiveRecord::RecordNotFound)
     end
   end
+  
+  describe 'methods' do
+    it '#permalinkaze_host should return host as a permalink' # do
+    #   @site.host = 't e s t.advabest.de'
+    #   @site.send(:permalinkaze_host).should == 't-e-s-t.advabest.de'
+    # end
+  end
 
   describe 'callbacks:' do
     it 'downcases the host before validation' do
       Site.before_validation.should include(:downcase_host)
     end
-
+    
+    it 'permalinkizes host before validation' # do
+    #   Site.before_validation.should include(:permalinkaze_host)
+    # end
+    
     it 'flushs the page cache after destroy' do
       Site.before_destroy.should include(:flush_page_cache)
     end
@@ -111,7 +122,7 @@ describe Site do
       @site.should validate_presence_of(:title)
     end
   end
-
+  
   describe "plugins:" do
     it "should clone Engines.plugins" do
       @site.plugins.first.object_id.should_not == Engines.plugins.first.object_id
