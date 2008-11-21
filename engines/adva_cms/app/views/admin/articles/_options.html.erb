@@ -8,6 +8,7 @@
 <% unless @article.new_record? -%>
 <h3>Actions</h3>
 <ul>
+  <li><%= link_to "Create a new article", new_admin_article_path(@site) %></li>
   <li><%= link_to "Preview this article", content_url(@article) %></li>
   <li><%= link_to "Delete this article", admin_article_path, { :confirm => "Are you sure you wish to delete this article?", :method => :delete } %></li>
   <%#= link_to "Close comments", admin_article_path %>

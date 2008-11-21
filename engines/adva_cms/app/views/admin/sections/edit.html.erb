@@ -8,6 +8,7 @@
 
 <h3>Actions</h3>
 <ul>
+  <li><%= link_to 'Create a new section', new_admin_section_path(@site) %></li>
   <li><%= link_to 'Delete this section', admin_section_path(@site, @section), { :confirm => "Are you sure you wish to delete this section?", :method => :delete } %></li>
 </ul>
 <% end -%>

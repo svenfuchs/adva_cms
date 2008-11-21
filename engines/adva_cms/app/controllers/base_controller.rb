@@ -24,6 +24,8 @@ class BaseController < ApplicationController
   # TODO move these to acts_as_commentable (?)
   caches_page_with_references :comments, :track => ['@commentable']
 
+  filter_parameter_logging :password
+
   def comments
     @comments = @commentable.approved_comments
     respond_to do |format|
