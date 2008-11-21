@@ -14,7 +14,7 @@ class UserController < BaseController
       trigger_events @user, :registered
       render :action => 'verification_sent'
     else
-      flash[:error] = 'The user could not be registered.'
+      flash[:error] = 'Your registration failed.'
       render :action => :new
     end
   end
@@ -25,9 +25,9 @@ class UserController < BaseController
   def verify
     if current_user.verify!
       trigger_events current_user, :verified
-      flash[:notice] = "Successfully verified the E-mail address for #{current_user.name}"
+      flash[:notice] = "You successfully confirmed the email address for #{current_user.name}."
     else
-      flash[:error] = "The E-mail address for #{current_user.name} is already verified."
+      flash[:error] = "You have already verified the email address for #{current_user.name}."
     end
     redirect_to return_from(:verify)
   end
@@ -35,12 +35,11 @@ class UserController < BaseController
   def destroy
     current_user.destroy
     trigger_events current_user
-    flash[:notice] = "Successfully deleted user #{current_user.name}"
+    flash[:notice] = "You successfully deleted user #{current_user.name}."
     redirect_to '/'
   end
 
   private
-  
     def url_with_token(user, purpose, params)
       token = user.assign_token purpose
       user.save
