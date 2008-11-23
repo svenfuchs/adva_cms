@@ -1,6 +1,6 @@
 class Admin::BaseController < ApplicationController
   layout "admin"
-
+  
   renders_with_error_proc :below_field
   include CacheableFlash
   include Widgets
@@ -57,6 +57,15 @@ class Admin::BaseController < ApplicationController
         render :template => 'shared/messages/insufficient_permissions'
       else
         super
+      end
+    end
+
+    def return_from(action)
+      params[:return_to] || begin
+        url = Registry.get(:redirect, action)
+        url = Registry.get(:redirect, url) if url.is_a?(Symbol)
+        url = url.call(self) if url.is_a?(Proc)
+        url || '/'
       end
     end
 

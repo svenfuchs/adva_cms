@@ -1,19 +1,19 @@
-.users {
+#users {
   list-style: none;
-  border-top:1px solid #E5E5E5;
   margin-top: 20px;
   padding-right: 10px;
 }
-.users li {
+#users li {
 	float: left;
-	width: 100%;
-  	padding: 5px;
-	border-bottom:1px solid #E5E5E5;
+	width: 302px;
+  padding: 10px 0;
+  border-top:1px solid #E5E5E5;
+  border-bottom:1px solid #E5E5E5;
 }
-.users h3 {
+#users h3 {
 	margin: 0px;
 }
-.users img.avatar {
+#users img.avatar {
   float: left;
   margin-right: 10px;
   max-height: 50px;
