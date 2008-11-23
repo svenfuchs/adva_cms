@@ -789,7 +789,7 @@ fieldset .city input.text{
   float:right;}
 
 #sidebar h3{
-  position:relative;  
+  /*position:relative;*/  
   font-size:1em;
   padding: 0 0 8px 0;}
 
