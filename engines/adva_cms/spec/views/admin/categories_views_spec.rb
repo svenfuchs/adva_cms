@@ -34,7 +34,6 @@ describe "Admin::Categories:" do
 
     it "should display a list of categories" do
       render "admin/categories/index"
-      puts response.body
       response.should have_tag('table[id=?]', 'categories')
     end
 

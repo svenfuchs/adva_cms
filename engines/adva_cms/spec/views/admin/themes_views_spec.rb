@@ -24,7 +24,7 @@ describe "Admin::Themes:" do
 
     it "displays a link to the :new action" do
       render "admin/themes/index"
-      response.should have_tag('a[href=?]', @new_admin_theme_path)
+      content_for(:sidebar).should have_tag('a[href=?]', @new_admin_theme_path)
     end
 
     it "displays a list of themes" do
@@ -39,8 +39,20 @@ describe "Admin::Themes:" do
       template.stub!(:render).with hash_including(:partial => 'form')
     end
 
-    it "displays a form to edit the theme" do
+    it "displays a list of files belonging to the theme" do
+      template.should_receive(:render).with hash_including(:partial => 'admin/theme_files/files')
       render "admin/themes/show"
+    end
+  end
+
+  describe "the :edit view" do
+    before :each do
+      assigns[:theme] = @theme
+      template.stub!(:render).with hash_including(:partial => 'form')
+    end
+
+    it "displays a form to edit the theme" do
+      render "admin/themes/edit"
       response.should have_tag('form[action=?]', @admin_theme_path) do |form|
         form.should have_tag('input[name=?][value=?]', '_method', 'put')
       end
@@ -48,7 +60,7 @@ describe "Admin::Themes:" do
 
     it "renders the form partial" do
       template.should_receive(:render).with hash_including(:partial => 'form')
-      render "admin/themes/show"
+      render "admin/themes/edit"
     end
   end
 
