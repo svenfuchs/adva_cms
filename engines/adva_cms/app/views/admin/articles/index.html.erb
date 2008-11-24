@@ -1,20 +1,20 @@
-<% unless @articles.empty? -%>
-  <% content_for :sidebar do -%>
+<% content_for :sidebar do -%>
   <h3>Manage</h3>
   <ul>
     <li><%= link_to "Articles", admin_articles_path(@site, @section) %></li>
     <li><%= link_to "Categories", admin_categories_path(@site, @section) %></li>
     <li><%= link_to "Settings", edit_admin_section_path(@site, @section) %></li>
   </ul>
-  
+
   <h3>Actions</h3>
   <ul>
     <li><%= link_to 'Create a new article', new_admin_article_path(@site) %></li>
     <li><%= link_to_function 'Re-order articles', "articles_list.toggle(this, 'Done reordering');", :id => 'reorder_sections' %>
     <%= image_tag '/images/adva_cms/indicator.gif', :id => 'articles_indicator', :style => 'display: none;' %></li>
   </ul>
-  <% end -%>
+<% end -%>
 
+<% unless @articles.empty? -%>
   <p class="total">
     Total: <%= content_tag :strong, pluralize(@articles.total_entries, "article") %>.
   </p>

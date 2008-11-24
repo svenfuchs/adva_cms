@@ -19,21 +19,21 @@
   <% end -%>
 <% end -%>
 
-<% unless @articles.empty? -%>
-
-  <% content_for :sidebar do -%>
+<% content_for :sidebar do -%>
   <h3>Manage</h3>
   <ul>
     <li><%= link_to "Articles", admin_articles_path(@site, @section) %></li>
     <li><%= link_to "Categories", admin_categories_path(@site, @section) %></li>
     <li><%= link_to "Settings", edit_admin_section_path(@site, @section) %></li>
   </ul>
-  
+
   <h3>Actions</h3>
   <ul>
     <li><%= link_to "Create a new article", new_admin_article_path(@site) %></li>
   </ul>
-  <% end -%>
+<% end -%>
+
+<% unless @articles.empty? -%>
 
   <p class="total">
     Total: <strong><%= @articles.total_entries %></strong> <%= pluralize_str @articles.total_entries, 'article' %>.

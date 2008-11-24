@@ -1,19 +1,20 @@
-<% unless @wikipages.empty? -%>
-  <% content_for :sidebar do -%>
+<% content_for :sidebar do -%>
   <h3>Manage</h3>
   <ul>
     <li><%= link_to "Wikipages", admin_wikipages_path(@site, @section) %></li>
     <li><%= link_to "Categories", admin_categories_path(@site, @section) %></li>
     <li><%= link_to "Settings", edit_admin_section_path(@site, @section) %></li>
   </ul>
-  
+
   <h3>Actions</h3>
   <ul>
-	  <li><%= link_to "Create a new wikipage", new_admin_wikipage_path(@site) %></li>
+    <li><%= link_to "Create a new wikipage", new_admin_wikipage_path(@site) %></li>
     <li><%= link_to_function 'Re-order wikipages', "wikipages_list.toggle(this, 'Done reordering');", :id => 'reorder_sections' %>
     <%= image_tag '/images/adva_cms/indicator.gif', :id => 'wikipages_indicator', :style => 'display: none;' %></li>
   </ul>
-  <% end -%>
+<% end -%>
+
+<% unless @wikipages.empty? -%>
   <p class="total">
     Total: <%= content_tag :strong, pluralize(@wikipages.total_entries, "wikipage") %>.
   </p>
