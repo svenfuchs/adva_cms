@@ -3,7 +3,7 @@
 <% unless @boards.empty? %>
   <p class="hint">
     <%= link_to "New Board", new_admin_board_path %>
-    <% unless @boards.size < 2 %>
+    <% if @boards.size > 1 %>
       &middot;
       <%= link_to_function 'Reorder boards', "boards_tree.toggle(this, 'Done reordering');", :id => 'reorder_boards' %>
       <%= image_tag '/images/adva_cms/indicator.gif', :id => 'boards_indicator', :style => 'display: none;' %>

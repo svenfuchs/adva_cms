@@ -1,6 +1,5 @@
 <tr id="<%= dom_id object %>">
   <td><%= link_to object.title, edit_admin_category_path(@site, @section, object) %></td>
-  <%#= render :partial => 'category', :collection => object.children %>
   <td class="actions">
     <%= link_to "Edit", edit_admin_category_path(@site, @section, object), :class => 'edit' %>
     <%= link_to "Delete", admin_category_path(@site, @section, object), :class => 'delete', :confirm => "Are you sure you wish to delete this category?", :method => :delete %>

@@ -4,8 +4,9 @@ describe "Admin::Categories:" do
   include SpecViewHelper
 
   before :each do
-    @categories = stub_categories
     @category = stub_category
+    @categories = stub_categories
+    @categories.stub!(:total_entries).and_return 2
 
     assigns[:site] = @site = stub_site
     assigns[:section] = @section = stub_section
@@ -33,7 +34,8 @@ describe "Admin::Categories:" do
 
     it "should display a list of categories" do
       render "admin/categories/index"
-      response.should have_tag('ul[id=?]', 'categories')
+      puts response.body
+      response.should have_tag('table[id=?]', 'categories')
     end
 
     it "should render the category partial with the categories collection" do
@@ -41,13 +43,13 @@ describe "Admin::Categories:" do
       render "admin/categories/index"
     end
 
-    it "should render a link to make the categories list sortable depending on the categories count" do
-      @section.categories.should_receive(:size).and_return 5
+    it "should render a link (to the sidebar) to make the categories list sortable depending on the categories count" do
+      @categories.should_receive(:size).and_return 5
       render "admin/categories/index"
     end
 
     it "should render a link to make the categories list sortable when categories count is > 2" do
-      @section.categories.stub!(:size).and_return 3
+      @categories.stub!(:size).and_return 3
       template.should_receive(:link_to_function).with('Reorder categories', anything(), anything())
       render "admin/categories/index"
     end
@@ -84,11 +86,6 @@ describe "Admin::Categories:" do
     it "should render a link to the category edit view" do
       render "admin/categories/_category"
       response.should have_tag('a[href=?]', @edit_member_path)
-    end
-
-    it "should render itself for nested categories" do
-      template.should_receive(:render).with hash_including(:partial => 'category')
-      render "admin/categories/_category"
     end
   end
 end
