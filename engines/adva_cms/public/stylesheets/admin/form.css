@@ -37,6 +37,7 @@ label {
 label.light {
 	display: inline;
 	margin-right: 5px;
+	line-height: 24px !important;
 	color: #333;
 	font-size: 13px;
 	font-weight: normal;

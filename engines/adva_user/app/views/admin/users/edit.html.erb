@@ -1,21 +1,24 @@
-<%= render :partial => 'action_nav' %>
-
 <% content_for :sidebar do %>
-  <div class="user">
-    <%= gravatar_img(@user) %>
-    <h3><%= @user.name %></h3>
-    <p><%= @user.email %></p>
-  </div>  
+<div class="user">
+  <%= gravatar_img(@user) %>
+  <h3><%= @user.name %></h3>
+  <p><%= @user.email %></p>
+</div>
+<h3>Actions</h3>
+<ul>
+  <li><%= link_to 'Create a new user', new_member_path %></li>
+  <li><%= link_to 'Delete this user', admin_user_path(@user), :method => :delete, :confirm => "Are you sure you wish to delete this user account?" %></li>
+</ul>
 <% end -%>
 
+<h2>Edit user</h2>
 <% form_for :user, @user, :url => member_path, :html => {:method => :put} do |f| -%>
   <%= render :partial => 'form', :locals => {:f => f} %>  
   <%#= render :partial => 'roles', :locals => {:f => f} if has_permission?('manage', 'roles') %>
   <%= render :partial => 'memberships', :locals => {:f => f} %>
 
   <p class="buttons">
-    <%= submit_tag 'Save profile' %>
-    <%= link_to "delete", admin_user_path(@user), :method => :delete, :confirm => "Are you sure you wish to delete this user account?" %> or
-    <%= link_to "cancel", admin_users_path %>
+    <%= submit_tag 'Save' %> or 
+    <%= link_to_cancel(@site) %>
   </p>
 <% end -%>

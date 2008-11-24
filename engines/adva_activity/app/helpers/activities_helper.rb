@@ -6,7 +6,7 @@ module ActivitiesHelper
                :locals => { :activity => activity, :recent => recent }
       end
     else
-      html = %(<li class="activity-none shade">Nothing happening</li>)
+      html = %(<li class="activity-none shade">Nothing happened.</li>)
     end
     %(<ul class="activities">#{html}</ul>)
   end

@@ -1,9 +1,9 @@
 <h3>
   Sections
-  <% if @site.sections.count > 1 %>
-      <%= link_to_function 'Reorder sections', "sections_tree.toggle(this, 'Done reordering');", :id => 'reorder_sections' %>
-      <%= image_tag '/images/adva_cms/indicator.gif', :id => 'sections_indicator', :style => 'display: none;' %>
-  <% end %>
+  <% unless @site.sections.empty? -%>
+    <%= link_to_function 'Reorder sections', "sections_tree.toggle(this, 'Done reordering');", :id => 'reorder_sections' %>
+    <%= image_tag '/images/adva_cms/indicator.gif', :id => 'sections_indicator', :style => 'display: none;' %>
+  <% end -%>
 </h3>
 
 <ul id="sections">

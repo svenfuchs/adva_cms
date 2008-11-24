@@ -46,7 +46,7 @@ var AssetWidget = {
 		return location.href.match(/sites\/([0-9]+)\//)[1];
 	},
 	assetId: function(element) {
-		return element.getAttribute('id').match(/-(\d+)$/)[1];
+		return element.getAttribute('id').match(/_(\d+)$/)[1];
 	},
 	memberId: function() {
 		return location.href.match(/\/([0-9]+)\/(edit)/)[1];
@@ -110,7 +110,9 @@ var AssetWidget = {
 		}.bind(this));		
 	},
 	selectedAssetIds: function() {
-		return $$('.attached-asset').collect(function(asset) { return asset.getAttribute('id').match(/-(\d+)$/)[1]; });
+		return $$('.attached-asset').collect(function(asset) { 
+			return asset.getAttribute('id').match(/_(\d+)$/)[1]; 
+		});
 	},	
   showAttachTools: function(id) {
     if(this.isEdit()) {
@@ -148,6 +150,9 @@ Event.addBehavior({
 	'#search-assets-button:click':        function(event) { AssetWidget.search($F('search-assets-query')); },
 	'#search-assets-query:keypress':      function(event) { if(event.keyCode == Event.KEY_RETURN) { AssetWidget.search($F('search-assets-query')); Event.stop(event); } },
 	'#upload-assets-button:click':        function(event) { AssetWidget.upload($('asset-uploaded-data'), $('content_form').authenticity_token.value);}
+
+  // '#assets-widget .asset img':          function() { new Draggable(this, { revert: true, ghosting: true }); },
+	//'#article_body':                      function() { Droppables.add(this, { onDrop: function(drag, drop, event) {} }); }
 });                                 
 
 Event.onReady(function() {

@@ -16,4 +16,8 @@ module UsersHelper
     # TODO #{ActionController::AbstractRequest.relative_url_root} missing in Rails 2.2
     "http://www.gravatar.com/avatar.php?size=#{size}&gravatar_id=#{digest}&default=http://#{request.host_with_port}/images/adva_cms/avatar.gif"
   end
+  
+  def link_to_cancel(site = nil)
+    site.nil? ? link_to("cancel", admin_users_path) : link_to("cancel", admin_site_users_path(site))
+  end
 end

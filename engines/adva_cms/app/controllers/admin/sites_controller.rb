@@ -57,7 +57,7 @@ class Admin::SitesController < Admin::BaseController
   def destroy
     if @site.destroy
       flash[:notice] = "The site has been deleted."
-      redirect_to admin_sites_path
+      redirect_to return_from(:site_deleted)
     else
       flash.now[:error] = "The site could not be deleted"
       render :action => 'show'

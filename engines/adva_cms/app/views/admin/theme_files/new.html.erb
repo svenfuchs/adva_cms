@@ -1,9 +1,36 @@
-<h3>New File</h3>
+<h2>Upload theme file</h2>
+<% form_tag admin_theme_files_path(@site, @theme.id), { :method => :post, :multipart => true } do %>
+<fieldset class="clearfix">
+  <div class="col1">
+    <div style="margin-bottom:20px;">
+      <p>Upload a template or an asset.</p>
+      <h3>Valid file types</h3>
+      <p>Templates: <%= Theme::Path.template_types.collect(&:first).join(', ') %></p>
+      <p>Assets: <%= Theme::Path.asset_types.collect(&:first).join(', ') %></p>
+    </div>
+    <p><%= file_field_tag("file[data][]", :id => 'file_data_1') %></p>
+  </div>
+  <!--<div class="col">
+    <p><%= link_to "Add another file", "#", :id => "upload-add-file" %></p>
+  </div>-->
+</fieldset>
+  <p class="buttons">
+    <%= submit_tag "Upload" %> or 
+    <%= link_to 'cancel', admin_theme_path(@site, @theme.id) %>
+  </p>
+<% end %>
+<h2>Create theme file</h2>
 
 <% form_for :file, @file, :url => admin_theme_files_path(@site, @theme.id), :html => { :method => :post } do |f| -%>
   <%= render :partial => 'form', :locals => {:f => f} %>
 <% end %>
 
 <% content_for :sidebar do %>
-  <%= render :partial => 'admin/theme_files/files' %>
+<h3>Manage</h3>
+<ul>
+  <li><%= link_to 'Site', edit_admin_site_path(@site) %></li>
+  <li><%= link_to 'Themes', admin_themes_path(@site) %></li>
+  <li><%= link_to 'Cache', admin_cached_pages_path(@site) %></li>
+</ul>
+<%= render :partial => 'admin/theme_files/files' %>
 <% end %>

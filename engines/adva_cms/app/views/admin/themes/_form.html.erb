@@ -1,28 +1,16 @@
 <fieldset class="clearfix">
-
-  <fieldset class="col">
+  <div class="col">
     <%= f.label :name %>
-    <%= f.text_field :name %>
-
+    <%= f.text_field :name, :tabindex => 1 %>
     <%= f.label :author %>
-    <%= f.text_field :author %>
-
+    <%= f.text_field :author, :tabindex => 3 %>
     <%= f.label :homepage %>
-    <%= f.text_field :homepage %>
-    </fieldset>
-
-    <fieldset class="col">
+    <%= f.text_field :homepage, :tabindex => 4 %>
+  </div>
+  <div class="col">
     <%= f.label :version %>
-    <%= f.text_field :version, :class => 'short' %>
-
+    <%= f.text_field :version, :class => 'short', :tabindex => 2 %>
     <%= f.label :summary %>
-    <%= f.text_area :summary, :class => 'short' %>
-    
-  </fieldset>
-
+    <%= f.text_area :summary, :class => 'short', :tabindex => 5 %>
+  </div>
 </fieldset>
-
-  <p class="buttons">
-    <%= f.submit 'Save' %>
-    <%= link_to "cancel", admin_themes_path %>
-  </p>

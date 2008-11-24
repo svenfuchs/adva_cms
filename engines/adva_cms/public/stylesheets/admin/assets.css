@@ -140,13 +140,20 @@
 	border: 1px solid #ccc;
   background: #fff;
 }
+
+#assets-widget div.panel {
+  padding-top: 5px;
+  font-size: 0.9em;
+  font-style: italic;
+}
+
 .asset-list {
 	margin-top: 5px;
 }
 .asset-list li {
 	position: relative;
 	float: left;
-	padding: 3px;
+	padding: 3px !important;
   margin: 4px 4px 0px 0px;
 	background-color: #fff;
 }

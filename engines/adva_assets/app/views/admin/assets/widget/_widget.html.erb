@@ -1,4 +1,4 @@
-<div id="assets-widget" class="clearing">
+<div id="assets-widget" class="_clearing">
   <ul class="tabs">
     <li id="tab-attached-assets"><a href="#" title="Attached assets">Attached</a></li>
     <li id="tab-latest-assets"><a href="#" title="Latest assets uploaded">Latest</a></li>
@@ -8,9 +8,15 @@
   </ul>
   
   <% [:attached, :latest, :bucket].each do |type| %>
+    <% unless assets[type].empty? -%>
     <ul id="<%= type %>-assets" class="panel asset-list">
       <%= render :partial => "admin/assets/widget/asset", :collection => assets[type], :locals => { :content => @article, :prefix => type } %>
     </ul>
+    <% else -%>
+    <div id="<%= type %>-assets" class="panel" style="padding: 10px;">
+      Your bucket is empty.
+    </div>
+    <% end -%>
   <% end %>
 
   <div id="search-assets" class="panel">

@@ -37,6 +37,7 @@ class Site < ActiveRecord::Base
   end
   has_many :cached_pages, :dependent => :destroy, :order => 'cached_pages.updated_at desc'
 
+  before_validation :downcase_host, :replace_host_spaces # :permalinkaze_host
   before_validation :downcase_host
   before_validation :populate_title
   before_destroy :flush_page_cache
@@ -117,6 +118,14 @@ class Site < ActiveRecord::Base
     def downcase_host
       self.host = host.to_s.downcase
     end
+    
+    def replace_host_spaces
+      self.host = host.to_s.gsub(/^\s+|\s+$/, '').gsub(/\s+/, '-')
+    end
+    
+    # def permalinkaze_host
+    #   self.host = PermalinkFu.escape(host)
+    # end
     
     def populate_title
       self.title = self.name if self.title.blank?

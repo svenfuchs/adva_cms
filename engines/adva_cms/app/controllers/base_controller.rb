@@ -2,7 +2,7 @@ require 'widgets'
 
 class BaseController < ApplicationController
   class SectionRoutingError < ActionController::RoutingError; end
-  helper :base, :content, :comments, :users, :roles 
+  helper :base, :content, :comments, :users, :roles
   helper_method :perma_host
 
   include ContentHelper # WTF!
@@ -23,6 +23,8 @@ class BaseController < ApplicationController
 
   # TODO move these to acts_as_commentable (?)
   caches_page_with_references :comments, :track => ['@commentable']
+
+  filter_parameter_logging :password
 
   def comments
     @comments = @commentable.approved_comments

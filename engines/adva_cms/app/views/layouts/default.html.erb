@@ -6,16 +6,14 @@
     
     <%= stylesheet_link_tag    'adva_cms/default', 'adva_cms/common',
                                'adva_cms/comments', 'adva_cms/forms', 
-                               'adva_cms/forum', 
-                               :cache => 'cache/default' %>
+                               'adva_cms/forum' %>
     
     <%= javascript_include_tag 'adva_cms/prototype', 'adva_cms/effects', 
                                'adva_cms/lowpro', 'adva_cms/flash', 
                                'adva_cms/cookie', 'adva_cms/json', 
-                               'adva_cms/roles', 'adva_cms/application', 
-                               :cache => 'cache/default' %>
+                               'adva_cms/roles', 'adva_cms/application' %>
 
-    <%= @topic ? authorize_elements(@topic) : authorize_elements %>
+    <%= authorize_elements %>
   </head>
   <body>
     <div id="page">

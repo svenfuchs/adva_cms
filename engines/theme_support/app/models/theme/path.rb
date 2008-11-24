@@ -14,6 +14,7 @@ class Theme
                          '.swf'  => 'application/x-shockwave-flash',
                          '.ico'  => 'image/x-icon' }
 
+    cattr_reader :template_types, :asset_types
     attr_reader :theme, :localpath, :path, :fullpath
     delegate :basename, :extname, :to => :localpath
 
@@ -22,7 +23,7 @@ class Theme
     # localpath - filesystem path relative to the theme base dir (used in admin interface)
     #             e.g. 'stylesheets/common/main.css'
     # path      - absolute path with leading type like 'image' etc. (used in an image_tag, matches the theme route)
-    #             e.g. 'stylesheets/themes/site-1/minimal/common/main.css'
+    #             e.g. 'stylesheets/themes/minimal/common/main.css'
 
     class << self
       def extname(path)
@@ -64,7 +65,7 @@ class Theme
     end
 
     def path_prefix
-      theme.path.sub(Theme.root_dir, '').sub(/^\//, '')
+      theme.path.sub(Theme.root_dir, '').sub(/^\//, '').sub(/site-\d*\//, '')
     end
 
     def sanitize(path)

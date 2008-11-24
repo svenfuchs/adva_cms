@@ -1,12 +1,11 @@
-<%= render :partial => 'action_nav' %>
-
+<h2>New user</h2>
 <% form_for :user, @user, :url => collection_path do |f| -%>
   <%= render :partial => 'form', :locals => {:f => f} %>  
   <%= render :partial => 'roles', :locals => {:f => f} if @site && current_user.has_role?(:admin, :context => @site) %>
   <%= render :partial => 'memberships', :locals => {:f => f} if @site %>
 
   <p class="buttons">
-    <%= submit_tag 'Create' %> or 
-    <%= link_to "cancel", admin_users_path %>
+    <%= submit_tag 'Save' %> or 
+    <%= link_to_cancel(@site) %>
   </p>
 <% end -%>

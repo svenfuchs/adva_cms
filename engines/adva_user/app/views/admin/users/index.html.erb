@@ -1,6 +1,12 @@
-<%= render :partial => 'action_nav' %>
+<% content_for :sidebar do -%>
+  <h3>Actions</h3>
+  <ul>
+    <li><%= link_to 'Create a new user', new_member_path %></li>
+  </ul>
+<% end -%>
 
-<ul class="users">
+<h2>Users</h2>
+<ul id="users">
 <%= render :partial => 'user', :collection => @users %>
 </ul>
 

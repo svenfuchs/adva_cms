@@ -18,6 +18,7 @@ describe "Admin::User:" do
     template.stub!(:gravatar_img)
     template.stub!(:current_user).and_return @user
     template.stub!(:will_paginate).and_return "will_paginate"
+    template.stub!(:link_to_cancel).and_return "link to cancel"
   end
 
   describe "the :index view" do
@@ -39,7 +40,7 @@ describe "Admin::User:" do
 
     it "displays a the user profile" do
       render "admin/users/show"
-      response.should have_tag('h3', @user.name)
+      response.should have_tag('h2', @user.name)
     end
   end
 
@@ -56,6 +57,11 @@ describe "Admin::User:" do
 
     it "renders the form partial" do
       template.should_receive(:render).with hash_including(:partial => 'form')
+      render "admin/users/new"
+    end
+    
+    it "uses link_to_cancel helper method to create a cancel link" do
+      template.should_receive(:link_to_cancel).and_return('link to cancel')
       render "admin/users/new"
     end
 
@@ -93,6 +99,11 @@ describe "Admin::User:" do
 
     it "renders the form partial" do
       template.should_receive(:render).with hash_including(:partial => 'form')
+      render "admin/users/edit"
+    end
+    
+    it "uses link_to_cancel helper method to create a cancel link" do
+      template.should_receive(:link_to_cancel).and_return('link to cancel')
       render "admin/users/edit"
     end
 

@@ -3,7 +3,7 @@ require 'theme/files'
 class Theme
   class ThemeError < StandardError; end
 
-  @@default_preview_path = RAILS_ROOT + '/public/plugin_assets/theme_support/images/preview.png'
+  @@default_preview_path = RAILS_ROOT + '/public/images/adva_cms/preview.png'
 
   cattr_accessor :root_dir
   @@root_dir = RAILS_ROOT

@@ -12,24 +12,24 @@ class PasswordController < BaseController
       token = user.assign_token 'password'
       user.save!
       trigger_event user, :password_reset_requested, :token => "#{user.id};#{token}"
-      flash[:notice] = 'Notice sent. Please check your email.'
+      flash[:notice] = 'We just sent you a notice. Please check your email.'
       redirect_to login_url
     else
-      flash[:error] = 'Could not find a user with this email address.'
+      flash[:error] = 'We could not find a user with the email address you entered.'
       render :action => :new
     end
   end
-  
+
   def edit
   end
 
   def update
     if current_user.update_attributes(params[:user].slice(:password))
       trigger_event current_user, :password_updated
-      flash[:notice] = 'Password successfully updated'
+      flash[:notice] = 'Your password was changed successfully.'
       redirect_to '/'
     else
-      flash[:error] = 'Could not update the password'
+      flash[:error] = 'Your password could not be changed.'
       render :action => :edit
     end
   end
