@@ -44,13 +44,8 @@ require "engines/plugin/migrator"
 #
 # == An example
 #
-<<<<<<< HEAD:plugins/engines/lib/engines/rails_extensions/migrations.rb
-# For example, our current application is at version 14 (according to the
-# +schema_info+ table), when we decide that we want to add a tagging plugin. The
-=======
 # For example, our current application is at version 20081106164503 (according to the
 # +schema_migrations+ table), when we decide that we want to add a tagging plugin. The
->>>>>>> xhtml:plugins/engines/lib/engines/rails_extensions/migrations.rb
 # tagging plugin chosen includes migrations to create the tables it requires
 # (say, _tags_ and _taggings_, for instance), along with the models and helpers
 # one might expect.
@@ -124,9 +119,6 @@ require "engines/plugin/migrator"
 #   Engines.plugins[:whatever].migrate(version)
 #
 #
-<<<<<<< HEAD:plugins/engines/lib/engines/rails_extensions/migrations.rb
-# We no longer need Engines::RailsExtensions::Migrations as we are now relying on the migration mechanism in Rails 2.1
-=======
 # = Upgrading from previous versions of the engines plugin
 #
 # Thanks to the tireless work of the plugin developer community, we can now relying on the migration 
@@ -139,4 +131,3 @@ require "engines/plugin/migrator"
 #
 # This will ensure that migration information is carried over into the main schema_migrations table.
 # 
->>>>>>> xhtml:plugins/engines/lib/engines/rails_extensions/migrations.rb
