@@ -93,6 +93,23 @@ describe Site do
   end
   
   describe 'methods' do
+    describe '#replace_host_spaces' do
+      it 'removes spaces from start of the line' do
+        @site.host = '    t e s t.advabest.de'
+        @site.send(:replace_host_spaces).should == 't-e-s-t.advabest.de'
+      end
+      
+      it 'replaces spaces with -' do
+        @site.host = 't e s t.advabest.de'
+        @site.send(:replace_host_spaces).should == 't-e-s-t.advabest.de'
+      end
+      
+      it 'removes spaces from end of the line' do
+        @site.host = 't e s t.advabest.de    '
+        @site.send(:replace_host_spaces).should == 't-e-s-t.advabest.de'
+      end
+    end
+  
     it '#permalinkaze_host should return host as a permalink' # do
     #   @site.host = 't e s t.advabest.de'
     #   @site.send(:permalinkaze_host).should == 't-e-s-t.advabest.de'
@@ -107,6 +124,10 @@ describe Site do
     it 'permalinkizes host before validation' # do
     #   Site.before_validation.should include(:permalinkaze_host)
     # end
+    
+    it 'strips spaces from host before validation' do
+      Site.before_validation.should include(:replace_host_spaces)
+    end
     
     it 'flushs the page cache after destroy' do
       Site.before_destroy.should include(:flush_page_cache)
