@@ -41,8 +41,7 @@ Tag.class_eval do def to_param; name end end
 XssTerminate.untaint_after_find = true
 
 # patch acts_as_versioned to play nice with xss_terminate
-require 'action_controller/dispatcher'
-ActionController::Dispatcher.to_prepare do
+config.to_prepare do
   ActiveRecord::Base.class_eval do
     class << self
       unless method_defined?(:acts_as_versioned_without_filters_attributes)
