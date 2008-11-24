@@ -12,7 +12,7 @@ Story: Publishing a section article
     Then the page has an admin article creation form
     And the 'Save as draft?' checkbox is checked by default
     When the user fills in the admin article creation form with valid values
-    And the user clicks the 'Save article' button
+    And the user clicks the 'Save' button
     Then the user is redirected to the admin section articles edit page
     And a new article is saved
 
@@ -28,6 +28,6 @@ Story: Publishing a section article
     And the user is logged in as admin
     When the user visits the admin section article edit page
     And the user unchecks 'Yes, save this article as a draft'
-    And the user clicks the 'Apply changes' button
+    And the user clicks the 'Save' button
     And the user goes to the section url on frontend
     Then the page displays the article

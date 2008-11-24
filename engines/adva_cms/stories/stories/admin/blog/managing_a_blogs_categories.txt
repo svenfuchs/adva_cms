@@ -25,5 +25,3 @@ Story: Managing a blog's categories
     And the user clicks the 'Save' button
     Then the category's title is set to 'an updated title'
     And the user is redirected the admin blog category edit page
-    When the user clicks on 'Categories'
-    Then the user sees the admin blog categories list page

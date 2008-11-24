@@ -20,7 +20,7 @@ class BlogArticlePublishTest < ActionController::IntegrationTest
     fills_in 'title', :with => 'the article title'
     fills_in 'article[body]', :with =>'the article body'
     fills_in 'article[tag_list]', :with => 'foo bar'
-    clicks_button 'Save article'
+    clicks_button 'Save'
     
     # check the article was created
     article = Article.first

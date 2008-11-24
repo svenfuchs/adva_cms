@@ -40,9 +40,10 @@ steps_for :blog_category do
   Then "the user is redirected the admin blog category edit page" do
     request.request_uri.should == edit_admin_category_path(@blog.site, @blog, @category)
     response.should render_template('admin/categories/edit')
+    puts response.body
   end
 
   Then "the page has a list of categories with the new category listed" do
-    response.should have_tag('#categories', 'a new category title')
+    response.should have_tag('#categories', /a new category title/)
   end
 end

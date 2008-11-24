@@ -26,7 +26,7 @@ class SessionController < BaseController
   def destroy
     logout
     flash[:notice] = 'Logged out successfully.'
-    redirect_to request.relative_url_root.blank? ? '/' : request.relative_url_root
+    redirect_to '/'
   end
 
   private

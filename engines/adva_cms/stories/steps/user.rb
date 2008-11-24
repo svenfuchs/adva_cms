@@ -88,7 +88,7 @@ steps_for :user do
   end
 
   Then "the page shows a list of users with $count entries" do |count|
-    response.should have_tag('ul[class=?]', 'users') do |ul|
+    response.should have_tag('ul[id=?]', 'users') do |ul|
       ul.should have_tag('li', :count => count.to_i)
     end
   end

@@ -6,10 +6,10 @@ Story: Managing users
     Given a site
     And the user is logged in as admin
     When the user visits the site's user list in the admin interface
-    And the user clicks on 'Create user'
+    And the user clicks on 'Create a new user'
     Then the page has an admin user account creation form
     When the user fills in the admin user account creation form with valid values
-    And the user clicks the 'Create' button
+    And the user clicks the 'Save' button
     Then a new user account is created
     And the user is a member of the site
     And the user is redirected to the admin site user show page

@@ -52,7 +52,7 @@ steps_for :article do
       When "the user visits the admin blog article creation page"
       When "the user fills in the admin article creation form with valid values"
       When "the user unchecks 'Yes, save this article as a draft'"
-      When "the user clicks the 'Save article' button"
+      When "the user clicks the 'Save' button"
     }.should change(Article, :count).by(1)
   end
 
