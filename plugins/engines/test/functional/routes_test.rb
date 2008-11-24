@@ -5,13 +5,9 @@
 
 require File.dirname(__FILE__) + '/../test_helper'
 
-class RoutesTest < Test::Unit::TestCase
-  def setup
-    @controller = TestRoutingController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-  end
-
+class RoutesTest < ActionController::TestCase
+  tests TestRoutingController
+  
 	def test_WITH_a_route_defined_in_a_plugin_IT_should_route_it
 	  path = '/routes/an_action'
     opts = {:controller => 'test_routing', :action => 'an_action'}

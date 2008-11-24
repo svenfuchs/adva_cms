@@ -32,5 +32,9 @@ module SpecViewHelper
     def act!
       instance_eval &self.class.acting_block
     end
+    
+    def content_for(section)
+      template.send(:instance_variable_get, "@content_for_#{section}") || ""
+    end
   end
 end

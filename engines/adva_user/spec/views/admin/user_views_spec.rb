@@ -28,7 +28,7 @@ describe "Admin::User:" do
 
     it "displays a list of users" do
       render "admin/users/index"
-      response.should have_tag('ul[class=?]', 'users')
+      response.should have_tag('ul[id=?]', 'users')
     end
   end
 

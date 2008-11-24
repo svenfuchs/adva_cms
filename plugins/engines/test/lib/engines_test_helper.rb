@@ -10,6 +10,12 @@ module TestHelper
     end
     "#{subject} (from #{location})"
   end
+  
+  def self.view_path_for path
+    [RAILS_ROOT + '/', 'vendor/plugins/', '.html.erb'].each { |part| path.sub! part, ''}
+    parts = path.split('/')
+    parts[(parts.index('views')+1)..-1].join('/')
+  end
 end
 
 class Test::Unit::TestCase

@@ -4,7 +4,7 @@
   before_filter :set_theme
   before_filter :set_file, :only => [:show, :update, :destroy]
 
-  guards_permissions :theme, :update => [:index, :show, :new, :create, :edit, :update, :destroy]
+  guards_permissions :theme, :update => [:index, :show, :new, :create, :import, :edit, :update, :destroy]
 
   def show
   end

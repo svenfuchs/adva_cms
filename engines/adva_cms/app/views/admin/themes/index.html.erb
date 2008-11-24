@@ -15,12 +15,12 @@
 
 <h2>Themes</h2>
 <% unless @themes.empty? -%>
-<ul id="themelist">
-  <%= render :partial => 'theme', :collection => @themes %>
-</ul>
+  <ul id="themelist">
+    <%= render :partial => 'theme', :collection => @themes %>
+  </ul>
 <% else -%>
-<div class="empty">
-  You currently do not have any themes created.
-  <%= link_to "Create one now. &raquo;", new_admin_theme_path %>
-</div>
+  <div class="empty">
+    You currently do not have any themes created.
+    <%= link_to "Create one now. &raquo;", new_admin_theme_path %>
+  </div>
 <% end -%>

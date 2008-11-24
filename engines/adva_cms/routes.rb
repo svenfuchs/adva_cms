@@ -70,7 +70,8 @@ map.resources :plugins,         :controller  => 'admin/plugins', # TODO map manu
 
 map.resources :files,           :controller  => 'admin/theme_files',
                                 :path_prefix => 'admin/sites/:site_id/themes/:theme_id',
-                                :name_prefix => 'admin_theme_'
+                                :name_prefix => 'admin_theme_',
+                                :collection  => { :import => :any }
 
 map.resources :articles,        :path_prefix => "admin/sites/:site_id/sections/:section_id",
                                 :name_prefix => "admin_",

@@ -7,10 +7,12 @@ describe "Admin::Articles:" do
   before :each do
     @article = stub_article
     @articles = stub_articles
+    @articles.stub!(:total_entries).and_return 2
 
-    assigns[:section] = @section = stub_section
     assigns[:site] = @site = stub_site
+    assigns[:section] = @section = stub_section
     assigns[:categories] = @categories = stub_categories
+    Section.stub!(:find).and_return @section
 
     set_resource_paths :article, '/admin/sites/1/sections/1/'
 
@@ -23,10 +25,9 @@ describe "Admin::Articles:" do
     template.stub!(:render).with hash_including(:partial => 'options')
     template.stub!(:render).with hash_including(:partial => 'categories/checkboxes')
     template.stub!(:render).with hash_including(:partial => 'admin/assets/widget/widget')
-
-    (class << template; self; end).class_eval do
-      include BaseHelper
-    end
+    
+    template.extend BaseHelper
+    template.extend ContentHelper
   end
 
   describe "the index view" do

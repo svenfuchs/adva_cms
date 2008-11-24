@@ -21,11 +21,8 @@ describe "Admin::Wikipages:" do
     template.stub!(:render).with hash_including(:partial => 'admin/assets/widget/widget')
 
     template.stub!(:will_paginate)
-    template.stub!(:datetime_with_microformat).and_return 'Once upon a time ...'
-    
-    (class << template; self; end).class_eval do
-      include BaseHelper
-    end
+    template.extend ContentHelper
+    template.extend BaseHelper
   end
 
   describe "the index view" do
@@ -33,10 +30,10 @@ describe "Admin::Wikipages:" do
       assigns[:wikipages] = @wikipages
     end
     
-    it "should have a link to create wikipage form" do
+    it "should have a link to create wikipage form to the sidebar" do
       template.stub!(:render).with :partial => 'wikipage', :collection => @wikipages
       render "admin/wikipages/index"
-      response.should have_tag('a[href=?]', @new_member_path)
+      content_for(:sidebar).should have_tag('a[href=?]', @new_member_path)
     end
 
     it "should display a list of wikipages" do

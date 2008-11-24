@@ -1,10 +1,9 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class ViewHelpersTest < Test::Unit::TestCase
+class ViewHelpersTest < ActionController::TestCase
+  tests AssetsController
+  
   def setup
-    @controller = AssetsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     get :index
   end
   
