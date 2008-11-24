@@ -784,13 +784,14 @@ fieldset .city input.text{
                          SIDEBAR
 *-------------------------------------------------------------------------*/
 #sidebar {
-  width:30%;
-  padding:30px 0 0 0;
-  float:right;
+	
+  position: relative;
+  width: 30%;
+  padding: 30px 0 0 0;
+  float: right;
 }
 
 #sidebar h3 {
-  position: relative;  
   font-size: 1em;
   padding: 0 0 8px 0;
 }
