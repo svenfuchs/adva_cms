@@ -60,12 +60,12 @@ class Admin::BaseController < ApplicationController
       end
     end
 
-    def return_from(action)
+    def return_from(action, options = {})
       params[:return_to] || begin
         url = Registry.get(:redirect, action)
         url = Registry.get(:redirect, url) if url.is_a?(Symbol)
         url = url.call(self) if url.is_a?(Proc)
-        url || '/'
+        url || options[:default] || '/'
       end
     end
 

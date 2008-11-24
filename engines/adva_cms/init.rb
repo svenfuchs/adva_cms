@@ -19,9 +19,16 @@ require 'roles'
 require 'event'    # need to force these to be loaded now, so Rails won't 
 require 'registry' # reload them between requests
 
+Registry.set :redirect, {
+  :login        => lambda {|c| c.send :admin_sites_path },
+  :verify       => :login,
+  :site_deleted => lambda {|c| c.send :admin_sites_path }
+}
+
 # uncomment this to have Engines copy assets to the public directory on 
 # every request (default: copies on server startup)
 # Engines.replicate_assets = :request
+
 I18n.load_path += Dir[File.dirname(__FILE__) + '/lib/locale/en/*']
 
 # turn this on to get detailed cache sweeper logging in production mode
