@@ -1,0 +1,18 @@
+
+The event_calendar engine models:
+* Calendar which is a section
+* Events
+* Category
+* Location
+* Bookmarks (A User-Event relation)
+
+A calendar has many categories
+A calendar has many events
+An event takes place at a location
+A bookmark belongs to a single event and user
+
+
+Event:
+Has a start and end datetime
+Has a title, description, keywords and host
+
