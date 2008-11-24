@@ -1,4 +1,4 @@
-<div id="assets-widget" class="clearing">
+<div id="assets-widget" class="_clearing">
   <ul class="tabs">
     <li id="tab-attached-assets"><a href="#" title="Attached assets">Attached</a></li>
     <li id="tab-latest-assets"><a href="#" title="Latest assets uploaded">Latest</a></li>
@@ -13,8 +13,8 @@
       <%= render :partial => "admin/assets/widget/asset", :collection => assets[type], :locals => { :content => @article, :prefix => type } %>
     </ul>
     <% else -%>
-    <div id="<%= type %>-assets" class="panel">
-      You have no files of this type or have yet to upload any files.
+    <div id="<%= type %>-assets" class="panel" style="padding: 10px;">
+      Your bucket is empty.
     </div>
     <% end -%>
   <% end %>

@@ -153,7 +153,7 @@
 .asset-list li {
 	position: relative;
 	float: left;
-	padding: 3px;
+	padding: 3px !important;
   margin: 4px 4px 0px 0px;
 	background-color: #fff;
 }

@@ -1,3 +1,3 @@
 page.flash.notice "#{@asset.title} detached from this #{@content.type.downcase}."
-page.visual_effect :fade, "attached-asset-#{@asset.id}", 
+page.visual_effect :fade, "attached_asset_#{@asset.id}", 
                    :afterFinish => "function(options){ options.element.remove(); AssetWidget.updateSelected(); }"

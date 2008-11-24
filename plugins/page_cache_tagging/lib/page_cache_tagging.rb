@@ -33,21 +33,22 @@ module PageCacheTagging
 
     def render_with_read_access_tracking(*args)
       options = args.last.is_a?(Hash) ? args.last : {}
-      @skip_caching = options.delete(:skip_caching) || !(track_options.has_key?(params[:action].to_sym)) || @skip_caching
+      # skip caching if explicitely requested or action is not configured to be cached
+      @skip_caching ||= options.delete(:skip_caching) || !(track_options.has_key?(params[:action].to_sym))
+      setup_read_access_tracking unless @skip_caching
       returning render_without_read_access_tracking(*args) do
-        save_cache_references unless @skip_caching
+        save_tracked_cache_references unless @skip_caching
       end
     end
 
-    def track_read_access
+    def setup_read_access_tracking
       return unless perform_caching
       options = self.class.track_options[params[:action].to_sym] || {}
       @read_access_tracker ||= RecordReadAccessTracker.new self, options.clone
     end
 
-    def save_cache_references
+    def save_tracked_cache_references
       return unless perform_caching
-      track_read_access
       references = @read_access_tracker.references
       CachedPage.create_with_references @site, @section, request.path, references
     end
