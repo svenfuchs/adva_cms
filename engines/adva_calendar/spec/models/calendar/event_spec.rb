@@ -19,15 +19,9 @@ describe Calendar::Event do
   end
 
   describe 'callbacks' do
-    it 'sets its  attribute to the current time before create' do # TODO why does it do this??
+    it 'sets its published_at attribute to the current time before create' do
       Calendar::Event.before_create.should include(:set_published)
     end
-
-    it 'initializes the title from the permalink for new records that do not have a title' do
-      new_event = Calendar::.new :permalink => 'something-new'
-      new_event.title.should == 'Something new'
-    end
-  end
 
   describe '#accept_comments?' do
     it 'does not accept comments' do
