@@ -13,7 +13,7 @@ describe Calendar do
     @calendar.should have_many(:events)
   end
 
-  it "should many categories" do
+  it "has many categories" do
     @calendar.should have_many(:categories)
   end
 
