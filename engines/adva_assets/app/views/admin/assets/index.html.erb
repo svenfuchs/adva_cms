@@ -21,6 +21,6 @@
   <h4>Some stats</h4>
   <p>
     You have a uploaded a total of <strong><%= pluralize @site.assets.count, 'asset'%></strong>, using
-    <strong><%= number_to_human_size(@site.assets.sum(:size) || 0).downcase %></strong>.
+    <strong><%= number_to_human_size(@site.assets.sum(:size) || 0).to_s.downcase %></strong>.
   </p>
 <% end %>
