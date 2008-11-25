@@ -2,18 +2,17 @@ require 'cgi'
 require 'action_view/helpers/url_helper'
 require 'action_view/helpers/tag_helper'
 
+# "/Users/sven/Development/projects/adva-cms/adva-cms/themes/site-1/theme-1/stylesheets/styles.css"
+# "/Users/sven/Development/projects/adva-cms/adva-cms/themes/theme-1/stylesheets/styles.css"
+
 module ActionView
   module Helpers #:nodoc:
     module AssetTagHelper
       def theme_javascript_path(theme_name, source)
-        tag = ThemeJavaScriptTag.create(self, @controller, source) do |cache_key, tag|
-          cache_key << theme_name
-          tag.theme_name = theme_name
-        end
-        tag.public_path
+        create_theme_javascript_tag(theme_name, source).public_path
       end
       alias_method :path_to_theme_javascript, :theme_javascript_path
-      
+
       def theme_javascript_include_tag(theme_name, *sources)
         options = sources.extract_options!.stringify_keys
         cache   = options.delete("cache")
@@ -35,16 +34,12 @@ module ActionView
           sources.expand_sources.collect { |source| theme_javascript_src_tag(theme_name, source, options) }.join("\n")
         end
       end
-      
+
       def theme_stylesheet_path(theme_name, source)
-        tag = ThemeStylesheetTag.create(self, @controller, source) do |cache_key, tag|
-          cache_key << theme_name
-          tag.theme_name = theme_name
-        end
-        tag.public_path
+        create_theme_stylesheet_tag(theme_name, source).public_path
       end
       alias_method :path_to_theme_stylesheet, :theme_stylesheet_path # aliased to avoid conflicts with a stylesheet_path named route
-      
+
       def theme_stylesheet_link_tag(theme_name, *sources)
         options = sources.extract_options!.stringify_keys
         cache   = options.delete("cache")
@@ -67,14 +62,13 @@ module ActionView
           sources.expand_sources.collect { |source| theme_stylesheet_tag(theme_name, source, options) }.join("\n")
         end
       end
-      
+
       def theme_image_path(theme_name, source)
-        tag = create_theme_image_tag(theme_name, source)
-        tag.public_path
+        create_theme_image_tag(theme_name, source).public_path
       end
       alias_method :path_to_theme_image, :theme_image_path # aliased to avoid conflicts with an image_path named route
 
-      
+
       def theme_image_tag(theme_name, source, options = {})
         options.symbolize_keys!
 
@@ -89,18 +83,18 @@ module ActionView
           options[:onmouseover] = "this.src='#{image_path(mouseover)}'"
           options[:onmouseout]  = "this.src='#{image_path(options[:src])}'"
         end
-        
+
         # copy the file
         tag = create_theme_image_tag(theme_name, source)
         if File.exist?(tag.asset_file_path)
           segments = [ASSETS_DIR, tag.public_path.split('?').first]
           segments.insert 1, 'cache', @controller.site.perma_host if Site.multi_sites_enabled
-          destination = File.join(segments) 
-          
+          destination = File.join(segments)
+
           FileUtils.mkdir_p File.dirname(destination)
           FileUtils.cp tag.asset_file_path, destination
         end
-        
+
         tag("img", options)
       end
 
@@ -112,33 +106,54 @@ module ActionView
         def theme_stylesheet_tag(theme_name, source, options)
           tag("link", { "rel" => "stylesheet", "type" => Mime::CSS, "media" => "screen", "href" => html_escape(path_to_theme_stylesheet(theme_name, source)) }.merge(options), false, false)
         end
-        
+
         def create_theme_image_tag(theme_name, source)
-          ThemeImageTag.create(self, @controller, source) do |cache_key, tag|
-            cache_key << theme_name
+          returning ThemeImageTag.new(self, @controller, source) do |tag|
+            tag.cache_key << theme_name
             tag.theme_name = theme_name
           end
         end
 
-        class AssetTag
-          # monkey patch
-          def self.create(template, controller, source, include_host = true)
-            CacheGuard.synchronize do
-              key = if controller.respond_to?(:request)
-                [self, controller.request.protocol,
-                 ActionController::Base.asset_host,
-                 ActionController::Base.relative_url_root,
-                 source, include_host]
-              else
-                [self, ActionController::Base.asset_host, source, include_host]
-              end
-              tag = new(template, controller, source, include_host)
-              yield key, tag if block_given?
-              Cache[key] ||= tag.freeze
-            end
+        def create_theme_javascript_tag(theme_name, source)
+          returning ThemeJavaScriptTag.new(self, @controller, source) do |tag|
+            tag.cache_key << theme_name
+            tag.theme_name = theme_name
           end
         end
-        
+
+        def create_theme_stylesheet_tag(theme_name, source)
+          returning ThemeStylesheetTag.new(self, @controller, source) do |tag|
+            tag.cache_key << theme_name
+            tag.theme_name = theme_name
+          end
+        end
+
+        # FIX!
+        class AssetTag
+          private
+            def compute_public_path(source)
+              if source =~ ProtocolRegexp
+                source += ".#{extension}" if missing_extension?(source)
+                source = prepend_asset_host(source)
+                source
+              else
+                CacheGuard.synchronize do
+                  # cache key should include the source parameter or shouldn't it?
+                  # otherwise we compute the same public path no matter what source
+                  # is given
+                  Cache[@cache_key + [source]] ||= begin
+                    source += ".#{extension}" if missing_extension?(source) || file_exists_with_extension?(source)
+                    source = "/#{directory}/#{source}" unless source[0] == ?/
+                    source = rewrite_asset_path(source)
+                    source = prepend_relative_url_root(source)
+                    source = prepend_asset_host(source)
+                    source
+                  end
+                end
+              end
+            end
+        end
+
         module ThemeAssetTag
           attr_accessor :theme_name
 
@@ -154,19 +169,24 @@ module ActionView
         end
 
         class ThemeImageTag < ImageTag
+          attr_accessor :cache_key
           include ThemeAssetTag
         end
 
         class ThemeJavaScriptTag < JavaScriptTag
+          attr_accessor :cache_key
           include ThemeAssetTag
         end
 
         class ThemeStylesheetTag < StylesheetTag
+          attr_accessor :cache_key
           include ThemeAssetTag
         end
 
         class AssetCollection
-          # monkeypatch
+          # monkeypatch to accept a block, so we can customize the cache key
+          # and set custom attributes (theme_name for our purpose) before the
+          # collection get's frozen and cached
           def self.create(template, controller, sources, recursive)
             CacheGuard.synchronize do
               key = [self, sources, recursive]
@@ -176,10 +196,10 @@ module ActionView
             end
           end
         end
-        
+
         module ThemeAssetCollection
           attr_accessor :theme_name
-          
+
           def write_asset_files_contents
             tag_sources.each do |source|
               segments = [ASSETS_DIR, source.public_path.split('?').first]
@@ -187,11 +207,11 @@ module ActionView
               write_asset_file_content(File.join(segments), source.contents, source.mtime)
             end
           end
-          
+
           def write_joined_asset_files_contents(joined_asset_path)
             write_asset_file_content(joined_asset_path, joined_contents, latest_mtime)
           end
-          
+
           def write_asset_file_content(destination, contents, mtime)
             FileUtils.mkdir_p(File.dirname(destination))
             File.open(destination, "w+") { |cache| cache.write(contents) }
@@ -200,8 +220,8 @@ module ActionView
 
           def tag_sources
             expand_sources.collect do |source|
-              tag_class.create(@template, @controller, source, false) do |cache_key, tag|
-                cache_key << theme_name
+              returning tag_class.new(@template, @controller, source, false) do |tag|
+                tag.cache_key << theme_name
                 tag.theme_name = theme_name
               end
             end
@@ -210,7 +230,7 @@ module ActionView
 
         class ThemeJavaScriptSources < JavaScriptSources
           include ThemeAssetCollection
-          
+
           private
             def tag_class
               ThemeJavaScriptTag
@@ -219,7 +239,7 @@ module ActionView
 
         class ThemeStylesheetSources < StylesheetSources
           include ThemeAssetCollection
-          
+
           private
             def tag_class
               ThemeStylesheetTag
