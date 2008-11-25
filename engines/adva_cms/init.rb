@@ -19,11 +19,13 @@ require 'roles'
 require 'event'    # need to force these to be loaded now, so Rails won't 
 require 'registry' # reload them between requests
 
-Registry.set :redirect, {
-  :login        => lambda {|c| c.send :admin_sites_path },
-  :verify       => :login,
-  :site_deleted => lambda {|c| c.send :admin_sites_path }
-}
+config.to_prepare do
+  Registry.set :redirect, {
+    :login        => lambda {|c| c.send :admin_sites_path },
+    :verify       => :login,
+    :site_deleted => lambda {|c| c.send :admin_sites_path }
+  }
+end
 
 # uncomment this to have Engines copy assets to the public directory on 
 # every request (default: copies on server startup)

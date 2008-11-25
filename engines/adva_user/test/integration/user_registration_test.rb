@@ -9,7 +9,6 @@ class UserRegistrationTest < ActionController::IntegrationTest
   include CacheableFlash::TestHelpers
   
   def setup
-    Registry.clear  # Don't load app-specific registrations
     ActionMailer::Base.deliveries = []
     Event::TestLog.clear!
     factory_scenario :site_with_a_section
