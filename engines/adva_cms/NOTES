@@ -1,3 +1,10 @@
+* add roles interface
+* remove observers and make behaviour more explicit by using events/listeners?
+  e.g. page caching
+* redesign/abstract adva_activity
+* redesign rbac to work with arbitrary group memberships
+
+
 - fix taborder (e.g. user profile)
 - categories list layout
 - background shadow bug
