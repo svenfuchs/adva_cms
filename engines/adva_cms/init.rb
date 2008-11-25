@@ -29,7 +29,7 @@ Registry.set :redirect, {
 # every request (default: copies on server startup)
 # Engines.replicate_assets = :request
 
-I18n.load_path += Dir[File.dirname(__FILE__) + '/lib/locale/en/*']
+I18n.load_path += Dir[File.dirname(__FILE__) + '/config/locale/**/*.yml']
 
 # turn this on to get detailed cache sweeper logging in production mode
 # Site.cache_sweeper_logging = true

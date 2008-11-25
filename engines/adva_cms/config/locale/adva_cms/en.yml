@@ -1,0 +1,7 @@
+en:
+  adva_cms:
+    common: 
+      none: none
+    confirm:
+      article:
+        delete: "Are you sure you wish to delete this article?"
