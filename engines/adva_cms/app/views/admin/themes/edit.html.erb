@@ -1,0 +1,26 @@
+<% content_for :sidebar do -%>
+  <h3>Manage</h3>
+  <ul>
+    <li><%= link_to 'Site', edit_admin_site_path(@site) %></li>
+    <li><%= link_to 'Themes', admin_themes_path(@site) %></li>
+    <li><%= link_to 'Cache', admin_cached_pages_path(@site) %></li>
+  </ul>
+
+  <h3>Actions</h3>
+  <ul>
+    <li><%= link_to "Create a new file", new_admin_theme_file_path(@site, @theme.id) %></li>
+    <li><%= link_to "Upload a new file", import_admin_theme_files_path(@site, @theme.id) %></li>
+    <li><%= link_to "Edit theme", edit_admin_theme_path(@site, @theme.id) %></li>
+    <li><%= link_to 'Download theme', export_admin_theme_path(@site, @theme.id) %></li>
+  </ul>
+<% end -%>
+
+<h2>Edit theme</h2>
+
+<% form_for :theme, @theme, :url => admin_theme_path(@site, @theme.id), :html => { :method => :put } do |f| %>
+	<%= render :partial => "form", :locals => {:f => f} %>
+	<p class="buttons">
+    <%= f.submit 'Save' %> or 
+    <%= link_to "cancel", admin_themes_path %>
+  </p>
+<% end %>
