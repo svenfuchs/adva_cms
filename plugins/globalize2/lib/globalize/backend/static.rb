@@ -35,7 +35,7 @@ module Globalize
         def translation(result, meta = nil)
           return unless result
           case result
-          when String, TrueClass, FalseClass
+          when String
             result = Translation::Static.new(result) unless result.is_a? Translation::Static
             result.set_meta meta
             result
@@ -48,7 +48,10 @@ module Globalize
               translation(value, meta)
             end
           else
-            raise "unexpected translation type: #{result.inspect}"
+            result
+            # TODO won't work because translation data can be anything (true, false, numbers, lambdas)
+            # and the static translation class can not handle that. How to solve this?
+            # raise "unexpected translation type: #{result.inspect}"
           end
         end
     end
