@@ -58,7 +58,7 @@ class UserRegistrationTest < ActionController::IntegrationTest
     assert user.verified?, 'user should be verified'
 
     # should be redirected to /
-    assert_redirected_to '/', 'user should be redirected to /'
+    assert_redirected_to 'admin/sites', 'user should be redirected to admin/sites'
 
     # should see a flash notice
     assert_not_nil flash_cookie["notice"], 'flash cookie should have a notice'
