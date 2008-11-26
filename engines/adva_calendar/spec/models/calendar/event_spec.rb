@@ -56,7 +56,9 @@ describe Event do
   end
   
   describe "relations" do
-    it "should have a category"
+    it "should have many categories" do
+      @event.should have_many(:categories)
+    end
     it "should have a location (country, city, adress)" do
       @event.should have_one(:location)
     end
@@ -74,7 +76,7 @@ describe Event do
       @calendar.events.elapsed.count.should be(1)
     end
     it "should have a upcoming scope" do
-      @calendar.events.elapsed.should be([@upcoming_event, @running_event])
+      @calendar.events.upcoming.should be([@upcoming_event, @running_event])
     end
     it "should have a recently added scope" do
       @calendar.events.recently_added.should be(@running_event, @upcoming_event, @past_event)
