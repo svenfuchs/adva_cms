@@ -1,17 +1,53 @@
 en:
   adva:
+    common: 
+      none: none
+      hide: Hide
+      save: Save
+      save_without_revision: Save without Revision
+      cancel: Cancel
+      connector:
+        or: or
+    titles:
+      settings: Settings
+      manage: Manage
+      actions: Actions
+      optional_settings: Optional Settings
+      publish_in_categories: Publish in these categories
     resource:
       view: View
       edit: Edit
       delete: Delete
-    common: 
-      none: none
-      hide: Hide
     article:
       excerpt_add: Add an excerpt
       confirm_delete: Are you sure you wish to delete this article?
       question_save_as_draft: Save as Draft?
-      confirm_save_as_draft: Yes, save this article as a draft.
-      publish_on_date: "Publish on this date:"
-      
+      confirm_save_as_draft: Yes, save this article as a draft
+      publish_on_date: Publish on this date
+      no_articles_in_section: There are no articles in {{section}}.
+      total_with_count: 
+        one: "Total: {{count}} article"
+        other: "Total: {{count}} articles"
+      link: 
+        create: Create a new article
+        create_now: Create one now
+        preview: Preview this article
+        delete: Delete this article
+        reorder: Reorder articles
+        reordering_done: Done reordering
+      titles: 
+        edit: Edit article
+      hint:
+        permalink: Use only ASCII characters and use dashes instead of spaces.
+        tags: 'Enter one or more tags separated by a space. You may include spaces by enclosing a tag with quotes. (For example, <em>"Web Dev" Tutorials</em>).'
+    models:
+      article:
+        one: Article
+        other: Articles
+      category:
+        one: Category
+        other: Categories
+      comment:
+        one: Comment
+        other: Comments
 #  activerecord.attributes.articles.excerpt    

@@ -1,16 +1,16 @@
-<h3>Manage</h3>
+<h3><%= t(:'adva.title.manage') %></h3>
 <ul>
-  <li><%= link_to "Articles", admin_articles_path(@site, @section) %></li>
-  <li><%= link_to "Categories", admin_categories_path(@site, @section) %></li>
-  <li><%= link_to "Settings", edit_admin_section_path(@site, @section) %></li>
+  <li><%= link_to t(:'adva.models.article.other'), admin_articles_path(@site, @section) %></li>
+  <li><%= link_to t(:'adva.models.category.other'), admin_categories_path(@site, @section) %></li>
+  <li><%= link_to t(:'adva.title.settings'), edit_admin_section_path(@site, @section) %></li>
 </ul>
 
 <% unless @article.new_record? -%>
-<h3>Actions</h3>
+<h3><%= t(:'adva.title.actions') %></h3>
 <ul>
-  <li><%= link_to "Create a new article", new_admin_article_path(@site) %></li>
-  <li><%= link_to "Preview this article", content_url(@article) %></li>
-  <li><%= link_to "Delete this article", admin_article_path, { :confirm => "Are you sure you wish to delete this article?", :method => :delete } %></li>
+  <li><%= link_to t(:'adva.article.link.create'), new_admin_article_path(@site) %></li>
+  <li><%= link_to t(:'adva.article.link.preview'), content_url(@article) %></li>
+  <li><%= link_to t(:'adva.article.link.delete'), admin_article_path, { :confirm => t(:'adva.article.confirm_delete'), :method => :delete } %></li>
   <%#= link_to "Close comments", admin_article_path %>
 </ul>
 <% end -%>
@@ -18,7 +18,7 @@
 <h3>Assets</h3>
 <%= render :partial => 'admin/assets/widget/widget', :locals => { :assets => { :latest => @site.assets.recent, :attached => @article.assets, :bucket => bucket_assets } } %>
 
-<h3>Optional settings</h3>
+<h3><%= t(:'adva.title.optional_settings') %></h3>
 <fieldset>
   <p>
     <%= f.label :author %>
@@ -29,21 +29,21 @@
     <%= f.select :filter, filter_options %>
   </p>
   <p>
-    <%= f.label :comment_age, 'Comments' %>
+    <%= f.label :comment_age, t(:'adva.models.comment.other') %>
     <%= f.select :comment_age, comment_expiration_options %>
   </p>
   <p>
     <%= f.label :permalink %>
-    <span class="hint">Use only ASCII characters and use dashes instead of spaces.</span>
+    <span class="hint"><%= t(:'adva.article.hint.permalink') %></span>
     <%= f.text_field :permalink %>
   </p>
   <%= f.label :tag_list %>
-  <span class="hint">Enter one or more tags separated by a space. You may include spaces by enclosing a tag with quotes. (For example, <em>"Web Dev" Tutorials</em>).</span>
+  <span class="hint"><%= t(:'adva.article.hint.tags') %></span>
   <%= f.text_field :tag_list %>
 </fieldset>
 
 <% unless @categories.empty? %>
-  <h4>Publish in these categories</h4>
+  <h4><%= t(:'adva.titles.publish_in_categories') %></h4>
   <%= render :partial => 'categories/checkboxes', :locals => { :categories => @categories, :content => @article } %>
 <% end %>
 
