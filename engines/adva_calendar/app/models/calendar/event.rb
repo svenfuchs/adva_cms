@@ -10,6 +10,7 @@ class Calendar::Event < ActiveRecord::Base
   belongs_to :location
   
   named_scope :elapsed, lambda {{:conditions => ['startdate < ? AND (enddate IS ? OR enddate < ?)', Time.now, nil, Time.now], :order => 'enddate DESC'}}
+  named_scope :upcoming, lambda {{:conditions => ['startdate > ? OR (startdate < ? AND enddate > ?)', Time.now, Time.now, Time.now], :order => 'startdate ASC'}}
 
   def set_published
     self.published_at = Time.zone.now
@@ -18,6 +19,4 @@ class Calendar::Event < ActiveRecord::Base
   def validate
     errors.add(:enddate, 'must be after start date') if ! self.enddate.nil? and self.enddate < self.startdate 
   end
-
-
 end
