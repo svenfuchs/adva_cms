@@ -1,0 +1,8 @@
+en:
+  adva:
+    resource:
+      view: View
+    common: 
+      none: none
+    article:
+      confirm_delete: "Are you sure you wish to delete this article?"
