@@ -9,7 +9,7 @@ class Calendar::Event < ActiveRecord::Base
   has_many :categories
   belongs_to :location
   
-  named_scope :elapsed, lambda {{:conditions => ['startdate < ? AND (enddate = ? OR enddate < ?)', Time.now, nil, Time.now]}}
+  named_scope :elapsed, lambda {{:conditions => ['startdate < ? AND (enddate IS ? OR enddate < ?)', Time.now, nil, Time.now], :order => 'enddate DESC'}}
 
   def set_published
     self.published_at = Time.zone.now
