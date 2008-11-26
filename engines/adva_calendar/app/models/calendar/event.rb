@@ -11,10 +11,6 @@ class Calendar::Event < ActiveRecord::Base
   
   named_scope :elapsed, lambda {{:conditions => ['startdate < ? AND (enddate = ? OR enddate < ?)', Time.now, nil, Time.now]}}
 
-  def after_initialize
-    self.title = permalink.to_s.gsub("-", " ").capitalize if new_record? && title.blank? && permalink
-  end
-
   def set_published
     self.published_at = Time.zone.now
   end
