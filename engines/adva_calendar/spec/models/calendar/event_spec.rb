@@ -9,6 +9,9 @@ describe Event do
   end
 
   describe 'class extensions:' do
+    it "acts as a taggable" do
+      Content.should act_as_taggable
+    end
     it 'sanitizes the body_html attribute' do
       Calendar::Event.should filter_attributes(:sanitize => :body_html)
     end
@@ -26,27 +29,38 @@ describe Event do
   
   describe 'validations' do
     before :each do
+      @event.should be_valid
       @event.save!.should be_true
       @event.reload
     end
 
     it "must have a title" do
       @event.title = nil
-      @event.save.should be_false
+      @event.should_not be_valid
+      @event.errors.on("title").should be
+      @event.errors.count.should be(1)
     end
 
     it "must have start datetime" do
       @event.startdate = nil
-      @event.save.should be_false
+      @event.should_not be_valid
+      @event.errors.on("startdate").should be
+      @event.errors.count.should be(1)
     end
-    it "must have a start date earlier than the end date"
+    it "must have a start date earlier than the end date" do
+      @event.enddate = @event.startdate - 1.day
+      @event.should_not be_valid
+      @event.errors.on("enddate").should be
+      @event.errors.count.should be(1)
+    end
   end
   
   describe "relations" do
-    it "should belong to a category"
-    it "should belong to a location (country, city, adress)"
+    it "should have a category"
+    it "should have a location (country, city, adress)" do
+      @event.should have_one(:location)
+    end
     it "should have user bookmarks"
-    it "should have tags"
   end
   
   describe "named scopes" do
