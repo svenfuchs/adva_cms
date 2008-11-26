@@ -1,17 +1,17 @@
 <% content_for :sidebar do -%>
   <h3><%= t(:'adva.titles.manage') %></h3>
   <ul>
-    <li><%= link_to t(:'adva.models.article.other'), admin_articles_path(@site, @section) %></li>
-    <li><%= link_to t(:'adva.models.category.other'), admin_categories_path(@site, @section) %></li>
-    <li><%= link_to t(:'adva.title.settings'), edit_admin_section_path(@site, @section) %></li>
+    <li><%= link_to t(:'adva.titles.article.other'), admin_articles_path(@site, @section) %></li>
+    <li><%= link_to t(:'adva.titles.category.other'), admin_categories_path(@site, @section) %></li>
+    <li><%= link_to t(:'adva.titles.settings'), edit_admin_section_path(@site, @section) %></li>
   </ul>
 
   <h3><%= t(:'adva.titles.actions') %></h3>
   <ul>
-    <li><%= link_to t(:'adva.article.link.create'), new_admin_article_path(@site) %></li>
+    <li><%= link_to t(:'adva.articles.links.create'), new_admin_article_path(@site) %></li>
     <% if @articles.size > 1 %>
       <li>
-        <%= link_to_function t(:'adva.article.link.reorder'), "articles_list.toggle(this, #{t(:'adva.article.link.reordering_done')});", :id => 'reorder_sections' %>
+        <%= link_to_function t(:'adva.articles.links.reorder'), "articles_list.toggle(this, #{t(:'adva.resources.reordering_done')});", :id => 'reorder_sections' %>
         <%= image_tag '/images/adva_cms/indicator.gif', :id => 'articles_indicator', :style => 'display: none;' %>
       </li>
     <% end %>
@@ -20,7 +20,7 @@
 
 <% unless @articles.empty? -%>
   <p class="total">
-    <%= t('adva.article.total_with_count', :count => @articles.total_entries) %>
+    <%= t('adva.articles.total_with_count', :count => @articles.total_entries) %>
   </p>
 
   <table id="articles" class="list">
@@ -55,8 +55,8 @@
 <% else %>
 
   <div class="empty">
-    <%= t(:'adva.article.no_articles_in_section', :section => @section.title) %>
-    <%= link_to t(:'adva.article.link.create_now'), new_admin_article_path(@site) %>
+    <%= t(:'adva.articles.no_entries_in_section', :section => @section.title) %>
+    <%= link_to t(:'adva.articles.links.create_now'), new_admin_article_path(@site) %>
   </div>
 
 <% end %>

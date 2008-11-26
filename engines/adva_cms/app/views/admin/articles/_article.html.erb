@@ -4,8 +4,8 @@
   <td><%= published_at_formatted article %></td>
   <td><%= link_to h(article.author_name), admin_site_user_path(@site, article.author) %></td>
   <td class="actions">
-    <%= link_to(t(:'adva.resource.view'), content_path(article), :class => 'view') if article.published? %>
-    <%= link_to t(:'adva.resource.edit'), edit_admin_article_path(@site, @section, article), :class => 'edit' %>
-    <%= link_to t(:'adva.resource.delete'), admin_article_path(@site, @section, article), :class => 'delete', :confirm => t(:"adva.article.confirm_delete"), :method => :delete %>
+    <%= link_to(t(:'adva.resources.view'), content_path(article), :class => 'view') if article.published? %>
+    <%= link_to t(:'adva.resources.edit'), edit_admin_article_path(@site, @section, article), :class => 'edit' %>
+    <%= link_to t(:'adva.resources.delete'), admin_article_path(@site, @section, article), :class => 'delete', :confirm => t(:"adva.articles.confirm_delete"), :method => :delete %>
   </td>
 </tr>

@@ -9,8 +9,8 @@ try {
     row.addClassName('deleted');
   }
   
-  Flash.notice("This page has been removed from the cache.")  
-  
+  Flash.notice("<%= t(:'adva.cached_pages.confirmation.cleared') %>")  
+
 } catch(e) {
   alert(e)
 }

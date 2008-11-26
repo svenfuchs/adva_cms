@@ -12,13 +12,21 @@ en:
       settings: Settings
       manage: Manage
       actions: Actions
+      themes: Themes
+      articles: Articles
+      categories: Categories
+      comments: Comments
+      cache: Cache
+      clear: Clear
+      clear_all: Clear all
       optional_settings: Optional Settings
       publish_in_categories: Publish in these categories
-    resource:
+    resources:
       view: View
       edit: Edit
       delete: Delete
-    article:
+      reordering_done: Done reordering
+    articles:
       excerpt_add: Add an excerpt
       confirm_delete: Are you sure you wish to delete this article?
       question_save_as_draft: Save as Draft?
@@ -28,26 +36,38 @@ en:
       total_with_count: 
         one: "Total: {{count}} article"
         other: "Total: {{count}} articles"
-      link: 
+      links: 
         create: Create a new article
         create_now: Create one now
         preview: Preview this article
         delete: Delete this article
         reorder: Reorder articles
-        reordering_done: Done reordering
       titles: 
         edit: Edit article
-      hint:
+      hints:
         permalink: Use only ASCII characters and use dashes instead of spaces.
         tags: 'Enter one or more tags separated by a space. You may include spaces by enclosing a tag with quotes. (For example, <em>"Web Dev" Tutorials</em>).'
-    models:
-      article:
-        one: Article
-        other: Articles
-      category:
-        one: Category
-        other: Categories
-      comment:
-        one: Comment
-        other: Comments
+    categories:
+      confirm_delete: Are you sure you wish to delete this category?
+      total_with_count: 
+        one: "Total: {{count}} category"
+        other: "Total: {{count}} categories"
+      links: 
+        create: Create a new category
+        delete: Delete this category
+        reorder: Reorder categories
+      titles:
+        edit: Edit category
+      attributes:
+        name: name
+    cached_pages:
+      no_entries: There currently aren't any pages being cached.
+      no_entries_matching_criteria: There currently aren't any pages being cached that match this criteria.
+      confirmation:
+        cleared: This page has been removed from the cache.
+        cleared_short: Cleared
+      filter:
+        show_cached_pages: Show cached pages
+
 #  activerecord.attributes.articles.excerpt    
+#  activerecord.attributes.categories.name    

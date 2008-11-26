@@ -1,16 +1,16 @@
-<h3><%= t(:'adva.title.manage') %></h3>
+<h3><%= t(:'adva.titles.manage') %></h3>
 <ul>
-  <li><%= link_to t(:'adva.models.article.other'), admin_articles_path(@site, @section) %></li>
-  <li><%= link_to t(:'adva.models.category.other'), admin_categories_path(@site, @section) %></li>
-  <li><%= link_to t(:'adva.title.settings'), edit_admin_section_path(@site, @section) %></li>
+  <li><%= link_to t(:'adva.titles.articles'), admin_articles_path(@site, @section) %></li>
+  <li><%= link_to t(:'adva.titles.categories'), admin_categories_path(@site, @section) %></li>
+  <li><%= link_to t(:'adva.titles.settings'), edit_admin_section_path(@site, @section) %></li>
 </ul>
 
 <% unless @article.new_record? -%>
-<h3><%= t(:'adva.title.actions') %></h3>
+<h3><%= t(:'adva.titles.actions') %></h3>
 <ul>
-  <li><%= link_to t(:'adva.article.link.create'), new_admin_article_path(@site) %></li>
-  <li><%= link_to t(:'adva.article.link.preview'), content_url(@article) %></li>
-  <li><%= link_to t(:'adva.article.link.delete'), admin_article_path, { :confirm => t(:'adva.article.confirm_delete'), :method => :delete } %></li>
+  <li><%= link_to t(:'adva.articles.links.create'), new_admin_article_path(@site) %></li>
+  <li><%= link_to t(:'adva.articles.links.preview'), content_url(@article) %></li>
+  <li><%= link_to t(:'adva.articles.links.delete'), admin_article_path, { :confirm => t(:'adva.articles.confirm_delete'), :method => :delete } %></li>
   <%#= link_to "Close comments", admin_article_path %>
 </ul>
 <% end -%>
@@ -18,7 +18,7 @@
 <h3>Assets</h3>
 <%= render :partial => 'admin/assets/widget/widget', :locals => { :assets => { :latest => @site.assets.recent, :attached => @article.assets, :bucket => bucket_assets } } %>
 
-<h3><%= t(:'adva.title.optional_settings') %></h3>
+<h3><%= t(:'adva.titles.optional_settings') %></h3>
 <fieldset>
   <p>
     <%= f.label :author %>
@@ -29,16 +29,16 @@
     <%= f.select :filter, filter_options %>
   </p>
   <p>
-    <%= f.label :comment_age, t(:'adva.models.comment.other') %>
+    <%= f.label :comment_age, t(:'adva.titles.comments') %>
     <%= f.select :comment_age, comment_expiration_options %>
   </p>
   <p>
     <%= f.label :permalink %>
-    <span class="hint"><%= t(:'adva.article.hint.permalink') %></span>
+    <span class="hint"><%= t(:'adva.articles.hints.permalink') %></span>
     <%= f.text_field :permalink %>
   </p>
   <%= f.label :tag_list %>
-  <span class="hint"><%= t(:'adva.article.hint.tags') %></span>
+  <span class="hint"><%= t(:'adva.articles.hints.tags') %></span>
   <%= f.text_field :tag_list %>
 </fieldset>
 
