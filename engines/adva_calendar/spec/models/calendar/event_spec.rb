@@ -60,7 +60,7 @@ describe Event do
       @event.should have_many(:categories)
     end
     it "should have a location (country, city, adress)" do
-      @event.should have_one(:location)
+      @event.should belong_to(:location)
     end
     it "should have user bookmarks"
   end
@@ -68,18 +68,24 @@ describe Event do
   describe "named scopes" do
     before do
       @calendar.events.delete_all
-      @past_event = @calendar.events.create!(:title => 'Gameboy Music Club', :startdate => Time.now - 1.day)
-      @upcoming_event = @calendar.events.create!(:title => 'Jellybeat', :startdate => Time.now + 4.hours)
-      @running_event = @calendar.events.create!(:title => 'Vienna Jazz Floor 08', :startdate => Time.now - 4.days, :enddate => Time.now + 9.days)
+      @elapsed_event = @calendar.events.create!(:title => 'Gameboy Music Club', 
+          :startdate => Time.now - 1.day).reload
+      @elapsed_event2 = @calendar.events.create!(:title => 'Mobile Clubbing', 
+          :startdate => Time.now - 5.hours,  :enddate => Time.now - 3.hour).reload
+      @upcoming_event = @calendar.events.create!(:title => 'Jellybeat', 
+          :startdate => Time.now + 4.hours).reload
+      @running_event = @calendar.events.create!(:title => 'Vienna Jazz Floor 08', 
+          :startdate => Time.now - 4.days, :enddate => Time.now + 9.days).reload
+      @calendar.reload
     end
     it "should have a elapsed scope" do
-      @calendar.events.elapsed.count.should be(1)
+      @calendar.events.elapsed.should ==[@elapsed_event2, @elapsed_event]
     end
     it "should have a upcoming scope" do
-      @calendar.events.upcoming.should be([@upcoming_event, @running_event])
+      @calendar.events.upcoming.should ==[@upcoming_event, @running_event]
     end
     it "should have a recently added scope" do
-      @calendar.events.recently_added.should be(@running_event, @upcoming_event, @past_event)
+      @calendar.events.recently_added.should ==[@running_event, @upcoming_event, @elapsed_event]
     end
   end
   
