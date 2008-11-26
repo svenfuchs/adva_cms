@@ -64,9 +64,21 @@ describe Event do
   end
   
   describe "named scopes" do
-    it "should have a elapsed scope"
-    it "should have a upcoming scope"
-    it "should have a recently added scope"
+    before do
+      @calendar.events.delete_all
+      @past_event = @calendar.events.create!(:title => 'Gameboy Music Club', :startdate => Time.now - 1.day)
+      @upcoming_event = @calendar.events.create!(:title => 'Jellybeat', :startdate => Time.now + 4.hours)
+      @running_event = @calendar.events.create!(:title => 'Vienna Jazz Floor 08', :startdate => Time.now - 4.days, :enddate => Time.now + 9.days)
+    end
+    it "should have a elapsed scope" do
+      @calendar.events.elapsed.count.should be(1)
+    end
+    it "should have a upcoming scope" do
+      @calendar.events.elapsed.should be([@upcoming_event, @running_event])
+    end
+    it "should have a recently added scope" do
+      @calendar.events.recently_added.should be(@running_event, @upcoming_event, @past_event)
+    end
   end
   
   describe "recurring events" do
