@@ -83,9 +83,10 @@ describe Event do
     end
     it "should have a upcoming scope" do
       @calendar.events.upcoming.should ==[@running_event, @upcoming_event]
+      @calendar.events.upcoming(Time.now + 1.day).should ==[@running_event]
     end
     it "should have a recently added scope" do
-      @calendar.events.recently_added.should ==[@running_event, @upcoming_event, @elapsed_event]
+      @calendar.events.recently_added.should ==[@upcoming_event, @running_event]
     end
   end
   
