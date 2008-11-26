@@ -14,7 +14,7 @@ class CreateCalendarEventsTable < ActiveRecord::Migration
       
       t.integer :parent_id
       
-      t.references :calendar
+      t.references :section
       t.references :category
       t.references :author
       
