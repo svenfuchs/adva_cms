@@ -9,22 +9,24 @@
   <%= f.text_field :title, :class => 'big'  %>
   <p id="excerpt" style="<%= @article.has_excerpt? ? "" : "display:none" %>">
     <label for="article_excerpt">
-      Excerpt
-      <span class="hint inline">(<%= link_to_function 'Hide', "$('excerpt').toggle()" %>)</span>
+      <%= t(:'activerecord.attributes.articles.excerpt') %>
+      <span class="hint inline">(<%= link_to_function t(:'adva.common.hide'), "$('excerpt').toggle()" %>)</span>
     </label>
     <%= f.text_area :excerpt, :rows => '8', :class => 'fat'  %>
   </p>
   <label for="article_body">
     Write your article
-    <span class="hint inline">(<%= link_to_function 'Add an excerpt', "$('excerpt').toggle()" %>)</span>
+    <span class="hint inline">(<%= link_to_function t(:'adva.common.excerpt_add'), "$('excerpt').toggle()" %>)</span>
   </label>
   <%= f.text_area :body, :class => 'fat', :rows => 25  %>
 
-  <%= f.label :draft, "Save as Draft?" %>
-  <label class="light"><%= check_box_tag :draft, '1', @article.draft?, :id => 'article-draft' %> Yes, save this article as a draft.</label>
+  <%= f.label :draft, t(:'adva.article.question_save_as_draft') %>
+  <label class="light">
+    <%= check_box_tag :draft, '1', @article.draft?, :id => 'article-draft' %><%= t(:'adva.article.confirm_save_as_draft') %>
+  </label>
 
   <p id="publish-date" style="<%= @article.draft? ? "display:none" : "" %>">
-    <%= f.label :published_at, "Publish on this date:" %>
+    <%= f.label :published_at, t(:'adva.article.publish_on_date') %>
     <%= f.datetime_select :published_at,
                           :start_year => (@article.published_at || Time.zone.now).year-1,
                           :end_year => (Time.zone.now.year + 5),

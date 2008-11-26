@@ -2,7 +2,16 @@ en:
   adva:
     resource:
       view: View
+      edit: Edit
+      delete: Delete
     common: 
       none: none
+      hide: Hide
     article:
-      confirm_delete: "Are you sure you wish to delete this article?"
+      excerpt_add: Add an excerpt
+      confirm_delete: Are you sure you wish to delete this article?
+      question_save_as_draft: Save as Draft?
+      confirm_save_as_draft: Yes, save this article as a draft.
+      publish_on_date: "Publish on this date:"
+      
+#  activerecord.attributes.articles.excerpt    
