@@ -5,7 +5,7 @@ describe Event do
 
   before :each do
     @calendar = Calendar.create!(:title => 'Concerts')
-    @event = @calendar.events.create!
+    @event = @calendar.events.new(:title => 'The Dodos', :startdate => '2008-11-24 21:30')
   end
 
   describe 'class extensions:' do
@@ -23,15 +23,23 @@ describe Event do
       Calendar::Event.before_create.should include(:set_published)
     end
   end
-  describe '#accept_comments?' do
-    it 'does not accept comments' do
-      @event.should_receive(:accept_comments?).and_return false
-    end
-  end
   
   describe 'validations' do
-    it "should have start datetime"
-    it "should have a start date earlier than the end date"
+    before :each do
+      @event.save!.should be_true
+      @event.reload
+    end
+
+    it "must have a title" do
+      @event.title = nil
+      @event.save.should be_false
+    end
+
+    it "must have start datetime" do
+      @event.startdate = nil
+      @event.save.should be_false
+    end
+    it "must have a start date earlier than the end date"
   end
   
   describe "relations" do
