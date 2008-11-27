@@ -1,0 +1,22 @@
+en:
+  adva:
+    activity:
+      none: Nothing happened
+      notifier:
+        new: New {{activity}} posted
+      view:
+        new: "{{name}} <{{email}}> just posted a new {{activity}} on {{site}} in section {{section}}."
+      comment: Comment {{actions}}
+      actions: "{{type}} {{actions}} in {{activity}}."
+    
+    title:  
+      history:
+        today: Today {{date}}
+        yesterday: Yesterday {{date}}
+        past: Before {{date}}
+    common:
+      subscribe: Subscribe
+      approve: Approve
+      unapprove: Unapprove
+      delete: Delete
+      
