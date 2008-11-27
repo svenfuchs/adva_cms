@@ -1,5 +1,5 @@
 <% content_for :sidebar do -%>
-  <h3>Actions</h3>
+  <h3><%= t(:'adva.titles.actions') %></h3>
   <ul>
     <li><%= link_to t(:'adva.categories.links.create'), new_admin_category_path %></li>
     <% if @categories.size > 1 %>
@@ -40,7 +40,7 @@
   
 <% else %>
   <div class="empty">
-    You don't have any categories created in <%= @section.title %>. 
+    <%= t(:'adva.categories.no_entries_in_section', :section => @section.title) %>
     <%= link_to "Create one now &raquo;", new_admin_category_path %>
   </div>
 <% end %>

@@ -1,9 +1,9 @@
-<h3>Create a new site</h3>
+<h3><%= t(:'adva.sites.title.create') %></h3>
 
 <% form_for :site, @site, :url => admin_sites_path do |f| %>
   <%= render :partial => 'form', :locals => {:f => f, :site => @site} %>
   
-  <h2>Home section</h2>  
+  <h2><%= t(:'adva.sites.title.home_section') %></h2>  
   <fieldset class="clearfix">
   <fieldset class="col">
     <% fields_for :section, @section do |section| %>
