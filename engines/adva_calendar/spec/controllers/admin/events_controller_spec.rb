@@ -2,12 +2,12 @@ require File.dirname(__FILE__) + "/../../spec_helper"
 
 describe Admin::EventsController do
   include SpecControllerHelper
-  fixtures :sites, :sections, :categories, :calendar_events
   
   before :each do
-    set_resource_paths :event, '/admin/sites/1/sections/1/'
     @site = Site.find(1)
-    @section = Section.find(1).becomes(Calendar)
+    @section = @site.sections.find(1).becomes(Calendar)
+    @event = @section.events.find(1)
+    set_resource_paths :event, '/admin/sites/1/sections/1/'
 
     controller.stub! :require_authentication
     controller.stub!(:has_permission?).and_return true
@@ -44,7 +44,7 @@ describe Admin::EventsController do
     it_guards_permissions :create, :event
 
     it "instantiates a new event from section.events" do
-      @section.events.should_receive(:build).and_return @event
+      @section.events.should_receive(:new).and_return Calendar::Event.new(:title => 'New event')
       act!
     end
   end
@@ -56,7 +56,7 @@ describe Admin::EventsController do
     it_guards_permissions :update, :event
   
     it "fetches a event from section.events" do
-      @section.events.should_receive(:find).and_return @event
+      @section.events.should_receive(:find).and_return Calendar::Event.find(1)
       act!
     end
   end
