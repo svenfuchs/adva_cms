@@ -1,3 +1,7 @@
+class Location < ActiveRecord::Base
+  has_many :events
+end
+
 class Calendar::Event < ActiveRecord::Base
   filters_attributes :sanitize => :body_html, :except => [:body, :cached_tag_list]
   before_create :set_published

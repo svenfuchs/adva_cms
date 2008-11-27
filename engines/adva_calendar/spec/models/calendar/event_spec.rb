@@ -59,7 +59,7 @@ describe Event do
     it "should have many categories" do
       @event.should have_many(:categories)
     end
-    it "should have a location (country, city, adress)" do
+    it "should have a location" do
       @event.should belong_to(:location)
     end
     it "should have user bookmarks"
