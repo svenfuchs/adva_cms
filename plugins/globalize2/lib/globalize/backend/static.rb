@@ -17,10 +17,12 @@ module Globalize
           rescue I18n::MissingTranslationData
           end
         end
-        result ||= default locale, default, options
-
+        
+        result = default locale, default, options if result.nil?
+        raise(I18n::MissingTranslationData.new(locale, key, options)) if result.nil?
+        
         attrs = {:requested_locale => locale, :locale => fallback, :key => key, :options => options}
-        translation(result, attrs) || raise(I18n::MissingTranslationData.new(locale, key, options))
+        translation(result, attrs)
       end
 
       protected

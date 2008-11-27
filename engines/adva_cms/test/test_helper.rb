@@ -7,6 +7,9 @@ require File.expand_path(File.join(File.dirname(__FILE__), 'test_helpers', 'asse
 require File.expand_path(File.join(File.dirname(__FILE__), 'test_helpers', 'integration_steps'))
 require File.expand_path(File.join(File.dirname(__FILE__), 'test_helpers', 'integration_db_reset'))
 
+require 'globalize/i18n/missing_translations_raise_handler'
+I18n.exception_handler = :missing_translations_raise_handler
+
 class Test::Unit::TestCase
   # Transactional fixtures accelerate your tests by wrapping each test method
   # in a transaction that's rolled back on completion.  This ensures that the
