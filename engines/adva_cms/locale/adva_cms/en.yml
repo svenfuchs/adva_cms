@@ -27,7 +27,9 @@ en:
       clear_all: Clear all
       plugins: Plugins
       plugin: Plugin
+      settings: Settings
       optional_settings: Optional Settings
+      permissions: Permissions
       publish_in_categories: Publish in these categories
       restore_defaults: Restore Defaults
     resources:
@@ -47,6 +49,18 @@ en:
         admin_email: Admin e-mail
         site_name: Website name
       confirm_delete: Are you sure you wish to delete this site?
+    sections: 
+      hints: 
+        content_filter: When articles are posted, they use this as the default setting.
+      titles: 
+        section_settings: Section specific settings
+        blog_settings: Blog specific settings
+        forum_settings: Forum specific settings
+        create: Create a new section
+      links: 
+        delete: Delete this section
+        create: Create a new section
+      confirm_delete: Are you sure you wish to delete this section?
     articles:
       excerpt_add: Add an excerpt
       confirm_delete: Are you sure you wish to delete this article?
@@ -81,6 +95,9 @@ en:
         edit: Edit category
       attributes:
         name: name
+    comments: 
+      labels: 
+        comments: Comments
     users: 
       attributes: 
         password: Password
