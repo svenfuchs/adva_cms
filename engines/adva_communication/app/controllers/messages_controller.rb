@@ -12,4 +12,11 @@ class MessagesController < BaseController
   def new
     
   end
+  
+  def destroy
+    @message = Message.find(params[:id])
+    @message.mark_as_deleted(current_user)
+    
+    redirect_to messages_path
+  end
 end

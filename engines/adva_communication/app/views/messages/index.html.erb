@@ -1,1 +1,3 @@
-<%= link_to 'Compose a mail', new_message_path %>
+<h2>Inbox</h2>
+	
+<%= render :partial => 'messages', :locals => { :messages => @messages }%>

@@ -1,0 +1,13 @@
+<%= link_to 'Compose a mail', new_message_path %>
+
+<div id="messages">
+	<% unless messages.empty? -%>
+		<% for message in messages -%>
+			<%= render :partial => 'message', :locals => { :message => message }%>
+		<% end -%>
+	<% else %>
+		<p class="empty">
+			You do not have any messages.
+		</p>
+	<% end -%>
+</div>
