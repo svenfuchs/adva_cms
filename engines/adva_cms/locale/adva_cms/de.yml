@@ -1,0 +1,8 @@
+de:
+  adva:
+    resource:
+      view: Anzeigen
+    common: 
+      none: keine
+    article:
+      confirm_delete: "Diesen Artikel wirklich löschen?"

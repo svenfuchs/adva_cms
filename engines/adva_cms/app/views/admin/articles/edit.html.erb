@@ -1,9 +1,9 @@
-<h2>Edit article</h2>
+<h2><%= t(:'adva.articles.title.edit') %></h2>
 <% split_form_for :article, @article, :url => admin_article_path, :html => {:multipart => true, :method => :put, :id => 'content_form'} do |f| -%>
   <%= render :partial => 'form', :locals => {:f => f} %>  
   <p class="buttons">
-    <%= submit_tag 'Save', :name => 'save_revision' %>
-    <%= submit_tag 'Save without Revision' %> or 
-    <%= link_to "cancel", admin_articles_path %>
+    <%= submit_tag t(:'adva.common.save'), :name => 'save_revision' %>
+    <%= submit_tag t(:'adva.common.save_without_revision') %> or 
+    <%= link_to t(:'adva.common.cancel'), admin_articles_path %>
   </p>
 <% end -%>

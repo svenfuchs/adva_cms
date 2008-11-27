@@ -6,7 +6,7 @@
     <%= cached_page_date(cached_page) %>
   </td>
   <td>
-    <%= link_to_remote 'Clear', :url => admin_cached_page_path(@site, cached_page), :method => :delete %>
-    <span>Cleared</span>
+    <%= link_to_remote t(:'adva.titles.clear'), :url => admin_cached_page_path(@site, cached_page), :method => :delete %>
+    <span><%= t(:'adva.cached_pages.confirmation.cleared_short') %></span>
   </td>
 </tr>

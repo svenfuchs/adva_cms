@@ -6,7 +6,7 @@
 
 <% if @cached_pages.size > 0 -%>
   <p class="total">
-    Total: <strong><%= @cached_pages.total_entries %></strong> <%= pluralize_str @cached_pages.total_entries, 'pages' %>.
+    <%= t('adva.cached_pages.total_with_count', :count => @cached_pages.total_entries) %>
   </p>
 
   <table id="cached_pages" cellspacing="0" cellpadding="0">
@@ -23,8 +23,11 @@
   </table>
 
   <%= will_paginate @articles, :id => 'pagination' %>
+
 <% else %>
+
   <div class="empty">
-    There currently aren't any pages being cached<%= params[:query].blank? ? '.' : ' that match this criteria.' %>
+    <%= params[:query].blank? ? t(:'adva.cached_pages.no_entries') : t(:'adva.cached_pages.no_entries_matching_criteria') %>
   </div>
+
 <% end %>

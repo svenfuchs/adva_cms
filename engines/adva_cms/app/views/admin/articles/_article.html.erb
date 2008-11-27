@@ -1,11 +1,11 @@
 <tr id="<%= dom_id article %>">
   <td><%= link_to article.title, edit_admin_article_path(@site, @section, article), :class => article.state %></td>
-  <td><%= article.accept_comments? && !article.comments.empty? ? link_to(article.comments.size, admin_comments_path) : I18n.t(:"adva_cms.common.none") %></td>
+  <td><%= article.accept_comments? && !article.comments.empty? ? link_to(article.comments.size, admin_comments_path) : t(:"adva.common.none") %></td>
   <td><%= published_at_formatted article %></td>
   <td><%= link_to h(article.author_name), admin_site_user_path(@site, article.author) %></td>
   <td class="actions">
-    <%= link_to("View", content_path(article), :class => 'view') if article.published? %>
-    <%= link_to "Edit", edit_admin_article_path(@site, @section, article), :class => 'edit' %>
-    <%= link_to "Delete", admin_article_path(@site, @section, article), :class => 'delete', :confirm => I18n.t(:"adva_cms.common.none"), :method => :delete %>
+    <%= link_to(t(:'adva.resources.view'), content_path(article), :class => 'view') if article.published? %>
+    <%= link_to t(:'adva.resources.edit'), edit_admin_article_path(@site, @section, article), :class => 'edit' %>
+    <%= link_to t(:'adva.resources.delete'), admin_article_path(@site, @section, article), :class => 'delete', :confirm => t(:"adva.articles.confirm_delete"), :method => :delete %>
   </td>
 </tr>
