@@ -2,6 +2,8 @@ TODO I18n strings
   _user_activity.html.erb
   showed up <%= distance_of_time_in_words_to_now(user.updated_at) %> ago
 
+  theme_files/_files.html.erb
+  type.titleize
 
 
 

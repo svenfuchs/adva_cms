@@ -1,7 +1,7 @@
 <fieldset class="clearfix">
   <div class="col1">
     <p>
-      <%= f.label :localpath, 'Filename' %>
+      <%= f.label :localpath, t(:'adva.themes.labels.filename') %>
       <%= f.text_field :localpath %>
     </p>
     <% if @file.text? %>
@@ -13,8 +13,8 @@
       <p><%= image_tag @file.path.to_s %></p>
     <% end %>
     <p class="buttons">
-      <%= submit_tag 'Save' %> or 
-      <%= link_to 'cancel', admin_theme_path(@site, @theme.id) %>
+      <%= submit_tag t(:'adva.common.save') %> or 
+      <%= link_to t(:'adva.common.cancel'), admin_theme_path(@site, @theme.id) %>
     </p>
   </div>
 </fieldset>

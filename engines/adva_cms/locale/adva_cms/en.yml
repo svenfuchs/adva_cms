@@ -6,8 +6,11 @@ en:
       save: Save
       save_without_revision: Save without Revision
       cancel: Cancel
+      upload: Upload
+      import: Import
       "yes": "yes"
       about: About
+      by_author: by {{author}}
       connector:
         or: or
     title: 
@@ -21,6 +24,7 @@ en:
       manage: Manage
       actions: Actions
       site: Site
+      theme: Theme
       themes: Themes
       articles: Articles
       categories: Categories
@@ -151,6 +155,35 @@ en:
         homepage: Homepage
       no_plugins_installed: There currently aren't any plugins installed.
       no_config_options_available: This plugin does not have any config options available.
+    themes: 
+      no_themes_available: You currently do not have any themes created.
+      lables: 
+        zip_file: Zip file
+      titles: 
+        new: Create a new theme
+        edit: Edit theme
+        valid_file_types: Valid file types
+        import: Import a theme
+        edit_file: Edit theme file
+      links: 
+        add_another_file: Add another file
+        new_theme: New theme
+        edit: Edit
+        create_one_now: Create one now. &raquo;
+        delete_file: Delete theme file
+        uninstall: Uninstall
+        download_theme: Download theme
+        upload_file: Upload a new file
+        import_theme: Import theme
+        create_file: Create a new file
+        edit_theme: Edit theme
+        select: Select
+        unselect: Unselect
+      upload_template_or_asset: Upload a template or an asset.
+      labels: 
+        asssets: Assets
+        templates: Templates
+        filename: Filename
 
 #  activerecord.attributes.articles.excerpt    
 #  activerecord.attributes.categories.name    
