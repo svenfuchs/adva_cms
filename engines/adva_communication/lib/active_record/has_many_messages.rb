@@ -7,16 +7,16 @@ module ActiveRecord
     module ActMacro
       def has_many_messages(options = {})
         return if has_many_messages?
-
+        
         has_many :messages_received,
-                 :class_name => "Message",
+                 :class_name  => "Message",
                  :foreign_key => "recipient_id",
-                 :conditions => ["deleted_at_recipient = ?", nil]
+                 :conditions  => ["deleted_at_recipient IS NULL"]
         
         has_many :messages_sent,
-                 :class_name => "Message",
+                 :class_name  => "Message",
                  :foreign_key => "sender_id",
-                 :conditions => ["deleted_at_recipient = ?", nil]
+                 :conditions  => ["deleted_at_sender IS NULL"]
         
         include InstanceMethods
       end
