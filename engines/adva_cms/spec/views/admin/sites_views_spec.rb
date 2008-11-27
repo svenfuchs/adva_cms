@@ -31,7 +31,7 @@ describe "Admin::Sites Views:" do
     it "displays a link to delete the site" do
       assigns[:sites] = @sites
       render "admin/sites/index"
-      response.should have_tag('a[href=?][class=?]', admin_site_path(@sites.first), 'delete', 'delete')
+      response.should have_tag('a[href=?][class=?]', admin_site_path(@sites.first), 'delete', 'Delete')
     end
 
     it "displays a link to a site's settings" do

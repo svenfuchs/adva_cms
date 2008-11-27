@@ -1,27 +1,27 @@
 <%= render :partial => 'action_nav' %>
 
 <% content_for :sidebar do %>
-  <h4>About</h4>
+  <h4><%= t(:'adva.common.about') %></h4>
   <% if @plugin.about['summary'] %>
     <p><%= @plugin.about['summary'] %></p>
   <% end %>
   <% if @plugin.about['version'] %>
-    <p>Version: <%= @plugin.about['version'] %></p>
+    <p><%= t(:'adva.plugins.attributes.version') %>: <%= @plugin.about['version'] %></p>
   <% end %>
   <% if @plugin.about['author'] %>
-    <p>Author: <%= @plugin.about['author'] %></p>
+    <p><%= t(:'adva.plugins.attributes.author') %>: <%= @plugin.about['author'] %></p>
   <% end %>
   <% if @plugin.about['homepage'] %>
-    <p>Homepage: <%= @plugin.about['homepage'] %></p>
+    <p><%= t(:'adva.plugins.attributes.homepage') %>: <%= @plugin.about['homepage'] %></p>
   <% end %>
 <% end %>
 
 <% if @plugin.about['description'] %>
-  <h3>Plugin: <%= @plugin.name %></h3>
+  <h3><%= t(:'adva.titles.plugin') %>: <%= @plugin.name %></h3>
   <p><%= @plugin.about['description'] %></p>
 <% end %>  
 
-<h3>Settings</h3>
+<h3><%= t(:'adva.titles.settings') %></h3>
 
 <% unless @plugin.default_options.empty? %>
   <% form_for :plugin, @plugin, :url => admin_plugin_path(@site), :html => { :method => :put } do |f| -%>
@@ -31,5 +31,5 @@
     </p>
   <% end -%>
 <% else %>
-  <p class="empty">This plugin does not have any config options listed.</p>
+  <p class="empty"><%= t(:'adva.plugins.no_config_options_available') %></p>
 <% end %>

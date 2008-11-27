@@ -6,12 +6,28 @@ en:
       save: Save
       save_without_revision: Save without Revision
       cancel: Cancel
+      upload: Upload
+      import: Import
+      "yes": "yes"
+      about: About
+      by_author: by {{author}}
+      language: Language
       connector:
         or: or
+    title: 
+      welcome: Welcome!
+      success: Success!
+      website_home_section: Website home section
+      website_configuration: Website configuration
     titles:
-      settings: Settings
+      history: History
+      overview: Overview
+      dashboard: Dashboard
       manage: Manage
       actions: Actions
+      site: Site
+      sections: Sections
+      theme: Theme
       themes: Themes
       articles: Articles
       categories: Categories
@@ -19,13 +35,76 @@ en:
       cache: Cache
       clear: Clear
       clear_all: Clear all
+      plugins: Plugins
+      plugin: Plugin
+      assets: Assets
+      settings: Settings
+      general_settings: General settings
       optional_settings: Optional Settings
+      permissions: Permissions
+      spam_protection: Spam protection
+      spam_filters: Spam filters
       publish_in_categories: Publish in these categories
+      restore_defaults: Restore Defaults
+      recent_activity: Recent activity
+      logout: Logout
+      users: Users
+      site_users: Site users
+      website: Website
+      accounts: Accounts
+    links: 
+      back: Back
+      skip_to_navigation: Skip to Navigation
+      logout: Logout
+      login: Log In
+      skip_to_content: Skip to Content
     resources:
       view: View
       edit: Edit
       delete: Delete
+      settings: settings
       reordering_done: Done reordering
+    sites: 
+      title: 
+        create: Create a new site
+        home_section: Home section
+      install: 
+        success_fully_created: You have successfully created your site. Enjoy!
+        welcome_to_installation: "Welcome to the less-than-two-minutes installation process. Just fill in the information below and you're done. "
+        can_always_change_settings: Don't worry. You can always change these settings later.
+      link: 
+        create_site_and_account: "Create site & account »"
+        manage_new: Manage your new site &raquo;
+        delete: Delete this site
+      label: 
+        name: Website name
+        host: Host name
+        subtitle: Website subtitle
+        title: Website title
+        timezone: Website Timezone
+        admin_email: Administrator email
+      attributes: 
+        name: Name
+        host: Host
+      hints: 
+        host_name: Include the port if it's a non-standard one. E.g. localhost:3000
+        admin_email: Shown in emails sent from your site
+      confirm_delete: Are you sure you wish to delete this site?
+      no_sites: You currently do not have any sites created.
+    sections: 
+      hints: 
+        content_filter: When articles are posted, they use this as the default setting.
+      titles: 
+        section_settings: Section specific settings
+        blog_settings: Blog specific settings
+        forum_settings: Forum specific settings
+        create: Create a new section
+      links: 
+        delete: Delete this section
+        create: Create a new section
+        add_section: Add a section
+        reorder: Reorder sections
+      confirm_delete: Are you sure you wish to delete this section?
     articles:
       excerpt_add: Add an excerpt
       confirm_delete: Are you sure you wish to delete this article?
@@ -49,6 +128,7 @@ en:
         tags: 'Enter one or more tags separated by a space. You may include spaces by enclosing a tag with quotes. (For example, <em>"Web Dev" Tutorials</em>).'
     categories:
       confirm_delete: Are you sure you wish to delete this category?
+      no_categories_in_section: There are no categories in {{section}}.
       total_with_count: 
         one: "Total: {{count}} category"
         other: "Total: {{count}} categories"
@@ -60,6 +140,22 @@ en:
         edit: Edit category
       attributes:
         name: name
+    comments: 
+      labels: 
+        comments: Comments
+      hints: 
+        comments_filter: When comments are posted, they use this markup.
+      titles: 
+        comments_awaiting_approval: Comments awaiting your approval
+    users: 
+      attributes: 
+        password: Password
+        email: E-Mail
+    user: 
+      logged_in_as: "Logged in as: "
+    spam: 
+      hints: 
+        filters: When comments are posted, the following filters are used to check their spam status.
     cached_pages:
       no_entries: There currently aren't any pages being cached.
       no_entries_matching_criteria: There currently aren't any pages being cached that match this criteria.
@@ -68,6 +164,54 @@ en:
         cleared_short: Cleared
       filter:
         show_cached_pages: Show cached pages
+    plugins: 
+      attributes: 
+        name: Name
+        configurable: Configurable
+        author: Author
+        version: Version
+        homepage: Homepage
+      no_plugins_installed: There currently aren't any plugins installed.
+      no_config_options_available: This plugin does not have any config options available.
+    themes: 
+      no_themes_available: You currently do not have any themes created.
+      lables: 
+        zip_file: Zip file
+      titles: 
+        new: Create a new theme
+        edit: Edit theme
+        valid_file_types: Valid file types
+        import: Import a theme
+        edit_file: Edit theme file
+      links: 
+        add_another_file: Add another file
+        new_theme: New theme
+        edit: Edit
+        create_one_now: Create one now. &raquo;
+        delete_file: Delete theme file
+        uninstall: Uninstall
+        download_theme: Download theme
+        upload_file: Upload a new file
+        import_theme: Import theme
+        create_file: Create a new file
+        edit_theme: Edit theme
+        select: Select
+        unselect: Unselect
+      upload_template_or_asset: Upload a template or an asset.
+      labels: 
+        asssets: Assets
+        templates: Templates
+        filename: Filename
+    sidebar: 
+      titles: 
+        tags: Tags
+        topics: Topics
+    footer: 
+      powered_by: Site powered by adva cms. Theme inspired by depo.
+    messages: 
+      insufficient_permissions: 
+        title: Insufficient permissions
+        body: If you think you should be allowed to perform this action please contact the admin of this site and ask him to reconfigure the permissions for your role.
 
 #  activerecord.attributes.articles.excerpt    
 #  activerecord.attributes.categories.name    

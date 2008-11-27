@@ -1,21 +1,21 @@
 <div id="utility-links" class="clearfix">
   <!-- 
   <ul class="breadcrumb">
-    <li><a href="#">Dashboard</a> &raquo;</li>
-    <li><a href="#">Accounts</a> &raquo;</li>
-    <li class="active"><a href="#">small Account</a></li>
+    <li><a href="#"><%= t(:'adva.titles.dashboard') %></a> &raquo;</li>
+    <li><a href="#"><%= t(:'adva.titles.accounts') %></a> &raquo;</li>
+    <li class="active"><a href="#">Small Account</a></li>
   </ul>
   -->
   <ul class="userlinks">
     <% if current_user %>
-      <li>Logged in as: <%= link_to_profile @site, :name => current_user.name %></li>
-      <li <% unless @site %>class="last"<% end %>><%= link_to 'Logout', logout_path, :method => :delete %></li>
+      <li><%= t(:'adva.user.logged_in_as', :user => link_to_profile(@site, :name => current_user.name)) %></li>
+      <li <% unless @site %>class="last"<% end %>><%= link_to t(:'adva.links.logout'), logout_path, :method => :delete %></li>
     <% else %>
       <li>You're not logged in</li> 
-      <li <% unless @site %>class="last"<% end %>><%= link_to 'Log In', :controller => 'session', :action => 'new' %></li>    
+      <li <% unless @site %>class="last"<% end %>><%= link_to t(:'adva.links.login'), :controller => 'session', :action => 'new' %></li>    
     <% end %>
     <% if @site %>
-      <li class="last"><%= link_to 'Website »', "http://#{@site.host}" %></li>
+      <li class="last"><%= link_to t(:'adva.titles.website') + ' »', "http://#{@site.host}" %></li>
     <% end %>
   </ul>
 </div>

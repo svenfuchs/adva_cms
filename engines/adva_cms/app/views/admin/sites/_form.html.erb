@@ -1,30 +1,31 @@
-<h2>General settings</h2>
+<h2><%= t(:'adva.titles.general_settings') %></h2>
 <fieldset class="clearfix">
   <div class="col">
-    <%= f.label :name, 'Website name' %>
+    <%= f.label :name, t(:'adva.sites.label.name') %>
     <%= f.text_field :name, :tabindex => 1 %>
-  	<%= f.label :title, 'Website title' %>
+  	<%= f.label :title, t(:'adva.sites.label.title') %>
   	<%= f.text_field :title, :tabindex => 3 %>
-  	<%= f.label :email, 'Administrator email' %>
-    <!--<span class="hint">Shown in emails sent from your site</span>-->
+  	<%= f.label :email, t(:'adva.sites.label.admin_email') %>
+    <!--<span class="hint"><%= t(:'adva.sites.hints.admin_email') %></span>-->
   	<%= f.text_field :email, :tabindex => 5 %>
   </div>
   <div class="col">
-    <%= f.label :host, 'Host name' %>
-    <!-- <span class="hint">Include the port if it's a non-standard one. E.g. localhost:3000</span> -->
+    <%= f.label :host, t(:'adva.sites.label.host') %>
+    <!-- <span class="hint">t(:'admin.sites.hints.host_name')</span> -->
     <%= f.text_field :host, :tabindex => 2 %>
-  	<%= f.label :subtitle, 'Website subtitle' %>
+  	<%= f.label :subtitle, t(:'adva.sites.label.subtitle') %>
   	<%= f.text_field :subtitle, :tabindex => 4 %>
-    <%= f.label :timezone, 'Website Timezone' %>
+    <%= f.label :timezone, t(:'adva.sites.label.timezone') %>
     <%= f.time_zone_select :timezone, [ ActiveSupport::TimeZone['UTC'] ], :selected => site.timezone, :tabindex => 6 %>
   </div>
 </fieldset>
 <%# TODO: complete tabindex for other fields %>
-<h2>Comments</h2>
+
+<h2><%= t(:'adva.titles.comments') %></h2>
 <fieldset class="clearfix">
   <div class="col"> 
     <%= f.label :comment_filter, 'Comments filter' %>
-    <span class="hint">When comments are posted, they use this markup.</span>
+    <span class="hint">t(:'adva.comments.hints.comments_filter')</span>
   </div>
   <div class="col"> 
     <span class="hint">&nbsp;</span>
@@ -32,11 +33,11 @@
   </div>
 </fieldset>
 <!-----------------------------------------TODO---------------------------------------->  
-<h2>Spam protection</h2>
+<h2><%= t(:'adva.titles.spam_protection') %></h2>
 <fieldset id="site_spam_settings_fields" class="clearfix">  
   <div class="col1"> 
-    <h4>Spam filters</h4>
-    <span class="hint">When comments are posted, the following filters are used to check their spam status.</span>
+    <h4>t(:'adva.titles.spam_filters')</h4>
+    <span class="hint">t(:'adva.spam.hints.filters')</span>
     <% SpamEngine::Filter.names.each do |name| %>
     <h3><%= name %></h3>
     <p>

@@ -76,7 +76,7 @@ module Activities
         condition.collect do |key, condition|
           case key
           when :not then !record.send(condition)
-          else raise 'not implemented'
+          else raise 'not implemented' # TODO: should this be NotImplementedError?
           end
         end.inject(false){|a, b| a || b }
       end

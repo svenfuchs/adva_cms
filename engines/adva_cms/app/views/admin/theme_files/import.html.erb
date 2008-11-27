@@ -1,17 +1,17 @@
 <% content_for :sidebar do %>
-  <h3>Manage</h3>
+  <h3><%= t(:'adva.titles.manage') %></h3>
   <ul>
-    <li><%= link_to 'Site', edit_admin_site_path(@site) %></li>
-    <li><%= link_to 'Themes', admin_themes_path(@site) %></li>
-    <li><%= link_to 'Cache', admin_cached_pages_path(@site) %></li>
+    <li><%= link_to t(:'adva.titles.site'), edit_admin_site_path(@site) %></li>
+    <li><%= link_to t(:'adva.titles.themes'), admin_themes_path(@site) %></li>
+    <li><%= link_to t(:'adva.titles.cache'), admin_cached_pages_path(@site) %></li>
   </ul>
 
-  <h3>Actions</h3>
+  <h3><%= t(:'adva.titles.actions') %></h3>
   <ul>
-    <li><%= link_to "Create a new file", new_admin_theme_file_path(@site, @theme.id) %></li>
-    <li><%= link_to "Upload a new file", import_admin_theme_files_path(@site, @theme.id) %></li>
-    <li><%= link_to "Edit theme", edit_admin_theme_path(@site, @theme.id) %></li>
-    <li><%= link_to 'Download theme', export_admin_theme_path(@site, @theme.id) %></li>
+    <li><%= link_to t(:'adva.themes.links.create_file'), new_admin_theme_file_path(@site, @theme.id) %></li>
+    <li><%= link_to t(:'adva.themes.links.upload_file'), import_admin_theme_files_path(@site, @theme.id) %></li>
+    <li><%= link_to t(:'adva.themes.links.edit_theme'), edit_admin_theme_path(@site, @theme.id) %></li>
+    <li><%= link_to t(:'adva.themes.links.download_theme'), export_admin_theme_path(@site, @theme.id) %></li>
   </ul>
   
   <%= render :partial => 'admin/theme_files/files' %>
@@ -22,19 +22,19 @@
   <fieldset class="clearfix">
     <div class="col1">
       <div style="margin-bottom:20px;">
-        <p>Upload a template or an asset.</p>
-        <h3>Valid file types</h3>
-        <p>Templates: <%= Theme::Path.template_types.collect(&:first).join(', ') %></p>
-        <p>Assets: <%= Theme::Path.asset_types.collect(&:first).join(', ') %></p>
+        <p><%= t(:'adva.themes.upload_template_or_asset') %></p>
+        <h3><%= t(:'adva.themes.titles.valid_file_types') %></h3>
+        <p><%= t(:'adva.themes.labels.templates') %>: <%= Theme::Path.template_types.collect(&:first).join(', ') %></p>
+        <p><%= t(:'adva.themes.labels.asssets') %>: <%= Theme::Path.asset_types.collect(&:first).join(', ') %></p>
       </div>
       <p><%= file_field_tag("file[data][]", :id => 'file_data_1') %></p>
     </div>
     <!--<div class="col">
-      <p><%= link_to "Add another file", "#", :id => "upload-add-file" %></p>
+      <p><%= link_to t(:'adva.themes.links.add_another_file'), "#", :id => "upload-add-file" %></p>
     </div>-->
   </fieldset>
   <p class="buttons">
-    <%= submit_tag "Upload" %> or 
-    <%= link_to 'cancel', admin_theme_path(@site, @theme.id) %>
+    <%= submit_tag t(:'adva.common.upload') %> or 
+    <%= link_to t(:'adva.common.cancel'), admin_theme_path(@site, @theme.id) %>
   </p>
 <% end %>
