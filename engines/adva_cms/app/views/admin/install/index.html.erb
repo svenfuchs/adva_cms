@@ -1,19 +1,19 @@
-<h2>t(:'adva.title.welcome')</h2>
+<h2><%= t(:'adva.title.welcome') %></h2>
 
 <p>
-  t(:'adva.sites.install.welcome_to_installation')
+  <%= t(:'adva.sites.install.welcome_to_installation') %>
 </p>
 
 <p>
-  t(:'adva.sites.install.can_always_change_settings')
+  <%= t(:'adva.sites.install.can_always_change_settings') %>
 </p>
 
 <% form_tag install_path do %>   
-  <h3>t(:'adva.title.website_configuration')</h3>
+  <h3><%= t(:'adva.title.website_configuration') %></h3>
   <fieldset>
     <% fields_for @site do |site| %>
       <p>
-        <%= site.label :name, t(:'adva.sites.label.site_name') %>
+        <%= site.label :name, t(:'adva.sites.label.name') %>
       	<%= site.text_field :name, :class => 'big' %>
       </p>
     <% end %>
@@ -22,7 +22,6 @@
     	  <%= user.label :email, t(:'adva.sites.label.admin_email') %>
     		<%= user.text_field 'email', :class => 'big' %>
     	</p>
-
     	<p>
     	  <%= user.label :password %>
     		<%= user.password_field 'password', :class => 'big' %>
@@ -30,7 +29,7 @@
     <% end %>
   </fieldset>  
   
-  <h3>t(:'adva.title.website_home_section')</h3>  
+  <h3><%= t(:'adva.title.website_home_section') %></h3>  
   <fieldset>
     <% fields_for @section do |section| %>
       <p>

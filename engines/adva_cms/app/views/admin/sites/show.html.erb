@@ -1,12 +1,12 @@
 <!-- <h2>
-  Overview: <%#= @site.title %>
+  <%= t(:'adva.titles.overview') %>: <%#= @site.title %>
 </h2>
-<p><%#= link_to "Add a section", new_admin_section_path(@site) %></p>
+<p><%#= link_to t(:'adva.sections.links.add_section'), new_admin_section_path(@site) %></p>
 <%#= render :partial => 'sections', :locals => { :sections => @site.sections.roots } %> -->
 
 
 <h2 id="history_headline">
-  History: <%= @site.title %>
+  <%= t(:'adva.titles.history') %>: <%= @site.title %>
 </h2>
 <%= render :partial => 'admin/activities/activities', :object => @activities %>
 

@@ -1,3 +1,12 @@
+TODO I18n strings
+  _user_activity.html.erb
+  showed up <%= distance_of_time_in_words_to_now(user.updated_at) %> ago
+
+
+
+
+
+
 * add roles interface
 * remove observers and make behaviour more explicit by using events/listeners?
   e.g. page caching

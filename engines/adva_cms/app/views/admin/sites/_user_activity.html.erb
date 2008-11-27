@@ -1,5 +1,5 @@
 <% unless users.blank? %>
-  <h3>Recent activity</h3>
+  <h3><%= t(:'adva.titles.recent_activity') %></h3>
   <ul id="recent_users">
     <% users.each do |user| %>
       <li class="<%= cycle '', 'highlight', :name => 'recent_users' %> clearfix">
