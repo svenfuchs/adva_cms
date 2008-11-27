@@ -20,20 +20,20 @@ class Admin::ThemesController < Admin::BaseController
   def create
     @theme = @site.themes.build params[:theme]
     if @theme.save
-      flash[:notice] = "The theme has been created."
+      flash[:notice] = t(:'adva.theme.flash.create.success')
       redirect_to admin_themes_path
     else
-      flash.now[:error] = "The theme could not be created: #{@theme.errors.to_sentence}."
+      flash.now[:error] = t(:'adva.theme.flash.create.failure', :errors => @theme.errors.to_sentence)
       render :action => :new
     end
   end
 
   def update
     if @theme.update_attributes params[:theme]
-      flash[:notice] = "The theme has been updated."
+      flash[:notice] = t(:'adva.theme.flash.update.success')
       redirect_to admin_theme_path(@site, @theme.id)
     else
-      flash.now[:error] = "The theme could not be updated: #{@theme.errors.to_sentence}."
+      flash.now[:error] = t(:'adva.theme.flash.update.failure', :errors => @theme.errors.to_sentence)
       render :action => :show
     end
   end
@@ -42,10 +42,10 @@ class Admin::ThemesController < Admin::BaseController
     if @theme.destroy
       expire_pages_by_site!
       # TODO theme should also be unselected here
-      flash[:notice] = "The theme has been deleted."
+      flash[:notice] = t(:'adva.theme.flash.destroy.success')
       redirect_to admin_themes_path
     else
-      flash.now[:error] = "The theme could not be deleted."
+      flash.now[:error] = t(:'adva.theme.flash.destroy.failure')
       render :action => :show
     end
   end
@@ -54,12 +54,12 @@ class Admin::ThemesController < Admin::BaseController
     return unless request.post?
     
     if params[:theme][:file].blank?
-      flash.now[:error] = "The theme file cannot be blank."
+      flash.now[:error] = t(:'adva.theme.flash.import.error_filename_blank')
     elsif @site.themes.import @file
-      flash.now[:notice] = "The theme has been imported."
+      flash.now[:notice] = t(:'adva.theme.flash.import.success')
       redirect_to admin_themes_path
     else
-      flash.now[:error] = "The file could not be imported as a theme."
+      flash.now[:error] = t(:'adva.theme.flash.import.failure')
     end
   end
 

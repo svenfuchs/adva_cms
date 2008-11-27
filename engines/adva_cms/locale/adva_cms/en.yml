@@ -91,6 +91,21 @@ en:
         admin_email: Shown in emails sent from your site
       confirm_delete: Are you sure you wish to delete this site?
       no_sites: You currently do not have any sites created.
+    site: 
+      flash: 
+        destroy: 
+          success: The site has been deleted.
+          failure: The site could not be deleted
+        install: 
+          error_already_complete: Installation is already complete. Please log in with your admin account.
+          success: Congratulations! You have successfully set up your site.
+          failure: "The following models could not be created: {{models}}."
+        create: 
+          success: The site has been created.
+          failure: The site could not be created
+        update: 
+          success: The site has been updated.
+          failure: The site could not be updated
     sections: 
       hints: 
         content_filter: When articles are posted, they use this as the default setting.
@@ -105,6 +120,31 @@ en:
         add_section: Add a section
         reorder: Reorder sections
       confirm_delete: Are you sure you wish to delete this section?
+    section: 
+      flash: 
+        create: 
+          success: The section has been created.
+          failure: The section could not be created.
+        update: 
+          success: The section has been updated.
+          failure: The section could not be updated.
+        destroy: 
+          success: The section has been destroyed.
+          failure: The section could not be destroyed.
+    article: 
+      flash: 
+        destroy: 
+          success: The article has been deleted.
+          failure: The article could not be deleted.
+        rollback: 
+          success: The article has been rolled back to revision {{version}}
+          failure: The article could not be rolled back to revision {{version}}
+        create: 
+          success: The article has been created.
+          failure: The article could not be created.
+        update: 
+          success: The article has been updated
+          failure: The article could not be updated
     articles:
       excerpt_add: Add an excerpt
       confirm_delete: Are you sure you wish to delete this article?
@@ -126,6 +166,17 @@ en:
       hints:
         permalink: Use only ASCII characters and use dashes instead of spaces.
         tags: 'Enter one or more tags separated by a space. You may include spaces by enclosing a tag with quotes. (For example, <em>"Web Dev" Tutorials</em>).'
+    category: 
+      flash: 
+        destroy: 
+          success: The category has been deleted.
+          failure: The category could not be deleted.
+        create: 
+          success: The category has been created.
+          failure: The category could not be created.
+        update: 
+          success: The category has been updated.
+          failure: The category could not be updated.
     categories:
       confirm_delete: Are you sure you wish to delete this category?
       no_categories_in_section: There are no categories in {{section}}.
@@ -156,6 +207,10 @@ en:
     spam: 
       hints: 
         filters: When comments are posted, the following filters are used to check their spam status.
+    cached_page: 
+      flash: 
+        clear: 
+          success: The cache has been cleared.
     cached_pages:
       no_entries: There currently aren't any pages being cached.
       no_entries_matching_criteria: There currently aren't any pages being cached that match this criteria.
@@ -164,6 +219,14 @@ en:
         cleared_short: Cleared
       filter:
         show_cached_pages: Show cached pages
+    plugin: 
+      flash: 
+        destroy: 
+          success: The default settings have been restored.
+          failure: The section could not be deleted.
+        update: 
+          success: The plugin settings have been updated.
+          failure: The section could not be created.
     plugins: 
       attributes: 
         name: Name
@@ -173,6 +236,21 @@ en:
         homepage: Homepage
       no_plugins_installed: There currently aren't any plugins installed.
       no_config_options_available: This plugin does not have any config options available.
+    theme: 
+      flash: 
+        destroy: 
+          success: The theme has been deleted.
+          failure: The theme could not be deleted.
+        create: 
+          success: The theme has been created.
+          failure: "The theme could not be created: {{errors}}."
+        update: 
+          success: The theme has been updated.
+          failure: "The theme could not be updated: {{errors}}."
+        import: 
+          success: The theme has been imported.
+          error_filename_blank: The theme file cannot be blank.
+          failure: The file could not be imported as a theme.
     themes: 
       no_themes_available: You currently do not have any themes created.
       lables: 
@@ -202,12 +280,25 @@ en:
         asssets: Assets
         templates: Templates
         filename: Filename
+    theme_file: 
+      flash: 
+        destroy: 
+          success: The file has been deleted.
+          failure: The file could not be deleted.
+        create: 
+          success: The file has been created.
+          failure: The file could not be created.
+        update: 
+          success: The file has been updated.
+          failure: The file could not be updated.
     sidebar: 
       titles: 
         tags: Tags
         topics: Topics
     footer: 
       powered_by: Site powered by adva cms. Theme inspired by depo.
+    flash: 
+      authentication_required_role: You need to have the role {{role}} to view this page.
     messages: 
       insufficient_permissions: 
         title: Insufficient permissions

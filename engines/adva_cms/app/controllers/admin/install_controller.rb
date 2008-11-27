@@ -23,11 +23,11 @@ class Admin::InstallController < ApplicationController
         @user = User.create_superuser params[:user]
         authenticate_user(:email => @user.email, :password => @user.password)
 
-        flash.now[:notice] = 'Congratulations! You have successfully set up your site.'
+        flash.now[:notice] = t(:'adva.site.flash.install.success')
         render :action => :confirmation
       else
         models = [@site, @section].map{|model| model.class.name unless model.valid?}.compact
-        flash.now[:error] = "The #{models.join(' and ')} could not be created."
+        flash.now[:error] = t(:'adva.site.flash.install.failure', :models => models.join(', '))
       end
     end
   end
@@ -39,7 +39,7 @@ class Admin::InstallController < ApplicationController
 
     def protect_install
       if Site.find(:first) || User.find(:first)
-        flash[:error] = 'Installation is already complete. Please log in with your admin account.'
+        flash[:error] = t(:'adva.site.flash.install.error_already_complete')
         redirect_to admin_sites_path
       end
     end

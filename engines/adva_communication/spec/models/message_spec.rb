@@ -27,15 +27,37 @@ describe Message do
     
     describe "#mark_as_deleted" do
       describe "when user is sender" do
-        it "marks the message as deleted for sender"
+        before :each do
+          @user     = Factory :user
+          @message  = Factory :message, :sender_id => @user.id
+        end
         
-        it "does not mark the message as deleted for receiver"
+        it "marks the message as deleted for sender" do
+          @message.mark_as_deleted(@user)
+          @message.deleted_at_sender.should_not be_nil
+        end
+        
+        it "does not mark the message as deleted for receiver" do
+          @message.mark_as_deleted(@user)
+          @message.deleted_at_recipient.should be_nil
+        end
       end
       
       describe "when user is receiver" do
-        it "marks the message as deleted for receiver"
+        before :each do
+          @user     = Factory :user
+          @message  = Factory :message, :recipient_id => @user.id
+        end
         
-        it "does not mark the message as deleted for sender"
+        it "marks the message as deleted for receiver" do
+          @message.mark_as_deleted(@user)
+          @message.deleted_at_recipient.should_not be_nil
+        end
+        
+        it "does not mark the message as deleted for sender" do
+          @message.mark_as_deleted(@user)
+          @message.deleted_at_sender.should be_nil
+        end
       end
     end
   end

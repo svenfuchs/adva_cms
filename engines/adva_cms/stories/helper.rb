@@ -12,6 +12,9 @@ require 'spec/rails/story_adapter'
 require 'active_record/fixtures'
 require 'factories-and-workers'
 
+require 'globalize/i18n/missing_translations_raise_handler'
+I18n.exception_handler = :missing_translations_raise_handler
+
 ActionController::Base.page_cache_directory = RAILS_ROOT + '/tmp/cache'
 ActionController::Base.perform_caching = true
 

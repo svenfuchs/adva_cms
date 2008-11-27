@@ -11,6 +11,8 @@ require 'spec/rails'
 
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'factories', 'factories'))
 
+require 'globalize/i18n/missing_translations_raise_handler'
+I18n.exception_handler = :missing_translations_raise_handler
 
 # load spec helpers
 spec_helpers_dir = File.dirname(__FILE__) + '/spec_helpers'

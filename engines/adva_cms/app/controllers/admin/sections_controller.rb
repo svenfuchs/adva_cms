@@ -17,10 +17,10 @@ class Admin::SectionsController < Admin::BaseController
   def create
     @section = @site.sections.build params[:section]
     if @section.save
-      flash[:notice] = "The section has been created."
+      flash[:notice] = t(:'adva.section.flash.create.success')
       redirect_to admin_section_contents_path(@section)
     else
-      flash.now[:error] = "The section could not be created."
+      flash.now[:error] = t(:'adva.section.flash.update.failure')
       render :action => "new"
     end
   end
@@ -30,20 +30,20 @@ class Admin::SectionsController < Admin::BaseController
 
   def update
     if @section.update_attributes params[:section]
-      flash[:notice] = "The section has been updated."
+      flash[:notice] = t(:'adva.section.flash.update.success')
       redirect_to edit_admin_section_path(@site, @section)
     else
-      flash.now[:error] = "The section could not be updated."
+      flash.now[:error] = t(:'adva.section.flash.update.failure')
       render :action => 'show'
     end
   end
 
   def destroy
     if @section.destroy
-      flash[:notice] = "The section has been deleted."
+      flash[:notice] = t(:'adva.section.flash.destroy.success')
       redirect_to new_admin_section_path
     else
-      flash.now[:error] = "The section could not be deleted."
+      flash.now[:error] = t(:'adva.section.flash.destroy.failure')
       render :action => 'show'
     end
   end
