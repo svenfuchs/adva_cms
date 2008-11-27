@@ -1,17 +1,156 @@
 en:
   adva:
-    resource:
-      view: View
-      edit: Edit
-      delete: Delete
     common: 
       none: none
       hide: Hide
-    article:
+      save: Save
+      save_without_revision: Save without Revision
+      cancel: Cancel
+      "yes": "yes"
+      about: About
+      connector:
+        or: or
+    title: 
+      welcome: Welcome!
+      success: Success!
+      website_home_section: Website home section
+      website_configuration: Website configuration
+    titles:
+      history: History
+      overview: Overview
+      manage: Manage
+      actions: Actions
+      site: Site
+      themes: Themes
+      articles: Articles
+      categories: Categories
+      comments: Comments
+      cache: Cache
+      clear: Clear
+      clear_all: Clear all
+      plugins: Plugins
+      plugin: Plugin
+      settings: Settings
+      general_settings: General settings
+      optional_settings: Optional Settings
+      permissions: Permissions
+      spam_protection: Spam protection
+      spam_filters: Spam filters
+      publish_in_categories: Publish in these categories
+      restore_defaults: Restore Defaults
+      recent_activity: Recent activity
+    resources:
+      view: View
+      edit: Edit
+      delete: Delete
+      settings: settings
+      reordering_done: Done reordering
+    sites: 
+      title: 
+        create: Create a new site
+        home_section: Home section
+      install: 
+        success_fully_created: You have successfully created your site. Enjoy!
+        welcome_to_installation: "Welcome to the less-than-two-minutes installation process. Just fill in the information below and you're done. "
+        can_always_change_settings: Don't worry. You can always change these settings later.
+      link: 
+        create_site_and_account: "Create site & account »"
+        manage_new: Manage your new site &raquo;
+        delete: Delete this site
+      label: 
+        name: Website name
+        host: Host name
+        subtitle: Website subtitle
+        title: Website title
+        timezone: Website Timezone
+        admin_email: Administrator email
+      attributes: 
+        name: Name
+        host: Host
+      hints: 
+        host_name: Include the port if it's a non-standard one. E.g. localhost:3000
+        admin_email: Shown in emails sent from your site
+      confirm_delete: Are you sure you wish to delete this site?
+      no_sites: You currently do not have any sites created.
+    sections: 
+      hints: 
+        content_filter: When articles are posted, they use this as the default setting.
+      titles: 
+        section_settings: Section specific settings
+        blog_settings: Blog specific settings
+        forum_settings: Forum specific settings
+        create: Create a new section
+      links: 
+        delete: Delete this section
+        create: Create a new section
+        add_section: Add a section
+      confirm_delete: Are you sure you wish to delete this section?
+    articles:
       excerpt_add: Add an excerpt
       confirm_delete: Are you sure you wish to delete this article?
       question_save_as_draft: Save as Draft?
-      confirm_save_as_draft: Yes, save this article as a draft.
-      publish_on_date: "Publish on this date:"
-      
+      confirm_save_as_draft: Yes, save this article as a draft
+      publish_on_date: Publish on this date
+      no_articles_in_section: There are no articles in {{section}}.
+      total_with_count: 
+        one: "Total: {{count}} article"
+        other: "Total: {{count}} articles"
+      links: 
+        create: Create a new article
+        create_now: Create one now
+        preview: Preview this article
+        delete: Delete this article
+        reorder: Reorder articles
+      titles: 
+        edit: Edit article
+      hints:
+        permalink: Use only ASCII characters and use dashes instead of spaces.
+        tags: 'Enter one or more tags separated by a space. You may include spaces by enclosing a tag with quotes. (For example, <em>"Web Dev" Tutorials</em>).'
+    categories:
+      confirm_delete: Are you sure you wish to delete this category?
+      no_categories_in_section: There are no categories in {{section}}.
+      total_with_count: 
+        one: "Total: {{count}} category"
+        other: "Total: {{count}} categories"
+      links: 
+        create: Create a new category
+        delete: Delete this category
+        reorder: Reorder categories
+      titles:
+        edit: Edit category
+      attributes:
+        name: name
+    comments: 
+      labels: 
+        comments: Comments
+      hints: 
+        comments_filter: When comments are posted, they use this markup.
+      titles: 
+        comments_awaiting_approval: Comments awaiting your approval
+    users: 
+      attributes: 
+        password: Password
+        email: E-Mail
+    spam: 
+      hints: 
+        filters: When comments are posted, the following filters are used to check their spam status.
+    cached_pages:
+      no_entries: There currently aren't any pages being cached.
+      no_entries_matching_criteria: There currently aren't any pages being cached that match this criteria.
+      confirmation:
+        cleared: This page has been removed from the cache.
+        cleared_short: Cleared
+      filter:
+        show_cached_pages: Show cached pages
+    plugins: 
+      attributes: 
+        name: Name
+        configurable: Configurable
+        author: Author
+        version: Version
+        homepage: Homepage
+      no_plugins_installed: There currently aren't any plugins installed.
+      no_config_options_available: This plugin does not have any config options available.
+
 #  activerecord.attributes.articles.excerpt    
+#  activerecord.attributes.categories.name    

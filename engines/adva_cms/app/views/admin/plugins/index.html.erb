@@ -4,11 +4,11 @@
   <table id="plugins" class="list" cellspacing="0" cellpadding="0">
     <thead>
       <tr>
-        <th scope="col">Name</th>
-        <th scope="col">Version</th>
-        <th scope="col">Author</th>
-        <th scope="col">Homepage</th>
-        <th scope="col">Configurable?</th>
+        <th scope="col"><%= t(:'adva.plugins.attributes.name') %></th>
+        <th scope="col"><%= t(:'adva.plugins.attributes.version') %></th>
+        <th scope="col"><%= t(:'adva.plugins.attributes.author') %></th>
+        <th scope="col"><%= t(:'adva.plugins.attributes.homepage') %></th>
+        <th scope="col"><%= t(:'adva.plugins.attributes.configurable') %>?</th>
       </tr>
     </thead>
     <tbody id="articles">
@@ -18,6 +18,6 @@
   
 <% else %>
   <div class="empty">
-    There currently aren't any plugins installed.
+    <%= t(:'adva.plugins.no_plugins_installed') %>
   </div>
 <% end %>

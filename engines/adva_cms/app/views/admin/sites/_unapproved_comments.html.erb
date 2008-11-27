@@ -1,5 +1,5 @@
 <% unless contents.blank? %>
-  <h4>Comments awaiting your approval</h4>
+  <h4><%= t(:'adva.comments.titles.comments_awaiting_approval') %></h4>
   <ul>
   <% contents.each do |content, comments| %>
     <li>

@@ -1,28 +1,27 @@
-<h2>Welcome!</h2>
+<h2><%= t(:'adva.title.welcome') %></h2>
 
 <p>
-  Welcome to the less-than-two-minutes installation process. Just fill in the information below and you're done. 
+  <%= t(:'adva.sites.install.welcome_to_installation') %>
 </p>
 
 <p>
-  Don't worry. You can always change these settings later.
+  <%= t(:'adva.sites.install.can_always_change_settings') %>
 </p>
 
 <% form_tag install_path do %>   
-  <h3>Website configuration</h3>
+  <h3><%= t(:'adva.title.website_configuration') %></h3>
   <fieldset>
     <% fields_for @site do |site| %>
       <p>
-        <%= site.label :name, 'Website name' %>
+        <%= site.label :name, t(:'adva.sites.label.name') %>
       	<%= site.text_field :name, :class => 'big' %>
       </p>
     <% end %>
     <% fields_for @user do |user| %>
     	<p>
-    	  <%= user.label :email, 'Admin e-mail' %>
+    	  <%= user.label :email, t(:'adva.sites.label.admin_email') %>
     		<%= user.text_field 'email', :class => 'big' %>
     	</p>
-
     	<p>
     	  <%= user.label :password %>
     		<%= user.password_field 'password', :class => 'big' %>
@@ -30,7 +29,7 @@
     <% end %>
   </fieldset>  
   
-  <h3>Website home section</h3>  
+  <h3><%= t(:'adva.title.website_home_section') %></h3>  
   <fieldset>
     <% fields_for @section do |section| %>
       <p>
@@ -50,6 +49,6 @@
   </fieldset>   
   
   <p class="buttons">
-    <%= submit_tag "Create site & account »" %>
+    <%= submit_tag t(:'adva.sites.link.create_site_and_account') %>
   </p>
 <% end %>
