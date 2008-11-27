@@ -6,8 +6,14 @@ en:
       save: Save
       save_without_revision: Save without Revision
       cancel: Cancel
+      "yes": "yes"
       connector:
         or: or
+    title: 
+      welcome: Welcome!
+      success: Success!
+      website_home_section: Website home section
+      website_configuration: Website configuration
     titles:
       settings: Settings
       manage: Manage
@@ -19,13 +25,28 @@ en:
       cache: Cache
       clear: Clear
       clear_all: Clear all
+      plugins: Plugins
+      plugin: Plugin
       optional_settings: Optional Settings
       publish_in_categories: Publish in these categories
+      restore_defaults: Restore Defaults
     resources:
       view: View
       edit: Edit
       delete: Delete
       reordering_done: Done reordering
+    sites: 
+      install: 
+        success_fully_created: You have successfully created your site. Enjoy!
+        welcome_to_installation: "Welcome to the less-than-two-minutes installation process. Just fill in the information below and you're done. "
+        can_always_change_settings: Don't worry. You can always change these settings later.
+      link: 
+        create_site_and_account: "Create site & account »"
+        manage_new: Manage your new site &raquo;
+      label: 
+        admin_email: Admin e-mail
+        site_name: Website name
+      confirm_delete: Are you sure you wish to delete this site?
     articles:
       excerpt_add: Add an excerpt
       confirm_delete: Are you sure you wish to delete this article?
@@ -60,6 +81,10 @@ en:
         edit: Edit category
       attributes:
         name: name
+    users: 
+      attributes: 
+        password: Password
+        email: E-Mail
     cached_pages:
       no_entries: There currently aren't any pages being cached.
       no_entries_matching_criteria: There currently aren't any pages being cached that match this criteria.
@@ -68,6 +93,15 @@ en:
         cleared_short: Cleared
       filter:
         show_cached_pages: Show cached pages
+    plugins: 
+      attributes: 
+        name: Name
+        configurable: Configurable
+        author: Author
+        version: Version
+        homepage: Homepage
+      no_plugins_installed: There currently aren't any plugins installed.
+      no_config_options_available: This plugin does not have any config options available.
 
 #  activerecord.attributes.articles.excerpt    
 #  activerecord.attributes.categories.name    
