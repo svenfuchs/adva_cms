@@ -32,4 +32,20 @@ describe MessagesController do
       act!
     end
   end
+  
+  describe "DELETE to destroy" do
+    before :each do
+      @message = Factory :message, :recipient_id => @user.id
+      @message.stub!(:mark_as_deleted)
+      Message.stub!(:find).and_return(@message)
+    end
+    act! { request_to :delete, "/messages/#{@message.id}"}
+    it_assigns :message
+    it_redirects_to { 'http://test.host/messages' }
+    
+    it "sets message as deleted for recipient" do
+      @message.should_receive(:mark_as_deleted).with(@user)
+      act!
+    end
+  end
 end
