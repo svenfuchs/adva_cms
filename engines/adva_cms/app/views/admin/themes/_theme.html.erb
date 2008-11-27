@@ -2,16 +2,16 @@
   <h4><%= theme.name %></h4>
   <p>
     <% unless theme.version.blank? -%>v<%= theme.version %> |<% end -%>
-    by <%= theme.author_link %>
+    <%= t(:'adva.common.by_author', :author => theme.author_link) %>
   </p>
   <%= link_to image_tag("http://#{@site.host}#{theme.preview.path.to_s}"), admin_theme_path(@site, theme.id) %>
   <ul class="options">
     <% if @site.current_theme?(theme) %>
-      <li><%= link_to "Unselect", admin_site_selected_theme_path(@site, theme.id), { :confirm => "Are you sure you wish to not use this theme anymore?", :method => :delete } %></li>
+      <li><%= link_to t(:'adva.themes.links.unselect'), admin_site_selected_theme_path(@site, theme.id), { :confirm => t(:'adva.themes.confirm_unselect'), :method => :delete } %></li>
     <% else %>
-      <li><%= link_to "Select", admin_site_selected_themes_path(@site, :id => theme.id), { :confirm => "Are you sure you wish to use this theme?", :method => :post } %></li>
+      <li><%= link_to t(:'adva.themes.links.select'), admin_site_selected_themes_path(@site, :id => theme.id), { :confirm => t(:'adva.themes.confirm_select'), :method => :post } %></li>
     <% end %>
-    <li><%= link_to "Edit", admin_theme_path(@site, theme.id) %></li>
-    <li><%= link_to "Uninstall", admin_theme_path(@site, theme.id), { :confirm => "Are you sure you wish to uninstall this theme? This will remove all theme files and can not be recovered.", :method => :delete }  %></li>
+    <li><%= link_to t(:'adva.themes.links.edit'), admin_theme_path(@site, theme.id) %></li>
+    <li><%= link_to t(:'adva.themes.links.uninstall'), admin_theme_path(@site, theme.id), { :confirm => t(:'adva.themes.confirm_uninstall'), :method => :delete }  %></li>
   </ul>
 </li>
