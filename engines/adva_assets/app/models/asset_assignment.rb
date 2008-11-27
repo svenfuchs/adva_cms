@@ -8,7 +8,7 @@ class AssetAssignment < ActiveRecord::Base
   protected
     def check_for_dupe_content_and_asset
       unless self.class.count(:all, :conditions => ['content_id = ? and asset_id = ?', content_id, asset_id]).zero?
-        errors.add_to_base("Cannot have a duplicate assignment for this content and asset")
+        errors.add_to_base( I18n.t :'adva.asset.validation.duplicate')
       end
     end
 end

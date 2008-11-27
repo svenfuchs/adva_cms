@@ -9,7 +9,7 @@
     <%= f.text_field :title %>
   </p>
   <p>
-    <%= f.label :tag_list, 'Tags' %> <span class="hint">Enter one or more tags separated by a comma or a space (for example, <em>"Web Dev" Tutorials</em> or <em>Web Dev, Tutorials</em>).</span>
+    <%= f.label :tag_list, 'Tags' %> <span class="hint"><%=t :'adva.asset.enter_tags' %></span>
     <%= f.text_field :tag_list %>
   </p>  
   <p>
@@ -17,7 +17,7 @@
     <%= f.file_field :uploaded_data %>
   </p>
   <p class="buttons">
-    <%= submit_tag 'Save Asset' %>
-    or <%= link_to 'cancel', admin_assets_path %>
+    <%= submit_tag t( :'adva.asset.save' ) %>
+    or <%= link_to t( :'adva.common.cancel' ), admin_assets_path %>
   </p>
 <% end -%>

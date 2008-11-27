@@ -2,9 +2,9 @@
   <%= link_to(asset_image_for(asset, size || :tiny), asset.public_filename, :target => '_blank') %>
   <%= "<h4>#{truncate(asset.title, :length => 20)}</h4>" if !asset.image? %>
   <ul class="asset-tools" style="display: none;">
-    <li class="edit"><%= link_to 'Edit', edit_admin_asset_path(@site, asset), :title => 'Edit this file' %></li>
-    <li class="delete"><%= link_to 'Delete', admin_asset_path(@site, asset), :title => 'Delete this asset', :confirm => 'Are you sure you wish to delete this?', :method => :delete %></li>
-    <li class="bucket"><%= link_to_remote('Add to bucket', { :url => admin_assets_bucket_path(@site, :asset_id => asset.id) }, { :title => 'Add to bucket' }) %></li>
+    <li class="edit"><%= link_to t(:'adva.common.edit'), edit_admin_asset_path(@site, asset), :title => 'Edit this file' %></li>
+    <li class="delete"><%= link_to t(:'adva.common.delete'), admin_asset_path(@site, asset), :title => 'Delete this asset', :confirm => 'Are you sure you wish to delete this?', :method => :delete %></li>
+    <li class="bucket"><%= link_to_remote(t(:'adva.asset.add_to_bucket'), { :url => admin_assets_bucket_path(@site, :asset_id => asset.id) }, { :title => 'Add to bucket' }) %></li>
   </ul>
 </div>
 

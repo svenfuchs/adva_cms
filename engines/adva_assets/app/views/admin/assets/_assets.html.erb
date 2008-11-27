@@ -13,8 +13,8 @@
 
 <% else %>
   <div class="empty" style="margin: 20px; padding: 10px;">
-    You have no files of this type or have yet to upload any files. 
-    <%= link_to 'Upload one now &raquo;', :action => 'new' %>
+    <%=t :'adva.asset.no_files' %>
+    <%= link_to t(:'adva.asset.upload'), :action => 'new' %>
   </div>
 <% end %>
 

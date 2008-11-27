@@ -1,2 +1,2 @@
-page.flash.errors "The asset upload failed."
+page.flash.errors t( :'adva.asset.flash.upload.failure' )
 page << "AssetWidget.updateSelected();"

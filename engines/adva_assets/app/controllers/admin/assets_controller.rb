@@ -37,7 +37,7 @@ class Admin::AssetsController < Admin::BaseController
   rescue ActiveRecord::RecordInvalid => e
     respond_to do |format|
       format.html do
-        flash[:error] = "The asset upload failed." 
+        flash[:error] = t :'adva.asset.flash.upload.failure'
         render :action => 'new'
       end
       format.js { responds_to_parent { render :action => 'flash_error' } }
@@ -49,10 +49,10 @@ class Admin::AssetsController < Admin::BaseController
 
   def update
     @asset.update_attributes! params[:asset]
-    flash[:notice] = "The asset has been updated."
+    flash[:notice] = t :'adva.asset.flash.update.success'
     redirect_to admin_assets_path
   rescue ActiveRecord::RecordInvalid
-    flash[:error] = "The asset update failed."
+    flash[:error] = t :'adva.asset.flash.update.failure'
     render :action => 'edit'
   end
 
@@ -60,7 +60,7 @@ class Admin::AssetsController < Admin::BaseController
     @asset.destroy
     redirect_to admin_assets_path
     (session[:bucket] || {}).delete(@asset.public_filename)
-    flash[:notice] = "Deleted '#{@asset.filename}'"
+    flash[:notice] = t :'adva.asset.flash.delete.success', :filename => @asset.filename
   end
 
   protected
@@ -86,7 +86,10 @@ class Admin::AssetsController < Admin::BaseController
     end
 
     def created_notice
-      @assets.size ? "'#{CGI.escapeHTML @assets.first.title}' was uploaded." : "#{@assets.size} assets were uploaded."
+      # TODO: is the logic here backwards?
+      @assets.size ? 
+        t( :'adva.asset.flash.create.first_success', :asset => CGI.escapeHTML(@assets.first.title) ) :
+        t( :'adva.asset.flash.create.success', :count => @assets.size )
     end
 
     def search_options
