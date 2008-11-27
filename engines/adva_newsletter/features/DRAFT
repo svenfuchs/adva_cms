@@ -6,13 +6,11 @@ In the first part: Basic stuff working
 * create subscription
 * create issue aka sending letters out to the messaging queue 
     We probably need some general messaging queue, I made some research and suggest to pick one from those:
-      * tobi-delayed_job (this might suite well to adva)
-      * BackgroundRB
       * ap4r
+      * BackgroundRB
       
 controllers:
   newsletters
-  subscriptions
   issues
 
 models:
@@ -21,16 +19,16 @@ models:
 
   Newsletter
     belongs_to :site
-    has_many :subscriptions
+    has_many :subscriptions, :as => :subscribable
     has_many :users, :through => :subscriptions
     has_many :issues
     has_many :assets, :as => :assetable #TODO: fix current assets to become assetable, talk with others about it
     
-  Subscription (perhaps Newsletter_subscription instead to not collide with others)
-    belongs_to :newsletter
-    belongs_to :user
+  Subscription (new adva_cms model)
+    belongs_to :subscribable, :polymorphic => true, :counter_cache => true
+    belongs_to :newsletter, :class_name => 'Newsletter', :foreign_key => 'subscribable_id'  
 
-  Issue (perhaps Newsletter_issue, not sure yet)
+  Issue
     belongs_to :newsletter
     
   Mailer < ActionMailer::Base 
@@ -41,4 +39,3 @@ In the second part
 
 * persanalized emails (perhaps with some template system or smth, I have to think a bit about it)
 * pictures and attachments
-* receiving email and pouncing (I have to research a bit to find out what is out there and what suites to adva) 

@@ -7,20 +7,16 @@ Feature: Create Newsletter
     Then I should see 'newsletter' on the 'list of newsletters'
     And 'newsletter' should have 0 times sent out
     
-    More Creates:
-      | role |
-      | site editor |
-    
 Feature: Create personalized newsletter
-  Scenario: Site editor creates a newsletter with variable
-    Given I am logged in as 'site editor'
+  Scenario: Site admin creates a newsletter with variable
+    Given I am logged in as 'site admin'
     And 'site user' is subscribed to 'newsletter'
     When I submit new 'newsletter' with 'body' what contains 'Hello {{ user.name }}!'
     Then 'site user' should receive newsletter with user name
     
 Feature: Create newsletter with picture
-  Scenario: Site editor creates a newsletter with a picture
-    Given I am logged in as 'site editor'
+  Scenario: Site admin creates a newsletter with a picture
+    Given I am logged in as 'site admin'
     And 'site user' is subscribed to 'newsletter'
     When I submit new 'newsletter' with 'picture'
     Then 'site user' should receive newsletter with picture attachment
