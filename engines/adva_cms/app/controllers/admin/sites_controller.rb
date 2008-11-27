@@ -33,10 +33,10 @@ class Admin::SitesController < Admin::BaseController
     @site.sections << @section
 
     if @site.save
-      flash[:notice] = "The site has been created."
+      flash[:notice] = t(:'adva.site.flash.create.success')
       redirect_to admin_site_path(@site)
     else
-      flash.now[:error] = "The site could not be created"
+      flash.now[:error] = t(:'adva.site.flash.create.failure')
       render :action => :new
     end
   end
@@ -46,20 +46,20 @@ class Admin::SitesController < Admin::BaseController
 
   def update
     if @site.update_attributes params[:site]
-      flash[:notice] = "The site has been updated."
+      flash[:notice] = t(:'adva.site.flash.update.success')
       redirect_to edit_admin_site_path
     else
-      flash.now[:error] = "The site could not be updated"
+      flash.now[:error] = t(:'adva.site.flash.update.failure')
       render :action => 'edit'
     end
   end
 
   def destroy
     if @site.destroy
-      flash[:notice] = "The site has been deleted."
+      flash[:notice] = t(:'adva.site.flash.destroy.success')
       redirect_to return_from(:site_deleted)
     else
-      flash.now[:error] = "The site could not be deleted"
+      flash.now[:error] = t(:'adva.site.flash.destroy.failure')
       render :action => 'show'
     end
   end
@@ -69,7 +69,7 @@ class Admin::SitesController < Admin::BaseController
     def require_authentication
       required_role = @site ? :admin : :superuser
       unless current_user and current_user.has_role?(required_role, :context => current_role_context) # TODO this is bad
-        return redirect_to_login("You need to be a #{required_role} to view this page.")
+        return redirect_to_login(t(:'adva.flash.authentication_required_role', :role => required_role))
       end
     end
 

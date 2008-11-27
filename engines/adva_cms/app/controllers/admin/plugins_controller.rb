@@ -13,14 +13,14 @@ class Admin::PluginsController < Admin::BaseController
   def update
     @plugin.options = params[:plugin]
     @plugin.save!
-    flash[:notice] = "The plugin settings have been updated."
+    flash[:notice] = t(:'adva.plugin.flash.update.success')
     redirect_to admin_plugin_path(@site, @plugin)
   end
 
   def destroy
     @plugin.options = {}
     @plugin.save!
-    flash[:notice] = "The default settings have been restored."
+    flash[:notice] = t(:'adva.plugin.flash.destroy.success')
     redirect_to admin_plugin_path(@site, @plugin)
   end
 

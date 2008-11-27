@@ -41,7 +41,7 @@ class Admin::BaseController < ApplicationController
     def require_authentication
       update_role_context!(params) # TODO no idea what this is good for ...
       unless current_user and current_user.has_role?(:admin, :context => current_role_context) # TODO this is bad
-        return redirect_to_login("You need to be an admin to view this page.")
+        return redirect_to_login(t(:'adva.flash.authentication_required_role', :role => :admin))
       end
       super
     end
