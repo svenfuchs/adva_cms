@@ -11,6 +11,7 @@ en:
       "yes": "yes"
       about: About
       by_author: by {{author}}
+      language: Language
       connector:
         or: or
     title: 
@@ -21,9 +22,11 @@ en:
     titles:
       history: History
       overview: Overview
+      dashboard: Dashboard
       manage: Manage
       actions: Actions
       site: Site
+      sections: Sections
       theme: Theme
       themes: Themes
       articles: Articles
@@ -34,6 +37,7 @@ en:
       clear_all: Clear all
       plugins: Plugins
       plugin: Plugin
+      assets: Assets
       settings: Settings
       general_settings: General settings
       optional_settings: Optional Settings
@@ -43,6 +47,17 @@ en:
       publish_in_categories: Publish in these categories
       restore_defaults: Restore Defaults
       recent_activity: Recent activity
+      logout: Logout
+      users: Users
+      site_users: Site users
+      website: Website
+      accounts: Accounts
+    links: 
+      back: Back
+      skip_to_navigation: Skip to Navigation
+      logout: Logout
+      login: Log In
+      skip_to_content: Skip to Content
     resources:
       view: View
       edit: Edit
@@ -88,6 +103,7 @@ en:
         delete: Delete this section
         create: Create a new section
         add_section: Add a section
+        reorder: Reorder sections
       confirm_delete: Are you sure you wish to delete this section?
     articles:
       excerpt_add: Add an excerpt
@@ -135,6 +151,8 @@ en:
       attributes: 
         password: Password
         email: E-Mail
+    user: 
+      logged_in_as: "Logged in as: "
     spam: 
       hints: 
         filters: When comments are posted, the following filters are used to check their spam status.
@@ -184,6 +202,16 @@ en:
         asssets: Assets
         templates: Templates
         filename: Filename
+    sidebar: 
+      titles: 
+        tags: Tags
+        topics: Topics
+    footer: 
+      powered_by: Site powered by adva cms. Theme inspired by depo.
+    messages: 
+      insufficient_permissions: 
+        title: Insufficient permissions
+        body: If you think you should be allowed to perform this action please contact the admin of this site and ask him to reconfigure the permissions for your role.
 
 #  activerecord.attributes.articles.excerpt    
 #  activerecord.attributes.categories.name    
