@@ -11,7 +11,7 @@ scenario :calendar_with_events do
   @site.sections.stub!(:find).and_return @calendar
   @site.sections.stub!(:root).and_return @calendar
 
-  @events.stub!(:total_entries).and_return 2
+  Calendar::Event.stub!(:total_entries).and_return 2
 
   @category.stub!(:contents).and_return(@events)
 
