@@ -45,11 +45,18 @@ class UserBrowsesMesssageFoldersTest < ActionController::IntegrationTest
   end
 
   def test_the_user_reads_a_message
-    # go to message
-    get "/messages/#{@message_received.id}"
+    # message is unread
+    assert @message_received.read_at == nil
     
-    # the page renders the new form
+    # go to message
+    get message_path(@message_received)
+    
+    # the page renders the show view
     assert_template 'messages/show'
+    
+    # and the message is read
+    @message_received.reload
+    assert @message_received.read_at != nil
   end
 
 end

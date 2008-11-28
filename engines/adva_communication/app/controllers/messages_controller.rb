@@ -15,7 +15,7 @@ class MessagesController < BaseController
   end
   
   def show
-    
+    @message.mark_as_read
   end
   
   def new

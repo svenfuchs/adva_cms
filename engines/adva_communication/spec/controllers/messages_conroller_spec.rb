@@ -36,6 +36,20 @@ describe MessagesController do
     end
   end
   
+  describe "GET to show" do
+    before :each do
+      @message = Factory :message
+      Message.stub!(:find).and_return(@message)
+    end
+    act! { request_to :get, "/messages/#{@message.id}" }
+    it_assigns :message
+    
+    it "marks message as read" do
+      @message.should_receive(:mark_as_read)
+      act!
+    end
+  end
+  
   describe "GET to new" do
     act! { request_to :get, '/messages/new' }
     it_assigns :message

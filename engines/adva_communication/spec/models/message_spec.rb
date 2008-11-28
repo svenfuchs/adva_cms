@@ -21,6 +21,17 @@ describe Message do
   end
   
   describe "methods:" do
+    describe "#mark_as_read" do
+      before :each do
+        @message.update_attribute(:read_at, nil)
+      end
+      
+      it "marks the message as read" do
+        @message.mark_as_read
+        @message.read_at.should_not be_nil
+      end
+    end
+    
     it "#mark_as_unread marks the message as unread"
     
     describe "#mark_as_deleted" do
