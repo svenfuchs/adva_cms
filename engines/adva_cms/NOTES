@@ -7,6 +7,14 @@ TODO I18n strings
 
   helpers/base_helper.rb
   #pluralize_str
+  
+  models/section.rb
+  validates_numericality_of :articles_per_page, :only_integer => true, :message => "can only be whole number."
+
+  lib/roles.rb
+  :message => 'You need to be logged in to perform this action.'
+  
+  
 
 
 * add roles interface

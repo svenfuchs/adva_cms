@@ -14,58 +14,6 @@ en:
       "yes": "yes"
       by_author: by {{author}}
       import: Import
-    plugins: 
-      no_plugins_installed: There currently aren't any plugins installed.
-      attributes: 
-        name: Name
-        configurable: Configurable
-        author: Author
-        version: Version
-        homepage: Homepage
-      flash: 
-        destroy: 
-          success: The default settings have been restored.
-          failure: The section could not be deleted.
-        update: 
-          success: The plugin settings have been updated.
-          failure: The section could not be created.
-      no_config_options_available: This plugin does not have any config options available.
-    theme_files: 
-      flash: 
-        destroy: 
-          success: The file has been deleted.
-          failure: The file could not be deleted.
-        create: 
-          success: The file has been created.
-          failure: The file could not be created.
-        update: 
-          success: The file has been updated.
-          failure: The file could not be updated.
-    messages: 
-      insufficient_permissions: 
-        title: Insufficient permissions
-        body: If you think you should be allowed to perform this action please contact the admin of this site and ask him to reconfigure the permissions for your role.
-    comments: 
-      hints: 
-        comments_filter: When comments are posted, they use this markup.
-      titles: 
-        comments_awaiting_approval: Comments awaiting your approval
-      labels: 
-        comments: Comments
-    sections: 
-      hints: 
-        content_filter: When articles are posted, they use this as the default setting.
-      titles: 
-        section_settings: Section specific settings
-        blog_settings: Blog specific settings
-        forum_settings: Forum specific settings
-        create: Create a new section
-      links: 
-        delete: Delete this section
-        add_section: Add a section
-        reorder: Reorder sections
-        create: Create a new section
-      confirm_delete: Are you sure you wish to delete this section?
     titles: 
       plugins: Plugins
       actions: Actions
@@ -105,6 +53,19 @@ en:
       spam_filters: Spam filters
       wikipages: Wikipages
       themes: Themes
+    links: 
+      back: Back
+      profile: Profile
+      skip_to_navigation: Skip to Navigation
+      logout: Logout
+      superusers_admins: Superusers + Admins
+      sites_overview: Sites overview
+      login: Log In
+      skip_to_content: Skip to Content
+    messages: 
+      insufficient_permissions: 
+        title: Insufficient permissions
+        body: If you think you should be allowed to perform this action please contact the admin of this site and ask him to reconfigure the permissions for your role.
     resources: 
       delete: Delete
       edit: Edit
@@ -152,6 +113,30 @@ en:
         subtitle: Website subtitle
         host: Host name
       confirm_delete: Are you sure you wish to delete this site?
+    sections: 
+      hints: 
+        content_filter: When articles are posted, they use this as the default setting.
+      titles: 
+        section_settings: Section specific settings
+        blog_settings: Blog specific settings
+        forum_settings: Forum specific settings
+        create: Create a new section
+      links: 
+        delete: Delete this section
+        add_section: Add a section
+        reorder: Reorder sections
+        create: Create a new section
+      confirm_delete: Are you sure you wish to delete this section?
+      flash: 
+        destroy: 
+          success: The section has been destroyed.
+          failure: The section could not be destroyed.
+        create: 
+          success: The section has been created.
+          failure: The section could not be created.
+        update: 
+          success: The section has been updated.
+          failure: The section could not be updated.
     categories: 
       attributes: 
         name: name
@@ -176,19 +161,8 @@ en:
           success: The category has been updated.
           failure: The category could not be updated.
       confirm_delete: Are you sure you wish to delete this category?
-    sidebar: 
-      titles: 
-        tags: Tags
-        topics: Topics
-    links: 
-      back: Back
-      profile: Profile
-      skip_to_navigation: Skip to Navigation
-      logout: Logout
-      superusers_admins: Superusers + Admins
-      sites_overview: Sites overview
-      login: Log In
-      skip_to_content: Skip to Content
+    contents: 
+      not_published: not published
     articles: 
       question_save_as_draft: Save as Draft?
       confirm_save_as_draft: Yes, save this article as a draft
@@ -234,34 +208,18 @@ en:
       flash: 
         clear: 
           success: The cache has been cleared.
-    settings: 
-      filter_options: 
-        plain_html: Plain HTML
+    comments: 
+      hints: 
+        comments_filter: When comments are posted, they use this markup.
+      titles: 
+        comments_awaiting_approval: Comments awaiting your approval
+      labels: 
+        comments: Comments
     users: 
       attributes: 
         password: Password
         email: E-Mail
       logged_in_as: "Logged in as: "
-    contents: 
-      not_published: not published
-    section: 
-      flash: 
-        destroy: 
-          success: The section has been destroyed.
-          failure: The section could not be destroyed.
-        create: 
-          success: The section has been created.
-          failure: The section could not be created.
-        update: 
-          success: The section has been updated.
-          failure: The section could not be updated.
-    spam: 
-      hints: 
-        filters: When comments are posted, the following filters are used to check their spam status.
-    footer: 
-      powered_by: Site powered by adva cms. Theme inspired by depo.
-    flash: 
-      authentication_required_role: You need to have the role {{role}} to view this page.
     themes: 
       no_themes_available: You currently do not have any themes created.
       lables: 
@@ -305,3 +263,44 @@ en:
           success: The theme has been imported.
           error_filename_blank: The theme file cannot be blank.
           failure: The file could not be imported as a theme.
+    theme_files: 
+      flash: 
+        destroy: 
+          success: The file has been deleted.
+          failure: The file could not be deleted.
+        create: 
+          success: The file has been created.
+          failure: The file could not be created.
+        update: 
+          success: The file has been updated.
+          failure: The file could not be updated.
+    plugins: 
+      no_plugins_installed: There currently aren't any plugins installed.
+      attributes: 
+        name: Name
+        configurable: Configurable
+        author: Author
+        version: Version
+        homepage: Homepage
+      flash: 
+        destroy: 
+          success: The default settings have been restored.
+          failure: The section could not be deleted.
+        update: 
+          success: The plugin settings have been updated.
+          failure: The section could not be created.
+      no_config_options_available: This plugin does not have any config options available.
+    settings: 
+      filter_options: 
+        plain_html: Plain HTML
+    spam: 
+      hints: 
+        filters: When comments are posted, the following filters are used to check their spam status.
+    footer: 
+      powered_by: Site powered by adva cms. Theme inspired by depo.
+    flash: 
+      authentication_required_role: You need to have the role {{role}} to view this page.
+    sidebar: 
+      titles: 
+        tags: Tags
+        topics: Topics
