@@ -36,10 +36,6 @@ class Admin::EventsController < Admin::BaseController
   end
   
   def update
-    params[:version] ? rollback : update_attributes
-  end
-
-  def update_attributes
     if @event.update_attributes(params[:event])
       trigger_events @event
       flash[:notice] = "The event has been successfully updated."
@@ -50,17 +46,6 @@ class Admin::EventsController < Admin::BaseController
     end
   end
 
-  def rollback
-    if @event.revert_to!(params[:version])
-      trigger_events @event, :rolledback
-      flash[:notice] = "The event has been rolled back to revision #{params[:version]}"
-      redirect_to edit_admin_event_path
-    else
-      flash.now[:error] = "The event could not be rolled back to revision #{params[:version]}."
-      render :action => 'edit'
-    end
-  end
-  
   def destroy
     if @event.destroy
       trigger_events @event
@@ -75,12 +60,11 @@ class Admin::EventsController < Admin::BaseController
   private
 
     def set_section
-      @section = @site.sections.find(params[:section_id]).becomes(Calendar)
+      @section = Calendar.find(params[:section_id], :conditions => {:site_id => @site.id})
     end
 
     def set_event
       @event = @section.events.find params[:id]
-      @event.revert_to params[:version] if params[:version]
     end
 
     def set_categories
@@ -88,7 +72,6 @@ class Admin::EventsController < Admin::BaseController
     end
 
     def params_author
-      return if params[:version]
       author = User.find(params[:event][:author]) || current_user
       set_event_param(:author, author) or raise "author and current_user not set"
     end

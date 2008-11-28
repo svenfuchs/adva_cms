@@ -4,11 +4,7 @@ describe Admin::EventsController do
   include SpecControllerHelper
   
   before :each do
-    @site = Site.find(1)
-    @section = @site.sections.find(1).becomes(Calendar)
-    @event = @section.events.find(1)
-    @new_event = @section.events.new(:title => 'New event')
-#    stub_scenario :calendar_with_events
+    stub_scenario :calendar_with_events
     set_resource_paths :event, '/admin/sites/1/sections/1/'
 
     controller.stub! :require_authentication
@@ -34,7 +30,6 @@ describe Admin::EventsController do
 
   describe "GET to :index" do
     act! { request_to :get, @collection_path }
-    # it_guards_permissions :show, :event # deactivated all :show permissions in the backend
     it_assigns :events
     it_renders_template :index
   end
