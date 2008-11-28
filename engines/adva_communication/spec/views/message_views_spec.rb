@@ -3,11 +3,18 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe "Message views:" do
   include SpecViewHelper
   
+  before :each do
+    template.stub!(:render).with hash_including(:partial => 'messages')
+    template.stub!(:render).with hash_including(:partial => 'message-nav')
+  end
+  
   describe "index" do
-    before :each do
-      template.stub!(:render).with hash_including(:partial => 'messages')
-    end
     act! { render "messages/index" }
+    
+    it "renders message navigation partial" do
+      template.should_receive(:render).with hash_including(:partial => 'message_nav')
+      act!
+    end
     
     it "renders messages partial" do
       template.should_receive(:render).with hash_including(:partial => 'messages')
@@ -21,10 +28,12 @@ describe "Message views:" do
   end
   
   describe "outbox" do
-    before :each do
-      template.stub!(:render).with hash_including(:partial => 'messages')
-    end
     act! { render "messages/index" }
+    
+    it "renders message navigation partial" do
+      template.should_receive(:render).with hash_including(:partial => 'message_nav')
+      act!
+    end
     
     it "renders messages partial" do
       template.should_receive(:render).with hash_including(:partial => 'messages')
@@ -39,11 +48,36 @@ describe "Message views:" do
   
   describe "show" do
     before :each do
-      @message = Factory :message
+      @don_macaroni     = Factory :don_macaroni
+      @message          = Factory :message, :sender_id => @don_macaroni.id
+      assigns[:message] = @message
     end
     act! { render "messages/show" }
     
-    it "renders the message partial (or maybe a conversation?)"
+    it "renders message navigation partial" do
+      template.should_receive(:render).with hash_including(:partial => 'message_nav')
+      act!
+    end
+    
+    it "has message the message" do
+      act!
+      response.should have_tag("div#message_#{@message.id}")
+    end
+    
+    it "has message subject in a header" do
+      act!
+      response.should have_tag('h2', "#{@message.subject}")
+    end
+    
+    it "has message sender name in a paragraph" do
+      act!
+      response.should have_tag('p#message-sender', "from: #{@message.sender.name}")
+    end
+    
+    it "has message body in a paragraph" do
+      act!
+      response.should have_tag('p#message-body', "#{@message.body}")
+    end
   end
   
   describe "new" do
@@ -53,6 +87,11 @@ describe "Message views:" do
       template.stub!(:recipients_list).and_return([['John Wayne', '666']])
     end
     act! { render "messages/new" }
+    
+    it "renders message navigation partial" do
+      template.should_receive(:render).with hash_including(:partial => 'message_nav')
+      act!
+    end
     
     it "should render the message form label for recipient" do
       act!
@@ -94,6 +133,25 @@ describe "Message views:" do
       response.should have_tag('a[href=?]', '/messages')
     end
   end
+  
+  describe "_message_nav" do
+    act! { render "messages/_message_nav"}
+    
+    it "has a link to composing a new mail" do
+      act!
+      response.should have_tag('a[href=?]', '/messages/new')
+    end
+    
+    it "has a link to inbox" do
+      act!
+      response.should have_tag('a[href=?]', '/messages')
+    end
+    
+    it "has a link to outbox" do
+      act!
+      response.should have_tag('a[href=?]', '/messages/sent')
+    end
+  end
    
   describe "_messages" do
     describe "when messages is set" do
@@ -103,11 +161,6 @@ describe "Message views:" do
         template.stub!(:render).with hash_including(:partial => 'message')
       end
       act! { render "messages/_messages"}
-    
-      it "has a link to composing a new mail" do
-        act!
-        response.should have_tag('a', /Compose a mail/)
-      end
     
       it "has a list of messages" do
         act!
