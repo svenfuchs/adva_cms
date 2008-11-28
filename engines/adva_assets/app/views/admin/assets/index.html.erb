@@ -19,6 +19,6 @@
   </ul>
 
   <h4><%=t :'adva.asset.stats' %></h4>
-  <p><%=t :'adva.asset.upload_summary, :count => @site.assets.count, 
+  <p><%=t :'adva.asset.upload_summary', :count => @site.assets.count, 
     :size => number_to_human_size(@site.assets.sum(:size) || 0).to_s.downcase %></p>
 <% end %>
