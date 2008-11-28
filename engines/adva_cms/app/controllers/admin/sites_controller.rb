@@ -33,10 +33,10 @@ class Admin::SitesController < Admin::BaseController
     @site.sections << @section
 
     if @site.save
-      flash[:notice] = t(:'adva.site.flash.create.success')
+      flash[:notice] = t(:'adva.sites.flash.create.success')
       redirect_to admin_site_path(@site)
     else
-      flash.now[:error] = t(:'adva.site.flash.create.failure')
+      flash.now[:error] = t(:'adva.sites.flash.create.failure')
       render :action => :new
     end
   end
@@ -46,20 +46,20 @@ class Admin::SitesController < Admin::BaseController
 
   def update
     if @site.update_attributes params[:site]
-      flash[:notice] = t(:'adva.site.flash.update.success')
+      flash[:notice] = t(:'adva.sites.flash.update.success')
       redirect_to edit_admin_site_path
     else
-      flash.now[:error] = t(:'adva.site.flash.update.failure')
+      flash.now[:error] = t(:'adva.sites.flash.update.failure')
       render :action => 'edit'
     end
   end
 
   def destroy
     if @site.destroy
-      flash[:notice] = t(:'adva.site.flash.destroy.success')
+      flash[:notice] = t(:'adva.sites.flash.destroy.success')
       redirect_to return_from(:site_deleted)
     else
-      flash.now[:error] = t(:'adva.site.flash.destroy.failure')
+      flash.now[:error] = t(:'adva.sites.flash.destroy.failure')
       render :action => 'show'
     end
   end

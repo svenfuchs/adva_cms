@@ -1,4 +1,4 @@
-<h2><%= t(:'adva.title.welcome') %></h2>
+<h2><%= t(:'adva.titles.welcome') %></h2>
 
 <p>
   <%= t(:'adva.sites.install.welcome_to_installation') %>
@@ -9,7 +9,7 @@
 </p>
 
 <% form_tag install_path do %>   
-  <h3><%= t(:'adva.title.website_configuration') %></h3>
+  <h3><%= t(:'adva.titles.website_configuration') %></h3>
   <fieldset>
     <% fields_for @site do |site| %>
       <p>
@@ -29,7 +29,7 @@
     <% end %>
   </fieldset>  
   
-  <h3><%= t(:'adva.title.website_home_section') %></h3>  
+  <h3><%= t(:'adva.titles.website_home_section') %></h3>  
   <fieldset>
     <% fields_for @section do |section| %>
       <p>

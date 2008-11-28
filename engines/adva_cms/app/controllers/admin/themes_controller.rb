@@ -20,20 +20,20 @@ class Admin::ThemesController < Admin::BaseController
   def create
     @theme = @site.themes.build params[:theme]
     if @theme.save
-      flash[:notice] = t(:'adva.theme.flash.create.success')
+      flash[:notice] = t(:'adva.themes.flash.create.success')
       redirect_to admin_themes_path
     else
-      flash.now[:error] = t(:'adva.theme.flash.create.failure', :errors => @theme.errors.to_sentence)
+      flash.now[:error] = t(:'adva.themes.flash.create.failure', :errors => @theme.errors.to_sentence)
       render :action => :new
     end
   end
 
   def update
     if @theme.update_attributes params[:theme]
-      flash[:notice] = t(:'adva.theme.flash.update.success')
+      flash[:notice] = t(:'adva.themes.flash.update.success')
       redirect_to admin_theme_path(@site, @theme.id)
     else
-      flash.now[:error] = t(:'adva.theme.flash.update.failure', :errors => @theme.errors.to_sentence)
+      flash.now[:error] = t(:'adva.themes.flash.update.failure', :errors => @theme.errors.to_sentence)
       render :action => :show
     end
   end
@@ -42,10 +42,10 @@ class Admin::ThemesController < Admin::BaseController
     if @theme.destroy
       expire_pages_by_site!
       # TODO theme should also be unselected here
-      flash[:notice] = t(:'adva.theme.flash.destroy.success')
+      flash[:notice] = t(:'adva.themes.flash.destroy.success')
       redirect_to admin_themes_path
     else
-      flash.now[:error] = t(:'adva.theme.flash.destroy.failure')
+      flash.now[:error] = t(:'adva.themes.flash.destroy.failure')
       render :action => :show
     end
   end
@@ -54,12 +54,12 @@ class Admin::ThemesController < Admin::BaseController
     return unless request.post?
     
     if params[:theme][:file].blank?
-      flash.now[:error] = t(:'adva.theme.flash.import.error_filename_blank')
+      flash.now[:error] = t(:'adva.themes.flash.import.error_filename_blank')
     elsif @site.themes.import @file
-      flash.now[:notice] = t(:'adva.theme.flash.import.success')
+      flash.now[:notice] = t(:'adva.themes.flash.import.success')
       redirect_to admin_themes_path
     else
-      flash.now[:error] = t(:'adva.theme.flash.import.failure')
+      flash.now[:error] = t(:'adva.themes.flash.import.failure')
     end
   end
 

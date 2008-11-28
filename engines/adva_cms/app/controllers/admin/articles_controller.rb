@@ -47,11 +47,11 @@ class Admin::ArticlesController < Admin::BaseController
     
     if @article.save
       trigger_events @article
-      flash[:notice] = t(:'adva.article.flash.create.success')
+      flash[:notice] = t(:'adva.articles.flash.create.success')
       redirect_to edit_admin_article_path(:id => @article.id)
     else
       set_categories
-      flash.now[:error] = t(:'adva.article.flash.create.failure')
+      flash.now[:error] = t(:'adva.articles.flash.create.failure')
       render :action => 'new'
     end
   end
@@ -64,11 +64,11 @@ class Admin::ArticlesController < Admin::BaseController
     @article.attributes = params[:article]
     if save_with_revision? ? @article.save : @article.save_without_revision
       trigger_events @article
-      flash[:notice] = t(:'adva.article.flash.update.success')
+      flash[:notice] = t(:'adva.articles.flash.update.success')
       redirect_to edit_admin_article_path
     else
       set_categories
-      flash.now[:error] = t(:'adva.article.flash.update.failure')
+      flash.now[:error] = t(:'adva.articles.flash.update.failure')
       render :action => 'edit'
     end
   end
@@ -77,10 +77,10 @@ class Admin::ArticlesController < Admin::BaseController
     version = params[:article][:version]
     if @article.revert_to!(version)
       trigger_event @article, :rolledback
-      flash[:notice] = t(:'adva.article.flash.rollback.success', :version => version)
+      flash[:notice] = t(:'adva.articles.flash.rollback.success', :version => version)
       redirect_to edit_admin_article_path
     else
-      flash[:error] = t(:'adva.article.flash.rollback.failure', :version => version)
+      flash[:error] = t(:'adva.articles.flash.rollback.failure', :version => version)
       redirect_to edit_admin_article_path
     end
   end
@@ -98,11 +98,11 @@ class Admin::ArticlesController < Admin::BaseController
   def destroy
     if @article.destroy
       trigger_events @article
-      flash[:notice] = t(:'adva.article.flash.destroy.success')
+      flash[:notice] = t(:'adva.articles.flash.destroy.success')
       redirect_to admin_articles_path
     else
       set_categories
-      flash.now[:error] = t(:'adva.article.flash.destroy.failure')
+      flash.now[:error] = t(:'adva.articles.flash.destroy.failure')
       render :action => 'edit'
     end
   end

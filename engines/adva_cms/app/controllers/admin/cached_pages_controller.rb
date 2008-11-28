@@ -21,7 +21,7 @@ class Admin::CachedPagesController < Admin::BaseController
   def clear
     expire_site_page_cache
 
-    flash[:notice] = t(:'adva.cached_page.flash.clear.success')
+    flash[:notice] = t(:'adva.cached_pages.flash.clear.success')
     redirect_to admin_cached_pages_path
   end
 

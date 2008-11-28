@@ -16,10 +16,10 @@ class Admin::CategoriesController < Admin::BaseController
   def create
     @category = @section.categories.build params[:category]
     if @category.save
-      flash[:notice] = t(:'adva.category.flash.create.success')
+      flash[:notice] = t(:'adva.categories.flash.create.success')
       redirect_to admin_categories_path
     else
-      flash.now[:error] = t(:'adva.category.flash.create.failure')
+      flash.now[:error] = t(:'adva.categories.flash.create.failure')
       render :action => "new"
     end
   end
@@ -29,10 +29,10 @@ class Admin::CategoriesController < Admin::BaseController
 
   def update
     if @category.update_attributes params[:category]
-      flash[:notice] = t(:'adva.category.flash.update.success')
+      flash[:notice] = t(:'adva.categories.flash.update.success')
       redirect_to edit_admin_category_path
     else
-      flash.now[:error] = t(:'adva.category.flash.update.failure')
+      flash.now[:error] = t(:'adva.categories.flash.update.failure')
       render :action => 'edit'
     end
   end
@@ -44,10 +44,10 @@ class Admin::CategoriesController < Admin::BaseController
 
   def destroy
     if @category.destroy
-      flash[:notice] = t(:'adva.category.flash.destroy.success')
+      flash[:notice] = t(:'adva.categories.flash.destroy.success')
       redirect_to admin_categories_path
     else
-      flash.now[:error] = t(:'adva.category.flash.destroy.failure')
+      flash.now[:error] = t(:'adva.categories.flash.destroy.failure')
       render :action => 'edit'
     end
   end

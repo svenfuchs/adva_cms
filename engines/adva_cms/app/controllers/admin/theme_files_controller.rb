@@ -18,10 +18,10 @@ class Admin::ThemeFilesController < Admin::BaseController
     if @file = Array(@file).first
       expire_pages_by_site! # TODO use active_model?
       expire_template! @file
-      flash[:notice] = t(:'adva.theme_file.flash.create.success')
+      flash[:notice] = t(:'adva.theme_files.flash.create.success')
       redirect_to admin_theme_file_path(@site, @theme.id, @file.id)
     else
-      flash.now[:error] = t(:'adva.theme_file.flash.create.failure')
+      flash.now[:error] = t(:'adva.theme_files.flash.create.failure')
       render :action => :new
     end
   end
@@ -30,10 +30,10 @@ class Admin::ThemeFilesController < Admin::BaseController
     if @file.update_attributes params[:file]
       expire_pages_by_site! # TODO use active_model?
       expire_template! @file
-      flash[:notice] = t(:'adva.theme_file.flash.update.success')
+      flash[:notice] = t(:'adva.theme_files.flash.update.success')
       redirect_to admin_theme_file_path(@site, @theme.id, @file.id)
     else
-      flash.now[:error] = t(:'adva.theme_file.flash.update.failure')
+      flash.now[:error] = t(:'adva.theme_files.flash.update.failure')
       render :action => :show
     end
   end
@@ -42,10 +42,10 @@ class Admin::ThemeFilesController < Admin::BaseController
     if @file.destroy
       expire_pages_by_site! # TODO use active_model?
       expire_template! @file
-      flash[:notice] = t(:'adva.theme_file.flash.destroy.success')
+      flash[:notice] = t(:'adva.theme_files.flash.destroy.success')
       redirect_to admin_theme_path(@site, @theme.id)
     else
-      flash.now[:error] = t(:'adva.theme_file.flash.destroy.failure')
+      flash.now[:error] = t(:'adva.theme_files.flash.destroy.failure')
       render :action => :show
     end
   end

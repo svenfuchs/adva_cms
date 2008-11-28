@@ -1,6 +1,6 @@
 module ContentHelper
   def published_at_formatted(article)
-    return t(:'adva.content.not_published') unless article && article.published?
+    return t(:'adva.contents.not_published') unless article && article.published?
     article.published_at.to_ordinalized_s(article.published_at.year == Time.now.year ? :stub : :mdy)
   end
 
