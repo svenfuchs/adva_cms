@@ -33,12 +33,23 @@ class UserBrowsesMesssageFoldersTest < ActionController::IntegrationTest
     assert_template 'messages/index'
   end
   
-  def test_the_user_visits_message_new_form
+  def test_the_user_visits_message_new_form_from_inbox
     # go to inbox
     get '/messages'
     
     # clicks a link to create a new message
-    clicks_link 'Compose a mail'
+    clicks_link 'New message'
+    
+    # the page renders the new form
+    assert_template 'messages/new'
+  end
+
+  def test_the_user_visits_message_new_form_from_outbox
+    # go to inbox
+    get '/messages/sent'
+    
+    # clicks a link to create a new message
+    clicks_link 'New message'
     
     # the page renders the new form
     assert_template 'messages/new'
