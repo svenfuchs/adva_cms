@@ -7,6 +7,8 @@ describe Admin::EventsController do
     @site = Site.find(1)
     @section = @site.sections.find(1).becomes(Calendar)
     @event = @section.events.find(1)
+    @new_event = @section.events.new(:title => 'New event')
+#    stub_scenario :calendar_with_events
     set_resource_paths :event, '/admin/sites/1/sections/1/'
 
     controller.stub! :require_authentication
@@ -44,7 +46,7 @@ describe Admin::EventsController do
     it_guards_permissions :create, :event
 
     it "instantiates a new event from section.events" do
-      @section.events.should_receive(:new).and_return Calendar::Event.new(:title => 'New event')
+      @section.events.should_receive(:new).and_return @new_event
       act!
     end
   end
@@ -56,7 +58,7 @@ describe Admin::EventsController do
     it_guards_permissions :update, :event
   
     it "fetches a event from section.events" do
-      @section.events.should_receive(:find).and_return Calendar::Event.find(1)
+      @section.events.should_receive(:find).and_return @event
       act!
     end
   end
