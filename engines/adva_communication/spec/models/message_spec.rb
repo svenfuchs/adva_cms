@@ -21,6 +21,19 @@ describe Message do
   end
   
   describe "methods:" do
+    
+    describe "#is_reply?" do
+      it "returns true when message is a  reply" do
+        @message.update_attribute(:parent_id, 1)
+        @message.is_reply?.should be_true
+      end
+      
+      it "returns false when message is not a reply" do
+        @message.update_attribute(:parent_id, nil)
+        @message.is_reply?.should be_false
+      end
+    end
+    
     describe "#mark_as_read" do
       before :each do
         @message.update_attribute(:read_at, nil)
@@ -35,6 +48,23 @@ describe Message do
     it "#mark_as_unread marks the message as unread"
     
     describe "#mark_as_deleted" do
+      describe "when user is sender and receiver" do
+        before :each do
+          @user     = Factory :user
+          @message  = Factory :message, :sender_id => @user.id, :recipient_id => @user.id
+        end
+        
+        it "marks the message as deleted for sender" do
+          @message.mark_as_deleted(@user)
+          @message.deleted_at_sender.should_not be_nil
+        end
+        
+        it "marks the message as deleted for receiver" do
+          @message.mark_as_deleted(@user)
+          @message.deleted_at_recipient.should_not be_nil
+        end
+      end
+      
       describe "when user is sender" do
         before :each do
           @user     = Factory :user

@@ -134,9 +134,39 @@ class UserManipulatesMessages < ActionController::IntegrationTest
     assert johan_mcdoe.messages_received.count == 1
   end
   
-  # def test_the_user_replies_to_a_message
-  #   
-  # end
+  def test_the_user_replies_to_a_message
+    johan_mcdoe = Factory :johan_mcdoe
+    
+    @site.users << johan_mcdoe
+    @site.users << @user
+    
+    # user has one sent mail before
+    assert @user.messages_sent.count == 1
+    
+    # johan mcdoe has no received mail before
+    johan_mcdoe.messages_received.count == 0
+    
+    # go to inbox
+    get '/messages'
+    
+    # user has received one message from johan mcdoe
+    @message_received.update_attribute(:sender_id, johan_mcdoe.id)
+    
+    clicks_link 'reply'
+    
+    # the page renders the reply view
+    assert_template 'messages/reply'
+    
+    # user fills the message form
+    fills_in      'body',        :with => 'the reply body'
+    clicks_button 'Save'
+    
+    # user has sent one more message
+    assert @user.messages_sent.count == 2
+    
+    # johan mcdoe has received the reply
+    johan_mcdoe.messages_received.count == 1
+  end
   
   # def test_the_user_marks_a_message_as_unread
   #   # go to inbox
