@@ -1,3 +1,5 @@
 <%= render :partial => 'message_nav' %>
 
 <%= render :partial => 'inspect', :locals => { :message => @message } %>
+
+<%= link_to 'reply', reply_message_path(@message) %>

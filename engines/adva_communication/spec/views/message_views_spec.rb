@@ -49,6 +49,9 @@ describe "Message views:" do
   end
   
   describe "show" do
+    before :each do
+      assigns[:message] = @message = Factory(:message)
+    end
     act! { render "messages/show" }
     
     it "renders message navigation partial" do
@@ -59,6 +62,11 @@ describe "Message views:" do
     it "renders message inspect partial" do
       template.should_receive(:render).with hash_including(:partial => 'inspect')
       act!
+    end
+    
+    it "has the link to reply to the message" do
+      act!
+      response.should have_tag("a[href=?]", "/messages/#{@message.id}/reply")
     end
   end
   
