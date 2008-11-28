@@ -1,8 +1,8 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe MessageHelper do
+describe MessagesHelper do
   describe "methods:" do
-    describe "#recipient_list" do
+    describe "#recipients_list" do
       before :each do
         Site.delete_all
         @site         = Factory :site
@@ -13,7 +13,7 @@ describe MessageHelper do
       end
       
       it "should populate the list with the members of the site" do
-        helper.recipient_list(@site).should == [[@don_macaroni.name, @don_macaroni.id],
+        helper.recipients_list(@site).should == [[@don_macaroni.name, @don_macaroni.id],
                                                 [@johan_mcdoe.name, @johan_mcdoe.id]]
       end
     end
