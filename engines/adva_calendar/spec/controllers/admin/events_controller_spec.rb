@@ -10,6 +10,9 @@ describe Admin::EventsController do
     controller.stub! :require_authentication
     controller.stub!(:has_permission?).and_return true
     controller.stub!(:params_author)
+    Category.stub!(:find).and_return @category
+    Section.stub!(:find).and_return @section
+    Calendar.stub!(:find).and_return @calendar
   end
 
   it "should be an Admin::BaseController" do
@@ -41,7 +44,7 @@ describe Admin::EventsController do
     it_guards_permissions :create, :event
 
     it "instantiates a new event from section.events" do
-      @section.events.should_receive(:new).and_return @new_event
+      @section.events.should_receive(:build).and_return Calendar::Event.new(:title => 'New event')
       act!
     end
   end
@@ -58,8 +61,11 @@ describe Admin::EventsController do
     end
   end
   
-  describe "POST to :create" do
-    
+  describe "POST to :create" do    
+    before :each do
+      @event.stub!(:state_changes).and_return([:created])
+    end
+
     act! { request_to :post, @collection_path }
     it_guards_permissions :create, :event
     it_assigns :event
@@ -72,7 +78,6 @@ describe Admin::EventsController do
     describe "given valid event params" do
       it_redirects_to { @edit_member_path }
       it_assigns_flash_cookie :notice => :not_nil
-      # it_triggers_event :event_created
     end
 
     describe "given invalid event params" do
@@ -102,7 +107,6 @@ describe Admin::EventsController do
     describe "given valid event params" do
       it_redirects_to { @edit_member_path }
       it_assigns_flash_cookie :notice => :not_nil
-      # it_triggers_event :event_updated
     end
   
     describe "given invalid event params" do
@@ -138,7 +142,6 @@ describe Admin::EventsController do
     describe "when destroy succeeds" do
       it_redirects_to { @collection_path }
       it_assigns_flash_cookie :notice => :not_nil
-      # it_triggers_event :event_deleted
     end
   
     describe "when destroy fails" do
