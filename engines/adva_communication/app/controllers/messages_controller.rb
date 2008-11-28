@@ -3,11 +3,15 @@ class MessagesController < BaseController
   before_filter :set_message, :only => [:show, :destroy]
   
   def index
-    @messages = current_user.messages_received
+    @message_box  = 'Inbox'
+    @messages     = current_user.messages_received
   end
   
-  def outbox
-    @messages = current_user.messages_sent
+  def sent
+    @message_box  = 'Outbox'
+    @messages     = current_user.messages_sent
+    
+    render :template => "messages/index"
   end
   
   def show

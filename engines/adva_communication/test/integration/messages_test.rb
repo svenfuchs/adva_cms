@@ -27,10 +27,10 @@ class UserBrowsesMesssageFoldersTest < ActionController::IntegrationTest
   
   def test_the_user_visits_the_outbox
     # go to outbox
-    get '/messages/outbox'
+    get '/messages/sent'
     
     # the page renders the outbox
-    assert_template 'messages/outbox'
+    assert_template 'messages/index'
   end
   
   def test_the_user_visits_message_new_form
@@ -75,7 +75,7 @@ class UserManipulatesMessages < ActionController::IntegrationTest
 
   def test_the_user_deletes_a_message_from_outbox
     # go to outbox
-    get '/messages/outbox'
+    get '/messages/sent'
     
     # user has sent message
     assert @user.messages_sent.count == 1
@@ -121,10 +121,17 @@ class UserManipulatesMessages < ActionController::IntegrationTest
   # end
   
   # def test_the_user_marks_a_message_as_unread
+  #   # go to inbox
+  #   get '/messages'
   #   
-  # end
-  
-  # def test_the_user_marks_a_message_as_read
+  #   # user has received message
+  #   assert @user.messages_received.count == 1
+  #   @message = @user.messages_received.first
   #   
+  #   assert @message.read_at != nil
+  #   
+  #   clicks_link 'mark as unread'
+  #   
+  #   assert @message.read_at == nil
   # end
 end

@@ -16,7 +16,7 @@ describe "Message views:" do
     
     it "has a header that tells you that you are on inbox" do
       act!
-      response.should have_tag('h2', /Inbox/)
+      response.should have_tag('h2')
     end
   end
   
@@ -24,7 +24,7 @@ describe "Message views:" do
     before :each do
       template.stub!(:render).with hash_including(:partial => 'messages')
     end
-    act! { render "messages/outbox" }
+    act! { render "messages/index" }
     
     it "renders messages partial" do
       template.should_receive(:render).with hash_including(:partial => 'messages')
@@ -33,7 +33,7 @@ describe "Message views:" do
     
     it "has a header that tells you that you are on outbox" do
       act!
-      response.should have_tag('h2', /Outbox/)
+      response.should have_tag('h2')
     end
   end
   
@@ -164,5 +164,7 @@ describe "Message views:" do
       act!
       response.should have_tag("a", /delete/)
     end
+      
+    it "has a link to mark message as unread"
   end
 end

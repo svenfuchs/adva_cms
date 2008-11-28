@@ -21,8 +21,6 @@ describe Message do
   end
   
   describe "methods:" do
-    it "#mark_as_read marks the message as read"
-    
     it "#mark_as_unread marks the message as unread"
     
     describe "#mark_as_deleted" do

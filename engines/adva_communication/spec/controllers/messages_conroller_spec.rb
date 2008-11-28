@@ -15,6 +15,7 @@ describe MessagesController do
   
   describe "GET to index" do
     act! { request_to :get, '/messages' }
+    it_assigns :message_box
     it_assigns :messages
     
     it "fetches only the received messages" do
@@ -23,9 +24,11 @@ describe MessagesController do
     end
   end
   
-  describe "GET to outbox" do
-    act! { request_to :get, '/messages/outbox' }
+  describe "GET to sent" do
+    act! { request_to :get, '/messages/sent' }
+    it_assigns :message_box
     it_assigns :messages
+    it_renders_template 'index'
     
     it "fetches only the sent messages" do
       @user.should_receive(:messages_sent)
