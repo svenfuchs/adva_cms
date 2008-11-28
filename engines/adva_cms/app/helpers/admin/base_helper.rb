@@ -6,8 +6,8 @@ module Admin::BaseHelper
     options = []
 
     if current_user.has_role?(:superuser)
-      options << ['Sites overview', admin_sites_path]
-      options << ['Superusers + Admins', admin_users_path]
+      options << [t(:'adva.links.sites_overview'), admin_sites_path]
+      options << [t(:'adva.links.superusers_admins'), admin_users_path]
       options << ['------------------', '#']
     end
 
@@ -21,7 +21,7 @@ module Admin::BaseHelper
   end
   
   def link_to_profile(site = nil, options = {})
-    name = options[:name].nil? ? 'Profile' : options[:name]
+    name = options[:name].nil? ? t(:'adva.links.profile') : options[:name]
     
     if site.nil? || site.new_record? || current_user.has_role?(:superuser)
       link_to(name, admin_user_path(current_user))

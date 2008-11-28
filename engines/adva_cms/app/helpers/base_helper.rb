@@ -19,11 +19,11 @@ module BaseHelper
   def link_to_section_main_action(site, section)
     case section
     when Wiki
-      link_to content_tag(:span, 'Wikipages'), admin_wikipages_path(site, section)
+      link_to content_tag(:span, t(:'adva.titles.wikipages')), admin_wikipages_path(site, section)
     when Forum
-      link_to content_tag(:span, 'Boards'), admin_boards_path(site, section)
+      link_to content_tag(:span, t(:'adva.titles.boards')), admin_boards_path(site, section)
     when Section, Blog
-      link_to content_tag(:span, 'Articles'), admin_articles_path(site, section)
+      link_to content_tag(:span, t(:'adva.titles.articles')), admin_articles_path(site, section)
     end
   end
 
@@ -79,7 +79,7 @@ module BaseHelper
   def filter_options
     FilteredColumn.filters.keys.inject([]) do |arr, key|
       arr << [FilteredColumn.filters[key].filter_name, key.to_s]
-    end.unshift ['Plain HTML', '']
+    end.unshift [t(:'adva.settings.filter_options.plain_html'), '']
   end
 
   def author_options
