@@ -1,2 +1,15 @@
 <%= render :partial => 'message_nav' %>
 
+<div id="<%= dom_id(@message) %>">
+	<div id="message-header">
+		<h2><%= h(@message.subject) %></h2>
+		<p id="message-sender">
+			from: <%= @message.sender.name %>
+		</p>
+	</div>
+	<div id="message-body">
+		<p id="message-body">
+			<%= h(@message.body) %>
+		</p>
+	</div>
+</div>

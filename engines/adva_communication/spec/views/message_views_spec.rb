@@ -48,13 +48,35 @@ describe "Message views:" do
   
   describe "show" do
     before :each do
-      @message = Factory :message
+      @don_macaroni     = Factory :don_macaroni
+      @message          = Factory :message, :sender_id => @don_macaroni.id
+      assigns[:message] = @message
     end
     act! { render "messages/show" }
     
     it "renders message navigation partial" do
       template.should_receive(:render).with hash_including(:partial => 'message_nav')
       act!
+    end
+    
+    it "has message the message" do
+      act!
+      response.should have_tag("div#message_#{@message.id}")
+    end
+    
+    it "has message subject in a header" do
+      act!
+      response.should have_tag('h2', "#{@message.subject}")
+    end
+    
+    it "has message sender name in a paragraph" do
+      act!
+      response.should have_tag('p#message-sender', "from: #{@message.sender.name}")
+    end
+    
+    it "has message body in a paragraph" do
+      act!
+      response.should have_tag('p#message-body', "#{@message.body}")
     end
   end
   
