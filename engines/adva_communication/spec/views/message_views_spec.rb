@@ -37,6 +37,62 @@ describe "Message views:" do
     end
   end
   
+  describe "show" do
+    before :each do
+      @message = Factory :message
+    end
+    act! { render "messages/show" }
+    
+    it "renders the message partial (or maybe a conversation?)"
+  end
+  
+  describe "new" do
+    before :each do
+      assigns[:site] = Factory :site
+    end
+    act! { render "messages/new" }
+    
+    it "should render the message form label for recipient" do
+      act!
+      response.should have_tag('label[for=?]', 'message_recipient')
+    end
+    
+    it "should render the message form field for recipient" do
+      act!
+      response.should have_tag('select[name=?]', 'message[recipient_id]')
+    end
+    
+    it "should render the message form label for subject" do
+      act!
+      response.should have_tag('label[for=?]', 'message_subject')
+    end
+    
+    it "should render the message form field for subject" do
+      act!
+      response.should have_tag('input[name=?]', 'message[subject]')
+    end
+    
+    it "should render the message form label for body" do
+      act!
+      response.should have_tag('label[for=?]', 'message_body')
+    end
+    
+    it "should render the message form field for body" do
+      act!
+      response.should have_tag('textarea[name=?]', 'message[body]')
+    end
+    
+    it "should render the message form button for sending the message" do
+      act!
+      response.should have_tag('input[name=?]', 'commit')
+    end
+    
+    it "should render the cancel link" do
+      act!
+      response.should have_tag('a[href=?]', '/messages')
+    end
+  end
+   
   describe "_messages" do
     describe "when messages is set" do
       before :each do
