@@ -1,6 +1,6 @@
 module ContentHelper
   def published_at_formatted(article)
-    return 'not published' unless article && article.published?
+    return t(:'adva.content.not_published') unless article && article.published?
     article.published_at.to_ordinalized_s(article.published_at.year == Time.now.year ? :stub : :mdy)
   end
 
@@ -44,7 +44,7 @@ module ContentHelper
   def link_to_content_comments_count(content, options = {:total => true})
     total = content.comments_count
     approved = content.approved_comments_count
-    return options[:alt] || 'none' if approved == 0
+    return options[:alt] || t(:'adva.common.none') if approved == 0
     text = if total == approved or !options[:total]
       "#{approved.to_s.rjust(2, '0')}"
     else

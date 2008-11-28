@@ -1,5 +1,7 @@
 en:
   adva:
+    content: 
+      not_published: not published
     common: 
       none: none
       hide: Hide
@@ -30,7 +32,9 @@ en:
       theme: Theme
       themes: Themes
       articles: Articles
+      wikipages: Wikipages
       categories: Categories
+      boards: Boards
       comments: Comments
       cache: Cache
       clear: Clear
@@ -54,9 +58,12 @@ en:
       accounts: Accounts
     links: 
       back: Back
-      skip_to_navigation: Skip to Navigation
       logout: Logout
       login: Log In
+      profile: Profile
+      superusers_admins: Superusers + Admins
+      sites_overview: Sites overview
+      skip_to_navigation: Skip to Navigation
       skip_to_content: Skip to Content
     resources:
       view: View
@@ -291,6 +298,9 @@ en:
         update: 
           success: The file has been updated.
           failure: The file could not be updated.
+    settings: 
+      filter_options: 
+        plain_html: Plain HTML
     sidebar: 
       titles: 
         tags: Tags
