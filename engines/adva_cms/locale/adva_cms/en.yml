@@ -730,3 +730,13 @@ en:
       titles:
         tags: Tags
         topics: Topics
+    newsletters:
+      create: Create a newsletter
+      question_save_as_draft: Save as Draft?
+      confirm_save_as_draft: Yes, save this newsletter as draft
+      labels:
+        title: Title
+        body: Body
+      issues:
+        submit: Start delivery
+        deliver: Deliver
