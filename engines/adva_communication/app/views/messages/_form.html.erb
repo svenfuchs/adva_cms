@@ -1,0 +1,23 @@
+<fieldset class="clearfix">
+	<% unless message.is_reply? -%>
+		<p>
+	  	<%= f.label :recipient %>
+	  	<%= f.select :recipient_id, recipients_list(@site) %>
+		</p>
+  <% end -%>
+
+	<p>
+  	<%= f.label :subject %>
+  	<%= f.text_field :subject, :class => 'big' %>
+ 	</p>
+
+	<p>
+		<%= f.label :body %>
+  	<%= f.text_area :body, :class => 'fat', :rows => 25 %>
+	</p>
+	
+	<p>
+   	<%= f.submit t(:'adva.common.save') %> <%= t(:'adva.common.connector.or') %>
+   	<%= link_to t(:'adva.common.cancel'), messages_path %>
+	</p>
+</fieldset>

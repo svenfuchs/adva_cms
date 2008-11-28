@@ -55,6 +55,31 @@ describe MessagesController do
     it_assigns :message
   end
   
+  describe "GET to reply" do
+    before :each do
+      @message      = Factory :message
+      Message.stub!(:find).and_return @message
+    end
+    act! { request_to :get, "/messages/#{@message.id}/reply" }
+    
+    it "assigns parent message" do
+      Message.should_receive(:new).with(:parent_id => "#{@message.id}", :subject => "Re: #{@message.subject}")
+      act!
+    end
+    
+    describe "when replying to already replied message" do
+      before :each do
+        @message      = Factory :message, :subject => "Re: subject"
+        Message.stub!(:find).and_return @message
+      end
+      
+      it "does not make a new Re: start" do
+        Message.should_receive(:new).with(:parent_id => "#{@message.id}", :subject => @message.subject)
+        act!
+      end      
+    end
+  end
+  
   describe "POST to create" do
     before :each do
       @recipient  = Factory :don_macaroni
