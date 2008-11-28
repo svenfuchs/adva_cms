@@ -16,7 +16,6 @@ describe MessagesController do
   describe "GET to index" do
     act! { request_to :get, '/messages' }
     it_assigns :messages
-    it_assigns :site
     
     it "fetches only the received messages" do
       @user.should_receive(:messages_received)
@@ -27,7 +26,6 @@ describe MessagesController do
   describe "GET to outbox" do
     act! { request_to :get, '/messages/outbox' }
     it_assigns :messages
-    it_assigns :site
     
     it "fetches only the sent messages" do
       @user.should_receive(:messages_sent)
@@ -38,7 +36,6 @@ describe MessagesController do
   describe "GET to new" do
     act! { request_to :get, '/messages/new' }
     it_assigns :message
-    it_assigns :site
   end
   
   describe "POST to create" do
@@ -51,7 +48,6 @@ describe MessagesController do
       @user.messages_sent.stub!(:build).and_return(@message)
     end
     act! { request_to :post, '/messages', @params }
-    it_assigns :site
     
     it "builds a new sent message for user" do
       @user.messages_sent.should_receive(:build).and_return(@message)
@@ -85,7 +81,6 @@ describe MessagesController do
     end
     act! { request_to :delete, "/messages/#{@message.id}"}
     it_assigns :message
-    it_assigns :site
     it_redirects_to { 'http://test.host/messages' }
     
     it "sets message as deleted for recipient" do

@@ -2,7 +2,7 @@
 	<fieldset class="clearfix">
 		<p>
 	  	<%= f.label :recipient %>
-	  	<%= f.select :recipient_id, @site.users.collect {|u| [u.name, u.id]} %>
+	  	<%= f.select :recipient_id, recipients_list(@site) %>
 		</p>
 		
 		<p>

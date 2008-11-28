@@ -48,7 +48,9 @@ describe "Message views:" do
   
   describe "new" do
     before :each do
+      Site.delete_all
       assigns[:site] = Factory :site
+      template.stub!(:recipients_list).and_return([['John Wayne', '666']])
     end
     act! { render "messages/new" }
     
