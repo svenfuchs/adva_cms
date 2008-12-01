@@ -732,6 +732,7 @@ en:
         topics: Topics
     newsletters:
       new: Create a newsletter
+      no_newsletters: There are no newsletters.
       labels:
         title: Newsletter name
         desc: Description

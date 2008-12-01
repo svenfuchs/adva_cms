@@ -1,3 +1,28 @@
 <% content_for :sidebar do %>
   <%= render :partial => 'sidebar' %>
 <% end %>
+
+<% unless @newsletters.empty? %>
+  <table id="newsletters" class="list" cellspacing='0'>
+    <thead>
+      <tr>
+        <th scope="col">Newsletter</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @newsletters.each do |newsletter| %>
+        <tr>
+          <td><%= link_to h(newsletter.title), admin_newsletter_path(@site, newsletter) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+<% else %>
+
+  <div class="empty">
+    <%= t('adva.newsletters.no_newsletters') %>
+    <%= link_to t('adva.newsletters.new'), new_admin_newsletter_path(@site) %>
+  </div>
+
+<% end %>
