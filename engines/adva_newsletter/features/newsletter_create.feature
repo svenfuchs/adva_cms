@@ -11,4 +11,4 @@ Feature: Create Newsletter
     Given I am logged in as "admin"
     When I go to "/admin/sites/1/newsletters/new"
     And submit new "empty newsletter"
-    Then I should see "can't be blank"
+    Then I should see validation error messages

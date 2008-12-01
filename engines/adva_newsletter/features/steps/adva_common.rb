@@ -41,6 +41,10 @@ Then /[I should | should ] see new "(.*)"/ do |model|
   end
 end
 
+Then /[I should | should ] see validation error messages/ do
+  response.body.should include_text("can't be blank")
+end
+
 Then /should have 0 issues/ do
   #TODO find better way and more unique step description
   Newsletter.last.issues.should == []
