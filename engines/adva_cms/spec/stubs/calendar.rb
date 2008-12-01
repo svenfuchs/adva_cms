@@ -10,6 +10,8 @@ define Calendar do
            :find => true,
            :save => true,
            :update_attributes => true,
+           :attributes => true,
+           :has_attribute? => true,
            :destroy => true
 
   instance :calendar
