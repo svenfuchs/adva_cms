@@ -20,6 +20,10 @@ describe Message do
     it "belongs to recipient" do
       @message.should belong_to(:recipient)
     end
+    
+    it "belongs to conversation" do
+      @message.should belong_to(:conversation)
+    end
   end
   
   describe "validations:" do
@@ -153,6 +157,44 @@ describe Message do
         it "does not mark the message as deleted for sender" do
           @message.mark_as_deleted(@johan)
           @message.deleted_at_sender.should be_nil
+        end
+      end
+    end
+  end
+  
+  describe "before_create" do
+    describe "#assign_to_conversation" do
+      before :each do
+        @don_macaroni = Factory :don_macaroni
+        @johan_mcdoe  = Factory :johan_mcdoe
+      end
+      describe "when message is a new message" do
+        before :each do
+          @message = Message.create!(:subject => 'test', :body => 'test body',
+                                     :sender => @johan_mcdoe, :recipient => @don_macaroni)
+        end
+        
+        it "assigns a conversation object for message" do
+          @message.conversation.should be_kind_of(Conversation)
+        end
+        
+        it "has only the newly created message on conversation" do
+          @message.conversation.messages.count == 1
+        end
+      end
+      
+      describe "when message is a reply to another message" do
+        before :each do
+          @message = Message.create!(:subject => 'test', :body => 'test body',
+                                     :sender => @johan_mcdoe, :recipient => @don_macaroni)
+          @new_message        = Message.reply_to(@message)
+          @new_message.body   = 'reply body'
+          @new_message.sender = @don_macaroni
+        end
+        
+        it "assigns the message to parent messages conversation" do
+          @new_message.save!
+          @new_message.conversation_id.should == @message.conversation_id
         end
       end
     end

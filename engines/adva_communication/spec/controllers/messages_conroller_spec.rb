@@ -96,16 +96,17 @@ describe MessagesController do
     
     describe "with invalid parameters" do
       before :each do
-        @message.should_receive(:save).and_return false
+        @message.stub!(:save).and_return false
       end
       it_renders_template :new
       it_does_not_trigger_any_event
     end
     
-    describe "with invalid parameters, on reply" do
+    describe "when replying with invalid parameters" do
       before :each do
-        @message.update_attribute(:parent_id, 1)
-        @message.should_receive(:save).and_return false
+        @message = Factory :reply
+        @user.messages_sent.stub!(:build).and_return(@message)
+        @message.stub!(:save).and_return false
       end
       it_renders_template :reply
       it_does_not_trigger_any_event
