@@ -1,5 +1,7 @@
 class Admin::NewslettersController < Admin::BaseController
+
   def index
+    @newsletters = Newsletter.all_included.find(:all)
   end
   
   def show
@@ -8,17 +10,14 @@ class Admin::NewslettersController < Admin::BaseController
   
   def new
     @newsletter = Newsletter.new
-    @issue = Issue.new
   end
   
   def create
     @newsletter = Newsletter.new(params[:newsletter])
     
     if @newsletter.save
-      @newsletter.issues.create(params[:issue]) if params[:draft].nil?
       redirect_to admin_newsletter_path(@site, @newsletter)
     else
-      @issue ||= Issue.new
       render :action => 'new'
     end
   end

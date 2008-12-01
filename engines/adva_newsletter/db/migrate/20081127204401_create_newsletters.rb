@@ -4,7 +4,7 @@ class CreateNewsletters < ActiveRecord::Migration
       t.references :site
       
       t.string     :title, :null => false
-      t.text       :body,  :null => false
+      t.text       :desc
 
       t.timestamps
     end

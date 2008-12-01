@@ -3,4 +3,8 @@
 <% end %>
 
 <h2><%= h(@newsletter.title) %></h2>
-<p><%= h(@newsletter.body) %></p>
+<p><%= h(@newsletter.desc) %></p>
+
+<% if @newsletter.issues.blank? %>
+  <p><%= link_to t('adva.issues.new'), new_admin_issue_path %></p>
+<% end %>

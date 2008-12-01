@@ -13,10 +13,14 @@ end
 
 When /[I submit | submit] new "(.*)"/ do |model|
   case model
-  when 'draft newsletter'
-    fill_in :title, :with => 'draft newsletter title'
-    fill_in :body, :with => 'draft newsletter body'
+  when 'newsletter'
+    fill_in :newsletter_title, :with => 'newsletter title'
+    fill_in :newsletter_desc, :with => 'newsletter desc'
+  when 'draft issue'
+    fill_in :issue_title, :with => 'draft issue title'
+    fill_in :issue_body, :with => 'draft issue body'
   when 'empty newsletter'
+  when 'empty issue'
   else
     raise missing_from_step(model)
   end
@@ -26,9 +30,12 @@ end
 
 Then /[I should | should ] see new "(.*)"/ do |model|
   case model
-  when 'draft newsletter'
-    response.body.should include_text('draft newsletter title')
-    response.body.should include_text('draft newsletter body')
+  when 'newsletter'
+    response.body.should include_text('newsletter title')
+    response.body.should include_text('newsletter desc')
+  when 'draft issue'
+    response.body.should include_text('draft issue title')
+    response.body.should include_text('draft issue body')
   else
     raise missing_from_step(model)
   end

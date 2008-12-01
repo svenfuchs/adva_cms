@@ -1,22 +1,6 @@
 <fieldset class="clearfix">
   <%= f.label :title, t('adva.newsletters.labels.title') %>
   <%= f.text_field :title, :class => 'big'  %>
-  <%= f.label :body, t('adva.newsletters.labels.body') %>
-  <%= f.text_area :body, :class => 'fat', :rows => 25  %>
-
-  <%= f.label :draft, t('adva.newsletters.question_save_as_draft') %>
-  <label class="light">
-    <%= check_box_tag :draft, '1', @newsletter.draft?, :id => 'newsletter-draft' %><%= t('adva.newsletters.confirm_save_as_draft') %>
-  </label>
-
-  <div id="issue" style="<%= @newsletter.draft? ? "display:none" : "" %>">
-    <% fields_for @issue do |issue| %>
-      <%= issue.label :due_at, t('adva.newsletters.issues.deliver') %>
-      <%= issue.datetime_select :due_at,
-                            :start_year => (@issue.due_at || Time.zone.now).year-1,
-                            :end_year => (Time.zone.now.year + 5),
-                            :order => [:month, :day, :year] %>
-      <%= f.submit t('adva.newsletters.issues.submit'), :name => 'issue' %>
-    <% end %>
-  </div>
+  <%= f.label :desc, t('adva.newsletters.labels.desc') %>
+  <%= f.text_area :desc, :class => 'fat', :rows => 2  %>
 </fieldset>

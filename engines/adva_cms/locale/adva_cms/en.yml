@@ -731,7 +731,12 @@ en:
         tags: Tags
         topics: Topics
     newsletters:
-      create: Create a newsletter
+      new: Create a newsletter
+      labels:
+        title: Newsletter name
+        desc: Description
+    issues:
+      new: Create a new issue
       question_save_as_draft: Save as Draft?
       confirm_save_as_draft: Yes, save this newsletter as draft
       labels:
