@@ -3,7 +3,9 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe Message do
   
   before :each do
-    @message = Message.new
+    @message = Factory :message
+    @johan   = @message.sender
+    @don     = @message.recipient
   end
   
   it "is kind of communication" do
@@ -20,7 +22,68 @@ describe Message do
     end
   end
   
+  describe "validations:" do
+    it "should validate the presence of subject" do
+      @message.subject = nil
+      @message.should_not be_valid
+    end
+    
+    it "should validate the presence of message body" do
+      @message.body = nil
+      @message.should_not be_valid
+    end
+    
+    it "should validate the presence of recipient" do
+      @message.recipient = nil
+      @message.should_not be_valid
+    end
+    
+    it "should validate the presence of sender" do
+      @message.sender = nil
+      @message.should_not be_valid
+    end
+  end
+  
+  describe "class methods:" do
+    describe "#reply_to" do
+      before :each do
+        @new_message = Message.reply_to(@message)
+      end
+      
+      it "returns a message object that has a predifined recipient" do
+        @new_message.recipient.should == @johan
+      end
+      
+      it "returns a message object that has a predifined subject" do
+        @new_message.subject.should == "Re: " + @message.subject
+      end
+      
+      it "does not add another Re: to a subject if message already starts with Re:" do
+        @new_message = Message.reply_to(@new_message)
+        @new_message.subject.should == "Re: " + @message.subject
+      end
+      
+      it "returns a message object that has a predefined parent_id" do
+        @new_message.parent_id.should == @message.id
+      end
+    end
+  end
+  
   describe "methods:" do
+    describe "#parent" do
+      before :each do
+        @parent_message = Factory :message
+        @message_with_parent = Factory :message, :parent_id => @parent_message.id
+      end
+      
+      it "returns the parent message" do
+        @message_with_parent.parent.should == @parent_message
+      end
+      
+      it "returns nil when there is no parent" do
+        @message.parent.should be_nil
+      end
+    end
     
     describe "#is_reply?" do
       it "returns true when message is a  reply" do
@@ -50,51 +113,45 @@ describe Message do
     describe "#mark_as_deleted" do
       describe "when user is sender and receiver" do
         before :each do
-          @user     = Factory :user
-          @message  = Factory :message, :sender_id => @user.id, :recipient_id => @user.id
+          @message.recipient = @johan
         end
         
         it "marks the message as deleted for sender" do
-          @message.mark_as_deleted(@user)
+          @message.mark_as_deleted(@johan)
           @message.deleted_at_sender.should_not be_nil
         end
         
         it "marks the message as deleted for receiver" do
-          @message.mark_as_deleted(@user)
+          @message.mark_as_deleted(@johan)
           @message.deleted_at_recipient.should_not be_nil
         end
       end
       
       describe "when user is sender" do
-        before :each do
-          @user     = Factory :user
-          @message  = Factory :message, :sender_id => @user.id
-        end
-        
         it "marks the message as deleted for sender" do
-          @message.mark_as_deleted(@user)
+          @message.mark_as_deleted(@johan)
           @message.deleted_at_sender.should_not be_nil
         end
         
         it "does not mark the message as deleted for receiver" do
-          @message.mark_as_deleted(@user)
+          @message.mark_as_deleted(@johan)
           @message.deleted_at_recipient.should be_nil
         end
       end
       
       describe "when user is receiver" do
         before :each do
-          @user     = Factory :user
-          @message  = Factory :message, :recipient_id => @user.id
+          @message.recipient = @johan
+          @message.sender    = @don
         end
         
         it "marks the message as deleted for receiver" do
-          @message.mark_as_deleted(@user)
+          @message.mark_as_deleted(@johan)
           @message.deleted_at_recipient.should_not be_nil
         end
         
         it "does not mark the message as deleted for sender" do
-          @message.mark_as_deleted(@user)
+          @message.mark_as_deleted(@johan)
           @message.deleted_at_sender.should be_nil
         end
       end

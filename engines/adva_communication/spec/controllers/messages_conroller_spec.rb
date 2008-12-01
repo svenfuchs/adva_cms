@@ -62,31 +62,19 @@ describe MessagesController do
     end
     act! { request_to :get, "/messages/#{@message.id}/reply" }
     
-    it "assigns parent message" do
-      Message.should_receive(:new).with(:parent_id => "#{@message.id}", :subject => "Re: #{@message.subject}")
+    it "assigns a new message" do
+      Message.should_receive(:reply_to).with(@message)
       act!
-    end
-    
-    describe "when replying to already replied message" do
-      before :each do
-        @message      = Factory :message, :subject => "Re: subject"
-        Message.stub!(:find).and_return @message
-      end
-      
-      it "does not make a new Re: start" do
-        Message.should_receive(:new).with(:parent_id => "#{@message.id}", :subject => @message.subject)
-        act!
-      end      
     end
   end
   
   describe "POST to create" do
     before :each do
       @recipient  = Factory :don_macaroni
-      @params     = { :recipient_id => @recipient.id,
-                      :subject      => 'subject',
-                      :body         => 'body' }
-      @message    = Message.new(@params.merge(:sender_id => @user.id))
+      @params     = { :recipient => @recipient,
+                      :subject   => 'subject',
+                      :body      => 'body' }
+      @message    = Message.new(@params.merge(:sender => @user))
       @user.messages_sent.stub!(:build).and_return(@message)
     end
     act! { request_to :post, '/messages', @params }
@@ -113,11 +101,20 @@ describe MessagesController do
       it_renders_template :new
       it_does_not_trigger_any_event
     end
+    
+    describe "with invalid parameters, on reply" do
+      before :each do
+        @message.update_attribute(:parent_id, 1)
+        @message.should_receive(:save).and_return false
+      end
+      it_renders_template :reply
+      it_does_not_trigger_any_event
+    end
   end
   
   describe "DELETE to destroy" do
     before :each do
-      @message = Factory :message, :recipient_id => @user.id
+      @message = Factory :message, :recipient => @user
       @message.stub!(:mark_as_deleted)
       Message.stub!(:find).and_return(@message)
     end

@@ -1,7 +1,6 @@
 class MessagesController < BaseController
   authentication_required
-  before_filter :set_message,         :only => [:show, :destroy]
-  before_filter :set_parent_message , :only => [:reply]
+  before_filter :set_message,         :only => [:show, :reply, :destroy]
   
   def index
     @message_box  = 'Inbox'
@@ -24,7 +23,7 @@ class MessagesController < BaseController
   end
   
   def reply
-    @message = Message.new(:parent_id => params[:id], :subject => @subject)
+    @message = Message.reply_to(@message)
   end
   
   def create
@@ -33,6 +32,8 @@ class MessagesController < BaseController
     if @message.save
       trigger_events @message
       redirect_to messages_path
+    elsif @message.is_reply?
+      render :action => 'reply'
     else
       render :action => 'new'
     end
@@ -47,14 +48,5 @@ class MessagesController < BaseController
   protected
     def set_message
       @message = Message.find(params[:id])
-    end
-    
-    def set_parent_message
-      @parent_message = Message.find(params[:id])
-      if @parent_message.subject[0..2] == 'Re:'
-        @subject = @parent_message.subject
-      else
-        @subject = 'Re: ' + @parent_message.subject
-      end
     end
 end
