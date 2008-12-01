@@ -14,14 +14,21 @@ describe EventsController do
   describe "routing" do
     with_options :section_id => "1" do |route|
       route.it_maps :get, "/event/1/1", :show, :id => "1"
+      route.it_maps :get, "/events/1", :index
+      route.it_maps :get, "/events/1/categories/2", :index, :category_id => "2"
       route.it_maps :get, "/event/1/2008", :show, :id => "2008"
       route.it_maps :get, "/events/1/2008", :index, :year => "2008"
       route.it_maps :get, "/events/1/2008/11", :index, :year => "2008", :month => "11"
       route.it_maps :get, "/events/1/2008/11/27", :index, :year => "2008", :month => "11", :day => "27"
     end
-    
-    with_options :section_id => '1', :format => 'ics' do |r|
-      r.maps_to_index '/events/1.ics'
+  end
+  describe "routing with icalendar format" do 
+    with_options :section_id => '1', :format => 'ics' do |route|
+      route.it_maps :get, "/event/1/1.ics", :show, :id => "1"
+
+      route.it_maps :get, '/events/1.ics', :index
+      route.it_maps :get, '/events/1/categories/2.ics', :index, :category_id => '2'
+
     end
   end
 end
