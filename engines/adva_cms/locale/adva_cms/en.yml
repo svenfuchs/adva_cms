@@ -735,7 +735,7 @@ en:
       question_save_as_draft: Save as Draft?
       confirm_save_as_draft: Yes, save this newsletter as draft
       labels:
-        title: Title
+        title: Title/Subject
         body: Body
       issues:
         submit: Start delivery

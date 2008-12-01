@@ -11,9 +11,9 @@
 
   <div id="issue" style="<%= @newsletter.draft? ? "display:none" : "" %>">
     <% fields_for @issue do |issue| %>
-      <%= issue.label :created_at, t('adva.newsletters.issues.deliver') %>
-      <%= issue.datetime_select :created_at,
-                            :start_year => (@issue.created_at || Time.zone.now).year-1,
+      <%= issue.label :due_at, t('adva.newsletters.issues.deliver') %>
+      <%= issue.datetime_select :due_at,
+                            :start_year => (@issue.due_at || Time.zone.now).year-1,
                             :end_year => (Time.zone.now.year + 5),
                             :order => [:month, :day, :year] %>
       <%= f.submit t('adva.newsletters.issues.submit'), :name => 'issue' %>

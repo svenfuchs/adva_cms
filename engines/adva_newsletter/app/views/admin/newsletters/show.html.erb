@@ -1,3 +1,6 @@
 <% content_for :sidebar do %>
   <%= render :partial => 'sidebar' %>
 <% end %>
+
+<h2><%= h(@newsletter.title) %></h2>
+<p><%= h(@newsletter.body) %></p>
