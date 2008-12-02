@@ -15,6 +15,14 @@ describe User do
     it "should have many sent messages" do
       @user.should have_many(:messages_sent)
     end
+    
+    # it "should have many conversations" do
+    #   @user.should have_many(:conversations)
+    # end
+    # 
+    # it "should have many sent conversations" do
+    #   @user.should have_many(:conversations_sent)
+    # end
   end
   
   describe "#messages_received" do

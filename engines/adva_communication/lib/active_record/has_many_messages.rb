@@ -18,6 +18,16 @@ module ActiveRecord
                  :foreign_key => "sender_id",
                  :conditions  => ["deleted_at_sender IS NULL"]
         
+        # has_many :conversations,
+        #          :through     => :messages_received,
+        #          :source      => :recipient,
+        #          :uniq        => true
+        # 
+        # has_many :conversations_sent,
+        #          :through     => :messages_sent,
+        #          :source      => :sender,
+        #          :uniq        => true
+        
         include InstanceMethods
       end
 

@@ -5,3 +5,5 @@ map.resources :messages,
                 :member => {
                   :reply => :get
                 }
+
+map.resources :conversations

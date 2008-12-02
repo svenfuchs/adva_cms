@@ -14,7 +14,7 @@ class UserBrowsesMesssageFoldersTest < ActionController::IntegrationTest
   def setup
     factory_scenario :site_with_a_section
     login_as :user
-    factory_scenario :user_with_messages
+    factory_scenario :conversation_with_messages
   end
   
   def test_the_user_visits_the_inbox
@@ -54,22 +54,6 @@ class UserBrowsesMesssageFoldersTest < ActionController::IntegrationTest
     # the page renders the new form
     assert_template 'messages/new'
   end
-
-  def test_the_user_reads_a_message
-    # message is unread
-    assert @message_received.read_at == nil
-    
-    # go to message
-    get message_path(@message_received)
-    
-    # the page renders the show view
-    assert_template 'messages/show'
-    
-    # and the message is read
-    @message_received.reload
-    assert @message_received.read_at != nil
-  end
-
 end
 
 class UserManipulatesMessages < ActionController::IntegrationTest

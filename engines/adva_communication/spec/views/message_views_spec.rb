@@ -279,7 +279,7 @@ describe "Message views:" do
     
     it "has the link to show the message" do
       act!
-      response.should have_tag("a", "#{@message.subject}")
+      response.should have_tag("a[href=?]", "/conversations/#{@message.conversation.id}")
     end
     
     it "has the link to delete the message" do
