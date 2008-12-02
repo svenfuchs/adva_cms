@@ -24,6 +24,9 @@ describe EventsController do
     controller.stub!(:event_path).and_return event_path
 
     controller.stub!(:has_permission?).and_return true
+    @section.events.stub!(:upcoming).and_return stub_calendar_events
+    @section.events.stub!(:upcoming).and_return stub_calendar_events
+    @section.events.stub!(:upcoming).and_return stub_calendar_events
   end
 
   it "should be a BaseController" do
@@ -66,24 +69,25 @@ describe EventsController do
   end
   
   describe "GET to :index for recently updated events" do
-    act! { request_to(:get, {:action => :index, :recent => true }) }
+    act! { request_to(:get, '/events/1', :recent => true) }
     it "should call Event.recent" do
-      @section.event.should_receive(:recent)
+      @section.events.should_receive(:recent)
       act!
     end
   end
   describe "GET to :index for elapsed updated events" do
-    act! { request_to(:get, {:action => :index, :elapsed => true }) }
+    act! { request_to(:get, '/events/1', :elapsed => true) }
     it "should call Event.elapsed" do
-      @section.event.should_receive(:elapsed)
+      @section.events.should_receive(:elapsed)
       act!
     end
   end
 
   describe "GET to :index for a category" do
     act! { request_to(:get, category_path) }
+    it_assigns :categories, [@category]
     it "should set category" do
-      @section.categories.should_receive(:find, {:category_id => '2' })
+      @section.categories.should_receive(:events, {:category_id => '2' })
       act!
     end
   end

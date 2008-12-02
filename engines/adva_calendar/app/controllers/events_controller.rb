@@ -9,15 +9,14 @@ class EventsController < BaseController
   acts_as_commentable
 
   caches_page_with_references :index, :show, :track => ['@event', '@events', '@category', {'@site' => :tag_counts, '@section' => :tag_counts}]
-  cache_sweeper :event_sweeper, :tag_sweeper, :only => [:create, :update, :destroy]
+  cache_sweeper :event_sweeper, :tag_sweeper, :category_sweeper, :only => [:create, :update, :destroy]
   guards_permissions :event, :except => [:index, :show]
 
   def index
-    if @categories
-      @categories.contents
-    else
-      @section.events
-    end
+    source = @categories ? @categories.contents : @section.events
+    @events = source.elapsed(@timespan) if params[:elapsed]
+    @events = source.recent(@timespan) if params[:recent] and @events.blank?
+    @events ||= source.upcoming(@timespan)
     respond_to do |format|
       format.html { render }
       format.ics { render :layout => false }
@@ -85,7 +84,7 @@ class EventsController < BaseController
     def set_section; super(Calendar); end
 
     def set_timespan
-      return if params[:year].blank?
+      return @timespan = [Date.today, Date.today.end_of_month] if params[:year].blank?
       y = params[:year].to_i
       m = params[:month].to_i
       d = params[:day].to_i
