@@ -731,8 +731,10 @@ en:
         tags: Tags
         topics: Topics
     newsletters:
-      new: Create a newsletter
       no_newsletters: There are no newsletters.
+      links:
+        index: Newsletters
+        new: Create a newsletter
       labels:
         title: Newsletter name
         desc: Description

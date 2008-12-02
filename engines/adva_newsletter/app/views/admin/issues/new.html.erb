@@ -1,3 +1,7 @@
+<% content_for :sidebar do %>
+  <%= render :partial => 'sidebar' %>
+<% end %>
+
 <% split_form_for :issue, @issue, :url => admin_issues_path, :html => {:multipart => true, :id => 'content_form'} do |f| %>
   <%= render :partial => 'form', :locals => {:f => f} %>  
   <p class="buttons">
