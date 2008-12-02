@@ -29,10 +29,11 @@ module Login
     # to appear to come from.
     def system_email(extract_from)
       return NOTIFICATIONS_FROM if Object.const_defined?('NOTIFICATIONS_FROM')
-      host = URI.parse(extract_from).host
-      host = host.split '.'
-      host.shift if host.first =~ /www/i
-      "postmaster@#{host * '.'}"
+      if host = URI.parse(extract_from).host
+        host = host.split '.'
+        host.shift if host.first =~ /www/i
+        "postmaster@#{host * '.'}"
+      end
     end
   end
 end

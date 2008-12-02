@@ -9,25 +9,27 @@
 <% end -%>
 
 <h2><%= @user.name %></h2>
-<h3>Details</h3>
+
+<h3><%= t(:'adva.common.details') %></h3>
 <p>
-  Email:
+  <%= t(:'adva.users.labels.email') %>:
   <%= @user.email %>
 </p>
 
 <% if @user.homepage %>
   <p>
-    Homepage:
+    <%= t(:'adva.users.labels.url') %>:
     <%= link_to @user.homepage, @user.homepage %>
   </p>
 <% end %>
-<h3>Events</h3>
+
+<h3><%= t(:'adva.common.events') %></h3>
 <p>
-  Created:
+  <%= t(:'adva.users.labels.created_at') %>:
   <%= @user.created_at %>
 </p>
 
 <p>
-  Last access:
+  <%= t(:'adva.users.labels.updated_at') %>:
   <%= @user.updated_at %>
 </p>

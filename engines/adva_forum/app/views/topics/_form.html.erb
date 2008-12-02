@@ -2,11 +2,11 @@
 <% fields_for User.anonymous do |author| %>
   <div id="anonymous_author">
     <p>
-      <%= author.label :name, 'Name' %>
+      <%= author.label :name, t(:'adva.labels.author_name') %>
       <%= author.text_field :name %>
     </p>
     <p> 
-      <%= author.label :email, 'E-Mail' %>
+      <%= author.label :email, t(:'adva.labels.author_email') %>
       <%= author.text_field :email %>
     </p>
     <p> 
@@ -29,9 +29,9 @@
 
 <% authorized_tag :p, :moderate, @topic do %>
   <%= f.check_box :sticky %>
-  <%= f.label :sticky, 'Sticky', :class => 'inline' %>
+  <%= f.label :sticky, t(:'adva.topics.states.sticky'), :class => 'inline' %>
   <%= f.check_box :locked %>
-  <%= f.label :locked, 'Locked', :class => 'inline' %>
+  <%= f.label :locked, t(:'adva.topics.states.locked'), :class => 'inline' %>
 <% end %>
 
 <p id="preview"></p>

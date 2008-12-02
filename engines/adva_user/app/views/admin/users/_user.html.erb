@@ -3,7 +3,7 @@
   <h3><%= link_to user.name, member_path(user) %></h3>
   <p><%= user.email %></p>
   <p style="margin-top:5px;">
-    <%= link_to "Edit", edit_member_path(user), :class => 'edit' %>
-    <%= link_to "Delete", member_path(user), :class => 'delete', :confirm => "Are you sure you wish to delete this user?", :method => :delete %>
+    <%= link_to t(:'adva.links.edit'), edit_member_path(user), :class => 'edit' %>
+    <%= link_to t(:'adva.links.delete'), member_path(user), :class => 'delete', :confirm => t(:'adva.users.confirm_delete'), :method => :delete %>
   </p>
 </li> 

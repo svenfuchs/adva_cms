@@ -20,6 +20,10 @@ TODO I18n strings
   
   adva_comments/comments_helper
     comment_expiration_options
+    
+  adva_forum
+    forum.rb
+      validates_numericality_of :topics_per_page, :only_integer => true, :message => "can only be whole number."
 
 * add roles interface
 * remove observers and make behaviour more explicit by using events/listeners?

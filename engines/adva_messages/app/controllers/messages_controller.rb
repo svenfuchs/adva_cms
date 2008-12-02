@@ -4,12 +4,12 @@ class MessagesController < BaseController
   
   def index
     @message_box  = 'Inbox'
-    @messages     = current_user.messages_received
+    @messages     = current_user.messages_received.paginate message_paginate_options
   end
   
   def sent
     @message_box  = 'Outbox'
-    @messages     = current_user.messages_sent
+    @messages     = current_user.messages_sent.paginate message_paginate_options
     
     render :template => "messages/index"
   end
@@ -48,5 +48,9 @@ class MessagesController < BaseController
   protected
     def set_message
       @message = Message.find(params[:id])
+    end
+    
+    def message_paginate_options
+      {:page => params[:page], :order => 'created_at DESC'}
     end
 end

@@ -10,51 +10,51 @@ class BoardsController < BaseController
     @comment = Post.new
   end
 
-  def new
-    @board = Topic.new
-  end
-
-  def create
-    @board = @section.boards.topic current_user, params[:board] # sticky, locked if permissions
-    if @board.save
-      flash[:notice] = 'The board has been created.'
-      redirect_to board_path(@section, @board.permalink)
-    else
-      flash[:error] = 'The board could not be created.'
-      render :action => :new
-    end
-  end
-
-  def update
-    if @board.revise current_user, params[:board]
-      flash[:notice] = 'The board has been updated.'
-      redirect_to board_path(@section, @board.permalink)
-    else
-      flash[:error] = 'The board could not be updated.'
-      render :action => "edit"
-    end
-  end
-
-  def destroy
-    if @board.destroy
-      flash[:notice] = 'The board has been deleted.'
-      redirect_to forum_path(@section)
-    else
-      flash[:error] = 'The board could not be deleted.'
-      set_topics
-      render :action => :show
-    end
-  end
+  # def new
+  #   @board = Topic.new
+  # end
+  # 
+  # def create
+  #   @board = @section.boards.topic current_user, params[:board] # sticky, locked if permissions
+  #   if @board.save
+  #     flash[:notice] = 'The board has been created.'
+  #     redirect_to board_path(@section, @board.permalink)
+  #   else
+  #     flash[:error] = 'The board could not be created.'
+  #     render :action => :new
+  #   end
+  # end
+  # 
+  # def update
+  #   if @board.revise current_user, params[:board]
+  #     flash[:notice] = 'The board has been updated.'
+  #     redirect_to board_path(@section, @board.permalink)
+  #   else
+  #     flash[:error] = 'The board could not be updated.'
+  #     render :action => "edit"
+  #   end
+  # end
+  # 
+  # def destroy
+  #   if @board.destroy
+  #     flash[:notice] = 'The board has been deleted.'
+  #     redirect_to forum_path(@section)
+  #   else
+  #     flash[:error] = 'The board could not be deleted.'
+  #     set_topics
+  #     render :action => :show
+  #   end
+  # end
 
   def previous
     board = @board.previous || @board
-    flash[:notice] = 'There is no previous board. Showing the last one.' if board == @board
+    flash[:notice] = t(:'adva.boards.flash.no_previous_board') if board == @board
     redirect_to board_path(@section, board.permalink)
   end
 
   def next
     board = @board.next || @board
-    flash[:notice] = 'There is no next board. Showing the last one.' if board == @board
+    flash[:notice] = t(:'adva.boards.flash.no_next_board') if board == @board
     redirect_to board_path(@section, board.permalink)
   end
 

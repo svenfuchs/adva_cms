@@ -1,16 +1,25 @@
-en: 
-  adva: 
-    common: 
-      none: none
-      hide: Hide
-      save_without_revision: Save without Revision
-      language: Language
-      cancel: Cancel
-      upload: Upload
+en:
+  adva:
+    common:
       about: About
-      connector: 
-        or: or
+      details: Details
+      by_author: by {{author}}
+      cancel: Cancel
+      edit: edit
+      delete: delete
+      hide: Hide
+      import: Import
+      upload: Upload
+      language: Language
+      none: none
+      next: next
+      previous: previous
       save: Save
+      save_without_revision: Save without Revision
+      events: Events
+      you: You
+      connector:
+        or: or
       "yes": "yes"
       by_author: by {{author}}
       import: Import
@@ -22,6 +31,7 @@ en:
       archives: Archives
       articles: Articles
       assets: Assets
+      board: Board
       boards: Boards
       cache: Cache
       categories: Categories
@@ -32,13 +42,16 @@ en:
       dashboard: Dashboard
       general_settings: General settings
       history: History
+      login: Login
       logout: Logout
+      register: Register
       manage: Manage
       optional_settings: Optional Settings
       overview: Overview
       permissions: Permissions
       plugin: Plugin
       plugins: Plugins
+      posts: Posts
       preview: Preview
       publish_in_categories: Publish in these categories
       recent_activity: Recent activity
@@ -53,7 +66,9 @@ en:
       tags: Tags
       theme: Theme
       themes: Themes
+      topic: Topic
       users: Users
+      roles: Roles
       website: Website
       website_configuration: Website configuration
       website_home_section: Website home section
@@ -61,59 +76,68 @@ en:
       wikipages: Wikipages
     links: 
       back: Back
-      profile: Profile
-      skip_to_navigation: Skip to Navigation
-      logout: Logout
-      superusers_admins: Superusers + Admins
-      sites_overview: Sites overview
+      delete: Delete
+      edit: Edit
+      view: View
+      next: next
+      previous: previous
       login: Log In
+      logout: Logout
+      profile: Profile
+      sites_overview: Sites overview
       skip_to_content: Skip to Content
+      skip_to_navigation: Skip to Navigation
+      superusers_admins: Superusers + Admins
       entries_feed: Entries feed
       comments_feed: Comments feed      
+    labels:
+      author_name: Name
+      author_email: E-Mail
     messages: 
       insufficient_permissions: 
         title: Insufficient permissions
         body: If you think you should be allowed to perform this action please contact the admin of this site and ask him to reconfigure the permissions for your role.
-    resources: 
+    resources:
       delete: Delete
       edit: Edit
       reordering_done: Done reordering
       settings: settings
       view: View
-    sites: 
-      title: 
+    sites:
+      title:
         create: Create a new site
         home_section: Home section
-      hints: 
+      hints:
         host_name: Include the port if it's a non-standard one. E.g. localhost:3000
         admin_email: Shown in emails sent from your site
-      attributes: 
+      attributes:
         name: Name
         host: Host
-      install: 
+      install:
         success_fully_created: You have successfully created your site. Enjoy!
         welcome_to_installation: "Welcome to the less-than-two-minutes installation process. Just fill in the information below and you're done. "
         can_always_change_settings: Don't worry. You can always change these settings later.
+        section_default: Home
       no_sites: You currently do not have any sites created.
-      links: 
+      links:
         delete: Delete this site
         create_site_and_account: "Create site & account \xC2\xBB"
         manage_new: Manage your new site &raquo;
-      flash: 
-        destroy: 
+      flash:
+        destroy:
           success: The site has been deleted.
           failure: The site could not be deleted
-        install: 
+        install:
           error_already_complete: Installation is already complete. Please log in with your admin account.
           success: Congratulations! You have successfully set up your site.
           failure: "The following models could not be created: {{models}}."
-        create: 
+        create:
           success: The site has been created.
           failure: The site could not be created
-        update: 
+        update:
           success: The site has been updated.
           failure: The site could not be updated
-      label: 
+      label:
         name: Website name
         title: Website title
         timezone: Website Timezone
@@ -121,68 +145,68 @@ en:
         subtitle: Website subtitle
         host: Host name
       confirm_delete: Are you sure you wish to delete this site?
-    sections: 
-      hints: 
+    sections:
+      hints:
         content_filter: When articles are posted, they use this as the default setting.
-      titles: 
+      titles:
         section_settings: Section specific settings
         blog_settings: Blog specific settings
         forum_settings: Forum specific settings
         create: Create a new section
-      links: 
+      links:
         delete: Delete this section
         add_section: Add a section
         reorder: Reorder sections
         create: Create a new section
       confirm_delete: Are you sure you wish to delete this section?
-      flash: 
-        destroy: 
+      flash:
+        destroy:
           success: The section has been destroyed.
           failure: The section could not be destroyed.
-        create: 
+        create:
           success: The section has been created.
           failure: The section could not be created.
-        update: 
+        update:
           success: The section has been updated.
           failure: The section could not be updated.
-    categories: 
-      attributes: 
+    categories:
+      attributes:
         name: name
-      titles: 
+      titles:
         edit: Edit category
       no_categories_in_section: There are no categories in {{section}}.
-      total_with_count: 
+      total_with_count:
         one: "Total: {{count}} category"
         other: "Total: {{count}} categories"
-      links: 
+      links:
         delete: Delete this category
         reorder: Reorder categories
         create: Create a new category
-      flash: 
-        destroy: 
+      flash:
+        destroy:
           success: The category has been deleted.
           failure: The category could not be deleted.
-        create: 
+        create:
           success: The category has been created.
           failure: The category could not be created.
-        update: 
+        update:
           success: The category has been updated.
           failure: The category could not be updated.
       confirm_delete: Are you sure you wish to delete this category?
-    contents: 
+    contents:
       not_published: not published
-    articles: 
+    articles:
       question_save_as_draft: Save as Draft?
       confirm_save_as_draft: Yes, save this article as a draft
-      hints: 
+      hints:
         permalink: Use only ASCII characters and use dashes instead of spaces.
         tags: Enter one or more tags separated by a space. You may include spaces by enclosing a tag with quotes. (For example, <em>"Web Dev" Tutorials</em>).
-      titles: 
+      titles:
         edit: Edit article
-      total_with_count: 
+      total_with_count:
         one: "Total: {{count}} article"
         other: "Total: {{count}} articles"
-      links: 
+      links:
         delete: Delete this article
         reorder: Reorder articles
         create: Create a new article
@@ -191,55 +215,55 @@ en:
       excerpt_add: Add an excerpt
       no_articles_in_section: There are no articles in {{section}}.
       publish_on_date: Publish on this date
-      flash: 
-        destroy: 
+      flash:
+        destroy:
           success: The article has been deleted.
           failure: The article could not be deleted.
-        rollback: 
+        rollback:
           success: The article has been rolled back to revision {{version}}
           failure: The article could not be rolled back to revision {{version}}
-        create: 
+        create:
           success: The article has been created.
           failure: The article could not be created.
-        update: 
+        update:
           success: The article has been updated.
           failure: The article could not be updated.
       confirm_delete: Are you sure you wish to delete this article?
       attributes:
         excerpt: excerpt
-    cached_pages: 
+    cached_pages:
       no_entries: There currently aren't any pages being cached.
-      confirmation: 
+      confirmation:
         cleared: This page has been removed from the cache.
         cleared_short: Cleared
-      filter: 
+      filter:
         show_cached_pages: Show cached pages
-      total_with_count: 
+      total_with_count:
         one: "Total: {{count}} cached page"
         other: "Total: {{count}} cached pages"
       no_entries_matching_criteria: There currently aren't any pages being cached that match this criteria.
-      flash: 
-        clear: 
+      flash:
+        clear:
           success: The cache has been cleared.
-    comments: 
+    comments:
       flash:
         thank_you: Thank you for the comment!
         create:
           success: The comment has been created.
           failure: The comment could not be created.
-        update: 
+        update:
           success: The comment has been updated.
           failure: The comment could not be updated.
-        destroy: 
+        destroy:
           success: The comment has been deleted.
           failure: The comment could not be deleted.
-      links: 
+      links:
         delete: Delete
         edit: Edit
         approve: Approve
         view: View
         unapprove: Unapprove
-      titles: 
+      titles:
         comments_awaiting_approval: Comments awaiting your approval
         save_comment: Save Comment
         comment_on_by: Comment on '{{on}}' by {{by}}
@@ -249,12 +273,12 @@ en:
         comments_on: Comments on {{location}}
         submit_comment: Submit Comment
         your_reply: Your reply
-        comment_with_count: 
+        comment_with_count:
           one: 1 Comment
           other: "{{count}} Comments"
-      filter: 
+      filter:
         show_comments: Show comments
-        options: 
+        options:
           all: All
           body: Whose body contains
           author_name: Whose author is
@@ -262,40 +286,137 @@ en:
           author_url: Author's website is
           state: Whose state is
         go: Go
-      state: 
-        options: 
+      state:
+        options:
           approved: Approved
           unapproved: Unapproved
-      greeting: 
-        user: Hi <span>user</span>, you are logged in.
-      labels: 
+      labels:
         "on": "on"
         comments: Comments
         approved: Approved
-      hints: 
+      hints:
         comments_filter: When comments are posted, they use this markup.
       confirm_delete: Are you sure you wish to delete this comment?
-      info: 
+      info:
         no_comments_for_query: This {{location}} has no comments matching your query.
         under_review: This comment is currently under review.
       messages:
         not_allowed: "Comments are not allowed here."
+    signup:
+      notifications:
+        email_verification:
+          subject: Email Verification
+          body: |
+            Dear {{name}},
+
+            You recently registered for our service. Our service requires
+            all new users to verify their email address. Simply click the link below and
+            your username will be verified allowing you to login.
+
+            {{link}}
+      flash:
+        destroy:
+          success: The user account {{name}} has been deleted.
+        create:
+          failure: Your registration could not be saved.
+        verify:
+          success: You successfully confirmed your email address.
+          failure: You have already verified your email address.
+    passwords:
+      info:
+        please_enter_email_to_reset_password: Please enter your email address. An email will be sent to you which will include a link to reset your password.
+      titles:
+        new: Reset your password
+      notifications:
+        password_updated:
+          subject: Password Updated
+          body: |
+            Dear {{name}},
+
+            you have successfully updated your password.
+        reset_password:
+          subject: Forgotton Password
+          body: |
+            Dear {{name}},
+
+            Someone (hopefully you) has indicated that you cannot remember your password.
+            To let you reset your password we have provided a link below that will allow
+            you to reset your password.
+
+            {{link}}
+
+            It is suggested you reset your password as soon as possible since this is a
+            time-limited link (to protect your account).
+
+            If you did not request that your password be changed someone must have
+            entered your account in the "forgot password" page on our site. Your account is
+            still perfectly safe since you were the only person this message was sent to.
+            Simply delete this message and no changes will be made to your account if this
+            message was sent in error.
+      flash:
+        new:
+          email_sent: We just sent you a notice. Please check your email.
+          no_such_user: We could not find a user with the email address you entered.
+        update:
+          success: Your password was changed successfully.
+          failure: Your password could not be changed.
+    session:
+      flash:
+        destroy:
+          success: Logged out successfully.
+        create:
+          success: Logged in successfully.
+          failure: Could not login with this email and password.
+      labels:
+        remember_me: Remember me
     users: 
       attributes: 
         password: Password
         email: E-Mail
+      links: 
+        create_user: Create user
+        edit_user: Edit user
+      actions:
+        delete_user: Delete this user
+        create_new: Create a new user
+      titles:
+        new: New user
+        edit: Edit user
+        register: Register a user account
+        signup: Sign up
+        your_profile: Your Profile
+      flash:
+        destroy:
+          success: The user account has been deleted.
+          failure: The user account could not be deleted.
+        create:
+          success: The user account has been created.
+          failure: The user account could not be created.
+        update:
+          success: The user account has been updated.
+          failure: The user account could not be updated.
+      labels:
+        updated_at: Last login
+        url: Homepage
+        created_at: Created
+        email: Email
       logged_in_as: "Logged in as: "
-    themes: 
+      confirm_delete: Are you sure you wish to delete this user account?
+    roles:
+      labels:
+        admin_for: "Admin for: {{context}}"
+        superuser: Superuser
+    themes:
       no_themes_available: You currently do not have any themes created.
-      lables: 
+      lables:
         zip_file: Zip file
-      titles: 
+      titles:
         new: Create a new theme
         edit: Edit theme
         valid_file_types: Valid file types
         import: Import a theme
         edit_file: Edit theme file
-      links: 
+      links:
         add_another_file: Add another file
         new_theme: New theme
         edit: Edit
@@ -310,65 +431,152 @@ en:
         select: Select
         unselect: Unselect
       upload_template_or_asset: Upload a template or an asset.
-      labels: 
+      labels:
         asssets: Assets
         templates: Templates
         filename: Filename
       confirm_select: Are you sure you wish to activate this theme?
       confirm_unselect: Are you sure you wish to deactivate this theme?
       confirm_uninstall: Are you sure you wish to uninstall this theme? (You won't be able to recover it.)
-      flash: 
-        destroy: 
+      flash:
+        destroy:
           success: The theme has been deleted.
           failure: The theme could not be deleted.
-        create: 
+        create:
           success: The theme has been created.
           failure: "The theme could not be created: {{errors}}."
-        update: 
+        update:
           success: The theme has been updated.
           failure: "The theme could not be updated: {{errors}}."
-        import: 
+        import:
           success: The theme has been imported.
           error_filename_blank: The theme file cannot be blank.
           failure: The file could not be imported as a theme.
-    theme_files: 
-      flash: 
-        destroy: 
+    theme_files:
+      flash:
+        destroy:
           success: The file has been deleted.
           failure: The file could not be deleted.
-        create: 
+        create:
           success: The file has been created.
           failure: The file could not be created.
-        update: 
+        update:
           success: The file has been updated.
           failure: The file could not be updated.
-    plugins: 
+    plugins:
       no_plugins_installed: There currently aren't any plugins installed.
-      attributes: 
+      attributes:
         name: Name
         configurable: Configurable
         author: Author
         version: Version
         homepage: Homepage
-      flash: 
-        destroy: 
+      flash:
+        destroy:
           success: The default settings have been restored.
           failure: The section could not be deleted.
-        update: 
+        update:
           success: The plugin settings have been updated.
           failure: The section could not be created.
       no_config_options_available: This plugin does not have any config options available.
-    settings: 
-      filter_options: 
+    settings:
+      filter_options:
         plain_html: Plain HTML
-    spam: 
-      hints: 
+    boards:
+      topics_count:
+        one: "{{count}} topic"
+        other: "{{count}} topics"
+      info:
+        no_boards_in_forum: You don't have any boards created in {{forum}}.
+      titles:
+        new: New Board
+        edit: Edit Board
+      posts_count:
+        one: "{{count}} post"
+        other: "{{count}} posts"
+      links:
+        new: New Board
+        reorder: Reorder boards
+        create_now: Create one now
+      flash:
+        no_next_board: There is no next board. Showing the last one.
+        destroy:
+          success: The board has been deleted.
+          failure: The board could not be deleted.
+        create:
+          success: The board has been created.
+          failure: The board could not be created.
+        update:
+          success: The board has been updated.
+          failure: The board could not be updated.
+        no_previous_board: There is no previous board. Showing the first one.
+      confirm_delete: Are you sure you wish to delete this board?
+    topics:
+      info:
+        no_topics_in_forum: There are no topics in this forum.
+        no_topics_in_board: There are no topics in this board.
+      titles:
+        new: New topic
+        edit: Edit topic
+        post_topic: Post Topic
+        latest_post: Latest post
+        post_count:
+          one: "{{count}} Post"
+          other: "{{count}} Posts"
+      states:
+        sticky: Sticky
+        locked: Locked
+      links:
+        post_new: Post one now
+        post_now: Post one now
+        new_topic: New topic
+      flash:
+        destroy:
+          success: The topic has been deleted.
+          failure: The topic could not be deleted.
+        create:
+          success: The topic has been created.
+          failure: The topic could not be created.
+        update:
+          success: The topic has been updated.
+          failure: The topic could not be updated.
+        no_next_topic: There is no next topic. Showing the last one.
+        no_previous_topic: There is no previous topic. Showing the first one.
+      confirm_destroy: Are you sure you wish to delete this post?
+      confirm_delete: Are you sure you wish to delete this topic?
+    posts:
+      titles:
+        reply: Leave your reply
+        edit: Edit your post
+        save_post: Save post
+        submit_post: Submit post
+      flash:
+        destroy:
+          success: The post has been deleted.
+        create:
+          success: The post has been saved.
+          failure: The post could not be saved.
+        update:
+          success: The post has been updated.
+          failure: The post could not be updated.
+
+    spam:
+      hints:
         filters: When comments are posted, the following filters are used to check their spam status.
-    footer: 
+      options:
+        default_ham_none: Do not automatically approve any comments.
+        default_ham_all: Approve all comments automatically.
+        default_ham_authenticated: Approve comments posted by authenticated users.
+      labels:
+        api_key: API Key
+        site_url: Site URL
+    info:
+      greeting_logged_in: Hi <span>user</span>, you are logged in.
+    footer:
       powered_by: Site powered by adva cms. Theme inspired by depo.
-    flash: 
+    flash:
       authentication_required_role: You need to have the role {{role}} to view this page.
-    sidebar: 
-      titles: 
+    sidebar:
+      titles:
         tags: Tags
         topics: Topics

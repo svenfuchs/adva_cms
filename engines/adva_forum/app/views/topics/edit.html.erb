@@ -1,10 +1,10 @@
-<h2>Edit topic</h2>
+<h2><%= t(:'adva.topics.titles.edit') %></h2>
 <% form_for :topic, :url => topic_path(@section, @topic.permalink), :html => {:method => :put} do |f| -%>
   <%= render :partial => 'form', :locals => {:f => f} %>
   <p>
-    <%= submit_tag 'Save' %>
+    <%= submit_tag t(:'adva.common.save') %>
     <%= link_to_remote_comment_preview %> or
     <img src="/images/adva_cms/indicator.gif" id="comment-preview-spinner" style="display: none;" />
-    <%= link_to 'Cancel', topic_path(@section, @topic.permalink) %>
+    <%= link_to t(:'adva.common.cancel'), topic_path(@section, @topic.permalink) %>
   </p>
 <% end %>

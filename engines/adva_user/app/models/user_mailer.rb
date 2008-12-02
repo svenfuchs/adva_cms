@@ -16,7 +16,7 @@ class UserMailer < ActionMailer::Base
   def signup_verification_email(user, verification_url)
     recipients user.email
     from system_email(verification_url)
-    subject "#{subject_prefix}Email Verification"
+    subject I18n.t(:'adva.signup.notifications.email_verification.subject')
     body :user => user, :verification_url => verification_url
   end
 end

@@ -19,7 +19,7 @@ module ForumHelper
     options = args.extract_options!
     format = options.delete(:format) || '%s'
     topic = args.pop
-    text = args.pop || '&larr; previous'
+    text = args.pop || '&larr; ' + I18n.t(:'adva.links.previous')
     format % link_to(text, previous_topic_path(@section, topic.permalink), options)
   end
 
@@ -27,7 +27,7 @@ module ForumHelper
     options = args.extract_options!
     format = options.delete(:format) || '%s'
     topic = args.pop
-    text = args.pop || 'next &rarr;'
+    text = args.pop || I18n.t(:'adva.links.next') + ' &rarr;'
     format % link_to(text, next_topic_path(@section, topic.permalink), options)
   end
 
@@ -40,9 +40,9 @@ module ForumHelper
 
   def topic_attributes(topic, format = nil)
     attrs = []
-    attrs << pluralize_str(topic.comments_count, '%s post')
-    attrs << 'sticky' if topic.sticky?
-    attrs << 'locked' if topic.locked?
+    attrs << t(:'adva.topics.titles.post_count', :count => topic.comments_count)
+    attrs << t(:'adva.topics.states.sticky') if topic.sticky?
+    attrs << t(:'adva.topics.states.locked') if topic.locked?
     (format || '%s') % attrs.join(', ') unless attrs.empty?
   end
 end
