@@ -37,10 +37,10 @@ class CommentsController < BaseController
     if @comment.save
       trigger_events @comment
       @comment.check_approval :permalink => content_url(@comment.commentable), :authenticated => authenticated?
-      flash[:notice] = "Thank you for your comment!"
+      flash[:notice] = t(:'adva.comments.flash.thank_you')
       redirect_to comment_path(@comment)
     else
-      flash[:error] = @comment.errors.full_messages.to_sentence
+      flash[:error] = @comment.errors.full_messages.to_sentence # TODO hu.
       render :action => :show
     end
   end
@@ -49,7 +49,7 @@ class CommentsController < BaseController
     params[:comment].delete(:approved) # TODO use attr_protected api?
     if @comment.update_attributes(params[:comment])
       trigger_events @comment
-      flash[:notice] = "Thank you for your comment!"
+      flash[:notice] = t(:'adva.comments.flash.update.success')
       redirect_to comment_path(@comment)
     else
       set_commentable
@@ -61,7 +61,7 @@ class CommentsController < BaseController
   def destroy
     @comment.destroy
     trigger_events @comment
-    flash[:notice] = "The comment has been deleted."
+    flash[:notice] = t(:'adva.comments.flash.destroy.success')
     redirect_to "/"
   end
 

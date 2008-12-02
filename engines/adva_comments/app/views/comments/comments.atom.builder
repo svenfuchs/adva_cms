@@ -5,7 +5,7 @@ atom_feed :url => request.url do |feed|
   @comments.each do |comment|
     url = content_url(comment.commentable, :anchor => dom_id(comment))
     feed.entry comment, :url => url do |entry|
-      entry.title "Comment on '#{comment.commentable.title}' by #{comment.author_name}"
+      entry.title I18n.t(:'adva.comments.titles.comment_on_by', :on => comment.commentable.title, :by => comment.author_name)
       entry.content comment.body_html, :type => 'html'
       entry.author do |author|
         author.name comment.author_name

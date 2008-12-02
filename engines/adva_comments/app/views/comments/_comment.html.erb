@@ -3,7 +3,7 @@
     <p><%= comment.author_link %></p>
     <p><%= datetime_with_microformat(comment.created_at, :format => :long) %></p>
     <% unless comment.approved? %>
-      <p class="info">This comment is currently under review.</p>
+      <p class="info"><%= t(:'adva.comments.info.under_review') %></p>
     <% end  %>
   </div>
   <div class="comment">

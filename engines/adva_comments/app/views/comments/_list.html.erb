@@ -1,6 +1,6 @@
 <% unless comments.empty? %>
   <div id="comments">
-    <h2><%= pluralize comments.size, 'Comment' %></h2>
+    <h2><%= t(:'adva.comments.titles.comment_with_count', :count => comments.size) %></h2>
     <ol>
       <%= render :partial => 'comments/comment', :collection => comments %>
     </ol>

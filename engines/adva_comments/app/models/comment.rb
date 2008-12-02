@@ -88,7 +88,7 @@ class Comment < ActiveRecord::Base
 
     def authorize_commenting
       if commentable && !commentable.accept_comments?
-        raise CommentNotAllowed, "Comments are not allowed for this #{commentable.class.name.demodulize.humanize.downcase}."
+        raise CommentNotAllowed, I18n.t(:'adva.comments.messages.not_allowed')
       end
     end
 

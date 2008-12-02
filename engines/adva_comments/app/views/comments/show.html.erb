@@ -1,6 +1,6 @@
 <div id="comments">
-  <h2>Comment #<%= @comment.id %></h2>
-  <p>on: <%= link_to_content @comment.commentable %></p>
+  <h2><%= t(:'adva.comments.titles.comment_number', :number => @comment.id) %></h2>
+  <p><%= t(:'adva.comments.labels.on') %>: <%= link_to_content @comment.commentable %></p>
   <ol>
     <%= render :partial => 'comments/comment', :object => @comment %>
   </ol>
