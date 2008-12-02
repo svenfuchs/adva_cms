@@ -1,0 +1,21 @@
+database:
+  how do people make sure the database is empty?
+
+context:
+  fix that setup_with_rr won't be called
+
+contest_on_crack
+  make it_* set up expectations and assertations and run the act! method only once
+  shared behaviour blocks don't seem to work
+  add it_maps to test routes more concisely
+  add it_expects and it_results that run act! before and after calling act!
+  make act! lookup act block from parent contexts if not given
+  have a controller_filter_proxy or so that makes describing filters easier
+  macro for it_changes "Site.count", :by => 1
+  added :flash_cookie variable type
+
+matchy:
+  add be_nil matcher
+  
+it_renders_screen 'admin/articles/index', :state => :empty_list
+  
