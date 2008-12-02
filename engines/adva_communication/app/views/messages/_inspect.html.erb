@@ -1,4 +1,4 @@
-<div id="<%= dom_id(message) %>">
+<div id="<%= dom_id(message) %>" class="<%= message_type(message) %>">
 	<div id="message-header">
 		<h2><%= h(message.subject) %></h2>
 		<p id="message-sender">

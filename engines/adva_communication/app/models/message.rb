@@ -43,17 +43,17 @@ class Message < Communication
   def reply_subject
     subject[0..2] == 'Re:' ? subject : 'Re: ' + subject
   end
+
+  def recipient?(object)
+    recipient_id == object.id
+  end
+    
+  def sender?(object)
+    sender_id == object.id
+  end
     
   protected
     def assign_to_conversation
       self.conversation = parent.nil? ? Conversation.create : parent.conversation
-    end
-    
-    def sender?(object)
-      sender_id == object.id
-    end
-  
-    def recipient?(object)
-      recipient_id == object.id
     end
 end

@@ -1,5 +1,6 @@
 class ConversationsController < BaseController
   authentication_required
+  helper :messages
 
   # Gmail style messages  
   # def index

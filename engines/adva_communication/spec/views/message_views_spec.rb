@@ -4,6 +4,8 @@ describe "Message views:" do
   include SpecViewHelper
   
   before :each do
+    @user = Factory :johan_mcdoe
+    template.stub!(:current_user).and_return(@user)
     template.stub!(:render).with hash_including(:partial => 'messages')
     template.stub!(:render).with hash_including(:partial => 'message-nav')
     template.stub!(:render).with hash_including(:partial => 'inspect')
