@@ -49,8 +49,12 @@ describe EventsController do
   end
   
   describe "GET to :index" do
+    it "should set timespan" do
+      act! { request_to(:get, calendar_day_path) }
+      it_assigns :timespan
+    end
     it "should show events for a specific date" do
-      @section.events.should_receive(:upcoming, {:year => 2008, :month => 11, :day => 27 })
+      @section.events.should_receive(:upcoming, {:year => "2008", :month => "11", :day => "27" })
       act! { request_to(:get, calendar_day_path) }
     end
     
@@ -65,7 +69,7 @@ describe EventsController do
   end
 end
 
-describe EventsController, 'feeds' do
+describe EventsController, 'calendar format' do
   include SpecControllerHelper
 
   before :each do
