@@ -2,19 +2,19 @@
   <p>
     <%= radio_button_tag 'site[spam_options][default][ham]', "none", site.spam_options(:default, :ham) == 'none', :id => 'site_spam_options_default_ham_none' %>
     <label class="inline light" for="site_spam_options_default_ham_none">
-      Do not automatically approve any comments.
+      <%= t(:'adva.spam.options.default_ham_none') %>
     </label>
   </p>
   <p>
     <%= radio_button_tag 'site[spam_options][default][ham]', "authenticated", site.spam_options(:default, :ham) == 'authenticated', :id => 'site_spam_options_default_ham_authenticated' %>
     <label class="inline light" for="site_spam_options_default_ham_authenticated">
-      Approve comments posted by authenticated users.
+      <%= t(:'adva.spam.options.default_ham_authenticated') %>
     </label>
   </p>
   <p>
     <%= radio_button_tag 'site[spam_options][default][ham]', "all", site.spam_options(:default, :ham) == 'all', :id => 'site_spam_options_default_ham_all' %>
     <label class="inline light" for="site_spam_options_default_ham_all">
-      Approve all comments automatically.
+      <%= t(:'adva.spam.options.default_ham_all') %>
     </label>
   </p>
 </div>

@@ -449,6 +449,13 @@ en:
     spam: 
       hints: 
         filters: When comments are posted, the following filters are used to check their spam status.
+      options: 
+        default_ham_none: Do not automatically approve any comments.
+        default_ham_all: Approve all comments automatically.
+        default_ham_authenticated: Approve comments posted by authenticated users.
+      labels: 
+        api_key: API Key
+        site_url: Site URL
     info: 
       greeting_logged_in: Hi <span>user</span>, you are logged in.
     footer: 
