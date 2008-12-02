@@ -48,23 +48,27 @@ describe EventsController do
     end
   end
   
-  describe "GET to :index" do
-    it "should set timespan" do
-      act! { request_to(:get, calendar_day_path) }
-      it_assigns :timespan
-    end
-    it "should show events for a specific date" do
+  describe "#set_timespan" do
+    act! { request_to(:get, calendar_day_path) }
+    it_assigns :timespan, [Date.new(2008, 11, 27), Date.new(2008, 11, 27).end_of_day]
+    it "GET to :index with a specific date" do
       @section.events.should_receive(:upcoming, {:year => "2008", :month => "11", :day => "27" })
-      act! { request_to(:get, calendar_day_path) }
+      act!
     end
-    
-    it "should show recently added events"
-    it "should show elapsed events"
-    it "should show upcoming events"
+  end
+  
+  describe "GET to :index recently added events" do
+  end
+  describe "GET to :index elapsed events" do
+  end
+  describe "GET to :index upcoming events" do
+  end
 
-    it "should show events for specific category" do
+  describe "GET to :index for a category" do
+    act! { request_to(:get, category_path) }
+    it "should set events" do
       @section.categories.should_receive(:find, {:category_id => '2' })
-      act! { request_to(:get, category_path) }
+      act!
     end
   end
 end
@@ -73,8 +77,8 @@ describe EventsController, 'calendar format' do
   include SpecControllerHelper
 
   before :each do
-    stub_scenario :calendar_with_events, :user_logged_in
-    controller.stub!(:has_permission?).and_return true # TODO
+    stub_scenario :calendar_with_events
+    controller.stub!(:has_permission?).and_return true
   end
 
   ics_paths.each do |path|
@@ -98,7 +102,7 @@ describe EventsController, 'page_caching' do
     @event_sweeper.should be_kind_of(ActionController::Filters::AroundFilter)
   end
 
-  it "configures the EventSweeper to observe Comment create, update and destroy events" do
+  it "configures the EventSweeper to observe Event create, update and destroy events" do
     @event_sweeper.options[:only].to_a.sort.should == ['create', 'destroy', 'update']
   end
 
@@ -106,7 +110,7 @@ describe EventsController, 'page_caching' do
     @category_sweeper.should be_kind_of(ActionController::Filters::AroundFilter)
   end
 
-  it "configures the CategorySweeper to observe Comment create, update and destroy events" do
+  it "configures the CategorySweeper to observe Event create, update and destroy events" do
     @category_sweeper.options[:only].to_a.sort.should == ['create', 'destroy', 'update']
   end
 
@@ -114,7 +118,7 @@ describe EventsController, 'page_caching' do
     @tag_sweeper.should be_kind_of(ActionController::Filters::AroundFilter)
   end
 
-  it "configures the TagSweeper to observe Comment create, update and destroy events" do
+  it "configures the TagSweeper to observe Event create, update and destroy events" do
     @tag_sweeper.options[:only].to_a.sort.should == ['create', 'destroy', 'update']
   end
 
@@ -130,13 +134,6 @@ describe EventsController, 'page_caching' do
     EventsController.track_options[:show].should == ['@event', '@events', '@category', {"@section" => :tag_counts, "@site" => :tag_counts}]
   end
 
-  it "page_caches the comments action" do
-    cached_page_filter_for(:comments).should_not be_nil
-  end
-
-  it "tracks read access on @commentable for comments action page caching" do
-    EventsController.track_options[:comments].should include('@commentable')
-  end
 end
 
 describe "EventSweeper" do
