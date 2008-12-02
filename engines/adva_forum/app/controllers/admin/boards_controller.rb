@@ -16,10 +16,10 @@ class Admin::BoardsController < Admin::BaseController
   def create
     @board = @section.boards.build params[:board]
     if @board.save
-      flash[:notice] = "The board has been created."
+      flash[:notice] = t(:'adva.boards.flash.create.success')
       redirect_to admin_boards_path
     else
-      flash.now[:error] = "The board could not be created."
+      flash.now[:error] = t(:'adva.boards.flash.create.failure')
       render :action => "new"
     end
   end
@@ -29,10 +29,10 @@ class Admin::BoardsController < Admin::BaseController
 
   def update
     if @board.update_attributes params[:board]
-      flash[:notice] = "The board has been updated."
+      flash[:notice] = t(:'adva.boards.flash.update.success')
       redirect_to admin_boards_path
     else
-      flash.now[:error] = "The board could not be updated."
+      flash.now[:error] = t(:'adva.boards.flash.update.failure')
       render :action => 'edit'
     end
   end
@@ -44,10 +44,10 @@ class Admin::BoardsController < Admin::BaseController
 
   def destroy
     if @board.destroy
-      flash[:notice] = "The board has been deleted."
+      flash[:notice] = t(:'adva.boards.flash.destroy.success')
       redirect_to admin_boards_path
     else
-      flash.now[:error] = "The board could not be deleted."
+      flash.now[:error] = t(:'adva.boards.flash.destroy.failure')
       render :action => 'edit'
     end
   end

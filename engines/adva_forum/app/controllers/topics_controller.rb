@@ -26,10 +26,10 @@ class TopicsController < BaseController
     
     if @topic.save
       trigger_events @topic
-      flash[:notice] = 'The topic has been created.'
+      flash[:notice] = t(:'adva.topics.flash.create.success')
       redirect_to topic_path(@section, @topic.permalink)
     else
-      flash[:error] = 'The topic could not be created.'
+      flash[:error] = t(:'adva.topics.flash.create.failure')
       render :action => :new
     end
   end
@@ -41,10 +41,10 @@ class TopicsController < BaseController
     @topic.revise current_user, params[:topic]
     if @topic.save
       trigger_events @topic
-      flash[:notice] = 'The topic has been updated.'
+      flash[:notice] = t(:'adva.topics.flash.update.success')
       redirect_to topic_path(@section, @topic.permalink)
     else
-      flash[:error] = 'The topic could not be updated.'
+      flash[:error] = t(:'adva.topics.flash.update.failure')
       render :action => "edit"
     end
   end
@@ -52,10 +52,10 @@ class TopicsController < BaseController
   def destroy
     if @topic.destroy
       trigger_events @topic
-      flash[:notice] = 'The topic has been deleted.'
+      flash[:notice] = t(:'adva.topics.flash.destroy.success')
       redirect_to forum_path(@section)
     else
-      flash[:error] = 'The topic could not be deleted.'
+      flash[:error] = t(:'adva.topics.flash.destroy.failure')
       set_posts
       render :action => :show
     end
@@ -63,13 +63,13 @@ class TopicsController < BaseController
 
   def previous
     topic = @topic.previous || @topic
-    flash[:notice] = 'There is no previous topic. Showing the first one.' if topic == @topic
+    flash[:notice] = t(:'adva.topics.flash.no_previous_topic') if topic == @topic
     redirect_to topic_path(@section, topic.permalink)
   end
 
   def next
     topic = @topic.next || @topic
-    flash[:notice] = 'There is no next topic. Showing the last one.' if topic == @topic
+    flash[:notice] = t(:'adva.topics.flash.no_next_topic') if topic == @topic
     redirect_to topic_path(@section, topic.permalink)
   end
 

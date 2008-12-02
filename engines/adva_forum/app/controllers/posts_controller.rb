@@ -11,10 +11,10 @@ class PostsController < BaseController
   def create
     @post = @topic.reply current_user, params[:post]
     if @post.save
-      flash[:notice] = 'The post has been saved.'
+      flash[:notice] = t(:'adva.posts.flash.create.success')
       redirect_to topic_path(@section, @topic.permalink, :anchor => dom_id(@post)) # TODO include page
     else
-      flash[:error] = 'The post could not be saved.'
+      flash[:error] = t(:'adva.posts.flash.create.failure')
       render :action => "new"
     end
   end
@@ -24,17 +24,17 @@ class PostsController < BaseController
 
   def update
     if @post.update_attributes(params[:post])
-      flash[:notice] = 'The post has been updated.'
+      flash[:notice] = t(:'adva.posts.flash.update.success')
       redirect_to topic_path(@section, @topic.permalink, :anchor => dom_id(@post)) # TODO include page
     else
-      flash[:error] = 'The post could not be updated.'
+      flash[:error] = t(:'adva.posts.flash.update.failure')
       render :action => "edit"
     end
   end
 
   def destroy
     @post.destroy
-    flash[:notice] = 'The post has been deleted.'
+    flash[:notice] = t(:'adva.posts.flash.destroy.success')
     redirect_to params[:return_to] || topic_path(@section, @topic)
   end
 

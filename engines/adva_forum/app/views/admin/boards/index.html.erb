@@ -1,11 +1,11 @@
-<h2>Boards</h2>
+<h2><%= t(:'adva.titles.boards') %></h2>
 
 <% unless @boards.empty? %>
   <p class="hint">
-    <%= link_to "New Board", new_admin_board_path %>
+    <%= link_to t(:'adva.boards.links.new'), new_admin_board_path %>
     <% if @boards.size > 1 %>
       &middot;
-      <%= link_to_function 'Reorder boards', "boards_tree.toggle(this, 'Done reordering');", :id => 'reorder_boards' %>
+      <%= link_to_function t(:'adva.boards.links.reorder'), "boards_tree.toggle(this, t(:'adva.resources.reordering_done'));", :id => 'reorder_boards' %>
       <%= image_tag '/images/adva_cms/indicator.gif', :id => 'boards_indicator', :style => 'display: none;' %>
     <% end %>
   </p>
@@ -13,7 +13,7 @@
   <table id="boards" class="list">
     <thead>
       <tr>
-        <th scope="col">Board</th>
+        <th scope="col"><%= t(:'adva.titles.board') %></th>
       </tr>
     </thead>
     <tbody id="articles-body">
@@ -35,7 +35,8 @@
   
 <% else %>
   <div class="empty">
-    You don't have any boards created in <%= @section.title %>. 
-    <%= link_to "Create one now &raquo;", new_admin_board_path %>
+    
+    <%= t(:'adva.boards.info.no_boards_in_forum', :forum => @section.title) %> 
+    <%= link_to t(:'adva.boards.links.create_now') + ' &raquo;', new_admin_board_path %>
   </div>
 <% end %>

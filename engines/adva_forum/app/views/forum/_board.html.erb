@@ -1,12 +1,8 @@
 <% if @section.topics_count > 0 %>
-
   <%= render :partial => 'topics' %>
-
 <% else %>
-
   <p id="topics" class="empty">
-    There are no topics in this board.
-    <%= link_to "Post one now &raquo;", new_board_topic_path(@section, @board) %>
+    <%= t(:'adva.topics.info.no_topics_in_board') %>
+    <%= link_to t(:'adva.topics.links.post_new') + ' &raquo;', new_board_topic_path(@section, @board) %>
   </p>
-
 <% end %>

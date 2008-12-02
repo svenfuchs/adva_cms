@@ -1,6 +1,6 @@
 <tr>
   <td class="topic<%= ' locked' if topic.locked? %>">
-    <%= 'Sticky: ' if topic.sticky? %>
+    <%= t(:'adva.topics.states.sticky') + ': ' if topic.sticky? %>
     <%= link_to_topic(topic) %>
   </td>
   <td>
@@ -8,7 +8,7 @@
   </td>
   <td>
     <%= datetime_with_microformat(topic.last_updated_at, :format => '%d.%m.%y %H:%M') %>
-    by <%= topic.last_author_name %>
-    <%= link_to_last_post('view', topic) %>
+    <%= t(:'adva.common.by_author', :author => topic.last_author_name) if topic.last_author_name %>
+    <%= link_to_last_post(t(:'adva.links.view'), topic) %>
   </td>
 </tr> 

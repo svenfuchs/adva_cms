@@ -3,10 +3,10 @@
   <span class="meta">
     <%= topic_attributes @topic %>
     <% authorized_tag :span, :update, @topic do %>
-      &middot; <%= link_to 'edit', edit_topic_path(@section, @topic.permalink) %>
+      &middot; <%= link_to t(:'adva.common.edit'), edit_topic_path(@section, @topic.permalink) %>
     <% end %>
     <% authorized_tag :span, :destroy, @topic do %>
-      &middot; <%= link_to 'delete', topic_returning_path(@section, @topic.permalink), { :confirm => "Are you sure you wish to delete this topic?", :method => :delete } %>
+      &middot; <%= link_to t(:'adva.common.delete'), topic_returning_path(@section, @topic.permalink), { :confirm => t(:'adva.topics.confirm_delete'), :method => :delete } %>
     <% end %>          
   </span>
 </h2>
@@ -18,8 +18,8 @@
 </p>
 
 <p class="clearing">
-  <%= link_to_prev_topic('&larr; previous', @topic, :class => :previous) %>
-  <%= link_to_next_topic('next &rarr;', @topic, :class => :next) %>
+  <%= link_to_prev_topic('&larr; ' + t(:'adva.common.previous'), @topic, :class => :previous) %>
+  <%= link_to_next_topic(t(:'adva.common.next') + ' &rarr;', @topic, :class => :next) %>
 </p>
 
 <%= render :partial => 'posts/form' %>

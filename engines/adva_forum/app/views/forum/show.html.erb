@@ -1,13 +1,7 @@
 <% if @board %>
-
   <%= render :partial => 'board' %>
-
 <% elsif @section.boards.any? %>
-
   <%= render :partial => 'boards' %>
-
 <% else %>
-
   <%= render :partial => 'forum' %>
-
 <% end %>

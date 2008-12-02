@@ -1,69 +1,84 @@
 en: 
   adva: 
     common: 
-      none: none
-      hide: Hide
-      save_without_revision: Save without Revision
-      language: Language
-      cancel: Cancel
-      upload: Upload
       about: About
+      by_author: by {{author}}
+      cancel: Cancel
+      edit: edit
+      delete: delete
+      hide: Hide
+      import: Import
+      upload: Upload
+      language: Language
+      none: none
+      next: next
+      previous: previous
+      save: Save
+      save_without_revision: Save without Revision
       connector: 
         or: or
-      save: Save
       "yes": "yes"
-      by_author: by {{author}}
-      import: Import
     titles: 
-      plugins: Plugins
+      accounts: Accounts
       actions: Actions
-      plugin: Plugin
-      optional_settings: Optional Settings
-      clear: Clear
+      articles: Articles
+      assets: Assets
+      board: Board
+      boards: Boards
       cache: Cache
-      comments: Comments
+      categories: Categories
+      clear: Clear
+      clear_all: Clear all
       comment: Comment
-      theme: Theme
+      comments: Comments
       dashboard: Dashboard
+      general_settings: General settings
       history: History
+      logout: Logout
+      manage: Manage
+      optional_settings: Optional Settings
+      overview: Overview
+      permissions: Permissions
+      plugin: Plugin
+      plugins: Plugins
+      posts: Posts
+      preview: Preview
+      publish_in_categories: Publish in these categories
+      recent_activity: Recent activity
+      restore_defaults: Restore Defaults
+      sections: Sections
+      settings: Settings
+      site: Site
+      site_users: Site users
+      spam_filters: Spam filters
+      spam_protection: Spam protection
+      success: Success!
+      theme: Theme
+      themes: Themes
+      topic: Topic
+      users: Users
+      website: Website
+      website_configuration: Website configuration
       website_home_section: Website home section
       welcome: Welcome!
-      logout: Logout
-      assets: Assets
-      sections: Sections
-      overview: Overview
-      spam_protection: Spam protection
-      general_settings: General settings
-      clear_all: Clear all
-      website: Website
-      site_users: Site users
-      manage: Manage
-      accounts: Accounts
-      publish_in_categories: Publish in these categories
-      boards: Boards
-      categories: Categories
-      restore_defaults: Restore Defaults
-      settings: Settings
-      articles: Articles
-      site: Site
-      website_configuration: Website configuration
-      success: Success!
-      users: Users
-      recent_activity: Recent activity
-      permissions: Permissions
-      spam_filters: Spam filters
       wikipages: Wikipages
-      themes: Themes
-      preview: Preview
     links: 
       back: Back
-      profile: Profile
-      skip_to_navigation: Skip to Navigation
-      logout: Logout
-      superusers_admins: Superusers + Admins
-      sites_overview: Sites overview
+      delete: Delete
+      edit: Edit
+      view: View
+      next: next
+      previous: previous
       login: Log In
+      logout: Logout
+      profile: Profile
+      sites_overview: Sites overview
       skip_to_content: Skip to Content
+      skip_to_navigation: Skip to Navigation
+      superusers_admins: Superusers + Admins
+    labels: 
+      author_name: Name
+      author_email: E-Mail
     messages: 
       insufficient_permissions: 
         title: Insufficient permissions
@@ -260,8 +275,6 @@ en:
         options: 
           approved: Approved
           unapproved: Unapproved
-      greeting: 
-        user: Hi <span>user</span>, you are logged in.
       labels: 
         "on": "on"
         comments: Comments
@@ -355,9 +368,89 @@ en:
     settings: 
       filter_options: 
         plain_html: Plain HTML
+    boards: 
+      topics_count: 
+        one: "{{count}} topic"
+        other: "{{count}} topics"
+      info: 
+        no_boards_in_forum: You don't have any boards created in {{forum}}.
+      titles: 
+        new: New Board
+        edit: Edit Board
+      posts_count: 
+        one: "{{count}} post"
+        other: "{{count}} posts"
+      links: 
+        new: New Board
+        reorder: Reorder boards
+        create_now: Create one now
+      flash: 
+        no_next_board: There is no next board. Showing the last one.
+        destroy: 
+          success: The board has been deleted.
+          failure: The board could not be deleted.
+        create: 
+          success: The board has been created.
+          failure: The board could not be created.
+        update: 
+          success: The board has been updated.
+          failure: The board could not be updated.
+        no_previous_board: There is no previous board. Showing the first one.
+      confirm_delete: Are you sure you wish to delete this board?
+    topics: 
+      info: 
+        no_topics_in_forum: There are no topics in this forum.
+        no_topics_in_board: There are no topics in this board.
+      titles: 
+        new: New topic
+        edit: Edit topic
+        post_topic: Post Topic
+        latest_post: Latest post
+        post_count: 
+          one: "{{count}} Post"
+          other: "{{count}} Posts"
+      states: 
+        sticky: Sticky
+        locked: Locked
+      links: 
+        post_new: Post one now
+        post_now: Post one now
+        new_topic: New topic
+      flash: 
+        destroy: 
+          success: The topic has been deleted.
+          failure: The topic could not be deleted.
+        create: 
+          success: The topic has been created.
+          failure: The topic could not be created.
+        update: 
+          success: The topic has been updated.
+          failure: The topic could not be updated.
+        no_next_topic: There is no next topic. Showing the last one.
+        no_previous_topic: There is no previous topic. Showing the first one.
+      confirm_destroy: Are you sure you wish to delete this post?
+      confirm_delete: Are you sure you wish to delete this topic?
+    posts: 
+      titles: 
+        reply: Leave your reply
+        edit: Edit your post
+        save_post: Save post
+        submit_post: Submit post
+      flash: 
+        destroy: 
+          success: The post has been deleted.
+        create: 
+          success: The post has been saved.
+          failure: The post could not be saved.
+        update: 
+          success: The post has been updated.
+          failure: The post could not be updated.
+
     spam: 
       hints: 
         filters: When comments are posted, the following filters are used to check their spam status.
+    info: 
+      greeting_logged_in: Hi <span>user</span>, you are logged in.
     footer: 
       powered_by: Site powered by adva cms. Theme inspired by depo.
     flash: 

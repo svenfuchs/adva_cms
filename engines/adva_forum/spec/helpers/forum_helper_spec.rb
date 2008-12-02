@@ -114,25 +114,25 @@ describe ForumHelper do
     end
 
     it "returns comma-joined meta data about the topic including the number of posts" do
-      helper.topic_attributes(@topic).should =~ /2 posts/
+      helper.topic_attributes(@topic).should =~ /2 posts/i
     end
 
     it "given that the topic is sticky also includes the string 'sticky'" do
       @topic.stub!(:sticky?).and_return true
-      helper.topic_attributes(@topic).should =~ /sticky/
+      helper.topic_attributes(@topic).should =~ /sticky/i
     end
 
     it "given that the topic is not sticky does not include the string 'sticky'" do
-      helper.topic_attributes(@topic).should_not =~ /sticky/
+      helper.topic_attributes(@topic).should_not =~ /sticky/i
     end
 
     it "given that the topic is locked also includes the string 'locked'" do
       @topic.stub!(:locked?).and_return true
-      helper.topic_attributes(@topic).should =~ /locked/
+      helper.topic_attributes(@topic).should =~ /locked/i
     end
 
     it "given that the topic is not locked does not include the string 'locked'" do
-      helper.topic_attributes(@topic).should_not =~ /locked/
+      helper.topic_attributes(@topic).should_not =~ /locked/i
     end
 
     it "given a format_string as second argument it interpolates the result to it" do
