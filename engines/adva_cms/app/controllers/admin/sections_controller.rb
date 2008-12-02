@@ -1,5 +1,6 @@
 class Admin::SectionsController < Admin::BaseController
   layout "admin"
+  helper 'admin/comments'
 
   before_filter :set_section, :only => [:edit, :update, :destroy]
   before_filter :normalize_params, :only => :update_all

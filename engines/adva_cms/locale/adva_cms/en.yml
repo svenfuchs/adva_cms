@@ -22,6 +22,7 @@ en:
       clear: Clear
       cache: Cache
       comments: Comments
+      comment: Comment
       theme: Theme
       dashboard: Dashboard
       history: History
@@ -53,6 +54,7 @@ en:
       spam_filters: Spam filters
       wikipages: Wikipages
       themes: Themes
+      preview: Preview
     links: 
       back: Back
       profile: Profile
@@ -194,8 +196,8 @@ en:
           success: The article has been created.
           failure: The article could not be created.
         update: 
-          success: The article has been updated
-          failure: The article could not be updated
+          success: The article has been updated.
+          failure: The article could not be updated.
       confirm_delete: Are you sure you wish to delete this article?
       attributes:
         excerpt: excerpt
@@ -214,12 +216,64 @@ en:
         clear: 
           success: The cache has been cleared.
     comments: 
-      hints: 
-        comments_filter: When comments are posted, they use this markup.
+      flash:
+        thank_you: Thank you for the comment!
+        create:
+          success: The comment has been created.
+          failure: The comment could not be created.
+        update: 
+          success: The comment has been updated.
+          failure: The comment could not be updated.
+        destroy: 
+          success: The comment has been deleted.
+          failure: The comment could not be deleted.
+      links: 
+        delete: Delete
+        edit: Edit
+        approve: Approve
+        view: View
+        unapprove: Unapprove
       titles: 
         comments_awaiting_approval: Comments awaiting your approval
+        save_comment: Save Comment
+        comment_on_by: Comment on '{{on}}' by {{by}}
+        add_reply: Leave your reply
+        comment_number: "Comment #{{number}}"
+        edit: Edit comment
+        comments_on: Comments on {{location}}
+        submit_comment: Submit Comment
+        your_reply: Your reply
+        comment_with_count: 
+          one: 1 Comment
+          other: "{{count}} Comments"
+      filter: 
+        show_comments: Show comments
+        options: 
+          all: All
+          body: Whose body contains
+          author_name: Whose author is
+          author_email: Author's email is
+          author_url: Author's website is
+          state: Whose state is
+        go: Go
+      state: 
+        options: 
+          approved: Approved
+          unapproved: Unapproved
+      greeting: 
+        user: Hi <span>user</span>, you are logged in.
       labels: 
+        "on": "on"
         comments: Comments
+        approved: Approved
+      hints: 
+        comments_filter: When comments are posted, they use this markup.
+      confirm_delete: Are you sure you wish to delete this comment?
+      info: 
+        no_comments_for_query: This {{location}} has no comments matching your query.
+        under_review: This comment is currently under review.
+      messages:
+        not_allowed: "Comments are not allowed here."
     users: 
       attributes: 
         password: Password

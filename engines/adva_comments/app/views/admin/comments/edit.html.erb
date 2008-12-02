@@ -1,9 +1,9 @@
-<h3>Edit comment</h3>
+<h3><%= t(:'adva.comments.titles.edit') %></h3>
 
 <% form_for :comment, @comment, :url => admin_comment_path(@comment), :html => {:method => :put} do |f| -%>
   <% render :layout => 'form', :locals => {:f => f} do %>
     <p>
-      <label><%= f.check_box :approved, {}, 1 %>Approved</label>
+      <label><%= f.check_box :approved, {}, 1 %><%= t(:'adva.comments.labels.approved') %></label>
     </p>
   <% end -%>
 <% end -%>

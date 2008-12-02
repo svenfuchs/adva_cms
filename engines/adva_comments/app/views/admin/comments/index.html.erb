@@ -1,31 +1,25 @@
 <% content_for :filter do %>
   <% form_tag admin_comments_path, :method => 'get', :id => 'comment-search' do -%>
     <label for="search" class="inline">
-      Show comments:
+      t(:'adva.comments.filter.show_comments'):
     </label>
     <select name="filter" id="filterlist">
-      <%= options_for_select [['All', 					'all'],
- 							  ['Whose state is', 		'state'],
-							  ['Whose body contains', 	'body'],
-							  ['Whose author is', 		'author_name'],
-							  ['Authors email is', 		'author_email'],
-							  ['Authors website is', 	'author_website']], params[:filter] %>
+      <%= options_for_select comments_filter_options, params[:filter] %>
     </select>
     <select name="state" id="states">
-      <%= options_for_select  [['Approved',		'approved'],
-		  					   ['Unapproved',	'unapproved']], params[:state] %>      
+      <%= options_for_select comments_state_options, params[:state] %>      
     </select>
-	<% if @section -%>
-	  <%= hidden_field_tag :section_id, @section.id %>
-	<% elsif @content -%>
-	  <%= hidden_field_tag :content_id, @content.id %>
-    <% end -%>
-	<%= text_field_tag 'query', params[:query], :id => 'query', :style => 'display: none' %>
-    <input type="submit" id="button" value="Go" style="display: none" />
+  	<% if @section -%>
+  	  <%= hidden_field_tag :section_id, @section.id %>
+  	<% elsif @content -%>
+  	  <%= hidden_field_tag :content_id, @content.id %>
+      <% end -%>
+  	<%= text_field_tag 'query', params[:query], :id => 'query', :style => 'display: none' %>
+    <input type="submit" id="button" value="<%= t(:'adva.comments.filter.go') %>" style="display: none" />
   <% end -%>
 <% end -%>
 
-<h3>Comments on <%= link_to_admin_object(@content || @section || @site) %></h3>
+<h3><%= t :'adva.comments.titles.comments_on', :location => link_to_admin_object(@content || @section || @site) %></h3>
 
 <ul id="comments_list">
   <% unless @comments.empty? %>
@@ -35,7 +29,7 @@
     </li>
     <% end %>
   <% else %>
-    <li class="alt">This <%= (@content || @section) ? (@content || @section).type.downcase : 'site' %> has no comments matching your query.</li>
+    <li class="alt"><%= t :'adva.comments.info.no_comments_for_query', :location => ((@content || @section) ? (@content || @section).type.downcase : 'site') %></li>
   <% end %>
 </ul>
 

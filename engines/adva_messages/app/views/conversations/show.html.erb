@@ -1,0 +1,9 @@
+<%= render :partial => 'messages/message_nav' %>
+
+<% for message in @conversation.messages %>
+	<p>
+		<%= render :partial => 'messages/inspect', :locals => { :message => message } %>
+	</p>
+<% end %>
+
+<%= link_to 'reply', reply_message_path(@conversation.messages.last) %>
