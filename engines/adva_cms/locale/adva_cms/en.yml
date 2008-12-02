@@ -109,6 +109,7 @@ en:
         success_fully_created: You have successfully created your site. Enjoy!
         welcome_to_installation: "Welcome to the less-than-two-minutes installation process. Just fill in the information below and you're done. "
         can_always_change_settings: Don't worry. You can always change these settings later.
+        section_default: Home
       no_sites: You currently do not have any sites created.
       links:
         delete: Delete this site
