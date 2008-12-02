@@ -10,6 +10,7 @@ describe "Message views:" do
     template.stub!(:render).with hash_including(:partial => 'message-nav')
     template.stub!(:render).with hash_including(:partial => 'inspect')
     template.stub!(:render).with hash_including(:partial => 'form')
+    template.stub!(:will_paginate)
   end
   
   describe "index" do
@@ -29,6 +30,11 @@ describe "Message views:" do
       act!
       response.should have_tag('h2')
     end
+    
+    it "paginates the messages" do
+      template.should_receive(:will_paginate)
+      act!
+    end
   end
   
   describe "outbox" do
@@ -47,6 +53,11 @@ describe "Message views:" do
     it "has a header that tells you that you are on outbox" do
       act!
       response.should have_tag('h2')
+    end
+    
+    it "paginates the messages" do
+      template.should_receive(:will_paginate)
+      act!
     end
   end
   

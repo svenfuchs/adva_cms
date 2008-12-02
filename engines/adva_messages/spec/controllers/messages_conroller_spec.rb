@@ -19,7 +19,7 @@ describe MessagesController do
     it_assigns :messages
     
     it "fetches only the received messages" do
-      @user.should_receive(:messages_received)
+      @user.should_receive(:messages_received).and_return([])
       act!
     end
   end
@@ -31,7 +31,7 @@ describe MessagesController do
     it_renders_template 'index'
     
     it "fetches only the sent messages" do
-      @user.should_receive(:messages_sent)
+      @user.should_receive(:messages_sent).and_return([])
       act!
     end
   end
