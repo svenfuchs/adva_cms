@@ -2,16 +2,7 @@ module CommentsHelper
   def comments_feed_title(*owners)
     options = owners.extract_options!
     separator = options[:separator] || ' &raquo; '
-    'Comments: ' + owners.compact.uniq.map(&:title).join(separator)
-  end
-
-  def comment_expiration_options
-    [['Are not allowed', -1],
-     ['Never expire', 0],
-     ['Expire 24 hours after publishing',     1],
-     ['Expire 1 week after publishing',       7],
-     ['Expire 1 month after publishing',      30],
-     ['Expire 3 months after publishing',     90]]
+    I18n.t(:'adva.titles.comments') + ': ' + owners.compact.uniq.map(&:title).join(separator)
   end
 
   methods = %w(admin_comments_path admin_comment_path
@@ -30,7 +21,7 @@ module CommentsHelper
   end
 
   def link_to_remote_comment_preview
-    link_to_remote "Preview",
+    link_to_remote I18n.t(:'adva.titles.preview'),
       :url     => preview_comments_path,
       :with    => "Form.serialize($('comment_form'))",
       :update  => 'preview',

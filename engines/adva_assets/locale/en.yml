@@ -65,6 +65,8 @@ en:
       tag_all: Apply tags to all
       add_file: Add another file
     common:
+      edit: edit
+      delete: delete
       cancel: cancel
       upload: Upload
       

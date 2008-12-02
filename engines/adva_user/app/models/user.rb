@@ -151,7 +151,7 @@ class User < ActiveRecord::Base
   end
 
   def default_first_name
-    self.first_name.blank? ? self.email.split('@').first : self.first_name
+    self.first_name.blank? && self.email ? self.email.split('@').first : self.first_name
   end
 
   protected

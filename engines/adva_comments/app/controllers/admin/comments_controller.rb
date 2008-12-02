@@ -21,11 +21,11 @@ class Admin::CommentsController < Admin::BaseController
   # def create
   #   @comment = @commentable.comments.build params[:comment]
   #   if @comment.save
-  #     flash[:notice] = "The comment has been saved."
+  #     flash[:notice] = t(:'adva.comments.flash.create.success')
   #     redirect_to params[:return_to]
   #   else
   #     @reply, @comment = @comment, @section.comments.find(params[:comment_id])
-  #     flash.now[:error] = "The comment could not be saved."
+  #     flash.now[:error] = t(:'adva.comments.flash.create.failure')
   #     render :action => :show
   #   end
   # end
@@ -33,10 +33,10 @@ class Admin::CommentsController < Admin::BaseController
   def update
     if @comment.update_attributes params[:comment]
       trigger_events @comment
-      flash[:notice] = "The comment has been updated."
+      flash[:notice] = t(:'adva.comments.flash.update.success')
       redirect_to params[:return_to]
     else
-      flash.now[:error] = "The comment could not be updated."
+      flash.now[:error] = t(:'adva.comments.flash.update.failure')
       render :action => :edit
     end
   end
@@ -44,7 +44,7 @@ class Admin::CommentsController < Admin::BaseController
   def destroy
     @comment.destroy
     trigger_events @comment
-    flash[:notice] = "The comment has been deleted."
+    flash[:notice] = t(:'adva.comments.flash.destroy.success')
     redirect_to params[:return_to] || admin_site_comments_path
   end
 

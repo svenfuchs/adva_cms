@@ -1,6 +1,6 @@
 class Admin::ArticlesController < Admin::BaseController
   layout "admin"
-  helper :assets
+  helper 'admin/comments', 'assets', 'roles'
 
   # before_filter :admin_required
   # member_actions.push *%W(index show new destroy create)
@@ -23,16 +23,15 @@ class Admin::ArticlesController < Admin::BaseController
   cache_sweeper :article_ping_observer, :only => [:create, :update]
 
   def index
-    # TODO params[:per_page] ??
-    options = {:page => current_page, :per_page => params[:per_page], :order => 'contents.position, contents.id DESC'}
-    @articles = @section.articles.paginate options.reverse_merge(filter_options)
+    @articles = @section.articles.paginate article_options
     template = @section.type == 'Section' ? 'admin/articles/index' : "admin/#{@section.type.downcase}/index"
     render :template => template
   end
 
   def show
     @article.revert_to params[:version] if params[:version]
-    render @section.render_options(:layout => 'default').merge(:template => "#{@section.type.downcase}/show")
+    subdir = @section.type == 'Section' ? 'sections' : @section.type.downcase
+    render @section.render_options(:layout => 'default').merge(:template => "#{subdir}/show")
   end
 
   def new
@@ -153,6 +152,12 @@ class Admin::ArticlesController < Admin::BaseController
     def default_article_param(key, value)
       params[:article] ||= {}
       params[:article][key] ||= value
+    end
+    
+    def article_options
+      # TODO params[:per_page] ??
+      options = {:page => current_page, :per_page => params[:per_page], :order => 'contents.position, contents.id DESC'}
+      options.reverse_merge(filter_options)
     end
 
     def filter_options

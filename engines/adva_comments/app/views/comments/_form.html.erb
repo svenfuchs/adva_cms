@@ -1,14 +1,10 @@
 <% if @comment %>
   <div id="comment_form">
     <div id="registered_author" style="display: none;">
-      <p>Hi <span>user</span>, you are logged in.</p>
+      <p><%= t(:'adva.comments.greeting.user') %></p>
     </div>
     <h2>
-      <% if @comment.new_record? %>
-        Leave your reply
-      <% else %>
-        Edit your comment
-      <% end %>
+      <%= @comment.new_record? ? t(:'adva.comments.titles.add_reply') : t(:'adva.comments.titles.edit') %>
     </h2>
     <% form_for :comment, @comment, :url => (@comment.new_record? ? comments_path : comment_path(@comment)), :html => {:method => (@comment.new_record? ? :post : :put)} do |f| -%>
       <%= comment_form_hidden_fields commentable %>
@@ -33,7 +29,7 @@
       </p>
       <p id="preview"></p>
       <p>
-        <%= submit_tag (@comment.new_record? ? 'Submit Comment' : 'Save Comment') %>
+        <%= submit_tag (@comment.new_record? ? t(:'adva.comments.titles.submit_comment') : t(:'adva.comments.titles.save_comment')) %>
         <%= link_to_remote_comment_preview %>
         <img src="/images/adva_cms/indicator.gif" id="comment-preview-spinner" style="display: none;" />
       </p>

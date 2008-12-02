@@ -2,7 +2,7 @@
 
 <fieldset>  
   <p>
-    <%= f.label :body, "Comment" %>
+    <%= f.label :body, t(:'adva.titles.comment') %>
     <%= f.text_area :body, :class => 'fat', :rows => 8  %>
   </p>
 </fieldset>
@@ -10,6 +10,6 @@
 <%= yield if block_given? %>
 
 <p class="buttons">
-  <%= submit_tag 'Save' %>
-  <%= link_to "cancel", params[:return_to] if params[:return_to] %>
+  <%= submit_tag t(:'adva.common.save') %>
+  <%= link_to t(:'adva.common.cancel'), params[:return_to] if params[:return_to] %>
 </p>
