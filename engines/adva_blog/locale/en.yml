@@ -1,0 +1,8 @@
+en:
+  adva:
+    blog:
+      title:
+        date: "from {{date}}"
+        about: "about {{category}}"
+        tags: "tagged {{tags}}"
+        articles: "Articles {{articles}}"
