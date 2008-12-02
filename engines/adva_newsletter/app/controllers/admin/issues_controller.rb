@@ -1,9 +1,10 @@
-class Admin::NewslettersController < Admin::BaseController
+class Admin::IssuesController < Admin::BaseController
+
   def index
   end
   
   def show
-    @issue = Issue.all_included.find(params[:id])
+    @issue = Issue.find(params[:id])
   end
   
   def new
@@ -11,10 +12,11 @@ class Admin::NewslettersController < Admin::BaseController
   end
   
   def create
-    @issue = Issue.new(params[:newsletter])
+    @newsletter = Newsletter.find(params[:newsletter_id])
+    @issue = @newsletter.issues.build(params[:issue])
     
     if @issue.save
-      redirect_to admin_issue_path(@site, @issue)
+      redirect_to admin_issue_path(@site, @newsletter, @issue)
     else
       render :action => 'new'
     end

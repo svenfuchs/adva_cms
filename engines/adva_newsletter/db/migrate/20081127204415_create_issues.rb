@@ -5,7 +5,7 @@ class CreateIssues < ActiveRecord::Migration
 
       t.string     :title, :null => false
       t.text       :body,  :null => false
-      t.datetime   :due_at, :null => false
+      t.datetime   :due_at
       
       t.timestamps
     end

@@ -1,51 +1,51 @@
 Feature: Create newsletter issue
   Scenario: Admin creates a draft issue
     Given I am logged in as "admin"
-    When I go to "/admin/sites/1/newsletters/1"
-    And click "Create a new issue"
+    And have opened some "newsletter"
+    When I click "Create a new issue"
     And submit new "draft issue"
     Then I should see new "draft issue"
-    And should have 0 deliveries
     
   Scenario: Admin creates an empty issue
     Given I am logged in as "admin"
-    When I go to "/admin/sites/1/newsletters/1/issues/new"
+    And have opened some "newsletter"
+    When I click "Create a new issue"
     And submit new "empty issue"
-    Then I should see "can't be blank"
+    Then I should see validation error messages
 
-  Scenario: Site admin creates a personalised newsletter
+  Scenario: Admin sends out newsletter issue
     Given PENDING
     Given I am logged in as "admin"
-    And "site user" is subscribed to "newsletter"
-    When I submit new "newsletter" with "body" what contains "Hello {{ user.name }}!"
-    Then "site user" should receive newsletter with user name
+    And I have a "newsletter" with "subscribers"
+    When I submit "issue" and uncheck "Draft?"
+    Then "subscribers" should receive "issue"
 
-  Scenario: Site admin sends out issue
+  Scenario: Admin sends out issue with 2 hours delay
     Given PENDING
-    Given I am logged in as 'site admin'
-    And I have a 'newsletter' with 'subscribers'
-    When I open 'newsletter' and click 'Issue'
-    Then 'subscribers' should receive 'newsletter'
-
+    Given I am logged in as "admin"
+    And I have a "newsletter" with "subscribers"
+    When I submit "issue" and uncheck "Draft?" and pick "2 hours" in the future
+    Then I should see "issue" in the "issue queue"
+    And "subscribers" should receive "issue" with "2 hours" delay
+    
   Scenario: Site admin sends out test issue
     Given PENDING
-    Given I am logged in as 'site admin'
-    And I have a 'newsletter' with 'subscribers'
-    When I open 'newsletter' and click 'Test Issue'
-    Then only I receive 'newsletter'
+    Given I am logged in as "admin"
+    And I have a "newsletter" with "subscribers"
+    When I open "issue" and click button "Test delivery"
+    Then only I receive "issue"
 
-  Scenario: Site admin sends out newsletter with 2 hours delay
+  Scenario: Site admin creates a personalised issue
     Given PENDING
-    Given I am logged in as 'site admin'
-    And I have a 'newsletter' with 'subscribers'
-    When I open 'newsletter' and select '2 hours' delay
-    Then I should see 'newsletter' in the 'newsletter queue'
-    And 'subscribers' should receive 'newsletter' with '2 hours' delay
-    
-  Scenario: Site admin cancels delayed newsletter
+    Given I am logged in as "admin"
+    And only I am subscribed to "newsletter"
+    When I submit new "issue" with "body" what contains "Hello {{ user.name }}!"
+    Then I should receive newsletter with my name
+
+  Scenario: Site admin cancels delayed issue
     Given PENDING
-    Given I am logged in as 'site admin'
-    And I have delayed 'newsletter' in the 'newsletter queue'
-    When I click 'cancel issue' at the 'newsletter page'
-    Then 'newsletter' issue should be cancelled
-    And I should not see 'newsletter' at the 'newsletter queue'
+    Given I am logged in as "admin"
+    And I have delayed "issue" in the "issues queue"
+    When I click "cancel issue" at the "issue page"
+    Then "issue" should be cancelled
+    And I should not see "issue" at the "issues queue"

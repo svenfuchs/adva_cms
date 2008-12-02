@@ -738,11 +738,10 @@ en:
         desc: Description
     issues:
       new: Create a new issue
+      no_issues: There are no issues.
       question_save_as_draft: Save as Draft?
-      confirm_save_as_draft: Yes, save this newsletter as draft
+      confirm_save_as_draft: Yes, save this issue as draft
       labels:
-        title: Title/Subject
+        title: Issue Title/Subject
         body: Body
-      issues:
-        submit: Start delivery
-        deliver: Deliver
+        due_at: "Deliver at:"

@@ -1,10 +1,17 @@
 <% content_for :sidebar do %>
-  <%= render :partial => 'admin/issues/sidebar' %>
+  <h3>Actions</h3>
+  <ul>
+    <li><%= link_to t('adva.issues.new'), new_admin_issue_path(@site, @newsletter) %></li>
+  </ul>
 <% end %>
 
 <h2><%= h(@newsletter.title) %></h2>
 <p><%= h(@newsletter.desc) %></p>
 
+
 <% if @newsletter.issues.blank? %>
-  <p><%= link_to t('adva.issues.new'), new_admin_issue_path %></p>
+  <div class="empty">
+    <%= t('adva.issues.no_issues') %>
+    <%= link_to t('adva.issues.new'), new_admin_issue_path(@site, @newsletter) %>
+  </div>
 <% end %>

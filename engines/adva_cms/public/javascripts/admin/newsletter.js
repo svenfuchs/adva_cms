@@ -1,8 +1,8 @@
-var NewsletterForm = {
+var IssueForm = {
   saveDraft: function() {
-		$F(this) ? $('issue').hide() : $('issue').show();
+		$F(this) ? $('delivery').hide() : $('delivery').show();
   }
 }
 Event.addBehavior({
-  '#newsletter-draft':   function() { Event.observe(this, 'change', NewsletterForm.saveDraft.bind(this)); }
+  '#issue-draft':   function() { Event.observe(this, 'change', IssueForm.saveDraft.bind(this)); }
 });
