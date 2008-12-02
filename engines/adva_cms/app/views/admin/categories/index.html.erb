@@ -40,7 +40,7 @@
   
 <% else %>
   <div class="empty">
-    <%= t(:'adva.categories.no_entries_in_section', :section => @section.title) %>
+    <%= t(:'adva.categories.no_categories_in_section', :section => @section.title) %>
     <%= link_to "Create one now &raquo;", new_admin_category_path %>
   </div>
 <% end %>
