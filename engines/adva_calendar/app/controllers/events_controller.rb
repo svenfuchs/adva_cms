@@ -1,8 +1,8 @@
 class EventsController < BaseController
   before_filter :set_section
+  before_filter :set_timespan
   before_filter :set_tags, :only => [:index]
   before_filter :set_event, :except => [:index, :new]
-  before_filter :set_events, :only => [:index]
   before_filter :set_author_params, :only => [:create, :update]
 
   authenticates_anonymous_user
@@ -13,9 +13,14 @@ class EventsController < BaseController
   guards_permissions :event, :except => [:index, :show]
 
   def index
+    if @categories
+      @categories.contents
+    else
+      @section.events
+    end
     respond_to do |format|
       format.html { render }
-      format.atom { render :layout => false }
+      format.ics { render :layout => false }
     end
   end
 
@@ -24,12 +29,9 @@ class EventsController < BaseController
   end
 
   def show
-    if !@event.new_record?
-      render
-    elsif has_permission? :create, :event
-      render :action => :new, :skip_caching => true
-    else
-      redirect_to_login 'You need to be logged in to edit this page.'
+    respond_to do |format|
+      format.html { render }
+      format.ics { render :layout => false }
     end
   end
 
@@ -82,15 +84,26 @@ class EventsController < BaseController
 
     def set_section; super(Calendar); end
 
+    def set_timespan
+      return if params[:year].blank?
+      y = params[:year].to_i
+      m = params[:month].to_i
+      d = params[:day].to_i
+      if m == 0 and d == 0
+        @timespan = Date.new(y)
+        @timespan = [@timespan, @timespan.end_of_year]
+      elsif m > 0 and d == 0
+        @timespan = Date.new(y, m)
+        @timespan = [@timespan, @timespan.end_of_month]
+      elsif m > 0 and d > 0
+        @timespan = Date.new(y, m, d)
+        @timespan = [@timespan, @timespan.end_of_day]
+      end
+    end
+
     def set_event
       @event = @section.events.find params[:id]
       raise "could not find event '#{params[:id]}'" unless @event
-    end
-
-    def set_events
-      options = { :page => current_page, :tags => @tags }
-      source = @category ? @category.contents : @section.events
-      @events = source.paginate options
     end
 
     def set_tags
