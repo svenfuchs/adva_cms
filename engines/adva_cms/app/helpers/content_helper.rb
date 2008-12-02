@@ -75,10 +75,10 @@ module ContentHelper
     link_to text || category.title, send(route_name, :section_id => section.id, :category_id => category.id)
   end
 
-  def links_to_content_categories(content, format_string = nil)
+  def links_to_content_categories(content, key = nil)
     return if content.categories.empty?
     links = content.categories.map{|category| link_to_category content.section, category }
-    format_string ? format_string % links.join(', ') : links
+    key ? t( key, :links => links.join(', ') ) : links
   end
 
   def link_to_tag(*args)
@@ -88,10 +88,10 @@ module ContentHelper
     link_to args.pop || tag.name, send(route_name, :section_id => section.id, :tags => tag)
   end
 
-  def links_to_content_tags(content, format_string = nil)
+  def links_to_content_tags(content, key = nil)
     return if content.tags.empty?
     links = content.tags.map{|tag| link_to_tag content.section, tag }
-    format_string ? format_string % links.join(', ') : links
+    key ? t( key, :links => links.join(', ') ) : links
   end
 
   def content_category_checkbox(content, category)

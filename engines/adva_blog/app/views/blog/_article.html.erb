@@ -3,15 +3,15 @@
   	<div class="meta">
   	  <p>
   	    <%= datetime_with_microformat(article.published_at, :format => :long) %><br />
-  	    by: <%= article.author_name %><br />
+  	    <%=t :'adva.blog.attribution', :author => article.author_name %>
     	  <%= link_to_content_comments article unless mode == :single %>
     	  <% authorized_tag :span, :update, article do -%>
-      		<%= link_to 'edit', edit_admin_article_path(@site, @section, article) %>
+      		<%= link_to t( :'adva.common.edit' ), edit_admin_article_path(@site, @section, article) %>
 		    <% end -%>
   	  </p>
   	  <p>
-      	<%= links_to_content_categories article, "in: %s<br />" %>
-      	<%= links_to_content_tags article, "tagged: %s<br />" %>
+      	<%= links_to_content_categories article, :'adva.common.content_categories' %>
+      	<%= links_to_content_tags article, :'adva.common.content_tags' %>
       </p>
   	</div>
   	<div class="content">
@@ -20,7 +20,7 @@
     	</h2> 
   	  <% if article.has_excerpt? %>
   	    <%= article.excerpt_html %>
-  	    <p><%= link_to_content "Read the rest of this entry", article unless mode == :single %></p>
+  	    <p><%= link_to_content t( :'adva.blog.link.more' ), article unless mode == :single %></p>
   	  <% end %>
       <%= article.body_html if mode == :single || !article.has_excerpt? %>
     </div>      

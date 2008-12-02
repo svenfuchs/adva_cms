@@ -15,6 +15,7 @@ en:
         settings: Settings
         create_article: Create a new article
         create_article_now: "Create one now &raquo;"
+        more: Read the rest of this entry
       options:
         filter:
           category: in category
@@ -27,5 +28,11 @@ en:
         comments: Comments
         published: Published
         author: Author
+      feed:
+        category: Category {{category}}
+        tags:
+          one: "Tag: {{tags}}"
+          other: "Tags: {{tags}}"
       no_articles: "There are no articles in {{section}}."
       no_filtered_articles: "There are no articles matching that criteria in {{section}}"
+      attribution: "by: {{author}}"

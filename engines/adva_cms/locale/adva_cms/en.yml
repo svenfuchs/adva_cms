@@ -14,47 +14,51 @@ en:
       "yes": "yes"
       by_author: by {{author}}
       import: Import
+      content_categories: "in {{links}}<br />"
+      content_tags: "tagged: {{links}<br />"
     titles: 
-      plugins: Plugins
+      accounts: Accounts
       actions: Actions
-      plugin: Plugin
-      optional_settings: Optional Settings
-      clear: Clear
+      archives: Archives
+      articles: Articles
+      assets: Assets
+      boards: Boards
       cache: Cache
-      comments: Comments
+      categories: Categories
+      clear: Clear
+      clear_all: Clear all
       comment: Comment
-      theme: Theme
+      comments: Comments
       dashboard: Dashboard
+      general_settings: General settings
       history: History
+      logout: Logout
+      manage: Manage
+      optional_settings: Optional Settings
+      overview: Overview
+      permissions: Permissions
+      plugin: Plugin
+      plugins: Plugins
+      preview: Preview
+      publish_in_categories: Publish in these categories
+      recent_activity: Recent activity
+      restore_defaults: Restore Defaults
+      sections: Sections
+      settings: Settings
+      site: Site
+      site_users: Site users
+      spam_filters: Spam filters
+      spam_protection: Spam protection
+      success: Success!
+      tags: Tags
+      theme: Theme
+      themes: Themes
+      users: Users
+      website: Website
+      website_configuration: Website configuration
       website_home_section: Website home section
       welcome: Welcome!
-      logout: Logout
-      assets: Assets
-      sections: Sections
-      overview: Overview
-      spam_protection: Spam protection
-      general_settings: General settings
-      clear_all: Clear all
-      website: Website
-      site_users: Site users
-      manage: Manage
-      accounts: Accounts
-      publish_in_categories: Publish in these categories
-      boards: Boards
-      categories: Categories
-      restore_defaults: Restore Defaults
-      settings: Settings
-      articles: Articles
-      site: Site
-      website_configuration: Website configuration
-      success: Success!
-      users: Users
-      recent_activity: Recent activity
-      permissions: Permissions
-      spam_filters: Spam filters
       wikipages: Wikipages
-      themes: Themes
-      preview: Preview
     links: 
       back: Back
       profile: Profile
@@ -64,6 +68,8 @@ en:
       sites_overview: Sites overview
       login: Log In
       skip_to_content: Skip to Content
+      entries_feed: Entries feed
+      comments_feed: Comments feed      
     messages: 
       insufficient_permissions: 
         title: Insufficient permissions

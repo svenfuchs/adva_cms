@@ -88,7 +88,7 @@ class BlogIndexTest < ActionController::IntegrationTest
   
     # go to root page
     get "/"
-  
+    
     # check that the page shows "1 comment"
     assert_select "div.meta a", "1 comment"
   
