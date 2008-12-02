@@ -77,7 +77,7 @@ module ActionController
           # user always needs to be logged out (e.g. in UserController#create).
           # Looks a bit more robust this way:
           try_login
-          find_current_user if session[:uid]
+          find_current_user if session && session[:uid]
         end
       end
 

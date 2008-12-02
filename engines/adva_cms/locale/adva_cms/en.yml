@@ -87,7 +87,7 @@ en:
         welcome_to_installation: "Welcome to the less-than-two-minutes installation process. Just fill in the information below and you're done. "
         can_always_change_settings: Don't worry. You can always change these settings later.
       no_sites: You currently do not have any sites created.
-      link: 
+      links: 
         delete: Delete this site
         create_site_and_account: "Create site & account \xC2\xBB"
         manage_new: Manage your new site &raquo;
@@ -197,6 +197,8 @@ en:
           success: The article has been updated
           failure: The article could not be updated
       confirm_delete: Are you sure you wish to delete this article?
+      attributes:
+        excerpt: excerpt
     cached_pages: 
       no_entries: There currently aren't any pages being cached.
       confirmation: 

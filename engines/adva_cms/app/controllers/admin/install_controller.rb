@@ -1,6 +1,7 @@
 class Admin::InstallController < ApplicationController
   include CacheableFlash
 
+  before_filter :normalize_install_params, :only => :index
   before_filter :protect_install, :except => :confirmation
   helper_method :perma_host
 
@@ -8,12 +9,8 @@ class Admin::InstallController < ApplicationController
   renders_with_error_proc :below_field
 
   def index
-    params[:site] ||= {}
-    params[:section] ||= {:title => 'Home', :type => 'Section'}
-
-    @site = Site.new params[:site].merge(:host => request.host_with_port)
+    @site = Site.new params[:site]
     @section = @site.sections.build params[:section]
-    @site.sections << @section
     @user = User.new
 
     if request.post?
@@ -33,6 +30,11 @@ class Admin::InstallController < ApplicationController
   end
 
   protected
+    def normalize_install_params
+      params[:site] ||= {}
+      params[:site].merge! :host => request.host_with_port
+    end
+  
     def perma_host
       @site.try(:perma_host) || 'admin'
     end

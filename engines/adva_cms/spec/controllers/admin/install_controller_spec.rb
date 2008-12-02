@@ -60,10 +60,10 @@ describe Admin::InstallController do
       act!
     end
 
-    it "adds the section to site.sections" do
-      @site.sections.should_receive(:<<).with @section
-      act!
-    end
+    # it "adds the section to site.sections" do
+    #   @site.sections.should_receive(:<<).with @section
+    #   act!
+    # end
 
     describe "given valid site and section params" do
       before :each do
