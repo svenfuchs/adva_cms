@@ -48,25 +48,41 @@ describe EventsController do
     end
   end
   
-  describe "#set_timespan" do
+  describe "GET to #{calendar_path}" do
+    act! { request_to(:get, calendar_path) }
+    it_assigns :timespan, [Date.today, Date.today.end_of_month]
+    it "should call Event.upcoming from to today to end of month" do
+      @section.events.should_receive(:upcoming, {Date.today, Date.today.end_of_month})
+      act!
+    end
+  end
+  describe "GET to :index with a specific day" do
     act! { request_to(:get, calendar_day_path) }
     it_assigns :timespan, [Date.new(2008, 11, 27), Date.new(2008, 11, 27).end_of_day]
-    it "GET to :index with a specific date" do
-      @section.events.should_receive(:upcoming, {:year => "2008", :month => "11", :day => "27" })
+    it "should call Event.upcoming" do
+      @section.events.should_receive(:upcoming, {Date.new(2008, 11, 27), Date.new(2008, 11, 27).end_of_day})
       act!
     end
   end
   
-  describe "GET to :index recently added events" do
+  describe "GET to :index for recently updated events" do
+    act! { request_to(:get, {:action => :index, :recent => true }) }
+    it "should call Event.recent" do
+      @section.event.should_receive(:recent)
+      act!
+    end
   end
-  describe "GET to :index elapsed events" do
-  end
-  describe "GET to :index upcoming events" do
+  describe "GET to :index for elapsed updated events" do
+    act! { request_to(:get, {:action => :index, :elapsed => true }) }
+    it "should call Event.elapsed" do
+      @section.event.should_receive(:elapsed)
+      act!
+    end
   end
 
   describe "GET to :index for a category" do
     act! { request_to(:get, category_path) }
-    it "should set events" do
+    it "should set category" do
       @section.categories.should_receive(:find, {:category_id => '2' })
       act!
     end
@@ -84,7 +100,7 @@ describe EventsController, 'calendar format' do
   ics_paths.each do |path|
     describe "GET to #{path}" do
       act! { request_to :get, path }
-      it_renders_template 'events/event', :format => :ics
+      it_renders_template 'events/index', :format => :ics
     end
   end
 end
