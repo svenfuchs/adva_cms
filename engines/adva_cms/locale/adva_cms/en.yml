@@ -743,6 +743,8 @@ en:
       no_issues: There are no issues.
       question_save_as_draft: Save as Draft?
       confirm_save_as_draft: Yes, save this issue as draft
+      links:
+        index: Issues
       labels:
         title: Issue Title/Subject
         body: Body

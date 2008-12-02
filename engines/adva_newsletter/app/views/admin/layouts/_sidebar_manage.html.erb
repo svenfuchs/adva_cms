@@ -1,4 +1,7 @@
 <h3><%= t('adva.titles.manage') %></h3>
 <ul>
   <li><%= link_to t('adva.newsletters.links.index'), admin_newsletters_path %></li>
+  <% if params[:newsletter_id] %>
+    <li><%= link_to t('adva.issues.links.index'), admin_newsletter_path(@site, params[:newsletter_id]) %></li>
+  <% end %>
 </ul>

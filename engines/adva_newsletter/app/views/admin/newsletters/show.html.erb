@@ -5,7 +5,22 @@
 <h2><%= h(@newsletter.title) %></h2>
 <p><%= h(@newsletter.desc) %></p>
 
-<% if @newsletter.issues.blank? %>
+<% if @newsletter.issues.present? %>
+  <table id="issues" class="list" cellspacing='0'>
+    <thead>
+      <tr>
+        <th scope="col">Issues</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @newsletter.issues.each do |issue| %>
+        <tr>
+          <td><%= link_to h(issue.title), admin_issue_path(@site, @newsletter, issue) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
   <div class="empty">
     <%= t('adva.issues.no_issues') %>
     <%= link_to t('adva.issues.new'), new_admin_issue_path(@site, @newsletter) %>
