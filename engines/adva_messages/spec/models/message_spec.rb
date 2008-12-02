@@ -7,10 +7,6 @@ describe Message do
     @johan   = @message.sender
     @don     = @message.recipient
   end
-  
-  it "is kind of communication" do
-     @message.should be_kind_of(Communication)
-  end
 
   describe "associations:" do  
     it "belongs to sender" do

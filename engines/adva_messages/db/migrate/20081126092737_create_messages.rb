@@ -1,6 +1,6 @@
-class CreateCommunications < ActiveRecord::Migration
+class CreateMessages < ActiveRecord::Migration
   def self.up
-    create_table :communications, :force => true do |t|
+    create_table :messages, :force => true do |t|
 	    t.string      "subject",        :default => "", :null => false
     	t.text        "body",           :default => "", :null => false
 	
@@ -9,7 +9,6 @@ class CreateCommunications < ActiveRecord::Migration
     	t.integer     "parent_id"
     	t.integer     "conversation_id"
 	    
-	    t.string      "type"
     	t.timestamps
     	t.datetime    "read_at"
     	t.datetime    "deleted_at_sender"
@@ -18,6 +17,6 @@ class CreateCommunications < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table :communications
+    drop_table :messages
   end
 end
