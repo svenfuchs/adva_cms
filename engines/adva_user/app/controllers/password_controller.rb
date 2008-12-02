@@ -12,10 +12,10 @@ class PasswordController < BaseController
       token = user.assign_token 'password'
       user.save!
       trigger_event user, :password_reset_requested, :token => "#{user.id};#{token}"
-      flash[:notice] = 'We just sent you a notice. Please check your email.'
+      flash[:notice] = t(:'adva.passwords.flash.new.email_sent')
       redirect_to login_url
     else
-      flash[:error] = 'We could not find a user with the email address you entered.'
+      flash[:error] = t(:'adva.passwords.flash.new.no_such_user')
       render :action => :new
     end
   end
@@ -26,10 +26,10 @@ class PasswordController < BaseController
   def update
     if current_user.update_attributes(params[:user].slice(:password))
       trigger_event current_user, :password_updated
-      flash[:notice] = 'Your password was changed successfully.'
+      flash[:notice] = t(:'adva.passwords.flash.update.success')
       redirect_to '/'
     else
-      flash[:error] = 'Your password could not be changed.'
+      flash[:error] = t(:'adva.passwords.flash.update.failure')
       render :action => :edit
     end
   end

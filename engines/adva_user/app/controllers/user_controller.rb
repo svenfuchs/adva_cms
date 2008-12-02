@@ -14,7 +14,7 @@ class UserController < BaseController
       trigger_events @user, :registered
       render :action => 'verification_sent'
     else
-      flash[:error] = 'Your registration failed.'
+      flash[:error] = t(:'adva.signup.flash.create.failure')
       render :action => :new
     end
   end
@@ -25,9 +25,9 @@ class UserController < BaseController
   def verify
     if current_user.verify!
       trigger_events current_user, :verified
-      flash[:notice] = "You successfully confirmed the email address for #{current_user.name}."
+      flash[:notice] = t(:'adva.signup.flash.verify.success')
     else
-      flash[:error] = "You have already verified the email address for #{current_user.name}."
+      flash[:error] = t(:'adva.signup.flash.verify.failure')
     end
     redirect_to return_from(:verify)
   end
@@ -35,7 +35,7 @@ class UserController < BaseController
   def destroy
     current_user.destroy
     trigger_events current_user
-    flash[:notice] = "You successfully deleted user #{current_user.name}."
+    flash[:notice] = t(:'adva.signup.flash.destroy.success', :name =>  current_user.name)
     redirect_to '/'
   end
 

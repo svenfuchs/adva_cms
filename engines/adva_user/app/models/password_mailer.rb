@@ -7,7 +7,7 @@ class PasswordMailer < ActionMailer::Base
     end
 
     def handle_user_password_updated!(event)
-      deliver_updated_password_email event.object, password_reset_link(event.source, '')
+      deliver_updated_password_email event.object #, password_reset_link(event.source, '')
     end
 
     private
@@ -20,14 +20,14 @@ class PasswordMailer < ActionMailer::Base
   def reset_password_email(user, reset_link)
     recipients user.email
     from system_email(reset_link)
-    subject "#{subject_prefix}Forgotton Password"
+    subject I18n.t(:'adva.passwords.notifications.reset_password.subject')
     body :user => user, :reset_link => reset_link
   end
 
-  def updated_password_email(user, reset_link)
+  def updated_password_email(user)
     recipients user.email
-    from system_email(reset_link)
-    subject "#{subject_prefix}Password Updated"
+    from system_email('') # TODO hu?
+    subject I18n.t(:'adva.passwords.notifications.password_updated.subject')
     body :user => user
   end
 end

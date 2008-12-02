@@ -1,9 +1,11 @@
-<p>Enter your new password in the form below.</p>
+<h2><%= t(:'adva.passwords.titles.edit') %></h2>
+
+<p><%= t(:'adva.passwords.info.please_enter_new_password') %></p>
 
 <% form_for 'user', :url => password_path, :html => {:method => :put} do |f| %>
 	<div id="password">
 	  <%= f.label :password %>
 		<%= f.password_field 'password' %>
 	</div>
-	<%= submit_tag 'Update' %>
+	<%= submit_tag t(:'adva.titles.update') %>
 <% end %>

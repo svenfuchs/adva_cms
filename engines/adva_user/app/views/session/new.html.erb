@@ -15,15 +15,15 @@
 	
   	<p>
   		<%= check_box_tag 'user[remember_me]', 1, @remember_me, :id => 'user_remember_me' %>
-  	  <%= f.label :remember_me, 'Remember me', :class => 'light' %>
+  	  <%= f.label :remember_me, t(:'adva.session.labels.remember_me'), :class => 'light' %>
   	</p>
 	
   	</fieldset>
   	
   	<p class="buttons">
-  	  <%= submit_tag 'Login' %> or
-  	  <%= link_to 'Reset password', new_password_path %>
-    	<%#= link_to 'Sign up', new_user_path %>
+  	  <%= submit_tag t(:'adva.titles.login') %> or
+  	  <%= link_to t(:'adva.passwords.titles.new'), new_password_path %>
+    	<%#= link_to t(:'adva.users.titles.signup'), new_user_path %>
     </p>
   <% end %>
 </div>
