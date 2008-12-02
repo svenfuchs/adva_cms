@@ -206,6 +206,9 @@ en:
         cleared_short: Cleared
       filter: 
         show_cached_pages: Show cached pages
+      total_with_count: 
+        one: "Total: {{count}} cached page"
+        other: "Total: {{count}} cached pages"
       no_entries_matching_criteria: There currently aren't any pages being cached that match this criteria.
       flash: 
         clear: 
@@ -251,6 +254,9 @@ en:
         asssets: Assets
         templates: Templates
         filename: Filename
+      confirm_select: Are you sure you wish to activate this theme?
+      confirm_unselect: Are you sure you wish to deactivate this theme?
+      confirm_uninstall: Are you sure you wish to uninstall this theme? (You won't be able to recover it.)
       flash: 
         destroy: 
           success: The theme has been deleted.
