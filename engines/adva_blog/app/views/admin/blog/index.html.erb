@@ -1,14 +1,14 @@
 <% content_for :filter do %>
   <% form_tag admin_articles_path, :method => 'get', :id => 'article-search' do -%>
     <label for="search" class="inline">
-      Show articles:
+      <%=t :'adva.blog.title.show_articles' %>
     </label>
     <select name="filter" id="filterlist">
-      <%= options_for_select [['in category',          'category'],
-                              ['tagged with',          'tags'],
-                              ['whose title contains', 'title'],
-                              ['whose body contains',  'body'],
-                              ['not published',        'draft']], params[:filter] %>
+      <%= options_for_select [[ t(:'adva.blog.options.filter.category'),  'category'],
+                              [ t(:'adva.blog.options.filter.tags'),       'tags'],
+                              [ t(:'adva.blog.options.filter.title'),     'title'],
+                              [ t(:'adva.blog.options.filter.body'),      'body'],
+                              [ t(:'adva.blog.options.filter.draft'),     'draft']], params[:filter] %>
     </select>
     <select name="category" id="categories">
       <option value="0">&mdash; All Categories &mdash;</option>
@@ -20,32 +20,32 @@
 <% end -%>
 
 <% content_for :sidebar do -%>
-  <h3>Manage</h3>
+  <h3><%=t :'adva.blog.title.manage'  %></h3>
   <ul>
-    <li><%= link_to "Articles", admin_articles_path(@site, @section) %></li>
-    <li><%= link_to "Categories", admin_categories_path(@site, @section) %></li>
-    <li><%= link_to "Settings", edit_admin_section_path(@site, @section) %></li>
+    <li><%= link_to t(:'adva.blog.link.articles'), admin_articles_path(@site, @section) %></li>
+    <li><%= link_to t(:'adva.blog.link.categories'), admin_categories_path(@site, @section) %></li>
+    <li><%= link_to t(:'adva.blog.link.settings'), edit_admin_section_path(@site, @section) %></li>
   </ul>
 
-  <h3>Actions</h3>
+  <h3><%=t :'adva.blog.title.actions' %></h3>
   <ul>
-    <li><%= link_to "Create a new article", new_admin_article_path(@site) %></li>
+    <li><%= link_to t(:'adva.blog.link.create_article'), new_admin_article_path(@site) %></li>
   </ul>
 <% end -%>
 
 <% unless @articles.empty? -%>
 
   <p class="total">
-    Total: <strong><%= @articles.total_entries %></strong> <%= pluralize_str @articles.total_entries, 'article' %>.
+    <%=t :'adva.blog.total_entries', :count => @articles.total_entries %>
   </p>
 
   <table id="articles" class="list">
     <thead>
       <tr>
-        <th scope="col">Article</th>
-        <th scope="col">Comments</th>
-        <th scope="col">Published</th>
-        <th scope="col">Author</th>
+        <th scope="col"><%=t :'adva.blog.tab.article' %></th>
+        <th scope="col"><%=t :'adva.blog.tab.comments' %></th>
+        <th scope="col"><%=t :'adva.blog.tab.published' %></th>
+        <th scope="col"><%=t :'adva.blog.tab.author' %></th>
         <th scope="col">&nbsp;</th>
       </tr>
     </thead>
@@ -60,10 +60,10 @@
 
   <div class="empty">
     <% unless params[:filter] %>
-      There are no articles in <%= @section.title %>.
-      <%= link_to "Create one now &raquo;", new_admin_article_path(@site) %>
+      <%=t :'adva.blog.no_articles', :section => @section.title %>
+      <%= link_to t( :'adva.blog.link.create_article_now' ), new_admin_article_path(@site) %>
     <% else %>
-      There are no articles matching that criteria in <%= @section.title %>.
+      <%=t :'adva.blog.no_filtered_articles', :section => @section.title %>
     <% end %>
   </div>
 
