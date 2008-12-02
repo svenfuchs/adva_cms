@@ -1,7 +1,11 @@
+Factory.sequence :email do |n|
+  "email.#{n}@example.com"
+end
+
 Factory.define :don_macaroni, :class => User do |u|
   u.first_name 'Don'
   u.last_name  'Macaroni'
-  u.email      'don.macaroni@email.org'
+  u.email      { Factory.next :email }
   u.password   'Spaghetti'
   u.verified_at Time.local(2008, 10, 16, 22, 0, 0)
 end
@@ -9,7 +13,7 @@ end
 Factory.define :johan_mcdoe, :class => User do |u|
   u.first_name  "Johan"
   u.last_name   "McDoe"
-  u.email       "johan.mcdoe@email.org"
+  u.email       { Factory.next :email }
   u.password    "password"
   u.verified_at Time.local(2008, 10, 16, 22, 0, 0)
 end

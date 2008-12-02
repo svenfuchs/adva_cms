@@ -1,5 +1,5 @@
 <fieldset class="clearfix">
-	<% unless message.is_reply? -%>
+  <% unless message.is_reply? -%>
 		<p>
 	  	<%= f.label :recipient %>
 	  	<%= f.select :recipient_id, recipients_list(@site) %>

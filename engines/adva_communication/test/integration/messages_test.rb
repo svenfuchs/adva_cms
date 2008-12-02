@@ -150,7 +150,7 @@ class UserManipulatesMessages < ActionController::IntegrationTest
     get '/messages'
     
     # user has received one message from johan mcdoe
-    @message_received.update_attribute(:sender_id, johan_mcdoe.id)
+    @message_received.update_attribute(:sender, johan_mcdoe)
     
     clicks_link 'reply'
     
@@ -160,6 +160,9 @@ class UserManipulatesMessages < ActionController::IntegrationTest
     # user fills the message form
     fills_in      'body',        :with => 'the reply body'
     clicks_button 'Save'
+    
+    # the page renders the reply view
+    assert_template 'messages/index'
     
     # user has sent one more message
     assert @user.messages_sent.count == 2

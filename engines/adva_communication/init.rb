@@ -8,3 +8,5 @@ config.to_prepare do
     has_many_messages
   end
 end
+
+Event.observers << MessageMailer

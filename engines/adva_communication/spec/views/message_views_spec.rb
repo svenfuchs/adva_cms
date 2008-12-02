@@ -93,7 +93,7 @@ describe "Message views:" do
     before :each do
       Site.delete_all
       assigns[:site]    = Factory :site
-      assigns[:message] = Factory :message, :parent_id => '1'
+      assigns[:message] = Factory :reply
       template.stub!(:recipients_list).and_return([['John Wayne', '666']])
     end
     act! { render "messages/reply" }
@@ -117,12 +117,16 @@ describe "Message views:" do
       act!
       response.should have_tag('input[name=?]', 'message[parent_id]')
     end
+    
+    it "assigns recipient_id for the message" do
+      act!
+      response.should have_tag('input[name=?]', 'message[recipient_id]')
+    end
   end
   
   describe "_inspect" do
     before :each do
-      @don_macaroni     = Factory :don_macaroni
-      @message          = Factory :message, :sender_id => @don_macaroni.id
+      @message = Factory :message
       template.stub!(:message).and_return @message
     end
     act! { render "messages/_inspect" }
