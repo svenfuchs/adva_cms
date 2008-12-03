@@ -16,16 +16,21 @@ When /[I submit | submit] new "(.*)"/ do |model|
   when 'newsletter'
     fill_in :newsletter_title, :with => 'newsletter title'
     fill_in :newsletter_desc, :with => 'newsletter desc'
+    click_button 'Save'
   when 'draft issue'
     fill_in :issue_title, :with => 'draft issue title'
     fill_in :issue_body, :with => 'draft issue body'
+    click_button 'Save'
+  when 'subscription'
+    debugger
+    select 'Site user'
+    click_button 'Add'
   when 'empty newsletter'
   when 'empty issue'
+  when 'empty subscription'
   else
     raise missing_from_step(model)
   end
-
-  click_button 'Save'
 end
 
 Then /[I should | should ] see new "(.*)"/ do |model|

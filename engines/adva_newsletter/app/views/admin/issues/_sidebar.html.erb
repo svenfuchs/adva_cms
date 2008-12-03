@@ -1,7 +1,0 @@
-<% newsletter ||= params[:newsletter_id] %>
-<%= render :partial => 'admin/layouts/sidebar_manage' %>
-
-<h3><%= t('adva.titles.actions') %></h3>
-<ul>
-  <li><%= link_to t('adva.issues.new'), new_admin_issue_path(@site, newsletter) %></li>
-</ul>

@@ -33,6 +33,7 @@ en:
       content_categories: "in {{links}}<br />"
       content_tags: "tagged: {{links}<br />"
       unknown: unknown
+      add: Add
     titles: 
       accounts: Accounts
       actions: Actions
@@ -127,6 +128,7 @@ en:
         can_always_change_settings: Don't worry. You can always change these settings later.
         section_default: Home
       no_sites: You currently do not have any sites created.
+      no_users: Site does not have any users.
       links:
         delete: Delete this site
         create_site_and_account: "Create site & account \xC2\xBB"
@@ -444,6 +446,7 @@ en:
         password: Password
         email: E-Mail
       links: 
+        new: Add a new user
         create_user: Create user
         edit_user: Edit user
       actions:
@@ -739,13 +742,19 @@ en:
         title: Newsletter name
         desc: Description
     issues:
-      new: Create a new issue
       no_issues: There are no issues.
       question_save_as_draft: Save as Draft?
       confirm_save_as_draft: Yes, save this issue as draft
       links:
         index: Issues
+        new: Create a new issue
       labels:
         title: Issue Title/Subject
         body: Body
         due_at: "Deliver at:"
+    subscriptions:
+      links:
+        index: Subscriptions
+        new: Add a new subscriber
+      labels:
+        user: Users

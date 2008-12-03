@@ -1,5 +1,6 @@
 <% content_for :sidebar do %>
-  <%= render :partial => 'sidebar' %>
+  <%= render :partial => 'admin/layouts/sidebar_manage', :locals => {:active => :issues} %>
+  <%= render :partial => 'sidebar_actions' %>
 <% end %>
 
 <h2><%= h(@issue.title) %></h2>

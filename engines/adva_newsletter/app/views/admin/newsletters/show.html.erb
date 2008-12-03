@@ -1,5 +1,10 @@
 <% content_for :sidebar do %>
-  <%= render :partial => 'admin/issues/sidebar', :locals => {:newsletter => @newsletter} %>
+  <%= render :partial => 'admin/layouts/sidebar_manage', :locals => {:active => :newsletters} %>
+  <h3><%= t('adva.titles.actions') %></h3>
+  <ul>
+    <li><%= link_to t('adva.issues.links.new'), new_admin_issue_path(@site, @newsletter) %></li>
+    <li><%= link_to t('adva.subscriptions.links.new'), new_admin_subscription_path(@site, @newsletter) %></li>
+  </ul>
 <% end %>
 
 <h2><%= h(@newsletter.title) %></h2>
@@ -26,6 +31,6 @@
 <% else %>
   <div class="empty">
     <%= t('adva.issues.no_issues') %>
-    <%= link_to t('adva.issues.new'), new_admin_issue_path(@site, @newsletter) %>
+    <%= link_to t('adva.issues.links.new'), new_admin_issue_path(@site, @newsletter) %>
   </div>
 <% end %>

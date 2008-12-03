@@ -815,7 +815,14 @@ fieldset .city input.text{
   padding: 7px;
   background-color: #EBEBEB;
 }
-
+#sidebar ul ul li {
+  padding-left: 20px;
+}
+#sidebar ul li.active,
+#sidebar ul ul li.active {
+  background-color: #dadada !important;
+}
+  
 /* reverse engineer stuff for sortable tree */
 
 #sidebar #sections.sortable {

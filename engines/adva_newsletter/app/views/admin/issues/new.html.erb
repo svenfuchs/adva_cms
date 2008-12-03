@@ -1,5 +1,5 @@
 <% content_for :sidebar do %>
-  <%= render :partial => 'sidebar' %>
+  <%= render :partial => 'admin/layouts/sidebar_manage', :locals => {:active => :issues} %>
 <% end %>
 
 <% split_form_for :issue, @issue, :url => admin_issues_path, :html => {:multipart => true, :id => 'content_form'} do |f| %>
