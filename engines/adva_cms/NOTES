@@ -5,16 +5,8 @@ TODO I18n strings
   
     lib/roles.rb
     :message => 'You need to be logged in to perform this action.'
-  
-  adva_comments/comments_controller
-    flash[:error] = @comment.errors.full_messages.to_sentence
-  
-  adva_comments/comments_helper
-    comment_expiration_options
     
-  adva_forum
-    forum.rb
-      validates_numericality_of :topics_per_page, :only_integer => true, :message => "can only be whole number."
+
 
 * add roles interface
 * remove observers and make behaviour more explicit by using events/listeners?

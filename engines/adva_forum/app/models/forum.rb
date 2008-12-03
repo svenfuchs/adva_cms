@@ -22,10 +22,10 @@ class Forum < Section
                             :foreign_key => :section_id
 
 
-  validates_numericality_of :topics_per_page, :only_integer => true, :message => "can only be whole number."
+  validates_numericality_of :topics_per_page, :only_integer => true, :message => :only_integer
   # TODO validates_inclusion_of :topics_per_page, :in => 1..30, :message => "can only be between 1 and 30."
 
-  validates_numericality_of :comments_per_page, :only_integer => true, :message => "can only be whole number."
+  validates_numericality_of :comments_per_page, :only_integer => true, :message => :only_integer
   # TODO validates_inclusion_of :comments_per_page, :in => 1..30, :message => "can only be between 1 and 30."
   
   class << self

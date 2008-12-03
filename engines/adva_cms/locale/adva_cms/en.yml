@@ -294,6 +294,19 @@ en:
         options:
           approved: Approved
           unapproved: Unapproved
+      options:
+        expiration: 
+          not_allowed: Are not allowed
+          never_expire: Never expire
+          x_hours_after_publishing:
+            one: Expire 1 hour after publishing
+            other: Expire {{count}} hours after publishing
+          x_weeks_after_publishing:
+            one: Expire 1 week after publishing
+            other: Expire {{count}} weeks after publishing
+          x_months_after_publishing:
+            one: Expire 1 month after publishing
+            other: Expire {{count}} months after publishing
       labels:
         "on": "on"
         comments: Comments
