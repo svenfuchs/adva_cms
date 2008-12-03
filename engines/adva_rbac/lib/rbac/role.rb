@@ -11,13 +11,16 @@ module Rbac
           raise "class #{require_context.inspect} does not act_as_role_context"
         end
 
+        message = options[:message]
+        message = I18n.t(message) if message.is_a?(Symbol)
+        
         parent ||= Rbac::Role::Base
         const_set(name.to_s.camelize, Class.new(Rbac::Role::Base)).class_eval do
           self.parent = parent
           self.parent.children << self
           self.require_context = require_context
           self.grant = options[:grant]
-          self.message = options[:message]
+          self.message = message
         end
       end
 
