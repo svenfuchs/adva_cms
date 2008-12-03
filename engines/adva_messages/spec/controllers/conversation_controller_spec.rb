@@ -4,7 +4,7 @@ describe ConversationsController do
   include SpecControllerHelper
   
   before :each do
-    @user = Factory :user
+    @user         = Factory :user
     controller.stub!(:current_user).and_return(@user)
     set_resource_paths :conversation, '/conversations/'
   end
@@ -33,9 +33,14 @@ describe ConversationsController do
   describe "GET to show" do
     before :each do
       @conversation = Conversation.create
-      Message.stub!(:find).and_return(@conversation)
+      @user.conversations.stub!(:find).and_return(@conversation)
     end
     act! { request_to :get, "/conversations/#{@conversation.id}" }
     it_assigns :conversation
+    
+    it "marks all the messages as read" do
+      @conversation.should_receive(:mark_messages_as_read)
+      act!
+    end
   end
 end

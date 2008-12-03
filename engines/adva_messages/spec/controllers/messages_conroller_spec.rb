@@ -4,8 +4,15 @@ describe MessagesController do
   include SpecControllerHelper
   
   before :each do
-    @user = Factory :user
-    controller.stub!(:current_user).and_return(@user)
+    @user     = Factory :johan_mcdoe
+    @message  = Factory :message
+    
+    controller.stub!(:current_user).and_return @user
+    @user.stub!(:messages).and_return [@message]
+    @user.messages_received.stub!(:paginate).and_return @message
+    @user.messages_sent.stub!(:paginate).and_return @message
+    Message.stub!(:find).and_return @message
+    
     set_resource_paths :message, '/messages/'
   end
   
@@ -37,10 +44,6 @@ describe MessagesController do
   end
   
   describe "GET to show" do
-    before :each do
-      @message = Factory :message
-      Message.stub!(:find).and_return(@message)
-    end
     act! { request_to :get, "/messages/#{@message.id}" }
     it_assigns :message
     
@@ -51,16 +54,20 @@ describe MessagesController do
   end
   
   describe "GET to new" do
+    before :each do
+      @message = Message.new
+      Message.stub!(:new).and_return @message
+    end
     act! { request_to :get, '/messages/new' }
     it_assigns :message
   end
   
   describe "GET to reply" do
     before :each do
-      @message      = Factory :message
-      Message.stub!(:find).and_return @message
+      Message.stub!(:reply_to).and_return @message
     end
     act! { request_to :get, "/messages/#{@message.id}/reply" }
+    it_assigns :message
     
     it "assigns a new message" do
       Message.should_receive(:reply_to).with(@message)
@@ -115,9 +122,7 @@ describe MessagesController do
   
   describe "DELETE to destroy" do
     before :each do
-      @message = Factory :message, :recipient => @user
       @message.stub!(:mark_as_deleted)
-      Message.stub!(:find).and_return(@message)
     end
     act! { request_to :delete, "/messages/#{@message.id}"}
     it_assigns :message

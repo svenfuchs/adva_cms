@@ -48,6 +48,10 @@ class MessagesController < BaseController
   protected
     def set_message
       @message = Message.find(params[:id])
+      unless current_user.messages.include?(@message)
+        @message = nil
+        redirect_to messages_path
+      end
     end
     
     def message_paginate_options

@@ -46,4 +46,10 @@ describe User do
       @user.messages_sent.should_not == [@message_sent]
     end
   end
+  
+  describe "#messages" do
+    it "returns sent and received messages of the user" do
+      @user.messages.should == [@message_received, @message_sent]
+    end
+  end
 end
