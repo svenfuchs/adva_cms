@@ -16,7 +16,6 @@ describe "Forum views:" do
 
     template.stub!(:link_to_topic).and_return 'link_to_topic'
     template.stub!(:link_to_last_post).and_return 'link_to_last_post'
-    template.stub!(:pluralize_str).and_return 'pluralized_str'
     template.stub!(:will_paginate).and_return 'will_paginate'
     template.stub!(:datetime_with_microformat).and_return 'Once upon a time ...'
 

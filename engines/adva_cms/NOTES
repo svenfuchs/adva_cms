@@ -1,8 +1,5 @@
 TODO I18n strings
   adva_cms
-    helpers/base_helper.rb
-    #pluralize_str
-  
     lib/roles.rb
     :message => 'You need to be logged in to perform this action.'
     

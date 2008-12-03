@@ -509,6 +509,9 @@ en:
       topics_count:
         one: "{{count}} topic"
         other: "{{count}} topics"
+      comments_count:
+        one: "{{count}} comment"
+        other: "{{count}} comments"
       info:
         no_boards_in_forum: You don't have any boards created in {{forum}}.
       titles:
