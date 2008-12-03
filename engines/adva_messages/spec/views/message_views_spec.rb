@@ -156,7 +156,7 @@ describe "Message views:" do
     
     it "has message sender name in a paragraph" do
       act!
-      response.should have_tag('p#message-sender', "from: #{@message.sender.name}")
+      response.should have_tag('p#message-sender', /from: #{@message.sender.name}/)
     end
     
     it "has message body in a paragraph" do
@@ -292,7 +292,7 @@ describe "Message views:" do
     
     it "has the link to show the message" do
       act!
-      response.should have_tag("a[href=?]", "/conversations/#{@message.conversation.id}")
+      response.should have_tag("a[href=?]", "/conversations/#{@message.conversation.id}#message_#{@message.id}")
     end
     
     it "has the link to delete the message" do
