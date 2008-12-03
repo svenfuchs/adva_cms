@@ -24,9 +24,13 @@ describe EventsController do
     controller.stub!(:event_path).and_return event_path
 
     controller.stub!(:has_permission?).and_return true
-    @section.events.stub!(:upcoming).and_return stub_calendar_events
-    @section.events.stub!(:upcoming).and_return stub_calendar_events
-    @section.events.stub!(:upcoming).and_return stub_calendar_events
+
+    # named scopes
+    @category.stub!(:events).and_return stub_calendar_events
+    [:upcoming, :recent, :elapsed].each do |method|
+      @section.events.stub!(method).and_return stub_calendar_events
+      @category.events.stub!(method).and_return stub_calendar_events
+    end
   end
 
   it "should be a BaseController" do
@@ -85,22 +89,13 @@ describe EventsController do
 
   describe "GET to :index for a category" do
     act! { request_to(:get, category_path) }
-    it_assigns :categories, [@category]
+    it_assigns :category
     it "should set category" do
-      @section.categories.should_receive(:events, {:category_id => '2' })
+      @category.should_receive(:events, {:category_id => '2' })
       act!
     end
   end
-end
-
-describe EventsController, 'calendar format' do
-  include SpecControllerHelper
-
-  before :each do
-    stub_scenario :calendar_with_events
-    controller.stub!(:has_permission?).and_return true
-  end
-
+  
   ics_paths.each do |path|
     describe "GET to #{path}" do
       act! { request_to :get, path }

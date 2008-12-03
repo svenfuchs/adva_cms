@@ -1,6 +1,7 @@
 class EventsController < BaseController
   before_filter :set_section
   before_filter :set_timespan
+  before_filter :set_category, :only => [:index]
   before_filter :set_tags, :only => [:index]
   before_filter :set_event, :except => [:index, :new]
   before_filter :set_author_params, :only => [:create, :update]
@@ -13,7 +14,7 @@ class EventsController < BaseController
   guards_permissions :event, :except => [:index, :show]
 
   def index
-    source = @categories ? @categories.contents : @section.events
+    source = @category ? @category.contents : @section.events
     @events = source.elapsed(@timespan) if params[:elapsed]
     @events = source.recent(@timespan) if params[:recent] and @events.blank?
     @events ||= source.upcoming(@timespan)
@@ -97,6 +98,13 @@ class EventsController < BaseController
       elsif m > 0 and d > 0
         @timespan = Date.new(y, m, d)
         @timespan = [@timespan, @timespan.end_of_day]
+      end
+    end
+
+    def set_category
+      if params[:category_id]
+        @category = @section.categories.find params[:category_id]
+        raise ActiveRecord::RecordNotFound unless @category
       end
     end
 
