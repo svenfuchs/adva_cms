@@ -15,6 +15,6 @@ with_options :controller => 'events', :action => 'index', :requirements => { :me
 end
 
 
-map.resources :events, :controller  => 'admin/events',
-                       :path_prefix => 'admin/sites/:site_id/sections/:section_id',
-                       :name_prefix => 'admin_'
+map.resources :calendar_events, :controller  => 'admin/events',
+                                :path_prefix => 'admin/sites/:site_id/sections/:section_id',
+                                :name_prefix => 'admin_', :as => 'events'

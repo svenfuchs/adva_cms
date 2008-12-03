@@ -11,7 +11,7 @@ class Admin::EventsController < Admin::BaseController
   widget :sub_nav, :partial => 'widgets/admin/sub_nav',
                    :only  => { :controller => ['admin/events'] }
 
-  guards_permissions :event
+  guards_permissions :calendar_event
 
   def index
     @events = @section.events.paginate :page => current_page, :per_page => params[:per_page]
@@ -25,7 +25,7 @@ class Admin::EventsController < Admin::BaseController
     if @event = @section.events.create(params[:event])
       trigger_events @event
       flash[:notice] = "The event has been successfully created."
-      redirect_to edit_admin_event_path(@site, @section, @event)
+      redirect_to edit_admin_calendar_event_path(@site, @section, @event)
     else
       flash[:error] = "The event could not been created."
       render :action => 'new'
@@ -39,7 +39,7 @@ class Admin::EventsController < Admin::BaseController
     if @event.update_attributes(params[:event])
       trigger_events @event
       flash[:notice] = "The event has been successfully updated."
-      redirect_to edit_admin_event_path
+      redirect_to edit_admin_calendar_event_path
     else
       flash[:error] = "The event could not been updated."
       render :action => 'edit'
@@ -50,7 +50,7 @@ class Admin::EventsController < Admin::BaseController
     if @event.destroy
       trigger_events @event
       flash[:notice] = "The event has been deleted."
-      redirect_to admin_events_path
+      redirect_to admin_calendar_events_path
     else
       flash[:error] = "The event could not be deleted."
       render :action => 'show'
