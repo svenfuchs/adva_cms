@@ -455,6 +455,10 @@ en:
           error_filename_blank: The theme file cannot be blank.
           failure: The file could not be imported as a theme.
     theme_files:
+      types:
+        templates: templates
+        assets: assets
+        others: others
       flash:
         destroy:
           success: The file has been deleted.

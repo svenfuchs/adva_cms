@@ -1,6 +1,6 @@
 <% ['templates', 'assets', 'others'].each do |type| files = @theme.send(type) %>
   <% unless files.empty? %>
-    <h3><%= type.titleize %></h3>
+    <h3><%= t(:"adva.theme_files.types.#{type}") %></h3>
     <ul>
       <% files.each do |file| %>
         <li><%= link_to file.localpath, admin_theme_file_path(@site, @theme.id, file.id) %></li>
