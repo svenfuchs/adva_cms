@@ -400,7 +400,9 @@ en:
         url: Homepage
         created_at: Created
         email: Email
-      logged_in_as: "Logged in as: "
+      info: 
+        showed_up: "showed up: {{time_ago}}"
+        logged_in_as: "Logged in as: {{name}}"
       confirm_delete: Are you sure you wish to delete this user account?
     roles:
       labels:
