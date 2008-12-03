@@ -13,7 +13,7 @@
   </ul>
 <% end -%>
 
-<h2>t(:'adva.themes.titles.new')</h2>
+<h2><%= t(:'adva.themes.titles.new') %></h2>
 
 <% form_for :theme, @theme, :url => admin_themes_path(@site) do |f| %>
 	<%= render :partial => "form", :locals => {:f => f} %>
