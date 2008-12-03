@@ -124,7 +124,7 @@ class Theme
   end
 
   def author_link
-    name = author.blank? ? 'unknown' : author
+    name = author.blank? ? I18n.t( :'adva.common.unknown' ) : author
     homepage.blank? ? name : %(<a href="#{homepage}">#{name}</a>)
   end
 
@@ -197,7 +197,7 @@ class Theme
   end
 
   def validate
-    errors << "Name can't be empty" if self.name.blank?
+    errors << I18n.t( :'adva.theme.validation.empty_name' ) if self.name.blank?
     @validated = true
   end
 

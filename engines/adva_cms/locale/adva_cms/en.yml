@@ -25,6 +25,7 @@ en:
       import: Import
       content_categories: "in {{links}}<br />"
       content_tags: "tagged: {{links}<br />"
+      unknown: unknown
     titles: 
       accounts: Accounts
       actions: Actions

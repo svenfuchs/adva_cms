@@ -179,11 +179,13 @@ describe "acts_as_themed" do
 
   it "should forbid forward slashes in the theme_name" do
     @something.stub!(:theme_names).and_return ['etc/whatever']
+    #@something.valid? #JMH
     @something.should_not be_valid
   end
 
   it "should forbid backward slashes in the theme_name" do
     @something.stub!(:theme_names).and_return ['etc\whatever']
+    #@something.valid? #JMH
     @something.should_not be_valid
   end
 
