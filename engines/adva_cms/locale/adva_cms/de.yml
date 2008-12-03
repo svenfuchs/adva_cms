@@ -1,8 +1,730 @@
 de:
-  adva:
-    resource:
-      view: Anzeigen
-    common: 
-      none: keine
-    article:
-      confirm_delete: "Diesen Artikel wirklich löschen?"
+ activerecord:
+   errors:
+     messages:
+       only_integer: kann nur eine ganze Zahl sein.
+ adva:
+   common:
+     about: Über
+     details: Details
+     by_author: von {{author}}
+     cancel: Abbruch
+     edit: Bearbeiten
+     delete: Löschen
+     hide: Verbergen
+     save: Speichern
+     save_without_revision: Speichern mit Revision
+     import: Importieren
+     upload: Hochladen
+     import: Importieren
+     subscribe: Abonnieren
+     approve: Genehmigen
+     unapprove: Ablehnen
+     language: Sprache
+     none: kein
+     next: Weiter
+     previous: Zurück
+     events: Ereignisse
+     you: Sie
+     connector:
+       or: oder
+     "yes": "ja"
+     by_author: von {{author}}
+     content_categories: "in {{links}}<br />"
+     content_tags: "markiert: {{links}<br />"
+     unknown: unbekannt
+   titles:
+     accounts: Konten
+     actions: Aktionen
+     archives: Archive
+     articles: Artikel
+     assets: Anlagen
+     board: Brett
+     boards: Bretter
+     cache: Cache
+     categories: Kategorien
+     clear: Löschen
+     clear_all: Alles löschen
+     comment: Kommentar
+     comments: Kommentare
+     dashboard: Gesamtübersicht
+     general_settings: Allgemeine Einstellungen
+     history: Verlauf
+     login: Anmelden
+     logout: Abmelden
+     register: Registrieren
+     manage: Verwalten
+     optional_settings: Optionale Einstellungen
+     overview: "Übersicht"
+     permissions: Berechtigungen
+     plugin: Plugin
+     plugins: Plugins
+     posts: Einträge
+     preview: Voransicht
+     publish_in_categories: In diesen Kategorien veröffentlichen
+     recent_activity: Letzte Aktivität
+     restore_defaults: Standardwerte wiederherstellen
+     sections: Sektionen
+     settings: Einstellungen
+     site: Webseite
+     site_users: Webseitenbenutzer
+     spam_filters: Spam-Filter
+     spam_protection: Spam-Schutz
+     success: Erfolg!
+     tags: Tags
+     theme: Motiv
+     themes: Motive
+     topic: Thema
+     users: Benutzer
+     roles: Rollen
+     website: Webseite
+     website_configuration: Webseitenkonfiguration
+     website_home_section: Webseitenstartsektion
+     welcome: Willkommen!
+     wikipages: Wiki-Seiten
+     history:
+       today: Heute {{date}}
+       yesterday: Gestern {{date}}
+       past: Vor {{date}}
+   links:
+     back: Zurück
+     delete: Löschen
+     edit: Bearbeiten
+     view: Ansicht
+     next: Vor
+     previous: Zurück
+     login: Anmelden
+     logout: Abmelden
+     profile: Profil
+     sites_overview: Webseitenübersicht
+     skip_to_content: Zum Inhalt springen
+     skip_to_navigation: Zur Navigation springen
+     superusers_admins: Superuser + Adminstratoren
+     entries_feed: Eintrag-Feed
+     comments_feed: Kommentar-Feed
+   labels:
+     author_name: Name
+     author_email: E-Mail
+   messages:
+     insufficient_permissions:
+       title: Unzureichende Berechtigungen
+       body: Wenn Sie glauben, daß Sie diese Aktion ausführen können sollten, kontaktieren Sie bitte den Administrator dieser Seite und fragen Sie ihn, Ihre Berechtigungen neu einzustellen.
+   resources:
+     delete: Löschen
+     edit: Bearbeiten
+     reordering_done: Umsortierung beenden
+     settings: Einstellungen
+     view: Ansicht
+   sites:
+     title:
+       create: Neue Webseite anlegen 
+       home_section: Startseitensektion
+     hints:
+       host_name: Führen Sie den Port mit auf, wenn er nicht der Standard-Port ist. Z.B. localhost:3000
+       admin_email: Wird in den Emails angezeigt, die von Ihrer Webseite versendet werden 
+     attributes:
+       name: Name
+       host: Host
+     install:
+       success_fully_created: Sie haben Ihre Webseite erfolgreich angelegt. Viel Spaß damit!
+       welcome_to_installation: "Willkommen zu diesem weniger-als-zwei-Minuten-Installationsprozess. Füllen Sie die Informationen unten aus und Sie sind fertig. "
+       can_always_change_settings: Keine Bange! Sie können diese Einstellungen später jederzeit ändern.
+       section_default: Startseite
+     no_sites: Sie haben zur Zeit keine Webseiten angelegt. 
+     links:
+       delete: Diese Webseite löschen
+       create_site_and_account: "Webseite und Konto anlegen \xC2\xBB"
+       manage_new: Ihre neue Webseite verwalten &raquo;
+     flash:
+       destroy:
+         success: Die Webseite wurde gelöscht.
+         failure: Die Webseite konnte nicht gelöscht werden
+       install:
+         error_already_complete: Die Installation ist vollständig. Bitte melden Sie sich mit Ihrem Administratorenkonto an.
+         success: Glückwunsch! Sie haben Ihre Webseite erfolgreich konfiguriert.
+         failure: "Die folgenden Modelle konnten nicht angelegt werden: {{models}}."
+       create:
+         success: Die Webseite wurde angelegt.
+         failure: Die Webseite konnte nicht angelegt werden
+       update:
+         success: Die Webseite wurde aktualisiert.
+         failure: Die Webseite konnte nicht aktualisiert werden
+     label:
+       name: Webseitenname
+       title: Webseitentitel
+       timezone: Webseitenzeitzone
+       admin_email: Administrator-E-Mail
+       subtitle: Webseitenuntertitel
+       host: Hostname
+     confirm_delete: Sind Sie sicher, daß Sie diese Webseite löschen wollen?
+   sections:
+     hints:
+       content_filter: Wenn Artikel angelegt werden, nutzen sie diese Einstellungen als Standardwerte.
+     titles:
+       section_settings: Sektionsspezifische Einstellungen
+       blog_settings: Blogspezifische Einstellungen
+       forum_settings: Forumspezifische Einstellungen
+       create: Eine neue Sektion anlegen
+     links:
+       delete: Diese Sektion löschen
+       add_section: Eine Sektion hinzufügen
+       reorder: Sektionen umsortieren
+       create: Eine neue Sektion anlegen
+     confirm_delete: Sind Sie sicher, daß Sie diese Sektion löschen wollen?
+     flash:
+       destroy:
+         success: Die Sektion wurde gelöscht.
+         failure: Die Sektion konnte nicht gelöscht werden.
+       create:
+         success: Die Sektion wurde angelegt.
+         failure: Die Sektion konnte nicht angelegt werden.
+       update:
+         success: Die Sektion wurde aktualisiert.
+         failure: Die Sektion konnte nicht aktualisiert werden.
+   blog:
+     titles:
+       date: "von {{date}}"
+       about: "zu {{category}}"
+       tags: "markiert als {{tags}}"
+       articles: "Artikel {{articleKategors}}"
+       show_articles: "Artikel anzeigen:"
+       manage: Verwalten
+       actions: Aktionen
+     links:
+       articles: Artikel
+       categories: Kategorien
+       settings: Einstellungen
+       create_article: Einen neuen Artikel anlegen
+       create_article_now: "Einen Artikel anlegen &raquo;"
+       more: Lesen Sie den Rest des Eintrags
+     options:
+       filter:
+         category: in Kategorie
+         tags: markiert mit
+         title: dessen Titel beinhaltet 
+         body: dessen Text beinhaltet
+         draft: nicht veröffentlicht
+     tabs:
+       article: Artikel
+       comments: Kommentare
+       published: Veröffentlicht
+       author: Autor
+     feeds:
+       category: Kategorie {{category}}
+       tags:
+         one: "Tag: {{tags}}"
+         other: "Tags: {{tags}}"
+     no_articles: "Es gibt keine Artikel in {{section}}."
+     no_filtered_articles: "Es gibt keine Artikel, die die Kriterien für {{section}} erfüllen"
+     attribution: "von: {{author}}"
+   categories:
+     attributes:
+       name: Name
+     titles:
+       edit: Kategorie bearbeiten
+     no_categories_in_section: Es gibt keine Kategorien in {{section}}.
+     total_with_count:
+       one: "Gesamt: {{count}} Kategorie"
+       other: "Gesamt: {{count}} Kategorien"
+     links:
+       delete: Diese Kategorie löschen
+       reorder: Kategorien umsortieren
+       create: Eine neue Kategorie anlegen
+     flash:
+       destroy:
+         success: Die Kategorie wurde gelöscht.
+         failure: Die Kategorie konnte nicht gelöscht werden.
+       create:
+         success: Die Kategorie wurde angelegt.
+         failure: Die Kategorie konnte nicht angelegt werden.
+       update:
+         success: Die Kategorie wurde aktualisiert.
+         failure: Die Kategorie konnte nicht aktualisiert werden.
+     confirm_delete: Sind Sie sicher, daß Sie diese Kategorie löschen wollen?
+   contents:
+     not_published: nicht veröffentlicht
+   articles:
+     question_save_as_draft: Speichern als ein Entwurf?
+     confirm_save_as_draft: Ja, diesen Artikel als Entwurf speichern
+     hints:
+       permalink: Nutzen Sie nur ASCII Zeichen und nutzen Sie Bindestriche anstatt Leerzeichen.
+       tags: Geben Sie ein oder mehre Tags ein, die durch ein Leerzeichen getrennt sind. Sie können Leerzeichen mitbenutzen, wenn Sie den Tag in Anführungszeichen schreiben . (Zum Beispiel, <em>"Web Entwicklung" Tutorials</em>).
+     titles:
+       edit: Artikel bearbeiten
+     total_with_count:
+       one: "Gesamt: {{count}} Artikel"
+       other: "Gesamt: {{count}} Artikel"
+     links:
+       delete: Diesen Artikel löschen
+       reorder: Artikel umsortieren
+       create: Einen neuen Artikel anlegen
+       create_now: Einen neuen Artikel anlegen
+       preview: Diesen Artikel in der Vorschau ansehen
+     excerpt_add: Einen Auszug hinzufügen
+     no_articles_in_section: Es gibt keine Artikel in {{section}}.
+     publish_on_date: Zu diesem Datum veröffentlichen
+     flash:
+       destroy:
+         success: Der Artikel wurde gelöscht.
+         failure: Der Artikel konnte nicht gelöscht werden.
+       rollback:
+         success: Der Artikel wurde zurückgestellt auf Revision {{version}}
+         failure: Der Artikel konnte nicht zurückgestellt werden auf Revision {{version}}
+       create:
+         success: Der Artikel wurde angelegt.
+         failure: Der Artikel konnte nicht angelegt werden.
+       update:
+         success: Der Artikel wurde aktualisiert.
+         failure: Der Artikel konnte nicht aktualisiert werden.
+     confirm_delete: Sind Sie sicher, daß Sie diese Artikel löschen wollen?
+     attributes:
+       excerpt: Auszug
+   cached_pages:
+     no_entries: Es werden zur Zeit keine Seiten im Cache gespeichert. 
+     confirmation:
+       cleared: Diese Seite wurde aus dem Cache gelöscht.
+       cleared_short: Gelöscht.
+     filter:
+       show_cached_pages: Seiten im Cache anzeigen
+     total_with_count:
+       one: "Gesamt: {{count}} Seite im Cache"
+       other: "Gesamt: {{count}} Seiten im Cache"
+     no_entries_matching_criteria: Es gibt derzeit keine Seiten im Cache, die diese Kriterien erfüllen.
+     flash:
+       clear:
+         success: Der Cache wurde geleert.
+   comments:
+     flash:
+       thank_you: Danke für den Kommentar!
+       create:
+         success: Der Kommentar wurde angelegt.
+         failure: Der Kommentar konnte nicht angelegt werden.
+       update:
+         success: Der Kommentar wurde aktualisiert.
+         failure: Der Kommentar konnte nicht aktualisiert werden.
+       destroy:
+         success: Der Kommentar wurde gelöscht.
+         failure: Der Kommentar konnte nicht gelöscht werden.
+     links:
+       delete: Löschen
+       edit: Bearbeiten
+       approve: Freigeben
+       view: Ansicht
+       unapprove: Freigabe wiederrufen
+     titles:
+       comments_awaiting_approval: Kommentare waren auf Ihre Freigabe
+       save_comment: Kommentar speichern 
+       comment_on_by: Kommentar über '{{on}}' von {{by}}
+       add_reply: Ihre Anwort schreiben
+       comment_number: "Kommentar #{{number}}"
+       edit: Kommentar bearbeiten 
+       comments_on: Kommentare über {{location}}
+       submit_comment: Kommentar abschicken
+       your_reply: Ihre Antwort
+       comment_with_count:
+         one: 1 Kommentar
+         other: "{{count}} Kommentare"
+     filter:
+       show_comments: Kommentare anzeigen
+       options:
+         all: Alle
+         body: Dessen Text beinhaltet
+         author_name: Dessen Autor ist
+         author_email: Autoren-E-Mail ist
+         author_url: Autoren-Webseite ist
+         state: Dessen Status ist
+       go: Los
+     state:
+       options:
+         approved: Genehmigt
+         unapproved: Nicht freigegeben
+     options:
+       expiration:
+         not_allowed: Sind nicht erlaubt
+         never_expire: Verfallen nie
+         x_hours_after_publishing:
+           one: Verfallen 1 Stunde nach Veröffentlichung
+           other: Verfallen {{count}} Stunden nach Veröffentlichung
+         x_weeks_after_publishing:
+           one: Verfallen 1 Woche nach Veröffentlichung
+           other: Verfallen {{count}} Wochen nach Veröffentlichung
+         x_months_after_publishing:
+           one: Verfallen 1 Monat nach Veröffentlichung
+           other: Verfallen {{count}} Monate nach Veröffentlichung
+     labels:
+       "on": "über"
+       comments: Kommentare
+       approved: Genehmigt
+     hints:
+       comments_filter: Wenn Kommentare angezeigt werden, nutzen Sie diese Markup-Sprache.
+     confirm_delete: Sind Sie sicher, daß Sie diese Kommentare löschen wollen?
+     info:
+       no_comments_for_query: Diese {{location}} hat keine Kommentare, auf die Ihre Anfrage zutrifft.
+       under_review: Dieser Kommentar wird derzeit überprüft
+     messages:
+       not_allowed: "Kommentare sind hier nicht erlaubt."
+
+   activity:
+     none: Nichts passiert
+     notifier:
+       new: Neue {{activity}} angelegt
+     view:
+       new: "{{name}} <{{email}}>  hat gerade eine {{activity}} auf {{site}} in Sektion {{section}} angelegt."
+     comment: Kommentar {{actions}}
+     actions: "{{type}} {{actions}} in {{activity}}."
+   signup:
+     notifications:
+       email_verification:
+         subject: Emailkontrolle
+         body: |
+           Liebe/r {{name}},
+
+           Sie haben sich kürzlich für unseren Service angemeldet. Unser Service erfordert, daß 
+           alle neuen Benutzer Ihre Emailadresse verifizieren. Bitte klicken Sie einfach auf den Link 
+           unten und Ihr Benutzername ist verifiziert und Sie können sich anmelden. 
+
+           {{link}}
+     flash:
+       destroy:
+         success:  Das Benutzerkonto {{name}} wurde gelöscht.
+       create:
+         failure: Ihre Registrierung konnte nicht gespeichert werden.
+       verify:
+         success: Sie haben Ihre E-Mailadresse erfolgreich bestätigt. 
+         failure: Sie haben Ihre E-Mailadresse bereits bestätigt. 
+   passwords:
+     info:
+       please_enter_email_to_reset_password: Bitte geben Sie Ihre E-Mailadresse ein. Sie erhalten dann eine Email , die einen Link auf eine Seite zum Neueingeben des Passworts beinhaltet.
+     titles:
+       new: Ihr Passwort zurücksetzen
+     notifications:
+       password_updated:
+         subject: Passwort aktualisiert
+         body: |
+           Liebe/r {{name}},
+
+           Sie haben erfolgreich Ihr Passwort aktualisiert. 
+       reset_password:
+         subject: Vergessenes Passwort
+         body: |
+           Liebe/r  {{name}},
+
+           Irgendjemand (hoffentlich Sie) hat angegeben, daß Sie sich an Ihr Passwort nicht erinnern können. 
+           Um Sie das Passowort zurücksetzen zu lassen, erhalten Sie unten einen Link. Nach dem Klicken auf 
+           dem Link kommen Sie zu einer Seite, auf der Sie Ihr Passwort zurücksetzen können. 
+
+           {{link}}
+
+           Bitte setzen Sie Ihr Passwort so schnell wie möglich zurück, der dieser Link nach kurzer Zeit verfällt, um
+           Ihr Konto zu schützen. 
+
+           Wenn Sie keine Änderung des Passworts angefordert haben, muss jemand anderes Ihren Benutzername 
+           in der "Vergessenes Passwort"-Webseite eingegeben haben. Ihr Konto ist immer noch komplett sicher, da
+           Sie als einige Person diese Nachricht erhalten haben. Löschen Sie einfach diese E-Mail und Ihr Benutzerkonto 
+           hat keine Änderungen, wenn diese Nachricht fehlerhaft gesendet wurde. 
+     flash:
+       new:
+         email_sent: Sie erhalten gerade von uns eine Nachricht. Bitte prüfen Sie Ihr E-Mail.
+         no_such_user: Es gibt keinen Benutzer mit der angegebenen E-Mailadresse. 
+       update:
+         success: Ihr Passwort wurde erfolgreich geändert. 
+         failure: Ihr Passwort konnte nicht geändert werden.
+   session:
+     flash:
+       destroy:
+         success: Erfolgreich abgemeldet.
+       create:
+         success: Erfolgreich angemeldet.
+         failure: Anmeldung mit dieser E-Mail und Passwort fehlgeschlagen 
+     labels:
+       remember_me: Meinen Benutzer merken
+   users:
+     attributes:
+       password: Passwort
+       email: E-Mail
+     links:
+       create_user: Benutzer anlegen
+       edit_user: Benutzer bearbeiten
+     actions:
+       delete_user: Diesen Benutzer löschen
+       create_new: Einen neuen Benutzer anlegen
+     titles:
+       new: Neuer Benutzer
+       edit: Benutzer bearbeiten
+       register: Ein Benutzerkonto registrieren
+       signup: Registrieren
+       your_profile: Ihr Profil
+     flash:
+       destroy:
+         success: Das Benutzerkonto wurde gelöscht.
+         failure: Das Benutzerkonto konnte nicht gelöscht werden.
+       create:
+         success: Das Benutzerkonto wurde angelegt.
+         failure: Das Benutzerkonto konnte nicht angelegt werden.
+       update:
+         success: Das Benutzerkonto wurde aktualisiert.
+         failure: Das Benutzerkonto konnte nicht aktualisiert werden.
+     labels:
+       updated_at: Letzte Anmeldung
+       url: Startseite
+       created_at: Angelegt
+       email: E-Mail
+     info:
+       showed_up: "angemeldet vor: {{time_ago}}"
+       logged_in_as: "Angemeldet als: {{name}}"
+     confirm_delete: Sind Sie sicher, daß Sie dieses Benutzerkonto löschen wollen?
+   roles:
+     labels:
+       admin_for: "Admin für: {{context}}"
+       superuser: Superuser
+     errors:
+       messages:
+         not_an_admin: Sie müssen ein Admin sein, um diese Aktion durchzuführen.
+         not_logged_in: Sie müssen angemeldet sein, um diese Aktion durchzuführen.
+         not_a_superuser: Sie müssen ein Superuser sein, um diese Aktion durchzuführen.
+         not_an_author: Sie müssen der Autor dieses Objekts sein, um diese Aktion durchzuführen.
+         not_a_moderator: Sie müssen ein Moderator sein, um diese Aktion durchzuführen.
+   assets:
+     flash:
+       upload:
+         failure: Das Hochladen der Anlage hat nicht geklappt.
+       update:
+         success: Die Anlage wurde aktualisiert.
+         failure: Das Aktualisieren der Anlage hat nicht geklappt.
+       delete:
+         success: "{{filename}} gelöscht"
+         failure: Das Löschen der Anlage hat nicht geklappt..
+       destroy:
+         success: "{{asset}} getrennt von diesem {{content}}."
+       create:
+         first_success: "'{{asset}}' wurde hochgeladen."
+         success:
+           one: "Eine Anlage wurde hochgeladen."
+           other: "{{count}} Anlagen wurden hochgeladen."
+       add:
+         success: "{{asset}} zum Vorrat hinzugefügt."
+       clear:
+         success:  Vorrat für Anlagen wurde geleert.
+     validation:
+       duplicate: Es dürfen keine doppelte Zuordnungen für diesen Inhalt und Anlage vorhanden sein. 
+     tab:
+       attached:
+         title: Angehängte Anhänge
+         name: Angehängt
+       latest:
+         title: Letzte hochgeladene Anlagen
+         name: Letzte
+       bucket:
+         title: Ihr Vorrat für Anlagen
+         name: Vorrat
+       search:
+         title: Suche nach Anlagen
+         name: Suche
+       upload:
+         title: Neue Anlagen hochladen
+         name: Hochladen
+       audio: Audio
+       movies: Filme
+       pictures: Bilder
+       others: Sonstiges
+       tags: Tags
+       title: Titel
+     new: Neue Anlage
+     add_to_bucket: Zum Vorrat hinzufügen
+     no_files: Sie haben keine Dateien diesen Typs oder Sie haben noch keine Dateien hochgeladen.
+     upload: 'Eine neue Anlage hochladen &raquo;'
+     enter_tags: 'Geben Sie ein oder mehrere Tags durch ein Komma oder ein Leerzeichen separiert ein (z.B., <em>"Web Dev" Tutorials</em> or <em>Web Dev, Tutorials</em>).'
+     save: Anlage speichern
+     your_bucket: Ihre Vorrat
+     add_files: Datei zum Vorrat zeitweise hinzufügen, um Sie beim Anlegen oder Überarbeiten von Artikeln zu nutzen.
+     upload_summary:
+       one: Sie haben <strong>eine Anlage</strong> hochgeladen, sie verwendet  <strong>{{size}}</strong>.
+       other: Sie haben insgesamt <strong>{{count}} Anlagen</strong> hochgeladen, sie verwendet  <strong>{{size}}</strong>.
+     stats: Einige Statistiken
+     upload:
+       files: Datei zum Hochladen auswählen
+       title: Titel
+       tags: Tags (mit Leerzeichen getrennt)
+     delete: Diese Dateifeld löschen
+     tag_all: Tags auf alles übertragen
+     add_file: Eine weitere Datei hinzufügen
+   themes:
+     no_themes_available: Sie haben derzeit keine Motive angelegt.
+     lables:
+       zip_file: ZIP-Datei
+     titles:
+       new: Ein neues Motiv anlegen
+       edit: Motiv bearbeiten
+       valid_file_types: Zulässige Dateitypen
+       import: Motiv importieren
+       edit_file: Motivdatei bearbeiten
+     links:
+       add_another_file: Weitere Dateie hinzufügen
+       new_theme: Neues Motiv
+       edit: Bearbeiten
+       create_one_now: Ein neues Motiv anlegen &raquo;
+       delete_file: Motivdatei löschen
+       uninstall: De-Installieren
+       download_theme: Motiv herunterladen
+       upload_file: Eine neue Datei hochladen
+       import_theme: Motiv importieren 
+       create_file: Eine neue Datei anlegen
+       edit_theme: Motiv bearbeiten
+       select: Auswählen
+       unselect: Abwählen
+     upload_template_or_asset: Eine Vorlage oder eine Anlage hochladen
+     labels:
+       asssets: Anlagen
+       templates: Vorlagen
+       filename: Dateiname
+     confirm_select: Sind Sie sicher, daß Sie dieses Motiv aktivieren wollen?
+     confirm_unselect: Sind Sie sicher, daß Sie dieses Motiv deaktivieren wollen?
+     confirm_uninstall: Sind Sie sicher, daß Sie dieses Motiv de-installieren wollen? (Sie können diese Operation nicht wieder umkehren.)
+     flash:
+       destroy:
+         success: Das Motiv wurde gelöscht.
+         failure: Das Motiv konnte nicht gelöscht werden.
+       create:
+         success: Das Motiv wurde angelegt.
+         failure: "Das Motiv konnte nicht angelegt werden: {{errors}}."
+       update:
+         success: Das Motiv wurde aktualisiert.
+         failure: "Das Motiv konnte nicht aktualisiert werden: {{errors}}."
+       import:
+         success: Das Motiv wurde importiert.
+         error_filename_blank: Das Motiv file kann nicht leer sein.
+         failure: Die Datei konnte nicht als Motiv importiert werden.
+   theme_files:
+     types:
+       templates: Vorlagen
+       assets: Anlagen
+       others: Sonstiges
+     flash:
+       destroy:
+         success: Die Datei wurde gelöscht.
+         failure: Die Datei konnte nicht gelöscht werden.
+       create:
+         success: Die Datei wurde angelegt.
+         failure: Die Datei konnte nicht angelegt werden.
+       update:
+         success: Die Datei wurde aktualisiert.
+         failure: Die Datei konnte nicht aktualisiert werden.
+   plugins:
+     no_plugins_installed: Es sind derzeit keine Plugins installiert.
+     attributes:
+       name: Name
+       configurable: Konfigurierbar
+       author: Autor
+       version: Version
+       homepage: Startseite
+     flash:
+       destroy:
+         success: Die Standardeinstellungen wurden aktiviert.
+         failure: Die Sektion konnte nicht gelöscht werden.
+       update:
+         success: Die Plugin-Einstellungen wurden aktualisiert.
+         failure: Die Sektion konnte nicht angelegt werden.
+     no_config_options_available: Dieses Plugin hat keine Konfigurationsoptionen verfügbar.
+   settings:
+     filter_options:
+       plain_html: Reines HTML
+   boards:
+     topics_count:
+       one: "{{count}} Thema"
+       other: "{{count}} Themen"
+     comments_count:
+       one: "{{count}} Kommentar"
+       other: "{{count}} Kommentare"
+     info:
+       no_boards_in_forum: Sie haben keine Bretter in {{forum}} angelegt.
+     titles:
+       new: Neues Brett
+       edit: Brett bearbeiten 
+     posts_count:
+       one: "{{count}} Eintrag"
+       other: "{{count}} Einträge"
+     links:
+       new: Neues Brett
+       reorder: Bretter umsortieren
+       create_now: Ein neues Brett anlegen
+     flash:
+       no_next_board: Es gibt kein weiteres Brett. Das letzte Brett wird angezeigt.
+       destroy:
+         success: Das Brett wurde gelöscht.
+         failure: Das Brett konnte nicht gelöscht werden.
+       create:
+         success: Das Brett wurde angelegt.
+         failure: Das Brett konnte nicht angelegt werden.
+       update:
+         success: Das Brett wurde aktualisiert.
+         failure: Das Brett konnte nicht aktualisiert werden.
+       no_previous_board: Es gibt kein vorhergehendes Brett. Das erste Brett wird angezeigt.
+     confirm_delete: Sind Sie sicher, daß Sie dieses Brett löschen wollen?
+   topics:
+     info:
+       no_topics_in_forum: Es gibt keine Themen in diesem Forum.
+       no_topics_in_board: Es gibt keine Themen in diesem Brett.
+     titles:
+       new: Neues Thema
+       edit: Thema bearbeiten 
+       post_topic: Thema des Eintrags
+       latest_post: Letzter Eintrag
+       post_count:
+         one: "{{count}} Eintrag"
+         other: "{{count}} Einträge"
+     states:
+       sticky: Klebend
+       locked: Verschlossen
+     links:
+       post_new: Neuen Eintrag erstellen
+       post_now: Neuen Eintrag erstellen
+       new_topic: Neues Thema
+     flash:
+       destroy:
+         success: Das Thema wurde gelöscht.
+         failure: Das Thema konnte nicht gelöscht werden.
+       create:
+         success: Das Thema wurde angelegt.
+         failure: Das Thema konnte nicht angelegt werden.
+       update:
+         success: Das Thema wurde aktualisiert.
+         failure: Das Thema konnte nicht aktualisiert werden.
+       no_next_topic: Es gibt kein weiteres Thema. Das letzte Thema wird angezeigt.
+       no_previous_topic: Es gibt kein vorhergehendes Thema. Das erste Thema wird angezeigt.
+     confirm_destroy: Sind Sie sicher, daß Sie diesen Eintrag löschen wollen?
+     confirm_delete: Sind Sie sicher, daß Sie dieses Thema löschen wollen ?
+   posts:
+     titles:
+       reply: Geben Sie eine Antwort
+       edit: Eintrag bearbeiten 
+       save_post: Eintrag speichern
+       submit_post: Eintrag abschicken
+     flash:
+       destroy:
+         success: Der Eintrag wurde gelöscht.
+       create:
+         success: Der Eintrag wurde gespeichert.
+         failure: Der Eintrag konnte nicht gespeichert werden.
+       update:
+         success: Der Eintrag wurde aktualisiert.
+         failure: Der Eintrag konnte nicht aktualisiert werden.
+   spam:
+     hints:
+       filters: Wenn Kommentare erstellt werden, werden die folgenden Filter genutzt, um den Spam-Status zu prüfen.
+     options:
+       default_ham_none: Keinen Kommentar automatisch freigeben.
+       default_ham_all: Alle Kommentare automatisch freigeben.
+       default_ham_authenticated: Kommentare von authentifizierten Benutzern freigeben.
+     labels:
+       api_key: API Schlüssel (API Key)
+       site_url: Webseiten-URL (Site URL)
+   info:
+     greeting_logged_in: Hallo <span>user</span>, Sie sind angemeldet.
+   footer:
+     powered_by: Webseite angetrieben von adva cms. Motiv inspiriert von depo.
+   flash:
+     authentication_required_role: Sie müssen die Rolle {{role}} haben, um diese Seite zu sehen.
+   sidebar:
+     titles:
+       tags: Tags
+       topics: Themen      

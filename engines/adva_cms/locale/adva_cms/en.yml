@@ -709,7 +709,6 @@ en:
         update:
           success: The post has been updated.
           failure: The post could not be updated.
-
     spam:
       hints:
         filters: When comments are posted, the following filters are used to check their spam status.
