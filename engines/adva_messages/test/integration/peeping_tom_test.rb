@@ -50,9 +50,6 @@ class PeepingTomTest < ActionController::IntegrationTest
     
     # Instead of seeing the reply form, peeping tom is redirected to his own inbox
     assert_redirected_to '/messages'
-    
-    # and my message is not read
-    assert @first_message.read_at == nil
   end
   
   def test_cannot_delete_my_messages
