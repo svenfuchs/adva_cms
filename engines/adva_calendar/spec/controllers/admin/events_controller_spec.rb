@@ -41,7 +41,7 @@ describe Admin::EventsController do
     act! { request_to :get, @new_member_path }
     it_assigns :event
     it_renders_template :new
-    it_guards_permissions :create, :event
+    it_guards_permissions :create, :calendar_event
 
     it "instantiates a new event from section.events" do
       @section.events.should_receive(:build).and_return Calendar::Event.new(:title => 'New event')
@@ -53,7 +53,7 @@ describe Admin::EventsController do
     act! { request_to :get, @edit_member_path }
     it_assigns :event
     it_renders_template :edit
-    it_guards_permissions :update, :event
+    it_guards_permissions :update, :calendar_event
   
     it "fetches a event from section.events" do
       @section.events.should_receive(:find).and_return @event
@@ -67,7 +67,7 @@ describe Admin::EventsController do
     end
 
     act! { request_to :post, @collection_path }
-    it_guards_permissions :create, :event
+    it_guards_permissions :create, :calendar_event
     it_assigns :event
 
     it "instantiates a new event from section.events" do
@@ -97,7 +97,7 @@ describe Admin::EventsController do
     
     act! { request_to :put, @member_path }
     it_assigns :event
-    it_guards_permissions :update, :event
+    it_guards_permissions :update, :calendar_event
   
     it "updates the event with the event params" do
       @event.should_receive(:update_attributes).and_return true
@@ -127,7 +127,7 @@ describe Admin::EventsController do
     
     act! { request_to :delete, @member_path }
     it_assigns :event
-    it_guards_permissions :destroy, :event
+    it_guards_permissions :destroy, :calendar_event
   
     it "fetches a event from section.events" do
       @section.events.should_receive(:find).and_return @event
