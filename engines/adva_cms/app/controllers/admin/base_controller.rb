@@ -29,7 +29,7 @@ class Admin::BaseController < ApplicationController
 
   def admin_section_contents_path(section)
     type = section.class.content_type.pluralize.downcase
-    send(:"admin_#{type}_path", section.site, section)
+    send(:"admin_#{type.gsub('::', '_').underscore}_path", section.site, section)
   end
 
   def new_admin_content_path(section)
