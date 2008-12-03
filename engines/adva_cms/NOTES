@@ -1,39 +1,4 @@
-TODO I18n strings
-  adva_cms
-    _user_activity.html.erb
-    showed up <%= distance_of_time_in_words_to_now(user.updated_at) %> ago
-    Josh: <%=t :'adva.common.latest_activity', :time_ago => distance_of_time_in_words_to_now(user.updated_at) %>
 
-    theme_files/_files.html.erb
-    type.titleize
-    Josh: Ideally, titleize would be localized, maybe should be part of Globalize2. 
-    How bad does this look in German? We should check other languages.
-    
-    helpers/base_helper.rb
-    #pluralize_str
-    Josh: I've been replacing these with i18n translations and using i18n's pluralization. No need for this method anymore.
-    
-    models/section.rb
-    validates_numericality_of :articles_per_page, :only_integer => true, :message => "can only be whole number."
-    Josh: :message => :only_integer; add to locale file: messages.only_integer
-
-    lib/roles.rb
-    :message => 'You need to be logged in to perform this action.'
-    Josh: should probably be like AR validations: :message => :login_required; in yaml: adva.role.login_required
-  
-  adva_comments/comments_controller
-    flash[:error] = @comment.errors.full_messages.to_sentence
-    Josh: to_sentence is supported by i18n -- this should be fine
-    
-  adva_comments/comments_helper (in admin)
-    comment_expiration_options
-    Josh: Not sure what the issue is. I'd namespace it under something like adva.comment.expiration.not_allowed
-    
-  adva_forum
-    forum.rb
-      validates_numericality_of :topics_per_page, :only_integer => true, :message => "can only be whole number."
-    Josh: see above, models/section.rb
-    
 * add roles interface
 * remove observers and make behaviour more explicit by using events/listeners?
   e.g. page caching

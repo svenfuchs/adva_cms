@@ -74,7 +74,9 @@ class Admin::BaseController < ApplicationController
     end
 
     def set_locale
+      params[:locale] =~ /^[\w]{2}$/ or raise 'invalid locale' if params[:locale]
       I18n.locale = params[:locale] || I18n.default_locale
+      I18n.locale.untaint
     end
 
     def set_timezone

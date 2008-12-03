@@ -14,11 +14,14 @@ describe Conversation do
   describe "methods:" do
     before :each do
       @conversation                = Factory :conversation
-      @conversation.messages.create Factory.attributes_for(:message)
-      @conversation.messages.create Factory.attributes_for(:reply)
+      @conversation.messages.build Factory.attributes_for(:message)
+      @conversation.messages.build Factory.attributes_for(:reply)
     end
     
     describe "#mark_messages_as_read" do
+      before :each do
+        @conversation.messages.length.should > 0
+      end
       it "marks all the messages as read" do
         @conversation.mark_messages_as_read
         @conversation.messages.each do |message|

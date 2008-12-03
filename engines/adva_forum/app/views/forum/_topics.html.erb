@@ -1,8 +1,8 @@
 <h2>
   <%= @section.title %>
   <span class="meta">
-    <%= pluralize_str @section.topics_count, '%s topic' %>,
-    <%= pluralize_str @section.comments_count, '%s post' %> &middot;
+    <%= t(:'adva.boards.topics_count', :counts => @section.topics_count) %>,
+    <%= t(:'adva.boards.comments_count', :counts => @section.comments_count) %> &middot;
     <%= link_to t(:'adva.topics.links.new_topic'), @board ? new_board_topic_path(@section, @board) : new_topic_path(@section) %>
   </span>
 </h2>

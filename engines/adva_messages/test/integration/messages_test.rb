@@ -10,7 +10,7 @@ class AnonymousCannotAccessMessagesTest < ActionController::IntegrationTest
   end
 end
 
-class UserBrowsesMesssageFoldersTest < ActionController::IntegrationTest
+class UserBrowsesMessageFoldersTest < ActionController::IntegrationTest
   def setup
     factory_scenario :site_with_a_section
     login_as :user
@@ -60,7 +60,7 @@ class UserManipulatesMessages < ActionController::IntegrationTest
   def setup
     factory_scenario :site_with_a_section
     login_as :user
-    factory_scenario :user_with_messages
+    factory_scenario :user_with_conversation
   end
   
   def test_the_user_deletes_a_message_from_inbox

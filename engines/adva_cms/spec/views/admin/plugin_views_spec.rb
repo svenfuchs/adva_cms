@@ -15,7 +15,6 @@ describe "Admin::Plugins:" do
     template.stub!(:admin_plugins_path).and_return(@collection_path)
     template.stub!(:admin_plugin_path).and_return(@member_path)
 
-    template.stub!(:pluralize_str)
     template.stub!(:will_paginate)
   end
 

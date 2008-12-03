@@ -12,7 +12,6 @@ describe "Admin::CachedPages:" do
     template.stub!(:admin_cached_pages_path).and_return(@collection_path)
     template.stub!(:admin_cached_page_path).and_return(@member_path)
 
-    template.stub!(:pluralize_str)
     template.stub!(:will_paginate)
   end
 

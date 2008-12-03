@@ -41,7 +41,8 @@ class Section < ActiveRecord::Base
 
   validates_presence_of :title # :site wtf ... this breaks install_controller#index
   validates_uniqueness_of :permalink, :scope => :site_id
-  validates_numericality_of :articles_per_page, :only_integer => true, :message => "can only be whole number."
+  validates_numericality_of :articles_per_page, :only_integer => true, :message => :only_integer
+
   # TODO validates_inclusion_of :articles_per_page, :in => 1..30, :message => "can only be between 1 and 30."
 
   delegate :spam_engine, :to => :site
