@@ -2,6 +2,7 @@
 	<div id="message-header">
 		<h2><%= h(message.subject) %></h2>
 		<p id="message-sender">
+			Sent <%= time_ago_in_words message.created_at %> ago<br />
 			from: <%= message.sender.name %>
 		</p>
 	</div>

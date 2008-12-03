@@ -1,7 +1,7 @@
 <div id="<%= dom_id(message) %>">
 	<div class="content">
 		<p>
-			<%= link_to h(message.subject), conversation_path(message.conversation) %>
+			<%= link_to h(message.subject), conversation_path(message.conversation, :anchor => dom_id(message)) %>
 			<%= link_to 'delete', message_path(message), :method => :delete,
 			    :confirm => "Are you sure you wish to delete this message?" %>
 			<%= link_to 'reply', reply_message_path(message) %>
