@@ -11,7 +11,7 @@
   </div>
   <div class="col">
     <%= f.label :host, t(:'adva.sites.label.host') %>
-    <!-- <span class="hint">t(:'admin.sites.hints.host_name')</span> -->
+    <!-- <span class="hint"><%= t(:'adva.sites.hints.host_name') %></span> -->
     <%= f.text_field :host, :tabindex => 2 %>
   	<%= f.label :subtitle, t(:'adva.sites.label.subtitle') %>
   	<%= f.text_field :subtitle, :tabindex => 4 %>
@@ -25,7 +25,7 @@
 <fieldset class="clearfix">
   <div class="col"> 
     <%= f.label :comment_filter, 'Comments filter' %>
-    <span class="hint">t(:'adva.comments.hints.comments_filter')</span>
+    <span class="hint"><%= t(:'adva.comments.hints.comments_filter') %></span>
   </div>
   <div class="col"> 
     <span class="hint">&nbsp;</span>
@@ -36,8 +36,8 @@
 <h2><%= t(:'adva.titles.spam_protection') %></h2>
 <fieldset id="site_spam_settings_fields" class="clearfix">  
   <div class="col1"> 
-    <h4>t(:'adva.titles.spam_filters')</h4>
-    <span class="hint">t(:'adva.spam.hints.filters')</span>
+    <h4><%= t(:'adva.titles.spam_filters') %></h4>
+    <span class="hint"><%= t(:'adva.spam.hints.filters') %></span>
     <% SpamEngine::Filter.names.each do |name| %>
     <h3><%= name %></h3>
     <p>

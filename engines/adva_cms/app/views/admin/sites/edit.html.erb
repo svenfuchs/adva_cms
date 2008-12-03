@@ -1,12 +1,12 @@
 <% content_for :sidebar do -%>
-  <h3>t(:'adva.titles.manage')</h3>
+  <h3><%= t(:'adva.titles.manage') %></h3>
   <ul>
     <li><%= link_to t(:'adva.titles.site'), edit_admin_site_path(@site) %></li>
     <li><%= link_to t(:'adva.titles.themes'), admin_themes_path(@site) %></li>
     <li><%= link_to t(:'adva.titles.cache'), admin_cached_pages_path(@site) %></li>
   </ul>
 
-  <h3>t(:'adva.titles.actions')</h3>
+  <h3><%= t(:'adva.titles.actions') %></h3>
   <ul>
     <li><%= link_to t(:'adva.sites.links.delete'), admin_site_path, { :confirm => t(:'adva.sites.confirm_delete'), :method => :delete } %></li>
   </ul>
