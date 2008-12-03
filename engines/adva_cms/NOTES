@@ -1,9 +1,3 @@
-TODO I18n strings
-  adva_cms
-    lib/roles.rb
-    :message => 'You need to be logged in to perform this action.'
-    
-
 
 * add roles interface
 * remove observers and make behaviour more explicit by using events/listeners?
