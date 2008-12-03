@@ -1,0 +1,9 @@
+en:
+  adva:
+    theme:
+      validation:
+        empty_name: "Name can't be empty"  
+  activerecord:
+    errors:  
+      messages:
+        no_slashes: may not contain slashes

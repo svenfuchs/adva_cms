@@ -18,7 +18,7 @@ module ThemeSupport
 
         validates_each 'theme_names' do |record, attr, value|
           record.theme_names.each do |theme_name|
-            record.errors.add('theme_name', "may not contain slashes") if theme_name =~ /[\\\/]+/
+            record.errors.add('theme_name', :no_slashes) if theme_name =~ /[\\\/]+/
           end if record.theme_names
         end
 

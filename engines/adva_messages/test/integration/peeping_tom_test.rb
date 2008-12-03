@@ -41,6 +41,17 @@ class PeepingTomTest < ActionController::IntegrationTest
     assert @first_message.read_at == nil
   end
   
+  def test_cannot_answer_to_my_messages
+    # Check that there is one conversation
+    @johan_mcdoe.conversations.count == 1
+    
+    # Peeping tom tries to go to reply to message he is not part of
+    get reply_message_path(@first_message)
+    
+    # Instead of seeing the reply form, peeping tom is redirected to his own inbox
+    assert_redirected_to '/messages'
+  end
+  
   def test_cannot_delete_my_messages
     # Check that there is one conversation
     @johan_mcdoe.conversations.count == 1

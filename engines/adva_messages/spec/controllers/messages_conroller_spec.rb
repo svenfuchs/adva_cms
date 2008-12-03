@@ -44,12 +44,23 @@ describe MessagesController do
   end
   
   describe "GET to show" do
-    act! { request_to :get, "/messages/#{@message.id}" }
-    it_assigns :message
+    describe "with valid message" do
+      act! { request_to :get, "/messages/#{@message.id}" }
+      it_assigns :message
     
-    it "marks message as read" do
-      @message.should_receive(:mark_as_read)
-      act!
+      it "marks message as read" do
+        @message.should_receive(:mark_as_read)
+        act!
+      end
+    end
+    
+    describe "with invalid message" do
+      before :each do
+        @user.messages.stub!(:include?).with(@message).and_return(false)
+      end
+      act! { request_to :get, "/messages/#{@message.id}" }
+      it_assigns_flash_cookie :error => :not_nil
+      it_redirects_to {'/messages'}
     end
   end
   
@@ -63,15 +74,26 @@ describe MessagesController do
   end
   
   describe "GET to reply" do
-    before :each do
-      Message.stub!(:reply_to).and_return @message
-    end
-    act! { request_to :get, "/messages/#{@message.id}/reply" }
-    it_assigns :message
+    describe "with valid message" do
+      before :each do
+        Message.stub!(:reply_to).and_return @message
+      end
+      act! { request_to :get, "/messages/#{@message.id}/reply" }
+      it_assigns :message
     
-    it "assigns a new message" do
-      Message.should_receive(:reply_to).with(@message)
-      act!
+      it "assigns a new message" do
+        Message.should_receive(:reply_to).with(@message)
+        act!
+      end
+    end
+    
+    describe "with invalid message" do
+      before :each do
+        @user.messages.stub!(:include?).with(@message).and_return(false)
+      end
+      act! { request_to :get, "/messages/#{@message.id}/reply" }
+      it_assigns_flash_cookie :error => :not_nil
+      it_redirects_to {'/messages'}
     end
   end
   
@@ -94,6 +116,7 @@ describe MessagesController do
     describe "with valid parameters" do
       it_redirects_to { 'http://test.host/messages' }
       it_triggers_event :message_created
+      it_assigns_flash_cookie :notice => :not_nil
       
       it "saves the message" do
         @message.should_receive(:save).and_return true
@@ -106,6 +129,7 @@ describe MessagesController do
         @message.stub!(:save).and_return false
       end
       it_renders_template :new
+      it_assigns_flash_cookie :error => :not_nil
       it_does_not_trigger_any_event
     end
     
@@ -116,21 +140,34 @@ describe MessagesController do
         @message.stub!(:save).and_return false
       end
       it_renders_template :reply
+      it_assigns_flash_cookie :error => :not_nil
       it_does_not_trigger_any_event
     end
   end
   
   describe "DELETE to destroy" do
-    before :each do
-      @message.stub!(:mark_as_deleted)
-    end
-    act! { request_to :delete, "/messages/#{@message.id}"}
-    it_assigns :message
-    it_redirects_to { 'http://test.host/messages' }
+    describe "with valid message" do
+      before :each do
+        @message.stub!(:mark_as_deleted)
+      end
+      act! { request_to :delete, "/messages/#{@message.id}"}
+      it_assigns :message
+      it_assigns_flash_cookie :notice => :not_nil
+      it_redirects_to { 'http://test.host/messages' }
     
-    it "sets message as deleted for recipient" do
-      @message.should_receive(:mark_as_deleted).with(@user)
-      act!
+      it "sets message as deleted for recipient" do
+        @message.should_receive(:mark_as_deleted).with(@user)
+        act!
+      end
+    end
+    
+    describe "with invalid message" do
+      before :each do
+        @user.messages.stub!(:include?).with(@message).and_return(false)
+      end
+      act! { request_to :delete, "/messages/#{@message.id}" }
+      it_assigns_flash_cookie :error => :not_nil
+      it_redirects_to {'/messages'}
     end
   end
 end

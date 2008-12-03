@@ -33,14 +33,28 @@ describe ConversationsController do
   describe "GET to show" do
     before :each do
       @conversation = Conversation.create
-      @user.conversations.stub!(:find).and_return(@conversation)
     end
-    act! { request_to :get, "/conversations/#{@conversation.id}" }
-    it_assigns :conversation
     
-    it "marks all the messages as read" do
-      @conversation.should_receive(:mark_messages_as_read)
-      act!
+    describe "with valid conversation" do
+      before :each do
+        @user.conversations.stub!(:find).and_return(@conversation)
+      end
+      act! { request_to :get, "/conversations/#{@conversation.id}" }
+      it_assigns :conversation
+    
+      it "marks all the messages as read" do
+        @conversation.should_receive(:mark_messages_as_read)
+        act!
+      end
+    end
+    
+    describe "with invalid conversation" do
+      before :each do
+        @user.conversations.stub!(:find).and_raise ActiveRecord::RecordNotFound
+      end
+      act! { request_to :get, "/conversations/#{@conversation.id}" }
+      it_assigns_flash_cookie :error => :not_nil
+      it_redirects_to {'/messages'}
     end
   end
 end
