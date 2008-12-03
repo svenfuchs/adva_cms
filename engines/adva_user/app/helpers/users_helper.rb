@@ -1,7 +1,7 @@
 module UsersHelper
   def who(name)
     name = name.name if name.is_a? User
-    return current_user && current_user.name == name ? "You" : name
+    return current_user && current_user.name == name ? t(:'adva.common.you') : name
   end
 
   def gravatar_img(user, options = {})
@@ -18,6 +18,9 @@ module UsersHelper
   end
   
   def link_to_cancel(site = nil)
-    site.nil? ? link_to("cancel", admin_users_path) : link_to("cancel", admin_site_users_path(site))
+    # TODO ...
+    site.nil? ? 
+      link_to(t(:'adva.common.cancel'), admin_users_path) : 
+      link_to(t(:'adva.common.cancel'), admin_site_users_path(site))
   end
 end

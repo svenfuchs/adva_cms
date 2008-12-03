@@ -24,10 +24,10 @@ class Admin::UsersController < Admin::BaseController
     if @user.update_attributes(params[:user])
       @user.verify! # TODO hu??
       trigger_events @user
-      flash[:notice] = "The user account has been created."
+      flash[:notice] = t(:'adva.users.flash.create.success')
       redirect_to member_path(@user)
     else
-      flash.now[:error] = "The user account could not be created."
+      flash.now[:error] = t(:'adva.users.flash.create.failure')
       render :action => :new
     end
   end
@@ -38,10 +38,10 @@ class Admin::UsersController < Admin::BaseController
   def update
     if @user.update_attributes params[:user]
       trigger_events @user
-      flash[:notice] = "The user account has been updated."
+      flash[:notice] = t(:'adva.users.flash.update.success')
       redirect_to @user.is_site_member?(@site) ? member_path(@user) : collection_path
     else
-      flash.now[:error] = "The user account could not be updated."
+      flash.now[:error] = t(:'adva.users.flash.update.failure')
       render :action => :edit
     end
   end
@@ -49,10 +49,10 @@ class Admin::UsersController < Admin::BaseController
   def destroy
     if @user.destroy
       trigger_events @user
-      flash[:notice] = "The user account has been deleted."
+      flash[:notice] = t(:'adva.users.flash.destroy.success')
       redirect_to collection_path
     else
-      flash.now[:error] = "The user account could not be deleted."
+      flash.now[:error] = t(:'adva.users.flash.destroy.failure')
       render :action => :edit
     end
   end

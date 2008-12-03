@@ -58,31 +58,6 @@ describe BaseHelper do
     end
   end
 
-  describe '#pluralize_str' do
-    before :each do
-      @singular = 'apple'
-      @plural = 'apples'
-      @singular_with_format = '%s apple'
-    end
-
-    it 'returns the singular of the passed string if count equals 1' do
-      helper.pluralize_str(1, @singular, @plural).should == 'apple'
-    end
-
-    it 'returns the passed plural of the passed string if count equals 1 and a plural has been passed' do
-      helper.pluralize_str(2, @singular, @plural).should == 'apples'
-    end
-
-    it "returns the passed singluar's pluralization if count equals 1 and no plural has been passed" do
-      ActiveSupport::Inflector.should_receive(:pluralize).and_return 'cherries'
-      helper.pluralize_str(2, @singular).should == 'cherries'
-    end
-
-    it 'interpolates the count to the returned result' do
-      helper.pluralize_str(2, @singular_with_format).should == '2 apples'
-    end
-  end
-
   describe 'date helpers' do
     before :each do
       Time.zone.stub!(:now).and_return Time.local(2008, 1, 2)

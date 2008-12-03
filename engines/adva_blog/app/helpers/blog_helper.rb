@@ -1,10 +1,11 @@
 module BlogHelper
   def collection_title(category=nil, tags=nil)
     title = []
-    title << "from #{archive_month.strftime('%B %Y')}" if archive_month
-    title << "about #{category.title}" if category
-    title << "tagged #{tags.to_sentence}" if tags
     'Articles ' + title.join(', ') unless title.empty?
+    title << t( :'adva.blog.title.date', :date => l(archive_month, :format => '%B %Y') ) if archive_month
+    title << t( :'adva.blog.title.about', :category => category.title ) if category
+    title << t( :'adva.blog.title.tags', :tags => tags.to_sentence ) if tags
+    t( :'adva.blog.title.articles', :articles => title.join(', ') ) unless title.empty?
   end
 
   def archive_month

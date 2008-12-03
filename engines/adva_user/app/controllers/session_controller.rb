@@ -13,19 +13,19 @@ class SessionController < BaseController
   def create
     if authenticate_user params[:user]
       remember_me! if params[:user][:remember_me]
-      flash[:notice] = 'Logged in successfully.'
+      flash[:notice] = t(:'adva.session.flash.create.success')
       redirect_to return_from(:login)
     else
       @user = User.new :email => params[:user][:email]
       @remember_me = params[:user][:remember_me]
-      flash.now[:error] = 'Could not login with this email and password.'
+      flash.now[:error] = t(:'adva.session.flash.create.failure')
       render :action => 'new'
     end
   end
 
   def destroy
     logout
-    flash[:notice] = 'Logged out successfully.'
+    flash[:notice] = t(:'adva.session.flash.destroy.success')
     redirect_to '/'
   end
 

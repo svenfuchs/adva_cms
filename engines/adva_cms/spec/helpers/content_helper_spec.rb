@@ -213,9 +213,6 @@ describe ContentHelper, "#links_to_content_categories" do
     helper.links_to_content_categories(@article).should == ['link_to_category', 'link_to_category']
   end
 
-  it "given a format_string as second argument it joins the links with a comman and interpolates them to the format_string" do
-    helper.links_to_content_categories(@article, '<b>%s</b>').should == '<b>link_to_category, link_to_category</b>'
-  end
 end
 
 describe ContentHelper, "#link_to_tag" do
@@ -258,9 +255,6 @@ describe ContentHelper, '#links_to_content_tags' do
     helper.links_to_content_tags(@article).should == ['link_to_tag', 'link_to_tag']
   end
 
-  it "given a format_string as second argument it joins the links with a comman and interpolates them to the format_string" do
-    helper.links_to_content_tags(@article, '<b>%s</b>').should == '<b>link_to_tag, link_to_tag</b>'
-  end
 end
 
 describe ContentHelper, "#content_category_checkbox" do
