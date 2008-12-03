@@ -7,55 +7,19 @@ module Webrat
       end
       
       def matches?(stringlike)
-        if defined?(Nokogiri::XML)
-          matches_nokogiri?(stringlike)
+        if Webrat.configuration.parse_with_nokogiri?
+          @document = Webrat.nokogiri_document(stringlike)
         else
-          matches_rexml?(stringlike)
+          @document = Webrat.hpricot_document(stringlike)
         end
-      end
-    
-      def matches_rexml?(stringlike)
-        @document = rexml_document(stringlike)
-        @element = @document.inner_text
-      
-        case @content
-        when String
-          @element.include?(@content)
-        when Regexp
-          @element.match(@content)
-        end
-      end
-    
-      def matches_nokogiri?(stringlike)
-        @document = Webrat.nokogiri_document(stringlike)
-        @element = @document.inner_text
-      
-        case @content
-        when String
-          @element.include?(@content)
-        when Regexp
-          @element.match(@content)
-        end
-      end
-    
-      def rexml_document(stringlike)
-        stringlike = stringlike.body.to_s if stringlike.respond_to?(:body)
         
-        case stringlike
-        when REXML::Document
-          stringlike.root
-        when REXML::Node
-          stringlike
-        when StringIO, String
-          begin
-            REXML::Document.new(stringlike.to_s).root
-          rescue REXML::ParseException => e
-            if e.message.include?("second root element")
-              REXML::Document.new("<fake-root-element>#{stringlike}</fake-root-element>").root
-            else
-              raise e
-            end
-          end
+        @element = Webrat::XML.inner_text(@document)
+      
+        case @content
+        when String
+          @element.include?(@content)
+        when Regexp
+          @element.match(@content)
         end
       end
       
@@ -83,9 +47,6 @@ module Webrat
     
     # Matches the contents of an HTML document with
     # whatever string is supplied
-    #
-    # ---
-    # @api public
     def contain(content)
       HasContent.new(content)
     end

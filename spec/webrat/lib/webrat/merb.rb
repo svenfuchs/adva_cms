@@ -1,4 +1,4 @@
-require "webrat/core"
+require "webrat"
 
 require "cgi"
 gem "extlib"
@@ -52,8 +52,8 @@ module Webrat
   end
 end
 
-module Merb
-  module Test
+module Merb #:nodoc:
+  module Test #:nodoc:
     module RequestHelper #:nodoc:
       def request(uri, env = {})
         @_webrat_session ||= Webrat::MerbSession.new
@@ -72,4 +72,6 @@ class Merb::Test::RspecStory #:nodoc:
     @browser ||= Webrat::MerbSession.new
   end
 end
+
+Webrat.configuration.mode = :merb
 

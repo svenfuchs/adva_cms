@@ -1,3 +1,6 @@
+require "webrat/core/xml/nokogiri"
+require "webrat/core/xml/rexml"
+
 module Webrat
   module Matchers
     
@@ -8,7 +11,7 @@ module Webrat
       end
     
       def matches?(stringlike)
-        if defined?(Nokogiri::XML)
+        if Webrat.configuration.parse_with_nokogiri?
           matches_nokogiri?(stringlike)
         else
           matches_rexml?(stringlike)
@@ -16,9 +19,13 @@ module Webrat
       end
     
       def matches_rexml?(stringlike)
-        @query = query
+        if REXML::Node === stringlike || Array === stringlike
+          @query = query.map { |q| q.gsub(%r'//', './') }
+        else
+          @query = query
+        end
 
-        @document = rexml_document(stringlike)
+        @document = Webrat.rexml_document(stringlike)
 
         matched = @query.map do |q|
           if @document.is_a?(Array)
@@ -38,31 +45,9 @@ module Webrat
           @query = query
         end
         
-        @document = Webrat.nokogiri_document(stringlike)
+        @document = Webrat::XML.document(stringlike)
         matched = @document.xpath(*@query)
         matched.any? && (!@block || @block.call(matched))
-      end
-    
-      def rexml_document(stringlike)
-        stringlike = stringlike.body.to_s if stringlike.respond_to?(:body)
-        
-        case stringlike
-        when REXML::Document
-          stringlike.root
-        when REXML::Node, Array
-          @query = query.map { |q| q.gsub(%r'//', './') }
-          stringlike
-        else
-          begin
-            REXML::Document.new(stringlike.to_s).root
-          rescue REXML::ParseException => e
-            if e.message.include?("second root element")
-              REXML::Document.new("<fake-root-element>#{stringlike}</fake-root-element>").root
-            else
-              raise e
-            end
-          end
-        end
       end
       
       def query
@@ -89,8 +74,6 @@ module Webrat
     #
     # ==== Returns
     # HaveXpath:: A new have xpath matcher.
-    # ---
-    # @api public
     def have_xpath(expected, &block)
       HaveXpath.new(expected, &block)
     end
