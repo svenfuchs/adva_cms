@@ -1,4 +1,8 @@
 en:
+  activerecord:
+    errors:
+      messages:
+        only_integer: can only be whole number.
   adva:
     common:
       about: About
