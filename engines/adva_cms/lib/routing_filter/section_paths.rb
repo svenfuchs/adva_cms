@@ -6,7 +6,7 @@ module RoutingFilter
     def around_recognize(path, env, &block)
       site = Site.find_by_host(env[:host_with_port])
       paths = paths_for_site(site)
-      if path !~ %r(^/admin) and !paths.empty? and path =~ recognize_pattern(paths)
+      if path !~ %r(^/([\w]{2,4}/)?admin) and !paths.empty? and path =~ recognize_pattern(paths)
         if section = section_by_path(site, $2)
           type = section.type.pluralize.downcase
           path.sub! %r(^/([\w]{2,4}/)?(#{paths})(?=/|\.|$)), "/#{$1}#{type}/#{section.id}#{$3}"
@@ -17,7 +17,7 @@ module RoutingFilter
 
     def around_generate(*args, &block)
       returning yield do |result| 
-        if result !~ %r(^/admin/) and result =~ generate_pattern
+        if result !~ %r(^/([\w]{2,4}/)?admin) and result =~ generate_pattern
           section = Section.find $2.to_i
           result.sub! "#{$1}/#{$2}", "#{section.path}#{$3}"
         end

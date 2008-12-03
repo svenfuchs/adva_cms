@@ -59,12 +59,12 @@ describe UsersHelper do
   
   describe '#link_to_cancel' do
     it "returns an url to admin/users if site is not set" do
-      helper.link_to_cancel.should == "<a href=\"/admin/users\">cancel</a>"
+      helper.link_to_cancel.should == "<a href=\"/admin/users\">Cancel</a>"
     end
     
     it "returns an url to admin/site/1/users if site is set" do
       site = mock_model(Site, :id => 1)
-      helper.link_to_cancel(site).should == "<a href=\"/admin/sites/1/users\">cancel</a>"
+      helper.link_to_cancel(site).should == "<a href=\"/admin/sites/1/users\">Cancel</a>"
     end
   end
 end

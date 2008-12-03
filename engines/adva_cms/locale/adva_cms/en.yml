@@ -9,24 +9,27 @@ en:
       details: Details
       by_author: by {{author}}
       cancel: Cancel
-      edit: edit
-      delete: delete
+      edit: Edit
+      delete: Delete
       hide: Hide
-      import: Import
-      upload: Upload
-      language: Language
-      none: none
-      next: next
-      previous: previous
       save: Save
       save_without_revision: Save without Revision
+      import: Import
+      upload: Upload
+      import: Import
+      subscribe: Subscribe
+      approve: Approve
+      unapprove: Unapprove
+      language: Language
+      none: none
+      next: Next
+      previous: Previous
       events: Events
       you: You
       connector:
         or: or
       "yes": "yes"
       by_author: by {{author}}
-      import: Import
       content_categories: "in {{links}}<br />"
       content_tags: "tagged: {{links}<br />"
     titles: 
@@ -78,6 +81,10 @@ en:
       website_home_section: Website home section
       welcome: Welcome!
       wikipages: Wikipages
+      history:
+        today: Today {{date}}
+        yesterday: Yesterday {{date}}
+        past: Before {{date}}
     links: 
       back: Back
       delete: Delete
@@ -173,6 +180,42 @@ en:
         update:
           success: The section has been updated.
           failure: The section could not be updated.
+    blog:
+      titles:
+        date: "from {{date}}"
+        about: "about {{category}}"
+        tags: "tagged {{tags}}"
+        articles: "Articles {{articles}}"
+        show_articles: "Show articles:"
+        manage: Manage
+        actions: Actions
+      links:
+        articles: Articles
+        categories: Categories
+        settings: Settings
+        create_article: Create a new article
+        create_article_now: "Create one now &raquo;"
+        more: Read the rest of this entry
+      options:
+        filter:
+          category: in category
+          tags: tagged with
+          title: whose title contains
+          body: whose body contains
+          draft: not published
+      tabs:
+        article: Article
+        comments: Comments
+        published: Published
+        author: Author
+      feeds:
+        category: Category {{category}}
+        tags:
+          one: "Tag: {{tags}}"
+          other: "Tags: {{tags}}"
+      no_articles: "There are no articles in {{section}}."
+      no_filtered_articles: "There are no articles matching that criteria in {{section}}"
+      attribution: "by: {{author}}"
     categories:
       attributes:
         name: name
@@ -319,6 +362,15 @@ en:
         under_review: This comment is currently under review.
       messages:
         not_allowed: "Comments are not allowed here."
+
+    activity:
+      none: Nothing happened
+      notifier:
+        new: New {{activity}} posted
+      view:
+        new: "{{name}} <{{email}}> just posted a new {{activity}} on {{site}} in section {{section}}."
+      comment: Comment {{actions}}
+      actions: "{{type}} {{actions}} in {{activity}}."
     signup:
       notifications:
         email_verification:
@@ -432,6 +484,70 @@ en:
           not_a_superuser: You need to be a superuser to perform this action.
           not_an_author: You need to be the author of this object to perform this action.
           not_a_moderator: You need to be a moderator to perform this action.
+    assets:
+      flash:
+        upload:
+          failure: The asset upload failed.
+        update:
+          success: The asset has been updated.
+          failure: The asset update failed.
+        delete:
+          success: "Deleted {{filename}}"
+          failure: The asset update failed.
+        destroy:
+          success: "{{asset}} detached from this {{content}}."
+        create:
+          first_success: "'{{asset}}' was uploaded."
+          success: 
+            one: "One asset was uploaded."
+            other: "{{count}} assets were uploaded."
+        add:
+          success: "{{asset}} added to bucket."
+        clear:
+          success: Asset bucket has been cleared.
+      validation:
+        duplicate: Cannot have a duplicate assignment for this content and asset
+      tab:
+        attached:
+          title: Attached assets
+          name: Attached
+        latest:
+          title: Latest assets uploaded
+          name: Latest
+        bucket:
+          title: Your asset bucket
+          name: Bucket
+        search:
+          title: Search for assets
+          name: Search
+        upload:
+          title: Upload new assets
+          name: Upload
+        audio: Audio
+        movies: Movies
+        pictures: Pictures
+        others: Others
+        tags: Tags
+        title: Title
+      new: New asset
+      add_to_bucket: Add to bucket
+      no_files: You have no files of this type or have yet to upload any files.
+      upload: 'Upload one now &raquo;'
+      enter_tags: 'Enter one or more tags separated by a comma or a space (for example, <em>"Web Dev" Tutorials</em> or <em>Web Dev, Tutorials</em>).'
+      save: Save Asset
+      your_bucket: Your bucket
+      add_files: Add files to your bucket temporarily in order to carry them with you when creating or revising articles.
+      upload_summary:
+        one: You have a uploaded <strong>one asset</strong>, using <strong>{{size}}</strong>.
+        other: You have a uploaded a total of <strong>{{count}} assets</strong>, using <strong>{{size}}</strong>.
+      stats: Some stats
+      upload:
+        files: Select files to upload
+        title: Title
+        tags: Tags (space separated)
+      delete: remove this file field
+      tag_all: Apply tags to all
+      add_file: Add another file
     themes:
       no_themes_available: You currently do not have any themes created.
       lables:

@@ -20,7 +20,7 @@
     	</h2> 
   	  <% if article.has_excerpt? %>
   	    <%= article.excerpt_html %>
-  	    <p><%= link_to_content t( :'adva.blog.link.more' ), article unless mode == :single %></p>
+  	    <p><%= link_to_content t( :'adva.blog.links.more' ), article unless mode == :single %></p>
   	  <% end %>
       <%= article.body_html if mode == :single || !article.has_excerpt? %>
     </div>      

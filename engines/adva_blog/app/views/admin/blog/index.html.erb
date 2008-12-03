@@ -1,7 +1,7 @@
 <% content_for :filter do %>
   <% form_tag admin_articles_path, :method => 'get', :id => 'article-search' do -%>
     <label for="search" class="inline">
-      <%=t :'adva.blog.title.show_articles' %>
+      <%=t :'adva.blog.titles.show_articles' %>
     </label>
     <select name="filter" id="filterlist">
       <%= options_for_select [[ t(:'adva.blog.options.filter.category'),  'category'],
@@ -20,16 +20,16 @@
 <% end -%>
 
 <% content_for :sidebar do -%>
-  <h3><%=t :'adva.blog.title.manage'  %></h3>
+  <h3><%=t :'adva.blog.titles.manage'  %></h3>
   <ul>
-    <li><%= link_to t(:'adva.blog.link.articles'), admin_articles_path(@site, @section) %></li>
-    <li><%= link_to t(:'adva.blog.link.categories'), admin_categories_path(@site, @section) %></li>
-    <li><%= link_to t(:'adva.blog.link.settings'), edit_admin_section_path(@site, @section) %></li>
+    <li><%= link_to t(:'adva.blog.links.articles'), admin_articles_path(@site, @section) %></li>
+    <li><%= link_to t(:'adva.blog.links.categories'), admin_categories_path(@site, @section) %></li>
+    <li><%= link_to t(:'adva.blog.links.settings'), edit_admin_section_path(@site, @section) %></li>
   </ul>
 
-  <h3><%=t :'adva.blog.title.actions' %></h3>
+  <h3><%=t :'adva.blog.titles.actions' %></h3>
   <ul>
-    <li><%= link_to t(:'adva.blog.link.create_article'), new_admin_article_path(@site) %></li>
+    <li><%= link_to t(:'adva.blog.links.create_article'), new_admin_article_path(@site) %></li>
   </ul>
 <% end -%>
 
@@ -42,10 +42,10 @@
   <table id="articles" class="list">
     <thead>
       <tr>
-        <th scope="col"><%=t :'adva.blog.tab.article' %></th>
-        <th scope="col"><%=t :'adva.blog.tab.comments' %></th>
-        <th scope="col"><%=t :'adva.blog.tab.published' %></th>
-        <th scope="col"><%=t :'adva.blog.tab.author' %></th>
+        <th scope="col"><%=t :'adva.blog.tabs.article' %></th>
+        <th scope="col"><%=t :'adva.blog.tabs.comments' %></th>
+        <th scope="col"><%=t :'adva.blog.tabs.published' %></th>
+        <th scope="col"><%=t :'adva.blog.tabs.author' %></th>
         <th scope="col">&nbsp;</th>
       </tr>
     </thead>
@@ -61,7 +61,7 @@
   <div class="empty">
     <% unless params[:filter] %>
       <%=t :'adva.blog.no_articles', :section => @section.title %>
-      <%= link_to t( :'adva.blog.link.create_article_now' ), new_admin_article_path(@site) %>
+      <%= link_to t( :'adva.blog.links.create_article_now' ), new_admin_article_path(@site) %>
     <% else %>
       <%=t :'adva.blog.no_filtered_articles', :section => @section.title %>
     <% end %>

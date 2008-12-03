@@ -9,7 +9,7 @@
     <%= f.text_field :title %>
   </p>
   <p>
-    <%= f.label :tag_list, 'Tags' %> <span class="hint"><%=t :'adva.asset.enter_tags' %></span>
+    <%= f.label :tag_list, 'Tags' %> <span class="hint"><%=t :'adva.assets.enter_tags' %></span>
     <%= f.text_field :tag_list %>
   </p>  
   <p>
@@ -17,7 +17,7 @@
     <%= f.file_field :uploaded_data %>
   </p>
   <p class="buttons">
-    <%= submit_tag t( :'adva.asset.save' ) %>
+    <%= submit_tag t( :'adva.assets.save' ) %>
     or <%= link_to t( :'adva.common.cancel' ), admin_assets_path %>
   </p>
 <% end -%>

@@ -1,9 +1,9 @@
 <%#= link_to 'Subscribe', overview_url, :class => 'feed right' %>
 <div class="history">
-  <h3><%=t :'adva.title.history.today', :date => todays_short_date %></h3>
+  <h3><%=t :'adva.titles.history.today', :date => todays_short_date %></h3>
   <%= render_activities activities[0], true %>
-  <h3><%=t :'adva.title.history.yesterday', :date => yesterdays_short_date %></h3>
+  <h3><%=t :'adva.titles.history.yesterday', :date => yesterdays_short_date %></h3>
   <%= render_activities activities[1], true %>
-  <h3><%=t :'adva.title.history.past', :date => yesterdays_short_date %></h3>
+  <h3><%=t :'adva.titles.history.past', :date => yesterdays_short_date %></h3>
   <%= render_activities activities[2] %>
 </div>

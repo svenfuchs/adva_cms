@@ -3,9 +3,9 @@
 <% form_for Asset.new, :url => admin_assets_path, :html => { :multipart => true, :id => 'asset_form' } do |f| %>
   <fieldset class="clearfix">
     <p>
-      <label id="file-label"><%=t :'adva.asset.upload.files' %></label>
-      <label id="title-label"><%=t :'adva.asset.upload.title' %></label>
-      <label id="taglist-label"><%=t :'adva.asset.upload.tags' %></label>
+      <label id="file-label"><%=t :'adva.assets.upload.files' %></label>
+      <label id="title-label"><%=t :'adva.assets.upload.title' %></label>
+      <label id="taglist-label"><%=t :'adva.assets.upload.tags' %></label>
     </p>
     <div id="files">
     <% @assets.each_with_index do |asset, i| %>
@@ -13,13 +13,13 @@
         <%= file_field_tag "assets[#{i}][uploaded_data]", :id => "assets_data_#{i}", :class => 'file_field' %>
         <%= text_field_tag "assets[#{i}][title]", asset.title, :class => 'title_field' %>
         <%= text_field_tag "assets[#{i}][tag_list]", asset.tag_list, :class => 'taglist_field' %>
-        <a href="#" class="remove-file" title="<%=t :'adva.asset.delete' %>" style="display: none;"><%= image_tag '/images/adva_cms/icons/delete.png' %></a>
-        <a href="#" class="tagall-files" id="tagall-files" style="display: none"><%=t :'adva.asset.tag_all' %></a>
+        <a href="#" class="remove-file" title="<%=t :'adva.assets.delete' %>" style="display: none;"><%= image_tag '/images/adva_cms/icons/delete.png' %></a>
+        <a href="#" class="tagall-files" id="tagall-files" style="display: none"><%=t :'adva.assets.tag_all' %></a>
       </p>
     <% end %>
     </div>
   </fieldset>
-  <a href="#" id="asset-add-file" class="widetab"><%=t :'adva.asset.add_file' %></a>  
+  <a href="#" id="asset-add-file" class="widetab"><%=t :'adva.assets.add_file' %></a>  
   <p class="buttons">
     <%= submit_tag t( :'adva.common.upload' ) %> or
     <%= link_to t( :'adva.common.cancel' ), admin_assets_path %>

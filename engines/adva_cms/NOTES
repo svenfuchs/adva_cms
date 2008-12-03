@@ -1,3 +1,17 @@
+adva_cms/lib/time_hacks.rb -- i18nize or replace with localize
+adva_cms/helpers/base_helper -- date stuff
+adva_cms/helpers/cached_pages_helper.rb -- i18nize
+adva_cms/helpers/content_helper.rb -- link_to_content_comments
+adva_cms Type, does this have to be localized? see: models/section.rb:66 and line 57
+
+$ grep -R "\Wt('"  *
+engines/adva_cms/app/views/admin/articles/index.html.erb:    <%= t('adva.articles.total_with_count', :count => @articles.total_entries) %>
+engines/adva_cms/app/views/admin/cached_pages/index.html.erb:    <%= t('adva.cached_pages.total_with_count', :count => @cached_pages.total_entries) %>
+engines/adva_cms/app/views/admin/categories/index.html.erb:    <%= t('adva.categories.total_with_count', :count => @categories.total_entries) %>
+engines/adva_user/app/views/password_mailer/reset_password_email.html.erb:<%= t('adva.passwords.notifications.reset_password.body', :name => @user.name, :link => @reset_link) %>
+engines/adva_user/app/views/password_mailer/updated_password_email.html.erb:<%= t('adva.passwords.notifications.password_updated.body', :name => @user.name) %>
+engines/adva_user/app/views/user_mailer/signup_verification_email.html.erb:<%= t('adva.signup.notifications.email_verification.body', :name => @user.name, :link => @verification_url) %>
+
 
 * add roles interface
 * remove observers and make behaviour more explicit by using events/listeners?
