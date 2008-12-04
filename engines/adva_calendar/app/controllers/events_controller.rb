@@ -10,8 +10,7 @@ class EventsController < BaseController
   acts_as_commentable
 
   caches_page_with_references :index, :show, :track => ['@event', '@events', '@category', {'@site' => :tag_counts, '@section' => :tag_counts}]
-  cache_sweeper :event_sweeper, :tag_sweeper, :category_sweeper, :only => [:create, :update, :destroy]
-  guards_permissions :event, :except => [:index, :show]
+  cache_sweeper :calendar_event_sweeper, :tag_sweeper, :category_sweeper, :only => [:create, :update, :destroy]
 
   def index
     source = @category ? @category.contents : @section.events
@@ -24,59 +23,10 @@ class EventsController < BaseController
     end
   end
 
-  def new
-    @event = Event.new(:title => 'a new event')
-  end
-
   def show
     respond_to do |format|
       format.html { render }
       format.ics { render :layout => false }
-    end
-  end
-
-  def diff
-    @diff = @event.diff_against_version params[:diff_version]
-  end
-
-  def create
-    if @event = @section.events.create(params[:event])
-      trigger_events @event
-      flash[:notice] = "The event has been calendared."
-      redirect_to calendar_event_path(:section_id => @section, :id => @event.permalink)
-    else
-      flash[:error] = "The event could not be saved."
-      render :action => :new
-    end
-  end
-
-  def edit
-  end
-
-  def update
-    params[:version] ? rollback : update_attributes
-  end
-
-  def update_attributes
-    if @event.update_attributes(params[:event])
-      trigger_events @event
-      flash[:notice] = "The event has been updated."
-      redirect_to calendar_event_path(:section_id => @section, :id => @event.permalink)
-    else
-      flash.now[:error] = "The event could not be updated."
-      render :action => :edit
-    end
-  end
-
-
-  def destroy
-    if @event.destroy
-      trigger_events @event
-      flash[:notice] = 'Event has been destroyed.'
-      redirect_to calendar_path(@section)
-    else
-      flash.now[:error] = "The event could not be deleted."
-      render :action => :show
     end
   end
 

@@ -17,8 +17,8 @@ describe Calendar do
     @calendar.should have_many(:categories)
   end
 
-  it ".content_type returns 'Calendar::Event'" do
-    Calendar.content_type.should == 'Calendar::Event'
+  it ".content_type returns 'CalendarEvent'" do
+    Calendar.content_type.should == 'CalendarEvent'
   end
   
 end

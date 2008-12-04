@@ -1,4 +1,4 @@
-define Calendar::Event do
+define CalendarEvent do
   belongs_to :calendar
   instance :event,
            :id => 1,
@@ -6,7 +6,10 @@ define Calendar::Event do
            :update_attributes => true,
            :attributes => true,
            :has_attribute? => true,
-           :destroy => true
+           :destroy => true,
+           :created_at => Time.now,
+           :startdate => Time.now,
+           :enddate => Time.now
 end
 
 

@@ -58,7 +58,7 @@ describe EventsController do
   describe "GET to #{calendar_path}" do
     act! { request_to(:get, calendar_path) }
     it_assigns :timespan, [Date.today, Date.today.end_of_month]
-    it "should call Event.upcoming from to today to end of month" do
+    it "should call CalendarEvent.upcoming from to today to end of month" do
       @section.events.should_receive(:upcoming, {Date.today, Date.today.end_of_month})
       act!
     end
@@ -66,7 +66,7 @@ describe EventsController do
   describe "GET to :index with a specific day" do
     act! { request_to(:get, calendar_day_path) }
     it_assigns :timespan, [Date.new(2008, 11, 27), Date.new(2008, 11, 27).end_of_day]
-    it "should call Event.upcoming" do
+    it "should call CalendarEvent.upcoming" do
       @section.events.should_receive(:upcoming, {Date.new(2008, 11, 27), Date.new(2008, 11, 27).end_of_day})
       act!
     end
@@ -74,14 +74,14 @@ describe EventsController do
   
   describe "GET to :index for recently updated events" do
     act! { request_to(:get, '/events/1', :recent => true) }
-    it "should call Event.recent" do
+    it "should call CalendarEvent.recent" do
       @section.events.should_receive(:recent)
       act!
     end
   end
   describe "GET to :index for elapsed updated events" do
     act! { request_to(:get, '/events/1', :elapsed => true) }
-    it "should call Event.elapsed" do
+    it "should call CalendarEvent.elapsed" do
       @section.events.should_receive(:elapsed)
       act!
     end
@@ -108,16 +108,16 @@ describe EventsController, 'page_caching' do
   include SpecControllerHelper
 
   before :each do
-    @event_sweeper = EventsController.filter_chain.find EventSweeper.instance
+    @event_sweeper = EventsController.filter_chain.find CalendarEventSweeper.instance
     @category_sweeper = EventsController.filter_chain.find CategorySweeper.instance
     @tag_sweeper = EventsController.filter_chain.find TagSweeper.instance
   end
 
-  it "activates the EventSweeper as an around filter" do
+  it "activates the CalendarEventSweeper as an around filter" do
     @event_sweeper.should be_kind_of(ActionController::Filters::AroundFilter)
   end
 
-  it "configures the EventSweeper to observe Event create, update and destroy events" do
+  it "configures the CalendarEventSweeper to observe CalendarEvent create, update and destroy events" do
     @event_sweeper.options[:only].to_a.sort.should == ['create', 'destroy', 'update']
   end
 
@@ -125,7 +125,7 @@ describe EventsController, 'page_caching' do
     @category_sweeper.should be_kind_of(ActionController::Filters::AroundFilter)
   end
 
-  it "configures the CategorySweeper to observe Event create, update and destroy events" do
+  it "configures the CategorySweeper to observe CalendarEvent create, update and destroy events" do
     @category_sweeper.options[:only].to_a.sort.should == ['create', 'destroy', 'update']
   end
 
@@ -133,7 +133,7 @@ describe EventsController, 'page_caching' do
     @tag_sweeper.should be_kind_of(ActionController::Filters::AroundFilter)
   end
 
-  it "configures the TagSweeper to observe Event create, update and destroy events" do
+  it "configures the TagSweeper to observe CalendarEvent create, update and destroy events" do
     @tag_sweeper.options[:only].to_a.sort.should == ['create', 'destroy', 'update']
   end
 
@@ -151,17 +151,17 @@ describe EventsController, 'page_caching' do
 
 end
 
-describe "EventSweeper" do
+describe CalendarEventSweeper do
   include SpecControllerHelper
   controller_name 'Events'
 
   before :each do
     stub_scenario :calendar_with_events
-    @sweeper = EventSweeper.instance
+    @sweeper = CalendarEventSweeper.instance
   end
 
-  it "observes Event" do
-    ActiveRecord::Base.observers.should include(:event_sweeper)
+  it "observes CalendarEvent" do
+    ActiveRecord::Base.observers.should include(:calendar_event_sweeper)
   end
 
   it "should expire pages that reference when an event was saved" do
