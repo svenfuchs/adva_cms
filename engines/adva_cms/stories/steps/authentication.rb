@@ -44,20 +44,20 @@ steps_for :authentication do
   end
 
   When "the user fills in the login form with valid credentials" do
-    fills_in :email, :with => 'email@email.org'
-    fills_in :password, :with => 'password'
+    fill_in :email, :with => 'email@email.org'
+    fill_in :password, :with => 'password'
   end
 
   When "the user fills in the login form with invalid credentials" do
-    fills_in :email, :with => 'invalid-email@email.org'
-    fills_in :password, :with => 'invalid password'
+    fill_in :email, :with => 'invalid-email@email.org'
+    fill_in :password, :with => 'invalid password'
   end
 
   When "the user fills in the user registration form with valid values" do
-    fills_in :"first name", :with => 'first name'
-    fills_in :"last name", :with => 'last name'
-    fills_in :email, :with => 'email@email.org'
-    fills_in :password, :with => 'password'
+    fill_in :"first name", :with => 'first name'
+    fill_in :"last name", :with => 'last name'
+    fill_in :email, :with => 'email@email.org'
+    fill_in :password, :with => 'password'
   end
 
   When "the user verifies their account" do

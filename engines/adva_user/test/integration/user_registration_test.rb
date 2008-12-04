@@ -16,14 +16,14 @@ class UserRegistrationTest < ActionController::IntegrationTest
 
   def test_user_registers_and_verifies_the_email
     # go to user registration page
-    visits "user/new"
+    visit "user/new"
 
     # fill in the form
-    fills_in "first name", :with => 'John'
-    fills_in "last name", :with => 'Doe'
-    fills_in "email", :with => 'email@test.com'
-    fills_in "password", :with => 'password'
-    clicks_button "Register"
+    fill_in "first name", :with => 'John'
+    fill_in "last name", :with => 'Doe'
+    fill_in "email", :with => 'email@test.com'
+    fill_in "password", :with => 'password'
+    click_button "Register"
 
     # the user should be there and not verified
     user = User.find_by_email('email@test.com')

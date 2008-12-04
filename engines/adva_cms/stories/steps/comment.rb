@@ -27,9 +27,9 @@ steps_for :comment do
   end
 
   When "the user fills in the form with his name, email and comment" do
-    fills_in 'name', :with => 'an anonymous name'
-    fills_in 'e-mail', :with => 'anonymous@email.org'
-    fills_in 'comment_body', :with => 'the comment body'
+    fill_in 'name', :with => 'an anonymous name'
+    fill_in 'e-mail', :with => 'anonymous@email.org'
+    fill_in 'comment_body', :with => 'the comment body'
   end
 
   When "the user goes to the comment show page" do

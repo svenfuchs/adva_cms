@@ -10,8 +10,8 @@ steps_for :plugin do
   end
 
   When "the user fills in the plugin config edit form" do
-    fills_in 'string', :with => 'custom string'
-    fills_in 'text', :with => 'custom text'
+    fill_in 'string', :with => 'custom string'
+    fill_in 'text', :with => 'custom text'
   end
 
   Then "the list contains all the plugins installed" do

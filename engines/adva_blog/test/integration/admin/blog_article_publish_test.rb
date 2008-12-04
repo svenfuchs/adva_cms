@@ -11,16 +11,16 @@ class BlogArticlePublishTest < ActionController::IntegrationTest
     get admin_articles_path(@site, @section)
     
     # click on the "Create one now" link
-    clicks_link "Create one now"
+    click_link "Create one now"
   
     # check that the article show page is rendered
     assert_template "admin/articles/new"
   
     # fill in the form and submit it
-    fills_in 'title', :with => 'the article title'
-    fills_in 'article[body]', :with =>'the article body'
-    fills_in 'article[tag_list]', :with => 'foo bar'
-    clicks_button 'Save'
+    fill_in 'title', :with => 'the article title'
+    fill_in 'article[body]', :with =>'the article body'
+    fill_in 'article[tag_list]', :with => 'foo bar'
+    click_button 'Save'
     
     # check the article was created
     article = Article.first
@@ -41,8 +41,8 @@ class BlogArticlePublishTest < ActionController::IntegrationTest
     get edit_admin_article_path(@site, @section, article)
     
     # publish the article
-    unchecks 'Yes, save this article as a draft'
-    clicks_button 'Save without Revision'
+    uncheck 'Yes, save this article as a draft'
+    click_button 'Save without Revision'
     
     # go to the frontend and view the article
     get article_path(@section, article.full_permalink)
@@ -59,7 +59,7 @@ class BlogArticlePublishTest < ActionController::IntegrationTest
     get edit_admin_article_path(@site, @section, article)
   
     # click the article link
-    clicks_link 'Preview'
+    click_link 'Preview'
   
     # check that the article is displayed
     assert_select "div#article_#{article.id}[class*=?]", 'entry' do
