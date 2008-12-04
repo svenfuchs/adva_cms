@@ -3,10 +3,12 @@ class Location < ActiveRecord::Base
 end
 
 class CalendarEvent < ActiveRecord::Base
+  acts_as_taggable
   acts_as_role_context :parent => 'Section'
   filters_attributes :sanitize => :body_html, :except => [:body, :cached_tag_list]
   before_create :set_published
   set_table_name :calendar_events
+  has_many :assets
   
   validates_presence_of :startdate
   validates_presence_of :title

@@ -79,6 +79,12 @@ Rbac.define do
               :'create comment'     => :user,
               :'update comment'     => :author,
               :'destroy comment'    => :moderator,
-              :'manage comment'     => :admin
+              :'manage comment'     => :admin,
+
+              :'show calendar_event' => :moderator,
+              :'create calendar_event' => :moderator,
+              :'update calendar_event' => :moderator,
+              :'destroy calendar_event' => :moderator,
+              :'manage calendar_event' => :moderator
 end
 
