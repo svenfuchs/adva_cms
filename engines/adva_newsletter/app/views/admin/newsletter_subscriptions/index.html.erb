@@ -3,24 +3,6 @@
   <%= render :partial => 'sidebar_actions' %>
 <% end %>
 
-<% if @subscriptions.present? %>
-  <table id="subscriptions" class="list" cellspacing='0'>
-    <thead>
-      <tr>
-        <th scope="col">Subscriptions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @subscriptions.each do |subscription| %>
-        <tr>
-          <td><%= link_to h(subscription.title), admin_user_path(subscription.user_id) %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-<% else %>
-  <div class="empty">
-    <%= t('adva.subscriptions.no_subscriptions') %>
-    <%= link_to t('adva.subscriptions.links.new'), new_admin_subscription_path(@site, params[:newsletter_id]) %>
-  </div>
-<% end %>
+<%= render :partial => 'admin/newsletters/header' %>
+
+<%= render :partial => 'admin/newsletter_subscriptions/subscriptions', :object => @subscriptions %>

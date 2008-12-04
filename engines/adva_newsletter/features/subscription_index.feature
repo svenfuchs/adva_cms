@@ -5,3 +5,4 @@ Feature: List of subscribers
     And I have opened some "newsletter"
     When I click "Subscriptions"
     Then I should see "There are no subscribers."
+    And I should see a link "Add a new subscriber"

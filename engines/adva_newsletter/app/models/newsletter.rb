@@ -7,5 +7,5 @@ class Newsletter < ActiveRecord::Base
 
   validates_presence_of :title
 
-  named_scope :all_included, :include => :issues
+  named_scope :all_included, :include => [:issues,:subscriptions]
 end

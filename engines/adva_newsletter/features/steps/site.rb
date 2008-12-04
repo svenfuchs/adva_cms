@@ -2,7 +2,7 @@ Given /site has no users/ do
   Site.find(1).users.destroy_all
 end
 
-Given /site has users/ do
+Given /site has user with name "Site user"/ do
   site = Site.find(1)
   site.users.destroy_all
   site.users.create(valid_user)

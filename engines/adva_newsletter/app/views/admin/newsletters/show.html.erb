@@ -7,30 +7,8 @@
   </ul>
 <% end %>
 
-<h2><%= h(@newsletter.title) %></h2>
-<p><%= h(@newsletter.desc) %></p>
-<ul>
-  <li>Subscribers: <%= @newsletter.subscriptions_count %></li>
-</ul>
+<%= render :partial => 'header' %>
 
-<% if @newsletter.issues.present? %>
-  <table id="issues" class="list" cellspacing='0'>
-    <thead>
-      <tr>
-        <th scope="col">Issues</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @newsletter.issues.each do |issue| %>
-        <tr>
-          <td><%= link_to h(issue.title), admin_issue_path(@site, @newsletter, issue) %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-<% else %>
-  <div class="empty">
-    <%= t('adva.issues.no_issues') %>
-    <%= link_to t('adva.issues.links.new'), new_admin_issue_path(@site, @newsletter) %>
-  </div>
-<% end %>
+<%= render :partial => 'admin/issues/issues', :object => @newsletter.issues %>
+
+<%= render :partial => 'admin/newsletter_subscriptions/subscriptions', :object => @newsletter.subscriptions %>

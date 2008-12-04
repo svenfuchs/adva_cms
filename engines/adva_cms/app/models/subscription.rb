@@ -1,5 +1,6 @@
 class Subscription < ActiveRecord::Base
-  belongs_to :subscrabable, :polymorphic => true, :counter_cache => true
+  belongs_to :user
+  belongs_to :subscribable, :polymorphic => true, :counter_cache => true
   
   attr_accessible :user_id
 

@@ -2,3 +2,7 @@
   <%= render :partial => 'admin/layouts/sidebar_manage', :locals => {:active => :issues} %>
   <%= render :partial => 'sidebar_actions' %>
 <% end %>
+
+<%= render :partial => 'admin/newsletters/header' %>
+
+<%= render :partial => 'issues', :object => @issues %>

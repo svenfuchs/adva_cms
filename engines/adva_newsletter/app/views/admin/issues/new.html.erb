@@ -2,6 +2,8 @@
   <%= render :partial => 'admin/layouts/sidebar_manage', :locals => {:active => :issues} %>
 <% end %>
 
+<%= render :partial => 'admin/newsletters/header' %>
+
 <% split_form_for :issue, @issue, :url => admin_issues_path, :html => {:multipart => true, :id => 'content_form'} do |f| %>
   <%= render :partial => 'form', :locals => {:f => f} %>  
   <p class="buttons">

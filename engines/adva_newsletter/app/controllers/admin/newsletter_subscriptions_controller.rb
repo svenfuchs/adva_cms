@@ -1,9 +1,12 @@
 class Admin::NewsletterSubscriptionsController < Admin::BaseController
   
   def index
+    @newsletter = Newsletter.find(params[:newsletter_id])
+    @subscriptions = @newsletter.subscriptions
   end
   
   def new
+    @newsletter = Newsletter.find(params[:newsletter_id])
     @subscription = Subscription.new
   end
   

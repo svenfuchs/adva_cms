@@ -25,8 +25,11 @@ When /[I submit | submit] new "(.*)"/ do |model|
     select 'Site user'
     click_button 'Add'
   when 'empty newsletter'
+    click_button 'Save'
   when 'empty issue'
+    click_button 'Save'
   when 'empty subscription'
+    click_button 'Save'
   else
     raise missing_from_step(model)
   end
