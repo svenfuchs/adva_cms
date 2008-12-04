@@ -17,9 +17,10 @@ class CalendarEvent < ActiveRecord::Base
   
   validates_presence_of :startdate
   validates_presence_of :title
+  validates_presence_of :author_id
+  validates_presence_of :section_id
 
   before_create :set_published
-  
   
   named_scope :elapsed, lambda {{:conditions => ['startdate < ? AND (enddate IS ? OR enddate < ?)', Time.now, nil, Time.now], :order => 'enddate DESC'}}
   named_scope :upcoming, Proc.new {|date| {:conditions => ['startdate > ? OR (startdate < ? AND enddate > ?)', date||Time.now, date||Time.now, date||Time.now], :order => 'startdate ASC'}}
