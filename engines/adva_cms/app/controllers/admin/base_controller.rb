@@ -28,12 +28,13 @@ class Admin::BaseController < ApplicationController
                          :only  => { :controller => ['admin/sections', 'admin/articles', 'admin/wikipages', 'admin/categories', 'admin/comments'] }
 
   def admin_section_contents_path(section)
-    type = section.class.content_type.pluralize.downcase
-    send(:"admin_#{type.gsub('::', '_').underscore}_path", section.site, section)
+    content_type = section.class.content_type.pluralize.gsub('::', '_').underscore.downcase
+    send(:"admin_#{content_type}_path", section.site, section)
   end
 
   def new_admin_content_path(section)
-    send :"new_admin_#{section.class.content_type}_path", section.site, section
+    type = section.class.content_type.pluralize.gsub('::', '_').underscore.downcase
+    send :"new_admin_#{content_type}_path", section.site, section
   end
 
   protected
