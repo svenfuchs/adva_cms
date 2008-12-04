@@ -1,0 +1,732 @@
+en:
+  activerecord:
+    errors:
+      messages:
+        only_integer: voi olla vain kokonaisnumero.
+  adva:
+    common:
+      about: Yleistä
+      details: Detaljit
+      by_author: by {{author}}
+      cancel: Peruuta
+      edit: Muokkaa
+      delete: Poista
+      hide: Piilota
+      save: Tallenna
+      save_without_revision: Tallenna ilman uutta versiota
+      import: Tuo
+      upload: Lähetä
+      import: Tuo
+      subscribe: Ilmoittaudu
+      approve: Hyväksy
+      unapprove: Hylkää
+      language: Kieli
+      none: ei mitään
+      next: Seuraava
+      previous: Edellinen
+      events: Tapahtumat
+      you: Sinä
+      connector:
+        or: tai
+      "yes": "kyllä"
+      by_author: by {{author}}
+      content_categories: "{{links}}:ssä<br />"
+      content_tags: "merkitty: {{links}<br />"
+      unknown: tuntematon
+    titles: 
+      accounts: Tilit
+      actions: Toiminnot
+      archives: Arkistot
+      articles: Artikkelit
+      assets: Media
+      board: Lauta
+      boards: Laudat
+      cache: Välimuisti
+      categories: Kategoriat
+      clear: Pyyhi
+      clear_all: Pyyhi kaikki
+      comment: Kommentti
+      comments: Kommentit
+      dashboard: Ilmoitustaulu
+      general_settings: Yleiset asetukset
+      history: Historia
+      login: Kirjaudu
+      logout: Kirjaudu ulos
+      register: Registeröidy
+      manage: Hallinnoi
+      optional_settings: Valinnaiset asetukset
+      overview: Yleiskatsaus
+      permissions: Käyttöoikeudet
+      plugin: Liitännäinen
+      plugins: Liitännäiset
+      posts: Postaukset
+      preview: Esikatselu
+      publish_in_categories: Julkaise näissä kategorioissa
+      recent_activity: Tuoreimmat aktiviteetit
+      restore_defaults: Palauta oletukset
+      sections: Osiot
+      settings: Asetukset
+      site: Netti-sivu
+      site_users: Käyttäjät
+      spam_filters: Roskaposti filtterit
+      spam_protection: Roskapostilta suojaus
+      success: Onnistui!
+      tags: Tagit
+      theme: Teema
+      themes: Teemat
+      topic: Aihe
+      users: Käyttäjät
+      roles: Roolit
+      website: Netti-sivu
+      website_configuration: Netti-sivun konfiguraatio
+      website_home_section: Netti-sivun koti-osio
+      welcome: Tervetuloa!
+      wikipages: Wikisivut
+      history:
+        today: Tänään {{date}}
+        yesterday: Eilen {{date}}
+        past: Ennen {{date}}
+    links: 
+      back: Takaisin
+      delete: Poista
+      edit: Muokkaa
+      view: Näytä
+      next: seuraava
+      previous: edellinen
+      login: Kirjaudu
+      logout: Kirjaudu ulos
+      profile: Profiili
+      sites_overview: Netti-sivujen yleiskatsaus
+      skip_to_content: Siirry sisältöön
+      skip_to_navigation: Siirry navigaatioon
+      superusers_admins: Superusers + Admins
+      entries_feed: Artikkeli syöte
+      comments_feed: Kommentti syöte
+    labels:
+      author_name: Nimi
+      author_email: Sähköposti
+    messages: 
+      insufficient_permissions: 
+        title: Puutteelliset käyttöoikeudet
+        body: Ota yhteyttä tämän sivuston ylläpitäjään ja pyydä häntä korjaamaan käyttöoikeutesi, jos sinun mielestäsi sinulla kuuluisi olla käyttöoikeudet tämän toiminnon suorittamiseen.
+    resources:
+      delete: Poista
+      edit: Muokkaa
+      reordering_done: Uudelleenjärjestäminen suoritettu
+      settings: asetukset
+      view: Näytä
+    sites:
+      title:
+        create: Luo uusi netti-sivu
+        home_section: Koti-osio
+      hints:
+        host_name: Sisällytä portti jos se ei ole standardi portti. Esim. localhost:3000
+        admin_email: Nähtävissä sähköposteissa jotka lähetetään sinun netti-sivultasi
+      attributes:
+        name: Nimi
+        host: Isäntä
+      install:
+        success_fully_created:  Netti-sivusi ovat onnistuneesti luodut. Pidä hauskaa!
+        welcome_to_installation: "Tervetuloa tähän alle-kahden-minuutin asennus prosessiin. Täytä alapuolella oleva lomake ja olet valmis. "
+        can_always_change_settings: Älä huoli, voit muuttaa näitä asetuksia myöhemmin.
+        section_default: Koti
+      no_sites: Tällä hetkellä sinulla ei ole yhtään netti-sivua luotuna.
+      links:
+        delete: Poista tämä sivu
+        create_site_and_account: "Luo netti-sivu & tili \xC2\xBB"
+        manage_new: Hallinnoi uutta netti-sivuasi &raquo;
+      flash:
+        destroy:
+          success: Netti-sivu on poistettu.
+          failure: Netti-sivua ei pystytty poistamaan.
+        install:
+          error_already_complete: Asennus on jo valmistunut. Ole hyvä ja kirjaudu sinun ylläpitäjän tunnuksellasi.
+          success: Onneksi olkoon! Olet onnistuneesti asentanut netti-sivusi.
+          failure: "Seuraavien mallinteiden luonti epäonnistui: {{models}}."
+        create:
+          success: Netti-sivu on luotu.
+          failure: Netti-sivua ei pystytty luomaan
+        update:
+          success: Netti-sivu on päivitetty.
+          failure: Netti-sivua ei pystytty päivittämään
+      label:
+        name: Netti-sivun nimi
+        title: Netti-sivun otsikko
+        timezone: Netti-sivun aikavyöhyke
+        admin_email: Ylläpitäjän sähköposti
+        subtitle: Netti-sivun aliotsikko
+        host: Isäntä nimi
+      confirm_delete: Oletko varma että haluat poistaa tämän sivun?
+    sections:
+      hints:
+        content_filter: Tätä käytetään oletus asetuksena artikkeleiden luonnin yhteydessä.
+      titles:
+        section_settings: Osio-kohtaiset asetukset
+        blog_settings: Blogi-kohtaiset asetukset
+        forum_settings: Foorumi-kohtaiset asetukset
+        create: Luo uusi osio
+      links:
+        delete: Poista tämä osio
+        add_section: Lisää osio
+        reorder: Uudelleenjärjestä osioita
+        create: Luo uusi osio
+      confirm_delete: Oletko varma että haluat poistaa tämän osion?
+      flash:
+        destroy:
+          success: Osio on poistettu.
+          failure: Osiota ei pystytty poistamaan.
+        create:
+          success: Osio on luotu.
+          failure: Osiota ei pystytty luomaan.
+        update:
+          success: Osio on päivitetty.
+          failure: Osiota ei pystytty päivittämään.
+    blog:
+      titles:
+        date: "alkaen {{date}}"
+        about: "{{category}}:sta"
+        tags: "tagattu: {{tags}}"
+        articles: "Artikkelit {{articles}}"
+        show_articles: "Näytä artikkelit:"
+        manage: Hallinnoi
+        actions: Toiminnot
+      links:
+        articles: Artikkelit
+        categories: Kategoriat
+        settings: Asetukset
+        create_article: Luo uusi artikkeli
+        create_article_now: "Luo artikkeli nyt &raquo;"
+        more: Lue loput tästä artikkelista.
+      options:
+        filter:
+          category: Kategoriassa
+          tags: tagattu tageilla
+          title: jonka otsikko sisältää
+          body: jonka sisältö sisältää
+          draft: ei julkaistu
+      tabs:
+        article: Artikkeli
+        comments: Kommentit
+        published: Julkaistu
+        author: Kirjoittaja
+      feeds:
+        category: Kategoria {{category}}
+        tags:
+          one: "Tagi: {{tags}}"
+          other: "Tagit: {{tags}}"
+      no_articles: "{{section}} ei sisällä yhtään artikkelia. "
+      no_filtered_articles: "Yksikään artikkeli ei sisällä kriteriaa {{section}}:ssa"
+      attribution: "by {{author}}"
+    categories:
+      attributes:
+        name: nimi
+      titles:
+        edit: Muokkaa kategoriaa
+      no_categories_in_section: "{{section}} ei sisällä yhtään kategoriaa."
+      total_with_count:
+        one: "Yhteensä: {{count}} kategoria"
+        other: "Yhteensä: {{count}} kategoriaa"
+      links:
+        delete: Poista tämä kategoria
+        reorder: Uudelleenjärjestä kategorioita
+        create: Luo uusi kategoria
+      flash:
+        destroy:
+          success: Kategoria on poistettu.
+          failure: Kategoriaa ei pystytty poistamaan.
+        create:
+          success: Kategoria on luotu.
+          failure: Kategoriaa ei pystytty luomaan.
+        update:
+          success: Kategoria on päivitetty.
+          failure: Kategoriaa ei pystytty päivittämään.
+      confirm_delete: Oletko varma että haluat poistaa tämän kategorian?
+    contents:
+      not_published: ei julkaistu
+    articles:
+      question_save_as_draft: Tallenna luonnoksena?
+      confirm_save_as_draft: Kyllä, tallenna tämä artikkeli luonnoksena
+      hints:
+        permalink: Käytä ainoastaan ASCII merkistöä ja käytä viivoja välilyöntien sijaan.
+        tags: Syötä yksi tai useampi tagi välilyönnillä eriteltynä. Voit sisältää myös välilyöntejä tagiin sulkemalla sen hipsujen sisään. (Esimerkiksi, <em>"Web Dev" Tutoriaalit</em>).
+      titles:
+        edit: Muokkaa artikkelia
+      total_with_count:
+        one: "Yhteensä: {{count}} artikkeli"
+        other: "Yhteensä: {{count}} artikkelia"
+      links:
+        delete: Poista tämä artikkeli
+        reorder: Uudelleenjärjestä artikkeleita
+        create: Luo uusi artikkeli
+        create_now: Luo artikkeli nyt
+        preview: Esikatsele tätä artikkelia
+      excerpt_add: Lisää poiminto
+      no_articles_in_section: "{{section}} ei sisällä yhtään artikkelia."
+      publish_on_date: Julkaisu päivämäärä
+      flash:
+        destroy:
+          success: Artikkeli on poistettu.
+          failure: Artikkelia ei pystytty poistamaan.
+        rollback:
+          success: Artikkeli on palautettu versioon {{version}}
+          failure: Artikkeali ei pystytty palauttamaan versioon {{version}}
+        create:
+          success: Artikkeli on luotu.
+          failure: Artikkelia ei pystytty luomaan.
+        update:
+          success: Artikkeli on päivitetty.
+          failure: Artikkelia ei pystytty päivittämään.
+      confirm_delete: Oletko varma että haluat poistaa tämän artikkelin?
+      attributes:
+        excerpt: Poiminto
+    cached_pages:
+      no_entries: Tällä hetkellä välimuisti ei sisällä yhtään sivua.
+      confirmation:
+        cleared: Tämä sivu on poistettu välimuistista.
+        cleared_short: Tyhjennetty
+      filter:
+        show_cached_pages: Näytä varastoidut sivut
+      total_with_count:
+        one: "Yhteensä: {{count}} varastoitu sivu"
+        other: "Yhteensä: {{count}} varastoitua sivua"
+      no_entries_matching_criteria: Tällä hetkellä välimuisti ei sisällä yhtään sivua joka vastaisi tätä kriteriaa.
+      flash:
+        clear:
+          success: Välimuisti on tyhjennetty.
+    comments:
+      flash:
+        thank_you: Kiitoksia kommentistasi!
+        create:
+          success: Kommentti on luotu.
+          failure: Kommenttia ei pystytty luomaan.
+        update:
+          success: Kommentti on päivitetty.
+          failure: Kommenttia ei pystytty päivittämään.
+        destroy:
+          success: Kommentti on poistettu.
+          failure: Kommenttia ei pystytty päivittämään.
+      links:
+        delete: Poista
+        edit: Muokkaa
+        approve: Hyväksy
+        view: Näytä
+        unapprove: Hylkää
+      titles:
+        comments_awaiting_approval: Kommentit jotka odottavat sinun hyväksyntääsi.
+        save_comment: Tallenna kommentti
+        comment_on_by: Kommentteja '{{on}}' käyttäjältä {{by}}
+        add_reply: Jätä kommenttisi
+        comment_number: "Kommentti #{{number}}"
+        edit: Muokkaa kommenttia
+        comments_on: Kommentteja {{location}}
+        submit_comment: Lähetä kommentti
+        your_reply: Vastauksesi
+        comment_with_count:
+          one: 1 Kommentti
+          other: "{{count}} Kommenttia"
+      filter:
+        show_comments: Näytä kommentit
+        options:
+          all: Kaikki
+          body: Jonka sisältö sisältää
+          author_name: Jonka kirjoittaja on
+          author_email: Kirjoittajan sähköposti on
+          author_url: Kirjoittajan netti-sivu on
+          state: Jonka tila on
+        go: Etsi
+      state:
+        options:
+          approved: Hyväksytyt
+          unapproved: Hylätyt
+      options:
+        expiration: 
+          not_allowed: Eivät ole sallittuja
+          never_expire: Eivät vanhene
+          x_hours_after_publishing:
+            one: Vanhentuvat tunnin päästä julkaisusta
+            other: Vanhentuvat {{count}} tuntia julkaisun jälkeen
+          x_weeks_after_publishing:
+            one: Vanhentuvat viikon päästä julkaisusta
+            other: Vanhentuvat {{count}} viikkoa julkaisun jälkeen
+          x_months_after_publishing:
+            one: Vanhentuvat kuukauden päästä julkaisusta
+            other: Vanhenevat {{count}} kuukautta julkaisun jälkeen
+      labels:
+        "on": ""
+        comments: Kommentit
+        approved: Hyväksytyt
+      hints:
+        comments_filter: Tämä merkintäkieli on käytössä kommentteja lähetettäessä.
+      confirm_delete: Oletko varma että haluat poistaa tämän kommentin?
+      info:
+        no_comments_for_query: Tämä {{location}} ei sisällä yhtään kommenttia joka vastaisi sinun hakuasi.
+        under_review: Tämä kommentti on tällä hetkellä tarkastelun alaisena.
+      messages:
+        not_allowed: "Kommentit eivät ole sallittu."
+
+    activity:
+      none: Mitään ei tapahtunut
+      notifier:
+        new: Uusi {{activity}} julkaistu
+      view:
+        new: "{{name}} <{{email}}> juuri julkaisi uuden {{activity}} sivustolla {{site}} osiossa {{section}}."
+      comment: Kommentit {{actions}}
+      actions: "{{type}} {{actions}} {{activity}}:ssa."
+    signup:
+      notifications:
+        email_verification:
+          subject: Sähköposti varmennus
+          body: |
+            Moi {{name}},
+            
+            rekisteröidyit äskettäin meidän palveluumme. Meidän palvelumme vaatii kaikkia
+            käyttäjiä varmentamaan heidän sähköpostiosoitteensa. Napsauta alla olevaa linkkiä
+            ja sinun käyttäjänimesi varmennetaan ja voit kirjautua palveluumme.
+
+            {{link}}
+      flash:
+        destroy:
+          success: Käyttäjätili {{name}} on poistettu.
+        create:
+          failure: Rekisteröitymistäsi ei voitu tallentaa.
+        verify:
+          success: Varmensit sähköpostiosoitteesi onnistuneesti.
+          failure: Olet jo varmentanut sähköpostiosoitteesi.
+    passwords:
+      info:
+        please_enter_email_to_reset_password: Ole hyvä ja syötä sähköpostiosoitteesi. Sinulle lähetetään sähköposti joka sisältää linkin jolla voit resetoida salasanasi.
+      titles:
+        new: Resetoi salasana
+      notifications:
+        password_updated:
+          subject: Salasana päivitetty
+          body: |
+            Moi {{name}},
+            
+            olet onnistuneesti päivittänyt salasanasi.
+        reset_password:
+          subject: Unohdettu salasana
+          body: |
+            Moi {{name}},
+            
+            joku (toivottavasti sinä) on ilmoittanut ettei pysty muistamaan salasanaasi.
+            Jos haluat resetoida salasanasi paina alla olevaa linkkiä.
+            
+            {{link}}
+            
+            Suosittelemme että resetoit salsasanasi niin nopeasti kuin mahdollista koska
+            tämä linkki on ajastettu ja se on toiminnassa vain lyhen ajan (suojellaksesi 
+            tiliäsi).
+            
+            Jos et pyytänyt että haluat resetoida salasanasi on jonkun täytynyt syöttää
+            sähköposti osoittees "unohdin salasanani" kenttään sivullasi. Tilisi on yhä
+            täysin turvallinen koska sinä olet ainoa henkilö jolle tämä viesti lähetettiin.
+            Voit poistaa tämän viestin ja tilisi säilyy muuttumattomana jos tämä viesti on
+            lähetetty sinulle virheellisesti.
+      flash:
+        new:
+          email_sent: Lähetimme sinulle juuri tiedottoon. Ole hyvä ja tarkista sähköpostisi.
+          no_such_user: Emme löytäneet käyttäjää antamallasi sähköposti osoitteella.
+        update:
+          success: Salasana päivitetty onnistuneesti.
+          failure: Salasanaasi ei voitu päivittää.
+    session:
+      flash:
+        destroy:
+          success: Onnistuneesti kirjauduttu ulos.
+        create:
+          success: Sisään kirjautuminen onnistui.
+          failure: Sisään kirjautuminen epäonnistui tällä sähköpostilla ja salasanalla.
+      labels:
+        remember_me: Muista minut
+    users: 
+      attributes: 
+        password: Salasana
+        email: Sähköposti
+      links: 
+        create_user: Luo käyttäjä
+        edit_user: Muokkaa käyttäjää
+      actions:
+        delete_user: Poista tämä käyttäjä
+        create_new: Luo uusi käyttäjä
+      titles:
+        new: Uusi käyttäjä
+        edit: Muokkaa käyttäjää
+        register: Rekisteröi käyttäjätili
+        signup: Rekisteröidy
+        your_profile: Sinun profiilisi
+      flash:
+        destroy:
+          success: Käyttäjätili poistettu.
+          failure: Käyttäjätiliä ei voitu poistaa.
+        create:
+          success: Käyttäjätili luotu.
+          failure: Käyttäjätiliä ei voitu luoda.
+        update:
+          success: Käyttäjätili päivitetty.
+          failure: Käyttäjätiliä ei voitu päivittää.
+      labels:
+        updated_at: Kirjautuneena viimeksi
+        url: Kotisivu
+        created_at: Luotu
+        email: Sähköposti
+      info: 
+        showed_up: "nähty viimeksi: {{time_ago}}"
+        logged_in_as: "Kirjatuneena nimellä: {{name}}"
+      confirm_delete: Oletko varma että haluat poistaa tämän käyttäjätilin?
+    roles:
+      labels:
+        admin_for: "Ylläpitäjä: {{context}}"
+        superuser: Superuser
+      errors: 
+        messages: 
+          not_an_admin: Sinun täytyy olla ylläpitäjä tämän toiminnon suorittamiseen.
+          not_logged_in: Sinun täytyy olla kirjautuneena sisään tämän toiminnon suorittamiseen.
+          not_a_superuser: Sinun täytyy olla superuser tämän toiminnon suorittamiseen.
+          not_an_author: Sinun täytyy olla tämän objektin luoja tämän toiminnon suorittamiseen.
+          not_a_moderator: Sinun täytyy olla moderaattori tämän toiminnon suorittamiseen.
+    assets:
+      flash:
+        upload:
+          failure: Median tuonti epäonnistui.
+        update:
+          success: Media on päivitetty.
+          failure: Median tuonti epäonnistui.
+        delete:
+          success: "Tiedosto {{filename}} poistettu."
+          failure: Median tuonti epäonnistui.
+        destroy:
+          success: "{{asset}} irroitettu tästä {{content}}."
+        create:
+          first_success: "'{{asset}}' on tuotu."
+          success: 
+            one: "Yksi uusi media tiedosto tuotu."
+            other: "{{count}} uutta media tiedostoa tuotu."
+        add:
+          success: "{{asset}} lisätty ämpäriin."
+        clear:
+          success: Media ämpäri on tyhjennetty.
+      validation:
+        duplicate: Tämä sisältö ja media ei voi sisältää samaa toimeksiantoa
+      tab:
+        attached:
+          title: Liitetyt mediat
+          name: Liitetty
+        latest:
+          title: Uusin tuotu media
+          name: Uusin
+        bucket:
+          title: Sinun media ämpärisi
+          name: Ämpäri
+        search:
+          title: Etsi mediaa
+          name: Etsi
+        upload:
+          title: Tuo uusi media
+          name: Tuo
+        audio: Audio
+        movies: Video
+        pictures: Kuvat
+        others: Muut
+        tags: Tagit
+        title: Otsikko
+      new: Uusi media
+      add_to_bucket: Lisää ämpäriin
+      no_files: Sinulla ei ole yhtään tämän tyyppistä tiedostoa tai et ole vielä tuonut yhtään tiedostoa.
+      upload: 'Tuo media tiedosto nyt &raquo;'
+      enter_tags: 'Syötä yksi tai useampi tagi pilkulla tai välilyönnillä eroitettuna (esimerkiksi, <em>"Web Dev" Tutoriaalit</em> tai <em>Web Dev, Tutoriaalit</em>).'
+      save: Tallenna media
+      your_bucket: Ämpärisi
+      add_files: Ämpärissä olevia tiedostoja voit käyttää kun luot tai päivität artikkeleitasi.
+      upload_summary:
+        one: Olet tuonut <strong>yhden media tiedoston</strong>, käyttäen <strong>{{size}}</strong>.
+        other: Olet tuonut yhteensä <strong>{{count}} kappaletta media tiedostoja</strong>, käyttäen <strong>{{size}}</strong>.
+      stats: Tilastot
+      upload:
+        files: Valitse tuotavat tiedostot
+        title: Otsikko
+        tags: Tagit (välilyönnillä eroitettuna)
+      delete: poista tämä tiedosto kenttä
+      tag_all: Liitä tagit kaikkiin tiedostoihin
+      add_file: Lisää uusi tiedosto
+    themes:
+      no_themes_available: Sinulla ei ole tällä hetkellä yhtään teemaa luotuna.
+      lables:
+        zip_file: Zip tiedosto
+      titles:
+        new: Luo uusi teema
+        edit: Muokkaa teemaa
+        valid_file_types: Sallitut tiedosto päätteet
+        import: Tuo teema
+        edit_file: Muokkaa teema tiedostoa
+      links:
+        add_another_file: Lisää uusi tiedosto
+        new_theme: Uusi teema
+        edit: Muokkaa
+        create_one_now: Luo teema nyt. &raquo;
+        delete_file: Poista teema tiedosto
+        uninstall: Poista
+        download_theme: Lataa teema
+        upload_file: Tuo uusi tiedosto
+        import_theme: Tuo teema
+        create_file: Luo uusi tiedosto
+        edit_theme: Muokkaa teemaa
+        select: Valitse
+        unselect: Poista valinta
+      upload_template_or_asset: Tuo sivupohja tai media.
+      labels:
+        asssets: Media
+        templates: Sivupohjat
+        filename: Tiedostonimi
+      confirm_select: Oletko varma että haluat aktivoida tämän teeman?
+      confirm_unselect: Oletko varma että haluat kytkeä tämän teeman pois päältä?
+      confirm_uninstall: Oletko varma että haluat poistaa tämän teeman? (Et pysty palauttamaan sitä.)
+      flash:
+        destroy:
+          success: Teema on poistettu.
+          failure: Teemaa ei pystytty poistamaan.
+        create:
+          success: Teema on luotu.
+          failure: "Teemaa ei pystytty luomaan: {{errors}}."
+        update:
+          success: Teema on päivitetty.
+          failure: "Teemaa ei pystytty päivittämään: {{errors}}."
+        import:
+          success: Tiedost on tuotu teemaksi.
+          error_filename_blank: Teema tiedosto ei voi olla tyhjä.
+          failure: Tiedostoa ei pystytty tuomaan teemaksi.
+    theme_files:
+      types:
+        templates: Sivupohjat
+        assets: Media
+        others: Muut
+      flash:
+        destroy:
+          success: Tiedosto on poistettu.
+          failure: Tiedostoa ei pystytty poistamaan.
+        create:
+          success: Tiedosto on luotu.
+          failure: Tiedostoa ei pystytty luomaan.
+        update:
+          success: Tiedosto on päivitetty.
+          failure: Tiedostoa ei pystytty päivittämään.
+    plugins:
+      no_plugins_installed: Tällä hetkellä yhtään liitännäistä ei ole asennettuna.
+      attributes:
+        name: Nimi
+        configurable: Konfiguroitava
+        author: Luoja
+        version: Versio
+        homepage: Kotisivu
+      flash:
+        destroy:
+          success: Oletus asetukset on palautettu.
+          failure: Osiota ei pystytty poistamaan.
+        update:
+          success: Liitännäisen asetukset on päivitetty.
+          failure: Osiota ei pystytty luomaan.
+      no_config_options_available: Tällä liitännäisellä ei ole yhtään konfiguraation optiota jäljellä.
+    settings:
+      filter_options:
+        plain_html: HTML
+    boards:
+      topics_count:
+        one: "{{count}} aihe"
+        other: "{{count}} aihetta"
+      comments_count:
+        one: "{{count}} kommentti"
+        other: "{{count}} kommenttia"
+      info:
+        no_boards_in_forum: Sinulla ei ole yhtään lautaa luotuna foorumilla {{forum}}.
+      titles:
+        new: Uusi lauta
+        edit: Muokkaa lautaa
+      posts_count:
+        one: "{{count}} vastaus"
+        other: "{{count}} vastausta"
+      links:
+        new: Uusi lauta
+        reorder: Uudelleenjärjestä laudat
+        create_now: Luo lauta nyt
+      flash:
+        no_next_board: Tämä on viimeinen lauta.
+        destroy:
+          success: Lauta on poistettu.
+          failure: Lautaa ei pystytty poistamaan.
+        create:
+          success: Lauta on luotu.
+          failure: Lautaa ei pystytty luomaan.
+        update:
+          success: Lauta on päivitetty.
+          failure: Lautaa ei pystytty päivittämään.
+        no_previous_board: Tämä on ensimmäinen lauta.
+      confirm_delete: Oletko varma että haluat poistaa tämän laudan?
+    topics:
+      info:
+        no_topics_in_forum: Foorumi ei sisällä yhtään aihetta.
+        no_topics_in_board: Lauta ei sisällä yhtään aihetta.
+      titles:
+        new: Uusi aihe
+        edit: Muokkaa aihetta
+        post_topic: Luo aihe
+        latest_post: Viimeisin vastaus
+        post_count:
+          one: "{{count}} vastaus"
+          other: "{{count}} vastausta"
+      states:
+        sticky: Tahmattu
+        locked: Lukittu
+      links:
+        post_new: Luo vastaus
+        post_now: Luo vastaus nyt
+        new_topic: Uusi aihe
+      flash:
+        destroy:
+          success: Aihe on poistettu.
+          failure: Aihetta ei pystytty poistamaan.
+        create:
+          success: Aihe on luotu.
+          failure: Aihetta ei pystytty luomaan.
+        update:
+          success: Aihe on päivitetty.
+          failure: Aihetta ei pystytty päivittämään.
+        no_next_topic: Tämä on viimeinen aihe.
+        no_previous_topic: Tämä on ensimmäinen aihe
+      confirm_destroy: Oletko varma että haluat poistaa tämän vastauksen?
+      confirm_delete: Oletko varma että haluat poistaa tämän aiheen?
+    posts:
+      titles:
+        reply: Jätä vastauksesi
+        edit: Muokkaa vastaustasi
+        save_post: Tallenna vastaus
+        submit_post: Lähetä vastaus
+      flash:
+        destroy:
+          success: Vastaus on poistettu.
+        create:
+          success: Vastaus on luotu.
+          failure: Vastaustasi ei pystytty luomaan.
+        update:
+          success: Vastaus on pävitetty.
+          failure: Vastausta ei pystytty päivittämään.
+
+    spam:
+      hints:
+        filters: Seuraavat filtterit ovat käytössä spammi kommenttien tunnistamista varten.
+      options:
+        default_ham_none: Älä hyväksy kommentteja automaattisesti.
+        default_ham_all: Hyväksy kaikki kommentit automaattisesti.
+        default_ham_authenticated: Hyväksy todennettujen käyttäjien kommentit.
+      labels:
+        api_key: API Avain
+        site_url: Sivun URL
+    info:
+      greeting_logged_in: Hei <span>user</span>, olet kirjautunut sisään.
+    footer:
+      powered_by: "Netti-sivu toimii adva_cms:llä. Teeman inspiroinut depo."
+    flash:
+      authentication_required_role: Tarvitset roolin {{role}} nähdäksesi tämän sivun.
+    sidebar:
+      titles:
+        tags: Tagit
+        topics: Aiheet
