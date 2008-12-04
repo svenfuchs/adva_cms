@@ -44,7 +44,7 @@ describe Admin::EventsController do
     it_guards_permissions :create, :calendar_event
 
     it "instantiates a new event from section.events" do
-      @section.events.should_receive(:build).and_return Calendar::Event.new(:title => 'New event')
+      @section.events.should_receive(:build).and_return CalendarEvent.new(:title => 'New event')
       act!
     end
   end

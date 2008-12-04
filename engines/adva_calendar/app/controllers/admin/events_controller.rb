@@ -14,18 +14,18 @@ class Admin::EventsController < Admin::BaseController
   guards_permissions :calendar_event
 
   def index
-    @events = @section.events.paginate :page => current_page, :per_page => params[:per_page]
+    @events = @calendar.events.paginate :page => current_page, :per_page => params[:per_page]
   end
   
   def new
-    @event = @section.events.build(:title => 'New event')
+    @event = @calendar.events.build(:title => 'New event')
   end
   
   def create
-    if @event = @section.events.create(params[:event])
+    if @event = @calendar.events.create(params[:event])
       trigger_events @event
       flash[:notice] = "The event has been successfully created."
-      redirect_to edit_admin_calendar_event_path(@site, @section, @event)
+      redirect_to edit_admin_calendar_event_path(@site, @calendar, @event)
     else
       flash[:error] = "The event could not been created."
       render :action => 'new'
@@ -58,17 +58,16 @@ class Admin::EventsController < Admin::BaseController
   end
 
   private
-
     def set_section
-      @section = Calendar.find(params[:section_id], :conditions => {:site_id => @site.id})
+      @calendar = @section = Calendar.find(params[:section_id], :conditions => {:site_id => @site.id})
     end
 
     def set_event
-      @event = @section.events.find params[:id]
+      @event = @calendar.events.find params[:id]
     end
 
     def set_categories
-      @categories = @section.categories.roots
+      @categories = @calendar.categories.roots
     end
 
     def params_author

@@ -13,17 +13,17 @@ describe Event do
       Content.should act_as_taggable
     end
     it 'sanitizes the body_html attribute' do
-      Calendar::Event.should filter_attributes(:sanitize => :body_html)
+      CalendarEvent.should filter_attributes(:sanitize => :body_html)
     end
 
     it 'does not sanitize the body and cached_tag_list attributes' do
-      Calendar::Event.should filter_attributes(:except => [:body, :cached_tag_list])
+      CalendarEvent.should filter_attributes(:except => [:body, :cached_tag_list])
     end
   end
 
   describe 'callbacks' do
     it 'sets its published_at attribute to the current time before create' do
-      Calendar::Event.before_create.should include(:set_published)
+      CalendarEvent.before_create.should include(:set_published)
     end
   end
   

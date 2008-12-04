@@ -1,9 +1,9 @@
 class Calendar < Section
-  has_many :events, :foreign_key => 'section_id', :class_name => 'Calendar::Event'
+  has_many :events, :foreign_key => 'section_id', :class_name => 'CalendarEvent'
     
   class << self
     def content_type
-      'Calendar::Event'
+      'CalendarEvent'
     end
   end
 end
