@@ -11,7 +11,7 @@ with_options :controller => 'events', :action => 'index', :requirements => { :me
   event.formatted_events_category "events/:section_id/categories/:category_id.:format"
   
   event.event "/event/:section_id/:id", :action => 'show'
-  event.event "/event/:section_id/:id.:format", :action => 'show'
+  event.formatted_event "/event/:section_id/:id.:format", :action => 'show'
 end
 
 

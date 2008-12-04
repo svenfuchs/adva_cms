@@ -3,18 +3,23 @@ class Location < ActiveRecord::Base
 end
 
 class CalendarEvent < ActiveRecord::Base
+  has_many :assets, :through => :asset_assignments
+  has_many :asset_assignments, :foreign_key => :content_id # TODO shouldn't that be :dependent => :delete_all?
+  has_many :categories
+  belongs_to :location
+  belongs_to :section
+  belongs_to_author
+
   acts_as_taggable
   acts_as_role_context :parent => 'Section'
+
   filters_attributes :sanitize => :body_html, :except => [:body, :cached_tag_list]
-  before_create :set_published
-  set_table_name :calendar_events
-  has_many :assets
   
   validates_presence_of :startdate
   validates_presence_of :title
+
+  before_create :set_published
   
-  has_many :categories
-  belongs_to :location
   
   named_scope :elapsed, lambda {{:conditions => ['startdate < ? AND (enddate IS ? OR enddate < ?)', Time.now, nil, Time.now], :order => 'enddate DESC'}}
   named_scope :upcoming, Proc.new {|date| {:conditions => ['startdate > ? OR (startdate < ? AND enddate > ?)', date||Time.now, date||Time.now, date||Time.now], :order => 'startdate ASC'}}
