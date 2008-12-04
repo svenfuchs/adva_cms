@@ -18,7 +18,7 @@ class Admin::EventsController < Admin::BaseController
   end
   
   def new
-    @event = @calendar.events.build(:title => 'New event')
+    @event = @calendar.events.build(:title => t(:'adva.calendar.new_event'), :startdate => Time.now)
   end
   
   def create
@@ -71,7 +71,7 @@ class Admin::EventsController < Admin::BaseController
     end
 
     def params_author
-      author = User.find(params[:event][:author]) || current_user
+      author = User.find_by_id(params[:event][:author]) || current_user
       set_event_param(:author, author) or raise "author and current_user not set"
     end
 

@@ -1,0 +1,35 @@
+<% content_for :sidebar do %>
+	<% fields_for :calendar_event do |f| -%>
+		<%= render :partial => 'options', :locals => { :f => f } %>
+	<% end %>
+<% end %>
+
+<p>
+  <%= form.label :title, t(:'adva.calendar.title') %>
+  <%= form.text_field :title %>
+</p>
+
+<p>
+  <%= form.label :startdate, t(:'adva.calendar.startdate') %>
+  <%= form.text_field :startdate %>
+</p>
+
+<p>
+  <%= form.label :enddate, t(:'adva.calendar.enddate') %>
+  <%= form.text_field :enddate %>
+</p>
+
+<p>
+  <%= form.label :published_at, t(:'adva.calendar.publish_on_date') %>
+  <%= form.text_field :published_at %>
+</p>
+
+<p>
+  <%= form.label :body, t(:'adva.calendar.body') %>
+  <%= form.text_area :body %>
+</p>
+<p>
+  <%= form.label :tag_list, t(:'adva.calendar.tags') %>
+  <%= form.text_field :tag_list %>
+  <span class="hint">t(:'adva.common.hints.tags'</span>  
+</p>

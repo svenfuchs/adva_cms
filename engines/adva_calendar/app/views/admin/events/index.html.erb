@@ -1,0 +1,53 @@
+<% if @events.size > 0 -%>
+  <p>
+    <%= link_to "New event", new_admin_calendar_event_path(@site) %> &middot;
+    <%= link_to_function 'Reorder events', "events_list.toggle(this, 'Done reordering');", :id => 'reorder_sections' %>
+    <%= image_tag '/images/adva_cms/indicator.gif', :id => 'events_indicator', :style => 'display: none;' %>
+  </p>
+
+  <p class="total">
+    Total: <%= content_tag :strong, @events.total_entries %> events.
+  </p>
+
+  <table id="events" class="list" cellspacing="0" cellpadding="0">
+    <thead>
+      <tr>
+        <th scope="col">event</th>
+        <th scope="col">Version</th>
+        <th scope="col">Last Updated</th>
+        <th scope="col">By</th>
+        <th scope="col">Comments</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody id="events-body">
+      <%= render :partial => 'event', :collection => @events %>
+    </tbody>
+  </table>
+
+  <%= will_paginate @events, :id => 'pagination' %>
+
+  <script type="text/javascript">
+    var events_list = new eventsList($('events-body'), {
+      onUpdate: function(drag, drop, event) {
+        <%= remote_function(:url => admin_calendar_events_path(@site, @section),
+                            :method =>   :put,
+                            :with   =>   "events_list.serialize()",
+                            :loading =>  "$('events_indicator').show()",
+                            :complete => "$('events_indicator').hide()" ) %>
+      }
+    });
+  </script>
+
+<% else %>
+
+  <div class="empty" style="margin-bottom:20px">
+    <% unless params[:filter] %>
+      <%= t(:'adva.calendar.error.no_events_in_calendar') %>
+      <%= link_to t(:'adva.calendar.create_new_event'), new_admin_calendar_event_path(@site) %>
+    <% else %>
+      You don't seem to have any events matching that criteria.
+    <% end %>
+  </div>
+
+<% end %>
