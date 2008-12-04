@@ -753,6 +753,7 @@ en:
         body: Body
         due_at: "Deliver at:"
     subscriptions:
+      no_subscriptions: There are no subscribers.
       links:
         index: Subscriptions
         new: Add a new subscriber

@@ -1,11 +1,7 @@
 class Subscription < ActiveRecord::Base
-  belongs_to :commentable, :polymorphic => true, :counter_cache => true
-  belongs_to :newsletter,  :class_name => 'Newsletter',
-                           :foreign_key => 'newsletter_id'
+  belongs_to :subscrabable, :polymorphic => true, :counter_cache => true
   
-  attr_accessible :user_id, :commentable_id, :commentable_type
+  attr_accessible :user_id
 
   validates_presence_of :user_id
-  validates_presence_of :commentable_id
-  validates_presence_of :commentable_type
 end

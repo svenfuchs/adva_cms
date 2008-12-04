@@ -22,7 +22,6 @@ When /[I submit | submit] new "(.*)"/ do |model|
     fill_in :issue_body, :with => 'draft issue body'
     click_button 'Save'
   when 'subscription'
-    debugger
     select 'Site user'
     click_button 'Add'
   when 'empty newsletter'

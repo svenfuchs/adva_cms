@@ -7,7 +7,7 @@
 <% end %>
 
 <% if @site.users.present? %>
-  <% split_form_for :subscriber, @subscriber, :url => admin_subscriptions_path, :html => {:multipart => true, :id => 'content_form'} do |f| %>
+  <% split_form_for :subscription, @subscription, :url => admin_subscriptions_path, :html => {:multipart => true, :id => 'content_form'} do |f| %>
     <%= render :partial => 'form', :locals => {:f => f} %>  
     <p class="buttons">
       <%= submit_tag t(:'adva.common.add') %> <%= t(:'adva.common.connector.or') %>

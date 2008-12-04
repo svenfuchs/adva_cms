@@ -8,12 +8,16 @@
     <thead>
       <tr>
         <th scope="col">Newsletter</th>
+        <th scope="col">Issues</th>
+        <th scope="col">Subscribers</th>
       </tr>
     </thead>
     <tbody>
       <% @newsletters.each do |newsletter| %>
         <tr>
           <td><%= link_to h(newsletter.title), admin_newsletter_path(@site, newsletter) %></td>
+          <td><%= link_to newsletter.issues_count, admin_issues_path(@site, newsletter) %></td>
+          <td><%= link_to newsletter.subscriptions_count, admin_subscriptions_path(@site, newsletter) %></td>
         </tr>
       <% end %>
     </tbody>

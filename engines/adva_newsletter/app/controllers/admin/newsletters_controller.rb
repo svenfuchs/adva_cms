@@ -13,7 +13,8 @@ class Admin::NewslettersController < Admin::BaseController
   end
   
   def create
-    @newsletter = Newsletter.new(params[:newsletter])
+    @site = Site.find(params[:site_id])
+    @newsletter = @site.newsletters.build(params[:newsletter])
     
     if @newsletter.save
       redirect_to admin_newsletter_path(@site, @newsletter)
