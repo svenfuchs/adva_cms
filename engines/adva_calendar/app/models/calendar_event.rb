@@ -12,7 +12,7 @@ class CalendarEvent < ActiveRecord::Base
 
   has_permalink :title, :scope => :section_id
   acts_as_taggable
-  acts_as_role_context :parent => 'Section'
+  acts_as_role_context :parent => 'Calendar'
 
   filters_attributes :sanitize => :body_html, :except => [:body, :cached_tag_list]
   
@@ -25,7 +25,7 @@ class CalendarEvent < ActiveRecord::Base
   before_create :set_published
   
   named_scope :elapsed, lambda {{:conditions => ['startdate < ? AND (enddate IS ? OR enddate < ?)', Time.now, nil, Time.now], :order => 'enddate DESC'}}
-  named_scope :upcoming, Proc.new {|date| {:conditions => ['startdate > ? OR (startdate < ? AND enddate > ?)', date||Time.now, date||Time.now, date||Time.now], :order => 'startdate ASC'}}
+  named_scope :upcoming, Proc.new {|startdate, enddate| {:conditions => ['startdate > ? OR (startdate < ? AND enddate > ?)', startdate||Time.now, startdate||Time.now, enddate||Time.now], :order => 'startdate ASC'}}
   named_scope :recently_added, lambda{{:conditions => ['startdate > ? OR (startdate < ? AND enddate > ?)', Time.now, Time.now, Time.now], :order => 'created_at DESC'}}
 
   def set_published
