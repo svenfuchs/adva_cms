@@ -5,8 +5,6 @@ class Admin::EventsController < Admin::BaseController
   before_filter :set_section
   before_filter :set_event, :only => [:show, :edit, :update, :destroy]
   before_filter :set_categories, :only => [:new, :edit]
-  
-  before_filter :params_author, :only => [:create, :update]
 
   widget :sub_nav, :partial => 'widgets/admin/sub_nav',
                    :only  => { :controller => ['admin/events'] }
@@ -22,13 +20,15 @@ class Admin::EventsController < Admin::BaseController
   end
   
   def create
-    if @event = @calendar.events.create(params[:event])
+    @event = @calendar.events.new(params[:calendar_event])
+    if @event.save!
       trigger_events @event
       flash[:notice] = "The event has been successfully created."
-      redirect_to edit_admin_calendar_event_path(@site, @calendar, @event)
+      redirect_to edit_admin_calendar_event_path(@site.id, @calendar.id, @event.id)
     else
+      set_categories
       flash[:error] = "The event could not been created."
-      render :action => 'new'
+      render :action => 'new' and return
     end
   end
   
@@ -36,7 +36,7 @@ class Admin::EventsController < Admin::BaseController
   end
   
   def update
-    if @event.update_attributes(params[:event])
+    if @event.update_attributes(params[:calendar_event])
       trigger_events @event
       flash[:notice] = "The event has been successfully updated."
       redirect_to edit_admin_calendar_event_path
@@ -68,16 +68,6 @@ class Admin::EventsController < Admin::BaseController
 
     def set_categories
       @categories = @calendar.categories.roots
-    end
-
-    def params_author
-      author = User.find_by_id(params[:event][:author]) || current_user
-      set_event_param(:author, author) or raise "author and current_user not set"
-    end
-
-    def set_event_param(key, value)
-      params[:event] ||= {}
-      params[:event][key] = value
     end
 end
 
