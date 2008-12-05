@@ -140,6 +140,11 @@ div.meta {
 .content {
 	margin-left: 220px;
 }
+.content a.meta {
+	color: #666;
+	border-color: #666;
+	font-size: 11px;
+}
 .util,
 .util a {
 	color: #888;
@@ -175,6 +180,12 @@ div.meta {
 	float: left;
 	clear: both;
 	color: #888;
+}
+.navigation {
+	float: right;
+	padding-left: 0.4em;
+	padding-top: 18px;
+	margin-bottom: 0;
 }
 #feeds {
 	float: right;

@@ -1,12 +1,29 @@
 var CommentForm = {
   init: function() {
-    var username = Cookie.get('uname');
-    if (username) {
-			try { $$('#registered_author span')[0].update(username); } catch(err) {}
+    var user_name = unescape(Cookie.get('uname')).replace(/\+/g, " ");
+    if (user_name) {
+			try { $$('#registered_author span')[0].update(user_name); } catch(err) {}
 			try { $('registered_author').show(); } catch(err) {}
 			try { $('anonymous_author').hide(); } catch(err) {}
     }
   }
+}
+
+var LoginLinks = {
+  init: function() {
+    var user_id = Cookie.get('uid');
+    var user_name = unescape(Cookie.get('uname')).replace(/\+/g, " ");
+    if (user_id) {
+			try { this.update_user_link(user_id, user_name) } catch(err) {}
+			try { $('logout_links').show(); } catch(err) {}
+			try { $('login_links').hide(); } catch(err) {}
+    }
+  },
+
+	update_user_link: function(user_id, user_name) {
+		$$('#logout_links a')[0].update(user_name);
+		$$('#logout_links a')[0].href = unescape($$('#logout_links a')[0].href).replace(/{user_id}/, user_id)
+	}
 }
 
 Date.UTCNow = function() {
@@ -52,6 +69,9 @@ Event.onReady(function() {
   if($('anonymous_author')) {
 	  CommentForm.init();
   }
+	if($('logout_links')) {
+		LoginLinks.init();
+	}
   // parse all microformatted dates and re-format them as time distance
   $$('abbr.datetime').each(function(abbr) {
     createAndFormatDateSpan(abbr);
