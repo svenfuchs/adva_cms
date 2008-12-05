@@ -8,16 +8,12 @@
 
 <h4>Optional settings</h4>
 <p>
-  <%= f.label :author %>
-  <%= f.select :author, author_options, :selected => author_preselect %>
+  <%= f.label :user_id %>
+  <%= f.select :user_id, author_options, :selected => author_preselect %>
 </p>
 <p>
   <%= f.label :filter %>
   <%= f.select :filter, filter_options %>
-</p>
-<p>
-  <%= f.label :comment_age, 'Comments' %>
-  <%= f.select :comment_age, comment_expiration_options %>
 </p>
 <p>
   <%= f.label :permalink %>
