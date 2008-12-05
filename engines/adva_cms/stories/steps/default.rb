@@ -38,7 +38,7 @@ steps_for :default do
   end
 
   Then "the page has an empty list" do
-    response.should have_tag("div.empty")
+    response.should have_tag(".empty")
   end
 
   Then "the form contains anonymous name and email fields" do
