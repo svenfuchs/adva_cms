@@ -1,0 +1,31 @@
+<h2><%= collection_title(@category, @tags) %></h2>
+
+<% if @events.size > 0 -%>
+
+  <table id="events" class="list">
+    <thead>
+      <tr>
+        <th scope="col">Title</th>
+        <th scope="col">Updated</th>
+      </tr>
+    </thead>
+    <tbody id="events-body">
+      <% @events.each do |event| %>
+        <tr id="<%= dom_id event %>">
+          <td><%= link_to event.title, event_url(event.section, event) %></td>
+          <td><%= datetime_with_microformat(event.startdate, :format => :long) %> to <%= datetime_with_microformat(event.enddate, :format => :long) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= will_paginate @events, :id => 'pagination' %>
+  
+<% else %>
+
+  <div class="empty">
+    There are no events in <%= @section.title %>.
+  </div>
+
+<% end %>
+
+<%= render :partial => 'footer' %>
