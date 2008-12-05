@@ -161,7 +161,7 @@ describe "Message views:" do
     
     it "has message body in a paragraph" do
       act!
-      response.should have_tag('div#message-body', "#{@message.body}")
+      response.should have_tag('div#message-body', /#{@message.body}/)
     end
   end
   
@@ -285,10 +285,10 @@ describe "Message views:" do
       response.should have_tag("div#message_#{@message.id}")
     end
     
-    it "has the content of the message" do
-      act!
-      response.should have_tag("div.content")
-    end
+    # it "has the content of the message" do
+    #   act!
+    #   response.should have_tag("div.content")
+    # end
     
     it "has the link to show the message" do
       act!

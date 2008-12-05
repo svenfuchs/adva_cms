@@ -3,7 +3,6 @@
 		<% for message in messages -%>
 			<%= render :partial => 'message', :locals => { :message => message }%>
 		<% end -%>
-		<%= will_paginate @messages %>
 	<% else %>
 		<p class="empty">
 			You do not have any messages.
