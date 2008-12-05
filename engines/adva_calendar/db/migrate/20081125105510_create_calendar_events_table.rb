@@ -11,12 +11,12 @@ class CreateCalendarEventsTable < ActiveRecord::Migration
       t.string     :host
       t.text       :body
       t.text       :body_html
+      t.string     :filter
       
-      t.integer :parent_id
+      t.integer    :parent_id
       
       t.references :section
-      t.references :category
-      t.references :author
+      t.references :user
       
       t.timestamps
     end
@@ -25,6 +25,5 @@ class CreateCalendarEventsTable < ActiveRecord::Migration
 
   def self.down
     drop_table :calendar_events
-    
   end
 end
