@@ -762,7 +762,7 @@ en:
     subscriptions:
       no_subscriptions: There are no subscribers.
       links:
-        index: Subscriptions
+        index: Subscribers
         new: Add a new subscriber
       labels:
         user: Users
