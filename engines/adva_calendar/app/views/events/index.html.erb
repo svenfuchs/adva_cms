@@ -5,15 +5,18 @@
   <table id="events" class="list">
     <thead>
       <tr>
-        <th scope="col">Title</th>
-        <th scope="col">Updated</th>
+        <th scope="col"><%= t(:'adva.calendar.titles.title') %></th>
+        <th scope="col"><%= t(:'adva.calendar.titles.location') %></th>
+        <th scope="col"><%= t(:'adva.calendar.titles.starting_at') %></th>
+        <th scope="col"><%= t(:'adva.calendar.titles.ending_at') %></th>
       </tr>
     </thead>
     <tbody id="events-body">
       <% @events.each do |event| %>
         <tr id="<%= dom_id event %>">
-          <td><%= link_to event.title, event_url(event.section, event) %></td>
-          <td><%= datetime_with_microformat(event.startdate, :format => :long) %> to <%= datetime_with_microformat(event.enddate, :format => :long) %></td>
+          <td><%= link_to_event event %></td>
+          <td><%= datetime_with_microformat(event.startdate, :format => :long) %></td>
+          <td><%= datetime_with_microformat(event.enddate, :format => :long) %></td>
         </tr>
       <% end %>
     </tbody>

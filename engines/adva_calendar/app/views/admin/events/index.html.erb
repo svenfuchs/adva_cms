@@ -1,8 +1,6 @@
 <% if @events.size > 0 -%>
   <p>
-    <%= link_to "New event", new_admin_calendar_event_path(@site) %> &middot;
-    <%= link_to_function 'Reorder events', "events_list.toggle(this, 'Done reordering');", :id => 'reorder_sections' %>
-    <%= image_tag '/images/adva_cms/indicator.gif', :id => 'events_indicator', :style => 'display: none;' %>
+    <%= link_to "New event", new_admin_calendar_event_path(@site) %>
   </p>
 
   <p class="total">
@@ -13,9 +11,9 @@
     <thead>
       <tr>
         <th scope="col"><%= t(:'adva.calendar.titles.title') %></th>
-        <th scope="col">Last Updated</th>
-        <th scope="col">By</th>
-        <th scope="col"></th>
+        <th scope="col"><%= t(:'adva.calendar.titles.location') %></th>
+        <th scope="col">Starting at</th>
+        <th scope="col">Ending at</th>
       </tr>
     </thead>
     <tbody id="events-body">
@@ -24,18 +22,6 @@
   </table>
 
   <%= will_paginate @events, :id => 'pagination' %>
-
-  <script type="text/javascript">
-    var events_list = new eventsList($('events-body'), {
-      onUpdate: function(drag, drop, event) {
-        <%= remote_function(:url => admin_calendar_events_path(@site, @section),
-                            :method =>   :put,
-                            :with   =>   "events_list.serialize()",
-                            :loading =>  "$('events_indicator').show()",
-                            :complete => "$('events_indicator').hide()" ) %>
-      }
-    });
-  </script>
 
 <% else %>
 

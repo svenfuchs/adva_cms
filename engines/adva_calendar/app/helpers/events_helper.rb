@@ -10,4 +10,8 @@ module EventsHelper
   def calendar_timespan
     @timespan[0] if @timespan
   end
+  
+  def link_to_event(event)
+    link_to event.title, event_url(event.section, event.permalink)
+  end
 end

@@ -1,17 +1,16 @@
 
 with_options :controller => 'events', :action => 'show', :requirements => { :method => :get } do |event|
+  event.calendar_event "/calendars/:section_id/:id"
+  event.formatted_calendar_event "/calendars/:section_id/:id.:format"
 end
 
 with_options :controller => 'events', :action => 'index', :requirements => { :method => :get } do |event|
-  event.events "calendars/:section_id/:year/:month/:day", :year => nil, :month => nil, :day => nil,
+  event.calendar_events "calendars/:section_id/:year/:month/:day", :year => nil, :month => nil, :day => nil,
     :requirements => { :year => /\d{4}/, :month => /\d{1,2}/ }
-  event.formatted_events "calendars/:section_id.:format"
+  event.formatted_calendar_events "calendars/:section_id.:format"
 
-  event.events_category "calendars/:section_id/categories/:category_id"
-  event.formatted_events_category "events/:section_id/categories/:category_id.:format"
-  
-  event.event "/calendars/:section_id/:id", :action => 'show'
-  event.formatted_event "/calendars/:section_id/:id.:format", :action => 'show'
+  event.calendar_events_category "calendars/:section_id/categories/:category_id"
+  event.formatted_calendar_events_category "calendars/:section_id/categories/:category_id.:format"
 end
 
 
