@@ -7,8 +7,8 @@
     <%= !wikipage.comments.empty? ? link_to(wikipage.comments.size, admin_comments_path(:content_id => wikipage.id)) : 'none' %>
   </td>
   <td class="actions">
-    <%= link_to "View", wikipage_path(@section.id, wikipage.permalink), :class => 'view' %>
-    <%= link_to "Edit", edit_admin_wikipage_path(@site, @section, wikipage), :class => 'edit' %>
-    <%= link_to "Delete", admin_wikipage_path(@site, @section, wikipage), :class => 'delete', :confirm => "Are you sure you wish to delete this wikipage?", :method => :delete %>
+    <%= link_to t(:'adva.common.view'), wikipage_path(@section.id, wikipage.permalink), :class => 'view' %>
+    <%= link_to t(:'adva.common.edit'), edit_admin_wikipage_path(@site, @section, wikipage), :class => 'edit' %>
+    <%= link_to t(:'adva.common.delete'), admin_wikipage_path(@site, @section, wikipage), :class => 'delete', :confirm => t(:'adva.wikipage.view._wikipages.confirm_delete'), :method => :delete %>
   </td>
 </tr>

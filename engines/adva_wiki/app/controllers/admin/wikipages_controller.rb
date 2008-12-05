@@ -24,10 +24,10 @@ class Admin::WikipagesController < Admin::BaseController
   def create
     if @wikipage = @section.wikipages.create(params[:wikipage])
       trigger_events @wikipage
-      flash[:notice] = "The wikipage has been successfully created."
+      flash[:notice] = t(:'adva.wikipage.flash.create.succsess')
       redirect_to edit_admin_wikipage_path(@site, @section, @wikipage)
     else
-      flash[:error] = "The wikipage could not been created."
+      flash[:error] = t(:'adva.wikipage.flash.create.failure')
       render :action => 'new'
     end
   end
@@ -42,10 +42,10 @@ class Admin::WikipagesController < Admin::BaseController
   def update_attributes
     if @wikipage.update_attributes(params[:wikipage])
       trigger_events @wikipage
-      flash[:notice] = "The wikipage has been successfully updated."
+      flash[:notice] = t(:'adva.wikipage.flash.update_attributes.success')
       redirect_to edit_admin_wikipage_path
     else
-      flash[:error] = "The wikipage could not been updated."
+      flash[:error] = t(:'adva.wikipage.flash.update_attributes.failure')
       render :action => 'edit'
     end
   end
@@ -53,10 +53,10 @@ class Admin::WikipagesController < Admin::BaseController
   def rollback
     if @wikipage.revert_to!(params[:version])
       trigger_events @wikipage, :rolledback
-      flash[:notice] = "The wikipage has been rolled back to revision #{params[:version]}"
+      flash[:notice] = t(:'adva.wikipage.flash.rollback.success', :version => params[:version])
       redirect_to edit_admin_wikipage_path
     else
-      flash.now[:error] = "The wikipage could not be rolled back to revision #{params[:version]}."
+      flash.now[:error] = t(:'adva.wikipage.flash.rollback.failure', :version => params[:version])
       render :action => 'edit'
     end
   end
@@ -64,10 +64,10 @@ class Admin::WikipagesController < Admin::BaseController
   def destroy
     if @wikipage.destroy
       trigger_events @wikipage
-      flash[:notice] = "The wikipage has been deleted."
+      flash[:notice] = t(:'adva.wikipage.flash.destroy.success')
       redirect_to admin_wikipages_path
     else
-      flash[:error] = "The wikipage could not be deleted."
+      flash[:error] = t(:'adva.wikipage.flash.destroy.failure')
       render :action => 'show'
     end
   end
@@ -90,7 +90,7 @@ class Admin::WikipagesController < Admin::BaseController
     def params_author
       return if params[:version]
       author = User.find(params[:wikipage][:author]) || current_user
-      set_wikipage_param(:author, author) or raise "author and current_user not set"
+      set_wikipage_param(:author, author) or raise t(:'adva.wikipage.exception.author_and_current_user_not_set')
     end
 
     def set_wikipage_param(key, value)

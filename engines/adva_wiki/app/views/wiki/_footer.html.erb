@@ -2,7 +2,7 @@
   <div id="footer" class="clearing">
     <% if !@section.categories.blank? %>
       <div>
-        <h4>Categories</h4>
+        <h4><%= t(:'adva.common.categories') %></h4>
         <ul>
         <% @section.categories.each do |category| %>
           <li><%= link_to_category @section, category %></li>
@@ -26,7 +26,7 @@
   <%= render :partial => 'shared/footer' %>
   
   <ul id="feeds">
-    <li><%= link_to 'Entries feed', formatted_blog_url(@section, :format => :atom) %></li>
-    <li><%= link_to 'Comments feed', formatted_blog_comments_url(@section, :format => :atom) %></li>
+    <li><%= link_to t(:'adva.wiki.view._footer.link_to_entries_feed'), formatted_blog_url(@section, :format => :atom) %></li>
+    <li><%= link_to t(:'adva.wiki.view._footer.link_to_comment_feed'), formatted_blog_comments_url(@section, :format => :atom) %></li>
   </ul>
 <% end %>
