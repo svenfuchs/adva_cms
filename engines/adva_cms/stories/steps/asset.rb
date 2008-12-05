@@ -9,13 +9,13 @@ steps_for :asset do
   end
 
   When "the user fills in the admin asset creation form with valid values" do
-    attaches_file 'assets[0][uploaded_data]', RAILS_ROOT + '/public/images/rails.test.png'
-    fills_in 'assets[0][title]', :with => 'title'
-    fills_in 'assets[0][tag_list]', :with => 'foo bar'
+    attach_file 'assets[0][uploaded_data]', RAILS_ROOT + '/public/images/rails.test.png'
+    fill_in 'assets[0][title]', :with => 'title'
+    fill_in 'assets[0][tag_list]', :with => 'foo bar'
   end
 
   When "the user fills in the admin asset edit form" do
-    fills_in 'asset[title]', :with => 'updated title'
+    fill_in 'asset[title]', :with => 'updated title'
   end
 
   When "the user adds an asset to the bucket" do

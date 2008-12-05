@@ -1,0 +1,24 @@
+<% content_for :sidebar do %>
+  <%= render :partial => 'admin/layouts/sidebar_manage', :locals => {:active => :subscriptions} %>
+  <h3><%= t('adva.titles.actions') %></h3>
+  <ul>
+    <li><%= link_to t('adva.users.links.new'), new_admin_site_user_path %></li>
+  </ul>
+<% end %>
+
+<%= render :partial => 'admin/newsletters/header' %>
+
+<% if @site.users.present? %>
+  <% split_form_for :subscription, @subscription, :url => admin_subscriptions_path, :html => {:multipart => true, :id => 'content_form'} do |f| %>
+    <%= render :partial => 'form', :locals => {:f => f} %>  
+    <p class="buttons">
+      <%= submit_tag t('adva.common.add') %> <%= t('adva.common.connector.or') %>
+      <%= link_to t('adva.common.cancel'), admin_subscriptions_path %>
+    </p>
+  <% end %>
+<% else %>
+  <div class="empty">
+    <%= t('adva.sites.no_users') %>
+    <%= link_to t('adva.users.links.new'), new_admin_site_user_path %>
+  </div>
+<% end %>

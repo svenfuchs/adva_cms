@@ -57,10 +57,10 @@ steps_for :user do
   end
 
   When "the user fills in the admin user account creation form with valid values" do
-    fills_in 'first name', :with => "a new user's first name"
-    fills_in 'last name', :with => "a new user last name"
-    fills_in 'email', :with => 'new_user@email.org'
-    fills_in 'password', :with => 'password'
+    fill_in 'first name', :with => "a new user's first name"
+    fill_in 'last name', :with => "a new user last name"
+    fill_in 'email', :with => 'new_user@email.org'
+    fill_in 'password', :with => 'password'
   end
 
   Then "a new user account is created" do

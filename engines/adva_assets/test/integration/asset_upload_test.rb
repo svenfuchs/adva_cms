@@ -15,13 +15,13 @@ class AssetUploadTest < ActionController::IntegrationTest
   #   assert_template "admin/assets/index"
   # 
   #   # go to new asset form
-  #   clicks_link "New asset"
+  #   click_link "New asset"
   #   
   #   # make sure that correct template gets rendered
   #   assert_template "admin/assets/new"
   #   
   #   # fill in data and submit the form
-  #   fills_in "file", :with => 
-  #   fills_in "title", :with => "a test text file"
+  #   fill_in "file", :with => 
+  #   fill_in "title", :with => "a test text file"
   # end
 end

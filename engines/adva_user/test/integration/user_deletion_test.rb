@@ -11,16 +11,16 @@ class UserDeletionTest < ActionController::IntegrationTest
 
   def test_user_deletes_user_account
     # user logs in to the site
-    visits '/login'
-    fills_in 'email', :with => @user.email
-    fills_in 'password', :with => @user.password
-    clicks_button 'Login'
+    visit '/login'
+    fill_in 'email', :with => @user.email
+    fill_in 'password', :with => @user.password
+    click_button 'Login'
 
     # TODO
     # there's no user profile page so far
-    # visits user_path
-    # clicks_link 'Edit User'
-    # clicks_link 'delete'
+    # visit user_path
+    # click_link 'Edit User'
+    # click_link 'delete'
     
     # user deletes the own profile
     delete user_path

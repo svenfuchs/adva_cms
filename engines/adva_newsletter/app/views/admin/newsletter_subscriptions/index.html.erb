@@ -1,0 +1,8 @@
+<% content_for :sidebar do %>
+  <%= render :partial => 'admin/layouts/sidebar_manage', :locals => {:active => :subscriptions} %>
+  <%= render :partial => 'sidebar_actions' %>
+<% end %>
+
+<%= render :partial => 'admin/newsletters/header' %>
+
+<%= render :partial => 'admin/newsletter_subscriptions/subscriptions', :object => @subscriptions %>

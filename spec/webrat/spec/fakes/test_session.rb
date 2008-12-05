@@ -1,10 +1,18 @@
-module Webrat
-  class TestSession < Session
+module Webrat #:nodoc:
+  def self.session_class #:nodoc:
+    TestSession
+  end
+  
+  class TestSession < Session #:nodoc:
     attr_accessor :response_body
     attr_writer :response_code
     
     def doc_root
       File.expand_path(File.join(".", "public"))
+    end
+    
+    def response
+      @response ||= Object.new
     end
     
     def response_code

@@ -1,0 +1,28 @@
+<h2><%= t('adva.subscriptions.labels.subscriptions') %></h2>
+
+<% if subscriptions.present? %>
+  <table id="subscriptions" class="list" cellspacing='0'>
+    <thead>
+      <tr>
+        <th scope="col"><%= t('adva.subscriptions.labels.subscriber') %></th>
+        <th scope="col"><%= t('adva.subscriptions.labels.email') %></th>
+        <th scope="col"><%= t('adva.subscriptions.labels.time') %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% subscriptions.each do |subscription| %>
+        <tr>
+          <td><%= link_to h(subscription.user.name), admin_user_path(subscription.user_id) %></td>
+          <td><%= subscription.user.email %></td>
+          <td><%= subscription.created_at.to_s(:db) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <div class="empty">
+    <%= t('adva.subscriptions.no_subscriptions') %>
+    <%= link_to t('adva.subscriptions.links.new'), new_admin_subscription_path(@site, @newsletter) %>
+  </div>
+<% end %>
+

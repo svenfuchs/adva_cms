@@ -34,10 +34,10 @@ class BlogCommentTest < ActionController::IntegrationTest
     end
 
     # fill in data and submit the form
-    fills_in "user_name", :with => "John Doe"
-    fills_in "user_email", :with => "john@example.com"
-    fills_in "comment_body", :with => "Really good article!"
-    clicks_button "Submit comment"
+    fill_in "user_name", :with => "John Doe"
+    fill_in "user_email", :with => "john@example.com"
+    fill_in "comment_body", :with => "Really good article!"
+    click_button "Submit comment"
 
     # check that the request was successful
     assert_response :success
@@ -68,8 +68,8 @@ class BlogCommentTest < ActionController::IntegrationTest
     end
 
     # update the body and submit the form
-    fills_in "comment_body", :with => "Really good article! Hope to see more like that in the future!"
-    clicks_button "Save comment"
+    fill_in "comment_body", :with => "Really good article! Hope to see more like that in the future!"
+    click_button "Save comment"
 
     # check that the request was successful
     assert_response :success

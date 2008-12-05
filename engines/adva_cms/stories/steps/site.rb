@@ -56,15 +56,15 @@ steps_for :site do
   end
 
   When "the user fills in the admin site creation form with valid values" do
-    fills_in 'website name', :with => 'a new site name'
-    fills_in 'website title', :with => 'a new site title'
-    fills_in 'hostname', :with => 'www.example.com'
+    fill_in 'website name', :with => 'a new site name'
+    fill_in 'website title', :with => 'a new site title'
+    fill_in 'hostname', :with => 'www.example.com'
   end
 
   When "the user fills in the site install form with valid values" do
-    fills_in 'website name', :with => 'a new site name'
-    fills_in 'website title', :with => 'a new site title'
-    fills_in 'title', :with => 'the root section'
+    fill_in 'website name', :with => 'a new site name'
+    fill_in 'website title', :with => 'a new site title'
+    fill_in 'title', :with => 'the root section'
   end
 
   Then "a new Site is created" do

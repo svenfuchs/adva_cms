@@ -50,8 +50,8 @@ steps_for :section do
   end
 
   When "the user fills in the admin section creation form with valid values" do
-    chooses 'Section'
-    fills_in 'title', :with => 'a new section title'
+    choose 'Section'
+    fill_in 'title', :with => 'a new section title'
   end
 
   When "the user goes to the section url on frontend" do

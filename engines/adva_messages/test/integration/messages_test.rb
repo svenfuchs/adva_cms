@@ -38,7 +38,7 @@ class UserBrowsesMessageFoldersTest < ActionController::IntegrationTest
     get '/messages'
     
     # clicks a link to create a new message
-    clicks_link 'New message'
+    click_link 'New message'
     
     # the page renders the new form
     assert_template 'messages/new'
@@ -49,7 +49,7 @@ class UserBrowsesMessageFoldersTest < ActionController::IntegrationTest
     get '/messages/sent'
     
     # clicks a link to create a new message
-    clicks_link 'New message'
+    click_link 'New message'
     
     # the page renders the new form
     assert_template 'messages/new'
@@ -70,7 +70,7 @@ class UserManipulatesMessages < ActionController::IntegrationTest
     # user has received message
     assert @user.messages_received.count == 1
     
-    clicks_link 'delete'
+    click_link 'delete'
     
     assert @user.messages_received.count == 0
   end
@@ -82,7 +82,7 @@ class UserManipulatesMessages < ActionController::IntegrationTest
     # user has sent message
     assert @user.messages_sent.count == 1
     
-    clicks_link 'delete'
+    click_link 'delete'
     
     assert @user.messages_sent.count == 0
   end
@@ -106,10 +106,10 @@ class UserManipulatesMessages < ActionController::IntegrationTest
     assert johan_mcdoe.messages_received.count == 0
     
     # user fills the message form
-    selects       'Johan McDoe', :from => 'message[recipient_id]'
-    fills_in      'subject',     :with => 'the message subject'
-    fills_in      'body',        :with => 'the message body'
-    clicks_button 'Save'
+    select       'Johan McDoe', :from => 'message[recipient_id]'
+    fill_in      'subject',     :with => 'the message subject'
+    fill_in      'body',        :with => 'the message body'
+    click_button 'Save'
     
     # user has sent one more message
     assert @user.messages_sent.count == 2
@@ -136,14 +136,14 @@ class UserManipulatesMessages < ActionController::IntegrationTest
     # user has received one message from johan mcdoe
     @message_received.update_attribute(:sender, johan_mcdoe)
     
-    clicks_link 'reply'
+    click_link 'reply'
     
     # the page renders the reply view
     assert_template 'messages/reply'
     
     # user fills the message form
-    fills_in      'body',        :with => 'the reply body'
-    clicks_button 'Save'
+    fill_in      'body',        :with => 'the reply body'
+    click_button 'Save'
     
     # the page renders the reply view
     assert_template 'messages/index'
@@ -165,7 +165,7 @@ class UserManipulatesMessages < ActionController::IntegrationTest
   #   
   #   assert @message.read_at != nil
   #   
-  #   clicks_link 'mark as unread'
+  #   click_link 'mark as unread'
   #   
   #   assert @message.read_at == nil
   # end

@@ -27,7 +27,7 @@ class BlogArticleDeleteTest < ActionController::IntegrationTest
     assert_template "admin/articles/edit"
 
     # delete the article
-    clicks_link "Delete this article"
+    click_link "Delete this article"
 
     # check that the article was deleted
     assert_raise ActiveRecord::RecordNotFound do

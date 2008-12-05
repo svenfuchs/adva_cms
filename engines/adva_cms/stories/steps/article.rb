@@ -57,9 +57,9 @@ steps_for :article do
   end
 
   When "the user fills in the admin article creation form with valid values" do
-    fills_in 'title', :with => 'the article title'
-    fills_in 'article[body]', :with =>'the article body'
-    fills_in 'article[tag_list]', :with => '\"test article\"'
+    fill_in 'title', :with => 'the article title'
+    fill_in 'article[body]', :with =>'the article body'
+    fill_in 'article[tag_list]', :with => '\"test article\"'
   end
 
   When "the user clicks on the article link" do
