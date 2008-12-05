@@ -17,11 +17,11 @@ class InstallationTest < ActionController::IntegrationTest
     assert_template "admin/install/index"
 
     # fill in the form and submit the form
-    fills_in :site_name,     :with => "adva-cms Test"
-    fills_in :user_email,    :with => "test@example.org"
-    fills_in :user_password, :with => "test_password"
-    fills_in :section_title, :with => "Home"
-    clicks_button "Create"
+    fill_in :site_name,     :with => "adva-cms Test"
+    fill_in :user_email,    :with => "test@example.org"
+    fill_in :user_password, :with => "test_password"
+    fill_in :section_title, :with => "Home"
+    click_button "Create"
 
     # check that a new site is created
     assert_equal 1, Site.count
@@ -58,7 +58,7 @@ class InstallationTest < ActionController::IntegrationTest
   end
   
   def log_out_and_view_empty_frontend!
-    clicks_link "Logout"
+    click_link "Logout"
 
     # check that the user sees the frontend
     assert_template "sections/show"

@@ -14,20 +14,20 @@ steps_for :site do
   end
 
   When "the user fills in the admin theme creation form with valid values" do
-    fills_in 'name', :with => 'a new theme'
-    fills_in 'author', :with => 'the author'
-    fills_in 'homepage', :with => 'http://homepage.org'
-    fills_in 'version', :with => 'the version number'
-    fills_in 'summary', :with => 'the summary'
+    fill_in 'name', :with => 'a new theme'
+    fill_in 'author', :with => 'the author'
+    fill_in 'homepage', :with => 'http://homepage.org'
+    fill_in 'version', :with => 'the version number'
+    fill_in 'summary', :with => 'the summary'
   end
 
   When "the user fills in the admin theme file creation form with valid values" do
-    fills_in 'Filename', :with => 'shared/_footer.html.erb'
-    fills_in 'file[data]', :with => 'this is the new theme template' # + "some random text #{rand}" * 1024
+    fill_in 'Filename', :with => 'shared/_footer.html.erb'
+    fill_in 'file[data]', :with => 'this is the new theme template' # + "some random text #{rand}" * 1024
   end
 
   When "the user fills in the form with valid values" do
-    attaches_file 'theme[file]', RAILS_ROOT + "/tmp/stories/downloads/theme.zip"
+    attach_file 'theme[file]', RAILS_ROOT + "/tmp/stories/downloads/theme.zip"
   end
 
   When "the user downloads the theme" do

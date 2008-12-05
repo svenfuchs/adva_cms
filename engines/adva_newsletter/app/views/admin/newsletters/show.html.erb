@@ -1,0 +1,14 @@
+<% content_for :sidebar do %>
+  <%= render :partial => 'admin/layouts/sidebar_manage', :locals => {:active => :newsletters} %>
+  <h3><%= t('adva.titles.actions') %></h3>
+  <ul>
+    <li><%= link_to t('adva.issues.links.new'), new_admin_issue_path(@site, @newsletter) %></li>
+    <li><%= link_to t('adva.subscriptions.links.new'), new_admin_subscription_path(@site, @newsletter) %></li>
+  </ul>
+<% end %>
+
+<%= render :partial => 'header' %>
+
+<%= render :partial => 'admin/issues/issues', :object => @newsletter.issues %>
+
+<%= render :partial => 'admin/newsletter_subscriptions/subscriptions', :object => @newsletter.subscriptions %>

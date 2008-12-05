@@ -10,7 +10,7 @@ steps_for :blog_category do
   end
 
   When "the user fills in the admin category creation form with valid values" do
-    fills_in 'title', :with => 'a new category title'
+    fill_in 'title', :with => 'a new category title'
   end
 
   Then "a new category has been saved" do

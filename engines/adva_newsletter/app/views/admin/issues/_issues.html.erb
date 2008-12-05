@@ -1,0 +1,25 @@
+<h2><%= t('adva.issues.labels.issues') %></h2>
+
+<% if issues.present? %>
+  <table id="issues" class="list" cellspacing='0'>
+    <thead>
+      <tr>
+        <th scope="col"><%= t('adva.issues.labels.name') %></th>
+        <th scope="col"><%= t('adva.issues.labels.created_at') %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% issues.each do |issue| %>
+        <tr>
+          <td><%= link_to h(issue.title), admin_issue_path(@site, @newsletter, issue) %></td>
+          <td><%= issue.created_at.to_s(:db) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <div class="empty">
+    <%= t('adva.issues.no_issues') %>
+    <%= link_to t('adva.issues.links.new'), new_admin_issue_path(@site, @newsletter) %>
+  </div>
+<% end %>

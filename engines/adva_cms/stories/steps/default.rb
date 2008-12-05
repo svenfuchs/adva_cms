@@ -4,13 +4,13 @@ steps_for :default do
   end
 
   When "the user fills in the anonymous name and email fields" do
-    fills_in 'user[name]', :with => 'anonymous'
-    fills_in 'user[email]', :with => 'anonymous@email.org'
+    fill_in 'user[name]', :with => 'anonymous'
+    fill_in 'user[email]', :with => 'anonymous@email.org'
   end
   
   When "the user fills in the anonymous name and email fields with incorrect data" do
-    fills_in 'user[name]', :with => ''
-    fills_in 'user[email]', :with => 'anonymous@email'
+    fill_in 'user[name]', :with => ''
+    fill_in 'user[email]', :with => 'anonymous@email'
   end
 
   Then "the $object's $name is set to '$value'" do |object, name, value|

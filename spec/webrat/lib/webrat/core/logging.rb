@@ -1,14 +1,17 @@
 module Webrat
-  module Logging
+  module Logging #:nodoc:
     
     def debug_log(message) # :nodoc:
       return unless logger
-      logger.debug
+      logger.debug message
     end
 
     def logger # :nodoc:
-      if defined? RAILS_DEFAULT_LOGGER
-        RAILS_DEFAULT_LOGGER
+      case Webrat.configuration.mode
+      when :rails
+        defined?(RAILS_DEFAULT_LOGGER) ? RAILS_DEFAULT_LOGGER : nil
+      when :merb
+        Merb.logger
       else
         nil
       end

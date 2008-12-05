@@ -41,50 +41,50 @@ steps_for :forum do
   end
 
   When "the user fills in the topic creation form with valid values" do
-    fills_in 'title', :with => 'the topic title'
-    fills_in 'body', :with => 'the initial comment body'
+    fill_in 'title', :with => 'the topic title'
+    fill_in 'body', :with => 'the initial comment body'
   end
 
   When "the user fills in the topic creation form with name, email and valid topic values" do
-    fills_in 'name', :with => 'anonymous'
-    fills_in 'e-mail', :with => 'anonymous@email.com'
-    fills_in 'title', :with => 'the topic title'
-    fills_in 'body', :with => 'the initial comment body'
+    fill_in 'name', :with => 'anonymous'
+    fill_in 'e-mail', :with => 'anonymous@email.com'
+    fill_in 'title', :with => 'the topic title'
+    fill_in 'body', :with => 'the initial comment body'
   end
 
   When "the user clears the topic title" do
-    fills_in 'title', :with => ''
+    fill_in 'title', :with => ''
   end
 
   When "the user fills in a different topic title" do
-    fills_in 'title', :with => 'the updated topic title'
+    fill_in 'title', :with => 'the updated topic title'
   end
 
   When "the user fills in the post creation form with valid values" do
-    fills_in 'post[body]', :with => 'the post body'
+    fill_in 'post[body]', :with => 'the post body'
   end
 
   When "the user fills in the post creation form with name, email and valid post values" do
-    fills_in 'name', :with => 'anonymous'
-    fills_in 'e-mail', :with => 'anonymous@email.com'
-    fills_in 'post[body]', :with => 'the post body'
+    fill_in 'name', :with => 'anonymous'
+    fill_in 'e-mail', :with => 'anonymous@email.com'
+    fill_in 'post[body]', :with => 'the post body'
   end
 
   When "the user fills in the post creation form with only a name and a post body" do
-    fills_in 'name', :with => 'anonymous'
-    fills_in 'post[body]', :with => 'the post body'
+    fill_in 'name', :with => 'anonymous'
+    fill_in 'post[body]', :with => 'the post body'
   end
 
   When "the user fills in the post creation form with an email" do
-    fills_in 'e-mail', :with => 'anonymous@email.com'
+    fill_in 'e-mail', :with => 'anonymous@email.com'
   end
 
   When "the user clears the post body from the post edit form" do
-    fills_in 'post[body]', :with => ''
+    fill_in 'post[body]', :with => ''
   end
 
   When "the user fills in the post edit form with a post body" do
-    fills_in 'post[body]', :with => 'the updated body'
+    fill_in 'post[body]', :with => 'the updated body'
   end
 
   When "the user clicks on the topic's edit link" do
