@@ -4,7 +4,6 @@ class EventsController < BaseController
   before_filter :set_category, :only => [:index]
   before_filter :set_tags, :only => [:index]
   before_filter :set_event, :except => [:index, :new]
-  before_filter :set_author_params, :only => [:create, :update]
 
   authenticates_anonymous_user
   acts_as_commentable
@@ -14,9 +13,9 @@ class EventsController < BaseController
 
   def index
     source = @category ? @category.contents : @section.events
-    @events = source.elapsed(@timespan) if params[:elapsed]
-    @events = source.recent(@timespan) if params[:recent] and @events.blank?
-    @events ||= source.upcoming(@timespan)
+    @events = source.elapsed(@timespan).paginate({:page => params[:page]}) if params[:elapsed]
+    @events = source.recent(@timespan).paginate({:page => params[:page]}) if params[:recent] and @events.blank?
+    @events ||= source.upcoming(@timespan).paginate({:page => params[:page]})
     respond_to do |format|
       format.html { render }
       format.ics { render :layout => false }
@@ -35,7 +34,7 @@ class EventsController < BaseController
     def set_section; super(Calendar); end
 
     def set_timespan
-      return @timespan = [Date.today, Date.today.end_of_month] if params[:year].blank?
+      return @timespan = [Date.today, nil] if params[:year].blank?
       y = params[:year].to_i
       m = params[:month].to_i
       d = params[:day].to_i
