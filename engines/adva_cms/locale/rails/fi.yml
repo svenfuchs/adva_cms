@@ -1,7 +1,7 @@
 # Finnish translations for Ruby on Rails 
 # by Marko Seppä (marko.seppa@gmail.com)
 
-fi-FI:
+fi:
   date:
     formats:
       default: "%e. %Bta %Y"
