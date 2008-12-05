@@ -3,9 +3,9 @@
 <% form_for Asset.new, :url => admin_assets_path, :html => { :multipart => true, :id => 'asset_form' } do |f| %>
   <fieldset class="clearfix">
     <p>
-      <label id="file-label"><%=t :'adva.assets.upload.files' %></label>
-      <label id="title-label"><%=t :'adva.assets.upload.title' %></label>
-      <label id="taglist-label"><%=t :'adva.assets.upload.tags' %></label>
+      <label id="file-label"><%=t :'adva.assets.labels.upload.files' %></label>
+      <label id="title-label"><%=t :'adva.assets.labels.upload.title' %></label>
+      <label id="taglist-label"><%=t :'adva.assets.labels.upload.tags' %></label>
     </p>
     <div id="files">
     <% @assets.each_with_index do |asset, i| %>

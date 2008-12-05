@@ -82,10 +82,6 @@ fi:
       website_home_section: Netti-sivun koti-osio
       welcome: Tervetuloa!
       wikipages: Wikisivut
-      history:
-        today: Tänään {{date}}
-        yesterday: Eilen {{date}}
-        past: Ennen {{date}}
     links: 
       back: Takaisin
       delete: Poista
@@ -372,6 +368,10 @@ fi:
         new: "{{name}} <{{email}}> juuri julkaisi uuden {{activity}} sivustolla {{site}} osiossa {{section}}."
       comment: Kommentit {{actions}}
       actions: "{{type}} {{actions}} {{activity}}:ssa."
+      titles:
+        today: Tänään {{date}}
+        yesterday: Eilen {{date}}
+        past: Ennen {{date}}
     signup:
       notifications:
         email_verification:
@@ -542,10 +542,11 @@ fi:
         one: Olet tuonut <strong>yhden media tiedoston</strong>, käyttäen <strong>{{size}}</strong>.
         other: Olet tuonut yhteensä <strong>{{count}} kappaletta media tiedostoja</strong>, käyttäen <strong>{{size}}</strong>.
       stats: Tilastot
-      upload:
-        files: Valitse tuotavat tiedostot
-        title: Otsikko
-        tags: Tagit (välilyönnillä eroitettuna)
+      labels:
+        upload:
+          files: Valitse tuotavat tiedostot
+          title: Otsikko
+          tags: Tagit (välilyönnillä eroitettuna)
       delete: poista tämä tiedosto kenttä
       tag_all: Liitä tagit kaikkiin tiedostoihin
       add_file: Lisää uusi tiedosto

@@ -12,10 +12,10 @@
   <% end %>
 
 <% else %>
-  <div class="empty" style="margin: 20px; padding: 10px;">
+  <p class="empty">
     <%=t :'adva.assets.no_files' %>
     <%= link_to t(:'adva.assets.upload'), :action => 'new' %>
-  </div>
+  </p>
 <% end %>
 
 <%= will_paginate @assets, :id => 'pagination' %>

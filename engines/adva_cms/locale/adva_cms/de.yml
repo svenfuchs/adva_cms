@@ -82,10 +82,6 @@ de:
      website_home_section: Webseitenstartsektion
      welcome: Willkommen!
      wikipages: Wiki-Seiten
-     history:
-       today: Heute {{date}}
-       yesterday: Gestern {{date}}
-       past: Vor {{date}}
    links:
      back: Zurück
      delete: Löschen
@@ -365,6 +361,10 @@ de:
        not_allowed: "Kommentare sind hier nicht erlaubt."
 
    activity:
+     titles:
+       today: Heute {{date}}
+       yesterday: Gestern {{date}}
+       past: Vor {{date}}
      none: Nichts passiert
      notifier:
        new: Neue {{activity}} angelegt
@@ -541,10 +541,11 @@ de:
        one: Sie haben <strong>eine Anlage</strong> hochgeladen, sie verwendet  <strong>{{size}}</strong>.
        other: Sie haben insgesamt <strong>{{count}} Anlagen</strong> hochgeladen, sie verwendet  <strong>{{size}}</strong>.
      stats: Einige Statistiken
-     upload:
-       files: Datei zum Hochladen auswählen
-       title: Titel
-       tags: Tags (mit Leerzeichen getrennt)
+     labels:
+       upload:
+         files: Datei zum Hochladen auswählen
+         title: Titel
+         tags: Tags (mit Leerzeichen getrennt)
      delete: Diese Dateifeld löschen
      tag_all: Tags auf alles übertragen
      add_file: Eine weitere Datei hinzufügen

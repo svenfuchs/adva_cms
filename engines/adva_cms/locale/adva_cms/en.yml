@@ -82,10 +82,6 @@ en:
       website_home_section: Website home section
       welcome: Welcome!
       wikipages: Wikipages
-      history:
-        today: Today {{date}}
-        yesterday: Yesterday {{date}}
-        past: Before {{date}}
     links: 
       back: Back
       delete: Delete
@@ -365,6 +361,10 @@ en:
         not_allowed: "Comments are not allowed here."
 
     activity:
+      titles:
+        today: Today {{date}}
+        yesterday: Yesterday {{date}}
+        past: Before {{date}}
       none: Nothing happened
       notifier:
         new: New {{activity}} posted
@@ -542,10 +542,11 @@ en:
         one: You have a uploaded <strong>one asset</strong>, using <strong>{{size}}</strong>.
         other: You have a uploaded a total of <strong>{{count}} assets</strong>, using <strong>{{size}}</strong>.
       stats: Some stats
-      upload:
-        files: Select files to upload
-        title: Title
-        tags: Tags (space separated)
+      labels:
+        upload:
+          files: Select files to upload
+          title: Title
+          tags: Tags (space separated)
       delete: remove this file field
       tag_all: Apply tags to all
       add_file: Add another file
