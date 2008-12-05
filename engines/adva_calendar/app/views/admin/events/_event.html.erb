@@ -1,7 +1,6 @@
 <tr id="event_<%= event.id %>">
   <td><%= link_to event.title, edit_admin_calendar_event_path(@site, @section, event) %></td>
   <td><%= event.startdate %> <%= '- ' + event.enddate unless event.enddate.blank? %></td>
-  <td><%= event.updated_at.strftime('%d.%m.%Y %H:%M') %></td>
   <td><%= link_to event.user.name, admin_site_user_path(@site, event.user) %></td>
   <td><%= link_to "view", event_path(@section.id, event.permalink), :class => 'view' %></td>  
 </tr>

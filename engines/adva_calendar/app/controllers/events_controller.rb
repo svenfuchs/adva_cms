@@ -13,8 +13,8 @@ class EventsController < BaseController
 
   def index
     source = @category ? @category.contents : @section.events
-    @events = source.elapsed(@timespan).paginate({:page => params[:page]}) if params[:elapsed]
-    @events = source.recent(@timespan).paginate({:page => params[:page]}) if params[:recent] and @events.blank?
+    @events = source.elapsed.paginate({:page => params[:page]}) if params[:elapsed]
+    @events = source.recent.paginate({:page => params[:page]}) if params[:recent] and @events.blank?
     @events ||= source.upcoming(@timespan).paginate({:page => params[:page]})
     respond_to do |format|
       format.html { render }
@@ -58,7 +58,8 @@ class EventsController < BaseController
     end
 
     def set_event
-      @event = @section.events.find params[:id]
+      @event = @section.events.find_by_id params[:id]
+      @event ||= @section.events.find_by_permalink params[:id]
       raise "could not find event '#{params[:id]}'" unless @event
     end
 
