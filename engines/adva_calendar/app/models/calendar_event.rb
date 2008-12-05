@@ -8,8 +8,9 @@ class CalendarEvent < ActiveRecord::Base
   has_many :categories
   belongs_to :location
   belongs_to :section
-  belongs_to_author
+  belongs_to :user
 
+  has_permalink :title, :scope => :section_id
   acts_as_taggable
   acts_as_role_context :parent => 'Section'
 
@@ -17,9 +18,10 @@ class CalendarEvent < ActiveRecord::Base
   
   validates_presence_of :startdate
   validates_presence_of :title
-  validates_presence_of :author_id
+  validates_presence_of :user_id
   validates_presence_of :section_id
-
+  validates_uniqueness_of :permalink, :scope => :section_id
+  
   before_create :set_published
   
   named_scope :elapsed, lambda {{:conditions => ['startdate < ? AND (enddate IS ? OR enddate < ?)', Time.now, nil, Time.now], :order => 'enddate DESC'}}
