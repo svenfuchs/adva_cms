@@ -43,3 +43,8 @@ Factory.define_scenario :home_wikipage_with_revision do
     wikipage.update_attributes! :body => "#{wikipage.body} (updated)"
   end
 end
+
+Factory.define_scenario :site_with_a_newsletter do
+  factory_scenario :empty_site
+  @newsletter ||= Factory :newsletter, :site => @site
+end
