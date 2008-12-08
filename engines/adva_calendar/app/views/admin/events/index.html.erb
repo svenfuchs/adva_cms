@@ -29,7 +29,7 @@
 
   <h3><%=t :'adva.calendar.titles.actions' %></h3>
   <ul>
-    <li><%= link_to t(:'adva.calendar.links.create_article'), new_admin_calendar_event_path(@site) %></li>
+    <li><%= link_to t(:'adva.calendar.links.create'), new_admin_calendar_event_path(@site) %></li>
   </ul>
 <% end -%>
 
@@ -47,6 +47,7 @@
         <th scope="col"><%= t(:'adva.calendar.titles.starting_at') %></th>
         <th scope="col"><%= t(:'adva.calendar.titles.ending_at') %></th>
         <th scope="col"><%= t(:'adva.calendar.titles.created_by') %></th>
+        <th scope="col"></th>
       </tr>
     </thead>
     <tbody id="events-body">

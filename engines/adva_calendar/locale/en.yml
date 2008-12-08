@@ -16,6 +16,7 @@ en:
         ending_at: Ending at
         created_by: Created by
         publish_in_categories: Publish in Categories
+        actions: Actions
       buttons:
         go: Go
       options:
