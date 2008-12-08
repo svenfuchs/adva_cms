@@ -1,9 +1,10 @@
 <% content_for :sidebar do %>
-	<% fields_for :calendar_event do |f| -%>
+	<% fields_for :event do |f| -%>
 		<%= render :partial => 'options', :locals => {:f => f} %>
 	<% end %>
 <% end %>
 
+<fieldset class="clearfix">
 <p>
   <%= form.label :title, t(:'adva.calendar.attributes.title') %>
   <%= form.text_field :title %>
@@ -33,3 +34,4 @@
   <%= form.text_field :tag_list %>
   <span class="hint"><%= t(:'adva.common.hints.tags') %></span>  
 </p>
+</fieldset>

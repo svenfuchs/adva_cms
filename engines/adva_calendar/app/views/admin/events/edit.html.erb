@@ -1,8 +1,4 @@
-<p>
-  <%= link_to "Delete this event", admin_calendar_event_path, { :confirm => "Are you sure you wish to delete this event?", :method => :delete } %> &middot;
-  <%= link_to "Preview", calendar_event_url(@event.section_id, @event) %>
-</p>
-
+<h2><%= t(:'adva.calendar.titles.edit_event') %></h2>
 <% split_form_for :event, @event, :url => admin_calendar_event_path, :html => {:multipart => true, :method => :put, :id => 'content_form'} do |f| -%>
 	
 	<%= render :partial => "form", :object => f %>

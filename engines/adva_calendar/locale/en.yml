@@ -8,12 +8,14 @@ en:
       titles:
         show_events: Show events
         new_event: New Event
+        edit_event: Edit Event
         manage: Manage
         title: Title
         location: Location
         starting_at: Starting at
         ending_at: Ending at
         created_by: Created by
+        publish_in_categories: Publish in Categories
       buttons:
         go: Go
       options:
@@ -24,10 +26,12 @@ en:
           title: Title
           body: Body
       links:
-        event: Event
+        events: Events
         categories: Categories
         settings: Settings
-        create_article: Create article
+        create: Create new event
+        preview: Preview
+        delete: Delete
       attributes:
         title: Title
         startdate: Starting at
