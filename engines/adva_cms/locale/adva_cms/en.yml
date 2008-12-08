@@ -734,14 +734,14 @@ en:
         tags: Tags
         topics: Topics
     newsletter:
+      no_newsletters: There are no newsletters.
+      confirm_save_as_draft: Yes, save this issue as draft
       flash:
         update_success: Newsletter has been updated successfully!
-    newsletters:
-      no_newsletters: There are no newsletters.
-      links:
+      link:
         index: Newsletters
         new: Create a newsletter
-      labels:
+      label:
         header: Newsletters
         title: Newsletter name
         desc: Description
@@ -749,28 +749,35 @@ en:
         issues: Issues
         subscribers: Subscribers
     issue:
-      flash:
-        update_success: Issue has been updated successfully!
-    issues:
-      no_issues: There are no issues.
+      confirm_save_as_draft: Yes, save this issue as draft.
       question_save_as_draft: Save as Draft?
-      confirm_save_as_draft: Yes, save this issue as draft
-      links:
-        index: Issues
-        new: Create a new issue
-      labels:
+      no_issues: There are no issues.
+      button:
+        deliver_now: Deliver now
+        deliver_later: Deliver later
+      flash:
+        create_success: Issue has been created successfully!
+        update_success: Issue has been updated successfully!
+        deliver_now: Issue has been added to the delivery queue.
+        deliver_later: Issue with delayed delivery has been added to the queue. 
+        test_delivery: Test delivery has been added to the queue.
+      label:
         title: Issue Title/Subject
         body: Body
-        due_at: "Deliver at:"
         name: Name
         created_at: Created
         issues: Issues
-    subscriptions:
+        due_at: "or deliver later at:"
+        test_delivery: This is test delivery only for myself.
+      link:
+        index: Issues
+        new: Create a new issue
+    subscription:
       no_subscriptions: There are no subscribers.
-      links:
+      link:
         index: Subscribers
         new: Add a new subscriber
-      labels:
+      label:
         user: Users
         subscriber: Subscriber
         email: Email

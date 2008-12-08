@@ -58,7 +58,7 @@ class IssuesTest < ActionController::IntegrationTest
     click_button 'Save'
 
     assert_template 'admin/issues/show'
-    assert cookies['flash'] =~ /Issue\+has\+been\+updated\+successfully/
+    assert_flash 'Issue has been updated successfully'
     assert_select '#issue' do
       assert_select 'h2', 'EDITED issue title'
       assert_select 'p', 'EDITED issue body'
@@ -66,32 +66,60 @@ class IssuesTest < ActionController::IntegrationTest
   end
 end  
 
-# class IssuesWithSubscriptionsTest < ActionController::IntegrationTest
-  # def setup
-    # factory_scenario :site_with_newsletter_and_issue_and_subscription
-    # login_as :admin
-  # end
+class IssuesWithSubscriptionTest < ActionController::IntegrationTest
+  def setup
+    factory_scenario :site_with_newsletter_and_issue
+    login_as :admin
+    @other_user = Factory :other_user
 
-  # test 'admin DELIVERS issue NOW: should be added to delivery queue (currently delivery is mocked)' do
-    
-    # visit "/admin/sites/#{@site.id}/newsletters/#{@newsletter.id}/issues/#{@issue.id}/edit"
+    # TODO: perhaps factory has some better way for poly
+    @subscription = Subscription.new(:user_id => @other_user.id)
+    @subscription.subscribable_id = 1
+    @subscription.subscribable_type = 'Newsletter'
+    @subscription.save
+    visit "/admin/sites/#{@site.id}/newsletters/#{@newsletter.id}/issues/#{@issue.id}/edit"
+    assert_template 'admin/issues/edit'
+  end
 
-    # assert_template 'admin/issues/edit'
-    # click_button 'Deliver now'
+  test 'admin DELIVERS NOW: should be added to delivery queue (currently delivery is mocked)' do
+    uncheck 'draft'
+    click_button 'Deliver now'
 
-    # assert_template 'admin/issues/show'
-    # assert_select 'p.flash-notice', 'Issue with 2 subscribers has been added successfully to the delivery queue.'
-  # end
+    assert_template 'admin/issues/show'
+    assert_flash 'Issue has been added to the delivery queue'
+  end
   
-  # test 'admin DELIVERS TEST issue NOW: should be only one issue added to delivery queue, issue recipent should be logged in user (deliver mocked)' do
-    
-    # visit "/admin/sites/#{@site.id}/newsletters/#{@newsletter.id}/issues/#{@issue.id}/edit"
+  test 'admin DELIVERS WITH DELAY: should be added to delivery queque with delay (deliver mocked)' do
+    uncheck 'draft'
+    click_button 'Deliver later'
 
-    # assert_template 'admin/issues/edit'
-    # check 'only to me'
-    # click_button 'Deliver now'
+    assert_template 'admin/issues/show'
+    assert_flash 'Issue with delayed delivery has been added to the queue'
+  end
 
-    # assert_template 'admin/issues/show'
-    # assert_select 'p.flash-notice', 'Test issue for yourself has been added successfully to the delivery queue.'
-  # end
-# end
+  test 'admin submits TEST DELIVERY: test delivery should be added to the queue with myself as the only recipent (deliver mocked)' do
+    uncheck 'draft'
+    check 'test_delivery'
+    click_button 'Deliver now'
+
+    assert_template 'admin/issues/show'
+    assert_flash 'Test delivery has been added to the queue'
+  end
+  
+  test 'avoid bug: admin submits TEST DELIVERY with DRAFT checked: should not deliver, should make normal update only' do
+    check 'draft'
+    check 'test_delivery'
+    click_button 'Save'
+
+    assert_template 'admin/issues/show'
+    assert_flash 'Issue has been updated successfully'
+  end
+  
+end
+
+#TODO move to more global place
+def assert_flash(message)
+  regexp = Regexp.new(message.gsub(' ', '\\\+'))
+  assert cookies['flash'] =~ regexp,
+    "Flash message is wrong or missing:\nwe should get flash message: #{message}\nin cookie: #{regexp}\nwe got: #{cookies['flash']}"
+end

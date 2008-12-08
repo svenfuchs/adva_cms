@@ -966,3 +966,10 @@ table.table-plans tr.highlight .active{
   padding:10px 0  0 0 !important;}
 
 #sidebar ul.members .membername{  padding-left:80px;}
+
+/*-------------------------------------------------------------------------
+                         NEWSLETTER
+*-------------------------------------------------------------------------*/
+#issue h2 {
+  margin-bottom: 10px;
+}

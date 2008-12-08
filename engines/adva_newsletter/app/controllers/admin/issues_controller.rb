@@ -22,6 +22,11 @@ class Admin::IssuesController < Admin::BaseController
     @issue = @newsletter.issues.build(params[:issue])
     
     if @issue.save
+      if params[:draft]
+        flash[:notice] = t('adva.issue.flash.create_success')
+      else
+        delivery
+      end
       redirect_to admin_issue_path(@site, @newsletter, @issue)
     else
       render :action => 'new'
@@ -32,7 +37,11 @@ class Admin::IssuesController < Admin::BaseController
     @issue = Issue.find(params[:id])
 
     if @issue.update_attributes(params[:issue])
-      flash[:notice] = t('adva.issue.flash.update_success')
+      if params[:draft]
+        flash[:notice] = t('adva.issue.flash.update_success')
+      else
+        delivery
+      end
       redirect_to admin_issue_path(@site, @newsletter, @issue)
     else
       render :action => 'edit'
@@ -42,5 +51,16 @@ class Admin::IssuesController < Admin::BaseController
 private
   def set_newsletter
     @newsletter = Newsletter.find(params[:newsletter_id])
+  end
+  
+  def delivery
+    if params[:deliver_now].present?
+      flash[:notice] = t('adva.issue.flash.deliver_now')
+    elsif params[:deliver_later].present?
+      flash[:notice] = t('adva.issue.flash.deliver_later')
+    else
+      flash[:notice] = t('adva.issue.flash.update_success')
+    end
+    flash[:notice] = t('adva.issue.flash.test_delivery') if params[:test_delivery]
   end
 end

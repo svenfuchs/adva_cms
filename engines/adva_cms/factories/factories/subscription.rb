@@ -1,5 +1,6 @@
 Factory.define :subscription do |s|
   s.user { |s| s.association(:other_user) }
-  s.subscribable_id { |s| s.association(:newsletter).id }
-  s.subscribable_type 'Newsletter'
+  # DOTO figure out how do poly with with factory
+  # s.subscribable_id 1 
+  # s.subscribable_type 'Newsletter'
 end

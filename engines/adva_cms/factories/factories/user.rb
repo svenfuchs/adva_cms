@@ -23,10 +23,10 @@ Factory.define :unverified_user, :class => User do |u|
   u.verified_at nil
 end
 
-Factory.define :other_user do |u|
+Factory.define :other_user, :class => User do |u|
   u.first_name 'Other'
   u.last_name 'User'
   u.email { Factory.next :email }
   u.password 'password123'
-  u.vertified_at Time.local(2008, 12, 8, 17, 0, 0)
+  u.verified_at Time.local(2008, 12, 8, 17, 0, 0)
 end
