@@ -20,6 +20,16 @@
       <div id="header" class="clearing">
         <h1><%= @site.title %></h1>
         <h2><%= @site.subtitle %></h2>
+
+        <p id="login_links" class="navigation">
+          &middot; 
+          <%= link_to 'Login', login_path(:return_to => request.path) %>
+        </p>
+        <p id="logout_links" class="navigation" style="display: none;">
+          &middot; 
+          <%= t(:'adva.users.info.logged_in_as', :name => '<a href="/messages">{user_name}</a>') %> &middot;
+          <%= link_to 'Logout', logout_path(:return_to => request.path), :method => :delete %>
+        </p>
         <%= render :widget => :sections %>
       </div>
       <div id="main">

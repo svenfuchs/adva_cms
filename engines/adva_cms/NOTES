@@ -1,8 +1,3 @@
-renamed 
-  titles.history » activity.titles
-  assets.upload. » assets.labels.upload.
-
-
 
 adva_cms/lib/time_hacks.rb -- i18nize or replace with localize
 adva_cms/helpers/base_helper -- date stuff
