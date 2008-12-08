@@ -8,7 +8,7 @@
   <li <%= active_html if active == :newsletters %>>
     <%= link_to t('adva.newsletters.links.index'), admin_newsletters_path %>
   </li>
-  <ul>
+  <li><ul>
     <li <%= active_html if active == :issues %>>
       <% if newsletter_root %>
         <%= t('adva.issues.links.index') %>
@@ -23,5 +23,5 @@
         <%= link_to t('adva.subscriptions.links.index'), admin_subscriptions_path(@site, (params[:newsletter_id] || params[:id])) %>
       <% end %>
     </li>
-  </ul>
+  </ul></li>
 </ul>

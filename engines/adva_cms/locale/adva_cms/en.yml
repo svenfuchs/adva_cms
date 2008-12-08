@@ -733,6 +733,9 @@ en:
       titles:
         tags: Tags
         topics: Topics
+    newsletter:
+      flash:
+        update_success: Newsletter has been updated successfully!
     newsletters:
       no_newsletters: There are no newsletters.
       links:
@@ -745,6 +748,9 @@ en:
         name: Name
         issues: Issues
         subscribers: Subscribers
+    issue:
+      flash:
+        update_success: Issue has been updated successfully!
     issues:
       no_issues: There are no issues.
       question_save_as_draft: Save as Draft?

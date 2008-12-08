@@ -1,0 +1,10 @@
+<% content_for :sidebar do %>
+  <%= render :partial => 'admin/layouts/sidebar_manage', :locals => {:active => :newsletters} %>
+<% end %>
+<% split_form_for :newsletter, @newsletter, :url => admin_newsletter_path, :html => {:method => :put, :multipart => true, :id => 'content_form'} do |f| %>
+  <%= render :partial => 'form', :locals => {:f => f} %>  
+  <p class="buttons">
+    <%= f.submit t(:'adva.common.save') %> <%= t(:'adva.common.connector.or') %>
+    <%= link_to t(:'adva.common.cancel'), admin_newsletter_path(@site, @newsletter) %>
+  </p>
+<% end %>

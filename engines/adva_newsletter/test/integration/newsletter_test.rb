@@ -50,7 +50,7 @@ end
 
 class NewslettersTest < ActionController::IntegrationTest
   def setup
-    factory_scenario :site_with_a_newsletter
+    factory_scenario :site_with_newsletter
     login_as :admin
   end
 
@@ -59,7 +59,7 @@ class NewslettersTest < ActionController::IntegrationTest
     visit "/admin/sites/#{@site.id}/newsletters/#{@newsletter.id}"
     
     assert_template 'admin/newsletters/show'
-    click_button 'Edit'
+    click_link 'Edit'
     
     assert_template 'admin/newsletters/edit'
     fill_in :newsletter_title, :with => 'EDITED newsletter title'
@@ -67,7 +67,7 @@ class NewslettersTest < ActionController::IntegrationTest
     click_button 'Save'
 
     assert_template 'admin/newsletters/show'
-    assert_select 'p.flash-notice', 'Edited successfully.'
+    assert cookies['flash'] =~ /Newsletter\+has\+been\+updated\+successfully/
     assert_select '#newsletter' do
       assert_select 'h1>a', 'EDITED newsletter title'
       assert_select 'p', 'EDITED newsletter desc'

@@ -44,7 +44,20 @@ Factory.define_scenario :home_wikipage_with_revision do
   end
 end
 
-Factory.define_scenario :site_with_a_newsletter do
+Factory.define_scenario :site_with_newsletter do
   factory_scenario :empty_site
   @newsletter ||= Factory :newsletter, :site => @site
+end
+
+Factory.define_scenario :site_with_newsletter_and_issue do
+  factory_scenario :empty_site
+  @newsletter ||= Factory :newsletter, :site => @site
+  @issue ||= Factory :issue, :newsletter => @newsletter
+end
+
+Factory.define_scenario :site_with_newsletter_and_issue_and_subscription do
+  factory_scenario :empty_site
+  @newsletter ||= Factory :newsletter, :site => @site
+  @issue ||= Factory :issue, :newsletter => @newsletter
+  @subscription ||= Factory :subscription, :newsletter => @newsletter
 end

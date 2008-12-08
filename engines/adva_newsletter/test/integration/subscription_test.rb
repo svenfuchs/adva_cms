@@ -2,7 +2,7 @@ require File.expand_path(File.join(File.dirname(__FILE__), '../../../adva_cms/te
 
 class SubscriptionsTest < ActionController::IntegrationTest
   def setup
-    factory_scenario :site_with_a_newsletter
+    factory_scenario :site_with_newsletter
     login_as :admin
   end
   
@@ -20,7 +20,7 @@ end
 
 class SubscriptionWithNoSiteUsersTest < ActionController::IntegrationTest
   def setup
-    factory_scenario :site_with_a_newsletter
+    factory_scenario :site_with_newsletter
     login_as :superuser
     assert_equal 0, @site.users.size
   end

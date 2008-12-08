@@ -1,0 +1,13 @@
+<% content_for :sidebar do %>
+  <%= render :partial => 'admin/layouts/sidebar_manage', :locals => {:active => :issues} %>
+<% end %>
+
+<%= render :partial => 'admin/newsletters/header' %>
+
+<% split_form_for :issue, @issue, :url => admin_issue_path, :html => {:method => :put, :multipart => true, :id => 'content_form'} do |f| %>
+  <%= render :partial => 'form', :locals => {:f => f} %>  
+  <p class="buttons">
+    <%= submit_tag t(:'adva.common.save') %> <%= t(:'adva.common.connector.or') %>
+    <%= link_to t(:'adva.common.cancel'), admin_issue_path(@site, @issue) %>
+  </p>
+<% end %>

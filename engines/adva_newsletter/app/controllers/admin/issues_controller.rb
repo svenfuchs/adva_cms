@@ -1,4 +1,5 @@
 class Admin::IssuesController < Admin::BaseController
+  before_filter :set_newsletter, :except => :index
 
   def index
     @newsletter = Newsletter.all_included.find(params[:newsletter_id])
@@ -6,17 +7,18 @@ class Admin::IssuesController < Admin::BaseController
   end
   
   def show
-    @newsletter = Newsletter.find(params[:newsletter_id])
     @issue = Issue.find(params[:id])
   end
   
   def new
-    @newsletter = Newsletter.find(params[:newsletter_id])
     @issue = Issue.new
   end
   
+  def edit
+    @issue = Issue.find(params[:id])
+  end
+  
   def create
-    @newsletter = Newsletter.find(params[:newsletter_id])
     @issue = @newsletter.issues.build(params[:issue])
     
     if @issue.save
@@ -24,5 +26,21 @@ class Admin::IssuesController < Admin::BaseController
     else
       render :action => 'new'
     end
+  end
+  
+  def update
+    @issue = Issue.find(params[:id])
+
+    if @issue.update_attributes(params[:issue])
+      flash[:notice] = t('adva.issue.flash.update_success')
+      redirect_to admin_issue_path(@site, @newsletter, @issue)
+    else
+      render :action => 'edit'
+    end
+  end
+
+private
+  def set_newsletter
+    @newsletter = Newsletter.find(params[:newsletter_id])
   end
 end

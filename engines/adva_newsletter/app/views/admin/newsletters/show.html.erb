@@ -7,8 +7,12 @@
   </ul>
 <% end %>
 
-<%= render :partial => 'header' %>
+<% if current_user.has_role?(:admin, :context => @site) %>
+  <%= link_to t('adva.common.edit'), edit_admin_newsletter_path(@site, @newsletter), :class => 'content_menu' %>
+<% end %>
 
-<%= render :partial => 'admin/issues/issues', :object => @newsletter.issues %>
-
-<%= render :partial => 'admin/newsletter_subscriptions/subscriptions', :object => @newsletter.subscriptions %>
+<div id='newsletter'>
+  <%= render :partial => 'header' %>
+  <%= render :partial => 'admin/issues/issues', :object => @newsletter.issues %>
+  <%= render :partial => 'admin/newsletter_subscriptions/subscriptions', :object => @newsletter.subscriptions %>
+</div>
