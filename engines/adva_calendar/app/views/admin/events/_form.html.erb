@@ -5,17 +5,17 @@
 <% end %>
 
 <p>
-  <%= form.label :title, t(:'adva.calendar.title') %>
+  <%= form.label :title, t(:'adva.calendar.attributes.title') %>
   <%= form.text_field :title %>
 </p>
 
 <p>
-  <%= form.label :startdate, t(:'adva.calendar.startdate') %>
+  <%= form.label :startdate, t(:'adva.calendar.attributes.startdate') %>
   <%= form.text_field :startdate %>
 </p>
 
 <p>
-  <%= form.label :enddate, t(:'adva.calendar.enddate') %>
+  <%= form.label :enddate, t(:'adva.calendar.attributes.enddate') %>
   <%= form.text_field :enddate %>
 </p>
 
@@ -25,11 +25,11 @@
 </p>
 
 <p>
-  <%= form.label :body, t(:'adva.calendar.body') %>
+  <%= form.label :body, t(:'adva.calendar.attributes.body') %>
   <%= form.text_area :body %>
 </p>
 <p>
-  <%= form.label :tag_list, t(:'adva.calendar.tags') %>
+  <%= form.label :tag_list, t(:'adva.calendar.attributes.tags') %>
   <%= form.text_field :tag_list %>
-  <span class="hint">t(:'adva.common.hints.tags'</span>  
+  <span class="hint"><%= t(:'adva.common.hints.tags') %></span>  
 </p>

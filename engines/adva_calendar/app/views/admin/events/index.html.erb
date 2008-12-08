@@ -1,14 +1,13 @@
 <% content_for :filter do %>
   <% form_tag admin_calendar_events_path, :method => 'get', :id => 'event-search' do -%>
     <label for="search" class="inline">
-      <%=t :'adva.calendar.titles.show_events' %>
+      <%= t(:'adva.calendar.titles.show_events') %>
     </label>
     <select name="filter" id="filterlist">
       <%= options_for_select [[ t(:'adva.calendar.options.filter.category'),  'category'],
                               [ t(:'adva.calendar.options.filter.tags'),      'tags'],
                               [ t(:'adva.calendar.options.filter.title'),     'title'],
-                              [ t(:'adva.calendar.options.filter.body'),      'body'],
-                              [ t(:'adva.calendar.options.filter.draft'),     'draft']], params[:filter] %>
+                              [ t(:'adva.calendar.options.filter.body'),      'body']], params[:filter] %>
     </select>
     <select name="category" id="categories">
       <option value="0"><%= t(:'adva.calendar.options.all_categories') %></option>
@@ -21,16 +20,16 @@
 
 
 <% content_for :sidebar do -%>
-  <h3><%=t :'adva.common.titles.manage'  %></h3>
+  <h3><%=t :'adva.calendar.titles.manage'  %></h3>
   <ul>
     <li><%= link_to t(:'adva.calendar.links.event'), admin_articles_path(@site, @section) %></li>
     <li><%= link_to t(:'adva.calendar.links.categories'), admin_categories_path(@site, @section) %></li>
-    <li><%= link_to t(:'adva.common.links.settings'), edit_admin_section_path(@site, @section) %></li>
+    <li><%= link_to t(:'adva.calendar.links.settings'), edit_admin_section_path(@site, @section) %></li>
   </ul>
 
-  <h3><%=t :'adva.blog.titles.actions' %></h3>
+  <h3><%=t :'adva.calendar.titles.actions' %></h3>
   <ul>
-    <li><%= link_to t(:'adva.blog.links.create_article'), new_admin_article_path(@site) %></li>
+    <li><%= link_to t(:'adva.calendar.links.create_article'), new_admin_calendar_event_path(@site) %></li>
   </ul>
 <% end -%>
 

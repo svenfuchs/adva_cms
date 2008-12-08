@@ -16,7 +16,7 @@ class Admin::EventsController < Admin::BaseController
   end
   
   def new
-    @event = @calendar.events.build(:title => t(:'adva.calendar.new_event'), :startdate => Time.now)
+    @event = @calendar.events.build(:title => t(:'adva.calendar.titles.new_event'), :startdate => Time.now)
   end
   
   def create

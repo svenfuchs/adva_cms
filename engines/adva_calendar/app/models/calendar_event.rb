@@ -5,7 +5,8 @@ end
 class CalendarEvent < ActiveRecord::Base
   has_many :assets, :through => :asset_assignments
   has_many :asset_assignments, :foreign_key => :content_id # TODO shouldn't that be :dependent => :delete_all?
-  has_many :categories
+  has_many :category_assignments, :foreign_key => 'content_id'
+  has_many :categories, :through => :category_assignments
   belongs_to :location
   belongs_to :section
   belongs_to :user
