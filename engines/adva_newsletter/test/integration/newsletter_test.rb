@@ -44,4 +44,33 @@ class NoNewslettersTest < ActionController::IntegrationTest
     assert_select 'h1>a', 'newsletter title'
     assert_select 'p', 'newsletter desc'
   end
+  
+end
+
+
+class NewslettersTest < ActionController::IntegrationTest
+  def setup
+    factory_scenario :site_with_a_newsletter
+    login_as :admin
+  end
+
+  test "admin EDITS a new newsletter: should be success" do
+    
+    visit "/admin/sites/#{@site.id}/newsletters/#{@newsletter.id}"
+    
+    assert_template 'admin/newsletters/show'
+    click_button 'Edit'
+    
+    assert_template 'admin/newsletters/edit'
+    fill_in :newsletter_title, :with => 'EDITED newsletter title'
+    fill_in :newsletter_desc, :with => 'EDITED newsletter desc'
+    click_button 'Save'
+
+    assert_template 'admin/newsletters/show'
+    assert_select 'p.flash-notice', 'Edited successfully.'
+    assert_select '#newsletter' do
+      assert_select 'h1>a', 'EDITED newsletter title'
+      assert_select 'p', 'EDITED newsletter desc'
+    end
+  end
 end
