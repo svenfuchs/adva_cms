@@ -26,6 +26,6 @@
   <%= render :partial => 'shared/footer' %>
   
   <ul id="feeds">
-    <li><%= link_to 'Entries feed', formatted_events_url(@section, :format => :ics) %></li>
+    <li><%= link_to 'Entries feed', formatted_calendar_events_url(@section, :format => :ics) %></li>
   </ul>
 <% end %>
