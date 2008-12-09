@@ -7,8 +7,6 @@ require 'test_help'
 
 require 'globalize/i18n/missing_translations_raise_handler'
 
-Dir[File.dirname(__FILE__) + "/test_helper/**/*.rb"].each { |path| require path }
-
 class Test::Unit::TestCase
   include With
   include RR::Adapters::TestUnit
@@ -25,6 +23,8 @@ class Test::Unit::TestCase
   #   RR.verify
   # end
 end
+
+Dir[File.dirname(__FILE__) + "/test_helper/**/*.rb"].each { |path| require path }
 
 # ActionController::IntegrationTest.send :include, FactoryScenario
 # 

@@ -1,3 +1,16 @@
+module With
+  class Group
+    def it_changes(expressions, message = nil)
+      expressions.each do |expression, difference|
+        before { record_before_state(expression) }
+        assertion "it changes #{expression} by #{difference}" do
+          assert_state_change(expression, difference, message)
+        end
+      end
+    end
+  end
+end
+
 class ActionController::TestCase
   @@variable_types = {:headers => :to_s, :flash => nil, :session => nil, :flash_cookie => nil}
 
@@ -50,14 +63,6 @@ class ActionController::TestCase
   def it_does_not_save(*names)
     names.each do |name|
       assert assigns(name).new_record?
-    end
-  end
-
-  def it_changes(diffs, &block)
-    diffs = diffs.to_a
-    expr, diff = *diffs.slice!(0)
-    assert_difference(expr, diff) do
-      diffs.empty? ? instance_eval(&block) : it_changes(diffs, &block)
     end
   end
 
@@ -115,4 +120,19 @@ class ActionController::TestCase
         end
       end
   end
+  
+  protected
+  
+    def record_before_state(expression)
+      @before_states ||= {}
+      @before_states[expression] = instance_eval(expression)
+    end
+  
+    def assert_state_change(expression, difference, message = nil)
+      expected = @before_states[expression] + difference
+      result   = instance_eval(expression)
+      message  = [message, "expected #{expression} to be #{expected} but was #{result}"]
+    
+      assert_equal expected, result, message.compact.join("\n")
+    end
 end
