@@ -21,7 +21,7 @@ class Admin::EventsController < Admin::BaseController
   
   def create
     @event = @calendar.events.new(params[:calendar_event])
-    if @event.save!
+    if @event.save
       trigger_events @event
       flash[:notice] = "The event has been successfully created."
       redirect_to edit_admin_calendar_event_path(@site.id, @calendar.id, @event.id)

@@ -71,7 +71,8 @@ describe Admin::EventsController do
     it_assigns :event
 
     it "instantiates a new event from section.events" do
-      @calendar.events.should_receive(:create).and_return @event
+      @calendar.events.should_receive(:new).and_return @event
+      @event.should_receive(:save).and_return true
       act!
     end
 
@@ -82,7 +83,7 @@ describe Admin::EventsController do
 
     describe "given invalid event params" do
       before :each do 
-        @calendar.events.should_receive(:create).and_return false 
+        @event.should_receive(:save).and_return false
       end
       it_renders_template :new
       it_assigns_flash_cookie :error => :not_nil

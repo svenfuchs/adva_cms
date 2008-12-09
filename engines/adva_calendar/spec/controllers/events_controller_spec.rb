@@ -1,14 +1,14 @@
 require File.dirname(__FILE__) + "/../spec_helper"
 
-calendar_path = '/events/1'
-calendar_day_path = '/events/1/2008/11/27'
-calendar_month_path = '/events/1/2008/11'
-calendar_year_path = '/events/1/2008'
-formatted_calendar_path = '/events/1.ics'
-event_path = '/event/1/1'
-formatted_event_path = '/event/1/1.ics'
-category_path = '/events/1/categories/2'
-formatted_category_path = '/events/1/categories/2.ics'
+calendar_path = '/calendars/1'
+calendar_day_path = '/calendars/1/events/2008/11/27'
+calendar_month_path = '/calendars/1/events/2008/11'
+calendar_year_path = '/calendars/1/events/2008'
+formatted_calendar_path = '/calendars/1.ics'
+event_path = '/calendars/1/event/1'
+formatted_event_path = '/calendars/1/event/1.ics'
+category_path = '/calendars/1/categories/2'
+formatted_category_path = '/calendars/1/categories/2.ics'
 
 cached_paths = calendar_path, calendar_day_path, calendar_month_path, calendar_year_path, formatted_calendar_path, event_path, category_path, formatted_category_path
 
@@ -73,14 +73,14 @@ describe EventsController do
   end
   
   describe "GET to :index for recently updated events" do
-    act! { request_to(:get, '/events/1', :recent => true) }
+    act! { request_to(:get, '/calendars/1', :recent => true) }
     it "should call CalendarEvent.recent" do
       @section.events.should_receive(:recent)
       act!
     end
   end
   describe "GET to :index for elapsed updated events" do
-    act! { request_to(:get, '/events/1', :elapsed => true) }
+    act! { request_to(:get, '/calendars/1', :elapsed => true) }
     it "should call CalendarEvent.elapsed" do
       @section.events.should_receive(:elapsed)
       act!
@@ -91,7 +91,7 @@ describe EventsController do
     act! { request_to(:get, category_path) }
     it_assigns :category
     it "should set category" do
-      @category.should_receive(:events, {:category_id => '2' })
+      @section.events.should_receive(:by_category, '2')
       act!
     end
   end
@@ -99,7 +99,7 @@ describe EventsController do
   ics_paths.each do |path|
     describe "GET to #{path}" do
       act! { request_to :get, path }
-      it_renders_template 'events/index', :format => :ics
+      it_renders_template 'calendars/index', :format => :ics
     end
   end
 end
