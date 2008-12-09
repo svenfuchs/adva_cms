@@ -1,7 +1,7 @@
 
 
 with_options :controller => 'events', :action => 'index', :requirements => { :method => :get } do |event|
-  event.calendar_events "calendars/:section_id/:year/:month/:day", :year => nil, :month => nil, :day => nil,
+  event.calendar_events "calendars/:section_id/events/:year/:month/:day", :year => nil, :month => nil, :day => nil,
     :requirements => { :year => /\d{4}/, :month => /\d{1,2}/ }
   event.formatted_calendar_events "calendars/:section_id.:format"
 
