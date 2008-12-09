@@ -1,0 +1,10 @@
+<h1><%= t(:'adva.calendar.titles.new_event') %></h1>
+<% split_form_for :calendar_event, @event, :url => admin_calendar_events_path, :html => {:multipart => true, :id => 'content_form'} do |form| -%>
+
+	<%= render :partial => "form", :object => form %>
+	
+	<p class="buttons">
+  		<%= form.submit t(:"adva.common.save") %>
+  		<%= link_to t(:"adva.common.cancel"), admin_calendar_events_path %>
+	</p>
+<% end %>

@@ -1,0 +1,24 @@
+
+The calendar engine models:
+* Calendar which is a section
+* Event
+* Category
+* Location
+* Bookmark (A User-Event relation)
+
+A calendar has many categories
+A calendar has many events
+An event takes place at a location
+A bookmark belongs to a single event and user
+
+
+Event:
+Has a start and end datetime
+Has a title, description, keywords and host
+Repeating events are copied and stored for every occurrence with reference to first event
+Longterm events (like an exhibition with opening hours) are stored once and should use description field for opening hours.
+
+
+Weblinks / further inspiration:
+* iCalendar RFC: http://tools.ietf.org/html/rfc2445
+* http://icalendar.rubyforge.org/

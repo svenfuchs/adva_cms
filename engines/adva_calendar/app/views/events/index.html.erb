@@ -1,0 +1,37 @@
+<h2><%= collection_title(@category, @tags) %></h2>
+
+<%= render :partial => 'search' %>
+
+<% if @events.size > 0 -%>
+
+  <table id="events" class="list">
+    <thead>
+      <tr>
+        <th scope="col"><%= t(:'adva.calendar.titles.title') %></th>
+        <th scope="col"><%= t(:'adva.calendar.titles.location') %></th>
+        <th scope="col"><%= t(:'adva.calendar.titles.starting_at') %></th>
+        <th scope="col"><%= t(:'adva.calendar.titles.ending_at') %></th>
+      </tr>
+    </thead>
+    <tbody id="events-body">
+      <% @events.each do |event| %>
+        <tr id="<%= dom_id event %>">
+          <td><%= link_to_event event %></td>
+          <td><%= event.location ? event.location.title : t(:'adva.calendar.no_location') %></td>
+          <td><%= event.startdate %></td>
+          <td><%= event.enddate %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= will_paginate @events, :id => 'pagination' %>
+  
+<% else %>
+
+  <div class="empty">
+    <%= t(:'adva.calendar.errors.no_events', :title => @section.title) %>.
+  </div>
+
+<% end %>
+
+<%= render :partial => 'footer' %>

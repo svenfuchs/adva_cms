@@ -22,7 +22,7 @@ module RolesHelper
       var uid = Cookie.get('uid');
       if(uid) {
         new Ajax.Request('/users/' + uid + '/roles#{object_path}.js', {
-          method: 'get', asynchronous: false, evalScripts: true,
+          method: 'get', asynchronous: false, evalScripts: true
         })
       }
       var aid = Cookie.get('aid');

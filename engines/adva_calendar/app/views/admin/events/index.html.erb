@@ -1,0 +1,71 @@
+<% content_for :filter do %>
+  <% form_tag admin_calendar_events_path, :method => 'get', :id => 'event-search' do -%>
+    <label for="search" class="inline">
+      <%= t(:'adva.calendar.titles.show_events') %>
+    </label>
+    <select name="filter" id="filterlist">
+      <%= options_for_select [[ t(:'adva.calendar.options.filter.category'),  'category'],
+                              [ t(:'adva.calendar.options.filter.tags'),      'tags'],
+                              [ t(:'adva.calendar.options.filter.title'),     'title'],
+                              [ t(:'adva.calendar.options.filter.body'),      'body']], params[:filter] %>
+    </select>
+    <select name="category" id="categories">
+      <option value="0"><%= t(:'adva.calendar.options.all_categories') %></option>
+      <%= options_from_collection_for_select @section.categories, :id, :title, params[:category].to_i %>      
+    </select>
+    <%= text_field_tag 'query', params[:query], :id => 'query', :style => 'display: none' %>
+    <input type="submit" id="button" value="<%= t(:'adva.calendar.buttons.go') %>" style="display: none" />
+  <% end -%>
+<% end -%>
+
+
+<% content_for :sidebar do -%>
+  <h3><%=t :'adva.calendar.titles.manage'  %></h3>
+  <ul>
+    <li><%= link_to t(:'adva.calendar.links.events'), admin_calendar_events_path(@site, @section) %></li>
+    <li><%= link_to t(:'adva.calendar.links.categories'), admin_categories_path(@site, @section) %></li>
+    <li><%= link_to t(:'adva.calendar.links.settings'), edit_admin_section_path(@site, @section) %></li>
+  </ul>
+
+  <h3><%=t :'adva.calendar.titles.actions' %></h3>
+  <ul>
+    <li><%= link_to t(:'adva.calendar.links.create'), new_admin_calendar_event_path(@site) %></li>
+  </ul>
+<% end -%>
+
+
+<% if @events.size > 0 -%>
+  <p class="total">
+    Total: <%= content_tag :strong, @events.total_entries %> events.
+  </p>
+
+  <table id="events" class="list" cellspacing="0" cellpadding="0">
+    <thead>
+      <tr>
+        <th scope="col"><%= t(:'adva.calendar.titles.title') %></th>
+        <th scope="col"><%= t(:'adva.calendar.titles.location') %></th>
+        <th scope="col"><%= t(:'adva.calendar.titles.starting_at') %></th>
+        <th scope="col"><%= t(:'adva.calendar.titles.ending_at') %></th>
+        <th scope="col"><%= t(:'adva.calendar.titles.created_by') %></th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody id="events-body">
+      <%= render :partial => 'event', :collection => @events %>
+    </tbody>
+  </table>
+
+  <%= will_paginate @events, :id => 'pagination' %>
+
+<% else %>
+
+  <div class="empty" style="margin-bottom:20px">
+    <% unless params[:filter] %>
+      <%= t(:'adva.calendar.error.no_events_in_calendar') %>
+      <%= link_to t(:'adva.calendar.create_new_event'), new_admin_calendar_event_path(@site) %>
+    <% else %>
+      You don't seem to have any events matching that criteria.
+    <% end %>
+  </div>
+
+<% end %>
