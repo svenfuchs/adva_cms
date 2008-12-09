@@ -35,6 +35,14 @@
 	top: 0px;
 	display: block;
 }
+
+/* first used in newsletter engine */
+.content_menu {
+  float: right;
+  margin-top: 10px;
+}
+/* end */
+
 #site_menu_primary {
 	left: 30px;
 	top: 30px;
@@ -70,6 +78,8 @@
 	background-color: #eee;
 	border-left: 1px solid #eee;
 }
+
+
 
 /* main menu items */
 

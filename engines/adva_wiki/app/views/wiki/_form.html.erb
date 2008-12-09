@@ -20,18 +20,18 @@
   </p>
 <% end %>
 <p>
-  <%= f.label :tag_list, 'Tags' %>
+  <%= f.label :tag_list, t(:'adva.common.tag', :count => 2) %>
   <%= f.text_field :tag_list %>
-  <span class="hint">Separate tags by spaces. Enclose tags with quotes to include spaces.</span>  
+  <span class="hint"><%= t(:'adva.wiki.view._form.tag_hint') %></span>  
 </p>
 <% unless current_user.registered? %>
   <% fields_for @wikipage.author do |author| %>
     <p>
-      <%= author.label :name, 'Your name' %>
+      <%= author.label :name, t(:'adva.wiki.view._form.label_for_author_name') %>
       <%= author.text_field :name %>
     </p>
     <p>
-      <%= author.label :email, 'Your email' %>
+      <%= author.label :email, t(:'adva.wiki.view._form.label_for_author_email') %>
       <%= author.text_field :email %>
     </p>
   <% end %>  
@@ -39,7 +39,7 @@
 <p class="buttons">
   <%= f.submit "Save" %>
   <% unless @wikipage.new_record? or @wikipage.home? %>
-    <%= link_to('delete', wikipage_path(@section, @wikipage.permalink), { :confirm => "Are you sure you wish to delete this page?", :method => :delete }) %>
+    <%= link_to(t(:'adva.common.delete'), wikipage_path(@section, @wikipage.permalink), { :confirm => t(:'adva.wiki.view._form.confirm_delete'), :method => :delete }) %>
   <% end %> or
-  <%= link_to "cancel", wikipage_path(@section, @wikipage.permalink) %>
+  <%= link_to t(:'adva.common.cancel'), wikipage_path(@section, @wikipage.permalink) %>
 </p>

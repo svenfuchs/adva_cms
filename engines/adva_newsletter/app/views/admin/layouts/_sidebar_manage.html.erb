@@ -1,27 +1,6 @@
-<% active ||= false %>
-<% active_html = 'class="active"' %>
-<%#TODO make it helper %>
-<% newsletter_root = [admin_newsletters_path,new_admin_newsletter_path].include?(request.path) %>
-
 <h3><%= t('adva.titles.manage') %></h3>
 <ul>
-  <li <%= active_html if active == :newsletters %>>
-    <%= link_to t('adva.newsletters.links.index'), admin_newsletters_path %>
+  <li>
+    <%= link_to t('adva.newsletter.link.index'), admin_newsletters_path %>
   </li>
-  <ul>
-    <li <%= active_html if active == :issues %>>
-      <% if newsletter_root %>
-        <%= t('adva.issues.links.index') %>
-      <% else %>
-        <%= link_to t('adva.issues.links.index'), admin_issues_path(@site, (params[:newsletter_id] || params[:id])) %>
-      <% end %>
-    </li>
-    <li <%= active_html if active == :subscriptions %>>
-      <% if newsletter_root %>
-        <%= t('adva.subscriptions.links.index') %>
-      <% else %>
-        <%= link_to t('adva.subscriptions.links.index'), admin_subscriptions_path(@site, (params[:newsletter_id] || params[:id])) %>
-      <% end %>
-    </li>
-  </ul>
 </ul>

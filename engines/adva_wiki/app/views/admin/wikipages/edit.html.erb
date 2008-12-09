@@ -4,7 +4,7 @@
 	<%= render :partial => "form", :locals => {:f => f} %>
 	
 	<p class="buttons">
-  		<%= f.submit "Save" %> or 
-  		<%= link_to "cancel", admin_wikipages_path %>
+  		<%= f.submit t(:'adva.common.save') %> or 
+  		<%= link_to t(:'adva.common.cancel'), admin_wikipages_path %>
 	</p>
 <% end %>

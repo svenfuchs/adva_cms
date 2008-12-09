@@ -4,5 +4,8 @@
   <div class="content">
     <h2><%= @message_box %></h2>
     <%= render :partial => 'messages', :locals => { :messages => @messages }%>
+
+    <%= will_paginate @messages %>
   </div>
 </div>  
+

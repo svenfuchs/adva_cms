@@ -1,19 +1,28 @@
 <fieldset class="clearfix">
-  <%= f.label :title, t('adva.issues.labels.title') %>
+  <%= f.label :title, t('adva.issue.label.title') %>
   <%= f.text_field :title, :class => 'big'  %>
-  <%= f.label :body, t('adva.issues.labels.body') %>
+  <%= f.label :body, t('adva.issue.label.body') %>
   <%= f.text_area :body, :class => 'fat', :rows => 25  %>
 
-  <%= f.label :draft, t('adva.issues.question_save_as_draft') %>
+  <%= f.label :draft, t('adva.issue.question_save_as_draft') %>
   <label class="light">
-    <%= check_box_tag :draft, '1', @issue.draft?, :id => 'issue-draft' %><%= t('adva.issues.confirm_save_as_draft') %>
+    <%= check_box_tag :draft, '1', @issue.draft?, :id => 'issue-draft' %><%= t('adva.issue.confirm_save_as_draft') %>
   </label>
 
   <div id="delivery" style="<%= @issue.draft? ? "display:none" : "" %>">
-    <%= f.label :due_at, t('adva.issues.labels.due_at') %>
-    <%= f.datetime_select :due_at,
-                          :start_year => (@issue.due_at || Time.zone.now).year-1,
-                          :end_year => (Time.zone.now.year + 5),
-                          :order => [:month, :day, :year] %>
+    <span id="send-now">
+      <%= submit_tag t('adva.issue.button.send_now'), :name => 'send_now' %>
+      <label>
+        <%= check_box_tag :send_test %><%= t('adva.issue.label.send_test') %>
+      </label>
+    </span>
+    <span id="send-later">
+      <%= f.label :due_at, t('adva.issue.label.due_at') %>
+      <%= f.datetime_select :due_at,
+                            :start_year => (@issue.due_at || Time.zone.now).year-1,
+                            :end_year => (Time.zone.now.year + 5),
+                            :order => [:month, :day, :year] %>
+      <%= submit_tag t('adva.issue.button.send_later'), :name => 'send_later' %>
+    </span>
   </div>
 </fieldset>

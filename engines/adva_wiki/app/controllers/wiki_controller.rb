@@ -23,7 +23,7 @@ class WikiController < BaseController
   end
 
   def new
-    @wikipage = Wikipage.new(:title => 'new page')
+    @wikipage = Wikipage.new(:title => t(:'adva.wiki.new_page_title'))
   end
 
   def show
@@ -33,7 +33,7 @@ class WikiController < BaseController
     elsif has_permission? :create, :wikipage
       render :action => :new, :skip_caching => true
     else
-      redirect_to_login 'You need to be logged in to edit this page.'
+      redirect_to_login t(:'adva.wiki.redirect_to_login')
     end
     # options = @wikipage.new_record? ? {:action => :new} : @section.render_options
     # render options
@@ -46,10 +46,10 @@ class WikiController < BaseController
   def create
     if @wikipage = @section.wikipages.create(params[:wikipage])
       trigger_events @wikipage
-      flash[:notice] = "The wikipage has been saved."
+      flash[:notice] = t(:'adva.wiki.flash.create.success')
       redirect_to wikipage_path(:section_id => @section, :id => @wikipage.permalink)
     else
-      flash[:error] = "The wikipage could not be saved."
+      flash[:error] = t(:'adva.wiki.flash.create.failure')
       render :action => :new
     end
   end
@@ -64,10 +64,10 @@ class WikiController < BaseController
   def update_attributes
     if @wikipage.update_attributes(params[:wikipage])
       trigger_events @wikipage
-      flash[:notice] = "The wikipage has been updated."
+      flash[:notice] = t(:'adva.wiki.flash.update_attributes.success')
       redirect_to wikipage_path(:section_id => @section, :id => @wikipage.permalink)
     else
-      flash.now[:error] = "The wikipage could not be updated."
+      flash.now[:error] = t(:'adva.wiki.flash.update_attributes.failure')
       render :action => :edit
     end
   end
@@ -75,10 +75,10 @@ class WikiController < BaseController
   def rollback
     if @wikipage.revert_to(params[:version]) && @wikipage.save
       trigger_event @wikipage, :rolledback
-      flash[:notice] = "The wikipage has been rolled back to revision #{params[:version]}"
+      flash[:notice] = t(:'adva.wiki.flash.rollback.success', :version => params[:version])
       redirect_to wikipage_path(:section_id => @section, :id => @wikipage.permalink)
     else
-      flash.now[:error] = "The wikipage could not be rolled back to revision #{params[:version]}."
+      flash.now[:error] = t(:'adva.wiki.flash.rollback.failure', :version => params[:version])
       render :action => :edit
     end
   end
@@ -86,10 +86,10 @@ class WikiController < BaseController
   def destroy
     if @wikipage.destroy
       trigger_events @wikipage
-      flash[:notice] = 'Wikipage destroyed.'
+      flash[:notice] = t(:'adva.wiki.flash.destroy.success')
       redirect_to wiki_path(@section)
     else
-      flash.now[:error] = "The wikipage could not be deleted."
+      flash.now[:error] = t(:'adva.wiki.flash.destroy.failure')
       render :action => :show
     end
   end
@@ -101,7 +101,7 @@ class WikiController < BaseController
     def set_wikipage
       # TODO do not initialize a new wikipage on :edit and :update actions
       @wikipage = @section.wikipages.find_or_initialize_by_permalink params[:id] || 'home'
-      raise "could not find wikipage by permalink '#{params[:id]}'" if params[:show] && @wikipage.new_record?
+      raise t(:'adva.wiki.exception.could_not_find_wikipage_by_permalink', :id => params[:id]) if params[:show] && @wikipage.new_record?
       @wikipage.revert_to(params[:version]) if params[:version]
       @wikipage.author = current_user || User.anonymous if @wikipage.new_record? || 
         params[:action] == 'edit'
@@ -145,10 +145,10 @@ class WikiController < BaseController
       return unless params[:wikipage]
       updated_at = params[:wikipage].delete(:updated_at)
       unless updated_at
-        raise "Can not update wikipage: timestamp missing. Please make sure that your form has a hidden field: updated_at."
+        raise t(:'adva.wiki.exception.missing_timestamp')
       end
       if @wikipage.updated_at && (Time.zone.parse(updated_at) != @wikipage.updated_at)
-        flash[:error] = "In the meantime this wikipage has been updated by someone else. Please resolve any conflicts."
+        flash[:error] = t(:'adva.wiki.flash.optimistic_lock.failure')
         # TODO filter_chain has been halted because of the rendering, so we have
         # to call this manually ... which is stupid. Maybe an around_filter
         # would be the better idea in CacheableFlash?

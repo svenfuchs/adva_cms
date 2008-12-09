@@ -1,11 +1,12 @@
-<h2><%= t('adva.issues.labels.issues') %></h2>
+<h2><%= t('adva.issue.label.issues') %></h2>
 
 <% if issues.present? %>
-  <table id="issues" class="list" cellspacing='0'>
+  <table class="list" cellspacing='0'>
     <thead>
       <tr>
-        <th scope="col"><%= t('adva.issues.labels.name') %></th>
-        <th scope="col"><%= t('adva.issues.labels.created_at') %></th>
+        <th scope="col"><%= t('adva.issue.label.name') %></th>
+        <th scope="col"><%= t('adva.issue.label.created_at') %></th>
+        <th scope="col"><%= link_to t('adva.common.add_new'), new_admin_issue_path(@site, @newsletter), :class => 'table_menu_th' %></th>
       </tr>
     </thead>
     <tbody>
@@ -13,13 +14,14 @@
         <tr>
           <td><%= link_to h(issue.title), admin_issue_path(@site, @newsletter, issue) %></td>
           <td><%= issue.created_at.to_s(:db) %></td>
+          <td class='table_menu'><%= link_to t('adva.common.edit'), edit_admin_issue_path(@site, @newsletter, issue) %></td>
         </tr>
       <% end %>
     </tbody>
   </table>
 <% else %>
   <div class="empty">
-    <%= t('adva.issues.no_issues') %>
-    <%= link_to t('adva.issues.links.new'), new_admin_issue_path(@site, @newsletter) %>
+    <%= t('adva.issue.no_issues') %>
+    <%= link_to t('adva.issue.link.new'), new_admin_issue_path(@site, @newsletter) %>
   </div>
 <% end %>

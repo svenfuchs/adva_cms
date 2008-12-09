@@ -40,8 +40,41 @@ class NoNewslettersTest < ActionController::IntegrationTest
     fill_in :newsletter_desc, :with => 'newsletter desc'
     click_button 'Save'
 
+    assert_template 'admin/newsletters/index'
+    click_link 'newsletter title'
+    
     assert_template 'admin/newsletters/show'
     assert_select 'h1>a', 'newsletter title'
     assert_select 'p', 'newsletter desc'
+  end
+  
+end
+
+
+class NewslettersTest < ActionController::IntegrationTest
+  def setup
+    factory_scenario :site_with_newsletter
+    login_as :admin
+  end
+
+  test "admin EDITS a new newsletter: should be success" do
+    
+    visit "/admin/sites/#{@site.id}/newsletters"
+    
+    assert_template 'admin/newsletters/index'
+    click_link 'Edit'
+    
+    assert_template 'admin/newsletters/edit'
+    fill_in :newsletter_title, :with => 'EDITED newsletter title'
+    fill_in :newsletter_desc, :with => 'EDITED newsletter desc'
+    click_button 'Save'
+
+    assert_template 'admin/newsletters/index'
+    assert cookies['flash'] =~ /Newsletter\+has\+been\+updated\+successfully/
+    click_link 'EDITED newsletter title'  
+    
+    assert_template 'admin/newsletters/show'
+    assert_select 'h1>a', 'EDITED newsletter title'
+    assert_select 'p', 'EDITED newsletter desc'
   end
 end

@@ -164,7 +164,7 @@ describe "Message views:" do
     it "has message body in a paragraph" do
       pending 'FIXME'
       act!
-      response.should have_tag('div#message-body', "#{@message.body}")
+      response.should have_tag('div#message-body', /#{@message.body}/)
     end
   end
   

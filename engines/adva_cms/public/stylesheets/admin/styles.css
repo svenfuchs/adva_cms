@@ -296,6 +296,8 @@ fieldset.language{
   font-size:2.4em;
   position:relative;
   padding: 20px 0 0 0;
+  /* margin-right added to enable clickable links at content_menu */
+  margin-right: 40px;
   margin-bottom:-5px;
   /*border-bottom:5px solid #E6E6E6;*/
   font-weight:normal !important;}
@@ -964,3 +966,45 @@ table.table-plans tr.highlight .active{
   padding:10px 0  0 0 !important;}
 
 #sidebar ul.members .membername{  padding-left:80px;}
+
+/*-------------------------------------------------------------------------
+                         NEWSLETTER
+*-------------------------------------------------------------------------*/
+#issue h2 {
+  margin-bottom: 10px;
+}
+#delivery {
+  padding: 20px 0 20px 0;
+}
+#delivery label {
+  display: inline;
+  margin-left: 10px;
+}
+#delivery #send-now {
+  float: left;
+}
+#delivery #send-later {
+  float: right;
+  margin-right: 12px;
+}
+#newsletter-header {
+  padding: 25px 0 0 0;
+}
+#newsletter-title {
+  float: left;
+}
+#newsletter-stats {
+  float: left;
+  width: 130px;
+  padding: 8px 0 0 25px;
+}
+#newsletters {
+  margin-top: 20px;
+}
+.table_menu {
+  text-align: right;
+}
+.table_menu_th {
+  float: right;
+  font-weight: normal;
+}
