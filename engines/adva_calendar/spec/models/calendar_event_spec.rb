@@ -1,11 +1,12 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe Event do
+describe CalendarEvent do
   include Matchers::ClassExtensions
 
   before :each do
     @calendar = Calendar.create!(:title => 'Concerts')
-    @event = @calendar.events.new(:title => 'The Dodos', :startdate => '2008-11-24 21:30')
+    @event = @calendar.events.new(:title => 'The Dodos', :startdate => '2008-11-24 21:30',
+      :user_id => 1)
   end
 
   describe 'class extensions:' do
@@ -69,13 +70,13 @@ describe Event do
     before do
       @calendar.events.delete_all
       @elapsed_event = @calendar.events.create!(:title => 'Gameboy Music Club', 
-          :startdate => Time.now - 1.day).reload
+          :startdate => Time.now - 1.day, :user_id => 1).reload
       @elapsed_event2 = @calendar.events.create!(:title => 'Mobile Clubbing', 
-          :startdate => Time.now - 5.hours,  :enddate => Time.now - 3.hour).reload
+          :startdate => Time.now - 5.hours,  :enddate => Time.now - 3.hour, :user_id => 1).reload
       @upcoming_event = @calendar.events.create!(:title => 'Jellybeat', 
-          :startdate => Time.now + 4.hours).reload
+          :startdate => Time.now + 4.hours, :user_id => 1).reload
       @running_event = @calendar.events.create!(:title => 'Vienna Jazz Floor 08', 
-          :startdate => Time.now - 4.days, :enddate => Time.now + 9.days).reload
+          :startdate => Time.now - 4.days, :enddate => Time.now + 9.days, :user_id => 1).reload
       @calendar.reload
     end
     it "should have a elapsed scope" do

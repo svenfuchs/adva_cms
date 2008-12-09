@@ -12,6 +12,7 @@ class CalendarEvent < ActiveRecord::Base
   acts_as_taggable
   acts_as_role_context :parent => Calendar
 
+  filters_attributes :sanitize => :body_html, :except => [:body, :cached_tag_list]
   filtered_column :body
 
   validates_presence_of :startdate
