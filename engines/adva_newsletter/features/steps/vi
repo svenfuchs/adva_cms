@@ -1,3 +1,0 @@
-Given /I am logged in as admin' do
-  visits '/login'
-end

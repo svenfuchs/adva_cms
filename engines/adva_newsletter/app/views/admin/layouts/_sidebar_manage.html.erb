@@ -6,22 +6,22 @@
 <h3><%= t('adva.titles.manage') %></h3>
 <ul>
   <li <%= active_html if active == :newsletters %>>
-    <%= link_to t('adva.newsletters.links.index'), admin_newsletters_path %>
+    <%= link_to t('adva.newsletter.link.index'), admin_newsletters_path %>
   </li>
-  <ul>
+  <li><ul>
     <li <%= active_html if active == :issues %>>
       <% if newsletter_root %>
-        <%= t('adva.issues.links.index') %>
+        <%= t('adva.issue.link.index') %>
       <% else %>
-        <%= link_to t('adva.issues.links.index'), admin_issues_path(@site, (params[:newsletter_id] || params[:id])) %>
+        <%= link_to t('adva.issue.link.index'), admin_issues_path(@site, (params[:newsletter_id] || params[:id])) %>
       <% end %>
     </li>
     <li <%= active_html if active == :subscriptions %>>
       <% if newsletter_root %>
-        <%= t('adva.subscriptions.links.index') %>
+        <%= t('adva.subscription.link.index') %>
       <% else %>
-        <%= link_to t('adva.subscriptions.links.index'), admin_subscriptions_path(@site, (params[:newsletter_id] || params[:id])) %>
+        <%= link_to t('adva.subscription.link.index'), admin_subscriptions_path(@site, (params[:newsletter_id] || params[:id])) %>
       <% end %>
     </li>
-  </ul>
+  </ul></li>
 </ul>

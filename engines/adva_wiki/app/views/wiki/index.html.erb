@@ -5,11 +5,11 @@
   <table id="wikipages" class="list">
     <thead>
       <tr>
-        <th scope="col">Title</th>
+        <th scope="col"><%= t(:'adva.common.title') %></th>
         <% if @section.accept_comments? %>
-          <th scope="col">Comments</th>
+          <th scope="col"><%= t(:'adva.common.comments') %></th>
         <% end %>
-        <th scope="col">Updated</th>
+        <th scope="col"><%= t(:'adva.common.updated') %></th>
       </tr>
     </thead>
     <tbody id="wikipages-body">
@@ -24,14 +24,14 @@
       <% end %>
     </tbody>
   </table>
-  <p><%= link_to "Create new wikipage &raquo;", new_wikipage_path(@section) %></p>
+  <p><%= link_to t(:'adva.wiki.view.index.link_to_create'), new_wikipage_path(@section) %></p>
   <%= will_paginate @wikipages, :id => 'pagination' %>
   
 <% else %>
 
   <div class="empty">
-    There are no wikipages in <%= @section.title %>.
-    <%= link_to "Create one now &raquo;", new_wikipage_path(@section) %>
+    <%= t(:'adva.wiki.view.index.wiki_empty_notice', :title =>  @section.title) %>.
+    <%= link_to t(:'adva.wiki.view.index.link_to_create_if_empty'), new_wikipage_path(@section) %>
   </div>
 
 <% end %>

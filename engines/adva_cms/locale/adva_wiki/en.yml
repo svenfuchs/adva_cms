@@ -1,0 +1,131 @@
+--- 
+en: 
+  adva: 
+    common: 
+      delete: Delete
+      by: By
+      comments: Comments
+      title: Title
+      edit: Edit
+      cancel: Cancel
+      tag: 
+        one: Tag
+        other: Tags
+      categories: Categories
+      version: Version
+      Save: Save
+      last_updated: Last Updated
+      settings: Settings
+      save: Save
+      wikipage: 
+        one: Wikipage
+        other: "{{count}} Wikipages"
+      view: View
+      updated: Updated
+    wiki_helper: 
+      wiki_edit_links: 
+        link_to_home: return to home
+        link_to_edit: edit this page
+        link_to_delete: delete this page
+        confirm_delete: Are you sure you wish to delete this page?
+      collection_title: 
+        category_title: about {{title}}
+        collect_pages: "Pages "
+        tags_title: tagged {{title}}
+        all_pages: All pages
+      wiki_version_links: 
+        link_to_current_revision: return to current revision
+        link_to_rollback: rollback to this revision
+        confirm_rollback: Are you sure you wish to rollback to this version?
+        link_to_previous_revision: view previous revision
+        link_to_next_revision: view next revision
+    wikipages_helper: 
+      wiki_version_links: 
+        confirm_rollback: Are you sure you wish to rollback to this version?
+    wikipage: 
+      params_author: 
+        exception: 
+          author_and_current_user_not_set: author and current_user not set
+      view: 
+        _options: 
+          publish_categories_header: Publish in these categories
+          link_to_settings: Settings
+          link_to_preview: Preview this wikipage
+          link_to_delete: Delete this wikipage
+          label_for_comments: Comments
+          link_to_categories: Categories
+          permalink_hint: Use only ASCII characters and use dashes instead of spaces.
+          wikipage_versions_header: Wikipage versions
+          tags_hint: Separate tags by spaces. Enclose tags with quotes to include spaces.
+          link_to_create: Create a new wikipage
+          link_to_wikipages: Wikipages
+          confirm_delete: Are you sure you wish to delete this wikipage?
+          optional_settings_header: Optional settings
+        _wikipages: 
+          confirm_delete: Are you sure you wish to delete this wikipage?
+        edit:
+          header: "Edit: {{title}}"
+        index: 
+          actions_header: Actions
+          link_to_create: Create a new wikipage
+          link_to_create_one_now: Create one now &raquo;
+          manage_header: Manage
+          no_wikipages_notice: You have no pages on your wiki.
+        new: 
+          create_new_header: Create a new wikipage        
+      flash: 
+        destroy: 
+          success: The wikipage has been deleted.
+          failure: The wikipage could not be deleted.
+        rollback: 
+          success: The wikipage has been rolled back to revision {{version}}.
+          failure: The wikipage could not be rolled back to revision {{version}}.
+        update_attributes: 
+          success: The wikipage has been successfully updated.
+          failure: The wikipage could not been updated.
+        create: 
+          succsess: The wikipage has been successfully created.
+          failure: The wikipage could not been created.
+    wiki: 
+      optimistic_lock: 
+        exception: 
+          missing_timestamp: "Can not update wikipage: timestamp missing. Please make sure that your form has a hidden field: updated_at."
+      set_wikipage: 
+        exception: "could_not_find_wikipage_by_permalink: could not find wikipage by permalink '{{id}}'."
+      new_page_title: new page
+      redirect_to_login: You need to be logged in to edit this page.
+      flash: 
+        optimistic_lock: 
+          failure: In the meantime this wikipage has been updated by someone else. Please resolve any conflicts.
+        destroy: 
+          success: Wikipage destroyed.
+          failure: The wikipage could not be deleted.
+        rollback: 
+          success: The wikipage has been rolled back to revision {{version}}.
+          failure: The wikipage could not be rolled back to revision {{version}}.
+        update_attributes: 
+          success: The wikipage has been updated.
+          failure: The wikipage could not be updated.
+        create: 
+          success: The wikipage has been saved.
+          failure: The wikipage could not be saved.
+      view: 
+        new: 
+          header: "Create: {{title}}"
+        edit: 
+          header: "Edit: {{title}}"
+        _footer: 
+          link_to_entries_feed: Entries feed
+          link_to_comment_feed: Comments feed
+        _form: 
+          tag_hint: Separate tags by spaces. Enclose tags with quotes to include spaces.
+          label_for_author_email: Your email
+          label_for_author_name: Your name
+          confirm_delete: Are you sure you wish to delete this page?
+        index: 
+          wiki_empty_notice: There are no wikipages in {{title}}
+          link_to_create_if_empty: Create one now &raquo;
+          link_to_create: Create new wikipage &raquo;
+        show: 
+          author: "by: {{author}}"
+          revision_header: "revision: {{version}}"

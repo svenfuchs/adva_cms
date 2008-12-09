@@ -296,6 +296,8 @@ fieldset.language{
   font-size:2.4em;
   position:relative;
   padding: 20px 0 0 0;
+  /* margin-right added to enable clickable links at content_menu */
+  margin-right: 40px;
   margin-bottom:-5px;
   /*border-bottom:5px solid #E6E6E6;*/
   font-weight:normal !important;}
@@ -964,3 +966,10 @@ table.table-plans tr.highlight .active{
   padding:10px 0  0 0 !important;}
 
 #sidebar ul.members .membername{  padding-left:80px;}
+
+/*-------------------------------------------------------------------------
+                         NEWSLETTER
+*-------------------------------------------------------------------------*/
+#issue h2 {
+  margin-bottom: 10px;
+}

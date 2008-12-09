@@ -1,4 +1,4 @@
-<h1>Create: <%= @wikipage.title %></h1>
+<h1><%= t(:'adva.wiki.view.new.header', :title => @wikipage.title) %></h1>
 
 <% form_for :wikipage, @wikipage, :url => wikipages_path(@section) do |f| %>
 	<%= render :partial => "form", :locals => {:f => f} %>

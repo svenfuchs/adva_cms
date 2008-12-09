@@ -1,10 +1,10 @@
-<h2>Create a new wikipage</h2>
+<h2><%= t(:'adva.wikipage.view.new.create_new_header') %></h2>
 <% split_form_for :wikipage, @wikipage, :url => admin_wikipages_path, :html => {:multipart => true, :id => 'content_form'} do |f| -%>
 
 	<%= render :partial => "form", :locals => {:f => f} %>
 	
 	<p class="buttons">
-  		<%= f.submit "Save" %> or 
-  		<%= link_to "cancel", admin_wikipages_path %>
+  		<%= f.submit t(:'adva.common.Save') %> or 
+  		<%= link_to t(:'adva.common.cancel'), admin_wikipages_path %>
 	</p>
 <% end %>

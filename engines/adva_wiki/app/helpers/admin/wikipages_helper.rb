@@ -20,7 +20,7 @@ module Admin::WikipagesHelper
       end
       if wikipage.version != wikipage.versions.last.version
 	      links << authorized_tag(:li, :update, wikipage) do
-	        link_to('Rollback to this revision', admin_wikipage_path(@site, @section, wikipage, :version => wikipage.version), { :confirm => "Are you sure you wish to rollback to this version?", :method => :put })
+	        link_to('Rollback to this revision', admin_wikipage_path(@site, @section, wikipage, :version => wikipage.version), { :confirm => t(:'adva.wikipages_helper.wiki_version_links.confirm_rollback'), :method => :put })
         end
       end
     end

@@ -1,18 +1,4 @@
 Feature: Create newsletter issue
-  Scenario: Admin creates a draft issue
-    Given I am logged in as "admin"
-    And have opened some "newsletter"
-    When I click "Create a new issue"
-    And submit new "draft issue"
-    Then I should see new "draft issue"
-    
-  Scenario: Admin creates an empty issue
-    Given I am logged in as "admin"
-    And have opened some "newsletter"
-    When I click "Create a new issue"
-    And submit new "empty issue"
-    Then I should see validation error messages
-
   Scenario: Admin sends out newsletter issue
     Given PENDING
     Given I am logged in as "admin"
