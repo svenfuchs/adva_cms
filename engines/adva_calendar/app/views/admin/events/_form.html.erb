@@ -1,5 +1,5 @@
 <% content_for :sidebar do %>
-	<% fields_for :event do |f| -%>
+	<% fields_for :calendar_event, @event do |f| -%>
 		<%= render :partial => 'options', :locals => {:f => f} %>
 	<% end %>
 <% end %>
