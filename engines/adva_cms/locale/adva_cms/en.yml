@@ -770,3 +770,11 @@ en:
         email: Email
         time: Subscrition time
         subscriptions: Subscribers
+    locations:
+      attributes:
+        title: Location name
+        country: Country
+        postcode: Postcode
+        town: Town
+        address: Street / Number
+        description: Description
