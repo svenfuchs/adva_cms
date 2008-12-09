@@ -1,6 +1,3 @@
-class Location < ActiveRecord::Base
-  has_many :events, :class_name => 'CalendarEvent'
-end
 
 class CalendarEvent < ActiveRecord::Base
   has_many :assets, :through => :asset_assignments
@@ -15,8 +12,8 @@ class CalendarEvent < ActiveRecord::Base
   acts_as_taggable
   acts_as_role_context :parent => 'Calendar'
 
-  filters_attributes :sanitize => :body_html, :except => [:body, :cached_tag_list]
-  
+  filtered_column :body
+
   validates_presence_of :startdate
   validates_presence_of :title
   validates_presence_of :user_id
