@@ -973,3 +973,17 @@ table.table-plans tr.highlight .active{
 #issue h2 {
   margin-bottom: 10px;
 }
+#delivery {
+  padding: 20px 0 20px 0;
+}
+#delivery label {
+  display: inline;
+  margin-left: 10px;
+}
+#delivery #send-now {
+  float: left;
+}
+#delivery #send-later {
+  float: right;
+  margin-right: 12px;
+}

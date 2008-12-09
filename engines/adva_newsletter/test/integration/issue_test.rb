@@ -58,7 +58,7 @@ class IssuesTest < ActionController::IntegrationTest
     click_button 'Save'
 
     assert_template 'admin/issues/show'
-    assert_flash 'Issue has been updated successfully'
+    assert_flash 'Newsletter issue was successfully updated'
     assert_select '#issue' do
       assert_select 'h2', 'EDITED issue title'
       assert_select 'p', 'EDITED issue body'
@@ -81,38 +81,38 @@ class IssuesWithSubscriptionTest < ActionController::IntegrationTest
     assert_template 'admin/issues/edit'
   end
 
-  test 'admin DELIVERS NOW: should be added to delivery queue (currently delivery is mocked)' do
+  test 'admin SENDS NOW: should be added to delivery queue (currently delivery is mocked)' do
     uncheck 'draft'
-    click_button 'Deliver now'
+    click_button 'Send now'
 
     assert_template 'admin/issues/show'
-    assert_flash 'Issue has been added to the delivery queue'
+    assert_flash 'Newsletter issue was successfully added to the delivery queue'
   end
   
-  test 'admin DELIVERS WITH DELAY: should be added to delivery queque with delay (deliver mocked)' do
+  test 'admin SENDS WITH DELAY: should be added to delivery queque with delay (deliver mocked)' do
     uncheck 'draft'
-    click_button 'Deliver later'
+    click_button 'Send later'
 
     assert_template 'admin/issues/show'
-    assert_flash 'Issue with delayed delivery has been added to the queue'
+    assert_flash 'Newsletter issue was successfully added to the queue to send out later'
   end
 
-  test 'admin submits TEST DELIVERY: test delivery should be added to the queue with myself as the only recipent (deliver mocked)' do
+  test 'admin submits SENDS ONLY TO MYSELF: should send issue only to myself (deliver mocked)' do
     uncheck 'draft'
-    check 'test_delivery'
-    click_button 'Deliver now'
+    check 'send_test'
+    click_button 'Send now'
 
     assert_template 'admin/issues/show'
-    assert_flash 'Test delivery has been added to the queue'
+    assert_flash 'Newsletter issue was successfully sent out only to you.'
   end
   
-  test 'avoid bug: admin submits TEST DELIVERY with DRAFT checked: should not deliver, should make normal update only' do
+  test 'avoid bug: admin submits SEND ONLY TO MYSELF with DRAFT checked: should not deliver, should make normal update only' do
     check 'draft'
-    check 'test_delivery'
+    check 'send_test'
     click_button 'Save'
 
     assert_template 'admin/issues/show'
-    assert_flash 'Issue has been updated successfully'
+    assert_flash 'Newsletter issue was successfully updated'
   end
   
 end
@@ -121,5 +121,5 @@ end
 def assert_flash(message)
   regexp = Regexp.new(message.gsub(' ', '\\\+'))
   assert cookies['flash'] =~ regexp,
-    "Flash message is wrong or missing:\nwe should get flash message: #{message}\nin cookie: #{regexp}\nwe got: #{cookies['flash']}"
+    "Flash message is wrong or missing:\nWe should get flash message: #{message} #Regex: #{regexp}\nBUT we got cookie what does not match to our regex: #{cookies['flash']}"
 end

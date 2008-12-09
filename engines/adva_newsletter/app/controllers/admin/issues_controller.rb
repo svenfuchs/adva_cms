@@ -54,13 +54,13 @@ private
   end
   
   def delivery
-    if params[:deliver_now].present?
-      flash[:notice] = t('adva.issue.flash.deliver_now')
-    elsif params[:deliver_later].present?
-      flash[:notice] = t('adva.issue.flash.deliver_later')
+    if params[:send_now].present?
+      flash[:notice] = t('adva.issue.flash.send_now')
+    elsif params[:send_later].present?
+      flash[:notice] = t('adva.issue.flash.send_later')
     else
       flash[:notice] = t('adva.issue.flash.update_success')
     end
-    flash[:notice] = t('adva.issue.flash.test_delivery') if params[:test_delivery]
+    flash[:notice] = t('adva.issue.flash.send_test') if params[:send_test]
   end
 end

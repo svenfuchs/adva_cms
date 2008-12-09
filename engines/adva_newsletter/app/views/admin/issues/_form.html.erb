@@ -10,19 +10,19 @@
   </label>
 
   <div id="delivery" style="<%= @issue.draft? ? "display:none" : "" %>">
-    <p>
-      <%= submit_tag t('adva.issue.button.deliver_now'), :name => 'deliver_now' %>
-    </p>
-    <p>
+    <span id="send-now">
+      <%= submit_tag t('adva.issue.button.send_now'), :name => 'send_now' %>
+      <label>
+        <%= check_box_tag :send_test %><%= t('adva.issue.label.send_test') %>
+      </label>
+    </span>
+    <span id="send-later">
       <%= f.label :due_at, t('adva.issue.label.due_at') %>
       <%= f.datetime_select :due_at,
                             :start_year => (@issue.due_at || Time.zone.now).year-1,
                             :end_year => (Time.zone.now.year + 5),
                             :order => [:month, :day, :year] %>
-      <%= submit_tag t('adva.issue.button.deliver_later'), :name => 'deliver_later' %>
-    </p>
-    <label>
-      <%= check_box_tag :test_delivery %><%= t('adva.issue.label.test_delivery') %>
-    </label>
+      <%= submit_tag t('adva.issue.button.send_later'), :name => 'send_later' %>
+    </span>
   </div>
 </fieldset>

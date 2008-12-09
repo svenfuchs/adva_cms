@@ -753,22 +753,22 @@ en:
       question_save_as_draft: Save as Draft?
       no_issues: There are no issues.
       button:
-        deliver_now: Deliver now
-        deliver_later: Deliver later
+        send_now: Send now
+        send_later: Send later
       flash:
-        create_success: Issue has been created successfully!
-        update_success: Issue has been updated successfully!
-        deliver_now: Issue has been added to the delivery queue.
-        deliver_later: Issue with delayed delivery has been added to the queue. 
-        test_delivery: Test delivery has been added to the queue.
+        create_success: Newsletter issue was successfully created.
+        update_success: Newsletter issue was successfully updated.
+        send_now: Newsletter issue was successfully added to the delivery queue.
+        send_later: Newsletter issue was successfully added to the queue to send out later. 
+        send_test: Newsletter issue was successfully sent out only to you.
       label:
         title: Issue Title/Subject
         body: Body
         name: Name
         created_at: Created
         issues: Issues
-        due_at: "or deliver later at:"
-        test_delivery: This is test delivery only for myself.
+        due_at: "or send later at:"
+        send_test: only to myself
       link:
         index: Issues
         new: Create a new issue
