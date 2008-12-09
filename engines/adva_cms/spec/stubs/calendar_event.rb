@@ -1,3 +1,5 @@
+require 'calendar_event'
+
 define CalendarEvent do
   belongs_to :calendar
   instance :event,

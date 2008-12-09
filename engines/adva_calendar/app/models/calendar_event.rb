@@ -10,7 +10,7 @@ class CalendarEvent < ActiveRecord::Base
 
   has_permalink :title, :scope => :section_id
   acts_as_taggable
-  acts_as_role_context :parent => 'Calendar'
+  acts_as_role_context :parent => Calendar
 
   filtered_column :body
 
