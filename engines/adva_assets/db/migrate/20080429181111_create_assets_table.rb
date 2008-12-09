@@ -30,4 +30,3 @@ class CreateAssetsTable < ActiveRecord::Migration
     drop_table :assets
   end
 end
-

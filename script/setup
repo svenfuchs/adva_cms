@@ -23,13 +23,13 @@ patch_file rails_root + '/config/routes.rb',
            
 patch_file rails_root + '/Rakefile',
            "require 'tasks/rails'",
-           "\nload 'vendor/adva/plugins/engines/tasks/engines.rake'"
+           "\nload 'vendor/adva/plugins/engines/tasks/engines.rake'\nload 'vendor/adva/engines/adva_cms/lib/tasks/adva_cms.rake'"
 
 puts <<END
   
   Welcome to Adva!
   
-  Please run migrations: rake db:migrate:all
+  Please run migrations: rake adva:migrate
   Start server: ruby script/server and say hello to your new Adva at http://localhost:3000
   
   Adva team
