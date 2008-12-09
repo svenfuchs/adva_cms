@@ -1,8 +1,10 @@
 <% content_for :sidebar do %>
-  <%= render :partial => 'admin/layouts/sidebar_manage', :locals => {:active => :issues} %>
+  <%= render :partial => 'admin/layouts/sidebar_manage' %>
   <%= render :partial => 'sidebar_actions' %>
 <% end %>
 
 <%= render :partial => 'admin/newsletters/header' %>
 
-<%= render :partial => 'issues', :object => @issues %>
+<div id='issues'>
+  <%= render :partial => 'issues', :object => @issues %>
+</div>

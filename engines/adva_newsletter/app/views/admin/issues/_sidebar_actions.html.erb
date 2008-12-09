@@ -1,4 +1,7 @@
 <h3><%= t('adva.titles.actions') %></h3>
 <ul>
+  <% if @issue.present? && !@issue.new_record?  %>
+    <li><%= link_to t('adva.issue.link.edit'), edit_admin_issue_path(@site, @newsletter, @issue) %></li>
+  <% end %>
   <li><%= link_to t('adva.issue.link.new'), new_admin_issue_path %></li>
 </ul>

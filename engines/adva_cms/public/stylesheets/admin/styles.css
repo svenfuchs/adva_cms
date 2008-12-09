@@ -987,3 +987,24 @@ table.table-plans tr.highlight .active{
   float: right;
   margin-right: 12px;
 }
+#newsletter-header {
+  padding: 25px 0 0 0;
+}
+#newsletter-title {
+  float: left;
+}
+#newsletter-stats {
+  float: left;
+  width: 130px;
+  padding: 8px 0 0 25px;
+}
+#newsletters {
+  margin-top: 20px;
+}
+.table_menu {
+  text-align: right;
+}
+.table_menu_th {
+  float: right;
+  font-weight: normal;
+}

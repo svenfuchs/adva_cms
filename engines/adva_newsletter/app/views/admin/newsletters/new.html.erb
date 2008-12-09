@@ -1,5 +1,5 @@
 <% content_for :sidebar do %>
-  <%= render :partial => 'admin/layouts/sidebar_manage', :locals => {:active => :newsletters} %>
+  <%= render :partial => 'admin/layouts/sidebar_manage' %>
 <% end %>
 
 <% split_form_for :newsletter, @newsletter, :url => admin_newsletters_path, :html => {:multipart => true, :id => 'content_form'} do |f| %>

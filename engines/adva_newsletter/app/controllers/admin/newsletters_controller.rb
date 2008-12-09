@@ -20,7 +20,7 @@ class Admin::NewslettersController < Admin::BaseController
     @newsletter = @site.newsletters.build(params[:newsletter])
     
     if @newsletter.save
-      redirect_to admin_newsletter_path(@site, @newsletter)
+      redirect_to admin_newsletters_path(@site)
     else
       render :action => 'new'
     end
@@ -31,7 +31,7 @@ class Admin::NewslettersController < Admin::BaseController
     
     if @newsletter.update_attributes(params[:newsletter])
       flash[:notice] = t('adva.newsletter.flash.update_success')
-      redirect_to admin_newsletter_path(@site, @newsletter)
+      redirect_to admin_newsletters_path(@site)
     else
       render :action => 'edit'
     end

@@ -40,6 +40,9 @@ class NoNewslettersTest < ActionController::IntegrationTest
     fill_in :newsletter_desc, :with => 'newsletter desc'
     click_button 'Save'
 
+    assert_template 'admin/newsletters/index'
+    click_link 'newsletter title'
+    
     assert_template 'admin/newsletters/show'
     assert_select 'h1>a', 'newsletter title'
     assert_select 'p', 'newsletter desc'
@@ -56,9 +59,9 @@ class NewslettersTest < ActionController::IntegrationTest
 
   test "admin EDITS a new newsletter: should be success" do
     
-    visit "/admin/sites/#{@site.id}/newsletters/#{@newsletter.id}"
+    visit "/admin/sites/#{@site.id}/newsletters"
     
-    assert_template 'admin/newsletters/show'
+    assert_template 'admin/newsletters/index'
     click_link 'Edit'
     
     assert_template 'admin/newsletters/edit'
@@ -66,11 +69,12 @@ class NewslettersTest < ActionController::IntegrationTest
     fill_in :newsletter_desc, :with => 'EDITED newsletter desc'
     click_button 'Save'
 
-    assert_template 'admin/newsletters/show'
+    assert_template 'admin/newsletters/index'
     assert cookies['flash'] =~ /Newsletter\+has\+been\+updated\+successfully/
-    assert_select '#newsletter' do
-      assert_select 'h1>a', 'EDITED newsletter title'
-      assert_select 'p', 'EDITED newsletter desc'
-    end
+    click_link 'EDITED newsletter title'  
+    
+    assert_template 'admin/newsletters/show'
+    assert_select 'h1>a', 'EDITED newsletter title'
+    assert_select 'p', 'EDITED newsletter desc'
   end
 end

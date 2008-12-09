@@ -34,6 +34,7 @@ en:
       content_tags: "tagged: {{links}<br />"
       unknown: unknown
       add: Add
+      add_new: add new
     titles: 
       accounts: Accounts
       actions: Actions
@@ -772,6 +773,7 @@ en:
       link:
         index: Issues
         new: Create a new issue
+        edit: Edit issue
     subscription:
       no_subscriptions: There are no subscribers.
       link:

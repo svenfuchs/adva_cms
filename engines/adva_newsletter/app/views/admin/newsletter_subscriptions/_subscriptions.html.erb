@@ -7,6 +7,7 @@
         <th scope="col"><%= t('adva.subscription.label.subscriber') %></th>
         <th scope="col"><%= t('adva.subscription.label.email') %></th>
         <th scope="col"><%= t('adva.subscription.label.time') %></th>
+        <th scope="col"><%= link_to t('adva.common.add_new'), new_admin_subscription_path(@site, @newsletter), :class => 'table_menu_th' %></th>
       </tr>
     </thead>
     <tbody>
@@ -15,6 +16,7 @@
           <td><%= link_to h(subscription.user.name), admin_user_path(subscription.user_id) %></td>
           <td><%= subscription.user.email %></td>
           <td><%= subscription.created_at.to_s(:db) %></td>
+          <td>&nbsp;</td>
         </tr>
       <% end %>
     </tbody>
