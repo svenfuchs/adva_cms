@@ -30,6 +30,7 @@ class Site < ActiveRecord::Base
   has_many :users, :through => :memberships, :dependent => :destroy
   has_many :memberships, :dependent => :delete_all
   has_many :newsletters, :dependent => :destroy
+  has_many :locations
 
   has_many :assets, :order => 'assets.created_at desc', :conditions => 'parent_id is null', :dependent => :destroy do
     def recent
