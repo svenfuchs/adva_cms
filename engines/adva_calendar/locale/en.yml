@@ -7,8 +7,13 @@ en:
       publish_on_date: Publish on this date
       starting_at: Starting at
       from_to: '{{startdate}} - {{enddate}}'
+      errors:
+        no_events: No events in {{title}} for this period of time
+      input_defaults:
+        search: Search
       titles:
         show_events: Show events
+        search_events: Search events
         new_event: New Event
         edit_event: Edit Event
         manage: Manage
@@ -21,6 +26,7 @@ en:
         actions: Actions
       buttons:
         go: Go
+        search: Search
       options:
         all_categories: All Categories
         filter:
@@ -28,6 +34,7 @@ en:
           tags: Tags
           title: Title
           body: Body
+          location: Location
       links:
         events: Events
         categories: Categories
@@ -41,4 +48,6 @@ en:
         enddate: Ending at
         body: Write your description
         tags: Tags
+        host: Organizer
+        location: Location
         

@@ -1,5 +1,7 @@
 <h2><%= collection_title(@category, @tags) %></h2>
 
+<%= render :partial => 'search' %>
+
 <% if @events.size > 0 -%>
 
   <table id="events" class="list">
@@ -27,7 +29,7 @@
 <% else %>
 
   <div class="empty">
-    <%= t(:'adva.calendar.errors.no_event', @section.title) %>.
+    <%= t(:'adva.calendar.errors.no_events', :title => @section.title) %>.
   </div>
 
 <% end %>

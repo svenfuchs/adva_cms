@@ -13,12 +13,18 @@ class EventsController < BaseController
 
   def index
     # a bit restricting, I know
-    if @category 
-      @events = @section.events.by_categories(@category.id).paginate(:page => params[:page])
+    if %w(title body).include?(params[:filter])
+      @events = @section.events.search(params[:query], params[:filter]).paginate({:page => params[:page]})
+    elsif params[:filter] == 'tags'
+      @events = @section.events.paginate_tagged_with(params[:query], :page => params[:page])
     else
-      @events = @section.events.elapsed.paginate({:page => params[:page]}).becomes(Event) if params[:elapsed]
-      @events = @section.events.recent.paginate({:page => params[:page]}) if params[:recent] and @events.blank?
-      @events ||=  @section.events.upcoming(@timespan).paginate({:page => params[:page]})
+      if @category 
+        @events = @section.events.by_categories(@category.id).paginate(:page => params[:page])
+      else
+        @events = @section.events.elapsed.paginate({:page => params[:page]}).becomes(Event) if params[:elapsed]
+        @events = @section.events.recent.paginate({:page => params[:page]}) if params[:recent] and @events.blank?
+        @events ||=  @section.events.upcoming(@timespan).paginate({:page => params[:page]})
+      end
     end
     respond_to do |format|
       format.html { render }

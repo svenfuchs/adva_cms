@@ -36,6 +36,7 @@ class Admin::EventsController < Admin::BaseController
   end
   
   def update
+# TODO make sure categories get emptied if none is checked
     if @event.update_attributes(params[:calendar_event])
       trigger_events @event
       flash[:notice] = "The event has been successfully updated."

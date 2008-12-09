@@ -27,6 +27,11 @@ class CalendarEvent < ActiveRecord::Base
   named_scope :upcoming, Proc.new {|startdate, enddate| {:conditions => ['startdate > ? OR (startdate < ? AND enddate > ?)', startdate||Time.now, startdate||Time.now, enddate||Time.now], :order => 'startdate ASC'}}
   named_scope :recently_added, lambda{{:conditions => ['startdate > ? OR (startdate < ? AND enddate > ?)', Time.now, Time.now, Time.now], :order => 'created_at DESC'}}
 
+  named_scope :search, Proc.new{|query, filter| {:conditions => ["#{CalendarEvent.sanitize_filter(filter)} LIKE ?", "%%%s%%" % query]}}
+
+  def self.sanitize_filter(filter)
+    %w(title body).include?(filter) ? filter : 'title'
+  end
   def set_published
     self.published_at = Time.zone.now
   end
