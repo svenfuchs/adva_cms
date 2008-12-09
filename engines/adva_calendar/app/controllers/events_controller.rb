@@ -12,10 +12,14 @@ class EventsController < BaseController
   cache_sweeper :calendar_event_sweeper, :tag_sweeper, :category_sweeper, :only => [:create, :update, :destroy]
 
   def index
-    source = @category ? @category.contents : @section.events
-    @events = source.elapsed.paginate({:page => params[:page]}) if params[:elapsed]
-    @events = source.recent.paginate({:page => params[:page]}) if params[:recent] and @events.blank?
-    @events ||= source.upcoming(@timespan).paginate({:page => params[:page]})
+    # a bit restricting, I know
+    if @category 
+      @events = @section.events.by_categories(@category.id).paginate(:page => params[:page])
+    else
+      @events = @section.events.elapsed.paginate({:page => params[:page]}).becomes(Event) if params[:elapsed]
+      @events = @section.events.recent.paginate({:page => params[:page]}) if params[:recent] and @events.blank?
+      @events ||=  @section.events.upcoming(@timespan).paginate({:page => params[:page]})
+    end
     respond_to do |format|
       format.html { render }
       format.ics { render :layout => false }

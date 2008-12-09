@@ -21,7 +21,8 @@ class CalendarEvent < ActiveRecord::Base
   validates_uniqueness_of :permalink, :scope => :section_id
   
   before_create :set_published
-  
+
+  named_scope :by_categories, Proc.new {|category_ids| {:conditions => ['category_assignments.category_id IN (?)', category_ids], :include => :category_assignments}}
   named_scope :elapsed, lambda {{:conditions => ['startdate < ? AND (enddate IS ? OR enddate < ?)', Time.now, nil, Time.now], :order => 'enddate DESC'}}
   named_scope :upcoming, Proc.new {|startdate, enddate| {:conditions => ['startdate > ? OR (startdate < ? AND enddate > ?)', startdate||Time.now, startdate||Time.now, enddate||Time.now], :order => 'startdate ASC'}}
   named_scope :recently_added, lambda{{:conditions => ['startdate > ? OR (startdate < ? AND enddate > ?)', Time.now, Time.now, Time.now], :order => 'created_at DESC'}}
