@@ -21,7 +21,7 @@ class EventsController < BaseController
       if @category 
         @events = @section.events.by_categories(@category.id).paginate(:page => params[:page])
       else
-        @events = @section.events.elapsed.paginate({:page => params[:page]}).becomes(Event) if params[:elapsed]
+        @events = @section.events.elapsed.paginate({:page => params[:page]}) if params[:elapsed]
         @events = @section.events.recent.paginate({:page => params[:page]}) if params[:recent] and @events.blank?
         @events ||=  @section.events.upcoming(@timespan).paginate({:page => params[:page]})
       end
