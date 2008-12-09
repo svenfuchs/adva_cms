@@ -31,7 +31,7 @@ en:
       "yes": "yes"
       by_author: by {{author}}
       content_categories: "in {{links}}<br />"
-      content_tags: "tagged: {{links}<br />"
+      content_tags: "tagged: {{links}}<br />"
       unknown: unknown
       add: Add
     titles: 

@@ -5,6 +5,8 @@ en:
       no_location: No location
       confirm_delete: Are you sure you wish to delete this article?
       publish_on_date: Publish on this date
+      starting_at: Starting at
+      from_to: '{{startdate}} - {{enddate}}'
       titles:
         show_events: Show events
         new_event: New Event

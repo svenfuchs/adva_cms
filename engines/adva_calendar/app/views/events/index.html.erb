@@ -15,8 +15,9 @@
       <% @events.each do |event| %>
         <tr id="<%= dom_id event %>">
           <td><%= link_to_event event %></td>
-          <td><%= datetime_with_microformat(event.startdate, :format => :long) %></td>
-          <td><%= datetime_with_microformat(event.enddate, :format => :long) %></td>
+          <td><%= event.location ? event.location.title : t(:'adva.calendar.no_location') %></td>
+          <td><%= event.startdate %></td>
+          <td><%= event.enddate %></td>
         </tr>
       <% end %>
     </tbody>
@@ -26,7 +27,7 @@
 <% else %>
 
   <div class="empty">
-    There are no events in <%= @section.title %>.
+    <%= t(:'adva.calendar.errors.no_event', @section.title) %>.
   </div>
 
 <% end %>
