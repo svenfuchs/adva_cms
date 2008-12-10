@@ -19,7 +19,7 @@ Find out more about adva-cms at: http://adva-cms.org
 Installation
 ============
  
-You need Rails 2.2.0 or newer.
+You need Rails 2.2.2 or newer.
 
   rails my-app
   cd my-app
@@ -27,7 +27,7 @@ You need Rails 2.2.0 or newer.
 
   git submodule add git://github.com/svenfuchs/adva_cms.git vendor/adva
   ruby vendor/adva/script/setup   # adds adva rake tasks and required files
-  rake db:migrate:all             # migrates all adva migrations
+  rake adva:migrate               # runs Adva migrations
 
   ruby script/server
   firefox http://localhost:3000

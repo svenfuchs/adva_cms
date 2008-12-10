@@ -32,7 +32,7 @@
 #   end
 # end
 
-namespace :adva_cms do
+namespace :adva do
   desc "Migrate database and plugins to current status with preserved order."
   task :migrate do |task, args|
     require 'config/environment'
