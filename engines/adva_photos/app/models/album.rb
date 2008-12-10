@@ -1,0 +1,3 @@
+class Album < Section
+  
+end
