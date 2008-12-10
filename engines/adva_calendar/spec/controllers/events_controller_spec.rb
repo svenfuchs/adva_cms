@@ -101,7 +101,7 @@ describe EventsController do
   ics_paths.each do |path|
     describe "GET to #{path}" do
       act! { request_to :get, path }
-      it_renders_template 'calendars/index', :format => :ics
+      it_renders_template 'events/index', :format => :ics
     end
   end
 end
