@@ -3,14 +3,16 @@ require File.expand_path(File.dirname(__FILE__) + "/../../../../../config/enviro
 
 # require 'context'
 require 'matchy'
-require 'test_help'
-
-require 'globalize/i18n/missing_translations_raise_handler'
 
 class Test::Unit::TestCase
   include With
   include RR::Adapters::TestUnit
-  
+end
+
+require 'test_help'
+require 'globalize/i18n/missing_translations_raise_handler'
+
+class Test::Unit::TestCase
   self.use_transactional_fixtures = true
   self.use_instantiated_fixtures  = false
   fixtures :all
