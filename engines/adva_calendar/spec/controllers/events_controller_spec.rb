@@ -29,6 +29,8 @@ describe EventsController do
 
     # named scopes
     @category.stub!(:events).and_return stub_calendar_events
+    @section.events.stub!(:by_categories).and_return stub_calendar_events
+    
     [:upcoming, :recent, :elapsed].each do |method|
       @section.events.stub!(method).and_return stub_calendar_events
       @category.events.stub!(method).and_return stub_calendar_events
@@ -93,7 +95,7 @@ describe EventsController do
     act! { request_to(:get, category_path) }
     it_assigns :category
     it "should set category" do
-      @section.events.should_receive(:by_category, '2')
+      @section.events.should_receive(:by_categories, '2')
       act!
     end
   end
