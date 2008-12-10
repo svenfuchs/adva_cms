@@ -24,6 +24,8 @@ describe EventsController do
     controller.stub!(:event_path).and_return event_path
 
     controller.stub!(:has_permission?).and_return true
+    
+    @section.categories.stub!(:find).and_return @category
 
     # named scopes
     @category.stub!(:events).and_return stub_calendar_events
