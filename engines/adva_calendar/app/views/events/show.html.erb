@@ -1,7 +1,10 @@
 <div id="<%= dom_id @event %>" class="entry clearing">
   <div class="meta">
-    <p><%= link_to 'all pages', calendar_events_path(@section) %></p>
-    <p>
+    <p><%= link_to 'all pages', calendar_events_path(@section) %>
+      <% authorized_tag :span, :update, @event do -%>
+        <%= link_to t( :'adva.common.edit' ), edit_admin_calendar_event_path(@site, @section, @event) %>
+      <% end -%>
+    </p><p>
     <% if @event.enddate.blank? %>
       <%= t(:'adva.calendar.starting_at', @event.startdate)  %>
     <% else %>

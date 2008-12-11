@@ -3,15 +3,21 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe "Events views:" do
   include SpecViewHelper
   include ContentHelper
+  include EventsHelper
 
   before :each do
     Thread.current[:site] = stub_site
 
     assigns[:site] = stub_user
-    assigns[:section] = stub_calendar
-    assigns[:event] = @event = stub_calendar_event
+    assigns[:section] = assigns[:calendar] = @section = @calendar = stub_calendar
+    @calendar_event = stub_calendar_event
+    @calendar_events = [@calendar_event, @calendar_event]
+    @calendar_events.stub!(:total_pages).and_return 1
 
-    template.stub!(:link_to_content).and_return 'link_to_content'
+    # any way to remove those two stubs?
+    Section.stub!(:find).and_return @section
+
+    template.stub!(:link_to_event).and_return 'link_to_event'
     template.stub!(:links_to_content_categories).and_return 'links_to_content_categories'
     template.stub!(:links_to_content_tags).and_return 'links_to_content_tags'
     template.stub!(:datetime_with_microformat).and_return 'Once upon a time ...'
@@ -22,40 +28,32 @@ describe "Events views:" do
 
   describe "index view" do
     before :each do
-      assigns[:events] = @events = [@event, @event]
+      assigns[:events] = @calendar_events
     end
 
-    it "should render the event partial with a collection of events in list mode" do
-      template.should_receive(:render).with :partial => 'event', :collection => @events, :locals => {:mode => :many}
+    it "should render the list of events" do
+      @calendar_events.should_receive(:each).twice # as there are two events
       render "events/index"
+      response.should have_tag('table#events')
+      @calendar_events.each do |event|
+        response.should have_tag("div#event-%i" % event.id)
+      end
     end
   end
 
   describe "show view" do
     before :each do
-      assigns[:event] = @event
-    end
-
-    it "should render the event partial with an event in single mode" do
-      template.should_receive(:render).with hash_including(:partial => 'events/event', :locals => {:mode => :single})
-      render "events/show"
+      assigns[:event] = @calendar_event
     end
 
     it "should display the edit link only for authorized user" do
-      template.should_receive(:authorized_tag).with(:span, :update, @event).and_return('authorized tags')
+      template.should_receive(:authorized_tag).with(:span, :update, @calendar_event).and_return('authorized tags')
       render "events/show"
-    end 
-
-  end
-
-  describe "the event partial" do
-    before :each do
-      assigns[:event] = @event
     end
 
-    it "should display an event" do
-      render :partial => "events/event", :object => @event, :locals => {:mode => :many}
-      response.should have_tag('div.events')
+    it "should render the event's permalink" do
+      render "events/show"
+      template.should_receive(:link_to_event).with(@calendar_event)
     end
 
     it "should list the event's tags" do
@@ -66,47 +64,6 @@ describe "Events views:" do
     it "should list the event's categories" do
       template.should_receive(:links_to_content_categories)
       render "events/show"
-    end
-
-    describe "with an event that has an excerpt" do
-      before :each do
-        @event.should_receive(:has_excerpt?).at_least(1).times.and_return(true)
-      end
-
-      describe "in list mode" do
-        it "should display the event's excerpt" do
-          @event.should_receive(:excerpt_html)
-          render :partial => "events/event", :object => @event, :locals => {:mode => :many}
-        end
-
-        it "should not display the event's body" do
-          @event.should_not_receive(:body_html)
-          render :partial => "events/event", :object => @event, :locals => {:mode => :many}
-        end
-
-        it "should display a 'read more' link" do
-          template.should_receive(:link_to_content).with(@event)
-          render :partial => "events/event", :object => @event, :locals => {:mode => :many}
-        end
-      end
-
-      describe "in single mode" do
-        it "should display an event's excerpt" do
-          @event.should_receive(:excerpt_html)
-          render :partial => "events/event", :object => @event, :locals => {:mode => :single}
-        end
-
-        it "should display the event's body" do
-          @event.should_receive(:body_html)
-          render :partial => "events/event", :object => @event, :locals => {:mode => :single}
-        end
-
-        it "should not display a 'read more' link" do
-          template.should_not_receive(:link_to_content).with('Read the rest of this entry', @event)
-          render :partial => "events/event", :object => @event, :locals => {:mode => :single}
-          response.should_not have_tag('a', :text => /Read/)
-        end
-      end
     end
   end
 end

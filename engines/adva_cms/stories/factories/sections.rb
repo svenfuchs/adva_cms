@@ -10,6 +10,9 @@ factory :section,
 factory :blog, valid_section_attributes.update(:type => 'Blog', :title => 'the blog title'),
         :class => :section
 
+factory :calendar, valid_section_attributes.update(:type => 'Calendar', :title => 'the calendar title'),
+        :class => :section
+
 factory :wiki, valid_section_attributes.update(:type => 'Wiki', :title => 'the wiki title'),
         :class => :section
 
