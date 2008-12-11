@@ -39,7 +39,7 @@ en:
         events: Events
         categories: Categories
         settings: Settings
-        create: Create new event
+        create: Create a new event
         preview: Preview
         delete: Delete
       attributes:

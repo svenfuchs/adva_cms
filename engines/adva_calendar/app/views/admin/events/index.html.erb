@@ -62,7 +62,7 @@
   <div class="empty" style="margin-bottom:20px">
     <% unless params[:filter] %>
       <%= t(:'adva.calendar.error.no_events_in_calendar') %>
-      <%= link_to t(:'adva.calendar.create_new_event'), new_admin_calendar_event_path(@site) %>
+      <%= link_to t(:'adva.calendar.links.create'), new_admin_calendar_event_path(@site) %>
     <% else %>
       You don't seem to have any events matching that criteria.
     <% end %>
