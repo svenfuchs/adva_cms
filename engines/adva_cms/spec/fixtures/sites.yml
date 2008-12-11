@@ -1,11 +1,9 @@
 site_1:
-  id: 1
   host: test.host
   name: site_1
   title: site 1
   timezone: 'UTC'
 site_2:
-  id: 2
   host: test-2.host
   name: site_2
   timezone: 'UTC'
