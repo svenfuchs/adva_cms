@@ -2,7 +2,7 @@ define Calendar do
   belongs_to :site
   has_many :categories, [:roots] => stub_categories
 
-  has_many :events, [:paginate] => stub_calendar_events, [:find, :find_by_id, :find_by_permalink, :build, :new, :create] => stub_calendar_event, :class_name => 'CalendarEvent'
+  has_many :events, stub_calendar_events, [:paginate] => stub_calendar_events, [:find, :find_by_id, :find_by_permalink, :build, :new, :create] => stub_calendar_event
 
   methods :id => 1,
           :type => 'Calendar',
