@@ -13,7 +13,7 @@ need for your application and omit the rest. All engines are designed to work
 together seamlessly, so the whole platform feels much more consistent for
 similar but separate Rails applications.
  
-Find out more about adva-cms at: http://adva-cms.org
+Please check out /doc directory and our site http://adva-cms.org for more info.
  
  
 Installation
@@ -38,27 +38,20 @@ Fill out the form and you're started, enjoy!
  
 Development
 ===========
- 
-Please report bugs to Lighthouse: 
-http://artweb-design.lighthouseapp.com/projects/13992-adva_cms/overview
- 
-Git repository:
-http://github.com/svenfuchs/adva_cms/tree/master
- 
-Adva mailing list:
-http://groups.google.com/group/adva-cms
- 
-Adva irc:
-irc://irc.freenode.net#adva-cms
+
+Please check out /doc directory for high level overview about Adva.
  
 Running specs and int tests
   ruby script/test-adva  # Runs all Adva specs and int tests
 
-Pushing your code to mainstream or to your adva clone
-  Here is quick way to push your code up: 
-    cd vendor/adva
-    open .git/config
-    change: url = git://github.com/svenfuchs/adva_cms.git
-    to your adva clone: url = git@github.com:MY_GITHUB_USERNAME/adva_cms.git
-    or to mainstream: url = git@github.com:svenfuchs/adva_cms.git
-    git push origin master
+Please report bugs to Lighthouse: 
+  http://artweb-design.lighthouseapp.com/projects/13992-adva_cms/overview
+ 
+Git repository:
+  http://github.com/svenfuchs/adva_cms/tree/master
+ 
+Adva mailing list:
+  http://groups.google.com/group/adva-cms
+ 
+Adva irc:
+  irc://irc.freenode.net#adva-cms

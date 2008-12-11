@@ -1,0 +1,52 @@
+
+Pushing your code to mainstream or to your adva clone
+=====================================================
+
+  Here is quick way to push your code up: 
+    cd vendor/adva
+    open .git/config
+    change: url = git://github.com/svenfuchs/adva_cms.git
+    to your adva clone: url = git@github.com:MY_GITHUB_USERNAME/adva_cms.git
+    or to mainstream: url = git@github.com:svenfuchs/adva_cms.git
+    
+    then pushing up to the new location:
+    git push origin master
+
+
+Git workflow to avoid merges
+============================
+
+  Usually git merges are not good indicator, often it means master branch is abused :-)
+
+  Here is priit's workflow, what he thinks is the correct way of using git:
+
+    master$ git pull master
+    # NEVER to any changes at master, get habit to make branches on the
+    fly however small task you have (you NEVER know if someone has pushed
+    something to master meantime etc)
+
+    master$ git checkout newsletter
+
+    newsletter$ git rebase master
+    # rebase is important to update your branch with master, don't use
+    # merge (it pollute to much log file)
+
+    # coding...
+    # when I'm done with my feature
+
+    newsletter$ git add ...your files
+    newsletter$ git commit ...your files
+
+    newsletter$ git chechkout master
+    master$ git pull # so I can update to master and see what's new
+
+    master$ git checkout newsletter
+    newsletter$ git rebase master
+
+    # NOW i run tests, if everything is ok then I merge (now git makes it fast forward way)
+    newsletter$ git checkout master
+    master$ git merge newsletter
+    master$ git push origin master
+
+  I hope it helps for everyone use git.
+
