@@ -2,7 +2,7 @@
 
 require 'fileutils'
 
-rails_root = File.expand_path(File.dirname(__FILE__) + '/../..')
+rails_root = File.expand_path(File.dirname(__FILE__) + '/../../..')
 
 def patch_file(path, after, insert)
   content = File.open(path){|f| f.read }
