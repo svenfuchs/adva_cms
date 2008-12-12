@@ -18,5 +18,15 @@ describe Location do
       @location.errors.on("title").should be
     end
   end
+  
+  describe "method" do
+    it "should have oneliner" do
+      @location.oneliner.should ==('Museumsquartier, Museumsplatz 1, 1160 Vienna')
+
+      location2 = Location.new(:title => 'Museumsquartier', :town => 'Vienna', :postcode => '')
+      location2.oneliner.should ==('Museumsquartier, Vienna')
+
+    end
+  end
 
 end
