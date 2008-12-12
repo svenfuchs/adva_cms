@@ -6,6 +6,9 @@ class Admin::EventsController < Admin::BaseController
   before_filter :set_event, :only => [:show, :edit, :update, :destroy]
   before_filter :set_categories, :only => [:new, :edit]
 
+  before_filter :params_draft,        :only => [:create, :update]
+  before_filter :params_category_ids, :only => [:update]
+
   widget :sub_nav, :partial => 'widgets/admin/sub_nav',
                    :only  => { :controller => ['admin/events'] }
 
@@ -70,5 +73,32 @@ class Admin::EventsController < Admin::BaseController
     def set_categories
       @categories = @calendar.categories.roots
     end
+
+    def params_category_ids
+      default_article_param :category_ids, []
+    end
+
+    def params_draft
+      set_article_param :published_at, nil if save_draft?
+    end
+
+    def save_with_revision?
+      @save_revision ||= !!params.delete(:save_revision)
+    end
+
+    def save_draft?
+      params[:draft] == '1'
+    end
+
+    def set_article_param(key, value)
+      params[:article] ||= {}
+      params[:article][key] = value
+    end
+
+    def default_article_param(key, value)
+      params[:article] ||= {}
+      params[:article][key] ||= value
+    end
+
 end
 

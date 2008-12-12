@@ -19,6 +19,11 @@ describe Admin::EventsController do
     controller.should be_kind_of(Admin::BaseController)
   end
 
+  it "filters params" do
+    Admin::EventsController.before_filter.should include(:params_draft)
+    Admin::EventsController.before_filter.should include(:params_category_ids)
+  end
+
   describe "routing" do
     with_options :path_prefix => '/admin/sites/1/sections/1/', :site_id => "1", :section_id => "1" do |route|
       route.it_maps :get, "events", :index
@@ -99,7 +104,7 @@ describe Admin::EventsController do
     act! { request_to :put, @member_path }
     it_assigns :event
     it_guards_permissions :update, :calendar_event
-  
+
     it "updates the event with the event params" do
       @event.should_receive(:update_attributes).and_return true
       act!
