@@ -4,6 +4,7 @@ describe "Photo views:" do
   include SpecViewHelper
   
   before :each do
+    Site.delete_all
     @site   = Factory :site
     @album  = Factory :album, :site => @site
     @author = Factory :user
