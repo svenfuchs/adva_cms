@@ -4,6 +4,7 @@ describe Admin::PhotosController do
   include SpecControllerHelper
   
   before :each do
+    Site.delete_all
     @site   = Factory :site
     @user   = Factory :user
     @album  = Factory :album, :site => @site
