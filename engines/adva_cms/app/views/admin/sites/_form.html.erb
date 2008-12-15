@@ -32,6 +32,16 @@
     <%= f.select :comment_filter, filter_options %>
   </div>
 </fieldset>
+
+<h2>Google Analytics</h2>
+<fieldset class="clearfix">
+  <div class="col1">
+    <%= f.label :google_analytics_tracking_code, 'Google Analytics Tracking Code' %>
+    <span class="hint"><%= t(:'adva.analytics.hints.tracking_code') %></span>
+    <%= f.text_field :google_analytics_tracking_code %>
+  </div>
+</fieldset>
+
 <!-----------------------------------------TODO---------------------------------------->  
 <h2><%= t(:'adva.titles.spam_protection') %></h2>
 <fieldset id="site_spam_settings_fields" class="clearfix">  
