@@ -1,8 +1,9 @@
 class AddContentTypeToAssetAssignments < ActiveRecord::Migration
   def self.up
     # a safety net if previously migrated. sorry
-    return if AssetAssignment.new.attributes_before_type_cast.has_key?('content_type')
+    return if columns(:asset_assignments).include?(:content_type)
     add_column :asset_assignments, :content_type, :string
+    return unless table_exists?(:contents)
     execute 'UPDATE asset_assignments SET content_type = (SELECT type from contents WHERE contents.id = asset_assignments.content_id)'
   end
   
