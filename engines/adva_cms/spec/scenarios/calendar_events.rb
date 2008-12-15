@@ -7,9 +7,6 @@ scenario :calendar_with_events do
   @category = stub_category(:category)
   @categories = stub_categories
 
-  Section.stub!(:find).and_return @calendar
-  @site.sections.stub!(:find).and_return @calendar
-  @site.sections.stub!(:root).and_return @calendar
 
   CalendarEvent.stub!(:total_entries).and_return 2
 
@@ -20,4 +17,9 @@ scenario :calendar_with_events do
   @calendar.categories.stub!(:find_by_path).and_return @category
 
   Tag.stub!(:find).and_return stub_tags(:all)
+
+  Section.stub!(:find).and_return @calendar
+  @site.sections.stub!(:find).and_return @calendar
+  @site.sections.stub!(:root).and_return @calendar
+
 end

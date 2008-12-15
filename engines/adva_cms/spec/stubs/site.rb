@@ -16,6 +16,8 @@ define Site do
                           :delete_all => nil,
                           :total_entries => 2
   has_one  :comments_counter, stub_counter
+  
+  has_many :locations, stub_locations, [:find, :new] => stub_location
 
   methods  :id => 1,
            :name => 'site-1',

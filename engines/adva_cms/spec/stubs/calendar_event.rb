@@ -1,5 +1,3 @@
-require 'calendar_event'
-
 define CalendarEvent do
   belongs_to :section, stub_calendar
   belongs_to :location, stub_location

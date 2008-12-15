@@ -18,9 +18,11 @@
   <%= form.label :location, t(:'adva.calendar.attributes.location') %>
   <%= form.select :location_id, @site.locations.collect{|l| [l.oneliner, l.id]}, :include_blank => true %>
 OR 
+<fieldset id="new_location" style="<%= @event.location_id.blank? ? "" : "display:none" %>">
 <% form.fields_for :location do |f_l| %>
   <%= render :partial => 'form_location', :locals => {:form => f_l} %>
 <% end %>
+</fieldset>
 
 <p>
   <%= form.label :startdate, t(:'adva.calendar.attributes.startdate') %>
@@ -33,11 +35,6 @@ OR
 </p>
 
 <p>
-  <%= form.label :published_at, t(:'adva.calendar.publish_on_date') %>
-  <%= form.text_field :published_at %>
-</p>
-
-<p>
   <%= form.label :body, t(:'adva.calendar.attributes.body') %>
   <%= form.text_area :body %>
 </p>
@@ -45,5 +42,19 @@ OR
   <%= form.label :tag_list, t(:'adva.calendar.attributes.tags') %>
   <%= form.text_field :tag_list %>
   <span class="hint"><%= t(:'adva.common.hints.tags') %></span>  
+</p>
+
+
+<%= form.label :draft, t(:'adva.calendar.question_save_as_draft') %>
+<label class="light">
+  <%= check_box_tag :draft, '1', @event.draft?, :id => 'calendar-event-draft' %> <%= t(:'adva.calendar.confirm_save_as_draft') %>
+</label>
+
+<p id="publish-date" style="<%= @event.draft? ? "display:none" : "" %>">
+  <%= form.label :published_at, t(:'adva.calendar.publish_on_date') %>
+  <%= form.datetime_select :published_at,
+                        :start_year => (@event.published_at || Time.zone.now).year-1,
+                        :end_year => (Time.zone.now.year + 5),
+                        :order => [:month, :day, :year] %>
 </p>
 </fieldset>

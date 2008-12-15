@@ -6,5 +6,5 @@ scenario :empty_site do
   Site.stub!(:find_by_host).and_return @site
   Site.stub!(:paginate).and_return @sites
 
-  Section.stub!(:types).and_return ['Section', 'Blog', 'Forum', 'Wiki']
+  Section.stub!(:types).and_return ['Section', 'Blog', 'Forum', 'Wiki', 'Calendar']
 end

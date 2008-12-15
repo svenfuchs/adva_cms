@@ -30,6 +30,21 @@ CalendarSearch.prototype = {
   }
 }
 
+var CalendarEventForm = {
+  saveDraft: function() {
+		$F(this) ? $('publish-date').hide() : $('publish-date').show();
+  },
+	toggleLocation: function(event) {
+		if (event.target.value == "") {
+			$('new_location').show();
+		} else {
+			$('new_location').hide();
+		}
+	}
+}
+
 Event.addBehavior({
+	'#calendar-event-draft':   function() { Event.observe(this, 'change', CalendarEventForm.saveDraft.bind(this)); },
+  '#calendar_event_location_id':   function() { Event.observe(this, 'change', CalendarEventForm.toggleLocation.bind(this)); },
   '#calendar-search':  function() { CalendarSearch.create();  }
 });

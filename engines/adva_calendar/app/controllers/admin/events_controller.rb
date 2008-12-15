@@ -6,7 +6,9 @@ class Admin::EventsController < Admin::BaseController
   before_filter :set_event, :only => [:show, :edit, :update, :destroy]
   before_filter :set_categories, :only => [:new, :edit]
 
-  before_filter :params_draft,        :only => [:create, :update]
+  before_filter :params_draft, :only => [:create, :update]
+  before_filter :params_published_at, :only => [:create, :update]
+  before_filter :params_location, :only => [:create, :update]
   before_filter :params_category_ids, :only => [:update]
 
   widget :sub_nav, :partial => 'widgets/admin/sub_nav',
@@ -24,7 +26,7 @@ class Admin::EventsController < Admin::BaseController
   
   def create
     @event = @calendar.events.new(params[:calendar_event])
-    if @event.save
+    if @location.save and @event.save
       trigger_events @event
       flash[:notice] = "The event has been successfully created."
       redirect_to edit_admin_calendar_event_path(@site.id, @calendar.id, @event.id)
@@ -39,8 +41,7 @@ class Admin::EventsController < Admin::BaseController
   end
   
   def update
-# TODO make sure categories get emptied if none is checked
-    if @event.update_attributes(params[:calendar_event])
+    if @location.save and @event.update_attributes(params[:calendar_event])
       trigger_events @event
       flash[:notice] = "The event has been successfully updated."
       redirect_to edit_admin_calendar_event_path
@@ -75,29 +76,41 @@ class Admin::EventsController < Admin::BaseController
     end
 
     def params_category_ids
-      default_article_param :category_ids, []
+      default_calendar_event_param :category_ids, []
     end
 
     def params_draft
-      set_article_param :published_at, nil if save_draft?
+      set_calendar_event_param :published_at, nil if save_draft?
     end
 
-    def save_with_revision?
-      @save_revision ||= !!params.delete(:save_revision)
+    def params_published_at
+      date = Time.extract_from_attributes!(params[:calendar_event], :published_at, :local)
+      set_calendar_event_param :published_at, date if date && !save_draft?
+    end
+
+    # will check if existing location is selected, otherwise try to create a new one 
+    def params_location
+      unless params[:calendar_event][:location_id].blank?
+        @location = @site.locations.find(params[:calendar_event][:location_id])
+      else
+        @location = @site.locations.new(params[:location])
+      end
+      set_calendar_event_param :location, @location
+      set_calendar_event_param :location_id, nil
     end
 
     def save_draft?
       params[:draft] == '1'
     end
 
-    def set_article_param(key, value)
-      params[:article] ||= {}
-      params[:article][key] = value
+    def set_calendar_event_param(key, value)
+      params[:calendar_event] ||= {}
+      params[:calendar_event][key] = value
     end
 
-    def default_article_param(key, value)
-      params[:article] ||= {}
-      params[:article][key] ||= value
+    def default_calendar_event_param(key, value)
+      params[:calendar_event] ||= {}
+      params[:calendar_event][key] ||= value
     end
 
 end

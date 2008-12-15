@@ -6,9 +6,12 @@ en:
       confirm_delete: Are you sure you wish to delete this article?
       publish_on_date: Publish on this date
       starting_at: Starting at
+      question_save_as_draft: Save as Draft?
+      confirm_save_as_draft: Yes, save this article as a draft
       from_to: '{{startdate}} - {{enddate}}'
       errors:
         no_events: No events in {{title}} for this period of time
+        no_events_in_calendar: There are no events yet in this calendar.
       input_defaults:
         search: Search
       titles:
@@ -50,4 +53,5 @@ en:
         tags: Tags
         host: Organizer
         location: Location
+        
         
