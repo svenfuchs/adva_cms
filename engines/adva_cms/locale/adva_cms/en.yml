@@ -714,6 +714,9 @@ en:
         update:
           success: The post has been updated.
           failure: The post could not be updated.
+    analytics:
+      hints:
+        tracking_code: Use your Google Analytics Tracking Code (UA-xxxxxxx-x) to enable Google Analytics support. Leaving this blank will deactivate Google Analytics support.
     spam:
       hints:
         filters: When comments are posted, the following filters are used to check their spam status.
