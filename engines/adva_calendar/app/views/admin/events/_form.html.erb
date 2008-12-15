@@ -19,7 +19,7 @@
   <%= form.select :location_id, @site.locations.collect{|l| [l.oneliner, l.id]}, :include_blank => true %>
 OR 
 <fieldset id="new_location" style="<%= @event.location_id.blank? ? "" : "display:none" %>">
-<% form.fields_for :location do |f_l| %>
+<% fields_for :location do |f_l| %>
   <%= render :partial => 'form_location', :locals => {:form => f_l} %>
 <% end %>
 </fieldset>
