@@ -28,3 +28,15 @@
 <% else -%>
 <span class="hint"><%= t(:'adva.tracking.hints.no_tracking_code', :settings => link_to(t(:'adva.resources.settings'), edit_admin_site_path(@site))) %></span>
 <% end -%>
+<script type="text/javascript">
+toggleTrackingOptions = function(event) {
+  checkbox = event.element();
+  
+  // pre-fill values if checkbox is checked
+  if(checkbox.checked) {
+    if(!$F('issue_tracking_campaign'))  $('issue_tracking_campaign').value = decodeURI('<%= @newsletter.title %>');
+    if(!$F('issue_tracking_source'))    $('issue_tracking_source').value = decodeURI($F('issue_title'));
+  }
+}
+$('issue_track').observe('click', toggleTrackingOptions);
+</script>
