@@ -1,7 +1,6 @@
 class AddContentTypeToAssetAssignments < ActiveRecord::Migration
   def self.up
     # a safety net if previously migrated. sorry
-    add_column :asset_assignments, :content_type, :string
     return if columns(:asset_assignments).collect(&:name).include?("content_type")
     add_column :asset_assignments, :content_type, :string
     return unless table_exists?(:contents)
