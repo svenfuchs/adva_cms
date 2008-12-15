@@ -4,6 +4,7 @@ class Admin::UsersController < Admin::BaseController
   before_filter :set_user,  :only => [:show, :edit, :update, :destroy]
   before_filter :authorize_access
   before_filter :authorize_params, :only => :update
+  filter_parameter_logging :password
 
   helper_method :collection_path, :member_path, :new_member_path, :edit_member_path
 
