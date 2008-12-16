@@ -1,4 +1,7 @@
 class EventsController < BaseController
+  include ActionController::GuardsPermissions::InstanceMethods
+  helper :roles
+
   before_filter :set_section
   before_filter :set_timespan
   before_filter :set_category, :only => [:index]
@@ -69,7 +72,7 @@ class EventsController < BaseController
     end
 
     def set_event
-      @event = @section.events.published.find params[:id]
+      @event = @section.events.published.find_by_id params[:id]
       @event ||= @section.events.published.find_by_permalink params[:id]
       raise "could not find event '#{params[:id]}'" unless @event
     end

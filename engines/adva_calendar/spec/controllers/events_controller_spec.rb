@@ -35,7 +35,7 @@ describe EventsController do
       @section.events.stub!(method).and_return stub_calendar_events
       @category.events.stub!(method).and_return stub_calendar_events
     end
-    @section.events.published.stub!(:find).and_return stub_calendar_event
+    @section.events.published.stub!(:find_by_id).and_return stub_calendar_event
     @section.events.published.stub!(:find_by_permalink).and_return stub_calendar_event
   end
 
@@ -107,7 +107,7 @@ describe EventsController do
     it_assigns :event
     it_renders_template 'events/show'
     it "should call @calendar.events.published" do
-      @section.events.published.should_receive(:find).and_return stub_calendar_event
+      @section.events.published.should_receive(:find_by_id).and_return stub_calendar_event
       act!
     end
   end
@@ -115,7 +115,7 @@ describe EventsController do
   describe "GET to :show with a permalink" do
     act! { request_to(:get, '/calendars/1/event/%s' % stub_calendar_event.permalink) }
     it "should call @calendar.events.published" do
-      @section.events.published.should_receive(:find).and_return nil
+      @section.events.published.should_receive(:find_by_id).and_return nil
       @section.events.published.should_receive(:find_by_permalink).and_return stub_calendar_event
       act!
     end
