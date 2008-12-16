@@ -12,8 +12,10 @@ class EventsController < BaseController
   cache_sweeper :calendar_event_sweeper, :tag_sweeper, :category_sweeper, :only => [:create, :update, :destroy]
 
   def index
-    # a bit restricting, I know
-    source = @section.events.published
+    if %w(elapsed recently_added).include?(params[:scope])
+      source = @section.events.published.send(params[:scope])
+    end
+    source ||= @section.events.published.upcoming(@timespan)
     if %w(title body).include?(params[:filter])
       @events = source.search(params[:query], params[:filter]).paginate({:page => params[:page]})
     elsif params[:filter] == 'tags' and not params[:query].blank?
@@ -22,9 +24,7 @@ class EventsController < BaseController
       if @category 
         @events = source.by_categories(@category.id).paginate(:page => params[:page])
       else
-        @events = source.elapsed.paginate({:page => params[:page]}) if params[:elapsed]
-        @events = source.recent.paginate({:page => params[:page]}) if params[:recent] and @events.blank?
-        @events ||= source.upcoming(@timespan).paginate({:page => params[:page]})
+        @events ||= source.paginate(:page => params[:page])
       end
     end
     respond_to do |format|

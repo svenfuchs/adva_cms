@@ -4,10 +4,18 @@
   </label>
   <%= text_field_tag 'query', params[:query], :id => 'query' %>
   <select name="filter" id="filterlist">
-    <%= options_for_select [[ t(:'adva.calendar.options.filter.tags'),      'tags'],
-                            [ t(:'adva.calendar.options.filter.title'),     'title'],
-                            [ t(:'adva.calendar.options.filter.body'),      'body'],
-                            [ t(:'adva.calendar.options.filter.location'),  'location']], params[:filter] %>
+    <%= options_for_select [[ t(:'adva.calendar.options.filter.tags'), 'tags'],
+                            [ t(:'adva.calendar.options.filter.title'), 'title'],
+                            [ t(:'adva.calendar.options.filter.body'), 'body'],
+                            [ t(:'adva.calendar.options.filter.location'), 'location']],
+                            params[:filter] %>
   </select>
+  <select name="scope" id="time_filterlist">
+    <%= options_for_select [[ t(:'adva.calendar.options.filter.upcoming'), 'upcoming'],
+                            [ t(:'adva.calendar.options.filter.elapsed'), 'elapsed'],
+                            [ t(:'adva.calendar.options.filter.recently_added'), 'recently_added']], 
+                            params[:scope] %>
+  </select>
+
   <input type="submit" value="<%= t(:'adva.calendar.buttons.search') %>" />
 <% end -%>

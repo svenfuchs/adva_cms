@@ -31,7 +31,7 @@ describe EventsController do
     @category.stub!(:events).and_return stub_calendar_events
     @section.events.stub!(:by_categories).and_return stub_calendar_events
     
-    [:upcoming, :recent, :elapsed, :published, :by_categories].each do |method|
+    [:upcoming, :recently_added, :elapsed, :published, :by_categories].each do |method|
       @section.events.stub!(method).and_return stub_calendar_events
       @category.events.stub!(method).and_return stub_calendar_events
     end
@@ -77,14 +77,14 @@ describe EventsController do
   end
   
   describe "GET to :index for recently updated events" do
-    act! { request_to(:get, '/calendars/1', :recent => true) }
-    it "should call CalendarEvent.recent" do
-      @section.events.published.should_receive(:recent)
+    act! { request_to(:get, '/calendars/1', :scope => 'recently_added') }
+    it "should call CalendarEvent.recently_added" do
+      @section.events.published.should_receive(:recently_added)
       act!
     end
   end
   describe "GET to :index for elapsed updated events" do
-    act! { request_to(:get, '/calendars/1', :elapsed => true) }
+    act! { request_to(:get, '/calendars/1', :scope => 'elapsed') }
     it "should call CalendarEvent.elapsed" do
       @section.events.published.should_receive(:elapsed)
       act!

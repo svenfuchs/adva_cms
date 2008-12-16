@@ -38,6 +38,9 @@ en:
           title: Title
           body: Body
           location: Location
+          upcoming: Upcoming
+          elapsed: Elapsed
+          recently_added: Recently added
       links:
         events: Events
         categories: Categories
