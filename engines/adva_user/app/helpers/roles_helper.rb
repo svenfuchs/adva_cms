@@ -52,7 +52,7 @@ module RolesHelper
   # can be matched with the current user's roles in order to toggle the visibility
   # of an element
   def add_authorizing_css_classes!(options, action, object)
-    action = :"#{action} #{object.class.name.downcase}"
+    action = :"#{action} #{object.class.name.underscore.downcase}"
     roles = object.role_authorizing(action).expand(object)
     options[:class] ||= ''
     options[:class] = options[:class].split(/ /)
