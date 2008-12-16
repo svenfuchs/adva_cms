@@ -26,6 +26,8 @@ var LoginLinks = {
 	}
 }
 
+/* Date functions */
+
 Date.UTCNow = function() {
   d = new Date();
   utc = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate(), d.getUTCHours(), d.getUTCMinutes(), d.getUTCSeconds()));
@@ -65,6 +67,36 @@ createAndFormatDateSpan = function(abbr) {
   abbr.update(new Element('span', { title: abbr.innerHTML }).update(timeAgoInWords(abbr.title))); // only used for past dates right now so we can safely use time_ago_in_words here
 }
 
+/* Link functions */
+
+// determine if a given link is an outbound link
+isOutboundLink = function(link) {
+  targetHost = link.split('/')[2].replace(/www\./, ''); // [0] is the protocol, [1] is empty
+  currentHost = window.location.host.replace(/www\./, '');
+  
+  return targetHost != currentHost;
+}
+
+// track the outbound link with Google Analytics
+trackOutboundLink = function(link) {
+  if(pageTracker && isOutboundLink(link.href)) {
+    hostName = link.href.split('/')[2].replace(/www\./, '');
+    pageTracker._trackEvent('Outbound links [' + hostName + ']', 'Click', link.href);
+    window.location.href = link.href;
+  }
+}
+
+// find all outbound links and mark them accordingly
+markOutboundLinks = function() {
+  $$('a').each(function(link) {
+    if(isOutboundLink(link.href)) {
+      link.addClassName('outbound');
+      link.writeAttribute('onclick', "trackOutboundLink(this); return false;");
+    }
+  });
+}
+
+/* event handlers */
 Event.onReady(function() {
   if($('anonymous_author')) {
 	  CommentForm.init();
@@ -76,4 +108,8 @@ Event.onReady(function() {
   $$('abbr.datetime').each(function(abbr) {
     createAndFormatDateSpan(abbr);
   });
+  // mark outbound links and apply hook
+  if(pageTracker) {
+    markOutboundLinks();
+  }
 });

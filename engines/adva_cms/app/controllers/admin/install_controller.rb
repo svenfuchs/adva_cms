@@ -4,6 +4,7 @@ class Admin::InstallController < ApplicationController
   before_filter :normalize_install_params, :only => :index
   before_filter :protect_install, :except => :confirmation
   helper_method :perma_host
+  filter_parameter_logging :password
 
   layout 'simple'
   renders_with_error_proc :below_field

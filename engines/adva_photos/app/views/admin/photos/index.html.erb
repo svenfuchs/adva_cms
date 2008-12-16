@@ -1,0 +1,31 @@
+<% unless @photos.empty? -%>
+
+  <p class="total">
+    <%= "Total photo entries #{@photos.total_entries}" %>
+  </p>
+
+  <table id="photos" class="list">
+    <thead>
+      <tr>
+        <th scope="col">Photo</th>
+        <th scope="col">Comments</th>
+        <th scope="col">Published</th>
+        <th scope="col">Author</th>
+        <th scope="col">&nbsp;</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= render :partial => 'photo', :collection => @photos %>
+    </tbody>
+  </table>
+
+  <%= will_paginate @photos, :id => 'pagination' %>
+
+<% else %>
+
+  <div class="empty">
+			You have no photos in your album.
+      <%= link_to "Upload one now", new_admin_photo_path(@site) %>
+  </div>
+
+<% end %>

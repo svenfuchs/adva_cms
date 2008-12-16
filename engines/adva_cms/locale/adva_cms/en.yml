@@ -77,6 +77,7 @@ en:
       theme: Theme
       themes: Themes
       topic: Topic
+      tracking: Tracking
       users: Users
       roles: Roles
       website: Website
@@ -714,6 +715,15 @@ en:
         update:
           success: The post has been updated.
           failure: The post could not be updated.
+    tracking:
+      enable_tracking: Enable tracking with Google Analytics
+      tracking_campaign: Campaign
+      tracking_source: Source
+      hints:
+        tracking_code: Use your Google Analytics Tracking Code (UA-xxxxxxx-x) to enable Google Analytics support. Leaving this blank will deactivate Google Analytics support.
+        no_tracking_code: In order to use Google Analytics to track your newsletters, you need to set up your tracking code first. You can do this in the {{settings}}.
+        glossary: Not sure what to use here? Check {{link}} for further information.
+        glossary_name: the Google Analytics help
     spam:
       hints:
         filters: When comments are posted, the following filters are used to check their spam status.
