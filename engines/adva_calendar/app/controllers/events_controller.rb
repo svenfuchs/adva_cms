@@ -69,8 +69,8 @@ class EventsController < BaseController
     end
 
     def set_event
-      @event = @section.events.find_by_id params[:id]
-      @event ||= @section.events.find_by_permalink params[:id]
+      @event = @section.events.published.find params[:id]
+      @event ||= @section.events.published.find_by_permalink params[:id]
       raise "could not find event '#{params[:id]}'" unless @event
     end
 

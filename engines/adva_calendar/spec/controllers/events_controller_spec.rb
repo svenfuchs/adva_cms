@@ -5,12 +5,12 @@ calendar_day_path = '/calendars/1/events/2008/11/27'
 calendar_month_path = '/calendars/1/events/2008/11'
 calendar_year_path = '/calendars/1/events/2008'
 formatted_calendar_path = '/calendars/1.ics'
-event_path = '/calendars/1/event/1'
-formatted_event_path = '/calendars/1/event/1.ics'
+calendar_event_path = '/calendars/1/event/1'
+formatted_calendar_event_path = '/calendars/1/event/1.ics'
 category_path = '/calendars/1/categories/2'
 formatted_category_path = '/calendars/1/categories/2.ics'
 
-cached_paths = calendar_path, calendar_day_path, calendar_month_path, calendar_year_path, formatted_calendar_path, event_path, category_path, formatted_category_path
+cached_paths = calendar_path, calendar_day_path, calendar_month_path, calendar_year_path, formatted_calendar_path, calendar_event_path, category_path, formatted_category_path
 
 ics_paths = formatted_calendar_path, formatted_category_path
 
@@ -21,7 +21,7 @@ describe EventsController do
     stub_scenario :calendar_with_events
 
     controller.stub!(:calendar_path).and_return calendar_path
-    controller.stub!(:event_path).and_return event_path
+    controller.stub!(:calendar_event_path).and_return calendar_event_path
 
     controller.stub!(:has_permission?).and_return true
     
@@ -35,6 +35,8 @@ describe EventsController do
       @section.events.stub!(method).and_return stub_calendar_events
       @category.events.stub!(method).and_return stub_calendar_events
     end
+    @section.events.published.stub!(:find).and_return stub_calendar_event
+    @section.events.published.stub!(:find_by_permalink).and_return stub_calendar_event
   end
 
   it "should be a BaseController" do
@@ -46,7 +48,7 @@ describe EventsController do
     with_options :section_id => "1" do |route|
       route.it_maps :get, calendar_path, :index
       route.it_maps :get, formatted_calendar_path, :index, :format => 'ics'
-      route.it_maps :get, event_path, :show,    :id => '1'
+      route.it_maps :get, calendar_event_path, :show,    :id => '1'
       route.it_maps :get, category_path, :index, :category_id => '2'
       route.it_maps :get, formatted_category_path, :index, :format => 'ics', :category_id => '2'
     end
@@ -100,11 +102,35 @@ describe EventsController do
     end
   end
   
+  describe "GET to :show" do
+    act! { request_to(:get, calendar_event_path) }
+    it_assigns :event
+    it_renders_template 'events/show'
+    it "should call @calendar.events.published" do
+      @section.events.published.should_receive(:find).and_return stub_calendar_event
+      act!
+    end
+  end
+  
+  describe "GET to :show with a permalink" do
+    act! { request_to(:get, '/calendars/1/event/%s' % stub_calendar_event.permalink) }
+    it "should call @calendar.events.published" do
+      @section.events.published.should_receive(:find).and_return nil
+      @section.events.published.should_receive(:find_by_permalink).and_return stub_calendar_event
+      act!
+    end
+  end
+  
   ics_paths.each do |path|
     describe "GET to #{path}" do
       act! { request_to :get, path }
       it_renders_template 'events/index', :format => :ics
     end
+  end
+  describe "GET to :show with format ics" do
+    act! { request_to(:get, formatted_calendar_event_path) }
+    it_assigns :event
+    it_renders_template 'events/show', :format => :ics
   end
 end
 
