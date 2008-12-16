@@ -31,7 +31,7 @@ describe EventsController do
     @category.stub!(:events).and_return stub_calendar_events
     @section.events.stub!(:by_categories).and_return stub_calendar_events
     
-    [:upcoming, :recent, :elapsed].each do |method|
+    [:upcoming, :recent, :elapsed, :published, :by_categories].each do |method|
       @section.events.stub!(method).and_return stub_calendar_events
       @category.events.stub!(method).and_return stub_calendar_events
     end
@@ -63,7 +63,7 @@ describe EventsController do
     act! { request_to(:get, calendar_path) }
     it_assigns :timespan, [Date.today, Date.today.end_of_month]
     it "should call CalendarEvent.upcoming from to today to end of month" do
-      @section.events.should_receive(:upcoming, {Date.today, Date.today.end_of_month})
+      @section.events.published.should_receive(:upcoming, {Date.today, Date.today.end_of_month})
       act!
     end
   end
@@ -71,7 +71,7 @@ describe EventsController do
     act! { request_to(:get, calendar_day_path) }
     it_assigns :timespan, [Date.new(2008, 11, 27), Date.new(2008, 11, 27).end_of_day]
     it "should call CalendarEvent.upcoming" do
-      @section.events.should_receive(:upcoming, {Date.new(2008, 11, 27), Date.new(2008, 11, 27).end_of_day})
+      @section.events.published.should_receive(:upcoming, {Date.new(2008, 11, 27), Date.new(2008, 11, 27).end_of_day})
       act!
     end
   end
@@ -79,14 +79,14 @@ describe EventsController do
   describe "GET to :index for recently updated events" do
     act! { request_to(:get, '/calendars/1', :recent => true) }
     it "should call CalendarEvent.recent" do
-      @section.events.should_receive(:recent)
+      @section.events.published.should_receive(:recent)
       act!
     end
   end
   describe "GET to :index for elapsed updated events" do
     act! { request_to(:get, '/calendars/1', :elapsed => true) }
     it "should call CalendarEvent.elapsed" do
-      @section.events.should_receive(:elapsed)
+      @section.events.published.should_receive(:elapsed)
       act!
     end
   end
@@ -95,7 +95,7 @@ describe EventsController do
     act! { request_to(:get, category_path) }
     it_assigns :category
     it "should set category" do
-      @section.events.should_receive(:by_categories, '2')
+      @section.events.published.should_receive(:by_categories, '2')
       act!
     end
   end
