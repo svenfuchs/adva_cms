@@ -1,1 +1,7 @@
-New
+<% split_form_for :photo, @photo, :url => admin_photos_path(@site, @photo.section), :html => {:multipart => true, :id => 'content_form'} do |f| -%>
+  <%= render :partial => 'form', :locals => {:f => f} %>  
+  <p class="buttons">
+    <%= submit_tag "Upload" %> <%= t(:'adva.common.connector.or') %>
+    <%= link_to t(:'adva.common.cancel'), admin_photos_path(@site, @photo.section) %>
+  </p>
+<% end -%>

@@ -1,0 +1,26 @@
+<% content_for :sidebar do %>
+  <% fields_for :photo do |f| -%>
+    <%= render :partial => 'options', :locals => { :f => f } %>
+  <% end %>
+<% end %>
+
+<fieldset class="clearfix">
+	<%= f.label :title %>
+  <%= f.text_field :title  %>
+	
+	<label for="photo_uploaded_data">Choose a photo</label>
+	<%= f.file_field :uploaded_data %>
+
+  <%= f.label :draft, "Save as a draft" %>
+  <label class="light">
+    <%= check_box_tag :draft, '1', @photo.draft?, :id => 'article-draft' %> <%= "Save this/these photos as a draft" %>
+  </label>
+
+  <p id="publish-date" style="<%= @photo.draft? ? "display:none" : "" %>">
+    <%= f.label :published_at, "Publish on date: " %>
+    <%= f.datetime_select :published_at,
+                          :start_year => (@photo.published_at || Time.zone.now).year-1,
+                          :end_year => (Time.zone.now.year + 5),
+                          :order => [:month, :day, :year] %>
+  </p>
+</fieldset>

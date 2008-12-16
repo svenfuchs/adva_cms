@@ -27,19 +27,6 @@ describe Photo do
     it "has a permalink generated from the title" do
       Photo.should have_a_permalink(:title)
     end
-    
-    it "is configured to save a new version when the title attribute changes" do
-      Photo.tracked_attributes.should == ["title"]
-    end
-
-    it "is configured to save up to 5 versions" do
-      Photo.max_version_limit.should == 5
-    end
-
-    it "ignores the column cached_tag_list" do
-      defaults = ["id", "type", "version", "lock_version", "versioned_type"]
-      Photo.non_versioned_columns.should == defaults + ["cached_tag_list"]
-    end
   end
   
   describe "associations" do
@@ -77,6 +64,65 @@ describe Photo do
 
     it "validates the uniqueness of the permalink per section" do
       @photo.should validate_uniqueness_of(:permalink)
+    end
+  end
+  
+  describe "methods" do
+    describe '#draft?' do
+      it 'returns true when the photo has not published_at date' do
+        @photo.draft?.should be_true
+      end
+  
+      it 'returns false when the photo has a published_at date' do
+        @photo.stub!(:published_at).and_return Time.now
+        @photo.draft?.should be_false
+      end
+    end
+    
+    describe '#published?' do
+      it "returns true when published_at equals the current time" do
+        @photo.should_receive(:published_at).any_number_of_times.and_return(Time.zone.now)
+        @photo.published?.should be_true
+      end
+  
+      it "returns true  when published_at is a past date" do
+        @photo.should_receive(:published_at).any_number_of_times.and_return(1.day.ago)
+        @photo.published?.should be_true
+      end
+  
+      it "returns false when published_at is a future date" do
+        @photo.should_receive(:published_at).any_number_of_times.and_return(1.day.from_now)
+        @photo.published?.should be_false
+      end
+  
+      it "returns false when published_at is nil" do
+        @photo.should_receive(:published_at).any_number_of_times.and_return(nil)
+        @photo.published?.should be_false
+      end
+    end
+    
+    describe '#pending?' do
+      it "returns true when photo is not published" do
+        @photo.should_receive(:published?).and_return false
+        @photo.pending?.should be_true
+      end
+      
+      it "returns false when photo is published" do
+        @photo.should_receive(:published?).and_return true
+        @photo.pending?.should be_false
+      end
+    end
+    
+    describe '#state?' do
+      it "returns :pending when photo is pending" do
+        @photo.should_receive(:pending?).and_return true
+        @photo.state.should == :pending
+      end
+      
+      it "returns :published when photo is not pending" do
+        @photo.should_receive(:pending?).and_return false
+        @photo.state.should == :published
+      end
     end
   end
 end

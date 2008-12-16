@@ -21,7 +21,7 @@
   </fieldset>
   <a href="#" id="asset-add-file" class="widetab"><%=t :'adva.assets.add_file' %></a>  
   <p class="buttons">
-    <%= submit_tag t( :'adva.common.upload' ) %> or
+    <%= submit_tag t( :'adva.common.upload' ) %> <%= t(:'adva.common.connector.or') %>
     <%= link_to t( :'adva.common.cancel' ), admin_assets_path %>
   </p>
 <% end -%>

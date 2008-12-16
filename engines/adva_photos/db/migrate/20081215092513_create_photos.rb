@@ -14,7 +14,6 @@ class CreatePhotos < ActiveRecord::Migration
       t.string     :author_email, :limit => 40
       t.string     :author_homepage
       
-      t.integer    :version
       t.string     :filter
       t.integer    :comment_age, :default => 0
       t.string     :cached_tag_list
@@ -22,11 +21,9 @@ class CreatePhotos < ActiveRecord::Migration
       t.datetime   :published_at
       t.timestamps
     end
-    Photo.create_versioned_table
   end
 
   def self.down
     drop_table :photos
-    Photo.drop_versioned_table
   end
 end

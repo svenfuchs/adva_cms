@@ -1,0 +1,31 @@
+<h3><%= t(:'adva.titles.manage') %></h3>
+<ul>
+  <li><%= link_to "Photos", admin_photos_path(@site, @section) %></li>
+</ul>
+
+<% unless @photo.new_record? -%>
+<h3><%= t(:'adva.titles.actions') %></h3>
+<ul>
+  <li><%= link_to "Upload new photos", new_admin_photo_path(@site, @section) %></li>
+  <li><%= link_to "Delete photo", admin_photo_path(@site, @section, @photo), { :confirm => "Are you sure you want to delete this photo?", :method => :delete } %></li>
+</ul>
+<% end -%>
+
+<h3><%= t(:'adva.titles.optional_settings') %></h3>
+<fieldset>
+  <p>
+    <%= f.label :author %>
+    <%= f.select :author, author_options, :selected => author_preselect %>
+  </p>
+  <p>
+    <%= f.label :filter %>
+    <%= f.select :filter, filter_options %>
+  </p>
+  <p>
+    <%= f.label :comment_age, t(:'adva.titles.comments') %>
+    <%= f.select :comment_age, comment_expiration_options %>
+  </p>
+  <%= f.label :tag_list %>
+  <span class="hint"><%= t(:'adva.articles.hints.tags') %></span>
+  <%= f.text_field :tag_list %>
+</fieldset>
