@@ -6,6 +6,7 @@ class CalendarEvent < ActiveRecord::Base
   has_many :categories, :through => :category_assignments
   belongs_to :location
   belongs_to :section
+  alias :calendar :section
   belongs_to :user
 
   has_permalink :title, :scope => :section_id

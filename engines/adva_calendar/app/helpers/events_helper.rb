@@ -12,6 +12,6 @@ module EventsHelper
   end
   
   def link_to_event(event)
-    link_to event.title, calendar_event_url(event.section, event.permalink)
+    link_to event.title, calendar_event_url(event.section_id, event.permalink)
   end
 end
