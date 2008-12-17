@@ -79,17 +79,24 @@ describe CalendarEvent do
       @upcoming_event = @calendar.events.create!(:title => 'Jellybeat', 
           :startdate => Time.now + 4.hours, :user_id => 1, :categories => [@cat2, @cat3]).reload
       @running_event = @calendar.events.create!(:title => 'Vienna Jazz Floor 08', 
-          :startdate => Time.now - 4.days, :enddate => Time.now + 9.days, :user_id => 1, :categories => [@cat1, @cat3]).reload
+          :startdate => Time.now - 1.month, :enddate => Time.now + 9.days, :user_id => 1, :categories => [@cat1, @cat3]).reload
       @real_old_event = @calendar.events.create!(:title => 'Vienna Jazz Floor 07', 
           :startdate => Time.now - 1.year, :enddate => Time.now - 11.months, :user_id => 1, :draft => true, :categories => [@cat2]).reload
 #      @calendar.reload
     end
+    describe "upcoming scope" do
+      it "from today on" do
+        @calendar.events.upcoming.should ==[@running_event, @upcoming_event]
+      end
+      it "from tomorrow on" do
+        @calendar.events.upcoming(Date.today + 1.day).should ==[@running_event]
+      end
+      it "for last month" do
+        @calendar.events.upcoming(Date.today - 1.year).should ==[@real_old_event]
+      end
+    end
     it "should have a elapsed scope" do
       @calendar.events.elapsed.should ==[@elapsed_event2, @elapsed_event, @real_old_event]
-    end
-    it "should have a upcoming scope" do
-      @calendar.events.upcoming.should ==[@running_event, @upcoming_event]
-      @calendar.events.upcoming(Time.now + 1.day).should ==[@running_event]
     end
     it "should have a recently added scope" do
       @calendar.events.recently_added.should ==[@upcoming_event, @running_event]
