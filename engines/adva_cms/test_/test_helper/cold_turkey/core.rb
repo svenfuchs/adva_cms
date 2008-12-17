@@ -17,6 +17,41 @@ module With
         end
       end
     end
+    
+    def it_updates(*names)
+      names.each do |name|
+        before { record_before_state("@#{name}.attributes") }
+        assertion "it updates #{name}" do
+          previous = @before_states["@#{name}.attributes"]
+          current = assigns(name).reload.attributes
+          assert_not_equal previous, current, "expected #{name} to be updated, but wasn't"
+        end
+      end
+    end
+    
+    def it_versions(*names)
+      names.each do |name|
+        before { record_before_state("@#{name}.version") }
+        assertion "it versions #{name}" do
+          previous = @before_states["@#{name}.version"]
+          current  = assigns(name).reload.version
+          message  = "expected #{name} to be versioned (changed from #{previous} to #{current}), but wasn't"
+          assert_equal previous + 1, current, message
+        end
+      end
+    end
+    
+    def it_does_not_version(*names)
+      names.each do |name|
+        before { record_before_state("@#{name}.version") }
+        assertion "it versions #{name}" do
+          previous = @before_states["@#{name}.version"]
+          current  = assigns(name).reload.version
+          message  = "expected #{name} not to be versioned,  but was (changed from #{previous} to #{current})"
+          assert_equal previous, current, message
+        end
+      end
+    end
   end
 end
 

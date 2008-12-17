@@ -125,7 +125,6 @@ class AdminArticlesControllerTest < ActionController::TestCase
   
   describe "POST to :create" do
     action { post :create, { :site_id => @site.id, :section_id => @section.id }.merge(@params) }
-    before { @user = User.make }
     
     with :an_empty_section, :an_empty_blog do
       it_assigns :site, :section, :article
@@ -153,5 +152,89 @@ class AdminArticlesControllerTest < ActionController::TestCase
         it_assigns_flash_cookie :error => :not_nil
       end
     end
+  end
+  
+  def default_params
+    { :site_id => @site.id, :section_id => @section.id }
+  end
+ 
+  describe "GET to :edit" do
+    action { get :edit, default_params.merge(:id => @article.id) }
+
+    with :an_empty_section, :an_empty_blog do
+      with :a_published_article do
+        it_assigns :site, :section, :article
+        it_renders_template :edit
+        # it_guards_permissions :update, :article
+      end
+    end
+  end
+ 
+  describe "PUT to :update" do
+    action do 
+      params = default_params.merge(@params).merge(:id => @article.id)
+      params[:article][:title] = "#{@article.title} changed" unless params[:article][:title].blank?
+      put :update, params
+    end
+
+    with :an_empty_section, :an_empty_blog do
+      it_assigns :site, :section, :article
+      # it_guards_permissions :update, :article
+
+      with :a_published_article do
+        with "no version param" do
+          with :valid_article_params do
+            it_updates :article
+            it_redirects_to { edit_admin_article_path(@site, @section, @article) }
+            it_assigns_flash_cookie :notice => :not_nil
+            it_triggers_event :article_updated
+            
+            with(:save_revision_param)    { it_versions :article }
+            with(:no_save_revision_param) { it_does_not_version :article }
+          end
+          
+          with :invalid_article_params do
+            it_renders_template :edit
+            it_assigns_flash_cookie :error => :not_nil
+            it_does_not_trigger_any_event
+          end
+        end
+      end
+    end
+      
+    # describe "given a version param" do 
+    #   act! { request_to :put, @member_path, @params.merge({:article => {:version => "1"}}) }
+    #   
+    #   describe "and the article can be rolled back to the given version" do
+    #     before :each do
+    #       @article.stub!(:revert_to!).and_return true
+    #     end
+    #     
+    #     it_triggers_event :article_rolledback
+    #     it_assigns_flash_cookie :notice => :not_nil
+    #     it_redirects_to { @edit_member_path }
+    #   
+    #     it "reverts the article before saving" do
+    #       @article.should_receive(:revert_to!).any_number_of_times.with "1"
+    #       act!
+    #     end
+    #   end
+    #   
+    #   describe "and the article can not be rolled back to the given version" do
+    #     before :each do
+    #       @article.stub!(:revert_to!).and_return false
+    #     end
+    #     
+    #     it_does_not_trigger_any_event
+    #     it_assigns_flash_cookie :error => :not_nil
+    #     it_redirects_to { @edit_member_path }
+    #   end
+    # end
+    #  
+    # describe "given invalid article params" do
+    #   before :each do @article.stub!(:save_without_revision).and_return false end
+    #   it_renders_template :edit
+    #   it_assigns_flash_cookie :error => :not_nil
+    # end
   end
 end
