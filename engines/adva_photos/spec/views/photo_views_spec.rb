@@ -171,16 +171,6 @@ describe "Photo views:" do
       response.should have_tag('select[name=?]', 'photo[comment_age]')
     end
     
-    it "should have the permalink label" do
-      act!
-      response.should have_tag('label[for=?]', 'photo_permalink')
-    end
-    
-    it "should have the input field for permalink" do
-      act!
-      response.should have_tag('input[name=?]', 'photo[permalink]')
-    end
-    
     it "should have the tag_list label" do
       act!
       response.should have_tag('label[for=?]', 'photo_tag_list')
