@@ -2,10 +2,10 @@ class Admin::PhotosController < Admin::BaseController
   layout 'admin'
   helper 'admin/comments'
   before_filter :set_section
-  before_filter :set_photo,           :only => :destroy
-  before_filter :params_author,       :only => :create
-  before_filter :params_draft,        :only => :create
-  before_filter :params_published_at, :only => :create
+  before_filter :set_photo,           :only => [:destroy, :update, :edit]
+  before_filter :params_author,       :only => [:create, :update]
+  before_filter :params_draft,        :only => [:create, :update]
+  before_filter :params_published_at, :only => [:create, :update]
   
   def index
     @photos = @section.photos.paginate photo_paginate_options
@@ -13,6 +13,9 @@ class Admin::PhotosController < Admin::BaseController
   
   def new
     @photo = @section.photos.build :comment_age => @section.comment_age, :filter => @section.content_filter
+  end
+  
+  def edit
   end
   
   def create
@@ -24,6 +27,16 @@ class Admin::PhotosController < Admin::BaseController
     else
       flash[:error] = "Photo upload failed."
       render :action => 'new'
+    end
+  end
+  
+  def update
+    if @photo.update_attributes params[:photo]
+      flash[:notice] = "Photo was uploaded successfully."
+      redirect_to edit_admin_photo_path(@site, @section, @photo)
+    else
+      flash[:error] = "Photo upload failed."
+      render :action => 'edit'
     end
   end
   

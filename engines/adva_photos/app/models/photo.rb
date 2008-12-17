@@ -10,7 +10,7 @@ class Photo < ActiveRecord::Base
   has_many_comments :polymorphic => true
   
   has_attachment :storage     => :file_system,
-                 :thumbnails  => { :thumb => '120>', :tiny => '50>' },
+                 :thumbnails  => { :large => '300', :thumb => '120>', :tiny => '50>' },
                  :max_size    => 30.megabytes,
                  :processor   => (Object.const_defined?(:ASSET_IMAGE_PROCESSOR) ? ASSET_IMAGE_PROCESSOR : nil)
   
@@ -48,6 +48,10 @@ class Photo < ActiveRecord::Base
   after_attachment_saved do |record|
     File.chmod 0644, record.full_filename
     Photo.update_all ['thumbnails_count = ?', record.thumbnails.count], ['id = ?', record.id] unless record.parent_id
+  end
+  
+  def save_attachment?
+    @temp_paths && File.file?(temp_path.to_s)
   end
   
   protected

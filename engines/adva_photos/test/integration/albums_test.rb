@@ -72,6 +72,39 @@ class AnPhotoAlbumTest < ActionController::IntegrationTest
     assert_template 'admin/photos/new'
   end
   
+  def test_an_admin_views_the_edit_photo_form
+    # Go to album index
+    get admin_photos_path(@site, @album)
+    
+    # the page renders the photos index page
+    assert_template 'admin/photos/index'
+    
+    # Go to photo upload
+    click_link @photo.title
+    
+    # the page renders the photo upload form
+    assert_template 'admin/photos/edit'
+  end
+  
+  def test_an_admin_edits_the_photo
+    # Go to the new form
+    get edit_admin_photo_path(@site, @album, @photo)
+    
+    # the page renders the photos new form
+    assert_template 'admin/photos/edit'
+    
+    # make sure of that photo count is 1
+    assert Photo.all.size == 1
+    
+    fill_in       'Title', :with => 'edited title'
+    click_button  'Update'
+    
+    # picture is updated
+    assert Photo.all.size == 1
+    @photo.reload
+    assert @photo.title == 'edited title'
+  end
+  
   def test_an_admin_views_the_album_settings_page
     # Go to album index
     get admin_photos_path(@site, @album)
