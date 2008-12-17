@@ -30,7 +30,6 @@ describe "Section views:" do
     
     it "has a form field for section_photos_per_page" do
       act!
-      puts response.body
       response.should have_tag("input#section_photos_per_page")
     end
   end
