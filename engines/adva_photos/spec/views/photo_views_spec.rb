@@ -196,6 +196,11 @@ describe "Photo views:" do
       response.should have_tag('a[href=?]', edit_admin_photo_path(@site, @album, @photo))
     end
     
+    it "should have link to photo" do
+      act!
+      response.should have_tag('a[href=?]', @photo.public_filename)
+    end
+    
     it "should have link to author" do
       act!
       response.should have_tag('a[href=?]', admin_site_user_path(@site, @author))
