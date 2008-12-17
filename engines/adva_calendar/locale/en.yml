@@ -43,6 +43,7 @@ en:
           recently_added: Recently added
       links:
         events: Events
+        all_events: All events
         categories: Categories
         settings: Settings
         create: Create a new event
@@ -56,5 +57,6 @@ en:
         tags: Tags
         host: Organizer
         location: Location
-        
-        
+      calendar:
+        year_month_format: '%B %Y'
+        this_month: This month
