@@ -22,6 +22,7 @@ describe "Events views:" do
     template.stub!(:links_to_content_tags).and_return 'links_to_content_tags'
     template.stub!(:datetime_with_microformat).and_return 'Once upon a time ...'
     template.stub!(:authorized_tag).and_return('authorized tags')
+    template.stub!(:calendar_events_path).and_return '/calendars/1/events/2008/12'
 
     template.stub!(:render).with hash_including(:partial => 'footer')
   end
