@@ -19,7 +19,6 @@ describe "Photo views:" do
     assigns[:photo]   = @album.photos.first
     
     template.stub!(:current_user).and_return @author
-    template.stub!(:admin_photo_path).and_return('admin_photo_path')
     template.stub!(:f).and_return ActionView::Base.default_form_builder.new(:photo, @photo, template, {}, nil)
     template.extend BaseHelper
     template.extend ContentHelper
@@ -197,9 +196,6 @@ describe "Photo views:" do
     before :each do
       @photo = @album.photos.first
       template.stub!(:photo).and_return(@photo)
-      template.stub!(:edit_admin_photo_path).and_return('edit_admin_photo_path')
-      template.stub!(:edit_admin_photo_path).and_return('edit_admin_photo_path')
-      template.stub!(:admin_site_user_path).and_return('admin_site_user_path')
       template.stub! :published_at_formatted
       @photo.stub!(:comments).and_return []
     end
@@ -207,18 +203,18 @@ describe "Photo views:" do
     
     it "should have link to edit photo" do
       act!
-      response.should have_tag('a[href=?]', "edit_admin_photo_path")
+      response.should have_tag('a[href=?]', edit_admin_photo_path(@site, @album, @photo))
     end
     
     it "should have link to author" do
       act!
-      response.should have_tag('a[href=?]', "admin_site_user_path")
+      response.should have_tag('a[href=?]', admin_site_user_path(@site, @author))
     end
     
-    it "should have link to delete photo" # do
-    #   act!
-    #   response.should have_tag('a[href=?]', "admin_photo_path")
-    # end
+    it "should have link to delete photo" do
+      act!
+      response.should have_tag('a.delete')
+    end
     
     it "should check if photo has comments enabled" do
       @photo.should_receive(:accept_comments?).and_return false

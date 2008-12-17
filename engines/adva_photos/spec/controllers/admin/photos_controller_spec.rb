@@ -8,7 +8,7 @@ describe Admin::PhotosController do
     @site   = Factory :site
     @user   = Factory :user
     @album  = Factory :album, :site => @site
-    @photo  = @album.photos.build Factory.attributes_for(:photo, :author => @user)
+    @photo  = Factory :photo, :author => @user, :section => @album
     params = {:site_id => @site.id, :section_id => @album.id}
     
     controller.stub! :require_authentication
@@ -88,6 +88,21 @@ describe Admin::PhotosController do
       end
       it_renders_template :new
       it_assigns_flash_cookie :error => :not_nil
+    end
+  end
+  
+  describe "DELETE to destroy" do
+    before :each do
+      @album.photos.stub!(:find).and_return @photo
+    end
+    act! { request_to :delete, "/admin/sites/#{@site.id}/sections/#{@album.id}/photos/#{@photo.id}" }
+    it_assigns :photo
+    it_assigns_flash_cookie :notice => :not_nil
+    it_redirects_to { admin_photos_path(@site, @album) }
+    
+    it "deletes the photo" do
+      @photo.should_receive :destroy
+      act!
     end
   end
 end

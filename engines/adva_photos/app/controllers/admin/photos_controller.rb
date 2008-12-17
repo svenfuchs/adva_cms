@@ -2,6 +2,7 @@ class Admin::PhotosController < Admin::BaseController
   layout 'admin'
   helper 'admin/comments'
   before_filter :set_section
+  before_filter :set_photo,           :only => :destroy
   before_filter :params_author,       :only => :create
   before_filter :params_draft,        :only => :create
   before_filter :params_published_at, :only => :create
@@ -24,6 +25,12 @@ class Admin::PhotosController < Admin::BaseController
       flash[:error] = "Photo upload failed."
       render :action => 'new'
     end
+  end
+  
+  def destroy
+    @photo.destroy
+    flash[:notice] = "Photo was successfully removed."
+    redirect_to admin_photos_path(@site, @section)
   end
   
   protected
@@ -52,5 +59,9 @@ class Admin::PhotosController < Admin::BaseController
     def set_photo_param(key, value)
       params[:photo] ||= {}
       params[:photo][key] = value
+    end
+    
+    def set_photo
+      @photo = @section.photos.find(params[:id])
     end
 end

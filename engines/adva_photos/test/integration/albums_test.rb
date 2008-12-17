@@ -104,20 +104,20 @@ class AnPhotoAlbumTest < ActionController::IntegrationTest
     assert Photo.all.size == 2
   end
   
-  # def test_an_admin_destroy_a_photo
-  #   # Go to album index
-  #   get admin_photos_path(@site, @album)
-  #   
-  #   # the page renders the photos index page
-  #   assert_template 'admin/photos/index'
-  #   
-  #   # make sure of that photo count is 1
-  #   assert Photo.all.size == 1
-  #   
-  #   # Go to photo upload
-  #   click_link 'Delete'
-  #   
-  #   # picture is deleted
-  #   assert Photo.all.size == 0
-  # end
+  def test_an_admin_destroy_a_photo
+    # Go to album index
+    get admin_photos_path(@site, @album)
+    
+    # the page renders the photos index page
+    assert_template 'admin/photos/index'
+    
+    # make sure of that photo count is 1
+    assert Photo.all.size == 1
+    
+    # Go to photo upload
+    click_link 'Delete'
+    
+    # picture is deleted
+    assert Photo.all.size == 0
+  end
 end
