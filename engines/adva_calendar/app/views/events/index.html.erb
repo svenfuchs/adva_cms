@@ -26,6 +26,8 @@
   </table>
   <%= will_paginate @events, :id => 'pagination' %>
   
+  <%= render :partial => 'calendar' %>
+  
 <% else %>
 
   <div class="empty">

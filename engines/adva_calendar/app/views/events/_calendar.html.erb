@@ -1,0 +1,7 @@
+<%= link_to t(:'adva.calendar.calendar.this_month'), calendar_events_path(:year => Date.today.year, :month => Date.today.month) %>
+| 
+<%= link_to (Date.today + 1.month).strftime(t(:'adva.calendar.calendar.year_month_format')), calendar_events_path(:year => (Date.today + 1.month).year, :month => (Date.today + 1.month).month) %>
+|
+<%= link_to (Date.today + 2.month).strftime(t(:'adva.calendar.calendar.year_month_format')), calendar_events_path(:year => (Date.today + 2.month).year, :month => (Date.today + 2.month).month) %>
+|
+<%= link_to (Date.today + 3.month).strftime(t(:'adva.calendar.calendar.year_month_format')), calendar_events_path(:year => (Date.today + 3.month).year, :month => (Date.today + 3.month).month) %>
