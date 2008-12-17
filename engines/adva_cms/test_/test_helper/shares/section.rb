@@ -9,7 +9,7 @@ class Test::Unit::TestCase
   share :published_section_article do
     before do 
       @site = Site.make
-      @section = Section.make :site => @site, :type => 'Blog'
+      @section = Section.make :site => @site, :type => 'Section'
       @article = Article.make :site => @site, :section => @section, :published_at => Time.now
     end
   end

@@ -8,6 +8,15 @@ module With
         end
       end
     end
+    
+    def it_does_not_change(*expressions)
+      expressions.each do |expression|
+        before { record_before_state(expression) }
+        assertion "it does not change #{expression}" do
+          assert_no_state_change(expression)
+        end
+      end
+    end
   end
 end
 
@@ -121,6 +130,10 @@ class ActionController::TestCase
       end
   end
   
+  def it_redirects_to(&path)
+    assert_redirected_to instance_eval(&path)
+  end
+
   protected
   
     def record_before_state(expression)
@@ -134,5 +147,13 @@ class ActionController::TestCase
       message  = [message, "expected #{expression} to be #{expected} but was #{result}"]
     
       assert_equal expected, result, message.compact.join("\n")
+    end
+  
+    def assert_no_state_change(expression)
+      expected = @before_states[expression]
+      result   = instance_eval(expression)
+      message  = "expected #{expression} to not change, but changed from #{expected} to #{result}"
+    
+      assert_equal expected, result, message
     end
 end

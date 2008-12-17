@@ -17,7 +17,7 @@ class Test::Unit::TestCase
   
   share :invalid_install_params do
     before do
-      # should be something like:
+      # FIXME should be something like:
       # @params = Site.install_params_missing(:site => :name)
       @params = { :site    => { },
                   :section => {:type => 'Section', :title => 'section title'},

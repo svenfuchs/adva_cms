@@ -6,13 +6,14 @@ require 'matchy'
 
 class Test::Unit::TestCase
   include With
-  include RR::Adapters::TestUnit
 end
 
 require 'test_help'
 require 'globalize/i18n/missing_translations_raise_handler'
 
 class Test::Unit::TestCase
+  include RR::Adapters::TestUnit
+
   self.use_transactional_fixtures = true
   self.use_instantiated_fixtures  = false
   fixtures :all

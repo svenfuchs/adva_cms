@@ -9,10 +9,10 @@ class AdminArticlesControllerTest < ActionController::TestCase
     stub(@controller).current_user{ User.make }
   end
 
-  # it "should be an Admin::BaseController" do
-  #   controller.should be_kind_of(Admin::BaseController)
-  # end
- 
+  test "is an Admin::BaseController" do
+    Admin::BaseController.should === @controller # FIXME matchy doesn't have a be_kind_of matcher
+  end
+   
   describe "routing" do
     with_options :controller => 'admin/articles', :site_id => "1", :section_id => "1" do |r|
       r.it_maps :get,    "/admin/sites/1/sections/1/articles",        :action => 'index'
@@ -82,7 +82,7 @@ class AdminArticlesControllerTest < ActionController::TestCase
    
   describe "GET to :show" do
     action { get :show, @params }
-
+  
     with :published_blog_article do
       before { @params = {:site_id => @site.id, :section_id => @section.id, :id => @article.id} }
       
@@ -93,11 +93,10 @@ class AdminArticlesControllerTest < ActionController::TestCase
       
       with "given a :version param" do
         before do
-          @params.update :version => 1
+          @params.merge! :version => 1
           @article.update_attributes :title => 'new title'
         end
-        action { get :show, :site_id => @site.id, :section_id => @section.id, :id => @article.id }
-
+  
         it "reverts the article to the given version" do
           assigns(:article).version.should == 1
         end
@@ -114,46 +113,45 @@ class AdminArticlesControllerTest < ActionController::TestCase
     end
   end
   
-  # test "GET to :new" do
-  #   setup_site_with_an_empty_blog
-  #   get :new, :site_id => @site.id, :section_id => @section.id
-  #   
-  #   it_assigns :article
-  #   it_renders_template :new
-  #   # it_guards_permissions :create, :article
-  #  
-  #   assigns(:article).section.should == @section
-  # end
- 
-  # context "POST to :create" do
-  #   before :each do
-  #     @section.articles.stub!(:create).and_return @article
-  #     @article.stub!(:state_changes).and_return([:created])
-  #   end
-  #   
-  #   act! { request_to :post, @collection_path, @params }
-  #   it_assigns :article
-  #   it_guards_permissions :create, :article
-  #   
-  #   test "instantiates a new article from section.articles" do
-  #     @section.articles.should_receive(:build).and_return @article
-  #     act!
-  #   end
-  #  
-  #   test "given valid article params" do
-  #     it_redirects_to { @edit_member_path }
-  #     it_assigns_flash_cookie :notice => :not_nil
-  #     it_triggers_event :article_created
-  #   end
-  #  
-  #   test "given invalid article params" do
-  #     before :each do 
-  #       @section.articles.stub!(:build).and_return @article
-  #       @article.stub!(:save).and_return false 
-  #     end
-  #     it_renders_template :new
-  #     it_assigns_flash_cookie :error => :not_nil
-  #     it_does_not_trigger_any_event
-  #   end
-  # end
+  describe "GET to :new" do
+    action { get :new, :site_id => @site.id, :section_id => @section.id }
+    
+    with :an_empty_section, :an_empty_blog do
+      it_assigns :site, :section, :article
+      it_renders_template :new
+      # it_guards_permissions :create, :article
+    end
+  end
+  
+  describe "POST to :create" do
+    action { post :create, { :site_id => @site.id, :section_id => @section.id }.merge(@params) }
+    before { @user = User.make }
+    
+    with :an_empty_section, :an_empty_blog do
+      it_assigns :site, :section, :article
+  
+      with :valid_article_params do
+        # it_guards_permissions :create, :article
+        it_changes 'Article.count' => 1
+        it_triggers_event :article_created
+        it_assigns_flash_cookie :notice => :not_nil
+        it_redirects_to { edit_admin_article_path(@site.id, @section.id, assigns(:article).id) }
+              
+        it "associates the new Article to the current site" do
+          assigns(:article).reload.site.should == @site
+        end
+              
+        it "associates the new Article to the current section" do
+          assigns(:article).reload.section.should == @section
+        end
+      end
+  
+      with :invalid_article_params do
+        it_does_not_change 'Article.count'
+        it_does_not_trigger_any_event
+        it_renders_template :new
+        it_assigns_flash_cookie :error => :not_nil
+      end
+    end
+  end
 end
