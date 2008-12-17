@@ -4,6 +4,7 @@ describe AlbumsController do
   include SpecControllerHelper
   
   before :each do
+    Site.delete_all
     @site  = Factory :site
     @album = Factory :album
     Site.stub!(:find).and_return @site
@@ -16,6 +17,6 @@ describe AlbumsController do
   
   describe "GET to show" do
     act! { request_to :get, "/albums/#{@album.id}" }
-    it_assigns :album
+    it_assigns :section
   end
 end
