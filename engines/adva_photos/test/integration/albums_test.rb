@@ -27,8 +27,10 @@ end
 
 class AnPhotoAlbumTest < ActionController::IntegrationTest
   def setup
-    factory_scenario :site_with_an_album
-    login_as         :admin
+    # Note to self, login_as deletes all the users, so photo.author
+    # does not work anymore. Thats why it has to come before scenario.
+    login_as          :admin
+    factory_scenario  :site_with_an_album
   end
   
   def test_an_admin_views_the_album
@@ -39,7 +41,7 @@ class AnPhotoAlbumTest < ActionController::IntegrationTest
     assert_template 'admin/photos/index'
   end
   
-  def test_an_admin_views_the_upload_photo_form
+  def test_an_admin_views_the_upload_photo_form_from_empty_album
     # when there is no photos
     Photo.delete_all
     
@@ -54,6 +56,34 @@ class AnPhotoAlbumTest < ActionController::IntegrationTest
     
     # the page renders the photo upload form
     assert_template 'admin/photos/new'
+  end
+  
+  def test_an_admin_views_the_upload_photo_form_from_non_empty_album
+    # Go to album index
+    get admin_photos_path(@site, @album)
+    
+    # the page renders the photos index page
+    assert_template 'admin/photos/index'
+    
+    # Go to photo upload
+    click_link 'Upload a photo'
+    
+    # the page renders the photo upload form
+    assert_template 'admin/photos/new'
+  end
+  
+  def test_an_admin_views_the_album_settings_page
+    # Go to album index
+    get admin_photos_path(@site, @album)
+    
+    # the page renders the photos index page
+    assert_template 'admin/photos/index'
+    
+    # Go to photo upload
+    click_link 'settings_section'
+    
+    # the page renders the photo upload form
+    assert_template 'admin/sections/edit'
   end
   
   def test_an_admin_uploads_a_photo
