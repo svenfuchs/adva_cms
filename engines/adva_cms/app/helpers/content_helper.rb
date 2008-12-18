@@ -17,6 +17,8 @@ module ContentHelper
       wikipage_path *[content.section, content.permalink, options].compact
     when Forum
       topic_path content.section
+    when Album
+      photo_path content.section, content
     else
       section_article_path *[content.section, content.permalink, options].compact
     end

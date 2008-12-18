@@ -3,6 +3,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe DeletedIssue do
   
   before do
+    Site.delete_all
     @deleted_issue = Factory :deleted_issue
   end
 

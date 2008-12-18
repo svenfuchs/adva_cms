@@ -85,6 +85,12 @@ Rbac.define do
               :'create calendar_event' => :moderator,
               :'update calendar_event' => :moderator,
               :'destroy calendar_event' => :moderator,
-              :'manage calendar_event' => :moderator
+              :'manage calendar_event' => :moderator,
+
+              :'show photo'         => :moderator,
+              :'create photo'       => :admin,
+              :'update photo'       => :admin,
+              :'destroy photo'      => :admin,
+              :'manage photo'       => :admin
 end
 

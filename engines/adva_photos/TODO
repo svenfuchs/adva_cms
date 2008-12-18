@@ -1,2 +1,4 @@
-Photo table needs cleanup, there is some unused things there.
-Thumbnail creation is not tested.
+- Photo table needs cleanup there is some unused things there?
+- Thumbnail creation is not tested.
+- Frontend page caching
+- frontend comments support..
