@@ -8,8 +8,8 @@ class Photo < ActiveRecord::Base
   belongs_to_author
   belongs_to        :section
   has_many_comments :polymorphic => true
-  has_many :sets, :class_name => 'Category', :through => :category_assignments
-  has_many :category_assignments
+  has_many :sets, :source => 'category', :through => :category_assignments
+  has_many :category_assignments, :as => :content
   
   has_attachment :storage     => :file_system,
                  :thumbnails  => { :large => '300', :thumb => '120>', :tiny => '50>' },
@@ -29,7 +29,7 @@ class Photo < ActiveRecord::Base
   def draft?
     published_at.nil?
   end
-
+  
   def published?
     !published_at.nil? and published_at <= Time.zone.now
   end

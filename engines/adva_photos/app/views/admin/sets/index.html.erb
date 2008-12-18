@@ -1,0 +1,46 @@
+<% content_for :sidebar do -%>
+  <h3><%= t(:'adva.titles.actions') %></h3>
+  <ul>
+    <li><%= link_to "Create a new set", new_admin_set_path(@site, @section) %></li>
+    <% if @sets.size > 1 %>
+      <li><%= link_to_function "Reorder sets", "sets_tree.toggle(this, t(:'adva.resources.reordering_done'));", :id => 'reorder_sets' %>
+      <%= image_tag '/images/adva_cms/indicator.gif', :id => 'sets_indicator', :style => 'display: none;' %></li>
+    <% end %>
+  </ul>
+<% end -%>
+
+<% unless @sets.empty? %>
+  <p class="total">
+    <%= "Total number of sets #{@sets.total_entries}" %>
+  </p>
+
+  <table id="sets" class="list">
+    <thead>
+      <tr>
+        <th scope="col">Title</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= render :partial => 'set', :collection => @sets %>
+    </tbody>
+  </table>
+
+  <script>
+    var sets_tree = new SortableTree('sets', {
+      onDrop: function(drag, drop, event) {
+        <%= remote_function(:url => admin_sets_path(@site, @section),
+                            :method =>   :put,
+                            :with   =>   "drag.to_params()",
+                            :loading =>  "$('sets_indicator').show()",
+                            :complete => "$('sets_indicator').hide()" ) %>
+      }
+    });
+  </script>
+  
+<% else %>
+  <div class="empty">
+    <%= "There are currently no sets" %>
+    <%= link_to "Create one now &raquo;", new_admin_set_path(@site, @section) %>
+  </div>
+<% end %>

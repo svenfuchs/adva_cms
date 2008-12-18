@@ -1,7 +1,9 @@
 class Admin::PhotosController < Admin::BaseController
   layout 'admin'
   helper 'admin/comments'
+  
   before_filter :set_section
+  before_filter :set_sets,            :only => [:new, :edit]
   before_filter :set_photo,           :only => [:destroy, :update, :edit]
   before_filter :params_author,       :only => [:create, :update]
   before_filter :params_draft,        :only => [:create, :update]
@@ -76,5 +78,9 @@ class Admin::PhotosController < Admin::BaseController
     
     def set_photo
       @photo = @section.photos.find(params[:id])
+    end
+    
+    def set_sets
+      @sets = @section.sets.roots
     end
 end

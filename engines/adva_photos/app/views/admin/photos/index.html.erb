@@ -2,7 +2,7 @@
   <h3><%= "Manage" %></h3>
   <ul>
     <li><%= link_to 'Photos', admin_photos_path(@site, @section) %></li>
-		<li>Sets (Coming soon...)</li>
+		<li><%= link_to "Sets", admin_sets_path(@site, @section) %></li>
     <li><%= link_to 'Settings', edit_admin_section_path(@site, @section), :id => 'settings_section' %></li>
   </ul>
 

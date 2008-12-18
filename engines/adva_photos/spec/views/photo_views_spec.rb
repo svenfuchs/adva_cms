@@ -17,6 +17,7 @@ describe "Photo views:" do
     assigns[:section] = @album
     assigns[:photos]  = @album.photos
     assigns[:photo]   = @album.photos.first
+    assigns[:sets]    = []
     
     template.stub!(:current_user).and_return @author
     template.stub!(:f).and_return ActionView::Base.default_form_builder.new(:photo, @photo, template, {}, nil)

@@ -1,0 +1,11 @@
+<% unless sets.empty? %>
+  <ul class="sets">
+    <% sets.each do |set| %>
+      <li class="<%= cycle '', 'highlight', :name => 'photo_sets' %>">
+        <%= check_box_tag "photo[set_ids][]", set.id, photo.sets.include?(set), :id => "photo_set_#{set.id}" %>
+        <label for="photo_set_<%= set.id %>" class="inline"><%= set.title %></label>
+        <%= render :partial => 'sets/checkboxes', :locals => {:sets => set.children, :photo => photo} %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>

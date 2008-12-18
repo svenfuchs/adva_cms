@@ -1,0 +1,26 @@
+<h2>Edit set</h2>
+
+<% content_for :sidebar do -%>
+<h3><%= t(:'adva.titles.actions') %></h3>
+<ul>
+  <li><%= link_to 'Create a new set', new_admin_set_path(@site, @section) %></li>
+  <li><%= link_to 'Delete the set', admin_set_path(@site, @section, @set), { :confirm => 'Are you sure you want to delete this set?', :method => :delete } %></li>
+</ul>
+<% end -%>
+
+<% form_for :set, @set, :url => admin_set_path(@site, @section, @set), :html => {:method => :put} do |f| %>
+  <fieldset class="clearfix">
+    <div class="col">
+      <%= f.label :title %>
+      <%= f.text_field :title %>
+    </div>
+    <div class="col">
+      <%= f.label :permalink %>
+      <%= f.text_field :permalink %>
+    </div>
+  </fieldset>
+  <p class="buttons">
+  	<%= submit_tag t(:'adva.common.save') %> <%= t(:'adva.common.connector.or') %> 
+  	<%= link_to t(:'adva.common.cancel'), admin_sets_path(@site, @section) %>
+  </p>
+<% end %>

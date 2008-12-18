@@ -1,0 +1,7 @@
+<tr id="<%= dom_id object %>">
+  <td><%= link_to object.title, edit_admin_set_path(@site, @section, object) %></td>
+  <td class="actions">
+    <%= link_to t(:'adva.resources.edit'), edit_admin_set_path(@site, @section, object), :class => 'edit' %>
+    <%= link_to t(:'adva.resources.delete'), admin_set_path(@site, @section, object), :class => 'delete', :confirm => "Are you sure you want to delete this set?", :method => :delete %>
+  </td>
+</tr>
