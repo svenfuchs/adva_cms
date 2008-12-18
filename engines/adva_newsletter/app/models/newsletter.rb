@@ -1,11 +1,13 @@
-class Newsletter < ActiveRecord::Base
-  belongs_to :site
+class Newsletter < BaseNewsletter
+
   has_many :issues, :dependent => :destroy
+  has_many :deleted_issues
   has_many :subscriptions, :as => :subscribable
-  
-  attr_accessible :title, :desc
 
-  validates_presence_of :title
-
-  named_scope :all_included, :include => [:issues,:subscriptions]
+  def destroy
+    self.deleted_at = Time.now.utc
+    self.type = "DeletedNewsletter"
+    self.save
+    return self
+  end
 end

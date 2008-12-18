@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '../../../adva_cms/test', 'test_helper' ))
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'test_helper' ))
 
 class NoNewslettersTest < ActionController::IntegrationTest
   def setup
@@ -76,5 +76,18 @@ class NewslettersTest < ActionController::IntegrationTest
     assert_template 'admin/newsletters/show'
     assert_select 'h1>a', 'EDITED newsletter title'
     assert_select 'p', 'EDITED newsletter desc'
+  end
+  
+  test "admin DELETES a newsletter: should move it to trash" do
+    
+    visit "/admin/sites/#{@site.id}/newsletters"
+    
+    assert_template 'admin/newsletters/index'
+    click_link 'Delete'
+
+    assert_template 'admin/newsletters/index'
+    assert_flash 'Newsletter was successfully moved to trash'
+    assert_equal 0, @site.newsletters.count
+    assert_equal 1, @site.deleted_newsletters.count
   end
 end

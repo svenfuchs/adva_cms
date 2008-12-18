@@ -14,10 +14,13 @@
   <%= form.label :host, t(:'adva.calendar.attributes.host') %>
   <%= form.text_field :host %>
 </p>
+<% if @site.locations.count > 0 %>
 <p>
   <%= form.label :location, t(:'adva.calendar.attributes.location') %>
   <%= form.select :location_id, @site.locations.collect{|l| [l.oneliner, l.id]}, :include_blank => true %>
 OR 
+</p>
+<% end %>
 <fieldset id="new_location" style="<%= @event.location_id.blank? ? "" : "display:none" %>">
 <% fields_for :location do |f_l| %>
   <%= render :partial => 'form_location', :locals => {:form => f_l} %>

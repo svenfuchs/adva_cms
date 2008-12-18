@@ -1,11 +1,13 @@
 class Admin::NewslettersController < Admin::BaseController
 
   def index
-    @newsletters = Newsletter.all_included.find(:all)
+    @newsletters = Newsletter.find(:all)
   end
   
   def show
     @newsletter = Newsletter.all_included.find(params[:id])
+    # @active_issues = @newsletter.issues.active
+    # @subscriptions = @newsletter.subscriptions
   end
   
   def new
@@ -35,5 +37,13 @@ class Admin::NewslettersController < Admin::BaseController
     else
       render :action => 'edit'
     end
+  end
+  
+  def destroy
+    @newsletter = Newsletter.find(params[:id])
+
+    @newsletter.destroy
+    flash[:notice] = t('adva.newsletter.flash.newsletter_moved_to_trash_success')
+    redirect_to admin_newsletters_path(@site)
   end
 end

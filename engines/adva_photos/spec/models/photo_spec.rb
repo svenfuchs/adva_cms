@@ -23,10 +23,6 @@ describe Photo do
     it "has a comments counter" do
       Photo.should have_counter(:comments)
     end
-
-    it "has a permalink generated from the title" do
-      Photo.should have_a_permalink(:title)
-    end
   end
   
   describe "associations" do
@@ -37,14 +33,14 @@ describe Photo do
     it "belongs to an author" do
       @photo.should belong_to(:author)
     end
+    
+    it "has many sets" do
+      @photo.should have_many(:sets)
+    end
 
-    it "has many sets" # do
-    #   @photo.should have_many(:sets)
-    # end
-
-    it "has many set_assignments" # do
-    #   @photo.should have_many(:set_assignments)
-    # end
+    it "has many category_assignments" do
+      @photo.should have_many(:category_assignments)
+    end
   end
   
   describe "validations" do
@@ -61,9 +57,15 @@ describe Photo do
       @photo.author.email = nil
       @photo.valid?.should be_false
     end
-
-    it "validates the uniqueness of the permalink per section" do
-      @photo.should validate_uniqueness_of(:permalink)
+  end
+  
+  describe "callbacks:" do
+    it "sets the position before create" do
+      Photo.before_create.should include(:set_position)
+    end
+    
+    it "sets the from parent before validation on create" do
+      Photo.before_validation_on_create.should include(:set_values_from_parent)
     end
   end
   

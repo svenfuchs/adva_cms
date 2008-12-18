@@ -1,7 +1,7 @@
 <h3><%= t(:'adva.titles.manage') %></h3>
 <ul>
   <li><%= link_to "Photos", admin_photos_path(@site, @section) %></li>
-	<li>Sets (Coming soon...)</li>
+	<li><%= link_to "Sets", admin_sets_path(@site, @section) %></li>
   <li><%= link_to 'Settings', edit_admin_section_path(@site, @section), :id => 'settings_section' %></li>
 </ul>
 
@@ -27,14 +27,15 @@
     <%= f.label :comment_age, t(:'adva.titles.comments') %>
     <%= f.select :comment_age, comment_expiration_options %>
   </p>
-  <p>
-    <%= f.label :permalink %>
-    <span class="hint"><%= t(:'adva.articles.hints.permalink') %></span>
-    <%= f.text_field :permalink %>
-  </p>
 	<p>
   <%= f.label :tag_list %>
   <span class="hint"><%= t(:'adva.articles.hints.tags') %></span>
   <%= f.text_field :tag_list %>
 	</p>
+	<% unless @sets.empty? %>
+	<p>
+  	<h4><%= 'Publish photo in sets' %></h4>
+    <%= render :partial => 'sets/checkboxes', :locals => {:sets => @sets, :photo => @photo} %>
+	</p>
+	<% end %>
 </fieldset>

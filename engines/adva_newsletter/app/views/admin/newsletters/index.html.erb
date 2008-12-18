@@ -22,7 +22,10 @@
             <td><%= link_to h(newsletter.title), admin_newsletter_path(@site, newsletter) %></td>
             <td><%= link_to newsletter.issues_count, admin_issues_path(@site, newsletter) %></td>
             <td><%= link_to newsletter.subscriptions_count, admin_subscriptions_path(@site, newsletter) %></td>
-            <td class='table_menu'><%= link_to t('adva.common.edit'), edit_admin_newsletter_path(@site, newsletter) %></td>
+            <td class='table_menu'>
+              <%= link_to t('adva.common.edit'), edit_admin_newsletter_path(@site, newsletter) %>
+              <%= link_to t('adva.common.delete'), admin_newsletter_path(@site, newsletter), :method => :delete %>
+            </td>
           </tr>
         <% end %>
       </tbody>

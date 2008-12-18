@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '../../../adva_cms/test', 'test_helper' ))
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'test_helper' ))
 
 class NoIssuesTest < ActionController::IntegrationTest
   def setup
@@ -64,6 +64,20 @@ class IssuesTest < ActionController::IntegrationTest
       assert_select 'p', 'EDITED issue body'
     end
   end
+  
+  test 'admin DELETES issue: should go to trash' do
+    
+    visit "/admin/sites/#{@site.id}/newsletters/#{@newsletter.id}/issues/"
+
+    assert_template 'admin/issues/index'
+    assert_equal 1, @newsletter.issues.count
+    click_link 'delete'
+
+    assert_template 'admin/issues/index'
+    assert_flash 'Newsletter issue was successfully moved to trash.'
+    assert_equal 0, @newsletter.issues.count
+  end
+
 end  
 
 class IssuesWithSubscriptionTest < ActionController::IntegrationTest
@@ -117,9 +131,3 @@ class IssuesWithSubscriptionTest < ActionController::IntegrationTest
   
 end
 
-#TODO move to more global place
-def assert_flash(message)
-  regexp = Regexp.new(message.gsub(' ', '\\\+'))
-  assert cookies['flash'] =~ regexp,
-    "Flash message is wrong or missing:\nWe should get flash message: #{message} #Regex: #{regexp}\nBUT we got cookie what does not match to our regex: #{cookies['flash']}"
-end

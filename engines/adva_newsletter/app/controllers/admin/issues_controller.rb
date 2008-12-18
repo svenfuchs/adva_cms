@@ -47,6 +47,13 @@ class Admin::IssuesController < Admin::BaseController
       render :action => 'edit'
     end
   end
+  
+  def destroy
+    @issue = Issue.find(params[:id])
+    @issue.destroy
+    flash[:notice] = t('adva.newsletter.flash.issue_moved_to_trash_success')
+    redirect_to admin_issues_path(@site, @newsletter)
+  end
 
 private
   def set_newsletter

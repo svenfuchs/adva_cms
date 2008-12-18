@@ -35,6 +35,8 @@ en:
       unknown: unknown
       add: Add
       add_new: add new
+      hints:
+        tags: Enter one or more tags separated by a space. You may include spaces by enclosing a tag with quotes. (For example, <em>"Web Dev" Tutorials</em>).
     titles: 
       accounts: Accounts
       actions: Actions
@@ -744,46 +746,6 @@ en:
       titles:
         tags: Tags
         topics: Topics
-    newsletter:
-      no_newsletters: There are no newsletters.
-      confirm_save_as_draft: Yes, save this issue as draft
-      flash:
-        update_success: Newsletter has been updated successfully!
-      link:
-        index: Newsletters
-        new: Create a newsletter
-      label:
-        header: Newsletters
-        title: Newsletter name
-        desc: Description
-        name: Name
-        issues: Issues
-        subscribers: Subscribers
-    issue:
-      confirm_save_as_draft: Yes, save this issue as draft.
-      question_save_as_draft: Save as Draft?
-      no_issues: There are no issues.
-      button:
-        send_now: Send now
-        send_later: Send later
-      flash:
-        create_success: Newsletter issue was successfully created.
-        update_success: Newsletter issue was successfully updated.
-        send_now: Newsletter issue was successfully added to the delivery queue.
-        send_later: Newsletter issue was successfully added to the queue to send out later. 
-        send_test: Newsletter issue was successfully sent out only to you.
-      label:
-        title: Issue Title/Subject
-        body: Body
-        name: Name
-        created_at: Created
-        issues: Issues
-        due_at: "or send later at:"
-        send_test: only to myself
-      link:
-        index: Issues
-        new: Create a new issue
-        edit: Edit issue
     subscription:
       no_subscriptions: There are no subscribers.
       link:

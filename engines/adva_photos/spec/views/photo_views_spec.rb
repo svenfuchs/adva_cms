@@ -17,6 +17,7 @@ describe "Photo views:" do
     assigns[:section] = @album
     assigns[:photos]  = @album.photos
     assigns[:photo]   = @album.photos.first
+    assigns[:sets]    = []
     
     template.stub!(:current_user).and_return @author
     template.stub!(:f).and_return ActionView::Base.default_form_builder.new(:photo, @photo, template, {}, nil)
@@ -90,7 +91,29 @@ describe "Photo views:" do
       response.should have_tag('a[href=?]', "/admin/sites/#{@site.id}/sections/#{@album.id}/photos")
     end
     
-    it "should have the form button for sending the message" do
+    it "should have the form button for uploading the photo" do
+      act!
+      response.should have_tag('input[name=?]', 'commit')
+    end
+  end
+  
+  describe "GET to edit" do
+    before :each do
+      template.stub!(:render).with hash_including(:partial => 'form')
+    end
+    act! { render "admin/photos/edit" }
+    
+    it "should render the form partial" do
+      template.should_receive(:render).with hash_including(:partial => 'form')
+      act!
+    end
+    
+    it "should have the cancel link" do
+      act!
+      response.should have_tag('a[href=?]', "/admin/sites/#{@site.id}/sections/#{@album.id}/photos")
+    end
+    
+    it "should have the form button for updating the photo" do
       act!
       response.should have_tag('input[name=?]', 'commit')
     end
@@ -171,16 +194,6 @@ describe "Photo views:" do
       response.should have_tag('select[name=?]', 'photo[comment_age]')
     end
     
-    it "should have the permalink label" do
-      act!
-      response.should have_tag('label[for=?]', 'photo_permalink')
-    end
-    
-    it "should have the input field for permalink" do
-      act!
-      response.should have_tag('input[name=?]', 'photo[permalink]')
-    end
-    
     it "should have the tag_list label" do
       act!
       response.should have_tag('label[for=?]', 'photo_tag_list')
@@ -204,6 +217,11 @@ describe "Photo views:" do
     it "should have link to edit photo" do
       act!
       response.should have_tag('a[href=?]', edit_admin_photo_path(@site, @album, @photo))
+    end
+    
+    it "should have link to photo" do
+      act!
+      response.should have_tag('a[href=?]', @photo.public_filename)
     end
     
     it "should have link to author" do

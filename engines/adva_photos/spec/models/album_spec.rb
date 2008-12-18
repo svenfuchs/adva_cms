@@ -13,6 +13,17 @@ describe Album do
     it "has many photos" do
       @album.should have_many(:photos)
     end
+
+    it "has many sets" do
+      @album.should have_many(:sets)
+    end
+
+    describe "the sets association" do
+      it "#roots returns all sets that do not have a parent category" do
+        @album.sets.should_receive(:find).with(:all, hash_including(:conditions => {:parent_id => nil}))
+        @album.sets.roots
+      end
+    end
   end
   
   describe "methods" do

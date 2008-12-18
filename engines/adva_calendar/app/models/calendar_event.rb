@@ -20,9 +20,8 @@ class CalendarEvent < ActiveRecord::Base
   validates_presence_of :title
   validates_presence_of :user_id
   validates_presence_of :section_id
+  validates_presence_of :location_id
   validates_uniqueness_of :permalink, :scope => :section_id
-  
-  before_create :set_published
 
   named_scope :by_categories, Proc.new {|*category_ids| {:conditions => ['category_assignments.category_id IN (?)', category_ids], :include => :category_assignments}}
   named_scope :elapsed, lambda {{:conditions => ['startdate < ? AND (enddate IS ? OR enddate < ?)', Time.now, nil, Time.now], :order => 'startdate DESC'}}
@@ -34,9 +33,6 @@ class CalendarEvent < ActiveRecord::Base
 
   def self.sanitize_filter(filter)
     %w(title body).include?(filter.to_s) ? filter.to_s : 'title'
-  end
-  def set_published
-    self.published_at = Time.zone.now
   end
 
   def validate

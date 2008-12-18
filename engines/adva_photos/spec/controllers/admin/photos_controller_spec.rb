@@ -20,6 +20,7 @@ describe Admin::PhotosController do
     @site.sections.stub!(:find).and_return @album
     
     set_resource_paths :photos, "/admin/sites/#{@site.id}/sections/#{@album.id}/"
+    set_resource_paths :photos, "/admin/sites/#{@site.id}/sections/#{@album.id}/"
   end
   
   it "is kind of admin::base_controller" do
@@ -54,14 +55,9 @@ describe Admin::PhotosController do
   
   describe "POST to create" do
     before :each do
-      @params = {:photo => { :title => 'test photo', :author => "#{@user.id}" }}
-      @photo = Photo.new(:title => 'test photo', :author => @user)
       @album.photos.stub!(:build).and_return @photo
-      
-      # TODO: routing_filter does not like these paths
-      controller.stub!(:edit_admin_photo_path).and_return('edit_admin_photo_path')
     end
-    act! { request_to :post, @member_path, @params }
+    act! { request_to :post, @member_path, {:photo => {:author => "#{@user.id}"}} }
     it_assigns :photo
     
     it "instantiates a new photo from section.photos" do
@@ -73,7 +69,7 @@ describe Admin::PhotosController do
       before :each do
         @photo.stub!(:save).and_return(true)
       end
-      #it_redirects_to { "http://test.host/admin/sites/#{@site.id}/sections/#{@section.id}/photos/#{@photo.id}/edit" }
+      it_redirects_to { @member_path + "#{@photo.id}/edit" }
       it_assigns_flash_cookie :notice => :not_nil
       
       it "saves the photo" do
@@ -84,9 +80,57 @@ describe Admin::PhotosController do
     
     describe "with invalid parameters" do
       before :each do
-        @message.stub!(:save).and_return false
+        @photo.stub!(:save).and_return false
       end
       it_renders_template :new
+      it_assigns_flash_cookie :error => :not_nil
+    end
+  end
+    
+  describe "GET to edit" do
+    before :each do
+      @album.photos.stub!(:build).and_return(@photo)
+    end
+    act! { request_to :get, @member_path + "#{@photo.id}/edit" }
+    it_assigns :photo
+    it_renders_template :edit
+    
+    it "instantiates finds the photo from section.photos" do
+      @album.photos.should_receive(:find).and_return @photo
+      act!
+    end
+  end
+  
+  describe "PUT to update" do
+    before :each do
+      @album.photos.stub!(:find).and_return @photo
+    end
+    act! { request_to :put, @member_path + "#{@photo.id}", {:photo => { :author => "#{@user.id}"}} }
+    it_assigns :photo
+    
+    it "instantiates a new photo from section.photos" do
+      @album.photos.should_receive(:find).and_return @photo
+      act!
+    end
+    
+    describe "with valid parameters" do
+      before :each do
+        @photo.stub!(:update_attributes).and_return(true)
+      end
+      it_redirects_to { @member_path + "#{@photo.id}/edit" }
+      it_assigns_flash_cookie :notice => :not_nil
+      
+      it "updates the photo" do
+        @photo.should_receive(:update_attributes).and_return true
+        act!
+      end
+    end
+    
+    describe "with invalid parameters" do
+      before :each do
+        @photo.stub!(:update_attributes).and_return false
+      end
+      it_renders_template :edit
       it_assigns_flash_cookie :error => :not_nil
     end
   end
