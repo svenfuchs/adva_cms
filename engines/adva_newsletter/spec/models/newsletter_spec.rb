@@ -3,6 +3,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe BaseNewsletter do
   
   before :each do
+    Site.delete_all
     @issue = Factory :newsletter
   end
 
@@ -17,6 +18,7 @@ end
 describe Newsletter do
   
   before do
+    Site.delete_all
     @newsletter = Factory :newsletter
   end
 

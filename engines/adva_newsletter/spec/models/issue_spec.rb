@@ -3,6 +3,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe BaseIssue do
   
   before :each do
+    Site.delete_all
     @issue = Factory :issue
   end
 
@@ -28,6 +29,7 @@ end
 describe Issue do
   
   before :each do
+    Site.delete_all
     @issue = Factory :issue
   end
 
