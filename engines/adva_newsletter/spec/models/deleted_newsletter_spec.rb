@@ -3,6 +3,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe DeletedNewsletter do
   
   before do
+    Site.delete_all
     @deleted_newsletter = Factory :deleted_newsletter
   end
 
