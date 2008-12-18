@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../spec_helper'
+require File.dirname(__FILE__) + '/../../spec_helper'
 require 'base_helper'
 require 'content_helper'
 require 'admin/comments_helper'

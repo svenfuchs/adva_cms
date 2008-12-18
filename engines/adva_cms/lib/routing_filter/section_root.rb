@@ -24,7 +24,7 @@ module RoutingFilter
     protected
     
       def recognize_pattern
-        @recognize || %r(^/?(/[\w]{2})?(/articles|/event|/pages|/boards|/topics|/categories|/tags|/\d{4}|\.|/?$))
+        @recognize || %r(^/?(/[\w]{2})?(/articles|/event|/pages|/boards|/topics|/photos|/categories|/sets|/tags|/\d{4}|\.|/?$))
       end
     
       def generate_pattern(root)
