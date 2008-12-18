@@ -14,7 +14,10 @@
         <tr>
           <td><%= link_to h(issue.title), admin_issue_path(@site, @newsletter, issue) %></td>
           <td><%= issue.created_at.to_s(:db) %></td>
-          <td class='table_menu'><%= link_to t('adva.common.edit'), edit_admin_issue_path(@site, @newsletter, issue) %></td>
+          <td class='table_menu'>
+            <%= link_to t('adva.common.edit'), edit_admin_issue_path(@site, @newsletter, issue) %>
+            <%= link_to t('adva.common.delete'), admin_issue_path(@site, @newsletter, issue), :method => :delete %>
+          </td>
         </tr>
       <% end %>
     </tbody>
