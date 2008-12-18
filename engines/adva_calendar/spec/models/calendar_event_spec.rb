@@ -13,18 +13,18 @@ describe CalendarEvent do
     it "acts as a taggable" do
       Content.should act_as_taggable
     end
-    it 'sanitizes the body_html attribute' do
+    it 'should sanitize the body_html attribute' do
       CalendarEvent.should filter_attributes(:sanitize => :body_html)
     end
 
-    it 'does not sanitize the body and cached_tag_list attributes' do
+    it 'should not sanitize the body and cached_tag_list attributes' do
       CalendarEvent.should filter_attributes(:except => [:body, :cached_tag_list])
     end
-  end
 
-  describe 'callbacks' do
-    it 'sets its published_at attribute to the current time before create' do
-      CalendarEvent.before_create.should include(:set_published)
+    it 'should set a permalink' do
+      @event.permalink.should be_nil
+      @event.save!
+      @event.permalink.should ==('the-dodos')
     end
   end
   
@@ -84,26 +84,11 @@ describe CalendarEvent do
           :startdate => Time.now - 1.year, :enddate => Time.now - 11.months, :user_id => 1, :draft => true, :categories => [@cat2]).reload
 #      @calendar.reload
     end
-    describe "upcoming scope" do
-      it "from today on" do
-        @calendar.events.upcoming.should ==[@running_event, @upcoming_event]
-      end
-      it "from tomorrow on" do
-        @calendar.events.upcoming(Date.today + 1.day).should ==[@running_event]
-      end
-      it "for last month" do
-        @calendar.events.upcoming(Date.today - 1.year).should ==[@real_old_event]
-      end
-    end
     it "should have a elapsed scope" do
       @calendar.events.elapsed.should ==[@elapsed_event2, @elapsed_event, @real_old_event]
     end
     it "should have a recently added scope" do
       @calendar.events.recently_added.should ==[@upcoming_event, @running_event]
-    end
-    it "should have a search scope" do
-      @calendar.events.upcoming.search('Jazz', :title).should ==[@running_event]
-      @calendar.events.search('Jazz', :title).should ==[@running_event, @real_old_event]
     end
     it "should have a published scope" do
       @calendar.events.published.should ==[@elapsed_event, @elapsed_event2, @upcoming_event, @running_event]
@@ -114,8 +99,33 @@ describe CalendarEvent do
       @calendar.events.by_categories(@cat3.id).should ==[@upcoming_event, @running_event]
       @calendar.events.by_categories(@cat1.id, @cat2.id).should ==[@elapsed_event, @elapsed_event2, @upcoming_event, @running_event, @real_old_event]
     end
+    describe ":upcoming" do
+      it "from today on" do
+        @calendar.events.upcoming.should ==[@running_event, @upcoming_event]
+      end
+      it "from tomorrow on" do
+        @calendar.events.upcoming(Date.today + 1.day).should ==[@running_event]
+      end
+      it "for last year" do
+        @calendar.events.upcoming(Date.today - 1.year).should ==[@real_old_event]
+      end
+    end
   end
   
+  describe "named scope :search" do
+    before :each do
+      default_attributes = {:user_id => 1, :location_id => 1, :startdate => Time.now}
+      @event_jazz = @calendar.events.create(default_attributes.merge(:title => 'A Jazz concert', :body => 'A band with Sax,Trumpet,Base,Drums'))
+      @event_rock = @calendar.events.create(default_attributes.merge(:title => 'Rocking all night', :body => 'A band with Guitar, Base & Drums'))
+    end
+    it "should have a search scope by title" do
+      @calendar.events.search('Jazz', :title).should ==[@event_jazz]
+    end
+    it "should have a search scope by body" do
+      @calendar.events.search('Base', :body).should ==[@event_jazz, @event_rock]
+      @calendar.events.search('Guitar', :body).should ==[@event_rock]
+    end
+  end
   describe "recurring events" do
     it "should have a parent event"
     it "should support daily events"
