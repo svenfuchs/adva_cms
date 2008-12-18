@@ -38,9 +38,12 @@ module ThemeSupport
 
       def add_theme_view_paths
         if respond_to? :current_theme_paths
-          current_theme_paths.each do |path|
-            response.template.finder.prepend_view_path "#{path}/templates"
-          end
+          paths = current_theme_paths.map{|path| "#{path}/templates" }
+          prepend_view_path(paths) unless paths.empty?
+
+          # current_theme_paths.each do |path|
+          #   response.template.finder.prepend_view_path "#{path}/templates"
+          # end
         end
       end
 
