@@ -67,7 +67,6 @@ module Engines::RailsExtensions::Routing
   def from_plugin(name)
     map = self # to make 'map' available within the plugin route file
     routes_path = Engines.plugins[name].routes_path
-    Engines.logger.debug "loading routes from #{routes_path}"
     eval(IO.read(routes_path), binding, routes_path) if File.file?(routes_path)
   end
 end
