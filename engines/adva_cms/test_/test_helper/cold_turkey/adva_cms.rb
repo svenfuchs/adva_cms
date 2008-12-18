@@ -16,20 +16,25 @@ module With
     end
     
     def it_sweeps_page_cache(options)
+      options = options.dup
+      sweeper = options.delete :sweeper
+      
       expect do
-        old_perform_caching, @controller.perform_caching = @controller.perform_caching, true
-        
         options.each do |type, name|
           record = instance_variable_get("@#{name}")
           # TODO how to make this less brittle?
-          sweeper = "#{record.class.name}Sweeper".constantize.instance
+          sweeper ||= "#{record.class.name}Sweeper".constantize.instance
           case type
           when :by_reference
             mock.proxy(sweeper).expire_cached_pages_by_reference(record)
           end
         end
-        
-        # @controller.perform_caching = old_perform_caching
+      end
+    end
+    
+    def it_does_not_sweep_page_cache
+      expect do
+        do_not_allow(@controller).expire_pages.with_any_args
       end
     end
   end

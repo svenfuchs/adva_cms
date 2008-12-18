@@ -4,7 +4,8 @@ require File.dirname(__FILE__) + "/../../test_helper"
 # implement it_guards_permissions
 # specify update_all action
 # add cache sweeping specs
-
+# it_sweeps_cache - how to figure out the correct sweeper and observers automatically
+# somehow publish passed/failed expectations from RR to test/unit result?
 
 class AdminArticlesControllerTest < ActionController::TestCase
   tests Admin::ArticlesController
@@ -13,6 +14,13 @@ class AdminArticlesControllerTest < ActionController::TestCase
     stub(@controller).guard_permission
     stub(@controller).require_authentication
     stub(@controller).current_user{ User.make }
+    
+    # FIXME
+    @old_perform_caching, @controller.perform_caching = @controller.perform_caching, true
+  end
+  
+  def teardown
+    @controller.perform_caching = @old_perform_caching
   end
   
   def default_params
@@ -134,7 +142,11 @@ class AdminArticlesControllerTest < ActionController::TestCase
   end
   
   describe "POST to :create" do
-    action { post :create, { :site_id => @site.id, :section_id => @section.id }.merge(@params) }
+    action do 
+      Article.with_observers :article_sweeper do
+        post :create, { :site_id => @site.id, :section_id => @section.id }.merge(@params)
+      end
+    end
     
     with :an_empty_section, :an_empty_blog do
       it_assigns :site, :section, :article
@@ -145,6 +157,7 @@ class AdminArticlesControllerTest < ActionController::TestCase
         it_triggers_event :article_created
         it_assigns_flash_cookie :notice => :not_nil
         it_redirects_to { edit_admin_article_path(@site.id, @section.id, assigns(:article).id) }
+        it_sweeps_page_cache :by_reference => :section, :sweeper => ArticleSweeper.instance 
               
         it "associates the new Article to the current site" do
           assigns(:article).reload.site.should == @site
@@ -160,6 +173,7 @@ class AdminArticlesControllerTest < ActionController::TestCase
         it_does_not_trigger_any_event
         it_renders_template :new
         it_assigns_flash_cookie :error => :not_nil
+        it_does_not_sweep_page_cache
       end
     end
   end
@@ -206,6 +220,7 @@ class AdminArticlesControllerTest < ActionController::TestCase
             it_renders_template :edit
             it_assigns_flash_cookie :error => :not_nil
             it_does_not_trigger_any_event
+            it_does_not_sweep_page_cache
           end
         end
         
@@ -227,6 +242,7 @@ class AdminArticlesControllerTest < ActionController::TestCase
             it_does_not_trigger_any_event
             it_assigns_flash_cookie :error => :not_nil
             it_redirects_to { edit_admin_article_path(@site, @section, @article) }
+            it_does_not_sweep_page_cache
           end
         end
       end
@@ -236,11 +252,16 @@ class AdminArticlesControllerTest < ActionController::TestCase
   describe "DELETE to :destroy" do
     with :an_empty_section, :an_empty_blog do
       with :a_published_article do
-        action { delete :destroy, default_params.merge(:id => @article.id) }
+        action do 
+          Article.with_observers :article_sweeper do
+            delete :destroy, default_params.merge(:id => @article.id)
+          end
+        end
         # it_guards_permissions :destroy, :article
         it_assigns :site, :section, :article
         it_destroys :article
         it_triggers_event :article_deleted
+        it_sweeps_page_cache :by_reference => :article
       end
     end
   end
