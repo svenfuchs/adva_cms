@@ -14,5 +14,23 @@ module With
         do_not_allow(Event).trigger.with_any_args
       end
     end
+    
+    def it_sweeps_page_cache(options)
+      expect do
+        old_perform_caching, @controller.perform_caching = @controller.perform_caching, true
+        
+        options.each do |type, name|
+          record = instance_variable_get("@#{name}")
+          # TODO how to make this less brittle?
+          sweeper = "#{record.class.name}Sweeper".constantize.instance
+          case type
+          when :by_reference
+            mock.proxy(sweeper).expire_cached_pages_by_reference(record)
+          end
+        end
+        
+        # @controller.perform_caching = old_perform_caching
+      end
+    end
   end
 end

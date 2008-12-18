@@ -1,5 +1,26 @@
 module With
   class Group
+    def with_observers(observers)
+      observers.each do |target, names|
+        target = target.to_s.classify.constantize
+        names  = Array(names)
+        # FIXME doesn't work, because the action can be on parent contexts
+        action_without_observers = @action 
+        action do
+          target.with_observers(*names) do
+            action_without_observers.call
+          end
+        end
+        # before do
+        #   Array(names).each { |name| target.old_add_observer name.to_s.classify.constantize.instance }
+        # end
+      end
+      # after do
+      #   observers.each { |o| ActiveRecord::Base.delete_observer(o) }
+      # end
+    end
+
+    
     def it_changes(expressions, message = nil)
       expressions.each do |expression, difference|
         before { record_before_state(expression) }
@@ -29,6 +50,15 @@ module With
       end
     end
     
+    def it_destroys(name)
+      assertion "it destroys #{name}" do
+        record = assigns(name)
+        assert_raises ActiveRecord::RecordNotFound do
+          name.to_s.classify.constantize.find(record.id)
+        end
+      end
+    end
+    
     def it_versions(*names)
       names.each do |name|
         before { record_before_state("@#{name}.version") }
@@ -50,6 +80,26 @@ module With
           message  = "expected #{name} not to be versioned,  but was (changed from #{previous} to #{current})"
           assert_equal previous, current, message
         end
+      end
+    end
+    
+    def it_rollsback(name, options)
+      expected = options[:to] or raise "need to pass the target version as an option"
+      assertion "it rollsback the #{name} to version #{expected}" do
+        actual  = assigns(name).reload.version
+        message = "expected #{name} to be rolledback to version #{expected}, but was #{actual}"
+        assert_equal expected, actual, message
+      end
+    end
+    
+    def it_does_not_rollback(name)
+      before { record_before_state("@#{name}.version") }
+
+      assertion "it does not rollback the #{name}" do
+        previous = @before_states["@#{name}.version"]
+        current  = assigns(name).reload.version
+        message  = "expected #{name} not to be rolledback from version #{previous}, but was #{current}"
+        assert_equal previous, current, message
       end
     end
   end

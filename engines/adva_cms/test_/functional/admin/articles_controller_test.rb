@@ -1,12 +1,22 @@
 require File.dirname(__FILE__) + "/../../test_helper"
+  
+# TODO
+# implement it_guards_permissions
+# specify update_all action
+# add cache sweeping specs
+
 
 class AdminArticlesControllerTest < ActionController::TestCase
   tests Admin::ArticlesController
- 
+
   def setup
     stub(@controller).guard_permission
     stub(@controller).require_authentication
     stub(@controller).current_user{ User.make }
+  end
+  
+  def default_params
+    { :site_id => @site.id, :section_id => @section.id }
   end
 
   test "is an Admin::BaseController" do
@@ -117,9 +127,9 @@ class AdminArticlesControllerTest < ActionController::TestCase
     action { get :new, :site_id => @site.id, :section_id => @section.id }
     
     with :an_empty_section, :an_empty_blog do
+      # it_guards_permissions :create, :article
       it_assigns :site, :section, :article
       it_renders_template :new
-      # it_guards_permissions :create, :article
     end
   end
   
@@ -153,34 +163,32 @@ class AdminArticlesControllerTest < ActionController::TestCase
       end
     end
   end
-  
-  def default_params
-    { :site_id => @site.id, :section_id => @section.id }
-  end
- 
+   
   describe "GET to :edit" do
     action { get :edit, default_params.merge(:id => @article.id) }
-
+  
     with :an_empty_section, :an_empty_blog do
       with :a_published_article do
+        # it_guards_permissions :update, :article
         it_assigns :site, :section, :article
         it_renders_template :edit
-        # it_guards_permissions :update, :article
       end
     end
   end
- 
+   
   describe "PUT to :update" do
     action do 
-      params = default_params.merge(@params).merge(:id => @article.id)
-      params[:article][:title] = "#{@article.title} changed" unless params[:article][:title].blank?
-      put :update, params
+      Article.with_observers :article_sweeper do
+        params = default_params.merge(@params).merge(:id => @article.id)
+        params[:article][:title] = "#{@article.title} was changed" unless params[:article][:title].blank?
+        put :update, params
+      end
     end
-
+  
     with :an_empty_section, :an_empty_blog do
-      it_assigns :site, :section, :article
       # it_guards_permissions :update, :article
-
+      it_assigns :site, :section, :article
+  
       with :a_published_article do
         with "no version param" do
           with :valid_article_params do
@@ -188,7 +196,8 @@ class AdminArticlesControllerTest < ActionController::TestCase
             it_redirects_to { edit_admin_article_path(@site, @section, @article) }
             it_assigns_flash_cookie :notice => :not_nil
             it_triggers_event :article_updated
-            
+            it_sweeps_page_cache :by_reference => :article
+
             with(:save_revision_param)    { it_versions :article }
             with(:no_save_revision_param) { it_does_not_version :article }
           end
@@ -199,42 +208,40 @@ class AdminArticlesControllerTest < ActionController::TestCase
             it_does_not_trigger_any_event
           end
         end
+        
+        with "version param set to 1" do
+          before { @params = default_params.merge(:article => {:version => "1"}) }
+          
+          with "the article being versioned (succeeds)" do
+            before { @article.update_attributes(:title => "#{@article.title} was changed") }
+          
+            it_rollsback :article, :to => 1
+            it_triggers_event :article_rolledback
+            it_assigns_flash_cookie :notice => :not_nil
+            it_redirects_to { edit_admin_article_path(@site, @section, @article) }
+            it_sweeps_page_cache :by_reference => :article
+          end
+          
+          with "the article not being versioned (fails)" do
+            it_does_not_rollback :article
+            it_does_not_trigger_any_event
+            it_assigns_flash_cookie :error => :not_nil
+            it_redirects_to { edit_admin_article_path(@site, @section, @article) }
+          end
+        end
       end
     end
-      
-    # describe "given a version param" do 
-    #   act! { request_to :put, @member_path, @params.merge({:article => {:version => "1"}}) }
-    #   
-    #   describe "and the article can be rolled back to the given version" do
-    #     before :each do
-    #       @article.stub!(:revert_to!).and_return true
-    #     end
-    #     
-    #     it_triggers_event :article_rolledback
-    #     it_assigns_flash_cookie :notice => :not_nil
-    #     it_redirects_to { @edit_member_path }
-    #   
-    #     it "reverts the article before saving" do
-    #       @article.should_receive(:revert_to!).any_number_of_times.with "1"
-    #       act!
-    #     end
-    #   end
-    #   
-    #   describe "and the article can not be rolled back to the given version" do
-    #     before :each do
-    #       @article.stub!(:revert_to!).and_return false
-    #     end
-    #     
-    #     it_does_not_trigger_any_event
-    #     it_assigns_flash_cookie :error => :not_nil
-    #     it_redirects_to { @edit_member_path }
-    #   end
-    # end
-    #  
-    # describe "given invalid article params" do
-    #   before :each do @article.stub!(:save_without_revision).and_return false end
-    #   it_renders_template :edit
-    #   it_assigns_flash_cookie :error => :not_nil
-    # end
+  end
+  
+  describe "DELETE to :destroy" do
+    with :an_empty_section, :an_empty_blog do
+      with :a_published_article do
+        action { delete :destroy, default_params.merge(:id => @article.id) }
+        # it_guards_permissions :destroy, :article
+        it_assigns :site, :section, :article
+        it_destroys :article
+        it_triggers_event :article_deleted
+      end
+    end
   end
 end
