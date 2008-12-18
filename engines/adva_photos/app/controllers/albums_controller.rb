@@ -19,7 +19,8 @@ class AlbumsController < BaseController
     def set_photos
       options = { :order => 'created_at DESC', :conditions => 'published_at NOT NULL', :page => current_page, :tags => @tags }
       options[:limit] = request.format == :html ? @section.photos_per_page : 15
-      source = @set ? @set.contents : @section.photos
+      # TODO i think a very expensive way to handle this one ;) .. throw away thing for now
+      source = @set ? @section.photos.collect {|photo| photo if photo.sets.include?(@set) } : @section.photos
       @photos = source.paginate options
     end
 
