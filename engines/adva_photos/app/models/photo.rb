@@ -8,6 +8,8 @@ class Photo < ActiveRecord::Base
   belongs_to_author
   belongs_to        :section
   has_many_comments :polymorphic => true
+  has_many :sets, :class_name => 'Category', :through => :category_assignments
+  has_many :category_assignments
   
   has_attachment :storage     => :file_system,
                  :thumbnails  => { :large => '300', :thumb => '120>', :tiny => '50>' },

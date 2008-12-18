@@ -33,14 +33,14 @@ describe Photo do
     it "belongs to an author" do
       @photo.should belong_to(:author)
     end
+    
+    it "has many sets" do
+      @photo.should have_many(:sets)
+    end
 
-    it "has many sets" # do
-    #   @photo.should have_many(:sets)
-    # end
-
-    it "has many set_assignments" # do
-    #   @photo.should have_many(:set_assignments)
-    # end
+    it "has many category_assignments" do
+      @photo.should have_many(:category_assignments)
+    end
   end
   
   describe "validations" do
