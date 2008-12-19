@@ -20,7 +20,7 @@ map.formatted_album_comments    'albums/:section_id/comments.:format',
                                 :action       => "comments",
                                 :requirements => { :method => :get }
 
-map.formatted_album_photo_comments "albums/:section_id/:permalink.:format",
+map.formatted_album_photo_comments "albums/:section_id/photos/:photo_id.:format",
                                 :controller   => 'albums',
                                 :action       => "comments",
                                 :requirements => { :method => :get }

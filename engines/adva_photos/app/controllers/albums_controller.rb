@@ -1,5 +1,6 @@
 class AlbumsController < BaseController
   include ActionController::GuardsPermissions::InstanceMethods
+  helper :roles
   
   before_filter :set_section
   before_filter :set_set, :set_tags, :set_photos, :only => :index
@@ -13,9 +14,17 @@ class AlbumsController < BaseController
   acts_as_commentable
   
   def index
+    respond_to do |format|
+      format.html { render }
+      # format.atom { render :layout => false }
+    end
   end
   
   def show
+    respond_to do |format|
+      format.html { render }
+      # format.atom { render :layout => false }
+    end
   end
   
   protected
@@ -30,6 +39,9 @@ class AlbumsController < BaseController
 
     def set_photo
       @photo = @section.photos.find params[:photo_id], :include => :author
+      if !@photo || !@photo.published? && !can_preview?
+        raise ActiveRecord::RecordNotFound
+      end
     rescue ActiveRecord::RecordNotFound
       flash[:error] = "Photo you requested could not be found."
       write_flash_to_cookie # TODO make around filter or something
@@ -56,10 +68,14 @@ class AlbumsController < BaseController
       write_flash_to_cookie # TODO make around filter or something
       @tags = nil
     end
+    
+    def can_preview?
+      has_permission?('update', 'photo')
+    end
 
     def guard_view_permissions
       unless @photo.published?
-        guard_permission(:update, :article)
+        guard_permission(:update, :photo)
         @skip_caching = true
       end
     end
