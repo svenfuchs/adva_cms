@@ -1,0 +1,14 @@
+MAILTO=user
+SHELL = /bin/bash
+
+# * * * * wed,sat /usr/bin/ruby -C /sync test.rb run
+0 20 * * * /tmp/agent1
+# this is a comment - to be preserved
+
+##__test__
+2	*	*	*	*	/verycomplicated/script 123 >> /tmp/xml_server.log 2>&1
+
+##__test2__
+# id is lost?
+0 21 * * * /sync/exec_with_env.sh jobstream_generate.rb --lang en --fulladmin run
+0 21 * * * /sync/exec_with_env.sh sync_master.rb --monitconf /etc/monitrc-200 --downtimeFrom '22:00' --downtimeTo '23:00' run

@@ -1,0 +1,4 @@
+##__echo1__
+* * * * * echo 1 >> /tmp/echo.log
+##__echo2__
+* * * * * echo 2 >> /tmp/echo.log
