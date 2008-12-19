@@ -15,6 +15,45 @@ module With
       end
     end
     
+    def it_guards_permissions(action, type)
+      with :admin_may_edit_articles do
+        # it_requires_login :with => [:is_anonymous]
+        it_denies_access  :with => [:is_user]
+        # it_grants_access  :with => [:is_admin]
+        # it_denies_access :with => [:is_anonymous, :is_user]
+        # it_denies_access, :with => [:is_anonymous, :is_user, :is_moderator]
+      end
+      # 
+      # with :moderators_may_edit_articles do
+      #   it_grants_access, :with => [:is_moderator, :is_admin]
+      #   it_denies_access, :with => [:is_anonymous, :is_user]
+      # end
+    end
+
+    def it_grants_access(options = {})
+      group = options[:with] ? with(*options[:with]) : self
+      group.expect do
+        do_not_allow(@controller).rescue_action(is_a(ActionController::RoleRequired))
+      end
+      group.it "grants access" do end
+    end
+
+    def it_denies_access(options = {})
+      group = options[:with] ? with(*options[:with]) : self
+      group.expect do
+        mock.proxy(@controller).rescue_action.with_any_args #(is_a(ActionController::RoleRequired))
+      end
+      group.it "denies access" do end
+    end
+
+    def it_requires_login(options = {})
+      group = options[:with] ? with(*options[:with]) : self
+      group.assertion do
+        assert_redirected_to login_path(:return_to => @request.url)
+      end
+      group.it "requires login" do end
+    end
+    
     def it_sweeps_page_cache(options)
       options = options.dup
       sweeper = options.delete :sweeper
@@ -38,4 +77,7 @@ module With
       end
     end
   end
+end
+
+class ActionController::TestCase
 end
