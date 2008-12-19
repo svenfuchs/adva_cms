@@ -1,3 +1,4 @@
+require "#{RAILS_ROOT}/vendor/adva/plugins/cells/boot"
 require "#{RAILS_ROOT}/vendor/adva/plugins/engines/boot"
 
 # TODO make this a cattr_accessor on Engines::Plugin?
