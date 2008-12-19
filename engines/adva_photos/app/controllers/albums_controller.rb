@@ -17,7 +17,8 @@ class AlbumsController < BaseController
   
   protected
     def set_photos
-      options = { :order => 'created_at DESC', :conditions => 'published_at NOT NULL', :page => current_page, :tags => @tags }
+      # TODO that condition part would clearly go to model...
+      options = { :page => current_page, :tags => @tags, :conditions => ["published_at IS NOT NULL"] }
       options[:limit] = request.format == :html ? @section.photos_per_page : 15
       # TODO i think a very expensive way to handle this one ;) .. throw away thing for now
       source = @set ? @section.photos.collect {|photo| photo if photo.sets.include?(@set) } : @section.photos

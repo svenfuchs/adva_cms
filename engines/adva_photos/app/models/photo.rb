@@ -1,3 +1,18 @@
+# Let's do some black magic voodoo and ...
+# Let's have a :tag option for finders
+ActiveRecord::Base.class_eval do
+  class << self
+    VALID_FIND_OPTIONS << :tags
+  end
+end
+
+WillPaginate::Finder::ClassMethods.class_eval do
+  alias :wp_count_without_tags :wp_count unless method_defined? :wp_count_without_tags
+  def wp_count(options, *args)
+    wp_count_without_tags(options.except(:tags), *args)
+  end
+end
+
 class Photo < ActiveRecord::Base
   cattr_accessor :base_dir
   @@base_dir = RAILS_ROOT + '/public/photos'
@@ -10,6 +25,10 @@ class Photo < ActiveRecord::Base
   has_many_comments :polymorphic => true
   has_many :sets, :source => 'category', :through => :category_assignments
   has_many :category_assignments, :as => :content
+  
+  # Some Content black magic
+  class_inheritable_reader    :default_find_options
+  write_inheritable_attribute :default_find_options, { :order => 'position, published_at' }
   
   has_attachment :storage     => :file_system,
                  :thumbnails  => { :large => '300', :thumb => '120>', :tiny => '50>' },
@@ -25,6 +44,16 @@ class Photo < ActiveRecord::Base
   
   delegate :comment_filter, :to => :site
   delegate :accept_comments?, :to => :section
+  
+  class << self
+    def find_every(options)
+      options = default_find_options.merge(options)
+      if tags = options.delete(:tags)
+        options = find_options_for_find_tagged_with(tags, options.update(:match_all => true))
+      end
+      super options
+    end
+  end
   
   def draft?
     published_at.nil?
