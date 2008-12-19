@@ -9,6 +9,7 @@ scenario :calendar_with_events do
 
 
   CalendarEvent.stub!(:total_entries).and_return 2
+  @event.stub!(:location).and_return stub_location
 
   @category.stub!(:contents).and_return(@events)
 

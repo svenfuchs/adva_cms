@@ -17,7 +17,7 @@ define Site do
                           :total_entries => 2
   has_one  :comments_counter, stub_counter
   
-  has_many :locations, stub_locations, [:find, :new] => stub_location
+  has_many :locations, stub_locations, [:find, :new, :create] => stub_location
 
   methods  :id => 1,
            :name => 'site-1',

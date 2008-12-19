@@ -26,10 +26,10 @@ class Admin::EventsController < Admin::BaseController
   
   def create
     @event = @calendar.events.new(params[:calendar_event])
-    if @location.save and @event.location_id = @location.id and @event.save
+    if @location.save and @event.save
       trigger_events @event
       flash[:notice] = "The event has been successfully created."
-      redirect_to :action => 'index'
+      redirect_to edit_admin_calendar_event_path(@site.id, @section.id, @event.id)
     else
       set_categories
       flash[:error] = "The event could not been created."
@@ -41,11 +41,10 @@ class Admin::EventsController < Admin::BaseController
   end
   
   def update
-    @event.location = @location
-    if @location.save and @event.location_id = @location.id and @event.update_attributes(params[:calendar_event])
+    if @location.save and @event.update_attributes(params[:calendar_event])
       trigger_events @event
       flash[:notice] = "The event has been successfully updated."
-      redirect_to edit_admin_calendar_event_path
+      redirect_to edit_admin_calendar_event_path(@site.id, @section.id, @event.id)
     else
       flash[:error] = "The event could not been updated."
       render :action => 'edit'
@@ -96,8 +95,7 @@ class Admin::EventsController < Admin::BaseController
       else
         @location = @site.locations.new(params[:location])
       end
-      set_calendar_event_param :location, @location
-      set_calendar_event_param :location_id, nil
+      set_calendar_event_param(:location_id, @location.save ? nil : @location.id)
     end
 
     def save_draft?

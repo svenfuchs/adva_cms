@@ -106,14 +106,14 @@ describe Admin::EventsController do
       it_assigns @location
       it "should create location" do
         @site.locations.should_receive(:new)
-        @location.should_receive(:save).and_return true
+        @location.should_receive(:save).twice.and_return(true)
         act!
       end
     end
 
     describe "given a invalid location" do
       before :each do
-        @location.should_receive(:save).and_return false
+        @location.should_receive(:save).twice.and_return false
       end
       act! { request_to :post, @collection_path, {:calendar_event => {:title => 'concert'},
           :location => {}} }
@@ -157,14 +157,14 @@ describe Admin::EventsController do
       it_assigns @location
       it "should find location" do
         @site.locations.should_receive(:find).and_return @location
-        @location.should_receive(:save).and_return true
+        @location.should_receive(:save).twice.and_return true
         act!
       end
     end
 
     describe "given a invalid location" do
       before :each do
-        @location.should_receive(:save).and_return false
+        @location.should_receive(:save).twice.and_return false
       end
       act! { request_to :post, @collection_path, {:calendar_event => {:title => 'concert',
           :location_id => nil}} }
