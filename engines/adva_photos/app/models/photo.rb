@@ -22,6 +22,7 @@ class Photo < ActiveRecord::Base
   
   belongs_to_author
   belongs_to        :section
+  belongs_to        :site
   has_many_comments :polymorphic => true
   has_many :sets, :source => 'category', :through => :category_assignments
   has_many :category_assignments, :as => :content
@@ -36,7 +37,7 @@ class Photo < ActiveRecord::Base
                  :processor   => (Object.const_defined?(:ASSET_IMAGE_PROCESSOR) ? ASSET_IMAGE_PROCESSOR : nil)
   
   before_validation_on_create :set_values_from_parent
-  before_create :set_position
+  before_create :set_position, :set_site
   
   validates_presence_of   :title
   validates_as_attachment
@@ -109,6 +110,10 @@ class Photo < ActiveRecord::Base
     
     def set_position
       self.position ||= section.photos.maximum(:position).to_i + 1 if section && !parent_id
+    end
+    
+    def set_site
+      self.site ||= section.site
     end
 
     def permalink

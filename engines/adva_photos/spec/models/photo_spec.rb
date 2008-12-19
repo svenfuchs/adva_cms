@@ -64,6 +64,10 @@ describe Photo do
       Photo.before_create.should include(:set_position)
     end
     
+    it "sets the site before create" do
+      Photo.before_create.should include(:set_site)
+    end
+    
     it "sets the from parent before validation on create" do
       Photo.before_validation_on_create.should include(:set_values_from_parent)
     end

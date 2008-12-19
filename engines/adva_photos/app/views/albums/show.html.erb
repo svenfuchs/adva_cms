@@ -1,9 +1,7 @@
 <% if @photo %>
   <%= render :partial => 'albums/photo', :object => @photo, :locals => {:mode => :single} %>
-<% if false %>
   <%= render :partial => 'comments/list', :locals => {:commentable => @photo, :comments => @photo.approved_comments} %>
   <% if @photo.accept_comments? %>
     <%= render :partial => 'comments/form', :locals => {:commentable => @photo} %>
   <% end %>
-<% end %>
 <% end %>
