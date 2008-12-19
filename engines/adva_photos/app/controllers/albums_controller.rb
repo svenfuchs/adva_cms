@@ -21,7 +21,7 @@ class AlbumsController < BaseController
   protected
     def set_photos
       # TODO that condition part would clearly go to model...
-      options = { :page => current_page, :tags => @tags, :conditions => ["published_at IS NOT NULL"] }
+      options = { :page => current_page, :tags => @tags, :conditions => ["published_at IS NOT NULL"], :order => 'published_at DESC' }
       options[:limit] = request.format == :html ? @section.photos_per_page : 15
       # TODO i think a very expensive way to handle this one ;) .. throw away thing for now
       source = @set ? @section.photos.collect {|photo| photo if photo.sets.include?(@set) } : @section.photos
@@ -30,13 +30,19 @@ class AlbumsController < BaseController
 
     def set_photo
       @photo = @section.photos.find params[:photo_id], :include => :author
+    rescue ActiveRecord::RecordNotFound
+      flash[:error] = "Photo you requested could not be found."
+      write_flash_to_cookie # TODO make around filter or something
+      redirect_to album_path
     end
 
     def set_set
       if params[:set_id]
         @set = @section.sets.find params[:set_id]
-        raise ActiveRecord::RecordNotFound unless @set
       end
+    rescue ActiveRecord::RecordNotFound
+      flash[:error] = "Set you requested could not be found."
+      write_flash_to_cookie # TODO make around filter or something
     end
 
     def set_tags
@@ -45,6 +51,10 @@ class AlbumsController < BaseController
         @tags = Tag.find(:all, :conditions => ['name IN(?)', names]).map(&:name)
         raise ActiveRecord::RecordNotFound unless @tags.size == names.size
       end
+    rescue ActiveRecord::RecordNotFound
+      flash[:error] = "Tag you requested could not be found."
+      write_flash_to_cookie # TODO make around filter or something
+      @tags = nil
     end
 
     def guard_view_permissions
