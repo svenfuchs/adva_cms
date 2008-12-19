@@ -8,6 +8,7 @@ Engines::RailsExtensions::Routing.module_eval do
   def from_plugins
     filter 'locale'
     filter 'categories' # TODO fix: around_filter seems to call filters in reverse order
+    filter 'sets' # TODO fix: around_filter seems to call filters in reverse order
     filter 'section_root'
     filter 'section_paths'
     filter 'pagination'
