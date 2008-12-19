@@ -48,7 +48,9 @@ en:
         settings: Settings
         create: Create a new event
         preview: Preview
+        view: View
         delete: Delete
+        create_new_location: Create a new location
       attributes:
         title: Title
         startdate: Starting at

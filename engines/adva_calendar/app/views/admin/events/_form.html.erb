@@ -14,18 +14,6 @@
   <%= form.label :host, t(:'adva.calendar.attributes.host') %>
   <%= form.text_field :host %>
 </p>
-<% if @site.locations.count > 0 %>
-<p>
-  <%= form.label :location, t(:'adva.calendar.attributes.location') %>
-  <%= form.select :location_id, @site.locations.collect{|l| [l.oneliner, l.id]}, :include_blank => true %>
-OR 
-</p>
-<% end %>
-<fieldset id="new_location" style="<%= @event.location_id.blank? ? "" : "display:none" %>">
-<% fields_for :location do |f_l| %>
-  <%= render :partial => 'form_location', :locals => {:form => f_l} %>
-<% end %>
-</fieldset>
 
 <p>
   <%= form.label :startdate, t(:'adva.calendar.attributes.startdate') %>
@@ -46,6 +34,18 @@ OR
   <%= form.text_field :tag_list %>
   <span class="hint"><%= t(:'adva.common.hints.tags') %></span>  
 </p>
+
+<% if @site.locations.count > 0 %>
+<p>
+  <%= form.label :location, t(:'adva.calendar.attributes.location') %>
+  <%= form.select :location_id, @site.locations.collect{|l| [l.oneliner, l.id]}, :include_blank => t(:'adva.calendar.links.create_new_location') %>
+</p>
+<% end %>
+<fieldset id="new_location" style="<%= @event.location_id.blank? ? "" : "display:none" %>">
+<% fields_for :location do |f_l| %>
+  <%= render :partial => 'form_location', :locals => {:form => f_l} %>
+<% end %>
+</fieldset>
 
 
 <%= form.label :draft, t(:'adva.calendar.question_save_as_draft') %>
