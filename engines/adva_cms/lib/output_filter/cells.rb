@@ -6,7 +6,7 @@ module OutputFilter
           tag = matches.first
           attrs = parse_attributes(tag)
           controller, name = attrs.delete('controller'), attrs.delete('name')
-          cells[tag] = [controller, name, attrs]
+          cells[tag] = ["#{controller}/#{name}", attrs]
           cells
         end
       end
@@ -35,8 +35,8 @@ module OutputFilter
       cells = parser.cells(controller.response.body)
       pattern = /(#{cells.keys.join('|')})/
       controller.response.body.gsub!(pattern) do |tag|
-        controller.response.template.render_cell *cells[tag]
-      end
+        controller.response.template.component *cells[tag]
+      end unless cells.empty?
     end
     
     protected
