@@ -16,54 +16,65 @@ module With
     end
     
     def it_guards_permissions(action, type)
-      with :admin_may_edit_articles do
-        # it_requires_login :with => [:is_anonymous]
-        it_denies_access  :with => [:is_user]
-        # it_grants_access  :with => [:is_admin]
-        # it_denies_access :with => [:is_anonymous, :is_user]
-        # it_denies_access, :with => [:is_anonymous, :is_user, :is_moderator]
-      end
-      # 
-      # with :moderators_may_edit_articles do
-      #   it_grants_access, :with => [:is_moderator, :is_admin]
-      #   it_denies_access, :with => [:is_anonymous, :is_user]
+      # TODO would break due to require_authentication kicking in, so maybe rely on just #guard_permission instead?
+      # expect do
+      #   mock(@controller).has_permission?(action, type)
       # end
+      return unless With.test?(:access_control)
+
+      with :"superuser_may_#{action}_#{type}" do
+        it_denies_access  :with => [:is_anonymous, :is_user, :is_moderator, :is_admin]
+        it_grants_access  :with => [:is_superuser]
+      end
+
+      with :"admin_may_#{action}_#{type}" do
+        it_denies_access  :with => [:is_anonymous, :is_user, :is_moderator]
+        it_grants_access  :with => [:is_admin, :is_superuser]
+      end
+
+      with :"moderator_may_#{action}_#{type}" do
+        it_denies_access :with => [:is_anonymous, :is_user]
+        it_grants_access :with => [:is_admin, :is_superuser] 
+        # TODO should grant to :is_moderator, but currently require_authentication requires an :admin role
+      end
     end
 
     def it_grants_access(options = {})
       group = options[:with] ? with(*options[:with]) : self
-      group.expect do
-        do_not_allow(@controller).rescue_action(is_a(ActionController::RoleRequired))
+      group.assertion do
+        message = "expected to grant access but %s"
+        assert !rendered_insufficient_permissions?, message % 'rendered :insufficient_permissions'
+        assert !redirected_to_login?, message % 'redirected to login_path'
       end
-      group.it "grants access" do end
     end
 
     def it_denies_access(options = {})
       group = options[:with] ? with(*options[:with]) : self
-      group.expect do
-        mock.proxy(@controller).rescue_action.with_any_args #(is_a(ActionController::RoleRequired))
-      end
-      group.it "denies access" do end
-    end
-
-    def it_requires_login(options = {})
-      group = options[:with] ? with(*options[:with]) : self
       group.assertion do
-        assert_redirected_to login_path(:return_to => @request.url)
+        message = "expected to render :insufficient_permissions or redirect to login_path but did neither of these."
+        assert rendered_insufficient_permissions? || redirected_to_login?, message
       end
-      group.it "requires login" do end
     end
     
     def it_sweeps_page_cache(options)
       options = options.dup
-      sweeper = options.delete :sweeper
+      # sweeper = options.delete :sweeper
       
       expect do
-        options.each do |type, name|
-          record = instance_variable_get("@#{name}")
-          # TODO how to make this less brittle?
-          sweeper ||= "#{record.class.name}Sweeper".constantize.instance
+        options.each do |type, record|
+          record = instance_variable_get("@#{record}")
+
+          # sweeper ||= "#{record.class.name}Sweeper".constantize.instance
+          # sweeper = sweeper.instance if sweeper.is_a?(Class)
+          
+          sweeper = ActiveRecord::Base.observers.select{|o| o.to_s =~ /sweeper$/ }.first.to_s
+          sweeper = sweeper.classify.constantize.instance
+          
           case type
+          when :by_site
+            mock.proxy(sweeper).expire_cached_pages_by_site(record)
+          when :by_section
+            mock.proxy(sweeper).expire_cached_pages_by_section(record)
           when :by_reference
             mock.proxy(sweeper).expire_cached_pages_by_reference(record)
           end
@@ -80,4 +91,15 @@ module With
 end
 
 class ActionController::TestCase
+  def login_as_superuser!
+    stub(@controller).current_user.returns(User.make :roles => [Rbac::Role.build(:superuser)])
+  end
+  
+  def rendered_insufficient_permissions?
+    !!(@response.rendered_template.to_s =~ /insufficient_permissions/)
+  end
+  
+  def redirected_to_login?
+    @response.redirect_url_match?(/#{login_path}/)
+  end
 end

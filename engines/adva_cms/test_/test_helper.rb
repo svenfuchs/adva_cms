@@ -29,6 +29,17 @@ end
 
 Dir[File.dirname(__FILE__) + "/test_helper/**/*.rb"].each { |path| require path }
 
+module With
+  mattr_accessor :aspects
+  @@aspects = []
+  
+  class << self
+    def test?(aspect)
+      self.aspects.include?(aspect)
+    end
+  end
+end
+
 # ActionController::IntegrationTest.send :include, FactoryScenario
 # 
 # class Event

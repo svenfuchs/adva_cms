@@ -52,7 +52,7 @@ module With
     
     def it_destroys(name)
       assertion "it destroys #{name}" do
-        record = assigns(name)
+        record = assigns(name) || instance_variable_get("@#{name}")
         assert_raises ActiveRecord::RecordNotFound do
           name.to_s.classify.constantize.find(record.id)
         end
@@ -126,6 +126,8 @@ class ActionController::TestCase
   end
 
   def it_renders_template(template_name, options = {})
+    template_name = instance_eval &template_name if template_name.is_a?(Proc)
+
     assert_status options[:status]
     assert_content_type options[:format]
     assert_template template_name.to_s

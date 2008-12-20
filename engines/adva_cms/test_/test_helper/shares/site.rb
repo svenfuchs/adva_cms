@@ -7,6 +7,10 @@ class Test::Unit::TestCase
     before { @site = Site.make }
   end
   
+  share :a_cached_page do
+    before { @cached_page = CachedPage.make :site_id => @site.id, :section_id => @section.id }
+  end
+  
   share :valid_install_params do
     before do
       @params = { :site    => {:name => 'site name'},

@@ -26,7 +26,7 @@ module ActionController
         set_action_map options.except(:only, :except)
 
         before_filter(options.slice :only, :except) do |controller|
-          controller.guard_permission type
+          controller.guard_permission type #, controller.send(:map_from_controller_action)
         end
       end
 
