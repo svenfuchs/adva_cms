@@ -37,14 +37,14 @@ class AdminArticlesControllerTest < ActionController::TestCase
   end
    
   describe "routing" do
-    with_options :controller => 'admin/articles', :site_id => "1", :section_id => "1" do |r|
-      r.it_maps :get,    "/admin/sites/1/sections/1/articles",        :action => 'index'
-      r.it_maps :get,    "/admin/sites/1/sections/1/articles/1",      :action => 'show',    :id => '1'
-      r.it_maps :get,    "/admin/sites/1/sections/1/articles/new",    :action => 'new'
-      r.it_maps :post,   "/admin/sites/1/sections/1/articles",        :action => 'create'
-      r.it_maps :get,    "/admin/sites/1/sections/1/articles/1/edit", :action => 'edit',    :id => '1'
-      r.it_maps :put,    "/admin/sites/1/sections/1/articles/1",      :action => 'update',  :id => '1'
-      r.it_maps :delete, "/admin/sites/1/sections/1/articles/1",      :action => 'destroy', :id => '1'
+    with_options :path_prefix => '/admin/sites/1/sections/1/', :site_id => "1", :section_id => "1" do |r|
+      r.it_maps :get,    "articles",        :action => 'index'
+      r.it_maps :get,    "articles/1",      :action => 'show',    :id => '1'
+      r.it_maps :get,    "articles/new",    :action => 'new'
+      r.it_maps :post,   "articles",        :action => 'create'
+      r.it_maps :get,    "articles/1/edit", :action => 'edit',    :id => '1'
+      r.it_maps :put,    "articles/1",      :action => 'update',  :id => '1'
+      r.it_maps :delete, "articles/1",      :action => 'destroy', :id => '1'
     end
   end
   

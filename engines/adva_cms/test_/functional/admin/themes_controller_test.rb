@@ -1,9 +1,6 @@
 require File.dirname(__FILE__) + "/../../test_helper"
 
-# TODO
-# check pagecaching
-
-With.aspects << :access_control
+# With.aspects << :access_control
 
 class AdminThemesControllerTest < ActionController::TestCase
   tests Admin::ThemesController
@@ -28,19 +25,19 @@ class AdminThemesControllerTest < ActionController::TestCase
   end
    
   describe "routing" do
-    with_options :controller => 'admin/themes', :site_id => "1" do |r|
-      r.it_maps :get,    "/admin/sites/1/themes",                  :action => 'index'
-      r.it_maps :get,    "/admin/sites/1/themes/theme-1",          :action => 'show',    :id => 'theme-1'
-      r.it_maps :get,    "/admin/sites/1/themes/new",              :action => 'new'
-      r.it_maps :post,   "/admin/sites/1/themes",                  :action => 'create'
-      r.it_maps :get,    "/admin/sites/1/themes/theme-1/edit",     :action => 'edit',    :id => 'theme-1'
-      r.it_maps :put,    "/admin/sites/1/themes/theme-1",          :action => 'update',  :id => 'theme-1'
-      r.it_maps :delete, "/admin/sites/1/themes/theme-1",          :action => 'destroy', :id => 'theme-1'
+    with_options :path_prefix => '/admin/sites/1/', :site_id => "1" do |r|
+      r.it_maps :get,    "themes",                  :action => 'index'
+      r.it_maps :get,    "themes/theme-1",          :action => 'show',    :id => 'theme-1'
+      r.it_maps :get,    "themes/new",              :action => 'new'
+      r.it_maps :post,   "themes",                  :action => 'create'
+      r.it_maps :get,    "themes/theme-1/edit",     :action => 'edit',    :id => 'theme-1'
+      r.it_maps :put,    "themes/theme-1",          :action => 'update',  :id => 'theme-1'
+      r.it_maps :delete, "themes/theme-1",          :action => 'destroy', :id => 'theme-1'
 
-      r.it_maps :post,   "/admin/sites/1/themes/selected",         :action => 'select'
-      r.it_maps :delete, "/admin/sites/1/themes/selected/theme-1", :action => 'unselect', :id => 'theme-1'
-      r.it_maps :get,    "/admin/sites/1/themes/import",           :action => 'import'
-      r.it_maps :post,   "/admin/sites/1/themes/import",           :action => 'import'
+      r.it_maps :post,   "themes/selected",         :action => 'select'
+      r.it_maps :delete, "themes/selected/theme-1", :action => 'unselect', :id => 'theme-1'
+      r.it_maps :get,    "themes/import",           :action => 'import'
+      r.it_maps :post,   "themes/import",           :action => 'import'
     end
   end
 

@@ -19,10 +19,10 @@ class AdminCachedPagesControllerTest < ActionController::TestCase
   end
   
   describe "routing" do
-    with_options :controller => 'admin/cached_pages', :site_id => "1" do |r|
-      r.it_maps :get,    "/admin/sites/1/cached_pages",   :action => 'index'
-      r.it_maps :delete, "/admin/sites/1/cached_pages",   :action => 'clear'
-      r.it_maps :delete, "/admin/sites/1/cached_pages/1", :action => 'destroy', :id => '1'
+    with_options :path_prefix => '/admin/sites/1/', :site_id => "1" do |r|
+      r.it_maps :get,    "cached_pages",   :action => 'index'
+      r.it_maps :delete, "cached_pages",   :action => 'clear'
+      r.it_maps :delete, "cached_pages/1", :action => 'destroy', :id => '1'
     end
   end
 

@@ -19,11 +19,11 @@ class AdminPluginsControllerTest < ActionController::TestCase
   end
    
   describe "routing" do
-    with_options :controller => 'admin/plugins', :site_id => "1" do |r|
-      r.it_maps :get,    "/admin/sites/1/plugins",             :action => 'index'
-      r.it_maps :get,    "/admin/sites/1/plugins/test_plugin", :action => 'show',    :id => 'test_plugin'
-      r.it_maps :put,    "/admin/sites/1/plugins/test_plugin", :action => 'update',  :id => 'test_plugin'
-      r.it_maps :delete, "/admin/sites/1/plugins/test_plugin", :action => 'destroy', :id => 'test_plugin'
+    with_options :path_prefix => '/admin/sites/1/', :site_id => "1" do |r|
+      r.it_maps :get,    "plugins",             :action => 'index'
+      r.it_maps :get,    "plugins/test_plugin", :action => 'show',    :id => 'test_plugin'
+      r.it_maps :put,    "plugins/test_plugin", :action => 'update',  :id => 'test_plugin'
+      r.it_maps :delete, "plugins/test_plugin", :action => 'destroy', :id => 'test_plugin'
     end
   end
 

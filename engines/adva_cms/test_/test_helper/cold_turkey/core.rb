@@ -109,6 +109,10 @@ class ActionController::TestCase
   @@variable_types = {:headers => :to_s, :flash => nil, :session => nil, :flash_cookie => nil}
 
   def it_maps(method, path, params)
+    if path_prefix = params.delete(:path_prefix)
+      path = path_prefix + path
+    end
+    params[:controller] ||= @controller.class.controller_path
     assert_recognizes params, {:path => path, :method => method }
   end
 
