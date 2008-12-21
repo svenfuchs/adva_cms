@@ -34,7 +34,7 @@ class AdminCategoriesControllerTest < ActionController::TestCase
   
     with :access_granted do
       it_assigns :site, :section, :categories
-      it_renders_template :index
+      it_renders :template, :index
     end
   end
 
@@ -45,7 +45,7 @@ class AdminCategoriesControllerTest < ActionController::TestCase
     
     with :access_granted do
       it_assigns :site, :section
-      it_renders_template :new
+      it_renders :template, :new
     end
   end
   
@@ -69,7 +69,7 @@ class AdminCategoriesControllerTest < ActionController::TestCase
     end
   
     with :invalid_category_params do
-      it_renders_template :new
+      it_renders :template, :new
       it_assigns_flash_cookie :error => :not_nil
       it_does_not_sweep_page_cache
     end
@@ -82,7 +82,7 @@ class AdminCategoriesControllerTest < ActionController::TestCase
     
     with :access_granted do
       it_assigns :site, :section, :category
-      it_renders_template :edit
+      it_renders :template, :edit
     end
   end
   
@@ -108,7 +108,7 @@ class AdminCategoriesControllerTest < ActionController::TestCase
     end
   
     with :invalid_category_params do
-      it_renders_template :edit
+      it_renders :template, :edit
       it_assigns_flash_cookie :error => :not_nil
       it_does_not_sweep_page_cache
     end

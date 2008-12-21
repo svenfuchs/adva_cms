@@ -118,7 +118,7 @@ class AdminArticlesControllerTest < ActionController::TestCase
       it_guards_permissions :create, :article
       with :access_granted do
         it_assigns :site, :section, :article
-        it_renders_template :new
+        it_renders :screen, :new
       end
     end
   end
@@ -157,7 +157,7 @@ class AdminArticlesControllerTest < ActionController::TestCase
           it_assigns :site, :section, :article
           it_does_not_change 'Article.count'
           it_does_not_trigger_any_event
-          it_renders_template :new
+          it_renders :template, :new
           it_assigns_flash_cookie :error => :not_nil
           it_does_not_sweep_page_cache
         end
@@ -174,7 +174,7 @@ class AdminArticlesControllerTest < ActionController::TestCase
         
         with :access_granted do
           it_assigns :site, :section, :article
-          it_renders_template :edit
+          it_renders :template, :edit
         end
       end
     end
@@ -211,7 +211,7 @@ class AdminArticlesControllerTest < ActionController::TestCase
           with :invalid_article_params do
             with :access_granted do
               it_assigns :site, :section, :article
-              it_renders_template :edit
+              it_renders :template, :edit
               it_assigns_flash_cookie :error => :not_nil
               it_does_not_trigger_any_event
               it_does_not_sweep_page_cache

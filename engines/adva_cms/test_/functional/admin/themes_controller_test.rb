@@ -39,7 +39,7 @@ class AdminThemesControllerTest < ActionController::TestCase
     
     with :access_granted do
       it_assigns :themes
-      it_renders_template :index
+      it_renders :template, :index
     end
   end
   
@@ -50,7 +50,7 @@ class AdminThemesControllerTest < ActionController::TestCase
     
     with :access_granted do
       it_assigns :theme
-      it_renders_template :show
+      it_renders :template, :show
     end
   end
   
@@ -72,7 +72,7 @@ class AdminThemesControllerTest < ActionController::TestCase
     end
   
     with :invalid_theme_params do
-      it_renders_template :new
+      it_renders :template, :new
       it_assigns_flash_cookie :error => :not_nil
     end
   end
@@ -99,7 +99,7 @@ class AdminThemesControllerTest < ActionController::TestCase
     # FIXME does not fail
     # for some reason the id remains the same, but the name is empty
     # with :invalid_theme_params do
-    #   it_renders_template :show
+    #   it_renders :template, :show
     #   it_assigns_flash_cookie :error => :not_nil
     # end
   end
@@ -166,7 +166,7 @@ class AdminThemesControllerTest < ActionController::TestCase
     it_guards_permissions :create, :theme
   
     with :access_granted do
-      it_renders_template :import
+      it_renders :template, :import
     end
   end
   

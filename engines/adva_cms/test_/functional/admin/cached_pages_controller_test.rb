@@ -29,7 +29,7 @@ class AdminCachedPagesControllerTest < ActionController::TestCase
 
     with :access_granted do
       it_assigns :cached_pages
-      it_renders_template :index
+      it_renders :template, :index
     end
   end
   

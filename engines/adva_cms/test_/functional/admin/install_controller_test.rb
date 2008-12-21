@@ -71,7 +71,7 @@ class AdminInstallControllerTest < ActionController::TestCase
   #   post :index, :site => {:name => 'Site name'},
   #                :section => {:type => 'Section', :title => 'section title'}
   #                
-  #   it_renders_template 'admin/install'
+  #   it_renders :template 'admin/install'
   #   # it_assigns_flash_cookie :error => :not_nil
   #   it_does_not_save :user
   # end

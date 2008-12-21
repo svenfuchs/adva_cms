@@ -31,7 +31,7 @@ class AdminPluginsControllerTest < ActionController::TestCase
     
     with :access_granted do
       it_assigns :plugins
-      it_renders_template :index
+      it_renders :template, :index
     end
   end
 
@@ -42,7 +42,7 @@ class AdminPluginsControllerTest < ActionController::TestCase
     
     with :access_granted do
       it_assigns :plugin
-      it_renders_template :show
+      it_renders :template, :show
     end
   end
 

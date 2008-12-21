@@ -36,7 +36,7 @@ class AdminThemeFilesControllerTest < ActionController::TestCase
     
     with :access_granted do
       it_assigns :theme, :file
-      it_renders_template :show
+      it_renders :template, :show
     end
   end
 
@@ -47,7 +47,7 @@ class AdminThemeFilesControllerTest < ActionController::TestCase
     
     with :access_granted do
       it_assigns :theme
-      it_renders_template :new
+      it_renders :template, :new
     end
   end
   
@@ -76,7 +76,7 @@ class AdminThemeFilesControllerTest < ActionController::TestCase
     # never gets here because the exception is not caught:
     # "Can't build file invalid because it seems to be neither a valid asset nor valid template path."
     # with :invalid_theme_template_params do
-    #   it_renders_template :new
+    #   it_renders :template, :new
     #   it_assigns_flash_cookie :error => :not_nil
     # end
   end
@@ -103,7 +103,7 @@ class AdminThemeFilesControllerTest < ActionController::TestCase
     # FIXME
     # never gets here because the exception is not caught: invalid filename "invalid"
     # with :invalid_theme_template_params do
-    #   it_renders_template :show
+    #   it_renders :template, :show
     #   it_assigns_flash_cookie :error => :not_nil
     # end
   end

@@ -44,7 +44,7 @@ class AdminSitesControllerTest < ActionController::TestCase
   
     with :access_granted do
       it_assigns :sites
-      it_renders_template :index
+      it_renders :template, :index
     end
   end
   
@@ -55,7 +55,7 @@ class AdminSitesControllerTest < ActionController::TestCase
     
     with :access_granted do
       it_assigns :site
-      it_renders_template :show
+      it_renders :template, :show
     end
   end
   
@@ -69,7 +69,7 @@ class AdminSitesControllerTest < ActionController::TestCase
     
     with :access_granted do
       it_assigns :site => :not_nil
-      it_renders_template :new
+      it_renders :template, :new
     end
   end
   
@@ -92,7 +92,7 @@ class AdminSitesControllerTest < ActionController::TestCase
   
     with :invalid_site_params do
       it_assigns :site => :not_nil
-      it_renders_template :new
+      it_renders :template, :new
       it_assigns_flash_cookie :error => :not_nil
     end
   end
@@ -104,7 +104,7 @@ class AdminSitesControllerTest < ActionController::TestCase
     
     with :access_granted do
       it_assigns :site
-      it_renders_template :edit
+      it_renders :template, :edit
     end
   end
   
@@ -129,7 +129,7 @@ class AdminSitesControllerTest < ActionController::TestCase
     end
     
     with :invalid_site_params do 
-      it_renders_template :edit
+      it_renders :template, :edit
       it_assigns_flash_cookie :error => :not_nil
     end
   end
