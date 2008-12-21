@@ -17,6 +17,14 @@ class Test::Unit::TestCase
   self.use_transactional_fixtures = true
   self.use_instantiated_fixtures  = false
   fixtures :all
+
+  def teardown_with_cleanup
+    teardown_without_cleanup
+    
+    theme_root = "#{RAILS_ROOT}/tmp/themes"
+    FileUtils.rm_r theme_root if File.exists?(theme_root)
+  end
+  alias_method_chain :teardown, :cleanup
   
   # before :each do
   #   RR.reset
@@ -39,6 +47,8 @@ module With
     end
   end
 end
+
+# With.aspects << :access_control
 
 Theme.root_dir = "#{RAILS_ROOT}/tmp"
 FileUtils.mkdir(Theme.root_dir) unless File.exists?(Theme.root_dir)

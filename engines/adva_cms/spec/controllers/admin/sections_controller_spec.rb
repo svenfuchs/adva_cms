@@ -108,7 +108,7 @@ describe Admin::SectionsController do
 
     describe "given invalid section params" do
       before :each do @section.stub!(:update_attributes).and_return false end
-      it_renders_template :show
+      it_renders_template :edit
       it_assigns_flash_cookie :error => :not_nil
     end
   end
@@ -155,7 +155,7 @@ describe Admin::SectionsController do
 
     describe "when destroy fails" do
       before :each do @section.stub!(:destroy).and_return false end
-      it_renders_template :show
+      it_renders_template :edit
       it_assigns_flash_cookie :error => :not_nil
     end
   end

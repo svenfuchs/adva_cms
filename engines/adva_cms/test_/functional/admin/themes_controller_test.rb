@@ -4,17 +4,8 @@ require File.dirname(__FILE__) + "/../../test_helper"
 
 class AdminThemesControllerTest < ActionController::TestCase
   tests Admin::ThemesController
-
-  def setup
-    super
-    login_as_superuser!
-  end
   
-  def teardown
-    super
-    theme_root = "#{RAILS_ROOT}/tmp/themes"
-    FileUtils.rm_r theme_root if File.exists?(theme_root)
-  end
+  with_common :is_superuser, :a_theme
   
   def default_params
     { :site_id => @site.id }
@@ -44,101 +35,91 @@ class AdminThemesControllerTest < ActionController::TestCase
   describe "GET to :index" do
     action { get :index, default_params }
     
-    with :a_theme do
-      it_guards_permissions :manage, :theme
-      
-      with :access_granted do
-        it_assigns :themes
-        it_renders_template :index
-      end
+    it_guards_permissions :manage, :theme
+    
+    with :access_granted do
+      it_assigns :themes
+      it_renders_template :index
     end
   end
   
   describe "GET to :show" do
     action { get :show, default_params.merge(:id => @theme.id) }
     
-    with :a_theme do
-      it_guards_permissions :manage, :theme
-      
-      with :access_granted do
-        it_assigns :theme
-        it_renders_template :show
-      end
+    it_guards_permissions :manage, :theme
+    
+    with :access_granted do
+      it_assigns :theme
+      it_renders_template :show
     end
   end
   
   describe "POST to :create" do
     action { post :create, default_params.merge(@params) }
     
-    with :an_empty_site do
-      with :valid_theme_params do
-        it_guards_permissions :create, :theme
+    with :valid_theme_params do
+      it_guards_permissions :create, :theme
 
-        with :access_granted do
-          it_assigns :theme
-          it_redirects_to { admin_themes_path }
-          it_assigns_flash_cookie :notice => :not_nil
-  
-          it "creates the theme" do
-            File.exists?(assigns(:theme).path).should == true
-          end
+      with :access_granted do
+        it_assigns :site, :theme => :not_nil
+        it_redirects_to { admin_themes_path }
+        it_assigns_flash_cookie :notice => :not_nil
+
+        it "creates the theme" do
+          File.exists?(assigns(:theme).path).should == true
         end
       end
-    
-      with :invalid_theme_params do
-        it_renders_template :new
-        it_assigns_flash_cookie :error => :not_nil
-      end
+    end
+  
+    with :invalid_theme_params do
+      it_renders_template :new
+      it_assigns_flash_cookie :error => :not_nil
     end
   end
   
   describe "PUT to :update" do
     action { put :update, default_params.merge(@params).merge(:id => @theme.id) }
     
-    with :a_theme do
-      with :valid_theme_params do
-        it_guards_permissions :update, :theme
+    with :valid_theme_params do
+      it_guards_permissions :update, :theme
+      
+      with :access_granted do
+        before { @params[:theme][:author] = 'changed' }
         
-        with :access_granted do
-          before { @params[:theme][:author] = 'changed' }
-          
-          it_assigns :theme
-          it_redirects_to { admin_theme_path(@site, assigns(:theme).id) }
-          it_assigns_flash_cookie :notice => :not_nil
-  
-          it "updates the theme with the theme params" do
-            @site.themes.find('theme_1').author.should =~ /changed/
-          end
+        it_assigns :site, :theme => :not_nil
+        it_redirects_to { admin_theme_path(@site, assigns(:theme).id) }
+        it_assigns_flash_cookie :notice => :not_nil
+
+        it "updates the theme with the theme params" do
+          @site.themes.find('theme_1').author.should =~ /changed/
         end
       end
-      
-      # FIXME does not fail
-      # for some reason the id remains the same, but the name is empty
-      # with :invalid_theme_params do
-      #   it_renders_template :show
-      #   it_assigns_flash_cookie :error => :not_nil
-      # end
     end
+    
+    # FIXME does not fail
+    # for some reason the id remains the same, but the name is empty
+    # with :invalid_theme_params do
+    #   it_renders_template :show
+    #   it_assigns_flash_cookie :error => :not_nil
+    # end
   end
   
   describe "DELETE to :destroy" do
     action { delete :destroy, default_params.merge(:id => @theme.id) }
 
-    with :a_theme do
-      it_guards_permissions :destroy, :theme
+    it_guards_permissions :destroy, :theme
+    
+    with :access_granted do
+      it_assigns :theme
+      it_redirects_to { admin_themes_path }
+      it_assigns_flash_cookie :notice => :not_nil
       
-      with :access_granted do
-        it_assigns :theme
-        it_redirects_to { admin_themes_path }
-        it_assigns_flash_cookie :notice => :not_nil
-        
-        it "destroys the theme" do
-          File.exists?(@theme.path).should == false
-        end
-  
-        expect "expires page cache for the current site" do
-          mock(@controller).expire_site_page_cache
-        end
+      it "destroys the theme" do
+        File.exists?(@theme.path).should == false
+      end
+
+      expect "expires page cache for the current site" do
+        mock(@controller).expire_site_page_cache
       end
     end
   end
@@ -146,19 +127,17 @@ class AdminThemesControllerTest < ActionController::TestCase
   describe "POST to :select" do
     action { post :select, default_params.merge(:id => @theme.id) }
     
-    with :a_theme do
-      it_guards_permissions :update, :theme
-      
-      with :access_granted do
-        it_redirects_to { admin_themes_path }
-  
-        it "adds the theme id to the site's theme_names" do
-          @site.reload.theme_names.should include(@theme.id)
-        end
-  
-        expect "expires page cache for the current site" do
-          mock(@controller).expire_site_page_cache
-        end
+    it_guards_permissions :update, :theme
+    
+    with :access_granted do
+      it_redirects_to { admin_themes_path }
+
+      it "adds the theme id to the site's theme_names" do
+        @site.reload.theme_names.should include(@theme.id)
+      end
+
+      expect "expires page cache for the current site" do
+        mock(@controller).expire_site_page_cache
       end
     end
   end
@@ -166,19 +145,17 @@ class AdminThemesControllerTest < ActionController::TestCase
   describe "DELETE to :unselect" do
     action { delete :unselect, default_params.merge(:id => @theme.id) }
     
-    with :a_theme do
-      it_guards_permissions :update, :theme
-      
-      with :access_granted do
-        it_redirects_to { admin_themes_path }
-  
-        it "removes the theme id to the site's theme_names" do
-          @site.reload.theme_names.should_not include(@theme.id)
-        end
-  
-        expect "expires page cache for the current site" do
-          mock(@controller).expire_site_page_cache
-        end
+    it_guards_permissions :update, :theme
+    
+    with :access_granted do
+      it_redirects_to { admin_themes_path }
+
+      it "removes the theme id to the site's theme_names" do
+        @site.reload.theme_names.should_not include(@theme.id)
+      end
+
+      expect "expires page cache for the current site" do
+        mock(@controller).expire_site_page_cache
       end
     end
   end
@@ -186,12 +163,10 @@ class AdminThemesControllerTest < ActionController::TestCase
   describe "GET to :import" do
     action { get :import, default_params }
 
-    with :an_empty_site do
-      it_guards_permissions :create, :theme
-    
-      with :access_granted do
-        it_renders_template :import
-      end
+    it_guards_permissions :create, :theme
+  
+    with :access_granted do
+      it_renders_template :import
     end
   end
   
@@ -199,12 +174,10 @@ class AdminThemesControllerTest < ActionController::TestCase
   describe "POST to :import, without a file" do
     action { post :import, default_params.merge(:theme => {:file => ''}) }
     
-    with :an_empty_site do
-      it_guards_permissions :create, :theme
-    
-      with :access_granted do
-        it_assigns_flash_cookie :error => :not_nil
-      end
+    it_guards_permissions :create, :theme
+  
+    with :access_granted do
+      it_assigns_flash_cookie :error => :not_nil
     end
   end
 end

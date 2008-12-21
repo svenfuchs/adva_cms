@@ -4,12 +4,9 @@ require File.dirname(__FILE__) + "/../../test_helper"
 
 class AdminPluginsControllerTest < ActionController::TestCase
   tests Admin::PluginsController
-
-  def setup
-    super
-    login_as_superuser!
-  end
   
+  with_common :is_superuser, :an_empty_site, :a_plugin
+
   def default_params
     { :site_id => @site.id }
   end
@@ -30,45 +27,38 @@ class AdminPluginsControllerTest < ActionController::TestCase
   describe "GET to :index" do
     action { get :index, default_params }
     
-    with :an_empty_site do
-      it_guards_permissions :manage, :site
-      
-      with :access_granted do
-        it_assigns :plugins
-        it_renders_template :index
-      end
+    it_guards_permissions :manage, :site
+    
+    with :access_granted do
+      it_assigns :plugins
+      it_renders_template :index
     end
   end
 
   describe "GET to :show" do
     action { get :show, default_params.merge(:id => @plugin.id) }
     
-    with :a_plugin do
-      it_guards_permissions :manage, :site
-      
-      with :access_granted do
-        it_assigns :plugin
-        it_renders_template :show
-      end
+    it_guards_permissions :manage, :site
+    
+    with :access_granted do
+      it_assigns :plugin
+      it_renders_template :show
     end
   end
 
   describe "PUT to :update" do
     action { put :update, default_params.merge(@params) }
+    before { @params = { :id => @plugin.id, :string => 'changed' } }
     
-    with :a_plugin do
-      before { @params = { :id => @plugin.id, :string => 'changed' } }
-      
-      it_guards_permissions :manage, :site
-    
-      with :access_granted do
-        it_assigns :plugin
-        it_redirects_to { @member_path }
-        it_assigns_flash_cookie :notice => :not_nil
+    it_guards_permissions :manage, :site
+  
+    with :access_granted do
+      it_assigns :plugin
+      it_redirects_to { @member_path }
+      it_assigns_flash_cookie :notice => :not_nil
 
-        it "updates the plugin's config options" do
-          @plugin.send(:config).reload.options[:string].should =~ /changed/
-        end
+      it "updates the plugin's config options" do
+        @plugin.send(:config).reload.options[:string].should =~ /changed/
       end
     end
   end
@@ -76,17 +66,15 @@ class AdminPluginsControllerTest < ActionController::TestCase
   describe "DELETE to :destroy" do
     action { delete :destroy, default_params.merge(:id => @plugin.id)}
 
-    with :a_plugin do
-      it_guards_permissions :manage, :site
-      
-      with :access_granted do
-        it_assigns :plugin
-        it_redirects_to { @member_path }
-        it_assigns_flash_cookie :notice => :not_nil
+    it_guards_permissions :manage, :site
+    
+    with :access_granted do
+      it_assigns :plugin
+      it_redirects_to { @member_path }
+      it_assigns_flash_cookie :notice => :not_nil
 
-        it "resets the plugin's config options" do
-          @plugin.send(:config).reload.options.should == {}
-        end
+      it "resets the plugin's config options" do
+        @plugin.send(:config).reload.options.should == {}
       end
     end
   end

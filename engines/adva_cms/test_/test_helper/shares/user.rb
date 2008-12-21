@@ -1,11 +1,18 @@
 class Test::Unit::TestCase
+  def login_user(user = nil)
+    user ||= User.make
+    returning user do |user|
+      stub(@controller).current_user.returns(user)
+    end
+  end
+  
   def grant(user, role, context)
     user.roles.clear
     user.roles << Rbac::Role.build(role, :context => context)
   end
 
   share :is_superuser do
-    before { grant @controller.current_user, :superuser, @site }
+    before { grant login_user(@user), :superuser, @site }
   end
 
   share :is_admin do

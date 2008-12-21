@@ -1,4 +1,8 @@
 class Test::Unit::TestCase
+  share :multi_sites_enabled do
+    before { Site.multi_sites_enabled = true }
+  end
+  
   share :no_site do
     before { Site.delete_all }
   end

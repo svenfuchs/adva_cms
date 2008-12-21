@@ -16,7 +16,8 @@ module With
     end
     
     def it_guards_permissions(action, type)
-      # TODO would break due to require_authentication kicking in, so maybe rely on just #guard_permission instead?
+      # FIXME would break due to require_authentication kicking in
+      # so maybe rely on just #guard_permission instead?
       # expect do
       #   mock(@controller).has_permission?(action, type)
       # end
@@ -35,7 +36,7 @@ module With
       with :"moderator_may_#{action}_#{type}" do
         it_denies_access :with => [:is_anonymous, :is_user]
         it_grants_access :with => [:is_admin, :is_superuser] 
-        # TODO should grant to :is_moderator, but currently require_authentication requires an :admin role
+        # FIXME should grant to :is_moderator, but currently require_authentication requires an :admin role
       end
     end
 
@@ -58,17 +59,12 @@ module With
     
     def it_sweeps_page_cache(options)
       options = options.dup
-      # sweeper = options.delete :sweeper
       
       expect do
         options.each do |type, record|
           record = instance_variable_get("@#{record}")
-
-          # sweeper ||= "#{record.class.name}Sweeper".constantize.instance
-          # sweeper = sweeper.instance if sweeper.is_a?(Class)
-          
-          sweeper = ActiveRecord::Base.observers.select{|o| o.to_s =~ /sweeper$/ }.first.to_s
-          sweeper = sweeper.classify.constantize.instance
+          filters = @controller.class.filter_chain
+          sweeper = filters.detect { |f| f.method.is_a?(PageCacheTagging::Sweeper) }.method
           
           case type
           when :by_site

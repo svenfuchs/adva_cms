@@ -10,11 +10,8 @@ require File.dirname(__FILE__) + "/../../test_helper"
 
 class AdminArticlesControllerTest < ActionController::TestCase
   tests Admin::ArticlesController
-
-  def setup
-    super
-    login_as_superuser!
-  end
+  
+  with_common :is_superuser
   
   def default_params
     { :site_id => @site.id, :section_id => @section.id }

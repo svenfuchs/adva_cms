@@ -193,10 +193,10 @@ describe Admin::ArticlesController do
         it_does_not_trigger_any_event
       end
     end
-
-    describe "given a version param" do
-      act! { request_to :put, @member_path, @params.merge({:article => {:version => "1"}}) }
-
+      
+    describe "given a version param" do 
+      act! { request_to :put, @member_path, @params.merge({:article => {:version => "2"}}) }
+      
       describe "and the article can be rolled back to the given version" do
         before :each do
           @article.stub!(:revert_to!).and_return true
