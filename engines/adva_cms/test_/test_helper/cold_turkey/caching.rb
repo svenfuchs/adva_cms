@@ -1,12 +1,18 @@
 module With
   class Group
-    def it_caches_the_page
+    def it_caches_the_page(options = {})
       before { with_page_caching  }
       after  { reset_page_caching }
       
       assertion "it caches the page" do
         path = ActionController::Base.send(:page_cache_path, @request.path)
         assert File.exists?(path), "expected #{path} to exist but doesn't"
+        
+        track = options[:track] || []
+        Array(track).each do |expected|
+          actual = @controller.class.track_options[@controller.action_name.to_sym]
+          actual.should include(expected)
+        end
       end
     end
 

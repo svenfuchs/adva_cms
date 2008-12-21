@@ -15,7 +15,7 @@ class SectionsControllerTest < ActionController::TestCase
     with :the_article_is_published do
       it_assigns :section, :article
       it_renders :template, :show
-      it_caches_the_page
+      it_caches_the_page :track => '@article'
       
       it "assigns the section's primary article" do
         assigns(:article).should == @section.articles.primary
@@ -29,8 +29,8 @@ class SectionsControllerTest < ActionController::TestCase
     with :the_article_is_published do
       it_assigns :section, :article
       it_renders :template, :show
-      it_caches_the_page
-      
+      it_caches_the_page :track => '@article'
+
       it "assigns the article referenced by the permalink" do
         assigns(:article).permalink.should == @article.permalink
       end
@@ -66,25 +66,5 @@ end
 #       it_renders_template 'comments/comments', :format => :atom
 #       it_gets_page_cached
 #     end
-#   end
-# end
-# 
-# describe SectionsController, "page_caching" do
-#   include SpecControllerHelper
-# 
-#   it "page_caches the show action" do
-#     cached_page_filter_for(:show).should_not be_nil
-#   end
-# 
-#   it "tracks read access on @article for show action page caching" do
-#     SectionsController.track_options[:show].should include('@article')
-#   end
-# 
-#   it "page_caches the comments action" do
-#     cached_page_filter_for(:comments).should_not be_nil
-#   end
-# 
-#   it "tracks read access on @commentable for comments action page caching" do
-#     SectionsController.track_options[:comments].should include('@commentable')
 #   end
 # end
