@@ -5,7 +5,7 @@ require File.dirname(__FILE__) + "/../../test_helper"
 class AdminPluginsControllerTest < ActionController::TestCase
   tests Admin::PluginsController
   
-  with_common :is_superuser, :an_empty_site, :a_plugin
+  with_common :is_superuser, :a_site, :a_plugin
 
   def default_params
     { :site_id => @site.id }

@@ -5,7 +5,7 @@ require File.dirname(__FILE__) + "/../../test_helper"
 class AdminSectionsControllerTest < ActionController::TestCase
   tests Admin::SectionsController
 
-  with_common :is_superuser, :an_empty_section
+  with_common :is_superuser, :a_section
   
   def default_params
     { :site_id => @site.id }

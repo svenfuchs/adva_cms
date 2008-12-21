@@ -48,7 +48,7 @@ class AdminArticlesControllerTest < ActionController::TestCase
   describe "GET to :index" do
     action { get :index, default_params }
     
-    with :an_empty_section, :an_empty_blog do
+    with :a_section, :a_blog do
       it_guards_permissions :show, :article
       
       with :access_granted do
@@ -57,7 +57,7 @@ class AdminArticlesControllerTest < ActionController::TestCase
       end
     end
    
-    describe "filter_options", :with => :an_empty_section do
+    describe "filter_options", :with => :a_section do
       before do
         @controller.instance_variable_set :@section, @section
       end
@@ -92,25 +92,27 @@ class AdminArticlesControllerTest < ActionController::TestCase
   describe "GET to :show" do
     action { get :show, @params }
   
-    with :published_blog_article, :published_section_article do
-      before { @params = default_params.merge(:id => @article.id) }
+    with :a_section, :a_blog do
+      with :a_published_article do
+        before { @params = default_params.merge(:id => @article.id) }
       
-      it_guards_permissions :show, :article
+        it_guards_permissions :show, :article
     
-      with :access_granted do
-        it "previews the article in the frontend layout" do
-          it_assigns :article => :not_nil
-          it_renders :template, lambda { "#{view_directory(@section)}/show" }
-        end
-    
-        with "given a :version param" do
-          before do
-            @params.merge! :version => 1
-            @article.update_attributes :title => 'new title'
+        with :access_granted do
+          it "previews the article in the frontend layout" do
+            it_assigns :article => :not_nil
+            it_renders :template, lambda { "#{view_directory(@section)}/show" }
           end
+    
+          with "given a :version param" do
+            before do
+              @params.merge! :version => 1
+              @article.update_attributes :title => 'new title'
+            end
       
-          it "reverts the article to the given version" do
-            assigns(:article).version.should == 1
+            it "reverts the article to the given version" do
+              assigns(:article).version.should == 1
+            end
           end
         end
       end
@@ -120,7 +122,7 @@ class AdminArticlesControllerTest < ActionController::TestCase
   describe "GET to :new" do
     action { get :new, default_params }
     
-    with :an_empty_section, :an_empty_blog do
+    with :a_section, :a_blog do
       it_guards_permissions :create, :article
       with :access_granted do
         it_assigns :site, :section, :article
@@ -136,7 +138,7 @@ class AdminArticlesControllerTest < ActionController::TestCase
       end
     end
     
-    with :an_empty_section, :an_empty_blog do
+    with :a_section, :a_blog do
       with :valid_article_params do
         it_guards_permissions :create, :article
   
@@ -174,7 +176,7 @@ class AdminArticlesControllerTest < ActionController::TestCase
   describe "GET to :edit" do
     action { get :edit, default_params.merge(:id => @article.id) }
   
-    with :an_empty_section, :an_empty_blog do
+    with :a_section, :a_blog do
       with :a_published_article do
         it_guards_permissions :update, :article
         
@@ -195,7 +197,7 @@ class AdminArticlesControllerTest < ActionController::TestCase
       end
     end
   
-    with :an_empty_section, :an_empty_blog do
+    with :a_section, :a_blog do
       with :a_published_article do
         with "no version param" do
           with :valid_article_params do
@@ -251,7 +253,7 @@ class AdminArticlesControllerTest < ActionController::TestCase
   end
   
   describe "DELETE to :destroy" do
-    with :an_empty_section, :an_empty_blog do
+    with :a_section, :a_blog do
       with :a_published_article do
         action do 
           Article.with_observers :article_sweeper do

@@ -5,7 +5,7 @@ require File.dirname(__FILE__) + '/../../test_helper'
 class AdminCachedPagesControllerTest < ActionController::TestCase
   tests Admin::CachedPagesController
   
-  with_common :an_empty_section, :a_cached_page, :is_superuser
+  with_common :a_section, :a_cached_page, :is_superuser
 
   def default_params
     { :site_id => @site.id }

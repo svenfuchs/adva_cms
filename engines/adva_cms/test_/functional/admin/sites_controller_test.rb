@@ -12,7 +12,7 @@ class AdminSitesControllerTest < ActionController::TestCase
   tests Admin::SitesController
   
   # FIXME test in single_site_mode, too
-  with_common :is_superuser, :multi_sites_enabled, :an_empty_site
+  with_common :is_superuser, :multi_sites_enabled, :a_site
   
   def default_params
     { :site_id => @site.id, :section_id => @section.id }

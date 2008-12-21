@@ -32,7 +32,7 @@ class AdminInstallControllerTest < ActionController::TestCase
       end
     end
     
-    with :an_empty_site do
+    with :a_site do
       # TODO it_redirects_to :where?
     end
   end
