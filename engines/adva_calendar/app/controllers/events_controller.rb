@@ -57,7 +57,6 @@ class EventsController < BaseController
       y = params[:year].to_i
       m = params[:month].to_i
       d = params[:day].to_i
-      puts y([y,m,d])
       if m == 0 and d == 0
         @current_timespan_format = t(:'adva.calendar.titles.formats.year')
         @current_timespan = Date.new(y)

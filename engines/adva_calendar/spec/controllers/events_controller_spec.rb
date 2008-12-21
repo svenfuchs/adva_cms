@@ -63,7 +63,7 @@ describe EventsController do
   
   describe "GET to #{calendar_path}" do
     act! { request_to(:get, calendar_path) }
-    it_assigns :timespan, [Date.today, Date.today.end_of_month]
+    it_assigns :current_timespan, [Date.today, Date.today.end_of_month]
     it "should call CalendarEvent.upcoming from to today to end of month" do
       @section.events.published.should_receive(:upcoming, {Date.today, Date.today.end_of_month})
       act!
@@ -71,7 +71,7 @@ describe EventsController do
   end
   describe "GET to :index with a specific day" do
     act! { request_to(:get, calendar_day_path) }
-    it_assigns :timespan, [Date.new(2008, 11, 27), Date.new(2008, 11, 27).end_of_day]
+    it_assigns :current_timespan, [Date.new(2008, 11, 27), Date.new(2008, 11, 27).end_of_day]
     it "should call CalendarEvent.upcoming" do
       @section.events.published.should_receive(:upcoming, {Date.new(2008, 11, 27), Date.new(2008, 11, 27).end_of_day})
       act!
