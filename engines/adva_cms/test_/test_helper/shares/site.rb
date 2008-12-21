@@ -11,6 +11,29 @@ class Test::Unit::TestCase
     before { @cached_page = CachedPage.make :site_id => @site.id, :section_id => @section.id }
   end
   
+  share :valid_site_params do
+    before do
+      @params = { :site    => {:name => 'site name'},
+                  :section => {:type => 'Section', :title => 'section title'} }
+    end
+  end
+  
+  share :invalid_site_params do
+    before do
+      @params = { :site    => {:name => ''},
+                  :section => {:type => 'Section', :title => 'section title'} }
+    end
+  end
+  
+  # FIXME
+  # these aren't invalid because the controller defaults the section title to 'Home'
+  # share :invalid_site_params do
+  #   before do
+  #     @params = { :site    => {:name => 'site name'},
+  #                 :section => {:type => 'Section', :title => ''} }
+  #   end
+  # end
+  
   share :valid_install_params do
     before do
       @params = { :site    => {:name => 'site name'},

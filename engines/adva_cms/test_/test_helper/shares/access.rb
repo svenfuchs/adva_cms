@@ -6,7 +6,7 @@ class Test::Unit::TestCase
     end
   end
   
-  [:site, :section, :article, :wikipage, :category, :cached_page].each do |type|
+  [:site, :section, :article, :wikipage, :category, :cached_page, :theme, :theme_file].each do |type|
     [:show, :create, :update, :destroy, :manage].each do |action|
       share :"superuser_may_#{action}_#{type}" do
         before { Rbac::Context.permissions[:"#{action} #{type}"] = 'superuser' }

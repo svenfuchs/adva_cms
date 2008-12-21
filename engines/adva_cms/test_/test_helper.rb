@@ -40,6 +40,10 @@ module With
   end
 end
 
+Theme.root_dir = "#{RAILS_ROOT}/tmp"
+FileUtils.mkdir(Theme.root_dir) unless File.exists?(Theme.root_dir)
+
+
 # ActionController::IntegrationTest.send :include, FactoryScenario
 # 
 # class Event

@@ -17,6 +17,10 @@ class AdminArticlesControllerTest < ActionController::TestCase
     { :site_id => @site.id }
   end
    
+  test "is an Admin::BaseController" do
+    Admin::BaseController.should === @controller # FIXME matchy doesn't have a be_kind_of matcher
+  end
+   
   describe "routing" do
     with_options :controller => 'admin/sections', :site_id => "1" do |r|
       r.it_maps :get,    "/admin/sites/1/sections",        :action => 'index'
