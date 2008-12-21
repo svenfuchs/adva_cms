@@ -16,19 +16,11 @@ class AdminArticlesControllerTest < ActionController::TestCase
   def default_params
     { :site_id => @site.id, :section_id => @section.id }
   end
-
+      
   def filter_options
     @controller.send(:filter_options).slice(:conditions)
   end
-    
-  def admin_view_directory(section)
-    @section.is_a?(Blog) ? 'blog' : 'articles'
-  end
-  
-  def view_directory(section)
-    @section.is_a?(Blog) ? 'blog' : 'sections'
-  end
-   
+
   test "is an Admin::BaseController" do
     Admin::BaseController.should === @controller # FIXME matchy doesn't have a be_kind_of matcher
   end
@@ -53,7 +45,7 @@ class AdminArticlesControllerTest < ActionController::TestCase
       
       with :access_granted do
         it_assigns :articles
-        it_renders :template, lambda { "admin/#{admin_view_directory(@section)}/index" }
+        it_renders :template, lambda { "admin/#{@section.is_a?(Blog) ? 'blog' : 'articles'}/index" }
       end
     end
    
@@ -101,7 +93,7 @@ class AdminArticlesControllerTest < ActionController::TestCase
         with :access_granted do
           it "previews the article in the frontend layout" do
             it_assigns :article => :not_nil
-            it_renders :template, lambda { "#{view_directory(@section)}/show" }
+            it_renders :template, lambda { "#{@section.is_a?(Blog) ? 'blog' : 'sections'}/show" }
           end
     
           with "given a :version param" do
