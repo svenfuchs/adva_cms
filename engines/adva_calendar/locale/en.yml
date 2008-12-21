@@ -5,7 +5,7 @@ en:
       no_location: No location
       confirm_delete: Are you sure you wish to delete this article?
       publish_on_date: Publish on this date
-      starting_at: Starting at
+      starting_at: Starting at {{startdate}}
       question_save_as_draft: Save as Draft?
       confirm_save_as_draft: Yes, save this article as a draft
       from_to: '{{startdate}} - {{enddate}}'
@@ -27,6 +27,10 @@ en:
         created_by: Created by
         publish_in_categories: Publish in Categories
         actions: Actions
+        formats:
+          year_month_day: 'at %B %m %Y'
+          year_month: 'in %B %Y'
+          year: 'in %Y'
       buttons:
         go: Go
         search: Search

@@ -3,7 +3,6 @@ class EventsController < BaseController
   helper :roles
 
   before_filter :set_section
-  before_filter :set_timespan
   before_filter :set_category, :only => [:index]
   before_filter :set_tags, :only => [:index]
   before_filter :set_event, :except => [:index, :new]
@@ -18,7 +17,7 @@ class EventsController < BaseController
     if %w(elapsed recently_added).include?(params[:scope])
       source = @section.events.published.send(params[:scope])
     end
-    source ||= @section.events.published.upcoming(@timespan)
+    source ||= @section.events.published.upcoming(current_timespan)
     if %w(title body).include?(params[:filter])
       @events = source.search(params[:query], params[:filter]).paginate({:page => params[:page]})
     elsif params[:filter] == 'tags' and not params[:query].blank?
@@ -47,20 +46,30 @@ class EventsController < BaseController
 
     def set_section; super(Calendar); end
 
-    def set_timespan
-      return @timespan = [Date.today, nil] if params[:year].blank?
+    # future extensions may use something like params[:from] params[:to]
+    # but for now we only assume the end of year, month or day
+    attr_accessor :current_timespan_format
+    helper_method :current_timespan_format
+    helper_method :current_timespan
+    def current_timespan
+      return @current_timespan if @current_timespan
+      return @current_timespan = [Date.today, nil] if params[:year].blank?
       y = params[:year].to_i
       m = params[:month].to_i
       d = params[:day].to_i
+      puts y([y,m,d])
       if m == 0 and d == 0
-        @timespan = Date.new(y)
-        @timespan = [@timespan, @timespan.end_of_year]
+        @current_timespan_format = t(:'adva.calendar.titles.formats.year')
+        @current_timespan = Date.new(y)
+        @current_timespan = [@current_timespan, @current_timespan.end_of_year]
       elsif m > 0 and d == 0
-        @timespan = Date.new(y, m)
-        @timespan = [@timespan, @timespan.end_of_month]
+        @current_timespan_format = t(:'adva.calendar.titles.formats.year_month')
+        @current_timespan = Date.new(y, m)
+        @current_timespan = [@current_timespan, @current_timespan.end_of_month]
       elsif m > 0 and d > 0
-        @timespan = Date.new(y, m, d)
-        @timespan = [@timespan, @timespan.end_of_day]
+        @current_timespan_format = t(:'adva.calendar.titles.formats.year_month_day')
+        @current_timespan = Date.new(y, m, d)
+        @current_timespan = [@current_timespan, @current_timespan.end_of_day]
       end
     end
 
