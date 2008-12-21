@@ -20,6 +20,18 @@ class Test::Unit::TestCase
       end
     end
   end
+  
+  share :an_article do
+    before do 
+      @article = Article.make :site => @site, :section => @section
+    end
+  end
+  
+  share :the_article_is_published do
+    before do 
+      @article.update_attributes! :published_at => Time.now
+    end
+  end
 
   share :a_published_article do
     before do 

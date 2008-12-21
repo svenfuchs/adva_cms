@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + "/../../test_helper"
+require File.expand_path(File.dirname(__FILE__) + "/../../test_helper")
   
 # TODO
 # try stubbing #perform_action for it_guards_permissions
@@ -84,6 +84,7 @@ class AdminSitesControllerTest < ActionController::TestCase
   
       with :access_granted do
         it_assigns :site => :not_nil
+        it_changes 'Site.count' => 1
         it_redirects_to { admin_site_path(assigns(:site)) }
         it_assigns_flash_cookie :notice => :not_nil
       end
@@ -117,6 +118,7 @@ class AdminSitesControllerTest < ActionController::TestCase
       
       with :access_granted do
         it_assigns :site
+        it_updates :site
         it_redirects_to { edit_admin_site_path(@site) }
         it_assigns_flash_cookie :notice => :not_nil
 

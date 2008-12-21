@@ -16,7 +16,7 @@ class Test::Unit::TestCase
   end
   
   def valid_site_params
-    { :site    => {:name => 'site name'},
+    { :site    => {:name => 'site name', :host => Sham.site_host },
       :section => {:type => 'Section', :title => 'section title'} }
   end
   

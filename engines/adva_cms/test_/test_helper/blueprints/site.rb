@@ -3,7 +3,7 @@ Sham.site_host {|ix| "www#{ix > 1 ? ix : ''}.example.com" }
 
 Site.blueprint do
   name  { Sham.site_name }
-  host  { 'www.example.com' }
+  host  { 'test.host' } # needed so that the site will be found by frontend controller tests
   title { 'site title' }
 end
 
