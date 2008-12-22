@@ -4,9 +4,9 @@ Factory.define :newsletter do |n|
   n.site { |n| n.association(:site) }
 end
 
-Factory.define :deleted_newsletter do |i|
-  i.title "deleted newsletter title"
-  i.desc "deleted newsletter desc"
-  i.deleted_at Time.local(2008, 12, 17, 19, 0, 0)
-  i.site { |i| i.association(:site) }
+Factory.define :deleted_newsletter do |n|
+  n.title "deleted newsletter title"
+  n.desc "deleted newsletter desc"
+  n.deleted_at Time.local(2008, 12, 17, 19, 0, 0)
+  n.site { |n| n.association(:site) }
 end

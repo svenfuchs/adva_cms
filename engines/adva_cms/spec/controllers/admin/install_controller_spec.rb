@@ -74,7 +74,7 @@ describe Admin::InstallController do
       it_renders_template :confirmation
 
       it "saves the site" do
-        @site.should_receive(:save)
+        @site.should_receive(:save).twice
         act!
       end
 

@@ -9,6 +9,6 @@ class BaseIssue < ActiveRecord::Base
   # named_scope :deleted,      :conditions => 'deleted_at IS NOT NULL'
 
   def draft?
-    true
+    self.published_at.blank?
   end
 end

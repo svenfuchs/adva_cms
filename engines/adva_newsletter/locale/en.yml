@@ -20,6 +20,7 @@ en:
         issues: Issues
         subscribers: Subscribers
         deleted_issues: Deleted issues
+        issue_publish_at: "or send later at:"
     issue:
       confirm_save_as_draft: Yes, save this issue as draft.
       question_save_as_draft: Save as Draft?
@@ -39,7 +40,6 @@ en:
         name: Name
         created_at: Created
         issues: Issues
-        due_at: "or send later at:"
         send_test: only to myself
       link:
         index: Issues

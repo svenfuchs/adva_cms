@@ -17,9 +17,9 @@
       </label>
     </span>
     <span id="send-later">
-      <%= f.label :due_at, t('adva.issue.label.due_at') %>
-      <%= f.datetime_select :due_at,
-                            :start_year => (@issue.due_at || Time.zone.now).year-1,
+      <%= f.label :publish_at, t('adva.newsletter.label.issue_publish_at') %>
+      <%= f.datetime_select :publish_at,
+                            :start_year => (@issue.publish_at || Time.zone.now).year-1,
                             :end_year => (Time.zone.now.year + 5),
                             :order => [:month, :day, :year] %>
       <%= submit_tag t('adva.issue.button.send_later'), :name => 'send_later' %>

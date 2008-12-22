@@ -6,8 +6,6 @@ class Admin::NewslettersController < Admin::BaseController
   
   def show
     @newsletter = Newsletter.all_included.find(params[:id])
-    # @active_issues = @newsletter.issues.active
-    # @subscriptions = @newsletter.subscriptions
   end
   
   def new
