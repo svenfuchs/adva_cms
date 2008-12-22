@@ -1,3 +1,7 @@
+<cell name="blog/recent_articles" section_id="1" count="10" />
+
+
+
 
 adva_cms/lib/time_hacks.rb -- i18nize or replace with localize
 adva_cms/helpers/base_helper -- date stuff
