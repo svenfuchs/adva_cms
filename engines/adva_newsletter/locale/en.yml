@@ -9,6 +9,9 @@ en:
         update_success: Newsletter has been updated successfully!
         newsletter_moved_to_trash_success: Newsletter was successfully moved to trash.
         issue_moved_to_trash_success: Newsletter issue was successfully moved to trash.
+      button:
+        send_issue: Send
+        preview_issue: Preview
       link:
         index: Newsletters
         new: Create a newsletter

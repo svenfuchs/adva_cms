@@ -3,10 +3,4 @@
     <h1><%= link_to h(@newsletter.title), admin_newsletter_path(@site, @newsletter) %></h1>
     <p><%= h(@newsletter.desc) %></p>
   </div>
-  <div id='newsletter-stats'>
-    <ul>
-    <li><%= link_to "Issues: #{@newsletter.issues_count}", admin_issues_path(@site, @newsletter) %></li>
-    <li><%= link_to "Subscribers: #{@newsletter.subscriptions_count}", admin_subscriptions_path(@site, @newsletter) %></li>
-  </ul>
-  </div>
 </div>

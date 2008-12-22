@@ -1001,10 +1001,11 @@ table.table-plans tr.highlight .active{
 #newsletters {
   margin-top: 20px;
 }
-.table_menu {
-  text-align: right;
-}
 .table_menu_th {
   float: right;
   font-weight: normal;
+}
+.table_menu li {
+  float: right;
+  margin-left: 5px;
 }
