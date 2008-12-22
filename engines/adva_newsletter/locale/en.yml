@@ -12,6 +12,8 @@ en:
       link:
         index: Newsletters
         new: Create a newsletter
+        issues: Issues
+        subscribers: Subscribers
       label:
         header: Newsletters
         title: Newsletter name

@@ -3,4 +3,8 @@
   <li>
     <%= link_to t('adva.newsletter.link.index'), admin_newsletters_path %>
   </li>
+  <% if @newsletter.present? && !@newsletter.new_record? %>
+    <li><%= link_to t('adva.newsletter.link.issues'), admin_issues_path(@site, @newsletter) %></li>
+    <li><%= link_to t('adva.newsletter.link.subscribers'), admin_subscriptions_path(@site, @newsletter) %></li>
+  <% end %>
 </ul>
