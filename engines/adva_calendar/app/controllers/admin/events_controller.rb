@@ -18,7 +18,18 @@ class Admin::EventsController < Admin::BaseController
   guards_permissions :calendar_event
 
   def index
-    @events = @calendar.events.paginate :page => current_page, :per_page => params[:per_page]
+    source = @section.events
+    if %w(title body).include?(params[:filter])
+      @events = source.search(params[:query], params[:filter]).paginate({:page => params[:page]})
+    elsif params[:filter] == 'tags' and not params[:query].blank?
+      @events = source.paginate_tagged_with(params[:query], :page => params[:page])
+    else
+      if params[:category]
+        @events = source.by_categories(params[:category].to_i).paginate(:page => params[:page])
+      else
+        @events ||= source.paginate(:page => params[:page])
+      end
+    end
   end
   
   def new
@@ -119,6 +130,5 @@ class Admin::EventsController < Admin::BaseController
       params[:calendar_event] ||= {}
       params[:calendar_event][key] ||= value
     end
-
 end
 
