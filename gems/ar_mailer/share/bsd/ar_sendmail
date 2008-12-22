@@ -1,0 +1,30 @@
+#!/bin/sh
+# PROVIDE: ar_sendmail
+# REQUIRE: DAEMON
+# BEFORE: LOGIN
+# KEYWORD: FreeBSD shutdown
+
+#
+# Add the following lines to /etc/rc.conf to enable ar_sendmail:
+#
+#ar_sendmail_enable="YES"
+
+. /etc/rc.subr
+
+name="ar_sendmail"
+rcvar=`set_rcvar`
+
+command="/usr/local/bin/ar_sendmail"
+command_interpreter="/usr/local/bin/ruby18"
+
+# set defaults
+
+ar_sendmail_rails_env=${ar_sendmail_rails_env:-"production"}
+ar_sendmail_chdir=${ar_sendmail_chdir:-"/"}
+ar_sendmail_enable=${ar_sendmail_enable:-"NO"}
+ar_sendmail_flags=${ar_sendmail_flags:-"-d"}
+
+load_rc_config $name
+export RAILS_ENV=$ar_sendmail_rails_env
+run_rc_command "$1"
+

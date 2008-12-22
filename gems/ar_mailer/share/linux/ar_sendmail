@@ -1,0 +1,78 @@
+#!/usr/bin/env ruby
+#
+# ar_sendmail Startup script for ar_mailer by Adam Meehan
+#
+# chkconfig: - 85 15
+# description: ar_sendmail manages sending emails for Rails apps. 
+#
+require 'yaml'
+
+# Config file app mailers
+config_file = '/etc/ar_sendmail.conf'
+
+begin
+  config = YAML::load(IO.read(config_file)) || {}
+  if config.empty? || (config.has_key?('defaults') && config.size == 1)
+    puts "No mailers defined. Exiting."
+    exit
+  end
+rescue Errno::ENOENT
+  puts "Config file not found at '#{config_file}'!"
+  exit
+end
+
+default_options = {'pidfile' => './log/ar_sendmail.pid'}.merge(config.delete('defaults') || {})
+
+command, app_name = *ARGV
+
+def start(app, options)
+  switches = ""
+  options.each {|k, v| switches << " --#{k} #{v}"}
+  STDOUT.write "Starting mailer for #{app} in #{options['environment']} mode ... "
+  status = system("ar_sendmail -d #{switches}") ? "started" : "failed"
+  puts status
+end
+
+def stop(app, options)
+  pid_file = File.expand_path(options['pidfile'], options['chdir'])
+  if File.exist? pid_file
+    begin
+      pid = open(pid_file).read.to_i
+      STDOUT.write "Stopping mailer for #{app}... "
+      Process.kill('TERM', pid)
+      puts "stopped"
+    rescue Errno::ESRCH
+      puts "Mailer process does not exist. Is not running."
+    end
+  else
+    puts "Skipping mailer for #{app}, no pid file."
+  end
+end
+
+def restart(app, options)
+  puts "Restarting mailer for #{app} ..."
+  stop app, options  
+  start app, options
+end
+
+def command_error(msg)
+  puts msg
+  exit
+end
+
+if ['start', 'stop', 'restart'].include?(command)
+  apps = config
+  if app_name
+    command_error "No such app defined in ar_sendmail config" unless config.include?(app_name)
+    app_options = config[app_name]
+    command_error "Must specify chdir for app in ar_sendmail config" if app_options['chdir'].nil?    
+    apps = {app_name => app_options}
+  end
+
+  apps.each do |app, options|     
+    options = default_options.merge(options)
+    send(command, app, options)
+  end
+else
+  command_error "Usage: ar_sendmail {start|stop|restart} [optional app_name]"
+end
