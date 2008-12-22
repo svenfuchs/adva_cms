@@ -8,7 +8,7 @@ class Admin::EventsController < Admin::BaseController
 
   before_filter :params_draft, :only => [:create, :update]
   before_filter :params_published_at, :only => [:create, :update]
-  before_filter :params_dates, :only => [:create, :update]
+#  before_filter :params_dates, :only => [:create, :update]
   before_filter :params_location, :only => [:create, :update]
   before_filter :params_category_ids, :only => [:update]
 
