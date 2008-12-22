@@ -1,10 +1,18 @@
+# module With
+#   class Group
+#     def it_renders(render_method, *args, &block)
+#       send("it_renders_#{render_method}", *args, &block)
+#     end
+#   end
+# end
+
 class ActionController::TestCase
   @@variable_types = {:headers => :to_s, :flash => nil, :session => nil, :flash_cookie => nil}
 
   def it_renders(render_method, *args, &block)
     send("it_renders_#{render_method}", *args, &block)
   end
-
+  
   def it_renders_blank(options = {})
     asserts_status options[:status]
     assert @response.body.strip.blank?
@@ -16,23 +24,6 @@ class ActionController::TestCase
     assert_status options[:status]
     assert_content_type options[:format]
     assert_template template_name.to_s
-  end
-
-  def assert_content_type(type = :html)
-    mime = Mime::Type.lookup_by_extension((type || :html).to_s)
-    assert_equal mime, @response.content_type, "Renders with Content-Type of #{@response.content_type}, not #{mime}"
-  end
-
-  def assert_status(status)
-    case status
-    when String, Fixnum
-      assert_equal status.to_s, @response.code, "Renders with status of #{@response.code.inspect}, not #{status}"
-    when Symbol
-      code_value = ActionController::StatusCodes::SYMBOL_TO_STATUS_CODE[status]
-      assert_equal code_value.to_s, @response.code, "Renders with status of #{@response.code.inspect}, not #{code_value.inspect} (#{status.inspect})"
-    else
-      assert_equal "200", @response.code, "Is not successful"
-    end
   end
 
   def it_assigns(*names)
@@ -93,5 +84,24 @@ class ActionController::TestCase
   def it_redirects_to(&path)
     assert_redirected_to instance_eval(&path)
   end
+  
+  protected
+
+    def assert_content_type(type = :html)
+      mime = Mime::Type.lookup_by_extension((type || :html).to_s)
+      assert_equal mime, @response.content_type, "Renders with Content-Type of #{@response.content_type}, not #{mime}"
+    end
+
+    def assert_status(status)
+      case status
+      when String, Fixnum
+        assert_equal status.to_s, @response.code, "Renders with status of #{@response.code.inspect}, not #{status}"
+      when Symbol
+        code_value = ActionController::StatusCodes::SYMBOL_TO_STATUS_CODE[status]
+        assert_equal code_value.to_s, @response.code, "Renders with status of #{@response.code.inspect}, not #{code_value.inspect} (#{status.inspect})"
+      else
+        assert_equal "200", @response.code, "Is not successful"
+      end
+    end
 end
 
