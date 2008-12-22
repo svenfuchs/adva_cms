@@ -64,7 +64,7 @@
       <%= t(:'adva.calendar.errors.no_events_in_calendar') %>
       <%= link_to t(:'adva.calendar.links.create'), new_admin_calendar_event_path(@site) %>
     <% else %>
-      You don't seem to have any events matching that criteria.
+      <%= t(:'adva.calendar.errors.no_events_in_calendar') %>
     <% end %>
   </div>
 

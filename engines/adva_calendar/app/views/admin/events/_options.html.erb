@@ -20,10 +20,10 @@
 <% end %>
 
 
-<h4>Assets</h4>
+<h4><%= t(:'adva.titles.assets') %></h4>
 <%= render :partial => 'admin/assets/widget/widget', :locals => { :assets => { :latest => @site.assets.recent, :attached => @event.assets, :bucket => bucket_assets } } %>
 
-<h4>Optional settings</h4>
+<h4><%= t(:'adva.titles.optional_settings') %></h4>
 <p>
   <%= f.label :user_id %>
   <%= f.select :user_id, author_options, :selected => author_preselect %>
