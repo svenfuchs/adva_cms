@@ -1,1 +1,1 @@
-Dir[File.dirname(__FILE__) + "/functional/**/*_test.rb"].each { |path| require path }
+Dir[File.dirname(__FILE__) + "/**/*_test.rb"].each { |path| require path }
