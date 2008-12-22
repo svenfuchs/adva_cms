@@ -1,2 +1,0 @@
-class CellsTestTwoCell < CellsTestOneCell
-end

@@ -1,13 +1,15 @@
 module OutputFilter
-  class Cells
+  class Components
     class SimpleParser
-      def cells(html)
-        html.scan(/(<cell [^>]*\/>)/m).inject({}) do |cells, matches|
+      def components(html)
+        html.scan(/(<component [^>]*\/>)/m).inject({}) do |components, matches|
           tag = matches.first
           attrs = parse_attributes(tag)
-          controller, name = attrs.delete('controller'), attrs.delete('name')
-          cells[tag] = ["#{controller}/#{name}", attrs]
-          cells
+          # controller, name = attrs.delete('controller'), attrs.delete('name')
+          # components[tag] = ["#{controller}/#{name}", attrs]
+          name = attrs.delete('name')
+          components[tag] = [name, attrs]
+          components
         end
       end
       
@@ -32,11 +34,11 @@ module OutputFilter
     def before(controller) end
       
     def after(controller)
-      cells = parser.cells(controller.response.body)
-      pattern = /(#{cells.keys.join('|')})/
+      components = parser.components(controller.response.body)
+      pattern = /(#{components.keys.join('|')})/
       controller.response.body.gsub!(pattern) do |tag|
-        controller.response.template.component *cells[tag]
-      end unless cells.empty?
+        controller.response.template.component *components[tag]
+      end unless components.empty?
     end
     
     protected
