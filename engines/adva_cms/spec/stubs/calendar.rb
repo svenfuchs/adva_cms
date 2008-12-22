@@ -14,6 +14,7 @@ define Calendar do
           :content_filter => 'textile-filter',
           :title => 'calendar title',
           :description => 'calendar description',
+          :days_in_month_with_events => [Date.civil(2008,11,26), Date.civil(2008,11,29)],
           :find => true,
           :save => true,
           :update_attributes => true,
