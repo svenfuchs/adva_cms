@@ -8,7 +8,7 @@ class Admin::EventsController < Admin::BaseController
 
   before_filter :params_draft, :only => [:create, :update]
   before_filter :params_published_at, :only => [:create, :update]
-#  before_filter :params_dates, :only => [:create, :update]
+  before_filter :params_dates, :only => [:create, :update]
   before_filter :params_location, :only => [:create, :update]
   before_filter :params_category_ids, :only => [:update]
 
@@ -103,8 +103,8 @@ class Admin::EventsController < Admin::BaseController
     end
 
     def params_dates
-      set_calendar_event_param :startdate, Time.zone.local(params[:calendar_event][:startdate])
-      set_calendar_event_param :enddate, Time.zone.local(params[:calendar_event][:enddate])
+      set_calendar_event_param :startdate, Time.zone.local(params[:calendar_event][:startdate]) unless params[:calendar_event][:startdate].blank?
+      set_calendar_event_param :enddate, Time.zone.local(params[:calendar_event][:enddate]) unless params[:calendar_event][:enddate].blank?
     end
 
     # will check if existing location is selected, otherwise try to create a new one 
