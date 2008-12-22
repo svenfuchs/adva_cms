@@ -150,3 +150,48 @@ describe Admin::PhotosController do
     end
   end
 end
+
+
+describe Admin::PhotosController, "page_cache" do
+  include SpecControllerHelper
+
+  before :each do
+    @filter = Admin::PhotosController.filter_chain.find PhotoSweeper.instance
+  end
+
+  it "activates the PhotoSweeper as an around filter" do
+    @filter.should be_kind_of(ActionController::Filters::AroundFilter)
+  end
+
+  it "configures the PhotoSweeper to observe Photo create, update and destroy events" do
+    @filter.options[:only].to_a.sort.should == ['create', 'destroy', 'update']
+  end
+end
+
+describe "PhotoSweeper" do
+  include SpecControllerHelper
+  controller_name 'admin/photos'
+
+  before :each do
+    Site.delete_all
+    @site   = Factory :site
+    @user   = Factory :user
+    @album  = Factory :album, :site => @site
+    @photo  = Factory :photo, :author => @user, :section => @album
+    @sweeper = PhotoSweeper.instance
+  end
+
+  it "observes Photo" do
+    ActiveRecord::Base.observers.should include(:photo_sweeper)
+  end
+
+  it "should expire pages that reference the photo's section when the photo is created" do
+    @sweeper.should_receive(:expire_cached_pages_by_section).with(@photo.section)
+    @sweeper.after_create(@photo)
+  end
+
+  it "should expire pages that reference the photo when the photo is saved" do
+    @sweeper.should_receive(:expire_cached_pages_by_reference).with(@photo)
+    @sweeper.before_save(@photo)
+  end
+end

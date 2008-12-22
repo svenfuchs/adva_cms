@@ -9,6 +9,9 @@ class Admin::PhotosController < Admin::BaseController
   before_filter :params_draft,        :only => [:create, :update]
   before_filter :params_published_at, :only => [:create, :update]
   
+  cache_sweeper :photo_sweeper, :category_sweeper, :tag_sweeper,
+                :only => [:create, :update, :destroy]
+  
   def index
     @photos = @section.photos.paginate photo_paginate_options
   end
