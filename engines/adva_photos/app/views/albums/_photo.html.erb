@@ -21,7 +21,7 @@
 			<% if mode == :single -%>
         <%= link_to(image_tag(photo.public_filename(:large)), photo.public_filename, :target => '_blank') %>
 			<% else -%>
-				<%= link_to(image_tag(photo.public_filename(:thumb)), photo.public_filename, :target => '_blank') %>
+				<%= link_to(image_tag(photo.public_filename(:thumb)), photo_path(@section, photo)) %>
 			<% end %>
     </div>      
   </div>
