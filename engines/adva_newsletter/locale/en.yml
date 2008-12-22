@@ -5,6 +5,9 @@ en:
       confirm_save_as_draft: Yes, save this issue as draft
       deleted_issues: Deleted issues
       no_deleted_issues: Trash is empty.
+      total_newsletters: "Total newsletters: {{newsletters_count}}"
+      total_issues: "Total issues: {{issues_count}}"
+      total_subscribers: "Total subscribers: {{subscriptions_count}}"
       flash:
         update_success: Newsletter has been updated successfully!
         newsletter_moved_to_trash_success: Newsletter was successfully moved to trash.

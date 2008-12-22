@@ -993,6 +993,10 @@ table.table-plans tr.highlight .active{
 #newsletter-title {
   float: left;
 }
+#newsletter-title li {
+  float: left;
+  margin-right: 10px;
+}
 #newsletter-stats {
   float: left;
   width: 130px;
