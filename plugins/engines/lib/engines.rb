@@ -87,7 +87,7 @@ module Engines
     end
     
     def logger
-      RAILS_DEFAULT_LOGGER
+#      RAILS_DEFAULT_LOGGER
     end
     
     def load_extensions
