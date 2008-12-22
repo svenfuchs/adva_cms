@@ -1,6 +1,7 @@
 <% content_for :footer do %>
   <div id="footer" class="clearing">
-    <% if !@section.categories.blank? %>
+    <%= render :partial => 'calendar' %>
+      <% if !@section.categories.blank? %>
       <div>
         <h4>Categories</h4>
         <ul>

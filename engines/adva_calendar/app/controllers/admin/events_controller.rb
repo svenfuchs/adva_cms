@@ -44,11 +44,10 @@ class Admin::EventsController < Admin::BaseController
     if @location.save and @event.update_attributes(params[:calendar_event])
       trigger_events @event
       flash[:notice] = "The event has been successfully updated."
-      redirect_to edit_admin_calendar_event_path(@site.id, @section.id, @event.id)
     else
       flash[:error] = "The event could not been updated."
-      render :action => 'edit'
     end
+    redirect_to edit_admin_calendar_event_path(@site.id, @section.id, @event.id)
   end
 
   def destroy
@@ -95,7 +94,7 @@ class Admin::EventsController < Admin::BaseController
       else
         @location = @site.locations.new(params[:location])
       end
-      set_calendar_event_param(:location_id, @location.save ? nil : @location.id)
+      set_calendar_event_param(:location_id, @location.save ? @location.id : nil)
     end
 
     def save_draft?

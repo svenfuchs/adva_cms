@@ -32,7 +32,7 @@ describe Calendar do
       @event1 = @calendar_with_events.events.create!(args.merge(:startdate => '2008-11-27'))
       @event2 = @calendar_with_events.events.create!(args.merge(:startdate => '2008-11-24', :enddate => '2008-11-26'))
       @event3 = @calendar_with_events.events.create!(args.merge(:startdate => '2007-11-27'))
-      @event4 = @calendar_with_events.events.create!(args.merge(:startdate => '2008-10-30', :enddate => '2008-11-02'))<
+      @event4 = @calendar_with_events.events.create!(args.merge(:startdate => '2008-10-30', :enddate => '2008-11-02'))
     end
     it "should be empty for an empty month" do
       @calendar_with_events.days_in_month_with_events(Date.civil(1999,12)).should be_empty
