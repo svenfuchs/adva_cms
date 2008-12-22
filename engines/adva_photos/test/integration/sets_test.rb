@@ -105,7 +105,7 @@ class AnExistingSetTest < ActionController::IntegrationTest
   end
   
   def test_an_admin_assigns_a_photo_to_the_set
-    # Go to section edit form
+    # Go to photo edit form
     get edit_admin_photo_path(@site, @album, @photo)
     
     # The page shows sets edit form
@@ -121,5 +121,29 @@ class AnExistingSetTest < ActionController::IntegrationTest
     @album.reload
     assert @album.sets.size == 1
     assert @photo.sets == [@set]
+  end
+  
+  def test_an_admin_unassigns_a_photo_from_the_set
+    # Given a photo is assigned to a set
+    @photo.sets << @set
+    @photo.reload
+    assert @photo.sets == [@set]
+    
+    # User goes to a photo edit form
+    get edit_admin_photo_path(@site, @album, @photo)
+    
+    # The page shows the photo edit form
+    assert_template 'admin/photos/edit'
+    
+    # Album set count should be 1
+    assert @photo.sets.size == 1
+    
+    # An user unassigns the photo
+    uncheck         @set.title
+    click_button  'Update'
+    
+    # And the set is removed from photo
+    @photo.reload
+    assert @photo.sets == []
   end
 end

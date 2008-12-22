@@ -8,6 +8,7 @@ class Admin::PhotosController < Admin::BaseController
   before_filter :params_author,       :only => [:create, :update]
   before_filter :params_draft,        :only => [:create, :update]
   before_filter :params_published_at, :only => [:create, :update]
+  before_filter :params_set_ids,    :only => :update
   
   cache_sweeper :photo_sweeper, :category_sweeper, :tag_sweeper,
                 :only => [:create, :update, :destroy]
@@ -70,6 +71,10 @@ class Admin::PhotosController < Admin::BaseController
       set_photo_param :published_at, date if date && !save_draft?
     end
 
+    def params_set_ids
+      default_photo_param :set_ids, []
+    end
+
     def save_draft?
       params[:draft] == '1'
     end
@@ -77,6 +82,11 @@ class Admin::PhotosController < Admin::BaseController
     def set_photo_param(key, value)
       params[:photo] ||= {}
       params[:photo][key] = value
+    end
+
+    def default_photo_param(key, value)
+      params[:photo] ||= {}
+      params[:photo][key] ||= value
     end
     
     def set_photo
