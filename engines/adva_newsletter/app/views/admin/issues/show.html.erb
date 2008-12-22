@@ -4,7 +4,7 @@
 <% end %>
 
 <% if current_user.has_role?(:admin, :context => @site) %>
-  <%= link_to t('adva.common.edit'), edit_admin_issue_path(@site, @newsletter, @issue), :class => 'content_menu' %>
+  <%# link_to t('adva.common.edit'), edit_admin_issue_path(@site, @newsletter, @issue), :class => 'content_menu' %>
 <% end %>
 
 <%= render :partial => 'admin/newsletters/header' %>

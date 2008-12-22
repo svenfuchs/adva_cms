@@ -1,5 +1,3 @@
-<h2><%= t('adva.subscription.label.subscriptions') %></h2>
-
 <% if subscriptions.present? %>
   <table id="subscriptions" class="list" cellspacing='0'>
     <thead>
@@ -7,7 +5,7 @@
         <th scope="col"><%= t('adva.subscription.label.subscriber') %></th>
         <th scope="col"><%= t('adva.subscription.label.email') %></th>
         <th scope="col"><%= t('adva.subscription.label.time') %></th>
-        <th scope="col">&nbps;</th>
+        <th scope="col">&nbsp;</th>
       </tr>
     </thead>
     <tbody>
@@ -27,4 +25,3 @@
     <%= link_to t('adva.subscription.link.new'), new_admin_subscription_path(@site, @newsletter) %>
   </div>
 <% end %>
-

@@ -6,5 +6,8 @@
 <%= render :partial => 'admin/newsletters/header' %>
 
 <div id='issues'>
+  <p class="total">
+    <%= t('adva.newsletter.total_issues', :issues_count => @newsletter.issues_count) %>
+  </p>
   <%= render :partial => 'issues', :object => @issues %>
 </div>

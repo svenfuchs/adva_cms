@@ -1,6 +1,8 @@
 <div id='newsletter-header' class='clearfix'>
   <div id='newsletter-title'>
-    <h1><%= link_to h(@newsletter.title), admin_newsletter_path(@site, @newsletter) %></h1>
-    <p><%= h(@newsletter.desc) %></p>
+    <ul>
+      <li><%= link_to t('adva.newsletter.link.issues'), admin_issues_path(@site, @newsletter) %></li>
+      <li><%= link_to t('adva.newsletter.link.subscribers'), admin_subscriptions_path(@site, @newsletter) %></li>
+    </ul>
   </div>
 </div>

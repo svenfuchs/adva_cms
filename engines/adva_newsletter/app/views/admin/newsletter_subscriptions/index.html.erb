@@ -4,5 +4,9 @@
 <% end %>
 
 <%= render :partial => 'admin/newsletters/header' %>
-
-<%= render :partial => 'admin/newsletter_subscriptions/subscriptions', :object => @subscriptions %>
+<div id='subscriptions'>
+  <p class="total">
+    <%= t('adva.newsletter.total_subscribers', :subscriptions_count => @newsletter.subscriptions_count) %>
+  </p>
+  <%= render :partial => 'admin/newsletter_subscriptions/subscriptions', :object => @subscriptions %>
+</div>

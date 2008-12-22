@@ -43,9 +43,9 @@ class NoNewslettersTest < ActionController::IntegrationTest
     assert_template 'admin/newsletters/index'
     click_link 'newsletter title'
     
-    assert_template 'admin/newsletters/show'
-    assert_select 'h1>a', 'newsletter title'
-    assert_select 'p', 'newsletter desc'
+    assert_template 'admin/issues/index'
+    # assert_select 'h1>a', 'newsletter title'
+    # assert_select 'p', 'newsletter desc'
   end
   
 end
@@ -73,9 +73,9 @@ class NewslettersTest < ActionController::IntegrationTest
     assert cookies['flash'] =~ /Newsletter\+has\+been\+updated\+successfully/
     click_link 'EDITED newsletter title'  
     
-    assert_template 'admin/newsletters/show'
-    assert_select 'h1>a', 'EDITED newsletter title'
-    assert_select 'p', 'EDITED newsletter desc'
+    assert_template 'admin/issues/index'
+    # assert_select 'h1>a', 'EDITED newsletter title'
+    # assert_select 'p', 'EDITED newsletter desc'
   end
   
   test "admin DELETES a newsletter: should move it to trash" do
