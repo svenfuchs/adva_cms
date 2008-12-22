@@ -21,6 +21,10 @@ class Admin::InstallController < ApplicationController
 
         @user = User.create_superuser params[:user]
         authenticate_user(:email => @user.email, :password => @user.password)
+        
+        #Default email for site
+        @site.email ||= @user.email
+        @site.save
 
         flash.now[:notice] = t(:'adva.sites.flash.install.success')
         render :action => :confirmation

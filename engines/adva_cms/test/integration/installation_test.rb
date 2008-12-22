@@ -44,6 +44,9 @@ class InstallationTest < ActionController::IntegrationTest
     # check that the system authenticates the user as a superuser
     assert admin.has_role?(:superuser)
     
+    # check that site has default email (same as user one for default)
+    assert_equal admin.email, site.email
+    
     # check that confirmation page has correct user attributes
     assert_select 'p#user_profile', /test@example.org/
     assert_select 'p#user_profile', /test_password/
