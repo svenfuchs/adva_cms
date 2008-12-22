@@ -1,0 +1,8 @@
+<div style="border: 3px solid #eee; padding: 12px; margin-bottom: 20px;">
+	<h2>Recent users</h2>
+	<ul>
+		<% @users.each do |user| %>
+			<li><%= user.name %></li>
+		<% end %>
+	</ul>
+</div>

@@ -1,4 +1,5 @@
-<cell name="blog/recent_articles" section_id="1" count="10" />
+<component name="blog/recent_articles" section_id="1" count="10" />
+<component name="user/recent_users" section_id="1" count="10" />
 
 
 
