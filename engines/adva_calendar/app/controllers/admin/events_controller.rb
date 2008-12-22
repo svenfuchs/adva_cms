@@ -41,7 +41,9 @@ class Admin::EventsController < Admin::BaseController
   end
   
   def update
-    if @location.save and @event.update_attributes(params[:calendar_event])
+    @event.attributes = params[:calendar_event]
+    @event.all_day = params[:calendar_event][:all_day]
+    if @location.save and @event.save
       trigger_events @event
       flash[:notice] = "The event has been successfully updated."
     else
