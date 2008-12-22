@@ -134,7 +134,7 @@ describe Admin::EventsController do
     it_guards_permissions :update, :calendar_event
 
     it "updates the event with the event params" do
-      @event.should_receive(:update_attributes).and_return true
+      @event.should_receive(:save).and_return true
       act!
     end
   
@@ -145,7 +145,7 @@ describe Admin::EventsController do
   
     describe "given invalid event params" do
       before :each do
-        @event.stub!(:update_attributes).and_return false
+        @event.stub!(:save).and_return false
       end
       
       it_renders_template :edit

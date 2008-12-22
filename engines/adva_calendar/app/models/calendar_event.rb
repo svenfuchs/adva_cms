@@ -38,4 +38,16 @@ class CalendarEvent < ActiveRecord::Base
   def validate
     errors.add(:enddate, 'must be after start date') if ! self.enddate.nil? and self.enddate < self.startdate 
   end
+  
+  def all_day=(value)
+    if value
+      self.startdate = self.startdate.beginning_of_day
+      self.enddate = self.startdate.end_of_day
+    end
+  end
+  
+  def all_day
+    self.startdate == self.startdate.beginning_of_day and self.enddate == self.startdate.end_of_day
+  end
+  
 end

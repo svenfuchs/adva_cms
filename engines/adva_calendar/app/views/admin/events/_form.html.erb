@@ -17,7 +17,10 @@
 
 <p>
   <%= form.label :startdate, t(:'adva.calendar.attributes.startdate') %>
-  <%= form.text_field :startdate %>
+  <%= form.text_field :startdate %><br />
+  <label>
+  <%= form.check_box :all_day %> <%= t(:'adva.calendar.attributes.all_day') %>
+  </label>
 </p>
 
 <p>

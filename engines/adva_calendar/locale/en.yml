@@ -63,6 +63,7 @@ en:
         tags: Tags
         host: Organizer
         location: Location
+        all_day: All day
       calendar:
         year_month_format: '%B %Y'
         this_month: This month
