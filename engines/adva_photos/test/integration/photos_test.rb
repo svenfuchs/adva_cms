@@ -91,7 +91,7 @@ class PhotosTest < ActionController::IntegrationTest
     assert Photo.all.size == 1
     
     fill_in       'Title', :with => 'the rails logo'
-    attach_file   'Choose a photo', File.join(Rails.root, 'public', 'images', 'rails.png')
+    attach_file   'Choose a photo', File.join(Rails.root, 'vendor', 'adva', 'engines', 'adva_photos', 'test', 'upload', 'rails.png')
     click_button  'Upload'
     
     # picture is uploaded
