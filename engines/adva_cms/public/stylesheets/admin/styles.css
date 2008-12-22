@@ -226,6 +226,9 @@ ul.userlinks li{
 #navigation ul li.settings a{
   background:url('/images/adva_cms/admin/ui/nav_settings.gif') no-repeat top left;}
 
+#navigation ul li.newsletters a{
+  background:url('/images/adva_cms/admin/ui/nav_newsletters.gif') no-repeat top left;}
+
 #navigation ul li.accounts a{
   background:url('/images/adva_cms/admin/ui/nav_account.gif') no-repeat top left;}
 

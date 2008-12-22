@@ -1,5 +1,5 @@
 <% date = current_timespan[0] %>
-<%= calendar(:year => date.year, :month => date.month) do |day|
+<%#= calendar(:year => date.year, :month => date.month) do |day|
   if @section.days_in_month_with_events(date).include?(day)
     [link_to( day.mday, calendar_events_path(:year => date.year, :month => date.month, :day => day.mday)), {:class => 'specialDay'}]
   else

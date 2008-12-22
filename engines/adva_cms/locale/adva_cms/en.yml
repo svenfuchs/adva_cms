@@ -58,6 +58,7 @@ en:
       logout: Logout
       register: Register
       manage: Manage
+      newsletters: Newsletters
       optional_settings: Optional Settings
       overview: Overview
       permissions: Permissions
