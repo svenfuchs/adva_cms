@@ -27,7 +27,7 @@ class Board < ActiveRecord::Base
     if comment = comment.frozen? ? comments.last_one : comment
       update_attributes! :last_updated_at => comment.created_at, :last_comment_id => comment.id, :last_author => comment.author
     else
-      self.destroy
+      self.destroy # Why?
     end
   end
   alias_method_chain :after_comment_update, :board
