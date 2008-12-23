@@ -43,3 +43,9 @@ Factory.define_scenario :home_wikipage_with_revision do
     wikipage.update_attributes! :body => "#{wikipage.body} (updated)"
   end
 end
+
+Factory.define_scenario :forum_with_board do
+  @site   ||= Factory :site
+  @forum  = Factory :forum, :site => @site
+  @board  = Factory :board, :section => @forum
+end
