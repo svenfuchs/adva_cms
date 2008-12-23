@@ -157,22 +157,30 @@ describe Board do
   
   describe "methods" do
     describe "public" do
-      describe "#after_comment_update_with_board" do
+      describe "#after_comment_update" do
         before :each do
           @comment = @board.comments.build
-        end
-        
-        it "updates the last_updated_at, last_comment_id and last_author fields" do
-          fields = {:last_updated_at => @comment.created_at, :last_comment_id => @comment.id, 
+          @fields = {:last_updated_at => @comment.created_at, :last_comment_id => @comment.id, 
                     :last_author => @comment.author}
-          @board.should_receive(:update_attributes!).with(fields)
-          
-          @board.after_comment_update_with_board(@comment)
         end
         
-        it "calls destroy on itself if comment is nil" do # hu?
+        it 'destroys itself if the comment was destroyed and no more comments exist' do
+          @comment.stub!(:frozen?).and_return true
+          @board.comments.stub!(:last_one).and_return nil
           @board.should_receive(:destroy)
-          @board.after_comment_update_with_board(nil)
+          @board.after_comment_update(@comment)
+        end
+
+        it 'updates its cache attributes if the comment was saved' do
+          @board.should_receive(:update_attributes!).with(@fields)
+          @board.after_comment_update(@comment)
+        end
+
+        it 'updates its cache attributes if the comment was destroyed but more comments exist' do
+          @comment.stub!(:frozen?).and_return true
+          @board.comments.stub!(:last_one).and_return @comment
+          @board.should_receive(:update_attributes!).with(@fields)
+          @board.after_comment_update(@comment)
         end
       end
     end
