@@ -31,14 +31,14 @@ describe Admin::BoardsController do
 
   describe "GET to :index" do
     act! { request_to :get, @collection_path }
-    # it_guards_permissions :show, :board
+    it_guards_permissions :show, :board
     it_assigns :boards
     it_renders_template :index
   end
 
   describe "GET to :new" do
     act! { request_to :get, @new_member_path }
-    # it_guards_permissions :create, :board
+    it_guards_permissions :create, :board
     it_assigns :board
     it_renders_template :new
 
@@ -50,7 +50,7 @@ describe Admin::BoardsController do
 
   describe "POST to :create" do
     act! { request_to :post, @collection_path }
-    # it_guards_permissions :create, :board
+    it_guards_permissions :create, :board
     it_assigns :board
 
     it "instantiates a new board from section.boards" do
@@ -72,7 +72,7 @@ describe Admin::BoardsController do
 
   describe "GET to :edit" do
     act! { request_to :get, @edit_member_path }
-    # it_guards_permissions :update, :board
+    it_guards_permissions :update, :board
     it_assigns :board
     it_renders_template :edit
 
@@ -84,7 +84,7 @@ describe Admin::BoardsController do
 
   describe "PUT to :update" do
     act! { request_to :put, @member_path }
-    # it_guards_permissions :update, :board
+    it_guards_permissions :update, :board
     it_assigns :board
 
     it "fetches a board from section.boards" do
@@ -111,7 +111,7 @@ describe Admin::BoardsController do
 
   describe "DELETE to :destroy" do
     act! { request_to :delete, @member_path }
-    # it_guards_permissions :destroy, :board
+    it_guards_permissions :destroy, :board
     it_assigns :board
 
     it "fetches a board from section.boards" do
@@ -137,35 +137,29 @@ describe Admin::BoardsController do
   end
 end
 
-# describe Admin::BoardsController, "page_caching" do
-#   include SpecControllerHelper
-#
-#   it "should activate the BoardSweeper" do
-#     Admin::BoardsController.should_receive(:cache_sweeper) do |*args|
-#       args.should include(:board_sweeper)
-#     end
-#     load 'admin/boards_controller.rb'
-#   end
-#
-#   it "should have the BoardSweeper observe Board create, update and destroy events" do
-#     Admin::BoardsController.should_receive(:cache_sweeper) do |*args|
-#       options = args.extract_options!
-#       options[:only].to_a.sort.should == ['create', 'update', 'destroy']
-#     end
-#     load 'admin/boards_controller.rb'
-#   end
-# end
-#
-# describe Admin::BoardsController, "BoardSweeper" do
-#   include SpecControllerHelper
-#
-#   before :each do
-#     @board.stub!(:section).and_return stub_section
-#     @sweeper = BoardSweeper.instance
-#   end
-#
-#   it "should expire pages that reference an board when an board was saved" do
-#     @sweeper.should_receive(:expire_cached_pages_by_section).with(stub_section)
-#     @sweeper.after_save(stub_board)
-#   end
-# end
+describe "BoardSweeper" do
+  include SpecControllerHelper
+  controller_name 'admin/boards'
+
+  before :each do
+    Site.delete_all
+    @site     = Factory :site
+    @forum    = Factory :forum, :site => @site
+    @board    = Factory :board, :section => @forum
+    @sweeper = PhotoSweeper.instance
+  end
+
+  it "observes Board" do
+    ActiveRecord::Base.observers.should include(:board_sweeper)
+  end
+  
+  it "should expire pages that reference the photo's section when the photo is created" do
+    @sweeper.should_receive(:expire_cached_pages_by_section).with(@board.section)
+    @sweeper.after_create(@board)
+  end
+
+  it "should expire pages that reference the photo when the photo is saved" do
+    @sweeper.should_receive(:expire_cached_pages_by_reference).with(@board)
+    @sweeper.before_save(@board)
+  end
+end

@@ -3,8 +3,8 @@ class Admin::BoardsController < Admin::BaseController
   before_filter :set_boards, :only => [:index]
   before_filter :set_board,  :only => [:edit, :update, :destroy]
 
-  # cache_sweeper :board_sweeper, :only => [:create, :update, :destroy]
-  # guards_permissions :board
+  cache_sweeper :board_sweeper, :only => [:create, :update, :destroy]
+  guards_permissions :board
 
   def index
   end
@@ -53,8 +53,6 @@ class Admin::BoardsController < Admin::BaseController
   end
 
   protected
-
-    def set_section; super; end
 
     def set_boards
       @boards = @section.boards :order => :position
