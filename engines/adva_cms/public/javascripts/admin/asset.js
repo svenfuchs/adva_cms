@@ -2,6 +2,11 @@ Asset = {
   addInput: function() {
     var list = $('files'), copyFrom = list.down(), tagall = $('tagall-files');
     var newNode = copyFrom.cloneNode(true), files = list.getElementsByTagName('p');
+		for(c=0; c < newNode.childNodes.length; c++) {
+			if(newNode.childNodes[c].id == undefined) { continue; }
+			newNode.childNodes[c].id = newNode.childNodes[c].id.replace(/[0-9]+/, list.childNodes.length-2);
+			newNode.childNodes[c].name = newNode.childNodes[c].name.replace(/[0-9]+/, list.childNodes.length-2);
+		}
     var close = $(newNode).select('.remove-file')[0]; 
     Element.remove($(newNode).select('.tagall-files')[0]);
     Event.observe(close, 'click', function(e) { 
