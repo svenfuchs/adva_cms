@@ -33,5 +33,4 @@ class Forum < Section
       'Topic'
     end
   end
-
 end
