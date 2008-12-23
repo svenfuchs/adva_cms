@@ -11,5 +11,6 @@ end
 Activities.include_into 'Site'
 
 ActiveRecord::Base.observers += ['activities/activity_observer', 'activities/article_observer',
-                                 'activities/comment_observer', 'activities/wikipage_observer']
+                                 'activities/comment_observer', 'activities/wikipage_observer',
+                                 'activities/topic_observer']
 I18n.load_path += Dir[File.dirname(__FILE__) + '/locale/**/*.yml']
