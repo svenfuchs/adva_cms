@@ -34,7 +34,7 @@ puts <<END
 
   Please run Adva migrations and start server:
   
-  rake adva:migrate
+  rake db:migrate:all
   ruby script/server
   
   Open your browser at http://localhost:3000 and 
