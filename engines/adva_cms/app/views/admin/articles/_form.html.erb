@@ -22,7 +22,8 @@
 
   <%= f.label :draft, t(:'adva.articles.question_save_as_draft') %>
   <label class="light">
-    <%= check_box_tag :draft, '1', @article.draft?, :id => 'article-draft' %><%= t(:'adva.articles.confirm_save_as_draft') %>
+    <%= check_box_tag :draft, '1', @article.draft?, :id => 'article-draft' %>
+    <%= t(:'adva.articles.confirm_save_as_draft') %>
   </label>
 
   <p id="publish-date" style="<%= @article.draft? ? "display:none" : "" %>">
