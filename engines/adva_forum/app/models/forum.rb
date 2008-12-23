@@ -30,7 +30,7 @@ class Forum < Section
   
   class << self
     def content_type
-      'Topic'
+      'Board'
     end
   end
 end

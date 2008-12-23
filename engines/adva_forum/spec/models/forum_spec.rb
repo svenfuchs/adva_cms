@@ -100,7 +100,7 @@ describe Forum do
     
     describe "Forum#content_type" do
       it ".returns 'Topic'" do # NOT SURE ABOUT THIS ...
-        Forum.content_type.should == 'Topic'
+        Forum.content_type.should == 'Board'
       end
     end
   end
