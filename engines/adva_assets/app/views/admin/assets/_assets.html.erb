@@ -6,7 +6,7 @@
   <% if @assets.any? %>
     <% @assets.in_groups_of(7) do |group| -%>
       <div class="assets-row">
-        <%= render :partial => 'asset', :collection => group.compact %>
+        <%= render :partial => 'asset', :collection => group.compact, :locals => {:size => :thumb} %>
       </div>
     <% end %>
   <% end %>
