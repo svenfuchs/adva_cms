@@ -1,5 +1,5 @@
 page.flash.notice created_notice
-page.insert_html(:top, 'latest-assets', :partial => "admin/assets/widget/asset", :collection => @assets, :locals => { :prefix => 'latest' })
-page.insert_html(:bottom, 'uploaded-assets', :partial => "admin/assets/widget/asset", :collection => @assets, :locals => { :prefix => 'uploaded' })
+page.insert_html(:top, 'latest-assets', :partial => "admin/assets/widget/asset", :collection => @assets, :locals => { :prefix => 'latest', :content => false })
+page.insert_html(:bottom, 'uploaded-assets', :partial => "admin/assets/widget/asset", :collection => @assets, :locals => { :prefix => 'uploaded', :content => false })
 page << "AssetWidget.updateSelected();"
 

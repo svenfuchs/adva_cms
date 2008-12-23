@@ -82,7 +82,7 @@ class Admin::AssetsController < Admin::BaseController
     end
 
     def set_format
-      request.accepts.unshift Mime::Type.lookup('text/javascript') if params[:respond_to_parent]
+      request.env['HTTP_ACCEPT'] = 'text/javascript,' + request.env['HTTP_ACCEPT']  if params[:respond_to_parent]
     end
 
     def created_notice
