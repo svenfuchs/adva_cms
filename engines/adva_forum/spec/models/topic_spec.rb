@@ -12,6 +12,11 @@ describe Topic do
     @topic.site = @site
     @topic.section = @section
   end
+  
+  it "delegates comment_filter to a site" do
+    @site.stub!(:comment_filter).and_return 'filter'
+    @topic.comment_filter.should == @site.comment_filter
+  end
 
   describe "class extensions:" do
     it "has a permalink generated from the title" do
@@ -23,7 +28,7 @@ describe Topic do
     end
 
     it 'acts as a role context' do
-      Topic.should act_as_role_context(:roles => :author)
+      Topic.should act_as_role_context(:parent => Board)
     end
 
     # it 'specifies implicit roles (author roles for comments)' do
@@ -44,14 +49,21 @@ describe Topic do
       @topic.should belong_to(:section)
     end
 
+    it 'belongs to a board' do
+      @topic.should belong_to(:board)
+    end
+
     it 'belongs to a last comment' do
       @topic.should belong_to(:last_comment)
+    end
+
+    it 'belongs to a author' do
+      @topic.should belong_to(:author)
     end
 
     it 'belongs to a last_author' do
       @topic.should belong_to(:last_author)
     end
-
   end
 
   describe "callbacks:" do
@@ -70,7 +82,7 @@ describe Topic do
       @topic.stub!(:set_site) # otherwise conflicts with the implementation of validate_presence_of
       @topic.should validate_presence_of(:title)
     end
-
+    
     it 'validates the presence of a body on create' do
       @topic.stub!(:set_site) # otherwise conflicts with the implementation of validate_presence_of
       @topic.should validate_presence_of(:body) # TODO :on => :create
@@ -124,6 +136,12 @@ describe Topic do
         @topic.reply @user, @attributes
       end
 
+      it 'sets the board' do
+        @topic.comments.stub!(:build).and_return @comment
+        @comment.should_receive(:board=).with @topic.board
+        @topic.reply @user, @attributes
+      end
+
       it 'sets itself as the commentable' do
         @topic.comments.stub!(:build).and_return @comment
         @comment.should_receive(:commentable=).with @topic
@@ -138,9 +156,9 @@ describe Topic do
       end
     end
 
-    describe '#revise' do
-      it 'should be specified and implemented' # not sure if this actually makes sense in the end
-    end
+    # describe '#revise' do
+    #   it 'should be specified and implemented' # not sure if this actually makes sense in the end
+    # end
 
     describe '#accept_comments?' do
       it 'returns true when it is not locked' do

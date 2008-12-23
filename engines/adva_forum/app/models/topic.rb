@@ -46,10 +46,10 @@ class Topic < ActiveRecord::Base
     end
   end
 
-  def revise(author, attributes)
-    self.sticky, self.locked = attributes.delete(:sticky), attributes.delete(:locked) # if author.has_permission ...
-    self.attributes = attributes
-  end
+  # def revise(author, attributes)
+  #   self.sticky, self.locked = attributes.delete(:sticky), attributes.delete(:locked) # if author.has_permission ...
+  #   self.attributes = attributes
+  # end
 
   # def hit!
   #   self.class.increment_counter :hits, id
