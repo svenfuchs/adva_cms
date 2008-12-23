@@ -1,3 +1,10 @@
 <tr id="<%= dom_id object %>">
   <td><%= link_to object.title, edit_admin_board_path(@site, @section, object) %></td>
+  <td><%= object.description %></td>
+	<td><%= object.topics_count %></td>
+  <td><%= object.comments_count %></td>
+	<td class="actions">
+			<%= link_to t(:'adva.resources.edit'), edit_admin_board_path(@site, @section, object), :class => 'edit' %>
+			<%= link_to t(:'adva.resources.delete'), admin_board_path(@site, @section, object), :class => 'delete', :confirm => 	t(:'adva.boards.confirm_delete'), :method => :delete %>
+	</td>
 </tr>

@@ -1,0 +1,14 @@
+<% content_for :sidebar do -%>
+  <h3><%= "Manage" %></h3>
+  <ul>
+    <li><%= link_to 'Boards', admin_boards_path(@site, @section) %></li>
+		<li>Topics (Coming soon...)</li>
+    <li><%= link_to 'Settings', edit_admin_section_path(@site, @section), :id => 'settings_section' %></li>
+  </ul>
+
+  <h3><%= 'Actions' %></h3>
+  <ul>
+    <li><%= link_to 'Create a new Board', new_admin_board_path(@site, @section) %></li>
+    <li>Create a new topic (?)</li>
+  </ul>
+<% end -%>

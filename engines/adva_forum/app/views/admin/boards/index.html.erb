@@ -1,19 +1,28 @@
 <h2><%= t(:'adva.titles.boards') %></h2>
 
+<%= render :partial => 'side_panel' %>
+
 <% unless @boards.empty? %>
   <p class="hint">
-    <%= link_to t(:'adva.boards.links.new'), new_admin_board_path %>
     <% if @boards.size > 1 %>
       &middot;
       <%= link_to_function t(:'adva.boards.links.reorder'), "boards_tree.toggle(this, t(:'adva.resources.reordering_done'));", :id => 'reorder_boards' %>
       <%= image_tag '/images/adva_cms/indicator.gif', :id => 'boards_indicator', :style => 'display: none;' %>
     <% end %>
   </p>
+	
+	<p class="total">
+    <%= "Total number of boards: #{@boards.size}" %>
+  </p>
 
   <table id="boards" class="list">
     <thead>
       <tr>
         <th scope="col"><%= t(:'adva.titles.board') %></th>
+        <th scope="col"><%= 'Description' %></th>
+        <th scope="col"><%= 'Topics' %></th>
+        <th scope="col"><%= 'Comments' %></th>
+        <th scope="col">&nbsp;</th>
       </tr>
     </thead>
     <tbody id="articles-body">

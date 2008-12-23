@@ -378,7 +378,7 @@ en:
       view:
         new: "{{name}} <{{email}}> just posted a new {{activity}} on {{site}} in section {{section}}."
       comment: Comment {{actions}}
-      topic: Topic {{actions}}
+      topic: Topic {{actions}}  
       actions: "{{type}} {{actions}} in {{activity}}."
     signup:
       notifications:

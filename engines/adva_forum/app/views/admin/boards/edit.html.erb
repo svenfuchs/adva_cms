@@ -1,11 +1,11 @@
 <h3><%= t(:'adva.boards.titles.edit') %></h3>
 
 <% form_for :board, @board, :url => admin_board_path, :html => {:method => :put} do |f| %>
-  <fieldset>
+
     <%= render :partial => 'form', :locals => {:f => f} %>
-  </fieldset>
+
   <p class="buttons">
-  	<%= submit_tag t(:'adva.common.save') %>	
-  	<%= link_to t(:'adva.links.delete'), admin_board_path, { :confirm => t(:'adva.boards.confirm_delete'), :method => :delete } %>
+  	<%= submit_tag t(:'adva.common.save') %>	<%= t(:'adva.common.connector.or') %>
+		<%= link_to t(:'adva.common.cancel'), admin_boards_path(@site, @board.section) %>
   </p>
 <% end %>

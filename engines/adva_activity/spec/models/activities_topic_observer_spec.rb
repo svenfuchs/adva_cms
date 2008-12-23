@@ -5,6 +5,7 @@ describe Activities::ArticleObserver do
   include FactoryScenario
 
   before :each do
+    Site.delete_all
     @user = Factory   :user
     factory_scenario  :forum_with_board
     @topic = Factory  :topic, :section => @forum, :author => @user,
