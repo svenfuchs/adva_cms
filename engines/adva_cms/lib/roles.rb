@@ -75,6 +75,7 @@ Rbac.define do
               :'destroy topic'      => :moderator,
               :'moderate topic'     => :moderator,
 
+              :'show board'         => :moderator,
               :'create board'       => :moderator,
               :'update board'       => :moderator,
               :'destroy board'      => :moderator,
