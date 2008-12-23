@@ -33,7 +33,7 @@ Asset = {
   },
 
 	applyTagsToAll: function(form_id) {
-    var inputs = $(form_id).getInputs('text', 'assets[][tag_list]');
+    var inputs = $(form_id).getInputs('text', 'assets[0][tag_list]');
     var tags = $F(inputs.first()).split(' ');
     tags = tags.collect(function(t) { return t.strip(); });
     inputs.each(function(e, index) {
