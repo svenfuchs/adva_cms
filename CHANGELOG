@@ -1,0 +1,12 @@
+== December 2008
+* started with newsletter engine [priit]
+* calendar engine [TomK32]
+* photos engine [mseppae]
+* upgrade to webrat 0.3.2 [mseppae] [b4660e6]
+* upgrade to engines 2.2.2 [svenfuchs] [e1889d9]
+* update to rails 2.2.2 [svenfuchs] [a28ebbd]
+* Google Analytics [clemens] [1f611c2, e6ad365]
+* unobstrusive link tracking for outgoing links [clemens] [aee13ad]
+* i18n and l10n [theinterned, svenfuchs, joshmh]
+* Finnish translation [mseppae]
+* German translations [svenfuchs]
