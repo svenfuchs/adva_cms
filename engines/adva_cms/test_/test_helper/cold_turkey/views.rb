@@ -1,23 +1,23 @@
 class ActionController::TestCase
   class << self
-    def screen(name, options = {}, &block)
+    def view(name, options = {}, &block)
       controller_class = options[:controller] || self.controller_class
-      name = screen_name(controller_class, name)
-      screens[name] = block
+      name = view_name(controller_class, name)
+      views[name] = block
     end
   
-    def screens
-      @@screens ||= {}
+    def views
+      @@views ||= {}
     end
     
-    def screen_name(controller_class, name)
+    def view_name(controller_class, name)
       [controller_class.controller_path, name].join('/').to_sym
     end
   end
 
-  def it_renders_screen(screen_name)
-    it_renders_template(screen_name)
-    assert_screen(screen_name)
+  def it_renders_view(view_name)
+    it_renders_template(view_name)
+    assert_view(view_name)
   end
   
   def has_tag(name, attributes = {}, &block)
@@ -38,10 +38,10 @@ class ActionController::TestCase
   
   protected
   
-    def assert_screen(name)
-      name = self.class.screen_name(@controller, name)
-      screen = self.class.screens[name] or raise "could not find screen #{name}"
-      instance_eval &screen
+    def assert_view(name)
+      name = self.class.view_name(@controller, name)
+      view = self.class.views[name] or raise "could not find view #{name}"
+      instance_eval &view
     end
 end
 

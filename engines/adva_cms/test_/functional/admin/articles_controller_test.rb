@@ -21,20 +21,60 @@ class AdminArticlesControllerTest < ActionController::TestCase
     @controller.send(:filter_options).slice(:conditions)
   end
   
-  screen :new do
-    has_form_posting_to(admin_articles_path) do
-      has_tag :input, :type => 'submit', :name => 'commit'
-      # it_renders_partial 'form'
-    end
+  view :index do
+    has_tag :table, :id => 'articles'
+    # should check if article has comments enabled
+    # it_renders_partial 'article'
+  end
+  
+  # share :"admin/articles/new" do
+  #   with :"admin/articles/form" do
+  #     with :"admin/articles/form/new" do
+  #     end
+  #   end
+  # end
+  
+  view :new do
+    shows :form, :state => :new
+    # has_form_posting_to(admin_articles_path) do
+    #   has_tag :input, :type => 'submit', :name => 'commit'
+    #   # it_renders_partial 'form'
+    #   # it_renders_area 'form', :state => :new
+    # end
   end
 
-  screen :edit do
-    has_form_putting_to(admin_article_path) do
-      has_tag :input, :type => 'submit', :name => 'save_revision'
-      has_tag :input, :type => 'submit', :name => 'commit'
-      # it_renders_partial 'form'
-    end
+  view :edit do
+    renders_view :form, :state => :edit
+    # has_form_putting_to(admin_article_path) do
+    #   has_tag :input, :type => 'submit', :name => 'save_revision'
+    #   has_tag :input, :type => 'submit', :name => 'commit'
+    #   # it_renders_partial 'form'
+    #   # it_renders_area 'form', :state => :new
+    # end
   end
+  
+  # view :form do
+  #   # should render the options partial to the sidebar
+  #   #   should render the categories/checkboxes partial
+  #   #   should render the assets/widget/widget partial
+  #   #   should have the sele  ctbox for selecting an author for an article
+  #   # should render the article form fields
+  #   # should work with taglist containing double quotes
+  #   # should have the draft checkbox check when assigned article is a draft
+  #   # should have the draft checkbox check when assigned article is not a draft ???
+  #   state :new do
+  #     has_form_posting_to(admin_articles_path) do
+  #       has_tag :input, :type => 'submit', :name => 'commit'
+  #     end
+  #   end
+  #   
+  #   state :edit do
+  #     has_form_putting_to(admin_article_path) do
+  #       has_tag :input, :type => 'submit', :name => 'save_revision'
+  #       has_tag :input, :type => 'submit', :name => 'commit'
+  #     end
+  #   end
+  # end
 
   # test "is an Admin::BaseController" do
   #   Admin::BaseController.should === @controller # FIXME matchy doesn't have a be_kind_of matcher
@@ -133,7 +173,7 @@ class AdminArticlesControllerTest < ActionController::TestCase
       it_guards_permissions :create, :article
       with :access_granted do
         it_assigns :site, :section, :article
-        it_renders :screen, :new
+        it_renders :view, :new
       end
     end
   end
@@ -189,7 +229,7 @@ class AdminArticlesControllerTest < ActionController::TestCase
         
         with :access_granted do
           it_assigns :site, :section, :article
-          it_renders :screen, :edit
+          it_renders :view, :edit
         end
       end
     end
