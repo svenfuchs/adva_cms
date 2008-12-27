@@ -10,6 +10,31 @@ class AdminThemesControllerTest < ActionController::TestCase
   def default_params
     { :site_id => @site.id }
   end
+  
+  view :index do
+    has_tag :a, :href => new_admin_theme_path(@site)
+    has_tag :ul, :id => 'themelist'
+  end
+  
+  view :show do
+    # FIXME ... displays a list of files
+  end
+  
+  view :edit do
+    has_form_putting_to admin_theme_path(@site, @theme.id) do
+      show :form
+    end
+  end
+  
+  view :new do
+    has_form_posting_to admin_themes_path do
+      show :form
+    end
+  end
+  
+  view :form do
+    has_tag :input, :name => 'theme[name]'
+  end
    
   test "is an Admin::BaseController" do
     Admin::BaseController.should === @controller # FIXME matchy doesn't have a be_kind_of matcher

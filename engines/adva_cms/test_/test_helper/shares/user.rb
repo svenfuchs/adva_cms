@@ -12,22 +12,22 @@ class Test::Unit::TestCase
   end
 
   share :is_superuser do
-    before { grant login_user(@user), :superuser, @site }
+    before('set superuser') { grant login_user(@user), :superuser, @site }
   end
 
   share :is_admin do
-    before { grant @controller.current_user, :admin, @site }
+    before('set admin') { grant @controller.current_user, :admin, @site }
   end
 
   share :is_moderator do
-    before { grant @controller.current_user, :moderator, @section || @site }
+    before('set moderator') { grant @controller.current_user, :moderator, @section || @site }
   end
 
   share :is_user do
-    before { @controller.current_user.roles.clear }
+    before('set user') { @controller.current_user.roles.clear }
   end
 
   share :is_anonymous do
-    before { @controller.current_user.roles.clear; stub(@controller.current_user).anonymous?(true) }
+    before('set anonymous') { @controller.current_user.roles.clear; stub(@controller.current_user).anonymous?.returns(true) }
   end
 end

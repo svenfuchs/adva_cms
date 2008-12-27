@@ -18,7 +18,7 @@ class Test::Unit::TestCase
 
   share :a_section do
     before do 
-      @site = Site.make
+      @site ||= Site.make
       @section = Section.make :site => @site
     end
   end

@@ -2,6 +2,19 @@ require File.expand_path(File.dirname(__FILE__) + "/../../test_helper")
 
 class AdminInstallControllerTest < ActionController::TestCase
   tests Admin::InstallController
+  
+  view :install do
+    has_form_posting_to install_path do
+      has_tag :input, :name => 'site[name]'
+      has_tag :input, :name => 'section[type]', :type => 'radio'
+      has_tag :input, :name => 'section[title]'
+    end
+  end
+  
+  view :confirmation do
+    has_tag :a, :href => admin_site_path(assigns(:site))
+    # FIXME link to admin profile
+  end
 
   test "#normalize_params params[:site][:host] to the current request.host_with_port" do
     @controller.send(:normalize_install_params)
@@ -24,7 +37,7 @@ class AdminInstallControllerTest < ActionController::TestCase
     with :no_site do
       it "displays the install form" do
         it_assigns :site, :section, :user
-        it_renders :template, "admin/install"
+        it_renders :view, :install
 
         it "assigns the root section to the site" do
           assigns(:site).sections.first.should_not == nil
@@ -33,7 +46,7 @@ class AdminInstallControllerTest < ActionController::TestCase
     end
     
     with :a_site do
-      # TODO it_redirects_to :where?
+      # FIXME it_redirects_to :where?
     end
   end
   
@@ -41,7 +54,7 @@ class AdminInstallControllerTest < ActionController::TestCase
     action { post :index, @params }
   
     with :valid_install_params do
-      it_renders :template, 'admin/install/confirmation'
+      it_renders :view, :confirmation
       it_saves   :site, :section, :user
       it_changes 'Site.count' => 1, 'Section.count' => 1, 'User.count' => 1
       
@@ -65,7 +78,7 @@ class AdminInstallControllerTest < ActionController::TestCase
     end
   end
   
-  # TODO make this true. currently user validation in admin/install doesn't work
+  # FIXME make this true. currently user validation in admin/install doesn't work
   #
   # test "POST :index with invalid user params" do
   #   post :index, :site => {:name => 'Site name'},

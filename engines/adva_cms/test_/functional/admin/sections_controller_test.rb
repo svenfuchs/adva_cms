@@ -5,10 +5,28 @@ require File.expand_path(File.dirname(__FILE__) + "/../../test_helper")
 class AdminSectionsControllerTest < ActionController::TestCase
   tests Admin::SectionsController
 
+  # FIXME caching specs fail in :a_blog context
   with_common :is_superuser, :a_section
   
   def default_params
     { :site_id => @site.id }
+  end
+  
+  view :new do
+    has_form_posting_to admin_sections_path do
+      has_tag :input, Section.types.size, :name => 'section[type]'
+      has_tag :input, :name => 'section[title]'
+    end
+  end
+  
+  view :edit do
+    has_form_putting_to admin_section_path do
+      has_tag :input, :name => 'section[title]'
+      # FIXME
+      # renders the admin/sections/settings/section partial if the section is a Section
+      # renders the admin/sections/settings/blog partial if the section is a Blog
+      # renders the admin/sections/settings/permissions partial
+    end
   end
    
   test "is an Admin::BaseController" do
@@ -29,12 +47,11 @@ class AdminSectionsControllerTest < ActionController::TestCase
   
   describe "GET to :new" do
     action { get :new, default_params }
-    
     it_guards_permissions :create, :section
     
     with :access_granted do
       it_assigns :site, :section => :not_nil
-      it_renders_template :new
+      it_renders :view, :new
     end
   end
   
@@ -61,7 +78,7 @@ class AdminSectionsControllerTest < ActionController::TestCase
     
       with :invalid_section_params do
         it_assigns :site, :section => :not_nil
-        it_renders_template :new
+        it_renders :view, :new
         it_assigns_flash_cookie :error => :not_nil
       end
     end
@@ -69,12 +86,11 @@ class AdminSectionsControllerTest < ActionController::TestCase
   
   describe "GET to :edit" do
     action { get :edit, default_params.merge(:id => @section.id) }
-    
     it_guards_permissions :update, :section
     
     with :access_granted do
       it_assigns :site, :section
-      it_renders_template :edit
+      it_renders :view, :edit
     end
   end
   
@@ -102,7 +118,7 @@ class AdminSectionsControllerTest < ActionController::TestCase
   
     with :invalid_section_params do
       with :access_granted do
-        it_renders_template :edit
+        it_renders :view, :edit
         it_assigns_flash_cookie :error => :not_nil
       end
     end

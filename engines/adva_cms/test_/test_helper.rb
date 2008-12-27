@@ -3,12 +3,9 @@ require File.expand_path(File.dirname(__FILE__) + "/../../../../../config/enviro
 
 # require 'context'
 require 'matchy'
-
-class Test::Unit::TestCase
-  include With
-end
-
 require 'test_help'
+require 'with'
+require 'with-sugar'
 require 'globalize/i18n/missing_translations_raise_handler'
 
 class Test::Unit::TestCase
@@ -25,28 +22,9 @@ class Test::Unit::TestCase
     FileUtils.rm_r theme_root if File.exists?(theme_root)
   end
   alias_method_chain :teardown, :cleanup
-  
-  # before :each do
-  #   RR.reset
-  # end
-  # 
-  # after :each do
-  #   RR.verify
-  # end
 end
 
 Dir[File.dirname(__FILE__) + "/test_helper/**/*.rb"].each { |path| require path }
-
-module With
-  mattr_accessor :aspects
-  @@aspects = []
-  
-  class << self
-    def test?(aspect)
-      self.aspects.include?(aspect)
-    end
-  end
-end
 
 # With.aspects << :access_control
 

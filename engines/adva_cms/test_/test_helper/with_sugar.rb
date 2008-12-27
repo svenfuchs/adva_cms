@@ -1,5 +1,5 @@
 module With
-  class Group
+  class Context
     def it_triggers_event(type)
       expect do
         record = satisfy{|arg| type.to_s =~ /#{arg.class.name.underscore}/ }
@@ -21,7 +21,7 @@ module With
       # expect do
       #   mock(@controller).has_permission?(action, type)
       # end
-      return unless With.test?(:access_control)
+      return unless With.aspect?(:access_control)
 
       with :"superuser_may_#{action}_#{type}" do
         it_denies_access  :with => [:is_anonymous, :is_user, :is_moderator, :is_admin]
@@ -41,21 +41,38 @@ module With
     end
 
     def it_grants_access(options = {})
-      group = options[:with] ? with(*options[:with]) : self
-      group.assertion do
-        message = "expected to grant access but %s"
-        assert !rendered_insufficient_permissions?, message % 'rendered :insufficient_permissions'
-        assert !redirected_to_login?, message % 'redirected to login_path'
+      contexts = options[:with] ? with(*options[:with]) : [self]
+      contexts.each do |context|
+        context.assertion "it grants access" do
+          message = "expected to grant access but %s"
+          assert !rendered_insufficient_permissions?, message % 'rendered :insufficient_permissions'
+          assert !redirected_to_login?, message % 'redirected to login_path'
+        end
       end
     end
 
     def it_denies_access(options = {})
-      group = options[:with] ? with(*options[:with]) : self
-      group.assertion do
-        message = "expected to render :insufficient_permissions or redirect to login_path but did neither of these."
-        assert rendered_insufficient_permissions? || redirected_to_login?, message
+      contexts = options[:with] ? with(*options[:with]) : [self]
+      contexts.each do |context|
+        context.assertion "it denies access" do
+          message = "expected to render :insufficient_permissions or redirect to login_path but did neither of these."
+          assert rendered_insufficient_permissions? || redirected_to_login?, message
+        end
       end
     end
+
+    def it_caches_the_page_with_tracking(options = {})
+      it_caches_the_page_without_tracking(options)
+      
+      return unless options[:track]
+      assertion "it tracks cache references #{Array(options[:track]).map(&:inspect).join(' ')}" do
+        Array(options[:track]).each do |expected|
+          actual = @controller.class.track_options[@controller.action_name.to_sym]
+          actual.should include(expected)
+        end
+      end
+    end
+    alias_method_chain :it_caches_the_page, :tracking
     
     def it_sweeps_page_cache(options)
       options = options.dup

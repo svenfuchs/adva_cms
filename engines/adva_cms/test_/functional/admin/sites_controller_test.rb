@@ -17,6 +17,43 @@ class AdminSitesControllerTest < ActionController::TestCase
   def default_params
     { :site_id => @site.id, :section_id => @section.id }
   end
+  
+  view :index do
+    has_tag :table, :id => 'sites' do
+      has_tag 'tbody tr', 1
+      has_tag :a, @site.name, :href => admin_site_path(@site)
+      has_tag :a, /delete/i, :href => admin_site_path(@site), :class => 'delete'
+      has_tag :a, /settings/i, :href => edit_admin_site_path(@site), :class => 'edit'
+      has_tag :a, :href => "http://#{@site.host}", :class => 'view'
+    end
+  end
+  
+  view :show do
+    # FIXME
+    # :partial => 'admin/activities/activities'
+    # :partial => 'user_activity'
+    # :partial => 'unapproved_comments'
+  end
+  
+  view :new do
+    has_form_posting_to admin_sites_path do
+      has_tag :input, :name => 'section[title]'
+      has_tag :input, Section.types.size, :name => 'section[type]'
+    end
+  end
+  
+  view :edit do
+    has_form_putting_to admin_site_path(@site) do
+      # FIXME
+      # SpamEngine::Filter.names.each do |name|
+      #   next if name == 'Default'
+      #   response.should have_tag('input[type=?][name=?][value=?]', 'checkbox', 'site[spam_options][filters][]', name)
+      # end
+      # SpamEngine::Filter.names.each do |name|
+      #   template.should_receive(:render).with hash_including(:partial => "spam/#{name.downcase}_settings")
+      # end
+    end
+  end
 
   test "is an Admin::BaseController" do
     Admin::BaseController.should === @controller # FIXME matchy doesn't have a be_kind_of matcher
@@ -44,7 +81,7 @@ class AdminSitesControllerTest < ActionController::TestCase
   
     with :access_granted do
       it_assigns :sites
-      it_renders :template, :index
+      it_renders :view, :index
     end
   end
   
@@ -55,7 +92,7 @@ class AdminSitesControllerTest < ActionController::TestCase
     
     with :access_granted do
       it_assigns :site
-      it_renders :template, :show
+      it_renders :view, :show
     end
   end
   
@@ -69,7 +106,7 @@ class AdminSitesControllerTest < ActionController::TestCase
     
     with :access_granted do
       it_assigns :site => :not_nil
-      it_renders :template, :new
+      it_renders :view, :new
     end
   end
   
@@ -104,7 +141,7 @@ class AdminSitesControllerTest < ActionController::TestCase
     
     with :access_granted do
       it_assigns :site
-      it_renders :template, :edit
+      it_renders :view, :edit
     end
   end
   

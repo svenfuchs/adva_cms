@@ -10,6 +10,26 @@ class AdminPluginsControllerTest < ActionController::TestCase
   def default_params
     { :site_id => @site.id }
   end
+  
+  view :index do
+    has_tag :table, :id => 'plugins'
+  end
+  
+  view :show do
+    shows :form
+
+    has_text @plugin.about['description']
+    has_tag :div, :id => :sidebar do
+      has_text @plugin.about['author']
+      has_text @plugin.about['homepage']
+      has_text @plugin.about['summary']
+    end
+  end
+  
+  view :form do 
+    has_tag :input, :name => 'plugin[string]', :value => 'string'
+    has_tag :textarea, 'text', :name => 'plugin[text]'
+  end
 
   test "is an Admin::BaseController" do
     Admin::BaseController.should === @controller # FIXME matchy doesn't have a be_kind_of matcher
@@ -31,7 +51,7 @@ class AdminPluginsControllerTest < ActionController::TestCase
     
     with :access_granted do
       it_assigns :plugins
-      it_renders :template, :index
+      it_renders :view, :index
     end
   end
 
@@ -42,7 +62,7 @@ class AdminPluginsControllerTest < ActionController::TestCase
     
     with :access_granted do
       it_assigns :plugin
-      it_renders :template, :show
+      it_renders :view, :show
     end
   end
 

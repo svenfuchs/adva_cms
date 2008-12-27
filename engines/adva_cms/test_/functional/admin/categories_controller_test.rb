@@ -5,10 +5,32 @@ require File.expand_path(File.dirname(__FILE__) + "/../../test_helper")
 class AdminCategoriesControllerTest < ActionController::TestCase
   tests Admin::CategoriesController
   
-  with_common :is_superuser, :a_section, :a_category
+  with_common :is_superuser, [:a_section, :a_blog], :a_category
 
   def default_params
     { :site_id => @site.id, :section_id => @section.id }
+  end
+  
+  view :index do
+    has_tag :table, :id => 'categories'
+    has_tag :a, :href => edit_admin_category_path(@site, @section, @category)
+    # FIXME renders a link to make the categories list sortable when categories count is > 2
+  end
+  
+  view :new do
+    has_form_posting_to admin_categories_path(@site, @section) do
+      shows :form
+    end
+  end
+  
+  view :edit do
+    has_form_putting_to admin_category_path(@site, @section, @category) do
+      shows :form
+    end
+  end
+  
+  view :form do
+    # FIXME ...
   end
    
   test "is an Admin::BaseController" do
@@ -34,7 +56,7 @@ class AdminCategoriesControllerTest < ActionController::TestCase
   
     with :access_granted do
       it_assigns :site, :section, :categories
-      it_renders :template, :index
+      it_renders :view, :index
     end
   end
 
@@ -45,7 +67,7 @@ class AdminCategoriesControllerTest < ActionController::TestCase
     
     with :access_granted do
       it_assigns :site, :section
-      it_renders :template, :new
+      it_renders :view, :new
     end
   end
   
@@ -82,7 +104,7 @@ class AdminCategoriesControllerTest < ActionController::TestCase
     
     with :access_granted do
       it_assigns :site, :section, :category
-      it_renders :template, :edit
+      it_renders :view, :edit
     end
   end
   

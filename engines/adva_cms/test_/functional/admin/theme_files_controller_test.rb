@@ -12,6 +12,32 @@ class AdminThemeFilesControllerTest < ActionController::TestCase
   def default_params
     { :site_id => @site.id, :theme_id => @theme.id }
   end
+  
+  view :show do
+    has_form_putting_to admin_theme_file_path(@site, @theme.id, @file.id) do
+      shows :form
+    end
+  end
+  
+  view :new do
+    has_form_posting_to admin_theme_files_path(@site, @theme.id) do
+      shows :form
+    end
+  end
+  
+  view :form do
+    has_tag :input, :name => 'file[localpath]'
+    has_tag :textarea, :name => 'file[data]'
+    # FIXME
+    # renders a file data textarea when the file has text content
+    # does not render a file data textarea when the file does not have text content
+    # response.should_not have_tag('textarea[name=?]', 'file[data]')
+  end
+  
+  view :files_list do
+    ['Templates', 'Assets', 'Others'].each {|type| has_tag :h3, type }
+    has_tag :a, :href=> admin_theme_file_path(@site, @theme.id, @file.id)
+  end
    
   test "is an Admin::BaseController" do
     Admin::BaseController.should === @controller # FIXME matchy doesn't have a be_kind_of matcher
@@ -36,7 +62,7 @@ class AdminThemeFilesControllerTest < ActionController::TestCase
     
     with :access_granted do
       it_assigns :theme, :file
-      it_renders :template, :show
+      it_renders :view, :show
     end
   end
 
@@ -47,7 +73,7 @@ class AdminThemeFilesControllerTest < ActionController::TestCase
     
     with :access_granted do
       it_assigns :theme
-      it_renders :template, :new
+      it_renders :view, :new
     end
   end
   
@@ -76,7 +102,7 @@ class AdminThemeFilesControllerTest < ActionController::TestCase
     # never gets here because the exception is not caught:
     # "Can't build file invalid because it seems to be neither a valid asset nor valid template path."
     # with :invalid_theme_template_params do
-    #   it_renders :template, :new
+    #   it_renders :view, :new
     #   it_assigns_flash_cookie :error => :not_nil
     # end
   end
@@ -103,7 +129,7 @@ class AdminThemeFilesControllerTest < ActionController::TestCase
     # FIXME
     # never gets here because the exception is not caught: invalid filename "invalid"
     # with :invalid_theme_template_params do
-    #   it_renders :template, :show
+    #   it_renders :view, :show
     #   it_assigns_flash_cookie :error => :not_nil
     # end
   end
