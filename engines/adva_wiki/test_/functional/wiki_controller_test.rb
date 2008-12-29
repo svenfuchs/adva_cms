@@ -17,7 +17,7 @@ class WikiControllerTest < ActionController::TestCase
   end
   
   view :show do
-    has_tag 'div.entry', 1
+    has_tag '.entry', 1
     
     # displays the wikipage's revision number and last author name
     has_text /revision: [\d]+/
