@@ -1,4 +1,4 @@
 Category.blueprint do
-  title     { 'the category title' }
-  permalink { 'the-category-title' }
+  title     { 'a category' }
+  permalink { 'a-category' }
 end

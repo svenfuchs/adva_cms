@@ -3,7 +3,7 @@
     <% if !@section.categories.blank? %>
       <div>
         <h4><%= t(:'adva.common.categories') %></h4>
-        <ul>
+        <ul class="categories">
         <% @section.categories.each do |category| %>
           <li><%= link_to_category @section, category %></li>
         <% end %>
@@ -14,7 +14,7 @@
     <% if @section and !@section.tag_counts.empty? %>
       <div>
         <h4>Tags</h4>
-        <ul>
+        <ul class="tags">
         <% @section.tag_counts.each do |tag| %>
           <li><%= link_to_tag @section, tag %></li>
         <% end %>

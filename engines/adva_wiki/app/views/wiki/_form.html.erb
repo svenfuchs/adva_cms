@@ -10,6 +10,7 @@
   <%= f.label :body %>
   <%= f.text_area :body %>
 </p>
+
 <% unless @section.categories.blank? %>
   <p>
     <label>Categories</label>
@@ -19,11 +20,13 @@
     <% end %>
   </p>
 <% end %>
+
 <p>
   <%= f.label :tag_list, t(:'adva.common.tag', :count => 2) %>
   <%= f.text_field :tag_list %>
   <span class="hint"><%= t(:'adva.wiki.view._form.tag_hint') %></span>  
 </p>
+
 <% unless current_user.registered? %>
   <% fields_for @wikipage.author do |author| %>
     <p>
@@ -36,12 +39,11 @@
     </p>
   <% end %>  
 <% end %>
+
 <p class="buttons">
   <%= f.submit "Save" %>
-  <% unless @wikipage.new_record? %>
-    <% unless @wikipage.home? %>
-      <%= link_to(t(:'adva.common.delete'), wikipage_path(@section, @wikipage.permalink), { :confirm => t(:'adva.wiki.view._form.confirm_delete'), :method => :delete }) %>
-    <% end %> or
-    <%= link_to t(:'adva.common.cancel'), wikipage_path(@section, @wikipage.permalink) %>
-  <% end %>
+  <% unless @wikipage.new_record? or @wikipage.home? %>
+    <%= link_to(t(:'adva.common.delete'), wikipage_path(@section, @wikipage.permalink), { :confirm => t(:'adva.wiki.view._form.confirm_delete'), :method => :delete }) %>
+  	<%= link_to t(:'adva.common.cancel'), wikipage_path(@section, @wikipage.permalink) %>
+  <% end %> or
 </p>

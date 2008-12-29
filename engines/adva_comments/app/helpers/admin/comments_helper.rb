@@ -19,7 +19,7 @@ module Admin
   	   [options[:body],         'body'],
   	   [options[:author_name], 	'author_name'],
   	   [options[:author_email], 'author_email'],
-  	   [options[:author_url],   'author_website']]
+  	   [options[:author_url],   'author_homepage']]
     end
 
     def comments_state_options

@@ -13,6 +13,7 @@ class Test::Unit::TestCase
 
   self.use_transactional_fixtures = true
   self.use_instantiated_fixtures  = false
+  self.fixture_path = File.dirname(__FILE__) +  '/test_helper/fixtures'
   fixtures :all
   
   def teardown_with_cleanup

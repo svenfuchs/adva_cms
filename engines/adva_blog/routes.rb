@@ -45,5 +45,6 @@ map.formatted_blog_comments 'blogs/:section_id/comments.:format',
 map.formatted_blog_article_comments "blogs/:section_id/:year/:month/:day/:permalink.:format",
                             :controller   => 'blog',
                                 :action       => "comments",
-                                :requirements => { :method => :get, :year => /\d{4}/, :month => /\d{1,2}/, :day => /\d{1,2}/ }
+                                :requirements => { :year => /\d{4}/, :month => /\d{1,2}/, :day => /\d{1,2}/ },
+                                :conditions   => { :method => :get }
 

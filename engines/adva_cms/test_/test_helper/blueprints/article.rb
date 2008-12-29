@@ -1,5 +1,6 @@
 Article.blueprint do
-  title  { 'the article title' }
-  body   { 'the article body' }
-  author { User.make }
+  title    { 'an article' }
+  body     { 'an article body' }
+  author   { User.make }
+  tag_list { 'foo bar' }
 end

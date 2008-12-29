@@ -1,9 +1,9 @@
 class Test::Unit::TestCase
-  share :a_blog do
+  share :a_wiki do
     before do 
       @site ||= Site.make
       # FIXME make machinist work with STI instantiation somehow?
-      @section = Section.find Section.make(:site => @site, :type => 'Blog').id 
+      @section = Wiki.find Wiki.make(:site => @site, :type => 'Wiki').id 
     end
   end
 end

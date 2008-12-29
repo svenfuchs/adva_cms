@@ -76,13 +76,6 @@ class Asset < ActiveRecord::Base
     t.blank? ? filename : t
   end
 
-  # def public_filename_with_host(thumbnail = nil)
-  #   returning public_filename_without_host(thumbnail) do |s|
-  #     s.sub! %r(^/assets/[^/]+/), '/assets/' unless Site.multi_sites_enabled
-  #   end
-  # end
-  # alias_method_chain :public_filename, :host
-
   after_attachment_saved do |record|
     File.chmod 0644, record.full_filename
     Asset.update_all ['thumbnails_count = ?', record.thumbnails.count], ['id = ?', record.id] unless record.parent_id
@@ -90,10 +83,6 @@ class Asset < ActiveRecord::Base
 
   [:movie, :audio, :other, :pdf].each do |content|
     define_method("#{content}?") { self.class.send("#{content}?", content_type) }
-  end
-
-  def to_liquid
-    AssetDrop.new self
   end
 
   protected

@@ -51,7 +51,7 @@ class AdminArticlesControllerTest < ActionController::TestCase
   test "is an Admin::BaseController" do
     Admin::BaseController.should === @controller # FIXME matchy doesn't have a be_kind_of matcher
   end
-   
+  
   describe "routing" do
     with_options :path_prefix => '/admin/sites/1/sections/1/', :site_id => "1", :section_id => "1" do |r|
       r.it_maps :get,    "articles",        :action => 'index'
@@ -254,9 +254,7 @@ class AdminArticlesControllerTest < ActionController::TestCase
   end
   
   describe "filter_options" do
-    before do
-      @controller.instance_variable_set :@section, @section
-    end
+    before { @controller.instance_variable_set :@section, @section }
   
     it "fetches articles belonging to a category when :filter == category" do
       @controller.params = {:filter => 'category', :category => '1'}

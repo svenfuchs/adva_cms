@@ -1,5 +1,4 @@
 class CommentsController < BaseController
-
   # TODO apparently it is not possible to use protect_from_forgery with
   # page cached forms? is that correct? as protect_from_forgery seems to
   # validate the form token against the session and ideally when all pages

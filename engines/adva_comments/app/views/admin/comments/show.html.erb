@@ -2,7 +2,7 @@
 
 <%= render :partial => 'comment', :object => @comment %>
 
-<h4><%= t(:'adva.comment.titles.your_reply') %></h4>
+<h4><%= t(:'adva.comments.titles.your_reply') %></h4>
 
 <% form_for :comment, @reply, :url => admin_comments_path do |f| -%>
   <%= hidden_field_tag "comment_id", @comment.id %>

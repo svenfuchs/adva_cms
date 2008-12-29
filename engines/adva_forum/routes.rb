@@ -1,12 +1,12 @@
 map.forum 'forums/:section_id',
            :controller   => 'forum',
            :action       => "show",
-           :requirements => { :method => :get }
+           :conditions   => { :method => :get }
 
 map.forum_board 'forums/:section_id/boards/:board_id',
            :controller   => 'forum',
            :action       => 'show',
-           :requirements => { :method => :get }
+           :conditions   => { :method => :get }
 
 # map.resources :boards, :path_prefix => 'forums/:section_id',
 #                        :name_prefix => 'forum_'
@@ -14,7 +14,7 @@ map.forum_board 'forums/:section_id/boards/:board_id',
 map.new_board_topic 'forums/:section_id/boards/:board_id/topics/new',
                     :controller => 'topics',
                     :action     => 'new',
-                    :requirements => { :method => :get }
+                    :conditions => { :method => :get }
 
 map.resources :topics, :path_prefix => 'forums/:section_id', :member => { :previous => :get, :next => :get } do |topic|
   topic.resources :posts

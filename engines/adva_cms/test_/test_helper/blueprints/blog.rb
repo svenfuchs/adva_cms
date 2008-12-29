@@ -1,3 +1,4 @@
 Blog.blueprint do
-  title { 'the blog title' }
+  title       'Blog'
+  comment_age 0
 end
