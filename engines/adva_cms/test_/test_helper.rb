@@ -27,7 +27,7 @@ end
 
 Dir[File.dirname(__FILE__) + "/test_helper/**/*.rb"].each { |path| require path }
 
-# With.aspects << :access_control
+With.aspects << :access_control
 
 Theme.root_dir = "#{RAILS_ROOT}/tmp"
 FileUtils.mkdir(Theme.root_dir) unless File.exists?(Theme.root_dir)

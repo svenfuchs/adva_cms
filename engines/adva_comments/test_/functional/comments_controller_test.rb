@@ -2,6 +2,10 @@ require File.expand_path(File.dirname(__FILE__) + "/../test_helper")
 
 class CommentsControllerTest < ActionController::TestCase
   with_common :a_blog, :a_published_article, :an_approved_comment, :is_superuser
+  
+  def default_params
+    { :comment => { :commentable_type => 'Article', :commentable_id => @article.id } }
+  end
 
   test "is a BaseController" do
     BaseController.should === @controller # FIXME matchy doesn't have a be_kind_of matcher
@@ -29,7 +33,7 @@ class CommentsControllerTest < ActionController::TestCase
   end
 
   describe "POST to preview" do
-    action { post :preview, @params }
+    action { post :preview, default_params.merge(@params || {}) }
     it_guards_permissions :create, :comment
 
     with :access_granted do
@@ -47,7 +51,7 @@ class CommentsControllerTest < ActionController::TestCase
   describe "POST to :create" do
     action do 
       Comment.with_observers :comment_sweeper do
-        post :create, @params
+        post :create, default_params.merge(@params || {})
       end
     end
     
@@ -84,7 +88,7 @@ class CommentsControllerTest < ActionController::TestCase
   describe "PUT to :update" do
     action do 
       Comment.with_observers :comment_sweeper do
-        post :update, @params.merge(:id => @comment.id)
+        post :update, (@params || {}).merge(:id => @comment.id)
       end
     end
     

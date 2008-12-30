@@ -95,6 +95,7 @@ class Admin::WikipagesController < Admin::BaseController
 
     def params_author
       return if params[:version]
+      params[:wikipage] ||= {}
       author = params[:wikipage][:author] ? User.find(params[:wikipage][:author]) : current_user
       set_wikipage_param(:author, author) or raise t(:'adva.wikipage.exception.author_and_current_user_not_set')
     end

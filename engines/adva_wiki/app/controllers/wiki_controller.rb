@@ -61,6 +61,7 @@ class WikiController < BaseController
   end
 
   def update
+    params[:wikipage] ||= {}
     params[:wikipage][:version] ? rollback : update_attributes
   end
 

@@ -31,7 +31,6 @@ class CommentsController < BaseController
   end
 
   def create
-    params[:comment].delete(:approved) # TODO use attr_protected api?
     @comment = @commentable.comments.build(params[:comment])
     if @comment.save
       trigger_events @comment
@@ -45,7 +44,6 @@ class CommentsController < BaseController
   end
 
   def update
-    params[:comment].delete(:approved) # TODO use attr_protected api?
     if @comment.update_attributes(params[:comment])
       trigger_events @comment
       flash[:notice] = t(:'adva.comments.flash.update.success')
@@ -80,6 +78,9 @@ class CommentsController < BaseController
     end
 
     def set_comment_params
+      return unless params[:comment]
+      
+      params[:comment].delete(:approved)  # TODO use attr_protected api?
       params[:comment].merge! :site_id => @commentable.site_id,
                               :section_id => @commentable.section_id,
                               :author => current_user

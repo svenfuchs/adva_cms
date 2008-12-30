@@ -118,14 +118,14 @@ class AdminCommentsControllerTest < ActionController::TestCase
   end
   
   describe "PUT to :update" do
-    action { put :update, default_params.merge(@params) }
+    action { put :update, default_params.merge(:id => @comment.id).merge(@params || {}) }
     it_guards_permissions :update, :comment
     
     with :access_granted do
       it_assigns :comment
       
       with "valid comment params" do
-        before { @params = { :id => @comment.id, :comment => { :body => 'updated comment body' } } }
+        before { @params = { :comment => { :body => 'updated comment body' } } }
         it_updates :comment
         it_redirects_to 'return/to/here'
         it_assigns_flash_cookie :notice => :not_nil
@@ -133,7 +133,7 @@ class AdminCommentsControllerTest < ActionController::TestCase
       end
       
       with "invalid comment params" do
-        before { @params = { :id => @comment.id, :comment => { :body => '' } } }
+        before { @params = { :comment => { :body => '' } } }
         it_does_not_update :comment
         it_assigns_flash_cookie :error => :not_nil
         it_does_not_trigger_any_event

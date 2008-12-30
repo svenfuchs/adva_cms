@@ -67,7 +67,7 @@ class AdminWikipagesControllerTest < ActionController::TestCase
   end
 
   describe "POST to :create" do
-    action { post :create, default_params.merge(@params) }
+    action { post :create, default_params.merge(@params || {}) }
     it_guards_permissions :create, :wikipage
 
     with :access_granted do
@@ -102,7 +102,7 @@ class AdminWikipagesControllerTest < ActionController::TestCase
   describe "PUT to :update" do
     action do
       Wikipage.with_observers :wikipage_sweeper do
-        put :update, default_params.merge(@params)
+        put :update, default_params.merge(:id => @wikipage.id).merge(@params || {})
       end
     end
 
@@ -111,7 +111,7 @@ class AdminWikipagesControllerTest < ActionController::TestCase
     with :access_granted do
       with "no version param given" do
         with "valid wikipage params" do
-          before { @params = { :id => @wikipage.id, :wikipage => { :body => 'the updated wikipage body' } } }
+          before { @params = { :wikipage => { :body => 'the updated wikipage body' } } }
 
           it_updates :wikipage
           it_redirects_to { edit_admin_wikipage_path(@site, @section, @wikipage) }
@@ -121,7 +121,7 @@ class AdminWikipagesControllerTest < ActionController::TestCase
         end
 
         with "invalid wikipage params" do
-          before { @params = { :id => @wikipage.id, :wikipage => { :title => '' } } }
+          before { @params = { :wikipage => { :title => '' } } }
 
           it_does_not_update :wikipage
           it_renders :template, :edit
@@ -132,7 +132,7 @@ class AdminWikipagesControllerTest < ActionController::TestCase
       end
 
       with "a version param given" do
-        before { @params = { :id => @wikipage.id, :wikipage => { :version => '1' } } }
+        before { @params = { :wikipage => { :version => '1' } } }
         it_guards_permissions :update, :wikipage
 
         with :access_granted do

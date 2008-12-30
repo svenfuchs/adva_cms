@@ -1,0 +1,34 @@
+#!/usr/bin/env ruby
+
+def files_to_load(paths)
+  paths.reject!{|path| path =~ /^--/ } # ignore options
+  paths = ['.'] if paths.empty?
+  result = []
+  paths.each do |path|
+    if File.directory?(path)
+      # puts 'pattern: ' + dir_pattern(path)
+      result += Dir[File.expand_path(dir_pattern(path))]
+    elsif File.file?(path)
+      result << path
+    else
+      raise "File or directory not found: #{path}"
+    end
+  end
+  result
+end
+
+def dir_pattern(path)
+  path = path.dup
+  path.gsub!(/\/test_\/?$/, '')
+  File.join(path, '**', 'test_', '**', '*_test.rb')
+end
+
+paths = ARGV.clone
+paths = files_to_load(paths)
+
+unless paths.empty?
+  root_path = File.dirname(__FILE__).gsub(/vendor.*/, '')
+  puts 'Running new-wave functional tests ...'
+  paths.each{|path| puts path.gsub(root_path, '') }
+  paths.each{|path| require path }
+end

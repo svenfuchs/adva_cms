@@ -212,7 +212,7 @@ class WikiControllerTest < ActionController::TestCase
   describe "PUT to :update" do
     action do
       Wikipage.with_observers :wikipage_sweeper do
-        put :update, @params.merge(:id => @wikipage.permalink)
+        put :update, (@params || {}).merge(:id => @wikipage.permalink)
       end
     end
 
