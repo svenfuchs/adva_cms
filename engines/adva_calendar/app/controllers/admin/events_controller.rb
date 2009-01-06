@@ -54,7 +54,7 @@ class Admin::EventsController < Admin::BaseController
   
   def update
     @event.attributes = params[:calendar_event]
-    @event.all_day = params[:calendar_event][:all_day]
+    @event.all_day = params[:calendar_event][:all_day] == '1'
     if @location.save and @event.save
       trigger_events @event
       flash[:notice] = "The event has been successfully updated."
@@ -103,8 +103,8 @@ class Admin::EventsController < Admin::BaseController
     end
 
     def params_dates
-      set_calendar_event_param :startdate, Time.zone.local(params[:calendar_event][:startdate]) unless params[:calendar_event][:startdate].blank?
-      set_calendar_event_param :enddate, Time.zone.local(params[:calendar_event][:enddate]) unless params[:calendar_event][:enddate].blank?
+      set_calendar_event_param :startdate, Time.zone.parse(params[:calendar_event][:startdate]) unless params[:calendar_event][:startdate].blank?
+      set_calendar_event_param :enddate, Time.zone.parse(params[:calendar_event][:enddate]) unless params[:calendar_event][:enddate].blank?
     end
 
     # will check if existing location is selected, otherwise try to create a new one 
