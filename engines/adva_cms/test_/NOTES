@@ -1,1 +1,6 @@
+
+Start the test server with init script:
+vendor/adva/spec/test_server/bin/server -l vendor/adva/engines/adva_cms/test_/test_helper/test_server/init.rb
+
+
 http://technicalpickles.com/posts/rails-special-sauce-test-unit-setup-and-teardown

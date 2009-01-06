@@ -35,7 +35,7 @@ class AdminInstallControllerTest < ActionController::TestCase
     action { get :index }
     
     with :no_site do
-      it "displays the install form" do
+      with "displays the install form" do
         it_assigns :site, :section, :user
         it_renders :view, :install
 

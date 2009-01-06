@@ -1,7 +1,6 @@
 ENV["RAILS_ENV"] = "test"
 require File.expand_path(File.dirname(__FILE__) + "/../../../../../config/environment")
 
-# require 'context'
 require 'matchy'
 require 'test_help'
 require 'with'
@@ -16,20 +15,28 @@ class Test::Unit::TestCase
   self.fixture_path = File.dirname(__FILE__) +  '/test_helper/fixtures'
   fixtures :all
   
-  def teardown_with_cleanup
-    teardown_without_cleanup
+  setup do 
+    Sham.reset
+  end
   
+  teardown do
     theme_root = "#{RAILS_ROOT}/tmp/themes"
     FileUtils.rm_r theme_root if File.exists?(theme_root)
   end
-  alias_method_chain :teardown, :cleanup
 end
 
 Dir[File.dirname(__FILE__) + "/test_helper/**/*.rb"].each { |path| require path }
 
-With.aspects << :access_control
+# With.aspects << :access_control
+
+OptionParser.new do |o|
+  o.on('-l', '--line=LINE', "Run tests defined at the given LINE.") do |line|
+    With.options[:line] = line
+  end
+end.parse!(ARGV)
 
 Theme.root_dir = "#{RAILS_ROOT}/tmp"
+Asset.base_dir = RAILS_ROOT + '/tmp/assets'
 FileUtils.mkdir(Theme.root_dir) unless File.exists?(Theme.root_dir)
 
 
@@ -56,34 +63,3 @@ FileUtils.mkdir(Theme.root_dir) unless File.exists?(Theme.root_dir)
 #     end
 #   end
 # end
-
-# # TODO: verify all this code ...
-# Theme.root_dir = RAILS_ROOT + '/tmp'
-# Asset.base_dir = RAILS_ROOT + '/tmp/assets'
-# 
-# 
-# def enable_page_caching!
-#   ActionController::Base.page_cache_directory = RAILS_ROOT + '/tmp/cache'
-#   ActionController::Base.perform_caching = true
-# end
-# 
-# def disable_page_caching!
-#   if page_caching_enabled?
-#     flush_page_cache!
-#     ActionController::Base.page_cache_directory = nil
-#     ActionController::Base.perform_caching = false
-#   end
-# end
-# 
-# def page_caching_enabled?
-#   ActionController::Base.page_cache_directory == RAILS_ROOT + '/tmp/cache' && ActionController::Base.perform_caching
-# end
-# 
-# def flush_page_cache!
-#   if page_caching_enabled?
-#     CachedPage.delete_all
-#     cache_dirs = ActionController::Base.page_cache_directory, Theme.base_dir, Asset.base_dir, RAILS_ROOT + "/tmp/webrat*"
-#     cache_dirs.each{ |dir| FileUtils.rm_rf dir unless dir.empty? || dir == '/' }
-#   end
-# end
-# # TODO: ... until here!

@@ -3,9 +3,9 @@ require File.expand_path(File.dirname(__FILE__) + "/../test_helper")
 class SectionsControllerTest < ActionController::TestCase
   with_common :a_section, :an_article
   
-  test "is an BaseController" do
-    BaseController.should === @controller # FIXME matchy doesn't have a be_kind_of matcher
-  end
+  # test "is a BaseController" do
+  #   BaseController.should === @controller # FIXME matchy doesn't have a be_kind_of matcher
+  # end
   
   # FIXME describe routes (see adva_blog/blog_controller_test)
   
@@ -50,6 +50,8 @@ class SectionsControllerTest < ActionController::TestCase
   end
 end
 
+# FIXME
+#
 # describe SectionsController, 'feeds' do
 #   include SpecControllerHelper
 # 
