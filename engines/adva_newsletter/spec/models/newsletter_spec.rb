@@ -1,5 +1,4 @@
 require File.dirname(__FILE__) + '/../spec_helper'
-require 'ruby-debug'; Debugger.start
 
 describe BaseNewsletter do
   
