@@ -95,10 +95,6 @@ class EventsController < BaseController
       end
     end
 
-    def set_author_params
-      params[:event][:author] = current_user ? current_user : nil if params[:event]
-    end
-
     def current_role_context
       @event || @section
     end
