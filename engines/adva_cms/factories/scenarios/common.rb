@@ -49,3 +49,9 @@ Factory.define_scenario :forum_with_board do
   @forum  = Factory :forum, :site => @site
   @board  = Factory :board, :section => @forum
 end
+
+Factory.define_scenario :site_with_two_users do
+  @site ||= Factory :site
+  @membership = Factory :membership, :site => @site
+  @other_membership = Factory :other_membership, :site => @site
+end
