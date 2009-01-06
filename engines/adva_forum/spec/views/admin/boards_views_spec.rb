@@ -9,9 +9,11 @@ describe "Admin::Boards:" do
 
     assigns[:site] = @site = stub_site
     assigns[:section] = @section = stub_forum
-
+    @section.stub!(:comments).and_return []
+    @section.stub!(:latest_topics).and_return []
+    
     set_resource_paths :board, '/admin/sites/1/sections/1/'
-
+    
     template.stub!(:admin_boards_path).and_return(@collection_path)
     template.stub!(:admin_board_path).and_return(@member_path)
     template.stub!(:new_admin_board_path).and_return @new_member_path

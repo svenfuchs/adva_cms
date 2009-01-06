@@ -1,0 +1,28 @@
+<% unless @section.topics.empty? -%>
+<div id="topics" class="list">
+	<h3>
+		Latest topics
+	</h3>
+	
+	<table id="topics-latest" class="list">
+    <thead>
+      <tr>
+        <th scope="col"><%= 'Last update on' %></th>
+        <th scope="col"><%= 'Author' %></th>
+        <th scope="col"><%= 'Title' %></th>
+        <th scope="col"><%= 'Comments' %></th>
+      </tr>
+    </thead>
+    <tbody id="topics-latest-body">
+		<% @section.latest_topics.each do |topic| -%>
+			<tr>
+				<td><%= topic.created_at.to_formatted_s(:short) %></td>
+				<td><%= topic.last_author_name %></td>
+				<td><%= link_to_topic(topic) %></td>
+				<td><%= topic.comments.size %></td>
+			</tr>
+		<% end -%>
+    </tbody>
+  </table>
+</div>
+<% end -%>

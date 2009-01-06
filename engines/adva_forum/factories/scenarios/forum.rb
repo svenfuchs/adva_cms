@@ -1,3 +1,8 @@
+Factory.define_scenario :site_with_forum do
+  @site   ||= Factory :site
+  @forum  = Factory :forum, :site => @site
+end
+
 Factory.define_scenario :forum_with_topics do
   @site         ||= Factory :site
   @user         ||= Factory :user

@@ -1,18 +1,25 @@
-<h2><%= t(:'adva.titles.boards') %></h2>
+<h2><%= @section.title %></h2>
 
 <%= render :partial => 'side_panel' %>
 
+<div class='statistics'>
+	<p class='total'>
+		<%= "This forum has total of #{@section.boards.size} boards, #{@section.topics.size} topics and #{@section.comments.size} comments." %><br />
+		<%= "You can manage your forum " + link_to('here', forum_path(@section))%>
+	</p>
+</div>
+
+<%= render :partial => 'topics' %>
+
 <% unless @boards.empty? %>
-  <p class="hint">
+	<h2><%= t(:'adva.titles.boards') %></h2>
+  
+	<p class="hint">
     <% if @boards.size > 1 %>
       &middot;
       <%= link_to_function t(:'adva.boards.links.reorder'), "boards_tree.toggle(this, t(:'adva.resources.reordering_done'));", :id => 'reorder_boards' %>
       <%= image_tag '/images/adva_cms/indicator.gif', :id => 'boards_indicator', :style => 'display: none;' %>
     <% end %>
-  </p>
-	
-	<p class="total">
-    <%= "Total number of boards: #{@boards.size}" %>
   </p>
 
   <table id="boards" class="list">
@@ -41,11 +48,4 @@
     //   }
     // });
   </script>
-  
-<% else %>
-  <div class="empty">
-    
-    <%= t(:'adva.boards.info.no_boards_in_forum', :forum => @section.title) %> 
-    <%= link_to t(:'adva.boards.links.create_now') + ' &raquo;', new_admin_board_path %>
-  </div>
 <% end %>

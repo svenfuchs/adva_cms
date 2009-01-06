@@ -1,4 +1,5 @@
 class Admin::BoardsController < Admin::BaseController
+  helper :forum
   before_filter :set_section
   before_filter :set_boards, :only => [:index]
   before_filter :set_board,  :only => [:edit, :update, :destroy]

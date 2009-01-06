@@ -38,6 +38,10 @@ describe Forum do
   it "has option comments_per_page" do
     Forum.option_definitions.keys.should include(:comments_per_page)
   end
+  
+  it "has option comments_per_page" do
+    Forum.option_definitions.keys.should include(:latest_topics_count)
+  end
 
   describe "associations" do
     it "has many boards" do
@@ -81,6 +85,18 @@ describe Forum do
         @forum.valid?.should be_false
       end
     end
+    
+    describe "#latest_topics_count" do
+      it "passes when #latest_topics_count is numerical" do
+        @forum.latest_topics_count = 10
+        @forum.valid?.should be_true
+      end
+      
+      it "fails when #latest_topics_count is not numerical" do
+        @forum.latest_topics_count = 'ten'
+        @forum.valid?.should be_false
+      end
+    end
   end
 
   describe "methods" do
@@ -95,6 +111,14 @@ describe Forum do
       it "returns the most recent topic" do
         stub_scenario :forum_with_three_comments
         @forum.recent_comment.should == @latest_comment
+      end
+    end
+    
+    describe "#latest_topics" do
+      it "returns the ten most recently updated topics sorted by updated_at descending" do
+        factory_scenario :forum_with_topics
+        @forum.latest_topics_count = 1
+        @forum.latest_topics.should == [@recent_topic]
       end
     end
     
