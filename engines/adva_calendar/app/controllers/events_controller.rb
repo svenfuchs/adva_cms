@@ -82,7 +82,9 @@ class EventsController < BaseController
     def set_event
       @event = @section.events.published.find_by_id params[:id]
       @event ||= @section.events.published.find_by_permalink params[:id]
-      raise "could not find event '#{params[:id]}'" unless @event
+      if !@event || !@event.published? && !can_preview?
+        raise ActiveRecord::RecordNotFound
+      end
     end
 
     def set_tags
