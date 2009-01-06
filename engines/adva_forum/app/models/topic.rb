@@ -2,7 +2,7 @@ class Topic < ActiveRecord::Base
   has_permalink :title
   has_many_comments :as => :commentable
 
-  acts_as_role_context :parent => Board
+  acts_as_role_context :parent => Section
   # acts_as_role_context :roles => :author, :implicit_roles => lambda{|user|
   #   comments.by_author(user).map{|comment| Role.build :author, comment }
   # }
