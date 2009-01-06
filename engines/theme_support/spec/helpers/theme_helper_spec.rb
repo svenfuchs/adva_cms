@@ -27,7 +27,7 @@ describe ActionView::Helpers::AssetTagHelper, '#theme_image_tag' do
 
     ActionView::Helpers::AssetTagHelper::AssetTag::Cache.clear
 
-    @controller = mock 'controller', :site => mock('Site', :id => 1, :perma_host => 'adva-cms.org')
+    @controller = mock 'controller', :site => mock('Site', :id => 1, :perma_host => 'adva-cms.org', :attributes => {'id' => 1})
     helper.instance_variable_set(:@controller, @controller) # yuck
   end
 
@@ -103,7 +103,7 @@ describe ActionView::Helpers::AssetTagHelper, '#theme_javascript_include_tag' do
     ActionView::Helpers::AssetTagHelper::AssetTag::Cache.clear
     ActionView::Helpers::AssetTagHelper::AssetCollection::Cache.clear # yuck
 
-    @controller = mock 'controller', :site => mock('Site', :id => 1, :perma_host => 'adva-cms.org')
+    @controller = mock 'controller', :site => mock('Site', :id => 1, :perma_host => 'adva-cms.org', :attributes => {'id' => 1})
     helper.instance_variable_set(:@controller, @controller) # yuck
   end
 
@@ -321,7 +321,7 @@ describe ActionView::Helpers::AssetTagHelper, '#theme_stylesheet_link_tag' do
     ActionView::Helpers::AssetTagHelper::AssetTag::Cache.clear
     ActionView::Helpers::AssetTagHelper::AssetCollection::Cache.clear # yuck
 
-    @controller = mock 'controller', :site => mock('Site', :id => 1, :perma_host => 'adva-cms.org')
+    @controller = mock 'controller', :site => mock('Site', :id => 1, :perma_host => 'adva-cms.org', :attributes => {'id' => 1})
     helper.instance_variable_set(:@controller, @controller) # yuck
   end
 
@@ -445,17 +445,17 @@ describe ActionView::Helpers::AssetTagHelper, '#theme_stylesheet_link_tag' do
 
     describe "with perform_caching disabled" do
       with_global("ActionController::Base.perform_caching", false)
-
+    
       it "generates tags linking to '/themes/:theme_id/stylesheets/:source.css'" do
         urls = urls_from helper.theme_stylesheet_link_tag('theme-1', 'styles', 'more-styles')
         urls.should == %w(/themes/theme-1/stylesheets/styles.css /themes/theme-1/stylesheets/more-styles.css)
       end
-
+    
       it "reads the file contents from /themes/:site_id/:theme_id/stylesheets/:source.css" do
         File.should_receive(:read).with(@source)
         helper.theme_stylesheet_link_tag('theme-1', 'styles')
       end
-
+    
       it "writes the asset file contents to /public/cache/adva-cms.org/themes/:theme_id/stylesheets/:source.css" do
         helper.theme_stylesheet_link_tag('theme-1', 'styles')
         File.exist?(@destination.call('styles')).should be_true
@@ -469,36 +469,36 @@ describe ActionView::Helpers::AssetTagHelper, '#theme_stylesheet_link_tag' do
         before :each do
           @act = lambda { helper.theme_stylesheet_link_tag('theme-1', 'styles', 'more-styles') }
         end
-
+      
         it "generates tags linking to '/themes/:theme_id/stylesheets/:source.css'" do
           urls_from(call_helper).should == %w(/themes/theme-1/stylesheets/styles.css /themes/theme-1/stylesheets/more-styles.css)
         end
-
+      
         it "reads the file contents from /themes/:site_id/:theme_id/stylesheets/:source.css" do
           File.should_receive(:read).with(@source)
           call_helper
         end
-
+      
         it "writes the asset file contents to /public/cache/adva-cms.org/themes/:theme_id/stylesheets/:source.css" do
           call_helper
           File.exist?(@destination.call('styles')).should be_true
         end
       end
-
+      
       describe "given cache => true" do
         before :each do
           @act = lambda { helper.theme_stylesheet_link_tag('theme-1', 'styles', :cache => true) }
         end
-
+      
         it "generates tags linking to '/themes/:theme_id/stylesheets/all.css'" do
           urls_from(call_helper).should == %w(/themes/theme-1/stylesheets/all.css)
         end
-
+      
         it "reads the file contents from /themes/:site_id/:theme_id/:source.css" do
           File.should_receive(:read).with(@source)
           call_helper
         end
-
+      
         it "writes the joined asset file contents to /public/cache/adva-cms.org/themes/:theme_id/stylesheets/all.css" do
           call_helper
           File.exist?(@destination.call('all')).should be_true
