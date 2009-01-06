@@ -26,7 +26,7 @@ class CalendarEvent < ActiveRecord::Base
   named_scope :by_categories, Proc.new {|*category_ids| {:conditions => ['category_assignments.category_id IN (?)', category_ids], :include => :category_assignments}}
   named_scope :elapsed, lambda {{:conditions => ['startdate < ? AND (enddate IS ? OR enddate < ?)', Time.now, nil, Time.now], :order => 'startdate DESC'}}
   named_scope :upcoming, Proc.new {|startdate, enddate| {:conditions => ['(startdate > ? AND startdate < ?) OR (startdate < ? AND enddate > ?)', startdate||Time.now, enddate||((startdate||Time.now) + 1.month), startdate||Time.now, enddate||Time.now], :order => 'startdate ASC'}}
-  named_scope :recently_added, lambda{{:conditions => ['startdate > ? OR (startdate < ? AND enddate > ?)', Time.now, Time.now, Time.now], :order => 'created_at DESC'}}
+  named_scope :recently_added, lambda{{:conditions => ['startdate > ? OR (startdate < ? AND enddate > ?)', Time.now, Time.now, Time.now], :order => 'id DESC'}}
 
   named_scope :published, :conditions => {:draft => false }
   named_scope :search, Proc.new{|query, filter| {:conditions => ["#{CalendarEvent.sanitize_filter(filter)} LIKE ?", "%%%s%%" % query], :order => 'startdate DESC'}}

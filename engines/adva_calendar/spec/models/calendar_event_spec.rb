@@ -94,7 +94,7 @@ describe CalendarEvent do
       @calendar.events.elapsed.should ==[@elapsed_event2, @elapsed_event, @real_old_event]
     end
     it "should have a recently added scope" do
-      @calendar.events.recently_added.should ==[@upcoming_event, @running_event]
+      @calendar.events.recently_added.should ==[@running_event, @upcoming_event]
     end
     it "should have a published scope" do
       @calendar.events.published.should ==[@elapsed_event, @elapsed_event2, @upcoming_event, @running_event]
