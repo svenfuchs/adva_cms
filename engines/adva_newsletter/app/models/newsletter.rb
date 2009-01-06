@@ -10,4 +10,10 @@ class Newsletter < BaseNewsletter
     self.save
     return self
   end
+  
+  def available_users
+    site = Site.find(self.site_id, :include => :users)
+    reject_user_ids = self.subscriptions.map {|sc| sc.user_id}
+    users = site.users.reject {|user| reject_user_ids.include?(user.id)}
+  end
 end

@@ -1,4 +1,5 @@
 require File.dirname(__FILE__) + '/../spec_helper'
+require 'ruby-debug'; Debugger.start
 
 describe BaseNewsletter do
   
@@ -19,7 +20,7 @@ describe Newsletter do
   
   before do
     Site.delete_all
-    @newsletter = Factory :newsletter
+    factory_scenario :site_with_two_users_and_newsletter
   end
 
   describe "methods:" do
@@ -30,6 +31,14 @@ describe Newsletter do
         @newsletter.destroy
         Newsletter.find_by_id(@newsletter.id).should == nil
         DeletedNewsletter.find_by_id(@newsletter.id).should_not == nil
+      end
+    end
+    
+    describe "available_users" do
+      it "should provide all site users except already subscribed to the newsletter" do
+        @newsletter.available_users.count.should == 2
+        new_subscriber = @newsletter.subscriptions.create :user_id => @site.users.first.id
+        @newsletter.available_users.count.should == 1
       end
     end
   end

@@ -134,6 +134,7 @@ en:
         section_default: Home
       no_sites: You currently do not have any sites created.
       no_users: Site does not have any users.
+      no_available_users: Site does not have any available user.
       links:
         delete: Delete this site
         create_site_and_account: "Create site & account \xC2\xBB"

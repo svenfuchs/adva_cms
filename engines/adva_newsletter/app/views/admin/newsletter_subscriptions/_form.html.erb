@@ -1,4 +1,4 @@
 <fieldset class="clearfix">
   <%= f.label :user_id, t('adva.subscription.label.user') %>
-  <%= f.select :user_id, @site.users.map {|user| [ user.name, user.id ]}, :class => 'big'  %>
+  <%= f.select :user_id, @newsletter.available_users.map {|user| [ user.name, user.id ]}, :class => 'big'  %>
 </fieldset>

@@ -16,6 +16,28 @@ class SubscriptionsTest < ActionController::IntegrationTest
     assert_select '.empty'
     assert_select '.empty>a', 'Add a new subscriber'
   end
+  
+  test 'admin adds subscriber: should add new subscriber to the newsletter and total subscribers should be 1' do
+    visit "/admin/sites/#{@site.id}/newsletters/#{@newsletter.id}/"
+
+    assert_template 'admin/newsletters/show'
+    click_link 'Add a new subscriber'
+    
+    assert_template 'admin/newsletter_subscriptions/new'
+    select 'John Doe'
+    click_button 'Add'
+
+    assert_template 'admin/newsletter_subscriptions/index'
+    assert_content 'John Doe'
+    assert_content 'Total subscribers: 1'
+
+    # admin tries to add same subscriber second time: should show link add new user to the site
+    click_link 'Add a new subscriber'
+    
+    assert_template 'admin/newsletter_subscriptions/new'
+    assert_content 'Site does not have any available user'
+    click_link 'Add a new user'
+  end
 end
 
 class SubscriptionWithNoSiteUsersTest < ActionController::IntegrationTest
