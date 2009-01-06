@@ -28,3 +28,14 @@ def assert_flash(message)
     "Flash message does NOT MATCH:\n  We should have message: #{message}\n" +
     "  BUT we got cookie: #{cookies['flash']}\n  what doesn't match to our message regexp: #{regexp}"
 end
+
+# Testing content with regexp
+#
+# Example usage:
+#   assert_content 'looking for my content'
+#
+def assert_content(content)
+  assert response.body =~ Regexp.new(content),
+    "\nDidn't find content with regexp: /#{content}/\n" +
+    "FROM:\n#{response.body}"
+end
