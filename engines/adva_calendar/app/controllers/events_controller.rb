@@ -98,4 +98,8 @@ class EventsController < BaseController
     def current_role_context
       @event || @section
     end
+
+    def can_preview?
+      has_permission?('update', 'article')
+    end
 end

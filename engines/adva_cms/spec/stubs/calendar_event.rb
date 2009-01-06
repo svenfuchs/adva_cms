@@ -20,7 +20,8 @@ define CalendarEvent do
           :destroy => true,
           :created_at => Time.now,
           :startdate => Time.now,
-          :enddate => Time.now
+          :enddate => Time.now,
+          :draft? => true
   instance :calendar_event
 end
 
