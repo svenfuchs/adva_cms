@@ -35,9 +35,9 @@ describe Newsletter do
     
     describe "available_users" do
       it "should provide all site users except already subscribed to the newsletter" do
-        @newsletter.available_users.count.should == 2
+        @newsletter.available_users.size.should == 2
         new_subscriber = @newsletter.subscriptions.create :user_id => @site.users.first.id
-        @newsletter.available_users.count.should == 1
+        @newsletter.available_users.size.should == 1
       end
     end
   end
