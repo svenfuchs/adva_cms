@@ -161,9 +161,13 @@ module ActionView
             segments = [theme_name, directory, @source]
             compute_public_path(File.join('/themes', *segments))
           end
-
+          
           def asset_file_path
-            path = File.join('/themes', "site-#{@controller.site.id}", theme_name, directory, @source)
+            # HACK. @controller.site.id break with a superweird error on the second request because some
+            # class_inheritable_attr is not there any more (:skip_time_zone_conversion_for_attributes)
+            # The whole design seems to be flawed here. Will @controller.site really change per request 
+            # here? Or is this stuff memoized somewhere in between?
+            path = File.join('/themes', "site-#{@controller.site.attributes['id']}", theme_name, directory, @source)
             File.join(RAILS_ROOT, compute_public_path(path).split('?').first)
           end
         end
