@@ -82,7 +82,7 @@ class EventsController < BaseController
     def set_event
       @event = @section.events.published.find_by_id params[:id]
       @event ||= @section.events.published.find_by_permalink params[:id]
-      if !@event || !@event.published? && !can_preview?
+      if !@event || (@event.draft? && !can_preview?)
         raise ActiveRecord::RecordNotFound
       end
     end
