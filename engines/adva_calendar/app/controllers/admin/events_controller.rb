@@ -103,8 +103,8 @@ class Admin::EventsController < Admin::BaseController
     end
 
     def params_dates
-      set_calendar_event_param :startdate, Time.zone.parse(params[:calendar_event][:startdate]) unless params[:calendar_event][:startdate].blank?
-      set_calendar_event_param :enddate, Time.zone.parse(params[:calendar_event][:enddate]) unless params[:calendar_event][:enddate].blank?
+      set_calendar_event_param :startdate, Time.parse(params[:calendar_event][:startdate]) unless params[:calendar_event][:startdate].blank?
+      set_calendar_event_param :enddate, Time.parse(params[:calendar_event][:enddate]) unless params[:calendar_event][:enddate].blank?
     end
 
     # will check if existing location is selected, otherwise try to create a new one 
