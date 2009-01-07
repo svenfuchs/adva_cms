@@ -42,10 +42,8 @@ Development
 Please check out /doc directory for high level overview about Adva.
  
 Running specs and int tests
-  First time before running specs and tests, you should create test database's structure
-    rake db:test:clone_structure
-  Run all specs and integration tests with:
-    ruby script/test-adva  # Runs all Adva specs and int tests
+  rake db:test:clone     # Clones from your development database to test database
+  ruby script/test-adva  # Runs all Adva specs and int tests
 
 Please report bugs to Lighthouse: 
   http://artweb-design.lighthouseapp.com/projects/13992-adva_cms/overview
