@@ -751,9 +751,13 @@ en:
         topics: Topics
     subscription:
       no_subscriptions: There are no subscribers.
+      confirm_delete: Are you sure you want unsubscribe?
+      flash:
+        destroy_success: Successfully unsubsribed.
       link:
         index: Subscribers
         new: Add a new subscriber
+        destroy: Unsubscribe
       label:
         user: Users
         subscriber: Subscriber

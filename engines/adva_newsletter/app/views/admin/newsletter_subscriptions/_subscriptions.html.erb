@@ -14,7 +14,12 @@
           <td><%= link_to h(subscription.user.name), admin_user_path(subscription.user_id) %></td>
           <td><%= subscription.user.email %></td>
           <td><%= subscription.created_at.to_s(:db) %></td>
-          <td>&nbsp;</td>
+          <td class='table_menu'>
+            <ul>
+              <li><%= link_to t('adva.subscription.link.destroy'), admin_subscription_path(@site, @newsletter, subscription),
+                :confirm => t('adva.subscription.confirm_delete'), :method => :delete  %></li>
+            </ul>
+          </td>
         </tr>
       <% end %>
     </tbody>

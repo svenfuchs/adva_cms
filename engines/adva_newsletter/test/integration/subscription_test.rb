@@ -37,6 +37,9 @@ class SubscriptionsTest < ActionController::IntegrationTest
     assert_template 'admin/newsletter_subscriptions/new'
     assert_content 'Site does not have any available user'
     click_link 'Add a new user'
+    
+    # admin unsubscribe John Doe 
+    # TODO: bring on selenium test for that
   end
 end
 

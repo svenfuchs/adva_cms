@@ -1,8 +1,4 @@
-<div id='newsletter-header' class='clearfix'>
-  <div id='newsletter-title'>
-    <ul>
-      <li><%= link_to t('adva.newsletter.link.issues'), admin_issues_path(@site, @newsletter) %></li>
-      <li><%= link_to t('adva.newsletter.link.subscribers'), admin_subscriptions_path(@site, @newsletter) %></li>
-    </ul>
-  </div>
-</div>
+<ul class='sub-nav clearfix'>
+  <li><%= link_to "<span>#{ t('adva.newsletter.link.issues') }</span>", admin_issues_path(@site, @newsletter) %></li>
+  <li><%= link_to "<span>#{ t('adva.newsletter.link.subscribers') }</span>", admin_subscriptions_path(@site, @newsletter) %></li>
+</ul>
