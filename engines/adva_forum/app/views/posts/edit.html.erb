@@ -1,14 +1,18 @@
 <h2><%= t(:'adva.posts.titles.edit_post') %></h2>
 
-<% form_for :post, @post, :url => topic_post_path(@section, @topic, @post), :html => {:method => :put} do |f| %>
+<% authorized_tag :span, :update, @post do %>
+
+	<% form_for :post, @post, :url => topic_post_path(@section, @topic, @post), :html => {:method => :put} do |f| %>
   <%= hidden_field_tag :return_to, params[:return_to] %>
   <p>
     <%= f.text_area :body %>    
   </p>
   <p>
     <%= submit_tag t(:'adva.posts.titles.save_post') %>
-    <%= link_to_remote_comment_preview %> or
+    <%= link_to_remote_comment_preview %> <%= t(:'adva.common.connector.or') %>
     <img src="/images/adva_cms/indicator.gif" id="comment-preview-spinner" style="display: none;" />
     <%= link_to(t(:'adva.common.cancel'), params[:return_to]) if params[:return_to] %>
   </p>
+	<% end %>
+	
 <% end %>

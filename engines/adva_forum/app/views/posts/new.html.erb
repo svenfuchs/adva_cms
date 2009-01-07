@@ -1,3 +1,5 @@
 <%= link_to 'Back', 'javascript:history.back();', :style => 'float:left;' %>
 
-<%= render :partial => 'form' %>
+<% authorized_tag :span, @post.new_record? ? :create : :update, @post do %>
+	<%= render :partial => 'form' %>
+<% end %>

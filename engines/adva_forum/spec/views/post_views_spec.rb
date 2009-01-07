@@ -12,23 +12,26 @@ describe "Post views:" do
     assigns[:post] = @post = stub_comment
 
     Section.stub!(:find).and_return @forum
-
+    
+    template.stub!(:authorized_tag).and_return 'superuser'
     template.stub!(:render).with hash_including(:partial => 'posts/form')
   end
 
   describe "the new view" do
     before :each do
-      template.stub!(:topic_posts_path).and_return 'topic_posts_path'
-      template.stub!(:submit_tag).and_return 'submit_tag'
-      template.stub!(:link_to_remote_comment_preview).and_return 'link_to_remote_comment_preview'
+      assigns[:post] = @post = Post.new
     end
-
-    # it "renders the topics/form partial" do
+    
+    it "shows an authorized tag with the post create form" do
+      template.should_receive(:authorized_tag).with(:span, :create, @post)
+      render "posts/new"
+    end
+  
+    # TODO fix authorized_tag first
+    it "renders the topics/form partial" # do
     #   template.should_receive(:render).with hash_including(:partial => 'form')
     #   render "posts/new"
     # end
-
-    it "should be fixed"
   end
 
   describe "the edit view" do

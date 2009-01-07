@@ -18,7 +18,7 @@ describe TopicsController do
 
     @controller.stub!(:forum_path).and_return forum_path # TODO have a helper for this kind of stuff
     @controller.stub!(:topic_path).and_return topic_path    
-
+    @controller.stub!(:current_user).and_return @user
     @controller.stub!(:has_permission?).and_return true # TODO
   end
 
@@ -48,6 +48,11 @@ describe TopicsController do
     it_assigns :topic
     it_renders_template :show
     # it_guards_permissions :show, :topic # deactivated all :show permissions in the backend
+    
+    it "instantiates a new post object" do
+      Post.should_receive(:new).with(:author => @user)
+      act!
+    end
   end  
   
   describe "POST to :create" do

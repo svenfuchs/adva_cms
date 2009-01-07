@@ -22,7 +22,9 @@
   <%= link_to_next_topic(t(:'adva.common.next') + ' &rarr;', @topic, :class => :next) %>
 </p>
 
-<%= render :partial => 'posts/form' %>
+<% authorized_tag :span, :create, @post do %>
+	<%= render :partial => 'posts/form' %>
+<% end %>
 
 
 

@@ -14,7 +14,7 @@ class TopicsController < BaseController
   end
 
   def show
-    @post = Post.new
+    @post = Post.new(:author => current_user)
   end
 
   def new
