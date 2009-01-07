@@ -4,8 +4,10 @@
     <% unless theme.version.blank? -%>v<%= theme.version %> |<% end -%>
     <%= t(:'adva.common.by_author', :author => theme.author_link) %>
   </p>
-  <%= link_to image_tag("http://#{@site.host}#{theme.preview.path.to_s}"), admin_theme_path(@site, theme.id) %>
-  <ul class="options">
+  
+	<%= link_to theme_image_tag(theme.id, theme.preview.localpath.to_s.gsub('images/', '')), admin_theme_path(@site, theme.id) %>
+  
+	<ul class="options">
     <% if @site.current_theme?(theme) %>
       <li><%= link_to t(:'adva.themes.links.unselect'), admin_site_selected_theme_path(@site, theme.id), { :confirm => t(:'adva.themes.confirm_unselect'), :method => :delete } %></li>
     <% else %>

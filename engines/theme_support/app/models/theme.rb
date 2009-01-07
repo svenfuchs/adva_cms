@@ -73,8 +73,9 @@ class Theme
 
   def initialize(attrs = {})
     @errors = []
-    attrs['id'] = self.class.to_id(attrs['name']) if attrs['name'] && !attrs['id']
-    attrs['path'] += attrs['id'] if attrs['id']
+    attrs.symbolize_keys!
+    attrs[:id] = self.class.to_id(attrs[:name]) if attrs[:name] && !attrs[:id]
+    attrs[:path] += attrs[:id] if attrs[:id]
     self.attributes = attrs
   end
 
@@ -157,7 +158,15 @@ class Theme
   end
 
   def preview
-    others.find('preview-png') || Theme::Other.default_preview(self, @@default_preview_path)
+    unless ::File.exists?(preview_path)
+      FileUtils.mkdir_p ::File.dirname(preview_path)
+      FileUtils.cp @@default_preview_path, preview_path 
+    end
+    assets.find('images-preview-png')
+  end
+  
+  def preview_path
+    "#{self.path}/images/preview.png"
   end
 
   def update_attributes(attributes)
@@ -226,6 +235,10 @@ class Theme
   def destroy
     raise ThemeError.new("can't remove directory #{@path}") unless @path.to_s =~ %r(^#{Theme.base_dir})
     FileUtils.remove_dir @path.to_s
+  end
+  
+  def ==(other)
+    other and self.path == other.path
   end
 
 protected

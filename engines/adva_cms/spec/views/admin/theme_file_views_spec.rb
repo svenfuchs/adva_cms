@@ -16,6 +16,7 @@ describe "Admin::Themes:" do
     template.stub!(:admin_theme_files_path).and_return @admin_theme_files_path
     template.stub!(:admin_theme_file_path).and_return @admin_theme_file_path
     template.stub!(:new_admin_theme_file_path).and_return @new_admin_theme_file_path
+    template.stub!(:theme_image_tag).and_return 'theme_image_tag'
   end
 
   describe "the :show view" do

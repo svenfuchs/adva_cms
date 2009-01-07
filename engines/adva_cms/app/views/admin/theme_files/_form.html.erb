@@ -4,14 +4,16 @@
       <%= f.label :localpath, t(:'adva.themes.labels.filename') %>
       <%= f.text_field :localpath %>
     </p>
+
     <% if @file.text? %>
-    <p>
-      <%= f.label :data %>
-      <%= f.text_area :data %>
-    </p> 
+	    <p>
+	      <%= f.label :data %>
+	      <%= f.text_area :data %>
+	    </p> 
     <% else %>
-      <p><%= image_tag @file.path.to_s %></p>
+      <p><%= theme_image_tag @theme.id, @file.localpath.to_s.gsub('images/', '') %></p>
     <% end %>
+
     <p class="buttons">
       <%= submit_tag t(:'adva.common.save') %> or 
       <%= link_to t(:'adva.common.cancel'), admin_theme_path(@site, @theme.id) %>

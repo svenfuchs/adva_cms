@@ -37,15 +37,11 @@ describe ActionView::Helpers::AssetTagHelper, '#theme_image_tag' do
     end
   end
 
-  def call_helper
-    @act.call
-  end
-
   describe "in single-site mode" do
     with_global("Site.multi_sites_enabled", false)
 
     before :each do
-      @act = lambda { helper.theme_image_tag('theme-1', 'logo.png') }
+      @helper = lambda { helper.theme_image_tag('theme-1', 'logo.png') }
 
       @source = "#{RAILS_ROOT}/themes/site-1/theme-1/images/logo.png"
       @destination = lambda { |name| "public/themes/theme-1/images/#{name}.png" }
@@ -55,14 +51,14 @@ describe ActionView::Helpers::AssetTagHelper, '#theme_image_tag' do
     end
 
     it "generate a tag linking to '/themes/:theme_id/images/:source.png'" do
-      urls = urls_from call_helper
+      urls = urls_from @helper.call
       urls.should == %w(/themes/theme-1/images/logo.png)
     end
 
     it "copies the image file from /themes/:site_id/:theme_id/images/:source.png \
         to /public/themes/:theme_id/images/:source.png" do
       FileUtils.should_receive(:cp).with @source, RAILS_ROOT + '/' + @destination.call('logo')
-      call_helper
+      @helper.call
     end
   end
 
@@ -70,7 +66,7 @@ describe ActionView::Helpers::AssetTagHelper, '#theme_image_tag' do
     with_global("Site.multi_sites_enabled", true)
 
     before :each do
-      @act = lambda { helper.theme_image_tag('theme-1', 'logo.png') }
+      @helper = lambda { helper.theme_image_tag('theme-1', 'logo.png') }
 
       @source = "#{RAILS_ROOT}/themes/site-1/theme-1/images/logo.png"
       @destination = lambda { |name| "public/cache/adva-cms.org/themes/theme-1/images/#{name}.png" }
@@ -80,14 +76,14 @@ describe ActionView::Helpers::AssetTagHelper, '#theme_image_tag' do
     end
 
     it "generate a tag linking to '/themes/:theme_id/images/:source.png'" do
-      urls = urls_from call_helper
+      urls = urls_from @helper.call
       urls.should == %w(/themes/theme-1/images/logo.png)
     end
 
     it "copies the image file from /themes/:site_id/:theme_id/images/:source.png \
         to /public/cache/adva-cms.org/themes/:theme_id/images/:source.png" do
       FileUtils.should_receive(:cp).with @source, RAILS_ROOT + '/' + @destination.call('logo')
-      call_helper
+      @helper.call
     end
   end
 end
@@ -113,10 +109,6 @@ describe ActionView::Helpers::AssetTagHelper, '#theme_javascript_include_tag' do
     end
   end
 
-  def call_helper
-    @act.call
-  end
-
   describe "in single-site mode" do
     with_global("Site.multi_sites_enabled", false)
 
@@ -127,23 +119,23 @@ describe ActionView::Helpers::AssetTagHelper, '#theme_javascript_include_tag' do
 
     describe "with perform_caching disabled" do
       before :each do
-        @act = lambda { helper.theme_javascript_include_tag('theme-1', 'effects', 'more-effects') }
+        @helper = lambda { helper.theme_javascript_include_tag('theme-1', 'effects', 'more-effects') }
       end
 
       with_global("ActionController::Base.perform_caching", false)
 
       it "generates tags linking to '/themes/:theme_id/javascripts/:source.js'" do
-        urls = urls_from call_helper
+        urls = urls_from @helper.call
         urls.should == %w(/themes/theme-1/javascripts/effects.js /themes/theme-1/javascripts/more-effects.js)
       end
 
       it "reads the file contents from /themes/:site_id/:theme_id/javascripts/:source.js" do
         File.should_receive(:read).with(@source)
-        call_helper
+        @helper.call
       end
 
       it "writes the asset file contents to /public/themes/:theme_id/javascripts/:source.js" do
-        call_helper
+        @helper.call
         File.exist?(@destination.call('effects')).should be_true
       end
     end
@@ -153,60 +145,60 @@ describe ActionView::Helpers::AssetTagHelper, '#theme_javascript_include_tag' do
 
       describe "given no cache option" do
         before :each do
-          @act = lambda { helper.theme_javascript_include_tag('theme-1', 'effects', 'more-effects') }
+          @helper = lambda { helper.theme_javascript_include_tag('theme-1', 'effects', 'more-effects') }
         end
 
         it "generates tags linking to '/themes/:theme_id/javascripts/:source.js'" do
-          urls_from(call_helper).should == %w(/themes/theme-1/javascripts/effects.js /themes/theme-1/javascripts/more-effects.js)
+          urls_from(@helper.call).should == %w(/themes/theme-1/javascripts/effects.js /themes/theme-1/javascripts/more-effects.js)
         end
 
         it "reads the file contents from /themes/:site_id/:theme_id/javascripts/:source.js" do
           File.should_receive(:read).with(@source)
-          call_helper
+          @helper.call
         end
 
         it "writes the asset file contents to /public/themes/:theme_id/javascripts/:source.js" do
-          call_helper
+          @helper.call
           File.exist?(@destination.call('effects')).should be_true
         end
       end
 
       describe "given cache => true" do
         before :each do
-          @act = lambda { helper.theme_javascript_include_tag('theme-1', 'effects', :cache => true) }
+          @helper = lambda { helper.theme_javascript_include_tag('theme-1', 'effects', :cache => true) }
         end
 
         it "generates tags linking to '/themes/:theme_id/javascripts/all.js'" do
-          urls_from(call_helper).should == %w(/themes/theme-1/javascripts/all.js)
+          urls_from(@helper.call).should == %w(/themes/theme-1/javascripts/all.js)
         end
 
         it "reads the file contents from /themes/:site_id/:theme_id/:source.js" do
           File.should_receive(:read).with(@source)
-          call_helper
+          @helper.call
         end
 
         it "writes the joined asset file contents to /public/themes/:theme_id/javascripts/all.js" do
-          call_helper
+          @helper.call
           File.exist?(@destination.call('all')).should be_true
         end
       end
 
       describe "given cache => 'foo'" do
         before :each do
-          @act = lambda { helper.theme_javascript_include_tag('theme-1', 'effects', :cache => 'foo') }
+          @helper = lambda { helper.theme_javascript_include_tag('theme-1', 'effects', :cache => 'foo') }
         end
 
         it "generates tags linking to '/themes/:theme_id/javascripts/all.js'" do
-          urls_from(call_helper).should == %w(/themes/theme-1/javascripts/foo.js)
+          urls_from(@helper.call).should == %w(/themes/theme-1/javascripts/foo.js)
         end
 
         it "reads the file contents from /themes/:site_id/:theme_id/:source.js" do
           File.should_receive(:read).with(@source)
-          call_helper
+          @helper.call
         end
 
         it "writes the joined asset file contents to /public/themes/:theme_id/javascripts/foo.js" do
-          call_helper
+          @helper.call
           File.exist?(@destination.call('foo')).should be_true
         end
       end
@@ -219,10 +211,6 @@ describe ActionView::Helpers::AssetTagHelper, '#theme_javascript_include_tag' do
     before :each do
       @source = "#{RAILS_ROOT}/themes/site-1/theme-1/javascripts/effects.js"
       @destination = lambda { |name| "public/cache/adva-cms.org/themes/theme-1/javascripts/#{name}.js" }
-    end
-
-    def call_helper
-      @act.call
     end
 
     describe "with perform_caching disabled" do
@@ -249,60 +237,60 @@ describe ActionView::Helpers::AssetTagHelper, '#theme_javascript_include_tag' do
 
       describe "given no cache option" do
         before :each do
-          @act = lambda { helper.theme_javascript_include_tag('theme-1', 'effects', 'more-effects') }
+          @helper = lambda { helper.theme_javascript_include_tag('theme-1', 'effects', 'more-effects') }
         end
 
         it "generates tags linking to '/themes/:theme_id/javascripts/:source.js'" do
-          urls_from(call_helper).should == %w(/themes/theme-1/javascripts/effects.js /themes/theme-1/javascripts/more-effects.js)
+          urls_from(@helper.call).should == %w(/themes/theme-1/javascripts/effects.js /themes/theme-1/javascripts/more-effects.js)
         end
 
         it "reads the file contents from /themes/:site_id/:theme_id/javascripts/:source.js" do
           File.should_receive(:read).with(@source)
-          call_helper
+          @helper.call
         end
 
         it "writes the asset file contents to /public/cache/adva-cms.org/themes/:theme_id/javascripts/:source.js" do
-          call_helper
+          @helper.call
           File.exist?(@destination.call('effects')).should be_true
         end
       end
 
       describe "given cache => true" do
         before :each do
-          @act = lambda { helper.theme_javascript_include_tag('theme-1', 'effects', :cache => true) }
+          @helper = lambda { helper.theme_javascript_include_tag('theme-1', 'effects', :cache => true) }
         end
 
         it "generates tags linking to '/themes/:theme_id/javascripts/all.js'" do
-          urls_from(call_helper).should == %w(/themes/theme-1/javascripts/all.js)
+          urls_from(@helper.call).should == %w(/themes/theme-1/javascripts/all.js)
         end
 
         it "reads the file contents from /themes/:site_id/:theme_id/:source.js" do
           File.should_receive(:read).with(@source)
-          call_helper
+          @helper.call
         end
 
         it "writes the joined asset file contents to /public/cache/adva-cms.org/themes/:theme_id/javascripts/all.js" do
-          call_helper
+          @helper.call
           File.exist?(@destination.call('all')).should be_true
         end
       end
 
       describe "given cache => 'foo'" do
         before :each do
-          @act = lambda { helper.theme_javascript_include_tag('theme-1', 'effects', :cache => 'foo') }
+          @helper = lambda { helper.theme_javascript_include_tag('theme-1', 'effects', :cache => 'foo') }
         end
 
         it "generates tags linking to '/themes/:theme_id/javascripts/all.js'" do
-          urls_from(call_helper).should == %w(/themes/theme-1/javascripts/foo.js)
+          urls_from(@helper.call).should == %w(/themes/theme-1/javascripts/foo.js)
         end
 
         it "reads the file contents from /themes/:site_id/:theme_id/:source.js" do
           File.should_receive(:read).with(@source)
-          call_helper
+          @helper.call
         end
 
         it "writes the joined asset file contents to /public/cache/adva-cms.org/themes/:theme_id/javascripts/foo.js" do
-          call_helper
+          @helper.call
           File.exist?(@destination.call('foo')).should be_true
         end
       end
@@ -331,10 +319,6 @@ describe ActionView::Helpers::AssetTagHelper, '#theme_stylesheet_link_tag' do
     end
   end
 
-  def call_helper
-    @act.call
-  end
-
   describe "in single-site mode" do
     with_global("Site.multi_sites_enabled", false)
 
@@ -345,23 +329,23 @@ describe ActionView::Helpers::AssetTagHelper, '#theme_stylesheet_link_tag' do
 
     describe "with perform_caching disabled" do
       before :each do
-        @act = lambda { helper.theme_stylesheet_link_tag('theme-1', 'styles', 'more-styles') }
+        @helper = lambda { helper.theme_stylesheet_link_tag('theme-1', 'styles', 'more-styles') }
       end
 
       with_global("ActionController::Base.perform_caching", false)
 
       it "generates tags linking to '/themes/:theme_id/stylesheets/:source.css'" do
-        urls = urls_from call_helper
+        urls = urls_from @helper.call
         urls.should == %w(/themes/theme-1/stylesheets/styles.css /themes/theme-1/stylesheets/more-styles.css)
       end
 
       it "reads the file contents from /themes/:site_id/:theme_id/stylesheets/:source.css" do
         File.should_receive(:read).with(@source)
-        call_helper
+        @helper.call
       end
 
       it "writes the asset file contents to /public/themes/:theme_id/stylesheets/:source.css" do
-        call_helper
+        @helper.call
         File.exist?(@destination.call('styles')).should be_true
       end
     end
@@ -371,60 +355,60 @@ describe ActionView::Helpers::AssetTagHelper, '#theme_stylesheet_link_tag' do
 
       describe "given no cache option" do
         before :each do
-          @act = lambda { helper.theme_stylesheet_link_tag('theme-1', 'styles', 'more-styles') }
+          @helper = lambda { helper.theme_stylesheet_link_tag('theme-1', 'styles', 'more-styles') }
         end
 
         it "generates tags linking to '/themes/:theme_id/stylesheets/:source.css'" do
-          urls_from(call_helper).should == %w(/themes/theme-1/stylesheets/styles.css /themes/theme-1/stylesheets/more-styles.css)
+          urls_from(@helper.call).should == %w(/themes/theme-1/stylesheets/styles.css /themes/theme-1/stylesheets/more-styles.css)
         end
 
         it "reads the file contents from /themes/:site_id/:theme_id/stylesheets/:source.css" do
           File.should_receive(:read).with(@source)
-          call_helper
+          @helper.call
         end
 
         it "writes the asset file contents to /public/themes/:theme_id/stylesheets/:source.css" do
-          call_helper
+          @helper.call
           File.exist?(@destination.call('styles')).should be_true
         end
       end
 
       describe "given cache => true" do
         before :each do
-          @act = lambda { helper.theme_stylesheet_link_tag('theme-1', 'styles', :cache => true) }
+          @helper = lambda { helper.theme_stylesheet_link_tag('theme-1', 'styles', :cache => true) }
         end
 
         it "generates tags linking to '/themes/:theme_id/stylesheets/all.css'" do
-          urls_from(call_helper).should == %w(/themes/theme-1/stylesheets/all.css)
+          urls_from(@helper.call).should == %w(/themes/theme-1/stylesheets/all.css)
         end
 
         it "reads the file contents from /themes/:site_id/:theme_id/:source.css" do
           File.should_receive(:read).with(@source)
-          call_helper
+          @helper.call
         end
 
         it "writes the joined asset file contents to /public/themes/:theme_id/stylesheets/all.css" do
-          call_helper
+          @helper.call
           File.exist?(@destination.call('all')).should be_true
         end
       end
 
       describe "given cache => 'foo'" do
         before :each do
-          @act = lambda { helper.theme_stylesheet_link_tag('theme-1', 'styles', :cache => 'foo') }
+          @helper = lambda { helper.theme_stylesheet_link_tag('theme-1', 'styles', :cache => 'foo') }
         end
 
         it "generates tags linking to '/themes/:theme_id/stylesheets/all.css'" do
-          urls_from(call_helper).should == %w(/themes/theme-1/stylesheets/foo.css)
+          urls_from(@helper.call).should == %w(/themes/theme-1/stylesheets/foo.css)
         end
 
         it "reads the file contents from /themes/:site_id/:theme_id/:source.css" do
           File.should_receive(:read).with(@source)
-          call_helper
+          @helper.call
         end
 
         it "writes the joined asset file contents to /public/themes/:theme_id/stylesheets/foo.css" do
-          call_helper
+          @helper.call
           File.exist?(@destination.call('foo')).should be_true
         end
       end
@@ -437,10 +421,6 @@ describe ActionView::Helpers::AssetTagHelper, '#theme_stylesheet_link_tag' do
     before :each do
       @source = "#{RAILS_ROOT}/themes/site-1/theme-1/stylesheets/styles.css"
       @destination = lambda { |name| "public/cache/adva-cms.org/themes/theme-1/stylesheets/#{name}.css" }
-    end
-
-    def call_helper
-      @act.call
     end
 
     describe "with perform_caching disabled" do
@@ -467,60 +447,60 @@ describe ActionView::Helpers::AssetTagHelper, '#theme_stylesheet_link_tag' do
 
       describe "given no cache option" do
         before :each do
-          @act = lambda { helper.theme_stylesheet_link_tag('theme-1', 'styles', 'more-styles') }
+          @helper = lambda { helper.theme_stylesheet_link_tag('theme-1', 'styles', 'more-styles') }
         end
       
         it "generates tags linking to '/themes/:theme_id/stylesheets/:source.css'" do
-          urls_from(call_helper).should == %w(/themes/theme-1/stylesheets/styles.css /themes/theme-1/stylesheets/more-styles.css)
+          urls_from(@helper.call).should == %w(/themes/theme-1/stylesheets/styles.css /themes/theme-1/stylesheets/more-styles.css)
         end
       
         it "reads the file contents from /themes/:site_id/:theme_id/stylesheets/:source.css" do
           File.should_receive(:read).with(@source)
-          call_helper
+          @helper.call
         end
       
         it "writes the asset file contents to /public/cache/adva-cms.org/themes/:theme_id/stylesheets/:source.css" do
-          call_helper
+          @helper.call
           File.exist?(@destination.call('styles')).should be_true
         end
       end
       
       describe "given cache => true" do
         before :each do
-          @act = lambda { helper.theme_stylesheet_link_tag('theme-1', 'styles', :cache => true) }
+          @helper = lambda { helper.theme_stylesheet_link_tag('theme-1', 'styles', :cache => true) }
         end
       
         it "generates tags linking to '/themes/:theme_id/stylesheets/all.css'" do
-          urls_from(call_helper).should == %w(/themes/theme-1/stylesheets/all.css)
+          urls_from(@helper.call).should == %w(/themes/theme-1/stylesheets/all.css)
         end
       
         it "reads the file contents from /themes/:site_id/:theme_id/:source.css" do
           File.should_receive(:read).with(@source)
-          call_helper
+          @helper.call
         end
       
         it "writes the joined asset file contents to /public/cache/adva-cms.org/themes/:theme_id/stylesheets/all.css" do
-          call_helper
+          @helper.call
           File.exist?(@destination.call('all')).should be_true
         end
       end
 
       describe "given cache => 'foo'" do
         before :each do
-          @act = lambda { helper.theme_stylesheet_link_tag('theme-1', 'styles', :cache => 'foo') }
+          @helper = lambda { helper.theme_stylesheet_link_tag('theme-1', 'styles', :cache => 'foo') }
         end
 
         it "generates tags linking to '/themes/:theme_id/stylesheets/all.css'" do
-          urls_from(call_helper).should == %w(/themes/theme-1/stylesheets/foo.css)
+          urls_from(@helper.call).should == %w(/themes/theme-1/stylesheets/foo.css)
         end
 
         it "reads the file contents from /themes/:site_id/:theme_id/:source.css" do
           File.should_receive(:read).with(@source)
-          call_helper
+          @helper.call
         end
 
         it "writes the joined asset file contents to /public/cache/adva-cms.org/themes/:theme_id/stylesheets/foo.css" do
-          call_helper
+          @helper.call
           File.exist?(@destination.call('foo')).should be_true
         end
       end

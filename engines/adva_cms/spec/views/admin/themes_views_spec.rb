@@ -14,12 +14,13 @@ describe "Admin::Themes:" do
     template.stub!(:admin_themes_path).and_return @admin_themes_path
     template.stub!(:admin_theme_path).and_return @admin_theme_path
     template.stub!(:new_admin_theme_path).and_return @new_admin_theme_path
+    template.stub!(:theme_image_tag).and_return 'theme_image_tag'
   end
 
   describe "the :index view" do
     before :each do
       assigns[:themes] = @themes
-      @theme.stub!(:preview).and_return mock('preview', :path => '/path/to/preview')
+      @theme.stub!(:preview).and_return mock('preview', :localpath => '/path/to/preview')
     end
 
     it "displays a link to the :new action" do
