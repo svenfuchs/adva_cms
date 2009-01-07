@@ -3,8 +3,10 @@
   <ul>
     <li><%= link_to t(:'adva.categories.links.create'), new_admin_category_path %></li>
     <% if @categories.size > 1 %>
-      <li><%= link_to_function t(:'adva.categories.links.reorder'), "categories_tree.toggle(this, t(:'adva.resources.reordering_done'));", :id => 'reorder_categories' %>
-      <%= image_tag '/images/adva_cms/indicator.gif', :id => 'categories_indicator', :style => 'display: none;' %></li>
+      <li>
+        <%= link_to_function t(:'adva.categories.links.reorder'), "categories_list.toggle(this, '#{t(:'adva.resources.reordering_done')}')", :id => 'reorder_categories' %>
+        <%= image_tag '/images/adva_cms/indicator.gif', :id => 'categories_indicator', :style => 'display: none;' %>
+      </li>
     <% end %>
   </ul>
 <% end -%>
@@ -21,17 +23,17 @@
         <th></th>
       </tr>
     </thead>
-    <tbody>
+    <tbody id="categories-body">
       <%= render :partial => 'category', :collection => @categories %>
     </tbody>
   </table>
 
   <script>
-    var categories_tree = new SortableTree('categories', {
-      onDrop: function(drag, drop, event) {
+    var categories_list = new SortableList('categories', {
+      onUpdate: function(drag, drop, event) {
         <%= remote_function(:url => admin_categories_path(@site),
                             :method =>   :put,
-                            :with   =>   "drag.to_params()",
+                            :with   =>   "categories_list.serialize()",
                             :loading =>  "$('categories_indicator').show()",
                             :complete => "$('categories_indicator').hide()" ) %>
       }

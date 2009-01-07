@@ -198,5 +198,24 @@ describe "Wiki views:" do
         response.should have_tag('input[name=?]', 'user[name]')
       end
     end
+    
+    describe "when rendering the new view" do
+      it "does not render Delete and Cancel links" do
+        @wikipage.stub!(:new_record?).and_return true
+        template.should_not_receive(:t).with(:'adva.common.delete')
+        template.should_not_receive(:t).with(:'adva.common.cancel')
+        render :partial => 'wiki/form'
+      end
+    end
+    
+    describe "with the wikipage being the home page" do
+      it "does not render the Delete link but does render the cancel link" do
+        @wikipage.stub!(:home?).and_return true
+        @wikipage.stub!(:new_record?).and_return false
+        template.should_not_receive(:t).with(:'adva.common.delete')
+        template.should_receive(:t).with(:'adva.common.cancel')
+        render :partial => 'wiki/form'
+      end
+    end
   end
 end

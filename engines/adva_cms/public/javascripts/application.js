@@ -78,6 +78,9 @@ isOutboundLink = function(link) {
 }
 
 // track the outbound link with Google Analytics
+if (typeof(pageTracker) == 'undefined') {
+  pageTracker = null;
+}
 trackOutboundLink = function(link) {
   if(pageTracker && isOutboundLink(link.href)) {
     hostName = link.href.split('/')[2].replace(/www\./, '');

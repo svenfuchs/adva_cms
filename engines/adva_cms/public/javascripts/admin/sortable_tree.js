@@ -26,7 +26,7 @@ if (SortableTree) Object.extend(SortableTree.prototype, {
 	},
 	showLink: function(element, link) {
 		element.removeChild(element.firstChild)
-		link.style.display = null;
+		link.style.display = '';
 	},
 	hideLink: function(element, link) {
 		span = Element.extend(document.createElement('span')).update(link.innerHTML);

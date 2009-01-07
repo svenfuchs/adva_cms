@@ -26,8 +26,8 @@ You need Rails 2.2.2 or newer.
   git init
 
   git submodule add git://github.com/svenfuchs/adva_cms.git vendor/adva
-  ruby vendor/adva/setup.rb   # adds Adva rake tasks and required files
-  rake db:migrate:all         # runs Adva migrations
+  ruby vendor/adva/script/setup   # adds adva rake tasks and required files
+  rake adva:migrate               # runs Adva migrations
 
   ruby script/server
   firefox http://localhost:3000
@@ -42,7 +42,10 @@ Development
 Please check out /doc directory for high level overview about Adva.
  
 Running specs and int tests
-  ruby script/test-adva  # Runs all Adva specs and int tests
+  First time before running specs and tests, you should create test database's structure
+    rake db:test:clone_structure
+  Run all specs and integration tests with:
+    ruby script/test-adva  # Runs all Adva specs and int tests
 
 Please report bugs to Lighthouse: 
   http://artweb-design.lighthouseapp.com/projects/13992-adva_cms/overview

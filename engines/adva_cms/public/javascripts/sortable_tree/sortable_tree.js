@@ -60,7 +60,7 @@ SortableTree.Node = Class.create({
 				// style property on the element which overwrites the class' value
 				// (i.e. the drop marker) and apperently can't be removed anymore (?)
 				// new Effect.Highlight(element, { startcolor: '#FFFF99' })
-      },
+      }
     }, options.draggable);
 
     this.initChildren()
