@@ -10,6 +10,7 @@ class ForumController < BaseController
     # beast does this:
     # (session[:forums] ||= {})[@forum.id] = Time.now.utc
     # (session[:forums_page] ||= Hash.new(1))[@forum.id] = current_page if current_page > 1
+    @topic = Topic.new(:section => @section, :board => @board, :author => current_user)
     render @section.render_options
   end
 

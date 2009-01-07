@@ -3,7 +3,9 @@
   <span class="meta">
     <%= t(:'adva.boards.topics_count', :count => @section.topics_count) %>,
     <%= t(:'adva.boards.comments_count', :count => @section.comments_count) %> &middot;
-    <%= link_to t(:'adva.topics.links.new_topic'), @board ? new_board_topic_path(@section, @board) : new_topic_path(@section) %>
+		<% authorized_tag :span, :create, @topic do %>
+    	<%= link_to t(:'adva.topics.links.new_topic'), @board ? new_board_topic_path(@section, @board) : new_topic_path(@section) %>
+		<% end %>
   </span>
 </h2>
 
