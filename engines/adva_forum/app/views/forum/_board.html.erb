@@ -3,6 +3,8 @@
 <% else %>
   <p id="topics" class="empty">
     <%= t(:'adva.topics.info.no_topics_in_board') %>
-    <%= link_to t(:'adva.topics.links.post_new') + ' &raquo;', new_board_topic_path(@section, @board) %>
+		<% authorized_tag :span, :create, @topic do %>
+    	<%= link_to t(:'adva.topics.links.post_new') + ' &raquo;', new_board_topic_path(@section, @board) %>
+		<% end %>
   </p>
 <% end %>
