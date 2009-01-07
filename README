@@ -42,6 +42,7 @@ Development
 Please check out /doc directory for high level overview about Adva.
  
 Running specs and int tests
+  rake db:test:clone     # Clones from your development database to test database
   ruby script/test-adva  # Runs all Adva specs and int tests
 
 Please report bugs to Lighthouse: 
