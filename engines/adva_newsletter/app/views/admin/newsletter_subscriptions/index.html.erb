@@ -5,8 +5,8 @@
 
 <%= render :partial => 'admin/newsletters/header' %>
 <div id='subscriptions'>
-  <p class="total">
-    <%= t('adva.newsletter.total_subscribers', :subscriptions_count => @newsletter.subscriptions_count) %>
-  </p>
+  <% unless @newsletter.subscriptions_count == 0 %>
+    <p class="total"><%= t('adva.newsletter.total_subscribers', :subscriptions_count => @newsletter.subscriptions_count) %></p>
+  <% end %>
   <%= render :partial => 'admin/newsletter_subscriptions/subscriptions', :object => @subscriptions %>
 </div>
