@@ -1,4 +1,6 @@
 <h3><%= t('adva.titles.actions') %></h3>
 <ul>
+  <li><%= link_to t('adva.issue.link.new'), new_admin_issue_path %></li>
   <li><%= link_to t('adva.subscription.link.new'), new_admin_subscription_path %></li>
 </ul>
+<%= render :partial => 'admin/shared/tracking' %>

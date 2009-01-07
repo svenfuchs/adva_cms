@@ -2,9 +2,10 @@
   <%= render :partial => 'admin/layouts/sidebar_manage' %>
   <h3><%= t('adva.titles.actions') %></h3>
   <ul>
-    <li><%= link_to t('adva.subscription.link.new'), new_admin_subscription_path(@site, @newsletter) %></li>
+    <%= render :partial => 'admin/shared/sidebar_common' %>
     <li><%= link_to t('adva.users.links.new'), new_admin_site_user_path %></li>
   </ul>
+  <%= render :partial => 'admin/shared/tracking' %>
 <% end %>
 
 <%= render :partial => 'admin/newsletters/header' %>
