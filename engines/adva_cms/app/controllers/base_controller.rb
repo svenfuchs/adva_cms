@@ -35,8 +35,6 @@ class BaseController < ApplicationController
   end
 
   protected
-    def set_section; super(Album); end
-    
     def set_site
       @site = Site.find_by_host(request.host_with_port)
       Thread.current[:site] = @site
