@@ -14,10 +14,10 @@
 </ul>
 <% end -%>
 
-<% unless @categories.empty? %>
+<% unless @categories.empty? -%>
   <h4><%= t(:'adva.calendar.titles.publish_in_categories') %></h4>
   <%= render :partial => 'categories/checkboxes', :locals => { :categories => @categories, :content => @event } %>
-<% end %>
+<% end -%>
 
 
 <h4><%= t(:'adva.titles.assets') %></h4>

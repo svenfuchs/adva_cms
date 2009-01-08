@@ -1,17 +1,18 @@
 <div id="<%= dom_id @event %>" class="entry clearing">
   <div class="meta">
-    <p><%= link_to 'all pages', calendar_events_path(@section) %>
+    <p>
+      <%= link_to 'all pages', calendar_events_path(@section) %>
       <% authorized_tag :span, :update, @event do -%>
         <%= link_to t( :'adva.common.edit' ), edit_admin_calendar_event_path(@site, @section, @event) %>
       <% end -%>
-    </p><p>
-    <% if @event.end_date.blank? %>
-      <%= datetime_with_microformat(@event.published_at, :format => :long) %>
-    <% else %>
-      <%= t(:'adva.calendar.from_to', :start_date => @event.start_date, :end_date => @event.end_date) %>
-    <% end %>
     </p>
-
+    <p>
+    <% if @event.end_date.blank? -%>
+      <%= datetime_with_microformat(@event.published_at, :format => :long) %>
+    <% else -%>
+      <%= t(:'adva.calendar.from_to', :start_date => @event.start_date, :end_date => @event.end_date) %>
+    <% end -%>
+    </p>
     <p>
       <%= links_to_content_categories(@event, :'adva.common.content_categories') %><br />
       <%= links_to_content_tags(@event, :'adva.common.content_tags') %>
@@ -23,6 +24,5 @@
     <%= @event.body_html %>
   </div>
 </div>
-
 
 <%= render :partial => 'footer' %>
