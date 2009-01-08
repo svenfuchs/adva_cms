@@ -5,10 +5,10 @@
         <%= link_to t( :'adva.common.edit' ), edit_admin_calendar_event_path(@site, @section, @event) %>
       <% end -%>
     </p><p>
-    <% if @event.enddate.blank? %>
+    <% if @event.end_date.blank? %>
       <%= datetime_with_microformat(@event.published_at, :format => :long) %>
     <% else %>
-      <%= t(:'adva.calendar.from_to', :startdate => @event.startdate, :enddate => @event.enddate) %>
+      <%= t(:'adva.calendar.from_to', :start_date => @event.start_date, :end_date => @event.end_date) %>
     <% end %>
     </p>
 

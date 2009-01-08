@@ -1,7 +1,7 @@
 module EventsHelper
   def collection_title(category=nil, tags=nil)
     title = []
-    title << current_timespan[0].strftime(current_timespan_format||t(:'adva.calendar.titles.formats.year_month')) unless current_timespan[0].blank?
+    title << current_timespan.first.strftime(current_timespan_format||t(:'adva.calendar.titles.formats.year_month')) unless current_timespan.first.blank?
     title << "in #{category.title}" if category
     title << "tagged #{tags.to_sentence}" if tags
     'Events ' + title.join(', ') unless title.empty?

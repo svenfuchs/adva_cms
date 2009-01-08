@@ -18,24 +18,21 @@ class Admin::EventsController < Admin::BaseController
   guards_permissions :calendar_event
 
   def index
-    source = @section.events
-    if %w(title body).include?(params[:filter])
-      @events = source.search(params[:query], params[:filter]).paginate({:page => params[:page]})
+    scope = @section.events
+
+    @events = if %w(title body).include?(params[:filter])
+      scope.search(params[:query], params[:filter])
     elsif params[:filter] == 'tags' and not params[:query].blank?
-      @events = source.paginate_tagged_with(params[:query], :page => params[:page])
+      scope.find_tagged_with(params[:query])
     else
-      if params[:category]
-        @events = source.by_categories(params[:category].to_i).paginate(:page => params[:page])
-      else
-        @events ||= source.paginate(:page => params[:page])
-      end
-    end
+      params[:category] ? scope.by_categories(params[:category].to_i) : scope
+    end.paginate(:page => params[:page])
   end
-  
+
   def new
-    @event = @calendar.events.build(:title => t(:'adva.calendar.titles.new_event'), :startdate => Time.now)
+    @event = @calendar.events.build(:start_date => Time.now)
   end
-  
+
   def create
     @event = @calendar.events.new(params[:calendar_event])
     if @location.save and @event.save
@@ -48,10 +45,10 @@ class Admin::EventsController < Admin::BaseController
       render :action => 'new' and return
     end
   end
-  
+
   def edit
   end
-  
+
   def update
     @event.attributes = params[:calendar_event]
     @event.all_day = params[:calendar_event][:all_day] == '1'
@@ -103,11 +100,11 @@ class Admin::EventsController < Admin::BaseController
     end
 
     def params_dates
-      set_calendar_event_param :startdate, Time.parse(params[:calendar_event][:startdate]) unless params[:calendar_event][:startdate].blank?
-      set_calendar_event_param :enddate, Time.parse(params[:calendar_event][:enddate]) unless params[:calendar_event][:enddate].blank?
+      set_calendar_event_param :start_date, Time.parse(params[:calendar_event][:start_date]) unless params[:calendar_event][:start_date].blank?
+      set_calendar_event_param :end_date, Time.parse(params[:calendar_event][:end_date]) unless params[:calendar_event][:end_date].blank?
     end
 
-    # will check if existing location is selected, otherwise try to create a new one 
+    # will check if existing location is selected, otherwise try to create a new one
     def params_location
       unless params[:calendar_event][:location_id].blank?
         @location = @site.locations.find(params[:calendar_event][:location_id])

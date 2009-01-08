@@ -5,10 +5,10 @@ en:
       no_location: No location
       confirm_delete: Are you sure you wish to delete this article?
       publish_on_date: Publish on this date
-      starting_at: Starting at {{startdate}}
+      starting_at: Starting at {{start_date}}
       question_save_as_draft: Save as Draft?
       confirm_save_as_draft: Yes, save this article as a draft
-      from_to: '{{startdate}} - {{enddate}}'
+      from_to: '{{start_date}} - {{end_date}}'
       errors:
         no_events: No events in {{title}} for this period of time
         no_events_in_calendar: There are no events yet in this calendar.
@@ -57,8 +57,8 @@ en:
         create_new_location: Create a new location
       attributes:
         title: Title
-        startdate: Starting at
-        enddate: Ending at
+        start_date: Starting at
+        end_date: Ending at
         body: Write your description
         tags: Tags
         host: Organizer

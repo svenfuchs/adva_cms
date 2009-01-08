@@ -16,38 +16,70 @@ class CalendarEvent < ActiveRecord::Base
   filters_attributes :sanitize => :body_html, :except => [:body, :cached_tag_list]
   filtered_column :body
 
-  validates_presence_of :startdate
+  validates_presence_of :start_date
   validates_presence_of :title
   validates_presence_of :user_id
   validates_presence_of :section_id
   validates_presence_of :location_id
   validates_uniqueness_of :permalink, :scope => :section_id
 
-  named_scope :by_categories, Proc.new {|*category_ids| {:conditions => ['category_assignments.category_id IN (?)', category_ids], :include => :category_assignments}}
-  named_scope :elapsed, lambda {{:conditions => ['startdate < ? AND (enddate IS ? OR enddate < ?)', Time.now, nil, Time.now], :order => 'startdate DESC'}}
-  named_scope :upcoming, Proc.new {|startdate, enddate| {:conditions => ['(startdate > ? AND startdate < ?) OR (startdate < ? AND enddate > ?)', startdate||Time.now, enddate||((startdate||Time.now) + 1.month), startdate||Time.now, enddate||Time.now], :order => 'startdate ASC'}}
-  named_scope :recently_added, lambda{{:conditions => ['startdate > ? OR (startdate < ? AND enddate > ?)', Time.now, Time.now, Time.now], :order => 'id DESC'}}
+  named_scope :by_categories, Proc.new { |*category_ids|
+    {
+      :conditions => ['category_assignments.category_id IN (?)', category_ids],
+      :include => :category_assignments
+    }
+  }
 
-  named_scope :published, :conditions => {:draft => false }
-  named_scope :search, Proc.new{|query, filter| {:conditions => ["#{CalendarEvent.sanitize_filter(filter)} LIKE ?", "%%%s%%" % query], :order => 'startdate DESC'}}
+  named_scope :elapsed, lambda {
+    t = Time.now
+    {
+      :conditions => ['start_date < ? AND (end_date IS NULL OR end_date < ?)', t, t],
+      :order => 'start_date DESC'
+    }
+  }
+
+  named_scope :upcoming, Proc.new { |start_date, end_date|
+    t = Time.now
+    {
+      :conditions => ['(start_date > ? AND start_date < ?) OR (start_date < ? AND end_date > ?)', start_date||t, end_date||((start_date||t) + 1.month), start_date||t, end_date||t],
+      :order => 'start_date ASC'
+    }
+  }
+
+  named_scope :recently_added, lambda {
+    t = Time.now
+    {
+      :conditions => ['start_date > ? OR (start_date < ? AND end_date > ?)', t, t, t],
+      :order => 'id DESC'
+    }
+  }
+
+  named_scope :published, :conditions => { :draft => false }
+
+  named_scope :search, Proc.new { |query, filter|
+    {
+      :conditions => ["#{CalendarEvent.sanitize_filter(filter)} LIKE ?", "%#{query}%"],
+      :order => 'start_date DESC'
+    }
+  }
 
   def self.sanitize_filter(filter)
     %w(title body).include?(filter.to_s) ? filter.to_s : 'title'
   end
 
   def validate
-    errors.add(:enddate, 'must be after start date') if ! self.enddate.nil? and self.enddate < self.startdate 
+    errors.add(:end_date, 'must be after start date') if ! self.end_date.nil? and self.end_date < self.start_date
   end
-  
+
   def all_day=(value)
     if value
-      self.startdate = self.startdate.beginning_of_day unless self.startdate.blank?
-      self.enddate = self.startdate.end_of_day unless self.enddate.blank?
+      self.start_date = self.start_date.beginning_of_day unless self.start_date.blank?
+      self.end_date = self.start_date.end_of_day unless self.end_date.blank?
     end
   end
-  
+
   def all_day
-    self.startdate == self.startdate.beginning_of_day and self.enddate == self.startdate.end_of_day unless self.startdate.blank? or self.enddate.blank?
+    self.start_date == self.start_date.beginning_of_day and self.end_date == self.start_date.end_of_day unless self.start_date.blank? or self.end_date.blank?
   end
-  
+
 end

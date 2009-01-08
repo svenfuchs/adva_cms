@@ -16,16 +16,16 @@
 </p>
 
 <p>
-  <%= form.label :startdate, t(:'adva.calendar.attributes.startdate') %>
-  <%= form.text_field :startdate, :value => @event.startdate.localtime.rfc2822 %><br />
+  <%= form.label :start_date, t(:'adva.calendar.attributes.start_date') %>
+  <%= form.text_field :start_date, :value => @event.start_date.localtime.rfc2822 %><br />
   <label>
   <%= form.check_box :all_day %> <%= t(:'adva.calendar.attributes.all_day') %>
   </label>
 </p>
 
 <p>
-  <%= form.label :enddate, t(:'adva.calendar.attributes.enddate') %>
-  <%= form.text_field :enddate, :value => (@event.enddate ? @event.enddate.localtime.rfc2822 : '') %>
+  <%= form.label :end_date, t(:'adva.calendar.attributes.end_date') %>
+  <%= form.text_field :end_date, :value => (@event.end_date ? @event.end_date.localtime.rfc2822 : '') %>
 </p>
 
 <p>
