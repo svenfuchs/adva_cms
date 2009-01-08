@@ -3,7 +3,7 @@
     <%= render :partial => 'calendar' %>
       <% if !@section.categories.blank? %>
       <div>
-        <h4>Categories</h4>
+        <h4><%= t(:'adva.titles.categories')%></h4>
         <ul>
         <% @section.categories.each do |category| %>
           <li><%= link_to_category @section, category %></li>
@@ -14,7 +14,7 @@
     
     <% if @section and !@section.tag_counts.empty? %>
       <div>
-        <h4>Tags</h4>
+        <h4><%= t(:'adva.titles.tags')%></h4>
         <ul>
         <% @section.tag_counts.each do |tag| %>
           <li><%= link_to_tag @section, tag %></li>
@@ -27,6 +27,6 @@
   <%= render :partial => 'shared/footer' %>
   
   <ul id="feeds">
-    <li><%= link_to 'Entries feed', formatted_calendar_events_url(@section, :format => :ics) %></li>
+    <li><%= link_to t(:'adva.links.entries_feed'), formatted_calendar_events_url(@section, :format => :ics) %></li>
   </ul>
 <% end %>
