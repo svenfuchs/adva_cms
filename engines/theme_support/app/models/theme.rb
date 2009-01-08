@@ -166,7 +166,7 @@ class Theme
   end
   
   def preview_path
-    "#{self.path}/images/preview.png"
+    "#{self.path}images/preview.png"
   end
 
   def update_attributes(attributes)
