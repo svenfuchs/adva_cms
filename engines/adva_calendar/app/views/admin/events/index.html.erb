@@ -36,7 +36,7 @@
 
 <% if @events.size > 0 -%>
   <p class="total">
-    Total: <%= content_tag :strong, @events.total_entries %> events.
+    <%= t(:'adva.calendar.total_events_with_count', :count => @events.total_entries) %>
   </p>
 
   <table id="events" class="list" cellspacing="0" cellpadding="0">

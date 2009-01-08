@@ -9,6 +9,9 @@ en:
       question_save_as_draft: Save as Draft?
       confirm_save_as_draft: Yes, save this article as a draft
       from_to: '{{start_date}} - {{end_date}}'
+      total_events_with_count:
+        one: "Total: {{count}} event."
+        other: "Total: {{count}} events."
       errors:
         no_events: No events in {{title}} for this period of time
         no_events_in_calendar: There are no events yet in this calendar.
