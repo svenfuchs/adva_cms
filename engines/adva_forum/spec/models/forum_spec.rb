@@ -103,6 +103,7 @@ describe Forum do
     describe "#recent_topic" do
       it "returns the most recent topic" do
         factory_scenario :forum_with_topics
+        @topic.update_attribute(:last_updated_at, 1.month.ago)
         @forum.recent_topic.should == @recent_topic
       end
     end
@@ -117,6 +118,7 @@ describe Forum do
     describe "#latest_topics" do
       it "returns the ten most recently updated topics sorted by updated_at descending" do
         factory_scenario :forum_with_topics
+        @topic.update_attribute(:last_updated_at, 1.month.ago)
         @forum.latest_topics_count = 1
         @forum.latest_topics.should == [@recent_topic]
       end

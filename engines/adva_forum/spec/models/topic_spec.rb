@@ -280,5 +280,9 @@ describe Topic do
       @topic.should_receive(:site_id=).with 1
       @topic.send :set_site
     end
+    
+    it '#initial_post returns the first post of the topic' do
+      @topic.initial_post.should == @topic.comments.first
+    end
   end
 end

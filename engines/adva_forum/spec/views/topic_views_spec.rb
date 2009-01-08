@@ -7,12 +7,13 @@ describe "Topic views:" do
   before :each do
     Thread.current[:site] = stub_site
 
-    assigns[:site] = @site = stub_site
+    assigns[:site]    = @site = stub_site
     assigns[:section] = @forum = stub_forum
-    assigns[:topic] = @topic = stub_topic
-    @post = stub_comment
-    @board = stub_board
-
+    assigns[:topic]   = @topic = stub_topic
+    @post             = stub_comment
+    @board            = stub_board
+    @topic.stub!(:initial_post).and_return Post.new
+    
     Section.stub!(:find).and_return @forum
 
     template.stub!(:topic_attributes).and_return 'topic_attributes'
@@ -112,6 +113,12 @@ describe "Topic views:" do
 
     it "shows an authorized tag with the topic delete link" do
       template.should_receive(:authorized_tag).with(:span, :destroy, @post)
+      render "topics/_post"
+    end
+    
+    it "does not show an authorized tag with the topic delete link if post is initial post" do
+      @topic.stub!(:initial_post).and_return @post
+      template.should_not_receive(:authorized_tag).with(:span, :destroy, @post)
       render "topics/_post"
     end
   end

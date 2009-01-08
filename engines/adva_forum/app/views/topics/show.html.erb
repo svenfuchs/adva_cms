@@ -7,7 +7,7 @@
     <% end %>
     <% authorized_tag :span, :destroy, @topic do %>
       &middot; <%= link_to t(:'adva.common.delete'), topic_returning_path(@section, @topic.permalink), { :confirm => t(:'adva.topics.confirm_delete'), :method => :delete } %>
-    <% end %>          
+    <% end %>
   </span>
 </h2>
 

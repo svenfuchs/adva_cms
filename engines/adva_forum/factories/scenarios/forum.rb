@@ -5,11 +5,14 @@ end
 
 Factory.define_scenario :forum_with_topics do
   @site         ||= Factory :site
-  @user         ||= Factory :user
-  
+  @user         = Factory :user
   @forum        = Factory :forum, :site => @site
-  @topic        = Factory :topic, :section => @forum, :author => @user, :last_updated_at => 1.month.ago
-  @recent_topic = Factory :topic, :section => @forum, :author => @user, :last_updated_at => Time.now
-  @forum.topics << @topic
-  @forum.topics << @recent_topic
+  attributes    = {:section => @forum, :author => @user, :last_author => @user}
+  @topic        = Factory :topic, attributes.merge(:last_updated_at => 1.month.ago)
+  @recent_topic = Factory :topic, attributes.merge(:last_updated_at => Time.now)
+  
+  @topic.comments          << Factory(:post, :author => attributes[:author], :commentable => @topic)
+  @recent_topic.comments   << Factory(:post, :author => attributes[:author], :commentable => @recent_topic)
+  @forum.topics         << @topic
+  @forum.topics         << @recent_topic
 end

@@ -45,11 +45,11 @@ class Topic < ActiveRecord::Base
       comment.commentable = self
     end
   end
-
-  # def revise(author, attributes)
-  #   self.sticky, self.locked = attributes.delete(:sticky), attributes.delete(:locked) # if author.has_permission ...
-  #   self.attributes = attributes
-  # end
+  
+  def revise(author, attributes)
+    self.sticky, self.locked = attributes.delete(:sticky), attributes.delete(:locked) # if author.has_permission ...
+    self.attributes = attributes
+  end
 
   # def hit!
   #   self.class.increment_counter :hits, id
@@ -85,7 +85,11 @@ class Topic < ActiveRecord::Base
     end
   end
   alias_method_chain :after_comment_update, :topic
-
+  
+  def initial_post
+    comments.first
+  end
+  
   protected
     def set_site
       self.site_id = section.site_id
