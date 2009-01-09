@@ -95,4 +95,13 @@ module BaseHelper
     return current_user.id if content.nil?
     content.author ? content.author.id : current_user.id
   end
+
+  # Helper for adding active class to menu li
+  #
+  # Usage:
+  #   <li <%= active_li?('issues') %>>my menu li</li> 
+  # 
+  def active_li?(controller_name)
+    'class="active"' if params[:controller] == controller_name
+  end
 end

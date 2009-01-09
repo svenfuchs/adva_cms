@@ -379,6 +379,12 @@ ul.sub-nav li a span{
 ul.sub-nav a:hover span{
   background-position: right -40px !important;}
 
+ul.sub-nav li.active a span{
+  background-position: 0 -40px !important;
+  text-decoration:none !important;}
+
+ul.sub-nav li.active a:hover{
+  color:#4C4C4C !important;}
 
 /* MAIN CONTENT ELEMENTS
 -------------------------------------------------------------------------*/
