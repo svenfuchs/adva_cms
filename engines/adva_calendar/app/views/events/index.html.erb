@@ -30,6 +30,6 @@
 </div>
 <% end -%>
 
-<%= render :partial => 'calendar' %>
+<%= render :partial => 'calendar', :locals => { :calendar_section => @section } %>
 
 <%= render :partial => 'footer' %>
