@@ -18,3 +18,19 @@ ActionController::Caching::Pages::ClassMethods.module_eval do
     after_filter({:only => actions}.merge(options)) { |c| c.cache_page }
   end
 end
+
+ActionController::Assertions::RoutingAssertions.module_eval do
+  def recognized_request_for(path, request_method = nil)
+    path = "/#{path}" unless path.first == '/'
+
+    request = ActionController::TestRequest.new({}, {}, nil)
+    request.env["REQUEST_METHOD"] = request_method.to_s.upcase if request_method
+    # Overwritten to use the existing request's host if present because Rails always 
+    # creates a new request and gives us no way to initialize the request host
+    request.host = @request.host if @request
+    request.path   = path
+
+    ActionController::Routing::Routes.recognize(request)
+    request
+  end
+end

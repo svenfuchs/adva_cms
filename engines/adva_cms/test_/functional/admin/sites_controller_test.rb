@@ -20,7 +20,7 @@ class AdminSitesControllerTest < ActionController::TestCase
   
   view :index do
     has_tag :table, :id => 'sites' do
-      has_tag 'tbody tr', 1
+      has_tag 'tbody tr', Site.count
       has_tag :a, @site.name, :href => admin_site_path(@site)
       has_tag :a, /delete/i, :href => admin_site_path(@site), :class => 'delete'
       has_tag :a, /settings/i, :href => edit_admin_site_path(@site), :class => 'edit'

@@ -107,10 +107,6 @@ module With
 end
 
 class ActionController::TestCase
-  def login_as_superuser!
-    stub(@controller).current_user.returns(User.make :roles => [Rbac::Role.build(:superuser)])
-  end
-  
   def rendered_insufficient_permissions?
     !!(@response.rendered_template.to_s =~ /insufficient_permissions/)
   end

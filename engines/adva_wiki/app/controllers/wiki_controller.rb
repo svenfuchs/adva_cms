@@ -148,11 +148,12 @@ class WikiController < BaseController
 
     def optimistic_lock
       return unless params[:wikipage]
-      updated_at = params[:wikipage].delete(:updated_at)
-      unless updated_at
+
+      unless updated_at = params[:wikipage].delete(:updated_at)
         # TODO raise something more explicit here
         raise t(:'adva.wiki.exception.missing_timestamp')
       end
+
       if @wikipage.updated_at && (Time.zone.parse(updated_at) != @wikipage.updated_at)
         flash[:error] = t(:'adva.wiki.flash.optimistic_lock.failure')
         # TODO filter_chain has been halted because of the rendering, so we have

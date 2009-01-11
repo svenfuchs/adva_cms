@@ -1,9 +1,4 @@
 class Test::Unit::TestCase
-  # FIXME ... should be on mechanist blueprints
-  def valid_comment_params
-    { :body  => 'the comment body' }
-  end
-
   share :valid_comment_params do
     before do
       @params = { :comment => { :commentable_id => @article.id, 
@@ -22,21 +17,13 @@ class Test::Unit::TestCase
 
   share :an_approved_comment do
     before do 
-      @comment = Comment.make :site => @site, 
-                              :section => @section, 
-                              :commentable => @article,
-                              :author => User.make,
-                              :approved => 1
+      @comment = @section.approved_comments.first
     end
   end
 
   share :an_unapproved_comment do
     before do 
-      @comment = Comment.make :site => @site, 
-                              :section => @section, 
-                              :commentable => @article,
-                              :author => User.make,
-                              :approved => 0
+      @comment = @section.unapproved_comments.first
     end
   end
 end

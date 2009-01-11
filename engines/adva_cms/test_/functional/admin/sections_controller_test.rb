@@ -131,7 +131,7 @@ class AdminSectionsControllerTest < ActionController::TestCase
     end
     
     before do
-      @another_section = Section.make :site => @site
+      @another_section = Section.find_by_permalink('another-section')
       @old_path = @section.path
     end
     

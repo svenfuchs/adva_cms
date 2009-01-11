@@ -36,7 +36,7 @@ class AdminCategoriesControllerTest < ActionController::TestCase
   test "is an Admin::BaseController" do
     Admin::BaseController.should === @controller # FIXME matchy doesn't have a be_kind_of matcher
   end
-
+  
   describe "routing" do
     with_options :path_prefix => '/admin/sites/1/sections/1/', :site_id => "1", :section_id => "1" do |r|
       r.it_maps :get,    "categories",        :action => 'index'
@@ -48,7 +48,7 @@ class AdminCategoriesControllerTest < ActionController::TestCase
       r.it_maps :delete, "categories/1",      :action => 'destroy', :id => '1'
     end
   end
-
+  
   describe "GET to :index" do
     action { get :index, default_params }
     
@@ -80,7 +80,7 @@ class AdminCategoriesControllerTest < ActionController::TestCase
     
     with :valid_category_params do
       it_guards_permissions :create, :category
-
+  
       with :access_granted do
         it_assigns :category => :not_nil
         it_redirects_to { admin_categories_path }
@@ -142,7 +142,7 @@ class AdminCategoriesControllerTest < ActionController::TestCase
         delete :destroy, default_params.merge(:id => @category.id)
       end
     end
-
+  
     it_guards_permissions :destroy, :category
   
     with :access_granted do

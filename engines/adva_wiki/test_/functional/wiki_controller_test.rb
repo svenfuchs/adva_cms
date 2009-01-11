@@ -1,6 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + "/../test_helper")
 
 class WikiControllerTest < ActionController::TestCase
+  include WikiHelper
   with_common :is_superuser, :a_wiki, :a_wikipage
   
   view :index do
@@ -12,7 +13,7 @@ class WikiControllerTest < ActionController::TestCase
     end
     
     within :a_wikipage do
-      has_tag '#wikipages tbody tr', 1
+      has_tag '#wikipages tbody tr', @section.wikipages.count
     end
   end
   
@@ -24,7 +25,7 @@ class WikiControllerTest < ActionController::TestCase
     has_text "by: #{@wikipage.author_name}" 
     
     # displays a group of wiki edit links
-    has_tag :a, /home/, :href => wiki_path(@section)
+    has_tag :a, /home/, :href => wiki_path(@section) unless @wikipage.home?
     has_tag :a, /edit/, :href => edit_wikipage_path(@section, @wikipage.permalink)
     
     # displays the wikipage's updated_at date as a microformat
@@ -48,7 +49,7 @@ class WikiControllerTest < ActionController::TestCase
   end
   
   view :edit do
-    has_form_putting_to wikipage_path(@section, @wikipage.permalink) do
+    has_form_putting_to @controller.send(:wikipage_path_with_home, @section, @wikipage.permalink) do
       shows :form
     end
   end
@@ -76,15 +77,16 @@ class WikiControllerTest < ActionController::TestCase
   describe "routing" do
     with :a_wikipage_category do
       # FIXME test paged routes, e.g. /wiki/pages/page/1
-      ['/', '/wiki/' ].each do |path_prefix|
-        with_options :section_id => "1", :path_prefix => path_prefix do |r|
+      ['/', '/a-wiki/' ].each do |path_prefix|
+        # FIXME how to remove this assumption? would need some kind of hash matcher matching /\d+/
+        with_options :section_id => Wiki.first.id.to_s, :path_prefix => path_prefix do |r|
           r.it_maps :get,    '',                              :action => 'show'
           r.it_maps :get,    'pages/a-wikipage',              :action => 'show', :id => 'a-wikipage'
           r.it_maps :get,    'pages',                         :action => 'index'
           r.it_maps :get,    'pages/a-wikipage/rev/1',        :action => 'show', :id => 'a-wikipage', :version => '1'
           r.it_maps :get,    'pages/a-wikipage/diff/1',       :action => 'diff', :id => 'a-wikipage', :diff_version => '1'
           r.it_maps :get,    'pages/a-wikipage/rev/1/diff/1', :action => 'diff', :id => 'a-wikipage', :diff_version => '1', :version => '1'
-          r.it_maps :get,    'categories/a-category',         :action => 'index', :category_id => '1'
+          r.it_maps :get,    'categories/a-category',         :action => 'index', :category_id => Wiki.first.categories.first.id.to_s
           r.it_maps :get,    'tags/foo+bar',                  :action => 'index', :tags => 'foo+bar'
           r.it_maps :post,   'pages',                         :action => 'create'
           r.it_maps :get,    'pages/new',                     :action => 'new'
@@ -94,22 +96,22 @@ class WikiControllerTest < ActionController::TestCase
         end
       end
         
-      with_options :section_id => '1', :format => 'atom' do |r|
-        r.it_maps :get, '/wiki/comments.atom',                  :action => 'comments'
-        r.it_maps :get, '/wiki/pages/a-wikipage/comments.atom', :action => 'comments', :id => 'a-wikipage'
-        r.it_maps :get, '/pages/a-wikipage/comments.atom',      :action => 'comments', :id => 'a-wikipage'
+      with_options :section_id => Wiki.first.id.to_s, :format => 'atom' do |r|
+        r.it_maps :get, '/a-wiki/comments.atom',                  :action => 'comments'
+        r.it_maps :get, '/a-wiki/pages/a-wikipage/comments.atom', :action => 'comments', :id => 'a-wikipage'
+        r.it_maps :get, '/pages/a-wikipage/comments.atom',        :action => 'comments', :id => 'a-wikipage'
       end
     end
   end
 
-  { :wiki_path                  => '/wiki/pages',
-    :wiki_category_path         => '/wiki/categories/a-category',
-    :wiki_tag_path              => '/wiki/tags/foo+bar',
-    :wiki_feed_path             => '/wiki.atom',
-    :wiki_category_feed_path    => '/wiki/categories/a-category.atom',
-    :wiki_tag_feed_path         => '/wiki/tags/foo+bar.atom',
-    :wiki_comment_feed_path     => '/wiki/comments.atom', 
-    :wikipage_comment_feed_path => '/wiki/pages/a-wikipage/comments.atom' }.each do |type, path|
+  { :wiki_path                  => '/a-wiki/pages',
+    :wiki_category_path         => '/a-wiki/categories/a-category',
+    :wiki_tag_path              => '/a-wiki/tags/foo+bar',
+    :wiki_feed_path             => '/a-wiki.atom',
+    :wiki_category_feed_path    => '/a-wiki/categories/a-category.atom',
+    :wiki_tag_feed_path         => '/a-wiki/tags/foo+bar.atom',
+    :wiki_comment_feed_path     => '/a-wiki/comments.atom', 
+    :wikipage_comment_feed_path => '/a-wiki/pages/a-wikipage/comments.atom' }.each do |type, path|
     
     With.share(type) { before { @params = params_from path } }
   end
@@ -118,11 +120,6 @@ class WikiControllerTest < ActionController::TestCase
     action { get :index, @params }
 
     with [:wiki_path, [:a_wikipage_category, :wiki_category_path], :wiki_tag_path] do
-      before do
-        @wikipage.categories << Category.make(:section => @section) # if within(:wiki_category_paths)
-        @wikipage.save!
-      end
-      
       it_assigns :site, :section, :wikipages
       it_renders :view, :index, :state => :not_empty
       it_caches_the_page :track => ['@wikipage', '@wikipages', '@category', {'@site' => :tag_counts, '@section' => :tag_counts}]
@@ -218,37 +215,37 @@ class WikiControllerTest < ActionController::TestCase
 
     it_guards_permissions :update, :wikipage
 
-    with :access_granted do
+    # FIXME - test with optimistic locking failing, too
+    with :wikipage_optimistic_locking_passes do
       with "no version param given" do
-        with "valid wikipage params" do
-          before { @params = { :wikipage => { :body => 'updated', :updated_at => @wikipage.updated_at.to_s } } }
+        it_guards_permissions :update, :wikipage
+      
+        with :access_granted do
+          with :valid_wikipage_params do
+            it_updates :wikipage
+            it_redirects_to { wikipage_path(@section, @wikipage.permalink) }
+            it_assigns_flash_cookie :notice => :not_nil
+            it_triggers_event :wikipage_updated
+            it_sweeps_page_cache :by_reference => :wikipage
+          end
 
-          it_updates :wikipage
-          it_redirects_to { wikipage_path(@section, @wikipage.permalink) }
-          it_assigns_flash_cookie :notice => :not_nil
-          it_triggers_event :wikipage_updated
-          it_sweeps_page_cache :by_reference => :wikipage
-        end
-
-        with "invalid wikipage params" do
-          before { @params = { :wikipage => { :title => '', :updated_at => @wikipage.updated_at.to_s } } }
-        
-          it_does_not_update :wikipage
-          it_renders :view, :edit
-          it_assigns_flash_cookie :error => :not_nil
-          it_does_not_trigger_any_event
-          it_does_not_sweep_page_cache
+          with :invalid_wikipage_params do
+            it_does_not_update :wikipage
+            it_renders :view, :edit
+            it_assigns_flash_cookie :error => :not_nil
+            it_does_not_trigger_any_event
+            it_does_not_sweep_page_cache
+          end
         end
       end
 
       with "a version param given" do
-        before { @params = { :wikipage => { :version => '1', :updated_at => @wikipage.updated_at.to_s } } }
+        before { @params = { :wikipage => { :version => '1' } } }
+            
         it_guards_permissions :update, :wikipage
       
         with :access_granted do
-          with "the wikipage being versioned (succeeds)" do
-            before { @wikipage.update_attributes(:body => "#{@wikipage.body} was changed") }
-      
+          with :the_wikipage_has_a_revision, '(succeeds)' do
             it_rollsback :wikipage, :to => 1
             it_triggers_event :wikipage_rolledback
             it_assigns_flash_cookie :notice => :not_nil
@@ -256,7 +253,7 @@ class WikiControllerTest < ActionController::TestCase
             it_sweeps_page_cache :by_reference => :wikipage
           end
       
-          with "the wikipage not being versioned (fails)" do
+          with "the wikipage does not have a revision (fails)" do
             it_does_not_rollback :wikipage
             it_does_not_trigger_any_event
             it_assigns_flash_cookie :error => :not_nil

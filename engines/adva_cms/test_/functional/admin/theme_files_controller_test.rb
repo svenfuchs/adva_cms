@@ -7,7 +7,7 @@ require File.expand_path(File.dirname(__FILE__) + "/../../test_helper")
 class AdminThemeFilesControllerTest < ActionController::TestCase
   tests Admin::ThemeFilesController
   
-  with_common :is_superuser, :a_theme_template
+  with_common :a_site, :a_theme, :is_superuser, :a_theme_template
   
   def default_params
     { :site_id => @site.id, :theme_id => @theme.id }
@@ -154,4 +154,3 @@ class AdminThemeFilesControllerTest < ActionController::TestCase
     end
   end
 end
-

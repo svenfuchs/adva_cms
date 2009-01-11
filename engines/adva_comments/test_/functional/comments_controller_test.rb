@@ -1,5 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + "/../test_helper")
 
+# FIXME should also test comments on section articles and wikipages
+
 class CommentsControllerTest < ActionController::TestCase
   with_common :a_blog, :a_published_article, :an_approved_comment, :is_superuser
   

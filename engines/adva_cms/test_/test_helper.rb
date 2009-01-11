@@ -9,23 +9,21 @@ require 'globalize/i18n/missing_translations_raise_handler'
 
 class Test::Unit::TestCase
   include RR::Adapters::TestUnit
-
-  self.use_transactional_fixtures = true
-  self.use_instantiated_fixtures  = false
-  self.fixture_path = File.dirname(__FILE__) +  '/test_helper/fixtures'
-  fixtures :all
   
-  setup do 
-    Sham.reset
+  setup do
+    start_db_transaction!
+    setup_themes_dir!
+    setup_assets_dir!
   end
   
   teardown do
-    theme_root = "#{RAILS_ROOT}/tmp/themes"
-    FileUtils.rm_r theme_root if File.exists?(theme_root)
+    rollback_db_transaction!
+    clear_themes_dir!
+    clear_assets_dir!
   end
 end
 
-Dir[File.dirname(__FILE__) + "/test_helper/**/*.rb"].each { |path| require path }
+Dir[File.dirname(__FILE__) + "/test_init/**/*.rb"].each { |path| require path }
 
 # With.aspects << :access_control
 
@@ -34,11 +32,6 @@ OptionParser.new do |o|
     With.options[:line] = line
   end
 end.parse!(ARGV)
-
-Theme.root_dir = "#{RAILS_ROOT}/tmp"
-Asset.base_dir = RAILS_ROOT + '/tmp/assets'
-FileUtils.mkdir(Theme.root_dir) unless File.exists?(Theme.root_dir)
-
 
 # ActionController::IntegrationTest.send :include, FactoryScenario
 # 

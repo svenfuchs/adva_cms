@@ -40,7 +40,7 @@ class BlogController < BaseController
 
     def set_article
       @article = @section.articles.find_by_permalink params[:permalink], :include => :author
-      if !@article || is_archived? || !@article.published? && !can_preview?
+      unless @article and published_on_given_date? and can_view?
         raise ActiveRecord::RecordNotFound
       end
     end
@@ -65,12 +65,12 @@ class BlogController < BaseController
       super
     end
     
-    def can_preview?
-      has_permission?('update', 'article')
+    def can_view?
+      @article.published? || has_permission?('update', 'article')
     end
-    
-    def is_archived?
-      @article.published? && !@article.published_at?(params.values_at(:year, :month, :day))
+     
+    def published_on_given_date?
+      @article.published_at?(params.values_at(:year, :month, :day))
     end
 
     def guard_view_permissions

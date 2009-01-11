@@ -338,7 +338,7 @@ module ActiveRecord #:nodoc:
         def save_without_revision
           save_without_revision!
           true
-        rescue
+        rescue ActiveRecord::ActiveRecordError => e
           false
         end
 

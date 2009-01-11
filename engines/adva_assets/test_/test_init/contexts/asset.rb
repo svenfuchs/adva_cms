@@ -1,5 +1,4 @@
 class Test::Unit::TestCase
-  # FIXME ... should be on mechanist blueprints
   def valid_asset_params
     { :uploaded_data  => fixture_file_upload('/uploads/rails.png', 'image/png', :binary),
       :title          => 'the-asset-title',
@@ -20,7 +19,6 @@ class Test::Unit::TestCase
 
   share :an_asset do
     before do 
-      file = fixture_file_upload('/uploads/rails.png', 'image/png', :binary)
       @asset = @site.assets.build([valid_asset_params]).first
       @asset.save!
     end
