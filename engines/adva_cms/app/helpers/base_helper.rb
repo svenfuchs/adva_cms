@@ -30,18 +30,40 @@ module BaseHelper
   # does exactly the same as the form_for helper does, but splits off the
   # form head tag and captures it to the content_for :form collector
   def split_form_for(*args, &block)
-    # breaks in Rails 2.2
-    # buffer = eval(ActionView::Base.output_buffer, block.binding)
-    # out = capture_erb_with_buffer(buffer, *args) { form_for(*args, &block) }
-    out = capture(*args) { form_for(*args, &block) } 
-    out ||= ''
-    lines = out.split("\n")
+    # for some weird reasons Passenger and Mongrel behave differently when using Rails' capture method
+    # with_output_buffer -> works, so we use it for now
+    lines = (with_output_buffer { form_for(*args, &block) } || '').split("\n")
     content_for :form, lines.shift
     lines.pop
- 
+
     concat lines.join("\n")
   end
-  
+
+  def test_form_for(record_or_name_or_array, *args, &proc)
+    raise ArgumentError, "Missing block" unless block_given?
+
+    options = args.extract_options!
+
+    case record_or_name_or_array
+    when String, Symbol
+      object_name = record_or_name_or_array
+    when Array
+      object = record_or_name_or_array.last
+      object_name = ActionController::RecordIdentifier.singular_class_name(object)
+      apply_form_for_options!(record_or_name_or_array, options)
+      args.unshift object
+    else
+      object = record_or_name_or_array
+      object_name = ActionController::RecordIdentifier.singular_class_name(object)
+      apply_form_for_options!([object], options)
+      args.unshift object
+    end
+
+    concat(form_tag(options.delete(:url) || {}, options.delete(:html) || {}))
+    fields_for(object_name, *(args << options), &proc)
+    concat('</form>')
+  end
+
   # # same as Rails text helper, but returns only the pluralized string without
   # # the number botched into it
   # def pluralize_str(count, singular, plural = nil)
@@ -85,7 +107,7 @@ module BaseHelper
   def author_options
     members = [[current_user.name, current_user.id]]
     return members if @site.users.empty?
-    
+
     members += @site.users.collect {|member| [member.name, member.id]}
     members.uniq.sort
   end
@@ -99,8 +121,8 @@ module BaseHelper
   # Helper for adding active class to menu li
   #
   # Usage:
-  #   <li <%= active_li?('issues') %>>my menu li</li> 
-  # 
+  #   <li <%= active_li?('issues') %>>my menu li</li>
+  #
   def active_li?(controller_name)
     'class="active"' if params[:controller] == controller_name
   end
