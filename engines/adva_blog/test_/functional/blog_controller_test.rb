@@ -47,9 +47,9 @@ class BlogControllerTest < ActionController::TestCase
     end
   end
 
-  { :blog_paths              => %w( /a-blog
-                                    /a-blog/2008
-                                    /a-blog/2008/1 ),
+  { :blog_paths              => %w( /a-blog ),
+                                    # /a-blog/2008
+                                    # /a-blog/2008/1 ),
     :blog_category_paths     => %w( /a-blog/categories/a-category
                                     /a-blog/categories/a-category/2008
                                     /a-blog/categories/a-category/2008/1 ),
@@ -65,16 +65,53 @@ class BlogControllerTest < ActionController::TestCase
     end
   end
 
+  view :index do
+    has_tag 'div[class~=entry]' do
+      has_tag 'div.meta a', /\d comment[s]?/
+
+      # displays an edit link for authorized users
+      has_authorized_tag :a, /edit/i, :href => edit_admin_article_path(@site, @section, @article)
+
+      unless @article.excerpt.blank?
+        does_not_have_text 'article body'
+        has_text 'article excerpt'
+        has_tag :a, /read the rest of this entry/i
+      else
+        has_text 'article body'
+        does_not_have_text 'article excerpt'
+        # does_not_have_tag :a, /read the rest of this entry/i
+      end
+      
+      # list the article's categories
+      # list the article's tags
+    end
+  end
+  
+  view :show do
+    # displays title, excerpt and body
+    # does not display a 'read more' link
+    # list the article's categories
+    # list the article's tags
+
+    # displays an edit link for authorized users
+    has_authorized_tag :a, /edit/i, :href => edit_admin_article_path(@site, @section, @article)
+
+    # render comments list when article has comments
+    # render comment form when article allows commenting
+  end
+
   describe "GET to :index" do
     action { get :index, @params }
 
     with [:blog_paths, :blog_category_paths, :blog_tag_paths] do
-      it_assigns :section, :articles
-      it_renders :template, :index
-      it_caches_the_page :track => ['@article', '@articles', '@category', {'@site' => :tag_counts, '@section' => :tag_counts}]
+      with [:article_has_an_excerpt, :article_has_no_excerpt] do
+        it_assigns :section, :articles
+        it_renders :view, :index
+        it_caches_the_page :track => ['@article', '@articles', '@category', {'@site' => :tag_counts, '@section' => :tag_counts}]
 
-      it_assigns :category, :in => :'params_from blog_category_paths'
-      it_assigns :tags,     :in => :'params_from blog_tag_paths'
+        it_assigns :category, :in => :'blog_category_paths'
+        it_assigns :tags,     :in => :'blog_tag_paths'
+      end
     end
 
     with :'blog_feed_paths' do

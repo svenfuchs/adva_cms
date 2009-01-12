@@ -18,10 +18,10 @@ def assert_events_triggered(*types)
 end
 
 # Testing cookie based flash message what is used at Adva.
-# 
+#
 # Example usage:
 #   assert_flash 'It was successfully updated!'
-#   
+#
 def assert_flash(message)
   regexp = Regexp.new(message.gsub(' ', '\\\+'))
   assert cookies['flash'] =~ regexp,

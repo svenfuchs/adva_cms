@@ -1,12 +1,14 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'test_helper' ))
 
-class AssetUploadTest < ActionController::IntegrationTest
-  include CacheableFlash::TestHelpers
-  def setup
-    factory_scenario :empty_site
-    login_as :admin
-  end
+# FIXME ... implement this
 
+class AssetUploadTest < ActionController::IntegrationTest
+  # include CacheableFlash::TestHelpers
+  # def setup
+  #   factory_scenario :empty_site
+  #   login_as :admin
+  # end
+  # 
   # def test_a_user_uploads_a_text_file
   #   # go to assets index page
   #   get admin_assets_path(@site)

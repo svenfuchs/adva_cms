@@ -107,6 +107,12 @@ module With
 end
 
 class ActionController::TestCase
+  def has_authorized_tag(*args)
+    has_tag "span[class^=visible-for]" do
+      has_tag *args
+    end
+  end
+  
   def rendered_insufficient_permissions?
     !!(@response.rendered_template.to_s =~ /insufficient_permissions/)
   end

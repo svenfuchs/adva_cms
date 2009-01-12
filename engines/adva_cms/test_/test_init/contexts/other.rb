@@ -66,6 +66,14 @@ class Test::Unit::TestCase
     end
   end
   
+  share :article_has_an_excerpt do
+    before { @article.update_attributes! :excerpt => 'the article excerpt' }
+  end
+
+  share :article_has_no_excerpt do
+    # nothing to do
+  end
+  
   share :a_cached_page do
     before do 
       @cached_page = CachedPage.first

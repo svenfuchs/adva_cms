@@ -5,7 +5,13 @@ require 'matchy'
 require 'test_help'
 require 'with'
 require 'with-sugar'
+
+# require File.expand_path(File.dirname(__FILE__) + "/../../../spec/webrat/lib/webrat/rails")
+require 'webrat'
+require 'webrat/rails'
+
 require 'globalize/i18n/missing_translations_raise_handler'
+I18n.exception_handler = :missing_translations_raise_handler
 
 class Test::Unit::TestCase
   include RR::Adapters::TestUnit
