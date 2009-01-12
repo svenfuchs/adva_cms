@@ -27,6 +27,10 @@ Factory.define_scenario :site_with_location do
   @location ||= Factory :location, :site => @site
 end
 
+Factory.define_scenario :calendar_with_event do
+  factory_scenario :site_with_calendar
+  @event ||= Factory :calendar_event, :section => @section
+end
 
 Factory.define_scenario :published_blog_article do
   factory_scenario :site_with_a_blog
