@@ -5,7 +5,7 @@ describe "Post views:" do
   include ContentHelper
 
   before :each do
-    Thread.current[:site] = stub_site
+    Thread.current[:site_id] = stub_site.id
 
     assigns[:section] = @forum = stub_forum
     assigns[:topic] = @topic = stub_topic

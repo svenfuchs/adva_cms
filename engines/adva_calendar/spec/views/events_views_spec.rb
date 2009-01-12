@@ -6,7 +6,7 @@ describe "Events views:" do
   include EventsHelper
 
   before :each do
-    Thread.current[:site] = stub_site
+    Thread.current[:site_id] = stub_site.id
 
     assigns[:site] = stub_user
     assigns[:section] = assigns[:calendar] = @section = @calendar = stub_calendar

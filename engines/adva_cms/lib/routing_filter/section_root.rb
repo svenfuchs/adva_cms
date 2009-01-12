@@ -37,7 +37,7 @@ module RoutingFilter
       end
     
       def current_root
-        Thread.current[:site].sections.root if Thread.current[:site]
+        Site.find(Thread.current[:site_id]).sections.root if Thread.current[:site_id]
       end
   end
 end

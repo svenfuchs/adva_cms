@@ -36,8 +36,8 @@ class BaseController < ApplicationController
 
   protected
     def set_site
-      @site = Site.find_by_host(request.host_with_port)
-      Thread.current[:site] = @site
+      @site = Site.find_by_host(request.host_with_port) or raise "can not set site from host #{request.host_with_port}"
+      Thread.current[:site_id] = @site.id
     end
 
     def set_section(type = nil)

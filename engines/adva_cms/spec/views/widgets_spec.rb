@@ -5,7 +5,7 @@ describe "Widgets:", "the admin/menu_global widget" do
   include SpecViewHelper
 
   before :each do
-    Thread.current[:site] = stub_site
+    Thread.current[:site_id] = stub_site.id
 
     @user = stub_user
     template.stub!(:current_user).and_return @user
