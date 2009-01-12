@@ -5,7 +5,8 @@ Story: Rolling back a wikipage to a previous revision
   
   Scenario: An anonymous user rolls back a wikipage
     Given page cache is enabled and empty
-    And a wiki that allows anonymous users to create and update wikipages
+    And a site
+		And a wiki that allows anonymous users to create and update wikipages
     And a wikipage that has a revision
     When the user visits the wikipage page
     Then the page shows 'the wikipage body'
