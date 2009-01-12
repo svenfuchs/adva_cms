@@ -4,8 +4,6 @@ describe "Wiki views:" do
   include SpecViewHelper
 
   before :each do
-    Thread.current[:site_id] = stub_site.id
-
     assigns[:section] = @wiki = stub_wiki
     @wikipage = stub_wikipage
     @wikipages = stub_wikipages

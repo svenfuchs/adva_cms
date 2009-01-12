@@ -5,8 +5,6 @@ describe "Blog views:" do
   include ContentHelper
 
   before :each do
-    Thread.current[:site_id] = stub_site.id
-
     assigns[:site] = stub_user
     assigns[:section] = stub_blog
     assigns[:comment] = stub_comment

@@ -5,8 +5,6 @@ describe "Section views:" do
   include ContentHelper
 
   before :each do
-    Thread.current[:site_id] = stub_site.id
-
     assigns[:site] = @site = stub_site
     assigns[:section] = @section = stub_section
     assigns[:comment] = @comment = stub_comment
