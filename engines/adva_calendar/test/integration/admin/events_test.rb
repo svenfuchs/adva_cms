@@ -77,10 +77,18 @@ class EventsTest < ActionController::IntegrationTest
     click_button 'Save'
     assert_template 'admin/events/edit'
     assert_select '.field_with_error', false
-    @event.reloadÌ
+    @event.reload
     assert_not_equal old_location_id, @event.location_id
   end
 
   test "admin deletes an event" do
+    visit "/admin/sites/#{@site.id}/sections/#{@section.id}/events"
+    assert_template 'admin/events/index'
+    click_link @event.title
+    assert_template 'admin/events/edit'
+    click_link 'Delete'
+
+    assert_template 'admin/events/index'
+    assert_select "event_%i" % @event.id, false
   end
 end
