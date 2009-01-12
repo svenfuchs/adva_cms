@@ -51,7 +51,6 @@ class Admin::EventsController < Admin::BaseController
 
   def update
     @event.attributes = params[:calendar_event]
-    @event.all_day = params[:calendar_event][:all_day] == '1'
     if @location.save and @event.save
       trigger_events @event
       flash[:notice] = t(:'adva.calendar.flash.update.success')

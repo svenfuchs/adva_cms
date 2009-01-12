@@ -15,6 +15,7 @@ en:
       errors:
         no_events: No events in {{title}} for this period of time
         no_events_in_calendar: There are no events yet in this calendar.
+        no_events_found: No events matching your filter.
       input_defaults:
         search: Search
       titles:

@@ -57,11 +57,11 @@
   <%= will_paginate @events, :id => 'pagination' %>
 <% else -%>
 <div class="empty" style="margin-bottom:20px">
-  <% unless params[:filter] -%>
+  <% if params[:filter].blank? -%>
     <%= t(:'adva.calendar.errors.no_events_in_calendar') %>
     <%= link_to t(:'adva.calendar.links.create'), new_admin_calendar_event_path(@site) %>
   <% else -%>
-    <%= t(:'adva.calendar.errors.no_events_in_calendar') %>
+    <%= t(:'adva.calendar.errors.no_events_found') %>
   <% end -%>
 </div>
 <% end %>
