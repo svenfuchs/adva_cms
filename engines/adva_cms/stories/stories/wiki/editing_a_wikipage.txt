@@ -6,6 +6,7 @@ Story: Editing a wikipage
   
  Scenario: An anonymous user edits a wikipage
    Given page cache is enabled and empty
+	 And a site
    And a wiki that allows anonymous users to create and update wikipages
    And a wikipage
    When the user visits the wikipage page
@@ -23,7 +24,8 @@ Story: Editing a wikipage
    And the page is cached
 	  
   Scenario: User input is retained when an anonymous user edits a wikipage with incorrect info (ticket #55)
-	Given a wiki that allows anonymous users to create and update wikipages
+	Given a site
+	And a wiki that allows anonymous users to create and update wikipages
 	And a wikipage
 	When the user visits the wikipage page
 	Then the page shows 'the wikipage body'
@@ -40,7 +42,8 @@ Story: Editing a wikipage
 	And the page shows 'the updated wikipage body'
 
  Scenario: A registered user edits a wikipage
-   Given a wiki that allows registered users to create and update wikipages
+   Given a site
+	 And a wiki that allows registered users to create and update wikipages
    And a wikipage
    And the user is logged in as user
    When the user visits the wikipage edit page

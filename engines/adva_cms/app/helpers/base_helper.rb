@@ -30,18 +30,15 @@ module BaseHelper
   # does exactly the same as the form_for helper does, but splits off the
   # form head tag and captures it to the content_for :form collector
   def split_form_for(*args, &block)
-    # breaks in Rails 2.2
-    # buffer = eval(ActionView::Base.output_buffer, block.binding)
-    # out = capture_erb_with_buffer(buffer, *args) { form_for(*args, &block) }
-    out = capture(*args) { form_for(*args, &block) } 
-    out ||= ''
-    lines = out.split("\n")
+    # for some weird reasons Passenger and Mongrel behave differently when using Rails' capture method
+    # with_output_buffer -> works, so we use it for now
+    lines = (with_output_buffer { form_for(*args, &block) } || '').split("\n")
     content_for :form, lines.shift
     lines.pop
- 
+
     concat lines.join("\n")
   end
-  
+
   # # same as Rails text helper, but returns only the pluralized string without
   # # the number botched into it
   # def pluralize_str(count, singular, plural = nil)
@@ -85,7 +82,7 @@ module BaseHelper
   def author_options
     members = [[current_user.name, current_user.id]]
     return members if @site.users.empty?
-    
+
     members += @site.users.collect {|member| [member.name, member.id]}
     members.uniq.sort
   end
@@ -94,5 +91,14 @@ module BaseHelper
     content = (@article || @wikipage)
     return current_user.id if content.nil?
     content.author ? content.author.id : current_user.id
+  end
+
+  # Helper for adding active class to menu li
+  #
+  # Usage:
+  #   <li <%= active_li?('issues') %>>my menu li</li>
+  #
+  def active_li?(controller_name)
+    'class="active"' if params[:controller] == controller_name
   end
 end

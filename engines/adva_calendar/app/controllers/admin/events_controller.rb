@@ -37,11 +37,11 @@ class Admin::EventsController < Admin::BaseController
     @event = @calendar.events.new(params[:calendar_event])
     if @location.save and @event.save
       trigger_events @event
-      flash[:notice] = "The event has been successfully created."
+      flash[:notice] = t(:'adva.calendar.flash.create.success')
       redirect_to edit_admin_calendar_event_path(@site.id, @section.id, @event.id)
     else
       set_categories
-      flash[:error] = "The event could not been created."
+      flash[:error] = t(:'adva.calendar.flash.create.failure')
       render :action => 'new' and return
     end
   end
@@ -51,13 +51,12 @@ class Admin::EventsController < Admin::BaseController
 
   def update
     @event.attributes = params[:calendar_event]
-    @event.all_day = params[:calendar_event][:all_day] == '1'
     if @location.save and @event.save
       trigger_events @event
-      flash[:notice] = "The event has been successfully updated."
+      flash[:notice] = t(:'adva.calendar.flash.update.success')
       redirect_to edit_admin_calendar_event_path(@site.id, @section.id, @event.id)
     else
-      flash[:error] = "The event could not been updated."
+      flash[:error] = t(:'adva.calendar.flash.update.failure')
       render :action => 'edit'
     end
   end
@@ -65,10 +64,10 @@ class Admin::EventsController < Admin::BaseController
   def destroy
     if @event.destroy
       trigger_events @event
-      flash[:notice] = "The event has been deleted."
+      flash[:notice] = t(:'adva.calendar.flash.destroy.success')
       redirect_to admin_calendar_events_path
     else
-      flash[:error] = "The event could not be deleted."
+      flash[:error] = t(:'adva.calendar.flash.destroy.failure')
       render :action => 'show'
     end
   end

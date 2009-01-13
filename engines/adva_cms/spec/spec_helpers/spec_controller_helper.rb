@@ -129,9 +129,14 @@ Spec::Rails::Example::ControllerExampleGroup.class_eval do
 
       describe "with #{condition_message}" do
         before :each do
+          Section.stub!(:find).and_return @section
+
           unless conditions.include? :root_section
-            @site.sections.stub!(:root).and_return stub_section.dup
-            @site.sections.root.stub!(:id).and_return 2
+            # @site.sections.stub!(:root).and_return stub_section.dup
+            # @site.sections.root.stub!(:id).and_return 2
+            @section.stub!(:root_section?).and_return false
+          else
+            @section.stub!(:root_section?).and_return true
           end
 
           locale = conditions.include?(:default_locale) ? 'en' : 'de'

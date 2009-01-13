@@ -40,7 +40,8 @@ describe BaseHelper do
       @head = '<form action="path/to/article" method="post">'
       @form = "the form\n</form>"
 
-      helper.stub!(:capture).and_return "#{@head}\n#{@form}"
+      # maybe rework this spec as it tests too much for implementation ...?
+      helper.stub!(:with_output_buffer).and_return "#{@head}\n#{@form}"
       helper.stub! :content_for
       helper.stub! :concat
     end

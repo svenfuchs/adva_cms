@@ -1,6 +1,10 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'test_helper' ))
 
 class AnonymousCannotAccessMessagesTest < ActionController::IntegrationTest
+  def setup
+    factory_scenario :site_with_a_section
+  end
+  
   def test_the_anonymous_user_visits_the_inbox
     # go to inbox
     get '/messages'

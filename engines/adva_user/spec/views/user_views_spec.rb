@@ -4,8 +4,6 @@ describe "User views:" do
   include SpecViewHelper
 
   before :each do
-    Thread.current[:site] = stub_site
-
     assigns[:site] = stub_site
     @user.stub!(:user).and_return stub_user
 

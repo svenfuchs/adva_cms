@@ -1,4 +1,4 @@
 Factory.define :wiki do |w|
+  w.site { |w| w.association(:site) }
   w.title 'Wiki'
-  # w.type 'Section'
 end

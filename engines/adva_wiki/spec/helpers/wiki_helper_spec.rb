@@ -5,7 +5,6 @@ describe WikiHelper do
 
   before :each do
     stub_scenario :wiki_with_wikipages
-    Thread.current[:site] = @site
 
     @user_role = Rbac::Role.build :user, :context => Wikipage.new(:author => User.new)
     @wikipage.stub!(:role_authorizing).and_return @user_role

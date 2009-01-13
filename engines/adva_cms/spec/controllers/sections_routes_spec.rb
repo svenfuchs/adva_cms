@@ -7,7 +7,6 @@ describe SectionsController do
   before :each do
     stub_scenario :section_with_published_article
     controller.instance_variable_set :@site, @site
-    Thread.current[:site] = @site
   end
 
   describe "routing" do

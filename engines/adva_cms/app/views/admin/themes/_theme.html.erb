@@ -4,8 +4,9 @@
     <% unless theme.version.blank? -%>v<%= theme.version %> |<% end -%>
     <%= t(:'adva.common.by_author', :author => theme.author_link) %>
   </p>
-  
+  <% if theme.preview -%>
 	<%= link_to theme_image_tag(theme.id, theme.preview.localpath.to_s.gsub('images/', '')), admin_theme_path(@site, theme.id) %>
+	<% end -%>
   
 	<ul class="options">
     <% if @site.current_theme?(theme) %>

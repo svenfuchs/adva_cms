@@ -3,10 +3,11 @@ factories :sections, :wikipages
 steps_for :wiki do
   Given "a wiki" do
     @wiki ||= begin
+      Given 'a site'
       Given "no wikipage"
       Section.delete_all
       Category.delete_all
-      create_wiki
+      create_wiki :site => @site
     end
   end
 

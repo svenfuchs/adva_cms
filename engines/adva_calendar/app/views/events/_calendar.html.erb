@@ -1,7 +1,11 @@
-<% date = current_timespan.first %>
-<%= calendar(:year => date.year, :month => date.month) do |day|
-  if @section.days_in_month_with_events(date).include?(day)
-    [link_to( day.mday, calendar_events_path(:year => date.year, :month => date.month, :day => day.mday)), {:class => 'specialDay'}]
+<%
+date = current_timespan.first
+calendar_options ||= {}
+%>
+
+<%= calendar({ :year => date.year, :month => date.month }.merge(calendar_options)) do |day|
+  if calendar_section.days_in_month_with_events(day).include?(day)
+    [link_to( day.mday, calendar_events_path(:year => day.year, :month => day.month, :day => day.mday)), {:class => "specialDay"}]
   else
     [day.mday, {:class => "normalDay"}]
   end
