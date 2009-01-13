@@ -3,7 +3,7 @@
     <% if !@section.categories.blank? %>
       <div>
         <h4><%=t :'adva.titles.categories' %></h4>
-        <ul>
+        <ul id="categories-list">
         <% @section.categories.each do |category| %>
           <li><%= link_to_category @section, category %></li>
         <% end %>
@@ -14,7 +14,7 @@
     <% if !@section.article_counts_by_month.blank? %>
       <div>
         <h4><%=t :'adva.titles.archives' %></h4>
-        <ul>
+        <ul id="archives">
         <% @section.archive_months.each do |month| %>
           <li><%= link_to l( month, :format => '%B %Y' ), blog_path(@section, :year => month.year, :month => month.month) %></li>
         <% end %>
@@ -24,7 +24,7 @@
     
     <% if false and @section and !@section.tag_counts.empty? %>
       <h4><%=t :'adva.titles.tags' %></h4>
-      <ul>
+      <ul id="tags-list">
       <% @section.tag_counts.each do |tag| %>
         <li><%= link_to_tag @section, tag %></li>
       <% end %>

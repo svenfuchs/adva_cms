@@ -53,6 +53,16 @@ class Test::Unit::TestCase
       publish @article
     end
   end
+  
+  share :article_belongs_to_category do
+    # nothing to do
+  end
+
+  share :article_does_not_belong_to_category do
+    before do
+      @article.categories.clear unless @article.categories.empty?
+    end
+  end
 
   share :the_article_is_published do
     before do

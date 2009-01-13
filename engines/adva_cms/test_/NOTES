@@ -1,16 +1,17 @@
+TODO
+
+test url_helper rewriting, see blog_routes_spec
+
+
+DOC
+
 test run stages
 - populate database once
 - run every test within a transaction
 - reference (and maybe modify) existing records during test setup/before stage
-
-Machinist blueprints need to be reloaded when models reload
-
-
-
 
 
 Start the test server with init script:
 vendor/adva/spec/test_server/bin/server -l vendor/adva/engines/adva_cms/test_/test_init/test_server/init.rb
 vendor/adva/spec/test_server/bin/test vendor/adva/engines/adva_cms/test_/functional/admin/install_controller_test.rb -l 34
 
-http://technicalpickles.com/posts/rails-special-sauce-test-unit-setup-and-teardown

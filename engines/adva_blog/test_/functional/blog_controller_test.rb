@@ -47,9 +47,9 @@ class BlogControllerTest < ActionController::TestCase
     end
   end
 
-  { :blog_paths              => %w( /a-blog ),
-                                    # /a-blog/2008
-                                    # /a-blog/2008/1 ),
+  { :blog_paths              => %w( /a-blog
+                                    /a-blog/2008
+                                    /a-blog/2008/1 ),
     :blog_category_paths     => %w( /a-blog/categories/a-category
                                     /a-blog/categories/a-category/2008
                                     /a-blog/categories/a-category/2008/1 ),
@@ -66,51 +66,95 @@ class BlogControllerTest < ActionController::TestCase
   end
 
   view :index do
-    has_tag 'div[class~=entry]' do
-      has_tag 'div.meta a', /\d comment[s]?/
+    # displays what as a title?
+    
+    if assigns(:articles).empty?
+      # displays nothing?
+    else
+      has_tag 'div[class~=entry]' do
+        has_tag 'div.meta a', /\d comment[s]?/
+        
+        # displays the title and links it to the article
+        has_tag(:h2) { has_tag :a, @article.title, :href => article_path(@section, @article.full_permalink) }
+        
+        # displays an edit link for authorized users
+        has_authorized_tag :a, /edit/i, :href => edit_admin_article_path(@site, @section, @article)
 
-      # displays an edit link for authorized users
-      has_authorized_tag :a, /edit/i, :href => edit_admin_article_path(@site, @section, @article)
-
-      unless @article.excerpt.blank?
-        does_not_have_text 'article body'
-        has_text 'article excerpt'
-        has_tag :a, /read the rest of this entry/i
-      else
-        has_text 'article body'
-        does_not_have_text 'article excerpt'
-        # does_not_have_tag :a, /read the rest of this entry/i
-      end
-      
-      # list the article's categories
-      # list the article's tags
+        unless @article.excerpt.blank?
+          does_not_have_text 'article body'
+          has_text 'article excerpt'
+          has_tag :a, /read the rest of this entry/i
+        else
+          has_text 'article body'
+          does_not_have_text 'article excerpt'
+          # does_not_have_tag :a, /read the rest of this entry/i
+          assert @response.body !~ /read the rest of this entry/i 
+        end
+      end 
+    end
+        
+    has_tag :div, :id => 'footer' do
+      has_tag :ul, :id => 'categories-list'
+      has_tag :ul, :id => 'archives'
+      # has_tag :ul, :id => 'tags-list' # FIXME currently tags are not displayed
     end
   end
   
   view :show do
-    # displays title, excerpt and body
-    # does not display a 'read more' link
-    # list the article's categories
-    # list the article's tags
+    has_tag 'div[class~=entry]' do
+      # displays the title and links it to the article
+      has_tag(:h2) { has_tag :a, @article.title, :href => article_path(@section, @article.full_permalink) }
+      
+      # displays title, excerpt and body
+      has_text @article.excerpt
+      has_text @article.body
+      
+      # displays an edit link for authorized users
+      has_authorized_tag :a, /edit/i, :href => edit_admin_article_path(@site, @section, @article)
+      
+      # does not display a 'read more' link
+      assert @response.body !~ /read the rest of this entry/i
 
-    # displays an edit link for authorized users
-    has_authorized_tag :a, /edit/i, :href => edit_admin_article_path(@site, @section, @article)
-
+      # FIXME
+      # list the article's categories
+      # list the article's tags
+    end
+    
+    # FIXME
     # render comments list when article has comments
     # render comment form when article allows commenting
   end
 
   describe "GET to :index" do
     action { get :index, @params }
-
+    
+    # we really don't need to check all these combinations. but the different contexts
+    # are relevant for the view specs. so maybe a better way could be to allow multiple
+    # view spec blocks and constraint them to contexts. something like:
+    #
+    # display :article_excerpt do
+    #   has_text @article.excerpt
+    # end
+    #
+    # with :a_blog_path do
+    #   it_displays :article_excerpt, :with => :article_has_an_excerpt
+    #   it_displays :article_text, :with => :article_has_no_excerpt
+    # end
+    #
+    # but then again ... this would move the emphasis of describing view behaviour
+    # away from the view block
+    
     with [:blog_paths, :blog_category_paths, :blog_tag_paths] do
       with [:article_has_an_excerpt, :article_has_no_excerpt] do
-        it_assigns :section, :articles
-        it_renders :view, :index
-        it_caches_the_page :track => ['@article', '@articles', '@category', {'@site' => :tag_counts, '@section' => :tag_counts}]
+        with [:article_belongs_to_category, :article_does_not_belong_to_category] do
+          # with [:section_allows_commenting, :section_does_not_allow_commenting]
+          it_assigns :section, :articles
+          it_renders :view, :index
+          it_caches_the_page :track => ['@article', '@articles', '@category', {'@site' => :tag_counts, '@section' => :tag_counts}]
 
-        it_assigns :category, :in => :'blog_category_paths'
-        it_assigns :tags,     :in => :'blog_tag_paths'
+          it_assigns :category, :in => :'blog_category_paths'
+          it_assigns :tags,     :in => :'blog_tag_paths'
+        end
       end
     end
 
@@ -125,7 +169,7 @@ class BlogControllerTest < ActionController::TestCase
 
     with :the_article_is_published do
       it_assigns :section, :article
-      it_renders :template, :show
+      it_renders :view, :show
       it_caches_the_page :track => ['@article', '@articles', '@category', {'@site' => :tag_counts, '@section' => :tag_counts}]
     end
 
