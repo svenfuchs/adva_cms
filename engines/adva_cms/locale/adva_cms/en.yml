@@ -671,7 +671,8 @@ en:
           success: The board has been updated.
           failure: The board could not be updated.
         no_previous_board: There is no previous board. Showing the first one.
-      confirm_delete: Are you sure you wish to delete this board?
+      confirm_delete: All the topics of this board are also deleted with the board. Are you sure you wish to delete this board?
+      confirm_delete_on_last: Are you sure you wish to delete this board? Your topics will not be removed.
     topics:
       info:
         no_topics_in_forum: There are no topics in this forum.

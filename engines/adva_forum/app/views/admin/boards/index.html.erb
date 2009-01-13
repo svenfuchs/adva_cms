@@ -4,16 +4,15 @@
 
 <div class='statistics'>
 	<p class='total'>
-		<%= "This forum has total of #{@section.boards.size} boards, #{@section.topics.size} topics and #{@section.comments.size} comments." %><br />
-		<%= "You can manage your forum " + link_to('here', forum_path(@section))%>
+		<%= "This forum has total of #{@section.boards.size} boards, #{@section.topics.size} topics and #{@section.comments.size} posts." %><br />
+		<%= "Click " + link_to('here', forum_path(@section))%> to go to your forum.
 	</p>
 </div>
 
 <%= render :partial => 'topics' %>
 
-<% unless @boards.empty? %>
-	<h2><%= t(:'adva.titles.boards') %></h2>
-  
+<h2><%= t(:'adva.titles.boards') %></h2>
+<% unless @boards.empty? -%>  
 	<p class="hint">
     <% if @boards.size > 1 %>
       &middot;
@@ -48,4 +47,12 @@
     //   }
     // });
   </script>
-<% end %>
+<% else -%>
+<div class="empty">
+	<p>
+		All the existing forum topics are moved to your first board when you want to create one.<br />
+		If you need one, follow this link <%= link_to 'here', new_admin_board_path(@site, @section) -%>, or 'Create a new board'
+		link on right-hand menu.
+	</p>
+</div>
+<% end -%>

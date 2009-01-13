@@ -34,8 +34,8 @@ class AnExistingForumWithBoards < ActionController::IntegrationTest
      # Go to section
     get admin_boards_path(@site, @forum)
     
-    # Admin clicks link create a new board
-    click_link @board.title
+    # Admin clicks link to edit board
+    click_link 'Edit'
     
     assert_template 'admin/boards/edit'
     
@@ -56,7 +56,7 @@ class AnExistingForumWithBoards < ActionController::IntegrationTest
      # Go to section
     get admin_boards_path(@site, @forum)
     
-    # Admin clicks link create a new board
+    # Admin clicks link to delete a board
     click_link 'Delete'
     
     assert Board.count  == 0

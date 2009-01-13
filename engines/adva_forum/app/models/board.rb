@@ -6,6 +6,10 @@ class Board < ActiveRecord::Base
 
   delegate :topics_per_page, :comments_per_page, :to => :section
 
+  before_validation :set_site
+  after_create      :assign_topics
+  before_destroy    :unassign_topics  # Needs to be here before associations, otherwise topics are deleted on last board
+
   belongs_to :site
   belongs_to :section
 
@@ -20,9 +24,7 @@ class Board < ActiveRecord::Base
   has_one  :recent_comment, :class_name => 'Comment',
                             :order => "comments.created_at DESC",
                             :foreign_key => :board_id
-
-  before_validation :set_site
-
+  
   def after_comment_update_with_board(comment)
     if comment = comment.frozen? ? comments.last_one : comment
       update_attributes! :last_updated_at => comment.created_at, :last_comment_id => comment.id, :last_author => comment.author
@@ -31,8 +33,25 @@ class Board < ActiveRecord::Base
     end
   end
   alias_method_chain :after_comment_update, :board
-
+  
+  def last?
+    owner.boards.size == 1
+  end
+  
   protected
+  
+    def assign_topics
+      owner.boardless_topics.each do |topic|
+        self.topics << topic
+      end
+    end
+  
+    def unassign_topics
+      return unless last?
+      topics.each do |topic|
+        topic.update_attribute(:board_id, nil)
+      end
+    end
 
     def owner
       section
