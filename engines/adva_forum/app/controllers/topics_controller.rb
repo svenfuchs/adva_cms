@@ -78,8 +78,12 @@ class TopicsController < BaseController
     def set_section; super(Forum); end
 
     def set_board
-      @board = @section.boards.find params[:topic][:board_id] if params[:topic][:board_id]
-      raise "Could not set board while posting to #{@section.path.inspect}" if @section.boards.any? && @board.blank?
+      if @section.boards.any?
+        # Depends, is this GET to a new action or POST to update
+        board_id = params[:board_id] || params[:topic][:board_id]
+        @board = @section.boards.find board_id unless board_id.nil?
+        raise "Could not set board while posting to #{@section.path.inspect}" if @board.blank?
+      end
     end
 
     def set_topic
