@@ -44,5 +44,15 @@ describe "Admin::Install:" do
       render "admin/install/confirmation"
       response.should have_tag('a[href=?]', @admin_site_path)
     end
+
+    it "should display users email as username" do
+      render "admin/install/confirmation"
+      response.should have_tag('p#user_profile', Regexp.new(@user.email))
+    end
+
+    it "should not display users password" do
+      render "admin/install/confirmation"
+      response.should_not have_tag('p#user_profile', Regexp.new(@user.password))
+    end
   end
 end
