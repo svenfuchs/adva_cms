@@ -78,10 +78,13 @@ class TopicsController < BaseController
     def set_section; super(Forum); end
 
     def set_board
-      if @section.boards.any?
-        # Depends, is this GET to a new action or POST to update
-        board_id = params[:board_id] || params[:topic][:board_id]
-        @board = @section.boards.find board_id unless board_id.nil?
+      # Board_id depends on if this this GET to a new action or PUT to update
+      # NOTE: GET from backend comes without board_id
+      board_id = params[:board_id]          if request.get?
+      board_id = params[:topic][:board_id]  if request.put?
+      # We only need to fetch board if there actually is board_id supplied.
+      if @section.boards.any? && board_id
+        @board = @section.boards.find board_id
         raise "Could not set board while posting to #{@section.path.inspect}" if @board.blank?
       end
     end

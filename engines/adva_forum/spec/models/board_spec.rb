@@ -246,6 +246,12 @@ describe Board do
           @topic.reload
           @topic.board.should == @board
         end
+        
+        it "assigns topics comment(s) to the board" do
+          @board.send(:assign_topics)
+          @topic.reload
+          @topic.initial_post.board.should == @board
+        end
       end
       
       describe "#unassign_topics" do
@@ -260,6 +266,12 @@ describe Board do
           @board.stub!(:last?).and_return true
           @board.destroy
           @topic.board.should be_nil
+        end
+        
+        it "unassigns topics comment(s) from the board" do
+          @board.send(:assign_topics)
+          @topic.reload
+          @topic.initial_post.board.should be_nil
         end
       end
     end

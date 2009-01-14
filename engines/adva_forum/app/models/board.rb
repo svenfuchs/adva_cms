@@ -1,5 +1,4 @@
 class Board < ActiveRecord::Base
-  has_many_comments
   has_counter :topics
   belongs_to_author :last_author, :validate => false
   acts_as_role_context :parent => Section
@@ -9,6 +8,7 @@ class Board < ActiveRecord::Base
   before_validation :set_site
   after_create      :assign_topics
   before_destroy    :unassign_topics  # Needs to be here before associations, otherwise topics are deleted on last board
+  has_many_comments                   # Needs to be here after before_destroy, otherwise topics posts are lost when last board is deleted
 
   belongs_to :site
   belongs_to :section
@@ -39,10 +39,12 @@ class Board < ActiveRecord::Base
   end
   
   protected
-  
     def assign_topics
       owner.boardless_topics.each do |topic|
         self.topics << topic
+        topic.comments.each do |comment|
+          comment.update_attribute(:board, self)
+        end
       end
     end
   
@@ -50,6 +52,9 @@ class Board < ActiveRecord::Base
       return unless last?
       topics.each do |topic|
         topic.update_attribute(:board_id, nil)
+        topic.comments.each do |comment|
+          comment.update_attribute(:board_id, nil)
+        end
       end
     end
 
@@ -60,5 +65,4 @@ class Board < ActiveRecord::Base
     def set_site
       self.site_id = section.site_id if section
     end
-
 end

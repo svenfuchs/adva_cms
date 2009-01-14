@@ -4,4 +4,3 @@ ActiveSupport::Dependencies.load_once_paths -= ActiveSupport::Dependencies.load_
 # config.to_prepare do
 #   Section.register_type 'Forum'
 # end
-

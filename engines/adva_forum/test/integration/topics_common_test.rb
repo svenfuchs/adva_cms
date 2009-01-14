@@ -25,7 +25,7 @@ class TopicsCommon < ActionController::IntegrationTest
     
     assert_template 'topics/show'
     @topic.reload
-    assert @topic.title == 'Updated test topic'
+    assert @topic.title == "Updated test topic"
   end
   
   def test_an_admin_makes_the_topic_sticky
