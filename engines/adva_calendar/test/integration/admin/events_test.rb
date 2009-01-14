@@ -8,22 +8,23 @@ class EventsTest < ActionController::IntegrationTest
     login_as :admin
   end
 
-  test "GET :index without any events" do
+  test "01 GET :index without any events" do
     CalendarEvent.delete_all
     visit "/admin/sites/#{@site.id}/sections/#{@section.id}/events"
     assert_template 'admin/events/index'
     assert_select '.empty'
     assert_select '.empty>a', 'Create a new event'
+    assert assigns['events'].empty?
   end
 
-  test "GET :index using filter, without any events" do
+  test "02 GET :index using filter, without any events" do
     visit "/admin/sites/#{@site.id}/sections/#{@section.id}/events?filter=tags&query=null"
     assert_template 'admin/events/index'
     assert_select '.empty'
     assert_select '.empty', 'No events matching your filter.'
   end
 
-  test "admin submits an empty event: should be error" do
+  test "03 admin submits an empty event: should be error" do
     visit "/admin/sites/#{@site.id}/sections/#{@section.id}/events/new"
     fill_in :calendar_event_title, :with => nil
     fill_in :calendar_event_location_id, :with => nil
@@ -32,9 +33,10 @@ class EventsTest < ActionController::IntegrationTest
 
     assert_template 'admin/events/new'
     assert_select '.field_with_error'
+    assert assigns['event'].new_record?
   end
 
-  test "admin submits a new event: should be success" do
+  test "04 admin submits a new event: should be success" do
     visit "/admin/sites/#{@site.id}/sections/#{@section.id}/events/new"
     fill_in :calendar_event_title, :with => 'Christmas'
     fill_in :calendar_event_start_date, :with => '2009-12-24'
@@ -44,9 +46,11 @@ class EventsTest < ActionController::IntegrationTest
 
     assert_template 'admin/events/edit'
     assert_select '.field_with_error', false
+    assert ! assigns['event'].new_record?
+    assert_equal 'Christmas', assigns['event'].title
   end
 
-  test "admin submits a new event with a new location: should be success" do
+  test "05 admin submits a new event with a new location: should be success" do
     visit "/admin/sites/#{@site.id}/sections/#{@section.id}/events/new"
     fill_in :calendar_event_title, :with => 'Christmas'
     fill_in :calendar_event_start_date, :with => '2009-12-24'
@@ -56,9 +60,10 @@ class EventsTest < ActionController::IntegrationTest
 
     assert_template 'admin/events/edit'
     assert_select '.field_with_error', false
+    assert ! assigns['event'].new_record?
   end
 
-  test "admin edits an event: should be success" do
+  test "06 admin edits an event: should be success" do
     visit "/admin/sites/#{@site.id}/sections/#{@section.id}/events/#{@event.id}/edit"
     assert_template 'admin/events/edit'
     fill_in :calendar_event_title, :with => 'A new title'
@@ -66,9 +71,11 @@ class EventsTest < ActionController::IntegrationTest
     click_button 'Save'
     assert_template 'admin/events/edit'
     assert_select '.field_with_error', false
+    @event.reload
+    assert_equal 'An updated description', @event.body
   end
 
-  test "admin edits an event with a new location: should be success" do
+  test "07 admin edits an event with a new location: should be success" do
     visit "/admin/sites/#{@site.id}/sections/#{@section.id}/events/#{@event.id}/edit"
     old_location_id = @event.location_id
     assert_template 'admin/events/edit'
@@ -81,7 +88,7 @@ class EventsTest < ActionController::IntegrationTest
     assert_not_equal old_location_id, @event.location_id
   end
 
-  test "admin deletes an event" do
+  test "08 admin deletes an event" do
     visit "/admin/sites/#{@site.id}/sections/#{@section.id}/events"
     assert_template 'admin/events/index'
     click_link @event.title
@@ -90,5 +97,8 @@ class EventsTest < ActionController::IntegrationTest
 
     assert_template 'admin/events/index'
     assert_select "event_%i" % @event.id, false
+    assert_raise ActiveRecord::RecordNotFound do
+      @event.reload
+    end
   end
 end
