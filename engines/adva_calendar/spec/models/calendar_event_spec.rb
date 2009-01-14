@@ -74,20 +74,22 @@ describe CalendarEvent do
   
   describe "named scopes" do
     before do
+      Time.stub!(:now).and_return Time.utc(2009,11,27, 16,00)
       @calendar.events.delete_all
+      default_attrs = { :user_id => 1, :location_id => 1, :published_at => Time.now - 2.years }
       @cat1 = @calendar.categories.create!(:title => 'cat1')
       @cat2 = @calendar.categories.create!(:title => 'cat2')
       @cat3 = @calendar.categories.create!(:title => 'cat3')
-      @elapsed_event = @calendar.events.create!(:title => 'Gameboy Music Club', 
-          :start_date => Time.now - 1.day, :user_id => 1, :categories => [@cat1, @cat2], :location_id => 1).reload
-      @elapsed_event2 = @calendar.events.create!(:title => 'Mobile Clubbing', 
-          :start_date => Time.now - 5.hours,  :end_date => Time.now - 3.hour, :user_id => 1, :categories => [@cat1, @cat2], :location_id => 1).reload
-      @upcoming_event = @calendar.events.create!(:title => 'Jellybeat', 
-          :start_date => Time.now + 4.hours, :user_id => 1, :categories => [@cat2, @cat3], :location_id => 1).reload
-      @running_event = @calendar.events.create!(:title => 'Vienna Jazz Floor 08', 
-          :start_date => Time.now - 1.month, :end_date => Time.now + 9.days, :user_id => 1, :categories => [@cat1, @cat3], :location_id => 1).reload
-      @real_old_event = @calendar.events.create!(:title => 'Vienna Jazz Floor 07', 
-          :start_date => Time.now - 1.year, :end_date => Time.now - 11.months, :user_id => 1, :draft => true, :categories => [@cat2], :location_id => 1).reload
+      @elapsed_event = @calendar.events.create!(default_attrs.merge(:title => 'Gameboy Music Club', 
+          :start_date => Time.now - 1.day, :categories => [@cat1, @cat2])).reload
+      @elapsed_event2 = @calendar.events.create!(default_attrs.merge(:title => 'Mobile Clubbing', 
+          :start_date => Time.now - 5.hours,  :end_date => Time.now - 3.hour, :categories => [@cat1, @cat2])).reload
+      @upcoming_event = @calendar.events.create!(default_attrs.merge(:title => 'Jellybeat', 
+          :start_date => Time.now + 4.hours, :categories => [@cat2, @cat3])).reload
+      @running_event = @calendar.events.create!(default_attrs.merge(:title => 'Vienna Jazz Floor 08', 
+          :start_date => Time.now - 1.month, :end_date => Time.now + 9.days, :categories => [@cat1, @cat3])).reload
+      @real_old_event = @calendar.events.create!(default_attrs.merge(:title => 'Vienna Jazz Floor 07', 
+          :start_date => Time.now - 1.year, :end_date => Time.now - 11.months, :published_at => nil, :categories => [@cat2])).reload
 #      @calendar.reload
     end
     it "should have a elapsed scope" do
