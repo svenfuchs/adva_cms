@@ -35,6 +35,29 @@ class Test::Unit::TestCase
     end
   end
 
+  share :comments_or_commenting_allowed do
+    before do
+      # no comments present but commenting is still allowed
+      @site.comments.clear 
+    end
+  end
+  
+  share :comments_or_commenting_allowed do
+    before do
+      # commenting disallowed, but comments still present
+      target = @articles || @article || @section
+      Array(target).each { |t| t.update_attributes! :comment_age => -1 unless @article.comment_age == -1 }
+    end
+  end
+  
+  share :no_comments_and_commenting_not_allowed do
+    before do
+      @site.comments.clear
+      target = @articles || @article || @section
+      Array(target).each { |t| t.update_attributes! :comment_age => -1 unless @article.comment_age == -1 }
+    end
+  end
+  
   share :a_category do
     before do
       @category = @section.categories.first
@@ -54,11 +77,11 @@ class Test::Unit::TestCase
     end
   end
   
-  share :article_belongs_to_category do
+  share :the_article_belongs_to_the_category do
     # nothing to do
   end
 
-  share :article_does_not_belong_to_category do
+  share :the_article_does_not_belong_to_the_category do
     before do
       @article.categories.clear unless @article.categories.empty?
     end

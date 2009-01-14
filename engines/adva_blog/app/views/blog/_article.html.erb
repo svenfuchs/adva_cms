@@ -4,7 +4,7 @@
   	  <p>
   	    <%= datetime_with_microformat(article.published_at, :format => :long) %><br />
   	    <%=t :'adva.blog.attribution', :author => article.author_name %>
-    	  <%= link_to_content_comments article unless mode == :single %>
+    	  <%= link_to_content_comments article if (article.accept_comments? || !article.comments.empty?) && mode != :single %>
     	  <% authorized_tag :span, :update, article do -%>
       		<%= link_to t( :'adva.common.edit' ), edit_admin_article_path(@site, @section, article) %>
 		    <% end -%>

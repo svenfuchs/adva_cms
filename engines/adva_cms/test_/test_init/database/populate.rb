@@ -129,19 +129,19 @@ Wikipage.create! :site => site_with_wiki,
 
 
 comment_attrs = { :body => 'the comment body',
-                 :site => section_article.site,
-                 :section => section_article.section,
-                 :commentable => section_article,
-                 :author => user }
+                  :site => section_article.site,
+                  :section => section_article.section,
+                  :commentable => section_article,
+                  :author => user }
 
 approved_section_article_comment   = Comment.create! comment_attrs.merge(:approved => 1)
 unapproved_section_article_comment = Comment.create! comment_attrs.merge(:approved => 0)
 
 comment_attrs = { :body => 'the comment body',
-                 :site => blog_article.site,
-                 :section => blog_article.section,
-                 :commentable => blog_article,
-                 :author => user }
+                  :site => blog_article.site,
+                  :section => blog_article.section,
+                  :commentable => blog_article,
+                  :author => user }
 
 approved_blog_article_comment   = Comment.create! comment_attrs.merge(:approved => 1)
 unapproved_blog_article_comment = Comment.create! comment_attrs.merge(:approved => 0)
