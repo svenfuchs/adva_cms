@@ -73,8 +73,8 @@ class CalendarEvent < ActiveRecord::Base
 
   def all_day=(value)
     if value == "1" or value == true
-      self.start_date = self.start_date.beginning_of_day unless self.start_date.blank?
-      self.end_date = self.start_date.end_of_day unless self.end_date.blank?
+      self.start_date = self.start_date.utc.beginning_of_day unless self.start_date.blank?
+      self.end_date = self.start_date.utc.end_of_day unless self.end_date.blank?
     end
   end
 
