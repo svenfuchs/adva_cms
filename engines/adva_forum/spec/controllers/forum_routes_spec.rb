@@ -8,7 +8,6 @@ describe ForumController do
     stub_scenario :forum_with_topics
 
     controller.instance_variable_set :@site, @site
-    Thread.current[:site] = @site
   end
 
   describe "routing" do

@@ -47,8 +47,12 @@ class Topic < ActiveRecord::Base
   end
   
   def revise(author, attributes)
-    self.sticky, self.locked = attributes.delete(:sticky), attributes.delete(:locked) # if author.has_permission ...
+    #self.sticky, self.locked = attributes.delete(:sticky), attributes.delete(:locked) # if author.has_permission ...
     self.attributes = attributes
+    return unless board_id_changed?
+    comments.each do |comment|
+      comment.update_attribute(:board_id, attributes[:board_id])
+    end
   end
 
   # def hit!

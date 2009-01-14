@@ -5,8 +5,6 @@ describe "Comment views:" do
   include ContentHelper
 
   before :each do
-    Thread.current[:site] = stub_site
-
     assigns[:site] = @site = stub_site
     assigns[:comment] = @comment = stub_comment
     assigns[:commentable] = @article = stub_article

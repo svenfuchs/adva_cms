@@ -156,9 +156,25 @@ describe Topic do
       end
     end
 
-    # describe '#revise' do
-    #   it 'should be specified and implemented' # not sure if this actually makes sense in the end
-    # end
+    describe "#revise" do
+      before :each do
+        @comment = stub_comment
+        @board = Board.new
+        @topic.save
+        @topic.stub!(:comments).and_return [@comment]
+        @topic.stub!(:board).and_return @board
+      end
+      
+      it "does not touch the comments if topics board is not changed" do
+        @topic.should_not_receive(:comments)
+        @topic.revise @user, nil
+      end
+      
+      it "updates topics comments when board of topics is changed" do
+        @comment.should_receive(:update_attribute).with(:board_id, 1)
+        @topic.revise @user, {:board_id => 1}
+      end
+    end
 
     describe '#accept_comments?' do
       it 'returns true when it is not locked' do

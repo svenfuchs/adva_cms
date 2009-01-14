@@ -90,6 +90,14 @@ describe Board do
     it "sets the site before validation" do
       Board.before_validation.should include(:set_site)
     end
+    
+    it "assigns any unassigned topics to self after create" do
+      Board.after_create.should include(:assign_topics)
+    end
+    
+    it "unassigns assigned board topics before destroying the last board" do
+      Board.before_destroy.should include(:unassign_topics)
+    end
   end
 
   # describe '#after_topic_update' do
@@ -183,6 +191,18 @@ describe Board do
           @board.after_comment_update(@comment)
         end
       end
+      
+      describe "#last?" do
+        it "returns true if forum has only one board" do
+          @forum.stub!(:boards).and_return [@board]
+          @board.last?.should be_true
+        end
+        
+        it "returns false if forum has more than one board" do
+          @forum.stub!(:boards).and_return [@board, Board.new]
+          @board.last?.should be_false
+        end
+      end
     end
     
     describe "protected" do
@@ -206,6 +226,52 @@ describe Board do
           @board.section = nil
           @board.send(:set_site)
           @board.site.should be_nil
+        end
+      end
+      
+      describe "#assign_topics" do
+        before :each do
+          @topic = @forum.topics.post(@user, Factory.attributes_for(:topic, :section => @forum))
+          @topic.save
+          @board.save
+        end
+        
+        it "fetches all the boardless topics from forum" do
+          @forum.should_receive(:boardless_topics).and_return [@topic]
+          @board.send(:assign_topics)
+        end
+        
+        it "assigns topic to the board" do
+          @board.send(:assign_topics)
+          @topic.reload
+          @topic.board.should == @board
+        end
+        
+        it "assigns topics comment(s) to the board" do
+          @board.send(:assign_topics)
+          @topic.reload
+          @topic.initial_post.board.should == @board
+        end
+      end
+      
+      describe "#unassign_topics" do
+        before :each do
+          @topic = @forum.topics.post(@user, Factory.attributes_for(:topic, :section => @forum))
+          @board.topics << @topic
+          @board.save
+          @topic.reload
+        end
+        
+        it "unassigns topic to the board" do
+          @board.stub!(:last?).and_return true
+          @board.destroy
+          @topic.board.should be_nil
+        end
+        
+        it "unassigns topics comment(s) from the board" do
+          @board.send(:assign_topics)
+          @topic.reload
+          @topic.initial_post.board.should be_nil
         end
       end
     end

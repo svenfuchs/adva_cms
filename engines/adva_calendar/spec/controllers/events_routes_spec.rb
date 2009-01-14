@@ -8,7 +8,6 @@ describe EventsController do
     stub_scenario :calendar_with_events
 
     controller.instance_variable_set :@site, @site
-    Thread.current[:site] = @site
   end
 
   describe "routing" do

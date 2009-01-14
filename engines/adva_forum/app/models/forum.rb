@@ -39,4 +39,8 @@ class Forum < Section
   def latest_topics
     topics.find(:all, :order => 'updated_at DESC', :limit => latest_topics_count)
   end
+  
+  def boardless_topics
+    topics.find(:all, :conditions => ["board_id IS NULL"])
+  end
 end

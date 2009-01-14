@@ -124,6 +124,13 @@ describe Forum do
       end
     end
     
+    describe "#boardless_topics" do
+      it "returns the all the forum topics that are not assigned to a board" do
+        factory_scenario :forum_with_topics
+        @forum.boardless_topics.size.should == [@topic, @recent_topic].size
+      end
+    end
+    
     describe "Forum#content_type" do
       it ".returns 'Topic'" do # NOT SURE ABOUT THIS ...
         Forum.content_type.should == 'Board'

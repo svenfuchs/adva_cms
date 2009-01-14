@@ -5,14 +5,16 @@ Story: Editing a wikipage is disallowed
 
   Scenario: An anonymous user can not edit a wikipage
     Given page cache is enabled and empty
-    And a wiki that allows registered users to create and update wikipages
+    And a site
+		And a wiki that allows registered users to create and update wikipages
     And a wikipage
     When the user visits the wikipage edit page
     Then the user is redirected to the url :login
     And the page is not cached
   
   Scenario: An anonymous user can not save a wikipage
-    Given a wiki that allows registered users to create and update wikipages
+    Given a site
+		And a wiki that allows registered users to create and update wikipages
     And a wikipage
     When the user tries to update the wikipage with valid parameters
     Then the user is redirected to the url :login

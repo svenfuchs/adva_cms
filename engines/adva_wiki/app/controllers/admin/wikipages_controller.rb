@@ -1,6 +1,6 @@
 class Admin::WikipagesController < Admin::BaseController
   layout "admin"
-  helper :assets, :roles
+  helper :assets, :roles, :'admin/comments'
 
   before_filter :set_section
   before_filter :set_wikipage, :only => [:show, :edit, :update, :destroy]

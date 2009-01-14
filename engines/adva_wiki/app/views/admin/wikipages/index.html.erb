@@ -1,7 +1,7 @@
 <% content_for :sidebar do -%>
   <h3><%= t(:'adva.wikipage.view.index.manage_header') %></h3>
   <ul>
-    <li><%= link_to t(:'adva.common.wikipage', :count => 2), admin_wikipages_path(@site, @section) %></li>
+    <li><%= link_to t(:'adva.wikipage.view._options.link_to_wikipages'), admin_wikipages_path(@site, @section) %></li>
     <li><%= link_to t(:'adva.common.categories'), admin_categories_path(@site, @section) %></li>
     <li><%= link_to t(:'adva.common.settings'), edit_admin_section_path(@site, @section) %></li>
   </ul>

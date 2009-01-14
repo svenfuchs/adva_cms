@@ -5,7 +5,6 @@ describe CommentsHelper do
 
   before :each do
     stub_scenario :blog_with_published_article, :blog_comments
-    Thread.current[:site] = @site
   end
 
   it '#comments_feed_title joins the titles of site, section and commentable' do

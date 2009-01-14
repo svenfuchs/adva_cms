@@ -24,6 +24,7 @@ describe "Admin::Boards:" do
     template.stub!(:link_to_function)
     template.stub!(:image_tag)
     template.stub!(:remote_function)
+    template.stub!(:confirm_board_delete)
     # template.stub!(:form_for)
 
     template.stub!(:render).with hash_including(:partial => 'board')

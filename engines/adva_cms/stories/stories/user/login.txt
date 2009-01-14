@@ -7,6 +7,7 @@ Story: Log in
 
   Scenario: A verified user logs in with valid credentials
     Given page cache is enabled and empty
+		And a site
     And a verified user
     When the user goes to the login page
     Then the page has a login form
@@ -17,6 +18,7 @@ Story: Log in
   
   Scenario: A verified user logs in with invalid credentials
     Given a verified user
+		And a site
     When the user goes to the login page
     When the user fills in the login form with invalid credentials
     And the user clicks the 'Login' button
@@ -25,6 +27,7 @@ Story: Log in
   
   Scenario: A not verified user logs in with valid credentials
     Given an unverified user
+		And a site
     When the user goes to the login page
     When the user fills in the login form with valid credentials
     And the user clicks the 'Login' button
@@ -33,6 +36,7 @@ Story: Log in
   
   Scenario: A not verified user logs in with invalid credentials
     Given an unverified user
+		And a site
     When the user goes to the login page
     When the user fills in the login form with invalid credentials
     And the user clicks the 'Login' button

@@ -54,7 +54,7 @@ class CalendarEvent < ActiveRecord::Base
     }
   }
 
-  named_scope :published, :conditions => { :draft => false }
+  named_scope :published, :conditions => 'published_at IS NOT NULL'
 
   named_scope :search, Proc.new { |query, filter|
     {
@@ -62,6 +62,10 @@ class CalendarEvent < ActiveRecord::Base
       :order => 'start_date DESC'
     }
   }
+
+  def draft?
+    published_at.nil?
+  end
 
   def self.sanitize_filter(filter)
     %w(title body).include?(filter.to_s) ? filter.to_s : 'title'
