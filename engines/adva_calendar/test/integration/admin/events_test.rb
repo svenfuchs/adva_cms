@@ -88,22 +88,14 @@ class EventsTest < ActionController::IntegrationTest
     assert_not_equal old_location_id, @event.location_id
   end
 
-  # TODO commented out because it seems to be unstable,
-  #      fails often when run locally:
-  #      <p>
-  #         Showing <i>vendor/adva/engines/adva_calendar/app/views/admin/events/_event.html.erb</i> where line <b>#6</b> raised:
-  #         <pre><code>You have a nil object when you didn't expect it!
-  #         The error occurred while evaluating nil.name</code></pre>
-  #      </p>
-
-  # test "admin deletes an event" do
-  #   visit "/admin/sites/#{@site.id}/sections/#{@section.id}/events"
-  #   assert_template 'admin/events/index'
-  #   click_link @event.title
-  #   assert_template 'admin/events/edit'
-  #   click_link 'Delete'
-  # 
-  #   assert_template 'admin/events/index'
-  #   assert_select "event_%i" % @event.id, false
-  # end
+  test "08 admin deletes an event" do
+    visit "/admin/sites/#{@site.id}/sections/#{@section.id}/events"
+    assert_template 'admin/events/index'
+    click_link @event.title
+    assert_template 'admin/events/edit'
+    click_link 'Delete'
+  
+    assert_template 'admin/events/index'
+    assert_select "event_%i" % @event.id, false
+  end
 end
