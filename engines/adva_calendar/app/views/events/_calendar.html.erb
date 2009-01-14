@@ -1,13 +1,14 @@
 <%
 date = current_timespan.first
 calendar_options ||= {}
-%>
 
-<%= calendar({ :year => date.year, :month => date.month }.merge(calendar_options)) do |day|
+highlight_events_proc = lambda do |day|
   if calendar_section.days_in_month_with_events(day).include?(day)
-    [link_to( day.mday, calendar_events_path(:year => day.year, :month => day.month, :day => day.mday)), {:class => "specialDay"}]
+    [link_to(day.day, calendar_events_path(:year => day.year, :month => day.month, :day => day.mday)), { :class => "dayWithEvents" }]
   else
-    [day.mday, {:class => "normalDay"}]
+    day.day
   end
 end
 %>
+
+<%= calendar_for(date.year, date.month, calendar_options, &highlight_events_proc) %>
