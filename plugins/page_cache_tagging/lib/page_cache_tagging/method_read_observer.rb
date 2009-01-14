@@ -27,9 +27,5 @@ module PageCacheTagging
     def notify(method)
       @observers.each {|observer| observer.notify @object, method }
     end
-  
-    def uninstall
-      @object.instance_variable_set(:@attributes, @attributes)
-    end
   end
 end

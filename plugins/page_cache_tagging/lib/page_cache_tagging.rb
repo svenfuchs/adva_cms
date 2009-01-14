@@ -1,30 +1,57 @@
+# TODO
+#
+# make it so that 
+#
+# - subsequent calls to tracks_cache_references are possible
+# - when the current owner already has a ReadAccessTracker (controller/component) this one is used
+# - subsequent calls do not wrap the trackable into more than one Observer
+
 module PageCacheTagging
   module ActMacro
-    # Caches the actions using the page-caching approach and saves the references for the page
-    #   caches_page_with_references :index, :show, 
-    #                               :track => ['@article', '@articles', {'@site' => :tag_counts}]
+    
+    # Caches the actions using the page-caching approach and sets up reference 
+    # tracking for given actions and objects
+    # 
+    #   caches_page_with_references :index, :show, :track => ['@article', '@articles', {'@site' => :tag_counts}]
+    #
     def caches_page_with_references(*actions)
-      unless caches_page_with_references?
-        include PageCacheTagging
+      tracks_cache_references(*actions)
       
-        helper_method :cached_references
-        attr_writer :cached_references
-        alias_method_chain :render, :read_access_tracking 
+      unless caches_page_with_references?
         alias_method_chain :caching_allowed, :skipping
       end
 
       options = actions.extract_options!
       caches_page *actions
-
-      class_inheritable_accessor :track_options
-      self.track_options ||= {}
+    end
     
+    # Sets up reference tracking for given actions and objects
+    # 
+    #   tracks_cache_references :index, :show, :track => ['@article', '@articles', {'@site' => :tag_counts}]
+    #
+    def tracks_cache_references(*actions)
+      unless tracks_cache_references?
+        include PageCacheTagging
+      
+        helper_method :cached_references
+        attr_writer :cached_references
+        alias_method_chain :render, :read_access_tracking 
+
+        class_inheritable_accessor :track_options
+        self.track_options ||= {}
+      end
+    
+      options = actions.extract_options!
       actions.map(&:to_sym).each do |action|
         self.track_options[action] = options[:track]
       end
     end
   
     def caches_page_with_references?
+      method_defined? :caching_allowed_without_skipping
+    end
+  
+    def tracks_cache_references?
       method_defined? :render_without_read_access_tracking
     end
   end
@@ -43,8 +70,8 @@ module PageCacheTagging
 
     def setup_read_access_tracking
       return unless perform_caching
-      options = self.class.track_options[params[:action].to_sym] || {}
-      @read_access_tracker ||= RecordReadAccessTracker.new self, options.clone
+      trackables = self.class.track_options[params[:action].to_sym] || {}
+      @read_access_tracker ||= ReadAccessTracker.new self, *trackables.clone # FIXME pass the controller when self === Component
     end
 
     def save_tracked_cache_references

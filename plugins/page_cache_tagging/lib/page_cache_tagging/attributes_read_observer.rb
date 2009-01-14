@@ -1,5 +1,5 @@
 module PageCacheTagging
-  class RecordAttributesReadObserver < Hash
+  class AttributesReadObserver < Hash
     def initialize(object, names)
       @observers = []
       @attributes = object.instance_variable_get(:@attributes) || {}

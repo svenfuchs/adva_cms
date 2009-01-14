@@ -7,6 +7,7 @@ class CachedPage < ActiveRecord::Base
   has_many :references, :class_name => "CachedPageReference", :dependent => :destroy
 
   class << self
+    # TODO why we track access to certain method? are they used in expiration at all?
     def find_by_reference(object, method = nil)
       sql = 'cached_page_references.object_type = ? AND cached_page_references.object_id = ?'      
       sql << ' AND cached_page_references.method = ?' if method
