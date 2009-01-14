@@ -1,0 +1,3 @@
+[submodule "plugins/later_dude"]
+	path = plugins/later_dude
+	url = git://github.com/clemens/later_dude.git
