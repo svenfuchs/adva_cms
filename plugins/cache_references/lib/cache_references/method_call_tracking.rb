@@ -77,3 +77,5 @@ module CacheReferences
     end
   end
 end
+
+ActiveRecord::Base.send :include, CacheReferences::MethodCallTracking

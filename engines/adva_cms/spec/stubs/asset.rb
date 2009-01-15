@@ -18,7 +18,8 @@ define Asset do
            :save! => true,
            :update_attributes => true,
            :update_attributes! => true,
-           :destroy => true
+           :destroy => true,
+           :track_method_calls => nil
 
   instance :asset
 end

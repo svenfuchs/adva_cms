@@ -25,7 +25,8 @@ define Comment do
 #           :role_authorizing => Rbac::Role.build(:author, :context => stub_comment),
            :commentable= => nil,
            :check_approval => false,
-           :approved_changed? => false
+           :approved_changed? => false,
+           :track_method_calls => nil
 
   instance :comment
 end

@@ -328,7 +328,7 @@ describe WikiController, 'page_caching' do
   end
 
   it "configures the WikipageSweeper to observe Comment create, update, rollback and destroy events" do
-    @wikipage_sweeper.options[:only].to_a.sort.should == ['create', 'destroy', 'rollback', 'update']
+    @wikipage_sweeper.options[:only].to_a.sort.should include('create', 'destroy', 'rollback', 'update')
   end
 
   it "activates the CategorySweeper as an around filter" do
@@ -348,7 +348,7 @@ describe WikiController, 'page_caching' do
   end
 
   it "tracks read access for a bunch of models for the :index action page caching" do
-    WikiController.track_options[:index].should == ['@wikipage', '@wikipages', '@category', {"@section" => :tag_counts, "@site" => :tag_counts}]
+    WikiController.track_options[:index].should include('@wikipage', '@wikipages', '@category', {"@section" => :tag_counts, "@site" => :tag_counts})
   end
 
   it "page_caches the :show action" do
@@ -356,7 +356,7 @@ describe WikiController, 'page_caching' do
   end
 
   it "tracks read access for a bunch of models for the :show action page caching" do
-    WikiController.track_options[:show].should == ['@wikipage', '@wikipages', '@category', {"@section" => :tag_counts, "@site" => :tag_counts}]
+    WikiController.track_options[:show].should include('@wikipage', '@wikipages', '@category', {"@section" => :tag_counts, "@site" => :tag_counts})
   end
 
   it "page_caches the comments action" do

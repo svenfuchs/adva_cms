@@ -22,7 +22,8 @@ define Wiki do
            :root_section? => true,
            :tag_counts => [],
            :has_attribute? => true,
-           :children => []
+           :children => [],
+           :track_method_calls => nil
 
   instance :wiki,
            :id => 1,

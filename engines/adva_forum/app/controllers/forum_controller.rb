@@ -2,7 +2,9 @@ class ForumController < BaseController
   before_filter :set_board, :only => :show
   before_filter :set_boards, :only => :show
   before_filter :set_topics, :only => :show
-  caches_page_with_references :show, :track => ['@topics', '@boards', '@board']
+
+  # TODO move :comments and @commentable to acts_as_commentable
+  caches_page_with_references :show, :comments, :track => ['@topics', '@boards', '@board', '@commentable']
 
   authenticates_anonymous_user
   acts_as_commentable # TODO hu?

@@ -23,7 +23,8 @@ define Forum do
            :valid? => true,
            :has_attribute? => true,
            :topics_count => 0,
-           :comments_count => 0
+           :comments_count => 0,
+           :track_method_calls => nil
 
   instance :forum
 end

@@ -17,7 +17,8 @@ define Topic do
              :last_page => 2,
              :last_comment => stub_comment,
              :last_updated_at => Time.now(),
-             :last_author_name => 'last_author_name'
+             :last_author_name => 'last_author_name',
+             :track_method_calls => nil
 
   instance   :topic,
              :id => 1,

@@ -44,7 +44,8 @@ define Site do
            :has_attribute? => true,
            :spam_filter_active? => false,
            :page_cache_directory => RAILS_ROOT + '/tmp/cache',
-           :multi_sites_enabled? => true
+           :multi_sites_enabled? => true,
+           :track_method_calls => nil
 
   instance :default
 end

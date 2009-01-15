@@ -18,7 +18,8 @@ define Board do
            :last_author_name => 'last author name',
            :save => true,
            :update_attributes => true,
-           :destroy => true
+           :destroy => true,
+           :track_method_calls => nil
 
   instance :board
 end

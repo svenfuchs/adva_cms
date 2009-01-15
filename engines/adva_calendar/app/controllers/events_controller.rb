@@ -10,7 +10,9 @@ class EventsController < BaseController
   authenticates_anonymous_user
   acts_as_commentable
 
-  caches_page_with_references :index, :show, :track => ['@event', '@events', '@category', {'@site' => :tag_counts, '@section' => :tag_counts}]
+  # TODO move :comments and @commentable to acts_as_commentable
+  caches_page_with_references :index, :show, :comments, 
+    :track => ['@event', '@events', '@category', '@commentable', {'@site' => :tag_counts, '@section' => :tag_counts}]
   cache_sweeper :calendar_event_sweeper, :tag_sweeper, :category_sweeper, :only => [:create, :update, :destroy]
 
   def index
