@@ -1,4 +1,4 @@
-class SectionSweeper < PageCacheTagging::Sweeper
+class SectionSweeper < CacheReferences::Sweeper
   observe Section
   
   def after_create(section)

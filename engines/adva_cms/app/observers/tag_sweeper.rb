@@ -5,7 +5,7 @@
 # Also, when a single tagging is created or removed (i.e. an object is tagged)
 # we also need to expire all pages that display that tagcloud.
 
-class TagSweeper < PageCacheTagging::Sweeper
+class TagSweeper < CacheReferences::Sweeper
   observe Tag
 
   def after_save(tag)

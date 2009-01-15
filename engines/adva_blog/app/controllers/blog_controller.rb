@@ -74,7 +74,7 @@ class BlogController < BaseController
     def guard_view_permissions
       unless @article.published?
         guard_permission(:update, :article)
-        @skip_caching = true
+        skip_caching!
       end
     end
 

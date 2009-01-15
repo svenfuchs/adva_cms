@@ -1,4 +1,4 @@
-module PageCacheTagging
+module CacheReferences
   class Sweeper < ActionController::Caching::Sweeper
     def expire_cached_pages_by_site(site)
       expire_cached_pages site, CachedPage.find_all_by_site_id(site.id)

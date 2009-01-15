@@ -41,7 +41,7 @@ change.)
 
 The ArticleSweeper could look like this:
 
-    class ArticleSweeper < PageCacheTagging::Sweeper
+    class ArticleSweeper < CacheReferences::Sweeper
       observe Article
     
       def after_save(article)

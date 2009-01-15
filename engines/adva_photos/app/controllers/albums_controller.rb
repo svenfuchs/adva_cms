@@ -78,7 +78,7 @@ class AlbumsController < BaseController
     def guard_view_permissions
       unless @photo.published?
         guard_permission(:update, :photo)
-        @skip_caching = true
+        skip_caching!
       end
     end
 end

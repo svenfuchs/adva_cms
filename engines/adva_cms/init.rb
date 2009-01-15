@@ -26,7 +26,7 @@ config.to_prepare do
     :site_deleted => lambda {|c| c.send :admin_sites_path }
   }
 
-#  Components::Base.send :extend, PageCacheTagging::ActMacro
+#  Components::Base.send :extend, CacheReferences::ActMacro
 end
 
 # uncomment this to have Engines copy assets to the public directory on 

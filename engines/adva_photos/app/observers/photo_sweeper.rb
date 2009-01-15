@@ -1,4 +1,4 @@
-class PhotoSweeper < PageCacheTagging::Sweeper
+class PhotoSweeper < CacheReferences::Sweeper
   observe Photo
   
   def after_create(photo)

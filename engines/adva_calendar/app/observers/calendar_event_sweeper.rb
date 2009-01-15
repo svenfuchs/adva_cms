@@ -1,4 +1,4 @@
-class CalendarEventSweeper < PageCacheTagging::Sweeper
+class CalendarEventSweeper < CacheReferences::Sweeper
   observe CalendarEvent
 
   def after_save(event)

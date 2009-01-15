@@ -1,4 +1,4 @@
-class SiteSweeper < PageCacheTagging::Sweeper
+class SiteSweeper < CacheReferences::Sweeper
   observe Site
 
   def after_save(site)

@@ -1,12 +1,13 @@
-class ArticleSweeper < PageCacheTagging::Sweeper
+class ArticleSweeper < CacheReferences::Sweeper
   observe Article
   
-  def after_create(article)
-    expire_cached_pages_by_section(article.section)
-  end
+  # def after_create(article)
+  #   expire_cached_pages_by_section(article.section)
+  # end
 
   def before_save(article)
-    expire_cached_pages_by_reference(article)
+    record = article.new_record? ? article.section : article
+    expire_cached_pages_by_reference(record)
   end
   
   # def after_save(article)
