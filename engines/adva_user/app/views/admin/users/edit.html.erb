@@ -16,7 +16,7 @@
 
 <% form_for :user, @user, :url => member_path, :html => {:method => :put} do |f| -%>
   <%= render :partial => 'form', :locals => {:f => f} %>  
-  <%#= render :partial => 'roles', :locals => {:f => f} if has_permission?('manage', 'roles') %>
+  <%= render :partial => 'roles', :locals => {:f => f} if has_permission?('manage', 'roles') %>
   <%= render :partial => 'memberships', :locals => {:f => f} %>
 
   <p class="buttons">

@@ -71,6 +71,9 @@ module Rbac
       def initialize(attrs = {})
         super()
         if self.class.require_context
+          if attrs[:context].blank? and !(attrs[:context_type].blank? or attrs[:context_id].blank?)
+            attrs[:context] = attrs[:context_type].constantize.find(attrs[:context_id])
+          end
           attrs ||= {}
           valid_context = attrs[:context] && attrs[:context] != Rbac::Context.root
           self.context = adjust_context attrs[:context] if valid_context

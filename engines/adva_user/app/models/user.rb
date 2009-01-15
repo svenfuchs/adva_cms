@@ -88,7 +88,7 @@ class User < ActiveRecord::Base
     self.roles.clear
     roles.values.each do |role|
       next unless role.delete('selected') == '1'
-      self.roles << Rbac::Role.create!(role)
+      self.roles << role.delete('type').constantize.new(role)
     end
   end
 
@@ -120,8 +120,9 @@ class User < ActiveRecord::Base
   end
 
   def has_role?(role, options = {})
+    inherit = options.delete(:inherit)
     role = Rbac::Role.build role, options unless role.is_a? Rbac::Role::Base
-    role.granted_to? self, options
+    role.granted_to? self, options.merge(:inherit => inherit||true)
   end
 
   def has_exact_role?(name, object = nil)
