@@ -18,7 +18,7 @@ class TopicsCommon < ActionController::IntegrationTest
     click_link @topic.title
     assert_template 'topics/show'
     
-    click_link 'Edit'
+    click_link "topic_#{@topic.id}_edit"
     
     fill_in       'Title', :with => 'Updated test topic'
     click_button  'Save'
@@ -36,7 +36,7 @@ class TopicsCommon < ActionController::IntegrationTest
     click_link @topic.title
     assert_template 'topics/show'
     
-    click_link 'Edit'
+    click_link "topic_#{@topic.id}_edit"
     
     check         'Sticky'
     click_button  'Save'
@@ -54,7 +54,7 @@ class TopicsCommon < ActionController::IntegrationTest
     click_link @topic.title
     assert_template 'topics/show'
     
-    click_link 'Edit'
+    click_link "topic_#{@topic.id}_edit"
     
     check         'Locked'
     click_button  'Save'
@@ -74,7 +74,7 @@ class TopicsCommon < ActionController::IntegrationTest
     
     assert Topic.count == 2
     
-    click_link 'Delete'
+    click_link "topic_#{@topic.id}_delete"
     
     assert_template 'forum/show'
     assert Topic.count == 1
@@ -88,7 +88,7 @@ class TopicsCommon < ActionController::IntegrationTest
     click_link @forum.topics.first.title
     assert_template 'topics/show'
     
-    click_link 'Previous'
+    click_link 'previous'
     
     assert_template 'topics/show'
     assert_flash  'There is no previous topic'
@@ -102,7 +102,7 @@ class TopicsCommon < ActionController::IntegrationTest
     click_link @forum.topics.last.title
     assert_template 'topics/show'
     
-    click_link 'Previous'
+    click_link 'previous'
     
     assert_template 'topics/show'
     
@@ -120,7 +120,7 @@ class TopicsCommon < ActionController::IntegrationTest
     click_link @forum.topics.last.title
     assert_template 'topics/show'
     
-    click_link 'Next'
+    click_link 'next'
     
     assert_template 'topics/show'
     assert_flash  'There is no next topic'
@@ -134,7 +134,7 @@ class TopicsCommon < ActionController::IntegrationTest
     click_link @forum.topics.first.title
     assert_template 'topics/show'
     
-    click_link 'Next'
+    click_link 'next'
     
     assert_template 'topics/show'
     
