@@ -29,8 +29,8 @@
         </span>
         <span id="send-later">
           <%= f.label :publish_at, t('adva.newsletter.label.issue_publish_at') %>
-          <%= select_time Time.current, :prefix => "publish_at", :time_separator => ":" %> - 
-          <%= select_date Date.current, :prefix => "publish_at", :order => [:day, :month], :discard_year => true %>
+          <%= select_time Time.now + 5.minutes, :prefix => "publish_at", :time_separator => ":" %> - 
+          <%= select_date Date.today, :prefix => "publish_at", :order => [:day, :month], :discard_year => true %>
           <%= submit_tag t('adva.issue.button.send_later'), :name => 'send_later' %>
         </span>
       </div>

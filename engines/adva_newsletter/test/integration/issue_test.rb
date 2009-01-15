@@ -96,6 +96,9 @@ class IssuesTest < ActionController::IntegrationTest
     assert_equal 0, @newsletter.issues.count
   end
 
+  def teardown
+    remove_all_test_cron_jobs
+  end
 end  
 
 class IssuesWithSubscriptionTest < ActionController::IntegrationTest
@@ -137,5 +140,8 @@ class IssuesWithSubscriptionTest < ActionController::IntegrationTest
     assert_template 'admin/issues/show'
     assert_flash 'Newsletter issue was successfully sent out only to you.'
   end
+  
+  def teardown
+    remove_all_test_cron_jobs
+  end
 end
-

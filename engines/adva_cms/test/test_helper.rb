@@ -9,6 +9,7 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', 'factories', 'f
 require File.expand_path(File.join(File.dirname(__FILE__), 'test_helpers', 'assertions'))
 require File.expand_path(File.join(File.dirname(__FILE__), 'test_helpers', 'integration_steps'))
 require File.expand_path(File.join(File.dirname(__FILE__), 'test_helpers', 'integration_db_reset'))
+require File.expand_path(File.join(File.dirname(__FILE__), 'test_helpers', 'remove_all_test_cron_jobs'))
 
 require 'globalize/i18n/missing_translations_raise_handler'
 I18n.exception_handler = :missing_translations_raise_handler

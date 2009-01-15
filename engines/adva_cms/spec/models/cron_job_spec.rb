@@ -35,12 +35,41 @@ describe CronJob do
           "#{ruby_path} -rubygems #{RAILS_ROOT}/script/runner -e test 'test_command; " +
           "CronJob.find(#{@cronjob.id}).destroy;'"
       end
+    end
+    
+    describe "due_at=" do
+      it "should accept datetime hash and update cron job fields" do
+        @cronjob.due_at = {:minute => "01", :hour => "01", :day => "01", :month => "01"}
+        @cronjob.minute.should == "01"
+        @cronjob.hour.should == "01"
+        @cronjob.day.should == "01"
+        @cronjob.month.should == "01"
+      end
       
-      it "should not add autoclean when due_at is nil" do
-        @cronjob.due_at = nil
-        @cronjob.runner_command.should ==
-          "export GEM_PATH=#{ENV['GEMDIR']}; " +
-          "#{ruby_path} -rubygems #{RAILS_ROOT}/script/runner -e test 'test_command; '"
+      it "should accept DateTime object and update cron job fields" do
+        @cronjob.due_at = DateTime.new 2009,01,15,10,30
+        @cronjob.minute.should == "30"
+        @cronjob.hour.should == "10"
+        @cronjob.day.should == "15"
+        @cronjob.month.should == "1"
+      end
+    end
+    
+    describe "due_at" do
+      it "should be nil when there is no exact due-time" do
+        @cronjob.due_at.should == nil
+      end
+
+      it "should show provide DateTime" do
+        @cronjob.due_at = {:minute => "01", :hour => "01", :day => "01", :month => "01"}
+        @cronjob.due_at.should == DateTime.new(Date.today.year, 1, 1, 1, 1)
+      end
+      
+      it "should be nil when there is multiple times" do
+        @cronjob.due_at = {:minute => "10/5", :hour => "01", :day => "01", :month => "01"}
+        @cronjob.due_at.should == nil
+        @cronjob.due_at = {:minute => "5-10", :hour => "01", :day => "01", :month => "01"}
+        @cronjob.due_at.should == nil
       end
     end
   end
