@@ -1,4 +1,4 @@
-class TopicSweeper < PageCacheTagging::Sweeper
+class TopicSweeper < CacheReferences::Sweeper
   observe Topic
   
   def after_save(topic)
