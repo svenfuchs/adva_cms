@@ -14,18 +14,18 @@
     <%= form.label :host, t(:'adva.calendar.attributes.host') %>
     <%= form.text_field :host %>
   </p>
-
+<%= calendar_date_select_includes 'silver' %>
   <p>
     <%= form.label :start_date, t(:'adva.calendar.attributes.start_date') %>
-    <%= form.text_field :start_date, :value => @event.start_date.localtime.rfc2822 %><br />
+    <%= form.calendar_date_select :start_date, :value => @event.start_date.localtime.rfc2822 %>
     <label>
     <%= form.check_box :all_day %> <%= t(:'adva.calendar.attributes.all_day') %>
     </label>
   </p>
 
-  <p>
+  <p id="end-date" <%= @event.all_day ? 'style="display:none"' : '' %>">
     <%= form.label :end_date, t(:'adva.calendar.attributes.end_date') %>
-    <%= form.text_field :end_date, :value => (@event.end_date ? @event.end_date.localtime.rfc2822 : '') %>
+    <%= form.calendar_date_select :end_date, :value => (@event.end_date ? @event.end_date.localtime.rfc2822 : '') %>
   </p>
 
   <p>

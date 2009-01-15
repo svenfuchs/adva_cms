@@ -40,11 +40,15 @@ var CalendarEventForm = {
 		} else {
 			$('new_location').hide();
 		}
+	},
+	toggleEndDate: function() {
+		$F(this) ? $('end-date').hide() : $('end-date').show();
 	}
 }
 
 Event.addBehavior({
 	'#calendar-event-draft':   function() { Event.observe(this, 'change', CalendarEventForm.saveDraft.bind(this)); },
+	'#calendar_event_all_day':   function() { Event.observe(this, 'change', CalendarEventForm.toggleEndDate.bind(this)); },
   '#calendar_event_location_id':   function() { Event.observe(this, 'change', CalendarEventForm.toggleLocation.bind(this)); },
   '#calendar-search':  function() { CalendarSearch.create();  }
 });
