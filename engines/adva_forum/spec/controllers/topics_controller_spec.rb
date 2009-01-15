@@ -36,12 +36,12 @@ describe TopicsController do
     end
   end  
 
-  cached_paths.each do |path|
-    describe "GET to #{path}" do
-      act! { request_to :get, path }    
-      it_gets_page_cached
-    end
-  end
+  # cached_paths.each do |path|
+  #   describe "GET to #{path}" do
+  #     act! { request_to :get, path }    
+  #     it_gets_page_cached
+  #   end
+  # end
   
   describe "GET to #{topic_path}" do
     act! { request_to :get, topic_path }
@@ -170,3 +170,15 @@ describe TopicsController do
     end
   end
 end
+  
+# describe TopicsController, "page_caching" do
+#   include SpecControllerHelper
+# 
+#   it "page_caches the show action" do
+#     cached_page_filter_for(:show).should_not be_nil
+#   end
+# 
+#   it "tracks read access on @show for show action page caching" do
+#     TopicsController.track_options[:show].should == ['@topic', '@posts']
+#   end
+# end
