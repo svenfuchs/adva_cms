@@ -75,7 +75,7 @@ describe "Admin::User:" do
 
     describe "with the current user not having permissions to manage roles" do
       it "does not render the roles partial" do
-        # template.should_receive(:has_permission?).with('manage', 'roles').and_return false
+        template.should_receive(:has_permission?).with('manage', 'roles').and_return false
         template.should_not_receive(:render).with hash_including(:partial => 'roles')
         render "admin/users/edit"
       end
