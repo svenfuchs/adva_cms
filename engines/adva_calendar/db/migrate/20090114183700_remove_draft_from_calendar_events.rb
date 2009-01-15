@@ -1,4 +1,4 @@
-class AddDraftToCalendarEvents < ActiveRecord::Migration
+class RemoveDraftFromCalendarEvents < ActiveRecord::Migration
   def self.up
     remove_column :calendar_events, :draft
   end
