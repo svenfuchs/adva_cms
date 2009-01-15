@@ -1,16 +1,14 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe BaseIssue do
-  
   before :each do
     Site.delete_all
     @issue = Factory :issue
   end
 
   describe "associations:" do  
-    it "belongs to newsletter" do
-      @issue.should belong_to(:newsletter)
-    end
+    it "sholud belong to newsletter" do @issue.should belong_to(:newsletter) end
+    it "should have many cronjobs as cronable" do @issue.should have_many(:cron_jobs) end
   end
   
   describe "validations:" do
@@ -27,13 +25,13 @@ describe BaseIssue do
   
   describe "methods:" do
     describe "draft?" do
-      it "should be true when issue is not published" do
+      it "should be true with new issue" do
         @issue.draft?.should == true
       end
-      
-      it "should be false when issue is published" do
-        @issue.published_at = Time.now.utc
-        @issue.draft?.should == false
+
+      it "should be true when issue is draft" do
+        @issue.draft = 1
+        @issue.draft?.should == true
       end
     end
   end
@@ -65,25 +63,37 @@ describe Issue do
       end
     end
   end
+
   describe "deliver" do
-    it "should deliver all issues NOW" do
-      # @issue.deliver.should == 'deliver all now'
+    it "should create cronjob with command to create issue emails" do
+      @issue.deliver.command.should == "Issue.find(#{@issue.id}).create_emails"
+    end
+    
+    it "should create cronjob with due time 3 minutes later" do
+      @issue.deliver.due_at.class.should == ActiveSupport::TimeWithZone
+      @issue.deliver.due_at.should > DateTime.now + 170.seconds
+      @issue.deliver.due_at.should < DateTime.now + 190.seconds
     end
     
     it "should deliver all issues LATER" do
-      @issue.deliver(:later => Time.now.tomorrow).should == 'deliver all later'
+      # @issue.deliver(:later_at => Time.now.tomorrow).should == 'deliver all later'
     end
     
     it "should deliver issue ONLY TO test user NOW" do
       # @mailer = mock(NewsletterMailer)
       # @mailer.should_receive(:deliver_issue).and_return(true)
-      @issue.published_at.should == nil
-      @issue.deliver(:to => @user)
-      @issue.published_at.should_not == nil
+
+      # @issue.published_at.should == nil
+      # @issue.deliver(:to => @user)
+      # @issue.published_at.should_not == nil
     end
     
     it "should deliver issue ONLY TO test user LATER" do
-      @issue.deliver(:later => Time.now.tomorrow, :to => @user).should == 'deliver later to'
+      # @issue.deliver(:later => Time.now.tomorrow, :to => @user).should == 'deliver later to'
+    end
+
+    after do
+      remove_all_test_cronjobs
     end
   end
 end

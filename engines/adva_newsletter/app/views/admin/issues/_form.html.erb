@@ -6,23 +6,7 @@
 
   <%= f.label :draft, t('adva.issue.question_save_as_draft') %>
   <label class="light">
-    <%= check_box_tag :draft, '1', @issue.draft?, :id => 'issue-draft' %><%= t('adva.issue.confirm_save_as_draft') %>
+    <%= check_box :issue, :draft, :id => "issue-draft" %>
+    <%= t('adva.issue.confirm_save_as_draft') %>
   </label>
-
-  <div id="delivery" style="<%= @issue.draft? ? "display:none" : "" %>">
-    <span id="send-now">
-      <%= submit_tag t('adva.issue.button.send_now'), :name => 'send_now' %>
-      <label>
-        <%= check_box_tag :send_test %><%= t('adva.issue.label.send_test') %>
-      </label>
-    </span>
-    <span id="send-later">
-      <%= f.label :publish_at, t('adva.newsletter.label.issue_publish_at') %>
-      <%= f.datetime_select :publish_at,
-                            :start_year => (@issue.publish_at || Time.zone.now).year-1,
-                            :end_year => (Time.zone.now.year + 5),
-                            :order => [:month, :day, :year] %>
-      <%= submit_tag t('adva.issue.button.send_later'), :name => 'send_later' %>
-    </span>
-  </div>
 </fieldset>

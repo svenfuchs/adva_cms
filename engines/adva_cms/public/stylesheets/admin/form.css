@@ -76,6 +76,13 @@ input.big {
 input.short {
 	width: 50px;
 }
+div.buttons {
+	background-color: #eaf6f6;
+	border-top: 1px solid #99D3D5;
+	margin: 30px 0 20px 0;
+	padding: 10px;
+  height: 22px;
+}
 p.buttons {
 	background-color: #eaf6f6;
 	border-top: 1px solid #99D3D5;
