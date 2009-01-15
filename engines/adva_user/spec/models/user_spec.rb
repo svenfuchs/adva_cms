@@ -265,7 +265,7 @@ describe User do
       before :each do
         stub_scenario :roles
         @user.stub!(:roles).and_return []
-        Rbac::Role.stub!(:create!).and_return stub_model(Rbac::Role::Base)
+        Site.stub!(:find).and_return Site.new(:id => 1)
         @attributes = { 'roles' => { "0" => { "type" => "Rbac::Role::Superuser", "selected" => "1" },
                                      "1" => { "type" => "Rbac::Role::Admin", "context_id" => "1", "context_type" => "Site", "selected" => "1"} } }
       end
@@ -276,13 +276,14 @@ describe User do
       end
 
       it 'creates new roles' do
-        Rbac::Role.should_receive(:create!).twice
+        Rbac::Role::Admin.should_receive(:create!)
+        Rbac::Role::Superuser.should_receive(:create!)
         @user.attributes = @attributes
       end
 
       it 'ignores parameters that do not have the :selected flag set' do
         @attributes['roles']['0']['selected'] = '0'
-        Rbac::Role.should_receive(:create!).once
+        Rbac::Role::Admin.should_receive(:create!)
         @user.attributes = @attributes
       end
     end

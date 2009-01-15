@@ -88,7 +88,7 @@ class User < ActiveRecord::Base
     self.roles.clear
     roles.values.each do |role|
       next unless role.delete('selected') == '1'
-      self.roles << role.delete('type').constantize.new(role)
+      self.roles << role.delete('type').constantize.create!(role)
     end
   end
 
