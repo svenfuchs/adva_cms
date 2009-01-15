@@ -8,7 +8,7 @@ describe BaseIssue do
 
   describe "associations:" do  
     it "sholud belong to newsletter" do @issue.should belong_to(:newsletter) end
-    it "should have many cronjobs as cronable" do @issue.should have_many(:cron_jobs) end
+    it "should have many cronjobs as cronable" do @issue.should have_many(:cronjobs) end
   end
   
   describe "validations:" do
@@ -94,7 +94,7 @@ describe Issue do
     end
 
     after do
-      remove_all_test_cron_jobs
+      remove_all_test_cronjobs
     end
   end
 end

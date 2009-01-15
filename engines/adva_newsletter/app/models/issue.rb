@@ -1,7 +1,7 @@
 class Issue < BaseIssue
   belongs_to :newsletter, :counter_cache => true
   validates_presence_of :newsletter_id
-  has_many :cron_jobs, :as => :cronable
+  has_many :cronjobs, :as => :cronable
 
   def deliver(options = {})
     options.assert_valid_keys(:later_at,:to)
@@ -27,7 +27,7 @@ class Issue < BaseIssue
   
   def deliver_all(datetime = nil)
     datetime ||= DateTime.now + 3.minutes
-    self.cron_jobs.create :command => "Issue.find(#{self.id}).create_emails", :due_at => datetime
+    self.cronjobs.create :command => "Issue.find(#{self.id}).create_emails", :due_at => datetime
   end
   
   def deliver_to!(user)

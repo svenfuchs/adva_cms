@@ -1,4 +1,4 @@
-class CronJob < ActiveRecord::Base
+class Cronjob < ActiveRecord::Base
   belongs_to :cronable, :polymorphic => true
   
   attr_accessible :command, :due_at
@@ -64,7 +64,7 @@ class CronJob < ActiveRecord::Base
 private
   
   def autoclean
-    "CronJob.find(#{self.id}).destroy;"
+    "Cronjob.find(#{self.id}).destroy;"
   end
   
   def ruby_path

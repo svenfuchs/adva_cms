@@ -1,8 +1,8 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe CronJob do
+describe Cronjob do
   before do
-    @cronjob = Factory :cron_job
+    @cronjob = Factory :cronjob
   end
 
   describe "validations:" do
@@ -33,12 +33,12 @@ describe CronJob do
         @cronjob.runner_command.should == 
           "export GEM_PATH=#{ENV['GEMDIR']}; " +
           "#{ruby_path} -rubygems #{RAILS_ROOT}/script/runner -e test 'test_command; " +
-          "CronJob.find(#{@cronjob.id}).destroy;'"
+          "Cronjob.find(#{@cronjob.id}).destroy;'"
       end
     end
     
     describe "due_at=" do
-      it "should accept datetime hash and update cron job fields" do
+      it "should accept datetime hash and update cronjob fields" do
         @cronjob.due_at = {:minute => "01", :hour => "01", :day => "01", :month => "01"}
         @cronjob.minute.should == "01"
         @cronjob.hour.should == "01"
@@ -46,7 +46,7 @@ describe CronJob do
         @cronjob.month.should == "01"
       end
       
-      it "should accept DateTime object and update cron job fields" do
+      it "should accept DateTime object and update cronjob fields" do
         @cronjob.due_at = DateTime.new 2009,01,15,10,30
         @cronjob.minute.should == "30"
         @cronjob.hour.should == "10"
@@ -59,7 +59,7 @@ describe CronJob do
       it "should be nil when there is no exact due-time" do
         @cronjob.due_at.should == nil
       end
-
+      
       it "should show provide DateTime" do
         @cronjob.due_at = {:minute => "01", :hour => "01", :day => "01", :month => "01"}
         @cronjob.due_at.should == DateTime.new(Date.today.year, 1, 1, 1, 1)
@@ -75,13 +75,13 @@ describe CronJob do
   end
 end
 
-describe CronJob do
+describe Cronjob do
   before do
-    @cronjob = Factory.build :cron_job
+    @cronjob = Factory.build :cronjob
   end
   
   describe "save" do
-    it "should create CronEdit cron job" do
+    it "should create CronEdit cronjob" do
       @cronjob.save
       @jobs = `crontab -l`
       @jobs.should =~ cronjob_regexp(@cronjob)
@@ -89,7 +89,7 @@ describe CronJob do
   end
   
   describe "destroy" do
-    it "should remove CronEdit cron job" do
+    it "should remove CronEdit cronjob" do
       @cronjob.save
       @cronjob.destroy
       @jobs = `crontab -l`

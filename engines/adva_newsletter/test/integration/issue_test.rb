@@ -97,7 +97,7 @@ class IssuesTest < ActionController::IntegrationTest
   end
 
   def teardown
-    remove_all_test_cron_jobs
+    remove_all_test_cronjobs
   end
 end  
 
@@ -142,6 +142,6 @@ class IssuesWithSubscriptionTest < ActionController::IntegrationTest
   end
   
   def teardown
-    remove_all_test_cron_jobs
+    remove_all_test_cronjobs
   end
 end
