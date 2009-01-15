@@ -120,3 +120,24 @@ describe PostsController do
     end
   end
 end
+
+describe "PostsSweeper" do
+  include SpecControllerHelper
+  include FactoryScenario
+  controller_name 'posts'
+
+  before :each do
+    Site.delete_all
+    factory_scenario :forum_with_topics
+    @sweeper = CommentSweeper.instance
+  end
+  
+  it "observes Section, Board, Topic" do
+    ActiveRecord::Base.observers.should include(:comment_sweeper)
+  end
+  
+  it "should expire pages that reference a post" do
+    @sweeper.should_receive(:expire_cached_pages_by_reference).with(@topic.initial_post.commentable)
+    @sweeper.after_save(@topic.initial_post)
+  end
+end

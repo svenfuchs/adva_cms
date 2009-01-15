@@ -65,30 +65,3 @@ describe ForumController do
     end
   end
 end
-
-describe "TopicsSweeper" do
-  include SpecControllerHelper
-  include FactoryScenario
-  controller_name 'forum'
-
-  before :each do
-    Site.delete_all
-    factory_scenario :forum_with_topics
-    @sweeper = TopicSweeper.instance
-  end
-  
-  it "observes Section, Board, Topic" do
-    ActiveRecord::Base.observers.should include(:section_sweeper, :board_sweeper, :topic_sweeper)
-  end
-
-  it "should expire topics that reference a topic's section" do
-    @sweeper.should_receive(:expire_cached_pages_by_section).with(@topic.section)
-    @sweeper.after_save(@topic)
-  end
-  
-  it "should expire pages that reference an wikipage when a non-home wikipage was saved" do
-    @topic.stub!(:owner).and_return(Board.new)
-    @sweeper.should_receive(:expire_cached_pages_by_reference).with(@topic.board)
-    @sweeper.after_save(@topic)
-  end
-end
