@@ -3,6 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + "/../../../../../config/enviro
 require 'test_help'
 
 require File.expand_path(File.dirname(__FILE__) + "/../../../spec/webrat/lib/webrat/rails")
+Webrat.configuration.open_error_files = false
 
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'factories', 'factories'))
 require File.expand_path(File.join(File.dirname(__FILE__), 'test_helpers', 'assertions'))
