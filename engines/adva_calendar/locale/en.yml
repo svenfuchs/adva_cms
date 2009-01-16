@@ -32,7 +32,7 @@ en:
         publish_in_categories: Publish in Categories
         actions: Actions
         formats:
-          year_month_day: 'at %B %m %Y'
+          year_month_day: 'on %e %B %Y'
           year_month: 'in %B %Y'
           year: 'in %Y'
       flash:
