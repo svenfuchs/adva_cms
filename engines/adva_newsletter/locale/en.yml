@@ -2,6 +2,7 @@ en:
   adva:
     newsletter:
       no_newsletters: There are no newsletters.
+      question_publish_newsletter: Should we make it public?
       confirm_save_as_draft: Yes, save this issue as draft
       deleted_issues: Deleted issues
       no_deleted_issues: Trash is empty.
@@ -29,6 +30,8 @@ en:
         subscribers: Subscribers
         deleted_issues: Deleted issues
         issue_publish_at: "or send later at:"
+        email: Newsletter emails are coming from
+        published: Make it public, then users are able to subscribe.
     issue:
       confirm_save_as_draft: Yes, save this issue as draft.
       question_save_as_draft: Save as Draft?

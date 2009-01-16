@@ -6,7 +6,4 @@ class BaseIssue < ActiveRecord::Base
 
   named_scope :all_included, :include => :newsletter
 
-  def draft?
-    self.draft == 1
-  end
 end

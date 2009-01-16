@@ -1,6 +1,19 @@
 <fieldset class="clearfix">
   <%= f.label :title, t('adva.newsletter.label.title') %>
   <%= f.text_field :title, :class => 'big'  %>
+
   <%= f.label :desc, t('adva.newsletter.label.desc') %>
   <%= f.text_area :desc, :class => 'fat', :rows => 2  %>
+
+
+  <div class="col">
+    <%= f.label :email, t("adva.newsletter.label.email") %>
+    <%= f.text_field :email %>
+
+    <%= f.label :published, t("adva.newsletter.question_publish_newsletter") %>
+    <label class="light">
+      <%= check_box :newsletter, :published, :id => "newsletter-published" %>
+      <%= t('adva.newsletter.label.published') %>
+    </label>
+  </div>
 </fieldset>

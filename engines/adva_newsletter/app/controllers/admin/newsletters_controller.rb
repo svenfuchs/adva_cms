@@ -10,10 +10,12 @@ class Admin::NewslettersController < Admin::BaseController
   
   def new
     @newsletter = Newsletter.new
+    @newsletter.email ||= @site.email
   end
   
   def edit
     @newsletter = Newsletter.find(params[:id])
+    @newsletter.email ||= @newsletter.default_email
   end
 
   def create

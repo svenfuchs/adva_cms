@@ -17,7 +17,7 @@
           <td class='table_menu'>
             <ul>
               <li><%= link_to t('adva.subscription.link.destroy'), admin_subscription_path(@site, @newsletter, subscription),
-                :confirm => t('adva.subscription.confirm_delete'), :method => :delete  %></li>
+                :confirm => t('adva.subscription.confirm_delete'), :method => :delete, :class => :delete  %></li>
             </ul>
           </td>
         </tr>

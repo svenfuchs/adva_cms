@@ -21,13 +21,13 @@
       <tbody>
         <% @newsletters.each do |newsletter| %>
           <tr>
-            <td><%= link_to h(newsletter.title), admin_issues_path(@site, newsletter) %></td>
+            <td><%= link_to h(newsletter.title), admin_issues_path(@site, newsletter), :class => newsletter.state %></td>
             <td><%= link_to newsletter.issues_count, admin_issues_path(@site, newsletter) %></td>
             <td><%= link_to newsletter.subscriptions_count, admin_subscriptions_path(@site, newsletter) %></td>
             <td class='table_menu'>
               <ul>
-                <li><%= link_to t('adva.common.delete'), admin_newsletter_path(@site, newsletter), :method => :delete %></li>
-                <li><%= link_to t('adva.common.edit'), edit_admin_newsletter_path(@site, newsletter) %></li>
+                <li><%= link_to t('adva.common.delete'), admin_newsletter_path(@site, newsletter), :method => :delete, :class => :delete %></li>
+                <li><%= link_to t('adva.common.edit'), edit_admin_newsletter_path(@site, newsletter), :class => :edit %></li>
               </ul>
             </td>
           </tr>

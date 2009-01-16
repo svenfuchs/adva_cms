@@ -22,19 +22,6 @@ describe BaseIssue do
       @issue.should_not be_valid
     end
   end
-  
-  describe "methods:" do
-    describe "draft?" do
-      it "should be true with new issue" do
-        @issue.draft?.should == true
-      end
-
-      it "should be true when issue is draft" do
-        @issue.draft = 1
-        @issue.draft?.should == true
-      end
-    end
-  end
 end
 
 describe Issue do
@@ -60,6 +47,50 @@ describe Issue do
         @newsletter.issues_count.should == 1
         @newsletter.issues.first.destroy
         @newsletter.reload.issues_count.should == 0
+      end
+    end
+    
+    describe "state" do
+      it "should be published when published and not draft" do
+        @issue.published_at = DateTime.now
+        @issue.draft = 0
+        @issue.state.should == "published"
+      end
+      
+      it "should be pending when not published" do
+        @issue.published_at = nil
+        @issue.draft = 1
+        @issue.state.should == "pending"
+      end
+      
+      it "should be empty string when not published and not draft. We might need new state perhaps." do
+        @issue.published_at = nil
+        @issue.draft = 0
+        @issue.state.should == ""
+      end
+    end
+    
+    describe "draft?" do
+      it "should be true with new issue" do
+        @issue.draft?.should == true
+      end
+
+      it "should be true when issue is draft" do
+        @issue.draft = 1
+        @issue.draft?.should == true
+      end
+    end
+    
+    describe "from" do
+      it "should provide newsletter email" do
+        @issue.newsletter.email = "newsletter@example.org"
+        @issue.from.should == "newsletter@example.org"
+      end
+
+      it "should provide site email when newsletter email is nil" do
+        @issue.newsletter.email = nil
+        @issue.newsletter.site.email = "site@example.org"
+        @issue.from.should == "site@example.org"
       end
     end
   end
