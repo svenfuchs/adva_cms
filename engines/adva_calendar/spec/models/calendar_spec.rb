@@ -38,8 +38,8 @@ describe Calendar do
       @calendar_with_events.days_in_month_with_events(Date.civil(1999,12)).should be_empty
     end
     it "should return a list for months with events" do
-      @calendar_with_events.days_in_month_with_events(Date.civil(2008,11)).should ==[Date.civil(2008,11,24), Date.civil(2008,11,27)]
-      @calendar_with_events.days_in_month_with_events(Date.civil(2008,10)).should ==[Date.civil(2008,10,30)]
+      @calendar_with_events.days_in_month_with_events(Date.civil(2008,11)).should ==Range.new(Date.civil(2008,11,24), Date.civil(2008,11,27)).to_a
+      @calendar_with_events.days_in_month_with_events(Date.civil(2008,10)).should ==[Date.civil(2008,10,30), Date.civil(2008,10,31)]
     end
   end
 end
