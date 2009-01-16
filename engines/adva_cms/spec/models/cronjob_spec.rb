@@ -19,17 +19,33 @@ describe Cronjob do
       @cronjob.command = nil
       @cronjob.should_not be_valid
     end
+    
+    it "should have unique cron_id" do
+      #TODO
+    end
   end
   
   describe "methods" do
-    describe "test_aware_id" do
-      it "should provide different id when in test mode" do
-        @cronjob.test_aware_id.should == "test-#{@cronjob.id}"
+    describe "full_id" do
+      it "should provide 'test-' prefix when in test mode" do
+        @cronjob.full_id.should == "test-#{RAILS_ROOT}--#{@cronjob.id}"
+      end
+      
+      it "should include cron_id into full_id" do
+        @cronjob.cron_id = "email-deliver-all"
+        @cronjob.full_id.should == "test-#{RAILS_ROOT}-email-deliver-all-#{@cronjob.id}"
       end
     end
     
     describe "runner_command" do
-      it "should return full runner command with gem path, ruby, command and autoclean" do
+      it "should return full runner command with gem path, ruby, command and WITHOUT autoclean" do
+        @cronjob.runner_command.should == 
+          "export GEM_PATH=#{ENV['GEMDIR']}; " +
+          "#{ruby_path} -rubygems #{RAILS_ROOT}/script/runner -e test 'test_command; '"
+      end
+
+      it "should return full runner command with gem path, ruby, command and WITH autoclean" do
+        @cronjob.due_at = DateTime.now
         @cronjob.runner_command.should == 
           "export GEM_PATH=#{ENV['GEMDIR']}; " +
           "#{ruby_path} -rubygems #{RAILS_ROOT}/script/runner -e test 'test_command; " +
@@ -103,7 +119,7 @@ describe Cronjob do
 end
 
 def cronjob_regexp(model)
-  /#{ Regexp.escape("##__test-#{model.id}__\n*\t*\t*\t*\t*\texport GEM_PATH") }/
+  /#{ Regexp.escape("##__test-#{RAILS_ROOT}--#{model.id}__\n*\t*\t*\t*\t*\texport GEM_PATH") }/
 end
 
 def ruby_path

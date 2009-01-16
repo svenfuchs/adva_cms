@@ -1,7 +1,8 @@
 class Issue < BaseIssue
   belongs_to :newsletter, :counter_cache => true
-  validates_presence_of :newsletter_id
   has_many :cronjobs, :as => :cronable
+
+  validates_presence_of :newsletter_id
 
   def deliver(options = {})
     options.assert_valid_keys(:later_at,:to)
@@ -40,6 +41,7 @@ class Issue < BaseIssue
     end
     self.published_at = Time.now.utc
     self.save
+    Email.create_cronjob
   end
   
   def create_email_to(user)

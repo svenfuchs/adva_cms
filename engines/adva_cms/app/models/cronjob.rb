@@ -1,12 +1,17 @@
 class Cronjob < ActiveRecord::Base
   belongs_to :cronable, :polymorphic => true
   
-  attr_accessible :command, :due_at
+  attr_accessible :command, :due_at, :cron_id
   validates_presence_of :command
+  validates_uniqueness_of :cron_id
   
   after_save :create_crontab
   after_destroy :remove_crontab
   
+  def full_id
+    RAILS_ENV == 'test' ? "test-#{RAILS_ROOT}-#{self.cron_id}-#{self.id}" : "#{RAILS_ROOT}-#{self.cron_id}-#{self.id}"
+  end
+
   def due_at=(datetime)
     if datetime.kind_of? Hash
       self.minute  = datetime[:minute]
@@ -38,7 +43,7 @@ class Cronjob < ActiveRecord::Base
   end
   
   def create_crontab
-    CronEdit::Crontab.Add self.test_aware_id, { :command => self.runner_command,
+    CronEdit::Crontab.Add self.full_id, { :command => self.runner_command,
                                                 :minute => self.minute,
                                                 :hour => self.hour,
                                                 :day => self.day,
@@ -47,7 +52,7 @@ class Cronjob < ActiveRecord::Base
   end
   
   def remove_crontab
-    CronEdit::Crontab.Remove self.test_aware_id
+    CronEdit::Crontab.Remove self.full_id
   end
 
   def runner_command
@@ -55,16 +60,11 @@ class Cronjob < ActiveRecord::Base
     "#{ruby_path} -rubygems #{RAILS_ROOT}/script/runner -e #{RAILS_ENV} " +
     "'#{self.command}; #{autoclean}'"
   end
-
-  #TODO: CronEdit needs rewrite
-  def test_aware_id
-    RAILS_ENV == 'test' ? "test-#{self.id}" : self.id
-  end
   
 private
   
   def autoclean
-    "Cronjob.find(#{self.id}).destroy;"
+    "Cronjob.find(#{self.id}).destroy;" if self.due_at.present?
   end
   
   def ruby_path
