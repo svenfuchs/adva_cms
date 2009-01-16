@@ -17,6 +17,24 @@ class Issue < BaseIssue
     end
   end
   
+  def from
+    self.newsletter.default_email
+  end
+  
+  def state
+    if self.published_at.present? && !self.draft?
+      "published"
+    elsif self.published_at.nil? && self.draft?
+      "pending"
+    elsif self.published_at.nil? && !self.draft?
+      ""
+    end
+  end
+  
+  def draft?
+    self.draft == 1
+  end
+  
   def destroy
     self.deleted_at = Time.now.utc
     self.type = "DeletedIssue"

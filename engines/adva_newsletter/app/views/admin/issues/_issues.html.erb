@@ -10,12 +10,12 @@
     <tbody>
       <% issues.each do |issue| %>
         <tr>
-          <td><%= link_to h(issue.title), admin_issue_path(@site, @newsletter, issue) %></td>
+          <td><%= link_to h(issue.title), admin_issue_path(@site, @newsletter, issue), :class => issue.state %></td>
           <td><%= issue.created_at.to_s(:db) %></td>
           <td class='table_menu'>
             <ul>
-              <li><%= link_to t('adva.common.delete'), admin_issue_path(@site, @newsletter, issue), :method => :delete %></li>
-              <li><%= link_to t('adva.common.edit'), edit_admin_issue_path(@site, @newsletter, issue) %></li>
+              <li><%= link_to t('adva.common.delete'), admin_issue_path(@site, @newsletter, issue), :method => :delete, :class => :delete %></li>
+              <li><%= link_to t('adva.common.edit'), edit_admin_issue_path(@site, @newsletter, issue), :class => :edit %></li>
             </ul>
           </td>
         </tr>
