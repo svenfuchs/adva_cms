@@ -4,20 +4,27 @@ class SectionsControllerTest < ActionController::TestCase
   with_common :a_section, :an_article
   
   describe "routing" do
-    # FIXME test paged routes
-    ['/a-section' ].each do |path_prefix|
-      # FIXME how to remove the assumption Section.first from here?
-      with_options :section_id => Section.first.id.to_s, :path_prefix => path_prefix do |r|
-        r.it_maps :get, '/',                         :action => 'show'
-        r.it_maps :get, '/articles/an-article',      :action => 'show', :permalink => 'an-article'
-        r.it_maps :get, '/articles/an-article.atom', :action => 'comments', :permalink => 'an-article', :format => 'atom'
+    ['', '/a-section', '/de', '/de/a-section'].each do |path_prefix|
+      ['', '/pages/2'].each do |path_suffix| 
+        common = { :section_id => Section.first.id.to_s, :path_prefix => path_prefix, :path_suffix => path_suffix }
+        common.merge! :locale => 'de' if path_prefix =~ /de/
+        common.merge! :page => 2      if path_suffix =~ /pages/
+      
+        with_options common do |r|
+          r.it_maps :get, '/',                         :action => 'show'
+          r.it_maps :get, '/articles/an-article',      :action => 'show', :permalink => 'an-article'
+          
+          unless path_suffix =~ /pages/
+            r.it_maps :get, '/articles/an-article.atom', :action => 'comments', :permalink => 'an-article', :format => 'atom'
+          end
+        end
       end
-
-      # this does only work with a path prefix (as in /a-section/comments.atom) because the root_section filter
-      # does not kick in for the "comments" segment ... not sure if this can be changed because there's also
-      # a regular comments resource
-      # FIXME how to remove the assumption Section.first from here?
-      it_maps :get, '/a-section/comments.atom', :action => 'comments', :section_id => Section.first.id.to_s, :format => 'atom'
+    end
+    
+    # these do not work with a root section path because there's a reguar Comments resource
+    with_options :action => 'comments', :format => 'atom', :section_id => Section.first.id.to_s do |r|
+      r.it_maps :get, '/a-section/comments.atom'
+      r.it_maps :get, '/de/a-section/comments.atom', :locale => 'de'
     end
   end
 
@@ -36,6 +43,33 @@ class SectionsControllerTest < ActionController::TestCase
       it "assigns the section's primary article" do
         assigns(:article).should == @section.articles.primary
       end
+
+      it "displays the article's body" do
+        has_tag 'div[class~=entry]' do
+          # FIXME not true in the default theme.
+          # has_text @article.title 
+          
+          has_text @article.body
+          
+          # does not display a 'read more' link
+          assert @response.body !~ /read the rest of this entry/i
+          
+          # FIXME currently not true
+          # has_authorized_tag :a, /edit/i, :href => edit_admin_article_path(@site, @section, @article)
+
+          # FIXME
+          # lists the article's categories
+          # lists the article's tags
+        end
+      end
+
+      # FIXME
+      # when article has an approved comment: shows the comment
+      # when article has an unapproved comment: does not show any comments
+      # when article does not have any comments: does not show any comments
+      #
+      # when article allows commenting: shows comment form 
+      # when article does not allow commenting: does not show comment form 
     end
   end
     
@@ -71,6 +105,8 @@ class SectionsControllerTest < ActionController::TestCase
     with :the_article_is_published do
       it_assigns :section, :comments
       it_renders :template, 'comments/comments', :format => :atom
+      
+      # FIXME specify comments atom feed
     end
   end
 
@@ -80,6 +116,8 @@ class SectionsControllerTest < ActionController::TestCase
     with :the_article_is_published do
       it_assigns :section, :article, :comments
       it_renders :template, 'comments/comments', :format => :atom
+      
+      # FIXME specify comments atom feed
     end
   end
 end

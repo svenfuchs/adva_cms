@@ -17,12 +17,6 @@ class AdminArticlesControllerTest < ActionController::TestCase
     { :site_id => @site.id, :section_id => @section.id }
   end
 
-  view :index do
-    has_tag :table, :id => 'articles'
-    # FIXME shows articles total
-    # FIXME checks if article has comments enabled
-  end
-
   view :new do
     has_form_posting_to admin_articles_path do
       shows :form
@@ -72,7 +66,16 @@ class AdminArticlesControllerTest < ActionController::TestCase
     with :access_granted do
       it_assigns :articles
       it_renders :template, :index
-#      it_renders :template, lambda { "admin/#{@section.is_a?(Blog) ? 'blog' : 'articles'}/index" }
+      
+      it "displays an articles list" do
+        has_tag :p, 'Total: 1 article', :class => 'total'
+        has_tag :table, :id => 'articles' do
+          has_tag :a, assigns(:articles).first.title, 
+                  :href => edit_admin_article_path(@site, @section, assigns(:articles).first)
+        end
+        
+        # FIXME if article has comments enabled: shows comments counts, otherwise doesn't
+      end
     end
   end
 

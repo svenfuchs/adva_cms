@@ -12,7 +12,6 @@ class BlogControllerTest < ActionController::TestCase
     ['', '/a-blog', '/de', '/de/a-blog'].each do |path_prefix|
       ['', '/pages/2'].each do |path_suffix| 
         
-        # FIXME how to remove the assumption Blog.first from here?
         common = { :section_id => Blog.first.id.to_s, :path_prefix => path_prefix, :path_suffix => path_suffix }
         common.merge! :locale => 'de' if path_prefix =~ /de/
         common.merge! :page => 2      if path_suffix =~ /pages/
@@ -47,11 +46,7 @@ class BlogControllerTest < ActionController::TestCase
       end
     end
   
-    # this does only work with a path prefix (as in /blog/comments.atom) because the root_section filter
-    # does not kick in for the "comments" segment ... not sure if this can be changed because there's also
-    # a regular comments resource
-
-    # FIXME how to remove the assumption Blog.first from here?
+    # these do not work with a root section path because there's a reguar Comments resource
     with_options :action => 'comments', :format => 'atom', :section_id => Blog.first.id.to_s do |r|
       r.it_maps :get, '/a-blog/comments.atom'
       r.it_maps :get, '/de/a-blog/comments.atom', :locale => 'de'
@@ -93,9 +88,10 @@ class BlogControllerTest < ActionController::TestCase
       # splitting this off so we do not test all these combinations on any of the paths above
       before { @params = params_from('/a-blog') }
 
-      it "displays the entry with title and links it to the article" do
+      it "displays the article" do
         has_tag 'div[class~=entry]' do
           has_tag(:h2) { has_tag :a, @article.title, :href => article_path(@section, @article.full_permalink) }
+          has_authorized_tag :a, /edit/i, :href => edit_admin_article_path(@site, @section, @article)
         end
       end
 
@@ -112,17 +108,13 @@ class BlogControllerTest < ActionController::TestCase
         assert @response.body !~ /read the rest of this entry/i
       end
 
-      it "displays the number of comments linking to them", :with => :comments_or_commenting_allowed do
+      it "displays the number of comments and links to them", :with => :comments_or_commenting_allowed do
         has_tag 'div.meta a', /\d comment[s]?/
       end
 
       it "does not display the number of comments", :with => :no_comments_and_commenting_not_allowed do
         # does_not_have_tag 'div.meta a', /\d comment[s]?/
         assert @response.body !~ /\d comment[s]?/i
-      end
-
-      it "displays an edit link for authorized users" do
-        has_authorized_tag :a, /edit/i, :href => edit_admin_article_path(@site, @section, @article)
       end
 
       has_tag :div, :id => 'footer' do
@@ -168,14 +160,22 @@ class BlogControllerTest < ActionController::TestCase
       end
 
       # FIXME
-      # render comments list when article has comments
-      # render comment form when article allows commenting
+      # when article has an approved comment: shows the comment
+      # when article has an unapproved comment: does not show any comments
+      # when article does not have any comments: does not show any comments
+      #
+      # when article allows commenting: shows comment form 
+      # when article does not allow commenting: does not show comment form 
     end
 
     # FIXME
     # with "the article is not published" do
-    #   raises ActiveRecord::RecordNotFound
+    #   when the user does not have edit permissions: raises ActiveRecord::RecordNotFound
+    #   when the user has edit permissions: renders show template
     # end
+    
+    # FIXME
+    # with a permalink that does not point to an article: raises ActiveRecord::RecordNotFound
   end
 
   describe "GET to :comments" do
