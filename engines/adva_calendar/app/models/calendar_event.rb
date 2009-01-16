@@ -33,7 +33,7 @@ class CalendarEvent < ActiveRecord::Base
   named_scope :elapsed, lambda {
     t = Time.now
     {
-      :conditions => ['start_date < ? AND (end_date IS NULL OR end_date < ?)', t, t],
+      :conditions => ['start_date <= ? AND (end_date IS NULL OR end_date <= ?)', t, t],
       :order => 'start_date DESC'
     }
   }
@@ -41,7 +41,7 @@ class CalendarEvent < ActiveRecord::Base
   named_scope :upcoming, Proc.new { |start_date, end_date|
     t = Time.now
     {
-      :conditions => ['(start_date > ? AND start_date < ?) OR (start_date < ? AND end_date > ?)', start_date||t, end_date||((start_date||t) + 1.month), start_date||t, end_date||t],
+      :conditions => ['(start_date >= ? AND start_date <= ?) OR (start_date < ? AND end_date >= ?)', start_date||t, end_date||((start_date||t) + 1.month), start_date||t, end_date||t],
       :order => 'start_date ASC'
     }
   }
@@ -49,7 +49,7 @@ class CalendarEvent < ActiveRecord::Base
   named_scope :recently_added, lambda {
     t = Time.now
     {
-      :conditions => ['start_date > ? OR (start_date < ? AND end_date > ?)', t, t, t],
+      :conditions => ['start_date >= ? OR end_date >= ?', t, t],
       :order => 'id DESC'
     }
   }
