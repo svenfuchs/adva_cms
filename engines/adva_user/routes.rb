@@ -3,7 +3,7 @@ map.login 'login',         :controller => 'session',
 map.logout 'logout',       :controller => 'session',
                            :action => 'destroy',
                            :conditions => { :method => :delete }
-map.login 'signup',        :controller => 'user',
+map.signup 'signup',       :controller => 'user',
                            :action => 'new'
 
 map.resource :session,     :controller => 'session'
