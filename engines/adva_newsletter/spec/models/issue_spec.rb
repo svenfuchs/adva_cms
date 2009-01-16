@@ -81,16 +81,16 @@ describe Issue do
       end
     end
     
-    describe "from" do
+    describe "email" do
       it "should provide newsletter email" do
         @issue.newsletter.email = "newsletter@example.org"
-        @issue.from.should == "newsletter@example.org"
+        @issue.email.should == "newsletter@example.org"
       end
 
       it "should provide site email when newsletter email is nil" do
         @issue.newsletter.email = nil
         @issue.newsletter.site.email = "site@example.org"
-        @issue.from.should == "site@example.org"
+        @issue.email.should == "site@example.org"
       end
     end
   end

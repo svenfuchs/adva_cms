@@ -17,7 +17,7 @@ class Issue < BaseIssue
     end
   end
   
-  def from
+  def email
     self.newsletter.default_email
   end
   
