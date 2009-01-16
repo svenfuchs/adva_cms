@@ -22,7 +22,7 @@ class NoIssuesTest < ActionController::IntegrationTest
     assert_select '.field_with_error'
   end
   
-  test 'admin submits a DRAFT issue: should be success and show new issue' do
+  test 'admin submits a DRAFT issue: should be success and show new issue as draft' do
     
     visit "/admin/sites/#{@site.id}/newsletters/#{@newsletter.id}/issues/new"
 
@@ -33,8 +33,26 @@ class NoIssuesTest < ActionController::IntegrationTest
 
     assert_template 'admin/issues/show'
     assert_select '#issue' do
-      assert_select 'h2', 'draft issue title'
+      assert_select 'h2', /draft issue title/
       assert_select 'p', 'draft issue body'
+      assert_select "span.draft", "Draft"
+    end
+  end
+  
+  test 'admin submits a NON-DRAFT issue: should be success and show new issue' do
+    
+    visit "/admin/sites/#{@site.id}/newsletters/#{@newsletter.id}/issues/new"
+
+    assert_template 'admin/issues/new'
+    fill_in :issue_title, :with => 'issue title'
+    fill_in :issue_body, :with => 'issue body'
+    uncheck "issue-draft"
+    click_button 'Save'
+
+    assert_template 'admin/issues/show'
+    assert_select '#issue' do
+      assert_select 'h2', 'issue title'
+      assert_select 'p', 'issue body'
     end
   end
 end
@@ -60,7 +78,7 @@ class IssuesTest < ActionController::IntegrationTest
     assert_template 'admin/issues/show'
     assert_flash 'Newsletter issue was successfully updated'
     assert_select '#issue' do
-      assert_select 'h2', 'EDITED issue title'
+      assert_select 'h2', /EDITED issue title/
       assert_select 'p', 'EDITED issue body'
     end
   end
@@ -78,6 +96,9 @@ class IssuesTest < ActionController::IntegrationTest
     assert_equal 0, @newsletter.issues.count
   end
 
+  def teardown
+    remove_all_test_cronjobs
+  end
 end  
 
 class IssuesWithSubscriptionTest < ActionController::IntegrationTest
@@ -91,12 +112,14 @@ class IssuesWithSubscriptionTest < ActionController::IntegrationTest
     @subscription.subscribable_id = 1
     @subscription.subscribable_type = 'Newsletter'
     @subscription.save
-    visit "/admin/sites/#{@site.id}/newsletters/#{@newsletter.id}/issues/#{@issue.id}/edit"
-    assert_template 'admin/issues/edit'
+    @issue.draft = 0
+    @issue.save
+
+    visit "/admin/sites/#{@site.id}/newsletters/#{@newsletter.id}/issues/#{@issue.id}"
+    assert_template 'admin/issues/show'
   end
 
   test 'admin SENDS NOW: should be added to delivery queue (currently delivery is mocked)' do
-    uncheck 'draft'
     click_button 'Send now'
 
     assert_template 'admin/issues/show'
@@ -104,7 +127,6 @@ class IssuesWithSubscriptionTest < ActionController::IntegrationTest
   end
   
   test 'admin SENDS WITH DELAY: should be added to delivery queque with delay (deliver mocked)' do
-    uncheck 'draft'
     click_button 'Send later'
 
     assert_template 'admin/issues/show'
@@ -112,7 +134,6 @@ class IssuesWithSubscriptionTest < ActionController::IntegrationTest
   end
 
   test 'admin submits SENDS ONLY TO MYSELF: should send issue only to myself (deliver mocked)' do
-    uncheck 'draft'
     check 'send_test'
     click_button 'Send now'
 
@@ -120,14 +141,7 @@ class IssuesWithSubscriptionTest < ActionController::IntegrationTest
     assert_flash 'Newsletter issue was successfully sent out only to you.'
   end
   
-  test 'avoid bug: admin submits SEND ONLY TO MYSELF with DRAFT checked: should not deliver, should make normal update only' do
-    check 'draft'
-    check 'send_test'
-    click_button 'Save'
-
-    assert_template 'admin/issues/show'
-    assert_flash 'Newsletter issue was successfully updated'
+  def teardown
+    remove_all_test_cronjobs
   end
-  
 end
-

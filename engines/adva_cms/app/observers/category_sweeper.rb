@@ -1,4 +1,4 @@
-class CategorySweeper < PageCacheTagging::Sweeper
+class CategorySweeper < CacheReferences::Sweeper
   observe Category
 
   def after_save(category)

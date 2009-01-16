@@ -11,7 +11,8 @@ define User do
            :verify! => nil,
            :assign_token => 'token',
            :email= => nil,
-           :valid? => true
+           :valid? => true,
+           :track_method_calls => nil
 
   instance :user,
            :id => 1,

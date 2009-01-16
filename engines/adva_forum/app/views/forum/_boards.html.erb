@@ -10,7 +10,7 @@
     </tr>  
   </thead>
   <tbody>
-  <% @section.boards.each do |board| %>
+  <% @boards.each do |board| %>
     <tr id="<%= dom_id board %>">
       <td>
         <h3><%= link_to board.title, forum_board_path(@section, board) %></h3>

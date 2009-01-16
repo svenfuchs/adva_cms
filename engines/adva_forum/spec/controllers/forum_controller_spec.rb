@@ -37,7 +37,22 @@ describe ForumController do
     describe "topics with boards" do
       before :each do
         @board = Factory :board, :section => @forum, :site => @site
-        end
+      end
+      act! { request_to :get, "/forums/#{@forum.id}" }
+      it_assigns :boards
+      it_assigns :topics
+      it_gets_page_cached
+      
+      it "instantiates a new topic object" do
+        Topic.should_receive(:new).and_return @topic
+        act!
+      end
+    end   
+    
+    describe "topics with boards, show single board" do
+      before :each do
+        @board = Factory :board, :section => @forum, :site => @site
+      end
       act! { request_to :get, "/forums/#{@forum.id}/boards/#{@board.id}" }
       it_assigns :board
       it_assigns :topics

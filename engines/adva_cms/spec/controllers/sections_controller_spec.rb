@@ -55,7 +55,7 @@ describe SectionsController do
           it_renders_template :show
           it "skips caching for the rendered page" do
             act!
-            controller.instance_variable_get(:@skip_caching).should be_true
+            controller.skip_caching?.should be_true
           end
         end
 

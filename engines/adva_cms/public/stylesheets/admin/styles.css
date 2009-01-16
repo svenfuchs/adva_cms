@@ -982,8 +982,11 @@ table.table-plans tr.highlight .active{
 #issue h2 {
   margin-bottom: 10px;
 }
+span.draft {
+  color: #333;
+  font-size: 15px;
+}
 #delivery {
-  padding: 20px 0 20px 0;
 }
 #delivery label {
   display: inline;
@@ -994,7 +997,6 @@ table.table-plans tr.highlight .active{
 }
 #delivery #send-later {
   float: right;
-  margin-right: 12px;
 }
 #newsletter-header {
   padding: 25px 0 0 0;

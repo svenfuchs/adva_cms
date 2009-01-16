@@ -37,7 +37,7 @@ class Forum < Section
   end
   
   def latest_topics
-    topics.find(:all, :order => 'updated_at DESC', :limit => latest_topics_count)
+    topics.find(:all, :order => 'last_updated_at DESC', :limit => latest_topics_count)
   end
   
   def boardless_topics

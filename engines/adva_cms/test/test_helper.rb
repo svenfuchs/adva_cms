@@ -3,11 +3,13 @@ require File.expand_path(File.dirname(__FILE__) + "/../../../../../config/enviro
 require 'test_help'
 
 require File.expand_path(File.dirname(__FILE__) + "/../../../spec/webrat/lib/webrat/rails")
+Webrat.configuration.open_error_files = false
 
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'factories', 'factories'))
 require File.expand_path(File.join(File.dirname(__FILE__), 'test_helpers', 'assertions'))
 require File.expand_path(File.join(File.dirname(__FILE__), 'test_helpers', 'integration_steps'))
 require File.expand_path(File.join(File.dirname(__FILE__), 'test_helpers', 'integration_db_reset'))
+require File.expand_path(File.join(File.dirname(__FILE__), 'test_helpers', 'remove_all_test_cronjobs'))
 
 require 'globalize/i18n/missing_translations_raise_handler'
 I18n.exception_handler = :missing_translations_raise_handler
@@ -86,6 +88,11 @@ end
 Theme.root_dir = RAILS_ROOT + '/tmp'
 Asset.base_dir = RAILS_ROOT + '/tmp/assets'
 
+ActionController::IntegrationTest.class_eval do
+  teardown do
+    flush_page_cache!
+  end
+end
 
 def enable_page_caching!
   ActionController::Base.page_cache_directory = RAILS_ROOT + '/tmp/cache'
@@ -105,10 +112,8 @@ def page_caching_enabled?
 end
 
 def flush_page_cache!
-  if page_caching_enabled?
-    CachedPage.delete_all
-    cache_dirs = ActionController::Base.page_cache_directory, Theme.base_dir, Asset.base_dir, RAILS_ROOT + "/tmp/webrat*"
-    cache_dirs.each{ |dir| FileUtils.rm_rf dir unless dir.empty? || dir == '/' }
-  end
+  CachedPage.delete_all
+  cache_dirs = ActionController::Base.page_cache_directory, Theme.base_dir, Asset.base_dir, RAILS_ROOT + "/tmp/webrat*"
+  cache_dirs.each{ |dir| FileUtils.rm_rf dir unless dir.empty? || dir == '/' }
 end
 # TODO: ... until here!

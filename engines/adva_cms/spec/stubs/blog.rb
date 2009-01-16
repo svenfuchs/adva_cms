@@ -25,7 +25,8 @@ define Blog do
            :archive_months => [],
            :valid? => true,
            :has_attribute? => true,
-           :children => []
+           :children => [],
+           :track_method_calls => nil
 
   instance :blog
 

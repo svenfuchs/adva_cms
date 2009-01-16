@@ -170,3 +170,42 @@ describe TopicsController do
     end
   end
 end
+
+describe "TopicsSweeper" do
+  include SpecControllerHelper
+  include FactoryScenario
+    controller_name 'topics'
+
+  before :each do
+    Site.delete_all
+    factory_scenario :forum_with_topics
+    @sweeper = TopicSweeper.instance
+  end
+  
+  it "observes Section, Board, Topic" do
+    ActiveRecord::Base.observers.should include(:topic_sweeper)
+  end
+
+  it "should expire topics that reference a topic's section" do
+    @sweeper.should_receive(:expire_cached_pages_by_section).with(@topic.section)
+    @sweeper.after_save(@topic)
+  end
+  
+  it "should expire pages that topic board" do
+    @topic.stub!(:owner).and_return(Board.new)
+    @sweeper.should_receive(:expire_cached_pages_by_reference).with(@topic.board)
+    @sweeper.after_save(@topic)
+  end
+end
+  
+describe TopicsController, "page_caching" do
+  include SpecControllerHelper
+
+  it "page_caches the show action" do
+    cached_page_filter_for(:show).should_not be_nil
+  end
+
+  it "tracks read access on @show for show action page caching" do
+    TopicsController.track_options[:show].should == ['@topic', '@posts']
+  end
+end

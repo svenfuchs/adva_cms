@@ -6,7 +6,8 @@ define Category do
            :save => true,
            :update_attributes => true,
            :destroy => true,
-           :has_attribute? => true
+           :has_attribute? => true,
+           :track_method_calls => nil
 
   instance :category,
            :id => 1,

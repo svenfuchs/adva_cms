@@ -12,6 +12,7 @@ require 'core_ext/string'
 require 'rails_ext/active_record/sti_instantiation'
 require 'rails_ext/active_record/sticky_changes'
 require 'rails_ext/action_controller/event_helper'
+require 'rails_ext/action_controller/page_caching'
 
 require 'routing'
 require 'roles'
@@ -25,6 +26,8 @@ config.to_prepare do
     :verify       => :login,
     :site_deleted => lambda {|c| c.send :admin_sites_path }
   }
+
+#  Components::Base.send :extend, CacheReferences::ActMacro
 end
 
 # uncomment this to have Engines copy assets to the public directory on 

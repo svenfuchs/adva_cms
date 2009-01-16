@@ -1,7 +1,10 @@
 class ForumController < BaseController
   before_filter :set_board, :only => :show
+  before_filter :set_boards, :only => :show
   before_filter :set_topics, :only => :show
-  caches_page_with_references :show, :track => ['@topics']
+
+  # TODO move :comments and @commentable to acts_as_commentable
+  caches_page_with_references :show, :comments, :track => ['@topics', '@boards', '@board', '@commentable']
 
   authenticates_anonymous_user
   acts_as_commentable # TODO hu?
@@ -17,9 +20,13 @@ class ForumController < BaseController
   protected
 
     def set_section; super(Forum); end
-
+    
     def set_board
       @board = @section.boards.find params[:board_id] if params[:board_id]
+    end
+    
+    def set_boards
+      @boards = @section.boards
     end
 
     def set_topics

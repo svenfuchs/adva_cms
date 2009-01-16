@@ -168,7 +168,7 @@ describe EventsController, 'page_caching' do
   end
 
   it "tracks read access for a bunch of models for the :index action page caching" do
-    EventsController.track_options[:index].should == ['@event', '@events', '@category', {"@section" => :tag_counts, "@site" => :tag_counts}]
+    EventsController.track_options[:index].should include('@event', '@events', '@category', {"@section" => :tag_counts, "@site" => :tag_counts})
   end
 
   it "page_caches the :show action" do
@@ -176,7 +176,7 @@ describe EventsController, 'page_caching' do
   end
 
   it "tracks read access for a bunch of models for the :show action page caching" do
-    EventsController.track_options[:show].should == ['@event', '@events', '@category', {"@section" => :tag_counts, "@site" => :tag_counts}]
+    EventsController.track_options[:show].should include('@event', '@events', '@category', {"@section" => :tag_counts, "@site" => :tag_counts})
   end
 
 end

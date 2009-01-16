@@ -21,7 +21,9 @@ define CalendarEvent do
           :created_at => Time.now,
           :start_date => Time.now,
           :end_date => Time.now,
-          :draft? => true
+          :draft? => true,
+           :track_method_calls => nil
+           
   instance :calendar_event
 end
 

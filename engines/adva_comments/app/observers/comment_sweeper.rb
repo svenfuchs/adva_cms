@@ -1,4 +1,4 @@
-class CommentSweeper < PageCacheTagging::Sweeper
+class CommentSweeper < CacheReferences::Sweeper
   observe Comment
 
   def after_save(comment)

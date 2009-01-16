@@ -20,7 +20,8 @@ define Calendar do
           :update_attributes => true,
           :attributes => true,
           :has_attribute? => true,
-          :destroy => true
+          :destroy => true,
+           :track_method_calls => nil
 
   instance :calendar
 end

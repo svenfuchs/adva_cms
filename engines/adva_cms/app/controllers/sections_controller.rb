@@ -4,7 +4,8 @@ class SectionsController < BaseController
   before_filter :set_article
   before_filter :guard_view_permissions, :only => :show
 
-  caches_page_with_references :show, :track => ['@article']
+  # TODO move :comments and @commentable to acts_as_commentable
+  caches_page_with_references :show, :comments, :track => ['@article', '@commentable']
 
   authenticates_anonymous_user
   acts_as_commentable
@@ -29,7 +30,7 @@ class SectionsController < BaseController
     def guard_view_permissions
       if @article && @article.draft?
         guard_permission(:update, :article)
-        @skip_caching = true
+        skip_caching!
       end
     end
 

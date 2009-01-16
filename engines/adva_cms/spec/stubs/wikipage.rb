@@ -37,7 +37,8 @@ define Wikipage do
            :diff_against_version => 'the diff',
            :save_version_on_create => nil,
            :user= => nil,
-           :has_attribute? => true
+           :has_attribute? => true,
+           :track_method_calls => nil
 
   instance :wikipage,
            :version => 4

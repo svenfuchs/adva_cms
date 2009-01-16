@@ -1,8 +1,8 @@
 class NewsletterMailer < ActionMailer::Base
-  def issue(issue,user)
+  def issue(local_issue,user)
     recipients  user.email
-    from        "#{issue.newsletter.site.name} <#{issue.newsletter.site.email}>"
-    subject     "[#{issue.newsletter.site.name}] " + issue.title
-    body        issue.body
+    from        local_issue.newsletter.site.email
+    subject     "[#{local_issue.newsletter.site.name}] #{local_issue.title}"
+    body        local_issue.body
   end 
 end

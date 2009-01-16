@@ -10,6 +10,31 @@
 <%= render :partial => 'admin/newsletters/header' %>
 
 <div id='issue'>
-  <h2><%= h(@issue.title) %></h2>
+  <h2>
+    <%= h(@issue.title) %>
+    <% if @issue.draft? %>
+      <span class="draft">Draft</span>
+    <% end %>
+  </h2>
   <p><%= h(@issue.body) %></p>
+
+  <% unless @issue.draft? %>
+    <% split_form_for :issue, @issue, :url => admin_issue_path, :html => {:method => :put, :multipart => true, :id => 'content_form'} do |f| %>
+      <div id="delivery" class="buttons"> 
+        <span id="send-now">
+          <%= submit_tag t('adva.issue.button.send_now'), :name => 'send_now' %>
+          <label>
+            <%= check_box_tag :send_test %><%= t('adva.issue.label.send_test') %>
+          </label>
+        </span>
+        <span id="send-later">
+          <%= f.label :publish_at, t('adva.newsletter.label.issue_publish_at') %>
+          <%= select_time Time.now + 5.minutes, :prefix => "publish_at", :time_separator => ":" %> - 
+          <%= select_date Date.today, :prefix => "publish_at", :order => [:day, :month], :discard_year => true %>
+          <%= submit_tag t('adva.issue.button.send_later'), :name => 'send_later' %>
+        </span>
+      </div>
+    <% end %>
+  <% end %>
 </div>
+

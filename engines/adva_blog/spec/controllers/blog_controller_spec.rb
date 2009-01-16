@@ -82,7 +82,7 @@ describe BlogController do
           it_renders_template :show
           it "skips caching for the rendered page" do
             act!
-            controller.instance_variable_get(:@skip_caching).should be_true
+            controller.skip_caching?.should be_true
           end
         end
 
@@ -125,7 +125,7 @@ describe "Blog page_caching" do
     end
 
     it "tracks read access for a bunch of models for the :index action page caching" do
-      BlogController.track_options[:index].should == ['@article', '@articles', '@category', {'@site' => :tag_counts, '@section' => :tag_counts}]
+      BlogController.track_options[:index].should include('@article', '@articles', '@category', {'@site' => :tag_counts, '@section' => :tag_counts})
     end
 
     it "page_caches the :show action" do
@@ -133,7 +133,7 @@ describe "Blog page_caching" do
     end
 
     it "tracks read access for a bunch of models for the :show action page caching" do
-      BlogController.track_options[:show].should == ['@article', '@articles', '@category', {"@section" => :tag_counts, "@site" => :tag_counts}]
+      BlogController.track_options[:show].should include('@article', '@articles', '@category', {"@section" => :tag_counts, "@site" => :tag_counts})
     end
 
     it "page_caches the comments action" do

@@ -1,4 +1,4 @@
-class BoardSweeper < PageCacheTagging::Sweeper
+class BoardSweeper < CacheReferences::Sweeper
   observe Board
   
   def after_create(board)

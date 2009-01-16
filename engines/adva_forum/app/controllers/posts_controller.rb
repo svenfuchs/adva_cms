@@ -4,6 +4,7 @@ class PostsController < BaseController
   before_filter :set_section
   before_filter :set_topic
   before_filter :set_post, :only => [:edit, :update, :destroy]
+  cache_sweeper :comment_sweeper, :only => [:create, :update, :destroy]
 
   def new
     @post = Post.new

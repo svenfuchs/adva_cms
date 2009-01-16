@@ -39,7 +39,7 @@ describe "Forum views:" do
     
     describe "without boards" do
       before :each do
-        @forum.stub!(:boards).and_return []
+        assigns[:boards] = []
       end
       it "with a boardless forum assigned renders the forum partial" do
         template.should_receive(:render).with hash_including(:partial => 'forum')
@@ -50,8 +50,10 @@ describe "Forum views:" do
   
   describe "the boards partial" do
     before :each do
+      assigns[:boards] = [@board]
       @board.stub!(:topics_count).and_return(5)
       @board.stub!(:comments_count).and_return(5)
+      template.stub!(:forum_board_path).and_return 'forum_board_path'
     end
     
     it "renders a list of boards" do
@@ -96,7 +98,7 @@ describe "Forum views:" do
   describe "the forum partial" do
     describe 'with an empty topics collection assigned' do
       before :each do
-        @forum.stub!(:topics_count).and_return 0
+        assigns[:topics] = []
       end
   
       it 'shows a notice that no topics are present' do
