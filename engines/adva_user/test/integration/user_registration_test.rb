@@ -63,4 +63,10 @@ class UserRegistrationTest < ActionController::IntegrationTest
     # should see a flash notice
     assert_not_nil flash_cookie["notice"], 'flash cookie should have a notice'
   end
+
+  test "there is alias 'signup' and goes to user/new page" do
+    # go to user registration page
+    visit "signup"
+    assert_template "user/new"
+  end
 end
