@@ -16,4 +16,16 @@ class Test::Unit::TestCase
       set_request_host!
     end
   end
+  
+  share :a_board_topic do
+    before do
+      @board_topic = @board.topics.find_by_permalink('a-board-topic')
+    end
+  end
+  
+  share :a_topicless_board do
+    before do
+      @topicless_board = @section.boards.find_by_title 'a topicless board'
+    end
+  end
 end
