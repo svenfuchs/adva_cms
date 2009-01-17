@@ -81,7 +81,7 @@ module With
         options.each do |type, record|
           record = instance_variable_get("@#{record}")
           filters = @controller.class.filter_chain
-          sweeper = filters.detect { |f| f.method.is_a?(PageCacheTagging::Sweeper) } 
+          sweeper = filters.detect { |f| f.method.is_a?(CacheReferences::Sweeper) } 
           sweeper or raise "can not find page cache sweeper on #{@controller.class.name}"
           sweeper = sweeper.method
           

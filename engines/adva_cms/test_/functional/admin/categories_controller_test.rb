@@ -54,10 +54,10 @@ class AdminCategoriesControllerTest < ActionController::TestCase
     
     with :access_granted do
       it_assigns :site, :section
-      it_renders :template, :new
-      
-      has_form_posting_to admin_categories_path(@site, @section) do
-        shows :form
+      it_renders :template, :new do
+        has_form_posting_to admin_categories_path(@site, @section) do
+          shows :form
+        end
       end
     end
   end
