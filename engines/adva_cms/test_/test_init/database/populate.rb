@@ -51,10 +51,10 @@ blog_category =
 Category.create! :section => blog,
                  :title => 'a category'
 
-forum_without_board =
+forum_without_boards =
 Forum.create!    :site        => site_with_forums,
-                 :title       => 'a forum without board',
-                 :permalink   => 'a-forum-without-board',
+                 :title       => 'a forum without boards',
+                 :permalink   => 'a-forum-without-boards',
                  :comment_age => 0
                  
 forum_with_boards =
@@ -125,10 +125,20 @@ board_topic_attrs = {  :site      => site_with_forums,
                        :title     => 'a board topic',
                        :body      => 'a board topic body',
                        :permalink => 'a-board-topic' }
-                 
+
 board_topic =
 Topic.post       user, board_topic_attrs
 board_topic.save!
+
+topic_attrs = {  :site      => site_with_forums,
+                 :section   => forum_without_boards,
+                 :title     => 'a topic',
+                 :body      => 'a topic body',
+                 :permalink => 'a-topic' }
+
+topic =
+Topic.post       user, topic_attrs
+topic.save!    
 
 section_article =
 Article.create!  :site => site_with_sections,
