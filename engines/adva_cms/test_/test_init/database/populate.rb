@@ -36,6 +36,11 @@ Site.create!     :name => 'site with blog',
                  :title => 'site with blog title',
                  :host => 'site-with-blog.com'
 
+site_with_forums =
+Site.create!     :name  => 'site with forum',
+                 :title => 'site with forum title',
+                 :host  => 'site-with-forum.com'
+
 blog =
 Blog.create!     :site => site_with_blog,
                  :title => 'a blog',
@@ -46,7 +51,28 @@ blog_category =
 Category.create! :section => blog,
                  :title => 'a category'
 
+forum_without_board =
+Forum.create!    :site        => site_with_forums,
+                 :title       => 'a forum without board',
+                 :permalink   => 'a-forum-without-board',
+                 :comment_age => 0
+                 
+forum_with_boards =
+Forum.create!    :site        => site_with_forums,
+                 :title       => 'a forum with boards',
+                 :permalink   => 'a-forum-with-boards',
+                 :comment_age => 0
 
+forum_board =
+Board.create!    :site    => site_with_forums,
+                 :section => forum_with_boards,
+                 :title   => 'a board'
+
+another_board =
+Board.create!    :site    => site_with_forums,
+                 :section => forum_with_boards,
+                 :title   => 'another board'
+                 
 site_with_wiki =
 Site.create!     :name => 'site with wiki',
                  :title => 'site with wiki title',
