@@ -23,7 +23,7 @@
 				<td><%= topic.comments.size %></td>
 				<td class="actions">
     				<%= link_to t(:'adva.resources.edit'), edit_topic_path(@section, topic.permalink), :class => 'edit' %>
-    				<%= link_to_topic(t(:'adva.resources.delete'), topic, :class => 'delete', :confirm => "Are you sure you want to delete this photo?", :method => :delete) %>
+    				<%= link_to t(:'adva.resources.delete'), topic_path(@section, topic.permalink, :return_to => admin_boards_path(@site, @section)), :class => 'delete', :confirm => "Are you sure you want to delete this topic?", :method => :delete %>
   			</td>
 			</tr>
 		<% end -%>

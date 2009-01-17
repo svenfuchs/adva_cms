@@ -39,6 +39,27 @@ class TopicsController < BaseController
   end
 
   def update
+    unless @topic.owner.is_a?(Section)
+      params[:topic][:board_id].to_i != @topic.board.id ? revise_and_move : revise
+    else
+      revise
+    end 
+  end
+  
+  def revise
+    @topic.revise current_user, params[:topic]
+    if @topic.save
+      trigger_events @topic
+      flash[:notice] = t(:'adva.topics.flash.update.success')
+      redirect_to topic_path(@section, @topic.permalink)
+    else
+      flash[:error] = t(:'adva.topics.flash.update.failure')
+      render :action => "edit"
+    end
+  end
+  
+  def revise_and_move
+    @topic.previous_board = @topic.board
     @topic.revise current_user, params[:topic]
     if @topic.save
       trigger_events @topic

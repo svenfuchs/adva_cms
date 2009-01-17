@@ -98,6 +98,10 @@ describe Board do
     it "unassigns assigned board topics before destroying the last board" do
       Board.before_destroy.should include(:unassign_topics)
     end
+    
+    it "decrement section counters on delete" do
+      Board.before_destroy.should include(:decrement_counters)
+    end
   end
 
   # describe '#after_topic_update' do
@@ -247,6 +251,16 @@ describe Board do
           @topic.board.should == @board
         end
         
+        it "increments the board.topics_counter" do
+          @board.send(:assign_topics)
+          @board.topics_count.should == 1
+        end
+        
+        it "increments the board.comments_counter" do
+          @board.send(:assign_topics)
+          @board.comments_count.should == 1
+        end
+        
         it "assigns topics comment(s) to the board" do
           @board.send(:assign_topics)
           @topic.reload
@@ -272,6 +286,43 @@ describe Board do
           @board.send(:assign_topics)
           @topic.reload
           @topic.initial_post.board.should be_nil
+        end
+      end
+      
+      describe '#decrement_counters' do
+        before :each do
+          @topic = @forum.topics.post(@user, Factory.attributes_for(:topic, :section => @forum))
+          @board.topics << @topic
+          @board.save
+          @topic.reload
+        end
+        
+        describe "on last board" do
+          it "does not decrement the section.topics_count" do
+            @board.send :decrement_counters
+            @forum.topics_count.should == 1
+          end
+          
+          it "does not decrement the section.comments_count" do
+            @board.send :decrement_counters
+            @forum.comments_count.should == 1
+          end
+        end
+        
+        describe "on multiple boards" do
+          before :each do
+            @second_board = Factory :board, :site => @site, :section => @forum
+          end
+          
+          it "decrements the section.topics_count" do
+            @board.send :decrement_counters
+            @forum.topics_count.should == 0
+          end
+          
+          it "decrements the section.comments_count" do
+            @board.send :decrement_counters
+            @forum.comments_count.should == 0
+          end
         end
       end
     end

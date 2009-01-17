@@ -1,5 +1,9 @@
 <h2>
   <%= @section.title %>
+  <span class="meta">
+    <%= t(:'adva.boards.topics_count', :count => @section.topics_count) %>,
+    <%= t(:'adva.boards.posts_count', :count => @section.comments_count) %>
+  </span>
 </h2>
 
 <table id="boards" class="list">

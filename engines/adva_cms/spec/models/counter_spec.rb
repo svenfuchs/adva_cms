@@ -39,13 +39,13 @@ describe Counter do
     @forum.topics_counter.count.should == 1
   end
 
-  it "decrement! is called after a topic has been created" do
+  it "decrement! is called after a topic has been destroyed" do
     topic = Topic.create!(@topic_attributes)
     @forum.topics_counter.should_receive(:decrement!)
     topic.destroy
   end
 
-  it "actually increments its counter value after a topic has been created" do
+  it "actually decrements its counter value after a topic has been destroyed" do
     topic = Topic.create! @topic_attributes
     @forum.topics_counter.update_attributes :count => 1
     topic.destroy

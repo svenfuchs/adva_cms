@@ -70,6 +70,7 @@ describe "Topic views:" do
   describe "the new view" do
     before :each do
       template.stub!(:topics_path).and_return 'topics_path'
+      template.stub!(:forum_path).and_return 'forum_path'
       template.stub!(:error_messages_for).and_return 'error_messages_for' # TODO really should not be used, boy
       template.stub!(:link_to_remote_comment_preview).and_return 'link_to_remote_comment_preview'
     end

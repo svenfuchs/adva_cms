@@ -66,7 +66,7 @@ describe "Forum views:" do
     describe 'with an empty topics collection assigned' do
       before :each do
         assigns[:board] = @board
-        @forum.stub!(:topics_count).and_return 0
+        @board.stub!(:topics).and_return []
       end
   
       it 'shows a notice that no topics are present' do
@@ -87,8 +87,11 @@ describe "Forum views:" do
     end
   
     describe 'with a non-empty topics collection assigned' do
+      before :each do
+        assigns[:board] = @board
+      end
       it "renders the topics partial" do
-        @forum.stub!(:topics_count).and_return 2
+        @board.stub!(:topics).and_return [@topic]
         template.should_receive(:render).with hash_including(:partial => 'topics')
         render "forum/_board"
       end

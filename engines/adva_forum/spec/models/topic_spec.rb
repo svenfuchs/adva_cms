@@ -2,6 +2,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Topic do
   include Stubby, Matchers::ClassExtensions
+  include FactoryScenario
 
   before :each do
     stub_scenario :forum_with_topics
@@ -69,6 +70,10 @@ describe Topic do
   describe "callbacks:" do
     it 'sets the site before validation' do
       Topic.before_validation.should include(:set_site)
+    end
+    
+    it 'moves the comments after save' do
+      Topic.after_save.should include(:move_comments)
     end
   end
 
@@ -156,25 +161,25 @@ describe Topic do
       end
     end
 
-    describe "#revise" do
-      before :each do
-        @comment = stub_comment
-        @board = Board.new
-        @topic.save
-        @topic.stub!(:comments).and_return [@comment]
-        @topic.stub!(:board).and_return @board
-      end
-      
-      it "does not touch the comments if topics board is not changed" do
-        @topic.should_not_receive(:comments)
-        @topic.revise @user, nil
-      end
-      
-      it "updates topics comments when board of topics is changed" do
-        @comment.should_receive(:update_attribute).with(:board_id, 1)
-        @topic.revise @user, {:board_id => 1}
-      end
-    end
+    # describe "#revise" do
+    #   before :each do
+    #     @comment = stub_comment
+    #     @board = Board.new
+    #     @topic.save
+    #     @topic.stub!(:comments).and_return [@comment]
+    #     @topic.stub!(:board).and_return @board
+    #   end
+    #   
+    #   it "does not touch the comments if topics board is not changed" do
+    #     @topic.should_not_receive(:comments)
+    #     @topic.revise @user, nil
+    #   end
+    #   
+    #   it "updates topics comments when board of topics is changed" do
+    #     @comment.should_receive(:update_attribute).with(:board_id, 1)
+    #     @topic.revise @user, {:board_id => 1}
+    #   end
+    # end
 
     describe '#accept_comments?' do
       it 'returns true when it is not locked' do
@@ -299,6 +304,58 @@ describe Topic do
     
     it '#initial_post returns the first post of the topic' do
       @topic.initial_post.should == @topic.comments.first
+    end
+  end
+end
+
+describe Topic do
+  describe '#move_comments' do
+    before :each do
+      @user = Factory :user
+      @site = Factory :site
+      @forum = Factory :forum, :site => @site
+      factory_scenario :board_with_topics
+      @topic.comments << Factory(:post, :author => @user, :commentable => @topic)
+      @second_board = Factory :board, :section => @forum
+      @topic.previous_board = @board
+      @board.topics_counter.set(2)
+      @board.comments_counter.set(2)
+    end
+    
+    it "decrements the topics_counter of a old board" do
+      @topic.board = @second_board
+      @topic.save
+      @board.topics_count.should == 1
+    end
+    
+    it "increments the topics_counter of a new board" do
+      @topic.board = @second_board
+      @topic.save
+      @second_board.topics_count.should == 1
+    end
+    
+    it "decrements the comments_counter of a old board" do
+      @topic.board = @second_board
+      @topic.save
+      @board.comments_count.should == 1
+    end
+    
+    it "increments the comments_counter of a new board" do
+      @topic.board = @second_board
+      @topic.save
+      @second_board.comments_count.should == 1
+    end
+    
+    it "moves the comments to the new board" do
+      @topic.board = @second_board
+      @topic.save
+      @topic.initial_post.board.id.should == @second_board.id
+    end
+    
+    it "removes the previous board reference" do
+      @topic.board = @second_board
+      @topic.save
+      @topic.previous_board.should be_nil
     end
   end
 end

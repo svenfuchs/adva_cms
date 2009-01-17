@@ -50,6 +50,7 @@ describe "Post views:" do
       @post.stub!(:author).and_return User.anonymous
       template.stub!(:f).and_return ActionView::Base.default_form_builder.new(:topic, @topic, template, {}, nil)
       template.stub!(:topic_posts_path).and_return 'topic_posts_path'
+      template.stub!(:topic_post_path).and_return 'topic_post_path'
     end
 
     it "renders form inputs for topic attributes" do

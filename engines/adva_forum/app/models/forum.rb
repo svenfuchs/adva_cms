@@ -6,7 +6,7 @@ class Forum < Section
   has_option :latest_topics_count, :default => 10
   # has_option :posts_per_page, :default => 25
 
-  has_counter :topics, :comments, :as => :section
+  has_counter :topics, :as => :section
 
   has_many :boards,         :foreign_key => :section_id
 

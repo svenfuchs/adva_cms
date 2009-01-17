@@ -15,7 +15,8 @@ describe TopicsController do
   before :each do
     stub_scenario :forum_with_topics, :user_logged_in
     @forum.stub!(:boards).and_return []
-
+    @topic.stub!(:owner).and_return Section.new
+    
     @controller.stub!(:forum_path).and_return forum_path # TODO have a helper for this kind of stuff
     @controller.stub!(:topic_path).and_return topic_path    
     @controller.stub!(:current_user).and_return @user
@@ -93,7 +94,7 @@ describe TopicsController do
     it_guards_permissions :update, :topic
   end
   
-  describe "PUT to :update" do
+  describe "PUT to :update, #revise" do
     before :each do
       @topic.stub!(:state_changes).and_return([:updated])
     end
@@ -103,6 +104,43 @@ describe TopicsController do
     
     it "updates the topic with the topic params" do
       @topic.should_receive(:save).and_return true
+      act!
+    end
+    
+    describe "given valid topic params" do
+      it_redirects_to { topic_path }
+      it_assigns_flash_cookie :notice => :not_nil
+      it_triggers_event :topic_updated
+    end
+    
+    describe "given invalid topic params" do
+      before :each do 
+        @topic.stub!(:save).and_return false 
+      end
+      it_renders_template :edit
+      it_assigns_flash_cookie :error => :not_nil
+      it_does_not_trigger_any_event
+    end
+  end
+  
+  describe "PUT to :update, #revise_and_move" do
+    before :each do
+      @topic.stub!(:state_changes).and_return([:updated])
+      @topic.board.stub!(:id).and_return 100
+      @topic.stub!(:owner).and_return Board.new
+      @topic.stub!(:previous_board=)
+    end
+    act! { request_to :put, topic_path, :topic => {:board_id => 5} }    
+    it_assigns :topic    
+    it_guards_permissions :update, :topic
+    
+    it "updates the topic with the topic params" do
+      @topic.should_receive(:save).and_return true
+      act!
+    end
+    
+    it "sets the previous_board param" do
+      @topic.should_receive(:previous_board=).with(@topic.board)
       act!
     end
     

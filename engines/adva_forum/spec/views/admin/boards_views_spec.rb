@@ -15,6 +15,8 @@ describe "Admin::Boards:" do
     set_resource_paths :board, '/admin/sites/1/sections/1/'
     
     template.stub!(:admin_boards_path).and_return(@collection_path)
+    template.stub!(:forum_path).and_return('forum_path')
+    template.stub!(:new_topic_path).and_return('forum_path')
     template.stub!(:admin_board_path).and_return(@member_path)
     template.stub!(:new_admin_board_path).and_return @new_member_path
     template.stub!(:edit_admin_board_path).and_return(@edit_member_path)

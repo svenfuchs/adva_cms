@@ -1,5 +1,6 @@
 class Topic < ActiveRecord::Base
   has_permalink :title
+  before_destroy :decrement_counter
   has_many_comments :as => :commentable
 
   acts_as_role_context :parent => Section
@@ -16,11 +17,12 @@ class Topic < ActiveRecord::Base
   belongs_to_author :last_author, :validate => false
 
   before_validation :set_site
+  after_save :move_comments
 
   validates_presence_of :section, :title
   validates_presence_of :body, :on => :create
 
-  attr_accessor :body
+  attr_accessor :body, :previous_board
   delegate :comment_filter, :to => :site
 
   class << self
@@ -47,12 +49,8 @@ class Topic < ActiveRecord::Base
   end
   
   def revise(author, attributes)
-    #self.sticky, self.locked = attributes.delete(:sticky), attributes.delete(:locked) # if author.has_permission ...
+    self.sticky, self.locked = attributes.delete(:sticky), attributes.delete(:locked) # if author.has_permission ...
     self.attributes = attributes
-    return unless board_id_changed?
-    comments.each do |comment|
-      comment.update_attribute(:board_id, attributes[:board_id])
-    end
   end
 
   # def hit!
@@ -97,5 +95,27 @@ class Topic < ActiveRecord::Base
   protected
     def set_site
       self.site_id = section.site_id
+    end
+    
+    def move_comments
+      self.reload
+      return if owner.is_a?(Section) || previous_board.nil? || previous_board == board
+      
+      previous_board.topics_counter.decrement!
+      board.topics_counter.increment!
+      comments.each do |comment|
+        previous_board.comments_counter.decrement!
+        comment.update_attribute(:board_id, board.id)
+        comment.board.comments_counter.increment!
+      end
+      
+      self.previous_board = nil
+    end
+    
+    def decrement_counter
+      comments.each do |comment|
+         comment.section.comments_counter.decrement!
+         self.board.comments_counter.decrement! if owner.is_a?(Board)
+      end
     end
 end

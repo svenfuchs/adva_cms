@@ -7,8 +7,10 @@ class Board < ActiveRecord::Base
 
   before_validation :set_site
   after_create      :assign_topics
-  before_destroy    :unassign_topics  # Needs to be here before associations, otherwise topics are deleted on last board
-  has_many_comments                   # Needs to be here after before_destroy, otherwise topics posts are lost when last board is deleted
+  # Needs to be here before associations, otherwise topics are deleted on last board
+  before_destroy    :unassign_topics, :decrement_counters
+  # Needs to be here after before_destroy, otherwise topics posts are lost when last board is deleted
+  has_many_comments
 
   belongs_to :site
   belongs_to :section
@@ -41,9 +43,11 @@ class Board < ActiveRecord::Base
   protected
     def assign_topics
       owner.boardless_topics.each do |topic|
-        self.topics << topic
+        topics << topic
+        #topics_counter.increment!
         topic.comments.each do |comment|
           comment.update_attribute(:board, self)
+          #comments_counter.increment!
         end
       end
     end
@@ -58,6 +62,16 @@ class Board < ActiveRecord::Base
       end
     end
 
+    def decrement_counters
+      return if true || last?
+      topics.each do |topic|
+        section.topics_counter.decrement!
+        topic.comments.each do |comment|
+          section.comments_counter.decrement!
+        end
+      end
+    end
+    
     def owner
       section
     end
