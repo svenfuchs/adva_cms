@@ -15,6 +15,8 @@ class AdminWikipagesControllerTest < ActionController::TestCase
     has_tag :input, :name => 'wikipage[title]'
     has_tag :textarea, :name => 'wikipage[body]'
     has_tag :select, :name => 'wikipage[author]'
+    # FIXME displays checkboxes for categories
+    # FIXME displays a selectbox for selecting an author for an article
   end
 
   test "is an Admin::BaseController" do

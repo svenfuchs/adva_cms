@@ -7,6 +7,7 @@ class WikiControllerTest < ActionController::TestCase
   view :form do
     has_tag :input, :name => 'wikipage[title]'
     has_tag :textarea, :name => 'wikipage[body]'
+    # FIXME
     # with the wikipage having categories
     # body.should =~ /content_category_checkbox/
     # with the wikipage having no categories
@@ -19,36 +20,6 @@ class WikiControllerTest < ActionController::TestCase
   
   test "is an BaseController" do
     BaseController.should === @controller # FIXME matchy doesn't have a be_kind_of matcher
-  end
-
-  describe "routing" do
-    with :a_wikipage_category do
-      # FIXME test paged routes, e.g. /wiki/pages/page/1
-      ['/', '/a-wiki/' ].each do |path_prefix|
-        # FIXME how to remove this assumption? would need some kind of hash matcher matching /\d+/
-        with_options :section_id => Wiki.first.id.to_s, :path_prefix => path_prefix do |r|
-          r.it_maps :get,    '',                              :action => 'show'
-          r.it_maps :get,    'pages/a-wikipage',              :action => 'show', :id => 'a-wikipage'
-          r.it_maps :get,    'pages',                         :action => 'index'
-          r.it_maps :get,    'pages/a-wikipage/rev/1',        :action => 'show', :id => 'a-wikipage', :version => '1'
-          r.it_maps :get,    'pages/a-wikipage/diff/1',       :action => 'diff', :id => 'a-wikipage', :diff_version => '1'
-          r.it_maps :get,    'pages/a-wikipage/rev/1/diff/1', :action => 'diff', :id => 'a-wikipage', :diff_version => '1', :version => '1'
-          r.it_maps :get,    'categories/a-category',         :action => 'index', :category_id => Wiki.first.categories.first.id.to_s
-          r.it_maps :get,    'tags/foo+bar',                  :action => 'index', :tags => 'foo+bar'
-          r.it_maps :post,   'pages',                         :action => 'create'
-          r.it_maps :get,    'pages/new',                     :action => 'new'
-          r.it_maps :get,    'pages/a-wikipage/edit',         :action => 'edit',    :id => 'a-wikipage'
-          r.it_maps :put,    'pages/a-wikipage',              :action => 'update',  :id => 'a-wikipage'
-          r.it_maps :delete, 'pages/a-wikipage',              :action => 'destroy', :id => 'a-wikipage'
-        end
-      end
-        
-      with_options :section_id => Wiki.first.id.to_s, :format => 'atom' do |r|
-        r.it_maps :get, '/a-wiki/comments.atom',                  :action => 'comments'
-        r.it_maps :get, '/a-wiki/pages/a-wikipage/comments.atom', :action => 'comments', :id => 'a-wikipage'
-        r.it_maps :get, '/pages/a-wikipage/comments.atom',        :action => 'comments', :id => 'a-wikipage'
-      end
-    end
   end
 
   { :wiki_path                  => '/a-wiki/pages',

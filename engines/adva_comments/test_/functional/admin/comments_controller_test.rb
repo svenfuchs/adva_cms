@@ -70,7 +70,7 @@ class AdminCommentsControllerTest < ActionController::TestCase
     end
   end
   
-  # FIXME
+  # FIXME ... implement these
   #
   # describe "GET to :new" do
   #   action { get :new, default_params }

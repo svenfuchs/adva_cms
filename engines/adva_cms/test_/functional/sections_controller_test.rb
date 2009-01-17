@@ -3,31 +3,6 @@ require File.expand_path(File.dirname(__FILE__) + "/../test_helper")
 class SectionsControllerTest < ActionController::TestCase
   with_common :a_section, :an_article
   
-  describe "routing" do
-    ['', '/a-section', '/de', '/de/a-section'].each do |path_prefix|
-      ['', '/pages/2'].each do |path_suffix| 
-        common = { :section_id => Section.first.id.to_s, :path_prefix => path_prefix, :path_suffix => path_suffix }
-        common.merge! :locale => 'de' if path_prefix =~ /de/
-        common.merge! :page => 2      if path_suffix =~ /pages/
-      
-        with_options common do |r|
-          r.it_maps :get, '/',                         :action => 'show'
-          r.it_maps :get, '/articles/an-article',      :action => 'show', :permalink => 'an-article'
-          
-          unless path_suffix =~ /pages/
-            r.it_maps :get, '/articles/an-article.atom', :action => 'comments', :permalink => 'an-article', :format => 'atom'
-          end
-        end
-      end
-    end
-    
-    # these do not work with a root section path because there's a reguar Comments resource
-    with_options :action => 'comments', :format => 'atom', :section_id => Section.first.id.to_s do |r|
-      r.it_maps :get, '/a-section/comments.atom'
-      r.it_maps :get, '/de/a-section/comments.atom', :locale => 'de'
-    end
-  end
-
   test "is a BaseController" do
     BaseController.should === @controller # FIXME matchy doesn't have a be_kind_of matcher
   end
@@ -99,24 +74,24 @@ class SectionsControllerTest < ActionController::TestCase
     end
   end
 
-  describe "GET to :comments with no article permalink given" do
+  describe "GET to :comments atom feed with no article permalink given" do
     action { get :comments, params_from("/a-section/comments.atom") }
 
     with :the_article_is_published do
       it_assigns :section, :comments
       it_renders :template, 'comments/comments', :format => :atom
-      
+      # FIXME it_caches_the_page
       # FIXME specify comments atom feed
     end
   end
 
-  describe "GET to :comments with an article permalink given" do
+  describe "GET to :comments atom feed with an article permalink given" do
     action { get :comments, params_from("/a-section/articles/a-section-article.atom") }
 
     with :the_article_is_published do
       it_assigns :section, :article, :comments
       it_renders :template, 'comments/comments', :format => :atom
-      
+      # FIXME it_caches_the_page
       # FIXME specify comments atom feed
     end
   end

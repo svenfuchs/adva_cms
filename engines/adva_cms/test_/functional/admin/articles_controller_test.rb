@@ -54,7 +54,7 @@ class AdminArticlesControllerTest < ActionController::TestCase
   
     with :access_granted do
       it_assigns :articles
-      it_renders :template, :index
+      it_renders :template, lambda { @section.is_a?(Blog) ? 'blog/index' : 'articles/index' }
       
       it "displays an articles list" do
         has_tag :p, 'Total: 1 article', :class => 'total'
@@ -192,6 +192,8 @@ class AdminArticlesControllerTest < ActionController::TestCase
             it_triggers_event :article_updated
             it_sweeps_page_cache :by_reference => :article
   
+            # FIXME why doesn't this work here?
+            # it_versions :article, :with => :save_revision_param
             with(:save_revision_param)    { it_versions :article }
             with(:no_save_revision_param) { it_does_not_version :article }
           end

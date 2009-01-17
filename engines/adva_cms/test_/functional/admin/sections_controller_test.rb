@@ -28,6 +28,8 @@ class AdminSectionsControllerTest < ActionController::TestCase
     end
   end
   
+  # FIXME spec and implement :index page for sections
+  
   describe "GET to :new" do
     action { get :new, default_params }
     it_guards_permissions :create, :section
@@ -58,6 +60,7 @@ class AdminSectionsControllerTest < ActionController::TestCase
         it_redirects_to { @controller.admin_section_contents_path(assigns(:section)) }
         it_assigns_flash_cookie :notice => :not_nil
         it_sweeps_page_cache :by_site => :site
+        # FIXME implement: it_triggers_event :section_created
 
         it "associates the new Section to the current site" do
           assigns(:section).site.should == @site
@@ -107,7 +110,7 @@ class AdminSectionsControllerTest < ActionController::TestCase
         it_updates :section
         it_redirects_to { edit_admin_section_path(@site, @section) }
         it_assigns_flash_cookie :notice => :not_nil
-        # it_triggers_event :section_updated
+        # FIXME implement: it_triggers_event :section_updated
         it_sweeps_page_cache :by_section => :section
       end
     end
@@ -158,8 +161,8 @@ class AdminSectionsControllerTest < ActionController::TestCase
     with :access_granted do
       it_assigns :site, :section
       it_destroys :section
-      # it_triggers_event :section_deleted
-      # it_redirects_to { admin_site_path(@site) } # FIXME actually is new_admin_section_path?
+      # FIXME implement: it_triggers_event :section_deleted
+      it_redirects_to { new_admin_section_path(@site) } # FIXME should be admin_site_path(@site)
       it_sweeps_page_cache :by_site => :site
       it_assigns_flash_cookie :notice => :not_nil
     end

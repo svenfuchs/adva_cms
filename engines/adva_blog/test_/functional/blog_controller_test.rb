@@ -7,52 +7,6 @@ class BlogControllerTest < ActionController::TestCase
     BaseController.should === @controller # FIXME matchy doesn't have a be_kind_of matcher
   end
 
-  describe "routing" do
-    # FIXME test url_helper rewriting/filtering (see blog_routes_spec)
-    ['', '/a-blog', '/de', '/de/a-blog'].each do |path_prefix|
-      ['', '/pages/2'].each do |path_suffix| 
-        
-        common = { :section_id => Blog.first.id.to_s, :path_prefix => path_prefix, :path_suffix => path_suffix }
-        common.merge! :locale => 'de' if path_prefix =~ /de/
-        common.merge! :page => 2      if path_suffix =~ /pages/
-      
-        with_options common do |r|
-          r.it_maps :get, '/',                         :action => 'index'
-          r.it_maps :get, '/2000',                     :action => 'index', :year => '2000'
-          r.it_maps :get, '/2000/1',                   :action => 'index', :year => '2000', :month => '1'
-  
-          r.it_maps :get, '/categories/foo',           :action => 'index', :category_id => 'foo'
-          r.it_maps :get, '/categories/foo/2000',      :action => 'index', :category_id => 'foo', :year => '2000'
-          r.it_maps :get, '/categories/foo/2000/1',    :action => 'index', :category_id => 'foo', :year => '2000', :month => '1'
-  
-          r.it_maps :get, '/tags/foo+bar',             :action => 'index', :tags => 'foo+bar'
-          r.it_maps :get, '/tags/foo+bar/2000',        :action => 'index', :tags => 'foo+bar', :year => '2000'
-          r.it_maps :get, '/tags/foo+bar/2000/1',      :action => 'index', :tags => 'foo+bar', :year => '2000', :month => '1'
-  
-          unless path_suffix =~ /pages/
-            r.it_maps :get, '/2000/1/1/an-article',      :action => 'show', :year => '2000', :month => '1', :day => '1',
-                                                         :permalink => 'an-article'
-
-            # article feeds
-            r.it_maps :get, '.atom',                     :action => 'index', :format => 'atom'
-            r.it_maps :get, '/categories/foo.atom',      :action => 'index', :category_id => 'foo', :format => 'atom'
-            r.it_maps :get, '/tags/foo+bar.atom',        :action => 'index', :tags => 'foo+bar', :format => 'atom'
-  
-            # comment feeds
-            r.it_maps :get, '/2000/1/1/an-article.atom', :action => 'comments', :year => '2000', :month => '1', :day => '1',
-                                                         :permalink => 'an-article', :format => 'atom'
-          end
-        end
-      end
-    end
-  
-    # these do not work with a root section path because there's a reguar Comments resource
-    with_options :action => 'comments', :format => 'atom', :section_id => Blog.first.id.to_s do |r|
-      r.it_maps :get, '/a-blog/comments.atom'
-      r.it_maps :get, '/de/a-blog/comments.atom', :locale => 'de'
-    end
-  end
-
   { :blog_paths              => %w( /a-blog
                                     /a-blog/2008
                                     /a-blog/2008/1 ),
@@ -66,9 +20,7 @@ class BlogControllerTest < ActionController::TestCase
     :blog_comment_feed_paths => %w( /a-blog/comments.atom
                                     /a-blog/2008/1/1/a-blog-article.atom ) }.each do |type, paths|
 
-    paths.each do |path|
-      With.share(type) { before { @params = params_from path } }
-    end
+    paths.each { |path| With.share(type) { before { @params = params_from path } } }
   end
 
   describe "GET to :index" do
@@ -78,8 +30,8 @@ class BlogControllerTest < ActionController::TestCase
       it_assigns :section, :articles
       it_caches_the_page :track => ['@article', '@articles', '@category', {'@site' => :tag_counts, '@section' => :tag_counts}]
 
-      it_assigns :category, :in => :blog_category_paths
-      it_assigns :tags,     :in => :blog_tag_paths
+      it_assigns :category,         :in => :blog_category_paths
+      it_assigns :tags, %(foo bar), :in => :blog_tag_paths
 
       it_renders :template, :index
     end
@@ -135,15 +87,14 @@ class BlogControllerTest < ActionController::TestCase
 
     with :the_article_is_published do
       it_assigns :section, :article
-      it_renders :template, :show
       it_caches_the_page :track => ['@article', '@articles', '@category', {'@site' => :tag_counts, '@section' => :tag_counts}]
       
-      it 'displays the article entry' do
+      it_renders :template, :show do
         has_tag 'div[class~=entry]' do
           # displays the title and links it to the article
           has_tag(:h2) { has_tag :a, @article.title, :href => article_path(@section, @article.full_permalink) }
 
-          # displays title, excerpt and body
+          # displays excerpt and body
           has_text @article.excerpt
           has_text @article.body
 
@@ -170,8 +121,8 @@ class BlogControllerTest < ActionController::TestCase
 
     # FIXME
     # with "the article is not published" do
-    #   when the user does not have edit permissions: raises ActiveRecord::RecordNotFound
-    #   when the user has edit permissions: renders show template
+    #   when the user does not have edit permissions: 404, raises ActiveRecord::RecordNotFound
+    #   when the user has edit permissions: renders show template, does not cache the page
     # end
     
     # FIXME
@@ -183,6 +134,7 @@ class BlogControllerTest < ActionController::TestCase
 
     with :the_article_is_published do
       with :blog_comment_feed_paths do
+        # FIXME it_caches_the_page ...
         it_assigns :section, :comments
         it_renders :template, 'comments/comments', :format => :atom
       end
