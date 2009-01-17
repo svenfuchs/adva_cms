@@ -121,6 +121,7 @@ moderator.grant :moderator, blog
 
 board_topic_attrs = {  :site      => site_with_forums,
                        :section   => forum_with_boards,
+                       :author    => user,
                        :board     => forum_board,
                        :title     => 'a board topic',
                        :body      => 'a board topic body',
@@ -132,6 +133,7 @@ board_topic.save!
 
 topic_attrs = {  :site      => site_with_forums,
                  :section   => forum_without_boards,
+                 :author    => user,
                  :title     => 'a topic',
                  :body      => 'a topic body',
                  :permalink => 'a-topic' }
@@ -139,6 +141,10 @@ topic_attrs = {  :site      => site_with_forums,
 topic =
 Topic.post       user, topic_attrs
 topic.save!    
+
+topic_reply =
+topic.reply      user, :body => 'a reply'
+topic_reply.save!
 
 section_article =
 Article.create!  :site => site_with_sections,

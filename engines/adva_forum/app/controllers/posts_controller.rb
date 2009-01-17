@@ -9,7 +9,7 @@ class PostsController < BaseController
   guards_permissions :post
   
   def new
-    @post = Post.new
+    @post = Post.new(:author => current_user)
   end
 
   def create
