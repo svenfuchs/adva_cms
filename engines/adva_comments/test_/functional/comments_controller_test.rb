@@ -30,7 +30,11 @@ class CommentsControllerTest < ActionController::TestCase
 
     with :access_granted do
       it_assigns :section, :comment, :commentable
-      it_renders :template, :show
+      it_renders :template, :show do
+        has_text @comment.body
+      end
+      
+      # FIXME displays a message when the comment is not approved yet: /under review/
     end
   end
 
@@ -41,7 +45,9 @@ class CommentsControllerTest < ActionController::TestCase
     with :access_granted do
       with :valid_comment_params do
         it_assigns :comment => :not_nil
-        it_renders :template, :preview
+        it_renders :template, :preview do
+          has_text @comment.body
+        end
       end
 
       # FIXME

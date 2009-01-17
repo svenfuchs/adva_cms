@@ -11,19 +11,6 @@ class AdminWikipagesControllerTest < ActionController::TestCase
     { :site_id => @site.id, :section_id => @section.id }
   end
   
-  view :index do
-    has_tag :table, :id => 'wikipages'
-    has_tag :a, :href => new_admin_wikipage_path(@site, @section)
-  end
-  
-  view :new do
-    shows :form
-  end
-  
-  view :edit do
-    shows :form
-  end
-  
   view :form do
     has_tag :input, :name => 'wikipage[title]'
     has_tag :textarea, :name => 'wikipage[body]'
@@ -52,7 +39,10 @@ class AdminWikipagesControllerTest < ActionController::TestCase
 
     with :access_granted do
       it_assigns :wikipages
-      it_renders :view, :index
+      it_renders :template, :index do
+        has_tag :table, :id => 'wikipages'
+        has_tag :a, :href => new_admin_wikipage_path(@site, @section)
+      end
     end
   end
 
@@ -62,7 +52,9 @@ class AdminWikipagesControllerTest < ActionController::TestCase
   
     with :access_granted do
       it_assigns :site, :section, :wikipage => :not_nil
-      it_renders :view, :new
+      it_renders :template, :new do
+        shows :form
+      end
     end
   end
 
@@ -95,7 +87,9 @@ class AdminWikipagesControllerTest < ActionController::TestCase
 
     with :access_granted do
       it_assigns :wikipage
-      it_renders :view, :edit
+      it_renders :template, :edit do
+        shows :form
+      end
     end
   end
 

@@ -13,18 +13,6 @@ class AdminThemeFilesControllerTest < ActionController::TestCase
     { :site_id => @site.id, :theme_id => @theme.id }
   end
   
-  view :show do
-    has_form_putting_to admin_theme_file_path(@site, @theme.id, @file.id) do
-      shows :form
-    end
-  end
-  
-  view :new do
-    has_form_posting_to admin_theme_files_path(@site, @theme.id) do
-      shows :form
-    end
-  end
-  
   view :form do
     has_tag :input, :name => 'file[localpath]'
     has_tag :textarea, :name => 'file[data]'
@@ -62,7 +50,11 @@ class AdminThemeFilesControllerTest < ActionController::TestCase
     
     with :access_granted do
       it_assigns :theme, :file
-      it_renders :view, :show
+      it_renders :template, :show do
+        has_form_putting_to admin_theme_file_path(@site, @theme.id, @file.id) do
+          shows :form
+        end
+      end
     end
   end
 
@@ -73,7 +65,11 @@ class AdminThemeFilesControllerTest < ActionController::TestCase
     
     with :access_granted do
       it_assigns :theme
-      it_renders :view, :new
+      it_renders :template, :new do
+        has_form_posting_to admin_theme_files_path(@site, @theme.id) do
+          shows :form
+        end
+      end
     end
   end
   

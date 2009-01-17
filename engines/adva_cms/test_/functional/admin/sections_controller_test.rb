@@ -12,23 +12,6 @@ class AdminSectionsControllerTest < ActionController::TestCase
     { :site_id => @site.id }
   end
   
-  view :new do
-    has_form_posting_to admin_sections_path do
-      has_tag :input, Section.types.size, :name => 'section[type]'
-      has_tag :input, :name => 'section[title]'
-    end
-  end
-  
-  view :edit do
-    has_form_putting_to admin_section_path do
-      has_tag :input, :name => 'section[title]'
-      # FIXME
-      # renders the admin/sections/settings/section partial if the section is a Section
-      # renders the admin/sections/settings/blog partial if the section is a Blog
-      # renders the admin/sections/settings/permissions partial
-    end
-  end
-   
   test "is an Admin::BaseController" do
     Admin::BaseController.should === @controller # FIXME matchy doesn't have a be_kind_of matcher
   end
@@ -51,7 +34,12 @@ class AdminSectionsControllerTest < ActionController::TestCase
     
     with :access_granted do
       it_assigns :site, :section => :not_nil
-      it_renders :view, :new
+      it_renders :template, :new do
+        has_form_posting_to admin_sections_path do
+          has_tag :input, Section.types.size, :name => 'section[type]'
+          has_tag :input, :name => 'section[title]'
+        end
+      end
     end
   end
   
@@ -78,7 +66,7 @@ class AdminSectionsControllerTest < ActionController::TestCase
     
       with :invalid_section_params do
         it_assigns :site, :section => :not_nil
-        it_renders :view, :new
+        it_renders :template, :new
         it_assigns_flash_cookie :error => :not_nil
       end
     end
@@ -90,7 +78,15 @@ class AdminSectionsControllerTest < ActionController::TestCase
     
     with :access_granted do
       it_assigns :site, :section
-      it_renders :view, :edit
+      it_renders :template, :edit do
+        has_form_putting_to admin_section_path do
+          has_tag :input, :name => 'section[title]'
+          # FIXME
+          # renders the admin/sections/settings/section partial if the section is a Section
+          # renders the admin/sections/settings/blog partial if the section is a Blog
+          # renders the admin/sections/settings/permissions partial
+        end
+      end
     end
   end
   
@@ -118,7 +114,7 @@ class AdminSectionsControllerTest < ActionController::TestCase
   
     with :invalid_section_params do
       with :access_granted do
-        it_renders :view, :edit
+        it_renders :template, :edit
         it_assigns_flash_cookie :error => :not_nil
       end
     end

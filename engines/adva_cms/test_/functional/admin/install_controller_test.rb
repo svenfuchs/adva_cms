@@ -3,19 +3,6 @@ require File.expand_path(File.dirname(__FILE__) + "/../../test_helper")
 class AdminInstallControllerTest < ActionController::TestCase
   tests Admin::InstallController
   
-  view :install do
-    has_form_posting_to install_path do
-      has_tag :input, :name => 'site[name]'
-      has_tag :input, :name => 'section[type]', :type => 'radio'
-      has_tag :input, :name => 'section[title]'
-    end
-  end
-  
-  view :confirmation do
-    has_tag :a, :href => admin_site_path(assigns(:site))
-    # FIXME link to admin profile
-  end
-
   test "#normalize_params params[:site][:host] to the current request.host_with_port" do
     @controller.send(:normalize_install_params)
     @controller.params[:site][:host].should == @request.host_with_port
@@ -36,7 +23,14 @@ class AdminInstallControllerTest < ActionController::TestCase
     
     with :no_site, :no_user do
       it_assigns :site, :section, :user
-      it_renders :view, :install
+
+      it_renders :template, :install do
+        has_form_posting_to install_path do
+          has_tag :input, :name => 'site[name]'
+          has_tag :input, :name => 'section[type]', :type => 'radio'
+          has_tag :input, :name => 'section[title]'
+        end
+      end
 
       it "assigns the root section to the site" do
         assigns(:site).sections.first.should_not == nil
@@ -53,7 +47,6 @@ class AdminInstallControllerTest < ActionController::TestCase
   
     with :no_site, :no_user do
       with :valid_install_params do
-        it_renders :view, :confirmation
         it_saves   :site, :section, :user
         it_changes 'Site.count' => 1, 'Section.count' => 1, 'User.count' => 1
       
@@ -67,6 +60,11 @@ class AdminInstallControllerTest < ActionController::TestCase
       
         it "authenticates the current user as the new User" do
           @controller.current_user.should_not == nil
+        end
+
+        it_renders :template, :confirmation do
+          has_tag :a, :href => admin_site_path(assigns(:site))
+          # FIXME link to admin profile
         end
       end
   

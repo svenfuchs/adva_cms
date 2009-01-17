@@ -11,29 +11,12 @@ class AdminThemesControllerTest < ActionController::TestCase
     { :site_id => @site.id }
   end
   
-  view :index do
-    has_tag :a, :href => new_admin_theme_path(@site)
-    has_tag :ul, :id => 'themelist'
-  end
-  
-  view :show do
-    # FIXME ... displays a list of files
-  end
-  
-  view :edit do
-    has_form_putting_to admin_theme_path(@site, @theme.id) do
-      show :form
-    end
-  end
-  
-  view :new do
-    has_form_posting_to admin_themes_path do
-      show :form
-    end
-  end
-  
   view :form do
     has_tag :input, :name => 'theme[name]'
+    has_tag :input, :name => 'theme[author]'
+    has_tag :input, :name => 'theme[homepage]'
+    has_tag :input, :name => 'theme[version]'
+    has_tag :textarea, :name => 'theme[summary]'
   end
    
   test "is an Admin::BaseController" do
@@ -64,7 +47,10 @@ class AdminThemesControllerTest < ActionController::TestCase
     
     with :access_granted do
       it_assigns :themes
-      it_renders :template, :index
+      it_renders :template, :index do
+        has_tag :a, :href => new_admin_theme_path(@site)
+        has_tag :ul, :id => 'themelist'
+      end
     end
   end
   
@@ -75,7 +61,24 @@ class AdminThemesControllerTest < ActionController::TestCase
     
     with :access_granted do
       it_assigns :theme
-      it_renders :template, :show
+      it_renders :template, :show do
+        # FIXME ... displays a list of files
+      end
+    end
+  end
+  
+  describe "GET to :new" do
+    action { get :new, default_params }
+    
+    it_guards_permissions :manage, :theme
+    
+    with :access_granted do
+      it_assigns :theme => :not_nil
+      it_renders :template, :new do
+        has_form_posting_to admin_themes_path do
+          shows :form
+        end
+      end
     end
   end
   
@@ -102,6 +105,21 @@ class AdminThemesControllerTest < ActionController::TestCase
     end
   end
   
+  describe "GET to :edit" do
+    action { get :edit, default_params.merge(:id => @theme.id) }
+    
+    it_guards_permissions :manage, :theme
+    
+    with :access_granted do
+      it_assigns :theme
+      it_renders :template, :edit do
+        has_form_putting_to admin_theme_path(@site, @theme.id) do
+          shows :form
+        end
+      end
+    end
+  end
+
   describe "PUT to :update" do
     action { put :update, default_params.merge(@params).merge(:id => @theme.id) }
     

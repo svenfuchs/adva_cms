@@ -76,14 +76,11 @@ class Test::Unit::TestCase
       publish @article
     end
   end
-  
-  share :the_article_belongs_to_the_category do
-    # nothing to do
-  end
 
-  share :the_article_does_not_belong_to_the_category do
+  share :an_unpublished_article do
     before do
-      @article.categories.clear unless @article.categories.empty?
+      @article = @section.articles.first
+      unpublish @article
     end
   end
 
@@ -96,6 +93,16 @@ class Test::Unit::TestCase
   share :the_article_is_not_published do
     before do
       unpublish @article
+    end
+  end
+  
+  share :the_article_belongs_to_the_category do
+    # nothing to do
+  end
+
+  share :the_article_does_not_belong_to_the_category do
+    before do
+      @article.categories.clear unless @article.categories.empty?
     end
   end
   

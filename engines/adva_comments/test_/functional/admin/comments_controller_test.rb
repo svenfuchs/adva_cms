@@ -10,24 +10,10 @@ class AdminCommentsControllerTest < ActionController::TestCase
     { :site_id => @site.id, :return_to => 'return/to/here' }
   end
   
-  view :index do
-    has_tag :select, :id => 'filterlist'                  # displays a filter for filtering the comments list
-    has_tag :ul, :id => 'comments_list'                   # displays a list of comments
-    shows :comment
-  end
-  
-  view :show do
-    has_tag :h3, 'Comment'
-    has_text 'the comment body'
-    shows :comment
-    # FIXME shows a reply form
-  end
-  
   view :comment do
-    comment_path = content_path @article, :anchor => "comment_#{@comment.id}"
-
     has_text 'the comment body'
-    
+
+    comment_path = content_path @article, :anchor => "comment_#{@comment.id}"
     has_tag :a, 'View', :href => comment_path              # displays a link to the comment on the frontend view
     has_tag :a, 'Edit'                                     # displays a link to edit the comment
     has_tag :a, 'Delete'                                   # displays a link to delete the comment
@@ -36,10 +22,6 @@ class AdminCommentsControllerTest < ActionController::TestCase
     # has_tag :a, 'Reply'   if with? :approved_comment     # displays a link to reply to the comment
   end
   
-  view :edit do
-    # FIXME
-  end
-
   test "is an Admin::BaseController" do
     Admin::BaseController.should === @controller # FIXME matchy doesn't have a be_kind_of matcher
   end
@@ -65,7 +47,11 @@ class AdminCommentsControllerTest < ActionController::TestCase
     
     with :access_granted do
       it_assigns :comments
-      it_renders :view, :index
+      it_renders :template, :index do
+        has_tag :select, :id => 'filterlist' # displays a filter for filtering the comments list
+        has_tag :ul, :id => 'comments_list'  # displays a list of comments
+        shows :comment
+      end
     end
   end
   
@@ -75,7 +61,12 @@ class AdminCommentsControllerTest < ActionController::TestCase
     
     with :access_granted do
       it_assigns :comment
-      it_renders :view, :show
+      it_renders :template, :show do
+        has_tag :h3, 'Comment'
+        has_text 'the comment body'
+        shows :comment
+        # FIXME shows a reply form
+      end
     end
   end
   
@@ -113,7 +104,9 @@ class AdminCommentsControllerTest < ActionController::TestCase
     
     with :access_granted do
       it_assigns :comment
-      it_renders :template, :edit
+      it_renders :template, :edit do
+        # FIXME assert form rendered
+      end
     end
   end
   

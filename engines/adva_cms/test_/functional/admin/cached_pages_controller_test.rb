@@ -11,13 +11,6 @@ class AdminCachedPagesControllerTest < ActionController::TestCase
     { :site_id => @site.id }
   end
   
-  view :index do
-    has_tag :table, :id => 'cached_pages'
-    # FIXME doesn't work. why?
-    # has_tag :a, /clear/i, :onclick => /#{admin_cached_page_path(@site, @cached_page)}/
-    # FIXME shows cached pages total
-  end
-  
   test "is an Admin::BaseController" do
     Admin::BaseController.should === @controller # FIXME matchy doesn't have a be_kind_of matcher
   end
@@ -36,7 +29,11 @@ class AdminCachedPagesControllerTest < ActionController::TestCase
 
     with :access_granted do
       it_assigns :cached_pages
-      it_renders :view, :index
+      it_renders :template, :index do
+        has_tag :p, 'Total: 1 cached page', :class => 'total'
+        has_tag :table, :id => 'cached_pages'
+        has_tag :a, /clear/i #, :onclick => /#{admin_cached_page_path(@site, @cached_page)}/ # FIXME doesn't work. why?
+      end
     end
   end
   

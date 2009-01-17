@@ -15,3 +15,12 @@ Start the test server with init script:
 vendor/adva/spec/test_server/bin/server -l vendor/adva/engines/adva_cms/test_/test_init/test_server/init.rb
 vendor/adva/spec/test_server/bin/test vendor/adva/engines/adva_cms/test_/functional/admin/install_controller_test.rb -l 34
 
+
+
+A common pattern that I encounter with my specs is that I want to test the same things in different contexts. This sounds trivial, but curiously with all current test libraries that I know it's quite a hassle.
+
+Imagine you have a controller that exposes functionality in different contexts. E.g. Mephisto has an Admin::ArticlesController that can be used for managing articles for both Sections and Blogs while Blogs derive from Sections. (Well, it's not exactly like this, but you get the point.)
+
+Now we might want to test that the :new action renders the :new template when the current section is a Section or when it is a Blog.
+
+...
