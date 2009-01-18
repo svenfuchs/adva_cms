@@ -3,7 +3,8 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', 'test_helper' )
 class InstallationTest < ActionController::IntegrationTest
   include CacheableFlash::TestHelpers
 
-  setup do
+  def setup
+    super
     Site.delete_all
     User.delete_all
   end

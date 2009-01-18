@@ -40,7 +40,7 @@ class Site < ActiveRecord::Base
   end
   has_many :cached_pages, :dependent => :destroy, :order => 'cached_pages.updated_at desc'
 
-  before_validation :downcase_host, :replace_host_spaces # :permalinkaze_host
+  before_validation :downcase_host, :replace_host_spaces
   before_validation :downcase_host
   before_validation :populate_title
   before_destroy :flush_page_cache
@@ -129,11 +129,15 @@ class Site < ActiveRecord::Base
     def replace_host_spaces
       self.host = host.to_s.gsub(/^\s+|\s+$/, '').gsub(/\s+/, '-')
     end
+<<<<<<< HEAD:engines/adva_cms/app/models/site.rb
 
     # def permalinkaze_host
     #   self.host = PermalinkFu.escape(host)
     # end
 
+=======
+    
+>>>>>>> moving specs to unit tests:engines/adva_cms/app/models/site.rb
     def populate_title
       self.title = self.name if self.title.blank?
     end

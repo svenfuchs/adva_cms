@@ -2,6 +2,7 @@ module BlogHelper
   def articles_title(*args)
     options = args.extract_options!
     category, tags, month = *args
+    month = archive_month(month) if month && !month.is_a?(Time)
 
     title = []
     title << t(:'adva.blog.titles.date', :date => l(month, :format => '%B %Y')) if month

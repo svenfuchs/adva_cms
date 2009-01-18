@@ -80,11 +80,12 @@ class WikiController < BaseController
     version = params[:wikipage][:version].to_i
     if @wikipage.version != version and @wikipage.revert_to!(version)
       trigger_event @wikipage, :rolledback
-      flash[:notice] = t(:'adva.wiki.flash.rollback.success', :version => params[:version])
+      flash[:notice] = t(:'adva.wiki.flash.rollback.success', :version => version)
       redirect_to wikipage_path(:section_id => @section, :id => @wikipage.permalink)
     else
-      flash.now[:error] = t(:'adva.wiki.flash.rollback.failure', :version => params[:version])
-      redirect_to wikipage_path(:section_id => @section, :id => @wikipage.permalink)
+      flash.now[:error] = t(:'adva.wiki.flash.rollback.failure', :version => version)
+      redirect_to wikipage_path(:section_id => @section, :id => @wikipage.permalink, :version => @wikipage.version)
+      # render :action => :edit
     end
   end
 

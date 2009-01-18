@@ -221,7 +221,7 @@ class WikiControllerTest < ActionController::TestCase
             it_does_not_rollback :wikipage
             it_does_not_trigger_any_event
             it_assigns_flash_cookie :error => :not_nil
-            it_redirects_to { wikipage_path(@section, @wikipage.permalink) }
+            it_redirects_to { wikipage_path(@section, @wikipage.permalink, :version => @wikipage.version) }
             it_does_not_sweep_page_cache
           end
         end

@@ -61,7 +61,7 @@ class BlogControllerTest < ActionController::TestCase
       end
 
       it "displays the number of comments and links to them", :with => :comments_or_commenting_allowed do
-        has_tag 'div.meta a', /\d comment[s]?/
+        has_tag 'div.meta a', /\d comment[s]?/i
       end
 
       it "does not display the number of comments", :with => :no_comments_and_commenting_not_allowed do

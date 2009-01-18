@@ -1,4 +1,4 @@
-<%= articles_title @category, @tags, archive_month(params), :format => '<h2 class="list-header">%s</h2>' %>
+<%= articles_title @category, @tags, params, :format => '<h2 class="list-header">%s</h2>' %>
 
 <%= render :partial => 'article', :collection => @articles, :locals => {:mode => :many} %>
 <%= render :partial => 'footer' %>

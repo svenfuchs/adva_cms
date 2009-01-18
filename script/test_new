@@ -20,7 +20,7 @@ end
 def dir_pattern(path)
   path = path.dup
   path.gsub!(/\/test_\/?$/, '')
-  File.join(path, '**', 'test__', '**', '*_test.rb')
+  File.join(path, '**', 'test_', '**', '*_test.rb')
 end
 
 paths = ARGV.clone

@@ -2,7 +2,7 @@
 #
 # Usege:
 #
-# teardown do
+# after do
 #   remove_all_test_cronjobs
 # end
 #

@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + "/../test_helper")
 
-class AdminAssetsControllerTest < ActiveSupport::TestCase
+class ActivityTest < ActiveSupport::TestCase
   setup :bunch_of_activities
   
   test 'associations' do

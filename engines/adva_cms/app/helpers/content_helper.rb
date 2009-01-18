@@ -6,7 +6,7 @@ module ContentHelper
 
   def content_url(content, options = {})
     protocol = options.delete(:protocol) || 'http://'
-    protocol + content.section.site.host + content_path(content, options)
+    protocol + content.site.host + content_path(content, options)
   end
 
   def content_path(content, options = {})
@@ -59,7 +59,7 @@ module ContentHelper
     text = args.shift if args.first.is_a? String
     content, comment = *args
     return unless content.approved_comments_count > 0 || content.accept_comments?
-    text ||= pluralize(content.approved_comments_count, 'comment')
+    text ||= t(:'adva.comments.titles.comment_with_count', :count => content.approved_comments_count)
     path = content_path content, :anchor => (comment ? dom_id(comment) : 'comments')
     link_to text, path
   end
