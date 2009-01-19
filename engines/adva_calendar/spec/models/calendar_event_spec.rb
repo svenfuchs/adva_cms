@@ -77,7 +77,6 @@ describe CalendarEvent do
     it "should have a location" do
       @event.should belong_to(:location)
     end
-    it "should have user bookmarks"
   end
   
   describe "named scopes" do
@@ -144,13 +143,5 @@ describe CalendarEvent do
       @calendar.events.search('Base', :body).should ==[@event_jazz, @event_rock]
       @calendar.events.search('Guitar', :body).should ==[@event_rock]
     end
-  end
-  describe "recurring events" do
-    it "should have a parent event"
-    it "should support daily events"
-    it "should support weekly events"
-    it "should support monthly events"
-    it "should support yearly events"
-    it "should support weekdays"
   end
 end
