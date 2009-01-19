@@ -7,12 +7,6 @@ describe Admin::EventsController do
     stub_scenario :calendar_with_events
     set_resource_paths :event, '/admin/sites/1/sections/1/'
 
-    @location = stub_location
-    @locations = stub_locations
-    @site.locations.stub!(:find).and_return @location
-    @site.locations.stub!(:new).and_return @location
-#    @site.stub!(:locations).and_return @locations
-
     controller.stub! :require_authentication
     controller.stub!(:has_permission?).and_return true
     controller.stub!(:params_author)
@@ -77,8 +71,7 @@ describe Admin::EventsController do
     before :each do
       @event.stub!(:state_changes).and_return([:created])
     end
-    act! { request_to :post, @collection_path, {:calendar_event => {:title => 'concert'},
-        :location => {:title => 'concert house'}} }
+    act! { request_to :post, @collection_path, {:calendar_event => {:title => 'concert'}} }
     it_guards_permissions :create, :calendar_event
     it_assigns :event
 
@@ -101,26 +94,6 @@ describe Admin::EventsController do
       it_assigns_flash_cookie :error => :not_nil
       it_does_not_trigger_any_event
     end
-
-    describe "given new location" do
-      it_assigns @location
-      it "should create location" do
-        @site.locations.should_receive(:new)
-        @location.should_receive(:save).twice.and_return(true)
-        act!
-      end
-    end
-
-    describe "given a invalid location" do
-      before :each do
-        @location.should_receive(:save).twice.and_return false
-      end
-      act! { request_to :post, @collection_path, {:calendar_event => {:title => 'concert'},
-          :location => {}} }
-      it_renders_template :new
-      it_assigns_flash_cookie :error => :not_nil
-      it_does_not_trigger_any_event
-    end
   end
   
   describe "PUT to :update" do
@@ -128,8 +101,7 @@ describe Admin::EventsController do
       @event.stub!(:state_changes).and_return([:updated])
     end
     
-    act! { request_to :put, @member_path, {:calendar_event => {:title => 'concert',
-        :location_id => 1}} }
+    act! { request_to :put, @member_path, {:calendar_event => {:title => 'concert'}} }
     it_assigns :event
     it_guards_permissions :update, :calendar_event
 
@@ -149,26 +121,6 @@ describe Admin::EventsController do
       end
       
       it_renders_template :edit
-      it_assigns_flash_cookie :error => :not_nil
-      it_does_not_trigger_any_event
-    end
-
-    describe "given an exisisting location" do
-      it_assigns @location
-      it "should find location" do
-        @site.locations.should_receive(:find).and_return @location
-        @location.should_receive(:save).twice.and_return true
-        act!
-      end
-    end
-
-    describe "given a invalid location" do
-      before :each do
-        @location.should_receive(:save).twice.and_return false
-      end
-      act! { request_to :post, @collection_path, {:calendar_event => {:title => 'concert',
-          :location_id => nil}} }
-      it_renders_template :new
       it_assigns_flash_cookie :error => :not_nil
       it_does_not_trigger_any_event
     end
