@@ -3,7 +3,13 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', 'test_helper' )
 class InstallationTest < ActionController::IntegrationTest
   include CacheableFlash::TestHelpers
 
-  def test_a_user_goes_through_site_install_process
+  def test_01_setting_up_the_database_with_rake
+    assert system("rake db:drop") == true
+    assert system("rake db:migrate:all") == true
+  end
+
+
+  def test_02_a_user_goes_through_site_install_process
     install_initial_site!
     manage_new_site!
     log_out_and_view_empty_frontend!
