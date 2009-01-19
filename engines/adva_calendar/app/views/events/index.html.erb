@@ -7,7 +7,6 @@
   <thead>
     <tr>
       <th scope="col"><%= t(:'adva.calendar.titles.title') %></th>
-      <th scope="col"><%= t(:'adva.calendar.titles.location') %></th>
       <th scope="col"><%= t(:'adva.calendar.titles.starting_at') %></th>
       <th scope="col"><%= t(:'adva.calendar.titles.ending_at') %></th>
     </tr>
@@ -16,9 +15,8 @@
   <% @events.each do |event| %>
     <tr id="<%= dom_id event %>">
       <td><%= link_to_event event %></td>
-      <td><%= event.location ? event.location.title : t(:'adva.calendar.no_location') %></td>
-      <td><%= event.start_date %></td>
-      <td><%= event.end_date %></td>
+      <td><%= datetime_with_microformat(event.start_date, :format => :long) %></td>
+      <td><%= datetime_with_microformat(event.end_date, :format => :long) %></td>
     </tr>
   <% end %>
   </tbody>

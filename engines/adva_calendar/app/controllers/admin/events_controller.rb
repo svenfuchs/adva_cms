@@ -9,7 +9,6 @@ class Admin::EventsController < Admin::BaseController
   before_filter :params_draft, :only => [:create, :update]
   before_filter :params_published_at, :only => [:create, :update]
   before_filter :params_dates, :only => [:create, :update]
-  before_filter :params_location, :only => [:create, :update]
   before_filter :params_category_ids, :only => [:update]
 
   widget :sub_nav, :partial => 'widgets/admin/sub_nav',
@@ -35,7 +34,7 @@ class Admin::EventsController < Admin::BaseController
 
   def create
     @event = @calendar.events.new(params[:calendar_event])
-    if @location.save and @event.save
+    if @event.save
       trigger_events @event
       flash[:notice] = t(:'adva.calendar.flash.create.success')
       redirect_to edit_admin_calendar_event_path(@site.id, @section.id, @event.id)
@@ -51,7 +50,7 @@ class Admin::EventsController < Admin::BaseController
 
   def update
     @event.attributes = params[:calendar_event]
-    if @location.save and @event.save
+    if @event.save
       trigger_events @event
       flash[:notice] = t(:'adva.calendar.flash.update.success')
       redirect_to edit_admin_calendar_event_path(@site.id, @section.id, @event.id)

@@ -20,7 +20,6 @@ class CalendarEvent < ActiveRecord::Base
   validates_presence_of :title
   validates_presence_of :user_id
   validates_presence_of :section_id
-  validates_presence_of :location_id
   validates_uniqueness_of :permalink, :scope => :section_id
 
   named_scope :by_categories, Proc.new { |*category_ids|

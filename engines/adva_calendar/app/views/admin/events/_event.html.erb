@@ -1,6 +1,5 @@
 <tr id="event_<%= event.id %>">
   <td><%= link_to event.title, edit_admin_calendar_event_path(@site, @section, event) %></td>
-  <td><%= event.location ? event.location.title : t(:'adva.calendar.no_location') %></td>
   <td><%= event.start_date %></td>
   <td><%= event.end_date ? event.end_date : t(:'adva.calendar.open_end') %></td>
   <td><%= link_to event.user.name, admin_site_user_path(@site, event.user) %></td>
