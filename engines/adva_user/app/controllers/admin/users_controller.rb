@@ -1,5 +1,4 @@
 class Admin::UsersController < Admin::BaseController
-  before_filter :set_site
   before_filter :set_users, :only => [:index]
   before_filter :set_user,  :only => [:show, :edit, :update, :destroy]
   before_filter :authorize_access
@@ -59,10 +58,6 @@ class Admin::UsersController < Admin::BaseController
   end
 
   private
-
-    def set_site
-      @site = Site.find(params[:site_id]) if params[:site_id]
-    end
 
     def set_users
       @users = if @site

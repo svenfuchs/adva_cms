@@ -61,10 +61,6 @@ class Admin::SectionsController < Admin::BaseController
 
   protected
 
-    def set_site
-      @site = Site.find(params[:site_id])
-    end
-
     def set_section
       @section = @site.sections.find(params[:id])
     end

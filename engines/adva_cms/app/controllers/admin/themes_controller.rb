@@ -95,10 +95,6 @@ class Admin::ThemesController < Admin::BaseController
       expire_site_page_cache
     end
 
-    def set_site
-      @site = Site.find(params[:site_id])
-    end
-
     def set_theme
       @theme = @site.themes.find(params[:id]) or raise "can not find theme #{params[:id]}"
     end
