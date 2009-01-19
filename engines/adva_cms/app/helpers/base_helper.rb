@@ -64,11 +64,10 @@ module BaseHelper
 
   def datetime_with_microformat(datetime, options={})
     return datetime unless datetime.respond_to?(:strftime)
-
     options.symbolize_keys!
     options[:format] ||= :standard
     # yuck ... use the localized_dates plugin as soon as we're on Rails 2.2?
-    formatted_datetime = options[:format].is_a?(Symbol) ? datetime.to_s(options[:format]) : datetime.strftime(options[:format])
+    formatted_datetime = options[:format].is_a?(Symbol) ? datetime.clone.in_time_zone.to_s(options[:format]) : datetime.clone.in_time_zone.strftime(options[:format])
 
     %{<abbr class="datetime" title="#{datetime.utc.xmlschema}">#{formatted_datetime}</abbr>}
   end
