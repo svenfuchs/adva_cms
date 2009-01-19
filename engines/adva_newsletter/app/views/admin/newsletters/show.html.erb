@@ -1,5 +1,5 @@
 <% content_for :sidebar do %>
-  <%= render :partial => 'admin/layouts/sidebar_manage' %>
+  <%= render :partial => 'admin/shared/sidebar_manage' %>
   <h3><%= t('adva.titles.actions') %></h3>
   <ul>
     <li><%= link_to t('adva.issue.link.new'), new_admin_issue_path(@site, @newsletter) %></li>

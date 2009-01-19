@@ -1,9 +1,7 @@
 <% content_for :sidebar do %>
-  <%= render :partial => 'admin/layouts/sidebar_manage' %>
+  <%= render :partial => 'admin/shared/sidebar_manage' %>
   <%= render :partial => 'sidebar_actions' %>
 <% end %>
-
-<%= render :partial => 'admin/newsletters/header' %>
 
 <div id='issues'>
   <% unless @newsletter.issues_count == 0 %>

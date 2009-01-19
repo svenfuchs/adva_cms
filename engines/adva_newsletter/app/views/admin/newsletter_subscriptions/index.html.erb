@@ -1,9 +1,8 @@
 <% content_for :sidebar do %>
-  <%= render :partial => 'admin/layouts/sidebar_manage' %>
+  <%= render :partial => 'admin/shared/sidebar_manage' %>
   <%= render :partial => 'sidebar_actions' %>
 <% end %>
 
-<%= render :partial => 'admin/newsletters/header' %>
 <div id='subscriptions'>
   <% unless @newsletter.subscriptions_count == 0 %>
     <p class="total"><%= t('adva.newsletter.total_subscribers', :subscriptions_count => @newsletter.subscriptions_count) %></p>
