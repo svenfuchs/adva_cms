@@ -63,8 +63,11 @@ timeAgoInWords = function(iso8601_date) {
   utc_date = Date.parseISO8601(iso8601_date);
   utc_now  = Date.UTCNow();
   d = (utc_now.getTime() - utc_date.getTime())/1000; // in seconds
-
-  return distanceOfTimeInWords(d) + ' ago';
+	if (d > 0) {
+  	return distanceOfTimeInWords(d) + ' ago';
+	} else {
+  	return 'in '+ distanceOfTimeInWords(-d);
+	}
 }
 
 createAndFormatDateSpan = function(abbr) {
