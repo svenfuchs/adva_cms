@@ -1,3 +1,5 @@
+require 'uri'
+
 class Issue < BaseIssue
   belongs_to :newsletter, :counter_cache => true
   has_many :cronjobs, :as => :cronable
@@ -43,6 +45,14 @@ class Issue < BaseIssue
 
   def draft?
     self.draft == 1
+  end
+
+  def tracking_campaign=(campaign)
+    write_attribute(:tracking_campaign, URI.escape(campaign))
+  end
+
+  def tracking_source=(source)
+    write_attribute(:tracking_source, URI.escape(source))
   end
 
   def has_tracking_enabled?

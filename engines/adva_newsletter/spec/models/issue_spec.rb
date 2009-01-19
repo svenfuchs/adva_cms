@@ -147,6 +147,18 @@ describe Issue do
       end
     end
 
+    describe "tracking options" do
+      it "should URI-escape campaign name" do
+        @issue.tracking_campaign = "Wöchentlicher Newsletter"
+        @issue.tracking_campaign.should == "W%C3%B6chentlicher%20Newsletter"
+      end
+
+      it "should URI-escape source name" do
+        @issue.tracking_source = "Newsletter März 2009"
+        @issue.tracking_source.should == "Newsletter%20M%C3%A4rz%202009"
+      end
+    end
+
     describe "#body_html" do
       before(:each) do
         @issue.stub!(:tracking_campaign).and_return("test-campaign")
