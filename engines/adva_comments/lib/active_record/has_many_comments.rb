@@ -10,6 +10,7 @@ module ActiveRecord
 
         options[:order] = 'comments.created_at'
         options[:as] = :commentable if options.delete(:polymorphic)
+        options[:class_name] ||= 'Comment'
 
         has_counter :comments,
                     :as => options[:as] || name.underscore
@@ -44,14 +45,11 @@ module ActiveRecord
 
     module InstanceMethods
       def after_comment_update(comment)
-        method = if comment.frozen?
-          :decrement!
-        elsif comment.just_approved?
-          :increment!
-        elsif comment.just_unapproved?
-          :decrement!
-        end
-        approved_comments_counter.send method if method
+        comments_counter.decrement!          if comment.frozen?
+        approved_comments_counter.increment! if comment.just_approved?
+        approved_comments_counter.decrement! if comment.frozen? or comment.just_unapproved?
+        
+        owner.after_comment_update(comment)  if owner and owner.respond_to?(:after_comment_update)
       end
     end
   end

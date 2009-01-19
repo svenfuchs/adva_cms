@@ -14,13 +14,12 @@ class Comment < ActiveRecord::Base
 
   belongs_to :site
   belongs_to :section
-  belongs_to :board
   belongs_to :commentable, :polymorphic => true
   belongs_to_author
 
   validates_presence_of :body, :commentable
 
-  before_validation  :set_owners
+  before_validation :set_owners
   before_create :authorize_commenting
   after_save    :update_commentable
   after_destroy :update_commentable
@@ -100,8 +99,7 @@ class Comment < ActiveRecord::Base
     end
 
     def update_commentable
-      commentable.after_comment_update(self) if commentable && commentable.respond_to?(:after_comment_update)
-      board.after_comment_update(self) if board
+      owner.after_comment_update(self) if owner && owner.respond_to?(:after_comment_update)
     end
 
 end

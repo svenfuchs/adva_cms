@@ -1,6 +1,6 @@
 class Post < Comment
-  before_destroy :decrement_counter
-  # TODO do we need this model anyway?
+  belongs_to :board
+  belongs_to :topic
 
   # belongs_to :topic, :counter_cache => true
   # attr_accessible :body
@@ -18,10 +18,5 @@ class Post < Comment
   # end
   # def topic_is_not_locked
   #   errors.add_to_base("Topic is locked") if topic && topic.locked?
-  # end
-  
-  protected
-    def decrement_counter
-      self.section.comments_counter.decrement!
-    end
+  # end    
 end

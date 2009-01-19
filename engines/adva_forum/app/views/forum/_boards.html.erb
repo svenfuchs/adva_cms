@@ -21,7 +21,7 @@
         <p><%= board.description %></p>
       </td>
       <td>
-        <%= t(:'adva.boards.topics_count', :count => board.topics_count) %>
+        <%= t(:'adva.boards.topics_count', :count => board.topics_count) %>,
         <%= t(:'adva.boards.posts_count', :count => board.comments_count) %>
         <%= datetime_with_microformat(board.last_updated_at) %>
         <%= t(:'adva.common.by_author', :author => board.last_author_name) if board.last_author_name %>

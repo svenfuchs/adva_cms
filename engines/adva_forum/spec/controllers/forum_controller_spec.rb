@@ -40,7 +40,6 @@ describe ForumController do
       end
       act! { request_to :get, "/forums/#{@forum.id}" }
       it_assigns :boards
-      it_assigns :topics
       it_gets_page_cached
       
       it "instantiates a new topic object" do

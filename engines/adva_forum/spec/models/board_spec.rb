@@ -169,32 +169,33 @@ describe Board do
   
   describe "methods" do
     describe "public" do
-      describe "#after_comment_update" do
-        before :each do
-          @comment = @board.comments.build
-          @fields = {:last_updated_at => @comment.created_at, :last_comment_id => @comment.id, 
-                    :last_author => @comment.author}
-        end
-        
-        it 'destroys itself if the comment was destroyed and no more comments exist' do
-          @comment.stub!(:frozen?).and_return true
-          @board.comments.stub!(:last_one).and_return nil
-          @board.should_receive(:destroy)
-          @board.after_comment_update(@comment)
-        end
-
-        it 'updates its cache attributes if the comment was saved' do
-          @board.should_receive(:update_attributes!).with(@fields)
-          @board.after_comment_update(@comment)
-        end
-
-        it 'updates its cache attributes if the comment was destroyed but more comments exist' do
-          @comment.stub!(:frozen?).and_return true
-          @board.comments.stub!(:last_one).and_return @comment
-          @board.should_receive(:update_attributes!).with(@fields)
-          @board.after_comment_update(@comment)
-        end
-      end
+      # describe "#after_comment_update" do
+      #   before :each do
+      #     @comment = @board.comments.build
+      #     @fields = {:last_updated_at => @comment.created_at, :last_comment_id => @comment.id, 
+      #               :last_author => @comment.author}
+      #   end
+      #   
+      #   it 'destroys itself if the comment was destroyed and no more comments exist' do
+      #     @comment.stub!(:frozen?).and_return true
+      #     @board.comments.stub!(:last_one).and_return nil
+      #     @board.should_receive(:destroy)
+      #     @board.after_comment_update(@comment)
+      #   end
+      # 
+      #   it 'updates its cache attributes if the comment was saved' do
+      #     @board.should_receive(:update_attributes!).with(@fields)
+      #     @board.after_comment_update(@comment)
+      #   end
+      # 
+      #   it 'updates its cache attributes if the comment was destroyed but more comments exist' do
+      #     @comment.stub!(:frozen?).and_return true
+      #     @board.comments.stub!(:last_one).and_return @comment
+      #     
+      #     @board.should_receive(:update_attributes!).with(@fields)
+      #     @board.after_comment_update(@comment)
+      #   end
+      # end
       
       describe "#last?" do
         it "returns true if forum has only one board" do
@@ -271,7 +272,6 @@ describe Board do
       describe "#unassign_topics" do
         before :each do
           @topic = @forum.topics.post(@user, Factory.attributes_for(:topic, :section => @forum))
-          @board.topics << @topic
           @board.save
           @topic.reload
         end
@@ -283,16 +283,16 @@ describe Board do
         end
         
         it "unassigns topics comment(s) from the board" do
-          @board.send(:assign_topics)
-          @topic.reload
-          @topic.initial_post.board.should be_nil
+          comment = @board.topics.first.comments.first
+          @board.send(:unassign_topics)
+          comment.reload
+          comment.board.should be_nil
         end
       end
       
       describe '#decrement_counters' do
         before :each do
           @topic = @forum.topics.post(@user, Factory.attributes_for(:topic, :section => @forum))
-          @board.topics << @topic
           @board.save
           @topic.reload
         end

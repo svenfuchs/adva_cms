@@ -71,10 +71,6 @@ describe Topic do
     it 'sets the site before validation' do
       Topic.before_validation.should include(:set_site)
     end
-    
-    it 'moves the comments after save' do
-      Topic.after_save.should include(:move_comments)
-    end
   end
 
   describe 'validations:' do
@@ -127,29 +123,29 @@ describe Topic do
     describe '#reply' do
       before :each do
         @attributes = {:body => 'body'}
-        @comment = Comment.new :commentable => @topic
+        @post = Post.new :commentable => @topic
       end
 
       it 'builds a new comment with the given attributes' do
-        @topic.comments.should_receive(:build).and_return @comment
+        @topic.comments.should_receive(:build).and_return @post
         @topic.reply @user, @attributes
       end
 
       it 'sets the comment author' do
-        @topic.comments.stub!(:build).and_return @comment
-        @comment.should_receive(:author=).with @user
+        @topic.comments.stub!(:build).and_return @post
+        @post.should_receive(:author=).with @user
         @topic.reply @user, @attributes
       end
 
       it 'sets the board' do
-        @topic.comments.stub!(:build).and_return @comment
-        @comment.should_receive(:board=).with @topic.board
+        @topic.comments.stub!(:build).and_return @post
+        @post.should_receive(:board=).with @topic.board
         @topic.reply @user, @attributes
       end
 
       it 'sets itself as the commentable' do
-        @topic.comments.stub!(:build).and_return @comment
-        @comment.should_receive(:commentable=).with @topic
+        @topic.comments.stub!(:build).and_return @post
+        @post.should_receive(:commentable=).with @topic
         @topic.reply @user, @attributes
       end
 
@@ -161,7 +157,7 @@ describe Topic do
       end
     end
 
-    # describe "#revise" do
+    # describe "#update" do
     #   before :each do
     #     @comment = stub_comment
     #     @board = Board.new
@@ -263,39 +259,6 @@ describe Topic do
       end
     end
 
-    describe '#after_comment_update' do
-      before :each do
-        @comment = stub_comment
-        @topic.stub!(:update_attributes!)
-        @topic.stub!(:destroy)
-      end
-
-      it 'destroys itself if the comment was destroyed and no more comments exist' do
-        @comment.stub!(:frozen?).and_return true
-        @topic.comments.stub!(:last_one).and_return nil
-        @topic.should_receive(:destroy)
-        @topic.after_comment_update(@comment)
-      end
-
-      it 'updates its cache attributes if the comment was saved' do
-        @topic.comments.stub!(:last_one).and_return nil
-        @topic.should_receive(:update_attributes!)
-        @topic.after_comment_update(@comment)
-      end
-
-      it 'updates its cache attributes if the comment was destroyed but more comments exist' do
-        @comment.stub!(:frozen?).and_return true
-        @topic.comments.stub!(:last_one).and_return @comment
-        @topic.should_receive(:update_attributes!)
-        @topic.after_comment_update(@comment)
-      end
-
-      # it 'updates the section by calling after_topic_update' do
-      #   @topic.section.should_receive(:after_topic_update)
-      #   @topic.after_comment_update(@comment)
-      # end
-    end
-
     it '#set_site sets the site from the section' do
       @topic.section.should_receive(:site_id).and_return 1
       @topic.should_receive(:site_id=).with 1
@@ -309,7 +272,7 @@ describe Topic do
 end
 
 describe Topic do
-  describe '#move_comments' do
+  describe '#move_to_board' do
     before :each do
       @user = Factory :user
       @site = Factory :site
@@ -317,45 +280,68 @@ describe Topic do
       factory_scenario :board_with_topics
       @topic.comments << Factory(:post, :author => @user, :commentable => @topic)
       @second_board = Factory :board, :section => @forum
-      @topic.previous_board = @board
-      @board.topics_counter.set(2)
+      @topic.board.topics_counter.set(2)
       @board.comments_counter.set(2)
     end
     
-    it "decrements the topics_counter of a old board" do
-      @topic.board = @second_board
-      @topic.save
+    it "decrements the topics_counter of the old board" do
+      @topic.send :move_to_board, @second_board.id
+      @board.reload
       @board.topics_count.should == 1
     end
     
-    it "increments the topics_counter of a new board" do
-      @topic.board = @second_board
-      @topic.save
+    it "increments the topics_counter of the new board" do
+      @topic.send :move_to_board, @second_board.id
       @second_board.topics_count.should == 1
     end
     
-    it "decrements the comments_counter of a old board" do
-      @topic.board = @second_board
-      @topic.save
+    it "decrements the comments_counter of the old board" do
+      @topic.send :move_to_board, @second_board.id
+      @board.reload
       @board.comments_count.should == 1
     end
     
-    it "increments the comments_counter of a new board" do
-      @topic.board = @second_board
-      @topic.save
+    it "increments the comments_counter of the new board" do
+      @topic.send :move_to_board, @second_board.id
       @second_board.comments_count.should == 1
     end
     
     it "moves the comments to the new board" do
-      @topic.board = @second_board
-      @topic.save
+      @topic.send :move_to_board, @second_board.id
       @topic.initial_post.board.id.should == @second_board.id
-    end
-    
-    it "removes the previous board reference" do
-      @topic.board = @second_board
-      @topic.save
-      @topic.previous_board.should be_nil
     end
   end
 end
+
+  # describe '#after_comment_update' do
+  #   before :each do
+  #     @comment = stub_comment
+  #     @topic.stub!(:update_attributes!)
+  #     @topic.stub!(:destroy)
+  #   end
+  # 
+  #   it 'destroys itself if the comment was destroyed and no more comments exist' do
+  #     @comment.stub!(:frozen?).and_return true
+  #     @topic.comments.stub!(:last_one).and_return nil
+  #     @topic.should_receive(:destroy)
+  #     @topic.after_comment_update(@comment)
+  #   end
+  # 
+  #   it 'updates its cache attributes if the comment was saved' do
+  #     @topic.comments.stub!(:last_one).and_return nil
+  #     @topic.should_receive(:update_attributes!)
+  #     @topic.after_comment_update(@comment)
+  #   end
+  # 
+  #   it 'updates its cache attributes if the comment was destroyed but more comments exist' do
+  #     @comment.stub!(:frozen?).and_return true
+  #     @topic.comments.stub!(:last_one).and_return @comment
+  #     @topic.should_receive(:update_attributes!)
+  #     @topic.after_comment_update(@comment)
+  #   end
+  # 
+  #   # it 'updates the section by calling after_topic_update' do
+  #   #   @topic.section.should_receive(:after_topic_update)
+  #   #   @topic.after_comment_update(@comment)
+  #   # end
+  # end

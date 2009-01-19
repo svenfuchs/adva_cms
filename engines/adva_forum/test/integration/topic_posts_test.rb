@@ -38,7 +38,7 @@ class TopicPosts < ActionController::IntegrationTest
     assert_template 'topics/show'
     assert @topic.comments.size == 2
     
-    click_link  "delete_comment_#{post.id}"
+    click_link  "delete_post_#{post.id}"
     
     @topic.comments.reload
     assert @topic.comments.size == 1
@@ -55,7 +55,7 @@ class TopicPosts < ActionController::IntegrationTest
     assert_template 'topics/show'
     
     # Admin clicks link to go to the post edit form
-    click_link "edit_comment_#{@topic.initial_post.id}"
+    click_link "edit_post_#{@topic.initial_post.id}"
     assert @topic.initial_post.body != 'Updated test post'
     
     assert_template 'posts/edit'

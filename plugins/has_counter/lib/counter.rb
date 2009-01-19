@@ -5,8 +5,16 @@ class Counter < ActiveRecord::Base
     set count + 1
   end
   
+  def increment_by!(value)
+    set count + value
+  end
+  
   def decrement!
     set count - 1
+  end
+  
+  def decrement_by!(value)
+    set count - value
   end
   
   def set(value)

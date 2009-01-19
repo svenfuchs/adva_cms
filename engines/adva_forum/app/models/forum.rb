@@ -1,12 +1,11 @@
 class Forum < Section
   has_many_comments
+  has_counter :topics, :as => :section
 
   has_option :topics_per_page, :default => 25
   has_option :comments_per_page, :default => 10
   has_option :latest_topics_count, :default => 10
   # has_option :posts_per_page, :default => 25
-
-  has_counter :topics, :as => :section
 
   has_many :boards,         :foreign_key => :section_id
 
@@ -18,7 +17,7 @@ class Forum < Section
                             :order => "topics.last_updated_at DESC",
                             :foreign_key => :section_id
 
-  has_one  :recent_comment, :class_name => 'Comment',
+  has_one  :recent_comment, :class_name => 'Post',
                             :order => "comments.created_at DESC",
                             :foreign_key => :section_id
 

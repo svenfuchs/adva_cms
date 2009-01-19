@@ -6,7 +6,7 @@ class TopicsController < BaseController
   before_filter :set_posts, :only => :show
   before_filter :set_board, :only => [:new, :update]
   cache_sweeper :topic_sweeper, :only => [:create, :update, :destroy]
-  caches_page_with_references :show, :track => ['@topic', '@posts']
+  caches_page_with_references :show, :track => ['@topic', '@posts', {'@topic' => :comments_count}]
 
   guards_permissions :topic, :except => [:show, :index], :show => [:previous, :next]
   before_filter :guard_topic_permissions, :only => [:create, :update]
@@ -23,9 +23,7 @@ class TopicsController < BaseController
   end
 
   def create
-    @topic = @section.topics.post(current_user, params[:topic])
-    
-    if @topic.save
+    if @topic = @section.topics.post(current_user, params[:topic])
       trigger_events @topic
       flash[:notice] = t(:'adva.topics.flash.create.success')
       redirect_to topic_path(@section, @topic.permalink)
@@ -37,31 +35,9 @@ class TopicsController < BaseController
 
   def edit
   end
-
+  
   def update
-    unless @topic.owner.is_a?(Section)
-      params[:topic][:board_id].to_i != @topic.board.id ? revise_and_move : revise
-    else
-      revise
-    end 
-  end
-  
-  def revise
-    @topic.revise current_user, params[:topic]
-    if @topic.save
-      trigger_events @topic
-      flash[:notice] = t(:'adva.topics.flash.update.success')
-      redirect_to topic_path(@section, @topic.permalink)
-    else
-      flash[:error] = t(:'adva.topics.flash.update.failure')
-      render :action => "edit"
-    end
-  end
-  
-  def revise_and_move
-    @topic.previous_board = @topic.board
-    @topic.revise current_user, params[:topic]
-    if @topic.save
+    if @topic.revise(params[:topic])
       trigger_events @topic
       flash[:notice] = t(:'adva.topics.flash.update.success')
       redirect_to topic_path(@section, @topic.permalink)

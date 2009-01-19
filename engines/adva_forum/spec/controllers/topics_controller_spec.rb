@@ -78,8 +78,7 @@ describe TopicsController do
     
     describe "given invalid topic params" do
       before :each do
-        @forum.topics.should_receive(:post).and_return @topic
-        @topic.should_receive(:save).and_return false
+        @forum.topics.should_receive(:post).and_return false
       end
       it_renders_template :new
       it_assigns_flash_cookie :error => :not_nil
@@ -94,16 +93,17 @@ describe TopicsController do
     it_guards_permissions :update, :topic
   end
   
-  describe "PUT to :update, #revise" do
+  describe "PUT to :update" do
     before :each do
       @topic.stub!(:state_changes).and_return([:updated])
+      @topic.stub!(:revise).and_return true
     end
     act! { request_to :put, topic_path, :topic => {} }    
     it_assigns :topic    
     it_guards_permissions :update, :topic
     
     it "updates the topic with the topic params" do
-      @topic.should_receive(:save).and_return true
+      @topic.should_receive(:revise).and_return true
       act!
     end
     
@@ -115,44 +115,7 @@ describe TopicsController do
     
     describe "given invalid topic params" do
       before :each do 
-        @topic.stub!(:save).and_return false 
-      end
-      it_renders_template :edit
-      it_assigns_flash_cookie :error => :not_nil
-      it_does_not_trigger_any_event
-    end
-  end
-  
-  describe "PUT to :update, #revise_and_move" do
-    before :each do
-      @topic.stub!(:state_changes).and_return([:updated])
-      @topic.board.stub!(:id).and_return 100
-      @topic.stub!(:owner).and_return Board.new
-      @topic.stub!(:previous_board=)
-    end
-    act! { request_to :put, topic_path, :topic => {:board_id => 5} }    
-    it_assigns :topic    
-    it_guards_permissions :update, :topic
-    
-    it "updates the topic with the topic params" do
-      @topic.should_receive(:save).and_return true
-      act!
-    end
-    
-    it "sets the previous_board param" do
-      @topic.should_receive(:previous_board=).with(@topic.board)
-      act!
-    end
-    
-    describe "given valid topic params" do
-      it_redirects_to { topic_path }
-      it_assigns_flash_cookie :notice => :not_nil
-      it_triggers_event :topic_updated
-    end
-    
-    describe "given invalid topic params" do
-      before :each do 
-        @topic.stub!(:save).and_return false 
+        @topic.stub!(:revise).and_return false 
       end
       it_renders_template :edit
       it_assigns_flash_cookie :error => :not_nil
@@ -244,6 +207,6 @@ describe TopicsController, "page_caching" do
   end
 
   it "tracks read access on @show for show action page caching" do
-    TopicsController.track_options[:show].should == ['@topic', '@posts']
+    TopicsController.track_options[:show].should == ['@topic', '@posts', { '@topic' => :comments_count}]
   end
 end

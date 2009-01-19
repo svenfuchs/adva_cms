@@ -1,7 +1,7 @@
 class Topic < ActiveRecord::Base
   has_permalink :title
   before_destroy :decrement_counter
-  has_many_comments :as => :commentable
+  has_many_comments :as => :commentable, :class_name => 'Post'
 
   acts_as_role_context :parent => Section
   # acts_as_role_context :roles => :author, :implicit_roles => lambda{|user|
@@ -16,23 +16,19 @@ class Topic < ActiveRecord::Base
   belongs_to_author
   belongs_to_author :last_author, :validate => false
 
-  before_validation :set_site
-  after_save :move_comments
-
+  before_validation :set_section, :set_site
   validates_presence_of :section, :title
   validates_presence_of :body, :on => :create
 
-  attr_accessor :body, :previous_board
+  attr_accessor :body
   delegate :comment_filter, :to => :site
 
   class << self
     def post(author, attributes)
       topic = Topic.new attributes.merge(:author => author)
       topic.last_author = author
-      # topic.last_author_email = author.email
       topic.reply author, :body => attributes[:body]
-      # revise topic, attributes
-      topic
+      topic.save && topic
     end
   end
 
@@ -41,16 +37,33 @@ class Topic < ActiveRecord::Base
   end
 
   def reply(author, attributes)
-    returning comments.build(attributes) do |comment|
-      comment.author = author
-      comment.board = self.board
-      comment.commentable = self
+    returning comments.build(attributes) do |post| # FIXME should be comments.create ?
+      post.author = author
+      post.board = self.board
+      post.commentable = self
     end
   end
   
-  def revise(author, attributes)
-    self.sticky, self.locked = attributes.delete(:sticky), attributes.delete(:locked) # if author.has_permission ...
-    self.attributes = attributes
+  def revise(attributes)
+    board_id = attributes.delete(:board_id)
+    self.sticky, self.locked = attributes.delete(:sticky), attributes.delete(:locked)
+    if result = update_attributes(attributes)
+      move_to_board(board_id) if board_id
+    end
+    result
+  end
+  
+  def move_to_board(board_id)
+    if board
+      board.topics_counter.decrement!
+      board.comments_counter.decrement_by!(comments_count)
+    end
+  
+    update_attribute(:board_id, board_id)
+    comments.each { |comment| comment.update_attribute(:board_id, board_id) } # FIXME how to bulk update this in one query?
+
+    board(true).topics_counter.increment!
+    board.comments_counter.increment_by!(comments_count)
   end
 
   # def hit!
@@ -79,14 +92,17 @@ class Topic < ActiveRecord::Base
     collection.find :first, :conditions => ['last_updated_at > ?', last_updated_at], :order => :last_updated_at
   end
 
-  def after_comment_update_with_topic(comment)
+  # FIXME somehow remove the method_chain here. looks ugly.
+  def after_comment_update_with_cache_attributes(comment)
     if comment = comment.frozen? ? comments.last_one : comment
       update_attributes! :last_updated_at => comment.created_at, :last_comment_id => comment.id, :last_author => comment.author
     else
       self.destroy
     end
+    
+    after_comment_update_without_cache_attributes(comment)
   end
-  alias_method_chain :after_comment_update, :topic
+  alias_method_chain :after_comment_update, :cache_attributes
   
   def initial_post
     comments.first
@@ -94,28 +110,15 @@ class Topic < ActiveRecord::Base
   
   protected
     def set_site
-      self.site_id = section.site_id
+      self.site_id = section.site_id if section
     end
-    
-    def move_comments
-      self.reload
-      return if owner.is_a?(Section) || previous_board.nil? || previous_board == board
-      
-      previous_board.topics_counter.decrement!
-      board.topics_counter.increment!
-      comments.each do |comment|
-        previous_board.comments_counter.decrement!
-        comment.update_attribute(:board_id, board.id)
-        comment.board.comments_counter.increment!
-      end
-      
-      self.previous_board = nil
+  
+    def set_section
+      self.section_id = board.section_id if board
     end
     
     def decrement_counter
-      comments.each do |comment|
-         comment.section.comments_counter.decrement!
-         self.board.comments_counter.decrement! if owner.is_a?(Board)
-      end
+      section.comments_counter.decrement_by!(comments_count)
+      board.comments_counter.decrement_by!(comments_count) if board
     end
 end

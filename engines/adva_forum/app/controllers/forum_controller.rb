@@ -4,7 +4,13 @@ class ForumController < BaseController
   before_filter :set_topics, :only => :show
 
   # TODO move :comments and @commentable to acts_as_commentable
-  caches_page_with_references :show, :comments, :track => ['@topics', '@boards', '@board', '@commentable']
+  caches_page_with_references :show, :comments, :track => [
+    '@topics', '@boards', '@board', '@commentable',
+    {'@section' => :topics_count}, {'@section' => :comments_count},
+    {'@boards' => :topics_count}, {'@boards' => :comments_count},
+    {'@board' => :topics_count}, {'@board' => :comments_count},
+    {'@topics' => :comments_count }
+  ]
 
   authenticates_anonymous_user
   acts_as_commentable # TODO hu?
@@ -26,13 +32,15 @@ class ForumController < BaseController
     end
     
     def set_boards
-      @boards = @section.boards
+      @boards = @section.boards unless @board
     end
 
     def set_topics
-      collection = @board ? @board.topics : @section.topics
-      @topics = collection.paginate :page => current_page,
-                                    :per_page => @section.topics_per_page,
-                                    :include => :last_comment
+      if @board or @boards.blank?
+        collection = @board ? @board.topics : @section.topics
+        @topics = collection.paginate :page => current_page,
+                                      :per_page => @section.topics_per_page,
+                                      :include => :last_comment
+      end
     end
 end
