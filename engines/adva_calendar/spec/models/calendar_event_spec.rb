@@ -54,12 +54,6 @@ describe CalendarEvent do
       @event.errors.on("end_date").should be
       @event.errors.count.should be(1)
     end
-    it "must have a location" do
-      @event.location_id = nil
-      @event.should_not be_valid
-      @event.errors.on("location_id").should be
-      @event.errors.count.should be(1)
-    end
   end
   
   describe "relations" do
