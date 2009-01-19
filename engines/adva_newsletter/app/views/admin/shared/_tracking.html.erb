@@ -1,5 +1,7 @@
+<%# too hackish? %>
+<% if @issue && [:new, :edit].include?(params[:action].to_sym) %>
 <h3><%= t(:'adva.titles.tracking') %></h3>
-<% if @site.google_analytics_tracking_code -%>
+<% if @site.has_tracking_enabled? -%>
 <% fields_for :issue do |f| -%>
 <p>
   <%= f.check_box :track, :onclick => "$('tracking_options').toggle();" %>
@@ -17,9 +19,6 @@
   </p>
 </div>
 <% end -%>
-<% else -%>
-<span class="hint"><%= t(:'adva.tracking.hints.no_tracking_code', :settings => link_to(t(:'adva.resources.settings'), edit_admin_site_path(@site))) %></span>
-<% end -%>
 <script type="text/javascript">
 toggleTrackingOptions = function(event) {
   checkbox = event.element();
@@ -32,3 +31,7 @@ toggleTrackingOptions = function(event) {
 }
 $('issue_track').observe('click', toggleTrackingOptions);
 </script>
+<% else -%>
+<span class="hint"><%= t(:'adva.tracking.hints.no_tracking_code', :settings => link_to(t(:'adva.resources.settings'), edit_admin_site_path(@site))) %></span>
+<% end -%>
+<% end -%>

@@ -4,23 +4,35 @@ class Issue < BaseIssue
 
   validates_presence_of :newsletter_id
 
+  def body
+    return attributes["body"] unless has_tracking_enabled?
+
+    attributes["body"].gsub(/<a(.*)href="#{Regexp.escape("http://#{newsletter.site.host}")}(.*)"(.*)>/) do |s|
+      m = [$1, $2, $3] # why do I need this?
+      returning %(<a#{m[0]}href="http://#{newsletter.site.host}) do |s|
+        s << ("#{m[1]}#{m[1].include?("?") ? "&" : "?"}utm_medium=newsletter&utm_campaign=#{tracking_campaign}&utm_source=#{tracking_source}") if m[1]
+        s << %("#{m[2]}>)
+      end
+    end
+  end
+
   def deliver(options = {})
     options.assert_valid_keys(:later_at,:to)
 
     deliver_datetime = options[:later_at]
     user = options[:to]
-    
+
     if user.nil?
       deliver_all(deliver_datetime)
     else
       deliver_to!(user)
     end
   end
-  
+
   def email
     self.newsletter.default_email
   end
-  
+
   def state
     if self.published_at.present? && !self.draft?
       "published"
@@ -30,11 +42,15 @@ class Issue < BaseIssue
       ""
     end
   end
-  
+
   def draft?
     self.draft == 1
   end
-  
+
+  def has_tracking_enabled?
+    track? && !(newsletter.site.google_analytics_tracking_code.blank? || tracking_campaign.blank? || tracking_source.blank?)
+  end
+
   def destroy
     self.deleted_at = Time.now.utc
     self.type = "DeletedIssue"
@@ -43,16 +59,16 @@ class Issue < BaseIssue
     end
     return self
   end
-  
+
   def deliver_all(datetime = nil)
     datetime ||= DateTime.now + 3.minutes
     self.cronjobs.create :command => "Issue.find(#{self.id}).create_emails", :due_at => datetime
   end
-  
+
   def deliver_to!(user)
     NewsletterMailer.deliver_issue(self,user)
   end
-  
+
   def create_emails
     self.newsletter.users.each do |user|
       create_email_to(user)
@@ -61,7 +77,7 @@ class Issue < BaseIssue
     self.save
     Email.create_cronjob
   end
-  
+
   def create_email_to(user)
     issue = NewsletterMailer.create_issue(self,user)
     Email.create(:from => self.newsletter.site.email,
