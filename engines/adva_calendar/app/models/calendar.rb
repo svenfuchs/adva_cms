@@ -10,12 +10,17 @@ class Calendar < Section
     @days_in_month_with_events ||= {}
     @days_in_month_with_events[date] ||= events.find(:all, 
         :select => 'start_date, end_date', :order => 'start_date ASC',
-        :conditions => ['published_at IS NOT NULL AND start_date >= ? AND start_date <= ?', date.beginning_of_month, date.end_of_month.end_of_day]).collect{ |e| 
-            e.end_date.blank? ? 
+        :conditions => ['published_at IS NOT NULL AND start_date >= ? AND start_date <= ?', 
+            date.beginning_of_month, date.end_of_month.end_of_day]
+        ).collect{ |e| 
+            e.end_date.blank? ?
               e.start_date.to_date : 
-              Range.new((e.start_date < date.beginning_of_month) ? 
-                  date.beginning_of_month : e.start_date.to_date,
-                (e.end_date > date.end_of_month.end_of_day) ?
-                  date.end_of_month : e.end_date.to_date).to_a}.flatten
+              Range.new(
+                (e.start_date < date.beginning_of_month) ? date.beginning_of_month : e.start_date.to_date,
+                (e.end_date > date.end_of_month.end_of_day) ? date.end_of_month : e.end_date.to_date).to_a
+          }.flatten
+      # to explain the chaos above: if there's a end_date we create a range from
+      # the start_date (or beginning of month) to end_date (or end of month)
+      # convert this range to an array and flatten it.
   end
 end
