@@ -42,7 +42,7 @@ class ArticleTest < ActiveSupport::TestCase
   test "#find_by_permalink does not find a record when the passed date scope does not match the article's published date" do
     date = [:year, :month, :day].map {|key| @article.published_at.send(key).to_s }
     date[2] = date[2].to_i + 1
-    @section.articles.find_by_permalink(*date << @article.permalink).should == nil
+    @section.articles.find_by_permalink(*date << @article.permalink).should be_nil
   end
   
   test "#find_by_permalink finds a record when no date scope is passed" do
@@ -76,27 +76,27 @@ class ArticleTest < ActiveSupport::TestCase
   # primary?
   
   test "#primary? returns true when the article is its section's primary article" do
-    @section.articles.primary.primary?.should == true
+    @section.articles.primary.primary?.should be_true
   end
 
   test "#primary? returns false when the article is not section's primary article" do
-    @section.articles.build.primary?.should == false
+    @section.articles.build.primary?.should be_false
   end
 
   # has_excerpt
   test '#has_excerpt returns true when the excerpt is not blank' do
     @article.excerpt = 'excerpt'
-    @article.has_excerpt?.should == true
+    @article.has_excerpt?.should be_true
   end
 
   test '#has_excerpt returns false when the excerpt is nil' do
     @article.excerpt = nil
-    @article.has_excerpt?.should == false
+    @article.has_excerpt?.should be_false
   end
 
   test '#has_excerpt returns false when the excerpt is an empty string' do
     @article.excerpt = ''
-    @article.has_excerpt?.should == false
+    @article.has_excerpt?.should be_false
   end
 
   # published_month
@@ -109,12 +109,12 @@ class ArticleTest < ActiveSupport::TestCase
   
   test '#draft? returns true when the article has not published_at date' do
     @article.published_at = nil
-    @article.draft?.should == true
+    @article.draft?.should be_true
   end
 
   test '#draft? returns false when the article has a published_at date' do
     @article.published_at = 1.days.ago
-    @article.draft?.should == false
+    @article.draft?.should be_false
   end
   
   # accept_comments?
@@ -123,53 +123,53 @@ class ArticleTest < ActiveSupport::TestCase
     # FIXME wtf, srsly. use CONSTANTS instead of integers. that's what they are for.
     @article.comment_age = 0
     @article.published_at = 1.days.ago
-    @article.accept_comments?.should == true
+    @article.accept_comments?.should be_true
   end
 
   test "accepts comments when comments are allowed and not expired" do
     @article.comment_age = 3
     @article.published_at = 1.days.ago
-    @article.accept_comments?.should == true
+    @article.accept_comments?.should be_true
   end
 
   test "does not accept comments when comments are allowed but expired" do
     @article.comment_age = 1
     @article.published_at = 1.days.ago
-    @article.accept_comments?.should == false
+    @article.accept_comments?.should be_false
   end
 
   test "does not accept comments when comments are not allowed" do
     @article.comment_age = -1
     @article.published_at = 1.days.ago
-    @article.accept_comments?.should == false
+    @article.accept_comments?.should be_false
   end
 
   test "does not accept comments when the article is not published" do
     @article.comment_age = 0
     @article.published_at = nil
-    @article.accept_comments?.should == false
+    @article.accept_comments?.should be_false
   end
 
   # published?
   
   test "#published? returns true when published_at equals the current time" do
     @article.published_at = Time.zone.now
-    @article.published?.should == true
+    @article.published?.should be_true
   end
 
   test "#published? returns true when published_at is a past date" do
     @article.published_at = 1.day.ago
-    @article.published?.should == true
+    @article.published?.should be_true
   end
 
   test "#published? returns false when published_at is a future date" do
     @article.published_at = 1.day.from_now
-    @article.published?.should == false
+    @article.published?.should be_false
   end
 
   test "#published? returns false when published_at is nil" do
     @article.published_at = nil
-    @article.published?.should == false
+    @article.published?.should be_false
   end
 
   # previous
@@ -198,7 +198,7 @@ class ArticleTest < ActiveSupport::TestCase
   # filtering
   
   test "it allows using insecure html in article body and excerpt" do
-    @article = Article.new :body => 'p{position:absolute; top:50px; left:10px; width:150px; height:150px}. insecure css'
+    @article.body = 'p{position:absolute; top:50px; left:10px; width:150px; height:150px}. insecure css'
     @article.filter = 'textile_filter'
     @article.save(false)
     @article.body_html.should == %(<p style="position:absolute; top:50px; left:10px; width:150px; height:150px;">insecure css</p>)

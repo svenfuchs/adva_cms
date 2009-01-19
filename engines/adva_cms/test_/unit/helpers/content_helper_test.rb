@@ -155,7 +155,7 @@ class LinkToContentHelperTest < ActiveSupport::TestCase
         it returns nil" do
     mock(@article).approved_comments_count.returns 0
     mock(@article).accept_comments?.returns false
-    link_to_content_comments(@article).should == nil
+    link_to_content_comments(@article).should be_nil
   end
   
   # link_to_content_comment
@@ -182,7 +182,7 @@ class LinkToContentHelperTest < ActiveSupport::TestCase
 
   test "#links_to_content_categories returns nil if the content has no categories" do
     @article.categories.clear
-    links_to_content_categories(@article).should == nil
+    links_to_content_categories(@article).should be_nil
   end
 
   # link_to_tag
@@ -204,7 +204,7 @@ class LinkToContentHelperTest < ActiveSupport::TestCase
 
   test "returns nil if the content has no tags" do
     @article.tags.clear
-    links_to_content_tags(@article).should == nil
+    links_to_content_tags(@article).should be_nil
   end
 
   # content_category_checkbox

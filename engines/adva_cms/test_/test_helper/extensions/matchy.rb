@@ -1,9 +1,21 @@
 module Matchy
   module Expectations
     module TestCaseExtensions
-      # def be_nil
-      #   Matchy::Expectations::Be
-      # end
+      def be_nil
+        Matchy::Expectations::Be.new(nil, self)
+      end
+
+      def be_true
+        Matchy::Expectations::Be.new(true, self)
+      end
+      
+      def be_false
+        Matchy::Expectations::Be.new(false, self)
+      end
+      
+      def respond_to(expected)
+        Matchy::Expectations::RespondTo.new(expected, self)
+      end
       
       def belong_to(expected, options = {})
         Matchy::Expectations::Association.new(self, :belongs_to, expected, options)
@@ -23,6 +35,36 @@ module Matchy
 
       def validate_uniqueness_of(attribute, options = {})
         Matchy::Expectations::ValidatesUniquenessOf.new(attribute, self, options)
+      end
+    end
+
+    class Be < Base
+      def matches?(receiver)
+        @receiver = receiver
+        @expected.class === receiver
+      end
+
+      def failure_message
+        "Expected #{@receiver.inspect} to be #{@expected.inspect}."
+      end
+
+      def negative_failure_message
+        "Expected #{@receiver.inspect} not to be #{@expected.inspect}."
+      end
+    end
+    
+    class RespondTo < Base
+      def matches?(receiver)
+        @receiver = receiver
+        receiver.respond_to? @expected
+      end
+
+      def failure_message
+        "Expected #{@receiver.inspect} to respond to #{@expected.inspect}."
+      end
+
+      def negative_failure_message
+        "Expected #{@receiver.inspect} not to respond to #{@expected.inspect}."
       end
     end
 

@@ -10,11 +10,11 @@ describe DeletedNewsletter do
   describe "methods:" do
     describe "restore" do
       it "should restore DeleteNewsletter back to Newsletter" do
-        Newsletter.find_by_id(@deleted_newsletter.id).should == nil
-        DeletedNewsletter.find_by_id(@deleted_newsletter.id).should_not == nil
+        Newsletter.find_by_id(@deleted_newsletter.id).should be_nil
+        DeletedNewsletter.find_by_id(@deleted_newsletter.id).should_not be_nil
         @deleted_newsletter.restore
-        Newsletter.find_by_id(@deleted_newsletter.id).should_not == nil
-        DeletedNewsletter.find_by_id(@deleted_newsletter.id).should == nil
+        Newsletter.find_by_id(@deleted_newsletter.id).should_not be_nil
+        DeletedNewsletter.find_by_id(@deleted_newsletter.id).should be_nil
       end
     end
   end

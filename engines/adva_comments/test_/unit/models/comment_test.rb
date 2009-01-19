@@ -84,12 +84,12 @@ class CommentTest < ActiveSupport::TestCase
   
   test '#approved? returns true if the approved attribute is not 0' do
     @comment.approved = 1
-    @comment.approved?.should == true
+    @comment.approved?.should be_true
   end
   
   test '#approved? returns true if the approved attribute is 0' do
     @comment.approved = 0
-    @comment.approved?.should == false
+    @comment.approved?.should be_false
   end
     
   # state_changes
@@ -201,7 +201,7 @@ class CommentSpamControlTest < ActiveSupport::TestCase
   test "#check_approval sets the comment approved if it is ham" do
     mock(@comment).ham?.returns true
     @comment.check_approval @context
-    @comment.approved?.should == true
+    @comment.approved?.should be_true
   end
   
   test "#check_approval saves the comment" do

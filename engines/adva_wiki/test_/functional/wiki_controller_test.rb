@@ -72,34 +72,37 @@ class WikiControllerTest < ActionController::TestCase
       it_caches_the_page :track => ['@wikipage', '@wikipages', '@category', {'@site' => :tag_counts, '@section' => :tag_counts}]
       it_assigns :site, :section, :wikipage
       
-      it_renders :template, :show do
-        has_tag '.entry', 1
+      with "no version param given" do
+        it_renders :template, :show do
+          has_tag '.entry', 1
     
-        # displays the wikipage's revision number and last author name
-        has_text /revision: [\d]+/
-        has_text "by: #{@wikipage.author_name}" 
+          # displays the wikipage's revision number and last author name
+          has_text /revision: [\d]+/
+          has_text "by: #{@wikipage.author_name}" 
     
-        # displays a group of wiki edit links
-        has_tag :a, /home/, :href => wiki_path(@section) unless @wikipage.home?
-        has_tag :a, /edit/, :href => edit_wikipage_path(@section, @wikipage.permalink)
+          # displays a group of wiki edit links
+          has_tag :a, /home/, :href => wiki_path(@section) unless @wikipage.home?
+          has_tag :a, /edit/, :href => edit_wikipage_path(@section, @wikipage.permalink)
     
-        # displays the wikipage's updated_at date as a microformat
-        has_tag :abbr, :class => 'datetime', :title => @wikipage.updated_at.utc.xmlschema 
+          # displays the wikipage's updated_at date as a microformat
+          has_tag :abbr, :class => 'datetime', :title => @wikipage.updated_at.utc.xmlschema 
     
-        has_tag :ul, :class => 'categories' unless @wikipage.categories.empty?
-        has_tag :ul, :class => 'tags'       unless @wikipage.tags.empty?
+          has_tag :ul, :class => 'categories' unless @wikipage.categories.empty?
+          has_tag :ul, :class => 'tags'       unless @wikipage.tags.empty?
     
-        # FIXME
-        # wikifies the wikipage body
-        # renders the comments/list partial
-        # with a wikipage that accepts comments
-        #   renders the comments/form partial
-        # with a wikipage that does not accept comments
-        #   does not render the comments/form partial
+          # FIXME
+          # wikifies the wikipage body
+          # renders the comments/list partial
+          # with a wikipage that accepts comments
+          #   renders the comments/form partial
+          # with a wikipage that does not accept comments
+          #   does not render the comments/form partial
+        end
       end
 
       with "a version param given" do
         before { @version = '1' }
+        it_renders :template, :show
         it_reverts :wikipage, :to => 1
       end
     end
@@ -205,11 +208,10 @@ class WikiControllerTest < ActionController::TestCase
 
       with "a version param given" do
         before { @params = { :wikipage => { :version => '1' } } }
-            
         it_guards_permissions :update, :wikipage
       
         with :access_granted do
-          with :the_wikipage_has_a_revision, '(succeeds)' do
+          with 'the wikipage has the requested revision (succeeds)' do
             it_rollsback :wikipage, :to => 1
             it_triggers_event :wikipage_rolledback
             it_assigns_flash_cookie :notice => :not_nil
@@ -217,7 +219,9 @@ class WikiControllerTest < ActionController::TestCase
             it_sweeps_page_cache :by_reference => :wikipage
           end
       
-          with "the wikipage does not have a revision (fails)" do
+          with "the wikipage does not have the requested revision (fails)" do
+            before { @params = { :wikipage => { :version => '10' } } }
+
             it_does_not_rollback :wikipage
             it_does_not_trigger_any_event
             it_assigns_flash_cookie :error => :not_nil

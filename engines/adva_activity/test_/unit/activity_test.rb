@@ -38,12 +38,12 @@ class ActivityTest < ActiveSupport::TestCase
   
   test "#coincides_with?(other) is true when the compared created_at values 
         differ by less/equal to the given delta value" do
-    @activity.coincides_with?(@others.first).should == true
+    @activity.coincides_with?(@others.first).should be_true
   end
 
   test "#coincides_with?(other) is false when the compared created_at values 
         differ by more than the given delta value" do
-    @activity.coincides_with?(@others.last).should == false
+    @activity.coincides_with?(@others.last).should be_false
   end
   
   test "#from returns the last sibling's created_at value" do

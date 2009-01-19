@@ -17,7 +17,7 @@ class CounterTest < ActiveSupport::TestCase
   end
   
   test "after create it has a counter initialized and saved" do
-    @forum.topics_counter.should_not == nil
+    @forum.topics_counter.should_not be_nil
   end
   
   test "#topics_count is a shortcut to #topics_counter.count" do

@@ -45,7 +45,7 @@ class BlogHelperTest < ActiveSupport::TestCase
     end
   
     it '#archive_month returns nil if no year is given' do
-      archive_month.should == nil
+      archive_month.should be_nil
     end
   end
 end

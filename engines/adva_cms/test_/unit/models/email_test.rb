@@ -52,6 +52,6 @@ class EmailTest < ActiveSupport::TestCase
     Cronjob.create :cron_id => "email_deliver_all", :command => "test"
     Email.destroy_all
     Email.deliver_all
-    Cronjob.find_by_cron_id("email_deliver_all").should == nil
+    Cronjob.find_by_cron_id("email_deliver_all").should be_nil
   end
 end

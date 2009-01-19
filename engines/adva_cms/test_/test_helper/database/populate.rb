@@ -56,7 +56,7 @@ Forum.create!    :site        => site_with_forums,
                  :title       => 'a forum without boards',
                  :permalink   => 'a-forum-without-boards',
                  :comment_age => 0
-                 
+
 forum_with_boards =
 Forum.create!    :site        => site_with_forums,
                  :title       => 'a forum with boards',
@@ -140,7 +140,7 @@ topic_attrs = {  :site      => site_with_forums,
 
 topic =
 Topic.post       user, topic_attrs
-topic.save!    
+topic.save!
 
 topic_reply =
 topic.reply      user, :body => 'a reply'
@@ -170,18 +170,22 @@ home_wikipage =
 Wikipage.create! :site => site_with_wiki,
                  :section => wiki,
                  :title => 'home',
-                 :body => 'home wikipage body',
+                 :body => 'home wikipage body (initial version)',
                  :categories => [wiki_category],
                  :tag_list => 'foo bar',
                  :author => user
+home_wikipage.update_attributes!(:body => 'home wikipage body (revised version)')
 
 another_wikipage =
 Wikipage.create! :site => site_with_wiki,
                  :section => wiki,
                  :title => 'another wikipage title',
-                 :body => 'another wikipage body',
+                 :body => 'another wikipage body (initial version)',
                  :tag_list => 'foo bar',
                  :author => user
+another_wikipage.update_attributes!(:body => 'another wikipage body (first revised version)')
+another_wikipage.update_attributes!(:body => 'another wikipage body (second revised version)')
+another_wikipage.update_attributes!(:body => 'another wikipage body (third revised version)')
 
 
 comment_attrs = { :body => 'the comment body',

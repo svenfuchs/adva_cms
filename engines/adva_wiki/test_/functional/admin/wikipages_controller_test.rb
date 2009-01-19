@@ -132,7 +132,7 @@ class AdminWikipagesControllerTest < ActionController::TestCase
         it_guards_permissions :update, :wikipage
 
         with :access_granted do
-          with "the wikipage being versioned (succeeds)" do
+          with "the requested version exists (succeeds)" do
             before { @wikipage.update_attributes(:body => "#{@wikipage.body} was changed") }
 
             it_rollsback :wikipage, :to => 1
@@ -142,7 +142,8 @@ class AdminWikipagesControllerTest < ActionController::TestCase
             it_sweeps_page_cache :by_reference => :wikipage
           end
 
-          with "the wikipage not being versioned (fails)" do
+          with "the requested version does not exist (fails)" do
+            before { @params = { :wikipage => { :version => '10' } } }
             it_does_not_rollback :wikipage
             it_does_not_trigger_any_event
             it_assigns_flash_cookie :error => :not_nil

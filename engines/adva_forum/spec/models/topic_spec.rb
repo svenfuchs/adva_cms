@@ -255,7 +255,7 @@ describe Topic do
       end
 
       it 'returns nil if no next topic exists' do
-        @latest_topic.next.should == nil
+        @latest_topic.next.should be_nil
       end
     end
 

@@ -1,5 +1,18 @@
-# strangely, request.path is empty when caching kicks in, this seems to fix that
+# http://rails.lighthouseapp.com/projects/8994/tickets/1561
+# can be removed after upgrading to any rails version that contains this patch
+module ActionView
+  class TestController < ActionController::Base
+    attr_accessor :request, :response, :params
+    def initialize
+      @request = ActionController::TestRequest.new
+      @response = ActionController::TestResponse.new
+      @params = {}
+      send(:initialize_current_url)
+    end
+  end
+end
 
+# strangely, request.path is empty when caching kicks in, this seems to fix that
 ActionController::TestProcess.module_eval do
   def build_request_uri_with_set_path(*args)
     build_request_uri_without_set_path(*args)

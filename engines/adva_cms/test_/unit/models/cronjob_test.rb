@@ -90,7 +90,7 @@ class CronjobTest < ActiveSupport::TestCase
 
   # due_at
   test "due_at is nil when there is no exact due-time" do
-    @cronjob.due_at.should == nil
+    @cronjob.due_at.should be_nil
   end
 
   test "due_at is a DateTime" do
@@ -100,9 +100,9 @@ class CronjobTest < ActiveSupport::TestCase
 
   test "due_at is nil when there is multiple times" do
     @cronjob.due_at = {:minute => "10/5", :hour => "01", :day => "01", :month => "01"}
-    @cronjob.due_at.should == nil
+    @cronjob.due_at.should be_nil
     @cronjob.due_at = {:minute => "5-10", :hour => "01", :day => "01", :month => "01"}
-    @cronjob.due_at.should == nil
+    @cronjob.due_at.should be_nil
   end
   
   # FIXME regex does not match:
@@ -125,7 +125,7 @@ class CronjobTest < ActiveSupport::TestCase
   #   cronjob.save
   #   cronjob.destroy
   #   jobs = `crontab -l`
-  #   (jobs =~ cronjob_regexp(cronjob)).should == nil
+  #   (jobs =~ cronjob_regexp(cronjob)).should be_nil
   # end
 end
 

@@ -148,7 +148,7 @@ class BaseHelperMicroformatsTest < ActiveSupport::TestCase
   # DATETIME MICROFORMAT HELPERS
 
   test "#datetime_with_microformat displays the passed object when passed a non-Date/Time object" do
-    datetime_with_microformat(nil).should == nil
+    datetime_with_microformat(nil).should be_nil
     datetime_with_microformat(1).should == 1
     datetime_with_microformat('1').should == '1'
   end

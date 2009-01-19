@@ -13,4 +13,10 @@ class I18nTest < ActiveSupport::TestCase
   test "correctly looks up german ar errormessage :invalid" do
     I18n.t(:"activerecord.errors.messages.invalid", :locale => :de).should == "ist nicht gültig"
   end
+  
+  test "foo" do
+    true.should be_true
+    false.should be_false
+    nil.should be_nil
+  end
 end

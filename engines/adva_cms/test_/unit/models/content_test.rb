@@ -121,7 +121,7 @@ class ContentTest < ActiveSupport::TestCase
 
   test "validates that the author is valid (through belongs_to_author)" do
     @content.author = User.new
-    @content.valid?.should == false
+    @content.valid?.should be_false
   end
 
   test "validates the uniqueness of the permalink per site" do
@@ -263,22 +263,22 @@ class ContentTest < ActiveSupport::TestCase
   # VERSIONING
   
   test "does not create a new version if neither title, excerpt nor body attributes have changed" do
-    @content.save_version?.should == false
+    @content.save_version?.should be_false
   end
 
   test "creates a new version if the title attribute has changed" do
     @content.title = 'another title'
-    @content.save_version?.should == true
+    @content.save_version?.should be_true
   end
 
   test "creates a new version if the excerpt attribute has changed" do
     @content.excerpt = 'another excerpt'
-    @content.save_version?.should == true
+    @content.save_version?.should be_true
   end
 
   test "creates a new version if the body attribute has changed" do
     @content.body = 'another body'
-    @content.save_version?.should == true
+    @content.save_version?.should be_true
   end
   
   # TAGGING

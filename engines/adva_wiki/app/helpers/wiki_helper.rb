@@ -9,6 +9,7 @@ module WikiHelper
             def wikipage_#{kind}(*args)
               returning wikipage_#{kind}_with_home(*args) do |url|
                 url.sub! %r(/pages/home$), ''
+                url.replace '/' if url.empty?
               end
             end
           CODE
@@ -97,10 +98,15 @@ module WikiHelper
     links
   end
 
-  def collection_title(category=nil, tags=nil)
+  def wikipages_title(*args)
+    options = args.extract_options!
+    category, tags = *args
+    
     title = []
     title << t(:'adva.wiki_helper.collection_title.category_title', :title => category.title) if category
     title << t(:'adva.wiki_helper.collection_title.tags_title', :title => tags.to_sentence) if tags
-    title.empty? ? t(:'adva.wiki_helper.collection_title.all_pages') : t(:'adva.wiki_helper.collection_title.collect_pages') + title.join(', ')
+    
+    title = title.empty? ? t(:'adva.wiki_helper.collection_title.all_pages') : t(:'adva.wiki_helper.collection_title.collect_pages') + title.join(', ')
+    options[:format] ? options[:format] % title : title
   end
 end

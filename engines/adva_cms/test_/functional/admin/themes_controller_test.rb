@@ -94,7 +94,7 @@ class AdminThemesControllerTest < ActionController::TestCase
         it_assigns_flash_cookie :notice => :not_nil
 
         it "creates the theme" do
-          File.exists?(assigns(:theme).path).should == true
+          File.exists?(assigns(:theme).path).should be_true
         end
       end
     end
@@ -158,7 +158,7 @@ class AdminThemesControllerTest < ActionController::TestCase
       it_assigns_flash_cookie :notice => :not_nil
       
       it "destroys the theme" do
-        File.exists?(@theme.path).should == false
+        File.exists?(@theme.path).should be_false
       end
 
       expect "expires page cache for the current site" do

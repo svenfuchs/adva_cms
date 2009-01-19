@@ -33,7 +33,7 @@ class AdminInstallControllerTest < ActionController::TestCase
       end
 
       it "assigns the root section to the site" do
-        assigns(:site).sections.first.should_not == nil
+        assigns(:site).sections.first.should_not be_nil
       end
     end
     
@@ -51,7 +51,7 @@ class AdminInstallControllerTest < ActionController::TestCase
         it_changes 'Site.count' => 1, 'Section.count' => 1, 'User.count' => 1
       
         it "assigns the new Section to the new Site" do
-          assigns(:section).reload.site.should_not == nil
+          assigns(:section).reload.site.should_not be_nil
         end
       
         it "makes the new User a :superuser" do
@@ -59,7 +59,7 @@ class AdminInstallControllerTest < ActionController::TestCase
         end
       
         it "authenticates the current user as the new User" do
-          @controller.current_user.should_not == nil
+          @controller.current_user.should_not be_nil
         end
 
         it_renders :template, :confirmation do

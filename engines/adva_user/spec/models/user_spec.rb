@@ -258,7 +258,7 @@ describe User do
     end
     
     it "#homepage returns nil if homepage is not set" do
-      @user.homepage.should == nil
+      @user.homepage.should be_nil
     end
     
     it "#email_with_name returns formatted string to use with email headers" do

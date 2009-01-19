@@ -58,7 +58,7 @@ class RegistryTest < ActiveSupport::TestCase
 
   test "#get returns nil if an intermediary key is missing" do
     @registry.set :foo, :bar, :baz, :buz
-    @registry.get(:foo, :missing).should == nil
+    @registry.get(:foo, :missing).should be_nil
   end
   
   # clear
@@ -67,7 +67,7 @@ class RegistryTest < ActiveSupport::TestCase
     @registry.set :foo, :bar, :baz, :buz
     @registry.get(:foo, :bar).should == {:baz => :buz}
     Registry.clear
-    @registry.get(:foo, :bar).should == nil
+    @registry.get(:foo, :bar).should be_nil
     # FIXME write matcher
     # @registry.should be_empty
     assert @registry.empty?
@@ -75,6 +75,6 @@ class RegistryTest < ActiveSupport::TestCase
 
   test "#clear returns nil if an intermediary key is missing" do
     @registry.set :foo, :bar, :baz, :buz
-    @registry.get(:foo, :missing).should == nil
+    @registry.get(:foo, :missing).should be_nil
   end
 end

@@ -23,11 +23,11 @@ describe Newsletter do
   describe "methods:" do
     describe "destroy" do
       it "should move Newsletter to DeletedNewsletter" do
-        Newsletter.find_by_id(@newsletter.id).should_not == nil
-        DeletedNewsletter.find_by_id(@newsletter.id).should == nil
+        Newsletter.find_by_id(@newsletter.id).should_not be_nil
+        DeletedNewsletter.find_by_id(@newsletter.id).should be_nil
         @newsletter.destroy
-        Newsletter.find_by_id(@newsletter.id).should == nil
-        DeletedNewsletter.find_by_id(@newsletter.id).should_not == nil
+        Newsletter.find_by_id(@newsletter.id).should be_nil
+        DeletedNewsletter.find_by_id(@newsletter.id).should_not be_nil
       end
     end
     
@@ -52,7 +52,7 @@ describe Newsletter do
         @newsletter.site.email = "admin@example.org"
         @newsletter.email = "admin@example.org"
         @newsletter.save
-        @newsletter.email.should == nil
+        @newsletter.email.should be_nil
       end
     end
     
@@ -79,12 +79,12 @@ describe Newsletter do
     describe "published?" do
       it "should be true if published" do
         @newsletter.published = 1
-        @newsletter.published?.should == true
+        @newsletter.published?.should be_true
       end
       
       it "should be fales if not published" do
         @newsletter.published = 0
-        @newsletter.published?.should == false
+        @newsletter.published?.should be_false
       end
     end
     
