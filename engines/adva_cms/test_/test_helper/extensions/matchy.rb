@@ -1,6 +1,10 @@
 module Matchy
   module Expectations
     module TestCaseExtensions
+      # def be_nil
+      #   Matchy::Expectations::Be
+      # end
+      
       def belong_to(expected, options = {})
         Matchy::Expectations::Association.new(self, :belongs_to, expected, options)
       end
