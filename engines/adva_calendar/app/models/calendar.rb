@@ -10,7 +10,7 @@ class Calendar < Section
     @days_in_month_with_events ||= {}
     @days_in_month_with_events[date] ||= events.find(:all, 
         :select => 'start_date, end_date', :order => 'start_date ASC',
-        :conditions => ['start_date >= ? and start_date <= ?', date.beginning_of_month, date.end_of_month.end_of_day]).collect{ |e| 
+        :conditions => ['published_at IS NOT NULL AND start_date >= ? AND start_date <= ?', date.beginning_of_month, date.end_of_month.end_of_day]).collect{ |e| 
             e.end_date.blank? ? 
               e.start_date.to_date : 
               Range.new((e.start_date < date.beginning_of_month) ? 
