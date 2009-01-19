@@ -10,7 +10,7 @@
     <% if @event.end_date.blank? -%>
       <%= datetime_with_microformat(@event.published_at, :format => :long) %>
     <% else -%>
-      <%= t(:'adva.calendar.from_to', :start_date => @event.start_date, :end_date => @event.end_date) %>
+      <%= t(:'adva.calendar.from_to', :start_date => datetime_with_microformat(@event.start_date, :format => :long), :end_date => datetime_with_microformat(@event.end_date, :format => :long)) %>
     <% end -%>
     </p>
     <p>
