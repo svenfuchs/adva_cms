@@ -2,7 +2,7 @@ class Issue < BaseIssue
   belongs_to :newsletter, :counter_cache => true
   has_many :cronjobs, :as => :cronable
 
-  attr_accessible :title, :body, :filter, :draft
+  attr_accessible :title, :body, :filter, :draft, :tracking_source, :track, :tracking_campaign
   validates_presence_of :title, :body, :newsletter_id
 
   named_scope :all_included, :include => :newsletter

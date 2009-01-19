@@ -6,7 +6,7 @@
       <%= f.check_box :track, :onclick => "$('tracking_options').toggle();" %>
       <%= f.label :track, t(:'adva.tracking.enable_tracking'), :style => "display:inline;" %>
     </p>
-    <div id="tracking_options" style="display:none;">
+    <div id="tracking_options"<%= 'style="display:none;"' unless @issue.has_tracking_enabled? %>>
       <span class="hint"><%= t(:'adva.tracking.hints.glossary', :link => link_to(t(:'adva.tracking.hints.glossary_name'), "http://www.google.com/support/googleanalytics/bin/topic.py?topic=11096&hl=#{I18n.locale}")) %>
       <p>
         <%= f.label :tracking_campaign, t(:'adva.tracking.tracking_campaign') %>
