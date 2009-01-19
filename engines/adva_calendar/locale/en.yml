@@ -35,6 +35,9 @@ en:
           year_month_day: 'on %e %B %Y'
           year_month: 'in %B %Y'
           year: 'in %Y'
+        in_category: in {{title}}
+        tagged: tagged {{tags}}
+        events: Events
       flash:
         create:
           success: The event has been created.
