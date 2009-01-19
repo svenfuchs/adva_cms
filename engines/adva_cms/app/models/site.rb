@@ -116,20 +116,24 @@ class Site < ActiveRecord::Base
     @spam_engine ||= SpamEngine::FilterChain.assemble(self.spam_options)
   end
 
+  def has_tracking_enabled?
+    ! google_analytics_tracking_code.blank?
+  end
+
   private
 
     def downcase_host
       self.host = host.to_s.downcase
     end
-    
+
     def replace_host_spaces
       self.host = host.to_s.gsub(/^\s+|\s+$/, '').gsub(/\s+/, '-')
     end
-    
+
     # def permalinkaze_host
     #   self.host = PermalinkFu.escape(host)
     # end
-    
+
     def populate_title
       self.title = self.name if self.title.blank?
     end
