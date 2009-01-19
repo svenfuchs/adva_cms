@@ -20,10 +20,12 @@ define CalendarEvent do
           :destroy => true,
           :created_at => Time.now,
           :start_date => Time.now,
-          :end_date => Time.now,
-          :draft? => true,
-           :track_method_calls => nil
-           
+          :end_date => Time.now + 2.hours,
+          :published_at => Time.now,
+          :draft? => false,
+          :track_method_calls => nil,
+          :require_end_date => true
+
   instance :calendar_event
 end
 

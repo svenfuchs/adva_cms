@@ -27,7 +27,8 @@ describe Calendar do
   
   describe ":days_in_month_with_events" do
     before do
-      args = {:user_id => 1, :title => 'Event', :location_id => 1, :published_at => Time.now}
+      CalendarEvent.require_end_date = false
+      args = {:user_id => 1, :title => 'Event', :published_at => Time.now}
       @calendar_with_events = Calendar.create!(:title => 'Another calendar')
       @event1 = @calendar_with_events.events.create!(args.merge(:start_date => '2008-11-27'))
       @event2 = @calendar_with_events.events.create!(args.merge(:start_date => '2008-11-24', :end_date => '2008-11-26'))

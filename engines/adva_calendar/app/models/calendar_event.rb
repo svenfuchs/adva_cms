@@ -17,6 +17,7 @@ class CalendarEvent < ActiveRecord::Base
   filtered_column :body
 
   validates_presence_of :start_date
+  validates_presence_of :end_date, :if => :require_end_date?
   validates_presence_of :title
   validates_presence_of :user_id
   validates_presence_of :section_id
@@ -61,6 +62,10 @@ class CalendarEvent < ActiveRecord::Base
       :order => 'start_date DESC'
     }
   }
+  cattr_accessor :require_end_date
+  def require_end_date?
+    !(self.class.require_end_date == false)
+  end
 
   def draft?
     published_at.nil?
@@ -71,7 +76,7 @@ class CalendarEvent < ActiveRecord::Base
   end
 
   def validate
-    errors.add(:end_date, 'must be after start date') if ! self.end_date.nil? and self.end_date < self.start_date
+    errors.add(:end_date, 'must be after start date') if ! self.start_date.nil? and ! self.end_date.nil? and self.end_date < self.start_date
   end
 
   def all_day=(value)

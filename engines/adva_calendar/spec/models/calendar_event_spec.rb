@@ -6,7 +6,7 @@ describe CalendarEvent do
   before :each do
     @calendar = Calendar.create!(:title => 'Concerts')
     @event = @calendar.events.new(:title => 'The Dodos', :start_date => '2008-11-24 21:30',
-      :user_id => 1, :location_id => 1)
+      :end_date => '2008-11-25 01:30', :user_id => 1, :location_id => 1)
   end
 
   describe 'class extensions:' do
@@ -48,6 +48,20 @@ describe CalendarEvent do
       @event.errors.on("start_date").should be
       @event.errors.count.should be(1)
     end
+
+    it "must have end datetime" do
+      @event.end_date = nil
+      @event.should_not be_valid
+      @event.errors.on("end_date").should be
+      @event.errors.count.should be(1)
+    end
+
+    it "must not require and end date if model says so" do
+      CalendarEvent.require_end_date = false
+      @event.end_date = nil
+      @event.should be_valid      
+    end
+
     it "must have a start date earlier than the end date" do
       @event.end_date = @event.start_date - 1.day
       @event.should_not be_valid
@@ -75,11 +89,11 @@ describe CalendarEvent do
       @cat2 = @calendar.categories.create!(:title => 'cat2')
       @cat3 = @calendar.categories.create!(:title => 'cat3')
       @elapsed_event = @calendar.events.create!(default_attrs.merge(:title => 'Gameboy Music Club', 
-          :start_date => Time.now - 1.day, :categories => [@cat1, @cat2])).reload
+          :start_date => Time.now - 1.day, :end_date => Time.now - 18.hours, :categories => [@cat1, @cat2])).reload
       @elapsed_event2 = @calendar.events.create!(default_attrs.merge(:title => 'Mobile Clubbing', 
-          :start_date => Time.now - 5.hours,  :end_date => Time.now - 3.hour, :categories => [@cat1, @cat2])).reload
+          :start_date => Time.now - 5.hours, :end_date => Time.now - 3.hours, :categories => [@cat1, @cat2])).reload
       @upcoming_event = @calendar.events.create!(default_attrs.merge(:title => 'Jellybeat', 
-          :start_date => Time.now + 4.hours, :categories => [@cat2, @cat3])).reload
+          :start_date => Time.now + 4.hours, :end_date => Time.now + 6.hours, :categories => [@cat2, @cat3])).reload
       @running_event = @calendar.events.create!(default_attrs.merge(:title => 'Vienna Jazz Floor 08', 
           :start_date => Time.now - 1.month, :end_date => Time.now + 9.days, :categories => [@cat1, @cat3])).reload
       @real_old_event = @calendar.events.create!(default_attrs.merge(:title => 'Vienna Jazz Floor 07', 
@@ -118,9 +132,10 @@ describe CalendarEvent do
   
   describe "named scope :search" do
     before :each do
-      default_attributes = {:user_id => 1, :location_id => 1, :start_date => Time.now}
-      @event_jazz = @calendar.events.create(default_attributes.merge(:title => 'A Jazz concert', :body => 'A band with Sax,Trumpet,Base,Drums'))
-      @event_rock = @calendar.events.create(default_attributes.merge(:title => 'Rocking all night', :body => 'A band with Guitar, Base & Drums'))
+      default_attributes = {:user_id => 1, :location_id => 1, :start_date => Time.now,
+          :end_date => Time.now + 2.hours}
+      @event_jazz = @calendar.events.create!(default_attributes.merge(:title => 'A Jazz concert', :body => 'A band with Sax,Trumpet,Base,Drums'))
+      @event_rock = @calendar.events.create!(default_attributes.merge(:title => 'Rocking all night', :body => 'A band with Guitar, Base & Drums'))
     end
     it "should have a search scope by title" do
       @calendar.events.search('Jazz', :title).should ==[@event_jazz]

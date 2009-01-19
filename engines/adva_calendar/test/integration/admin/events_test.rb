@@ -37,6 +37,7 @@ class EventsTest < ActionController::IntegrationTest
     visit "/admin/sites/#{@site.id}/sections/#{@section.id}/events/new"
     fill_in :calendar_event_title, :with => 'Christmas'
     fill_in :calendar_event_start_date, :with => '2009-12-24'
+    fill_in :calendar_event_end_date, :with => '2009-12-27'
     click_button 'Save'
 
     assert_template 'admin/events/edit'
