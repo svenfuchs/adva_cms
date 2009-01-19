@@ -3,6 +3,6 @@ class NewsletterMailer < ActionMailer::Base
     recipients  user.email
     from        local_issue.email
     subject     "[#{local_issue.newsletter.site.name}] #{local_issue.title}"
-    body        local_issue.body
+    body        local_issue.body_html
   end 
 end

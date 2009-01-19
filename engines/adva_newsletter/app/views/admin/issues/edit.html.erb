@@ -1,14 +1,16 @@
 <% content_for :sidebar do %>
-  <%= render :partial => 'admin/layouts/sidebar_manage' %>
-  <%= render :partial => 'sidebar_actions' %>
+  <%= render :partial => "admin/layouts/sidebar_manage" %>
+  <%= render :partial => "sidebar_actions" %>
+  <%= render :partial => "optional_settings" %>
+  <%= render :partial => "admin/shared/tracking" %>
 <% end %>
 
-<%= render :partial => 'admin/newsletters/header' %>
+<%= render :partial => "admin/newsletters/header" %>
 
-<% split_form_for :issue, @issue, :url => admin_issue_path, :html => {:method => :put, :multipart => true, :id => 'content_form'} do |f| %>
-  <%= render :partial => 'form', :locals => {:f => f} %>  
+<% split_form_for :issue, @issue, :url => admin_issue_path, :html => {:method => :put, :multipart => true, :id => "content_form"} do |f| %>
+  <%= render :partial => "form", :locals => {:f => f} %>  
   <p class="buttons">
-    <%= submit_tag t('adva.common.save') %> <%= t('adva.common.connector.or') %>
-    <%= link_to t('adva.common.cancel'), admin_issue_path(@site, @newsletter, @issue) %>
+    <%= submit_tag t("adva.common.save") %> <%= t("adva.common.connector.or") %>
+    <%= link_to t("adva.common.cancel"), admin_issue_path(@site, @newsletter, @issue) %>
   </p>
 <% end %>

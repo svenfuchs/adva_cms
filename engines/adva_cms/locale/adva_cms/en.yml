@@ -107,6 +107,7 @@ en:
     labels:
       author_name: Name
       author_email: E-Mail
+      filters: Filters
     messages: 
       insufficient_permissions: 
         title: Insufficient permissions

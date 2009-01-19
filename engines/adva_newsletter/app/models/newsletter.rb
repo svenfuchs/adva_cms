@@ -1,8 +1,14 @@
 class Newsletter < BaseNewsletter
+  belongs_to :site
   has_many :issues, :dependent => :destroy
   has_many :deleted_issues
   has_many :subscriptions, :as => :subscribable
   has_many :users, :through => :subscriptions
+  
+  attr_accessible :title, :desc, :published, :email
+  validates_presence_of :title, :site_id
+
+  named_scope :all_included, :include => [:issues,:subscriptions]
   
   before_save :do_not_save_default_email
 

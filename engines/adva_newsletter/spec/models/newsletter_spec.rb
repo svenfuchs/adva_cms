@@ -1,22 +1,6 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe BaseNewsletter do
-  
-  before :each do
-    Site.delete_all
-    @newsletter = Factory :newsletter
-  end
-  
-  describe "validations:" do
-    it "should have title" do
-      @newsletter.title = nil
-      @newsletter.should_not be_valid
-    end
-  end
-end
-
 describe Newsletter do
-  
   before :each do
     Site.delete_all
     factory_scenario :site_with_two_users_and_newsletter
@@ -27,6 +11,13 @@ describe Newsletter do
     it "should have deleted issues" do @newsletter.should have_many(:deleted_issues) end
     it "should have many subscriptions" do @newsletter.should have_many(:subscriptions) end
     it "should have many users" do @newsletter.should have_many(:users) end
+  end
+
+  describe "validations:" do
+    it "should have title" do
+      @newsletter.title = nil
+      @newsletter.should_not be_valid
+    end
   end
 
   describe "methods:" do

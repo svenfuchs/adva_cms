@@ -1,0 +1,9 @@
+<% fields_for :issue do |f| %>
+  <h3><%= t("adva.titles.optional_settings") %></h3>
+  <fieldset>
+    <p>
+      <%= f.label :filter, t("adva.labels.filters") %>
+      <%= f.select :filter, filter_options %>
+    </p>
+  </fieldset>
+<% end %>

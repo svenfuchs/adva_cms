@@ -2,18 +2,16 @@ class Issue < BaseIssue
   belongs_to :newsletter, :counter_cache => true
   has_many :cronjobs, :as => :cronable
 
-  validates_presence_of :newsletter_id
+  attr_accessible :title, :body, :filter, :draft
+  validates_presence_of :title, :body, :newsletter_id
 
-  def body
-    return attributes["body"] unless has_tracking_enabled?
+  named_scope :all_included, :include => :newsletter
 
-    attributes["body"].gsub(/<a(.*)href="#{Regexp.escape("http://#{newsletter.site.host}")}(.*)"(.*)>/) do |s|
-      m = [$1, $2, $3] # why do I need this?
-      returning %(<a#{m[0]}href="http://#{newsletter.site.host}) do |s|
-        s << ("#{m[1]}#{m[1].include?("?") ? "&" : "?"}utm_medium=newsletter&utm_campaign=#{tracking_campaign}&utm_source=#{tracking_source}") if m[1]
-        s << %("#{m[2]}>)
-      end
-    end
+  filtered_column :body
+  filters_attributes :except => [:body, :body_html]
+
+  def body_html
+    has_tracking_enabled? ? track_links(attributes["body_html"]) : attributes["body_html"]
   end
 
   def deliver(options = {})
@@ -83,5 +81,16 @@ class Issue < BaseIssue
     Email.create(:from => self.newsletter.site.email,
                  :to => user.email,
                  :mail => issue.encoded)
+  end
+  
+private
+  def track_links(content)
+    content.gsub(/<a(.*)href="#{Regexp.escape("http://#{newsletter.site.host}")}(.*)"(.*)>/) do |s|
+      m = [$1, $2, $3] # why do I need this?
+      returning %(<a#{m[0]}href="http://#{newsletter.site.host}) do |s|
+        s << ("#{m[1]}#{m[1].include?("?") ? "&" : "?"}utm_medium=newsletter&utm_campaign=#{tracking_campaign}&utm_source=#{tracking_source}") if m[1]
+        s << %("#{m[2]}>)
+      end
+    end
   end
 end

@@ -1,4 +1,5 @@
 class DeletedNewsletter < BaseNewsletter
+  belongs_to :site
   validates_presence_of :deleted_at
 
   def restore

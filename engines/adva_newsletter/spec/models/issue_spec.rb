@@ -1,9 +1,10 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe BaseIssue do
+describe Issue do
   before :each do
     Site.delete_all
     @issue = Factory :issue
+    @user = Factory :user
   end
 
   describe "associations:" do
@@ -12,6 +13,10 @@ describe BaseIssue do
   end
 
   describe "validations:" do
+    it "should be valid" do
+      @issue.should be_valid
+    end
+
     it "should have title" do
       @issue.title = nil
       @issue.should_not be_valid
@@ -22,14 +27,15 @@ describe BaseIssue do
       @issue.should_not be_valid
     end
   end
-end
-
-describe Issue do
-
-  before :each do
-    Site.delete_all
-    @issue = Factory :issue
-    @user = Factory :user
+  
+  describe "filtering" do
+    it "should have filter for body" do
+      @issue.body = "<div>html body</div>"
+      @issue.body_html = nil
+      @issue.filter = nil
+      @issue.save
+      @issue.body_html.should == "<div>html body</div>"
+    end
   end
 
   describe "methods:" do
@@ -141,23 +147,24 @@ describe Issue do
       end
     end
 
-    describe "#body" do
+    describe "#body_html" do
       before(:each) do
         @issue.stub!(:tracking_campaign).and_return("test-campaign")
         @issue.stub!(:tracking_source).and_return("test-source")
         @issue.body = '<a href="http://www.example.com/newest-products.html?order=date">View our newest products</a>'
+        @issue.save
       end
 
       it "tracks URLs if tracking is enabled" do
         @issue.stub!(:has_tracking_enabled?).and_return(true)
 
-        @issue.body.should == '<a href="http://www.example.com/newest-products.html?order=date&utm_medium=newsletter&utm_campaign=test-campaign&utm_source=test-source">View our newest products</a>'
+        @issue.body_html.should == '<a href="http://www.example.com/newest-products.html?order=date&utm_medium=newsletter&utm_campaign=test-campaign&utm_source=test-source">View our newest products</a>'
       end
 
       it "does not track URLs if tracking is disabled" do
         @issue.stub!(:has_tracking_enabled?).and_return(false)
 
-        @issue.body.should == '<a href="http://www.example.com/newest-products.html?order=date">View our newest products</a>'
+        @issue.body_html.should == '<a href="http://www.example.com/newest-products.html?order=date">View our newest products</a>'
       end
     end
   end
