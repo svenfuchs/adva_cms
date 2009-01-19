@@ -64,11 +64,11 @@ class Test::Unit::TestCase
     end
   end
 
-  share :a_content do
-    before do
-      @content = @section.articles.first
-    end
-  end
+  # share :a_content do
+  #   before do
+  #     @content = @section.articles.first
+  #   end
+  # end
 
   share :an_article do
     before do
