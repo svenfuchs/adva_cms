@@ -1,9 +1,10 @@
 require "#{RAILS_ROOT}/vendor/adva/plugins/engines/boot"
+require "#{RAILS_ROOT}/vendor/adva/plugins/cells/boot"
 
 # TODO make this a cattr_accessor on Engines::Plugin?
 Engines::Plugin.class_eval do
   def default_code_paths
-    %w(app/controllers app/helpers app/models app/observers components lib)
+    %w(app/controllers app/helpers app/models app/observers lib)
   end
 end
 
