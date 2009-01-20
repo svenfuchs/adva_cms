@@ -3,6 +3,8 @@ class SessionController < BaseController
 
   authentication_required :except => [:new, :create]
   renders_with_error_proc :below_field
+  
+  skip_before_filter :verify_authenticity_token # disable forgery protection
 
   layout 'login'
 
