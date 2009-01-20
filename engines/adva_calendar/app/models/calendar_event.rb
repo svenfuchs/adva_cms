@@ -40,8 +40,11 @@ class CalendarEvent < ActiveRecord::Base
 
   named_scope :upcoming, Proc.new { |start_date, end_date|
     t = Time.now
+    start_date ||= t
+    end_date ||= start_date.end_of_day + 1.month
     {
-      :conditions => ['(start_date >= ? AND start_date <= ?) OR (start_date < ? AND end_date >= ?)', start_date||t, end_date||((start_date||t) + 1.month), start_date||t, end_date||t],
+      :conditions => ['(start_date BETWEEN ? AND ?) OR (end_date BETWEEN ? AND ?)', 
+          start_date, end_date, start_date, end_date],
       :order => 'start_date ASC'
     }
   }
@@ -50,7 +53,7 @@ class CalendarEvent < ActiveRecord::Base
     t = Time.now
     {
       :conditions => ['start_date >= ? OR end_date >= ?', t, t],
-      :order => 'id DESC'
+      :order => 'calendar_events.id DESC'
     }
   }
 
@@ -78,16 +81,4 @@ class CalendarEvent < ActiveRecord::Base
   def validate
     errors.add(:end_date, 'must be after start date') if ! self.start_date.nil? and ! self.end_date.nil? and self.end_date < self.start_date
   end
-
-  def all_day=(value)
-    if value == "1" or value == true
-      self.start_date = self.start_date.utc.beginning_of_day unless self.start_date.blank?
-      self.end_date = self.start_date.utc.end_of_day unless self.end_date.blank?
-    end
-  end
-
-  def all_day
-    self.start_date == self.start_date.beginning_of_day and self.end_date == self.start_date.end_of_day unless self.start_date.blank? or self.end_date.blank?
-  end
-
 end

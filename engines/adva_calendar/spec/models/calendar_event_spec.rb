@@ -81,7 +81,8 @@ describe CalendarEvent do
   
   describe "named scopes" do
     before do
-      Time.stub!(:now).and_return Time.utc(2009,11,27, 16,00)
+      Time.stub!(:now).and_return Time.utc(2009,11,27, 12,00)
+      Date.stub!(:today).and_return Date.civil(2009,11,27)
       @calendar.events.delete_all
       default_attrs = { :user_id => 1, :location_id => 1, :published_at => Time.now - 2.years }
       @cat1 = @calendar.categories.create!(:title => 'cat1')
@@ -118,13 +119,11 @@ describe CalendarEvent do
       it "from today on" do
         @calendar.events.upcoming.should ==[@running_event, @upcoming_event]
       end
-      # randomly started failing (at 21:00 pm?) so i had to comment it out 
-      #
-      # it "from tomorrow on" do
-      #   @calendar.events.upcoming(Date.today + 1.day).should ==[@running_event]
-      # end
+      it "from tomorrow on" do
+         @calendar.events.upcoming(Time.now + 1.day).should ==[@running_event]
+      end
       it "for last year" do
-        @calendar.events.upcoming(Date.today - 1.year).should ==[@real_old_event]
+        @calendar.events.upcoming(Time.now - 1.year).should ==[@real_old_event]
       end
     end
   end
@@ -142,6 +141,12 @@ describe CalendarEvent do
     it "should have a search scope by body" do
       @calendar.events.search('Base', :body).should ==[@event_jazz, @event_rock]
       @calendar.events.search('Guitar', :body).should ==[@event_rock]
+    end
+  end
+  
+  describe "all day" do
+    it "should" do
+      
     end
   end
 end
