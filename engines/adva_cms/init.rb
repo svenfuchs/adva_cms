@@ -3,6 +3,7 @@ ActiveSupport::Dependencies.load_once_paths -= ActiveSupport::Dependencies.load_
 
 require 'redcloth'
 
+require 'adva_config'
 require 'time_hacks'
 require 'core_ext/hash'
 require 'core_ext/kernel'

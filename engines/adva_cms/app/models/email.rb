@@ -8,7 +8,7 @@ class Email < ActiveRecord::Base
     end
     
     def deliver_all
-      self.find(:all, :limit => 25).each do |email|
+      self.find(:all, :limit => Adva::Config.number_of_outgoing_mails_per_process).each do |email|
         if email.present?
           Mailer.deliver(TMail::Mail.parse(email.mail))
           email.destroy

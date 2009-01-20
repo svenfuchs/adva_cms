@@ -35,13 +35,20 @@ You need Rails 2.2.2 or newer.
 You should see Adva installation screen. 
 Fill out the form and you're started, enjoy!
 
+
+Configuration
+=============
  
+You can change Adva configuration at:
+  config/initializers/adva.rb
+
+
 Development
 ===========
 
 Please check out /doc directory for high level overview about adva-cms.
  
-Running specs and int tests
+Running specs and int tests:
   rake db:test:clone     # Clones from your development database to test database
   ruby script/test-adva  # Runs all Adva specs and int tests
 

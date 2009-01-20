@@ -1,13 +1,25 @@
 #!/usr/bin/env ruby
 
-require 'fileutils'
+require "fileutils"
 
-rails_root = File.expand_path(File.dirname(__FILE__) + '/../../..')
+def rails_root
+  @rails_root ||= File.expand_path(File.dirname(__FILE__) + '/../../..')
+end
 
 def patch_file(path, after, insert)
   content = File.open(path){|f| f.read }
   content.gsub!(after, "#{after}\n#{insert}") unless content =~ /#{insert}/mi
   File.open(path, 'w'){|f| f.write(content) }
+end
+
+def backup(relative_file_path)
+  file_path = rails_root + relative_file_path
+  FileUtils.mv(file_path, file_path + ".backup-#{Time.now.strftime("%Y.%m.%d-%H.%M.%S")}") if File.exist?(file_path)
+end
+
+def copy_with_backup(from_relative_path, to_relative_path)
+  backup(to_relative_path)
+  FileUtils.cp(rails_root + from_relative_path, rails_root + to_relative_path)
 end
 
 File.unlink rails_root + '/public/index.html' rescue Errno::ENOENT
@@ -24,6 +36,8 @@ patch_file rails_root + '/config/routes.rb',
 patch_file rails_root + '/Rakefile',
            "require 'tasks/rails'",
            "\nload 'vendor/adva/plugins/engines/tasks/engines.rake'\nload 'vendor/adva/engines/adva_cms/lib/tasks/adva.rake'"
+
+copy_with_backup "/vendor/adva/engines/adva_cms/config/initializers/adva.rb", "/config/initializers/adva.rb"
 
 puts <<END
   
