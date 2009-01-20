@@ -1,8 +1,9 @@
 map.login 'login',         :controller => 'session',
                            :action => 'new'
+
 map.logout 'logout',       :controller => 'session',
-                           :action => 'destroy',
-                           :conditions => { :method => :delete }
+                           :action => 'destroy'
+
 map.signup 'signup',       :controller => 'user',
                            :action => 'new'
 
