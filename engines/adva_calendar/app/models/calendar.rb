@@ -6,6 +6,7 @@ class Calendar < Section
       'CalendarEvent'
     end
   end
+
   def days_in_month_with_events(date)
     @days_in_month_with_events ||= {}
     @days_in_month_with_events[date] ||= events.find(:all, 
