@@ -8,3 +8,10 @@
 # However, if you have huge amount of outgoing mails, you better consider to use some dedicated mailer. 
 # Adva is saiving outgoing mails to table "emails" except urgent mails like account activisation mails etc.
 Adva::Config.number_of_outgoing_mails_per_process = 150
+
+
+# Multisite (default is false)
+# to run more than one website with your adva_cms installation set this value to true
+
+Site.enable_multi_host = false
+
