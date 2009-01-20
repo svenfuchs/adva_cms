@@ -13,5 +13,5 @@ Adva::Config.number_of_outgoing_mails_per_process = 150
 # Multisite (default is false)
 # to run more than one website with your adva_cms installation set this value to true
 
-Site.enable_multi_host = false
+Site.multi_sites_enabled = false
 
