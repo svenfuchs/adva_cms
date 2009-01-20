@@ -2,7 +2,9 @@ module SpamEngine
   class FilterChain < Array
     class << self
       def assemble(options)
-        filters = (options[:filters] || []).map(&:downcase).map(&:to_sym) << :default
+        filters = (options[:filters] || []).map(&:to_s).map(&:downcase).map(&:to_sym)
+        filters.unshift :default
+        filters.uniq!
         filters.map!{|filter| SpamEngine::Filter.create(filter, options[filter]) if filters.include? filter }
         self.new filters
       end

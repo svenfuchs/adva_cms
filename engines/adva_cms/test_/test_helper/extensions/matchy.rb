@@ -13,6 +13,14 @@ module Matchy
         Matchy::Expectations::Be.new(false, self)
       end
       
+      def be_instance_of(expected)
+        Matchy::Expectations::BeInstanceOf.new(expected, self)
+      end
+      
+      def be_kind_of(expected)
+        Matchy::Expectations::BeKindOf.new(expected, self)
+      end
+      
       def respond_to(expected)
         Matchy::Expectations::RespondTo.new(expected, self)
       end
@@ -50,6 +58,36 @@ module Matchy
 
       def negative_failure_message
         "Expected #{@receiver.inspect} not to be #{@expected.inspect}."
+      end
+    end
+    
+    class BeInstanceOf < Base
+      def matches?(receiver)
+        @receiver = receiver
+        receiver.instance_of? @expected
+      end
+
+      def failure_message
+        "Expected #{@receiver.inspect} to be an instance of #{@expected.inspect}."
+      end
+
+      def negative_failure_message
+        "Expected #{@receiver.inspect} not to be an instance of #{@expected.inspect}."
+      end
+    end
+    
+    class BeKindOf < Base
+      def matches?(receiver)
+        @receiver = receiver
+        receiver.kind_of? @expected
+      end
+
+      def failure_message
+        "Expected #{@receiver.inspect} to be a kind of #{@expected.inspect}."
+      end
+
+      def negative_failure_message
+        "Expected #{@receiver.inspect} not to be a kind of #{@expected.inspect}."
       end
     end
     
