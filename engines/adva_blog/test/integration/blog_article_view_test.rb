@@ -24,7 +24,7 @@ class BlogArticleViewTest < ActionController::IntegrationTest
     assert_template "blog/show"
   
     # check that the page shows the article ...
-    assert_select "div#article_1" do
+    assert_select "div#article_#{@article.id}" do
       # ... with its title ...
       assert_select "div.content>h2", /#{@article.title}/
       # ... and its excerpt ...
@@ -86,7 +86,7 @@ class BlogArticleViewTest < ActionController::IntegrationTest
     assert_select "div#comments h2", "1 Comment"
   
     # check that the page shows the comment ...
-    assert_select "li#comment_1" do
+    assert_select "li#comment_#{@comment.id}" do
       # ... with its body.
       assert_select "div.comment", { :text => /#{@comment.body}/ }
     end

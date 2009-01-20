@@ -26,7 +26,7 @@ class BlogIndexTest < ActionController::IntegrationTest
   
     # check that the page doesn't display the unpublished article
     assert_template "blog/index"
-    assert_select "div#article_1", false
+    assert_select "div#article_#{@article.id}", false
     assert_select "div.meta", false
   
     # check that the page is cached
@@ -38,9 +38,9 @@ class BlogIndexTest < ActionController::IntegrationTest
 
     # go to root page
     get "/"
-  
+
     # check that the page shows the article ...
-    assert_select "div#article_1" do
+    assert_select "div#article_#{@article.id}" do
       # ... with its title ...
       assert_select "div.content>h2", /adva-cms kicks ass!/
       # ... and its excerpt ...
@@ -66,7 +66,7 @@ class BlogIndexTest < ActionController::IntegrationTest
     get "/"
   
     # check that the page shows the article ...
-    assert_select "div#article_1" do
+    assert_select "div#article_#{@article.id}" do
       # ... with its title ...
       assert_select "div.content>h2", /adva-cms kicks ass!/
       # ... and its body ...
