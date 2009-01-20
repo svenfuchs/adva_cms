@@ -2,27 +2,32 @@ var CommentForm = {
   init: function() {
     var user_name = unescape(Cookie.get('uname')).replace(/\+/g, " ");
     if (user_name) {
-			try { $$('#registered_author span')[0].update(user_name); } catch(err) {}
-			try { $('registered_author').show(); } catch(err) {}
-			try { $('anonymous_author').hide(); } catch(err) {}
+		try { $$('#registered_author span')[0].update(user_name); } catch(err) {}
+		try { $('registered_author').show(); } catch(err) {}
+		try { $('anonymous_author').hide(); } catch(err) {}
     }
   }
 }
 
 var LoginLinks = {
-  init: function() {
-    var user_id = Cookie.get('uid');
-    var user_name = unescape(Cookie.get('uname')).replace(/\+/g, " ");
-    if (user_id) {
-			try { this.update_user_link(user_id, user_name) } catch(err) {}
-			try { $('logout_links').show(); } catch(err) {}
-			try { $('login_links').hide(); } catch(err) {}
-    }
-  },
+	init: function() {
+		var user_id = Cookie.get('uid');
+		var user_name = unescape(Cookie.get('uname')).replace(/\+/g, " ");
+		try { 
+			this.update_user_links(user_name) 
+		} catch(err) {}
+		if (user_id) {
+			try { 
+				$('logout_links').show(); 
+				$('login_links').hide();
+			} catch(err) {}
+		}
+	},
 
-	update_user_link: function(user_id, user_name) {
-		$$('#logout_links a')[0].update(user_name);
-		$$('#logout_links a')[0].href = unescape($$('#logout_links a')[0].href).replace(/{user_id}/, user_id)
+	update_user_links: function(user_name) {
+		$('logout_link').href = $('logout_link').href.replace(/{return_to}/, escape(document.location.href));
+		$('login_link').href = $('login_link').href.replace(/{return_to}/, escape(document.location.href));
+		$('messages_link').update(user_name);
 	}
 }
 

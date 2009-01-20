@@ -23,12 +23,12 @@
 
         <p id="login_links" class="navigation">
           &middot; 
-          <%= link_to 'Login', login_path(:return_to => request.path) %>
+					<a id="login_link" href="/login?return_to={return_to}">Login</a>
         </p>
         <p id="logout_links" class="navigation" style="display: none;">
           &middot; 
-          <%= t(:'adva.users.info.logged_in_as', :name => '<a href="/messages">{user_name}</a>') %> &middot;
-          <%= link_to 'Logout', logout_path(:return_to => request.path), :method => :delete %>
+          <%= t(:'adva.users.info.logged_in_as', :name => '<a id="messages_link" href="/messages">{user_name}</a>') %> &middot;
+					<a id="logout_link" href="/logout?return_to={return_to}">Logout</a>
         </p>
         <%= render :widget => :sections %>
       </div>
