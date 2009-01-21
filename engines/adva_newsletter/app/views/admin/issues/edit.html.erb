@@ -5,6 +5,7 @@
   <%= render :partial => "admin/shared/tracking" %>
 <% end %>
 
+<h2><%= t(:'adva.issue.titles.edit') %></h2>
 <% split_form_for :issue, @issue, :url => admin_issue_path, :html => {:method => :put, :multipart => true, :id => "content_form"} do |f| %>
   <%= render :partial => "form", :locals => {:f => f} %>  
   <p class="buttons">

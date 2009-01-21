@@ -32,6 +32,8 @@ en:
         issue_publish_at: "or send later at:"
         email: Newsletter emails are coming from
         published: Make it public, then users are able to subscribe.
+      titles:
+        edit: Edit newsletter
     issue:
       confirm_save_as_draft: Yes, save this issue as draft.
       question_save_as_draft: Save as Draft?
@@ -55,4 +57,6 @@ en:
       link:
         index: Issues
         new: Create a new issue
+        edit: Edit issue
+      titles:
         edit: Edit issue
