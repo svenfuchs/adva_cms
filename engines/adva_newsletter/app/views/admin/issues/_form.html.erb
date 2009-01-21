@@ -1,12 +1,12 @@
 <fieldset class="clearfix">
-  <%= f.label :title, t('adva.issue.label.title') %>
+  <%= f.label :title, t(:'adva.issue.label.title') %>
   <%= f.text_field :title, :class => 'big'  %>
-  <%= f.label :body, t('adva.issue.label.body') %>
+  <%= f.label :body, t(:'adva.issue.label.body') %>
   <%= f.text_area :body, :class => 'fat', :rows => 25  %>
 
-  <%= f.label :draft, t('adva.issue.question_save_as_draft') %>
+  <%= f.label :draft, t(:'adva.issue.question_save_as_draft') %>
   <label class="light">
     <%= check_box :issue, :draft, :id => "issue-draft" %>
-    <%= t('adva.issue.confirm_save_as_draft') %>
+    <%= t(:'adva.issue.confirm_save_as_draft') %>
   </label>
 </fieldset>

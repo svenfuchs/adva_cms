@@ -20,7 +20,7 @@
 <% form_for :theme, @theme, :url => admin_theme_path(@site, @theme.id), :html => { :method => :put } do |f| %>
 	<%= render :partial => "form", :locals => {:f => f} %>
 	<p class="buttons">
-    <%= f.submit t(:'adva.common.save') %> or 
+    <%= f.submit t(:'adva.common.save') %> <%= t(:'adva.common.connector.or') %> 
     <%= link_to t(:'adva.common.cancel'), admin_themes_path %>
   </p>
 <% end %>

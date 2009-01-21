@@ -3,7 +3,7 @@
   <%= render :partial => 'form', :locals => {:f => f} %>  
   <p class="buttons">
     <%= submit_tag t(:'adva.common.save'), :name => 'save_revision' %>
-    <%= submit_tag t(:'adva.common.save_without_revision') %> or 
+    <%= submit_tag t(:'adva.common.save_without_revision') %> <%= t(:'adva.common.connector.or') %> 
     <%= link_to t(:'adva.common.cancel'), admin_articles_path %>
   </p>
 <% end -%>

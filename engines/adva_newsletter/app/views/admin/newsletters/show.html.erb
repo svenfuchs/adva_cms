@@ -1,15 +1,15 @@
 <% content_for :sidebar do %>
   <%= render :partial => 'admin/shared/sidebar_manage' %>
-  <h3><%= t('adva.titles.actions') %></h3>
+  <h3><%= t(:'adva.titles.actions') %></h3>
   <ul>
-    <li><%= link_to t('adva.issue.link.new'), new_admin_issue_path(@site, @newsletter) %></li>
-    <li><%= link_to t('adva.subscription.link.new'), new_admin_subscription_path(@site, @newsletter) %></li>
+    <li><%= link_to t(:'adva.issue.link.new'), new_admin_issue_path(@site, @newsletter) %></li>
+    <li><%= link_to t(:'adva.subscription.link.new'), new_admin_subscription_path(@site, @newsletter) %></li>
   </ul>
 <% end %>
 
-<div id='newsletter'>
+<div id="newsletter">
   <%= render :partial => 'header' %>
-  <div id='issues'>
+  <div id="issues">
     <%= render :partial => 'admin/issues/issues', :object => @newsletter.issues %>
   </div>
 </div>

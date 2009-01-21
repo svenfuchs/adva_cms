@@ -1,10 +1,10 @@
 <% if subscriptions.present? %>
-  <table id="subscriptions" class="list" cellspacing='0'>
+  <table id="subscriptions" class="list" cellspacing="0">
     <thead>
       <tr>
-        <th scope="col"><%= t('adva.subscription.label.subscriber') %></th>
-        <th scope="col"><%= t('adva.subscription.label.email') %></th>
-        <th scope="col"><%= t('adva.subscription.label.time') %></th>
+        <th scope="col"><%= t(:'adva.subscription.label.subscriber') %></th>
+        <th scope="col"><%= t(:'adva.subscription.label.email') %></th>
+        <th scope="col"><%= t(:'adva.subscription.label.time') %></th>
         <th scope="col">&nbsp;</th>
       </tr>
     </thead>
@@ -14,10 +14,10 @@
           <td><%= link_to h(subscription.user.name), admin_user_path(subscription.user_id) %></td>
           <td><%= subscription.user.email %></td>
           <td><%= subscription.created_at.to_s(:db) %></td>
-          <td class='table_menu'>
+          <td class="table_menu">
             <ul>
-              <li><%= link_to t('adva.subscription.link.destroy'), admin_subscription_path(@site, @newsletter, subscription),
-                :confirm => t('adva.subscription.confirm_delete'), :method => :delete, :class => :delete  %></li>
+              <li><%= link_to t(:'adva.subscription.link.destroy'), admin_subscription_path(@site, @newsletter, subscription),
+                :confirm => t(:'adva.subscription.confirm_delete'), :method => :delete, :class => :delete  %></li>
             </ul>
           </td>
         </tr>
@@ -26,7 +26,7 @@
   </table>
 <% else %>
   <div class="empty">
-    <%= t('adva.subscription.no_subscriptions') %>
-    <%= link_to t('adva.subscription.link.new'), new_admin_subscription_path(@site, @newsletter) %>
+    <%= t(:'adva.subscription.no_subscriptions') %>
+    <%= link_to t(:'adva.subscription.link.new'), new_admin_subscription_path(@site, @newsletter) %>
   </div>
 <% end %>
