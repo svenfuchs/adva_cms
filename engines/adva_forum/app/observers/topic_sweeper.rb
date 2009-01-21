@@ -9,6 +9,7 @@ class TopicSweeper < CacheReferences::Sweeper
       expire_cached_pages_by_section(topic.owner)
     end
     expire_cached_pages_by_reference(topic.section.topics_counter)
+    expire_cached_pages_by_reference(topic)
   end
 
   alias after_destroy after_save
