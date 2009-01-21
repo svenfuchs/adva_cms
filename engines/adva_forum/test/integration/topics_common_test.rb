@@ -107,8 +107,7 @@ class TopicsCommon < ActionController::IntegrationTest
     assert_template 'topics/show'
 
     assert_select "div#main" do
-      assert @forum.topics.first.title == 'Test topic'
-      assert_select "h2", /Test topic/
+    assert_select "h2", /Test topic/
     end
   end
 
@@ -139,8 +138,7 @@ class TopicsCommon < ActionController::IntegrationTest
     assert_template 'topics/show'
 
     assert_select "div#main" do
-      assert @forum.topics.last.title == 'Test topic'
-      assert_select "h2", /Test topic/
+    assert_select "h2", /Test topic/
     end
   end
 end
