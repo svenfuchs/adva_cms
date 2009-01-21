@@ -28,7 +28,8 @@ class Topic < ActiveRecord::Base
       topic = Topic.new attributes.merge(:author => author)
       topic.last_author = author
       topic.reply author, :body => attributes[:body]
-      topic.save && topic
+      topic.save
+      return topic
     end
   end
 

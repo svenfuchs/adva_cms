@@ -23,7 +23,8 @@ class TopicsController < BaseController
   end
 
   def create
-    if @topic = @section.topics.post(current_user, params[:topic])
+    @topic = @section.topics.post(current_user, params[:topic])
+    unless @topic.new_record?
       trigger_events @topic
       flash[:notice] = t(:'adva.topics.flash.create.success')
       redirect_to topic_path(@section, @topic.permalink)
