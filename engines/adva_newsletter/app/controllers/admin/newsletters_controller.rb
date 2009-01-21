@@ -32,7 +32,7 @@ class Admin::NewslettersController < Admin::BaseController
     @newsletter = Newsletter.find(params[:id])
     
     if @newsletter.update_attributes(params[:newsletter])
-      flash[:notice] = t('adva.newsletter.flash.update_success')
+      flash[:notice] = t(:'adva.newsletter.flash.update_success')
       redirect_to admin_newsletters_path(@site)
     else
       render :action => 'edit'
@@ -43,7 +43,7 @@ class Admin::NewslettersController < Admin::BaseController
     @newsletter = Newsletter.find(params[:id])
 
     @newsletter.destroy
-    flash[:notice] = t('adva.newsletter.flash.newsletter_moved_to_trash_success')
+    flash[:notice] = t(:'adva.newsletter.flash.newsletter_moved_to_trash_success')
     redirect_to admin_newsletters_path(@site)
   end
 end

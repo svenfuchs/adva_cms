@@ -19,7 +19,7 @@
   <% end -%>
 <% end -%>
 
-<h3><%= t :'adva.comments.titles.comments_on', :location => link_to_admin_object(@content || @section || @site) %></h3>
+<h3><%= t(:'adva.comments.titles.comments_on', :location => link_to_admin_object(@content || @section || @site)) %></h3>
 
 <ul id="comments_list">
   <% unless @comments.empty? %>
@@ -29,7 +29,7 @@
     </li>
     <% end %>
   <% else %>
-    <li class="alt"><%= t :'adva.comments.info.no_comments_for_query', :location => ((@content || @section) ? (@content || @section).type.downcase : 'site') %></li>
+    <li class="alt"><%= t(:'adva.comments.info.no_comments_for_query', :location => ((@content || @section) ? (@content || @section).type.downcase : 'site')) %></li>
   <% end %>
 </ul>
 

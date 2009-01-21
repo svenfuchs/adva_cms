@@ -11,7 +11,7 @@ class Admin::InstallController < ApplicationController
 
   def index
     @site = Site.new params[:site]
-    default_section = {:title => t('adva.sites.install.section_default')}
+    default_section = {:title => t(:'adva.sites.install.section_default')}
     @section = @site.sections.build(params[:section] ||= default_section)
     @user = User.new
 
