@@ -136,8 +136,10 @@ describe "PostsSweeper" do
     ActiveRecord::Base.observers.should include(:comment_sweeper)
   end
   
-  it "should expire pages that reference a post" do
+  it "should expire pages that reference a post, post.topic comments_counter and post.topics owners comments_counter" do
     @sweeper.should_receive(:expire_cached_pages_by_reference).with(@topic.initial_post.commentable)
+    @sweeper.should_receive(:expire_cached_pages_by_reference).with(@topic.comments_counter)
+    @sweeper.should_receive(:expire_cached_pages_by_reference).with(@topic.owner.comments_counter)
     @sweeper.after_save(@topic.initial_post)
   end
 end

@@ -175,7 +175,7 @@ end
 describe "TopicsSweeper" do
   include SpecControllerHelper
   include FactoryScenario
-    controller_name 'topics'
+  controller_name 'topics'
 
   before :each do
     Site.delete_all
@@ -187,14 +187,17 @@ describe "TopicsSweeper" do
     ActiveRecord::Base.observers.should include(:topic_sweeper)
   end
 
-  it "should expire topics that reference a topic's section" do
+  it "should expire topics that reference a topic's section and section.topics_counter" do
     @sweeper.should_receive(:expire_cached_pages_by_section).with(@topic.section)
+    @sweeper.should_receive(:expire_cached_pages_by_reference).with(@topic.section.topics_counter)
     @sweeper.after_save(@topic)
   end
   
-  it "should expire pages that topic board" do
-    @topic.stub!(:owner).and_return(Board.new)
+  it "should expire pages that topic board, board.topics_counter and section.topics_counter " do
+    factory_scenario :board_with_topics
     @sweeper.should_receive(:expire_cached_pages_by_reference).with(@topic.board)
+    @sweeper.should_receive(:expire_cached_pages_by_reference).with(@topic.board.topics_counter)
+    @sweeper.should_receive(:expire_cached_pages_by_reference).with(@topic.section.topics_counter )
     @sweeper.after_save(@topic)
   end
 end
