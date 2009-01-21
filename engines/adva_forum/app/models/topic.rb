@@ -62,8 +62,9 @@ class Topic < ActiveRecord::Base
   
     update_attribute(:board_id, board_id)
     comments.each { |comment| comment.update_attribute(:board_id, board_id) } # FIXME how to bulk update this in one query?
+    return unless board(true) # e.g. if board_id is set to nil
 
-    board(true).topics_counter.increment!
+    board.topics_counter.increment!
     board.comments_counter.increment_by!(comments_count)
   end
 
