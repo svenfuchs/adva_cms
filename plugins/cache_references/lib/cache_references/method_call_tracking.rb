@@ -9,16 +9,29 @@
 module CacheReferences
   module MethodCallTracking
     def track_method_calls(tracker, *methods)
-      meta_class = (class << self; self; end)
-      methods.each do |method|
-        meta_class.send :define_method, method do |*args|
-          tracker << [self, method]
-          meta_class.send :remove_method, method
-          super
+      if methods.empty?
+        define_track_method(tracker, @attributes, :[], [self, nil])
+      else
+        methods.each do |method|
+          define_track_method(tracker, self, method, [self, method])
         end
       end
     end
-
+    
+    # Sets up a method in the meta class of the target object which will save
+    # a reference when the method is called first, then removes itself and
+    # delegates to the regular method in the class. (Cheap method proxy pattern
+    # that leverages Ruby's way of looking up a method in the meta class first
+    # and then in the regular class second.)    
+    def define_track_method(tracker, target, method, reference)
+      meta_class = class << target; self; end
+      meta_class.send :define_method, method do |*args|
+        tracker << reference
+        meta_class.send :remove_method, method
+        super
+      end
+    end
+    
     # Tracks method access on trackable objects. Trackables can be given as 
     #
     #   * instance variable names (when starting with an @)
@@ -65,17 +78,12 @@ module CacheReferences
         # Sets up tracking for the read_attribute method when the methods argument is nil. 
         # Sets up tracking for any other given methods otherwise.
         def track_methods(trackable, methods)
-          methods ||= :read_attribute
-          methods = [methods] if methods && !methods.is_a?(Array)
-
           if trackable.is_a? Array
             trackable.each { |trackable| track_methods trackable, methods }
           else
-            trackable.track_method_calls(references, *methods) unless methods.empty?
+            trackable.track_method_calls(references, *Array(methods))
           end
         end
     end
   end
 end
-
-ActiveRecord::Base.send :include, CacheReferences::MethodCallTracking

@@ -18,7 +18,7 @@ class CacheReferencesTest < Test::Unit::TestCase
   def test_access_to_an_attribute_on_an_observed_object_records_the_reference
     @controller.send :render
     @article.title
-    assert tracker.references.include?([@article, :read_attribute])
+    assert tracker.references.include?([@article, nil])
   end
   
   def test_access_to_a_registered_method_on_an_observed_object_records_the_reference
@@ -30,7 +30,7 @@ class CacheReferencesTest < Test::Unit::TestCase
   def test_access_to_an_attribute_on_an_observed_array_of_objects_records_the_reference
     @controller.send :render
     @comment.body
-    assert tracker.references.include?([@comment, :read_attribute])
+    assert tracker.references.include?([@comment, nil])
   end
   
   def test_access_to_a_registered_method_on_an_observed_array_of_objects_records_the_reference

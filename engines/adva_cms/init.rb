@@ -28,7 +28,33 @@ config.to_prepare do
     :site_deleted => lambda {|c| c.send :admin_sites_path }
   }
 
-#  Components::Base.send :extend, CacheReferences::ActMacro
+  class Cell::Base
+    class << self
+      def inherited(child)
+        child.send(:define_method, :current_action) { state_name.to_sym }
+        super
+      end
+    end
+    
+    extend CacheReferences::PageCaching::ActMacro
+    
+    delegate :site, :section, :perform_caching, :to => :controller
+
+    def render_state(state)
+      @cell = self
+      self.state_name = state
+
+      content = dispatch_state(state)
+
+      return content if content.kind_of? String
+
+      render
+    end
+
+    def render
+      render_view_for_state(state_name)
+    end
+  end
 end
 
 # uncomment this to have Engines copy assets to the public directory on 

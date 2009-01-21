@@ -15,37 +15,37 @@ class MethodCallTrackerTest < Test::Unit::TestCase
   def test_resolve_trackable_resolves_ivars_and_method_names_given_as_symbols_or_strings
     @controller.expects(:instance_variable_get).with(:@foo)
     @tracker.send(:resolve_trackable, @controller, :@foo)
-  
+
     @controller.expects(:instance_variable_get).with(:@foo)
     @tracker.send(:resolve_trackable, @controller, '@foo')
-    
+
     @controller.expects(:foo)
     @tracker.send(:resolve_trackable, @controller, :foo)
-    
+
     @controller.expects(:foo)
     @tracker.send(:resolve_trackable, @controller, 'foo')
   end
-  
+
   def test_initialize_resolves_trackables_given_as_symbol_string_or_hash_key
     @controller.expects(:instance_variable_get).with(:@foo)
     @controller.expects(:bar)
     @controller.expects(:baz)
-  
+
     @tracker.track @controller, :@foo, :bar, { :baz => nil }
   end
-  
+
   def test_tracks_read_attribute_method_when_given_method_is_an_attribute
     foo = stub('foo', :has_attribute? => true)
     @controller.expects(:foo).returns foo
   
-    foo.expects(:track_method_calls).with([], :read_attribute)
+    foo.expects(:track_method_calls).with([])
     @tracker.track @controller, :foo
   end
-  
+
   def test_tracks_method_when_given_method_is_not_an_attribute
     foo = stub('foo', :has_attribute? => false)
     @controller.expects(:foo).returns foo
-  
+
     foo.expects(:track_method_calls).with([], :bar)
     @tracker.track @controller, :foo => :bar
   end
@@ -95,7 +95,7 @@ class MethodReadTrackingTest < Test::Unit::TestCase
     @record.title
     assert_equal [@record, :title], @references.first
   end
-  
+
   def test_allows_to_setup_tracking_multiple_times_for_the_same_method
     assert_nothing_raised {
       @record.track_method_calls(@references, :title)

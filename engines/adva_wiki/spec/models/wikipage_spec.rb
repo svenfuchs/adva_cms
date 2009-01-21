@@ -43,7 +43,8 @@ describe Wikipage do
 
   describe "filtering" do
     it "it does not allow using insecure html in the wikipage body" do
-      @wikipage = Wikipage.new :body => 'p{position:absolute; top:50px; left:10px; width:150px; height:150px}. secure html'
+      @wikipage = Wikipage.new :body => 'p{position:absolute; top:50px; left:10px; width:150px; height:150px}. secure html',
+                               :site => Site.first, :section => @wiki, :author => stub_user
       @wikipage.should_receive(:filter).any_number_of_times.and_return 'textile_filter'
       @wikipage.save(false)
       @wikipage.body_html.should == %(<p>secure html</p>)

@@ -13,10 +13,10 @@ module Cell
   #   render_cell :blog, :newest_article, {...}
   # - an instance of the class <tt>BlogCell</tt> is created, and a hash containing
   #   arbitrary parameters is passed
-  # - the <em>state method</em> <tt>newest_article</tt> is executed and assigns instance 
+  # - the <em>state method</em> <tt>newest_article</tt> is executed and assigns instance
   #   variables to be used in the view
   # - if the method returns a string, the cycle ends, rendering the string
-  # - otherwise, the corresponding <em>state view</em> is searched. 
+  # - otherwise, the corresponding <em>state view</em> is searched.
   #   Usually the cell will first look for a view template in
   #   <tt>app/cells/blog/newest_article.html. [erb|haml|...]</tt>
   # - after the view has been found, it is rendered and returned
@@ -73,7 +73,7 @@ module Cell
   # The use of partials is deprecated with cells, it is better to just
   # render a different state on the same cell (which also works recursively).
   #
-  # Anyway, <tt>render :partial </tt> in a cell view will work, if the 
+  # Anyway, <tt>render :partial </tt> in a cell view will work, if the
   # partial is contained in the cell's view directory.
   #
   # As can be seen above, Cells also can make use of helpers.  All Cells
@@ -138,15 +138,15 @@ module Cell
   class Base
     attr_accessor :controller
     attr_accessor :state_name
-    
+
     # Forgery protection for forms
     cattr_accessor :request_forgery_protection_token
     class_inheritable_accessor :allow_forgery_protection
     self.allow_forgery_protection = true
-    
-    
-    
-    
+
+
+
+
     def initialize(controller, cell_name=nil, options={})
       @controller = controller
       @cell_name  = cell_name ### TODO: currently we don't use this.
@@ -185,58 +185,58 @@ module Cell
 
       return self.render_view_for_state(state)
     end
-    
+
     # Call the state method.
     def dispatch_state(state)
       send(state)
     end
-    
-    
+
+
     ### FIXME: we alias_method_chain in Caching, so we need to include it here. sucks.
     ###   better include it in boot.rb or so.
     include Caching
-    
-    
+
+
     @@view_paths = nil
     def self.view_paths=(value)
       # this just creates a ActionView::PathSet.
       @@view_paths = ActionView::Base.process_view_paths(value)
     end
     cattr_reader :view_paths
-    
+
     # Render the view belonging to the given state.
     def render_view_for_state(state)
       view_class  = Class.new(Cell::View)
       action_view = view_class.new(@@view_paths, {}, @controller)
       action_view.cell = self
-      ### FIXME/DISCUSS: 
+      ### FIXME/DISCUSS:
       action_view.template_format = :html # otherwise it's set to :js in AJAX context!
-      
+
       # Make helpers and instance vars available
       include_helpers_in_class(view_class)
-      
+
       action_view.assigns = assigns_for_view
-      
-      
+
+
       template = find_family_view_for_state(state, action_view)
       ### TODO: cache family_view for this cell_name/state in production mode,
       ###   so we can save the call to possible_paths_for_state.
-      
-      
-      
+
+
+
       ### DISCUSS: throw exception?
       if template.nil?
         return "ATTENTION: cell view for #{cell_name}##{state} is not readable/existing.
                 Further on, your cell method did not return a String."
       end
 
-      
-      action_view.render(:file => template)      
+
+      action_view.render(:file => template)
     end
-    
-    # Climbs up the inheritance hierarchy of the Cell, looking for a view 
+
+    # Climbs up the inheritance hierarchy of the Cell, looking for a view
     # for the current <tt>state</tt> in each level.
-    # As soon as a view file is found it is returned as an ActionView::Template 
+    # As soon as a view file is found it is returned as an ActionView::Template
     # instance.
     def find_family_view_for_state(state, action_view)
       possible_paths_for_state(state).each do |template_path|
@@ -244,11 +244,11 @@ module Cell
           return view
         end
       end
-      
+
       nil
     end
-    
-    
+
+
     # Find possible files that belong to the state.  This first tries the cell's
     # <tt>#view_for_state</tt> method and if that returns a true value, it
     # will accept that value as a string and interpret it as a pathname for
@@ -261,11 +261,11 @@ module Cell
       if view_file = view_for_state(state) # instance.
         return [view_file]
       end
-      
+
       self.class.find_class_view_for_state(state).reverse!
     end
-    
-    
+
+
     # Find a possible template for a cell's current state.  It tries to find a
     # template file with the name of the state under a subdirectory
     # with the name of the cell under the <tt>app/cells</tt> directory.
@@ -275,7 +275,7 @@ module Cell
     # that view.
     def self.find_class_view_for_state(state)
       return [view_for_state(state)] if superclass == Cell::Base
-      
+
        superclass.find_class_view_for_state(state) << self.view_for_state(state)
     end
 
@@ -295,7 +295,7 @@ module Cell
     def self.view_for_state(state)
       "#{cell_name}/#{state}"
     end
-    
+
     # Instance variables that are to be copied to the ActionView template.
     def assigns_for_view
       assigns = {}
@@ -304,7 +304,7 @@ module Cell
       end
       assigns
     end
-      
+
     # Get the name of this cell's class as an underscored string,
     # with _cell removed.
     #
@@ -374,9 +374,9 @@ module Cell
     # This is a little scary, as Rails' internals are a mess
     include ActionController::Helpers
     include ActionController::RequestForgeryProtection
-    
+
     helper ApplicationHelper
-    
+
     # Declare a controller method as a helper.  For example,
     #   helper_method :link_to
     #   def link_to(name, options) ... end
@@ -390,8 +390,8 @@ module Cell
         end_eval
       end
     end
-    
-    # Creates a cell instance of the class <tt>name</tt>Cell, passing through 
+
+    # Creates a cell instance of the class <tt>name</tt>Cell, passing through
     # <tt>opts</tt>.
     def self.create_cell_for(controller, name, opts={})
       class_from_cell_name(name).new(controller, name, opts)

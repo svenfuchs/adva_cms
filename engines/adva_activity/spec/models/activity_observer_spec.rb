@@ -40,6 +40,7 @@ describe Activities::ActivityObserver do
 
   describe "for articles" do
     it "sends a notification when a new article is posted" do
+      Content.delete_all
       @article = Article.new(:author => stub_user,
                              :site => stub_site,
                              :section => stub_section,
@@ -79,6 +80,7 @@ describe Activities::ActivityObserver do
 
   describe "for wikipages" do
     it "sends a notification when a new wikipage is posted" do
+      Content.delete_all
       @wikipage = Wikipage.new(:author => stub_user,
                                :site => stub_site,
                                :section => stub_section,

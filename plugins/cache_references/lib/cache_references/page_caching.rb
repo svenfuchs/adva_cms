@@ -64,7 +64,7 @@ module CacheReferences
       def render_with_cache_reference_tracking(*args)
         options = args.last.is_a?(Hash) ? args.last : {}
         # skips caching if :skip_caching => true was passed or action is not configured to be cached
-        skip_caching! if options.delete(:skip_caching) || !(track_options.has_key?(params[:action].to_sym))
+        skip_caching! if options.delete(:skip_caching) || !(track_options.has_key?(current_action))
 
         setup_method_call_tracking if track_method_calls?
         returning render_without_cache_reference_tracking(*args) do
@@ -72,22 +72,26 @@ module CacheReferences
         end
       end
       
+      def current_action
+        params[:action].to_sym
+      end
+      
       def track_method_calls?
         perform_caching and not skip_caching?
       end
 
       def setup_method_call_tracking
-        @method_call_tracker ||= MethodCallTracking::Tracker.new 
-        @method_call_tracker.track(self, *method_call_trackables) # FIXME pass the controller when self === Component
+        @method_call_tracker ||= MethodCallTracking::Tracker.new
+        @method_call_tracker.track(self, *method_call_trackables)
       end
       
       def method_call_trackables
-        trackables = self.class.track_options[params[:action].to_sym] || {}
+        trackables = self.class.track_options[current_action] || {}
         trackables.clone
       end
 
       def save_cache_references
-        CachedPage.create_with_references(@site, @section, request.path, @method_call_tracker.references)
+        CachedPage.create_with_references(site, section, request.path, @method_call_tracker.references)
       end
 
       def caching_allowed_with_skipping

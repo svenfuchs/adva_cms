@@ -3,4 +3,6 @@ ActiveSupport::Dependencies.load_once_paths -= ActiveSupport::Dependencies.load_
 
 require 'cache_references/page_caching'
 
+ActiveRecord::Base.send :include, CacheReferences::MethodCallTracking
+
 
