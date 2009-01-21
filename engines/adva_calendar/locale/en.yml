@@ -38,6 +38,7 @@ en:
         in_category: in {{title}}
         tagged: tagged {{tags}}
         events: Events
+        all_day: All day
       flash:
         create:
           success: The event has been created.

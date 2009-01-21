@@ -66,5 +66,17 @@ describe "Events views:" do
       template.should_receive(:links_to_content_categories)
       render "events/show"
     end
+    
+    it "should show dates" do
+      template.should_receive(:datetime_with_microformat).with(@calendar_event.start_date, {:format=>:long})
+      template.should_receive(:datetime_with_microformat).with(@calendar_event.end_date, {:format=>:long})
+      render "events/show"
+    end
+    it "should show 'all day'" do
+      @calendar_event.should_receive(:all_day?).and_return(true)
+      template.should_not_receive(:datetime_with_microformat).with(@calendar_event.start_date, {:format=>:long})
+      template.should_not_receive(:datetime_with_microformat).with(@calendar_event.end_date, {:format=>:long})
+      render "events/show"      
+    end
   end
 end
