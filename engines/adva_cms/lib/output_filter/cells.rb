@@ -7,32 +7,32 @@ module OutputFilter
           attrs = parse_attributes(tag)
           # controller, name = attrs.delete('controller'), attrs.delete('name')
           # cells[tag] = ["#{controller}/#{name}", attrs]
-          name = attrs.delete('name')
-          cells[tag] = [name, attrs]
+          name, state = attrs.delete('name').split('/')
+          cells[tag] = [name, state, attrs]
           cells
         end
       end
-      
+
       protected
         def parse_attributes(str)
           html = /(\w+)=(?:'|")([^'"]*)(?:'|")/miu
           Hash[*str.scan(html).flatten]
         end
     end
-    
+
     class << self
       def parser
         # TODO could check for hpricot here and use a different implementation
-        @@parser ||= SimpleParser 
+        @@parser ||= SimpleParser
       end
-      
+
       def parser=(parser)
         @@parser = parser
       end
     end
 
     def before(controller) end
-      
+
     def after(controller)
       cells = parser.cells(controller.response.body)
       pattern = /(#{cells.keys.join('|')})/
@@ -40,7 +40,7 @@ module OutputFilter
         controller.response.template.render_cell *cells[tag]
       end unless cells.empty?
     end
-    
+
     protected
       def parser
         @parser ||= self.class.parser.new
