@@ -122,6 +122,9 @@ describe CalendarEvent do
       it "from tomorrow on" do
          @calendar.events.upcoming(Time.now + 1.day).should ==[@running_event]
       end
+      it "for tomorrow only" do
+        @calendar.events.upcoming(Time.now + 1.day, Time.now + 2.days).should ==[@running_event]
+      end
       it "for last year" do
         @calendar.events.upcoming(Time.now - 1.year).should ==[@real_old_event]
       end

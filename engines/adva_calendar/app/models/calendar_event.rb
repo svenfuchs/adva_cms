@@ -43,8 +43,9 @@ class CalendarEvent < ActiveRecord::Base
     start_date ||= t
     end_date ||= start_date.end_of_day + 1.month
     {
-      :conditions => ['(start_date BETWEEN ? AND ?) OR (end_date BETWEEN ? AND ?)', 
-          start_date, end_date, start_date, end_date],
+      :conditions => ['(start_date BETWEEN ? AND ?) 
+          OR (start_date <= ? AND end_date >= ?)', 
+          start_date, end_date, start_date, start_date],
       :order => 'start_date ASC'
     }
   }
