@@ -78,7 +78,7 @@ describe TopicsController do
     
     describe "given invalid topic params" do
       before :each do
-        @forum.topics.should_receive(:post).and_return false
+        @topic.should_receive(:new_record?).and_return true
       end
       it_renders_template :new
       it_assigns_flash_cookie :error => :not_nil
