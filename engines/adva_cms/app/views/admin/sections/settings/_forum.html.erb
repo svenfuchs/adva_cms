@@ -1,13 +1,14 @@
 <h4><%= t(:'adva.sections.titles.forum_settings') %></h4>
 <fieldset class="clearfix">
-  <div class="col1">
-    <p>
+  <div class="col">
       <%= f.label :topics_per_page %>
       <%= f.text_field :topics_per_page, :class => 'short' %>
-    </p>
-    <p>
       <%= f.label :comments_per_page %>
       <%= f.text_field :comments_per_page, :class => 'short' %>
-    </p>
+  </div>
+  <div class="col">  
+    <%= f.label :content_filter, 'Post content filter' %>
+    <span class="hint"><%= "When forum posts are are posted, they use this as a default setting." %></span>
+    <%= f.select :content_filter, filter_options %>
   </div>
 </fieldset>
