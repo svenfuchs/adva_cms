@@ -29,6 +29,8 @@ class Forum < Section
   
   validates_numericality_of :latest_topics_count, :only_integer => true, :message => :only_integer
   
+  before_create :set_content_filter
+  
   class << self
     def content_type
       'Board'
@@ -42,4 +44,9 @@ class Forum < Section
   def boardless_topics
     topics.find(:all, :conditions => ["board_id IS NULL"])
   end
+  
+  protected
+    def set_content_filter
+      self.content_filter = 'textile_filter'
+    end
 end

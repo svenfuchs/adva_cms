@@ -61,6 +61,12 @@ describe Forum do
     end
   end
   
+  describe "callbacks" do
+    it 'sets the content_filter before create' do
+      Forum.before_create.should include(:set_content_filter)
+    end
+  end
+  
   describe "validations" do
     describe "#topics_per_page" do
       it "passes when #topics_per_page is numerical" do
@@ -137,33 +143,9 @@ describe Forum do
       end
     end
   end
-
-  # describe "callbacks" do
-  #   it "initializes the topics counter after create" do
-  #     Forum.after_create.should include(:set_topics_count)
-  #   end
-  #   
-  #   it "initializes the comments counter after create" do
-  #     Forum.after_create.should include(:set_comments_count)
-  #   end
-  # end
-
-  # describe '#after_topic_update' do
-  #   before :each do
-  #     @forum.topics.stub!(:count)
-  #     @forum.comments.stub!(:count)
-  #     @forum.stub!(:topics_count).and_return stub_counter
-  #     @forum.stub!(:comments_count).and_return stub_counter
-  #   end
-  #
-  #   it "updates the topics counter" do
-  #     @forum.topics_count.should_receive(:set).any_number_of_times
-  #     @forum.send :after_topic_update, @topic
-  #   end
-  #
-  #   it "updates the comments counter" do
-  #     @forum.comments_count.should_receive(:set).any_number_of_times
-  #     @forum.send :after_topic_update, @topic
-  #   end
-  # end
+  
+  it "has textile as default filter after create" do
+    @forum.save!
+    @forum.content_filter.should == 'textile_filter'
+  end
 end

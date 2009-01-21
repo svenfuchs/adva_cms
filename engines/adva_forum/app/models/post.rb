@@ -1,6 +1,10 @@
 class Post < Comment
   belongs_to :board
   belongs_to :topic
+  
+  def filter
+    section.content_filter
+  end
 
   # belongs_to :topic, :counter_cache => true
   # attr_accessible :body
