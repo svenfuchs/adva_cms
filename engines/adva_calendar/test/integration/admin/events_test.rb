@@ -1,6 +1,6 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '../..', 'test_helper' ))
 
-class EventsTest < ActionController::IntegrationTest
+class Admin::EventsTest < ActionController::IntegrationTest
   def setup
     factory_scenario :site_with_calendar
     factory_scenario :calendar_with_event
