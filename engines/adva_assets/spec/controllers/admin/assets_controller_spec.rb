@@ -10,6 +10,7 @@ describe Admin::AssetsController do
    @parameters = {:assets => {:title => 'test asset'}}
    @controller.stub! :count_by_conditions
    @controller.stub! :require_authentication
+   @controller.stub!(:has_permission?).and_return true
  end
 
  it "should be an Admin::BaseController" do
@@ -32,10 +33,12 @@ describe Admin::AssetsController do
    act! { request_to :get, @collection_path }
    it_assigns :recent
    it_renders_template :index
+   it_guards_permissions :show, :asset
  end
  
  describe "POST to :create" do
    act! { request_to :post, @collection_path, @parameters }
+   it_guards_permissions :create, :asset
    
    before :each do
      @site.assets.stub!(:build).and_return @assets 
@@ -68,6 +71,7 @@ describe Admin::AssetsController do
  describe "PUT to :update" do
    act! { request_to :put, @member_path, @parameters }
    it_assigns :asset
+   it_guards_permissions :update, :asset
  
    it "fetches an asset from site.assets" do
      @site.assets.should_receive(:find).and_return @asset
@@ -97,6 +101,7 @@ describe Admin::AssetsController do
    act! { request_to :delete, @member_path }
    it_assigns :asset
    it_assigns_flash_cookie :notice => :not_nil
+   it_guards_permissions :destroy, :asset
    
    it "fetches an asset from site.assets" do
      @site.assets.should_receive(:find).and_return @asset

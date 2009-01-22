@@ -31,7 +31,7 @@ describe Admin::ThemeFilesController do
 
   describe "GET to :show" do
     act! { request_to :get, @member_path }
-    # it_guards_permissions :update, :theme
+    it_guards_permissions :update, :theme
     it_assigns :file
   end
 

@@ -30,7 +30,7 @@ describe Admin::CategoriesController do
 
   describe "GET to :index" do
     act! { request_to :get, @collection_path }
-    # it_guards_permissions :show, :category # deactivated all :show permissions in the backend
+    it_guards_permissions :show, :category
     it_assigns :categories
     it_renders_template :index
   end

@@ -37,7 +37,7 @@ describe Admin::UsersController do
       describe "GET to :index" do
         act! { request_to :get, @collection_path }
         # TODO depending on scope superuser or admin should be required
-        # it_guards_permissions :show, :user # deactivated all :show permissions in the backend
+        it_guards_permissions :show, :user
         it_assigns :users
         it_renders_template :index
 

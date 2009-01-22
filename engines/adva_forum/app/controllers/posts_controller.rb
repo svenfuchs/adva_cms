@@ -6,6 +6,8 @@ class PostsController < BaseController
   before_filter :set_post, :only => [:edit, :update, :destroy]
   cache_sweeper :comment_sweeper, :only => [:create, :update, :destroy]
 
+  guards_permissions :post
+  
   def new
     @post = Post.new
   end

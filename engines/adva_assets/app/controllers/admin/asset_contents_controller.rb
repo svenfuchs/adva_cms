@@ -3,6 +3,7 @@ class Admin::AssetContentsController < Admin::BaseController
 
   before_filter :set_asset, :set_content
   helper :assets
+  guards_permissions :asset, :manage => [:create, :destroy]
 
   def create
     @asset.contents << @content

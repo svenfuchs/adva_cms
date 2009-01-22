@@ -25,17 +25,16 @@ describe Admin::SectionsController do
       route.it_maps :post, "sections", :create
       route.it_maps :put, "sections/1", :update, :id => '1'
       route.it_maps :delete, "sections/1", :destroy, :id => '1'
-      # route.it_maps :get, "sections", :index
-      # route.it_maps :get, "sections/1/edit", :edit, :id => '1'
+      route.it_maps :get, "sections", :index
+      route.it_maps :get, "sections/1/edit", :edit, :id => '1'
     end
   end
 
-  # describe "GET to :index" do
-  #   act! { request_to :get, @collection_path }
-  #   it_assigns :sections
-  #   it_renders_template :index
-  #   # it_guards_permissions :index, :section
-  # end
+  describe "GET to :index" do
+    act! { request_to :get, @collection_path }
+    it_renders_template :index
+    it_guards_permissions :show, :section
+  end
 
   # use admin_section_contents_path instead
   # describe "GET to :show" do
@@ -79,7 +78,7 @@ describe Admin::SectionsController do
     act! { request_to :get, @edit_member_path }
     it_assigns :section
     it_renders_template :edit
-    # it_guards_permissions :show, :section # deactivated all :show permissions in the backend
+    it_guards_permissions :update, :section
 
     it "fetches a section from site.sections" do
       @site.sections.should_receive(:find).and_return @section

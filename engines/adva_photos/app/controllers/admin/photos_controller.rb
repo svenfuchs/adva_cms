@@ -13,6 +13,8 @@ class Admin::PhotosController < Admin::BaseController
   cache_sweeper :photo_sweeper, :category_sweeper, :tag_sweeper,
                 :only => [:create, :update, :destroy]
   
+  guards_permissions :photo
+  
   def index
     @photos = @section.photos.paginate photo_paginate_options
   end

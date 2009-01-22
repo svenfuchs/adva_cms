@@ -27,7 +27,6 @@ describe CommentsController do
     act! { request_to :get, @member_path }
     it_assigns :section, :comment, :commentable
     it_renders_template :show
-    # it_guards_permissions :show, :comment # deactivated all :show permissions in the backend
   end
 
   describe "POST to preview" do

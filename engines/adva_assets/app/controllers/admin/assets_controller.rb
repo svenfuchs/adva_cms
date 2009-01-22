@@ -11,6 +11,8 @@ class Admin::AssetsController < Admin::BaseController
   before_filter :set_format, :only => [:create]
   before_filter :set_asset, :only => [:edit, :update, :destroy]
 
+  guards_permissions :asset
+
   def index
     @recent = @assets.slice! 0, 4 if params[:source] != 'widget'
     respond_to do |format|

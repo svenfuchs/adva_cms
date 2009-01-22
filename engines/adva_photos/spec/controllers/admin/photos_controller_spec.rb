@@ -31,6 +31,7 @@ describe Admin::PhotosController do
     act! { request_to :get, @collection_path }
     it_assigns :photos
     it_renders_template :index
+    it_guards_permissions :show, :photo
     
     it "finds all the photos from section.photos" do
       @album.should_receive(:photos).and_return [@photo]
@@ -46,6 +47,7 @@ describe Admin::PhotosController do
     act! { request_to :get, @new_member_path }
     it_assigns :photo
     it_renders_template :new
+    it_guards_permissions :create, :photo
     
     it "instantiates a new photo from section.photos" do
       @album.photos.should_receive(:build).and_return @photo
@@ -59,6 +61,7 @@ describe Admin::PhotosController do
     end
     act! { request_to :post, @member_path, {:photo => {:author => "#{@user.id}"}} }
     it_assigns :photo
+    it_guards_permissions :create, :photo
     
     it "instantiates a new photo from section.photos" do
       @album.photos.should_receive(:build).and_return @photo
@@ -94,6 +97,7 @@ describe Admin::PhotosController do
     act! { request_to :get, @member_path + "#{@photo.id}/edit" }
     it_assigns :photo
     it_renders_template :edit
+    it_guards_permissions :update, :photo
     
     it "instantiates finds the photo from section.photos" do
       @album.photos.should_receive(:find).and_return @photo
@@ -107,6 +111,7 @@ describe Admin::PhotosController do
     end
     act! { request_to :put, @member_path + "#{@photo.id}", {:photo => { :author => "#{@user.id}"}} }
     it_assigns :photo
+    it_guards_permissions :update, :photo
     
     it "instantiates a new photo from section.photos" do
       @album.photos.should_receive(:find).and_return @photo
@@ -142,6 +147,7 @@ describe Admin::PhotosController do
     act! { request_to :delete, "/admin/sites/#{@site.id}/sections/#{@album.id}/photos/#{@photo.id}" }
     it_assigns :photo
     it_assigns_flash_cookie :notice => :not_nil
+    it_guards_permissions :destroy, :photo
     it_redirects_to { admin_photos_path(@site, @album) }
     
     it "deletes the photo" do

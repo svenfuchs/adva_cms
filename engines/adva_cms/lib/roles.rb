@@ -26,7 +26,8 @@ Rbac.define do
        :parent => :admin,
        :message => :'adva.roles.errors.messages.not_a_superuser'
 
-  permissions :'create site'        => :superuser,
+  permissions :'show site'          => :admin,
+              :'create site'        => :superuser,
               :'update site'        => :admin,
               :'destroy site'       => :superuser,
               :'manage site'        => :admin,
@@ -36,6 +37,12 @@ Rbac.define do
               :'update section'     => :admin,
               :'destroy section'    => :admin,
               :'manage section'     => :admin,
+
+              :'show asset'         => :moderator,
+              :'create asset'       => :moderator,
+              :'update asset'       => :moderator,
+              :'destroy asset'      => :moderator,
+              :'manage asset'     => :moderator,
 
               :'create theme'       => :admin,
               :'update theme'       => :admin,
@@ -106,4 +113,3 @@ Rbac.define do
               :'destroy photo'      => :admin,
               :'manage photo'       => :admin
 end
-
