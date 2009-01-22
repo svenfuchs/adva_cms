@@ -48,6 +48,10 @@ Spec::Rails::Example::RailsExampleGroup.class_eval do
   before :each do
     I18n.default_locale = :en # reset this because it will be changed in base controllers
     I18n.locale = nil
+    
+    # use this to test the completeness of, e.g., the locale :de
+    # I18n.default_locale = :de
+    # I18n.fallbacks = Globalize::Locale::Fallbacks::None
   end
 end
   
