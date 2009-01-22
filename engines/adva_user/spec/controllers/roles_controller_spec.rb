@@ -15,8 +15,13 @@ describe RolesController do
 
   describe "GET to :index" do
     act! { request_to :get, '/users/1/roles.js' }
-    it_assigns :user, :site
+    it_assigns :user, :site, :roles
     it_renders_template :index, :format => :js
     it_gets_page_cached
+    
+    it "@roles should always include user role" do
+      act!
+      assigns[:roles].should include(Rbac::Role.build(:user))
+    end
   end
 end
