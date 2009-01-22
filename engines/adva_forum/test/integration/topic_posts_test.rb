@@ -3,9 +3,8 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', 'test_helper' )
 class TopicPosts < ActionController::IntegrationTest
   def setup
     factory_scenario  :site_with_forum
-    login_as          :admin
+    login_as          :superuser
     @topic  = @forum.topics.post(@user, Factory.attributes_for(:topic, :section => @forum))
-    @topic.save
   end
   
   def test_an_admin_creates_a_new_post_to_a_topic

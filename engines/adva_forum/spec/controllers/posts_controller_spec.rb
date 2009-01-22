@@ -13,6 +13,7 @@ describe PostsController do
     Site.stub!(:find_by_host).and_return @site
     @site.sections.stub!(:find).and_return @forum
     controller.stub!(:current_user).and_return @user
+    @controller.stub!(:has_permission?).and_return true
   end
   
   it "should be a BaseController" do
@@ -25,6 +26,7 @@ describe PostsController do
     end
     act! { request_to :get, "/forums/#{@forum.id}/topics/#{@topic.id}/posts/new" }
     it_assigns :post
+    it_guards_permissions :create, :post
   end
   
   describe "GET to edit" do
@@ -33,6 +35,7 @@ describe PostsController do
     end
     act! { request_to :get, "/forums/#{@forum.id}/topics/#{@topic.id}/posts/#{@post.id}/edit" }
     it_assigns @post
+    it_guards_permissions :update, :post
   end
   
   describe "POST to create" do
@@ -41,6 +44,7 @@ describe PostsController do
       @topic.stub!(:reply).and_return @post
     end
     act! { request_to :post, "/forums/#{@forum.id}/topics/#{@topic.id}/posts", {} }
+    it_guards_permissions :create, :post
     
     it "instantiates a new post through topic.reply" do
       @topic.should_receive(:reply).with(@user, nil).and_return(@post)
@@ -72,6 +76,7 @@ describe PostsController do
       @topic.comments.stub!(:find).and_return @post
     end
     act! { request_to :put, "/forums/#{@forum.id}/topics/#{@topic.id}/posts/#{@post.id}", {} }
+    it_guards_permissions :update, :post
     
     describe "with valid parameters" do
       it_redirects_to { "http://test.host/forums/#{@forum.id}/topics/#{@topic.permalink}#post_#{@post.id}" }
@@ -102,6 +107,7 @@ describe PostsController do
       it_assigns @post
       it_assigns_flash_cookie :notice => :not_nil
       it_redirects_to { "http://test.host/forums/#{@forum.id}/topics/#{@topic.id}" }
+      it_guards_permissions :destroy, :post
       
       it "destroys the post" do
         @post.should_receive(:destroy)
