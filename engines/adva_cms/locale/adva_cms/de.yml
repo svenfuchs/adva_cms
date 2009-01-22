@@ -112,6 +112,12 @@ de:
      reordering_done: Umsortierung beenden
      settings: Einstellungen
      view: Ansicht
+   state:
+     draft: Entwurf
+     published: Veröffentlicht
+     hold: Veröffentlicht
+     queued: Im Versand
+     delivered: Versendet
    sites:
      title:
        create: Neue Webseite anlegen 
