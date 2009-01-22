@@ -4,6 +4,7 @@ class Admin::AssetsBucketController < Admin::BaseController
   layout false
 
   before_filter :set_asset, :only => [:create]
+  guards_permissions :asset, :manage => [:create, :destroy]
 
   def create
     render :nothing => true and return if (session[:bucket] ||= {}).key?(@asset.id)
