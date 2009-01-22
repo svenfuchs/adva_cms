@@ -99,48 +99,52 @@ describe Admin::CommentsController do
     act! { request_to :get, @collection_path }
     it_assigns :comments
     it_renders_template :index
-    # it_guards_permissions :show, :comment # deactivated all :show permissions in the backend
+    it_guards_permissions :show, :comment
   end
 
-  # describe "GET to :show" do
-  #   act! { request_to :get, @member_path }
-  #   it_assigns :comment
-  #   it_renders_template :show
-  #   it_guards_permissions :show, :comment
-  #
-  #   it "fetches a comment from site.comments" do
-  #     @site.comments.should_receive(:find).and_return @comment
-  #     act!
-  #   end
-  # end
-  #
+  describe "GET to :show" do
+    before :each do
+      @comment.stub!(:commentable_type).and_return Article
+      @comment.stub!(:commentable_id).and_return '123'
+    end
+    act! { request_to :get, @member_path }
+    it_assigns :comment
+    it_renders_template :show
+    it_guards_permissions :show, :comment
+  
+    it "fetches a comment from site.comments" do
+      @site.comments.should_receive(:find).and_return @comment
+      act!
+    end
+  end
+  
   # describe "GET to :new" do
   #   act! { request_to :get, @new_member_path }
   #   it_assigns :comment
   #   it_renders_template :new
   #   it_guards_permissions :create, :comment
-  #
+  # 
   #   it "instantiates a new comment from site.comments" do
   #     @site.comments.should_receive(:build).and_return @comment
   #     act!
   #   end
   # end
-  #
+  # 
   # describe "POST to :create" do
   #   act! { request_to :post, @collection_path }
   #   it_assigns :comment
   #   it_guards_permissions :create, :comment
-  #
+  # 
   #   it "instantiates a new comment from site.comments" do
   #     @site.comments.should_receive(:build).and_return @comment
   #     act!
   #   end
-  #
+  # 
   #   describe "given valid comment params" do
   #     it_redirects_to { @member_path }
   #     it_assigns_flash_cookie :notice => :not_nil
   #   end
-  #
+  # 
   #   describe "given invalid comment params" do
   #     before :each do @comment.stub!(:save).and_return false end
   #     it_renders_template :new

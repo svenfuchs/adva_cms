@@ -69,19 +69,16 @@ describe WikiController do
     act! { request_to :get, wiki_pages_path }
     it_assigns :wikipages
     it_renders_template :index
-    # it_guards_permissions :show, :wikipage
   end
   
   describe "GET to #{wiki_category_path}" do
     act! { request_to :get, wiki_category_path }
     it_assigns :category
-    # it_guards_permissions :show, :wikipage
   end
   
   describe "GET to #{wiki_tag_path}" do
     act! { request_to :get, wiki_tag_path }
     it_assigns :tags
-    # it_guards_permissions :show, :wikipage
   end
   
   describe "GET to #{wiki_page_path}" do
@@ -116,13 +113,11 @@ describe WikiController do
     describe "with an existing wikipage" do
       it_assigns :wikipage
       it_renders_template :show
-      # it_guards_permissions :show, :wikipage
     end
   end
   
   describe "GET to #{wiki_page_revision_path}" do
     act! { request_to :get, wiki_page_revision_path }
-    # it_guards_permissions :show, :wikipage
   
     it "reverts the wikipage to the given version" do
       @wikipage.should_receive(:revert_to).at_least :once
@@ -133,7 +128,6 @@ describe WikiController do
   describe "GET to #{wiki_page_diff_path}" do
     act! { request_to :get, wiki_page_diff_path }
     it_assigns :wikipage, :diff => 'the diff'
-    # it_guards_permissions :show, :wikipage
   
     it "diffs the wikipage against the given version" do
       @wikipage.should_receive(:diff_against_version)
@@ -144,7 +138,6 @@ describe WikiController do
   describe "GET to #{wiki_page_revision_diff_path}" do
     act! { request_to :get, wiki_page_revision_diff_path }
     it_assigns :wikipage, :diff => 'the diff'
-    # it_guards_permissions :show, :wikipage
   
     it "reverts the wikipage to the given version" do
       @wikipage.should_receive(:revert_to).at_least :once
@@ -309,7 +302,6 @@ describe WikiController, 'feeds' do
       act! { request_to :get, path }
       it_renders_template 'comments/comments', :format => :atom
       it_gets_page_cached
-      # it_guards_permissions :show, :wikipage
     end
   end
 end

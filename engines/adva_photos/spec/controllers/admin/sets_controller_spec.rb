@@ -39,6 +39,7 @@ describe Admin::SetsController do
     act! { request_to :get, @collection_path }
     it_assigns :sets
     it_renders_template :index
+    it_guards_permissions :show, :category
     
     it "finds all the sets from section.sets" do
       @album.should_receive(:sets).and_return [@set]

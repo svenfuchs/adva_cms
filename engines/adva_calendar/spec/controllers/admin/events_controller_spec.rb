@@ -41,6 +41,7 @@ describe Admin::EventsController do
     act! { request_to :get, @collection_path }
     it_assigns :events
     it_renders_template :index
+    it_guards_permissions :show, :calendar_event
   end
 
   describe "GET to :new" do
