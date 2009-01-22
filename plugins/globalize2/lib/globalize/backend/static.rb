@@ -11,10 +11,13 @@ module Globalize
 
       def translate(locale, key, options = {})
         result, default, fallback = nil, options.delete(:default), nil
-        I18n.fallbacks[locale].each do |fallback|
-          begin
-            result = super(fallback, key, options) and break
-          rescue I18n::MissingTranslationData
+
+        if fallbacks = I18n.fallbacks[locale]
+          fallbacks.each do |fallback|
+            begin
+              result = super(fallback, key, options) and break
+            rescue I18n::MissingTranslationData
+            end
           end
         end
         

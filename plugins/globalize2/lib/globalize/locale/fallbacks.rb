@@ -19,6 +19,8 @@ end
 module Globalize
   module Locale
     class Fallbacks < Hash
+      None = {}
+      
       def initialize(*defaults)
         @map = {}
         map defaults.pop if defaults.last.is_a?(Hash)

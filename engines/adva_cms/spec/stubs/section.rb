@@ -29,6 +29,7 @@ define Section do
            :save => true,
            :update_attributes => true,
            :destroy => true,
+           :root_section? => false,
            :has_attribute? => true,
            :track_method_calls => nil
 

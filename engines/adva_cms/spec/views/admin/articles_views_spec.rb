@@ -28,6 +28,9 @@ describe "Admin::Articles:" do
     
     template.extend BaseHelper
     template.extend ContentHelper
+    
+    I18n.default_locale = :sp
+    I18n.fallbacks = Globalize::Locale::Fallbacks::None
   end
 
   describe "the index view" do
