@@ -770,7 +770,7 @@ en:
         user: Users
         subscriber: Subscriber
         email: Email
-        time: Subscrition time
+        time: Subscription time
         subscriptions: Subscribers
     locations:
       attributes:

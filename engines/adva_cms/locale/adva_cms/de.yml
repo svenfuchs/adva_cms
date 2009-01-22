@@ -738,4 +738,19 @@ de:
    sidebar:
      titles:
        tags: Tags
-       topics: Themen      
+       topics: Themen
+   subscription:
+     no_subscriptions: Es gibt keine Abonnenten.
+     confirm_delete: Das Abonnement wirklich auflösen?
+     flash:
+       destroy_success: Das Abonnement wurde aufgelöst.
+     link:
+       index: Abonnenten
+       new: Einen neuen Abonnenten hinzufügen
+       destroy: Abonnement auflösen
+     label:
+       user: Benutzer
+       subscriber: Abonnenten
+       email: E-Mail
+       time: Anmeldedatum
+       subscriptions: Abonnements  
