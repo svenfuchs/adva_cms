@@ -8,7 +8,7 @@ class TopicsCommon < ActionController::IntegrationTest
     factory_scenario  :forum_with_topics
   end
 
-  def test_an_admin_edits_the_existing_topic
+  test "01  an admin edits the existing topic" do
     assert @topic.title != 'Updated test topic'
 
     # Go to section
@@ -28,7 +28,7 @@ class TopicsCommon < ActionController::IntegrationTest
     assert_equal "Updated test topic", @topic.title
   end
 
-  def test_an_admin_makes_the_topic_sticky
+  test "02 an admin makes the topic sticky" do
     # Go to section
     get forum_path(@forum)
 
@@ -46,7 +46,7 @@ class TopicsCommon < ActionController::IntegrationTest
     assert @topic.sticky?
   end
 
-  def test_an_admin_locks_the_topic
+  test "03 an admin locks the topic" do
     # Go to section
     get forum_path(@forum)
 
@@ -64,7 +64,7 @@ class TopicsCommon < ActionController::IntegrationTest
     assert @topic.locked?
   end
 
-  def test_an_admin_deletes_the_existing_topic
+  test "04 an admin deletes the existing topic" do
     # Go to section
     get forum_path(@forum)
 
@@ -80,28 +80,26 @@ class TopicsCommon < ActionController::IntegrationTest
     assert Topic.count == 1
   end
   
-  # removed because it repeatedly fails
-  #
-  # def test_an_admin_goes_to_previous_topic_when_on_first_topic
-  #   # Go to section
-  #   get forum_path(@forum)
-  # 
-  #   # Admin clicks link to go to the board
-  #   click_link @forum.topics.first.title
-  #   assert_template 'topics/show'
-  # 
-  #   click_link 'previous'
-  # 
-  #   assert_template 'topics/show'
-  #   assert_flash  'There is no previous topic'
-  # end
+  test "05 an admin goes to previous topic when on first topic" do
+    # Go to section
+    get forum_path(@forum)
+  
+    # Admin clicks link to go to the board
+    click_link @forum.topics(true).first.title
+    assert_template 'topics/show'
+  
+    click_link 'previous'
+  
+    assert_template 'topics/show'
+    assert_flash  'There is no previous topic'
+  end
 
-  def test_an_admin_goes_to_previous_topic_when_on_last_topic
+  test "06 an admin goes to previous topic when on last topic" do
     # Go to section
     get forum_path(@forum)
 
     # Admin clicks link to go to the board
-    click_link @forum.topics.last.title
+    click_link @forum.topics(true).last.title
     assert_template 'topics/show'
 
     click_link 'previous'
@@ -113,12 +111,12 @@ class TopicsCommon < ActionController::IntegrationTest
     end
   end
 
-  def test_an_admin_goes_to_next_topic_when_on_last_topic
+  test "07 an admin goes to next topic when on last topic" do
     # Go to section
     get forum_path(@forum)
 
     # Admin clicks link to go to the board
-    click_link @forum.topics.last.title
+    click_link @forum.topics(true).last.title
     assert_template 'topics/show'
 
     click_link 'next'
@@ -127,12 +125,12 @@ class TopicsCommon < ActionController::IntegrationTest
     assert_flash  'There is no next topic'
   end
 
-  def test_an_admin_goes_to_next_topic_when_on_first_topic
+  test "08 an admin goes to next topic when on first topic" do
     # Go to section
     get forum_path(@forum)
 
     # Admin clicks link to go to the board
-    click_link @forum.topics.first.title
+    click_link @forum.topics(true).first.title
     assert_template 'topics/show'
 
     click_link 'next'
