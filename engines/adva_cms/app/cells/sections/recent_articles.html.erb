@@ -1,0 +1,8 @@
+<div style="border: 3px solid #eee; padding: 12px; margin-bottom: 20px;">
+	<h2>Recent <%= @count %> articles</h2>
+	<ul>
+	<% @articles.each do |article| %>
+	  <li><%= article.title %></li>
+	<% end %>
+	</ul>
+</div>
