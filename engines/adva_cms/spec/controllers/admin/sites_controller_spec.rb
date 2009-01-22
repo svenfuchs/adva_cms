@@ -36,14 +36,14 @@ describe Admin::SitesController do
     act! { request_to :get, @collection_path }
     it_assigns :sites
     it_renders_template :index
-    # it_guards_permissions :show, :site # deactivated all :show permissions in the backend
+    it_guards_permissions :show, :site
   end
 
   describe "GET to :show" do
     act! { request_to :get, @member_path }
     it_assigns :site
     it_renders_template :show
-    # it_guards_permissions :show, :site # deactivated all :show permissions in the backend
+    it_guards_permissions :show, :site
 
     it "fetches a site from Site" do
       Site.should_receive(:find).and_return @site
