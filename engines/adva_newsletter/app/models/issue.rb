@@ -25,28 +25,83 @@ class Issue < BaseIssue
     if user.nil?
       deliver_all(deliver_datetime)
     else
-      deliver_to!(user)
+      deliver_to(user)
     end
   end
 
+### Virtual attributes
   def email
     self.newsletter.default_email
   end
 
-  def state
-    if self.published_at.present? && !self.draft?
-      "published"
-    elsif self.published_at.nil? && self.draft?
-      "pending"
-    elsif self.published_at.nil? && !self.draft?
-      ""
+### State management
+  def draft_state!
+    self.state = "draft"
+    self.published_at = nil
+  end
+
+  def draft=(value)
+    case value.to_i
+    when 0
+      published_state!
+    when 1
+      draft_state!
     end
   end
-
-  def draft?
-    self.draft == 1
+  
+  def published_state!
+    self.state = "hold" # state should be "published", but it does not make sence with newsletter issue
+    self.published_at = DateTime.now
+    save
   end
 
+  def queued_state!
+    self.state = "queued"
+    self.queued_at = DateTime.now
+    save
+  end
+
+  def delivered_state!
+    self.state = "delivered"
+    self.delivered_at = DateTime.now
+    save
+  end
+
+### State status
+  def draft?
+    state == "draft"
+  end
+
+  def draft
+    published? ? 0 : 1
+  end
+
+  def published?
+    state == "hold"
+  end
+  
+  def queued?
+    state == "queued"
+  end
+
+  def delivered?
+    state == "delivered"
+  end
+  
+  def state_time
+    case state
+    when "draft"
+      updated_at
+    when "hold"
+      published_at
+    when "queued"
+      queued_at
+    when "delivered"
+      delivered_at
+    end
+  end
+  
+### Tracking
   def tracking_campaign=(campaign)
     write_attribute(:tracking_campaign, URI.escape(campaign))
   end
@@ -59,6 +114,17 @@ class Issue < BaseIssue
     track? && !(newsletter.site.google_analytics_tracking_code.blank? || tracking_campaign.blank? || tracking_source.blank?)
   end
 
+### Delivery
+  def deliver_all(datetime = nil)
+    queued_state!
+    datetime ||= DateTime.now + 3.minutes
+    self.cronjobs.create :command => "Issue.find(#{self.id}).create_emails", :due_at => datetime
+  end
+
+  def deliver_to(user)
+    NewsletterMailer.deliver_issue(self,user)
+  end
+
   def destroy
     self.deleted_at = Time.now.utc
     self.type = "DeletedIssue"
@@ -68,21 +134,11 @@ class Issue < BaseIssue
     return self
   end
 
-  def deliver_all(datetime = nil)
-    datetime ||= DateTime.now + 3.minutes
-    self.cronjobs.create :command => "Issue.find(#{self.id}).create_emails", :due_at => datetime
-  end
-
-  def deliver_to!(user)
-    NewsletterMailer.deliver_issue(self,user)
-  end
-
   def create_emails
     self.newsletter.users.each do |user|
       create_email_to(user)
     end
-    self.published_at = Time.now.utc
-    self.save
+    delivered_state!
     Email.create_cronjob
   end
 
@@ -91,6 +147,13 @@ class Issue < BaseIssue
     Email.create(:from => self.newsletter.site.email,
                  :to => user.email,
                  :mail => issue.encoded)
+  end
+  
+  def cancel_delivery
+    return false if cronjobs.blank?
+    published_state!
+    cronjobs.destroy_all
+    true
   end
   
 private

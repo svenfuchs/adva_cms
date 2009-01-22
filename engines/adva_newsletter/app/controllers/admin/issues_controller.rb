@@ -22,32 +22,34 @@ class Admin::IssuesController < Admin::BaseController
     @issue = @newsletter.issues.build(params[:issue])
 
     if @issue.save
-      flash[:notice] = t(:'adva.issue.flash.create_success')
+      flash[:notice] = t(:"adva.issue.flash.create_success")
       redirect_to admin_issue_path(@site, @newsletter, @issue)
     else
-      render :action => 'new'
+      render :action => "new"
     end
   end
 
   def update
     @issue = Issue.find(params[:id])
+    
+    return cancel_delivery if params[:cancel_delivery]
 
     if @issue.update_attributes(params[:issue])
       if @issue.draft?
-        flash[:notice] = t(:'adva.issue.flash.update_success')
+        flash[:notice] = t(:"adva.issue.flash.update_success")
       else
         delivery
       end
       redirect_to admin_issue_path(@site, @newsletter, @issue)
     else
-      render :action => 'edit'
+      render :action => "edit"
     end
   end
 
   def destroy
     @issue = Issue.find(params[:id])
     @issue.destroy
-    flash[:notice] = t(:'adva.newsletter.flash.issue_moved_to_trash_success')
+    flash[:notice] = t(:"adva.newsletter.flash.issue_moved_to_trash_success")
     redirect_to admin_issues_path(@site, @newsletter)
   end
 
@@ -58,16 +60,25 @@ private
 
   def delivery
     if params[:send_test]
-      flash[:notice] = t(:'adva.issue.flash.send_test')
+      flash[:notice] = t(:"adva.issue.flash.send_test")
       @issue.deliver :to => current_user
     else
       if params[:send_now].present?
-        flash[:notice] = t(:'adva.issue.flash.send_now')
+        flash[:notice] = t(:"adva.issue.flash.send_now")
         @issue.deliver
       elsif params[:send_later].present?
-        flash[:notice] = t(:'adva.issue.flash.send_later')
+        flash[:notice] = t(:"adva.issue.flash.send_later")
         @issue.deliver :later_at => params[:publish_at]
       end
     end
+  end
+  
+  def cancel_delivery
+    if @issue.cancel_delivery
+      flash[:notice] = t(:"adva.newsletter.flash.delivery_cancellation_success")
+    else
+      flash[:error] = t(:"adva.newsletter.flash.delivery_cancellation_failed")
+    end
+    redirect_to admin_issue_path(@site, @newsletter, @issue)
   end
 end

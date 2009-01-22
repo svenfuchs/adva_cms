@@ -18,10 +18,14 @@ table.list td {
 	border-bottom: 1px solid #eee;
 }
 
+table.list a.delivered,
 table.list a.published {
 	padding-left: 30px;
 	background: url(/images/adva_cms/icons/tick.png) no-repeat;
 }
+table.list a.draft,
+table.list a.hold,
+table.list a.queued,
 table.list a.pending {
 	padding-left: 30px;
 	background: url(/images/adva_cms/icons/hourglass.png) no-repeat;

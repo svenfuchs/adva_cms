@@ -1,34 +1,51 @@
 <% content_for :sidebar do %>
-  <%= render :partial => 'admin/shared/sidebar_manage' %>
-  <%= render :partial => 'sidebar_actions' %>
+  <%= render :partial => "admin/shared/sidebar_manage" %>
+  <%= render :partial => "sidebar_actions" %>
 <% end %>
 
 <div id="issue">
   <h2>
     <%= h(@issue.title) %>
-    <% if @issue.draft? %>
-      <span class="draft">Draft</span>
-    <% end %>
   </h2>
+  <p class="state">
+    <%= t(:"adva.state.#{@issue.state}") %>
+  </p>
+
   <p><%= @issue.body_html %></p>
 
-  <% unless @issue.draft? %>
-    <% split_form_for :issue, @issue, :url => admin_issue_path, :html => {:method => :put, :multipart => true, :id => 'content_form'} do |f| %>
+  <% if @issue.published? %>
+    <% split_form_for :issue, @issue, :url => admin_issue_path, :html => {:method => :put, :multipart => true, :id => "content_form"} do |f| %>
       <div id="delivery" class="buttons"> 
         <span id="send-now">
-          <%= submit_tag t(:'adva.issue.button.send_now'), :name => 'send_now' %>
+          <%= submit_tag t(:"adva.issue.button.send_now"), :name => "send_now" %>
           <label>
-            <%= check_box_tag :send_test %><%= t(:'adva.issue.label.send_test') %>
+            <%= check_box_tag :send_test %><%= t(:"adva.issue.label.send_test") %>
           </label>
         </span>
         <span id="send-later">
           <%= f.label :publish_at, t(:'adva.newsletter.label.issue_publish_at') %>
           <%= select_time Time.now + 5.minutes, :prefix => "publish_at", :time_separator => ":" %> - 
           <%= select_date Date.today, :prefix => "publish_at", :order => [:day, :month], :discard_year => true %>
-          <%= submit_tag t(:'adva.issue.button.send_later'), :name => 'send_later' %>
+          <%= submit_tag t(:"adva.issue.button.send_later"), :name => "send_later" %>
         </span>
       </div>
     <% end %>
   <% end %>
-</div>
+  
+  <% if @issue.queued? %>
+    <% split_form_for :issue, @issue, :url => admin_issue_path, :html => {:method => :put, :multipart => true, :id => "content_form"} do |f| %>
+      <div id="delivery" class="buttons"> 
+        <span id="cancel-delivery">
+          <%= submit_tag t(:"adva.newsletter.button.cancel_delivery"), :name => "cancel_delivery" %>
+        </span>
+        <%= t(:"adva.newsletter.delivery_due_time", :delivery_time => l(@issue.cronjobs.first.due_at, :format => :long)) %>
+      </div>
+    <% end %>
+  <% end %>
 
+  <% if @issue.delivered? %>
+    <div id="delivery" class="buttons"> 
+      <%= t(:"adva.newsletter.delivered_at", :delivered_time => l(@issue.delivered_at, :format => :long)) %>
+    </div>
+  <% end %>
+</div>

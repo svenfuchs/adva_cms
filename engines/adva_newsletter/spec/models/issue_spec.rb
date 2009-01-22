@@ -55,38 +55,109 @@ describe Issue do
         @newsletter.reload.issues_count.should == 0
       end
     end
-
-    describe "state" do
-      it "should be published when published and not draft" do
-        @issue.published_at = DateTime.now
-        @issue.draft = 0
-        @issue.state.should == "published"
+    
+    describe "state_time" do
+      it "should be updated_at when draft state" do
+        @issue.state_time.should == @issue.updated_at
       end
-
-      it "should be pending when not published" do
-        @issue.published_at = nil
-        @issue.draft = 1
-        @issue.state.should == "pending"
+      
+      it "should be published_at when on hold state" do
+        @issue.published_state!
+        @issue.state_time.should == @issue.published_at
       end
+      
+      it "should be queued_at when queued state" do
+        @issue.queued_state!
+        @issue.state_time.should == @issue.queued_at
+      end
+      
+      it "should be delivered_at when delivered state" do
+        @issue.delivered_state!
+        @issue.state_time.should == @issue.delivered_at
+      end
+    end
 
-      it "should be empty string when not published and not draft. We might need new state perhaps." do
-        @issue.published_at = nil
-        @issue.draft = 0
-        @issue.state.should == ""
+    describe "draft!" do
+      it "should unpublish" do
+        @issue.draft_state!
+        @issue.draft?.should == true
       end
     end
 
     describe "draft?" do
-      it "should be true with new issue" do
+      it "should be true by default" do
         @issue.draft?.should == true
       end
 
-      it "should be true when issue is draft" do
-        @issue.draft = 1
-        @issue.draft?.should == true
+      it "should be false when published" do
+        @issue.published_state!
+        @issue.draft?.should == false
       end
     end
 
+    describe "published?" do
+      it "should be false by default" do
+        @issue.published?.should == false
+      end
+      
+      it "should be true when published" do
+        @issue.published_state!
+        @issue.published?.should == true
+      end
+    end
+
+    describe "queued?" do
+      it "should be false by default" do
+        @issue.queued?.should == false
+      end
+
+      it "sholud be true when queued" do
+        @issue.queued_state!
+        @issue.queued?.should == true
+      end
+    end
+    
+    describe "delivered?" do
+      it "should be false by default" do
+        @issue.delivered?.should == false
+      end
+      
+      it "should be true when delivered" do
+        @issue.delivered_state!
+        @issue.delivered?.should == true
+      end
+    end
+
+    describe "draft" do
+      it "should be 1 by default" do
+        @issue.draft.should == 1
+      end
+      
+      it "should be 0 when published" do
+        @issue.stub!(:published?).and_return(true)
+        @issue.draft.should == 0
+      end
+    end
+    
+    describe "draft=" do
+      it "should set state published when given 0" do
+        @issue.draft = 0
+        @issue.published?.should == true
+      end
+
+      it "should set state not published when given 1" do
+        @issue.draft = 1
+        @issue.published?.should == false
+      end
+    end
+    
+    describe "create_emails" do
+      it "should change state to delivered" do
+        @issue.create_emails
+        @issue.delivered?.should == true
+      end
+    end
+    
     describe "email" do
       it "should provide newsletter email" do
         @issue.newsletter.email = "newsletter@example.org"
@@ -182,32 +253,59 @@ describe Issue do
   end
 
   describe "deliver" do
-    it "should create cronjob with command to create issue emails" do
-      @issue.deliver.command.should == "Issue.find(#{@issue.id}).create_emails"
+    it "should call deliver_all when no arguments given" do
+      @issue.should_receive(:deliver_all)
+      @issue.deliver
     end
 
-    it "should create cronjob with due time 3 minutes later" do
-      @issue.deliver.created_at.class.should == ActiveSupport::TimeWithZone
-      @issue.deliver.due_at.should > DateTime.now + 170.seconds
-      # FIXME: some timezone error, have to figure out why in test it's different
-      # @issue.deliver.due_at.should < DateTime.current + 180.seconds
+    it "should call deliver_all with datetime" do
+      time = DateTime.now
+      @issue.should_receive(:deliver_all).with(time)
+      @issue.deliver :later_at => time
     end
 
-    it "should deliver all issues LATER" do
-      # @issue.deliver(:later_at => Time.now.tomorrow).should == 'deliver all later'
+    it "should call deliver_to" do
+      @issue.should_receive(:deliver_to)
+      @issue.deliver :to => @user
+    end 
+
+    it "should change state to queued when deliver to all" do
+      @issue.published_state!
+      @issue.deliver
+      @issue.queued?.should == true
+    end
+    
+    it "should not change state to queued when deliver to user" do
+      @issue.published_state!
+      @issue.deliver :to => @user
+      @issue.published?.should == true
     end
 
-    it "should deliver issue ONLY TO test user NOW" do
-      # @mailer = mock(NewsletterMailer)
-      # @mailer.should_receive(:deliver_issue).and_return(true)
-
-      # @issue.published_at.should == nil
-      # @issue.deliver(:to => @user)
-      # @issue.published_at.should_not == nil
+    after do
+      remove_all_test_cronjobs
+    end
+  end
+  
+  describe "cancel_delivery" do
+    before :each do
+      @issue.deliver
+      @return = @issue.cancel_delivery
     end
 
-    it "should deliver issue ONLY TO test user LATER" do
-      # @issue.deliver(:later => Time.now.tomorrow, :to => @user).should == 'deliver later to'
+    it "should return true" do
+      @return.should == true
+    end
+
+    it "should should remove cronjobs" do
+      @issue.cronjobs.should == []
+    end
+    
+    it "should set published state" do
+      @issue.published?.should == true
+    end
+    
+    it "should return false when issue is delivered" do
+      @issue.cancel_delivery.should == false
     end
 
     after do

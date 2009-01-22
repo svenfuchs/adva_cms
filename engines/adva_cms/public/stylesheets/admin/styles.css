@@ -982,9 +982,11 @@ table.table-plans tr.highlight .active{
 #issue h2 {
   margin-bottom: 10px;
 }
-span.draft {
+p.state {
   color: #333;
   font-size: 15px;
+  float: right;
+  margin: -30px 10px 0 0;
 }
 #delivery {
 }

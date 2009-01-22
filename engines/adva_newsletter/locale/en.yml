@@ -9,13 +9,18 @@ en:
       total_newsletters: "Total newsletters: {{newsletters_count}}"
       total_issues: "Total issues: {{issues_count}}"
       total_subscribers: "Total subscribers: {{subscriptions_count}}"
+      delivery_due_time: "Delivery time is at {{delivery_time}}"
+      delivered_at: "Delivered at {{delivered_time}}"
       flash:
-        update_success: Newsletter has been updated successfully!
-        newsletter_moved_to_trash_success: Newsletter was successfully moved to trash.
+        delivery_cancellation_success: Delivery was successfully cancelled.
+        delivery_cancellation_failed: Cannot cancel delivery because the issue has already been delivered.
         issue_moved_to_trash_success: Newsletter issue was successfully moved to trash.
+        newsletter_moved_to_trash_success: Newsletter was successfully moved to trash.
+        update_success: Newsletter has been updated successfully!
       button:
         send_issue: Send
         preview_issue: Preview
+        cancel_delivery: Cancel delivery
       link:
         index: Newsletters
         new: Create a newsletter

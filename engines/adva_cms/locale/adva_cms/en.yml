@@ -118,6 +118,12 @@ en:
       reordering_done: Done reordering
       settings: settings
       view: View
+    state:
+      draft: Draft
+      published: Published
+      hold: On hold
+      queued: Queued
+      delivered: Delivered
     sites:
       title:
         create: Create a new site
