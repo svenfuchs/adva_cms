@@ -1,0 +1,67 @@
+en:
+  adva:
+    newsletter:
+      no_newsletters: Keine Newsletter vorhanden.
+      question_publish_newsletter: Newsletter veröffentlichen?
+      confirm_save_as_draft: Ja, diese Ausgabe als Entwurf speichern
+      deleted_issues: Gelöschte Ausgaben
+      no_deleted_issues: Keine gelöschten Ausgaben im Papierkorb.
+      total_newsletters: "Gesamt: {{newsletters_count}} Newsletter"
+      total_issues: "Gesamt: {{issues_count}} Ausgaben"
+      total_subscribers: "Gesamt: {{subscriptions_count}} Abonnenten"
+      delivery_due_time: "Versandzeit: {{delivery_time}}"
+      delivered_at: "Versendet am {{delivered_time}}"
+      flash:
+        delivery_cancellation_success: Der Versand wurde erfolgreich abgebrochen..
+        delivery_cancellation_failed: Der Versand kann nicht abgebrochen werden, da die Ausgabe bereits versendet wurde.
+        issue_moved_to_trash_success: Ausgabe wurde erfolgreich in den Papierkorb verschoben.
+        newsletter_moved_to_trash_success: Newsletter wurde erfolgreich in den Papierkorb verschoben.
+        update_success: Der Newsletter wurde aktualisiert.
+      button:
+        send_issue: Versenden
+        preview_issue: Vorschau
+        cancel_delivery: Versand abbrechen
+      link:
+        index: Newsletter
+        new: Einen neuen Newsletter anlegen
+        issues: Ausgaben
+        subscribers: Abonnenten
+      label:
+        header: Newsletter
+        title: Titel
+        desc: Beschreibung
+        name: Name
+        issues: Ausgaben
+        subscribers: Abonnenten
+        deleted_issues: Gelöschte Ausgaben
+        issue_publish_at: "oder später versenden:"
+        email: Absender (E-Mail)
+        published: Newsletter veröffentlichen
+      titles:
+        edit: Newsletter bearbeiten
+    issue:
+      confirm_save_as_draft: Ja, diese Ausgabe als Entwurf speichern.
+      question_save_as_draft: Als Entwurf speichern?
+      no_issues: Keine Ausgaben vorhanden.
+      button:
+        send_now: Jetzt versenden
+        send_later: Später versenden
+      flash:
+        create_success: Der Newsletter wurde angelegt.
+        update_success: Der Newsletter wurde aktualisiert.
+        send_now: Die Ausgabe wurde zum Versand freigegeben.
+        send_later: Die Ausgabe wurde zum späteren Versand freigegeben und eingetragen.
+        send_test: Die Ausgabe wurde an Sie verschickt.
+      label:
+        title: Titel/Betreff
+        body: Text
+        name: Name
+        created_at: Erstellungsdatum
+        issues: Ausgaben
+        send_test: Nur an mich
+      link:
+        index: Ausgaben
+        new: Eine neue Ausgabe anlegen
+        edit: Ausgabe bearbeiten
+      titles:
+        edit: Ausgabe bearbeiten

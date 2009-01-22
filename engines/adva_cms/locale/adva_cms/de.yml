@@ -183,7 +183,7 @@ de:
        date: "von {{date}}"
        about: "zu {{category}}"
        tags: "markiert als {{tags}}"
-       articles: "Artikel {{articleKategors}}"
+       articles: "Artikel {{articles}}"
        show_articles: "Artikel anzeigen:"
        manage: Verwalten
        actions: Aktionen

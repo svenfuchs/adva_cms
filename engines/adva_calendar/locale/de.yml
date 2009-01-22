@@ -1,0 +1,84 @@
+en:
+  adva:
+    calendar:
+      open_end: Open end
+      confirm_delete: Dieses Event wirklich löschen?
+      publish_on_date: Veröffentlichen am
+      starting_at: Beginn {{start_date}}
+      question_save_as_draft: Als Entwurf speichern?
+      confirm_save_as_draft: Ja, dieses Event als Entwurf speichern
+      from_to: '{{start_date}} - {{end_date}}'
+      total_events_with_count:
+        one: "Gesamt: {{count}} Event."
+        other: "Gesamt: {{count}} Events."
+      errors:
+        no_events: Keine Events in {{title}} für diese Zeitspanne.
+        no_events_in_calendar: Bisher keine Events in diesem Kalender.
+        no_events_found: Keine Events zu Ihren Suchkriterien.
+      input_defaults:
+        search: Suche
+      titles:
+        show_events: Events anzeigen
+        search_events: Events suchen
+        edit_event: Event bearbeiten
+        manage: Verwalten
+        title: Titel
+        location: Ort
+        starting_at: Start
+        ending_at: Ende
+        created_by: Erstellt von
+        publish_in_categories: In diesen Kategorien veröffentlichen
+        actions: Aktionen
+        formats:
+          year_month_day: '%e. %B %Y'
+          year_month: '%B %Y'
+          year: '%Y'
+        in_category: in {{title}}
+        tagged: tagged {{tags}}
+        events: Events
+        all_day: Ganztägig
+      flash:
+        create:
+          success: Das Event wurde angelegt.
+          failure: Das Event konnte nicht angelegt werden.
+        update:
+          success: Das Event wurde aktualisiert.
+          failure: Das Event kontte nicht aktualisiert werden.
+        destroy:
+          success: Das Event wurde gelöscht.
+          failure: Das Event konnte nicht gelöscht werden.
+      buttons:
+        go: Los
+        search: Suchen
+      options:
+        all_categories: Alle Kategorien
+        filter:
+          category: Kategorie
+          tags: Tags
+          title: Titel
+          body: Text
+          location: Ort
+          upcoming: zukünftig
+          elapsed: vergangen
+          recently_added: Neu eingetragen
+      links:
+        events: Events
+        all_events: Alle Events
+        categories: Kategorien
+        settings: Einstellungen
+        create: Ein neues Event anlegen
+        preview: Vorschau
+        view: Ansicht
+        delete: Löschen
+      attributes:
+        title: Titel
+        start_date: Start
+        end_date: Ende
+        body: Beschreibung
+        tags: Tags
+        host: Veranstalter
+        location: Ort
+        all_day: Ganztägig
+      calendar:
+        year_month_format: '%B %Y'
+        this_month: Diesen Monat
