@@ -38,6 +38,12 @@ Rbac.define do
               :'destroy section'    => :admin,
               :'manage section'     => :admin,
 
+              :'show asset'         => :moderator,
+              :'create asset'       => :moderator,
+              :'update asset'       => :moderator,
+              :'destroy asset'      => :moderator,
+              :'manage asset'     => :moderator,
+
               :'create theme'       => :admin,
               :'update theme'       => :admin,
               :'destroy theme'      => :admin,
