@@ -710,6 +710,15 @@ de:
        update:
          success: Der Eintrag wurde aktualisiert.
          failure: Der Eintrag konnte nicht aktualisiert werden.
+   tracking:
+     enable_tracking: Tracking mit Google Analytics aktivieren
+     tracking_campaign: Kampagne
+     tracking_source: Quelle
+     hints:
+       tracking_code: Verwenden Sie Ihren Google Analytics Tracking Code (UA-xxxxxxx-x), um Tracking mit Google Analytics to aktivieren. Lassen Sie das Eingabefeld frei, um Tracking zu deaktivieren.
+       no_tracking_code: Um Ihre Newsletter mit Google Analytics tracken zu können, müssen Sie zunächst Ihren Tracking Code in den {{settings}} eintragen.
+       glossary: Sind Sie unsicher, was Sie hier eingeben sollen? Lesen Sie {{link}} für weitere Informationen.
+       glossary_name: die Google Analytics Hilfe
    spam:
      hints:
        filters: Wenn Kommentare erstellt werden, werden die folgenden Filter genutzt, um den Spam-Status zu prüfen.
