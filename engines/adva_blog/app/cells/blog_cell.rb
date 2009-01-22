@@ -1,6 +1,6 @@
 class BlogCell < Cell::Base
   
-  tracks_cache_references :recent_articles, :track => ['@articles']
+  tracks_cache_references :recent_articles, :track => ['@section', '@articles']
   
   def recent_articles
     options = @opts.symbolize_keys

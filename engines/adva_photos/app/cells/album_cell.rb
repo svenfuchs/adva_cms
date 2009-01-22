@@ -1,4 +1,7 @@
 class AlbumCell < Cell::Base
+
+  tracks_cache_references :recent_articles, :track => ['@album', '@photo']
+  
   def single
     options = @opts.symbolize_keys
 
