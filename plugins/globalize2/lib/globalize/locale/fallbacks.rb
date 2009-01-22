@@ -20,6 +20,9 @@ module Globalize
   module Locale
     class Fallbacks < Hash
       None = {}
+      def None.[](locale)
+        [locale]
+      end
       
       def initialize(*defaults)
         @map = {}

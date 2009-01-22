@@ -51,7 +51,7 @@ Spec::Rails::Example::RailsExampleGroup.class_eval do
 
     # use this to test the completeness of, e.g., the locale :de
     # I18n.default_locale = :de
-    # I18n.fallbacks = { :de => [:de] }
+    # I18n.fallbacks = Globalize::Locale::Fallbacks::None
   end
 end
 
