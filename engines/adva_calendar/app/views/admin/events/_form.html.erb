@@ -23,7 +23,7 @@
     </label>
   </p>
 
-  <p id="end-date" <%= @event.all_day ? 'style="display:none"' : '' %>>
+  <p id="end-date">
     <%= form.label :end_date, t(:'adva.calendar.attributes.end_date') %>
     <%= form.calendar_date_select :end_date, :value => (@event.end_date ? @event.end_date.localtime.rfc2822 : '') %>
   </p>

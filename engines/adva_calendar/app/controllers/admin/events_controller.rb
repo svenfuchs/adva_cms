@@ -29,7 +29,7 @@ class Admin::EventsController < Admin::BaseController
   end
 
   def new
-    @event = @calendar.events.build(:start_date => Time.now)
+    @event = @calendar.events.build(:start_date => Time.now, :end_date => Time.now + 2.hours)
   end
 
   def create
