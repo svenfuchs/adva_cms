@@ -16,6 +16,10 @@ class Admin::IssuesController < Admin::BaseController
 
   def edit
     @issue = Issue.find(params[:id])
+    if !@issue.editable?
+      flash[:error] = t(:"adva.messages.not_editable")
+      redirect_to admin_issue_path(@site, @newsletter, @issue)
+    end
   end
 
   def create

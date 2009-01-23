@@ -39,6 +39,26 @@ describe Issue do
   end
 
   describe "methods:" do
+    describe "editable?" do
+      it "should be editable when state is draft or published" do
+        @issue.editable?.should == true
+        @issue.state = "hold"
+        @issue.editable?.should == true
+      end
+      
+      it "should NOT be editable when new record" do
+        @issue = Issue.new
+        @issue.editable?.should == false
+      end
+      
+      it "should NOT be editable" do
+        @issue.state = "queued"
+        @issue.editable?.should == false
+        @issue.state = "delivered"
+        @issue.editable?.should == false
+      end
+    end
+
     describe "destroy" do
       it "should move Issue to DeletedIssue" do
         Issue.find_by_id(@issue.id).should_not == nil

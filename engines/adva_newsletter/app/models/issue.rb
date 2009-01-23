@@ -30,6 +30,10 @@ class Issue < BaseIssue
     return false unless queued?
     published_state!
   end
+  
+  def editable?
+    !new_record? && (draft? || published?)
+  end
 
 ### attributes
   def email

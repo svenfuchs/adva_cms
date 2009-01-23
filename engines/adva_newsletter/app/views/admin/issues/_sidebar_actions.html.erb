@@ -1,8 +1,7 @@
 <h3><%= t(:'adva.titles.actions') %></h3>
 <ul>
-  <% if @issue.present? && !@issue.new_record?  %>
+  <% if @issue.present? && @issue.editable?  %>
     <li><%= link_to t(:'adva.issue.link.edit'), edit_admin_issue_path(@site, @newsletter, @issue) %></li>
   <% end %>
   <%= render :partial => 'admin/shared/sidebar_common' %>
 </ul>
-
