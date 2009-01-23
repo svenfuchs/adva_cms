@@ -51,6 +51,8 @@ describe CalendarEvent do
 
     it "must have end datetime" do
       @event.end_date = nil
+      CalendarEvent.require_end_date = true
+      @event.require_end_date?.should == true
       @event.should_not be_valid
       @event.errors.on("end_date").should be
       @event.errors.count.should be(1)

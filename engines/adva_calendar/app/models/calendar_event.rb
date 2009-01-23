@@ -68,7 +68,7 @@ class CalendarEvent < ActiveRecord::Base
   }
   cattr_accessor :require_end_date
   def require_end_date?
-    !(self.class.require_end_date == false)
+    @@require_end_date.present?
   end
 
   def draft?
