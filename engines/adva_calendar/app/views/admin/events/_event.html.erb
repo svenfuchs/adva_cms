@@ -1,7 +1,7 @@
 <tr id="event_<%= event.id %>">
   <td><%= link_to event.title, edit_admin_calendar_event_path(@site, @section, event) %></td>
-  <td><%= datetime_with_microformat(event.start_date, :format => :long) %></td>
-  <td><%= event.end_date ? datetime_with_microformat(event.end_date, :format => :long) : t(:'adva.calendar.open_end') %></td>
+  <td><%= datetime_with_microformat(event.start_date, :format => (event.all_day? ? :mdy : :long)) %></td>
+  <td><%= event.end_date ? datetime_with_microformat(event.end_date, :format => (event.all_day? ? :mdy : :long)) : t(:'adva.calendar.open_end') %></td>
   <td><%= link_to event.user.name, admin_site_user_path(@site, event.user) %></td>
   <td><%= link_to t(:'adva.resources.edit'), edit_admin_calendar_event_path(@site, @section, event), :class => 'edit' %>
     <%= link_to t(:'adva.resources.delete'), admin_calendar_event_path(@site, @section, event), :class => 'delete', :confirm => t(:"adva.calendar.confirm_delete"), :method => :delete %>

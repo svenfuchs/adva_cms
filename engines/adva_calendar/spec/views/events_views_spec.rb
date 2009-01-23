@@ -33,14 +33,20 @@ describe "Events views:" do
     end
 
     it "should render the list of events" do
-      @calendar_events.should_receive(:each).twice # as there are two events
       render "events/index"
+      @calendar_events.should_receive(:each).at_least(:once) # as there are two events
       response.should have_tag('table#events')
       @calendar_events.each do |event|
         response.should have_tag("div#event-%i" % event.id)
       end
     end
+    it "should add the all_day class for events" do
+      @calendar_events.first.stub!(:all_day?).and_return(true)
+      render "events/index"
+      response.should have_tag('tr#calendar_event_%i.all_day' % @calendar_events.first.id)
+    end
   end
+  
 
   describe "show view" do
     before :each do
@@ -48,8 +54,8 @@ describe "Events views:" do
     end
 
     it "should display the edit link only for authorized user" do
-      template.should_receive(:authorized_tag).with(:span, :update, @calendar_event).and_return('authorized tags')
       render "events/show"
+      template.should_receive(:authorized_tag).with(:span, :update, @calendar_event).and_return('authorized tags')
     end
 
     it "should render the event's permalink" do
@@ -58,25 +64,25 @@ describe "Events views:" do
     end
 
     it "should list the event's tags" do
-      template.should_receive(:links_to_content_tags)
       render "events/show"
+      template.should_receive(:links_to_content_tags)
     end
 
     it "should list the event's categories" do
-      template.should_receive(:links_to_content_categories)
       render "events/show"
+      template.should_receive(:links_to_content_categories)
     end
     
     it "should show dates" do
-      template.should_receive(:datetime_with_microformat).with(@calendar_event.start_date, {:format=>:long})
-      template.should_receive(:datetime_with_microformat).with(@calendar_event.end_date, {:format=>:long})
       render "events/show"
+      template.should_receive(:datetime_with_microformat).with(@calendar_event.start_date, {:format=>:long}).exactly(2)
+      template.should_receive(:datetime_with_microformat).with(@calendar_event.end_date, {:format=>:long}).exactly(2)
     end
     it "should show 'all day'" do
-      @calendar_event.should_receive(:all_day?).and_return(true)
+      @calendar_event.stub!(:all_day?).and_return(true)
+      render "events/show"
       template.should_not_receive(:datetime_with_microformat).with(@calendar_event.start_date, {:format=>:long})
       template.should_not_receive(:datetime_with_microformat).with(@calendar_event.end_date, {:format=>:long})
-      render "events/show"      
     end
   end
 end
