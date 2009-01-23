@@ -56,6 +56,26 @@ describe Newsletter do
       end
     end
     
+    describe "default_name" do
+      it "should return newsletter name" do
+        @newsletter.name = "Newsletter name"
+        @newsletter.default_name.should == "Newsletter name"
+      end
+
+      it "should return site name when newsletter name is nil" do
+        @newsletter.name = nil
+        @newsletter.default_name.should == @site.name
+      end
+    end
+
+    describe "email_with_name" do
+      it "should return formatted email with name" do
+        @newsletter.should_receive(:default_name).and_return("newsletter name")
+        @newsletter.should_receive(:default_email).and_return("newsletter@example.org")
+        @newsletter.email_with_name.should == "newsletter name <newsletter@example.org>"
+      end
+    end
+    
     describe "published?" do
       it "should be true if published" do
         @newsletter.published = 1

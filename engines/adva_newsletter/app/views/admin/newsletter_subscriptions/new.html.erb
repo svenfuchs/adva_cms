@@ -8,8 +8,6 @@
   <%= render :partial => 'admin/shared/tracking' %>
 <% end %>
 
-<%= render :partial => 'admin/newsletters/header' %>
-
 <% if @newsletter.available_users.present? %>
   <% split_form_for :subscription, @subscription, :url => admin_subscriptions_path, :html => {:multipart => true, :id => 'content_form'} do |f| %>
     <%= render :partial => 'form', :locals => {:f => f} %>  

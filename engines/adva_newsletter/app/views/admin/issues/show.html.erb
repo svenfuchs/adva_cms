@@ -38,7 +38,7 @@
         <span id="cancel-delivery">
           <%= submit_tag t(:"adva.newsletter.button.cancel_delivery"), :name => "cancel_delivery" %>
         </span>
-        <%= t(:"adva.newsletter.delivery_due_time", :delivery_time => l(@issue.cronjobs.first.due_at, :format => :long)) %>
+        <%= t(:"adva.newsletter.delivery_due_time", :delivery_time => l(@issue.due_at, :format => :long)) %>
       </div>
     <% end %>
   <% end %>

@@ -8,9 +8,12 @@ class NewIssueTest < ActionController::IntegrationTest
   
   test "admin submits an EMPTY issue: should see validation warnings" do
 
-    visit "/admin/sites/#{@site.id}/newsletters/#{@newsletter.id}"
+    visit "/admin/sites/#{@site.id}/newsletters/"
 
-    assert_template "admin/newsletters/show"
+    assert_template "admin/newsletters/index"
+    click_link @newsletter.title
+
+    assert_template "admin/issues/index"
     click_link "Create a new issue"
 
     assert_template "admin/issues/new"
@@ -150,6 +153,7 @@ class QueuedIssueTest < ActionController::IntegrationTest
     factory_scenario :site_with_newsletter_and_issue
     login_as :admin
 
+    @issue.state = "hold"
     @issue.deliver
     visit "/admin/sites/#{@site.id}/newsletters/#{@newsletter.id}/issues/#{@issue.id}"
 
@@ -172,8 +176,7 @@ class QueuedIssueTest < ActionController::IntegrationTest
   end
 
   test "admin CANCELS DELIVERY AFTER DELIVERY: should go back to show with flash message about failure" do
-    @issue.cronjobs.destroy_all
-    @issue.delivered_state!
+    @issue.cancel_delivery
 
     click_button "Cancel delivery"
 

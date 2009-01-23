@@ -9,7 +9,7 @@ describe Issue do
 
   describe "associations:" do
     it "sholud belong to newsletter" do @issue.should belong_to(:newsletter) end
-    it "should have many cronjobs as cronable" do @issue.should have_many(:cronjobs) end
+    it "should have one cronjob as cronable" do @issue.should have_one(:cronjob) end
   end
 
   describe "validations:" do
@@ -67,13 +67,86 @@ describe Issue do
       end
       
       it "should be queued_at when queued state" do
+        @issue.state = "hold"
         @issue.queued_state!
         @issue.state_time.should == @issue.queued_at
       end
       
       it "should be delivered_at when delivered state" do
+        @issue.state = "queued"
         @issue.delivered_state!
         @issue.state_time.should == @issue.delivered_at
+      end
+    end
+
+### Chaneg states
+    describe "[change states group]" do
+        before :each do
+          @issue.state = "test_state"
+        end
+
+      describe "draft_state!" do
+        it "should change to draft_state" do
+          @issue.state = "hold"
+          @issue.draft_state!
+          @issue.state.should == "draft"
+        end
+        
+        it "should not allow chaneg to draft unless published or draft" do
+          @issue.draft_state!.should == nil
+          @issue.state.should == "test_state"
+        end
+      end
+
+      describe "published_state!" do
+        it "should change to published state" do
+          @issue.state = "draft"
+          @issue.published_state!
+          @issue.state.should == "hold"
+        end
+        
+        it "should remove cronjob when previous state was queued" do
+          @issue.state = "hold"
+          @issue.deliver_all
+          @issue.state.should == "queued"
+
+          @issue.published_state!
+          @issue.cronjob.should == nil
+        end
+        
+        it "should not allow to change state unless state is draft or queued" do
+          @issue.published_state!.should == nil
+          @issue.state.should == "test_state"
+        end
+      end
+      
+      describe "queued_state!" do
+        it "should change to queued state" do
+          @issue.state = "hold"
+          @issue.queued_state!
+          @issue.state.should == "queued"
+        end
+        
+        it "should not allow to change state unless state is published" do
+          @issue.queued_state!.should == nil
+        end
+      end
+      
+      describe "delivered_state!" do
+        it "should change to delivered state" do
+          @issue.state = "queued"
+          @issue.delivered_state!.should == true
+          @issue.delivered?.should == true
+        end
+        
+        it "should not allow change state unless state is queued" do
+          @issue.delivered_state!.should == nil
+          @issue.state.should == "test_state"
+        end
+      end
+
+      after :each do
+        remove_all_test_cronjobs
       end
     end
 
@@ -104,6 +177,13 @@ describe Issue do
         @issue.published_state!
         @issue.published?.should == true
       end
+      
+      it "should be true when state is 'hold' or 'published'" do
+        @issue.state = 'published'
+        @issue.published?.should == true
+        @issue.state = 'hold'
+        @issue.published?.should == true
+      end
     end
 
     describe "queued?" do
@@ -112,7 +192,7 @@ describe Issue do
       end
 
       it "sholud be true when queued" do
-        @issue.queued_state!
+        @issue.state = "queued"
         @issue.queued?.should == true
       end
     end
@@ -123,6 +203,7 @@ describe Issue do
       end
       
       it "should be true when delivered" do
+        @issue.state = "queued"
         @issue.delivered_state!
         @issue.delivered?.should == true
       end
@@ -153,8 +234,20 @@ describe Issue do
     
     describe "create_emails" do
       it "should change state to delivered" do
+        @issue.state = "queued"
         @issue.create_emails
         @issue.delivered?.should == true
+      end
+    end
+    
+    describe "due_at" do
+      it "should return nil when not queued state" do
+        @issue.due_at.should == nil
+      end
+      
+      it "should return due time when queue mode" do
+        @issue.queued_state!
+        @issue.due_at.should == nil
       end
     end
     
@@ -170,7 +263,7 @@ describe Issue do
         @issue.email.should == "site@example.org"
       end
     end
-
+    
     describe "#has_tracking_enabled?" do
       it "has tracking enabled if it should be tracked and Google Analytics tracking code, campaign name and source name are set" do
         @issue.stub!(:track?).and_return(true)
@@ -286,8 +379,30 @@ describe Issue do
     end
   end
   
+  describe "deliver_all" do
+    it "should create cronjob" do
+      @issue.cronjob.should == nil
+      @issue.published_state!
+      @issue.deliver_all
+      @issue.cronjob.class.should == Cronjob
+      @issue.cronjob.cronable_id.should == 1
+    end
+    
+    it "should change to queued state" do
+      @issue.published_state!
+      @issue.deliver_all
+      @issue.state.should == "queued"
+    end
+    
+    it "should return nil when state is already queued" do
+      @issue.queued_state!
+      @issue.deliver_all.should == nil
+    end
+  end
+  
   describe "cancel_delivery" do
     before :each do
+      @issue.published_state!
       @issue.deliver
       @return = @issue.cancel_delivery
     end
@@ -296,8 +411,8 @@ describe Issue do
       @return.should == true
     end
 
-    it "should should remove cronjobs" do
-      @issue.cronjobs.should == []
+    it "should remove cronjob" do
+      @issue.cronjob.should == nil
     end
     
     it "should set published state" do

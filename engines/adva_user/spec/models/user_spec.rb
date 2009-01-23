@@ -260,6 +260,10 @@ describe User do
     it "#homepage returns nil if homepage is not set" do
       @user.homepage.should == nil
     end
+    
+    it "#email_with_name returns formatted string to use with email headers" do
+      @user.email_with_name.should == "not taken <not-taken@email.org>"
+    end
 
     describe "#update_roles updates associated roles to match the given role parameters" do
       before :each do

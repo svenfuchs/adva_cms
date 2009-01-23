@@ -34,7 +34,15 @@ class Newsletter < BaseNewsletter
   end
   
   def default_email
-    self.email.blank? ? self.site.email : self.email
+    email.blank? ? site.email : email
+  end
+  
+  def default_name
+    name.blank? ? site.name : name
+  end
+  
+  def email_with_name
+    "#{default_name} <#{default_email}>" 
   end
   
   def do_not_save_default_email

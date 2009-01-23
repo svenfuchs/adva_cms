@@ -4,12 +4,15 @@ class SubscriptionsTest < ActionController::IntegrationTest
   def setup
     factory_scenario :site_with_newsletter
     login_as :admin
+    visit "/admin/sites/#{@site.id}/newsletters/"
+
+    assert_template 'admin/newsletters/index'
+    click_link @newsletter.title
+
+    assert_template 'admin/issues/index'
   end
   
   test 'admin opens index: should have no list, should have link to add subscribers' do
-    visit "/admin/sites/#{@site.id}/newsletters/#{@newsletter.id}/"
-
-    assert_template 'admin/newsletters/show'
     click_link 'Subscribers'
 
     assert_template 'admin/newsletter_subscriptions/index'
@@ -18,9 +21,6 @@ class SubscriptionsTest < ActionController::IntegrationTest
   end
   
   test 'admin adds subscriber: should add new subscriber to the newsletter and total subscribers should be 1' do
-    visit "/admin/sites/#{@site.id}/newsletters/#{@newsletter.id}/"
-
-    assert_template 'admin/newsletters/show'
     click_link 'Add a new subscriber'
     
     assert_template 'admin/newsletter_subscriptions/new'
@@ -48,12 +48,15 @@ class SubscriptionWithNoSiteUsersTest < ActionController::IntegrationTest
     factory_scenario :site_with_newsletter
     login_as :superuser
     assert_equal 0, @site.users.size
+    visit "/admin/sites/#{@site.id}/newsletters/"
+
+    assert_template 'admin/newsletters/index'
+    click_link @newsletter.title
+
+    assert_template 'admin/issues/index'
   end
 
   test 'admin adds a news subscriber: should have no list, should show a link to add new user to the site' do
-    visit "/admin/sites/#{@site.id}/newsletters/#{@newsletter.id}/"
-
-    assert_template 'admin/newsletters/show'
     click_link 'Add a new subscriber'
     
     assert_template 'admin/newsletter_subscriptions/new'

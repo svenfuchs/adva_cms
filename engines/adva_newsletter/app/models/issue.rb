@@ -2,7 +2,7 @@ require 'uri'
 
 class Issue < BaseIssue
   belongs_to :newsletter, :counter_cache => true
-  has_many :cronjobs, :as => :cronable
+  has_one :cronjob, :as => :cronable
 
   attr_accessible :title, :body, :filter, :draft, :tracking_source, :track, :tracking_campaign
   validates_presence_of :title, :body, :newsletter_id
@@ -12,10 +12,7 @@ class Issue < BaseIssue
   filtered_column :body
   filters_attributes :except => [:body, :body_html]
 
-  def body_html
-    has_tracking_enabled? ? track_links(attributes["body_html"]) : attributes["body_html"]
-  end
-
+### Public api
   def deliver(options = {})
     options.assert_valid_keys(:later_at,:to)
 
@@ -29,13 +26,32 @@ class Issue < BaseIssue
     end
   end
 
-### Virtual attributes
+  def cancel_delivery
+    return false unless queued?
+    published_state!
+  end
+
+### attributes
   def email
-    self.newsletter.default_email
+    newsletter.default_email
+  end
+  
+  def email_with_name
+    newsletter.email_with_name
+  end
+
+  def body_html
+    has_tracking_enabled? ? track_links(attributes["body_html"]) : attributes["body_html"]
+  end
+
+  def due_at
+    return nil unless queued?
+    cronjob.due_at if cronjob
   end
 
 ### State management
   def draft_state!
+    return nil unless published?
     self.state = "draft"
     self.published_at = nil
   end
@@ -50,18 +66,25 @@ class Issue < BaseIssue
   end
   
   def published_state!
+    return nil unless (draft? || queued?)
+    if queued?
+      cronjob.destroy
+      reload
+    end
     self.state = "hold" # state should be "published", but it does not make sence with newsletter issue
     self.published_at = DateTime.now
     save
   end
 
   def queued_state!
+    return nil unless published?
     self.state = "queued"
     self.queued_at = DateTime.now
     save
   end
 
   def delivered_state!
+    return nil unless queued?
     self.state = "delivered"
     self.delivered_at = DateTime.now
     save
@@ -77,7 +100,7 @@ class Issue < BaseIssue
   end
 
   def published?
-    state == "hold"
+    ["hold", "published"].include?(state)
   end
   
   def queued?
@@ -116,22 +139,15 @@ class Issue < BaseIssue
 
 ### Delivery
   def deliver_all(datetime = nil)
+    return nil unless published?
     queued_state!
     datetime ||= DateTime.now + 3.minutes
-    self.cronjobs.create :command => "Issue.find(#{self.id}).create_emails", :due_at => datetime
+    cronjob = self.build_cronjob :command => "Issue.find(#{self.id}).create_emails", :due_at => datetime
+    cronjob.save
   end
 
   def deliver_to(user)
     NewsletterMailer.deliver_issue(self,user)
-  end
-
-  def destroy
-    self.deleted_at = Time.now.utc
-    self.type = "DeletedIssue"
-    if self.save
-      Newsletter.update_counters self.newsletter_id, :issues_count => -1
-    end
-    return self
   end
 
   def create_emails
@@ -144,18 +160,20 @@ class Issue < BaseIssue
 
   def create_email_to(user)
     issue = NewsletterMailer.create_issue(self,user)
-    Email.create(:from => self.newsletter.site.email,
+    Email.create(:from => self.newsletter.default_email,
                  :to => user.email,
-                 :mail => issue.encoded)
+                 :mail => issue.to_s)
   end
   
-  def cancel_delivery
-    return false if cronjobs.blank?
-    published_state!
-    cronjobs.destroy_all
-    true
+  def destroy
+    self.deleted_at = Time.now.utc
+    self.type = "DeletedIssue"
+    if self.save
+      Newsletter.update_counters self.newsletter_id, :issues_count => -1
+    end
+    return self
   end
-  
+
 private
   def track_links(content)
     content.gsub(/<a(.*)href="#{Regexp.escape("http://#{newsletter.site.host}")}(.*)"(.*)>/) do |s|

@@ -146,6 +146,10 @@ class User < ActiveRecord::Base
     name
   end
   
+  def email_with_name
+    "#{name} <#{email}>"  
+  end
+  
   def homepage
     return nil unless self[:homepage]
     

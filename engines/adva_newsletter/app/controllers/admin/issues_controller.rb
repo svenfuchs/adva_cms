@@ -64,11 +64,9 @@ private
       @issue.deliver :to => current_user
     else
       if params[:send_now].present?
-        flash[:notice] = t(:"adva.issue.flash.send_now")
-        @issue.deliver
+        flash[:notice] = t(:"adva.issue.flash.send_now") if @issue.deliver
       elsif params[:send_later].present?
-        flash[:notice] = t(:"adva.issue.flash.send_later")
-        @issue.deliver :later_at => params[:publish_at]
+        flash[:notice] = t(:"adva.issue.flash.send_later") if @issue.deliver :later_at => params[:publish_at]
       end
     end
   end

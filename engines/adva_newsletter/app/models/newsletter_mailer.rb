@@ -1,8 +1,9 @@
 class NewsletterMailer < ActionMailer::Base
-  def issue(local_issue,user)
+  def issue(issue,user)
     recipients  user.email
-    from        local_issue.email
-    subject     "[#{local_issue.newsletter.site.name}] #{local_issue.title}"
-    body        local_issue.body_html
+    from        issue.newsletter.default_email
+    subject     "[#{issue.newsletter.default_name}] #{issue.title}"
+    body        issue.body_html
+    headers     Adva::Config.email_header
   end 
 end

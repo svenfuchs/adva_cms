@@ -1,8 +1,0 @@
-<ul class='sub-nav clearfix'>
-  <li <%= active_li?('admin/issues') %>>
-    <%= link_to "<span>#{ t(:'adva.newsletter.link.issues') }</span>", admin_issues_path(@site, @newsletter) %>
-  </li>
-  <li <%= active_li?('admin/newsletter_subscriptions') %>>
-    <%= link_to "<span>#{ t(:'adva.newsletter.link.subscribers') }</span>", admin_subscriptions_path(@site, @newsletter) %>
-  </li>
-</ul>
