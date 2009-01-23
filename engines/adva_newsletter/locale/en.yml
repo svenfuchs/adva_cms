@@ -14,6 +14,7 @@ en:
       flash:
         delivery_cancellation_success: Delivery was successfully cancelled.
         delivery_cancellation_failed: Cannot cancel delivery because the issue has already been delivered.
+        delivery_start_failed: Cannot start delivery, probably issue is already in the queue or delivered.
         issue_moved_to_trash_success: Newsletter issue was successfully moved to trash.
         newsletter_moved_to_trash_success: Newsletter was successfully moved to trash.
         update_success: Newsletter has been updated successfully!

@@ -64,11 +64,15 @@ private
       @issue.deliver :to => current_user
     else
       if params[:send_now].present?
-        flash[:notice] = t(:"adva.issue.flash.send_now") if @issue.deliver
+        @issue.deliver ? flash[:notice] = t(:"adva.issue.flash.send_now") : delivery_start_failed_flash
       elsif params[:send_later].present?
-        flash[:notice] = t(:"adva.issue.flash.send_later") if @issue.deliver :later_at => params[:publish_at]
+        @issue.deliver(:later_at => params[:publish_at]) ? flash[:notice] = t(:"adva.issue.flash.send_later") : deliver_start_failed_flash
       end
     end
+  end
+  
+  def delivery_start_failed_flash
+    flash[:error] = t(:"adva.newsletter.flash.delivery_start_failed")
   end
   
   def cancel_delivery
