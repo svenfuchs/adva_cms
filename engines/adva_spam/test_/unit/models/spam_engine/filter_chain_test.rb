@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../../test_helper'
+require File.dirname(__FILE__) + '/../../../test_helper'
 
 class SpamEngineFilterChainTest < ActiveSupport::TestCase
   def setup
@@ -27,7 +27,9 @@ class SpamEngineFilterChainTest < ActiveSupport::TestCase
     @defensio.should be_instance_of(SpamEngine::Filter::Defensio)
     @defensio.options.should == {:key => 'defensio key', :url => 'defensio url', :priority => 3}
   end
-
+  
+  # FIXME how to do this with RR?
+  #
   # test "when called #check_comment calls #check_comment on the filters in the correct order" do
   #   @default.should_receive(:check_comment) do
   #     @akismet.should_receive(:check_comment) do

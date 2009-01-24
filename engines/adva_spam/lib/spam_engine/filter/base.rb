@@ -15,10 +15,13 @@ module SpamEngine
         self.class.name.demodulize
       end
 
+      # FIXME not sure what this is good for. the priority of the default filter is 
+      # always 0. the priority of other filters always 1?
       def priority
         name == 'Default' ? 0 : 1
       end
-
+      
+      # FIXME doesn't seem to be used ...
       def valid?(*args)
         raise "not implemented. implement #valid? in your filter class."
       end
