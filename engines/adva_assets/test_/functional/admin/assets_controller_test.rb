@@ -1,7 +1,5 @@
 require File.expand_path(File.dirname(__FILE__) + "/../../test_helper")
 
-# FIXME asset_contents_controller and assets_bucket_controller are untested
-
 class AdminAssetsControllerTest < ActionController::TestCase
   include AssetsHelper
   tests Admin::AssetsController
