@@ -21,6 +21,10 @@ module Matchy
         Matchy::Expectations::BeKindOf.new(expected, self)
       end
       
+      def be_empty
+        Matchy::Expectations::BeEmpty.new(nil, self)
+      end
+      
       def respond_to(expected)
         Matchy::Expectations::RespondTo.new(expected, self)
       end
@@ -88,6 +92,21 @@ module Matchy
 
       def negative_failure_message
         "Expected #{@receiver.inspect} not to be a kind of #{@expected.inspect}."
+      end
+    end
+    
+    class BeEmpty < Base
+      def matches?(receiver)
+        @receiver = receiver
+        receiver.empty?
+      end
+
+      def failure_message
+        "Expected #{@receiver.inspect} to be empty."
+      end
+
+      def negative_failure_message
+        "Expected #{@receiver.inspect} not to be empty."
       end
     end
     
