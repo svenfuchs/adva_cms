@@ -80,7 +80,7 @@ class SectionsControllerTest < ActionController::TestCase
     with :the_article_is_published do
       it_assigns :section, :comments
       it_renders :template, 'comments/comments', :format => :atom
-      # FIXME it_caches_the_page
+      it_caches_the_page
       # FIXME specify comments atom feed
     end
   end
@@ -91,7 +91,7 @@ class SectionsControllerTest < ActionController::TestCase
     with :the_article_is_published do
       it_assigns :section, :article, :comments
       it_renders :template, 'comments/comments', :format => :atom
-      # FIXME it_caches_the_page
+      it_caches_the_page
       # FIXME specify comments atom feed
     end
   end

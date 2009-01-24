@@ -6,12 +6,12 @@ class BlogRoutesTest < ActionController::TestCase
 
   describe "routing" do
     ['', '/a-blog', '/de', '/de/a-blog'].each do |path_prefix|
-      ['', '/pages/2'].each do |path_suffix| 
-        
+      ['', '/pages/2'].each do |path_suffix|
+  
         common = { :section_id => Blog.first.id.to_s, :path_prefix => path_prefix, :path_suffix => path_suffix }
         common.merge! :locale => 'de' if path_prefix =~ /de/
         common.merge! :page => 2      if path_suffix =~ /pages/
-      
+  
         with_options common do |r|
           r.it_maps :get, '/',                         :action => 'index'
           r.it_maps :get, '/2000',                     :action => 'index', :year => '2000'
@@ -28,7 +28,7 @@ class BlogRoutesTest < ActionController::TestCase
           unless path_suffix =~ /pages/
             r.it_maps :get, '/2000/1/1/an-article',      :action => 'show', :year => '2000', :month => '1', :day => '1',
                                                          :permalink => 'an-article'
-
+  
             # article feeds
             r.it_maps :get, '.atom',                     :action => 'index', :format => 'atom'
             r.it_maps :get, '/categories/foo.atom',      :action => 'index', :category_id => 'foo', :format => 'atom'
@@ -48,82 +48,85 @@ class BlogRoutesTest < ActionController::TestCase
       r.it_maps :get, '/de/a-blog/comments.atom', :locale => 'de'
     end
   end
-  
-  # FIXME test url_helper rewriting/filtering
 
-  # describe "the url_helper blog_path" do
-  #   before :each do
-  #     url_rewriter = ActionController::UrlRewriter.new @request, params_from(:get, '/de/blog')
-  #     @controller.instance_variable_set :@url, url_rewriter
-  #     @controller.stub!(:site).and_return @site
-  #     @current_section = @blog
-  #   end
-  # 
-  #   @blog_path               = lambda { blog_path(@blog) }
-  #   @archive_path            = lambda { blog_path(@blog, :year => '2008', :month => '1') }
-  #   @tag_path                = lambda { blog_tag_path(@blog, 'foo+bar') }
-  #   @category_path           = lambda { blog_category_path(@blog, @category) }
-  # 
-  #   @paged_blog_path         = lambda { blog_path(@blog, :page => 2) }
-  #   @paged_archive_path      = lambda { blog_path(@blog, :year => '2008', :month => '1', :page => 2) }
-  #   @paged_tag_path          = lambda { blog_tag_path(@blog, 'foo+bar', :page => 2) }
-  #   @paged_category_path     = lambda { blog_category_path(@blog, @category, :page => 2) }
-  # 
-  #   @formatted_blog_path     = lambda { formatted_blog_path(@blog, :rss) }
-  #   @formatted_tag_path      = lambda { formatted_blog_tag_path(@blog, 'foo+bar', :rss) }
-  #   @formatted_category_path = lambda { formatted_blog_category_path(@blog, @category, :rss) }
-  # 
-  #   @article_path            = lambda { article_path(@blog, @article.full_permalink) }
-  #   @formatted_article_path  = lambda { formatted_blog_article_comments_path(@blog, @article.full_permalink.merge(:format => :rss)) }
-  # 
-  #   rewrites_url @blog_path,               :to => '/',                             :on => [:default_locale, :root_section]
-  #   rewrites_url @blog_path,               :to => '/de',                           :on => [:root_section]
-  #   rewrites_url @blog_path,               :to => '/blog',                         :on => [:default_locale]
-  #   rewrites_url @blog_path,               :to => '/de/blog'
-  # 
-  #   rewrites_url @archive_path,            :to => '/2008/1',                       :on => [:default_locale, :root_section]
-  #   rewrites_url @archive_path,            :to => '/de/2008/1',                    :on => [:root_section]
-  #   rewrites_url @archive_path,            :to => '/blog/2008/1',                  :on => [:default_locale]
-  #   rewrites_url @archive_path,            :to => '/de/blog/2008/1'
-  # 
-  #   rewrites_url @tag_path,                :to => '/tags/foo+bar',                 :on => [:default_locale, :root_section]
-  #   rewrites_url @tag_path,                :to => '/de/tags/foo+bar',              :on => [:root_section]
-  #   rewrites_url @tag_path,                :to => '/blog/tags/foo+bar',            :on => [:default_locale]
-  #   rewrites_url @tag_path,                :to => '/de/blog/tags/foo+bar'
-  # 
-  #   rewrites_url @category_path,           :to => '/categories/foo',               :on => [:default_locale, :root_section]
-  #   rewrites_url @category_path,           :to => '/de/categories/foo',            :on => [:root_section]
-  #   rewrites_url @category_path,           :to => '/blog/categories/foo',          :on => [:default_locale]
-  #   rewrites_url @category_path,           :to => '/de/blog/categories/foo'
-  # 
-  #   rewrites_url @paged_blog_path,         :to => '/de/blog/pages/2'
-  #   rewrites_url @paged_archive_path,      :to => '/de/blog/2008/1/pages/2'
-  #   rewrites_url @paged_tag_path,          :to => '/de/blog/tags/foo+bar/pages/2'
-  #   rewrites_url @paged_category_path,     :to => '/de/blog/categories/foo/pages/2'
-  # 
-  #   rewrites_url @formatted_blog_path,     :to => '/blog.rss',                     :on => [:default_locale, :root_section]
-  #   rewrites_url @formatted_blog_path,     :to => '/de/blog.rss',                  :on => [:root_section]
-  #   rewrites_url @formatted_blog_path,     :to => '/blog.rss',                     :on => [:default_locale]
-  #   rewrites_url @formatted_blog_path,     :to => '/de/blog.rss'
-  # 
-  #   rewrites_url @formatted_tag_path,      :to => '/tags/foo+bar.rss',             :on => [:default_locale, :root_section]
-  #   rewrites_url @formatted_tag_path,      :to => '/de/tags/foo+bar.rss',          :on => [:root_section]
-  #   rewrites_url @formatted_tag_path,      :to => '/blog/tags/foo+bar.rss',        :on => [:default_locale]
-  #   rewrites_url @formatted_tag_path,      :to => '/de/blog/tags/foo+bar.rss'
-  # 
-  #   rewrites_url @formatted_category_path, :to => '/categories/foo.rss',           :on => [:default_locale, :root_section]
-  #   rewrites_url @formatted_category_path, :to => '/de/categories/foo.rss',        :on => [:root_section]
-  #   rewrites_url @formatted_category_path, :to => '/blog/categories/foo.rss',      :on => [:default_locale]
-  #   rewrites_url @formatted_category_path, :to => '/de/blog/categories/foo.rss'
-  # 
-  #   rewrites_url @article_path,            :to => '/2008/1/1/an-article',            :on => [:default_locale, :root_section]
-  #   rewrites_url @article_path,            :to => '/de/2008/1/1/an-article',         :on => [:root_section]
-  #   rewrites_url @article_path,            :to => '/blog/2008/1/1/an-article',       :on => [:default_locale]
-  #   rewrites_url @article_path,            :to => '/de/blog/2008/1/1/an-article'
-  # 
-  #   rewrites_url @formatted_article_path,  :to => '/2008/1/1/an-article.rss',        :on => [:default_locale, :root_section]
-  #   rewrites_url @formatted_article_path,  :to => '/de/2008/1/1/an-article.rss',     :on => [:root_section]
-  #   rewrites_url @formatted_article_path,  :to => '/blog/2008/1/1/an-article.rss',   :on => [:default_locale]
-  #   rewrites_url @formatted_article_path,  :to => '/de/blog/2008/1/1/an-article.rss'
-  # end
+  describe "the url_helper blog_path" do
+    before do
+      other = @section.site.sections.create! :title => 'another section' # FIXME move to db/populate
+      other.move_to_left_of @section
+
+      url_rewriter = ActionController::UrlRewriter.new @request, params_from('/de/blog')
+      @controller.instance_variable_set :@url, url_rewriter
+      @controller.instance_variable_set :@site, @site
+
+      I18n.default_locale = :en
+      I18n.locale = :de
+    end
+
+    blog_path               = lambda { blog_path(@section) }
+    archive_path            = lambda { blog_path(@section, :year => '2008', :month => '1') }
+    tag_path                = lambda { blog_tag_path(@section, 'foo+bar') }
+    category_path           = lambda { blog_category_path(@section, @category) }
+
+    paged_blog_path         = lambda { blog_path(@section, :page => 2) }
+    paged_archive_path      = lambda { blog_path(@section, :year => '2008', :month => '1', :page => 2) }
+    paged_tag_path          = lambda { blog_tag_path(@section, 'foo+bar', :page => 2) }
+    paged_category_path     = lambda { blog_category_path(@section, @category, :page => 2) }
+
+    formatted_blog_path     = lambda { formatted_blog_path(@section, :rss) }
+    formatted_tag_path      = lambda { formatted_blog_tag_path(@section, 'foo+bar', :rss) }
+    formatted_category_path = lambda { formatted_blog_category_path(@section, @category, :rss) }
+
+    article_path            = lambda { article_path(@section, @article.full_permalink) }
+    formatted_article_path  = lambda { formatted_blog_article_comments_path(@section, @article.full_permalink.merge(:format => :rss)) }
+
+    it_rewrites blog_path,               :to => '/',                                       :with => [:is_default_locale, :is_root_section]
+    it_rewrites blog_path,               :to => '/de',                                     :with => [:is_root_section]
+    it_rewrites blog_path,               :to => '/a-blog',                                 :with => [:is_default_locale]
+    it_rewrites blog_path,               :to => '/de/a-blog'
+
+    it_rewrites archive_path,            :to => '/2008/1',                                 :with => [:is_default_locale, :is_root_section]
+    it_rewrites archive_path,            :to => '/de/2008/1',                              :with => [:is_root_section]
+    it_rewrites archive_path,            :to => '/a-blog/2008/1',                          :with => [:is_default_locale]
+    it_rewrites archive_path,            :to => '/de/a-blog/2008/1'
+
+    it_rewrites tag_path,                :to => '/tags/foo+bar',                           :with => [:is_default_locale, :is_root_section]
+    it_rewrites tag_path,                :to => '/de/tags/foo+bar',                        :with => [:is_root_section]
+    it_rewrites tag_path,                :to => '/a-blog/tags/foo+bar',                    :with => [:is_default_locale]
+    it_rewrites tag_path,                :to => '/de/a-blog/tags/foo+bar'
+
+    it_rewrites category_path,           :to => '/categories/a-category',                  :with => [:is_default_locale, :is_root_section]
+    it_rewrites category_path,           :to => '/de/categories/a-category',               :with => [:is_root_section]
+    it_rewrites category_path,           :to => '/a-blog/categories/a-category',           :with => [:is_default_locale]
+    it_rewrites category_path,           :to => '/de/a-blog/categories/a-category'
+
+    it_rewrites paged_blog_path,         :to => '/de/a-blog/pages/2'
+    it_rewrites paged_archive_path,      :to => '/de/a-blog/2008/1/pages/2'
+    it_rewrites paged_tag_path,          :to => '/de/a-blog/tags/foo+bar/pages/2'
+    it_rewrites paged_category_path,     :to => '/de/a-blog/categories/a-category/pages/2'
+
+    it_rewrites formatted_blog_path,     :to => '/a-blog.rss',                            :with => [:is_default_locale, :is_root_section]
+    it_rewrites formatted_blog_path,     :to => '/de/a-blog.rss',                         :with => [:is_root_section]
+    it_rewrites formatted_blog_path,     :to => '/a-blog.rss',                            :with => [:is_default_locale]
+    it_rewrites formatted_blog_path,     :to => '/de/a-blog.rss'
+
+    it_rewrites formatted_tag_path,      :to => '/tags/foo+bar.rss',                      :with => [:is_default_locale, :is_root_section]
+    it_rewrites formatted_tag_path,      :to => '/de/tags/foo+bar.rss',                   :with => [:is_root_section]
+    it_rewrites formatted_tag_path,      :to => '/a-blog/tags/foo+bar.rss',               :with => [:is_default_locale]
+    it_rewrites formatted_tag_path,      :to => '/de/a-blog/tags/foo+bar.rss'
+
+    it_rewrites formatted_category_path, :to => '/categories/a-category.rss',             :with => [:is_default_locale, :is_root_section]
+    it_rewrites formatted_category_path, :to => '/de/categories/a-category.rss',          :with => [:is_root_section]
+    it_rewrites formatted_category_path, :to => '/a-blog/categories/a-category.rss',      :with => [:is_default_locale]
+    it_rewrites formatted_category_path, :to => '/de/a-blog/categories/a-category.rss'
+
+    it_rewrites article_path,            :to => '/2008/1/1/a-blog-article',               :with => [:is_default_locale, :is_root_section]
+    it_rewrites article_path,            :to => '/de/2008/1/1/a-blog-article',            :with => [:is_root_section]
+    it_rewrites article_path,            :to => '/a-blog/2008/1/1/a-blog-article',        :with => [:is_default_locale]
+    it_rewrites article_path,            :to => '/de/a-blog/2008/1/1/a-blog-article'
+
+    it_rewrites formatted_article_path,  :to => '/2008/1/1/a-blog-article.rss',           :with => [:is_default_locale, :is_root_section]
+    it_rewrites formatted_article_path,  :to => '/de/2008/1/1/a-blog-article.rss',        :with => [:is_root_section]
+    it_rewrites formatted_article_path,  :to => '/a-blog/2008/1/1/a-blog-article.rss',    :with => [:is_default_locale]
+    it_rewrites formatted_article_path,  :to => '/de/a-blog/2008/1/1/a-blog-article.rss'
+  end
 end

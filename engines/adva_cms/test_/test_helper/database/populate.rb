@@ -180,6 +180,7 @@ another_wikipage =
 Wikipage.create! :site => site_with_wiki,
                  :section => wiki,
                  :title => 'another wikipage title',
+                 :permalink => 'another-wikipage',
                  :body => 'another wikipage body (initial version)',
                  :tag_list => 'foo bar',
                  :author => user

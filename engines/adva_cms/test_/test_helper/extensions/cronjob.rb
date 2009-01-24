@@ -1,7 +1,5 @@
 # Removes all cronjobs created by test
 #
-# Usege:
-#
 # after do
 #   remove_all_test_cronjobs
 # end

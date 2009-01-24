@@ -10,6 +10,10 @@ class Test::Unit::TestCase
   def set_request_host!
     @request.host = @site.host if @request && @site
   end
+  
+  share :is_default_locale do
+    before { I18n.default_locale = I18n.locale }
+  end
 
   share :multi_sites_enabled do
     before { Site.multi_sites_enabled = true }
@@ -34,7 +38,13 @@ class Test::Unit::TestCase
       set_request_host!
     end
   end
-
+  
+  share :is_root_section do
+    before do
+      @section.reload.move_to_left_of(@section.site.sections.root) unless @section.root_section?
+    end
+  end
+  
   share :comments_or_commenting_allowed do
     before do
       # no comments present but commenting is still allowed

@@ -103,6 +103,14 @@ module With
         do_not_allow(@controller).expire_pages.with_any_args
       end
     end
+
+    def it_rewrites(from, options)
+      with *options[:with] || 'non-root section and non-default locale' do
+        it "rewrites #{from} to: #{options[:to]}" do
+          instance_eval(&from).should == options[:to]
+        end
+      end
+    end
   end
 end
 
