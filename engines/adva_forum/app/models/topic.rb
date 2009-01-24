@@ -12,6 +12,7 @@ class Topic < ActiveRecord::Base
   belongs_to :section
   belongs_to :board
   belongs_to :last_comment, :class_name => 'Comment', :foreign_key => :last_comment_id
+  has_many :activities, :as => :object # move to adva_activity?
 
   belongs_to_author
   belongs_to_author :last_author, :validate => false
