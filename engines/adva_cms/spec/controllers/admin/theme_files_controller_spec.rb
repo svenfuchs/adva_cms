@@ -13,6 +13,11 @@ describe Admin::ThemeFilesController do
     @controller.stub! :expire_pages
     
     @theme.stub!(:path).and_return "#{Theme.root_dir}/tmp/themes/site-1/theme-1/"
+    FileUtils.mkdir_p(@theme.path) unless File.exists?(@theme.path)
+  end
+  
+  after :each do
+    FileUtils.rm_r(@theme.path)
   end
 
   it "should be an Admin::BaseController" do
