@@ -7,24 +7,24 @@ class BlogRoutesTest < ActionController::TestCase
   describe "routing" do
     ['', '/a-blog', '/de', '/de/a-blog'].each do |path_prefix|
       ['', '/pages/2'].each do |path_suffix|
-  
+
         common = { :section_id => Blog.first.id.to_s, :path_prefix => path_prefix, :path_suffix => path_suffix }
         common.merge! :locale => 'de' if path_prefix =~ /de/
         common.merge! :page => 2      if path_suffix =~ /pages/
-  
+
         with_options common do |r|
-          r.it_maps :get, '/',                         :action => 'index'
-          r.it_maps :get, '/2000',                     :action => 'index', :year => '2000'
-          r.it_maps :get, '/2000/1',                   :action => 'index', :year => '2000', :month => '1'
-  
-          r.it_maps :get, '/categories/foo',           :action => 'index', :category_id => 'foo'
-          r.it_maps :get, '/categories/foo/2000',      :action => 'index', :category_id => 'foo', :year => '2000'
-          r.it_maps :get, '/categories/foo/2000/1',    :action => 'index', :category_id => 'foo', :year => '2000', :month => '1'
-  
-          r.it_maps :get, '/tags/foo+bar',             :action => 'index', :tags => 'foo+bar'
-          r.it_maps :get, '/tags/foo+bar/2000',        :action => 'index', :tags => 'foo+bar', :year => '2000'
-          r.it_maps :get, '/tags/foo+bar/2000/1',      :action => 'index', :tags => 'foo+bar', :year => '2000', :month => '1'
-  
+          r.it_maps :get, '/',                           :action => 'index'
+          r.it_maps :get, '/2000',                       :action => 'index', :year => '2000'
+          r.it_maps :get, '/2000/1',                     :action => 'index', :year => '2000', :month => '1'
+
+          r.it_maps :get, '/categories/foo',             :action => 'index', :category_id => 'foo'
+          r.it_maps :get, '/categories/foo/2000',        :action => 'index', :category_id => 'foo', :year => '2000'
+          r.it_maps :get, '/categories/foo/2000/1',      :action => 'index', :category_id => 'foo', :year => '2000', :month => '1'
+
+          r.it_maps :get, '/tags/foo+bar',               :action => 'index', :tags => 'foo+bar'
+          r.it_maps :get, '/tags/foo+bar/2000',          :action => 'index', :tags => 'foo+bar', :year => '2000'
+          r.it_maps :get, '/tags/foo+bar/2000/1',        :action => 'index', :tags => 'foo+bar', :year => '2000', :month => '1'
+
           unless path_suffix =~ /pages/
             r.it_maps :get, '/2000/1/1/an-article',      :action => 'show', :year => '2000', :month => '1', :day => '1',
                                                          :permalink => 'an-article'
@@ -33,7 +33,7 @@ class BlogRoutesTest < ActionController::TestCase
             r.it_maps :get, '.atom',                     :action => 'index', :format => 'atom'
             r.it_maps :get, '/categories/foo.atom',      :action => 'index', :category_id => 'foo', :format => 'atom'
             r.it_maps :get, '/tags/foo+bar.atom',        :action => 'index', :tags => 'foo+bar', :format => 'atom'
-  
+
             # comment feeds
             r.it_maps :get, '/2000/1/1/an-article.atom', :action => 'comments', :year => '2000', :month => '1', :day => '1',
                                                          :permalink => 'an-article', :format => 'atom'
@@ -41,7 +41,7 @@ class BlogRoutesTest < ActionController::TestCase
         end
       end
     end
-  
+
     # these do not work with a root section path because there's a reguar Comments resource
     with_options :action => 'comments', :format => 'atom', :section_id => Blog.first.id.to_s do |r|
       r.it_maps :get, '/a-blog/comments.atom'
