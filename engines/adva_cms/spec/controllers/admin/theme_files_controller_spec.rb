@@ -11,6 +11,8 @@ describe Admin::ThemeFilesController do
     @controller.stub! :require_authentication
     @controller.stub!(:has_permission?).and_return true
     @controller.stub! :expire_pages
+    
+    @theme.stub!(:path).and_return "#{Theme.root_dir}/tmp/themes/site-1/theme-1/"
   end
 
   it "should be an Admin::BaseController" do

@@ -49,6 +49,10 @@ describe ActionView::Helpers::AssetTagHelper, '#theme_image_tag' do
       FileUtils.mkdir_p File.dirname(@source)
       FileUtils.touch @source
     end
+    
+    after :each do
+      FileUtils.rm_r File.dirname(@source)
+    end
 
     it "generate a tag linking to '/themes/:theme_id/images/:source.png'" do
       urls = urls_from @helper.call

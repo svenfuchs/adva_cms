@@ -1,7 +1,7 @@
-require 'theme_support/action_view'
 require 'theme_support/action_controller'
 require 'theme_support/active_record'
 require 'theme_support/asset_tag_helper'
+require 'theme_support/compiled_template_expiration'
 # require 'theme_support/action_mailer'
 
 module ThemeSupport
