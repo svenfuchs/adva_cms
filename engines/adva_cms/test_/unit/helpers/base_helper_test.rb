@@ -140,9 +140,9 @@ class BaseHelperMicroformatsTest < ActiveSupport::TestCase
   include BaseHelper
   
   def setup
-    @utc_time = Time.utc(2008, 10, 9, 12, 0, 0)
-    Time.zone = 'Vienna'
-    @local_time = Time.local(2008, 10, 9, 14, 0, 0)
+    Time.zone   = 'Vienna'
+    @utc_time   = Time.utc        2008, 10, 9, 12, 0, 0
+    @local_time = Time.zone.local 2008, 10, 9, 14, 0, 0
   end
   
   # DATETIME MICROFORMAT HELPERS
@@ -155,7 +155,7 @@ class BaseHelperMicroformatsTest < ActiveSupport::TestCase
 
   test "#datetime_with_microformat displays a UTC time" do
     datetime_with_microformat(@utc_time).should ==
-      '<abbr class="datetime" title="2008-10-09T12:00:00Z">October 09, 2008 @ 12:00 PM</abbr>'
+      '<abbr class="datetime" title="2008-10-09T12:00:00Z">October 09, 2008 @ 02:00 PM</abbr>'
   end
 
   test "#datetime_with_microformat displays a non-UTC time and converts it to UTC" do
@@ -165,7 +165,7 @@ class BaseHelperMicroformatsTest < ActiveSupport::TestCase
   
   test "#datetime_with_microformat displays a UTC time with a given date format" do
     datetime_with_microformat(@utc_time, :format => :plain).should ==
-      '<abbr class="datetime" title="2008-10-09T12:00:00Z">October 09 12:00 PM</abbr>'
+      '<abbr class="datetime" title="2008-10-09T12:00:00Z">October 09 02:00 PM</abbr>'
   end
   
   test "#datetime_with_microformat displays a non-UTC time with a given date format and converts it to UTC" do

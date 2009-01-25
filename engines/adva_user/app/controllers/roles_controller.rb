@@ -21,7 +21,7 @@ class RolesController < BaseController
     end
 
     def set_roles
-      @roles << Rbac::Role.build(:user)
       @roles = @user.roles.by_context(@object || @site)
+      @roles << Rbac::Role.build(:user)
     end
 end

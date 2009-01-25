@@ -49,7 +49,10 @@ class InstallationTest < ActionController::IntegrationTest
     
     # check that confirmation page has correct user attributes
     assert_select 'p#user_profile', /test@example.org/
-    assert_select 'p#user_profile', /test_password/
+    
+    # FIXME ... we do not show the password in plain text any more. might
+    # want to hide it by default and reveal it on "show my password" though
+    # assert_select 'p#user_profile', /test_password/ 
     
     # go to admin main page
     get admin_site_path(Site.first)

@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../../test_helper')
 
-class ComponentsOutputFilterTest < ActionController::TestCase
+class CellsOutputFilterTest < ActionController::TestCase
   tests BaseController
 
   def setup
@@ -8,41 +8,41 @@ class ComponentsOutputFilterTest < ActionController::TestCase
     @html = <<-html
       <html>
         <body>
-          <component name="blog/best_articles" section_id="1" count="10" />
-          <component name="blog/recent_articles" section_id="1" count="5" />
+          <cell name="blog/best_articles" section_id="1" count="10" />
+          <cell name="blog/recent_articles" section_id="1" count="5" />
           something>invalid
         </body>
       </html>
     html
 
-    @components = {
-      '<component name="blog/best_articles" section_id="1" count="10" />'  =>
-        ['blog/best_articles', {'section_id' => '1', 'count' => '10'}],
-      '<component name="blog/recent_articles" section_id="1" count="5" />' =>
-        ['blog/recent_articles', {'section_id' => '1', 'count' => '5'}]
+    @cells = {
+      '<cell name="blog/best_articles" section_id="1" count="10" />'  =>
+        ['blog', 'best_articles', {'section_id' => '1', 'count' => '10'}],
+      '<cell name="blog/recent_articles" section_id="1" count="5" />' =>
+        ['blog', 'recent_articles', {'section_id' => '1', 'count' => '5'}]
     }
 
-    @filter = OutputFilter::Components.new
-    @parser = OutputFilter::Components::SimpleParser.new
+    @filter = OutputFilter::Cells.new
+    @parser = OutputFilter::Cells::SimpleParser.new
 
     @controller.response = ActionController::TestResponse.new
     @controller.response.body = @html
   end
 
-  test "#after renders the components and replaces the component tags with rendering results" do
-    @components.each do |tag, component|
-      mock(@controller.response.template).component(*component).returns 'component rendered'
+  test "#after renders the cells and replaces the cell tags with rendering results" do
+    @cells.each do |tag, cell|
+      mock(@controller.response.template).render_cell(*cell).returns 'cell rendered'
     end
     @filter.after(@controller)
-    @controller.response.body.scan(/component rendered/).size.should == 2
+    @controller.response.body.scan(/cell rendered/).size.should == 2
   end
 
   test "SimpleParser#parse_attributes matches html attributes" do
     attributes = {'name' => 'blog/recent_articles', 'section_id' => '1', 'count' => '5'}
     @parser.send(:parse_attributes, @html).should == attributes
   end
-
-  test "SimpleParser#components returns an array with component/state and attributes" do
-    @parser.components(@html).should == @components
+  
+  test "SimpleParser#cells returns an array with cell/state and attributes" do
+    @parser.cells(@html).should == @cells
   end
 end

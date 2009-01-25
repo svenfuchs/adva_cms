@@ -19,14 +19,21 @@ class ForumController < BaseController
     # beast does this:
     # (session[:forums] ||= {})[@forum.id] = Time.now.utc
     # (session[:forums_page] ||= Hash.new(1))[@forum.id] = current_page if current_page > 1
+    
+    # we only need this topic for the topic/new form, right? if so, can we move
+    # this to the form partial instead of using an instance variable?
     @topic = Topic.new(:section => @section, :board => @board, :author => current_user)
     render @section.render_options
   end
 
   protected
-
+  
     def set_section; super(Forum); end
     
+    # FIXME these filters are confusing. maybe have some more explicit methods
+    # here like displaying_boards? or displaying_boardless_topics? or whatever
+    # else makes sense ...
+
     def set_board
       @board = @section.boards.find params[:board_id] if params[:board_id]
     end

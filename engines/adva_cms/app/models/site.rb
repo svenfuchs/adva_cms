@@ -129,15 +129,7 @@ class Site < ActiveRecord::Base
     def replace_host_spaces
       self.host = host.to_s.gsub(/^\s+|\s+$/, '').gsub(/\s+/, '-')
     end
-<<<<<<< HEAD:engines/adva_cms/app/models/site.rb
 
-    # def permalinkaze_host
-    #   self.host = PermalinkFu.escape(host)
-    # end
-
-=======
-    
->>>>>>> moving specs to unit tests:engines/adva_cms/app/models/site.rb
     def populate_title
       self.title = self.name if self.title.blank?
     end

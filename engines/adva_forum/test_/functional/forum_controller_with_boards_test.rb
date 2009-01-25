@@ -25,8 +25,8 @@ class ForumControllerWithBoardsTest < ActionController::TestCase
     action { get :show, default_params }
   
     with :access_granted do
-      it_assigns :boards
-      it_assigns :topics
+      # it_assigns :boards
+      # it_assigns :topics
       it_assigns :topic
       it_renders_template 'forum/show'
       it_caches_the_page :track => ['@topics', '@boards', '@board', '@commentable']
@@ -37,7 +37,7 @@ class ForumControllerWithBoardsTest < ActionController::TestCase
     action { get :show, default_params.merge(:board_id => @board.id) }
     
     with :access_granted do
-      it_assigns :boards
+      # it_assigns :boards
       it_assigns :board
       it_assigns :topics
       it_assigns :topic
