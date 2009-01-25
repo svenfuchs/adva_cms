@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + "/../test_helper")
 
-class ActivitiesWikipageObserverTest < ActiveSupport::TestCase
+class ActivitiesTopicObserverTest < ActiveSupport::TestCase
   def setup
     super
     Topic.old_add_observer(@observer = Activities::TopicObserver.instance)

@@ -41,7 +41,7 @@ class WikiHelperTest < ActiveSupport::TestCase
 
   test "#wikipage_path returns the unmodified result of wikipage_path_home when it does not contain /pages/home)" do
     path = @controller.wikipage_path(@section, @another_wikipage.permalink)
-    path.should == '/pages/another-wikipage-title'
+    path.should == '/pages/another-wikipage'
   end
   
   # wikipage_url
@@ -56,7 +56,7 @@ class WikiHelperTest < ActiveSupport::TestCase
   
   test "#wikipage_url returns the unmodified result of wikipage_url_home when it does not contain /pages/home)" do
     url = @controller.wikipage_url(@section, @another_wikipage.permalink)
-    url.should == 'http://test.host/pages/another-wikipage-title'
+    url.should == 'http://test.host/pages/another-wikipage'
   end
   
   # wikify

@@ -1,6 +1,6 @@
-require File.expand_path(File.dirname(__FILE__) + '/../test_helper')
+require File.expand_path(File.dirname(__FILE__) + '/../../test_helper')
 
-$:.unshift File.expand_path(File.dirname(__FILE__) + '/../../lib')
+$:.unshift File.expand_path(File.dirname(__FILE__) + '/../../../lib')
 require 'registry'
 
 class Registry
@@ -46,7 +46,7 @@ class RegistryTest < ActiveSupport::TestCase
   test "#set recursively turns passed hashes into registries" do
     @registry.clear
     @registry.set :foo, {:bar => {:baz => :buz}}
-    Registry.should === @registry.get(:foo).get(:bar) # FIXME write instance_of matcher
+    @registry.get(:foo).get(:bar).should be_instance_of(Registry)
   end
   
   # get
@@ -68,9 +68,7 @@ class RegistryTest < ActiveSupport::TestCase
     @registry.get(:foo, :bar).should == {:baz => :buz}
     Registry.clear
     @registry.get(:foo, :bar).should be_nil
-    # FIXME write matcher
-    # @registry.should be_empty
-    assert @registry.empty?
+    @registry.should be_empty
   end
 
   test "#clear returns nil if an intermediary key is missing" do

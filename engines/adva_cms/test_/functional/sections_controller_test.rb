@@ -4,7 +4,7 @@ class SectionsControllerTest < ActionController::TestCase
   with_common :a_section, :an_article
   
   test "is a BaseController" do
-    BaseController.should === @controller # FIXME matchy doesn't have a be_kind_of matcher
+    @controller.should be_kind_of(BaseController)
   end
   
   describe "GET to :show with no article permalink given" do

@@ -9,18 +9,15 @@ class CommentTest < ActiveSupport::TestCase
   end
 
   test 'acts as a role context for the author role' do
-    # FIXME implement matcher
-    # Comment.should act_as_role_context(:roles => :author)
+    Comment.should act_as_role_context(:roles => :author)
   end
   
   test 'sanitizes the body_html attribute' do
-    # FIXME implement matcher
-    # Comment.should filter_attributes(:sanitize => :body_html)
+    Comment.should filter_attributes(:sanitize => :body_html)
   end
   
   test "filters the body column" do
-    # FIXME implement matcher
-    # @comment.should filter_column(:body)
+    @comment.should filter_column(:body)
   end
   
   # ASSOCIATIONS

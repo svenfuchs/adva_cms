@@ -8,8 +8,7 @@ class ArticleTest < ActiveSupport::TestCase
   end
   
   test "sanitizes the attributes excerpt, excerpt_html, body and body_html" do
-    # FIXME implement filter_attributes matcher
-    # Article.should filter_attributes(:except => [:excerpt, :excerpt_html, :body, :body_html, :cached_tag_list])
+    Article.should filter_attributes(:except => [:excerpt, :excerpt_html, :body, :body_html, :cached_tag_list])
   end
   
   test "sets the position before create" do

@@ -22,6 +22,9 @@ class Test::Unit::TestCase
     start_db_transaction!
     setup_themes_dir!
     setup_assets_dir!
+
+    I18n.locale = nil
+    I18n.default_locale = :en
   end
   alias_method_chain :setup, :test_setup
   

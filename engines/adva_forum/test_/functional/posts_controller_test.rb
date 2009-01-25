@@ -22,7 +22,7 @@ class PostsControllerTest < ActionController::TestCase
   end
   
   test "is a BaseController" do
-    BaseController.should === @controller # FIXME matchy doesn't have a be_kind_of matcher
+    @controller.should be_kind_of(BaseController)
   end
   
   describe "GET to new" do

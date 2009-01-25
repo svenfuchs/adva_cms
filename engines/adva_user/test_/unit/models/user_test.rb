@@ -6,13 +6,10 @@ class UserTest < ActiveSupport::TestCase
     @user = User.find_by_first_name('a user')
     @credentials = { :email => @user.email, :password => 'a password' }
     @valid_user_params = { :email => 'test@example.org', :password => 'test', :first_name => 'name' }
-    # @time_now = Time.now
-    # Time.zone.stub!(:now).and_return @time_now
   end
 
   test 'acts as authenticated user' do
-    # FIXME implement matcher
-    # User.should act_as_authenticated_user
+    User.should act_as_authenticated_user
   end
   
   # ASSOCIATIONS
@@ -30,9 +27,9 @@ class UserTest < ActiveSupport::TestCase
   end
 
   # the roles association
+  # FIXME implement ...
 
   # stub_scenario :user_having_several_roles
-
   # test 'roles.by_site returns all superuser, site and section roles for the given user' do
   #   roles = @user.roles.by_site(@site)
   #   roles.map(&:type).should == ['Rbac::Role::Superuser', 'Rbac::Role::Admin', 'Rbac::Role::Moderator']
@@ -64,13 +61,11 @@ class UserTest < ActiveSupport::TestCase
   end
   
   test "validates the presence of a password if the password is required" do
-    # FIXME implement matcher: stub method returning true
-    # @user.should validate_presence_of(:password, :if => :password_required?)
+    @user.should validate_presence_of(:password, :if => :password_required?)
   end
   
   test "validates the length of the last name" do
-    # FIXME implement matcher
-    # @user.should validate_length_of(:last_name, :within => 0..40)
+    @user.should validate_length_of(:last_name, :within => 0..40)
   end
   
   test "creates a user with blank last name" do
@@ -79,21 +74,16 @@ class UserTest < ActiveSupport::TestCase
   end
   
   test "validates the length of the first name" do
-    # FIXME implement matcher
-    # @user.should validate_length_of(:first_name, :within => 1..40)
+    @user.should validate_length_of(:first_name, :within => 1..40)
   end
   
   test "validates the length of the password" do
-    # FIXME implement matcher
-    # @user.should validate_length_of(:password, :within => 4..40)
+    @user.should validate_length_of(:password, :within => 4..40)
   end
   
-  # # CLASS METHODS
-  #   # before :each do
-  #   #   User.stub!(:find_by_email).and_return @user
-  #   #   @credentials = {:email => 'email@email.org', :password => 'password'}
-  #   # end
-  # 
+  # CLASS METHODS
+
+  # User.authenticate
   test 'User.authenticate returns the user if user#authenticate succeeds' do
     User.authenticate(@credentials).should == @user
   end
@@ -108,6 +98,7 @@ class UserTest < ActiveSupport::TestCase
     User.authenticate(@credentials).should be_false
   end
   
+  # User.superuser
   test 'User.superusers returns all superusers' do
     superuser = User.find_by_first_name('a superuser')
     
@@ -116,7 +107,7 @@ class UserTest < ActiveSupport::TestCase
     result.size.should == 1
   end
   
-  # FIXME implement 
+  # User.admins_and_superusers
   test 'User.admins_and_superusers returns all site admins and superusers' do
     admin = User.find_by_first_name('an admin')
     superuser = User.find_by_first_name('a superuser')

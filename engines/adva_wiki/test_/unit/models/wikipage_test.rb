@@ -8,13 +8,11 @@ class WikipageTest < ActiveSupport::TestCase
   end
 
   test 'sanitizes the body_html attribute' do
-    # FIXME implement matcher
-    # Wikipage.should filter_attributes(:sanitize => :body_html)
+    Wikipage.should filter_attributes(:sanitize => :body_html)
   end
 
   test 'does not sanitize the body and cached_tag_list attributes' do
-    # FIXME implement matcher
-    # Wikipage.should filter_attributes(:except => [:body, :cached_tag_list])
+    Wikipage.should filter_attributes(:except => [:body, :cached_tag_list])
   end
   
   # CALLBACKS

@@ -4,7 +4,7 @@ class BlogControllerTest < ActionController::TestCase
   with_common :a_blog, :a_category, :an_article
 
   test "is an BaseController" do
-    BaseController.should === @controller # FIXME matchy doesn't have a be_kind_of matcher
+    @controller.should be_kind_of(BaseController)
   end
 
   { :blog_paths              => %w( /a-blog

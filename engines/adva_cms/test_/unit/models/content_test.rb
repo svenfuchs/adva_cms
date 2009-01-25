@@ -8,23 +8,19 @@ class ContentTest < ActiveSupport::TestCase
   end
 
   test "acts as a taggable" do
-    # FIXME implement matcher
-    # Content.should act_as_taggable
+    Content.should act_as_taggable
   end
 
   test "acts as a role context for the author role" do
-    # FIXME implement matcher
-    # Content.should act_as_role_context(:roles => :author)
+    Content.should act_as_role_context(:roles => :author)
   end
 
   test "acts as a commentable" do
-    # FIXME implement matcher
-    # Content.should act_as_commentable
+    Content.should act_as_commentable
   end
 
   test "acts as versioned" do
-    # FIXME implement matcher
-    # Content.should act_as_versioned
+    Content.should act_as_versioned
   end
 
   test "is configured to save a new version when the title, body or excerpt attribute changes" do
@@ -41,24 +37,20 @@ class ContentTest < ActiveSupport::TestCase
   end
 
   test "instantiates with single table inheritance" do
-    # FIXME implement matcher
-    # Content.should instantiate_with_sti
+    Content.should instantiate_with_sti
   end
 
   test "has a permalink generated from the title" do
-    # FIXME implement matcher
-    # Content.should have_a_permalink(:title)
+    Content.should have_permalink(:title)
   end
 
   test "filters the excerpt and body" do
-    # FIXME implement matcher
-    # @content.should filter_column(:excerpt)
-    # @content.should filter_column(:body)
+    @content.should filter_column(:excerpt)
+    @content.should filter_column(:body)
   end
 
   test "has a comments counter" do
-    # FIXME implement matcher
-    # Content.should have_counter(:comments)
+    Content.should have_counter(:comments)
   end
   
   # ASSOCIATIONS

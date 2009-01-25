@@ -7,18 +7,15 @@ class SiteTest < ActiveSupport::TestCase
   end
 
   test 'acts as themed' do
-    # FIXME implement matcher
-    # Site.should act_as_themed
+    Site.should act_as_themed
   end
 
   test 'acts as commentable' do
-    # FIXME implement matcher
-    # Site.should act_as_commentable
+    Site.should act_as_commentable
   end
 
   test 'acts as role context for the admin role' do
-    # FIXME implement matcher
-    # Site.should act_as_role_context(:roles => :admin)
+    Site.should act_as_role_context(:roles => :admin)
   end
 
   test "serializes its actual permissions" do
@@ -30,8 +27,7 @@ class SiteTest < ActiveSupport::TestCase
   end
 
   test "has a comments counter" do
-    # FIXME implement matcher
-    # Site.should have_counter(:comments)
+    Site.should have_counter(:comments)
   end
 
   # ASSOCIATIONS

@@ -1,5 +1,14 @@
 module Matchy
   module Expectations
+    class Base
+      # overwritten to take options, too
+      def initialize(expected, test_case, options = {})
+        @expected = expected
+        @test_case = test_case
+        @options = options
+      end
+    end
+    
     module TestCaseExtensions
       def be_nil
         Matchy::Expectations::Be.new(nil, self)
@@ -8,35 +17,47 @@ module Matchy
       def be_true
         Matchy::Expectations::Be.new(true, self)
       end
-      
+
       def be_false
         Matchy::Expectations::Be.new(false, self)
       end
-      
+
       def be_instance_of(expected)
         Matchy::Expectations::BeInstanceOf.new(expected, self)
       end
-      
+
       def be_kind_of(expected)
         Matchy::Expectations::BeKindOf.new(expected, self)
       end
-      
+
       def be_empty
         Matchy::Expectations::BeEmpty.new(nil, self)
       end
-      
+
       def be_blank
         Matchy::Expectations::BeBlank.new(nil, self)
       end
-      
+
       def be_valid
         Matchy::Expectations::BeValid.new(nil, self)
       end
-      
+
       def respond_to(expected)
         Matchy::Expectations::RespondTo.new(expected, self)
       end
-      
+
+      def validate_presence_of(attribute, options = {})
+        Matchy::Expectations::ValidatePresenceOf.new(attribute, self, options)
+      end
+
+      def validate_uniqueness_of(attribute, options = {})
+        Matchy::Expectations::ValidateUniquenessOf.new(attribute, self, options)
+      end
+
+      def validate_length_of(attribute, options = {})
+        Matchy::Expectations::ValidateLengthOf.new(attribute, self, options)
+      end
+
       def belong_to(expected, options = {})
         Matchy::Expectations::Association.new(self, :belongs_to, expected, options)
       end
@@ -48,118 +69,123 @@ module Matchy
       def have_many(expected, options = {})
         Matchy::Expectations::Association.new(self, :has_many, expected, options)
       end
+    end
 
-      def validate_presence_of(attribute, options = {})
-        Matchy::Expectations::ValidatesPresenceOf.new(attribute, self)
-      end
-
-      def validate_uniqueness_of(attribute, options = {})
-        Matchy::Expectations::ValidatesUniquenessOf.new(attribute, self, options)
+    class << self
+      def matcher(name, failure_message, negative_failure_message, &block)
+        matcher = Class.new(Base) do
+          define_method :matches?, &block
+          
+          define_method :failure_message do 
+            failure_message % [@receiver.inspect, @expected.inspect, @options.inspect]
+          end
+          
+          define_method :negative_failure_message do 
+            negative_failure_message % [@receiver.inspect, @expected.inspect, @options.inspect]
+          end
+        end
+        const_set(name, matcher)
       end
     end
 
-    class Be < Base
-      def matches?(receiver)
-        @receiver = receiver
-        @expected.class === receiver
-      end
-
-      def failure_message
-        "Expected #{@receiver.inspect} to be #{@expected.inspect}."
-      end
-
-      def negative_failure_message
-        "Expected #{@receiver.inspect} not to be #{@expected.inspect}."
-      end
+    matcher "Be", 
+            "Expected %s to be %s.", 
+            "Expected %s not to be %s." do |receiver|
+      @receiver = receiver
+      @expected.class === receiver
     end
-    
-    class BeInstanceOf < Base
-      def matches?(receiver)
-        @receiver = receiver
-        receiver.instance_of? @expected
-      end
 
-      def failure_message
-        "Expected #{@receiver.inspect} to be an instance of #{@expected.inspect}."
-      end
-
-      def negative_failure_message
-        "Expected #{@receiver.inspect} not to be an instance of #{@expected.inspect}."
-      end
+    matcher "BeInstanceOf", 
+            "Expected %s to be an instance of %s.", 
+            "Expected %s not to be an instance of %s." do |receiver|
+      @receiver = receiver
+      receiver.instance_of? @expected
     end
-    
-    class BeKindOf < Base
-      def matches?(receiver)
-        @receiver = receiver
-        receiver.kind_of? @expected
-      end
 
-      def failure_message
-        "Expected #{@receiver.inspect} to be a kind of #{@expected.inspect}."
-      end
-
-      def negative_failure_message
-        "Expected #{@receiver.inspect} not to be a kind of #{@expected.inspect}."
-      end
+    matcher "BeKindOf", 
+            "Expected %s to be a kind of %s.", 
+            "Expected %s not to be a kind of %s." do |receiver|
+      @receiver = receiver
+      receiver.kind_of? @expected
     end
-    
-    class BeEmpty < Base
-      def matches?(receiver)
-        @receiver = receiver
-        receiver.empty?
-      end
 
-      def failure_message
-        "Expected #{@receiver.inspect} to be empty."
-      end
-
-      def negative_failure_message
-        "Expected #{@receiver.inspect} not to be empty."
-      end
+    matcher "BeEmpty", 
+            "Expected %s to be empty.", 
+            "Expected %s not to be empty." do |receiver|
+      @receiver = receiver
+      receiver.empty?
     end
-    
-    class BeBlank < Base
-      def matches?(receiver)
-        @receiver = receiver
-        receiver.blank?
-      end
 
-      def failure_message
-        "Expected #{@receiver.inspect} to be blank."
-      end
-
-      def negative_failure_message
-        "Expected #{@receiver.inspect} not to be blank."
-      end
+    matcher "BeBlank", 
+            "Expected %s to be blank.", 
+            "Expected %s not to be blank." do |receiver|
+      @receiver = receiver
+      receiver.blank?
     end
-    
-    class BeValid < Base
-      def matches?(receiver)
-        @receiver = receiver
-        receiver.valid?
-      end
 
-      def failure_message
-        "Expected #{@receiver.inspect} to be valid."
-      end
-
-      def negative_failure_message
-        "Expected #{@receiver.inspect} not to be valid."
-      end
+    matcher "BeValid", 
+            "Expected %s to be valid.", 
+            "Expected %s not to be valid." do |receiver|
+      @receiver = receiver
+      receiver.valid?
     end
-    
-    class RespondTo < Base
-      def matches?(receiver)
-        @receiver = receiver
-        receiver.respond_to? @expected
+
+    matcher "RespondTo", 
+            "Expected %s to respond to %s.", 
+            "Expected %s not to respond to %s." do |receiver|
+      @receiver = receiver
+      receiver.respond_to? @expected
+    end
+
+    matcher "ValidatePresenceOf", 
+            "Expected %s to validate the presence of %s.", 
+            "Expected %s not to validate the presence of %s." do |receiver|
+      @receiver = receiver
+      
+      # stubs the method given as @options[:if] on the receiver
+      RR.stub(receiver).__creator__.create(@options[:if]).returns(true) if @options[:if]
+      
+      receiver.send("#{@expected}=", nil)
+      !receiver.valid? && receiver.errors.invalid?(@expected)
+    end
+
+    matcher "ValidateLengthOf", 
+            "Expected %s to validate the length of %s (with %s).", 
+            "Expected %s not to validate the length of %s (with %s)." do |receiver|
+      @receiver = receiver
+
+      max = @options[:within] || @options[:is]
+      max = max.last if max.respond_to?(:last)
+
+      value = receiver.send(@expected).to_s
+      value = 'x' if value.blank?
+      value = (value * (max  + 1))[0, max + 1]
+      
+      receiver.send("#{@expected}=", value)
+      !receiver.valid? && receiver.errors.invalid?(@expected)
+    end
+
+    class ValidateUniquenessOf < Base
+      def matches?(model)
+        RR.reset
+        @receiver = model
+        args = @options[:scope] ? RR.satisfy {|args| args.first =~ /.#{@options[:scope]} (=|IS) \?/ } : RR.anything
+        RR.mock(model.class).exists?.with(args).returns true
+        !model.valid? && model.errors.invalid?(@expected)
+        RR.verify
+        true
+      rescue RR::Errors::RRError => e
+        false
       end
 
       def failure_message
-        "Expected #{@receiver.inspect} to respond to #{@expected.inspect}."
+        "Expected #{@receiver.class.name} to validate the uniqueness of #{@expected.inspect}" +
+        (@options[:scope] ? " with scope #{@options[:scope].inspect}." : '.')
       end
 
       def negative_failure_message
-        "Expected #{@receiver.inspect} not to respond to #{@expected.inspect}."
+        "Expected #{@receiver.class.name} not to validate the uniqueness of #{@expected.inspect}" +
+        (@options[:scope] ? " with scope #{@options[:scope].inspect}." : '.')
       end
     end
 
@@ -191,52 +217,6 @@ module Matchy
 
       def negative_failure_message
         "Expected #{@receiver.class.name} not to #{@type} #{@expected.inspect}."
-      end
-    end
-
-    class ValidatesPresenceOf < Base
-      def matches?(model)
-        @receiver = model
-
-        model.send("#{@expected}=", nil)
-        !model.valid? && model.errors.invalid?(@expected)
-      end
-
-      def failure_message
-        "Expected #{@receiver.class.name} to validate the presence of #{@expected.inspect}."
-      end
-
-      def negative_failure_message
-        "Expected #{@receiver.class.name} not to validate the presence of #{@expected.inspect}."
-      end
-    end
-
-    class ValidatesUniquenessOf < Base
-      def initialize(expected, test_case, options = {})
-        @options = options
-        super expected, test_case
-      end
-
-      def matches?(model)
-        RR.reset
-        @receiver = model
-        args = @options[:scope] ? RR.satisfy {|args| args.first =~ /.#{@options[:scope]} (=|IS) \?/ } : RR.anything
-        RR.mock(model.class).exists?.with(args).returns true
-        !model.valid? && model.errors.invalid?(@expected)
-        RR.verify
-        true
-      rescue RR::Errors::RRError => e
-        false
-      end
-
-      def failure_message
-        "Expected #{@receiver.class.name} to validate the uniqueness of #{@expected.inspect}" +
-        (@options[:scope] ? " with scope #{@options[:scope].inspect}." : '.')
-      end
-
-      def negative_failure_message
-        "Expected #{@receiver.class.name} not to validate the uniqueness of #{@expected.inspect}" +
-        (@options[:scope] ? " with scope #{@options[:scope].inspect}." : '.')
       end
     end
   end

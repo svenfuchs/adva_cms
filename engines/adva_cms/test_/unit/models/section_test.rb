@@ -8,8 +8,7 @@ class SectionTest < ActiveSupport::TestCase
   end
   
   test "acts as a role context for the moderator role" do
-    # FIXME implement matcher
-    # Section.should act_as_role_context(:roles => :moderator)
+    Section.should act_as_role_context(:roles => :moderator)
   end
 
   test "serializes its actual permissions" do
@@ -38,23 +37,19 @@ class SectionTest < ActiveSupport::TestCase
   end
 
   test "acts as a nested set" do
-    # FIXME implement matcher
-    # Section.should act_as_nested_set
+    Section.should act_as_nested_set
   end
 
   test "acts as a commentable" do
-    # FIXME implement matcher
-    # Section.should act_as_commentable
+    Section.should act_as_commentable
   end
 
   test "instantiates with single table inheritance" do
-    # FIXME implement matcher
-    # Section.should instantiate_with_sti
+    Section.should instantiate_with_sti
   end
 
   test "has a comments counter" do
-    # FIXME implement matcher
-    # Section.should have_counter(:comments)
+    Section.should have_counter(:comments)
   end
 
   test "belongs to a site" do

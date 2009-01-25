@@ -11,9 +11,7 @@ class CounterTest < ActiveSupport::TestCase
   end
 
   test "responds to :topics_count" do
-    # FIXME add matcher
-    # @forum.should respond_to(:topics_count)
-    assert @forum.respond_to?(:topics_count)
+    @forum.should respond_to(:topics_count)
   end
   
   test "after create it has a counter initialized and saved" do

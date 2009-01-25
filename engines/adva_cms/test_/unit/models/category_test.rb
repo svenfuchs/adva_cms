@@ -8,8 +8,7 @@ class CategoryTest < ActiveSupport::TestCase
   end
 
   test 'acts as a nested set' do
-    # FIXME implement matcher
-    # Category.should act_as_nested_set
+    Category.should act_as_nested_set
   end
 
   test 'generates a permalink from the title' do

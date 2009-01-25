@@ -12,11 +12,8 @@ class LocationTest < ActiveSupport::TestCase
 
   test "is invalid without a title" do
     @location.title = nil
-    # FIXME implement matcher
-    # @location.should_not be_valid
-    # @location.errors.on("title").should be
-    assert !@location.valid?
-    assert @location.errors.on("title")
+    @location.should_not be_valid
+    @location.errors.on("title").should_not be_nil
   end
 
   test "oneliner returns a concatenation of non-empty attributes" do

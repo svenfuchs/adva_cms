@@ -19,7 +19,7 @@ class AdminSitesControllerTest < ActionController::TestCase
   end
   
   test "is an Admin::BaseController" do
-    Admin::BaseController.should === @controller # FIXME matchy doesn't have a be_kind_of matcher
+    @controller.should be_kind_of(Admin::BaseController)
   end
    
   describe "routing" do

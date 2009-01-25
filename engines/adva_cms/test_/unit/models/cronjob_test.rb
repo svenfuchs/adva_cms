@@ -25,21 +25,17 @@ class CronjobTest < ActiveSupport::TestCase
   end
 
   test "a cronjob with a command is valid" do
-    # FIXME implement matcher
-    # @cronjob.should be_valid
-    assert @cronjob.valid?
+    @cronjob.should be_valid
   end
 
   test "a cronjob is valid without a due_at date" do
-    # FIXME implement matcher
     @cronjob.due_at = nil
-    assert @cronjob.valid?
+    @cronjob.should be_valid
   end
 
   test "a cronjob must have a command" do
-    # FIXME implement matcher
     @cronjob.command = nil
-    assert !@cronjob.valid?
+    @cronjob.should_not be_valid
   end
 
   test "should have unique cron_id" do

@@ -7,9 +7,7 @@ class SubscriptionTest < ActiveSupport::TestCase
   end
 
   test "should be valid" do
-    # FIXME implement matcher?
-    # @subscription.should be_valid
-    assert @subscription.valid?
+    @subscription.should be_valid
   end
   
   test "validates presence of user_id" do

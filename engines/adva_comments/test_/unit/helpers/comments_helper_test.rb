@@ -9,6 +9,8 @@ class CommentsHelperTest < ActiveSupport::TestCase
   include ActionView::Helpers::TagHelper
   include ActionView::Helpers::UrlHelper
 
+  attr_accessor :request
+  
   def setup
     super
     @section = Section.first
@@ -16,7 +18,10 @@ class CommentsHelperTest < ActiveSupport::TestCase
     @site = @section.site
     
     stub(self).protect_against_forgery?.returns false
-    stub(self).request.returns ActionController::TestRequest.new
+
+    ActionView::TestController.send :include, CommentsHelper
+    @controller = ActionView::TestController.new
+    @request = ActionController::TestRequest.new
   end
 
   test '#comments_feed_title joins the titles of site, section and commentable' do
@@ -51,29 +56,25 @@ class CommentsHelperTest < ActiveSupport::TestCase
 
   test "#admin_comment_path with no :section_id param given and with no :content_id param given
         it returns the admin_site_comment_path with no further params" do
-    stub(self).params.returns :site_id => 1
-    # FIXME implement matcher
-    # admin_comments_path(@site).should_not have_parameters
+    @controller.params = { :site_id => 1 }
+    @controller.admin_comments_path(@site).should_not have_url_params
   end
 
   test "#admin_comment_path  with no :section_id param given and with a :content_id param given
         it returns the admin_site_comment_path with the :content_id param" do
-    stub(self).params.returns :site_id => 1, :content_id => 1
-    # FIXME implement matcher
-    # admin_comments_path(@site).should have_parameters(:content_id)
+    @controller.params = { :site_id => 1, :content_id => 1 }
+    @controller.admin_comments_path(@site).should have_url_params(:content_id)
   end
 
   test "#admin_comment_path with a :section_id param given and with no :content_id param given
         it returns the admin_site_comment_path with the :section_id param" do
-    stub(self).params.returns :site_id => 1, :section_id => 1
-    # FIXME implement matcher
-    # admin_comments_path(@site).should have_parameters(:section_id)
+    @controller.params = { :site_id => 1, :section_id => 1 }
+    @controller.admin_comments_path(@site).should have_url_params(:section_id)
   end
 
   test "#admin_comment_path with a :section_id param given and with a :content_id param given
         it returns the admin_site_comment_path with the :content_id param" do
-    stub(self).params.returns :site_id => 1, :section_id => 1, :content_id => 1
-    # FIXME implement matcher
-    # admin_comments_path(@site).should have_parameters(:content_id)
+    @controller.params = { :site_id => 1, :section_id => 1, :content_id => 1 }
+    @controller.admin_comments_path(@site).should have_url_params(:content_id)
   end
 end

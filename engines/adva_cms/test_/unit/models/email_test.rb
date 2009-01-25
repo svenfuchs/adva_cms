@@ -15,27 +15,22 @@ class EmailTest < ActiveSupport::TestCase
   end
 
   test "is valid with from, to and mail" do
-    # FIXME implement matcher
-    # @email.should be_valid
-    assert @email.valid?
+    @email.should be_valid
   end
 
   test "is invalid without from" do
-    # FIXME implement matcher
     @email.from = nil
-    assert !@email.valid?
+    @email.should_not be_valid
   end
   
   test "is invalid without to" do
-    # FIXME implement matcher
     @email.to = nil
-    assert !@email.valid?
+    @email.should_not be_valid
   end
   
   test "is invalid without mail" do
-    # FIXME implement matcher
     @email.mail = nil
-    assert !@email.valid?
+    @email.should_not be_valid
   end
   
   # CLASS METHODS

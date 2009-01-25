@@ -7,9 +7,7 @@ class WikiTest < ActiveSupport::TestCase
   end
   
   test "is a kind of Section" do
-    # FIXME implement matcher
-    # @wiki.should be_kind_of(Section)
-    Section.should === @wiki
+    @wiki.should be_kind_of(Section)
   end
 
   test "has many wikipages" do

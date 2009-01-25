@@ -7,8 +7,7 @@ class AnonymousTest < ActiveSupport::TestCase
   end
 
   test 'acts as authenticated user (with single token authentication)' do
-    # FIXME implement matcher
-    # User.should act_as_authenticated_user
+    User.should act_as_authenticated_user
   end
 
   # VALIDATIONS
@@ -22,8 +21,7 @@ class AnonymousTest < ActiveSupport::TestCase
   end
 
   test 'validates the length of the name (3-40 chars)' do
-    # FIXME implement matcher
-    # @anonymous.should validate_length_of(:first_name, :within => 3..40)
+    @anonymous.should validate_length_of(:first_name, :within => 3..40)
   end
 
   test 'email format validation succeeds with a valid email address' do
