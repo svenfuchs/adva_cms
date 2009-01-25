@@ -13,7 +13,7 @@ class PasswordControllerTest < ActionController::TestCase
     it_assigns :site
     it_renders :template, :new do
       has_form_posting_to password_path do
-        has_tag :input, :name => 'user[email]'
+        has_tag 'input[name=?]', 'user[email]'
       end
     end
   end
@@ -45,7 +45,7 @@ class PasswordControllerTest < ActionController::TestCase
       before { stub(@controller).current_user.returns(@user) }
       
       it_renders_template :edit do
-        has_tag :input, :name => 'user[password]'
+        has_tag 'input[name=?]', 'user[password]'
       end
     end
   end

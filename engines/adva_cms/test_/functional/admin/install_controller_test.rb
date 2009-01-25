@@ -26,9 +26,9 @@ class AdminInstallControllerTest < ActionController::TestCase
 
       it_renders :template, :install do
         has_form_posting_to install_path do
-          has_tag :input, :name => 'site[name]'
-          has_tag :input, :name => 'section[type]', :type => 'radio'
-          has_tag :input, :name => 'section[title]'
+          has_tag 'input[name=?]', 'site[name]'
+          has_tag 'input[name=?]', 'section[title]'
+          has_tag 'input[name=?][type=radio]', 'section[type]'
         end
       end
 
@@ -63,7 +63,7 @@ class AdminInstallControllerTest < ActionController::TestCase
         end
 
         it_renders :template, :confirmation do
-          has_tag :a, :href => admin_site_path(assigns(:site))
+          has_tag 'a[href=?]', admin_site_path(assigns(:site))
           # FIXME link to admin profile
         end
       end

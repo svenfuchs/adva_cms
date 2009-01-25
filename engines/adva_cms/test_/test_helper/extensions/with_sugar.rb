@@ -122,6 +122,11 @@ class ActionController::TestCase
     end
   end
   
+  def has_permalink(article)
+    has_tag 'h2 a[href=?]', 
+      article_path(article.section, article.full_permalink), article.title
+  end
+  
   def rendered_insufficient_permissions?
     !!(@response.rendered_template.to_s =~ /insufficient_permissions/)
   end

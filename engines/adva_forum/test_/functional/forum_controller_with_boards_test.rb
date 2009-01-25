@@ -50,14 +50,15 @@ class ForumControllerWithBoardsTest < ActionController::TestCase
     action { get :show, default_params }
     
     it "displays the boards" do
-      has_tag :table, :id => 'boards'
-      has_tag :tr, :id => "board_#{@board.id}"
-      has_tag :tr, :id => "board_#{@another_board.id}"
+      has_tag 'table[id=boards]' do
+        has_tag 'tr[id=?]', "board_#{@board.id}"
+        has_tag 'tr[id=?]', "board_#{@another_board.id}"
+      end
     end
     
     it "has the links to view boards" do
-      has_tag :a, :href => forum_board_path(@section, @board)
-      has_tag :a, :href => forum_board_path(@section, @another_board)
+      has_tag 'a[href=?]', forum_board_path(@section, @board)
+      has_tag 'a[href=?]', forum_board_path(@section, @another_board)
     end
   end
   
@@ -65,13 +66,11 @@ class ForumControllerWithBoardsTest < ActionController::TestCase
     action { get :show, default_params.merge(:board_id => @board.id) }
     
     it "displays the board topics" do
-      has_tag :table, :id => 'topics' do
-        has_tag :td, :class => 'topic'
-      end
+      has_tag 'table[id=topics] tr td[class=topic]'
     end
     
     it "has the link to view topic" do
-      has_tag :a, :href => topic_path(@board_topic.section, @board_topic.permalink)
+      has_tag 'a[href=?]', topic_path(@board_topic.section, @board_topic.permalink)
     end
   end
   
@@ -79,11 +78,11 @@ class ForumControllerWithBoardsTest < ActionController::TestCase
     action { get :show, default_params.merge(:board_id => @topicless_board.id) }
     
     it "displays empty list of board topics" do
-      has_tag :p, :id => 'topics', :class => 'empty'
+      has_tag 'p[id=topics][class=empty]'
     end
     
     it "has the link to create a new topic" do
-      has_tag :a, :href => new_board_topic_path(@section, @topicless_board)
+      has_tag 'a[href=?]', new_board_topic_path(@section, @topicless_board)
     end
   end
 end

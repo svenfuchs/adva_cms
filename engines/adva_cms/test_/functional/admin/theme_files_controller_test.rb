@@ -14,8 +14,8 @@ class AdminThemeFilesControllerTest < ActionController::TestCase
   end
   
   view :form do
-    has_tag :input, :name => 'file[localpath]'
-    has_tag :textarea, :name => 'file[data]'
+    has_tag 'input[name=?]', 'file[localpath]'
+    has_tag 'textarea[name=?]', 'file[data]'
     # FIXME
     # renders a file data textarea when the file has text content
     # does not render a file data textarea when the file does not have text content
@@ -23,8 +23,8 @@ class AdminThemeFilesControllerTest < ActionController::TestCase
   end
   
   view :files_list do
-    ['Templates', 'Assets', 'Others'].each {|type| has_tag :h3, type }
-    has_tag :a, :href=> admin_theme_file_path(@site, @theme.id, @file.id)
+    ['Templates', 'Assets', 'Others'].each {|type| has_tag 'h3', type }
+    has_tag 'a[href=?]', admin_theme_file_path(@site, @theme.id, @file.id)
   end
    
   test "is an Admin::BaseController" do

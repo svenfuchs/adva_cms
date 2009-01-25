@@ -32,7 +32,7 @@ class AdminPluginsControllerTest < ActionController::TestCase
     with :access_granted do
       it_assigns :plugins
       it_renders :template, :index do
-        has_tag :table, :id => 'plugins'
+        has_tag 'table[id=plugins]'
       end
     end
   end
@@ -45,11 +45,11 @@ class AdminPluginsControllerTest < ActionController::TestCase
     with :access_granted do
       it_assigns :plugin
       it_renders :template, :show do
-        has_tag :input, :name => 'plugin[string]', :value => 'string'
-        has_tag :textarea, 'text', :name => 'plugin[text]'
+        has_tag 'input[name=?][value=string]', 'plugin[string]'
+        has_tag 'textarea[name=?]', 'plugin[text]', 'text'
 
         has_text @plugin.about['description']
-        has_tag :div, :id => :sidebar do
+        has_tag 'div[id=sidebar]' do
           has_text @plugin.about['author']
           has_text @plugin.about['homepage']
           has_text @plugin.about['summary']

@@ -32,7 +32,7 @@ class PostsControllerTest < ActionController::TestCase
     
     it "has a create form" do
       has_form_posting_to topic_posts_path do
-        has_tag :textarea, :id => 'post_body'
+        has_tag 'textarea[id=post_body]'
       end
     end
   end
@@ -44,7 +44,7 @@ class PostsControllerTest < ActionController::TestCase
     
     it "has an edit form" do
       has_form_putting_to topic_post_path do
-        has_tag :textarea, :id => 'post_body'
+        has_tag 'textarea[id=post_body]'
       end
     end
   end

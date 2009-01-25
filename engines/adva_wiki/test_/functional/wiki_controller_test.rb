@@ -5,8 +5,8 @@ class WikiControllerTest < ActionController::TestCase
   with_common :is_superuser, :a_wiki, :a_wikipage
   
   view :form do
-    has_tag :input, :name => 'wikipage[title]'
-    has_tag :textarea, :name => 'wikipage[body]'
+    has_tag 'input[name=?]', 'wikipage[title]'
+    has_tag 'textarea[name=?]', 'wikipage[body]'
     # FIXME
     # with the wikipage having categories
     # body.should =~ /content_category_checkbox/
@@ -40,14 +40,14 @@ class WikiControllerTest < ActionController::TestCase
     with [:wiki_path, [:a_wikipage_category, :wiki_category_path], :wiki_tag_path] do
       it_assigns :site, :section, :wikipages
       it_renders :template, :index do
-        has_tag '#wikipages tbody tr', @section.wikipages.count
+        has_tag '#wikipages tbody tr', :count => @section.wikipages.count
       end
       
       # FIXME
       # within :no_wikipage do
       #   has_tag '.empty' do
       #     has_text "no wikipages"
-      #     has_tag :a, :href => new_wikipage_path(@section)
+      #     has_tag 'a[href=?]', new_wikipage_path(@section)
       #   end
       # end
       
@@ -81,14 +81,14 @@ class WikiControllerTest < ActionController::TestCase
           has_text "by: #{@wikipage.author_name}" 
     
           # displays a group of wiki edit links
-          has_tag :a, /home/, :href => wiki_path(@section) unless @wikipage.home?
-          has_tag :a, /edit/, :href => edit_wikipage_path(@section, @wikipage.permalink)
+          has_tag 'a[href=?]', wiki_path(@section), /home/ unless @wikipage.home?
+          has_tag 'a[href=?]', edit_wikipage_path(@section, @wikipage.permalink), /edit/
     
           # displays the wikipage's updated_at date as a microformat
-          has_tag :abbr, :class => 'datetime', :title => @wikipage.updated_at.utc.xmlschema 
+          has_tag 'abbr[class=datetime][title=?]', @wikipage.updated_at.utc.xmlschema 
     
-          has_tag :ul, :class => 'categories' unless @wikipage.categories.empty?
-          has_tag :ul, :class => 'tags'       unless @wikipage.tags.empty?
+          has_tag 'ul[class=categories]' unless @wikipage.categories.empty?
+          has_tag 'ul[class=tags]'       unless @wikipage.tags.empty?
     
           # FIXME
           # wikifies the wikipage body

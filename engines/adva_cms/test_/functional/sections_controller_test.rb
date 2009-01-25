@@ -30,7 +30,7 @@ class SectionsControllerTest < ActionController::TestCase
           assert @response.body !~ /read the rest of this entry/i
           
           # FIXME currently not true
-          # has_authorized_tag :a, /edit/i, :href => edit_admin_article_path(@site, @section, @article)
+          # has_authorized_tag 'a[href=?]', edit_admin_article_path(@site, @section, @article), /edit/i
 
           # FIXME
           # lists the article's categories

@@ -41,23 +41,19 @@ class BlogControllerTest < ActionController::TestCase
       before { @params = params_from('/a-blog') }
 
       it "displays the article" do
-        has_tag 'div[class~=entry]' do
-          has_tag(:h2) { has_tag :a, @article.title, :href => article_path(@section, @article.full_permalink) }
-          has_authorized_tag :a, /edit/i, :href => edit_admin_article_path(@site, @section, @article)
-        end
+        has_tag('div[class~=entry]') { has_permalink @article }
       end
 
       it "shows the excerpt", :with => :article_has_an_excerpt do
         does_not_have_text 'article body'
         has_text 'article excerpt'
-        has_tag :a, /read the rest of this entry/i
+        has_tag 'a', /read the rest of this entry/i
       end
 
       it "shows the body", :with => :article_has_no_excerpt do
         has_text 'article body'
         does_not_have_text 'article excerpt'
-        # does_not_have_tag :a, /read the rest of this entry/i
-        assert @response.body !~ /read the rest of this entry/i
+        has_tag 'a', :text => /read the rest of this entry/i, :count => 0
       end
 
       it "displays the number of comments and links to them", :with => :comments_or_commenting_allowed do
@@ -65,14 +61,13 @@ class BlogControllerTest < ActionController::TestCase
       end
 
       it "does not display the number of comments", :with => :no_comments_and_commenting_not_allowed do
-        # does_not_have_tag 'div.meta a', /\d comment[s]?/
-        assert @response.body !~ /\d comment[s]?/i
+        has_tag 'div.meta a', :text => /\d comment[s]?/, :count => 0
       end
-
-      has_tag :div, :id => 'footer' do
-        has_tag :ul, :id => 'categories-list'
-        has_tag :ul, :id => 'archives'
-        # has_tag :ul, :id => 'tags-list' # FIXME currently tags are not displayed
+      
+      has_tag 'div[id=footer]' do
+        has_tag 'ul[id=categories-list]'
+        has_tag 'ul[id=archives]'
+        # has_tag 'ul[id=tags-list]' # FIXME currently tags are not displayed
       end
     end
 
@@ -92,14 +87,14 @@ class BlogControllerTest < ActionController::TestCase
       it_renders :template, :show do
         has_tag 'div[class~=entry]' do
           # displays the title and links it to the article
-          has_tag(:h2) { has_tag :a, @article.title, :href => article_path(@section, @article.full_permalink) }
+          has_permalink @article
 
           # displays excerpt and body
           has_text @article.excerpt
           has_text @article.body
 
           # displays an edit link for authorized users
-          has_authorized_tag :a, /edit/i, :href => edit_admin_article_path(@site, @section, @article)
+          has_authorized_tag 'a[href=?]', edit_admin_article_path(@site, @section, @article), /edit/i
 
           # does not display a 'read more' link
           assert @response.body !~ /read the rest of this entry/i

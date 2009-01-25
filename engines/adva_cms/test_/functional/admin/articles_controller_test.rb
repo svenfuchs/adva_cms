@@ -18,17 +18,18 @@ class AdminArticlesControllerTest < ActionController::TestCase
   end
 
   view :form do
-    has_tag :input, :name => 'article[title]'
-    has_tag :textarea, :name => 'article[body]'
+    has_tag 'input[name=?]', 'article[title]'
+    has_tag 'textarea[name=?]', 'article[body]'
 
-    draft = {:type => 'checkbox', :name => 'draft'}
-    draft.merge! :checked => 'checked' if assigns(:article).draft?
-    # FIXME assert that the checked attribute is not there when the article is not a draft
-    has_tag :input, draft 
+    has_tag 'input[type=checkbox][name=draft]' do |tags|
+      expected = assigns(:article).draft? ? 'checked' : nil
+      assert_equal expected, tags.first.attributes['checked']
+    end
+
+    has_tag 'select[id=article_author]'
 
     # FIXME renders checkboxes
     # FIXME renders assets widget
-    has_tag :select, :id => 'article_author'
   end
 
   test "is an Admin::BaseController" do
@@ -57,12 +58,10 @@ class AdminArticlesControllerTest < ActionController::TestCase
       it_renders :template, lambda { @section.is_a?(Blog) ? 'blog/index' : 'articles/index' }
       
       it "displays an articles list" do
-        has_tag :p, 'Total: 1 article', :class => 'total'
-        has_tag :table, :id => 'articles' do
-          has_tag :a, assigns(:articles).first.title, 
-                  :href => edit_admin_article_path(@site, @section, assigns(:articles).first)
-        end
-        
+        has_tag 'p[class=total]', 'Total: 1 article'
+        has_tag 'table[id=articles] tr td a[href=?]',
+                  edit_admin_article_path(@site, @section, assigns(:articles).first), 
+                  assigns(:articles).first.title
         # FIXME if article has comments enabled: shows comments counts, otherwise doesn't
       end
     end

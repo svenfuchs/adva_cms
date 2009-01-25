@@ -31,13 +31,11 @@ class ForumControllerWithoutBoardsTest < ActionController::TestCase
     action { get :show, default_params }
     
     it "displays the topics" do
-      has_tag :table, :id => 'topics' do
-        has_tag :td, :class => 'topic'
-      end
+      has_tag 'table[id=topics] tr td[class=topic]'
     end
     
     it "has the link to view topic" do
-      has_tag :a, :href => topic_path(@section, 'a-topic')
+      has_tag 'a[href=?]', topic_path(@section, 'a-topic')
     end
   end
   
@@ -46,11 +44,11 @@ class ForumControllerWithoutBoardsTest < ActionController::TestCase
       action { get :show, default_params }
     
       it "displays the empty list of topics" do
-        has_tag :p, :id => 'topics', :class => 'empty'
+        has_tag 'p[id=topics][class=empty]'
       end
     
       it "has the link to create a new topic" do
-        has_tag :a, :href => new_topic_path(@section)
+        has_tag 'a[href=?]', new_topic_path(@section)
       end
     end
   end

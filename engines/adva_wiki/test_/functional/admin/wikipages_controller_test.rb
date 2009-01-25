@@ -12,9 +12,9 @@ class AdminWikipagesControllerTest < ActionController::TestCase
   end
   
   view :form do
-    has_tag :input, :name => 'wikipage[title]'
-    has_tag :textarea, :name => 'wikipage[body]'
-    has_tag :select, :name => 'wikipage[author]'
+    has_tag 'input[name=?]', 'wikipage[title]'
+    has_tag 'textarea[name=?]', 'wikipage[body]'
+    has_tag 'select[name=?]', 'wikipage[author]'
     # FIXME displays checkboxes for categories
     # FIXME displays a selectbox for selecting an author for an article
   end
@@ -42,8 +42,8 @@ class AdminWikipagesControllerTest < ActionController::TestCase
     with :access_granted do
       it_assigns :wikipages
       it_renders :template, :index do
-        has_tag :table, :id => 'wikipages'
-        has_tag :a, :href => new_admin_wikipage_path(@site, @section)
+        has_tag 'table[id=wikipages]'
+        has_tag 'a[href=?]', new_admin_wikipage_path(@site, @section)
       end
     end
   end

@@ -14,12 +14,12 @@ class AdminCommentsControllerTest < ActionController::TestCase
     has_text 'the comment body'
 
     comment_path = content_path @article, :anchor => "comment_#{@comment.id}"
-    has_tag :a, 'View', :href => comment_path              # displays a link to the comment on the frontend view
-    has_tag :a, 'Edit'                                     # displays a link to edit the comment
-    has_tag :a, 'Delete'                                   # displays a link to delete the comment
-    has_tag :a, 'Approve'   if within :unapproved_comment  # displays a link to approve comment
-    has_tag :a, 'Unapprove' if within :approved_comment    # displays a link to unapprove comment
-    # has_tag :a, 'Reply'   if with? :approved_comment     # displays a link to reply to the comment
+    has_tag 'a[href=?]', comment_path, 'View'               # displays a link to the comment on the frontend view
+    has_tag 'a', 'Edit'                                     # displays a link to edit the comment
+    has_tag 'a', 'Delete'                                   # displays a link to delete the comment
+    has_tag 'a', 'Approve'   if within :unapproved_comment  # displays a link to approve comment
+    has_tag 'a', 'Unapprove' if within :approved_comment    # displays a link to unapprove comment
+    # has_tag 'a', 'Reply'   if with? :approved_comment      # displays a link to reply to the comment
   end
   
   test "is an Admin::BaseController" do
@@ -48,8 +48,8 @@ class AdminCommentsControllerTest < ActionController::TestCase
     with :access_granted do
       it_assigns :comments
       it_renders :template, :index do
-        has_tag :select, :id => 'filterlist' # displays a filter for filtering the comments list
-        has_tag :ul, :id => 'comments_list'  # displays a list of comments
+        has_tag 'select[id=filterlist]' # displays a filter for filtering the comments list
+        has_tag 'ul[id=comments_list]'  # displays a list of comments
         shows :comment
       end
     end
@@ -62,7 +62,7 @@ class AdminCommentsControllerTest < ActionController::TestCase
     with :access_granted do
       it_assigns :comment
       it_renders :template, :show do
-        has_tag :h3, 'Comment'
+        has_tag 'h3', 'Comment'
         has_text 'the comment body'
         shows :comment
         # FIXME shows a reply form

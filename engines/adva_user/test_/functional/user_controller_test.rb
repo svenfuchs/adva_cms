@@ -4,11 +4,11 @@ class UserControllerTest < ActionController::TestCase
   with_common :a_site, :a_user
 
   view :form do
-    has_tag :input, :name => 'user[first_name]'
-    has_tag :input, :name => 'user[last_name]'
-    has_tag :input, :name => 'user[homepage]'
-    has_tag :input, :name => 'user[email]'
-    has_tag :input, :name => 'user[password]'
+    has_tag 'input[name=?]', 'user[first_name]'
+    has_tag 'input[name=?]', 'user[last_name]'
+    has_tag 'input[name=?]', 'user[homepage]'
+    has_tag 'input[name=?]', 'user[email]'
+    has_tag 'input[name=?]', 'user[password]'
   end
 
   test "is an BaseController" do

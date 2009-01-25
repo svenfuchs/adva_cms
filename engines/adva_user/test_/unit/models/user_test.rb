@@ -219,7 +219,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "#email_with_name returns formatted string to use with email headers" do
-    @user.email_with_name.should == "not taken <not-taken@email.org>"
+    @user.email_with_name.should == "a user <a-user@example.com>"
   end
   
   def role_attributes

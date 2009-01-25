@@ -12,11 +12,11 @@ class AdminThemesControllerTest < ActionController::TestCase
   end
   
   view :form do
-    has_tag :input, :name => 'theme[name]'
-    has_tag :input, :name => 'theme[author]'
-    has_tag :input, :name => 'theme[homepage]'
-    has_tag :input, :name => 'theme[version]'
-    has_tag :textarea, :name => 'theme[summary]'
+    has_tag 'input[name=?]', 'theme[name]'
+    has_tag 'input[name=?]', 'theme[author]'
+    has_tag 'input[name=?]', 'theme[homepage]'
+    has_tag 'input[name=?]', 'theme[version]'
+    has_tag 'textarea[name=?]', 'theme[summary]'
   end
    
   test "is an Admin::BaseController" do
@@ -48,8 +48,8 @@ class AdminThemesControllerTest < ActionController::TestCase
     with :access_granted do
       it_assigns :themes
       it_renders :template, :index do
-        has_tag :a, :href => new_admin_theme_path(@site)
-        has_tag :ul, :id => 'themelist'
+        has_tag 'a[href=?]', new_admin_theme_path(@site)
+        has_tag 'ul[id=themelist]'
       end
     end
   end

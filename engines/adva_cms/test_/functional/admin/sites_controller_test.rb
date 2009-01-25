@@ -45,12 +45,11 @@ class AdminSitesControllerTest < ActionController::TestCase
     with :access_granted do
       it_assigns :sites
       it_renders :template, :index do
-        has_tag :table, :id => 'sites' do
-          has_tag 'tbody tr', Site.count
-          has_tag :a, @site.name, :href => admin_site_path(@site)
-          has_tag :a, /delete/i, :href => admin_site_path(@site), :class => 'delete'
-          has_tag :a, /settings/i, :href => edit_admin_site_path(@site), :class => 'edit'
-          has_tag :a, :href => "http://#{@site.host}", :class => 'view'
+        has_tag 'table[id=sites] tbody tr', :count => Site.count do
+          has_tag 'a[href=?]', admin_site_path(@site), @site.name
+          has_tag 'a[href=?][class=?]', admin_site_path(@site), 'delete', /delete/i
+          has_tag 'a[href=?][class=?]', edit_admin_site_path(@site), 'edit', /settings/i
+          has_tag 'a[href=?][class=?]', "http://#{@site.host}", 'view'
         end
       end
     end
@@ -84,8 +83,8 @@ class AdminSitesControllerTest < ActionController::TestCase
       it_assigns :site => :not_nil
       it_renders :template, :new do
         has_form_posting_to admin_sites_path do
-          has_tag :input, :name => 'section[title]'
-          has_tag :input, Section.types.size, :name => 'section[type]'
+          has_tag 'input[name=?]', 'section[title]'
+          has_tag 'input[name=?]', 'section[type]', :count => Section.types.size
         end
       end
     end
