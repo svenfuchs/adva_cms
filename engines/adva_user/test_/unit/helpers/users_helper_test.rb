@@ -28,9 +28,7 @@ class UsersHelperTest < ActiveSupport::TestCase
   end
 
   test "#gravatar_img returns an image tag with the class 'avatar' merged to the given options" do
-    # FIXME implement matcher
-    # gravatar_img(@user).should have_tag('img[src=?][class=?]', '/images/gravatar_url', 'avatar')
-    gravatar_img(@user).should =~ /<img alt="Avatar" class="avatar" src="http:\/\/www.gravatar.com/
+    gravatar_img(@user).should have_tag('img[src^=?][class=?]', 'http://www.gravatar.com', 'avatar')
   end
 
   test "#gravatar_img adds the gravatar_url for the given user's email adress" do

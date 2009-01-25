@@ -6,7 +6,11 @@ class AdminBaseHelperTest < ActiveSupport::TestCase
   include ActionView::Helpers::TranslationHelper
   include ActionView::Helpers::TagHelper
   include ActionView::Helpers::UrlHelper
-
+  include ActionView::Helpers::FormOptionsHelper
+  include ActionView::Helpers::FormTagHelper
+  
+  attr_accessor :request
+  
   def setup
     super
     @site = Site.first
@@ -16,36 +20,35 @@ class AdminBaseHelperTest < ActiveSupport::TestCase
     stub(self).admin_site_user_path.returns 'admin_site_user_path'
     stub(self).admin_users_path.returns 'admin_users_path'
     stub(self).admin_user_path.returns 'admin_user_path'
+    
+    @controller = ActionView::TestController.new
+    @request = ActionController::TestRequest.new
   end
-
+  
+  # admin_site_select_tag
   test "#admin_site_select_tag with current user being a superuser 
         it shows the site overview option in the site select menu" do
     stub(current_user).has_role?(:superuser).returns true
-    # FIXME implement matcher
-    # admin_site_select_tag.should have_tag('select#site-select option[value=?]', 'admin_sites_path')
+    admin_site_select_tag.should have_tag('select#site-select option[value=?]', 'admin_sites_path')
   end
 
   test "#admin_site_select_tag with current user being a superuser 
         it shows the user manager option in the site select menu" do
     stub(current_user).has_role?(:superuser).returns true
-    # FIXME implement matcher
-    # admin_site_select_tag.should have_tag('select#site-select option[value=?]', 'admin_users_path')
+    admin_site_select_tag.should have_tag('select#site-select option[value=?]', 'admin_users_path')
   end
-
+  
   test "#admin_site_select_tag with current user not being a superuser 
       it shows the site overview option in the site select menu" do
-    # FIXME implement matcher
-    # admin_site_select_tag.should_not have_tag('select#site-select option[value=?]', 'admin_sites_path')
+    admin_site_select_tag.should_not have_tag('select#site-select option[value=?]', 'admin_sites_path')
   end
-
+  
   test "#admin_site_select_tag with current user not being a superuser 
       it shows the user manager option in the site select menu" do
-    # FIXME implement matcher
-    # admin_site_select_tag.should_not have_tag('select#site-select option[value=?]', 'admin_users_path')
+    admin_site_select_tag.should_not have_tag('select#site-select option[value=?]', 'admin_users_path')
   end
   
   # link_to_profile
-
   test "#link_to_profile returns admin/sites/1/users/1 as a profile link if site is set" do
     link_to_profile(@site).should == "<a href=\"admin_site_user_path\">Profile</a>"
   end

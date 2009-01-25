@@ -2,7 +2,7 @@
 
 module Admin::BaseHelper
   def admin_site_select_tag
-    return unless current_user.has_role?(:superuser) || Site.multi_sites_enabled
+    return '' unless current_user.has_role?(:superuser) || Site.multi_sites_enabled
     options = []
 
     if current_user.has_role?(:superuser)
@@ -10,7 +10,6 @@ module Admin::BaseHelper
       options << [t(:'adva.links.superusers_admins'), admin_users_path]
       options << ['------------------', '#']
     end
-
 
     # TODO only show sites where the user actually has access to!
     options += Site.all.collect { |site| [site.name, admin_site_path(site)] }

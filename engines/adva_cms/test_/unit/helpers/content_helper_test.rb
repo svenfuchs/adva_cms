@@ -105,9 +105,7 @@ class LinkToContentHelperTest < ActiveSupport::TestCase
   # link_to_content_comments_count
   
   test "#link_to_content_comments_count returns a link_to_content_comments" do
-    # FIXME implement matcher
-    # link_to_content_comments_count(@article).should have_tag('a[href=?]', '/path/to/content')
-    link_to_content_comments_count(@article).should =~ /a href="\/path\/to\/content\#comments"/
+    link_to_content_comments_count(@article).should have_tag('a[href=?]', '/path/to/content#comments')
   end
 
   test "#link_to_content_comments_count given the option :total is set 
@@ -135,9 +133,7 @@ class LinkToContentHelperTest < ActiveSupport::TestCase
   # link_to_content_comments
 
   test "#link_to_content_comments given a content it returns a link to content_path" do
-    # FIXME implement matcher
-    # link_to_content_comments(@article).should have_tag('a[href=?]', '/path/to/content')
-    link_to_content_comments(@article).should == '<a href="/path/to/content#comments">1 Comment</a>'
+    link_to_content_comments(@article).should have_tag('a[href=?]', '/path/to/content#comments', '1 Comment')
   end
 
   test "#link_to_content_comments given a content and a comment it returns a link to content_path + comment anchor" do
@@ -212,16 +208,12 @@ class LinkToContentHelperTest < ActiveSupport::TestCase
   test "#content_category_checkbox given an Article 
         returns a checkbox named 'article[category_ids][]' with the id article_category_1" do
     result = content_category_checkbox(@article, @category)
-    # FIXME implement matcher
-    # result.should have_tag('input[type=?][name=?]', 'checkbox', 'article[category_ids][]')
-    result.should =~ /<input.* id="article_category_\d*" name="article\[category_ids\]\[\]" type="checkbox"/
+    result.should have_tag('input[type=?][name=?]', 'checkbox', 'article[category_ids][]')
   end
   
   test "#content_category_checkbox given an Article that belongs to the given Category the checkbox is checked" do
     result = content_category_checkbox(@article, @category)
-    # FIXME implement matcher
-    # result.should have_tag('input[type=?][checked=?]', 'checkbox', 'checked')
-    result.should =~ /checked/
+    result.should have_tag('input[type=?][checked=?]', 'checkbox', 'checked')
   end
   
   test "#content_category_checkbox given an Article that does not belong to the given Category it the checkbox is not checked" do

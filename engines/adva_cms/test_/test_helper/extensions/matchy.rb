@@ -69,6 +69,10 @@ module Matchy
       def have_many(expected, options = {})
         Matchy::Expectations::Association.new(self, :has_many, expected, options)
       end
+      
+      def have_tag(*args, &block)
+        Matchy::Expectations::AssertSelect.new(:assert_select, self, *args, &block)
+      end
     end
 
     class << self
@@ -219,5 +223,54 @@ module Matchy
         "Expected #{@receiver.class.name} not to #{@type} #{@expected.inspect}."
       end
     end
+    
+      class AssertSelect < Base
+        def initialize(assertion, test_case, *args, &block)
+          super nil, test_case
+          @assertion = assertion
+          @args = args
+          @block = block
+        end
+
+        def matches?(response_or_text, &block)
+          if ActionController::TestResponse === response_or_text and
+                   response_or_text.headers.key?('Content-Type') and
+                   !response_or_text.headers['Content-Type'].blank? and
+                   response_or_text.headers['Content-Type'].to_sym == :xml
+            @args.unshift(HTML::Document.new(response_or_text.body, false, true).root)
+          elsif String === response_or_text
+            @args.unshift(HTML::Document.new(response_or_text).root)
+          end
+          @block = block if block
+          begin
+            @test_case.send(@assertion, *@args, &@block)
+          rescue ::Test::Unit::AssertionFailedError => @error
+          end
+
+          @error.nil?
+        end
+
+        def failure_message; @error.message; end
+        def negative_failure_message; "should not #{description}, but did"; end
+
+        def description
+          case @assertion
+            when :assert_select       then "have tag#{format_args(*@args)}"
+            when :assert_select_email then "send email#{format_args(*@args)}"
+          end
+        end
+
+        protected
+          def format_args(*args)
+            return "" if args.empty?
+            return "(#{arg_list(*args)})"
+          end
+
+          def arg_list(*args)
+            args.collect do |arg|
+              arg.respond_to?(:description) ? arg.description : arg.inspect
+            end.join(", ")
+          end
+      end
   end
 end

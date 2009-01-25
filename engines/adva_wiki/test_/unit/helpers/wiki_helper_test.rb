@@ -136,15 +136,14 @@ class WikiHelperTest < ActiveSupport::TestCase
     links.should     =~ /return to home/             # contains a link to the wiki home page
   end
   
-  test "#wiki_edit_links pointing to authorizing actions are enclosed in a tag with visible-for and user classes" do
-    links = wiki_edit_links(@wikipage)
-    # FIXME write assert_tag matcher
-    links.should =~ /<[^>]* class="visible-for user[^>]*>[^<]*<a href="[^>]*edit"/
-
+  test "#wiki_edit_links pointing to authorizing actions are enclosed in a tag with the visible-for class" do
+    wiki_edit_links(@wikipage).should have_tag('.visible-for') do |tag| 
+      tag.should have_tag('a[href=?]', /edit/) 
+    end
     @wikipage.revert_to(@wikipage.versions.first.version)
-    links = wiki_edit_links(@wikipage)
-    # FIXME write assert_tag matcher
-    links.should =~ /<[^>]* class="visible-for user[^>]*">[^<]*<a href="\/pages\/home\?version=/
+    wiki_edit_links(@wikipage).should have_tag('.visible-for') do |tag| 
+      tag.should have_tag('a[href=?]', /version=/) 
+    end
   end
   
   # wikipages_title

@@ -38,20 +38,17 @@ class CommentsHelperTest < ActiveSupport::TestCase
 
   test '#comment_form_hidden_fields includes a hidden return_to field' do
     result = comment_form_hidden_fields(@article)
-    # FIXME implement matcher
-    # result.should have_tag('input[type=?][name=?]', 'hidden', 'return_to')
+    result.should have_tag('input[type=?][name=?]', 'hidden', 'return_to')
   end
 
   test 'including comment[commentable_type]' do
     result = comment_form_hidden_fields(@article)
-    # FIXME implement matcher
-    # result.should have_tag('input[type=?][name=?]', 'hidden', 'comment[commentable_type]')
+    result.should have_tag('input[type=?][name=?]', 'hidden', 'comment[commentable_type]')
   end
 
   test 'including comment[commentable_id]' do
     result = comment_form_hidden_fields(@article)
-    # FIXME implement matcher
-    # result.should have_tag('input[type=?][name=?]', 'hidden', 'comment[commentable_id]')
+    result.should have_tag('input[type=?][name=?]', 'hidden', 'comment[commentable_id]')
   end
 
   test "#admin_comment_path with no :section_id param given and with no :content_id param given
