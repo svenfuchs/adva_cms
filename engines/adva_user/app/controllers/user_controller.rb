@@ -1,5 +1,5 @@
 class UserController < BaseController
-  authentication_required :except => [:new, :create]
+  authentication_required :except => [:new, :create, :vertify]
   renders_with_error_proc :below_field
   filter_parameter_logging :password
 
