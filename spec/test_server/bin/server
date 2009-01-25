@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+$:.unshift File.expand_path(File.dirname(__FILE__) + '/../lib/')
+require 'test_server'
+require 'test_server/server'
+
+OptionParser.new do |o|
+  o.on('-l', '--load=FILES', "Load the given files before starting the server.") do |files|
+    files.split(',').each do |file|
+      require file
+    end
+  end
+end.parse!(ARGV)
+
+TestServer::Server.new(ARGV).start!

@@ -1,0 +1,19 @@
+h1. test_server
+
+Just playing ...
+
+You might be able to install this as a plugin and then:
+
+# start the server: <code>vendor/plugins/test_server/bin/server</code>
+# run some tests: <code>vendor/plugins/test_server/bin/test --pattern=[pattern]</code>
+# run some specs: <code>vendor/plugins/test_server/bin/spec spec</code>
+
+The default pattern used for test is test/**/*_test.rb. The spec script uses the default RSpec option parser and runner so you can use whatever you'd use with the spec command.
+
+The environment is loaded only once while the server is up. It will not be loaded when the server starts but when you first run some tests. This is so the server is immediately available. Not sure if that makes so much sense but it seems more convenient to me :)
+
+Subsequent runs of your testsuite then won't load the environment any more which usually makes them run much faster in total.
+
+h3. Credits
+
+Heavily inspired by David Chelimsky's "spec_server":http://github.com/dchelimsky/rspec-rails/tree/master/generators/rspec/templates/script/spec_server which was based on Florian Weber's "TDDMate":http://rubyforge.org/projects/tddmate.
