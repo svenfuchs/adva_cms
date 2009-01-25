@@ -10,8 +10,12 @@ class RolesControllerTest < ActionController::TestCase
   describe "GET to :index" do
     action { get :index, { :user_id => @user.id } }
     
-    it_assigns :site, :user
+    it_assigns :site, :user, :roles
     it_renders_template :index, :format => :js
     it_caches_the_page # FIXME should track user references, eh?
+    
+    it "always includes the user role" do
+      assigns(:roles).should include(Rbac::Role.build(:user))
+    end
   end
 end

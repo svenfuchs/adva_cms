@@ -51,7 +51,7 @@ class UserRegistrationTest < ActionController::IntegrationTest
     get url
 
     # should have triggered a :user_verified event
-    assert_events_triggered :user_updated, :user_verified
+    assert_events_triggered :user_verified
 
     # user should be verified
     user.reload

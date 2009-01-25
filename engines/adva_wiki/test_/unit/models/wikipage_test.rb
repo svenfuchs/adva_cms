@@ -39,6 +39,8 @@ class WikipageTest < ActiveSupport::TestCase
 
   # filtering
   test "it allows using insecure html in article body and excerpt" do
+    # @wikipage = Wikipage.new :body => 'p{position:absolute; top:50px; left:10px; width:150px; height:150px}. secure html',
+    #                          :site => Site.first, :section => @wiki, :author => stub_user
     @wikipage.body = 'p{position:absolute; top:50px; left:10px; width:150px; height:150px}. insecure css'
     @wikipage.filter = 'textile_filter'
     @wikipage.save(false)

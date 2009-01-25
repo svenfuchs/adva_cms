@@ -40,7 +40,9 @@ class BlogController < BaseController
 
     def set_article
       @article = @section.articles.find_by_permalink params[:permalink], :include => :author
-      unless @article and published_on_given_date? and can_view?
+      if !@article or (!published_on_given_date? and !has_permission?('update', 'article'))
+        # the article was not found OR the article was not published on the given date AND
+        # user does not have permission to view the article
         raise ActiveRecord::RecordNotFound
       end
     end
@@ -63,10 +65,6 @@ class BlogController < BaseController
     def set_commentable
       set_article if params[:permalink]
       super
-    end
-    
-    def can_view?
-      @article.published? || has_permission?('update', 'article')
     end
      
     def published_on_given_date?

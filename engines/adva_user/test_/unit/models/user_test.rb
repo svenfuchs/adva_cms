@@ -217,6 +217,10 @@ class UserTest < ActiveSupport::TestCase
   test "#homepage returns nil if homepage is not set" do
     @user.homepage.should be_nil
   end
+
+  test "#email_with_name returns formatted string to use with email headers" do
+    @user.email_with_name.should == "not taken <not-taken@email.org>"
+  end
   
   def role_attributes
     { "0" => { "type" => "Rbac::Role::Superuser", "selected" => "1" },

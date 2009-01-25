@@ -1,0 +1,68 @@
+= matchy
+
+* http://github.com/jeremymcanally/matchy
+
+== DESCRIPTION:
+
+Hate writing assertions?  Need a little behavior-driven love in your tests?  Then matchy is for you.
+
+== FEATURES/PROBLEMS:
+
+* Get the beauty of RSpec without all the overhead
+* Create your own matchers (coming soon)
+
+== SYNOPSIS:
+
+* Get BDD on your objects
+
+    x = 13 * 4
+    x.should == 42
+    
+    y = "hello"
+    y.length.should_not be(4)
+
+* Use familiar syntax to specify things
+
+    # RSpec
+    "my string".should =~ /string/
+    lambda { raise "FAIL" }.should raise_error
+    
+    # matchy
+    "my string".should =~ /string/
+    lambda { raise "FAIL" }.should raise_error
+    
+* Get the speed of Test:Unit with the syntax of RSpec
+
+== REQUIREMENTS:
+
+* Test::Unit (you got it)
+
+== INSTALL:
+
+    $ gem sources -a http://gems.github.com
+    $ sudo gem install jeremymcanally-matchy
+
+== LICENSE:
+
+(The MIT License)
+
+Copyright (c) 2008 Jeremy McAnally
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+'Software'), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

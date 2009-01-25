@@ -42,15 +42,15 @@ class BlogIndexTest < ActionController::IntegrationTest
     # check that the page shows the article ...
     assert_select "div#article_#{@article.id}" do
       # ... with its title ...
-      assert_select "div.content>h2", /adva-cms kicks ass!/
+      assert_select "div.content>h2", /adva-cms kicks ass!/i
       # ... and its excerpt ...
-      assert_select "div.content", /In this article you will find proof that adva-cms really kicks ass./
+      assert_select "div.content", /In this article you will find proof that adva-cms really kicks ass./i
       # ... and a link to the full article ...
-      assert_select "div.content a", /Read the rest of this entry/
+      assert_select "div.content a", /Read the rest of this entry/i
       # ... and a link to its comments ...
-      assert_select "div.meta a", /0 comments/
+      assert_select "div.meta a", /0 comments/i
       # ... but not its body.
-      assert response.body !~ /Recent studies have proven that adva-cms really kicks ass - it's not just what the developers tell you!/
+      assert response.body !~ /Recent studies have proven that adva-cms really kicks ass - it's not just what the developers tell you!/i
       # TODO: improve HTML markup so assert_select is easier
     end
   
@@ -90,7 +90,7 @@ class BlogIndexTest < ActionController::IntegrationTest
     get "/"
     
     # check that the page shows "1 comment"
-    assert_select "div.meta a", "1 comment"
+    assert_select "div.meta a", /1 comment/i
   
     # check that the page is cached
     assert_page_cached
@@ -104,7 +104,7 @@ class BlogIndexTest < ActionController::IntegrationTest
     get "/"
   
     # check that the page shows "0 comments"
-    assert_select "div.meta a", "0 comments"
+    assert_select "div.meta a", /0 comments/i
   
     # check that the page is cached
     assert_page_cached
