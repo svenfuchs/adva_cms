@@ -97,7 +97,8 @@ Category.create! :section => wiki,
 user =
 User.create!     :first_name => 'a user',
                  :email => 'a-user@example.com',
-                 :password => 'a password'
+                 :password => 'a password',
+                 :verified_at => Time.now
 
 superuser =
 User.create!     :first_name => 'a superuser',
@@ -116,8 +117,8 @@ moderator =
 User.create!     :first_name => 'a moderator',
                  :email => 'a-moderator@example.com',
                  :password => 'a password'
-moderator.grant :moderator, section
-moderator.grant :moderator, blog
+moderator.grant :moderator, site_with_sections.sections.first
+moderator.grant :moderator, site_with_blog.sections.first
 
 board_topic_attrs = {  :site      => site_with_forums,
                        :section   => forum_with_boards,

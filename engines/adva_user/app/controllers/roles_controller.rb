@@ -1,7 +1,7 @@
 class RolesController < BaseController
   layout false
   helper :users, :roles
-  caches_page_with_references :index
+  caches_page_with_references :index # FIXME should track user references, eh?
   before_filter :set_user, :set_object, :set_roles
 
   def index
@@ -21,7 +21,7 @@ class RolesController < BaseController
     end
 
     def set_roles
-      @roles = current_user.roles.by_context(@object || @site)
       @roles << Rbac::Role.build(:user)
+      @roles = @user.roles.by_context(@object || @site)
     end
 end

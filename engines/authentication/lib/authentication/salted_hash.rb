@@ -27,7 +27,7 @@ module Authentication
     # given is correct for the given user then true is returned.
     # Otherwise false will be returned.
     def authenticate(user, password)
-      return false unless valid_model? user
+      return false unless valid_model?(user)
 
       password_hash = hash_string password, user.password_salt
       conditions = ['id = ? AND password_hash = ?', user.id, password_hash]

@@ -25,7 +25,7 @@ class UserController < BaseController
 
   def verify
     if current_user.verify!
-      trigger_events current_user, :verified
+      trigger_event current_user, :verified
       flash[:notice] = t(:'adva.signup.flash.verify.success')
     else
       flash[:error] = t(:'adva.signup.flash.verify.failure')

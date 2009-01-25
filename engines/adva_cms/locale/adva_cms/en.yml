@@ -412,8 +412,10 @@ en:
     passwords:
       info:
         please_enter_email_to_reset_password: Please enter your email address. An email will be sent to you which will include a link to reset your password.
+        please_enter_new_password: Please enter your new password.
       titles:
         new: Reset your password
+        edit: Change your password
       notifications:
         password_updated:
           subject: Password Updated

@@ -6,6 +6,6 @@
 
   <p class="buttons">
     <%= submit_tag t(:'adva.common.save') %> or 
-    <%= link_to_cancel(@site) %>
+    <%= link_to(t(:'adva.common.cancel'), site.nil? ? admin_users_path : admin_site_users_path(site)) %>
   </p>
 <% end -%>

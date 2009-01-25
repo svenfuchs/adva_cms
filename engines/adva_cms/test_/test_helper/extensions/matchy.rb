@@ -25,6 +25,14 @@ module Matchy
         Matchy::Expectations::BeEmpty.new(nil, self)
       end
       
+      def be_blank
+        Matchy::Expectations::BeBlank.new(nil, self)
+      end
+      
+      def be_valid
+        Matchy::Expectations::BeValid.new(nil, self)
+      end
+      
       def respond_to(expected)
         Matchy::Expectations::RespondTo.new(expected, self)
       end
@@ -107,6 +115,36 @@ module Matchy
 
       def negative_failure_message
         "Expected #{@receiver.inspect} not to be empty."
+      end
+    end
+    
+    class BeBlank < Base
+      def matches?(receiver)
+        @receiver = receiver
+        receiver.blank?
+      end
+
+      def failure_message
+        "Expected #{@receiver.inspect} to be blank."
+      end
+
+      def negative_failure_message
+        "Expected #{@receiver.inspect} not to be blank."
+      end
+    end
+    
+    class BeValid < Base
+      def matches?(receiver)
+        @receiver = receiver
+        receiver.valid?
+      end
+
+      def failure_message
+        "Expected #{@receiver.inspect} to be valid."
+      end
+
+      def negative_failure_message
+        "Expected #{@receiver.inspect} not to be valid."
       end
     end
     

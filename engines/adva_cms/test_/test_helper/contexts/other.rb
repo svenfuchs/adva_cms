@@ -28,6 +28,7 @@ class Test::Unit::TestCase
   share :a_site do
     before do
       @site = Site.find_by_host 'site-with-sections.com'
+      set_request_host!
     end
   end
 
