@@ -15,8 +15,45 @@ class Test::Unit::TestCase
     before { I18n.default_locale = I18n.locale }
   end
 
+  # FIXME abstract these
   share :multi_sites_enabled do
-    before { Site.multi_sites_enabled = true }
+    before do 
+      @old_multi_sites_enabled = Site.multi_sites_enabled
+      Site.multi_sites_enabled = true
+    end
+    after do
+      Site.multi_sites_enabled = @old_multi_sites_enabled
+    end
+  end
+
+  share :single_site_enabled do
+    before do 
+      @old_multi_sites_enabled = Site.multi_sites_enabled
+      Site.multi_sites_enabled = false
+    end
+    after do
+      Site.multi_sites_enabled = @old_multi_sites_enabled
+    end
+  end
+
+  share :perform_caching_enabled do
+    before do 
+      @old_perform_caching_enabled = ActionController::Base.perform_caching
+      ActionController::Base.perform_caching = true
+    end
+    after do
+      ActionController::Base.perform_caching = @old_perform_caching_enabled
+    end
+  end
+
+  share :perform_caching_disabled do
+    before do 
+      @old_perform_caching_enabled = ActionController::Base.perform_caching
+      ActionController::Base.perform_caching = false
+    end
+    after do
+      ActionController::Base.perform_caching = @old_perform_caching_enabled
+    end
   end
 
   share :no_site do

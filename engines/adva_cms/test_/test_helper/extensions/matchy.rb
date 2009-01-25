@@ -42,6 +42,10 @@ module Matchy
         Matchy::Expectations::BeValid.new(nil, self)
       end
 
+      def be_file
+        Matchy::Expectations::BeFile.new(nil, self)
+      end
+
       def respond_to(expected)
         Matchy::Expectations::RespondTo.new(expected, self)
       end
@@ -132,6 +136,13 @@ module Matchy
             "Expected %s not to be valid." do |receiver|
       @receiver = receiver
       receiver.valid?
+    end
+
+    matcher "BeFile", 
+            "Expected the file %s to exist.", 
+            "Expected the file %s not to exist." do |receiver|
+      @receiver = receiver
+      File.exists?(receiver)
     end
 
     matcher "RespondTo", 

@@ -116,6 +116,7 @@ end
 
 class ActionController::TestCase
   def has_authorized_tag(*args)
+    # @response.body.should have_authorized_tag(*args)
     has_tag "span[class^=visible-for]" do
       has_tag *args
     end

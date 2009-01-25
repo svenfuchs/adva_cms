@@ -52,6 +52,10 @@ module Matchy
       def act_as_authenticated_user
         Matchy::Expectations::ActAsAuthenticatedUser.new(nil, self)
       end
+      
+      def have_authorized_tag(*args)
+        have_tag('.visible-for') # { |tag| tag.should have_tag(*args) }
+      end
     end
 
     matcher "ActAsAuthenticatedUser", 

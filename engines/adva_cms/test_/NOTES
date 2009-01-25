@@ -1,5 +1,6 @@
 TODO
 
+replace with_sugar #has_tag with should have_tag api (assert_select)
 test url_helper rewriting, see blog_routes_spec
 started using With style in unit/model test ... revert that.
 
