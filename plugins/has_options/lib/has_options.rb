@@ -1,17 +1,17 @@
 # TODO allow a :type option and typecast the value
 
-module HasOptions  
+module HasOptions
   class << self
     def included(base)
       base.class_eval do
         extend ClassMethods
         class_inheritable_accessor :option_definitions
         self.option_definitions = {}
-        serialize :options        
+        serialize :options
       end
     end
-    
-    module ClassMethods    
+
+    module ClassMethods
       def has_option(name, definition = {})
         self.option_definitions[name] = definition.reverse_update(:default => nil, :type => :text_field)
         class_eval %Q(
@@ -21,7 +21,7 @@ module HasOptions
           def #{name}_before_type_cast
             self.options ||= {}
             options[:#{name}] || option_definitions[:#{name}][:default]
-          end                
+          end
           def #{name}=(value)
             options_will_change!
             self.options ||= {}

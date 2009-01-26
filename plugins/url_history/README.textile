@@ -1,0 +1,28 @@
+h1. UrlHistory
+
+Developed for use in adva-cms this plugin keeps track of published URLs and redirects to newer URLs when a resource's URL has changed. This is useful for URL schemes that differ from Rails' default resource routes and use a mutable attribute. 
+
+E.g. in a blog permalinks usually are generated from a slug that is based on an article's title and probably also editable themselves. So, once a blog article has been published (and blog services have been pinged, so the URL actually was published to the world) and you find a typo in the article's title you're screwed. Either you change the permalink and all the fresh links will run into a 404 or you leave that stupid typo on your article's permalink.
+
+UrlHistory adds an controller after_filter that saves a reference mapping the current url to the current resource (e.g. the article). It also adds an exception handler for RecordNotFound exceptions that (when the requested URL could not find the article) will look for a saved entry for the current URL and redirect to the new URL for that resource.
+
+Two assumptions are made:
+
+* The controller needs to implement a method #current_resource that returns the current resource.
+* The resource can implement a method #update_url_history_params that takes a params hash and modifies it before it gets passed to #url_for for generating the updated/new URL.
+
+E.g. 
+
+class ArticlesController < ...
+	def current_resource
+		# might also return something else here depending on your context
+		@article 
+	end
+end
+
+class Article < ...
+	def update_url_history_params(params)
+		# i.e. the published_at date might also have changed so update that, too
+		params.merge :year => year, :month => month, :day => day, :slug => slug
+	end
+end
