@@ -31,7 +31,7 @@
 </p>
 <p>
   <%= f.label :filter %>
-  <%= f.select :filter, filter_options %>
+  <%= f.select :filter, filter_options, {}, :class => 'columnsFilter' %>
 </p>
 <p>
   <%= f.label :comment_age, t(:'adva.wikipage.view._options.label_for_comments') %>
