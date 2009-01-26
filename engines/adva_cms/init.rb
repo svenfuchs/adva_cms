@@ -1,4 +1,4 @@
-# remove plugin from load_once_paths 
+# remove plugin from load_once_paths
 ActiveSupport::Dependencies.load_once_paths -= ActiveSupport::Dependencies.load_once_paths.select{|path| path =~ %r(^#{File.dirname(__FILE__)}) }
 
 require 'redcloth'
@@ -18,7 +18,7 @@ require 'rails_ext/action_controller/page_caching'
 require 'routing'
 require 'roles'
 
-require 'event'    # need to force these to be loaded now, so Rails won't 
+require 'event'    # need to force these to be loaded now, so Rails won't
 require 'registry' # reload them between requests
 
 config.to_prepare do
@@ -35,9 +35,9 @@ config.to_prepare do
         super
       end
     end
-    
+
     extend CacheReferences::PageCaching::ActMacro
-    
+
     delegate :site, :section, :perform_caching, :to => :controller
 
     def render_state(state)
@@ -57,7 +57,7 @@ config.to_prepare do
   end
 end
 
-# uncomment this to have Engines copy assets to the public directory on 
+# uncomment this to have Engines copy assets to the public directory on
 # every request (default: copies on server startup)
 # Engines.replicate_assets = :request
 
@@ -98,11 +98,12 @@ config.to_prepare do
         end
       end
     end
-  end 
+  end
 end
 
 # make javascript_expansions and stylesheet_expansions accessible
-ActionView::Helpers::AssetTagHelper.module_eval { mattr_accessor :javascript_expansions, :stylesheet_expansions }
+# (after commit http://github.com/rails/rails/commit/104898fcb7958bcb69ba0239d6de8aa37f2da9ba) -> Rails 2.3
+# ActionView::Helpers::AssetTagHelper.module_eval { mattr_accessor :javascript_expansions, :stylesheet_expansions }
 
 # register two additional JavaScript expansions and two CSS expansions
 ActionView::Helpers::AssetTagHelper.register_javascript_expansion(
@@ -117,20 +118,15 @@ ActionView::Helpers::AssetTagHelper.register_javascript_expansion(
   :adva_cms_admin => [
     'adva_cms/dragdrop', 'adva_cms/sortable_tree/sortable_tree',
     'adva_cms/admin/admin.js', 'adva_cms/admin/article.js',
-    'adva_cms/admin/asset.js', 'adva_cms/admin/asset_widget.js',
     'adva_cms/admin/smart_form.js', 'adva_cms/admin/sortable_tree.js',
-    'adva_cms/admin/sortable_list.js', 'adva_cms/admin/spotlight.js',
-    'adva_cms/admin/comment.js', 'adva_cms/admin/wikipage.js',
-    'adva_cms/admin/newsletter.js', 'adva_calendar/admin/calendar.js'
+    'adva_cms/admin/sortable_list.js', 'adva_cms/admin/spotlight.js'
   ])
 ActionView::Helpers::AssetTagHelper.register_stylesheet_expansion(
   :adva_cms_public => [
     'adva_cms/default', 'adva_cms/common',
-    'adva_cms/comments', 'adva_cms/forms',
-    'adva_cms/forum'
+    'adva_cms/forms'
   ],
   :adva_cms_admin => [
-    'adva_cms/admin/activities', 'adva_cms/admin/assets',
     'adva_cms/admin/form', 'adva_cms/admin/lists',
     'adva_cms/admin/sortable_tree', 'adva_cms/admin/themes',
     'adva_cms/admin/users', 'adva_cms/admin/widgets'
