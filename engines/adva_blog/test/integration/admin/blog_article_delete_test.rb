@@ -1,5 +1,7 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'test_helper' ))
 
+class InstallationTest < ActionController::IntegrationTest
+
 # Story: Deleting a blog article
 #   As an admin
 #   I want to delete a blog article in the admin area

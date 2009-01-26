@@ -29,7 +29,7 @@ class CounterTest < ActiveSupport::TestCase
     end
   end
   
-  test "decrements the counter when a topic has been created" do
+  test "decrements the counter when a topic has been destroyed" do
     @topic = create_topic!
     assert_difference('@forum.topics_counter.count', -1) do
       @topic.destroy

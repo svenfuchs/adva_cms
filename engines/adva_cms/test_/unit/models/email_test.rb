@@ -49,4 +49,10 @@ class EmailTest < ActiveSupport::TestCase
     Email.deliver_all
     Cronjob.find_by_cron_id("email_deliver_all").should be_nil
   end
+  
+      
+  test "defaults to 150 mails of outgoing per process" do
+    Adva::Config.number_of_outgoing_mails_per_process = nil
+    Adva::Config.number_of_outgoing_mails_per_process.should == 150
+  end
 end

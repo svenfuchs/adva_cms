@@ -11,7 +11,7 @@ class ActivityTest < ActiveSupport::TestCase
   # FIXME
   # Can't get this to pass ... apparently RR has problems with expecting calls
   # to dynamic methods?
-  #
+  # 
   # test "notify_subscribers sends emails to all subscribers" do
   #   users = User.all
   #   activity = Activity.new

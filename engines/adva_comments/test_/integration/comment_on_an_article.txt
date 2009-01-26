@@ -1,4 +1,4 @@
-Story: Commenting on a blog article (TODO page caching?, access control)
+Story: Commenting on a section article (TODO page caching?, access control)
   As a user with a given role that allows me to comment in a blog
   I want to comment on an article
   So I can share my opinions
