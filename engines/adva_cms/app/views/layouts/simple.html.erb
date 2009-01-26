@@ -4,14 +4,12 @@
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />   
     <title><%= controller.controller_name %></title>
     
-    <%= stylesheet_link_tag    'adva_cms/admin/base', 'adva_cms/admin/form', 
+    <%= stylesheet_link_tag    'adva_cms/admin/base', 'adva_cms/admin/form',
                                'adva_cms/admin/layout/base', 'adva_cms/admin/layout/simple',
                                :cache => 'cache/admin/simple' %>
                                
-    <%= javascript_include_tag 'adva_cms/prototype', 'adva_cms/effects', 
-                               'adva_cms/dragdrop', 'adva_cms/lowpro',
-                               'adva_cms/sortable_tree/sortable_tree', 'adva_cms/flash', 
-                               'adva_cms/json', 'adva_cms/cookie',
+    <%= javascript_include_tag :adva_cms_common,
+                               'adva_cms/dragdrop', 'adva_cms/sortable_tree/sortable_tree',
                                :cache => 'cache/admin/simple' %>
 
     <%= yield :head %>

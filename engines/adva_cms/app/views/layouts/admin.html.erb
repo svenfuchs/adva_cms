@@ -5,23 +5,10 @@
   <title>Admin <%= controller.controller_name %></title>
 
   <style type="text/css"> @import '/stylesheets/adva_cms/admin/styles.css';</style>
-  <%= stylesheet_link_tag    'adva_cms/admin/activities', 'adva_cms/admin/assets', 
-                             'adva_cms/admin/form', 'adva_cms/admin/lists', 
-                             'adva_cms/admin/sortable_tree', 'adva_cms/admin/themes', 
-                             'adva_cms/admin/users', 'adva_cms/admin/widgets',
-                             :cache => true %>
+  <%= stylesheet_link_tag  :adva_cms_admin, :cache => true %>
   <link rel="stylesheet" type="text/css" href="/stylesheets/adva_cms/admin/print.css" media="print" />
   <!--[if lte IE 6]><link rel="stylesheet" href="/stylesheets/adva_cms/admin/styles.ie6.css" type="text/css" media="screen"/><![endif]-->
-  <%= javascript_include_tag 'adva_cms/prototype', 'adva_cms/effects',
-                             'adva_cms/dragdrop', 'adva_cms/lowpro',
-                             'adva_cms/sortable_tree/sortable_tree', 'adva_cms/flash',
-                             'adva_cms/json', 'adva_cms/cookie',
-                             'adva_cms/admin/admin.js', 'adva_cms/admin/article.js',
-                             'adva_cms/admin/asset.js', 'adva_cms/admin/asset_widget.js',
-                             'adva_cms/admin/smart_form.js', 'adva_cms/admin/sortable_tree.js',
-                             'adva_cms/admin/sortable_list.js', 'adva_cms/admin/spotlight.js',
-                             'adva_cms/admin/comment.js', 'adva_cms/admin/wikipage.js',
-                             'adva_cms/admin/newsletter.js', 'adva_calendar/admin/calendar.js', :cache => true %>
+  <%= javascript_include_tag :adva_cms_admin, :cache => true %>
 
 </head>
 <body>

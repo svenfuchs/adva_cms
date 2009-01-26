@@ -100,3 +100,39 @@ config.to_prepare do
     end
   end 
 end
+
+# make javascript_expansions and stylesheet_expansions accessible
+ActionView::Helpers::AssetTagHelper.module_eval { mattr_accessor :javascript_expansions, :stylesheet_expansions }
+
+# register two additional JavaScript expansions and two CSS expansions
+ActionView::Helpers::AssetTagHelper.register_javascript_expansion(
+  :adva_cms_common => [
+    'adva_cms/prototype', 'adva_cms/effects',
+    'adva_cms/lowpro', 'adva_cms/flash',
+    'adva_cms/cookie', 'adva_cms/json'
+  ],
+  :adva_cms_public => [
+    'adva_cms/roles', 'adva_cms/application'
+  ],
+  :adva_cms_admin => [
+    'adva_cms/dragdrop', 'adva_cms/sortable_tree/sortable_tree',
+    'adva_cms/admin/admin.js', 'adva_cms/admin/article.js',
+    'adva_cms/admin/asset.js', 'adva_cms/admin/asset_widget.js',
+    'adva_cms/admin/smart_form.js', 'adva_cms/admin/sortable_tree.js',
+    'adva_cms/admin/sortable_list.js', 'adva_cms/admin/spotlight.js',
+    'adva_cms/admin/comment.js', 'adva_cms/admin/wikipage.js',
+    'adva_cms/admin/newsletter.js', 'adva_calendar/admin/calendar.js'
+  ])
+ActionView::Helpers::AssetTagHelper.register_stylesheet_expansion(
+  :adva_cms_public => [
+    'adva_cms/default', 'adva_cms/common',
+    'adva_cms/comments', 'adva_cms/forms',
+    'adva_cms/forum'
+  ],
+  :adva_cms_admin => [
+    'adva_cms/admin/activities', 'adva_cms/admin/assets',
+    'adva_cms/admin/form', 'adva_cms/admin/lists',
+    'adva_cms/admin/sortable_tree', 'adva_cms/admin/themes',
+    'adva_cms/admin/users', 'adva_cms/admin/widgets'
+  ]
+)

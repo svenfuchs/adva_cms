@@ -4,14 +4,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title><%= @site.title %></title>
     
-    <%= stylesheet_link_tag    'adva_cms/default', 'adva_cms/common',
-                               'adva_cms/comments', 'adva_cms/forms', 
-                               'adva_cms/forum' %>
+    <%= stylesheet_link_tag :adva_cms_public %>
     
-    <%= javascript_include_tag 'adva_cms/prototype', 'adva_cms/effects', 
-                               'adva_cms/lowpro', 'adva_cms/flash', 
-                               'adva_cms/cookie', 'adva_cms/json', 
-                               'adva_cms/roles', 'adva_cms/application' %>
+    <%= javascript_include_tag :adva_cms_common, :adva_cms_public %>
 
     <%= authorize_elements %>
   </head>
