@@ -129,14 +129,6 @@ class Issue < BaseIssue
   end
   
 ### Tracking
-  def tracking_campaign=(campaign)
-    write_attribute(:tracking_campaign, URI.escape(campaign))
-  end
-
-  def tracking_source=(source)
-    write_attribute(:tracking_source, URI.escape(source))
-  end
-
   def has_tracking_enabled?
     track? && !(newsletter.site.google_analytics_tracking_code.blank? || tracking_campaign.blank? || tracking_source.blank?)
   end
@@ -183,7 +175,7 @@ private
     content.gsub(/<a(.*)href="#{Regexp.escape("http://#{newsletter.site.host}")}(.*)"(.*)>/) do |s|
       m = [$1, $2, $3] # why do I need this?
       returning %(<a#{m[0]}href="http://#{newsletter.site.host}) do |s|
-        s << ("#{m[1]}#{m[1].include?("?") ? "&" : "?"}utm_medium=newsletter&utm_campaign=#{tracking_campaign}&utm_source=#{tracking_source}") if m[1]
+        s << ("#{m[1]}#{m[1].include?("?") ? "&" : "?"}utm_medium=newsletter&utm_campaign=#{URI.escape(tracking_campaign)}&utm_source=#{URI.escape(tracking_source)}") if m[1]
         s << %("#{m[2]}>)
       end
     end
