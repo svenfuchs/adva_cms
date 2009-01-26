@@ -40,14 +40,14 @@ describe Cronjob do
     describe "runner_command" do
       it "should return full runner command with gem path, ruby, command and WITHOUT autoclean" do
         @cronjob.runner_command.should == 
-          "export GEM_PATH=#{ENV['GEMDIR']}; " +
+          "export GEM_PATH=#{Gem.path.join(":")}; " +
           "#{ruby_path} -rubygems #{RAILS_ROOT}/script/runner -e test 'test_command; '"
       end
 
       it "should return full runner command with gem path, ruby, command and WITH autoclean" do
         @cronjob.due_at = DateTime.now
         @cronjob.runner_command.should == 
-          "export GEM_PATH=#{ENV['GEMDIR']}; " +
+          "export GEM_PATH=#{Gem.path.join(":")}; " +
           "#{ruby_path} -rubygems #{RAILS_ROOT}/script/runner -e test 'test_command; " +
           "Cronjob.find(#{@cronjob.id}).destroy;'"
       end

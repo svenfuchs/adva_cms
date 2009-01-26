@@ -56,7 +56,7 @@ class Cronjob < ActiveRecord::Base
   end
 
   def runner_command
-    "export GEM_PATH=#{ENV["GEMDIR"]}; " +
+    "export GEM_PATH=#{Gem.path.join(":")}; " +
     "#{ruby_path} -rubygems #{RAILS_ROOT}/script/runner -e #{RAILS_ENV} " +
     "'#{self.command}; #{autoclean}'"
   end
