@@ -51,6 +51,10 @@ blog_category =
 Category.create! :section => blog,
                  :title => 'a category'
 
+another_blog_category =
+Category.create! :section => blog,
+                 :title => 'another category'
+
 forum_without_boards =
 Forum.create!    :site        => site_with_forums,
                  :title       => 'a forum without boards',
@@ -103,20 +107,23 @@ User.create!     :first_name => 'a user',
 superuser =
 User.create!     :first_name => 'a superuser',
                  :email => 'a-superuser@example.com',
-                 :password => 'a password'
+                 :password => 'a password',
+                 :verified_at => Time.now
 superuser.grant :superuser
 
 admin =
 User.create!     :first_name => 'an admin',
                  :email => 'an-admin@example.com',
-                 :password => 'a password'
+                 :password => 'a password',
+                 :verified_at => Time.now
 admin.grant :admin, site_with_sections
 admin.grant :admin, site_with_blog
 
 moderator =
 User.create!     :first_name => 'a moderator',
                  :email => 'a-moderator@example.com',
-                 :password => 'a password'
+                 :password => 'a password',
+                 :verified_at => Time.now
 moderator.grant :moderator, site_with_sections.sections.first
 moderator.grant :moderator, site_with_blog.sections.first
 
@@ -166,6 +173,15 @@ Article.create!  :site => site_with_blog,
                  :tag_list => 'foo bar',
                  :author => user,
                  :published_at => Time.parse('2008-01-01 12:00:00')
+
+unpublished_blog_article =
+Article.create!  :site => site_with_blog,
+                 :section => blog,
+                 :title => 'an unpublished blog article',
+                 :body => 'an unpublished blog article body',
+                 :categories => [blog_category],
+                 :tag_list => 'foo bar',
+                 :author => user
 
 home_wikipage =
 Wikipage.create! :site => site_with_wiki,

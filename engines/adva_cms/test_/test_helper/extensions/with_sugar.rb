@@ -114,7 +114,7 @@ module With
   end
 end
 
-class ActionController::TestCase
+class ActiveSupport::TestCase
   def has_authorized_tag(*args)
     # @response.body.should have_authorized_tag(*args)
     has_tag "span[class^=visible-for]" do
@@ -126,7 +126,9 @@ class ActionController::TestCase
     has_tag 'h2 a[href=?]', 
       article_path(article.section, article.full_permalink), article.title
   end
-  
+end
+
+class ActionController::TestCase
   def rendered_insufficient_permissions?
     !!(@response.rendered_template.to_s =~ /insufficient_permissions/)
   end
