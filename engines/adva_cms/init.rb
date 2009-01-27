@@ -113,7 +113,8 @@ ActionView::Helpers::AssetTagHelper.register_javascript_expansion(
     'adva_cms/cookie', 'adva_cms/json'
   ],
   :adva_cms_public => [
-    'adva_cms/roles', 'adva_cms/application'
+    'adva_cms/parseuri', 'adva_cms/roles',
+    'adva_cms/application'
   ],
   :adva_cms_admin => [
     'adva_cms/dragdrop', 'adva_cms/sortable_tree/sortable_tree',

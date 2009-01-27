@@ -78,31 +78,39 @@ createAndFormatDateSpan = function(abbr) {
 /* Link functions */
 
 // determine if a given link is an outbound link
-isOutboundLink = function(link) {
+URI.parseOptions.strictMode = true;
+
+GoogleAnalyticsTracking = {};
+
+GoogleAnalyticsTracking.isOutboundLink = function(link) {
+  targetURI = URI.parse(link);
+  currentURI = URI.parse(window.location);
+  /*
   targetHost = link.split('/')[2].replace(/www\./, ''); // [0] is the protocol, [1] is empty
   currentHost = window.location.host.replace(/www\./, '');
-  
-  return targetHost != currentHost;
+  */
+  return ['http', 'https', 'ftp'].include(targetURI.protocol) && targetURI.host != currentURI.host;
 }
 
 // track the outbound link with Google Analytics
 if (typeof(pageTracker) == 'undefined') {
   pageTracker = null;
 }
-trackOutboundLink = function(link) {
-  if(pageTracker && isOutboundLink(link.href)) {
-    hostName = link.href.split('/')[2].replace(/www\./, '');
+GoogleAnalyticsTracking.trackOutboundLink = function(link) {
+  if(pageTracker && GoogleAnalyticsTracking.isOutboundLink(link.href)) {
+    hostName = URI.parse(link).host.replace(/www\./, '');;
+    //hostName = link.href.split('/')[2].replace(/www\./, '');
     pageTracker._trackEvent('Outbound links [' + hostName + ']', 'Click', link.href);
-    window.location.href = link.href;
+    //window.location.href = link.href;
   }
 }
 
 // find all outbound links and mark them accordingly
-markOutboundLinks = function() {
+GoogleAnalyticsTracking.markOutboundLinks = function() {
   $$('a').each(function(link) {
-    if(isOutboundLink(link.href)) {
+    if(GoogleAnalyticsTracking.isOutboundLink(link.href)) {
       link.addClassName('outbound');
-      link.writeAttribute('onclick', "trackOutboundLink(this); return false;");
+      link.writeAttribute('onclick', "GoogleAnalyticsTracking.trackOutboundLink(this); return false;");
     }
   });
 }
@@ -121,6 +129,6 @@ Event.onReady(function() {
   });
   // mark outbound links and apply hook
   if(pageTracker) {
-    markOutboundLinks();
+    GoogleAnalyticsTracking.markOutboundLinks();
   }
 });
