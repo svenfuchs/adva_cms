@@ -471,3 +471,161 @@
 ')[0m
   [4;36;1mSQL (0.5ms)[0m   [0;1mSELECT count(*) AS count_all FROM "url_history_entries" [0m
   [4;35;1mUrlHistory::Entry Load (0.4ms)[0m   [0mSELECT * FROM "url_history_entries" LIMIT 1[0m
+  [4;36;1mSQL (0.7ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.7ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mUrlHistory::Entry Create (0.5ms)[0m   [0mINSERT INTO "url_history_entries" ("url", "params") VALUES('http://www.example.org/permalink-1', '--- 
+:controller: test
+:id: 10
+:action: show
+')[0m
+  [4;36;1mUrlHistory::Entry Create (0.4ms)[0m   [0;1mINSERT INTO "url_history_entries" ("url", "params") VALUES('http://www.example.org/permalink-1', '--- 
+:controller: test
+:id: 1
+:action: show
+')[0m
+  [4;35;1mUrlHistory::Entry Create (0.4ms)[0m   [0mINSERT INTO "url_history_entries" ("url", "params") VALUES('http://www.example.org/permalink-new-1', '--- 
+:controller: test
+:id: 1
+:action: show
+')[0m
+  [4;36;1mUrlHistory::Entry Create (0.5ms)[0m   [0;1mINSERT INTO "url_history_entries" ("url", "params") VALUES('http://www.example.org/permalink-2', '--- 
+:controller: test
+:id: 2
+:action: show
+')[0m
+  [4;35;1mUrlHistory::Entry Load (0.5ms)[0m   [0mSELECT * FROM "url_history_entries" WHERE (url = 'http://www.example.org/permalink-1') ORDER BY id DESC LIMIT 1[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mUrlHistory::Entry Create (0.5ms)[0m   [0mINSERT INTO "url_history_entries" ("url", "params") VALUES('http://www.example.org/permalink-1', '--- 
+:controller: test
+:id: 1
+:action: show
+')[0m
+  [4;36;1mUrlHistory::Entry Create (0.4ms)[0m   [0;1mINSERT INTO "url_history_entries" ("url", "params") VALUES('http://www.example.org/permalink-1', '--- 
+:controller: test
+:id: 10
+:action: show
+')[0m
+  [4;35;1mUrlHistory::Entry Create (0.4ms)[0m   [0mINSERT INTO "url_history_entries" ("url", "params") VALUES('http://www.example.org/permalink-new-1', '--- 
+:controller: test
+:id: 1
+:action: show
+')[0m
+  [4;36;1mUrlHistory::Entry Create (0.4ms)[0m   [0;1mINSERT INTO "url_history_entries" ("url", "params") VALUES('http://www.example.org/permalink-2', '--- 
+:controller: test
+:id: 2
+:action: show
+')[0m
+  [4;35;1mUrlHistory::Entry Load (0.5ms)[0m   [0mSELECT * FROM "url_history_entries" WHERE (url = 'http://www.example.org/permalink-1') ORDER BY id DESC LIMIT 1[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.7ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.7ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.7ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.7ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
