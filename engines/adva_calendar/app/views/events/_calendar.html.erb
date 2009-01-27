@@ -1,7 +1,14 @@
+<%
+month_navigation_url_helper = Proc.new do |title, args|
+  link_to(title, calendar_events_path({:section_id => @section.id}.merge(args)))
+end
+%>
 <%= 
-calendar_for(current_timespan.first.year, current_timespan.first.month) do |day|
+calendar_for(current_timespan.first.year, current_timespan.first.month, 
+  :hide_month_navigation => false,
+  :month_navigation_url_helper => month_navigation_url_helper) do |day|
   if calendar_section.days_in_month_with_events(day).include?(day)
-    [link_to(day.day, calendar_events_path(:section => @section, :year => day.year, :month => day.month, :day => day.mday)), { :class => "dayWithEvents" }]
+    [link_to(day.day, calendar_events_path(:section_id => @section.id, :year => day.year, :month => day.month, :day => day.mday)), { :class => "dayWithEvents" }]
   else
     day.day
   end
