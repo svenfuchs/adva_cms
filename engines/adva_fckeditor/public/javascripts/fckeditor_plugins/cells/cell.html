@@ -1,0 +1,241 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Insert/Edit Cell</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<script src="/javascripts/adva_cms/prototype.js" type="text/javascript"></script>
+	<script src="/javascripts/adva_cms/lowpro.js" type="text/javascript"></script>
+	<script src="common/fck_dialog_common.js" type="text/javascript"></script>
+	<script type="text/javascript">
+	// some variables that we need to fetch and set data
+	var dialog	= window.parent;
+  var oEditor = dialog.InnerDialogLoaded();
+	
+	// cell state class
+	CellState = Class.create({
+	  initialize: function(attributes) {
+	    this.id          = attributes['id'];
+	    this.name        = attributes['name'];
+      this.description = attributes['description'];
+      this.form        = attributes['form'];
+	  }
+	});
+	
+	// cell class
+	Cell = Class.create({
+	  initialize: function(attributes) {
+	    // set instance variables
+	    this.id     = attributes['id'];
+      this.name   = attributes['name'];
+      this.states = attributes['states'].collect(function(state) {
+        return new CellState(state);
+      });
+	  },
+	  
+	  // convert the cell to an optgroup with options to be used in the form's select field
+	  toOptions: function() {
+	    optGroup = new Element('optgroup', { 'label': this.name });
+	    var id = this.id; // urgs, damned scoping ...
+      this.states.each(function(state) {
+        option = new Element('option', { 'id': ('option_' + id + '_' + state.id), 'label': state.name, 'value': (id + '/' + state.id) });
+        option.innerHTML = state.name;
+        optGroup.appendChild(option);
+      });
+      
+      return optGroup;
+	  }
+	});
+
+  // an array to hold all fetched cells
+  Cell.cells = [];
+
+  // get a stored cell by id (e.g. article or article/recent_articles)
+  Cell.getById = function(id) {
+    if(id.indexOf('/') > -1) { // if we get a full id (e.g. article/recent_articles), we only look at the cell id part (e.g. article)
+      id = id.substr(0, id.indexOf('/'));
+    }
+    
+    return Cell.cells.find(function(cell) {
+      return cell.id == id;
+    });
+  }
+
+  // get a stored cell state by id (e.g. article/recent_articles)
+  CellState.getById = function(id) {
+    ids = id.split('/');
+    cellId = ids[0];
+    stateId = ids[1];
+    
+    cell = Cell.getById(cellId);
+    if(!cell) return;
+    
+    return cell.states.find(function(state) {
+      return state.id == stateId;
+    });
+  }
+
+  // fetch all cells from the server via AJAX
+  Cell.fetchCells = function() {
+    var oXml = new oEditor.FCKXml();
+  	oXml.LoadUrl('/admin/cells.xml');
+
+  	cellNodes = $A(oXml.SelectNodes('cells/cell'));
+
+  	Cell.cells = cellNodes.inject([], function(cells, cell) {
+  	  cellAttributes = Cell.unpackAttributes(oXml, cell, ['id', 'name'])
+  	  stateNodes = $A(oXml.SelectNodes('states/state', cell));
+  	  cellAttributes['states'] = stateNodes.inject([], function(states, state) {
+  	    states.push(Cell.unpackAttributes(oXml, state, ['id', 'name', 'description', 'form']));
+  	    return states;
+  	  });
+  	  cells.push(new Cell(cellAttributes));
+  	  return cells;
+  	});
+  };
+  
+  // utility method to unpack attributes from an XML object
+  Cell.unpackAttributes = function(xmlObject, node, attributesList) {
+    return attributesList.inject({}, function(attributes, attribute) {
+      attributes[attribute] = xmlObject.SelectSingleNode(attribute, node).textContent;
+      return attributes;
+    });
+  };
+  
+  // populate the select field with the fetched cells
+  Cell.populateForm = function() {
+    if(Cell.cells.length < 1) return;
+    
+    Cell.cells.each(function(cell) {
+      $('name').appendChild(cell.toOptions());
+    });
+  };
+  
+  // fetch the currently selected cell (if any) from the editor
+  var selectedCell = dialog.Selection.GetSelectedElement();
+  
+  LoadSelection = function() {
+    // nothing selected -> new cell
+    if(!selectedCell) return;
+    
+    // fetch the actual cell from the TempBin
+    var cellElement = oEditor.FCKTempBin.Elements[selectedCell.getAttribute('_fckrealelement')];
+    var state = CellState.getById(cellElement.getAttribute('name'));
+    
+    // only do this if we actually know this cell
+    if(state) {
+      var cell = Cell.getById(cellElement.getAttribute('name'));
+      
+      // select cell
+      $('option_' + (cell.id + '_' + state.id)).selected = 'selected';
+      
+      // display description and form
+      // TODO: refactor
+      $('description').innerHTML = state.description;
+      $('form').innerHTML        = state.form;
+      
+      // set form values
+      $('cellForm').getElements().each(function(element) {
+        name = element.id.replace('cell_options_', '');
+        element.setValue(cellElement.getAttribute(name));
+      });
+      
+      // set the current state - we need this for the formMemo store
+      $('current_state_id').setValue(cell.id + '/' + state.id);
+      
+      // we also need the OK button
+      dialog.SetOkButton(true);
+    }
+  }
+  
+  // a store for form values so the user doesn't lose any data by clicking through different cells
+  var formMemo = new Hash();
+  
+  // handles changes when the user selects different cells from the select field
+  CellChangeHandler = function(e) {
+    var fullStateId = this.options[this.selectedIndex].value;
+    var state;
+    
+    // display state description, form, the settings and the OK button
+    if(fullStateId && (state = CellState.getById(fullStateId))) {
+      // store current form for later re-use
+      formMemo[$('current_state_id').getValue()] = $('form').cloneNode(true);
+      
+      // restore form for new state (if present)
+      if(formMemo[fullStateId]) {
+        $('form').replace(formMemo[fullStateId]);
+      } else { // otherwise just take the state's default form
+        $('form').innerHTML = state.form;
+      }
+      
+      // store the new state id 
+      $('current_state_id').setValue(fullStateId);
+      
+      // finally add the description and show the thing
+      $('description').innerHTML = state.description;
+      $('settings').show();
+      dialog.SetOkButton(true);
+    } else { // prompt selected -> remove form and description, hide settings, and disable OK button
+      $('description').innerHTML = '';
+      $('form').innerHTML        = '';
+      $('current_state_id').setValue('');
+      $('settings').hide();
+      dialog.SetOkButton(false);
+    }
+    
+    // resize the dialog
+    // TODO: doesn't work since the dialog doesn't expose this method ...
+    // dialog.RefreshSize();
+  };
+  
+  // register event handlers
+  Event.addBehavior({
+    'select#name:change': CellChangeHandler
+  });
+  
+  // the Ok function is triggered by the dialog when the Ok button is clicked
+  var Ok = function() {
+    // apply only if a state has been selected
+    if($F('name')) {
+      // we fetch all form elements and transform them to attributes for the cell element
+      attributes = $('cellForm').getElements().inject({}, function(attributes, option) {
+        name = option.id.replace('cell_options_', ''); // all ids start with "cell_options_"
+        attributes[name] = $F(option);
+        return attributes;
+      });
+      cell = new Element('cell', attributes);
+      oEditor.FCK.InsertElement(cell);
+    }
+    
+    return true;
+  };
+  
+  Event.onReady(function() {
+    // first fetch all the cells from the server and display them in the form
+    Cell.fetchCells();
+    Cell.populateForm();
+    
+    // if we are editing an existing cell, we need to extract data from the selected cell
+    LoadSelection();
+    
+    dialog.SetAutoSize(true);
+  });
+	</script>
+</head>
+<body style="overflow:hidden">
+  <input type="hidden" id="current_state_id" name="current_state_id" value="" />
+  <form id="cellForm">
+    <fieldset>
+      <legend>Cell</legend>
+      <select id="name">
+        <option value="" label="--- please select a cell ---">--- please select a cell ---</option>
+      </select>
+  		<div id="description" style="float:right; width:200px;"></div>
+  	</fieldset>
+  	<fieldset id="settings">
+  	  <legend>Settings</legend>
+  		<div id="form">
+  		</td>
+  	</fieldset>
+	</form>
+</body>
+</html>
