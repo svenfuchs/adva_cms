@@ -108,8 +108,24 @@ module LaterDude
       return if @options[:hide_month_name]
 
       %(<tr>
-        <th colspan="7">#{I18n.localize(@days.first, :format => @options[:header_date_format])}</th>
+        <th colspan="2" class="previous_month">#{previous_month_link}</th>
+        <th colspan="3">#{I18n.localize(@days.first, :format => @options[:header_date_format])}</th>
+        <th colspan="2" class="next_month">#{next_month_link}</th>
       </tr>)
+    end
+    def previous_month_link
+      month_navigation_link(@options[:month_navigation_format][0], 
+        (@month == 1) ? @year - 1 : @year, 
+        (@month == 1) ? 12 : @month - 1)
+    end
+    def next_month_link
+      month_navigation_link(@options[:month_navigation_format][1], 
+        (@month == 12) ? @year + 1 : @year, 
+        (@month == 12) ? 1 : @month + 1)
+    end
+    def month_navigation_link(title, year, month)
+      return if @options[:hide_month_navigation] or @options[:month_navigation_url_helper].nil?
+      @options[:month_navigation_url_helper].call( I18n.localize(Date.new(year,month,1), :format => @options[:month_navigation_format]), {:year => year, :month => month})
     end
 
     def day_names
@@ -167,6 +183,9 @@ module LaterDude
           :first_day_of_week => I18n.translate(:'date.first_day_of_week', :default => "0").to_i,
           :hide_day_names => false,
           :hide_month_name => false,
+          :hide_month_navigation => false,
+          :month_navigation_url_helper => nil,
+          :month_navigation_format => I18n.translate(:'date.formats.calendar_header_navigation', :default => "%b"),
           :use_full_day_names => false,
           :use_full_month_names => true,
           :header_date_format => I18n.translate(:'date.formats.calendar_header', :default => "%B")
