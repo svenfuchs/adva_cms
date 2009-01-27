@@ -12,13 +12,13 @@
       <%= t(:'adva.articles.attributes.excerpt') %>
       <span class="hint inline">(<%= link_to_function t(:'adva.common.hide'), "$('excerpt').toggle()" %>)</span>
     </label>
-    <%= f.text_area :excerpt, :rows => '8', :class => 'fat'  %>
+    <%= f.text_area :excerpt, :rows => '8', :class => 'fat use-wysiwyg'  %>
   </p>
   <label for="article_body">
     Write your article
     <span class="hint inline">(<%= link_to_function t(:'adva.articles.excerpt_add'), "$('excerpt').toggle()" %>)</span>
   </label>
-  <%= f.text_area :body, :class => 'fat', :rows => 25  %>
+  <%= f.text_area :body, :class => 'fat use-wysiwyg', :rows => 25  %>
 
   <%= f.label :draft, t(:'adva.articles.question_save_as_draft') %>
   <label class="light">

@@ -4,7 +4,7 @@ applyOrRemoveFCKeditors = function() {
   // transform all textareas to FCKeditors, but only if filter is set to plain HTML
   if(filter && $F(filter) == '') {
     // by default, apply FCKeditor to all textareas
-    $$('textarea').each(function(t) {
+    $$('textarea.use-wysiwyg').each(function(t) {
       // some calculations
       height = t.getDimensions()['height'];
       if(height == 0) height = 200; // default height = 200px
@@ -17,7 +17,7 @@ applyOrRemoveFCKeditors = function() {
     });
   } else {
     // otherwise remove instances
-    $$('textarea').each(function(t) {
+    $$('textarea.use-wysiwyg').each(function(t) {
       f = $(t.id + '___Frame');
       c = $(t.id + '___Config');
       if(f) f.remove();
