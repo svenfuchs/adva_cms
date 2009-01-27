@@ -45,7 +45,7 @@ site_with_forums =
 Site.create!     :name  => 'site with forum',
                  :title => 'site with forum title',
                  :host  => 'site-with-forum.com'
-
+                 
 blog =
 Blog.create!     :site => site_with_blog,
                  :title => 'a blog',
@@ -132,6 +132,35 @@ User.create!     :first_name => 'a moderator',
                  :verified_at => Time.now
 moderator.grant :moderator, site_with_sections.sections.first
 moderator.grant :moderator, site_with_blog.sections.first
+
+site_with_sections.users << user
+site_with_sections.users << superuser
+site_with_sections.users << admin
+site_with_sections.users << moderator
+
+message =
+Message.create!   :sender     => user,
+                  :recipient  => moderator,
+                  :subject    => 'a message to the moderator subject',
+                  :body       => 'a message to the moderator body'
+
+another_message =
+Message.create!   :sender     => superuser,
+                  :recipient  => admin,
+                  :subject    => 'a message to the admin subject',
+                  :body       => 'a message to the admin body'
+
+message_to_self =
+Message.create!   :sender     => superuser,
+                  :recipient  => superuser,
+                  :subject    => 'a message to self subject',
+                  :body       => 'a message to self body'
+
+reply = 
+Message.reply_to(message)
+reply.sender = moderator
+reply.body   = 'a reply to the message'
+reply.save!
 
 board_topic_attrs = {  :site      => site_with_forums,
                        :section   => forum_with_boards,
