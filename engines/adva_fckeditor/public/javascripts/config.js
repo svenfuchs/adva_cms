@@ -1,3 +1,4 @@
+// adva-cms default toolbar
 FCKConfig.ToolbarSets['adva-cms'] = [
   ['Source','-','Save','Preview'],
   ['Cut','Copy','Paste','PasteText','PasteWord','-','Print'],
@@ -11,3 +12,17 @@ FCKConfig.ToolbarSets['adva-cms'] = [
   ['TextColor','BGColor'],
   ['FitWindow','ShowBlocks']
 ];
+
+// format the HTML output and source
+FCKConfig.FormatOutput = true;
+FCKConfig.FormatSource = true;
+
+// ignore empty paragraphs
+FCKConfig.IgnoreEmptyParagraphValue = true;
+
+// don't process entities since we use UTF-8
+FCKConfig.ProcessHTMLEntities = false;
+
+// Enter triggers a new paragraph, Shift+Enter triggers line break (just like in most text processors)
+FCKConfig.EnterMode = 'p';
+FCKConfig.ShiftEnterMode = 'br';
