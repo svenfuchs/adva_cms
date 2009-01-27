@@ -1,15 +1,12 @@
-map.forum 'forums/:section_id',
-           :controller   => 'forum',
-           :action       => "show",
-           :conditions   => { :method => :get }
+map.forum           'forums/:section_id',
+                    :controller   => 'forum',
+                    :action       => "show",
+                    :conditions   => { :method => :get }
 
-map.forum_board 'forums/:section_id/boards/:board_id',
-           :controller   => 'forum',
-           :action       => 'show',
-           :conditions   => { :method => :get }
-
-# map.resources :boards, :path_prefix => 'forums/:section_id',
-#                        :name_prefix => 'forum_'
+map.forum_board     'forums/:section_id/boards/:board_id',
+                    :controller   => 'forum',
+                    :action       => 'show',
+                    :conditions   => { :method => :get }
 
 map.new_board_topic 'forums/:section_id/boards/:board_id/topics/new',
                     :controller => 'topics',
@@ -28,7 +25,3 @@ map.resources :boards, :path_prefix => "admin/sites/:site_id/sections/:section_i
                        :namespace   => "admin/",
                        :member      => {:update_all => :put}
 
-# map.connect 'admin/sites/:site_id/sections/:section_id/boards',
-#             :controller   => 'admin/boards',
-#             :action       => 'update_all',
-#             :conditions   => { :method => :put }

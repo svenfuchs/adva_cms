@@ -97,14 +97,14 @@ class SiteTest < ActiveSupport::TestCase
     @site.send(:replace_host_spaces).should == 't-e-s-t.advabest.de'
   end
 
-  it "#has_tracking_enabled? is true if Google Analytics tracking code is set" do
+  test "#has_tracking_enabled? is true if Google Analytics tracking code is set" do
     @site.google_analytics_tracking_code = "UA-123456"
-    @site.should have_tracking_enabled
+    @site.have_tracking_enabled?.should be_true
   end
 
-  it "#has_tracking_enabled? is false if Google Analytics tracking code is not set" do
+  test "#has_tracking_enabled? is false if Google Analytics tracking code is not set" do
     @site.google_analytics_tracking_code = nil
-    @site.should_not have_tracking_enabled
+    @site.have_tracking_enabled?.should be_false
   end
 
   # CALLBACKS

@@ -58,7 +58,7 @@ class AdminArticlesControllerTest < ActionController::TestCase
       it_renders :template, lambda { @section.is_a?(Blog) ? 'blog/index' : 'articles/index' }
       
       it "displays an articles list" do
-        has_tag 'p[class=total]', 'Total: 1 article'
+        has_tag 'p[class=total]', /total: \d article(s)?/i
         has_tag 'table[id=articles] tr td a[href=?]',
                   edit_admin_article_path(@site, @section, assigns(:articles).first), 
                   assigns(:articles).first.title

@@ -126,6 +126,12 @@ class ActiveSupport::TestCase
     has_tag 'h2 a[href=?]', 
       article_path(article.section, article.full_permalink), article.title
   end
+  
+  def without_routing_filters
+    old_routing_filter_active, RoutingFilter.active = RoutingFilter.active, false
+    yield
+    RoutingFilter.active = old_routing_filter_active
+  end
 end
 
 class ActionController::TestCase

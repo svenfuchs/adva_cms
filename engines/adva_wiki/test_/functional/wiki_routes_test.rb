@@ -3,6 +3,25 @@ require File.expand_path(File.dirname(__FILE__) + "/../test_helper")
 class WikiRoutesTest < ActionController::TestCase
   tests WikiController
   with_common :a_wiki, :a_wikipage, :a_wikipage_category
+  
+  paths = %W( /wikis/1
+              /wikis/1/categories/a-category
+              /wikis/1/tags/foo+bar
+              /wikis/1/pages/a-wikipage
+              /wikis/1/pages/a-wikipage/rev/1
+              /wikis/1/pages/a-wikipage/diff/1
+              /wikis/1/pages/a-wikipage/rev/1/diff/1
+              /wikis/1/comments.atom
+              /wikis/1/pages/a-wikipage/comments.atom )
+ 
+  paths.each do |path|
+    test "regenerates the original path from the recognized params for #{path}" do
+      without_routing_filters do
+        params = ActionController::Routing::Routes.recognize_path(path, :method => :get)
+        assert_equal path, @controller.url_for(params.merge(:only_path => true))
+      end
+    end
+  end
 
   describe "routing" do
     with :a_wikipage_category do
