@@ -103,6 +103,12 @@ Category.create! :section => wiki,
                  :title => 'a category'
 
 
+album =
+Album.create!    :site        => site_with_sections,
+                 :title       => 'an album',
+                 :permalink   => 'an-album',
+                 :comment_age => 0
+
 user =
 User.create!     :first_name => 'a user',
                  :email => 'a-user@example.com',
@@ -137,6 +143,48 @@ site_with_sections.users << user
 site_with_sections.users << superuser
 site_with_sections.users << admin
 site_with_sections.users << moderator
+
+
+photo =
+Photo.create!    :content_type => 'image/jpeg',
+                 :size         => 100,
+                 :title        => 'a photo',
+                 :author       => superuser,
+                 :filename     => 'test.png',
+                 :section      => album
+
+photo_without_set =
+Photo.create!    :content_type => 'image/jpeg',
+                 :size         => 110,
+                 :title        => 'a photo without set',
+                 :author       => superuser,
+                 :filename     => 'test.png',
+                 :section      => album
+
+published_photo =
+Photo.create!    :content_type => 'image/jpeg',
+                 :size         => 110,
+                 :title        => 'a published photo',
+                 :author       => superuser,
+                 :filename     => 'test.png',
+                 :section      => album,
+                 :published_at => Time.parse('2008-01-01 12:00:00')
+
+set =
+Category.create! :title        => 'Summer',
+                 :section      => album
+
+subset =
+Category.create! :title        => 'A Subset',
+                 :section      => album
+                 
+subset.move_to_child_of set
+
+tag =
+Tag.create!      :name         => 'Forest'
+
+photo.tags << tag
+photo.sets << set
 
 message =
 Message.create!   :sender     => user,

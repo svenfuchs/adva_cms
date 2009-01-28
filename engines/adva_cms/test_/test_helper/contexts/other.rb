@@ -130,11 +130,25 @@ class Test::Unit::TestCase
       publish @article
     end
   end
+  
+  share :a_published_photo do
+    before do
+      @photo = @album.photos.first
+      publish @photo
+    end
+  end
 
   share :an_unpublished_article do
     before do
       @article = @section.articles.first
       unpublish @article
+    end
+  end
+
+  share :an_unpublished_photo do
+    before do
+      @photo = @album.photos.first
+      unpublish @photo
     end
   end
 
