@@ -1,3 +1,5 @@
+FIXME - implement these as functional tests
+
 Story: Spam control for blog comments
   As a blog admin
   I want to control blog spam according to my requirements
