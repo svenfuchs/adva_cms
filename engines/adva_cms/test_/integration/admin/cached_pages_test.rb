@@ -1,7 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../test_helper' )
 
 module IntegrationTests
-  class CachedPagesTest < ActionController::IntegrationTest
+  class AdminCachedPagesTest < ActionController::IntegrationTest
     def setup
       super
       @site = use_site! 'site with sections'

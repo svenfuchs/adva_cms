@@ -99,12 +99,12 @@ class SiteTest < ActiveSupport::TestCase
 
   test "#has_tracking_enabled? is true if Google Analytics tracking code is set" do
     @site.google_analytics_tracking_code = "UA-123456"
-    @site.have_tracking_enabled?.should be_true
+    @site.has_tracking_enabled?.should be_true
   end
 
   test "#has_tracking_enabled? is false if Google Analytics tracking code is not set" do
     @site.google_analytics_tracking_code = nil
-    @site.have_tracking_enabled?.should be_false
+    @site.has_tracking_enabled?.should be_false
   end
 
   # CALLBACKS

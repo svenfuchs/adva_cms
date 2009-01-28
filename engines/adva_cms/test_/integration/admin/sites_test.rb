@@ -1,7 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../test_helper' )
 
 module IntegrationTests
-  class SitesTest < ActionController::IntegrationTest
+  class AdminSitesTest < ActionController::IntegrationTest
     def setup
       super
       use_site! 'site with sections'

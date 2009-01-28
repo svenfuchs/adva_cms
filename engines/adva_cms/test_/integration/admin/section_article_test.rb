@@ -1,11 +1,12 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../test_helper' )
 
 module IntegrationTests
-  class SectionArticleTest < ActionController::IntegrationTest
+  class AdminSectionArticleTest < ActionController::IntegrationTest
     def setup
       super
-      @section = Section.first
+      @section = Section.find_by_title 'a section'
       @site = @section.site
+
       use_site! @site
       stub(Time).now.returns Time.utc(2008, 1, 2)
     end

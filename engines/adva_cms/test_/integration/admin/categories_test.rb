@@ -1,10 +1,10 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../test_helper' )
 
 module IntegrationTests
-  class CategoriesTest < ActionController::IntegrationTest
+  class AdminCategoriesTest < ActionController::IntegrationTest
     def setup
       super
-      @section = Section.first
+      @section = Section.find_by_title 'a section'
       @site = @section.site
       use_site! @site
     end

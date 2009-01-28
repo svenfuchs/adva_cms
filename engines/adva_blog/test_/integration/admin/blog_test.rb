@@ -1,7 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../test_helper' )
 
 module IntegrationTests
-  class BlogArticleTest < ActionController::IntegrationTest
+  class AdminBlogTest < ActionController::IntegrationTest
     def setup
       super
       @section = Blog.first

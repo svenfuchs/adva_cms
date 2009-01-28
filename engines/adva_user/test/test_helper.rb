@@ -1,1 +1,0 @@
-require File.dirname(__FILE__) + '/../../adva_cms/test/test_helper'

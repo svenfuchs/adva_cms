@@ -15,7 +15,7 @@ class RolesTest < ActiveSupport::TestCase
     @content   = @section.articles.first
     @author    = @content.author
 
-    @another_site = Site.all.detect {|site| site.id != @site.id }
+    @another_site = Site.find_by_name 'another site'
   end
 
   # has_role? (with a user)

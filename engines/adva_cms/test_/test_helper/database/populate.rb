@@ -14,6 +14,11 @@ Site.create!     :name => 'site with sections',
                  :title => 'site with sections title',
                  :host => 'site-with-sections.com'
 
+another_site =
+Site.create!     :name => 'another site',
+                 :title => 'another site title',
+                 :host => 'another-site.com'
+
 section =
 Section.create!  :site => site_with_sections,
                  :title => 'a section',
@@ -236,7 +241,8 @@ unapproved_blog_article_comment = Comment.create! comment_attrs.merge(:approved 
 
 cached_page =
 CachedPage.create! :site_id => site_with_sections.id,
-                   :section_id => section.id
+                   :section_id => section.id,
+                   :url => "http://#{site_with_sections.host}"
 
 plugin = Engines.plugins[:test_plugin].clone
 plugin.owner = site_with_sections
