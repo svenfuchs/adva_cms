@@ -1,6 +1,5 @@
 class User
   def grant(role, context = nil)
-    roles.clear
     roles << Rbac::Role.build(role, :context => context)
   end
 end

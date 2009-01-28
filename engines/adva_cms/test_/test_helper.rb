@@ -10,6 +10,7 @@ require 'with-sugar'
 
 require 'webrat'
 require 'webrat/rails'
+Webrat.configuration.open_error_files = false
 
 require 'globalize/i18n/missing_translations_raise_handler'
 I18n.exception_handler = :missing_translations_raise_handler
@@ -20,8 +21,9 @@ class Test::Unit::TestCase
   def setup_with_test_setup
     setup_without_test_setup
     start_db_transaction!
-    setup_themes_dir!
+    setup_page_caching!
     setup_assets_dir!
+    setup_themes_dir!
 
     I18n.locale = nil
     I18n.default_locale = :en
@@ -32,8 +34,9 @@ class Test::Unit::TestCase
     teardown_without_test_setup
   ensure
     rollback_db_transaction!
-    clear_themes_dir!
+    clear_cache_dir!
     clear_assets_dir!
+    clear_themes_dir!
   end
   alias_method_chain :teardown, :test_setup
 end

@@ -1,7 +1,5 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'test_helper' ))
 
-# A blog with two categories and with a published and an unpublished article. 
-# The published article has an approved comment.
 module IntegrationTests
   class BlogIndexTest < ActionController::IntegrationTest
     def setup

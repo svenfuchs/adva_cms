@@ -118,6 +118,7 @@ User.create!     :first_name => 'an admin',
                  :verified_at => Time.now
 admin.grant :admin, site_with_sections
 admin.grant :admin, site_with_blog
+admin.grant :admin, site_with_wiki
 
 moderator =
 User.create!     :first_name => 'a moderator',
@@ -163,6 +164,15 @@ Article.create!  :site => site_with_sections,
                  :tag_list => 'foo bar',
                  :author => user,
                  :published_at => Time.parse('2008-01-01 12:00:00')
+
+unpublished_section_article =
+Article.create!  :site => site_with_sections,
+                 :section => section,
+                 :title => 'an unpublished section article',
+                 :body => 'an unpublished section article body',
+                 :categories => [section_category],
+                 :tag_list => 'foo bar',
+                 :author => user
 
 blog_article =
 Article.create!  :site => site_with_blog,
