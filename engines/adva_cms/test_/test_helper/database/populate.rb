@@ -115,6 +115,11 @@ User.create!     :first_name => 'a user',
                  :password => 'a password',
                  :verified_at => Time.now
 
+unverified_user =
+User.create!     :first_name => 'an unverified user',
+                 :email => 'a-unverified-user@example.com',
+                 :password => 'a password'
+
 superuser =
 User.create!     :first_name => 'a superuser',
                  :email => 'a-superuser@example.com',

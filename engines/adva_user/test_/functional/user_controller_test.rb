@@ -68,6 +68,7 @@ class UserControllerTest < ActionController::TestCase
     
         it_triggers_event :user_verified
         it_assigns_flash_cookie :notice => :not_nil
+        # FIXME it_redirects_to where?
       end
 
       with "the user can not be verified" do
@@ -75,6 +76,7 @@ class UserControllerTest < ActionController::TestCase
     
         it_does_not_trigger_any_event
         it_assigns_flash_cookie :error => :not_nil
+        # FIXME it_redirects_to where?
       end
     end
   end
