@@ -91,5 +91,7 @@ map.connect                     'admin/sites/:site_id/sections/:section_id/categ
                                 :action       => 'update_all',
                                 :conditions   => { :method => :put }
 
+map.connect                     'admin/cells.xml', :controller => 'admin/cells', :action => 'index', :format => 'xml'
+
 map.install 'admin/install',    :controller   => 'admin/install'
 map.root                        :controller   => 'admin/install' # will kick in when no site is installed, yet

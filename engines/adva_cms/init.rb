@@ -14,6 +14,7 @@ require 'rails_ext/active_record/sti_instantiation'
 require 'rails_ext/active_record/sticky_changes'
 require 'rails_ext/action_controller/event_helper'
 require 'rails_ext/action_controller/page_caching'
+require 'cells_ext'
 
 require 'routing'
 require 'roles'
@@ -29,10 +30,42 @@ config.to_prepare do
   }
 
   class Cell::Base
+    class_inheritable_accessor :states
+    self.states = []
+
     class << self
       def inherited(child)
         child.send(:define_method, :current_action) { state_name.to_sym }
         super
+      end
+
+      def has_state(state)
+        self.states << state.to_sym unless self.states.include?(state.to_sym)
+      end
+
+      # convert a cell to xml
+      def to_xml(options={})
+        options[:root]    ||= 'cell'
+        options[:indent]  ||= 2
+        options[:builder] ||= Builder::XmlMarkup.new(:indent => options[:indent])
+
+        cell_name = self.to_s.gsub('Cell', '').underscore
+
+        options[:builder].tag!(options[:root]) do |cell_node|
+          cell_node.id   cell_name
+          cell_node.name I18n.translate(:"adva.cells.#{cell_name}.name", :default => cell_name.humanize)
+          cell_node.states do |states_node|
+            self.states.uniq.each do |state|
+              states_node.state do |state_node|
+                state = state.to_s
+                state_node.id          state
+                state_node.name        I18n.translate(:"adva.cells.#{cell_name}.states.#{state}.name", :default => state.humanize)
+                state_node.description I18n.translate(:"adva.cells.#{cell_name}.states.#{state}.description", :default => '')
+                state_node.form        "form"
+              end
+            end
+          end
+        end
       end
     end
 
