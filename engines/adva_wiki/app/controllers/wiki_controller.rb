@@ -159,7 +159,7 @@ class WikiController < BaseController
       end
     end
 
-    def current_role_context
+    def current_resource
       @wikipage || @section
     end
 end

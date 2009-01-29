@@ -56,7 +56,7 @@ module ActionController
         # return if action.to_sym == :show
 
         unless has_permission?(action, type)
-          role =  current_role_context.role_authorizing("#{action} #{type}")
+          role =  current_resource.role_authorizing("#{action} #{type}")
           raise RoleRequired.new role, action, type
         end
       end
@@ -64,8 +64,8 @@ module ActionController
       def has_permission?(action, type)
         action = :"#{action} #{type}"
         user = current_user || User.anonymous
-        role = current_role_context.role_authorizing action
-        user.has_role? role, :context => current_role_context
+        role = current_resource.role_authorizing action
+        user.has_role? role, :context => current_resource
       end
 
       def map_from_controller_action

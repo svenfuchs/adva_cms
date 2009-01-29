@@ -58,7 +58,7 @@ class PostsController < BaseController
       @post = @topic.comments.find params[:id]
     end
 
-    def current_role_context
+    def current_resource
       @post || @topic
     end
 end

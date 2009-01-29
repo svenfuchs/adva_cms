@@ -110,7 +110,7 @@ class Admin::CommentsController < Admin::BaseController
       end
     end
 
-    def current_role_context
+    def current_resource
       @comment ? @comment.commentable : @content || @section || @site
     end
 end

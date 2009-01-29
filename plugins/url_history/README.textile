@@ -11,8 +11,9 @@ Two assumptions are made:
 * The controller needs to implement a method #current_resource that returns the current resource.
 * The resource can implement a method #update_url_history_params that takes a params hash and modifies it before it gets passed to #url_for for generating the updated/new URL.
 
-E.g. 
-
+E.g.
+ 
+<pre>
 class ArticlesController < ...
 	def current_resource
 		# might also return something else here depending on your context
@@ -26,3 +27,4 @@ class Article < ...
 		params.merge :year => year, :month => month, :day => day, :slug => slug
 	end
 end
+</pre>

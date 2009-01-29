@@ -28,7 +28,8 @@ module UrlHistory
     module InstanceMethods
       def url_history_record_not_found
         if entry = UrlHistory::Entry.recent_by_url(request.url)
-          url = url_for(entry.updated_params)
+          params = entry.updated_params.except('method')
+          url = url_for(params)
           redirect_to url unless request.url == url
         end
       end

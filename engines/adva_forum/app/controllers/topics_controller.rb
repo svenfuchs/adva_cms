@@ -103,7 +103,7 @@ class TopicsController < BaseController
       end
     end
 
-    def current_role_context
+    def current_resource
       @topic || @section
     end
 end

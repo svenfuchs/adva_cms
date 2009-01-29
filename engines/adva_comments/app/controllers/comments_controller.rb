@@ -86,7 +86,7 @@ class CommentsController < BaseController
                               :author => current_user
     end
 
-    def current_role_context
+    def current_resource
       @comment || @commentable
     end
 end

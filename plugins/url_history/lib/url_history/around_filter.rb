@@ -9,9 +9,14 @@ module UrlHistory
       protected
       
         def create_entry!(controller, url)
-          if controller.respond_to?(:current_resource) and resource = controller.current_resource
-            Entry.create! :url => url, :resource => resource, :params => controller.params
+          if controller.respond_to?(:current_resource) and resource = controller.send(:current_resource)
+            Entry.create! :url => url, :resource => resource, :params => stringify(controller.params)
           end
+        end
+        
+        def stringify(hash)
+          hash.each { |key, value| hash[key] = value.to_s if value.is_a?(Symbol) }
+          hash
         end
     end
   end

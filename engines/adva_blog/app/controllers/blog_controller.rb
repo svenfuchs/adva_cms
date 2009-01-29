@@ -80,7 +80,7 @@ class BlogController < BaseController
       end
     end
 
-    def current_role_context
+    def current_resource
       @article || @section
     end
 end

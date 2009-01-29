@@ -41,7 +41,7 @@ class Admin::BaseController < ApplicationController
 
     def require_authentication
       update_role_context!(params) # TODO no idea what this is good for ...
-      unless current_user and current_user.has_role?(:admin, :context => current_role_context) # TODO this is bad
+      unless current_user and current_user.has_role?(:admin, :context => current_resource) # TODO this is bad
         return redirect_to_login(t(:'adva.flash.authentication_required_role', :role => :admin))
       end
       super
@@ -96,7 +96,7 @@ class Admin::BaseController < ApplicationController
       set_section if params[:section_id] and !@section
     end
 
-    def current_role_context
+    def current_resource
       @section || @site || Site.new
     end
 

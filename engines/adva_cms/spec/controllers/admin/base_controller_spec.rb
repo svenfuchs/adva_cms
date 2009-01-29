@@ -17,17 +17,17 @@ describe Admin::SitesController do
     end
     
     # TODO what's this good for at all?
-    # it "updates current_role_context" do
+    # it "updates current_resource" do
     #   controller.should_receive(:update_role_context!).with({"action"=>"index", "controller"=>"admin/sites"})
     #   request_to :get, '/admin/sites'
     #   response.should redirect_to(login_url(:return_to => request.url))
     # end
 
-    it "uses current_role_context for context of a role" do
+    it "uses current_resource for context of a role" do
       @user.stub!(:has_role?).and_return(true)
       controller.stub!(:update_role_context!)
 
-      controller.should_receive(:current_role_context)
+      controller.should_receive(:current_resource)
       controller.send :require_authentication
     end
   end

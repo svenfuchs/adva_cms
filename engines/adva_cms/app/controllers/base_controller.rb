@@ -86,7 +86,7 @@ class BaseController < ApplicationController
       end
     end
     
-    def current_role_context
+    def current_resource
       @section || @site
     end
 
