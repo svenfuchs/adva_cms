@@ -7,7 +7,7 @@ FCKConfig.ToolbarSets['adva-cms'] = [
   ['Bold','Italic','Underline','StrikeThrough','-','Subscript','Superscript'],
   ['OrderedList','UnorderedList','-','Outdent','Indent','Blockquote'],
   ['JustifyLeft','JustifyCenter','JustifyRight','JustifyFull'],
-  ['Link','Unlink','Anchor'],
+  ['Link','Unlink','Anchor', 'ConfigureCell'],
   ['Table','Rule','SpecialChar'],
   ['TextColor','BGColor'],
   ['FitWindow','ShowBlocks']
@@ -26,3 +26,9 @@ FCKConfig.ProcessHTMLEntities = false;
 // Enter triggers a new paragraph, Shift+Enter triggers line break (just like in most text processors)
 FCKConfig.EnterMode = 'p';
 FCKConfig.ShiftEnterMode = 'br';
+
+// set a different plugins path so that we can update the editor independently
+FCKConfig.PluginsPath = FCKConfig.BasePath + '../../fckeditor_plugins/' ;
+
+// add our Cells plugin
+FCKConfig.Plugins.Add('cells') ;
