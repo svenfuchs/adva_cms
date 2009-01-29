@@ -7,7 +7,8 @@ module Cell
 
     private
     def require_all_cells
-      Dir[File.join(RAILS_ROOT, 'vendor', 'adva', 'engines') + '/*/app/cells/*.rb'].each { |cell_file| require cell_file }
+      cell_files = Dir[RAILS_ROOT + '/app/cells/*.rb'] + Dir[File.join(RAILS_ROOT, 'vendor', 'adva', 'engines') + '/*/app/cells/*.rb']
+      cell_files.each { |cell_file| require cell_file }
     end
   end
 end
