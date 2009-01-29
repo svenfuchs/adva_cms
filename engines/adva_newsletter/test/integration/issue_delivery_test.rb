@@ -20,18 +20,18 @@ class IssueDeliveriesTest < ActionController::IntegrationTest
     assert_select "p.state", "On hold"
   end
 
-  test "admin SENDS NOW: should be added to delivery queue" do
+  test "admin sends ALL NOW: issue should be added to the delivery queue" do
     click_button "Send now"
 
     assert_template "admin/issues/show"
-    assert_flash "Newsletter issue was successfully added to the delivery queue"
+    assert_flash "Issue was successfully added to the delivery queue"
   end
   
-  test "admin SENDS WITH DELAY: should be added to delivery queque with delay (deliver mocked)" do
+  test "admin sends ALL LATER: should be added to delivery queque with delay" do
     click_button "Send later"
 
     assert_template "admin/issues/show"
-    assert_flash "Newsletter issue was successfully added to the queue to send out later"
+    assert_flash "Issue was successfully added to the queue to deliver later"
   end
 
   test "admin sends PREVIEW issue: should send issue only to myself" do

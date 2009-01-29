@@ -9,8 +9,10 @@ en:
       total_newsletters: "Total newsletters: {{newsletters_count}}"
       total_issues: "Total issues: {{issues_count}}"
       total_subscribers: "Total subscribers: {{subscriptions_count}}"
-      delivery_due_time: "Delivery time is at {{delivery_time}}"
+      delivery_due_time: "Issue will be delivered at {{delivery_time}}"
       delivered_at: "Delivered at {{delivered_time}}"
+      no_issues: There are no issues.
+      question_save_issue_as_draft: Yes, save this issue as draft.
       flash:
         delivery_cancellation_success: Delivery was successfully cancelled.
         delivery_cancellation_failed: Cannot cancel delivery because the issue has already been delivered.
@@ -18,18 +20,27 @@ en:
         issue_moved_to_trash_success: Newsletter issue was successfully moved to trash.
         newsletter_moved_to_trash_success: Newsletter was successfully moved to trash.
         update_success: Newsletter has been updated successfully!
-        send_preview_issue: Preview issue was successfully sent out to you.
+        send_preview_issue: Preview issue was successfully sent to you.
         send_preview_issue_failed: Something went wrong when sending out preview issue.
+        send_all: Issue was successfully added to the delivery queue.
+        send_all_later: Issue was successfully added to the queue to deliver later. 
+        issue_create_success: Newsletter issue was successfully created.
+        issue_update_success: Newsletter issue was successfully updated.
       button:
         send_issue: Send
         preview_issue: Preview
         cancel_delivery: Cancel delivery
+        send_now: Send now
+        send_later: Send later
       link:
         index: Newsletters
         new: Create a newsletter
         issues: Issues
         subscribers: Subscribers
         send_preview_issue: Send preview
+        new_issue: Create a new issue
+        issue_index: Issues
+        edit_issue: Edit issue
       label:
         header: Newsletters
         title: Newsletter name
@@ -38,34 +49,17 @@ en:
         issues: Issues
         subscribers: Subscribers
         deleted_issues: Deleted issues
-        issue_publish_at: Publish at
         email: Newsletter emails are coming from
         published: Make it public, then users are able to subscribe.
-      titles:
+        issue_title: Issue Title/Subject
+        issue_body: Body
+        issue_name: Name
+        issue_created_at: Created
+        issue_publish_at: Publish at
+      title:
         edit: Edit newsletter
+        edit_issue: Edit issue
       confirm:
         send_preview_issue: "It will send issue only to your email, so you can preview it."
-    issue:
-      confirm_save_as_draft: Yes, save this issue as draft.
-      question_save_as_draft: Save as Draft?
-      no_issues: There are no issues.
-      button:
-        send_now: Send now
-        send_later: Send later
-      flash:
-        create_success: Newsletter issue was successfully created.
-        update_success: Newsletter issue was successfully updated.
-        send_now: Newsletter issue was successfully added to the delivery queue.
-        send_later: Newsletter issue was successfully added to the queue to send out later. 
-      label:
-        title: Issue Title/Subject
-        body: Body
-        name: Name
-        created_at: Created
-        issues: Issues
-      link:
-        index: Issues
-        new: Create a new issue
-        edit: Edit issue
-      titles:
-        edit: Edit issue
+        save_as_draft: Save as Draft?
+        save_issue_as_draft: Save as Draft?

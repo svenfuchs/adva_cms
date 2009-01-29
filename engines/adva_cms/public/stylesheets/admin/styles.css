@@ -988,7 +988,8 @@ p.state {
   float: right;
   margin: -30px 10px 0 0;
 }
-#delivery {
+#delivery span {
+  margin-left: 6px;
 }
 #delivery label {
   display: inline;
