@@ -56,22 +56,17 @@ class Admin::IssuesController < Admin::BaseController
     flash[:notice] = t(:"adva.newsletter.flash.issue_moved_to_trash_success")
     redirect_to admin_issues_path(@site, @newsletter)
   end
-
+  
 private
   def set_newsletter
     @newsletter = Newsletter.find(params[:newsletter_id])
   end
 
   def delivery
-    if params[:send_test]
-      flash[:notice] = t(:"adva.issue.flash.send_test")
-      @issue.deliver :to => current_user
-    else
-      if params[:send_now].present?
-        @issue.deliver ? flash[:notice] = t(:"adva.issue.flash.send_now") : delivery_start_failed_flash
-      elsif params[:send_later].present?
-        @issue.deliver(:later_at => params[:publish_at]) ? flash[:notice] = t(:"adva.issue.flash.send_later") : deliver_start_failed_flash
-      end
+    if params[:send_now].present?
+      @issue.deliver ? flash[:notice] = t(:"adva.issue.flash.send_now") : delivery_start_failed_flash
+    elsif params[:send_later].present?
+      @issue.deliver(:later_at => params[:publish_at]) ? flash[:notice] = t(:"adva.issue.flash.send_later") : deliver_start_failed_flash
     end
   end
   

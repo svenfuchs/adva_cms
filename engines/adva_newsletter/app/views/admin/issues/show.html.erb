@@ -18,12 +18,8 @@
       <div id="delivery" class="buttons"> 
         <span id="send-now">
           <%= submit_tag t(:"adva.issue.button.send_now"), :name => "send_now" %>
-          <label>
-            <%= check_box_tag :send_test %><%= t(:"adva.issue.label.send_test") %>
-          </label>
         </span>
         <span id="send-later">
-          <%= f.label :publish_at, t(:'adva.newsletter.label.issue_publish_at') %>
           <%= select_time Time.now + 5.minutes, :prefix => "publish_at", :time_separator => ":" %> - 
           <%= select_date Date.today, :prefix => "publish_at", :order => [:day, :month], :discard_year => true %>
           <%= submit_tag t(:"adva.issue.button.send_later"), :name => "send_later" %>
