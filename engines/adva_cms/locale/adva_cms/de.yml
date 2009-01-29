@@ -759,4 +759,41 @@ de:
        subscriber: Abonnenten
        email: E-Mail
        time: Anmeldedatum
-       subscriptions: Abonnements  
+       subscriptions: Abonnements 
+       
+   # have cells translations here for the moment
+   cells:
+     album:
+       name: Fotoalbum
+       states:
+         single:
+           name: Einzelnes Album
+           description: Ein ausgewähltes Album anzeigen
+           form:
+             section: Sektion
+     sections:
+       name: Sektionen
+       states:
+         recent_articles:
+           name: Neueste Artikel
+           description: Eine ausgewählte Anzahl der neuesten Artikel einer bestimmten Sektion anzeigen
+           form:
+             section: Sektion
+             count: Anzahl Artikel
+     blog:
+       name: Blog
+       states:
+         recent_articles:
+           name: Neueste Artikel
+           description: Eine ausgewählte Anzahl der neuesten Artikel eines bestimmten Blogs anzeigen
+           form:
+             section: Sektion
+             count: Anzahl Artikel
+     user:
+       name: Benutzer
+       states:
+         recent:
+           name: Neueste Benutzer
+           description: Eine ausgewählte Anzahl der neuesten Benutzer anzeigen
+           form:
+             count: Anzahl Benutzer

@@ -781,3 +781,40 @@ en:
         town: Town
         address: Street / Number
         description: Description
+    
+    # have cells translations here for the moment
+    cells:
+      album:
+        name: Photoalbum
+        states:
+          single:
+            name: Single photoalbum
+            description: Display a single photoalbum
+            form:
+              section: Section
+      sections:
+        name: Sections
+        states:
+          recent_articles:
+            name: Recent articles
+            description: Display a given number of articles from a certain section
+            form:
+              section: Section
+              count: Number of articles
+      blog:
+        name: Blog
+        states:
+          recent_articles:
+            name: Recent articles
+            description: Display a given number of articles from a certain blog
+            form:
+              section: Section
+              count: Number of articles
+      user:
+        name: Users
+        states:
+          recent:
+            name: Recent users
+            description: Display a list with a given number of users
+            form:
+              count: Number of users
