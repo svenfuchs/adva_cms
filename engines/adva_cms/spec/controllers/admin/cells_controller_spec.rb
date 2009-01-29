@@ -9,6 +9,7 @@ describe Admin::CellsController do
     @controller.stub!(:current_user).and_return(stub_user)
     User.stub!(:find).and_return(stub_user)
     #Cells.stub!(:all).and_return([])
+    I18n.stub!(:translate).and_return("") # FIXME: this is so that the build doesn't break
   end
 
   it "should be an Admin::BaseController" do

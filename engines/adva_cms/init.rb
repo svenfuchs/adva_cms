@@ -58,10 +58,27 @@ config.to_prepare do
             self.states.uniq.each do |state|
               states_node.state do |state_node|
                 state = state.to_s
+
+                # render the form ... if it's empty ... well, then it's empty ;-)
+                # view = Cell::View.new
+                # template = self.find_class_view_for_state(state + '_form').each do |path|
+                #   puts path
+                #   if template = view.try_picking_template_for_path(path)
+                #     puts template
+                #     return template
+                #   end
+                # end
+                # form = template ? ERB.new(view.render(:template => template)).result : ''
+
+                # FIXME: this implementation is brittle at best and needs to be refactored/corrected ASAP!!!
+                possible_templates = Dir[RAILS_ROOT + "/app/cells/#{cell_name}/#{state}_form.html.erb"] + Dir[File.join(RAILS_ROOT, 'vendor', 'adva', 'engines') + "/*/app/cells/#{cell_name}/#{state}_form.html.erb"]
+                template = possible_templates.first
+                form = template ? ERB.new(File.read(template)).result : ''
+
                 state_node.id          state
                 state_node.name        I18n.translate(:"adva.cells.#{cell_name}.states.#{state}.name", :default => state.humanize)
                 state_node.description I18n.translate(:"adva.cells.#{cell_name}.states.#{state}.description", :default => '')
-                state_node.form        "form"
+                state_node.form        form
               end
             end
           end
