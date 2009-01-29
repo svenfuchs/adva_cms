@@ -15,3 +15,7 @@ map.resources :deleted_issues, :controller => "admin/deleted_issues",
 map.resources :subscriptions, :controller => "admin/newsletter_subscriptions",
                        :path_prefix => "admin/sites/:site_id/newsletters/:newsletter_id",
                        :name_prefix => "admin_"
+
+map.resource :delivery, :controller => "admin/issue_delivery",
+                       :path_prefix => "admin/sites/:site_id/newsletters/:newsletter_id/issues/:issue_id",
+                       :name_prefix => "admin_"

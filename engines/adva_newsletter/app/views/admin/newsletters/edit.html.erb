@@ -2,7 +2,7 @@
   <%= render :partial => 'admin/shared/sidebar_manage' %>
 <% end %>
 
-<h2><%= t(:'adva.newsletter.titles.edit') %></h2>
+<h2><%= t(:'adva.newsletter.title.edit') %></h2>
 <% split_form_for :newsletter, @newsletter, :url => admin_newsletter_path, :html => {:method => :put, :multipart => true, :id => 'content_form'} do |f| %>
   <%= render :partial => 'form', :locals => {:f => f} %>  
   <p class="buttons">
