@@ -41,6 +41,7 @@ en:
         new_issue: Create a new issue
         issue_index: Issues
         edit_issue: Edit issue
+        delete_issue: Delete issue
       label:
         header: Newsletters
         title: Newsletter name
