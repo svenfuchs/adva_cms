@@ -95,7 +95,7 @@ module XssTerminate
         # TODO is it safe to exclude frozen strings? this ran into an error
         # when with a polymorphic object_type attribute (User#save_roles)
         value.replace send(filter, value) unless value.frozen? 
-      when Numeric, NilClass, TrueClass, FalseClass
+      when ActiveRecord::Base, Numeric, NilClass, TrueClass, FalseClass
         # nothing to sanitize
       else
         raise "can't sanitize #{value.class.name} #{value.inspect}"
