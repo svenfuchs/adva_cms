@@ -3,7 +3,7 @@
   published under the same license as adva-cms
 */
 
-FCKCommands.RegisterCommand('ConfigureCell', new FCKDialogCommand(FCKLang['DlgConfigureCellTitle'], FCKLang['DlgConfigureCellTitle'], FCKConfig.PluginsPath + 'cells/cell.html', 340, 170));
+FCKCommands.RegisterCommand('ConfigureCell', new FCKDialogCommand(FCKLang['DlgConfigureCellTitle'], FCKLang['DlgConfigureCellTitle'], FCKConfig.PluginsPath + 'cells/cell.html', 400, 300));
 
 // create the "ConfigureCell" toolbar button
 var oInsertCellItem      = new FCKToolbarButton('ConfigureCell', FCKLang['DlgConfigureCellTitle']) ;
@@ -24,7 +24,11 @@ CellsProcessor.ProcessDocument = function(document) {
 
     //replace = DisplayCell(cell.cloneNode(true));
     replace = FCKDocumentProcessor_CreateFakeImage('FCK__Cell', cell.cloneNode(true));
-    replace.src = '/admin/cell.html';
+    replace.style.border = '#a9a9a9 1px solid';
+    replace.style.background = 'url(/javascripts/adva_fckeditor/fckeditor/editor/css/images/fck_plugin.gif) center center no-repeat';
+    replace.style.width = '80px';
+    replace.style.height = '80px';
+    //replace.src = '/admin/cell.html';
 
 		cell.parentNode.insertBefore(replace, cell);
 		cell.parentNode.removeChild(cell);

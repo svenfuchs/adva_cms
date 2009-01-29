@@ -217,6 +217,9 @@
     // if we are editing an existing cell, we need to extract data from the selected cell
     LoadSelection();
     
+    // translate the dialog
+    oEditor.FCKLanguageManager.TranslatePage(document);
+    
     dialog.SetAutoSize(true);
   });
 	</script>
@@ -225,14 +228,14 @@
   <input type="hidden" id="current_state_id" name="current_state_id" value="" />
   <form id="cellForm">
     <fieldset>
-      <legend>Cell</legend>
+      <legend fckLang="DlgConfigureCellCell">Cell</legend>
       <select id="name">
-        <option value="" label="--- please select a cell ---">--- please select a cell ---</option>
+        <option value="" fckLang="DlgConfigureCellSelectCell">--- please select a cell ---</option>
       </select>
   		<div id="description" style="float:right; width:200px;"></div>
   	</fieldset>
   	<fieldset id="settings">
-  	  <legend>Settings</legend>
+  	  <legend fckLang="DlgConfigureCellSettings">Settings</legend>
   		<div id="form">
   		</td>
   	</fieldset>

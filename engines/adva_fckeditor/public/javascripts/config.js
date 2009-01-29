@@ -28,7 +28,10 @@ FCKConfig.EnterMode = 'p';
 FCKConfig.ShiftEnterMode = 'br';
 
 // set a different plugins path so that we can update the editor independently
-FCKConfig.PluginsPath = FCKConfig.BasePath + '../../fckeditor_plugins/' ;
+FCKConfig.PluginsPath = FCKConfig.BasePath + '../../fckeditor_plugins/';
 
 // add our Cells plugin
-FCKConfig.Plugins.Add('cells') ;
+FCKConfig.Plugins.Add('cells', 'en,de');
+
+// auto detect language
+FCKConfig.AutoDetectLanguage = true;
