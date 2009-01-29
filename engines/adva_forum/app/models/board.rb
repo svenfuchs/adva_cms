@@ -6,6 +6,8 @@ class Board < ActiveRecord::Base
   delegate :topics_per_page, :comments_per_page, :to => :section
 
   before_validation :set_site
+  validates_presence_of :title
+  
   after_create      :assign_topics
   # Needs to be here before associations, otherwise topics are deleted on last board
   before_destroy    :unassign_topics, :decrement_counters

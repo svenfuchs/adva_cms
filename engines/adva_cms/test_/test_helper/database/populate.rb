@@ -72,6 +72,18 @@ Forum.create!    :site        => site_with_forums,
                  :permalink   => 'a-forum-with-boards',
                  :comment_age => 0
 
+forum_with_one_board =
+Forum.create!   :site        => site_with_forums,
+                :title       => 'a forum with one board',
+                :permalink   => 'a-forum-with-one-board',
+                :comment_age => 0
+
+forum_with_two_topics =
+Forum.create!   :site        => site_with_forums,
+                :title       => 'a forum with two topics',
+                :permalink   => 'a-forum-with-two-topics',
+                :comment_age => 0
+
 forum_board =
 Board.create!    :site    => site_with_forums,
                  :section => forum_with_boards,
@@ -86,6 +98,11 @@ topicless_board =
 Board.create!    :site    => site_with_forums,
                  :section => forum_with_boards,
                  :title   => 'a topicless board'
+
+lone_board =
+Board.create!    :site    => site_with_forums,
+                 :section => forum_with_one_board,
+                 :title   => 'a lone board'
 
 site_with_wiki =
 Site.create!     :name => 'site with wiki',
@@ -227,12 +244,32 @@ board_topic =
 Topic.post       user, board_topic_attrs
 board_topic.save!
 
+another_board_topic =
+Topic.post       admin, board_topic_attrs.merge(:title     => 'another board topic',
+                                                :body      => 'another board topic body',
+                                                :permalink => 'another-board-topic')
+another_board_topic.save!
+
 topic_attrs = {  :site      => site_with_forums,
                  :section   => forum_without_boards,
                  :author    => user,
                  :title     => 'a topic',
                  :body      => 'a topic body',
                  :permalink => 'a-topic' }
+
+first_topic =
+Topic.post       user, topic_attrs.merge(:section => forum_with_two_topics,
+                                         :title => 'first topic',
+                                         :body  => 'first topic body',
+                                         :permalink => 'first-topic')
+first_topic.save!
+
+last_topic =
+Topic.post       user, topic_attrs.merge(:section => forum_with_two_topics,
+                                         :title => 'last topic',
+                                         :body  => 'last topic body',
+                                         :permalink => 'last-topic')
+last_topic.save!
 
 topic =
 Topic.post       user, topic_attrs

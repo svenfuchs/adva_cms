@@ -1,12 +1,4 @@
 require File.expand_path(File.dirname(__FILE__) + "/../test_helper")
-  
-# TODO
-# try stubbing #perform_action for it_guards_permissions
-# specify update_all action
-# somehow publish passed/failed expectations from RR to test/unit result?
-# make --with=access_control,caching options accessible from the console (Test::Unit runner)
-
-# With.aspects << :access_control
 
 class PostsControllerTest < ActionController::TestCase
   tests PostsController
