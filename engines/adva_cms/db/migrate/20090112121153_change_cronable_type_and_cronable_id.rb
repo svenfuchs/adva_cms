@@ -8,8 +8,8 @@ class ChangeCronableTypeAndCronableId < ActiveRecord::Migration
 
   def self.down
     rename_column :cron_jobs, :cronable_type, :cornable_type
-    rename_column :cron_jobs, :cronable_type, :cornable_type
+    rename_column :cron_jobs, :cronable_id, :cornable_id
     change_column :cron_jobs, :cornable_type, :string, :null => false
-    change_column :cron_jabs, :cornable_id, :integer, :null => false
+    change_column :cron_jobs, :cornable_id, :integer, :null => false
   end
 end
