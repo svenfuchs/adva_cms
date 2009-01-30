@@ -45,7 +45,7 @@ describe Cronjob do
       end
 
       it "should return full runner command with gem path, ruby, command and WITH autoclean" do
-        @cronjob.due_at = DateTime.now
+        @cronjob.due_at = Time.zone.now
         @cronjob.runner_command.should == 
           "export GEM_PATH=#{Gem.path.join(":")}; " +
           "#{ruby_path} -rubygems #{RAILS_ROOT}/script/runner -e test 'test_command; " +
@@ -54,16 +54,19 @@ describe Cronjob do
     end
     
     describe "due_at=" do
-      it "should accept datetime hash and update cronjob fields" do
-        @cronjob.due_at = {:minute => "01", :hour => "01", :day => "01", :month => "01"}
-        @cronjob.minute.should == "01"
-        @cronjob.hour.should == "01"
-        @cronjob.day.should == "01"
-        @cronjob.month.should == "01"
-      end
-      
       it "should accept DateTime object and update cronjob fields" do
         @cronjob.due_at = DateTime.new 2009,01,15,10,30
+        @cronjob.minute.should == "30"
+        @cronjob.hour.should == "10"
+        @cronjob.day.should == "15"
+        @cronjob.month.should == "1"
+      end
+
+      it "should accept TimeWithZone object and update cronjob fields with localtime" do
+        Time.zone = 2
+        duetime_in_user_time_zone = Time.zone.local(2009,01,15,10,30).in_time_zone(8)
+
+        @cronjob.due_at = duetime_in_user_time_zone   
         @cronjob.minute.should == "30"
         @cronjob.hour.should == "10"
         @cronjob.day.should == "15"
@@ -72,19 +75,14 @@ describe Cronjob do
     end
     
     describe "due_at" do
-      it "should be nil when there is no exact due-time" do
+      it "should be nil when there is no duetime" do
         @cronjob.due_at.should == nil
-      end
-      
-      it "should show provide DateTime" do
-        @cronjob.due_at = {:minute => "01", :hour => "01", :day => "01", :month => "01"}
-        @cronjob.due_at.should == DateTime.new(Date.today.year, 1, 1, 1, 1)
       end
       
       it "should be nil when there is multiple times" do
-        @cronjob.due_at = {:minute => "10/5", :hour => "01", :day => "01", :month => "01"}
+        @cronjob.minute = "10/5"
         @cronjob.due_at.should == nil
-        @cronjob.due_at = {:minute => "5-10", :hour => "01", :day => "01", :month => "01"}
+        @cronjob.minute = "5-10"
         @cronjob.due_at.should == nil
       end
     end

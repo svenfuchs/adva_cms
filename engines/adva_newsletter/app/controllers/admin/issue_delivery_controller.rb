@@ -6,7 +6,7 @@ class Admin::IssueDeliveryController < Admin::BaseController
     if params[:send_all].present?
       @issue.deliver ? flash[:notice] = t(:"adva.newsletter.flash.send_all") : failure_message
     elsif params[:send_all_later].present?
-      @issue.deliver(:later_at => params[:publish_at]) ? flash[:notice] = t(:"adva.newsletter.flash.send_all_later") : failure_message
+      @issue.deliver(:later_at => params[:deliver_at]) ? flash[:notice] = t(:"adva.newsletter.flash.send_all_later") : failure_message
     else
       @issue.deliver(:to => current_user) ? flash[:notice] = t(:"adva.newsletter.flash.send_preview_issue") : failure_message
     end

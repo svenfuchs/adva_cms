@@ -27,9 +27,9 @@ describe Email do
   end
   
   describe "methods:" do
-    describe "self.create_cronjob" do
+    describe "self.start_delivery" do
       it "should create cronjob" do
-        response = Email.create_cronjob
+        response = Email.start_delivery
         response.class.should == Cronjob 
         response.command.should == "Email.deliver_all"
       end

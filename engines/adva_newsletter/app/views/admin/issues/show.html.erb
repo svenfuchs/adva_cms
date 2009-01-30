@@ -21,8 +21,7 @@
           <%= submit_tag t(:"adva.newsletter.button.send_now"), :name => "send_all" %>
         </span>
         <span id="send-later">
-          <%= select_time Time.now + 5.minutes, :prefix => "publish_at", :time_separator => ":" %> - 
-          <%= select_date Date.today, :prefix => "publish_at", :order => [:day, :month], :discard_year => true %>
+          <%= f.datetime_select :deliver_at, :default => Time.zone.now, :prefix => "deliver_at", :discard_year => true %>
           <%= submit_tag t(:"adva.newsletter.button.send_later"), :name => "send_all_later" %>
         </span>
       </div>
@@ -35,7 +34,7 @@
                         :html => {:method => :delete} do |f| %>
         <%= submit_tag t(:"adva.newsletter.button.cancel_delivery") %>
         <span id="delivery_time">
-          <%= t(:"adva.newsletter.delivery_due_time", :delivery_time => l(@issue.due_at, :format => :long)) %>
+          <%= t(:"adva.newsletter.label.issue_deliver_at_long", :delivery_time => l(@issue.deliver_at, :format => :long)) %>
         </span>
       <% end %>
     </div>

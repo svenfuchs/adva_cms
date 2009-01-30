@@ -34,7 +34,7 @@ de:
         issues: Ausgaben
         subscribers: Abonnenten
         deleted_issues: Gelöschte Ausgaben
-        issue_publish_at: "oder später versenden:"
+        issue_deliver_at: "oder später versenden:"
         email: Absender (E-Mail)
         published: Newsletter veröffentlichen
       titles:

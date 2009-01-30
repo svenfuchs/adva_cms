@@ -3,7 +3,7 @@ class Email < ActiveRecord::Base
   validates_presence_of :from, :to, :mail
   
   class << self
-    def create_cronjob
+    def start_delivery
       Cronjob.create :cron_id => "email_deliver_all", :command => "Email.deliver_all"
     end
     

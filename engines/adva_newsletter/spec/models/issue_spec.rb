@@ -260,17 +260,6 @@ describe Issue do
       end
     end
     
-    describe "due_at" do
-      it "should return nil when not queued state" do
-        @issue.due_at.should == nil
-      end
-      
-      it "should return due time when queue mode" do
-        @issue.queued_state!
-        @issue.due_at.should == nil
-      end
-    end
-    
     describe "email" do
       it "should provide newsletter email" do
         @issue.newsletter.email = "newsletter@example.org"

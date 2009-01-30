@@ -4,7 +4,7 @@ class Issue < BaseIssue
   belongs_to :newsletter, :counter_cache => true
   has_one :cronjob, :as => :cronable
 
-  attr_accessible :title, :body, :filter, :draft, :tracking_source, :track, :tracking_campaign
+  attr_accessible :title, :body, :filter, :draft, :deliver_at, :tracking_source, :track, :tracking_campaign
   validates_presence_of :title, :body, :newsletter_id
 
   named_scope :all_included, :include => :newsletter
@@ -48,11 +48,6 @@ class Issue < BaseIssue
     has_tracking_enabled? ? track_links(attributes["body_html"]) : attributes["body_html"]
   end
 
-  def due_at
-    return nil unless queued?
-    cronjob.due_at if cronjob
-  end
-
 ### State management
   def draft_state!
     return nil unless published?
@@ -72,7 +67,7 @@ class Issue < BaseIssue
   def published_state!
     return nil unless (draft? || queued?)
     if queued?
-      cronjob.destroy
+      cronjob.destroy if cronjob
       reload
     end
     self.state = "hold" # state should be "published", but it does not make sence with newsletter issue
@@ -136,10 +131,16 @@ class Issue < BaseIssue
 ### Delivery
   def deliver_all(datetime = nil)
     return nil unless published?
-    queued_state!
-    datetime ||= DateTime.now + 3.minutes
-    cronjob = self.build_cronjob :command => "Issue.find(#{self.id}).create_emails", :due_at => datetime
-    cronjob.save
+    if datetime.nil?
+      self.deliver_at = (Time.zone.now + 3.minutes)
+    else
+      update_attributes(datetime)
+    end
+
+    if save
+      cronjob = self.build_cronjob :command => "Issue.find(#{self.id}).create_emails", :due_at => deliver_at
+      queued_state! if cronjob.save
+    end
   end
 
   def deliver_to(user)
@@ -147,11 +148,13 @@ class Issue < BaseIssue
   end
 
   def create_emails
-    self.newsletter.users.each do |user|
-      create_email_to(user)
-    end
     delivered_state!
-    Email.create_cronjob
+    if newsletter.subscriptions.present?
+      newsletter.users.each do |user|
+        create_email_to(user)
+      end
+      Email.start_delivery
+    end
   end
 
   def create_email_to(user)

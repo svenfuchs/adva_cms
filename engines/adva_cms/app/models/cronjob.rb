@@ -8,22 +8,19 @@ class Cronjob < ActiveRecord::Base
   after_save :create_crontab
   after_destroy :remove_crontab
   
-  def full_id
-    RAILS_ENV == 'test' ? "test-#{RAILS_ROOT}-#{self.cron_id}-#{self.id}" : "#{RAILS_ROOT}-#{self.cron_id}-#{self.id}"
-  end
-
+  # Handy shortcut to create cronjob using DateTime object as due time.
+  # DateTime argument will be converted to localtime because cronjobs needs same zone as OS.
+  #
+  # Example:
+  # Cronjob.new :command => "Email.destroy_all", :due_at => (Time.zone.now + 10.minutes)
+  #
   def due_at=(datetime)
-    if datetime.kind_of? Hash
-      self.minute  = datetime[:minute]
-      self.hour    = datetime[:hour]
-      self.day     = datetime[:day]
-      self.month   = datetime[:month]
-      self.weekday = "*"
-    elsif datetime.kind_of? DateTime
-      self.minute  = datetime.min.to_s
-      self.hour    = datetime.hour.to_s
-      self.day     = datetime.day.to_s
-      self.month   = datetime.month.to_s
+    if datetime.present?
+      localtime = datetime.class == ActiveSupport::TimeWithZone ? datetime.localtime : datetime
+      self.minute  = localtime.min.to_s
+      self.hour    = localtime.hour.to_s
+      self.day     = localtime.day.to_s
+      self.month   = localtime.month.to_s
       self.weekday = "*"
     end
   end
@@ -42,6 +39,10 @@ class Cronjob < ActiveRecord::Base
     end
   end
   
+  def full_id
+    RAILS_ENV == 'test' ? "test-#{RAILS_ROOT}-#{self.cron_id}-#{self.id}" : "#{RAILS_ROOT}-#{self.cron_id}-#{self.id}"
+  end
+
   def create_crontab
     CronEdit::Crontab.Add self.full_id, { :command => self.runner_command,
                                                 :minute => self.minute,

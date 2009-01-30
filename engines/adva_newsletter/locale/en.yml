@@ -9,7 +9,6 @@ en:
       total_newsletters: "Total newsletters: {{newsletters_count}}"
       total_issues: "Total issues: {{issues_count}}"
       total_subscribers: "Total subscribers: {{subscriptions_count}}"
-      delivery_due_time: "Issue will be delivered at {{delivery_time}}"
       delivered_at: "Delivered at {{delivered_time}}"
       no_issues: There are no issues.
       question_save_issue_as_draft: Yes, save this issue as draft.
@@ -56,7 +55,8 @@ en:
         issue_body: Body
         issue_name: Name
         issue_created_at: Created
-        issue_publish_at: Publish at
+        issue_deliver_at: Deliver at
+        issue_deliver_at_long: "Issue will be delivered at {{delivery_time}}"
       title:
         edit: Edit newsletter
         edit_issue: Edit issue
