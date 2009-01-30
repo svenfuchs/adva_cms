@@ -61,13 +61,13 @@ module CacheReferences
   
     protected
 
-      def render_with_cache_reference_tracking(*args)
+      def render_with_cache_reference_tracking(*args, &block)
         options = args.last.is_a?(Hash) ? args.last : {}
         # skips caching if :skip_caching => true was passed or action is not configured to be cached
         skip_caching! if options.delete(:skip_caching) || !(track_options.has_key?(current_action))
 
         setup_method_call_tracking if track_method_calls?
-        returning render_without_cache_reference_tracking(*args) do
+        returning render_without_cache_reference_tracking(*args, &block) do
           save_cache_references if track_method_calls?
         end
       end

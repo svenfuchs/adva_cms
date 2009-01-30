@@ -21,9 +21,9 @@ ActionController::Base.class_eval do
   }
   cattr_accessor :field_error_procs
   
-  def render_with_error_proc(options = {}, *args)
+  def render_with_error_proc(options = {}, *args, &block)
     with_error_proc(extract_error_proc_name(options)) do
-      render_without_error_proc(options, *args)
+      render_without_error_proc(options, *args, &block)
     end
   end
   alias_method_chain :render, :error_proc unless method_defined? :render_without_error_proc
