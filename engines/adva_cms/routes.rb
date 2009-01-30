@@ -1,27 +1,27 @@
 map.section                     'sections/:section_id',
                                 :controller   => 'sections',
                                 :action       => "show",
-                                :requirements => { :method => :get }
+                                :conditions => { :method => :get }
 
 map.section_article             'sections/:section_id/articles/:permalink',
                                 :controller   => 'sections',
                                 :action       => "show",
-                                :requirements => { :method => :get }
+                                :conditions => { :method => :get }
 
 map.formatted_section_comments  'sections/:section_id/comments.:format',
                                 :controller   => 'sections',
                                 :action       => "comments",
-                                :requirements => { :method => :get }
+                                :conditions => { :method => :get }
 
 map.formatted_section_article_comments  'sections/:section_id/articles/:permalink.:format',
                                 :controller   => 'sections',
                                 :action       => "comments",
-                                :requirements => { :method => :get }
+                                :conditions => { :method => :get }
 
 
 map.connect 'admin',            :controller   => 'admin/sites',
                                 :action       => 'index',
-                                :requirements => { :method => :get }
+                                :conditions => { :method => :get }
 
 map.resources :sites,           :controller   => 'admin/sites',
                                 :path_prefix  => 'admin',
