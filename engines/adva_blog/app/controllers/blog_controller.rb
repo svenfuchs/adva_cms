@@ -42,7 +42,7 @@ class BlogController < BaseController
       @article = @section.articles.find_by_permalink params[:permalink], :include => :author
       if !@article or (!published_on_given_date? and !has_permission?('update', 'article'))
         # the article was not found OR the article was not published on the given date AND
-        # user does not have permission to view the article
+        # user not allowed to view the article
         raise ActiveRecord::RecordNotFound
       end
     end

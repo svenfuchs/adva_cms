@@ -65,7 +65,7 @@ module IntegrationTests
   
     def visits_missing_blog_tag_index
       get "/tags/does-not-exist"
-    
+
       assert_status 404
     end
   

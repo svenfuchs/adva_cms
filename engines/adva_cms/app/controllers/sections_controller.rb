@@ -17,13 +17,15 @@ class SectionsController < BaseController
   protected
 
     def set_section; super(Section); end
-
+    
     def set_article
-      if params[:permalink].blank?
-        @article = @section.articles.primary
-      else
-        @article = @section.articles.find_by_permalink params[:permalink], :include => :author
-        raise ActiveRecord::RecordNotFound unless @article
+      @article = params[:permalink] ? 
+                 @section.articles.find_by_permalink(params[:permalink], :include => :author) :
+                 @section.articles.primary
+
+      if !@article or (!@article.published? and !has_permission?('update', 'article'))
+        # the article was not found OR (the article was not published AND user not allowed to view the article)
+        raise ActiveRecord::RecordNotFound
       end
     end
 
@@ -37,20 +39,4 @@ class SectionsController < BaseController
     def current_resource
       @article || @section
     end
-
-    # experimental ... not sure if that's a good idea, but it would reduce quite
-    # some routes, i.e. even increase performance
-    # def process(*args)
-    #   forward_polymorphic(*args) or super
-    # end
-
-    # def forward_polymorphic(request, *args)
-    #   if id = request.parameters[:id] || request.parameters[:section_id]
-    #     section = Section.find(id)
-    #     unless section.instance_of?(Section)
-    #       controller = "#{section.type.classify}Controller".constantize
-    #       return controller.process(request, *args)
-    #     end
-    #   end
-    # end
 end
