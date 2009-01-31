@@ -8,8 +8,8 @@ module ActiveRecord
       def has_many_comments(options = {})
         return if has_many_comments?
 
-        options[:order] = 'comments.created_at'
         options[:as] = :commentable if options.delete(:polymorphic)
+        options[:order] = 'comments.created_at'
         options[:class_name] ||= 'Comment'
 
         has_counter :comments,
@@ -20,6 +20,15 @@ module ActiveRecord
                     :class_name => 'Comment',
                     :after_create => false,
                     :after_destroy => false
+        
+        has_many_comments_associations(options)
+
+        include InstanceMethods
+      end
+        
+      def has_many_comments_associations(options = {})
+        options[:order] = 'comments.created_at, comments.id'
+        options[:class_name] ||= 'Comment'
 
         with_options options do |c|
           c.has_many :comments, :dependent => :delete_all do
@@ -30,12 +39,18 @@ module ActiveRecord
               find :last
             end
           end
-          c.has_many :approved_comments, :conditions => ["comments.approved = ? AND comments.commentable_type <> 'Topic'", 1], :class_name => 'Comment'
-          c.has_many :unapproved_comments, :conditions => ["comments.approved = ? AND comments.commentable_type <> 'Topic'", 0], :class_name => 'Comment'
+          
+          # FIXME why do we overwrite the class_name option here? shouldn't we 
+          # use the one that was passed with the options hash?
+          # FIXME can we remove the Topic dependency here? just ignore it because
+          # there's no concept of approving comments in the Forum?
+          condition = "comments.approved = ? AND comments.commentable_type <> 'Topic'"
+          c.has_many :approved_comments,   :conditions => [condition, 1], :class_name => 'Comment'
+          c.has_many :unapproved_comments, :conditions => [condition, 0], :class_name => 'Comment'
+          
+          # FIXME why is this on the Forum and not here?
           # c.has_one  :recent_comment, :order => "comments.created_at DESC"
         end
-
-        include InstanceMethods
       end
 
       def has_many_comments?

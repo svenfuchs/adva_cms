@@ -46,9 +46,10 @@ class Topic < ActiveRecord::Base
     end
   end
   
+  # FIXME why not just overwrite update_attributes here and call super?
   def revise(attributes)
+    # self.sticky, self.locked = attributes.delete(:sticky), attributes.delete(:locked)
     board_id = attributes.delete(:board_id)
-    self.sticky, self.locked = attributes.delete(:sticky), attributes.delete(:locked)
     if result = update_attributes(attributes)
       move_to_board(board_id) if board_id
     end
@@ -56,6 +57,7 @@ class Topic < ActiveRecord::Base
   end
   
   def move_to_board(board_id)
+    # FIXME only move if the board_id actually different from self.board_id
     if board
       board.topics_counter.decrement!
       board.comments_counter.decrement_by!(comments_count)

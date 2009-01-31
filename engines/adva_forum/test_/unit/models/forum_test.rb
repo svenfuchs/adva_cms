@@ -15,15 +15,15 @@ class ForumTest < ActiveSupport::TestCase
   test "is a kind of Section" do
     @forum.should be_kind_of(Section)
   end
-
+  
   test "acts as a commentable" do
     Forum.should act_as_commentable
   end
-
+  
   test "has a topics counter" do
     Forum.should have_counter(:topics)
   end
-
+  
   test "has a comments counter" do
     Forum.should have_counter(:comments)
   end
@@ -45,15 +45,15 @@ class ForumTest < ActiveSupport::TestCase
   test "has many boards" do
     @forum.should have_many(:boards)
   end
-
+  
   test "has many topics" do
     @forum.should have_many(:topics)
   end
-
+  
   test "has one recent topic" do
     @forum.should have_one(:recent_topic)
   end
-
+  
   test "has one recent comment" do
     @forum.should have_one(:recent_comment)
   end
@@ -83,9 +83,9 @@ class ForumTest < ActiveSupport::TestCase
     @forum.comments_per_page = 'ten'
     @forum.valid?.should be_false
   end
-
+  
   # latest_topics_count
-
+  
   test "#latest_topics_count, passes when #latest_topics_count is numerical" do
     @forum.latest_topics_count = 10
     @forum.valid?.should be_true
@@ -143,7 +143,7 @@ class ForumTest < ActiveSupport::TestCase
   #     Forum.after_create.should include(:set_comments_count)
   #   end
   # end
-
+  
   # describe '#after_topic_update' do
   #   before :each do
   #     @forum.topics.stub!(:count)

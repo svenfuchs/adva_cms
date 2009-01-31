@@ -58,20 +58,12 @@ class BoardTest < ActiveSupport::TestCase
     @board.should have_one(:recent_comment)
   end
   
-  # FIXME make these things to work without stubbing
-  
   test "#recent_topic returns the most recent topic" do
-    @recent_topic = @board.topics.last
-    stub(@recent_topic).last_updated_at.returns Time.now
-    @board.recent_topic.should == @recent_topic
+    @board.recent_topic.should == @board.topics.first # topics are ordered descending
   end
   
-  # FIXME make these things to work without stubbing
-  
   test "#recent_comment returns the most recent comment" do
-    @recent_comment = @board.comments.last
-    stub(@recent_comment).last_updated_at.returns Time.now
-    @board.recent_comment.should == @recent_comment
+    @board.recent_comment.should == @board.comments.last # comments are ordered ascending
   end
 
   test "has a comments counter" do

@@ -12,7 +12,7 @@ class Board < ActiveRecord::Base
   # Needs to be here before associations, otherwise topics are deleted on last board
   before_destroy    :unassign_topics, :decrement_counters
   # Needs to be here after before_destroy, otherwise topics posts are lost when last board is deleted
-  has_many_comments
+  has_many_comments :class_name => 'Post'
 
   belongs_to :site
   belongs_to :section
@@ -26,7 +26,7 @@ class Board < ActiveRecord::Base
                             :foreign_key => :board_id
 
   has_one  :recent_comment, :class_name => 'Post',
-                            :order => "comments.created_at DESC",
+                            :order => "comments.created_at DESC, comments.id DESC",
                             :foreign_key => :board_id
   
   def after_comment_update_with_cache_attributes(comment)
