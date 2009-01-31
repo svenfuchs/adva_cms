@@ -78,24 +78,16 @@ class BoardTest < ActiveSupport::TestCase
   
   # Counters
   
-  test "forum should have three boards" do
-    @forum.boards.count.should == 3
-  end
-
-  test "should have two topics" do
-    @board.topics.count.should == 2
-  end
-
-  test "should have two comments" do
-    @board.comments.count.should == 2
+  test "forum should have counted the boards" do
+    @forum.boards.count.should == @forum.boards.count
   end
 
   test "should have counted the comments" do
-    @board.comments_count.should == 2
+    @board.comments_count.should == @board.comments.count
   end
 
   test "should have counted the topics" do
-    @board.topics_count.should == 2
+    @board.topics_count.should == @board.topics.count
   end
   
   # Cached attributes
