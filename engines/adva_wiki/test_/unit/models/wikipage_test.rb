@@ -16,8 +16,7 @@ class WikipageTest < ActiveSupport::TestCase
   end
   
   # CALLBACKS
-  
-  test 'sets its  attribute to the current time before create' do # TODO why does it do this??
+  test 'sets its published attribute to the current time before create' do # FIXME why does it do this??
     Wikipage.before_create.should include(:set_published)
   end
 
@@ -38,12 +37,12 @@ class WikipageTest < ActiveSupport::TestCase
   end
 
   # filtering
-  test "it allows using insecure html in article body and excerpt" do
+  test "it does not allow using insecure html in article body and excerpt" do
     # @wikipage = Wikipage.new :body => 'p{position:absolute; top:50px; left:10px; width:150px; height:150px}. secure html',
     #                          :site => Site.first, :section => @wiki, :author => stub_user
-    @wikipage.body = 'p{position:absolute; top:50px; left:10px; width:150px; height:150px}. insecure css'
+    @wikipage.body = 'p{position:absolute; top:50px; left:10px; width:150px; height:150px}. the paragraph'
     @wikipage.filter = 'textile_filter'
     @wikipage.save(false)
-    @wikipage.body_html.should == %(<p style="position:absolute; top:50px; left:10px; width:150px; height:150px;">insecure css</p>)
+    @wikipage.body_html.should == %(<p>the paragraph</p>)
   end
 end
