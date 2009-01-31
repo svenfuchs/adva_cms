@@ -82,7 +82,7 @@ module Matchy
       end
       
       def fail!(operator)
-        flunk failure_message(@match ? failure_message(operator) : negative_failure_message(operator))
+        flunk @match ? failure_message(operator) : negative_failure_message(operator)
       end
       
       def failure_message(operator)

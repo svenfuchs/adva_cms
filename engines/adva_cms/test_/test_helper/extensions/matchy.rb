@@ -26,9 +26,9 @@ module Matchy
         Matchy::Expectations::BeInstanceOf.new(expected, self)
       end
 
-      def be_kind_of(expected)
-        Matchy::Expectations::BeKindOf.new(expected, self)
-      end
+      # def be_kind_of(expected)
+      #   Matchy::Expectations::BeKindOf.new(expected, self)
+      # end
 
       def be_empty
         Matchy::Expectations::BeEmpty.new(nil, self)
@@ -46,9 +46,9 @@ module Matchy
         Matchy::Expectations::BeFile.new(nil, self)
       end
 
-      def respond_to(expected)
-        Matchy::Expectations::RespondTo.new(expected, self)
-      end
+      # def respond_to(expected)
+      #   Matchy::Expectations::RespondTo.new(expected, self)
+      # end
 
       def validate_presence_of(attribute, options = {})
         Matchy::Expectations::ValidatePresenceOf.new(attribute, self, options)
@@ -110,12 +110,12 @@ module Matchy
       receiver.instance_of? @expected
     end
 
-    matcher "BeKindOf", 
-            "Expected %s to be a kind of %s.", 
-            "Expected %s not to be a kind of %s." do |receiver|
-      @receiver = receiver
-      receiver.kind_of? @expected
-    end
+    # matcher "BeKindOf", 
+    #         "Expected %s to be a kind of %s.", 
+    #         "Expected %s not to be a kind of %s." do |receiver|
+    #   @receiver = receiver
+    #   receiver.kind_of? @expected
+    # end
 
     matcher "BeEmpty", 
             "Expected %s to be empty.", 
@@ -145,12 +145,12 @@ module Matchy
       File.exists?(receiver)
     end
 
-    matcher "RespondTo", 
-            "Expected %s to respond to %s.", 
-            "Expected %s not to respond to %s." do |receiver|
-      @receiver = receiver
-      receiver.respond_to? @expected
-    end
+    # matcher "RespondTo", 
+    #         "Expected %s to respond to %s.", 
+    #         "Expected %s not to respond to %s." do |receiver|
+    #   @receiver = receiver
+    #   receiver.respond_to? @expected
+    # end
 
     matcher "ValidatePresenceOf", 
             "Expected %s to validate the presence of %s.", 

@@ -10,8 +10,20 @@ class TestModals < Test::Unit::TestCase
     3.should(@expectation)
   end
   
+  def test_will
+    3.will(@expectation)
+  end
+  
   def test_should_not
     3.should_not(@bad_expectation)
+  end
+  
+  def test_will_not
+    3.will_not(@bad_expectation)
+  end
+  
+  def test_wont
+    3.wont(@bad_expectation)
   end
   
   def test_should_operator_expectation_returned

@@ -1,7 +1,0 @@
-#!/usr/bin/env ruby
-rails_root = File.expand_path(File.dirname(__FILE__) + '/../../..')
-File.exist? rails_root + '/public/index.html' and raise "You must run script/setup first!"
-$LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + "/../plugins/rspec/lib"))
-require 'spec'
-puts 'Running specs ...'
-exit ::Spec::Runner::CommandLine.run(::Spec::Runner::OptionParser.parse(ARGV, STDERR, STDOUT))

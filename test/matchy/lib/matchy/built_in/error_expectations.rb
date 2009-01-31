@@ -1,6 +1,11 @@
 module Matchy
   module Expectations
     class RaiseErrorExpectation < Base
+      def initialize(expected, test_case)
+        @error = nil
+        super
+      end
+
       def matches?(receiver)
         @receiver = receiver
         begin
@@ -9,11 +14,11 @@ module Matchy
         rescue StandardError => e
           @error = e
           return false unless e.class.ancestors.include?(@expected)
-
+        
           return true
         end
       end
-
+      
       def failure_message
         extra = ""
         if @error
@@ -21,16 +26,21 @@ module Matchy
         else
           extra = "but none was raised"
         end
-
+        
         "Expected #{@receiver.inspect} to raise #{@expected.name}, #{extra}."
       end
-
+      
       def negative_failure_message
         "Expected #{@receiver.inspect} to not raise #{@expected.name}."
       end
     end
-
+    
     class ThrowSymbolExpectation < Base
+      def initialize(expected, test_case)
+        @thrown_symbol = nil
+        super
+      end
+
       def matches?(receiver)
         @receiver = receiver
         begin
@@ -42,11 +52,11 @@ module Matchy
           return @expected == @thrown_symbol
         end
       end
-
+      
       def failure_message
         "Expected #{@receiver.inspect} to throw :#{@expected}, but #{@thrown_symbol ? ':' + @thrown_symbol.to_s + ' was thrown instead' : 'no symbol was thrown'}."
       end
-
+      
       def negative_failure_message
         "Expected #{@receiver.inspect} to not throw :#{@expected}."
       end
@@ -64,7 +74,7 @@ module Matchy
       def raise_error(obj = StandardError)
         Matchy::Expectations::RaiseErrorExpectation.new(obj, self)
       end
-
+      
       # Expects a lambda to throw an error.
       #
       # ==== Examples
@@ -74,7 +84,7 @@ module Matchy
       #
       def throw_symbol(obj)
         Matchy::Expectations::ThrowSymbolExpectation.new(obj, self)
-      end
+      end      
     end
   end
 end

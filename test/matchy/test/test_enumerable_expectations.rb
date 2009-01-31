@@ -65,27 +65,27 @@ class TestEnumerableExpectations < Test::Unit::TestCase
     obj = include(1)
     obj.matches?([4,5,6])
     
-    obj.failure_message.should be "Expected [4, 5, 6] to include [1]."
+    obj.failure_message.should be("Expected [4, 5, 6] to include [1].")
   end
   
   def test_include_negative_fail_message
     obj = include(1)
     obj.matches?([4,5,6])
     
-    obj.negative_failure_message.should be "Expected [4, 5, 6] to not include [1]."
+    obj.negative_failure_message.should be("Expected [4, 5, 6] to not include [1].")
   end
   
   def test_exclude_fail_message
     obj = exclude(4)
     obj.matches?([4,5,6])
     
-    obj.failure_message.should be "Expected [4, 5, 6] to exclude [4]."
+    obj.failure_message.should be("Expected [4, 5, 6] to exclude [4].")
   end
   
   def test_exclude_negative_fail_message
     obj = exclude(4)
     obj.matches?([4,5,6])
     
-    obj.negative_failure_message.should be "Expected [4, 5, 6] to not exclude [4]."
+    obj.negative_failure_message.should be("Expected [4, 5, 6] to not exclude [4].")
   end
 end

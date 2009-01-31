@@ -16,6 +16,8 @@ module Matchy
       end
     end
     
+    alias :will :should
+    
     # Tests that an expectation doesn't match the given object.
     #
     # ==== Examples
@@ -31,6 +33,9 @@ module Matchy
         return Matchy::Expectations::OperatorExpectation.new(self, false)
       end
     end
+    
+    alias :will_not :should_not
+    alias :wont :should_not
     
     protected
     def match_expectation(expectation, match)

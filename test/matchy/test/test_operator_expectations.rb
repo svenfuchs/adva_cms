@@ -138,22 +138,20 @@ class TestOperatorExpectations < Test::Unit::TestCase
   def test_fail_message
     obj = Matchy::Expectations::OperatorExpectation.new(3, true)
     
-    def obj.fail!(fail)
+    def obj.flunk(msg)
+      msg
     end
     
-    obj == 4
-    
-    obj.send(:failure_message, "==").should =~ /Expected 3 to == 4./
+    (obj == 4).should == "Expected 3 to == 4."
   end
   
   def test_negative_fail_message
-    obj = Matchy::Expectations::OperatorExpectation.new(3, true)
+    obj = Matchy::Expectations::OperatorExpectation.new(3, false)
     
-    def obj.fail!(fail)
+    def obj.flunk(msg)
+      msg
     end
     
-    obj == 3
-    
-    obj.send(:negative_failure_message, "==").should =~ /Expected 3 to not == 3./
+    (obj == 3).should == "Expected 3 to not == 3."
   end
 end

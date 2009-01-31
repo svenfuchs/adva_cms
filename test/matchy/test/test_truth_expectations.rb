@@ -135,28 +135,28 @@ class TestTruthExpectations < Test::Unit::TestCase
     obj = equal(4)
     obj.matches?(5)
     
-    obj.failure_message.should be "Expected 5 to equal 4."
+    obj.failure_message.should be("Expected 5 to equal 4.")
   end
   
   def test_equal_negative_fail_message
     obj = equal(5)
     obj.matches?(5)
     
-    obj.negative_failure_message.should be "Expected 5 to not equal 5."
+    obj.negative_failure_message.should be("Expected 5 to not equal 5.")
   end
   
   def test_eql_fail_message
     obj = eql(4)
     obj.matches?(5)
     
-    obj.failure_message.should be "Expected 5 to eql 4."
+    obj.failure_message.should be("Expected 5 to eql 4.")
   end
   
-  def test_eql_negative_fail_message
+  def test_eql_negative_fail_message_for_eql
     obj = eql(5)
     obj.matches?(5)
     
-    obj.negative_failure_message.should be "Expected 5 to not eql 5."
+    obj.negative_failure_message.should be("Expected 5 to not eql 5.")
   end
   
   def test_exist_fail_message
@@ -177,41 +177,82 @@ class TestTruthExpectations < Test::Unit::TestCase
     obj = be_close(3.0)
     obj.matches?(6.0)
     
-    obj.failure_message.should be "Expected 6.0 to be close to 3.0 (delta: 0.3)."
+    obj.failure_message.should be("Expected 6.0 to be close to 3.0 (delta: 0.3).")
   end
   
   def test_be_close_negative_fail_message
     obj = be_close(5.0)
     obj.matches?(5.0)
     
-    obj.negative_failure_message.should be "Expected 5.0 to not be close to 5.0 (delta: 0.3)."
+    obj.negative_failure_message.should be("Expected 5.0 to not be close to 5.0 (delta: 0.3).")
   end
   
   def test_be_fail_message
     obj = be(4)
     obj.matches?(5)
     
-    obj.failure_message.should be "Expected 5 to be 4."
+    obj.failure_message.should be("Expected 5 to be 4.")
   end
   
   def test_be_negative_fail_message
     obj = be(5)
     obj.matches?(5)
     
-    obj.negative_failure_message.should be "Expected 5 to not be 5."
+    obj.negative_failure_message.should be("Expected 5 to not be 5.")
   end
   
   def test_satisfy_fail_message
     obj = satisfy(lambda {|x| x == 4})
     obj.matches?(6)
     
-    obj.failure_message.should be "Expected 6 to satisfy given block."
+    obj.failure_message.should be("Expected 6 to satisfy given block.")
   end
   
-  def test_eql_negative_fail_message
+  def test_eql_negative_fail_message_for_matches
     obj = satisfy(lambda {|x| x == 4})
     obj.matches?(4)
     
-    obj.negative_failure_message.should be "Expected 4 to not satisfy given block."
+    obj.negative_failure_message.should be("Expected 4 to not satisfy given block.")
   end
+  
+  def test_kind_of
+    3.should be_kind_of(Fixnum)
+  end
+  
+  def test_kind_of_fail
+    lambda {
+      3.should be_kind_of(Hash)
+    }.should raise_error(Test::Unit::AssertionFailedError)
+  end
+  
+  def test_negative_kind_of
+    3.should_not be_kind_of(Hash)
+  end
+  
+  def test_negative_kind_of_fail
+    lambda {
+      3.should_not be_kind_of(Fixnum)
+    }.should raise_error(Test::Unit::AssertionFailedError)
+  end
+
+  def test_respond_to
+    "foo".should respond_to(:length)
+  end
+  
+  def test_respond_to_fail
+    lambda {
+      "foo".should respond_to(:nonexistant_method)
+    }.should raise_error(Test::Unit::AssertionFailedError)
+  end
+  
+  def test_negative_respond_to
+    "foo".should_not respond_to(:nonexistant_method)
+  end
+  
+  def test_negative_respond_to_fail
+    lambda {
+      "foo".should_not respond_to(:length)
+    }.should raise_error(Test::Unit::AssertionFailedError)
+  end
+
 end
