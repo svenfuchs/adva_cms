@@ -13,7 +13,7 @@ class ForumControllerWithBoardsTest < ActionController::TestCase
     @controller.should be_kind_of(BaseController)
   end
   
-  describe "Controller: GET to show" do
+  describe "GET to show" do
     action { get :show, default_params }
   
     with :access_granted do
@@ -22,10 +22,22 @@ class ForumControllerWithBoardsTest < ActionController::TestCase
       it_assigns :topic
       it_renders_template 'forum/show'
       it_caches_the_page :track => ['@topics', '@boards', '@board', '@commentable']
+    
+      it "displays the boards" do
+        has_tag 'table[id=boards]' do
+          has_tag 'tr[id=?]', "board_#{@board.id}"
+          has_tag 'tr[id=?]', "board_#{@another_board.id}"
+        end
+      end
+    
+      it "has the links to view boards" do
+        has_tag 'a[href=?]', forum_board_path(@section, @board)
+        has_tag 'a[href=?]', forum_board_path(@section, @another_board)
+      end
     end
   end
   
-  describe "Controller: GET to show, with board_id" do
+  describe "GET to show, with board_id" do
     action { get :show, default_params.merge(:board_id => @board.id) }
     
     with :access_granted do
@@ -38,23 +50,7 @@ class ForumControllerWithBoardsTest < ActionController::TestCase
     end
   end
   
-  describe "View: GET to show, without board_id" do
-    action { get :show, default_params }
-    
-    it "displays the boards" do
-      has_tag 'table[id=boards]' do
-        has_tag 'tr[id=?]', "board_#{@board.id}"
-        has_tag 'tr[id=?]', "board_#{@another_board.id}"
-      end
-    end
-    
-    it "has the links to view boards" do
-      has_tag 'a[href=?]', forum_board_path(@section, @board)
-      has_tag 'a[href=?]', forum_board_path(@section, @another_board)
-    end
-  end
-  
-  describe "View: GET to show, with board_id of a board that has topics" do
+  describe "GET to show, with board_id of a board that has topics" do
     action { get :show, default_params.merge(:board_id => @board.id) }
     
     it "displays the board topics" do
@@ -66,7 +62,7 @@ class ForumControllerWithBoardsTest < ActionController::TestCase
     end
   end
   
-  describe "View: GET to show, with board_id of a board that has no topics" do
+  describe "GET to show, with board_id of a board that has no topics" do
     action { get :show, default_params.merge(:board_id => @topicless_board.id) }
     
     it "displays empty list of board topics" do

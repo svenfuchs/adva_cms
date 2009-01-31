@@ -9,7 +9,7 @@ class ForumControllerWithoutBoardsTest < ActionController::TestCase
     { :site_id => @site.id, :section_id => @section.id }
   end
   
-  describe "Controller: GET to show" do
+  describe "GET to show" do
     action { get :show, default_params }
     
     it_assigns :boards
@@ -17,10 +17,6 @@ class ForumControllerWithoutBoardsTest < ActionController::TestCase
     it_assigns :topic
     it_renders_template 'forum/show'
     it_caches_the_page :track => ['@topics', '@boards', '@board', '@commentable']
-  end
-  
-  describe "View: GET to show, with topics" do
-    action { get :show, default_params }
     
     it "displays the topics" do
       has_tag 'table[id=topics] tr td[class=topic]'
@@ -31,7 +27,7 @@ class ForumControllerWithoutBoardsTest < ActionController::TestCase
     end
   end
   
-  describe "View: GET to show, without topics" do
+  describe "GET to show, without topics" do
     with :without_topics do
       action { get :show, default_params }
     
