@@ -26,7 +26,7 @@ Rails::Configuration.class_eval do
 
   def default_plugin_paths
     paths = ["#{root_path}/vendor/adva/engines", "#{root_path}/vendor/adva/plugins", "#{root_path}/vendor/plugins"]
-    paths << "#{root_path}/vendor/adva/spec" if ENV['RAILS_ENV'] == 'test'
+    paths << "#{root_path}/vendor/adva/test" if ENV['RAILS_ENV'] == 'test'
     paths
   end
 end
