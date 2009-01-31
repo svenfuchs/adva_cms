@@ -99,13 +99,14 @@ class Topic < ActiveRecord::Base
 
   # FIXME somehow remove the method_chain here. looks ugly.
   def after_comment_update_with_cache_attributes(comment)
-    if comment = comment.frozen? ? comments.last_one : comment
-      update_attributes! :last_updated_at => comment.created_at, :last_comment_id => comment.id, :last_author => comment.author
+    if comment = comment.frozen? ? comments.last : comment
+      update_attributes! :last_updated_at => comment.created_at, 
+                         :last_comment_id => comment.id, 
+                         :last_author => comment.author
+      after_comment_update_without_cache_attributes(comment)
     else
       self.destroy
     end
-    
-    after_comment_update_without_cache_attributes(comment)
   end
   alias_method_chain :after_comment_update, :cache_attributes
   

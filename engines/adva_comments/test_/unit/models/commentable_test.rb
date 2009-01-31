@@ -24,11 +24,6 @@ class CommentableModelTest < ActiveSupport::TestCase
   #   @commentable.comments.by_author(User.new)
   # end
 
-  test 'comments.last_one is a shortcut to find :last' do
-    mock(@commentable.comments).find(:last)
-    @commentable.comments.last_one
-  end
-
   # FIXME
   # test '#approved_comments_count returns the number of the approved comments'
   # TODO and it really should be implemented as a Counter ...

@@ -35,9 +35,6 @@ module ActiveRecord
             def by_author(author)
               find_all_by_author_id_and_author_type(author.id, author.class.name)
             end
-            def last_one
-              find :last
-            end
           end
           
           # FIXME why do we overwrite the class_name option here? shouldn't we 
@@ -47,9 +44,6 @@ module ActiveRecord
           condition = "comments.approved = ? AND comments.commentable_type <> 'Topic'"
           c.has_many :approved_comments,   :conditions => [condition, 1], :class_name => 'Comment'
           c.has_many :unapproved_comments, :conditions => [condition, 0], :class_name => 'Comment'
-          
-          # FIXME why is this on the Forum and not here?
-          # c.has_one  :recent_comment, :order => "comments.created_at DESC"
         end
       end
 

@@ -50,22 +50,6 @@ class BoardTest < ActiveSupport::TestCase
     @board.should belong_to(:last_author)
   end
 
-  test "has one recent topic" do
-    @board.should have_one(:recent_topic)
-  end
-
-  test "has one recent comment" do
-    @board.should have_one(:recent_comment)
-  end
-  
-  test "#recent_topic returns the most recent topic" do
-    @board.recent_topic.should == @board.topics.first # topics are ordered descending
-  end
-  
-  test "#recent_comment returns the most recent comment" do
-    @board.recent_comment.should == @board.comments.last # comments are ordered ascending
-  end
-
   test "has a comments counter" do
     @board.should have_one(:comments_counter)
   end
@@ -116,12 +100,8 @@ class BoardTest < ActiveSupport::TestCase
   
   # Cached attributes
   #
-  # FIXME make these things to work without stubbing
-  #
   # test "should have last_comment_id set" do
-  #   @recent_comment = @board.comments.last
-  #   stub(@recent_comment).last_updated_at.returns Time.now
-  #   @board.last_comment_id.should == @recent_comment.id
+  #   @board.last_comment_id.should == @@board.comments.last.id
   # end
   # 
   # test "should have last_updated_at set" do

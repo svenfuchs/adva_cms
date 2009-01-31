@@ -84,7 +84,7 @@ Forum.create!   :site        => site_with_forums,
                 :permalink   => 'a-forum-with-two-topics',
                 :comment_age => 0
 
-forum_board =
+a_board =
 Board.create!    :site    => site_with_forums,
                  :section => forum_with_boards,
                  :title   => 'a board'
@@ -235,14 +235,16 @@ reply.save!
 board_topic_attrs = {  :site      => site_with_forums,
                        :section   => forum_with_boards,
                        :author    => user,
-                       :board     => forum_board,
+                       :board     => a_board,
                        :title     => 'a board topic',
                        :body      => 'a board topic body',
                        :permalink => 'a-board-topic' }
 
-board_topic =
-Topic.post       user, board_topic_attrs
+board_topic = Topic.post user, board_topic_attrs
 board_topic.save!
+
+board_topic_reply = board_topic.reply user, :body => 'a reply'
+board_topic_reply.save!
 
 another_board_topic =
 Topic.post       admin, board_topic_attrs.merge(:title     => 'another board topic',

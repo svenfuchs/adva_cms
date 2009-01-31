@@ -1,27 +1,16 @@
 class Forum < Section
-  # FIXME class_name not used because Section already has_many_comments
-  has_many_comments_associations :class_name => 'Post', :foreign_key => :section_id
-  
-  has_counter :topics, :as => :section
-
   has_option :topics_per_page, :default => 25
   has_option :comments_per_page, :default => 10
   has_option :latest_topics_count, :default => 10
   # has_option :posts_per_page, :default => 25
  
-  has_many :boards,         :foreign_key => :section_id
+  has_counter :topics, :as => :section
 
-  has_many :topics,         :order => "topics.sticky DESC, topics.last_updated_at DESC, topics.id DESC",
-                            :foreign_key => :section_id,
-                            :dependent => :delete_all
-
-  has_one  :recent_topic,   :class_name => 'Topic',
-                            :order => "topics.last_updated_at DESC, topics.id DESC",
-                            :foreign_key => :section_id
-
-  has_one  :recent_comment, :class_name => 'Post',
-                            :order => "comments.created_at DESC, comments.id DESC",
-                            :foreign_key => :section_id
+  has_many :boards, :foreign_key => :section_id
+  has_many :topics, :foreign_key => :section_id, :dependent => :delete_all,
+                    :order => "topics.sticky DESC, topics.last_updated_at DESC, topics.id DESC"
+  # FIXME class_name not used because Section already has_many_comments. find a better method name
+  has_many_comments_associations :class_name => 'Post', :foreign_key => :section_id
 
   validates_numericality_of :topics_per_page, :only_integer => true, :message => :only_integer
   # TODO validates_inclusion_of :topics_per_page, :in => 1..30, :message => "can only be between 1 and 30."
