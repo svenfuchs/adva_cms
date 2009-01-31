@@ -1,20 +1,7 @@
-class User
-  def grant(role, context = nil)
-    roles << Rbac::Role.build(role, :context => context)
-  end
-end
-
 class Test::Unit::TestCase
   def login(user)
     @user = user
     stub(@controller).current_user.returns(user)
-  end
-
-  share :access_granted do
-    before do
-      stub(@controller).require_authentication
-      stub(@controller).guard_permission
-    end
   end
 
   share :no_user do
@@ -26,30 +13,6 @@ class Test::Unit::TestCase
   share :a_user do
     before do 
       @user = User.first
-    end
-  end
-  
-  share :log_in_as_user_with_message do
-    before do
-      @user    = User.find_by_email('a-user@example.com')
-      @message = @user.messages_sent.first
-      login @user
-    end
-  end
-  
-  share :superusers_message do
-    before do
-      @superuser = User.find_by_email('a-superuser@example.com')
-      @superuser_message = @superuser.messages.first
-    end
-  end
-
-  [:superuser, :admin, :moderator, :user, :anonymous].each do |role|
-    share :"is_#{role}" do
-      before("log in as #{role}") do
-        @user = User.find_by_first_name("a #{role}") or raise "could not find user named \"a #{role}\""
-        login @user
-      end
     end
   end
   

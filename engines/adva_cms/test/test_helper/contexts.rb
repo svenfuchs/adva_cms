@@ -56,6 +56,22 @@ class Test::Unit::TestCase
     end
   end
 
+  share :access_granted do
+    before do
+      stub(@controller).require_authentication
+      stub(@controller).guard_permission
+    end
+  end
+
+  [:superuser, :admin, :moderator, :user, :anonymous].each do |role|
+    share :"is_#{role}" do
+      before("log in as #{role}") do
+        @user = User.find_by_first_name("a #{role}") or raise "could not find user named \"a #{role}\""
+        login @user
+      end
+    end
+  end
+
   share :no_site do
     before do 
       Site.delete_all

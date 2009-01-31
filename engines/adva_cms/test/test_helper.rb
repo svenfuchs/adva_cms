@@ -1,7 +1,8 @@
-raise "about to load #{__FILE__} twice. make sure to require it with File.expand_path" if defined?(TEST_HELPER_LOADED)
+raise "about to load #{__FILE__} twice. make sure to require stuff with File.expand_path" if defined?(RAILS_GEM_VERSION)
 
 ENV["RAILS_ENV"] = "test"
-require File.expand_path(File.dirname(__FILE__) + "/../../../../../config/environment")
+dir = File.dirname(__FILE__)
+require File.expand_path(dir + "/../../../../../config/environment")
 
 require 'matchy'
 require 'test_help'
@@ -41,6 +42,8 @@ class Test::Unit::TestCase
   alias_method_chain :teardown, :test_setup
 end
 
-Dir[File.dirname(__FILE__) + "/test_helper/**/*.rb"].each { |path| require path }
+require_all dir + "/test_helper/**/database.rb",
+            dir + "/test_helper/**/*.rb",
+            dir + "/../../**/test/test_helper/database.rb",
+            dir + "/../../**/test/test_helper/*.rb"
 
-TEST_HELPER_LOADED = true

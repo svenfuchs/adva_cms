@@ -12,7 +12,7 @@ test run stages
 
 
 Start the test server with init script:
-vendor/adva/spec/test_server/bin/server -l vendor/adva/engines/adva_cms/test/test_init/test_server/init.rb
+vendor/adva/spec/test_server/bin/server -l vendor/adva/engines/adva_cms/test/test_helper/test_server/init.rb
 vendor/adva/spec/test_server/bin/test vendor/adva/engines/adva_cms/test/functional/admin/install_controller_test.rb -l 34
 
 
