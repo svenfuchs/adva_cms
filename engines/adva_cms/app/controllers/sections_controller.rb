@@ -19,14 +19,16 @@ class SectionsController < BaseController
     def set_section; super(Section); end
     
     def set_article
-      @article = params[:permalink] ? 
-                 @section.articles.find_by_permalink(params[:permalink], :include => :author) :
-                 @section.articles.primary
-
-      if !@article or (!@article.published? and !has_permission?('update', 'article'))
-        # the article was not found OR (the article was not published AND user not allowed to view the article)
-        raise ActiveRecord::RecordNotFound
+      if params[:permalink]
+        @article = @section.articles.find_by_permalink(params[:permalink], :include => :author)
+        raise ActiveRecord::RecordNotFound unless @article and can_view(@article)
+      else
+        @article = @section.articles.primary
       end
+    end
+    
+    def can_view(article)
+      article.published? or has_permission?('update', 'article')
     end
 
     def guard_view_permissions
