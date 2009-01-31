@@ -41,6 +41,12 @@ class Test::Unit::TestCase
   alias_method_chain :teardown, :test_setup
 end
 
-Dir[File.dirname(__FILE__) + "/test_helper/**/*.rb"].each { |path| require path }
+# empty all tables
+ActiveRecord::Base.connection.tables.each do |table_name|
+  ActiveRecord::Base.connection.execute "DELETE FROM #{table_name}" unless table_name == 'schema_migrations'
+end
+
+Dir["#{File.dirname(__FILE__)}/test_helper/**/*.rb"].each { |path| require path }
+require File.dirname(__FILE__) + "/fixtures/populate.rb"
 
 TEST_HELPER_LOADED = true

@@ -46,7 +46,7 @@ class CommentsControllerTest < ActionController::TestCase
       with :valid_comment_params do
         it_assigns :comment => :not_nil
         it_renders :template, :preview do
-          has_text @comment.body
+          has_text 'the comment body'
         end
       end
 
