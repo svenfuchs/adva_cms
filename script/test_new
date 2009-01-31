@@ -27,8 +27,8 @@ paths = ARGV.clone
 paths = files_to_load(paths)
 
 unless paths.empty?
-  root_path = File.expand_path(File.dirname(__FILE__)).gsub!(/vendor.*/, '')
-  puts 'Running new-wave functional tests ...'
-  paths.each{|path| puts path.gsub(root_path, '') }
+  puts 'Running new-wave unit tests ...'
+  # root_path = File.expand_path(File.dirname(__FILE__)).gsub!(/vendor.*/, '')
+  # paths.each{|path| puts path.gsub(root_path, '') }
   paths.each{|path| require path }
 end
