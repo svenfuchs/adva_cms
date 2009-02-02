@@ -45,7 +45,7 @@ class Test::Unit::TestCase
   
   share :the_wikipage_does_not_have_a_revision do
     before do 
-      p @wikipage.versions
+      # p @wikipage.versions
     end
   end
   
