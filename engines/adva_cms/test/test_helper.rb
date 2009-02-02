@@ -1,4 +1,4 @@
-raise "about to load #{__FILE__} twice. make sure to require stuff with File.expand_path" if defined?(RAILS_GEM_VERSION)
+defined?(TEST_HELPER_LOADED) ? raise("can not load #{__FILE__} twice") : TEST_HELPER_LOADED = true
 
 ENV["RAILS_ENV"] = "test"
 dir = File.dirname(__FILE__)

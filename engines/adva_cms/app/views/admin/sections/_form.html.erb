@@ -9,11 +9,11 @@
     <%= f.text_field :permalink %>
   </div>
 </fieldset>
-<% unless @site.current_theme_template_paths.empty? %>
+<% unless true or @site.current_theme_template_paths.empty? %>
     <%= f.label :template %>
     <%= f.select :template, @site.current_theme_template_paths, :include_blank => true  %>
 <% end %>
-<% unless @site.current_theme_layout_paths.empty? %>
+<% unless true or @site.current_theme_layout_paths.empty? %>
     <%= f.label :layout %>
     <%= f.select :layout, @site.current_theme_layout_paths, :include_blank => true  %>
 <% end %>

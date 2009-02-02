@@ -2,7 +2,7 @@ require 'widgets'
 
 class BaseController < ApplicationController
   class SectionRoutingError < ActionController::RoutingError; end
-  helper :base, :content, :comments, :users, :roles
+  helper :base, :content, :comments, :users, :roles, :themes
   helper_method :perma_host
 
   include ContentHelper # WTF!
@@ -18,7 +18,7 @@ class BaseController < ApplicationController
   widget :sections, :partial => 'widgets/sections'
 
 
-  acts_as_themed_controller :current_themes => lambda {|c| c.site.current_themes if c.site }
+  acts_as_themed_controller :current_themes => lambda {|c| c.site.themes.active if c.site }
   #                          :force_template_types => ['html.serb', 'liquid']
   #                          :force_template_types => lambda {|c| ['html.serb', 'liquid'] unless c.class.name =~ /^Admin::/ }
 

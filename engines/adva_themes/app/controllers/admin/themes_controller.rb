@@ -1,7 +1,7 @@
 class Admin::ThemesController < Admin::BaseController
   layout "admin"
 
-  before_filter :set_theme, :only => [:show, :use, :edit, :update, :destroy, :export]
+  before_filter :set_theme, :only => [:show, :use, :edit, :update, :destroy, :export, :select, :unselect]
   before_filter :ensure_uploaded_theme_file_saved!, :only => :import
   
   guards_permissions :theme, :update => [:select, :unselect], :manage => [:index, :show, :export], :create => :import
@@ -23,7 +23,8 @@ class Admin::ThemesController < Admin::BaseController
       flash[:notice] = t(:'adva.themes.flash.create.success')
       redirect_to admin_themes_path
     else
-      flash.now[:error] = t(:'adva.themes.flash.create.failure', :errors => @theme.errors.to_sentence)
+      errors = @theme.errors.full_messages.to_sentence
+      flash.now[:error] = t(:'adva.themes.flash.create.failure', :errors => errors)
       render :action => :new
     end
   end
@@ -33,7 +34,8 @@ class Admin::ThemesController < Admin::BaseController
       flash[:notice] = t(:'adva.themes.flash.update.success')
       redirect_to admin_theme_path(@site, @theme.id)
     else
-      flash.now[:error] = t(:'adva.themes.flash.update.failure', :errors => @theme.errors.to_sentence)
+      errors = @theme.errors.full_messages.to_sentence
+      flash.now[:error] = t(:'adva.themes.flash.update.failure', :errors => errors)
       render :action => :show
     end
   end
@@ -71,18 +73,13 @@ class Admin::ThemesController < Admin::BaseController
   end
 
   def select
-    @site.theme_names_will_change!
-    @site.theme_names << params[:id]
-    @site.theme_names.uniq!
-    @site.save
+    @theme.activate!
     expire_pages_by_site!
     redirect_to admin_themes_path
   end
 
   def unselect
-    @site.theme_names_will_change!
-    @site.theme_names.delete params[:id]
-    @site.save
+    @theme.deactivate!
     expire_pages_by_site!
     redirect_to admin_themes_path
   end
@@ -90,13 +87,11 @@ class Admin::ThemesController < Admin::BaseController
   private
 
     def expire_pages_by_site!
-      # this misses assets like stylesheets which aren't tracked
-      # expire_pages CachedPage.find_all_by_site_id(@site.id)
       expire_site_page_cache
     end
 
     def set_theme
-      @theme = @site.themes.find(params[:id]) or raise "can not find theme #{params[:id]}"
+      @theme = @site.themes.find(params[:id])
     end
 
     def ensure_uploaded_theme_file_saved!

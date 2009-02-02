@@ -14,7 +14,7 @@ class AdminThemeFilesControllerTest < ActionController::TestCase
   end
   
   view :form do
-    has_tag 'input[name=?]', 'file[localpath]'
+    has_tag 'input[name=?]', 'file[name]'
     has_tag 'textarea[name=?]', 'file[data]'
     # FIXME
     # renders a file data textarea when the file has text content
@@ -23,7 +23,7 @@ class AdminThemeFilesControllerTest < ActionController::TestCase
   end
   
   view :files_list do
-    ['Templates', 'Assets', 'Others'].each {|type| has_tag 'h3', type }
+    ['Templates', 'Assets'].each {|type| has_tag 'h3', type }
     has_tag 'a[href=?]', admin_theme_file_path(@site, @theme.id, @file.id)
   end
    
@@ -32,7 +32,7 @@ class AdminThemeFilesControllerTest < ActionController::TestCase
   end
    
   describe "routing" do
-    with_options :path_prefix => '/admin/sites/1/themes/theme-1/', :site_id => "1", :theme_id => 'theme-1' do |r|
+    with_options :path_prefix => '/admin/sites/1/themes/1/', :site_id => "1", :theme_id => '1' do |r|
       r.it_maps :get,    "files",                        :action => 'index'
       r.it_maps :get,    "files/template-html-erb",      :action => 'show',    :id => 'template-html-erb'
       r.it_maps :get,    "files/new",                    :action => 'new'
@@ -45,19 +45,19 @@ class AdminThemeFilesControllerTest < ActionController::TestCase
 
   describe "GET to :show" do
     action { get :show, default_params.merge(:id => @file.id) }
-
+  
     it_guards_permissions :update, :theme
     
     with :access_granted do
       it_assigns :theme, :file
       it_renders :template, :show do
-        has_form_putting_to admin_theme_file_path(@site, @theme.id, @file.id) do
+        has_form_putting_to admin_theme_file_path(@site, @theme, @file.id) do
           shows :form
         end
       end
     end
   end
-
+  
   describe "GET to :new" do
     action { get :new, default_params }
     
@@ -66,7 +66,7 @@ class AdminThemeFilesControllerTest < ActionController::TestCase
     with :access_granted do
       it_assigns :theme
       it_renders :template, :new do
-        has_form_posting_to admin_theme_files_path(@site, @theme.id) do
+        has_form_posting_to admin_theme_files_path(@site, @theme) do
           shows :form
         end
       end
@@ -78,29 +78,26 @@ class AdminThemeFilesControllerTest < ActionController::TestCase
     
     with :valid_theme_template_params do
       it_guards_permissions :update, :theme
-
+  
       with :access_granted do
         it_assigns :theme, :file => :not_nil
-        it_redirects_to { admin_theme_file_path(@site, @theme.id, assigns(:file).id) }
+        it_redirects_to { admin_theme_file_path(@site, @theme, assigns(:file).id) }
         it_assigns_flash_cookie :notice => :not_nil
-
+  
         it "creates the theme template file" do
-          File.exists?(assigns(:file).fullpath).should be_true
+          @theme.templates.find_by_name(@params[:file][:name]).should_not be_nil
         end
-
+  
         expect "expires page cache for the current site" do
           mock(@controller).expire_site_page_cache
         end
       end
     end
     
-    # FIXME
-    # never gets here because the exception is not caught:
-    # "Can't build file invalid because it seems to be neither a valid asset nor valid template path."
-    # with :invalid_theme_template_params do
-    #   it_renders :view, :new
-    #   it_assigns_flash_cookie :error => :not_nil
-    # end
+    with :invalid_theme_template_params do
+      it_renders :template, :new
+      it_assigns_flash_cookie :error => :not_nil
+    end
   end
   
   describe "PUT to :update" do
@@ -115,35 +112,30 @@ class AdminThemeFilesControllerTest < ActionController::TestCase
         it_assigns :theme, :file => :not_nil
         it_redirects_to { admin_theme_file_path(@site, @theme.id, assigns(:file).id) }
         it_assigns_flash_cookie :notice => :not_nil
-
+  
         it "updates the theme with the theme params" do
           @theme.files.find(@file.id).data.should =~ /changed/
         end
       end
     end
     
-    # FIXME
-    # never gets here because the exception is not caught: invalid filename "invalid"
-    # with :invalid_theme_template_params do
-    #   it_renders :view, :show
-    #   it_assigns_flash_cookie :error => :not_nil
-    # end
+    with :invalid_theme_template_params do
+      it_renders :template, :show
+      it_assigns_flash_cookie :error => :not_nil
+    end
   end
   
   describe "DELETE to :destroy" do
     action { delete :destroy, default_params.merge(:id => @file.id) }
-
+  
     it_guards_permissions :update, :theme
     
     with :access_granted do
+      it_destroys :file
       it_assigns :theme, :file => :not_nil
       it_redirects_to { admin_theme_path(@site, @theme.id) }
       it_assigns_flash_cookie :notice => :not_nil
       
-      it "destroys the theme template file" do
-        File.exists?(@file.fullpath).should be_false
-      end
-
       expect "expires page cache for the current site" do
         mock(@controller).expire_site_page_cache
       end

@@ -10,14 +10,14 @@ class Admin::ThemeFilesController < Admin::BaseController
   end
 
   def new
-    @file = Theme::File.new @theme
+    @file = Theme::Template.new :theme => @theme
   end
 
   def create
-    @file = Theme::File.create @theme, params[:file]
-    if @file = Array(@file).first
-      expire_pages_by_site! # TODO use active_model?
-      expire_template! @file
+    @file = @theme.files.build(params[:file])
+    if @file.save
+      expire_pages_by_site!
+      expire_template!(@file)
       flash[:notice] = t(:'adva.theme_files.flash.create.success')
       redirect_to admin_theme_file_path(@site, @theme.id, @file.id)
     else
@@ -28,7 +28,7 @@ class Admin::ThemeFilesController < Admin::BaseController
 
   def update
     if @file.update_attributes params[:file]
-      expire_pages_by_site! # TODO use active_model?
+      expire_pages_by_site! # FIXME could expire cached assets individually
       expire_template!(@file)
       flash[:notice] = t(:'adva.theme_files.flash.update.success')
       redirect_to admin_theme_file_path(@site, @theme.id, @file.id)
@@ -40,7 +40,7 @@ class Admin::ThemeFilesController < Admin::BaseController
 
   def destroy
     if @file.destroy
-      expire_pages_by_site! # TODO use active_model?
+      expire_pages_by_site! # FIXME could expire cached assets individually
       expire_template!(@file)
       flash[:notice] = t(:'adva.theme_files.flash.destroy.success')
       redirect_to admin_theme_path(@site, @theme.id)
@@ -53,15 +53,13 @@ class Admin::ThemeFilesController < Admin::BaseController
   private
 
     def expire_pages_by_site!
-      # this misses assets like stylesheets which aren't tracked
-      # expire_pages CachedPage.find_all_by_site_id(@site.id)
       expire_site_page_cache
     end
 
     def expire_template!(file)
       # expires compiled actionview templates from memory
       # see lib/theme_support/compiled_template_expiration
-      FileUtils.touch(@theme.path) if file.is_a?(Theme::Template)
+      FileUtils.touch(@theme.path) if file.is_a?(Theme::Template) && File.directory?(@theme.path)
     end
 
     def set_theme

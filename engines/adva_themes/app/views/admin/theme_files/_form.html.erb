@@ -1,17 +1,17 @@
 <fieldset class="clearfix">
   <div class="col1">
     <p>
-      <%= f.label :localpath, t(:'adva.themes.labels.filename') %>
-      <%= f.text_field :localpath %>
+      <%= f.label :name, t(:'adva.themes.labels.filename') %>
+      <%= f.text_field :name %>
     </p>
 
-    <% if @file.text? %>
+    <% if @file.respond_to?(:text) %>
 	    <p>
 	      <%= f.label :data %>
-	      <%= f.text_area :data %>
+	      <%= text_area_tag 'file[data]', @file.text, :id => 'file_data' %>
 	    </p> 
     <% else %>
-      <p><%= theme_image_tag @theme.id, @file.localpath.to_s.gsub('images/', '') %></p>
+      <p><%= theme_image_tag @theme.theme_id, @file.url %></p>
     <% end %>
 
     <p class="buttons">

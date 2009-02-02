@@ -25,18 +25,18 @@ class AdminThemesControllerTest < ActionController::TestCase
    
   describe "routing" do
     with_options :path_prefix => '/admin/sites/1/', :site_id => "1" do |r|
-      r.it_maps :get,    "themes",                  :action => 'index'
-      r.it_maps :get,    "themes/theme-1",          :action => 'show',    :id => 'theme-1'
-      r.it_maps :get,    "themes/new",              :action => 'new'
-      r.it_maps :post,   "themes",                  :action => 'create'
-      r.it_maps :get,    "themes/theme-1/edit",     :action => 'edit',    :id => 'theme-1'
-      r.it_maps :put,    "themes/theme-1",          :action => 'update',  :id => 'theme-1'
-      r.it_maps :delete, "themes/theme-1",          :action => 'destroy', :id => 'theme-1'
+      r.it_maps :get,    "themes",            :action => 'index'
+      r.it_maps :get,    "themes/1",          :action => 'show',    :id => '1'
+      r.it_maps :get,    "themes/new",        :action => 'new'
+      r.it_maps :post,   "themes",            :action => 'create'
+      r.it_maps :get,    "themes/1/edit",     :action => 'edit',    :id => '1'
+      r.it_maps :put,    "themes/1",          :action => 'update',  :id => '1'
+      r.it_maps :delete, "themes/1",          :action => 'destroy', :id => '1'
 
-      r.it_maps :post,   "themes/selected",         :action => 'select'
-      r.it_maps :delete, "themes/selected/theme-1", :action => 'unselect', :id => 'theme-1'
-      r.it_maps :get,    "themes/import",           :action => 'import'
-      r.it_maps :post,   "themes/import",           :action => 'import'
+      r.it_maps :post,   "themes/selected",   :action => 'select'
+      r.it_maps :delete, "themes/selected/1", :action => 'unselect', :id => '1'
+      r.it_maps :get,    "themes/import",     :action => 'import'
+      r.it_maps :post,   "themes/import",     :action => 'import'
     end
   end
 
@@ -87,14 +87,15 @@ class AdminThemesControllerTest < ActionController::TestCase
     
     with :valid_theme_params do
       it_guards_permissions :create, :theme
-
+  
       with :access_granted do
+        it_saves :theme
         it_assigns :site, :theme => :not_nil
         it_redirects_to { admin_themes_path }
         it_assigns_flash_cookie :notice => :not_nil
 
-        it "creates the theme" do
-          File.exists?(assigns(:theme).path).should be_true
+        it "associates the new Theme to the current site" do
+          assigns(:theme).site.should == @site
         end
       end
     end
@@ -119,7 +120,7 @@ class AdminThemesControllerTest < ActionController::TestCase
       end
     end
   end
-
+  
   describe "PUT to :update" do
     action { put :update, default_params.merge(@params).merge(:id => @theme.id) }
     
@@ -129,38 +130,39 @@ class AdminThemesControllerTest < ActionController::TestCase
       with :access_granted do
         before { @params[:theme][:author] = 'changed' }
         
+        it_saves :theme
         it_assigns :site, :theme => :not_nil
         it_redirects_to { admin_theme_path(@site, assigns(:theme).id) }
         it_assigns_flash_cookie :notice => :not_nil
-
+  
         it "updates the theme with the theme params" do
-          @site.themes.find('theme_1').author.should =~ /changed/
+          @theme.reload.author.should =~ /changed/
         end
       end
     end
     
-    # FIXME does not fail
-    # for some reason the id remains the same, but the name is empty
-    # with :invalid_theme_params do
-    #   it_renders :template, :show
-    #   it_assigns_flash_cookie :error => :not_nil
-    # end
+    with :invalid_theme_params do
+      it_renders :template, :show
+      it_assigns_flash_cookie :error => :not_nil
+    end
   end
   
   describe "DELETE to :destroy" do
     action { delete :destroy, default_params.merge(:id => @theme.id) }
-
+  
     it_guards_permissions :destroy, :theme
     
     with :access_granted do
+      before { FileUtils.mkdir_p(@theme.path) unless ::File.exists?(@theme.path) }
+      
       it_assigns :theme
       it_redirects_to { admin_themes_path }
       it_assigns_flash_cookie :notice => :not_nil
       
-      it "destroys the theme" do
-        File.exists?(@theme.path).should be_false
+      it "deletes the theme directory" do
+        @theme.path.should_not be_directory
       end
-
+  
       expect "expires page cache for the current site" do
         mock(@controller).expire_site_page_cache
       end
@@ -174,11 +176,11 @@ class AdminThemesControllerTest < ActionController::TestCase
     
     with :access_granted do
       it_redirects_to { admin_themes_path }
-
-      it "adds the theme id to the site's theme_names" do
-        @site.reload.theme_names.should include(@theme.id)
+      
+      it "activates the theme" do
+        @theme.reload.active?.should be_true
       end
-
+  
       expect "expires page cache for the current site" do
         mock(@controller).expire_site_page_cache
       end
@@ -192,11 +194,11 @@ class AdminThemesControllerTest < ActionController::TestCase
     
     with :access_granted do
       it_redirects_to { admin_themes_path }
-
-      it "removes the theme id to the site's theme_names" do
-        @site.reload.theme_names.should_not include(@theme.id)
+  
+      it "deactivates the theme" do
+        @theme.reload.active?.should be_false
       end
-
+  
       expect "expires page cache for the current site" do
         mock(@controller).expire_site_page_cache
       end
@@ -205,7 +207,7 @@ class AdminThemesControllerTest < ActionController::TestCase
   
   describe "GET to :import" do
     action { get :import, default_params }
-
+  
     it_guards_permissions :create, :theme
   
     with :access_granted do
@@ -213,14 +215,14 @@ class AdminThemesControllerTest < ActionController::TestCase
     end
   end
   
-  # FIXME specify with valid params
-  describe "POST to :import, without a file" do
-    action { post :import, default_params.merge(:theme => {:file => ''}) }
-    
-    it_guards_permissions :create, :theme
-  
-    with :access_granted do
-      it_assigns_flash_cookie :error => :not_nil
-    end
-  end
+  # # FIXME specify with valid params
+  # describe "POST to :import, without a file" do
+  #   action { post :import, default_params.merge(:theme => {:file => ''}) }
+  #   
+  #   it_guards_permissions :create, :theme
+  # 
+  #   with :access_granted do
+  #     it_assigns_flash_cookie :error => :not_nil
+  #   end
+  # end
 end

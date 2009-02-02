@@ -1,7 +1,7 @@
 class Site < ActiveRecord::Base
   # TODO make sure the theme name doesn't have any slashes (forbid anything besides [\w\-_\.] ?)
-  acts_as_themed
   acts_as_role_context :actions => ["manage themes", "manage assets"]
+  has_many_themes
   has_many_comments
 
   serialize :permissions
@@ -40,8 +40,7 @@ class Site < ActiveRecord::Base
   end
   has_many :cached_pages, :dependent => :destroy, :order => 'cached_pages.updated_at desc'
 
-  before_validation :downcase_host, :replace_host_spaces
-  before_validation :downcase_host
+  before_validation :downcase_host, :replace_host_spaces # c'mon, can't this be normalize_host or something?
   before_validation :populate_title
   before_destroy :flush_page_cache
 

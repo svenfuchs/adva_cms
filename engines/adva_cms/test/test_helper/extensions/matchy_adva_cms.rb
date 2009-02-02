@@ -41,8 +41,8 @@ module Matchy
         Matchy::Expectations::HaveCounter.new(name, self)
       end
 
-      def act_as_themed
-        Matchy::Expectations::ActAsThemed.new(nil, self)
+      def have_many_themes
+        Matchy::Expectations::HaveManyThemes.new(nil, self)
       end
 
       def have_url_params(*names)
@@ -93,13 +93,6 @@ module Matchy
       @receiver.included_modules.include? ActiveRecord::Acts::Taggable::InstanceMethods
     end
 
-    matcher "ActAsThemed", 
-            "Expected %s to act as themed.", 
-            "Expected %s not to act as themed." do |receiver|
-      @receiver = receiver
-      @receiver.included_modules.include? ThemeSupport::ActiveRecord::InstanceMethods
-    end
-
     matcher "ActAsVersioned", 
             "Expected %s to act as versioned.", 
             "Expected %s not act as versioned." do |receiver|
@@ -129,13 +122,6 @@ module Matchy
       result == '<p><strong>strong</strong></p>'
     end
 
-    matcher "InstantiateWithSti", 
-            "Expected %s to instantiate with sti.", 
-            "Expected %s not instantiate with sti." do |receiver|
-      @receiver = receiver
-      @receiver.instantiates_with_sti?
-    end
-
     matcher "HavePermalink", 
             "Expected %s to have a permalink generated from %s.", 
             "Expected %s not to have a permalink generated from %s." do |receiver|
@@ -149,6 +135,20 @@ module Matchy
             "Expected %s not to have a counter named %s." do |receiver|
       @receiver = receiver
       !!@receiver.reflect_on_all_associations(:has_one).find { |a| a.name == :"#{@expected}_counter" }
+    end
+
+    matcher "HaveManyThemes", 
+            "Expected %s to have many themes.", 
+            "Expected %s not have many themes." do |receiver|
+      @receiver = receiver
+      @receiver.has_many_themes?
+    end
+
+    matcher "InstantiateWithSti", 
+            "Expected %s to instantiate with sti.", 
+            "Expected %s not instantiate with sti." do |receiver|
+      @receiver = receiver
+      @receiver.instantiates_with_sti?
     end
     
     class HaveUrlParams < Base
