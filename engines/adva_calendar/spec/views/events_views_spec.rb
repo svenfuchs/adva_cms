@@ -35,7 +35,7 @@ describe "Events views:" do
     it "should render the list of events" do
       render "events/index"
       @calendar_events.should_receive(:each).at_least(:once) # as there are two events
-      response.should have_tag('table#events')
+      response.should have_tag('#events')
       @calendar_events.each do |event|
         response.should have_tag("div#event-%i" % event.id)
       end
