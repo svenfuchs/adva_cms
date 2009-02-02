@@ -23,19 +23,19 @@ class ForumWithBoardCacheReferencesTest < ActionController::TestCase
     get :show, :section_id => @forum.id
 
     references = CachedPageReference.all.map{ |r| [r.object_id, r.object_type, r.method] }
-    assert references.include? [@forum.id, 'Forum', 'topics_count']
-    assert references.include? [@forum.id, 'Forum', 'comments_count']
-    assert references.include? [@board.id, 'Board', 'topics_count']
-    assert references.include? [@board.id, 'Board', 'comments_count']
+    assert references.include?([@forum.id, 'Forum', 'topics_count'])
+    assert references.include?([@forum.id, 'Forum', 'comments_count'])
+    assert references.include?([@board.id, 'Board', 'topics_count'])
+    assert references.include?([@board.id, 'Board', 'comments_count'])
   end
   
   test "topic list of a board references the board's topics_count and comments_count as well as each topic's comments_count" do
     get :show, :section_id => @forum.id, :board_id => @board.id
     
     references = CachedPageReference.all.map{ |r| [r.object_id, r.object_type, r.method] }
-    assert references.include? [@board.id, 'Board', 'topics_count']
-    assert references.include? [@board.id, 'Board', 'comments_count']
-    assert references.include? [@topic.id, 'Topic', 'comments_count']
+    assert references.include?([@board.id, 'Board', 'topics_count'])
+    assert references.include?([@board.id, 'Board', 'comments_count'])
+    assert references.include?([@topic.id, 'Topic', 'comments_count'])
   end
 end
 
