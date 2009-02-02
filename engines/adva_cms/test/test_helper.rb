@@ -42,10 +42,10 @@ class Test::Unit::TestCase
   alias_method_chain :teardown, :test_setup
 end
 
-require_all dir + "/fixtures.rb",
-            dir + "/contexts.rb",
-            dir + "/test_helper/**/*.rb",
+require_all dir + "/contexts.rb",
+            dir + "/fixtures.rb",
+            dir + "/test_helper/**/*.rb"
+require_all dir + "/../../**/test/contexts.rb",
             dir + "/../../**/test/fixtures.rb",
-            dir + "/../../**/test/contexts.rb",
             dir + "/../../**/test/test_helper/**/*.rb"
 

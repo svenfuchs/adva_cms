@@ -10,7 +10,7 @@ class RolesTest < ActiveSupport::TestCase
     @user      = User.first
     @anonymous = User.anonymous
     
-    @section   = @moderator.roles.first.context
+    @section   = @moderator.roles.detect { |r| r.context.is_a?(Section) }.context
     @site      = @section.site
     @content   = @section.articles.first
     @author    = @content.author

@@ -1,6 +1,6 @@
 class Test::Unit::TestCase
   def valid_asset_params
-    { :uploaded_data  => fixture_file_upload('/uploads/rails.png', 'image/png', :binary),
+    { :uploaded_data  => fixture_file_upload('/rails.png', 'image/png', :binary),
       :title          => 'the-asset-title',
       :tag_list       => 'foo bar' }
   end
