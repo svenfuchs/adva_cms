@@ -1,6 +1,6 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'test_helper' ))
 
-class BoardTest < ActionController::IntegrationTest
+class BoardsTest < ActionController::IntegrationTest
   def setup
     super
     @site = use_site! 'site with forum'
