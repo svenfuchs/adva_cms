@@ -5,7 +5,9 @@ site_with_forums =
 Site.create!     :name  => 'site with forum',
                  :title => 'site with forum title',
                  :host  => 'site-with-forum.com'
-                 
+
+admin.grant :admin, site_with_forums
+
 forum_without_boards =
 Forum.create!    :site        => site_with_forums,
                  :title       => 'a forum without boards',
