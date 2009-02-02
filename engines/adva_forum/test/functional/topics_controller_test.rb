@@ -47,6 +47,10 @@ class TopicsControllerTest < ActionController::TestCase
     it_renders_template :show
     it_caches_the_page :track => ['@topic', '@posts']
     it_does_not_sweep_page_cache
+    
+    # FIXME add view specs (taken from old story)
+    # And the page shows 'the topic title'
+    # And the page shows 'the initial comment body'
   end
   
   describe "GET to new" do
