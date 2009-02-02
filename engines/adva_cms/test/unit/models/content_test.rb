@@ -227,7 +227,7 @@ class ContentTest < ActiveSupport::TestCase
 
   test "#comments_expired_at returns a date in far future if comments never expire" do
     @content.comment_age = -1
-    @content.comments_expired_at.should == 9999.years.from_now
+    @content.comments_expired_at.should > 9998.years.from_now
   end
 
   test "#set_site sets the site_id from the section" do

@@ -6,7 +6,7 @@ module IntegrationTests
       super
       @site = Site.find_by_name 'site with sections'
       use_site! @site
-      @image = Test::Unit::TestCase.fixture_path + '/uploads/rails.png'
+      @image = Test::Unit::TestCase.fixture_path + '/rails.png'
       stub(Time).now.returns Time.utc(2008, 1, 2)
     end
     
