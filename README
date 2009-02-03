@@ -1,14 +1,14 @@
-Welcome to Adva-cms
+Welcome to adva-cms
 ===================
  
-Adva-cms is a cutting edge open source application platform based on Ruby on
+adva-cms is a cutting edge open source application platform based on Ruby on
 Rails and Rails Engines.
 
 Different from others, adva-cms lives in vendor directory and keeps your main
 app directory clean and dandy. So you can reclaim app directory and use it
 only for your own application files.
 
-Adva makes it extensible: you can only pick those engines/features you really
+adva-cms makes it extensible: you can only pick those engines/features you really
 need for your application and omit the rest. All engines are designed to work
 together seamlessly, so the whole platform feels much more consistent for
 similar but separate Rails applications.
@@ -25,21 +25,30 @@ You need Rails 2.2.2 or newer.
   cd my-app
   git init
 
-  git submodule add git://github.com/svenfuchs/adva_cms.git vendor/adva # alternatively use git clone
+  git submodule add git://github.com/svenfuchs/adva_cms.git vendor/adva 
   ruby vendor/adva/setup.rb     # adds adva rake tasks and required files
-  rake db:migrate:all           # runs Adva migrations
+  rake db:migrate:all           # runs adva-cms migrations
 
   ruby script/server
   firefox http://localhost:3000
+
+	# alternatively use git clone instead of git submodule:
+	# git clone git://github.com/svenfuchs/adva_cms.git vendor/adva 
+	
+	# to switch to a certain tag or branch other than the master branch you can do:
+	# cd vendor/adva
+	# git checkout -b [your-branchname] origin/[branchname] or
+	# git checkout -b [your-branchname] [tagname] 
+	# cd -
  
-You should see Adva installation screen. 
+You should see adva-cms installation screen. 
 Fill out the form and you're started, enjoy!
 
 
 Configuration
 =============
  
-You can change Adva configuration at:
+You can change adva-cms configuration at:
   config/initializers/adva.rb
 
 
@@ -50,7 +59,7 @@ Please check out /doc directory for high level overview about adva-cms.
  
 Running specs and int tests:
   rake db:test:clone     # Clones from your development database to test database
-  ruby script/test-adva  # Runs all Adva specs and int tests
+  ruby script/test-adva  # Runs all adva-cms specs and int tests
 
 Please report bugs to Lighthouse: 
   http://artweb-design.lighthouseapp.com/projects/13992-adva_cms/overview
