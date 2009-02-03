@@ -3,6 +3,14 @@ moderator = User.find_by_first_name('a moderator')
 admin     = User.find_by_first_name('an admin')
 superuser = User.find_by_first_name('a superuser')
 
+peeping_tom = User.create! :first_name => 'the peeping tom',
+                           :email => 'the-peeping-tom@example.com',
+                            :password => 'a password',
+                            :verified_at => Time.now
+
+another_site = Site.find_by_host('another-site.com')
+another_site.users << peeping_tom
+
 message =
 Message.create! :sender     => user,
                 :recipient  => moderator,
