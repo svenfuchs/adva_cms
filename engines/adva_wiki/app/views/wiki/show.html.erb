@@ -1,6 +1,6 @@
 <div id="<%= dom_id @wikipage %>" class="entry clearing">
   <div class="meta">
-    <p><%= link_to 'all pages', wikipages_path %></p>
+    <p><%= link_to 'all pages', wikipages_path(@section) %></p>
     <h4><%= t(:'adva.wiki.view.show.revision_header', :version => @wikipage.version) %></h4>
     <p>
       <%= datetime_with_microformat(@wikipage.updated_at, :format => :long) %><br />

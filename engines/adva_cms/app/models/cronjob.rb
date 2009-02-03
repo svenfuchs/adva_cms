@@ -45,11 +45,11 @@ class Cronjob < ActiveRecord::Base
 
   def create_crontab
     CronEdit::Crontab.Add self.full_id, { :command => self.runner_command,
-                                                :minute => self.minute,
-                                                :hour => self.hour,
-                                                :day => self.day,
-                                                :month => self.month,
-                                                :weekday => self.weekday }
+                                          :minute => self.minute,
+                                          :hour => self.hour,
+                                          :day => self.day,
+                                          :month => self.month,
+                                          :weekday => self.weekday }
   end
   
   def remove_crontab

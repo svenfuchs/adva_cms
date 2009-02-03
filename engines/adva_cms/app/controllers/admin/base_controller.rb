@@ -105,10 +105,10 @@ class Admin::BaseController < ApplicationController
     end
 
     def page_cache_directory
-      if Rails.env == 'test'
-         Site.multi_sites_enabled ? 'tmp/cache/' + perma_host : 'tmp/cache'
+      RAILS_ROOT + if Rails.env == 'test'
+         Site.multi_sites_enabled ? '/tmp/cache/' + perma_host : '/tmp/cache'
        else
-         Site.multi_sites_enabled ? 'public/cache/' + perma_host : 'public'
+         Site.multi_sites_enabled ? '/public/cache/' + perma_host : '/public'
        end
     end
 

@@ -32,6 +32,8 @@ module UrlHistory
           url = url_for(params)
           redirect_to url unless request.url == url
         end
+        # FIXME need to re-raise the exception or pass to the next exception
+        # handler somehow ...
       end
     end
   end

@@ -1,7 +1,7 @@
 module ActiveRecord
   module BelongsToCacheable
     def self.included(base)
-      base.extend ActMacro  
+      base.extend ActMacro
     end
 
     module ActMacro
@@ -18,7 +18,7 @@ module ActiveRecord
             validates_associated  name
           end
           before_save :"cache_#{name}_attributes!"
-          
+
           class_eval <<-code, __FILE__, __LINE__
             def cache_#{name}_attributes!
               return unless #{name}
@@ -26,9 +26,9 @@ module ActiveRecord
                 self[:"#{name}_\#{attribute}"] = #{name}.send attribute
               end
             end
-          
+
             def #{name}_with_default_instance
-              send :"#{name}_without_default_instance" || 
+              send :"#{name}_without_default_instance" ||
               instantiate_from_cached_attributes(#{name.inspect})
             end
             alias_method_chain :#{name}, :default_instance
@@ -36,7 +36,7 @@ module ActiveRecord
             def is_#{name}?(object)
               self.#{name} == object
             end
-            
+
             class << self
               def define_attribute_methods_with_cached_#{name}
                 define_attribute_methods_without_cached_#{name}
@@ -50,22 +50,22 @@ module ActiveRecord
             end
           code
         end
-        
+
         (class << self; self; end).class_eval <<-code, __FILE__, __LINE__
           def cached_attributes_for(name)
-            column_names.map do |attribute| 
-              attribute.to_s =~ /^\#{name}_(.*)/ && !['id', 'type'].include?($1) ? $1 : nil            
+            column_names.map do |attribute|
+              attribute.to_s =~ /^\#{name}_(.*)/ && !['id', 'type'].include?($1) ? $1 : nil
             end.compact
           end
         code
-        
+
         class_eval <<-code, __FILE__, __LINE__
           def cached_attributes_for(name)
-            attributes.keys.map do |attribute| 
-              attribute.to_s =~ /^\#{name}_(.*)/ && !['id', 'type'].include?($1) ? $1 : nil            
+            attributes.keys.map do |attribute|
+              attribute.to_s =~ /^\#{name}_(.*)/ && !['id', 'type'].include?($1) ? $1 : nil
             end.compact
           end
-          
+
           def instantiate_from_cached_attributes(name, attributes)
             if type = respond_to?(:"\#{name}_type") ? send(:"\#{name}_type") : name.classify
               returning type.constantize.new do |object|

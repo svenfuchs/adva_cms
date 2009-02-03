@@ -1,56 +1,78 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'test_helper' ))
 
-class ForumTopicsSpecialCases < ActionController::IntegrationTest
+class ForumTopicsEdgeCases < ActionController::IntegrationTest
   def setup
-    factory_scenario  :site_with_forum
-    login_as          :admin
-    @board  = Factory :board, :site => @site, :section => @forum
-    @topic          = @forum.topics.post(@user, Factory.attributes_for(:topic, :section => @forum))
-    @another_topic  = @forum.topics.post(@user, Factory.attributes_for(:topic, :section => @forum))
-    @topic.save
-    @another_topic.save
+    super
+    @site = use_site! 'site with forum'
   end
   
-  def test_an_admin_creates_a_new_board_when_there_are_topics_without_a_board
-    assert @topic.board == nil
-    assert @another_topic.board == nil
+  test 'an admin creates a new board in a forum with existing topics and no boards' do
+    login_as_admin
+    visit_forum_backend
+    visit_new_board_form
+    fill_in_and_submit_the_new_board_form
+    topics_are_now_assigned_to_the_board
+  end
+  
+  test 'an admin deletes the last board should preserve topics' do
+    login_as_admin
+    visit_forum_backend
+    visit_new_board_form
+    fill_in_and_submit_the_new_board_form
+    topics_are_now_assigned_to_the_board
+    delete_the_board
+    topics_are_now_unassigned_from_the_board
+  end
+  
+  def visit_forum_backend
+    @forum = Forum.find_by_permalink('a-forum-without-boards')
+    @topics = @forum.topics
     
-     # Go to section
     get admin_boards_path(@site, @forum)
-    
-    # Admin clicks link create a new board
+    assert_template 'admin/boards/index'
+  end
+  
+  def visit_new_board_form
     click_link 'Create a new board'
-    
     assert_template 'admin/boards/new'
+  end
+  
+  def fill_in_and_submit_the_new_board_form
+    board_count = @forum.boards.size
     
     fill_in       'Title',       :with => 'Test board'
     fill_in       'Description', :with => 'Test board description'
     click_button  'Save'
     
-    @topic.reload; @another_topic.reload
-    assert @topic.board         == Board.last
-    assert @another_topic.board == Board.last
-    
+    @forum.reload
+    assert @forum.boards.size == board_count + 1
     assert_template 'admin/boards/index'
   end
   
-  def test_an_admin_deletes_the_last_board_should_preserve_topics
-    @board.topics << @topic; @board.topics << @another_topic
-    assert @topic.board         == @board
-    assert @another_topic.board == @board
-    assert Board.count          == 1
+  def delete_the_board
+    board = @forum.boards.first
+    board_count = @forum.boards.size
     
-     # Go to section
-    get admin_boards_path(@site, @forum)
+    click_link "board_#{board.id}_delete"
     
-    # Admin clicks link delete a board
-    click_link 'board_delete'
-    
-    assert Board.count          == 0
-    @topic.reload; @another_topic.reload
-    assert @topic.board         == nil
-    assert @another_topic.board == nil
-    
+    @forum.reload
+    assert @forum.boards.size == board_count - 1
     assert_template 'admin/boards/index'
+  end
+  
+  def topics_are_now_assigned_to_the_board
+    @forum.topics.reload
+    board = @forum.boards.first
+    @topics.each do |topic|
+      assert topic.board == board
+    end
+  end
+  
+  def topics_are_now_unassigned_from_the_board
+    @forum.topics.reload
+    board = @forum.boards.first
+    @topics.each do |topic|
+      assert topic.board != board
+    end
   end
 end

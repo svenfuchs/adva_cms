@@ -3,7 +3,7 @@
   <ul>
     <li><%= link_to "Create a new set", new_admin_set_path(@site, @section) %></li>
     <% if @sets.size > 1 %>
-      <li><%= link_to_function "Reorder sets", "sets_tree.toggle(this, t(:'adva.resources.reordering_done'));", :id => 'reorder_sets' %>
+      <li><%= link_to_function "Reorder sets", "sets_tree.toggle(this, '#{t(:'adva.resources.reordering_done')}');", :id => 'reorder_sets' %>
       <%= image_tag '/images/adva_cms/indicator.gif', :id => 'sets_indicator', :style => 'display: none;' %></li>
     <% end %>
   </ul>

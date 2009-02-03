@@ -53,10 +53,12 @@ class User < ActiveRecord::Base
     def create_superuser(params)
       user = User.new(params)
       user.verified_at = Time.zone.now
+      
       user.email = 'admin@example.org' if user.email.blank?
       user.password = 'admin' if user.password.blank?
-      user.first_name = user.default_first_name
-      user.send :assign_password
+      user.first_name = user.first_name_from_email
+      
+      user.send :assign_password # necessary because we bypass the validation hook
       user.save false
       user.roles << Rbac::Role::Superuser.create!
       user
@@ -85,7 +87,9 @@ class User < ActiveRecord::Base
   end
 
   def update_roles(roles)
-    self.roles.clear
+    # FIXME clearing all roles is a problem when, e.g., an admin assigns a moderator role to a superuser
+    # the superuser will then have lost his superuser role
+    self.roles.clear 
     roles.values.each do |role|
       next unless role.delete('selected') == '1'
       self.roles << role.delete('type').constantize.create!(role)
@@ -111,9 +115,9 @@ class User < ActiveRecord::Base
     update_attributes :verified_at => Time.zone.now if verified_at.nil?
   end
 
-  def restore!
-    update_attributes :deleted_at => nil if deleted_at
-  end
+  # def restore!
+  #   update_attributes :deleted_at => nil if deleted_at
+  # end
 
   def registered?
     !new_record? && !anonymous?
@@ -156,14 +160,13 @@ class User < ActiveRecord::Base
     self[:homepage][0..6] == 'http://' ? self[:homepage] : 'http://' + self[:homepage]
   end
 
-  def default_first_name
+  def first_name_from_email
     self.first_name.blank? && self.email ? self.email.split('@').first : self.first_name
   end
 
   protected
 
     def password_required?
-      !anonymous? && ( password_hash.nil? || !password.blank? )
+      !anonymous? && (password_hash.nil? || !password.blank?)
     end
-
 end

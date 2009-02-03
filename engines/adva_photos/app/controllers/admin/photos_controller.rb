@@ -3,7 +3,7 @@ class Admin::PhotosController < Admin::BaseController
   helper 'admin/comments'
   
   before_filter :set_section
-  before_filter :set_sets,            :only => [:new, :edit]
+  before_filter :set_sets,            :only => [:new, :edit, :create, :update]
   before_filter :set_photo,           :only => [:destroy, :update, :edit]
   before_filter :params_author,       :only => [:create, :update]
   before_filter :params_draft,        :only => [:create, :update]

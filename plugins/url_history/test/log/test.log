@@ -1,0 +1,631 @@
+# Logfile created on Mon Jan 26 15:08:59 +0100 2009 by /
+  [4;36;1mSQL (0.5ms)[0m   [0;1mselect sqlite_version(*)[0m
+  [4;35;1mSQL (0.2ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (3.1ms)[0m   [0;1mCREATE TABLE "url_history_entries" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "url" varchar(255), "controller" varchar(255), "action" varchar(255), "params" varchar(255), "object_id" integer, "object_type" varchar(255)) [0m
+  [4;35;1mSQL (0.6ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (2.6ms)[0m   [0;1mCREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) [0m
+  [4;35;1mSQL (2.6ms)[0m   [0mCREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")[0m
+  [4;36;1mSQL (0.8ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.2ms)[0m   [0mSELECT version FROM "schema_migrations"[0m
+  [4;36;1mSQL (1.8ms)[0m   [0;1mINSERT INTO "schema_migrations" (version) VALUES ('20090126133510')[0m
+  [4;35;1mUrlHistory::Entry Load (0.3ms)[0m   [0mSELECT * FROM "url_history_entries" [0m
+  [4;36;1mSQL (0.4ms)[0m   [0;1mselect sqlite_version(*)[0m
+  [4;35;1mSQL (0.5ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (3.9ms)[0m   [0;1mDROP TABLE "url_history_entries"[0m
+  [4;35;1mSQL (2.4ms)[0m   [0mCREATE TABLE "url_history_entries" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "url" varchar(255), "controller" varchar(255), "action" varchar(255), "params" varchar(255), "object_id" integer, "object_type" varchar(255)) [0m
+  [4;36;1mSQL (0.7ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.4ms)[0m   [0mSELECT version FROM "schema_migrations"[0m
+  [4;36;1mUrlHistory::Entry Load (0.2ms)[0m   [0;1mSELECT * FROM "url_history_entries" [0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mUrlHistory::Entry Load (0.2ms)[0m   [0mSELECT * FROM "url_history_entries" [0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.3ms)[0m   [0mselect sqlite_version(*)[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (3.4ms)[0m   [0mCREATE TABLE "url_history_entries" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "url" varchar(255), "controller" varchar(255), "action" varchar(255), "params" varchar(255), "object_id" integer, "object_type" varchar(255)) [0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (2.1ms)[0m   [0mCREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) [0m
+  [4;36;1mSQL (2.5ms)[0m   [0;1mCREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")[0m
+  [4;35;1mSQL (0.8ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mSELECT version FROM "schema_migrations"[0m
+  [4;35;1mSQL (2.0ms)[0m   [0mINSERT INTO "schema_migrations" (version) VALUES ('20090126133510')[0m
+  [4;36;1mUrlHistory::Entry Load (0.3ms)[0m   [0;1mSELECT * FROM "url_history_entries" [0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mUrlHistory::Entry Load (0.3ms)[0m   [0mSELECT * FROM "url_history_entries" [0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.3ms)[0m   [0mselect sqlite_version(*)[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (3.7ms)[0m   [0mCREATE TABLE "url_history_entries" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "url" varchar(255), "controller" varchar(255), "action" varchar(255), "params" varchar(255), "object_id" integer, "object_type" varchar(255)) [0m
+  [4;36;1mSQL (0.5ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (2.5ms)[0m   [0mCREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) [0m
+  [4;36;1mSQL (2.8ms)[0m   [0;1mCREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")[0m
+  [4;35;1mSQL (0.5ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mSELECT version FROM "schema_migrations"[0m
+  [4;35;1mSQL (1.6ms)[0m   [0mINSERT INTO "schema_migrations" (version) VALUES ('20090126133510')[0m
+  [4;36;1mUrlHistory::Entry Load (0.3ms)[0m   [0;1mSELECT * FROM "url_history_entries" [0m
+  [4;36;1mSQL (0.4ms)[0m   [0;1mselect sqlite_version(*)[0m
+  [4;35;1mSQL (0.5ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (3.5ms)[0m   [0;1mDROP TABLE "url_history_entries"[0m
+  [4;35;1mSQL (2.4ms)[0m   [0mCREATE TABLE "url_history_entries" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "url" varchar(255), "controller" varchar(255), "action" varchar(255), "params" varchar(255), "object_id" integer, "object_type" varchar(255)) [0m
+  [4;36;1mSQL (0.7ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.4ms)[0m   [0mSELECT version FROM "schema_migrations"[0m
+  [4;36;1mUrlHistory::Entry Load (0.2ms)[0m   [0;1mSELECT * FROM "url_history_entries" [0m
+  [4;36;1mSQL (0.4ms)[0m   [0;1mselect sqlite_version(*)[0m
+  [4;35;1mSQL (0.5ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (3.7ms)[0m   [0;1mDROP TABLE "url_history_entries"[0m
+  [4;35;1mSQL (2.6ms)[0m   [0mCREATE TABLE "url_history_entries" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "url" varchar(255), "controller" varchar(255), "action" varchar(255), "params" varchar(255), "object_id" integer, "object_type" varchar(255)) [0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.3ms)[0m   [0mSELECT version FROM "schema_migrations"[0m
+  [4;36;1mUrlHistory::Entry Load (0.2ms)[0m   [0;1mSELECT * FROM "url_history_entries" [0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mUrlHistory::Entry Load (0.2ms)[0m   [0mSELECT * FROM "url_history_entries" [0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.3ms)[0m   [0mselect sqlite_version(*)[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (3.6ms)[0m   [0mCREATE TABLE "url_history_entries" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "url" varchar(255), "controller" varchar(255), "action" varchar(255), "params" varchar(255), "object_id" integer, "object_type" varchar(255)) [0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (3.0ms)[0m   [0mCREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) [0m
+  [4;36;1mSQL (2.5ms)[0m   [0;1mCREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")[0m
+  [4;35;1mSQL (0.8ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mSELECT version FROM "schema_migrations"[0m
+  [4;35;1mSQL (1.8ms)[0m   [0mINSERT INTO "schema_migrations" (version) VALUES ('20090126133510')[0m
+  [4;36;1mUrlHistory::Entry Load (0.3ms)[0m   [0;1mSELECT * FROM "url_history_entries" [0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mUrlHistory::Entry Load (0.3ms)[0m   [0mSELECT * FROM "url_history_entries" [0m
+  [4;36;1mSQL (0.7ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mUrlHistory::Entry Load (0.2ms)[0m   [0mSELECT * FROM "url_history_entries" [0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.7ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mUrlHistory::Entry Load (0.3ms)[0m   [0mSELECT * FROM "url_history_entries" WHERE (controller = 'test' AND action = 'show' AND object_id = NULL) [0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mUrlHistory::Entry Load (0.3ms)[0m   [0mSELECT * FROM "url_history_entries" WHERE (controller = 'test' AND action = 'show' AND object_id = NULL) [0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.5ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mUrlHistory::Entry Load (0.3ms)[0m   [0mSELECT * FROM "url_history_entries" WHERE (url = 'http://test.host/test/show' AND controller = 'test' AND action = 'show' AND object_id = NULL) LIMIT 1[0m
+  [4;36;1mUrlHistory::Entry Create (0.8ms)[0m   [0;1mINSERT INTO "url_history_entries" ("url", "action", "controller", "params", "object_id", "object_type") VALUES('http://test.host/test/show', 'show', 'test', NULL, NULL, NULL)[0m
+  [4;36;1mSQL (0.7ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mUrlHistory::Entry Load (0.3ms)[0m   [0mSELECT * FROM "url_history_entries" WHERE (url = 'http://test.host/test/show' AND controller = 'test' AND action = 'show' AND object_id = NULL) LIMIT 1[0m
+  [4;36;1mUrlHistory::Entry Create (0.5ms)[0m   [0;1mINSERT INTO "url_history_entries" ("url", "action", "controller", "params", "object_id", "object_type") VALUES('http://test.host/test/show', 'show', 'test', NULL, NULL, NULL)[0m
+  [4;36;1mSQL (0.7ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mUrlHistory::Entry Load (0.3ms)[0m   [0mSELECT * FROM "url_history_entries" WHERE (url = 'http://test.host/test/show' AND controller = 'test' AND action = 'show' AND object_id = NULL) LIMIT 1[0m
+  [4;36;1mUrlHistory::Entry Create (0.7ms)[0m   [0;1mINSERT INTO "url_history_entries" ("url", "action", "controller", "params", "object_id", "object_type") VALUES('http://test.host/test/show', 'show', 'test', NULL, NULL, NULL)[0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.3ms)[0m   [0mselect sqlite_version(*)[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (3.8ms)[0m   [0mCREATE TABLE "url_history_entries" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "url" varchar(255), "params" text) [0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (2.9ms)[0m   [0mCREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) [0m
+  [4;36;1mSQL (2.5ms)[0m   [0;1mCREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")[0m
+  [4;35;1mSQL (0.7ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mSELECT version FROM "schema_migrations"[0m
+  [4;35;1mSQL (1.8ms)[0m   [0mINSERT INTO "schema_migrations" (version) VALUES ('20090126133510')[0m
+  [4;36;1mSQL (0.7ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mUrlHistory::Entry Load (0.0ms)[0m   [0mSQLite3::SQLException: near ",": syntax error: SELECT * FROM "url_history_entries" WHERE (url = 'http://test.host/test/show' AND params = '--- 
+- action
+- show
+','--- 
+- controller
+- test
+') LIMIT 1[0m
+  [4;36;1mSQL (0.7ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mUrlHistory::Entry Load (0.0ms)[0m   [0mSQLite3::SQLException: near ",": syntax error: SELECT * FROM "url_history_entries" WHERE (url = 'http://test.host/test/show' AND params = '--- 
+- action
+- show
+','--- 
+- controller
+- test
+') LIMIT 1[0m
+  [4;36;1mSQL (0.7ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mUrlHistory::Entry Load (0.3ms)[0m   [0mSELECT * FROM "url_history_entries" WHERE (url = 'http://test.host/test/show' AND params = NULL) LIMIT 1[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mUrlHistory::Entry Load (0.3ms)[0m   [0mSELECT * FROM "url_history_entries" WHERE (url = 'http://test.host/test/show' AND params = NULL) LIMIT 1[0m
+  [4;36;1mUrlHistory::Entry Create (0.7ms)[0m   [0;1mINSERT INTO "url_history_entries" ("url", "params") VALUES(NULL, NULL)[0m
+  [4;36;1mSQL (0.7ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mUrlHistory::Entry Load (0.2ms)[0m   [0mSELECT * FROM "url_history_entries" WHERE (url = 'http://test.host/test/show' AND params = NULL) LIMIT 1[0m
+  [4;36;1mUrlHistory::Entry Create (0.4ms)[0m   [0;1mINSERT INTO "url_history_entries" ("url", "params") VALUES(NULL, NULL)[0m
+  [4;36;1mSQL (0.7ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mUrlHistory::Entry Load (0.0ms)[0m   [0mSQLite3::SQLException: near ",": syntax error: SELECT * FROM "url_history_entries" WHERE (url = 'http://test.host/test/show' AND params = '--- 
+- action
+- show
+','--- 
+- controller
+- test
+') LIMIT 1[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mUrlHistory::Entry Load (0.0ms)[0m   [0mSQLite3::SQLException: near ",": syntax error: SELECT * FROM "url_history_entries" WHERE (url = 'http://test.host/test/show' AND params = '--- 
+- action
+- show
+','--- 
+- controller
+- test
+') LIMIT 1[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mUrlHistory::Entry Load (0.0ms)[0m   [0mSQLite3::SQLException: near ",": syntax error: SELECT * FROM "url_history_entries" WHERE (url = 'http://test.host/test/show' AND params = '--- 
+- action
+- show
+','--- 
+- controller
+- test
+') LIMIT 1[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mUrlHistory::Entry Load (0.0ms)[0m   [0mSQLite3::SQLException: near ",": syntax error: SELECT * FROM "url_history_entries" WHERE (url = 'http://test.host/test/show' AND params = '--- 
+- action
+- show
+','--- 
+- controller
+- test
+') LIMIT 1[0m
+  [4;36;1mSQL (0.7ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mUrlHistory::Entry Load (0.0ms)[0m   [0mSQLite3::SQLException: near ",": syntax error: SELECT * FROM "url_history_entries" WHERE (url = 'http://test.host/test/show' AND params = 'action','show') LIMIT 1[0m
+  [4;36;1mSQL (0.7ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mUrlHistory::Entry Load (0.3ms)[0m   [0mSELECT * FROM "url_history_entries" WHERE (url = 'http://test.host/test/show' AND params = '--- 
+- - action
+ - show
+- - controller
+ - test
+') LIMIT 1[0m
+  [4;36;1mSQL (0.7ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mUrlHistory::Entry Load (0.3ms)[0m   [0mSELECT * FROM "url_history_entries" WHERE (url = 'http://test.host/test/show' AND params = '--- 
+- - action
+ - show
+- - controller
+ - test
+') LIMIT 1[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mUrlHistory::Entry Load (0.3ms)[0m   [0mSELECT * FROM "url_history_entries" WHERE (url = 'http://test.host/test/show' AND params = '--- 
+- - action
+ - show
+- - controller
+ - test
+') LIMIT 1[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mUrlHistory::Entry Load (0.3ms)[0m   [0mSELECT * FROM "url_history_entries" WHERE (url = 'http://test.host/test/show' AND params = '--- 
+- - action
+ - show
+- - controller
+ - test
+') LIMIT 1[0m
+  [4;36;1mUrlHistory::Entry Create (1.2ms)[0m   [0;1mINSERT INTO "url_history_entries" ("url", "params") VALUES('http://test.host/test/show', '--- 
+- - action
+ - show
+- - controller
+ - test
+')[0m
+  [4;36;1mSQL (0.7ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mUrlHistory::Entry Load (0.5ms)[0m   [0mSELECT * FROM "url_history_entries" WHERE (url = 'http://test.host/test/show' AND params = '--- 
+- - action
+ - show
+- - controller
+ - test
+') LIMIT 1[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mUrlHistory::Entry Delete all (3.9ms)[0m   [0mDELETE FROM "url_history_entries" WHERE 1=1[0m
+  [4;36;1mUrlHistory::Entry Load (0.3ms)[0m   [0;1mSELECT * FROM "url_history_entries" WHERE (url = 'http://test.host/test/show' AND params = '--- 
+- - action
+ - show
+- - controller
+ - test
+') LIMIT 1[0m
+  [4;35;1mUrlHistory::Entry Create (0.3ms)[0m   [0mINSERT INTO "url_history_entries" ("url", "params") VALUES('http://test.host/test/show', '--- 
+- - action
+ - show
+- - controller
+ - test
+')[0m
+  [4;36;1mUrlHistory::Entry Load (0.5ms)[0m   [0;1mSELECT * FROM "url_history_entries" [0m
+  [4;35;1mUrlHistory::Entry Load (0.4ms)[0m   [0mSELECT * FROM "url_history_entries" WHERE (url = 'http://test.host/test/show' AND params = '--- 
+- - action
+ - show
+- - controller
+ - test
+') LIMIT 1[0m
+  [4;36;1mUrlHistory::Entry Load (0.3ms)[0m   [0;1mSELECT * FROM "url_history_entries" [0m
+  [4;35;1mUrlHistory::Entry Load (0.4ms)[0m   [0mSELECT * FROM "url_history_entries" LIMIT 1[0m
+  [4;36;1mUrlHistory::Entry Delete all (2.6ms)[0m   [0;1mDELETE FROM "url_history_entries" WHERE 1=1[0m
+  [4;35;1mUrlHistory::Entry Delete all (0.9ms)[0m   [0mDELETE FROM "url_history_entries" WHERE 1=1[0m
+  [4;36;1mUrlHistory::Entry Load (0.2ms)[0m   [0;1mSELECT * FROM "url_history_entries" WHERE (url = 'http://test.host/test/show' AND params = '--- 
+- - action
+ - show
+- - controller
+ - test
+') LIMIT 1[0m
+  [4;35;1mUrlHistory::Entry Create (0.3ms)[0m   [0mINSERT INTO "url_history_entries" ("url", "params") VALUES('http://test.host/test/show', '--- 
+- - action
+ - show
+- - controller
+ - test
+')[0m
+  [4;36;1mSQL (0.7ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mUrlHistory::Entry Delete all (4.0ms)[0m   [0mDELETE FROM "url_history_entries" WHERE 1=1[0m
+  [4;36;1mUrlHistory::Entry Load (0.3ms)[0m   [0;1mSELECT * FROM "url_history_entries" WHERE (url = 'http://test.host/test/show' AND params = '--- 
+- - action
+ - show
+- - controller
+ - test
+') LIMIT 1[0m
+  [4;35;1mUrlHistory::Entry Create (0.6ms)[0m   [0mINSERT INTO "url_history_entries" ("url", "params") VALUES('http://test.host/test/show', '--- 
+- - action
+ - show
+- - controller
+ - test
+')[0m
+  [4;36;1mUrlHistory::Entry Load (0.4ms)[0m   [0;1mSELECT * FROM "url_history_entries" [0m
+  [4;35;1mUrlHistory::Entry Load (0.5ms)[0m   [0mSELECT * FROM "url_history_entries" WHERE (url = 'http://test.host/test/show' AND params = '--- 
+- - action
+ - show
+- - controller
+ - test
+') LIMIT 1[0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mSELECT count(*) AS count_all FROM "url_history_entries" [0m
+  [4;35;1mUrlHistory::Entry Load (0.4ms)[0m   [0mSELECT * FROM "url_history_entries" LIMIT 1[0m
+  [4;36;1mUrlHistory::Entry Delete all (2.3ms)[0m   [0;1mDELETE FROM "url_history_entries" WHERE 1=1[0m
+  [4;35;1mUrlHistory::Entry Delete all (0.9ms)[0m   [0mDELETE FROM "url_history_entries" WHERE 1=1[0m
+  [4;36;1mUrlHistory::Entry Load (0.2ms)[0m   [0;1mSELECT * FROM "url_history_entries" WHERE (url = 'http://test.host/test/show' AND params = '--- 
+- - action
+ - show
+- - controller
+ - test
+') LIMIT 1[0m
+  [4;35;1mUrlHistory::Entry Create (0.3ms)[0m   [0mINSERT INTO "url_history_entries" ("url", "params") VALUES('http://test.host/test/show', '--- 
+- - action
+ - show
+- - controller
+ - test
+')[0m
+  [4;36;1mSQL (0.5ms)[0m   [0;1mSELECT count(*) AS count_all FROM "url_history_entries" [0m
+  [4;35;1mUrlHistory::Entry Load (0.4ms)[0m   [0mSELECT * FROM "url_history_entries" LIMIT 1[0m
+  [4;36;1mSQL (0.7ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.7ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mUrlHistory::Entry Create (0.5ms)[0m   [0mINSERT INTO "url_history_entries" ("url", "params") VALUES('http://www.example.org/permalink-1', '--- 
+:controller: test
+:id: 10
+:action: show
+')[0m
+  [4;36;1mUrlHistory::Entry Create (0.4ms)[0m   [0;1mINSERT INTO "url_history_entries" ("url", "params") VALUES('http://www.example.org/permalink-1', '--- 
+:controller: test
+:id: 1
+:action: show
+')[0m
+  [4;35;1mUrlHistory::Entry Create (0.4ms)[0m   [0mINSERT INTO "url_history_entries" ("url", "params") VALUES('http://www.example.org/permalink-new-1', '--- 
+:controller: test
+:id: 1
+:action: show
+')[0m
+  [4;36;1mUrlHistory::Entry Create (0.5ms)[0m   [0;1mINSERT INTO "url_history_entries" ("url", "params") VALUES('http://www.example.org/permalink-2', '--- 
+:controller: test
+:id: 2
+:action: show
+')[0m
+  [4;35;1mUrlHistory::Entry Load (0.5ms)[0m   [0mSELECT * FROM "url_history_entries" WHERE (url = 'http://www.example.org/permalink-1') ORDER BY id DESC LIMIT 1[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mUrlHistory::Entry Create (0.5ms)[0m   [0mINSERT INTO "url_history_entries" ("url", "params") VALUES('http://www.example.org/permalink-1', '--- 
+:controller: test
+:id: 1
+:action: show
+')[0m
+  [4;36;1mUrlHistory::Entry Create (0.4ms)[0m   [0;1mINSERT INTO "url_history_entries" ("url", "params") VALUES('http://www.example.org/permalink-1', '--- 
+:controller: test
+:id: 10
+:action: show
+')[0m
+  [4;35;1mUrlHistory::Entry Create (0.4ms)[0m   [0mINSERT INTO "url_history_entries" ("url", "params") VALUES('http://www.example.org/permalink-new-1', '--- 
+:controller: test
+:id: 1
+:action: show
+')[0m
+  [4;36;1mUrlHistory::Entry Create (0.4ms)[0m   [0;1mINSERT INTO "url_history_entries" ("url", "params") VALUES('http://www.example.org/permalink-2', '--- 
+:controller: test
+:id: 2
+:action: show
+')[0m
+  [4;35;1mUrlHistory::Entry Load (0.5ms)[0m   [0mSELECT * FROM "url_history_entries" WHERE (url = 'http://www.example.org/permalink-1') ORDER BY id DESC LIMIT 1[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.7ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.7ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.7ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.7ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m

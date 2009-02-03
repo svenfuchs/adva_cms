@@ -1,6 +1,6 @@
 ActionController::Base.class_eval do 
   def expire_pages(pages)
-    pages.each { |page| expire_page(page.url) }
+    pages.each { |page| expire_page(page.url) if page.url }
     CachedPage.expire_pages(pages)
   end
 

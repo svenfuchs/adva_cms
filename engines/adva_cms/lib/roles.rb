@@ -42,7 +42,7 @@ Rbac.define do
               :'create asset'       => :moderator,
               :'update asset'       => :moderator,
               :'destroy asset'      => :moderator,
-              :'manage asset'     => :moderator,
+              :'manage asset'       => :moderator,
 
               :'create theme'       => :admin,
               :'update theme'       => :admin,

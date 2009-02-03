@@ -4,7 +4,7 @@ module SpamEngine
       def check_comment(comment, context = {})
         spaminess = ham?(context) ? 0 : 100
         comment.spam_reports << SpamReport.new(:engine => name, :spaminess => spaminess)
-        spaminess != 0 # i.e. stop the filter chain if the comment was hamd
+        spaminess != 0 # i.e. stop the filter chain if the comment was ham
       end
 
       def mark_as_ham(comment, context = {})

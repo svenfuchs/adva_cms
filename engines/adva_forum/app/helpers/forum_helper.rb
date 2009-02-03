@@ -33,7 +33,7 @@ module ForumHelper
     format = options.delete(:format) || '%s'
     topic = args.pop
     text = args.pop || '&larr; ' + I18n.t(:'adva.links.previous')
-    format % link_to(text, previous_topic_path(@section, topic.permalink), options)
+    format % link_to(text, previous_topic_path(topic.section, topic.permalink), options)
   end
 
   def link_to_next_topic(*args)
@@ -41,7 +41,7 @@ module ForumHelper
     format = options.delete(:format) || '%s'
     topic = args.pop
     text = args.pop || I18n.t(:'adva.links.next') + ' &rarr;'
-    format % link_to(text, next_topic_path(@section, topic.permalink), options)
+    format % link_to(text, next_topic_path(topic.section, topic.permalink), options)
   end
 
   def links_to_prev_next_topics(topic, options = {})

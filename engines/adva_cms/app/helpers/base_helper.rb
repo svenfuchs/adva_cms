@@ -39,21 +39,6 @@ module BaseHelper
     concat lines.join("\n")
   end
 
-  # # same as Rails text helper, but returns only the pluralized string without
-  # # the number botched into it
-  # def pluralize_str(count, singular, plural = nil)
-  #   str = if count.to_i == 1
-  #     singular
-  #   elsif plural
-  #     plural
-  #   elsif ActiveSupport.const_defined?("Inflector")
-  #     ActiveSupport::Inflector.pluralize(singular)
-  #   else
-  #     singular + "s"
-  #   end
-  #   str % count.to_i
-  # end
-
   def todays_short_date
     Time.zone.now.to_ordinalized_s(:stub)
   end
@@ -78,6 +63,7 @@ module BaseHelper
     end.unshift [t(:'adva.settings.filter_options.plain_html'), '']
   end
 
+  # FIXME refactor to not use instance variables
   def author_options
     members = [[current_user.name, current_user.id]]
     return members if @site.users.empty?

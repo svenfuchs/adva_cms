@@ -1,0 +1,136 @@
+h1. With
+
+*HIGHLY EXPERIMENTAL!*
+
+Heavily inspired by both 
+"context":http://github.com/jeremymcanally/context 
+by "Jeremy McAnally":http://github.com/jeremymcanally and 
+"context_on_crack":http://github.com/technoweenie/context_on_crack
+(as well as "rspec_on_rails_on_crack":http://github.com/technoweenie/rspec_on_rails_on_crack)
+by "Rick Olson":http://github.com/technoweenie.
+
+For some demo code see: runnable "demo controller test":http://github.com/svenfuchs/with/tree/master/demo.rb.
+Style and initial motivation: "http://gist.github.com/30436":http://gist.github.com/30436. 
+
+In short the goal of this library is:
+
+# setup preconditions for tests/assertions in a more flexible and concise way
+# run as many assertions with common preconditions (setup/before) at once as possible
+
+So it allows to write test/unit tests like this:
+
+<pre><code>
+  describe 'POST to :create' do
+    action { post :create, @params }
+  
+    with :login_as_admin do
+      it_assigns :article
+
+      it "succeeds", :with => :valid_article_params do
+        it_redirects_to 'articles/1'
+        # more assertions ...
+      end
+      
+      it "fails", :with => :invalid_article_params do
+        it_assigns_flash :error, :not_nil
+        # more assertions ...
+      end
+    end
+  
+    with [:login_as_user, :no_login] do
+      it_redirects_to '/login'
+    end
+  end
+</code></pre>
+
+This piece of code will generate at least 4 tests:
+
+<pre><code>
+  test_POST_to_create_with_login_as_admin_and_with_valid_article_params
+  test_POST_to_create_with_login_as_admin_and_with_invalid_article_params
+  test_POST_to_create_with_login_as_user
+  test_POST_to_create_with_no_login
+  # TODO test method names should include the assertion block names (e.g. "succeeds")
+</code></pre>
+
+Shared context blocks can be setup like this:
+
+<pre><code>
+  share :login_as_admin do 
+    before { @controller.current_user = Admin.new }
+  end
+  
+  share :valid_article_params do
+    # could also use a tool like FactoryGirl, Mechanist etc.here
+    before { @params = {'title' => 'article title', 'body' => 'article body'} } 
+  end
+</code></pre>
+
+Also, one can map a context name like :invalid_article_params to multiple 
+blocks. <code>With</code> will then expand them and create separate tests for
+them. 
+
+E.g. with a definition like:
+
+<pre><code>
+  # share multiple contexts with the same name:  
+  share :invalid_article_params do
+    before { @params = valid_article_params.except(:title) }
+  end
+  
+  share :invalid_article_params do
+    before { @params = valid_article_params.except(:body) }
+  end
+  
+  # or register them at once:  
+  share :invalid_article_params,
+    lambda { before { @params = valid_article_params.except(:title) } },
+    lambda { before { @params = valid_article_params.except(:body) } }
+</code></pre>
+
+... it would generate two methods and test the actual assertions against both 
+invalid article params that are missing a title and those that are missing a
+body.
+
+Note that the second goal stated above ("run as many assertions with common 
+preconditions at once as possible") also means that this does not follow the
+"one assertion per test":http://blog.jayfields.com/2007/06/testing-one-assertion-per-test.html 
+philosophy any more. 
+
+E.g. some pseudo code for the first generated method above would be:
+
+<pre><code>
+  def test_POST_to_create_with_login_as_admin_and_with_valid_article_params
+    # preconditions
+    @controller.current_user = Admin.new
+    @params = {'title' => 'article title', 'body' => 'article body'}
+    
+    # action
+    post :create, @params
+    
+    # assertions
+    it_assigns :article
+    it_redirects_to 'articles/1'
+  end
+</code></pre>
+
+(You can still use the default test/unit <code>setup</code> method for setting
+up common, expensive scenarios for the whole testcase.)
+
+The reason for this choice is that tests will run much faster when multiple 
+assertions are validated against the result of one actual controller call (that 
+goes through routing, controller setup, filters, ...) instead of running this 
+setup for every single assertion.
+
+With this speed gain it is possible to run controller tests without heavy stubbing
+and still have reasonable test execution times. So basically the tradeoff I 
+had in mind with this was: trade "real model usage" instead of heavy stubbing 
+(which I wanted to get rid of for my controller tests) for multiple assertions
+per test (which I think still works fine for controller tests).
+
+
+
+
+
+
+

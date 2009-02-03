@@ -61,11 +61,11 @@ describe Issue do
 
     describe "destroy" do
       it "should move Issue to DeletedIssue" do
-        Issue.find_by_id(@issue.id).should_not == nil
-        DeletedIssue.find_by_id(@issue.id).should == nil
+        Issue.find_by_id(@issue.id).should_not be_nil
+        DeletedIssue.find_by_id(@issue.id).should be_nil
         @issue.destroy
-        Issue.find_by_id(@issue.id).should == nil
-        DeletedIssue.find_by_id(@issue.id).should_not == nil
+        Issue.find_by_id(@issue.id).should be_nil
+        DeletedIssue.find_by_id(@issue.id).should_not be_nil
       end
 
       it "should decrease issues_count by -1" do

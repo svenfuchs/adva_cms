@@ -11,7 +11,7 @@
     <li><%= link_to t(:'adva.articles.links.create'), new_admin_article_path(@site) %></li>
     <% if @articles.size > 1 %>
       <li>
-        <%= link_to_function t(:'adva.articles.links.reorder'), "articles_list.toggle(this, '#{t(:'adva.resources.reordering_done')}')", :id => 'reorder_sections' %>
+        <%= link_to_function t(:'adva.articles.links.reorder'), "articles_list.toggle(this, '#{t(:'adva.resources.reordering_done')}');", :id => 'reorder_sections' %>
         <%= image_tag '/images/adva_cms/indicator.gif', :id => 'articles_indicator', :style => 'display: none;' %>
       </li>
     <% end %>

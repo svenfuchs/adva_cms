@@ -6,8 +6,8 @@ class Admin::ArticlesController < Admin::BaseController
   # member_actions.push *%W(index show new destroy create)
 
   before_filter :set_section
-  before_filter :set_article,      :only => [:show, :edit, :update, :destroy]
-  before_filter :set_categories,   :only => [:new, :edit]
+  before_filter :set_article,         :only => [:show, :edit, :update, :destroy]
+  before_filter :set_categories,      :only => [:new, :edit]
 
   before_filter :params_author,       :only => [:create, :update]
   before_filter :params_draft,        :only => [:create, :update]
@@ -73,8 +73,8 @@ class Admin::ArticlesController < Admin::BaseController
   end
   
   def rollback
-    version = params[:article][:version]
-    if @article.revert_to!(version)
+    version = params[:article][:version].to_i
+    if @article.version != version and @article.revert_to!(version)
       trigger_event @article, :rolledback
       flash[:notice] = t(:'adva.articles.flash.rollback.success', :version => version)
       redirect_to edit_admin_article_path
@@ -119,7 +119,9 @@ class Admin::ArticlesController < Admin::BaseController
     end
 
     def params_author
-      author = User.find(params[:article][:author]) || current_user
+      # FIXME - shouldn't we pass params[:article][:author_id] instead?
+      author = User.find(params[:article][:author]) if params[:article][:author]
+      author ||= current_user
       set_article_param(:author, author) or raise "author and current_user not set"
     end
 

@@ -25,7 +25,7 @@ require 'registry' # reload them between requests
 config.to_prepare do
   Registry.set :redirect, {
     :login        => lambda {|c| c.send :admin_sites_path },
-    :verify       => :login,
+    :verify       => '/',
     :site_deleted => lambda {|c| c.send :admin_sites_path }
   }
 
@@ -119,20 +119,6 @@ I18n.load_path += Dir[File.dirname(__FILE__) + '/locale/**/*.yml']
 TagList.delimiter = ' '
 Tag.destroy_unused = true
 Tag.class_eval do def to_param; name end end
-
-# class Rails::Plugin
-#   def components_path
-#     path = File.join(directory, 'app', 'components')
-#     File.exists?(path) ? path : nil
-#   end
-# end
-
-# config.after_initialize do
-#   Engines.plugins.map { |plugin| plugin.components_path }.compact.each do |path|
-#     ActiveSupport::Dependencies.load_paths << path
-#     Components::Base.view_paths << path
-#   end
-# end
 
 XssTerminate.untaint_after_find = true
 

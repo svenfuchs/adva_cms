@@ -29,7 +29,7 @@ class Admin::ThemeFilesController < Admin::BaseController
   def update
     if @file.update_attributes params[:file]
       expire_pages_by_site! # TODO use active_model?
-      expire_template! @file
+      expire_template!(@file)
       flash[:notice] = t(:'adva.theme_files.flash.update.success')
       redirect_to admin_theme_file_path(@site, @theme.id, @file.id)
     else
@@ -41,7 +41,7 @@ class Admin::ThemeFilesController < Admin::BaseController
   def destroy
     if @file.destroy
       expire_pages_by_site! # TODO use active_model?
-      expire_template! if @file.is_a?(Theme::Template)
+      expire_template!(@file)
       flash[:notice] = t(:'adva.theme_files.flash.destroy.success')
       redirect_to admin_theme_path(@site, @theme.id)
     else
@@ -59,9 +59,9 @@ class Admin::ThemeFilesController < Admin::BaseController
     end
 
     def expire_template!(file)
-      # this will expire compiled actionview templates from memory
+      # expires compiled actionview templates from memory
       # see lib/theme_support/compiled_template_expiration
-      FileUtils.touch(@theme.path)
+      FileUtils.touch(@theme.path) if file.is_a?(Theme::Template)
     end
 
     def set_theme

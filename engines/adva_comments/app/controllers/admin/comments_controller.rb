@@ -90,14 +90,14 @@ class Admin::CommentsController < Admin::BaseController
       options = {:page => current_page, :per_page => params[:per_page], :order => 'created_at DESC'}
       case params[:filter]
       when 'state'
-        params[:state] == 'approved' ? options[:conditions] = "approved = '1'" : options[:conditions] = "unapproved = '0'"
+        params[:state] == 'approved' ? options[:conditions] = "approved = '1'" : options[:conditions] = "approved = '0'"
       when 'body'
         options[:conditions] = Comment.send(:sanitize_sql, ["LOWER(body) LIKE :query", {:query => "%#{params[:query].downcase}%"}])
       when 'author_name'
         options[:conditions] = Comment.send(:sanitize_sql, ["LOWER(author_name) LIKE :query", {:query => "%#{params[:query].downcase}%"}])
       when 'author_email'
         options[:conditions] = Comment.send(:sanitize_sql, ["LOWER(author_email) LIKE :query", {:query => "%#{params[:query].downcase}%"}])
-      when 'author_website'
+      when 'author_homepage'
         options[:conditions] = Comment.send(:sanitize_sql, ["LOWER(author_homepage) LIKE :query", {:query => "%#{params[:query].downcase}%"}])
       end
       options

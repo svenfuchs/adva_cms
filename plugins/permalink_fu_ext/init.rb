@@ -41,16 +41,16 @@ end
 # use custom translation logic
 PermalinkFu.module_eval do
   class << self
-    def escape_with_custom_translation_logic(str)
-      character_translations.each_pair do |search_chars, replacement|
+    def escape_with_transliterations(str)
+      transliterations.each_pair do |search_chars, replacement|
         Array(search_chars).each { |character| str.gsub!(character, replacement) }
       end
-      escape_without_custom_translation_logic(str)
+      escape_without_transliterations(str)
     end
-    alias_method_chain :escape, :custom_translation_logic
+    alias_method_chain :escape, :transliterations
 
     private
-    def character_translations
+    def transliterations
       {
         %w(À Á Â Ã Å)  => "A",
         %w(Ä Æ)        => "Ae",

@@ -1,39 +1,36 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'test_helper' ))
 
-class AnonymousCannotAccessConversationsTest < ActionController::IntegrationTest
+class ConversationsTest < ActionController::IntegrationTest
   def setup
-    factory_scenario :site_with_a_section
-    factory_scenario :conversation_with_messages
+    super
+    @site = use_site! 'site with sections'
+    @user = User.find_by_email('a-user@example.com')
+    @conversation = @user.conversations.first
   end
-  def test_the_anonymous_user_visits_the_conversation
-    # go to inbox
-    get conversation_path(@conversation)
-    
-    # the page renders the login screen
-    assert_redirected_to login_path(:return_to => "http://www.example.com/conversations/#{@conversation.id}")
-  end
-end
-
-class UserBrowsesConversationsTest < ActionController::IntegrationTest
-  def setup
-    factory_scenario :site_with_a_section
-    login_as :user
-    factory_scenario :user_with_conversation
+  
+  test 'an anonymous user visits the conversation' do
+    visit_the_conversation
+    redirect_to_login
   end
 
-  def test_the_user_reads_the_conversation
-    # messages are unread
-    @conversation.messages.each do |message|
-      assert message.read_at == nil
-    end
-    
-    # go to message
+  test 'the user reads the conversation' do
+    login_as_user
+    visit_the_conversation
+    read_the_conversation
+  end
+  
+  
+  def visit_the_conversation
     get conversation_path(@conversation)
-    
-    # the page renders the show view
+  end
+  
+  def redirect_to_login
+    assert_redirected_to login_path(:return_to => "http://site-with-sections.com/conversations/#{@conversation.id}")
+  end
+  
+  def read_the_conversation
     assert_template 'conversations/show'
     
-    # messages are read
     @conversation.reload
     @conversation.messages.each do |message|
       assert message.read_at != nil

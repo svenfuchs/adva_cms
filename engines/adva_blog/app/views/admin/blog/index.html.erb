@@ -5,7 +5,7 @@
     </label>
     <select name="filter" id="filterlist">
       <%= options_for_select [[ t(:'adva.blog.options.filter.category'),  'category'],
-                              [ t(:'adva.blog.options.filter.tags'),       'tags'],
+                              [ t(:'adva.blog.options.filter.tags'),      'tags'],
                               [ t(:'adva.blog.options.filter.title'),     'title'],
                               [ t(:'adva.blog.options.filter.body'),      'body'],
                               [ t(:'adva.blog.options.filter.draft'),     'draft']], params[:filter] %>
@@ -36,7 +36,7 @@
 <% unless @articles.empty? -%>
 
   <p class="total">
-    <%=t :'adva.blog.total_entries', :count => @articles.total_entries %>
+    <%=t :'adva.articles.total_with_count', :count => @articles.total_entries %>
   </p>
 
   <table id="articles" class="list">

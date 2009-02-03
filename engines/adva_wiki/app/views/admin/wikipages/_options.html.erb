@@ -48,7 +48,7 @@
   <%= f.text_field :tag_list %>
 </p>
 
-<% unless @categories.empty? %>
+<% unless @categories.blank? %>
   <h4><%= t(:'adva.wikipage.view._options.publish_categories_header') %></h4>
   <%= render :partial => 'categories/checkboxes', :locals => { :categories => @categories, :content => @wikipage } %>
 <% end %>

@@ -1,21 +1,17 @@
+# FIXME break this up to smaller steps
+
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'test_helper' ))
 
 class InstallationTest < ActionController::IntegrationTest
   include CacheableFlash::TestHelpers
 
-  # def test_01_setting_up_the_database_with_rake
-  #   assert system("rake db:drop") == true
-  #   assert system("rake db:migrate:all") == true
-  # end
-
-
-  def test_02_a_user_goes_through_site_install_process
-    install_initial_site!
-    manage_new_site!
-    log_out_and_view_empty_frontend!
+  def setup
+    super
+    Site.delete_all
+    User.delete_all
   end
-  
-  def install_initial_site!
+
+  test "user installs the initial site, manages the new site, logs out and views the empty frontend" do
     # go to root page
     get "/"
 
@@ -23,7 +19,7 @@ class InstallationTest < ActionController::IntegrationTest
     assert_template "admin/install/index"
 
     # fill in the form and submit the form
-    fill_in :site_name,     :with => "adva-cms Test"
+    fill_in :site_name,     :with => "adva-cms test"
     fill_in :user_email,    :with => "test@example.org"
     fill_in :user_password, :with => "test_password"
     fill_in :section_title, :with => "Home"
@@ -49,29 +45,30 @@ class InstallationTest < ActionController::IntegrationTest
 
     # check that the system authenticates the user as a superuser
     assert admin.has_role?(:superuser)
-    
+
     # check that site has default email (same as user one for default)
     assert_equal admin.email, site.email
-    
+
     # check that confirmation page has correct user attributes
     assert_select 'p#user_profile', /test@example.org/
-  end
-  
-  def manage_new_site!
+
+    # FIXME ... we do not show the password in plain text any more. might
+    # want to hide it by default and reveal it on "show my password" though
+    # assert_select 'p#user_profile', /test_password/
+
     # go to admin main page
     get admin_site_path(Site.first)
 
     # check that the user sees the site dashboard
     assert_template "admin/sites/show"
-  end
-  
-  def log_out_and_view_empty_frontend!
+
+    # logout
     click_link "Logout"
 
     # check that the user sees the frontend
     assert_template "sections/show"
-    
+
     #check that the frontend contains the site title
-    assert response.body =~ /adva-cms Test/, "frontend should contain site title"
+    assert response.body =~ /adva-cms test/i, "frontend should contain site title"
   end
 end

@@ -3,7 +3,7 @@ CommentSearch.create = function() {
 	var search = new CommentSearch('comment-search', [
     {keys: ['all'], show: ['button'], hide: ['states', 'query']},
 	{keys: ['body', 'author_name', 
-			'author_email', 'author_website'], 	show: ['query'],       		hide: ['button', 'states']},
+			'author_email', 'author_homepage'], show: ['query'],       		hide: ['button', 'states']},
     {keys: ['state'],                 			show: ['button', 'states'], hide: ['query']}
   ], 'all');
 	search.onChange($('filterlist'));

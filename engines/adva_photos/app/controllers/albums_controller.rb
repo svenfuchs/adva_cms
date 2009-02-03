@@ -1,4 +1,4 @@
-class AlbumsController < BaseController
+  class AlbumsController < BaseController
   include ActionController::GuardsPermissions::InstanceMethods
   helper :roles
 
@@ -48,7 +48,7 @@ class AlbumsController < BaseController
     rescue ActiveRecord::RecordNotFound
       flash[:error] = "Photo you requested could not be found."
       write_flash_to_cookie # TODO make around filter or something
-      redirect_to album_path
+      redirect_to album_path(@section)
     end
 
     def set_set

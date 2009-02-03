@@ -10,11 +10,11 @@ describe DeletedIssue do
   describe "methods:" do
     describe "restore" do
       it "should restore DeleteIssue back to Issue" do
-        Issue.find_by_id(@deleted_issue.id).should == nil
-        DeletedIssue.find_by_id(@deleted_issue.id).should_not == nil
+        Issue.find_by_id(@deleted_issue.id).should be_nil
+        DeletedIssue.find_by_id(@deleted_issue.id).should_not be_nil
         @deleted_issue.restore
-        Issue.find_by_id(@deleted_issue.id).should_not == nil
-        DeletedIssue.find_by_id(@deleted_issue.id).should == nil
+        Issue.find_by_id(@deleted_issue.id).should_not be_nil
+        DeletedIssue.find_by_id(@deleted_issue.id).should be_nil
       end
       
       it "should increase issues_count by +1" do

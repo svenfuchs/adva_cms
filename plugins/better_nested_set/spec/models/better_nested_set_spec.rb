@@ -67,7 +67,7 @@ describe 'BetterNestedSet' do
     end
     
     it "#left should return nil if there is no next sibling on the left side of the node" do
-      @node_2.left.should == nil
+      @node_2.left.should be_nil
     end
     
     it "#right should return the next sibling on the right side of the node if there is one" do
@@ -75,7 +75,7 @@ describe 'BetterNestedSet' do
     end
     
     it "#right should return nil if there is no next sibling on the right side of the node" do
-      @node_3.right.should == nil
+      @node_3.right.should be_nil
     end
       
     it "#children should return a node's immediate children" do

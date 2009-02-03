@@ -9,6 +9,7 @@ module WikiHelper
             def wikipage_#{kind}(*args)
               returning wikipage_#{kind}_with_home(*args) do |url|
                 url.sub! %r(/pages/home$), ''
+                url.replace '/' if url.empty?
               end
             end
           CODE
@@ -69,22 +70,27 @@ module WikiHelper
     if wikipage.versions.size > 1
       if wikipage.version > wikipage.versions.first.version
   	    links << content_tag(:li) do
-  	      link_to(t(:'adva.wiki_helper.wiki_version_links.link_to_previous_revision'), wikipage_rev_path(:section_id => @section.id, :id => wikipage.permalink, :version => (wikipage.version - 1)))
+  	      link_to t(:'adva.wiki_helper.wiki_version_links.link_to_previous_revision'),
+  	              wikipage_rev_path(:section_id => @section.id, :id => wikipage.permalink, :version => (wikipage.version - 1))
 	      end
       end
       if wikipage.version < wikipage.versions.last.version - 1
   	    links << content_tag(:li) do
-  	      link_to(t(:'adva.wiki_helper.wiki_version_links.link_to_next_revision'), wikipage_rev_path(:section_id => @section.id, :id => wikipage.permalink, :version => (wikipage.version + 1)))
+  	      link_to t(:'adva.wiki_helper.wiki_version_links.link_to_next_revision'),
+  	              wikipage_rev_path(:section_id => @section.id, :id => wikipage.permalink, :version => (wikipage.version + 1))
 	      end
 	    end
       if wikipage.version < wikipage.versions.last.version
   	    links << content_tag(:li) do
-  	      link_to(t(:'adva.wiki_helper.wiki_version_links.link_to_current_revision'), wikipage_path(@section, wikipage.permalink))
+  	      link_to t(:'adva.wiki_helper.wiki_version_links.link_to_current_revision'),
+  	              wikipage_path(@section, wikipage.permalink)
 	      end
       end
       if wikipage.version != wikipage.versions.last.version
 	      links << authorized_tag(:li, :update, wikipage) do
-	        link_to(t(:'adva.wiki_helper.wiki_version_links.link_to_rollback'), wikipage_path_with_home(@section, wikipage.permalink, :version => wikipage.version), { :confirm => t(:'adva.wiki_helper.wiki_version_links.confirm_rollback'), :method => :put })
+	        link_to t(:'adva.wiki_helper.wiki_version_links.link_to_rollback'),
+	                wikipage_path_with_home(@section, wikipage.permalink, :version => wikipage.version),
+	                :confirm => t(:'adva.wiki_helper.wiki_version_links.confirm_rollback'), :method => :put
         end
       end
     end
@@ -92,10 +98,15 @@ module WikiHelper
     links
   end
 
-  def collection_title(category=nil, tags=nil)
+  def wikipages_title(*args)
+    options = args.extract_options!
+    category, tags = *args
+    
     title = []
     title << t(:'adva.wiki_helper.collection_title.category_title', :title => category.title) if category
     title << t(:'adva.wiki_helper.collection_title.tags_title', :title => tags.to_sentence) if tags
-    title.empty? ? t(:'adva.wiki_helper.collection_title.all_pages') : t(:'adva.wiki_helper.collection_title.collect_pages') + title.join(', ')
+    
+    title = title.empty? ? t(:'adva.wiki_helper.collection_title.all_pages') : t(:'adva.wiki_helper.collection_title.collect_pages') + title.join(', ')
+    options[:format] ? options[:format] % title : title
   end
 end

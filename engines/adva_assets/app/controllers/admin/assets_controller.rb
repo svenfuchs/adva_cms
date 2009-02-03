@@ -1,8 +1,4 @@
 class Admin::AssetsController < Admin::BaseController
-  # member_actions.push(*%w(index new create latest search add_bucket clear_bucket edit update))
-  # skip_before_filter :login_required
-  # before_filter :login_required
-
   include AssetsHelper
   helper :assets
   helper_method :created_notice

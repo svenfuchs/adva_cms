@@ -402,8 +402,10 @@ de:
    passwords:
      info:
        please_enter_email_to_reset_password: Bitte geben Sie Ihre E-Mailadresse ein. Sie erhalten dann eine Email , die einen Link auf eine Seite zum Neueingeben des Passworts beinhaltet.
+       please_enter_new_password: Bitte geben Sie Ihr neues Password ein.
      titles:
        new: Ihr Passwort zurücksetzen
+       edit: Ihr Password ändern
      notifications:
        password_updated:
          subject: Passwort aktualisiert

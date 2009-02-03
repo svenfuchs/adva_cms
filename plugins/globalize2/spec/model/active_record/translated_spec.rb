@@ -55,7 +55,7 @@ describe Globalize::Model::ActiveRecord::Translated, 'in the guise of a Post obj
       end
   
       it "saves an English post and loads it correctly" do
-        Post.first.should == nil
+        Post.first.should be_nil
         post = Post.create :subject => 'foo', :content => 'bar'
         post.save.should == true
         post = Post.first
