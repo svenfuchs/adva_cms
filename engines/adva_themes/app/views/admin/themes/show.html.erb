@@ -1,0 +1,27 @@
+<% content_for :sidebar do -%>
+  <h3><%= t(:'adva.titles.manage') %></h3>
+  <ul>
+    <li><%= link_to t(:'adva.titles.site'), edit_admin_site_path(@site) %></li>
+    <li><%= link_to t(:'adva.titles.themes'), admin_themes_path(@site) %></li>
+    <li><%= link_to t(:'adva.titles.cache'), admin_cached_pages_path(@site) %></li>
+  </ul>
+
+  <h3><%= t(:'adva.titles.actions') %></h3>
+  <ul>
+    <li><%= link_to t(:'adva.themes.links.create_file'), new_admin_theme_file_path(@site, @theme) %></li>
+    <li><%= link_to t(:'adva.themes.links.upload_file'), import_admin_theme_files_path(@site, @theme) %></li>
+
+    <% if @theme.active? %>
+      <li><%= link_to t(:'adva.themes.links.unselect_theme'), admin_site_selected_theme_path(@site, @theme), { :confirm => t(:'adva.themes.confirm_unselect'), :method => :delete } %></li>
+    <% else %>
+      <li><%= link_to t(:'adva.themes.links.select_theme'), admin_site_selected_themes_path(@site, :id => @theme.id), { :confirm => t(:'adva.themes.confirm_select'), :method => :post } %></li>
+    <% end %>
+    <li><%= link_to t(:'adva.themes.links.edit_theme'), edit_admin_theme_path(@site, @theme) %></li>
+    <li><%= link_to t(:'adva.themes.links.delete_theme'), admin_theme_path(@site, @theme), { :confirm => t(:'adva.themes.confirm_uninstall'), :method => :delete }  %></li>
+
+    <li><%= link_to t(:'adva.themes.links.download_theme'), export_admin_theme_path(@site, @theme) %></li>
+  </ul>
+<% end -%>
+
+<h2><%= t(:'adva.titles.theme') %>: <%= @theme.name %></h2>
+<%= render :partial => 'admin/theme_files/files' %>
