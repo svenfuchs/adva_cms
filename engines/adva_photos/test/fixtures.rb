@@ -13,14 +13,16 @@ Photo.create!  :content_type => 'image/jpeg',
                :title        => 'a photo',
                :author       => superuser,
                :filename     => 'test.png',
-               :section      => album
+               :section      => album,
+               :site        => site
 
 Photo.create!  :content_type => 'image/jpeg',
                :size         => 110,
                :title        => 'a photo without set',
                :author       => superuser,
                :filename     => 'test.png',
-               :section      => album
+               :section      => album,
+               :site        => site
 
 Photo.create!  :content_type => 'image/jpeg',
                :size         => 110,
@@ -28,7 +30,8 @@ Photo.create!  :content_type => 'image/jpeg',
                :author       => superuser,
                :filename     => 'test.png',
                :section      => album,
-               :published_at => Time.parse('2008-01-01 12:00:00')
+               :published_at => Time.parse('2008-01-01 12:00:00'),
+               :site        => site
 
 set =    Category.create! :title => 'Summer', :section => album
 subset = Category.create! :title => 'A Subset', :section => album
