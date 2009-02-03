@@ -1,4 +1,4 @@
-require_dependency 'Site'
+require_dependency 'site'
 
 class Section < ActiveRecord::Base
 =begin
