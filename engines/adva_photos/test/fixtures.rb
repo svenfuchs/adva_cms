@@ -8,10 +8,11 @@ Album.create!  :site        => site,
                :comment_age => 0
 
 basic_photo_attributes  = { :content_type => 'image/jpeg',
-                      :size         => 100,
-                      :author       => superuser,
-                      :filename     => 'test.png',
-                      :section      => album }
+                            :size         => 100,
+                            :author       => superuser,
+                            :filename     => 'test.png',
+                            :section      => album,
+                            :site         => site }
 
 published_photo_attributes = 
     basic_photo_attributes.merge(:published_at => Time.parse('2008-01-01 12:00:00'))

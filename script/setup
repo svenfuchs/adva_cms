@@ -23,7 +23,7 @@ def copy_with_backup(from_relative_path, to_relative_path)
 end
 
 File.unlink rails_root + '/public/index.html' rescue Errno::ENOENT
-FileUtils.cp rails_root + '/vendor/adva/script/test-all', rails_root + '/script/test-adva'
+FileUtils.cp rails_root + '/vendor/adva/script/test', rails_root + '/script/test-adva'
 
 patch_file rails_root + '/config/environment.rb',
            "require File.join(File.dirname(__FILE__), 'boot')",
@@ -41,12 +41,12 @@ copy_with_backup "/vendor/adva/engines/adva_cms/config/initializers/adva.rb", "/
 
 puts <<END
   
-  Welcome to Adva!
+  Welcome to adva-cms!
   
-  Adva is a cutting edge open source application platform
+  adva-cms is a cutting edge open source application platform
   based on Ruby on Rails and Rails Engines.
 
-  Please run Adva migrations and start server:
+  Please run adva-cms migrations and start server:
   
   rake db:migrate:all
   ruby script/server
@@ -54,6 +54,6 @@ puts <<END
   Open your browser at http://localhost:3000 and 
   say hello to your new app!
   
-  Adva team
+  adva-cms team
 
 END

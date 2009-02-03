@@ -28,6 +28,11 @@ class EventsController < BaseController
     end.paginate(:page => params[:page])
 
     respond_to do |format|
+      format.js { render :update do |page|
+          page.replace  'events', :partial => 'events'
+          page.replace 'calendar', :partial => 'calendar'
+        end
+      }
       format.html
       format.ics
     end

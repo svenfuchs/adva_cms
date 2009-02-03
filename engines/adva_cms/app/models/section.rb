@@ -1,3 +1,5 @@
+require_dependency 'Site'
+
 class Section < ActiveRecord::Base
 =begin
   class Jail < Safemode::Jail

@@ -6,10 +6,6 @@ class SiteTest < ActiveSupport::TestCase
     @site = Site.first
   end
 
-  test 'acts as themed' do
-    Site.should act_as_themed
-  end
-
   test 'acts as commentable' do
     Site.should act_as_commentable
   end
@@ -28,6 +24,10 @@ class SiteTest < ActiveSupport::TestCase
 
   test "has a comments counter" do
     Site.should have_counter(:comments)
+  end
+
+  test 'has many themes' do
+    Site.should have_many_themes
   end
 
   # ASSOCIATIONS

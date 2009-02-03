@@ -210,35 +210,6 @@ class Test::Unit::TestCase
       @plugin.owner = @site
     end
   end
-
-  share :a_theme do
-    before do 
-      @theme = @site.themes.build valid_theme_params
-      @theme.save
-    end
-    
-    after do
-      FileUtils.unlink File.dirname(@theme.path.to_s) rescue Errno::ENOENT
-    end
-  end
-  
-  share :a_theme_template do
-    before do
-      @file = Theme::File.create(@theme, :localpath  => 'template.html.erb', :data => 'the template')
-    end
-  end
-
-  share :valid_theme_params do
-    before do
-      @params = { :theme => valid_theme_params }
-    end
-  end
-  
-  share :invalid_theme_params do
-    before do
-      @params = { :theme => valid_theme_params.update(:name => '') }
-    end
-  end
   
   
   def valid_site_params
@@ -254,14 +225,6 @@ class Test::Unit::TestCase
     { :title      => 'the section title',
       :type       => 'Section' }
   end
-  
-  def valid_theme_params
-    { :name      => 'Theme 1',
-      :version    => '1.0.0', 
-      :homepage   => 'http://homepage.org', 
-      :author     => 'author', 
-      :summary    => 'summary' }
-  end
 
   def valid_article_params(user = nil)
     user ||= @user
@@ -273,19 +236,6 @@ class Test::Unit::TestCase
   def valid_category_params
     { :title      => 'the category title',
       :permalink  => 'the-category-title' }
-  end
-  
-
-  share :valid_theme_template_params do
-    before do
-      @params = { :file => { :localpath  => 'template.html.erb', :data => 'the template' } }
-    end
-  end
-  
-  share :invalid_theme_template_params do
-    before do
-      @params = { :file => { :localpath  => 'invalid', :data => 'the template' } }
-    end
   end
 
   share :valid_site_params do

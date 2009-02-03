@@ -580,6 +580,7 @@ en:
         valid_file_types: Valid file types
         import: Import a theme
         edit_file: Edit theme file
+        theme_id: Theme ID
       links:
         add_another_file: Add another file
         new_theme: New theme
@@ -592,8 +593,12 @@ en:
         import_theme: Import theme
         create_file: Create a new file
         edit_theme: Edit theme
+        delete_theme: Delete theme
+        select_theme: Select theme
+        unselect_theme: Unselect theme
         select: Select
         unselect: Unselect
+        delete: Delete
       upload_template_or_asset: Upload a template or an asset.
       labels:
         asssets: Assets
@@ -619,7 +624,9 @@ en:
     theme_files:
       types:
         templates: Templates
-        assets: Assets
+        images: Images
+        javascripts: Javascripts
+        stylesheets: Stylesheets
         others: Others
       flash:
         destroy:

@@ -1,33 +1,7 @@
-<h2><%= collection_title(@category, @tags) %></h2>
 
 <%= render :partial => 'search' %>
 
-<% unless @events.empty? -%>
-<table id="events" class="list">
-  <thead>
-    <tr>
-      <th scope="col"><%= t(:'adva.calendar.titles.title') %></th>
-      <th scope="col"><%= t(:'adva.calendar.titles.starting_at') %></th>
-      <th scope="col"><%= t(:'adva.calendar.titles.ending_at') %></th>
-    </tr>
-  </thead>
-  <tbody id="events-body">
-  <% @events.each do |event| %>
-    <tr id="<%= dom_id event %>"<%= ' class="all_day"' if event.all_day? %>>
-      <td><%= link_to_event event %></td>
-      <td><%= datetime_with_microformat(event_dates_from_to(event)[0], :format => (event.all_day? ? :mdy : :long)) %></td>
-      <td><%= datetime_with_microformat(event_dates_from_to(event)[1], :format => (event.all_day? ? :mdy : :long)) if event_dates_from_to(event)[1] %>
-        <%= t(:'adva.calendar.attributes.all_day') if event.all_day? %></td>
-    </tr>
-  <% end %>
-  </tbody>
-</table>
-<%= will_paginate @events, :id => 'pagination' %>
-<% else -%>
-<div class="empty">
-  <%= t(:'adva.calendar.errors.no_events', :title => @section.title) %>.
-</div>
-<% end -%>
+<%= render :partial => 'events' %>
 
 <%= render :partial => 'calendar', :locals => { :calendar_section => @section } %>
 

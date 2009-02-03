@@ -46,6 +46,10 @@ module Matchy
         Matchy::Expectations::BeFile.new(nil, self)
       end
 
+      def be_directory
+        Matchy::Expectations::BeDirectory.new(nil, self)
+      end
+
       # def respond_to(expected)
       #   Matchy::Expectations::RespondTo.new(expected, self)
       # end
@@ -142,7 +146,14 @@ module Matchy
             "Expected the file %s to exist.", 
             "Expected the file %s not to exist." do |receiver|
       @receiver = receiver
-      File.exists?(receiver)
+      File.file?(receiver)
+    end
+
+    matcher "BeDirectory", 
+            "Expected the directory %s to exist.", 
+            "Expected the directory %s not to exist." do |receiver|
+      @receiver = receiver
+      File.directory?(receiver)
     end
 
     # matcher "RespondTo", 

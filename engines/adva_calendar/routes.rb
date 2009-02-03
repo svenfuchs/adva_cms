@@ -5,6 +5,8 @@ with_options :controller => 'events', :action => 'index', :conditions => { :meth
     :requirements => { :year => /\d{4}/, :month => /\d{1,2}/ }
   event.connect "calendars/:section_id"
   event.formatted_calendar_events "calendars/:section_id.:format"
+  event.connect "calendars/:section_id/events/:year/:month.:format",
+    :requirements => { :year => /\d{4}/, :month => /\d{1,2}/ }
 
   event.calendar_category "calendars/:section_id/categories/:category_id"
   event.formatted_calendar_category "calendars/:section_id/categories/:category_id.:format"

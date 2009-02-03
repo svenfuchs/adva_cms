@@ -1,0 +1,23 @@
+<div id="events">
+<h2><%= collection_title(@category, @tags) %></h2>
+<% unless @events.empty? -%>
+
+<table class="list">
+  <thead>
+    <tr>
+      <th scope="col"><%= t(:'adva.calendar.titles.title') %></th>
+      <th scope="col"><%= t(:'adva.calendar.titles.starting_at') %></th>
+      <th scope="col"><%= t(:'adva.calendar.titles.ending_at') %></th>
+    </tr>
+  </thead>
+  <tbody id="events-body">
+    <%= render :partial => 'event', :collection => @events %>
+  </tbody>
+</table>
+<%= will_paginate @events, :id => 'pagination' %>
+<% else -%>
+<div class="empty">
+  <%= t(:'adva.calendar.errors.no_events', :title => @section.title) %>.
+</div>
+<% end -%>
+</div>

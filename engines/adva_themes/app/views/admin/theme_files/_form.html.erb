@@ -1,0 +1,22 @@
+<fieldset class="clearfix">
+  <div class="col1">
+    <p>
+      <%= f.label :name, t(:'adva.themes.labels.filename') %>
+      <%= f.text_field :name %>
+    </p>
+
+    <% if @file.respond_to?(:text) %>
+	    <p>
+	      <%= f.label :data %>
+	      <%= text_area_tag 'file[data]', @file.text, :id => 'file_data' %>
+	    </p> 
+    <% else %>
+      <p><%= theme_image_tag @theme.theme_id, @file.url %></p>
+    <% end %>
+
+    <p class="buttons">
+      <%= submit_tag t(:'adva.common.save') %> or 
+      <%= link_to t(:'adva.common.cancel'), admin_theme_path(@site, @theme.id) %>
+    </p>
+  </div>
+</fieldset>

@@ -21,7 +21,7 @@ end
 
 Rails::Configuration.class_eval do
   def default_plugins
-    [ :engines_config, :theme_support, :better_nested_set, :safemode, :adva_cms, :all ]
+    [ :engines_config, :better_nested_set, :safemode, :adva_cms, :all ]
   end
 
   def default_plugin_paths
@@ -44,3 +44,5 @@ require 'redcloth'
 require 'ruby_pants'
 require 'zip/zip'
 require 'cronedit'
+require 'activerecord' # paperclip needs activerecord to be present
+require 'paperclip'

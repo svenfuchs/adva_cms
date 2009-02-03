@@ -44,7 +44,8 @@ module With
       assertion "it destroys #{name}" do
         record = assigns(name) || instance_variable_get("@#{name}")
         assert_raises ActiveRecord::RecordNotFound do
-          name.to_s.classify.constantize.find(record.id)
+          # name.to_s.classify.constantize
+          record.class.find(record.id)
         end
       end
     end

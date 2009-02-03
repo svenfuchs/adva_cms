@@ -1,0 +1,21 @@
+Themes and Files belonging to them are saved as database objects with Paperclip attachments. 
+
+# Approach 1
+
+All attachments are saved to a directory themes/[site.host]/[theme.name].
+
+As soon as the theme is activated the templates path within this directory will be added to the application's view path and assets (javascripts, stylesheets, images) will be copied to the public theme path.
+
+Assets are also copied to the public theme path (through page caching) when they are accessed so that they are already available for previewing in the admin backend. This also means they are theoretically available in the frontend.
+
+The public theme path depends on the setting Site.multi_sites_enabled. By default this setting is turned off in order to make the server setup as simple as possible. In this case the public theme path is public/themes/[theme.name]. When multi sites mode is turned on public themes will instead be available at public/cache/[site.host]/themes/[theme.name].
+
+Assets are automatically moved into a subdirectory depending on their file type. E.g. templates will be moved to a templates/ subdirectory. The same happens for images, javascripts and stylesheets. All other files are placed directly into the theme directory.
+
+# Reject approach 1
+
+Ok, this approach seems to complicated. Following scenario does not work:
+
+The asset files are cached to the public/cache directory. The asset_tag_helpers allow to clobber javascripts/stylesheets together to bigger files (like all.js, using the cache => :all option). This mechanism only works when the files are already placed into the public directory. As the cache directory might have been invalidated these files would be missing here. So, to make this work the asset_helpers would need to take care of copying the files over if they are not present.
+
+This sounds way too complicated. Why not just store the theme files outside of the public cache directory, but still inside the public directory. This way we'd always only had one place to store them. We could deny access to the templates by automatically adding an htaccess file.

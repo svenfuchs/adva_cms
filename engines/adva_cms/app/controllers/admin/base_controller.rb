@@ -6,7 +6,7 @@ class Admin::BaseController < ApplicationController
   include Widgets
 
   before_filter :set_site, :set_locale, :set_timezone, :set_cache_root
-  helper :base, :content, :comments, :users
+  helper :base, :content, :comments, :themes, :users
   helper_method :admin_section_contents_path, :new_admin_content_path, :perma_host
   helper_method :has_permission?
 

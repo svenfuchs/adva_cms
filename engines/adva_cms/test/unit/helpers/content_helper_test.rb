@@ -173,7 +173,7 @@ class LinkToContentHelperTest < ActiveSupport::TestCase
   # links_to_content_categories 
   
   test "#links_to_content_categories returns an array of links to the given content's categories" do
-    links_to_content_categories(@article).should == ["<a href=\"/path/to/section/category\">#{@category.title}</a>"]
+    links_to_content_categories(@article).should include("<a href=\"/path/to/section/category\">#{@category.title}</a>")
   end
 
   test "#links_to_content_categories returns nil if the content has no categories" do

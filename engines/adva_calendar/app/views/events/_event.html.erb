@@ -1,0 +1,6 @@
+<tr id="<%= dom_id event %>"<%= ' class="all_day"' if event.all_day? %>>
+  <td><%= link_to_event event %></td>
+  <td><%= datetime_with_microformat(event_dates_from_to(event)[0], :format => (event.all_day? ? :mdy : :long)) %></td>
+  <td><%= datetime_with_microformat(event_dates_from_to(event)[1], :format => (event.all_day? ? :mdy : :long)) if event_dates_from_to(event)[1] %>
+    <%= t(:'adva.calendar.attributes.all_day') if event.all_day? %></td>
+</tr>
