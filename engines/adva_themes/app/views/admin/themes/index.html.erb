@@ -1,0 +1,26 @@
+<% content_for :sidebar do -%>
+  <h3><%= t(:'adva.titles.manage') %></h3>
+  <ul>
+    <li><%= link_to t(:'adva.titles.site'), edit_admin_site_path(@site) %></li>
+    <li><%= link_to t(:'adva.titles.themes'), admin_themes_path(@site) %></li>
+    <li><%= link_to t(:'adva.titles.cache'), admin_cached_pages_path(@site) %></li>
+  </ul>
+
+  <h3><%= t(:'adva.titles.actions') %></h3>
+  <ul>
+    <li><%= link_to t(:'adva.themes.links.new_theme'), new_admin_theme_path(@site) %></li>
+    <li><%= link_to t(:'adva.themes.links.import_theme'), import_admin_themes_path(@site) %></li>
+  </ul>
+<% end -%>
+
+<h2><%= t(:'adva.titles.themes') %></h2>
+<% unless @themes.empty? -%>
+  <ul id="themelist">
+    <%= render :partial => 'theme', :collection => @themes %>
+  </ul>
+<% else -%>
+  <div class="empty">
+    <%= t(:'adva.themes.no_themes_available') %>
+    <%= link_to t(:'adva.themes.links.create_one_now'), new_admin_theme_path %>
+  </div>
+<% end -%>
