@@ -4,7 +4,9 @@ class AlbumTest < ActiveSupport::TestCase
   def setup
     super
     @album = Album.first
-    @root_set = @album.sets.find_by_title('Summer')
+    @summer = @album.sets.find_by_title('Summer')
+    @empty  = @album.sets.find_by_title('Empty')
+    @root_sets = [@summer, @empty]
   end
   
   test "is kind of a Section" do
@@ -22,7 +24,7 @@ class AlbumTest < ActiveSupport::TestCase
   end
   
   test "the sets association, #roots returns all sets that do not have a parent category" do
-    @album.sets.roots.should == [@root_set]
+    @album.sets.roots.should == @root_sets
   end
   
   # Class methods

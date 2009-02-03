@@ -7,37 +7,44 @@ Album.create!  :site        => site,
                :permalink   => 'an-album',
                :comment_age => 0
 
+basic_photo_attributes  = { :content_type => 'image/jpeg',
+                            :size         => 100,
+                            :author       => superuser,
+                            :filename     => 'test.png',
+                            :section      => album,
+                            :site         => site }
+
+published_photo_attributes = 
+    basic_photo_attributes.merge(:published_at => Time.parse('2008-01-01 12:00:00'))
+
 photo =
-Photo.create!  :content_type => 'image/jpeg',
-               :size         => 100,
-               :title        => 'a photo',
-               :author       => superuser,
-               :filename     => 'test.png',
-               :section      => album,
-               :site        => site
+Photo.create!  basic_photo_attributes.merge(:title => 'a photo')
 
-Photo.create!  :content_type => 'image/jpeg',
-               :size         => 110,
-               :title        => 'a photo without set',
-               :author       => superuser,
-               :filename     => 'test.png',
-               :section      => album,
-               :site        => site
+Photo.create!  basic_photo_attributes.merge(:title => 'a photo without set')
 
-Photo.create!  :content_type => 'image/jpeg',
-               :size         => 110,
-               :title        => 'a published photo',
-               :author       => superuser,
-               :filename     => 'test.png',
-               :section      => album,
-               :published_at => Time.parse('2008-01-01 12:00:00'),
-               :site        => site
+Photo.create!  published_photo_attributes.merge(:title => 'a published photo')
+
+pub_photo_with_set =
+Photo.create!  published_photo_attributes.merge(:title => 'a published photo with set')
+
+pub_photo_with_set_and_tag =
+Photo.create!  published_photo_attributes.merge(:title => 'a published photo with set and tag')
+
+pub_photo_with_tag =
+Photo.create!  published_photo_attributes.merge(:title => 'a published photo with tag')
 
 set =    Category.create! :title => 'Summer', :section => album
 subset = Category.create! :title => 'A Subset', :section => album
+         Category.create! :title => 'Empty', :section => album
+
 subset.move_to_child_of set
 
 tag = Tag.create! :name => 'Forest'
+      Tag.create! :name => 'Empty'
 
 photo.tags << tag
 photo.sets << set
+pub_photo_with_tag.tags << tag
+pub_photo_with_set.sets << set
+pub_photo_with_set_and_tag.tags << tag
+pub_photo_with_set_and_tag.sets << set
