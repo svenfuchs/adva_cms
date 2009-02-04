@@ -309,4 +309,11 @@ class Test::Unit::TestCase
   share :no_save_revision_param do
     before { @params = @params.except(:save_revision) }
   end
+
+  share :fixed_time do
+    before do
+      Time.stubs(:now).returns Time.utc(2009,2,3, 15,00,00)
+      Date.stubs(:today).returns Date.civil(2009,2,3)
+    end
+  end
 end
