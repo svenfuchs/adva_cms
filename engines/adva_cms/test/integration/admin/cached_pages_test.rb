@@ -26,7 +26,7 @@ module IntegrationTests
     def view_home_page
       visit '/'
       # FIXME have a matcher/macro for this
-      assert File.exists? ActionController::Base.send(:page_cache_path, request.path)
+      assert File.exists?(ActionController::Base.send(:page_cache_path, request.path))
     end
 
     def check_page_cache
