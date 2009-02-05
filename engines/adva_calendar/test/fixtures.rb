@@ -1,5 +1,5 @@
-user = User.find_by_first_name('a user')
-admin = User.find_by_first_name('an admin')
+user = User.find_by_first_name('user')
+admin = User.find_by_first_name('admin')
 
 site_with_calendars =
 Site.create!     :name  => 'site with calendar',

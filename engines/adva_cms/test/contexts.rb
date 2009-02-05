@@ -66,7 +66,7 @@ class Test::Unit::TestCase
   [:superuser, :admin, :moderator, :user, :anonymous].each do |role|
     share :"is_#{role}" do
       before("log in as #{role}") do
-        @user = User.find_by_first_name("a #{role}") or raise "could not find user named \"a #{role}\""
+        @user = User.find_by_first_name("#{role}") or raise "could not find user named \"a #{role}\""
         login @user
       end
     end
