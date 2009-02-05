@@ -98,6 +98,8 @@ class BaseController < ApplicationController
       RAILS_ROOT + if Rails.env == 'test'
          Site.multi_sites_enabled ? '/tmp/cache/' + perma_host : '/tmp/cache'
        else
+         # FIXME change this to
+         # Site.multi_sites_enabled ? '/public/sites/' + perma_host : '/cache' ?
          Site.multi_sites_enabled ? '/public/cache/' + perma_host : '/public'
        end
     end

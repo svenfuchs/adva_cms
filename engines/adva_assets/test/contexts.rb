@@ -1,8 +1,8 @@
 class Test::Unit::TestCase
   def valid_asset_params
-    { :uploaded_data  => fixture_file_upload('/rails.png', 'image/png', :binary),
-      :title          => 'the-asset-title',
-      :tag_list       => 'foo bar' }
+    { :data     => File.new("#{File.dirname(__FILE__)}/fixtures/rails.png"),
+      :title    => 'the-asset-title',
+      :tag_list => 'foo bar' }
   end
 
   share :valid_asset_params do
@@ -13,7 +13,7 @@ class Test::Unit::TestCase
   
   share :invalid_asset_params do
     before do
-      @params = { :assets => { '0' => valid_asset_params.update(:site_id => 0, :title => '', :uploaded_data => '') } }
+      @params = { :assets => { '0' => valid_asset_params.update(:site_id => 0, :title => '', :data => nil) } }
     end
   end
 

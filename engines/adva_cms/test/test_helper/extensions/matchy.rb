@@ -166,6 +166,7 @@ module Matchy
     matcher "ValidatePresenceOf", 
             "Expected %s to validate the presence of %s.", 
             "Expected %s not to validate the presence of %s." do |receiver|
+      receiver = receiver.new if receiver.is_a?(Class)
       @receiver = receiver
       
       # stubs the method given as @options[:if] on the receiver
@@ -178,6 +179,7 @@ module Matchy
     matcher "ValidateLengthOf", 
             "Expected %s to validate the length of %s (with %s).", 
             "Expected %s not to validate the length of %s (with %s)." do |receiver|
+      receiver = receiver.new if receiver.is_a?(Class)
       @receiver = receiver
 
       max = @options[:within] || @options[:is]

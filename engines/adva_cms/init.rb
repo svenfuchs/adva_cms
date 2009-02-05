@@ -5,22 +5,15 @@ require 'redcloth'
 
 require 'adva_config'
 require 'time_hacks'
-require 'core_ext/hash'
-require 'core_ext/kernel'
-require 'core_ext/module'
-require 'core_ext/object_try'
-require 'core_ext/string'
-require 'rails_ext/active_record/sti_instantiation'
-require 'rails_ext/active_record/sticky_changes'
-require 'rails_ext/action_controller/event_helper'
-require 'rails_ext/action_controller/page_caching'
+require 'core_ext'
+require 'rails_ext'
 require 'cells_ext'
 
 require 'routing'
 require 'roles'
 
 require 'event'    # need to force these to be loaded now, so Rails won't
-require 'registry' # reload them between requests
+require 'registry' # reload them between requests (FIXME ... this doesn't seem to happen?)
 
 config.to_prepare do
   Registry.set :redirect, {

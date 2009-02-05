@@ -4,35 +4,9 @@
 # any more. Ok, let's instead overwrite everything. OMG ... suck, why does
 # this so remind me of PHP.
 
-Theme.class_eval do
-  def asset_dir
-    path
-  end
-  
-  def images_url
-    url + '/images'
-  end
-
-  def javascripts_dir
-    path + '/javascripts'
-  end
-  
-  def javascripts_url
-    url + '/javascripts'
-  end
-
-  def stylesheets_dir
-    path + '/stylesheets'
-  end
-  
-  def stylesheets_url
-    url + '/stylesheets'
-  end
-end
-
 module ThemesHelper
   def theme_javascript_path(theme, source)
-    theme_compute_public_path(theme, source, theme.javascripts_url, 'js')
+    theme_compute_public_path(theme, source, theme.url + '/javascripts', 'js')
   end
   alias_method :theme_path_to_javascript, :theme_javascript_path
 
@@ -46,7 +20,7 @@ module ThemesHelper
 
     if ActionController::Base.perform_caching && cache
       joined_javascript_name = (cache == true ? "all" : cache) + ".js"
-      joined_javascript_path = File.join(theme.javascripts_dir, joined_javascript_name)
+      joined_javascript_path = File.join(theme.path + '/javascripts', joined_javascript_name)
       
       paths = theme_compute_javascript_paths(theme, sources, recursive)
       theme_write_asset_file_contents(theme, joined_javascript_path, paths) unless File.exists?(joined_javascript_path)
@@ -59,7 +33,7 @@ module ThemesHelper
   end
 
   def theme_stylesheet_path(theme, source)
-    theme_compute_public_path(theme, source, theme.stylesheets_url, 'css')
+    theme_compute_public_path(theme, source, theme.url + '/stylesheets', 'css')
   end
   alias_method :theme_path_to_stylesheet, :theme_stylesheet_path
   
@@ -73,7 +47,7 @@ module ThemesHelper
   
     if ActionController::Base.perform_caching && cache
       joined_stylesheet_name = (cache == true ? "all" : cache) + ".css"
-      joined_stylesheet_path = File.join(theme.stylesheets_dir, joined_stylesheet_name)
+      joined_stylesheet_path = File.join(theme.path + '/stylesheets', joined_stylesheet_name)
   
       paths = theme_compute_stylesheet_paths(theme, sources, recursive)
       theme_write_asset_file_contents(theme, joined_stylesheet_path, paths) unless File.exists?(joined_stylesheet_path)
@@ -86,7 +60,7 @@ module ThemesHelper
   end
   
   def theme_image_path(theme, source)
-    theme_compute_public_path(theme, source, theme.images_url)
+    theme_compute_public_path(theme, source, theme.url + '/images')
   end
   alias_method :theme_path_to_image, :theme_image_path # aliased to avoid conflicts with an image_path named route
   
@@ -114,7 +88,7 @@ module ThemesHelper
     def theme_compute_public_path(theme, source, dir, ext = nil, include_host = true)
       has_request = @controller.respond_to?(:request)
 
-      if ext && (File.extname(source).blank? || File.exist?(File.join(theme.asset_dir, dir, "#{source}.#{ext}")))
+      if ext && (File.extname(source).blank? || File.exist?(File.join(theme.path, dir, "#{source}.#{ext}")))
         source += ".#{ext}"
       end
 
@@ -150,7 +124,7 @@ module ThemesHelper
         if @@cache_asset_timestamps && (asset_id = @@asset_timestamps_cache[source])
           asset_id
         else
-          path = File.join(theme.asset_dir, source)
+          path = File.join(theme.path, source)
           asset_id = File.exist?(path) ? File.mtime(path).to_i.to_s : ''
 
           if @@cache_asset_timestamps
@@ -186,19 +160,19 @@ module ThemesHelper
 
     def theme_compute_javascript_paths(theme, *args)
       theme_expand_javascript_sources(theme, *args).collect do |source| 
-        theme_compute_public_path(theme, source, theme.javascripts_url, 'js', false)
+        theme_compute_public_path(theme, source, theme.url + '/javascripts', 'js', false)
       end
     end
 
     def theme_compute_stylesheet_paths(theme, *args)
       theme_expand_stylesheet_sources(theme, *args).collect do |source| 
-        theme_compute_public_path(theme, source, theme.stylesheets_url, 'css', false)
+        theme_compute_public_path(theme, source, theme.url + '/stylesheets', 'css', false)
       end
     end
 
     def theme_expand_javascript_sources(theme, sources, recursive = false)
       if sources.include?(:all)
-        all_javascript_files = collect_asset_files(theme.javascripts_dir, ('**' if recursive), '*.js').uniq
+        all_javascript_files = collect_asset_files(theme.path + '/javascripts', ('**' if recursive), '*.js').uniq
       else
         sources.collect { |source| theme_determine_source(theme, source, {}) }.flatten
       end
@@ -206,7 +180,7 @@ module ThemesHelper
 
     def theme_expand_stylesheet_sources(theme, sources, recursive)
       if sources.first == :all
-        collect_asset_files(theme.stylesheets_dir, ('**' if recursive), '*.css')
+        collect_asset_files(theme.path + '/stylesheets', ('**' if recursive), '*.css')
       else
         sources.collect do |source|
           theme_determine_source(theme, source, {})

@@ -1,8 +1,7 @@
 class Admin::AssetsController < Admin::BaseController
   include AssetsHelper
-  helper :assets
+  helper :assets, :asset_tag
   helper_method :created_notice
-
   before_filter :set_search_params, :set_assets, :only => [:index]
   before_filter :set_format, :only => [:create]
   before_filter :set_asset, :only => [:edit, :update, :destroy]
@@ -10,7 +9,7 @@ class Admin::AssetsController < Admin::BaseController
   guards_permissions :asset
 
   def index
-    @recent = @assets.slice! 0, 4 if params[:source] != 'widget'
+    @recent = @assets.slice!(0, 4) if params[:source] != 'widget'
     respond_to do |format|
       format.html
       format.js
@@ -30,7 +29,9 @@ class Admin::AssetsController < Admin::BaseController
         flash[:notice] = created_notice
         redirect_to(admin_assets_path)
       end
-      format.js { responds_to_parent { render :action => 'create' } }
+      format.js do
+        responds_to_parent { render :action => 'create' }
+      end
     end
   rescue ActiveRecord::RecordInvalid => e
     respond_to do |format|
@@ -38,7 +39,9 @@ class Admin::AssetsController < Admin::BaseController
         flash[:error] = t(:'adva.assets.flash.upload.failure')
         render :action => 'new'
       end
-      format.js { responds_to_parent { render :action => 'flash_error' } }
+      format.js do
+        responds_to_parent { render :action => 'flash_error' }
+      end
     end
   end
 
@@ -57,7 +60,7 @@ class Admin::AssetsController < Admin::BaseController
   def destroy
     @asset.destroy
     redirect_to admin_assets_path
-    (session[:bucket] || {}).delete(@asset.public_filename)
+    (session[:bucket] || {}).delete(@asset.base_url)
     flash[:notice] = t(:'adva.assets.flash.delete.success', :filename => @asset.filename)
   end
 
@@ -65,8 +68,8 @@ class Admin::AssetsController < Admin::BaseController
 
     def set_assets
       @types  = params[:filter].blank? ? [] : params[:filter].keys
-      options = search_options.merge(:per_page => params[:limit], :page => current_page, :total_entries => count_by_conditions)
-      @assets = @types.any? ? site.assets.paginate_by_content_types(@types, :all, options) : site.assets.paginate(options)
+      options = search_options.merge(:per_page => params[:limit], :page => current_page)
+      @assets = @types.empty? ? site.assets.paginate(options) : site.assets.is_media_types(@types).paginate(options)
     end
 
     def set_asset
@@ -92,7 +95,7 @@ class Admin::AssetsController < Admin::BaseController
 
     def search_options
       return @search_options if @search_options
-
+    
       @search_options = returning :conditions => [] do |options|
         options[:include] = []
         unless params[:query].blank?
@@ -107,17 +110,5 @@ class Admin::AssetsController < Admin::BaseController
         options[:conditions].blank? ? options.delete(:conditions) : options[:conditions] *= ' OR '
         options.delete(:include) if options[:include].empty?
       end
-    end
-
-    def count_by_conditions
-      type_conditions = @types.blank? ? nil : Asset.types_to_conditions(@types.dup).join(" OR ")
-      @count_by_conditions ||= search_options[:conditions].blank? ? site.assets.count(:all, :conditions => type_conditions) :
-        Asset.count(:joins => search_options[:joins],
-                    :conditions => "site_id = #{site.id} #{type_conditions && "and #{type_conditions}"} AND #{search_options[:conditions]}",
-                    :include => search_options[:include])
-    end
-
-    def allow_member?
-      @asset && @asset.user_id.to_s == current_user.id.to_s
     end
 end

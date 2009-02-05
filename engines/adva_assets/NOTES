@@ -1,0 +1,55 @@
+So, let's rethink assets.
+
+We have a bunch of models that slightly overlap with what assets in Mephisto are:
+
+- Assets are media files like images, audios, videos. Assets are browsable in the admin area and used/linked in contents like blog articles.
+- Theme files are templates, javascripts, stylesheets and images. Most theme files are very specific to themes and need to be placed in subdirectories following particular naming conventions (for internal template/view_path mapping and for theme asset tag helpers etc).
+- Photos are just images. Photos are browsable in the frontend and can be grouped to sets.
+
+There's also two other planned features which certainly would overlap with these concepty, too:
+
+- File/document manager
+- Attachments to arbitrary objects (like wikipages, forum posts etc)
+
+------------------------------------------------------------------------------
+
+I'm not sure if Cells can provide a base for abstraction here. I've been thinking about just having Sections or Nodes that do not provide any behaviour themselves but could be used to display a certain Cell (e.g. PhotoAlbumCell). But that raises the question of how to route to more detailed functionality of such a Cell (like "next page"). 
+
+So maybe an easier concept is to use individual templates per section here. At least for photos and filemanagers that could work:
+
+- There is no Album Section.
+- Photos and Files (Documents) are per Site, not per Section (like Assets and Newsletters).
+- Sets and Folders can be per Site.
+- In the backend there is an interface to manage Photos and Sets (maybe just as a part of the Assets interface).
+- One can create a Section and configure it to use a photos/index.html.erb and photos/show.html.erb template.
+- Any requests to that Section would be routed to a generic SectionController that can identify a Set, Category, maybe Folder, Tags and a Content from the parsed URL (also generic stuff like current page, locale etc).
+- The selected templates could then display a photo album with sets, tags etc. accordingly.
+
+The same thing could work for a File/Document manager. It could also be used to display the Newsletters list in the front end.
+
+The weakness of this approach lies in the fact that the controller would be generic.
+
+------------------------------------------------------------------------------
+
+Possible URL syntax for passing parameters to Cells?
+
+http://host.com/path/to/section;photos/page/2
+
+Wikipedia: "Each [path] segment can contain parameters separated from it using a semicolon (";"), though this is rarely used in practice." (http://en.wikipedia.org/wiki/URI_scheme#Generic_syntax)
+
+Uniform Resource Identifier (URI): Generic Syntax (RFC 3986): "Aside from
+dot-segments in hierarchical paths, a path segment is considered opaque by the
+generic syntax. URI producing applications often use the reserved characters
+allowed in a segment to delimit scheme-specific or
+dereference-handler-specific subcomponents. For example, the semicolon (";")
+and equals ("=") reserved characters are often used to delimit parameters and
+parameter values applicable to that segment. The comma (",") reserved
+character is often used for similar purposes. For example, one URI producer
+might use a segment such as "name;v=1.1" to indicate a reference to version
+1.1 of "name", whereas another might use a segment such as "name,1.1" to
+indicate the same. Parameter types may be defined by scheme-specific
+semantics, but in most cases the syntax of a parameter is specific to the
+implementation of the URI's dereferencing algorithm."
+(http://tools.ietf.org/html/rfc3986)
+
+BUT "Further more, the semicolon caused issues with caching and HTTP authentication in Safari. Just Not Worth It [DHH]" (http://www.innoq.com/blog/st/2007/03/restful_rails_drops_semicolons.html)

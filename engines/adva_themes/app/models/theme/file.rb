@@ -67,10 +67,6 @@ class Theme < ActiveRecord::Base
         subclasses.map { |k| k.valid_extensions }.flatten.uniq
       end
 
-      def join_path(*segments)
-        segments.map{|segment| segment unless segment.blank? }.compact.join('/')
-      end
-
       def split_path(path)
         directory, name = ::File.split(path)
         directory = nil if directory == '.'
@@ -79,22 +75,22 @@ class Theme < ActiveRecord::Base
     end
 
     def path
-      self.class.join_path(theme.path, directory, name) if name
+      [theme.path, directory, name].to_path if name
     end
 
     def url
-      self.class.join_path(theme.url, directory, name) if name
+      [theme.url, directory, name].to_path if name
     end
 
     def base_url
-      self.class.join_path(directory.gsub(/^#{forced_directory}\/?/, ''), name) if name
+      [directory.gsub(/^#{forced_directory}\/?/, ''), name].to_path if name
     end
 
     protected
 
       def prepend_directory(prefix)
         return directory if directory =~ /^#{prefix}/
-        self.directory = self.class.join_path prefix, directory
+        self.directory = [prefix, directory].join('/')
       end
 
       def force_directory
