@@ -3,8 +3,6 @@ require File.expand_path(File.dirname(__FILE__) + '/../../test_helper')
 class ArticleTest < ActiveSupport::TestCase
   def setup
     super
-    @section = Blog.first
-    @article = @section.articles.find_published(:first)
   end
   
   test "sanitizes the attributes excerpt, excerpt_html, body and body_html" do

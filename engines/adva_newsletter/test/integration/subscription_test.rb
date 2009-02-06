@@ -37,7 +37,13 @@ private
     response.body.should have_tag ".empty>a", "Add a new user" 
     
     # adding site user is out of scope of this test
-    @site.users << User.find_by_first_name("user")
+    site_user = User.create! :first_name => 'newsletter site user',
+                             :email => 'newsletter-site-user@example.com',
+                             :password => 'password',
+                             :verified_at => Time.now
+    site_user.should_not == nil
+    @site.users << site_user
+    @site.save!
     
     click_link "Subscribers"
   end
@@ -49,11 +55,11 @@ private
     click_link "Add a new subscriber"
 
     assert_template "admin/newsletter_subscriptions/new"
-    select "user"
+    select "newsletter site user"
     click_button "Add"
 
     assert_template "admin/newsletter_subscriptions/index"
-    response.body.should have_tag "td>a", "user"
+    response.body.should have_tag "td>a", "newsletter site user"
     response.body.should have_tag "p", "Total subscribers: 1"
   end
 
