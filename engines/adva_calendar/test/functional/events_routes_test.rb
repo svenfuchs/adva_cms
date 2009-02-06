@@ -10,7 +10,8 @@ class CalendarRoutesTest < ActionController::TestCase
               /calendars/1/events/2009/02
               /calendars/1/events/2009/02/02
               /calendars/1/event/1
-              /calendars/1/event/2007 )
+              /calendars/1/event/2007
+              /calendars/1/category/2 )
 
   paths.each do |path|
     test "regenerates the original path from the recognized params for #{path}" do
@@ -31,6 +32,7 @@ class CalendarRoutesTest < ActionController::TestCase
       r.it_maps :get, "events/2008/11", :year => "2008", :month => "11"
       r.it_maps :get, "events/2008/11/27", :year => "2008", :month => "11", :day => "27"
       r.it_maps :get, "categories/2", :category_id => "2"
+      r.it_maps :get, "category/2", :category_id => "2"
     end
 
     with_options :path_prefix => '/calendar-with-events/',
