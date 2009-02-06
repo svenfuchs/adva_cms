@@ -29,19 +29,9 @@ module ActionController
       assert cookies['flash'] =~ regexp,
         "Flash message does NOT MATCH: #{message}\n" +
         "  We got flash cookie: #{cookies['flash']}\n  what doesn't match to our test regexp: #{regexp}"
+      cookies.delete :flash
     end
 
-    # Testing content with regexp
-    #
-    # Example usage:
-    #   assert_content 'looking for my content'
-    #
-    def assert_content(content)
-      assert response.body =~ Regexp.new(content),
-        "\nDidn't find content with regexp: /#{content}/\n" +
-        "FROM BODY:\n#{response.body}"
-    end
-    
     def use_site!(site)
       site = Site.find_by_name(site) unless site.is_a?(Site)
       returning site do |site|
