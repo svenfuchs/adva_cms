@@ -6,6 +6,10 @@ Site.create!     :name  => 'site with calendar',
                  :title => 'site with calendar title',
                  :host  => 'site-with-calendar.com'
 
+admin.roles << Rbac::Role.build(:admin, :context => site_with_calendars)
+site_with_calendars.users << admin
+site_with_calendars.users << user
+
 calendar_without_events =
 Calendar.create! :site        => site_with_calendars,
                  :title       => 'a calendar without events',
