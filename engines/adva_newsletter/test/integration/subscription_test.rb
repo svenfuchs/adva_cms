@@ -37,7 +37,7 @@ private
     response.body.should have_tag ".empty>a", "Add a new user" 
     
     # adding site user is out of scope of this test
-    @site.users << User.find_by_first_name("a user")
+    @site.users << User.find_by_first_name("user")
     
     click_link "Subscribers"
   end
@@ -49,11 +49,11 @@ private
     click_link "Add a new subscriber"
 
     assert_template "admin/newsletter_subscriptions/new"
-    select "a user"
+    select "user"
     click_button "Add"
 
     assert_template "admin/newsletter_subscriptions/index"
-    response.body.should have_tag "td>a", "a user"
+    response.body.should have_tag "td>a", "user"
     response.body.should have_tag "p", "Total subscribers: 1"
   end
 
