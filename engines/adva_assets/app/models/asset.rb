@@ -2,8 +2,6 @@ Paperclip::Attachment.interpolations.merge! \
   :asset_file_url  => proc { |data, style| data.instance.url(style)  },
   :asset_file_path => proc { |data, style| data.instance.path(style) }
 
-Paperclip.options[:command_path] = '/usr/local/bin'
-
 # FIXME how to tell paperclip to only create thumbnails etc from images?
 
 require 'has_filter'

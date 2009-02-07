@@ -15,6 +15,8 @@ require 'roles'
 require 'event'    # need to force these to be loaded now, so Rails won't
 require 'registry' # reload them between requests (FIXME ... this doesn't seem to happen?)
 
+Paperclip.options[:command_path] = '/usr/local/bin'
+
 config.to_prepare do
   Registry.set :redirect, {
     :login        => lambda {|c| c.send :admin_sites_path },
