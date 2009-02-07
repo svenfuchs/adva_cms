@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../test_helper')
 
-class ArticleTest < ActiveSupport::TestCase
+class NewsletterTest < ActiveSupport::TestCase
   def setup
     super
     @site = Site.find_by_name("site with newsletter")
