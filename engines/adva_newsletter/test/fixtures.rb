@@ -1,5 +1,9 @@
-user = User.find_by_first_name("user")
-admin = User.find_by_first_name("admin")
+Time.stubs(:now).returns Time.utc(2009,2,3, 15,00,00)
+Date.stubs(:today).returns Date.civil(2009,2,3)
+
+user = User.find_by_first_name("a user")
+admin = User.find_by_first_name("an admin")
+
 user_newsletter = User.create! :first_name => 'user newsletter',
                                :email => 'user-newsletter@example.com',
                                :password => 'password',
@@ -10,7 +14,7 @@ site         = Site.create! :name => "site with newsletter",
                             :email => 'newsletter@example.com',
                             :host => "site-with-newsletter.com"
 admin.roles << Rbac::Role.build(:admin, :context => site)
-site.users << [user, user_newsletter]
+site.users  << [user, user_newsletter]
 site.save!
 
 newsletter   = site.newsletters.create! :title => "newsletter title",
