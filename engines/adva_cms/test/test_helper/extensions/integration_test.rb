@@ -18,7 +18,20 @@ module ActionController
       assert_response :success
       assert_template template
     end
-  
+
+    # Testing cookie based flash message.
+    # 
+    # Example usage:
+    #   assert_flash 'It was successfully updated!'
+    #   
+    def assert_flash(message)
+      regexp = Regexp.new(message.gsub(' ', '\\\+'))
+      assert cookies['flash'] =~ regexp,
+        "Flash message does NOT MATCH: #{message}\n" +
+        "  We got flash cookie: #{cookies['flash']}\n  what doesn't match to our test regexp: #{regexp}"
+      cookies.delete :flash
+    end
+
     def use_site!(site)
       site = Site.find_by_name(site) unless site.is_a?(Site)
       returning site do |site|

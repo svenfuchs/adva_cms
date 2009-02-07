@@ -1,5 +1,5 @@
 site = Site.find_by_name('site with sections')
-superuser = User.find_by_first_name('a superuser')
+superuser = User.find_by_first_name('superuser')
 
 album =
 Album.create!  :site        => site,
