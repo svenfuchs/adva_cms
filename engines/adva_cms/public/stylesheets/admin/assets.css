@@ -182,7 +182,7 @@
 .selected .detach_asset {
 	display: block;
 }
-#asset-search label {
+#asset_search label {
 	font-weight: bold; 
 	padding: 5px 0;
 }

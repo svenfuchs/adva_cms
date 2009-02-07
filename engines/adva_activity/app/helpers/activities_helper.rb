@@ -13,7 +13,7 @@ module ActivitiesHelper
 
   def activity_css_classes(activity)
     type = activity.object_attributes['type'] || activity.object_type
-    "#{type}-#{activity.all_actions.last}".downcase
+    "#{type}_#{activity.all_actions.last}".downcase
     # activity.all_actions.collect {|action| "#{type}-#{action}".downcase }.uniq * ' '
   end
 

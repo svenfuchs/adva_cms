@@ -390,49 +390,49 @@ ul.sub_nav li.active a:hover{
 -------------------------------------------------------------------------*/
 
 /* Account Type */
-.account-type{
+.account_type{
   background:#F6F6F6;
   margin: 0 0 20px 0;}
 
-.account-type .type,
-.account-type .domain{
+.account_type .type,
+.account_type .domain{
   padding: 15px 0;
   float:left;}
 
-.account-type .account_name{
+.account_type .account_name{
   padding: 15px 0;
   float:left;}
 
-.account-type .wrapper{
+.account_type .wrapper{
   padding:0 20px;}
 
-.account-type .type{
+.account_type .type{
   width:23%;  }
 
-.account-type .type p{
+.account_type .type p{
   padding: 0 0 5px 10px;}
 
-.account-type .type p span{
+.account_type .type p span{
   font-weight:bold;
   display:block;
   padding: 0 0 5px 0;}
 
-.account-type .type ul  span.cat{
+.account_type .type ul  span.cat{
   width:125px;
   float:left;
   text-align:right;
   display:block;}
 
-.account-type .info{
+.account_type .info{
   width:35%;
   float:left;
   background:url('/images/adva_cms/admin/ui/border_account.gif') repeat-y top left;  }
 
-.account-type .info .wrapper{
+.account_type .info .wrapper{
   background:url('/images/adva_cms/admin/ui/border_account.gif') repeat-y top right;  
   padding:15px 3%; }
 
-.account-type .info span{
+.account_type .info span{
   float:left;
   width:50%;
   text-align:right;
@@ -440,28 +440,28 @@ ul.sub_nav li.active a:hover{
   padding: 0 15px 0 0;
   margin: 0 10px 5px 0;}
 
-.account-type .info span.bar{
+.account_type .info span.bar{
   width:30px !important;
   text-align:left;}
 
-.account-type .info span.yellow{
+.account_type .info span.yellow{
   background:url('/images/adva_cms/admin/ui/bullet_yellow.gif') no-repeat center right;}
 
-.account-type .info span.orange{
+.account_type .info span.orange{
   background:url('/images/adva_cms/admin/ui/bullet_orange.gif') no-repeat center right;}
 
-.account-type .info span.green{
+.account_type .info span.green{
   background:url('/images/adva_cms/admin/ui/bullet_green.gif') no-repeat center right;}
 
-.account-type .domain{
+.account_type .domain{
   width:40%;}
 
-.account-type .domain label{
+.account_type .domain label{
   font-weight:bold;
   display:block;
   padding: 0 0 3px 0;}
 
-.account-type .domain input.text{
+.account_type .domain input.text{
   border:1px solid #CCCCCC;
   background:#F6F6F6;
   width:95%;
@@ -469,15 +469,15 @@ ul.sub_nav li.active a:hover{
   height:16px;
   padding:4px;}
 
-.account-type .account_name{
+.account_type .account_name{
   width:40%;}
 
-.account-type .account_name label{
+.account_type .account_name label{
   font-weight:bold;
   display:block;
   padding: 0 0 3px 0;}
 
-.account-type .account_name input.text{
+.account_type .account_name input.text{
   border:1px solid #CCCCCC;
   background:#F6F6F6;
   width:95%;
@@ -563,11 +563,11 @@ ul.members li .thumb .you{
   margin: 45px 0 0 40px;
   background:url('/images/adva_cms/admin/ui/icon_you.gif') no-repeat top left;}
 
-ul.members li .membername{
+ul.members li .member_name{
   width:75%;
   padding-left:140px;}
 
-ul.members li .membername p{
+ul.members li .member_name p{
   float:left;
   width:60%;}
 
@@ -587,63 +587,63 @@ ul.members li span.links{
 
 /* MAIN CONTENT TABLES
 -------------------------------------------------------------------------*/
-table.table-list{
+table.table_list{
   margin: 0 0 20px 0;}
 
-table.table-list td{
+table.table_list td{
   border-bottom:1px solid #E5E5E5;
   padding:10px 0;
   vertical-align:top;
   text-align:center;}
 
-table.table-list td.title{
+table.table_list td.title{
   width:30%;}
 
-table.table-list td.date{
+table.table_list td.date{
   width:25%;}
 
-table.table-list td.price{
+table.table_list td.price{
   width:10%;}
 
-table.table-list td.links{
+table.table_list td.links{
   text-align:right;  
   padding:10px 20px;
   width:35%;
   color:#B8B8B8;}
 
-table.table-list  tr.heading td{
+table.table_list  tr.heading td{
   vertical-align:middle;
   padding-bottom:0;
   border:none;}
 
-table.table-list  tr.heading td.title{
+table.table_list  tr.heading td.title{
   text-align:left;
   width: 50%;}
 
-.account-summary th{
+.account_summary th{
   background:#EBEBEB;
   padding-top:10px;
   font-weight:normal;
   padding-left:20px;
   padding-bottom:10px;}
 
-.account-summary th.type {
+.account_summary th.type {
   font-weight:bold;
   text-align:left;
   font-size:1.4em !important;}
 
-.account-summary th.type a{
+.account_summary th.type a{
   color:#333 !important;}
 
-.account-summary th.type img{
+.account_summary th.type img{
   margin: 0 5px 0 0;
   vertical-align:middle;}
 
-.account-summary td.account{
+.account_summary td.account{
   padding-left:45px;
   text-align:left;}
 
-.account-summary td.account a{
+.account_summary td.account a{
   background:url('/images/adva_cms/admin/ui/icon_site.gif') no-repeat top left;
   padding: 0 0 0 20px;}
 
@@ -653,8 +653,8 @@ p.owner{
   display:block;
   padding: 0 0 0 22px;}
 
-.membername a.email,
-.membername a.email{
+.member_name a.email,
+.member_name a.email{
   display:block;
   margin: 5px 0 0 0;
   font-weight:normal !important;
@@ -678,35 +678,35 @@ a.alert{
   background:url('/images/adva_cms/admin/ui/icon_alert.png') no-repeat center left;}
 
 
-table.table-history td{
+table.table_history td{
   padding: 10px;
   vertical-align:top;}
 
-table.table-history tr.highlight td{
+table.table_history tr.highlight td{
   background:#EBEBEB;}
 
-table.table-history td.date{
+table.table_history td.date{
   text-align:right;}
 
-table.table-history  ul{
+table.table_history  ul{
   padding: 0 0 0 30px;}
 
-table.table-history  ul li{
+table.table_history  ul li{
   padding: 0 0 5px 0;}
 
-table.table-history ul.login{
+table.table_history ul.login{
   background:url('/images/adva_cms/admin/ui/icon_login.png') no-repeat top left;}
 
-table.table-history ul.paid{
+table.table_history ul.paid{
   background:url('/images/adva_cms/admin/ui/icon_check.png') no-repeat top left;}
 
-table.table-history ul.received{
+table.table_history ul.received{
   background:url('/images/adva_cms/admin/ui/icon_alert.png') no-repeat top left;}
 
-table.table-history ul.setup{
+table.table_history ul.setup{
   background:url('/images/adva_cms/admin/ui/icon_add.png') no-repeat top left;}
 
-table.table-history ul.signin{
+table.table_history ul.signin{
   background:url('/images/adva_cms/admin/ui/icon_signin.png') no-repeat top left;}
 
 
@@ -750,11 +750,11 @@ fieldset .city{
 fieldset .city input.text{
   width:95% !important;}
 
-.radio-wrap,
-.bday-wrap  {
+.radio_wrap,
+.bday_wrap  {
   height:50px;}
 
-.radio-wrap span{
+.radio_wrap span{
   width:42%;
   float:left;}
 
@@ -763,31 +763,31 @@ fieldset .city input.text{
 }
 
 
-.radio-wrap label{
+.radio_wrap label{
   display:block;
   float:left;
   width:auto !important;
   padding: 2px 0 2px 0 !important;}
 
-.radio-wrap .female{
+.radio_wrap .female{
   background:url('/images/adva_cms/admin/ui/icon_female.gif') no-repeat center right;
   padding-right:17px !important;}
 
-.radio-wrap .male{
+.radio_wrap .male{
   background:url('/images/adva_cms/admin/ui/icon_male.gif') no-repeat center right;
   padding-right:21px !important;}
 
-.radio-wrap input{
+.radio_wrap input{
   float:left;
   margin: 2px 5px 25px 0;}
 
-.bday-wrap select{
+.bday_wrap select{
   float:left;
   margin-right:5px;}
 
-.bday-wrap .day{width:15% !important;}
-.bday-wrap .month{width:40% !important;}
-.bday-wrap .year{width:25% !important;}
+.bday_wrap .day{width:15% !important;}
+.bday_wrap .month{width:40% !important;}
+.bday_wrap .year{width:25% !important;}
 
 
 
@@ -876,12 +876,12 @@ ul.accounts li a.member{
 ul.accounts li a.owner{
   background:url('/images/adva_cms/admin/ui/icon_ownersmall.gif') no-repeat top left;}
 
-ul.list-comments li span{
+ul.list_comments li span{
   display:block;
   background:url('/images/adva_cms/admin/ui/icon_commentwrite.png') no-repeat top left;
   padding-left:20px}
 
-ul.list-comments li span.add {
+ul.list_comments li span.add {
   background:url('/images/adva_cms/admin/ui/icon_commentadd.png') no-repeat top left !important;}
 
 #sidebar #sections li {
@@ -908,29 +908,29 @@ ul.list-comments li span.add {
 }
 
 
-table.table-plans{
+table.table_plans{
   text-align:center;
   background:#EBEBEB}
 
-table.table-plans th{
+table.table_plans th{
   font-weight:normal;
   background:#EBEBEB;
   padding:10px;}
 
-table.table-plans .active{
+table.table_plans .active{
   background:#FFFFFF;}
 
-table.table-plans td{
+table.table_plans td{
   padding: 5px 10px;}
 
-table.table-plans td.plan{
+table.table_plans td.plan{
   text-align:left;
   width:15%;}
 
 #sidebar table tr.highlight td{
   background:#E0E0E0;}
 
-table.table-plans tr.highlight .active{
+table.table_plans tr.highlight .active{
   background:#F2F2F2 !important;}
 
 .assistance{
@@ -974,7 +974,7 @@ table.table-plans tr.highlight .active{
 #sidebar ul.members li{
   padding:10px 0  0 0 !important;}
 
-#sidebar ul.members .membername{  padding-left:80px;}
+#sidebar ul.members .member_name{  padding-left:80px;}
 
 /*-------------------------------------------------------------------------
                          NEWSLETTER
@@ -1001,17 +1001,17 @@ p.state {
 #delivery #send_later {
   float: right;
 }
-#newsletter-header {
+#newsletter_header {
   padding: 25px 0 0 0;
 }
-#newsletter-title {
+#newsletter_title {
   float: left;
 }
-#newsletter-title li {
+#newsletter_title li {
   float: left;
   margin-right: 10px;
 }
-#newsletter-stats {
+#newsletter_stats {
   float: left;
   width: 130px;
   padding: 8px 0 0 25px;

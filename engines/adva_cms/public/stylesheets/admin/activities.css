@@ -25,46 +25,44 @@
 .activities .activity {	
 	padding: 10px 10px 10px 35px;
 }
-.activity.comment-created {
+.activity.comment_created {
 	background: url(/images/adva_cms/icons/comment_add.png) no-repeat 10px 11px;
 }
-.activity.comment-edited {
+.activity.comment_edited {
 	background: url(/images/adva_cms/icons/comment_edit.png) no-repeat 10px 11px;
 }
-.activity.comment-deleted {
+.activity.comment_deleted {
 	background: url(/images/adva_cms/icons/comment_delete.png) no-repeat 10px 11px;
 }
-.activity.comment-approved {
+.activity.comment_approved {
 	background: url(/images/adva_cms/icons/comment.png) no-repeat 10px 11px;
 } 
-.activity.comment-unapproved {
+.activity.comment_unapproved {
 	background: url(/images/adva_cms/icons/comment.png) no-repeat 10px 11px;
 }
 
-.activity.article-created {
+.activity.article_created {
 	background: url(/images/adva_cms/icons/page_add.png) no-repeat 10px 11px;
 }
-.activity.article-revised {
+.activity.article_revised {
 	background: url(/images/adva_cms/icons/page_edit.png) no-repeat 10px 11px;
 } 
-.activity.article-published {
+.activity.article_published {
 	background: url(/images/adva_cms/icons/page_go.png) no-repeat 10px 11px;
 } 
-.activity.article-unpublished {
+.activity.article_unpublished {
 	background: url(/images/adva_cms/icons/page_red.png) no-repeat 10px 11px;
 } 
-.activity.article-deleted {
+.activity.article_deleted {
 	background: url(/images/adva_cms/icons/page_delete.png) no-repeat 10px 11px;
 }
 
-.activity.wikipage-created {
+.activity.wikipage_created {
 	background: url(/images/adva_cms/icons/page_white_add.png) no-repeat 10px 11px;
 }
-.activity.wikipage-revised {
+.activity.wikipage_revised {
 	background: url(/images/adva_cms/icons/page_white_edit.png) no-repeat 10px 11px;
 }
-.activity.wikipage-deleted {
+.activity.wikipage_deleted {
 	background: url(/images/adva_cms/icons/page_white_delete.png) no-repeat 10px 11px;
 }
-
-
