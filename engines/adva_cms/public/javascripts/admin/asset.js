@@ -37,26 +37,35 @@ Asset = {
     [dd, dt].each(Element.show);
   },
 
-	applyTagsToAll: function(form_id) {
-    var inputs = $(form_id).getInputs('text', 'assets[0][tag_list]');
-    var tags = $F(inputs.first()).split(' ');
-    tags = tags.collect(function(t) { return t.strip(); });
-    inputs.each(function(e, index) {
-      if(index > 0) {
-        var localtags = $F(e).split(' ').findAll(function(t) { return t.length > 0 });
-        localtags = localtags.collect(function(t) { return t.strip(); });
-        localtags.push(tags);
-        e.value = localtags.flatten().uniq().join(' ');
-      }
-    }
+  applyTagsToAll: function(form_id) {
+	  var inputs = $(form_id).getInputs('text', 'assets[0][tag_list]');
+	  var tags = $F(inputs.first()).split(' ');
+	  tags = tags.collect(function(t) { return t.strip(); });
+	  inputs.each(function(e, index) {
+	    if(index > 0) {
+	      var localtags = $F(e).split(' ').findAll(function(t) { return t.length > 0 });
+	      localtags = localtags.collect(function(t) { return t.strip(); });
+	      localtags.push(tags);
+	      e.value = localtags.flatten().uniq().join(' ');
+	    }
+	  }
   )}
 }
 
-Event.addBehavior({
-  '#asset-add-file:click':  function() { return Asset.addInput(); },
-  '#tagall-files:click':    function() { Asset.applyTagsToAll('asset_form'); },
-  '#assets-search-form':    function() { window.spotlight = new Spotlight('assets-search-form', 'assets-search-query'); },  
-	'.assets-row div:mouseover': 			    function() { Element.getElementsBySelector(this, '.asset-tools').first().show(); },
-	'.assets-row div:mouseout':  			    function() { Element.getElementsBySelector(this, '.asset-tools').first().hide(); }
-});
+function init_asset_filter() {
+	Event.addBehavior({
+	  '#asset-add-file:click':     function() { return Asset.addInput(); },
+	  '#tagall-files:click':       function() { Asset.applyTagsToAll('asset_form'); },
+	  '#assets-search-form':       function() { window.spotlight = new Spotlight('assets-search-form', 'assets-search-query'); },  
+	});
+}
 
+function init_asset_list() {
+	Event.addBehavior({
+	  '.assets-row div:mouseover': function() { Element.getElementsBySelector(this, '.asset-tools').first().show(); },
+	  '.assets-row div:mouseout':  function() { Element.getElementsBySelector(this, '.asset-tools').first().hide(); }
+	});
+}
+
+init_asset_filter();
+init_asset_list();

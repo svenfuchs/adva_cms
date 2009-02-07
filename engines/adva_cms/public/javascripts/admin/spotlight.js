@@ -38,7 +38,7 @@ Spotlight.prototype = {
     $('search-assets-spinner').show();
     $('page').value = $('page').value || '1';
     new Ajax.Request(this.form.action, { asynchronous: true, evalScripts: true, method: 'get', 
-																		     parameters: Form.serialize(this.form) });                                  
+	                                     parameters: Form.serialize(this.form) });                                  
     return false;
   }
 }

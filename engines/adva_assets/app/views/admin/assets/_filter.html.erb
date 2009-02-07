@@ -13,15 +13,15 @@
   </ul>
 
   <%= hidden_field_tag 'page', '1' %>
-  <input type="text" name="query" id="assets-search-query" />    
+  <input type="text" name="filter[query]" id="assets-search-query" />    
   
   <div id="filter-options" style="display: none">
-    <%= check_box_tag 'filter[audio]',  '1', false, :id => 'faudio-check' %>
-    <%= check_box_tag 'filter[image]',  '1', false, :id => 'fpictures-check' %>
-    <%= check_box_tag 'filter[other]',  '1', false, :id => 'fothers-check' %>
-    <%= check_box_tag 'filter[movie]',  '1', false, :id => 'fmovies-check'%>
-    <%= check_box_tag 'conditions[tags]',  '1', false, :id => 'ctags-check' %>
-    <%= check_box_tag 'conditions[title]', '1', false, :id => 'ctitle-check' %>
-    <%= check_box_tag 'conditions[date]',  '1', false, :id => 'cdate-check' %>
+    <%= check_box_tag 'filters[media_types][audio]',  '1', false, :id => 'faudio-check' %>
+    <%= check_box_tag 'filters[media_types][image]',  '1', false, :id => 'fpictures-check' %>
+    <%= check_box_tag 'filters[media_types][other]',  '1', false, :id => 'fothers-check' %>
+    <%= check_box_tag 'filters[media_types][movie]',  '1', false, :id => 'fmovies-check'%>
+    <%= check_box_tag 'filters[tags_list]',  '1', false, :id => 'ctags-check' %>
+    <%= check_box_tag 'filters[title]', '1', false, :id => 'ctitle-check' %>
+    <%= check_box_tag 'filters[date]',  '1', false, :id => 'cdate-check' %>
   </div>
 <% end -%>

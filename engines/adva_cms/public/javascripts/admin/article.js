@@ -2,9 +2,9 @@ var ArticleSearch = Class.create();
 
 ArticleSearch.create = function() { 
   var search = new ArticleSearch('article-search', [
-    {keys: ['category'],              show: ['categories'],  hide: ['query', 'button']},
-    {keys: ['title', 'body', 'tags'], show: ['query'],       hide: ['categories', 'button']},
-    {keys: ['draft'],                 show: ['button'],      hide: ['query', 'categories']}
+    { keys: ['category'],              show: ['categories'],  hide: ['query', 'button'] },
+    { keys: ['title', 'body', 'tags'], show: ['query'],       hide: ['categories', 'button'] },
+    { keys: ['draft'],                 show: ['button'],      hide: ['query', 'categories'] }
   ], 'categories');
   search.onChange($('filterlist'));
   return search;
@@ -38,7 +38,6 @@ var ArticleForm = {
     $F(this) ? $('publish-date').hide() : $('publish-date').show();
   }
 }
-
 
 Event.addBehavior({
   '#article-draft':   function() { Event.observe(this, 'change', ArticleForm.saveDraft.bind(this)); },

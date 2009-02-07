@@ -4,7 +4,6 @@ Paperclip::Attachment.interpolations.merge! \
 
 Paperclip.options[:command_path] = '/usr/local/bin'
 
-# FIXME renamed movie to video because that's what mime types use
 # FIXME how to tell paperclip to only create thumbnails etc from images?
 
 require 'has_filter'
@@ -41,8 +40,8 @@ class Asset < ActiveRecord::Base
   validates_attachment_presence :data
   validates_attachment_size :data, :less_than => 30.megabytes
 
-  named_scope :is_media_type, lambda { |*types|
-    content_type_conditions(*types)
+  named_scope :is_media_type, lambda { |types|
+    content_type_conditions(types)
   }
 
   # no idea where these would ever be used?
@@ -52,7 +51,7 @@ class Asset < ActiveRecord::Base
     }
   end
   named_scope :others, lambda {
-    content_type_conditions(content_types.keys - [:pdf], :exclude => true)
+    content_type_conditions(content_types.keys - [:pdf], :exclude => true )
   }
 
   class << self
@@ -65,37 +64,27 @@ class Asset < ActiveRecord::Base
         "#{root_dir}/sites/#{site.perma_host}/assets" :
         "#{root_dir}/assets"
     end
+    
+    [:image, :video, :audio, :pdf, :other].each do |type|
+      define_method("#{type}?") do |content_type|
+        Mime::Type.lookup(content_type).to_s.starts_with(type.to_s) ||
+          content_types[type].try(:include?, content_type) || false
+      end
+    end
 
     def other?(content_type)
       ![:image, :video, :audio, :pdf].any? { |type| send(:"#{type}?", content_type) }
     end
 
-    def method_missing(method, *args)
-      # Looks for method names like pdf? with a single argument content_type.
-      # Checks the mime type and looks for the type given as method name without
-      # the trailing "?". Otherwise checks the extra content types hash  for
-      # exceptional cases.
-      if method.to_s =~ /^(.+)\?$/ and args.size == 1
-        type = $1.to_sym
-        content_type = args.first.to_s
-        Mime::Type.lookup(content_type).to_s.starts_with(type.to_s) ||
-          content_types[type].try(:include?, content_type) || false
-      else
-        super
-      end
-    end
-
     protected
 
-      def content_type_conditions(*types)
-        if types.extract_options![:exclude]
-          operator, negator = ' AND ', 'NOT '
-        else
-          operator, negator = ' OR ', nil
-        end
+      def content_type_conditions(types, options = {})
+        types = Array(types)
+        operator, negator = options[:exclude] ? [' AND ', 'NOT '] : [' OR ', nil]
 
         patterns = types.map { |type| "#{type}%" }
-        values   = content_types.slice(*types.map(&:to_sym)).values.flatten
+        types    = types.map &:to_sym
+        values   = content_types.slice(*types).values.flatten
         query    = ["data_content_type #{negator}IN (?)"] +
                    [" data_content_type #{negator}LIKE ?"] * types.size
 

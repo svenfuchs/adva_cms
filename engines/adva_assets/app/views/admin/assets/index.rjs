@@ -4,3 +4,4 @@ else
   page['assets-list'].replace_html :partial => 'assets'
 end
 page['search-assets-spinner'].hide
+page.call 'init_asset_list'
