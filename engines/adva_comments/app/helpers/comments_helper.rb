@@ -25,8 +25,8 @@ module CommentsHelper
       :url     => preview_comments_path,
       :with    => "Form.serialize($('comment_form'))",
       :update  => 'preview',
-      :loading => "$('comment-preview-spinner').show();",
-      :loaded  => "$('comment-preview-spinner').hide();"
+      :loading => "$('comment_preview_spinner').show();",
+      :loaded  => "$('comment_preview_spinner').hide();"
   end
 
   def comment_form_hidden_fields(commentable)

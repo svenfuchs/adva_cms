@@ -1,5 +1,5 @@
 <% if collection_title(@set, @tags) %>
-  <h2 class="list-header"><%= collection_title(@set, @tags) %></h2>
+  <h2 class="list_header"><%= collection_title(@set, @tags) %></h2>
 <% end %>
 
 <%= render :partial => 'photo', :collection => @photos, :locals => {:mode => :many} %>

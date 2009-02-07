@@ -1,9 +1,9 @@
 <% content_for :filter do -%>
-<% form_tag admin_calendar_events_path, :method => 'get', :id => 'calendar-search' do %>
+<% form_tag admin_calendar_events_path, :method => 'get', :id => 'calendar_search' do %>
   <label for="search" class="inline">
     <%= t(:'adva.calendar.titles.show_events') %>
   </label>
-  <select name="filter" id="filterlist">
+  <select name="filter" id="filter_list">
     <%= options_for_select [[ t(:'adva.calendar.options.filter.category'),  'category'],
                             [ t(:'adva.calendar.options.filter.tags'),      'tags'],
                             [ t(:'adva.calendar.options.filter.title'),     'title'],
@@ -49,7 +49,7 @@
         <th scope="col"></th>
       </tr>
     </thead>
-    <tbody id="events-body">
+    <tbody id="events_body">
       <%= render :partial => 'event', :collection => @events %>
     </tbody>
   </table>

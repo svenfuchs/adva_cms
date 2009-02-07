@@ -37,7 +37,7 @@ TinyTab.prototype = {
 	},
 	showPanel: function(element) {
     this.panels.each(function(panel) { Element.hide(panel) });
-    $(element.getAttribute('id').replace('tab-', '')).show();
+    $(element.getAttribute('id').replace('tab_', '')).show();
 	}
 };
 
@@ -77,7 +77,7 @@ var AssetWidget = {
 		return $('attached_asset_' + this.assetId(element)) ? true : false;
 	},
 	updateSelected: function() {
-		if(!$('assets-widget')) return;
+		if(!$('assets_widget')) return;
 		var selectedIds = this.selectedAssetIds();
 		this.updateSelectedTab(selectedIds.length > 0);
 		this.updateSelectedAssets(selectedIds);
@@ -89,18 +89,18 @@ var AssetWidget = {
 		}
 	},
 	showSelectedTab: function() {
-		$('tab-attached-assets').show();
+		$('tab_attached_assets').show();
 	},
 	hideSelectedTab: function() {
-		$('tab-attached-assets').hide();
-		if(TinyTab.assets.selectedTab() == $('tab-attached-assets')) {
+		$('tab_attached_assets').hide();
+		if(TinyTab.assets.selectedTab() == $('tab_attached_assets')) {
 			TinyTab.assets.unselectTab();
 		}
-		$('attached-assets').hide();
+		$('attached_assets').hide();
 	},
 	updateSelectedAssets: function(ids) {
 		['latest', 'bucket'].each(function(prefix) {
-			$$('.' + prefix + '-asset').each(function(asset) { 
+			$$('.' + prefix + '_asset').each(function(asset) { 
 				asset.removeClassName('selected'); 
 			});
 			ids.each(function(id) { 			
@@ -110,7 +110,7 @@ var AssetWidget = {
 		}.bind(this));		
 	},
 	selectedAssetIds: function() {
-		return $$('.attached-asset').collect(function(asset) { 
+		return $$('.attached_asset').collect(function(asset) { 
 			return asset.getAttribute('id').match(/_(\d+)$/)[1]; 
 		});
 	},	
@@ -124,14 +124,14 @@ var AssetWidget = {
   },
 	search: function(query) {
     if(!query) return;
-    $('search-assets-spinner').show();
+    $('search_assets_spinner').show();
     new Ajax.Request(this.assetsUrl(), { parameters: { query: escape(query), limit: 6, source: 'widget' }, method: 'get' });
 	},
   upload: function(element, authenticityToken) {
-		if(!$('asset-upload-frame')) {
-			document.body.appendChild(new Element('iframe', { id: 'asset-upload-frame', name: 'asset-upload-frame', style: 'display: none;' }));
+		if(!$('asset_upload_frame')) {
+			document.body.appendChild(new Element('iframe', { id: 'asset_upload_frame', name: 'asset_upload_frame', style: 'display:none;' }));
 		}
-		var form = new Element('form', { action: this.assetsUrl(), method: 'post', enctype: 'multipart/form-data', target: 'asset-upload-frame', style: 'display: none;' });
+		var form = new Element('form', { action: this.assetsUrl(), method: 'post', enctype: 'multipart/form-data', target: 'asset_upload_frame', style: 'display: none;' });
 		form.appendChild(new Element('input', { type: 'hidden', name: 'authenticity_token', value: authenticityToken}));
 		form.appendChild(new Element('input', { type: 'hidden', name: 'respond_to_parent', value: '1'}));
 		form.appendChild(element.cloneNode(true));
@@ -142,20 +142,20 @@ var AssetWidget = {
 };
 
 Event.addBehavior({
-  '#assets-widget .attach-asset:click': function() { AssetWidget.attachAsset(this, $('content_form').authenticity_token.value); return false; },
-  '#assets-widget .detach-asset:click': function() { AssetWidget.detachAsset(this, $('content_form').authenticity_token.value); return false; },
-  '#assets-widget .asset:mouseover': 	  function() { AssetWidget.showAttachTools(this.getAttribute('id')); },
-  '#assets-widget .asset:mouseout': 		function() { AssetWidget.hideAttachTools(this.getAttribute('id')); },
+  '#assets_widget .attach_asset:click': function() { AssetWidget.attachAsset(this, $('content_form').authenticity_token.value); return false; },
+  '#assets_widget .detach_asset:click': function() { AssetWidget.detachAsset(this, $('content_form').authenticity_token.value); return false; },
+  '#assets_widget .asset:mouseover': 	  function() { AssetWidget.showAttachTools(this.getAttribute('id')); },
+  '#assets_widget .asset:mouseout': 		function() { AssetWidget.hideAttachTools(this.getAttribute('id')); },
 
-	'#search-assets-button:click':        function(event) { AssetWidget.search($F('search-assets-query')); },
-	'#search-assets-query:keypress':      function(event) { if(event.keyCode == Event.KEY_RETURN) { AssetWidget.search($F('search-assets-query')); Event.stop(event); } },
-	'#upload-assets-button:click':        function(event) { AssetWidget.upload($('asset-uploaded-data'), $('content_form').authenticity_token.value);}
+	'#search_assets_button:click':        function(event) { AssetWidget.search($F('search_assets_query')); },
+	'#search_assets_query:keypress':      function(event) { if(event.keyCode == Event.KEY_RETURN) { AssetWidget.search($F('search_assets_query')); Event.stop(event); } },
+	'#upload_assets_button:click':        function(event) { AssetWidget.upload($('asset_uploaded_data'), $('content_form').authenticity_token.value);}
 
-  // '#assets-widget .asset img':          function() { new Draggable(this, { revert: true, ghosting: true }); },
+  // '#assets_widget .asset img':          function() { new Draggable(this, { revert: true, ghosting: true }); },
 	//'#article_body':                      function() { Droppables.add(this, { onDrop: function(drag, drop, event) {} }); }
 });                                 
 
 Event.onReady(function() {
-  TinyTab.assets = new TinyTab('assets-widget', 'panels');
+  TinyTab.assets = new TinyTab('assets_widget', 'panels');
 	AssetWidget.updateSelected();
 });

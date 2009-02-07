@@ -1,12 +1,12 @@
 
 
-#themelist {
+#theme_list {
   list-style: none;
 	margin: 20px 0px;
 	padding: 0px;
 	border-top:1px solid #e6e6e6;
 }
-#themelist li {
+#theme_list li {
   display: block;
   position: relative;
   float: left;
@@ -17,17 +17,17 @@
   padding: 20px 5px 30px 5px;
   border-bottom: 1px solid #ccc;
 }
-#themelist h4 {
+#theme_list h4 {
 	font-size: 14px;
 	margin: 0px 0px 4px 0px;
 }
-#themelist p {
+#theme_list p {
 	margin: 0px 0px 8px 0px;
   font-weight: normal;
   font-size: 11px;
   color: #777;
 }
-#themelist img,
+#theme_list img,
 #screenshot img {
   width: 130px;
   height: 130px;
@@ -36,16 +36,16 @@
   padding: 5px;
   border: 1px solid #ddd;
 }
-#themelist ul.options {
+#theme_list ul.options {
 	text-align: center;
 	padding: 4px 0px;
 }
-#themelist ul.options li {
+#theme_list ul.options li {
 	float: none;
 	display: inline;
 	padding: 4px;
 }
-#themelist .current img {
+#theme_list .current img {
 	margin: 0px;
   padding: 10px;
 	border-color: transparent;

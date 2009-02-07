@@ -1,14 +1,14 @@
 Asset = {
   addInput: function() {
-    var list = $('files'), copyFrom = list.down(), tagall = $('tagall-files');
+    var list = $('files'), copyFrom = list.down(), tagall = $('tagall_files');
     var newNode = copyFrom.cloneNode(true), files = list.getElementsByTagName('p');
 		for(c=0; c < newNode.childNodes.length; c++) {
 			if(newNode.childNodes[c].id == undefined) { continue; }
 			newNode.childNodes[c].id = newNode.childNodes[c].id.replace(/[0-9]+/, list.childNodes.length-2);
 			newNode.childNodes[c].name = newNode.childNodes[c].name.replace(/[0-9]+/, list.childNodes.length-2);
 		}
-    var close = $(newNode).select('.remove-file')[0]; 
-    Element.remove($(newNode).select('.tagall-files')[0]);
+    var close = $(newNode).select('.remove_file')[0]; 
+    Element.remove($(newNode).select('.tagall_files')[0]);
     Event.observe(close, 'click', function(e) { 
       Event.findElement(e, 'p').remove(); 
       if(tagall.visible() && files.length == 1) tagall.hide();
@@ -53,10 +53,10 @@ Asset = {
 }
 
 Event.addBehavior({
-  '#asset-add-file:click':  function() { return Asset.addInput(); },
-  '#tagall-files:click':    function() { Asset.applyTagsToAll('asset_form'); },
-  '#assets-search-form':    function() { window.spotlight = new Spotlight('assets-search-form', 'assets-search-query'); },  
-	'.assets-row div:mouseover': 			    function() { Element.getElementsBySelector(this, '.asset-tools').first().show(); },
-	'.assets-row div:mouseout':  			    function() { Element.getElementsBySelector(this, '.asset-tools').first().hide(); }
+  '#asset_add_file:click':  function() { return Asset.addInput(); },
+  '#tagall_files:click':    function() { Asset.applyTagsToAll('asset_form'); },
+  '#assets_search_form':    function() { window.spotlight = new Spotlight('assets_search_form', 'assets_search_query'); },  
+	'.assets_row div:mouseover': 			    function() { Element.getElementsBySelector(this, '.asset_tools').first().show(); },
+	'.assets_row div:mouseout':  			    function() { Element.getElementsBySelector(this, '.asset_tools').first().hide(); }
 });
 

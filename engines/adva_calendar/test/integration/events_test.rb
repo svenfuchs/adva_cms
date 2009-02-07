@@ -20,8 +20,8 @@ class EventsTest < ActionController::IntegrationTest
     %w(tags title body).each do |filter|
       %(upcoming elapsed recently_added).each do |scope|
         visit @calendar_path
-        fill_in :filterlist, :with => filter
-        fill_in :time_filterlist, :with => scope
+        fill_in :filter_list, :with => filter
+        fill_in :time_filter_list, :with => scope
         click_button 'Search'
         assert_response :success
         assert assigns['events']

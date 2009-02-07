@@ -1,9 +1,9 @@
 <% content_for :filter do %>
-  <% form_tag admin_articles_path, :method => 'get', :id => 'article-search' do -%>
+  <% form_tag admin_articles_path, :method => 'get', :id => 'article_search' do -%>
     <label for="search" class="inline">
       <%=t :'adva.blog.titles.show_articles' %>
     </label>
-    <select name="filter" id="filterlist">
+    <select name="filter" id="filter_list">
       <%= options_for_select [[ t(:'adva.blog.options.filter.category'),  'category'],
                               [ t(:'adva.blog.options.filter.tags'),       'tags'],
                               [ t(:'adva.blog.options.filter.title'),     'title'],

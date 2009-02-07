@@ -4,7 +4,7 @@
   <%= render :partial => 'filter' %>
 <% end -%>
 
-<div id="assets-list">
+<div id="assets_list">
   <%= render :partial => "assets" %>
 </div>
 
@@ -14,11 +14,11 @@
     <%= link_to_remote 'clear', :url => admin_assets_bucket_path, :method => :delete %>
   </h3>
   <p><%=t :'adva.assets.add_files' %></p>
-  <ul id="bucket-assets" class="clearing asset-list">
+  <ul id="bucket_assets" class="clearing asset_list">
     <%= render :partial => "admin/assets/widget/asset", :collection => bucket_assets, :locals => { :content => nil, :prefix => 'bucket' } %>
   </ul>
 
   <h4><%=t :'adva.assets.stats' %></h4>
-  <p><%=t :'adva.assets.upload_summary', :count => @site.assets.count, 
+  <p><%=t :'adva.assets.upload_summary', :count => @site.assets.count,
     :size => number_to_human_size(@site.assets.sum(:size) || 0).to_s.downcase %></p>
 <% end %>

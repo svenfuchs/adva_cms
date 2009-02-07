@@ -12,7 +12,7 @@
 
 </head>
 <body>
-  <ul id="acc-links">
+  <ul id="acc_links">
       <li><a href="#main-nav"><%= t(:'adva.links.skip_to_navigation') %></a></li>
       <li><a href="#content"><%= t(:'adva.links.skip_to_content') %></a></li>
   </ul>
@@ -26,7 +26,7 @@
     <div id="content" class="clearfix">
       <%#= render :partial => 'widgets/admin/language_select' %>
       <%= yield :form if @content_for_form %>
-      <div id="main-content"><div id="main-content-wrapper">
+      <div id="main_content"><div id="main_content_wrapper">
         <%= render :partial => 'shared/flash' %>
         <div class="padded">
           <%#= render :partial => 'widgets/admin/sub_nav' %>

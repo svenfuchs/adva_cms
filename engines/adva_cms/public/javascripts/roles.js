@@ -1,12 +1,12 @@
 function authorize_elements(roles) {
 	if(roles.include('superuser')) {
-		var elements = $$(".visible-for");
+		var elements = $$(".visible_for");
 	} else {
 		var elements = roles.map(function(role){ return $$("." + role) }).flatten();
 	}
   elements.each(function(element) {
 		if(element) {
-    	element.removeClassName('visible-for');
+    	element.removeClassName('visible_for');
 		}
   });
 }

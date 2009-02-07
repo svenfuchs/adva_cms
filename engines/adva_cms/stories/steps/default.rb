@@ -68,11 +68,11 @@ steps_for :default do
   end
 
   Then "the edit link is only visible for certain roles" do
-    response.should have_tag('.visible-for a[href$=?]', 'edit')
+    response.should have_tag('.visible_for a[href$=?]', 'edit')
   end
 
   Then "the 'Save as draft?' checkbox is checked by default" do
-    response.should have_tag("input#article-draft[type=?][value=?]", 'checkbox', 1)
+    response.should have_tag("input#article_draft[type=?][value=?]", 'checkbox', 1)
   end
 
   Then "the page should not have '$link' link" do |link|

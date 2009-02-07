@@ -27,13 +27,13 @@
         <th scope="col"></th>
       </tr>
     </thead>
-    <tbody id="wikipages-body">
+    <tbody id="wikipages_body">
       <%= render :partial => 'wikipage', :collection => @wikipages %>
     </tbody>
   </table>
   <%= will_paginate @wikipages, :id => 'pagination' %>
   <script type="text/javascript">
-    var wikipages_list = new WikipagesList($('wikipages-body'), {
+    var wikipages_list = new WikipagesList($('wikipages_body'), {
       onUpdate: function(drag, drop, event) {
         <%= remote_function(:url => admin_wikipages_path(@site, @section),
                             :method =>   :put,

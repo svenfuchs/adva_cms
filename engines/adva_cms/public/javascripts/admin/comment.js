@@ -1,12 +1,12 @@
 var CommentSearch = Class.create();
 CommentSearch.create = function() { 
-	var search = new CommentSearch('comment-search', [
+	var search = new CommentSearch('comment_search', [
     {keys: ['all'], show: ['button'], hide: ['states', 'query']},
 	{keys: ['body', 'author_name', 
 			'author_email', 'author_website'], 	show: ['query'],       		hide: ['button', 'states']},
     {keys: ['state'],                 			show: ['button', 'states'], hide: ['query']}
   ], 'all');
-	search.onChange($('filterlist'));
+	search.onChange($('filter_list'));
 	return search;
 }
 CommentSearch.prototype = {
@@ -33,5 +33,5 @@ CommentSearch.prototype = {
 }
 
 Event.addBehavior({
-  '#comment-search':  function() { CommentSearch.create();  }
+  '#comment_search':  function() { CommentSearch.create();  }
 });

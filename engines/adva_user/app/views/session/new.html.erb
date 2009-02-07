@@ -1,4 +1,4 @@
-<div id="centered-box">
+<div id="centered_box">
   <% form_for @user, :url => session_path, :html => {:id => 'login'} do |f| %>
     <%= hidden_field_tag :return_to, params[:return_to] if params[:return_to] %>
   	<fieldset>

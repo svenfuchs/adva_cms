@@ -1,12 +1,12 @@
 var ArticleSearch = Class.create();
 
 ArticleSearch.create = function() { 
-  var search = new ArticleSearch('article-search', [
+  var search = new ArticleSearch('article_search', [
     {keys: ['category'],              show: ['categories'],  hide: ['query', 'button']},
     {keys: ['title', 'body', 'tags'], show: ['query'],       hide: ['categories', 'button']},
     {keys: ['draft'],                 show: ['button'],      hide: ['query', 'categories']}
   ], 'categories');
-  search.onChange($('filterlist'));
+  search.onChange($('filter_list'));
   return search;
 }
 
@@ -35,13 +35,13 @@ ArticleSearch.prototype = {
 
 var ArticleForm = {
   saveDraft: function() {
-    $F(this) ? $('publish-date').hide() : $('publish-date').show();
+    $F(this) ? $('publish_date').hide() : $('publish_date').show();
   }
 }
 
 
 Event.addBehavior({
-  '#article-draft':   function() { Event.observe(this, 'change', ArticleForm.saveDraft.bind(this)); },
-  '#article-search':  function() { ArticleSearch.create();  }
+  '#article_draft':   function() { Event.observe(this, 'change', ArticleForm.saveDraft.bind(this)); },
+  '#article_search':  function() { ArticleSearch.create();  }
   // '#revisionnum':  function() { Event.observe(this, 'change', ArticleForm.getRevision.bind(this)); },
 });

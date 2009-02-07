@@ -154,7 +154,7 @@ class BlogArticleViewTest < ActionController::IntegrationTest
     admin       = "site-#{@site.id}-admin"
     moderator   = "section-#{@section.id}-moderator"
     owner       = defined?(Rbac::Role::Owner) ? "account-#{@article.id}-owner " : ''
-    visible_for = "visible-for #{moderator} #{admin} #{owner}superuser"
+    visible_for = "visible_for #{moderator} #{admin} #{owner}superuser"
 
     # check that the page shows the edit link
     assert_select "span[class=?]", visible_for, true, "The page should contain authorized span for #{visible_for}." do

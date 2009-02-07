@@ -1,5 +1,5 @@
 <% content_for :action_nav do %>
-  <ul class="sub-nav clearfix">
+  <ul class="sub_nav clearfix">
     <li><%= link_to content_tag(:span, t(:'adva.titles.plugins')), admin_plugins_path(@site) %></li>
     <% if @plugin %>
       <li><%= link_to content_tag(:span, t(:'adva.titles.restore_defaults')), admin_plugin_path(@site, @plugin), :confirm => t(:'adva.sites.confirm_delete'), :method => :delete %></li>

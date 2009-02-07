@@ -5,7 +5,7 @@ form h4 {
 	color: #444;
 	margin-bottom: 10px;
 }
-#main-content fieldset.clearfix {
+#main_content fieldset.clearfix {
 	clear: both;
 	background-color: #f6f6f6;
 	border-width: 0px;

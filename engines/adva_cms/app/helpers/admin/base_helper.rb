@@ -17,7 +17,7 @@ module Admin::BaseHelper
 
     selection = options.reverse.detect { |name, url| request.path.starts_with?(url) }
 
-    select_tag 'site-select', options_for_select(options, selection)
+    select_tag 'site_select', options_for_select(options, selection)
   end
   
   def link_to_profile(site = nil, options = {})

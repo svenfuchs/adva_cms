@@ -1,5 +1,5 @@
-<% form_tag admin_assets_path, :id => 'assets-search-form', :method => 'get' do -%>
-  <div id="spin"><img style="display: none;" src="/images/adva_cms/indicator.gif" alt="spinner" id="search-assets-spinner" /></div>
+<% form_tag admin_assets_path, :id => 'assets_search_form', :method => 'get' do -%>
+  <div id="spin"><img style="display:none;" src="/images/adva_cms/indicator.gif" alt="spinner" id="search_assets_spinner" /></div>
   
   <ul id="type">
     <li id="faudio"><a href="#" title="<%=t :'adva.assets.tab.audio' %>'"><%=t :'adva.assets.tab.audio' %></a></li>
@@ -13,15 +13,15 @@
   </ul>
 
   <%= hidden_field_tag 'page', '1' %>
-  <input type="text" name="query" id="assets-search-query" />    
+  <input type="text" name="query" id="assets_search_query" />    
   
-  <div id="filter-options" style="display: none">
-    <%= check_box_tag 'filter[audio]',  '1', false, :id => 'faudio-check' %>
-    <%= check_box_tag 'filter[image]',  '1', false, :id => 'fpictures-check' %>
-    <%= check_box_tag 'filter[other]',  '1', false, :id => 'fothers-check' %>
-    <%= check_box_tag 'filter[movie]',  '1', false, :id => 'fmovies-check'%>
-    <%= check_box_tag 'conditions[tags]',  '1', false, :id => 'ctags-check' %>
-    <%= check_box_tag 'conditions[title]', '1', false, :id => 'ctitle-check' %>
-    <%= check_box_tag 'conditions[date]',  '1', false, :id => 'cdate-check' %>
+  <div id="filter_options" style="display: none">
+    <%= check_box_tag 'filter[audio]',  '1', false, :id => 'faudio_check' %>
+    <%= check_box_tag 'filter[image]',  '1', false, :id => 'fpictures_check' %>
+    <%= check_box_tag 'filter[other]',  '1', false, :id => 'fothers_check' %>
+    <%= check_box_tag 'filter[movie]',  '1', false, :id => 'fmovies_check'%>
+    <%= check_box_tag 'conditions[tags]',  '1', false, :id => 'ctags_check' %>
+    <%= check_box_tag 'conditions[title]', '1', false, :id => 'ctitle_check' %>
+    <%= check_box_tag 'conditions[date]',  '1', false, :id => 'cdate_check' %>
   </div>
 <% end -%>

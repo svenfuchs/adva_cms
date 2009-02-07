@@ -1,9 +1,9 @@
 <% content_for :filter do %>
-  <% form_tag admin_comments_path, :method => 'get', :id => 'comment-search' do -%>
+  <% form_tag admin_comments_path, :method => 'get', :id => 'comment_search' do -%>
     <label for="search" class="inline">
       t(:'adva.comments.filter.show_comments'):
     </label>
-    <select name="filter" id="filterlist">
+    <select name="filter" id="filter_list">
       <%= options_for_select comments_filter_options, params[:filter] %>
     </select>
     <select name="state" id="states">

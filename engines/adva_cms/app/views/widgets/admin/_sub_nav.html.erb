@@ -1,5 +1,5 @@
 <% if @site and !@site.new_record? and @section and !@section.new_record? %>
-  <ul class="sub-nav clearfix">
+  <ul class="sub_nav clearfix">
     <!-- TODO instead, have the controller register the actions -->
     <li><%= link_to_section_main_action(@site, @section) %></li>
     <% if @section.accept_comments? %>

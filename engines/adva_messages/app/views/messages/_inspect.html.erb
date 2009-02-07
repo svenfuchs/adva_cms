@@ -1,11 +1,11 @@
 <div id="<%= dom_id(message) %>" class="<%= message_type(message) %>">
-	<div class="message-header" class="meta">
-		<p class="message-sender">
+	<div class="message_header" class="meta">
+		<p class="message_sender">
 			Sent <%= time_ago_in_words message.created_at %> ago<br />
 			from: <%= message.sender.name %>
 		</p>
 	</div>
-	<div class="message-body">
+	<div class="message_body">
 	  <div class="entry">
       <div class="content">
     		<h2><%= h(message.subject) %></h2>

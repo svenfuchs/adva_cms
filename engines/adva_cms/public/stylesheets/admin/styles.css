@@ -113,7 +113,7 @@ a:hover, a:active {
 
 /* General Styles
 --------------------------------------------------------------------------*/
-ul#acc-links{display:none;}
+ul#acc_links{display:none;}
 ul li.last {border:none !important;}
 .right{float:right !important;}
 .noborder{border:none !important;}
@@ -150,7 +150,7 @@ ul li.last {border:none !important;}
   font-size:1.1em;
   background:url('/images/adva_cms/admin/ui/bg_borderheader.gif') repeat-x bottom left;}
 
-#header #utility-links{
+#header #utility_links{
   background:#E6E6E6 url('/images/adva_cms/admin/ui/bg_utility.gif') repeat-x bottom left;
   padding: 10px 20px;}
 
@@ -164,10 +164,10 @@ ul.breadcrumb li{
 ul.breadcrumb li.active a{
   color:#000 !important;}
 
-ul.userlinks {  
+ul.user_links {  
   float:right;}
 
-ul.userlinks li{
+ul.user_links li{
   float:left;
   padding:0 5px;
   border-right:1px solid #000;}
@@ -281,7 +281,7 @@ fieldset.language{
 /*-------------------------------------------------------------------------
                          MAIN CONTENT
 *-------------------------------------------------------------------------*/
-#main-content{
+#main_content{
   width:68%;
   float:left;
   clear:both;
@@ -290,11 +290,11 @@ fieldset.language{
   margin-top: 20px;
   background:#FFF url('/images/adva_cms/admin/ui/bg_contentshadow.gif') repeat-y top right;}
 
-#main-content-wrapper{
+#main_content_wrapper{
   padding-right:7px;
   background:url('/images/adva_cms/admin/ui/bg_contentshadowtop.gif') no-repeat top right;}
 
-#main-content h2{
+#main_content h2{
   color:#999999;
   font-size:2.4em;
   position:relative;
@@ -311,21 +311,21 @@ fieldset.language{
 	margin-bottom: 20px !important;
 }
 
-#main-content h2 a{
+#main_content h2 a{
   position:absolute;
   font-weight:normal;
   font-size:0.5em;
   top:20px;
   right:0px;}
 
-#main-content .padded{
+#main_content .padded{
   padding: 0px 20px;}
 
-#main-content h3 {
+#main_content h3 {
 	margin-top: 20px;
 }
 
-#main-content h4 {
+#main_content h4 {
 	margin: 20px 0 0 0;
 }
 
@@ -342,48 +342,48 @@ p.error{background:#FECCCB;}
 
 /* SUB NAVIGATION
 -------------------------------------------------------------------------*/
-ul.sub-nav{
+ul.sub_nav{
   background:url('/images/adva_cms/admin/ui/bg_subnav.gif') repeat-x bottom left;
   margin: 20px 0 0px 0;
   height:40px;}
 
-ul.sub-nav li{
+ul.sub_nav li{
   float:left;
   padding: 0 2px 0 0;
   background:url('/images/adva_cms/admin/ui/border_subnav.gif') repeat-y top right;}
 
-ul.sub-nav li.right{
+ul.sub_nav li.right{
   padding: 0 0 0 2px;
   background:url('/images/adva_cms/admin/ui/border_subnav.gif') repeat-y top left;}
 
-ul.sub-nav li a,
-ul.sub-nav li a span{
+ul.sub_nav li a,
+ul.sub_nav li a span{
   float:left;
   display:block;}
 
-ul.sub-nav a{
+ul.sub_nav a{
   color:#4C4C4C !important;
 }
 
-ul.sub-nav a:hover{
+ul.sub_nav a:hover{
   color:#FFF !important;
   background-position: 0 -40px !important;
   text-decoration:none !important;}
 
-ul.sub-nav li a span{
+ul.sub_nav li a span{
   padding: 13px 27px 0 27px;
   margin: 0px;
   height: 27px;
   background:url('/images/adva_cms/admin/ui/bg_subnavtabright.gif') no-repeat top right;}
 
-ul.sub-nav a:hover span{
+ul.sub_nav a:hover span{
   background-position: right -40px !important;}
 
-ul.sub-nav li.active a span{
+ul.sub_nav li.active a span{
   background-position: 0 -40px !important;
   text-decoration:none !important;}
 
-ul.sub-nav li.active a:hover{
+ul.sub_nav li.active a:hover{
   color:#4C4C4C !important;}
 
 /* MAIN CONTENT ELEMENTS
@@ -995,10 +995,10 @@ p.state {
   display: inline;
   margin-left: 10px;
 }
-#delivery #send-now {
+#delivery #send_now {
   float: left;
 }
-#delivery #send-later {
+#delivery #send_later {
   float: right;
 }
 #newsletter-header {

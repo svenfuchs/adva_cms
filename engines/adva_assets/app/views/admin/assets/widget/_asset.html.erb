@@ -1,7 +1,7 @@
-<li id="<%= dom_id(asset, prefix) %>" class="asset <%= prefix %>-asset <%= ' selected' if content and content.assets.include?(asset) %>">
+<li id="<%= dom_id(asset, prefix) %>" class="asset <%= prefix %>_asset <%= ' selected' if content and content.assets.include?(asset) %>">
   <%= link_to asset_image_for(asset), asset.public_filename %>
   <div>
-    <a href="#"><%= image_tag('/images/adva_cms/icons/add.png', :size => '16x16', :id => dom_id(asset, "attach_#{prefix}"), :style => 'display: none', :class => 'attach-asset') %></a>
-    <a href="#"><%= image_tag('/images/adva_cms/icons/delete.png', :size => '16x16', :id => dom_id(asset, "detach_#{prefix}"), :style => 'display: none', :class => 'detach-asset') %></a>
+    <a href="#"><%= image_tag('/images/adva_cms/icons/add.png', :size => '16x16', :id => dom_id(asset, "attach_#{prefix}"), :style => 'display:none', :class => 'attach_asset') %></a>
+    <a href="#"><%= image_tag('/images/adva_cms/icons/delete.png', :size => '16x16', :id => dom_id(asset, "detach_#{prefix}"), :style => 'display:none', :class => 'detach_asset') %></a>
   </div>  
 </li>

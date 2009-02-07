@@ -22,7 +22,7 @@ Spotlight.prototype = {
   onClick: function(event) {
     var element = Event.element(event), check;
     if(element.tagName != 'LI') element = Event.findElement(event, 'LI');
-    var check = ($(element.id + '-check'));
+    var check = ($(element.id + '_check'));
     
     if(Element.hasClassName(element, 'pressed')) {
       Element.removeClassName(element, 'pressed');
@@ -35,7 +35,7 @@ Spotlight.prototype = {
   },
   
   search: function(searchbox) {
-    $('search-assets-spinner').show();
+    $('search_assets_spinner').show();
     $('page').value = $('page').value || '1';
     new Ajax.Request(this.form.action, { asynchronous: true, evalScripts: true, method: 'get', 
 																		     parameters: Form.serialize(this.form) });                                  

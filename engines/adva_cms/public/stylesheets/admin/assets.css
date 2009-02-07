@@ -1,24 +1,24 @@
 /* assets */
 
-#assets-list {
+#assets_list {
 	width: 800px;
 	margin-top: 20px;
 }
-.assets-row {
+.assets_row {
 	float: left;
 	clear: both;
   margin-bottom: 25px;
 }
-.assets-row div {
+.assets_row div {
 	float: left;
 	margin-right: 45px;
   position: relative;
 }
-.assets-row img {
+.assets_row img {
   padding: 5px;
   border: 1px solid #ccc;
 }
-.asset-tools {
+.asset_tools {
 	position: absolute;
 	bottom: 1px;
   width: 60px;
@@ -26,13 +26,13 @@
 	padding-top: 1px;
 	margin-right: auto;
 }
-#recent-assets .asset-tools {
+#recent_assets .asset_tools {
 	left: 35px;
 }
-.asset-tools li {
+.asset_tools li {
 	display: inline;
 }
-.asset-tools li a {
+.asset_tools li a {
   float: left;
   display: block;
   height: 16px;
@@ -41,9 +41,9 @@
   text-indent: -9999px;
   text-decoration: none;
 }
-.asset-tools li.edit a   { background-image: url(/images/adva_cms/icons/pencil.png) }
-.asset-tools li.delete a { background-image: url(/images/adva_cms/icons/delete.png) }
-.asset-tools li.bucket a { background-image: url(/images/adva_cms/icons/attach.png) }
+.asset_tools li.edit a   { background-image: url(/images/adva_cms/icons/pencil.png) }
+.asset_tools li.delete a { background-image: url(/images/adva_cms/icons/delete.png) }
+.asset_tools li.bucket a { background-image: url(/images/adva_cms/icons/attach.png) }
 
 #asset_form label {
 	float: left;
@@ -51,12 +51,12 @@
 	font-weight: normal;
 	font-size: 11px;
 }
-#asset_form #file-label {
+#asset_form #file_label {
 	width: 270px;
 	margin-right: 0px;
 }
-#asset_form #title-label,
-#asset_form #taglist-label {
+#asset_form #title_label,
+#asset_form #taglist_label {
 	width: 22%;
 }
 #asset_form #files {
@@ -83,15 +83,15 @@
 
 /* assets widget */
 
-#assets-widget .tabs {
+#assets_widget .tabs {
 	margin: 0 0 2px 0 !important;
 }
-#assets-widget .tabs li {
+#assets_widget .tabs li {
   display: inline;
 	padding: 0px;
 	background: none;
 }
-#assets-widget .tabs li a {
+#assets_widget .tabs li a {
   padding: 5px 5px 3px 20px;
   margin-right: 3px;
   border: 1px solid #ccc;
@@ -101,34 +101,34 @@
 	text-decoration: none;
   background-color: #ccc;
 }
-#assets-widget .tabs .selected a {
+#assets_widget .tabs .selected a {
   background-color: #fff !important;
   padding-bottom: 3px;
 	border-bottom: 1px solid #fff;
 }
-#assets-widget .tabs li a:hover {
+#assets_widget .tabs li a:hover {
   background-color: #eee;
   color: #000;
 }
-#assets-widget #tab-attached-assets a { 
+#assets_widget #tab_attached_assets a { 
 	background: url(/images/adva_cms/icons/link.png) 3px 3px no-repeat; 
 }
-#assets-widget #tab-latest-assets a {
+#assets_widget #tab_latest_assets a {
 	padding-left: 21px;
 	background: url(/images/adva_cms/icons/page_favorites.png) 4px 4px no-repeat; 
 }
-#assets-widget #tab-bucket-assets a { 
+#assets_widget #tab_bucket_assets a { 
 	background: url(/images/adva_cms/icons/attach.png) 2px 3px no-repeat; 
 }
-#assets-widget #tab-search-assets a { 
+#assets_widget #tab_search_assets a { 
 	padding-left: 22px;
 	background: url(/images/adva_cms/icons/magnifier.png) 4px 50% no-repeat;
 }
-#assets-widget #tab-upload-assets a { 
+#assets_widget #tab_upload_assets a { 
 	background: url(/images/adva_cms/icons/bullet_go.png) 3px 2px no-repeat; 
 }
 
-#assets-widget .panel {
+#assets_widget .panel {
 	float: left;
 	width: 90%;
 	margin-top: 0px;
@@ -138,32 +138,32 @@
   background: #fff;
 }
 
-#assets-widget div.panel {
+#assets_widget div.panel {
   padding-top: 5px;
   font-size: 0.9em;
   font-style: italic;
 }
 
-.asset-list {
+.asset_list {
 	margin-top: 5px;
 }
-.asset-list li {
+.asset_list li {
 	position: relative;
 	float: left;
 	padding: 3px !important;
   margin: 4px 4px 0px 0px;
 	background-color: #fff;
 }
-.asset-list li img {
+.asset_list li img {
   border: 1px solid #999;
 }
-.asset-list .selected {
+.asset_list .selected {
 	background: url(/images/adva_cms/asset_selected.png) top left no-repeat;
 }
-#attached-assets .selected {
+#attached_assets .selected {
 	background: none;
 }
-.asset-list a {
+.asset_list a {
 	display: block;
 }
 .asset div {
@@ -175,20 +175,20 @@
 	float: left;
 	border: 0px;
 }
-.asset .detach-asset,
-.selected .attach-asset {
+.asset .detach_asset,
+.selected .attach_asset {
 	display: none;
 }
-.selected .detach-asset {
+.selected .detach_asset {
 	display: block;
 }
 #asset-search label {
 	font-weight: bold; 
 	padding: 5px 0;
 }
-#assets-widget .spinner {
+#assets_widget .spinner {
 	vertical-align: middle;
 }
-#search-assets-query {
+#search_assets_query {
 	width: 260px;
 }

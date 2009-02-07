@@ -1,41 +1,41 @@
-<div id="assets-widget" class="_clearing">
+<div id="assets_widget" class="_clearing">
   <ul class="tabs">
-    <li id="tab-attached-assets"><a href="#" title="<%=t :'adva.assets.tab.attached.title' %>"><%=t :'adva.assets.tab.attached.name' %></a></li>
-    <li id="tab-latest-assets"><a href="#" title="<%=t :'adva.assets.tab.latest.title' %>"><%=t :'adva.assets.tab.latest.name' %></a></li>
-    <li id="tab-bucket-assets"><a href="#" title="<%=t :'adva.assets.tab.bucket.title' %>"><%=t :'adva.assets.tab.bucket.name' %></a></li>
-    <li id="tab-search-assets"><a href="#" title="<%=t :'adva.assets.tab.search.title' %>"><%=t :'adva.assets.tab.search.name' %></a></li>
-    <li id="tab-upload-assets"><a href="#" title="<%=t :'adva.assets.tab.upload.title' %>"><%=t :'adva.assets.tab.upload.name' %></a></li>
+    <li id="tab_attached_assets"><a href="#" title="<%=t :'adva.assets.tab.attached.title' %>"><%=t :'adva.assets.tab.attached.name' %></a></li>
+    <li id="tab_latest_assets"><a href="#" title="<%=t :'adva.assets.tab.latest.title' %>"><%=t :'adva.assets.tab.latest.name' %></a></li>
+    <li id="tab_bucket_assets"><a href="#" title="<%=t :'adva.assets.tab.bucket.title' %>"><%=t :'adva.assets.tab.bucket.name' %></a></li>
+    <li id="tab_search_assets"><a href="#" title="<%=t :'adva.assets.tab.search.title' %>"><%=t :'adva.assets.tab.search.name' %></a></li>
+    <li id="tab_upload_assets"><a href="#" title="<%=t :'adva.assets.tab.upload.title' %>"><%=t :'adva.assets.tab.upload.name' %></a></li>
   </ul>
   
   <% [:attached, :latest, :bucket].each do |type| %>
     <% unless assets[type].empty? -%>
-    <ul id="<%= type %>-assets" class="panel asset-list">
+    <ul id="<%= type %>_assets" class="panel asset_list">
       <%= render :partial => "admin/assets/widget/asset", :collection => assets[type], :locals => { :content => @article, :prefix => type } %>
     </ul>
     <% else -%>
-    <div id="<%= type %>-assets" class="panel" style="padding: 10px;">
+    <div id="<%= type %>_assets" class="panel" style="padding:10px;">
       Your bucket is empty.
     </div>
     <% end -%>
   <% end %>
 
-  <div id="search-assets" class="panel">
-    <label for="search-assets-query">
+  <div id="search_assets" class="panel">
+    <label for="search_assets_query">
       Search by tag or title 
-      <img id="search-assets-spinner" src="/images/adva_cms/indicator.gif" alt="spinner" style="display: none" />
+      <img id="search_assets_spinner" src="/images/adva_cms/indicator.gif" alt="spinner" style="display:none" />
     </label>
-    <input type="text" size="30" name="search-assets-query" id="search-assets-query" />
-    <input id="search-assets-button" type="button" value="Search" />
-    <ul id="search-assets-result" class="asset-list"></ul>
+    <input type="text" size="30" name="search_assets_query" id="search_assets_query" />
+    <input id="search_assets_button" type="button" value="Search" />
+    <ul id="search_assets_result" class="asset_list"></ul>
   </div>
   
-  <div id="upload-assets" class="panel">
-    <label for="asset-uploaded-data">
+  <div id="upload_assets" class="panel">
+    <label for="asset_uploaded_data">
       Upload an asset 
-      <img class="spinner" src="/images/adva_cms/indicator.gif" alt="spinner" style="display: none" />
+      <img class="spinner" src="/images/adva_cms/indicator.gif" alt="spinner" style="display:none" />
     </label><br />
-    <%= file_field_tag "assets[0][uploaded_data]", :id => "asset-uploaded-data" %>
-    <input id="upload-assets-button" type="button" value="Upload" />
-    <ul id="uploaded-assets" class="asset-list"></ul>
+    <%= file_field_tag "assets[0][uploaded_data]", :id => "asset_uploaded_data" %>
+    <input id="upload_assets_button" type="button" value="Upload" />
+    <ul id="uploaded_assets" class="asset_list"></ul>
   </div>
 </div>

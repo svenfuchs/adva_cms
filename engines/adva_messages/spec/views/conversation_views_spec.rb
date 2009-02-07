@@ -4,7 +4,7 @@ describe "Message views:" do
   include SpecViewHelper
   
   before :each do
-    template.stub!(:render).with hash_including(:partial => 'messages/message-nav')
+    template.stub!(:render).with hash_including(:partial => 'messages/message_nav')
     template.stub!(:render).with hash_including(:partial => 'messages/inspect')
     template.stub!(:render).with hash_including(:partial => 'messages/form')
   end

@@ -6,16 +6,16 @@
 	line-height: 25px;
 	text-align: center;
 }
-#flash-notice {
+#flash_notice {
 	background-color: #ff3;
 }
-#flash-error {
+#flash_error {
 	background-color: #f93;
 }
 
 /* ROLES */
 
-.visible-for {
+.visible_for {
 	display: none;
 }
 
@@ -38,9 +38,9 @@ table.list td {
 
 /* DIFF */
 
-.diff-delete {
+.diff_delete {
 background-color: #f44;
 }
-.diff-add {
+.diff_add {
 background-color: #8f4;
 }

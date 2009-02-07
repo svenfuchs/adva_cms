@@ -30,7 +30,7 @@ describe "Admin::Comments:" do
     act! { render "admin/comments/index" }
 
     it "should display a filter for filtering the comments list" do
-      result[:filter].should have_tag('select[id=?]', 'filterlist')
+      result[:filter].should have_tag('select[id=?]', 'filter_list')
     end
 
     it "should display a list of comments" do

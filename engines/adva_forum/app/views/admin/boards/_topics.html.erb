@@ -4,7 +4,7 @@
 		Recent topics
 	</h2>
 	
-	<table id="topics-latest" class="list">
+	<table id="topics_latest" class="list">
     <thead>
       <tr>
         <th scope="col"><%= 'Last update on' %></th>
@@ -14,7 +14,7 @@
         <th scope="col">&nbsp;</th>
       </tr>
     </thead>
-    <tbody id="topics-latest-body">
+    <tbody id="topics_latest_body">
 		<% @section.latest_topics.each do |topic| -%>
 			<tr>
 				<td><%= topic.created_at.to_formatted_s(:short) %></td>

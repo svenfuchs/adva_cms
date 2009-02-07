@@ -56,7 +56,7 @@ module RolesHelper
     roles = object.role_authorizing(action).expand(object)
     options[:class] ||= ''
     options[:class] = options[:class].split(/ /)
-    options[:class] << 'visible-for' << roles.map { |role| role_to_css_class(role) }.join(' ')
+    options[:class] << 'visible_for' << roles.map { |role| role_to_css_class(role) }.join(' ')
     options[:class] = options[:class].flatten.uniq.join(' ')
   end
 

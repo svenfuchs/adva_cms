@@ -5,7 +5,7 @@ class NewIssueTest < ActionController::IntegrationTest
     factory_scenario :site_with_newsletter
     login_as :admin
   end
-  
+
   test "admin submits an EMPTY issue: should see validation warnings" do
 
     visit "/admin/sites/#{@site.id}/newsletters/"
@@ -24,9 +24,9 @@ class NewIssueTest < ActionController::IntegrationTest
     assert_template "admin/issues/new"
     assert_select ".field_with_error"
   end
-  
+
   test "admin submits a DRAFT issue: should be success and show new issue as draft" do
-    
+
     visit "/admin/sites/#{@site.id}/newsletters/#{@newsletter.id}/issues/new"
 
     assert_template "admin/issues/new"
@@ -41,15 +41,15 @@ class NewIssueTest < ActionController::IntegrationTest
       assert_select "p", "draft issue body"
     end
   end
-  
+
   test "admin submits a NON-DRAFT issue: should be success and show new issue" do
-    
+
     visit "/admin/sites/#{@site.id}/newsletters/#{@newsletter.id}/issues/new"
 
     assert_template "admin/issues/new"
     fill_in :issue_title, :with => "issue title"
     fill_in :issue_body, :with => "issue body"
-    uncheck "issue-draft"
+    uncheck "issue_draft"
     click_button "Save"
 
     assert_template "admin/issues/show"
@@ -65,9 +65,9 @@ class IssueTest < ActionController::IntegrationTest
     factory_scenario :site_with_newsletter_and_issue
     login_as :admin
   end
-  
+
   test "admin EDITS issue: should be success" do
-    
+
     visit "/admin/sites/#{@site.id}/newsletters/#{@newsletter.id}/issues/#{@issue.id}"
 
     assert_template "admin/issues/show"
@@ -87,7 +87,7 @@ class IssueTest < ActionController::IntegrationTest
   end
 
   test "admin DELETES issue: should go to trash" do
-    
+
     visit "/admin/sites/#{@site.id}/newsletters/#{@newsletter.id}/issues/"
 
     assert_template "admin/issues/index"
@@ -102,7 +102,7 @@ class IssueTest < ActionController::IntegrationTest
   def teardown
     remove_all_test_cronjobs
   end
-end  
+end
 
 class QueuedIssueTest < ActionController::IntegrationTest
   def setup
@@ -124,7 +124,7 @@ class QueuedIssueTest < ActionController::IntegrationTest
     assert_flash "Delivery was successfully cancelled"
     assert_select "#issue" do
       assert_select "h2", /issue title/
-      #FIXME: figure out why assert_select "span.status" has got "Queued" status. Is it cached or smth? 
+      #FIXME: figure out why assert_select "span.status" has got "Queued" status. Is it cached or smth?
       # assert_select "span.state", "On hold"
       assert response.body.grep(Regexp.escape("<p class=\"state\">On hold</span>"))
       assert_select "p", "issue body"

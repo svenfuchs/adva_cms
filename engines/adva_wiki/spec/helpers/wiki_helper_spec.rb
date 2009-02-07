@@ -225,23 +225,23 @@ describe WikiHelper do
       end
     end
     
-    describe "a tag with the visible-for and user classes" do
+    describe "a tag with the visible_for and user classes" do
       it "encloses the edit link" do
         @result = helper.wiki_edit_links(@wikipage)
-        @result.should =~ /<[^>]* class="visible-for user[^>]*>[^<]*<a href="[^>]*edit"/
+        @result.should =~ /<[^>]* class="visible_for user[^>]*>[^<]*<a href="[^>]*edit"/
       end
     
       # delete link moved to the edit page
       # it "encloses the delete link" do
       #   @result = helper.wiki_edit_links(@wikipage)
-      #   @result.should =~ /<[^>]* class="visible-for user[^>]*>[^<]*<a href="[^>]*a-wikipage"[^>]*delete/
+      #   @result.should =~ /<[^>]* class="visible_for user[^>]*>[^<]*<a href="[^>]*a-wikipage"[^>]*delete/
       # end
     
       it "encloses the rollback link" do
         helper.stub!(:wikipage_path_with_home).and_return 'wikipage_path_with_home'
         @wikipage.stub!(:version).and_return 2
         @result = helper.wiki_edit_links(@wikipage)
-        @result.should =~ /<[^>]* class="visible-for user[^>]*>[^<]*<a href="[^>]*wikipage_path_with_home"[^>]*rollback/
+        @result.should =~ /<[^>]* class="visible_for user[^>]*>[^<]*<a href="[^>]*wikipage_path_with_home"[^>]*rollback/
       end
     end
   end

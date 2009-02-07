@@ -19,9 +19,9 @@ SiteSpamOptions.change = function(event) {
 }
 
 Event.addBehavior({
-  '#site-select': function() { Event.observe(this, 'change', SiteSelect.change.bind(this)); },
+  '#site_select': function() { Event.observe(this, 'change', SiteSelect.change.bind(this)); },
   // '.site_spam_options_engine': function() { Event.observe(this, 'change', SiteSpamOptions.change.bind(this)); },
-  '#comments-filter': function() { Event.observe(this, 'change', Comments.filter.bind(this)); }
+  '#comments_filter': function() { Event.observe(this, 'change', Comments.filter.bind(this)); }
 }) 
 
 // function log(line) {

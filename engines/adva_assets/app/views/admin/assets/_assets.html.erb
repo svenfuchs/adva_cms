@@ -1,11 +1,11 @@
 <% if @recent.any? %>
-  <div id="recent-assets" class="assets-row">
+  <div id="recent_assets" class="assets_row">
     <%= render :partial => 'asset', :collection => @recent, :locals => {:size => :thumb} %>
   </div>
 
   <% if @assets.any? %>
     <% @assets.in_groups_of(7) do |group| -%>
-      <div class="assets-row">
+      <div class="assets_row">
         <%= render :partial => 'asset', :collection => group.compact, :locals => {:size => :thumb} %>
       </div>
     <% end %>

@@ -116,7 +116,7 @@ steps_for :article do
   end
 
   Then "the 'Save as draft?' checkbox is checked by default" do
-    response.should have_tag("input#article-draft[type=?][value=?]", 'checkbox', 1)
+    response.should have_tag("input#article_draft[type=?][value=?]", 'checkbox', 1)
   end
 
   # Then "the blog has sent pings" do

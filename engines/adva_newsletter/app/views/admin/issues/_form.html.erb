@@ -2,11 +2,11 @@
   <%= f.label :title, t(:'adva.newsletter.label.issue_title') %>
   <%= f.text_field :title, :class => 'big'  %>
   <%= f.label :body, t(:'adva.newsletter.label.issue_body') %>
-  <%= f.text_area :body, :class => 'fat use-wysiwyg', :rows => 25  %>
+  <%= f.text_area :body, :class => 'fat use_wysiwyg', :rows => 25  %>
 
   <%= f.label :draft, t(:'adva.newsletter.question_save_issue_as_draft') %>
   <label class="light">
-    <%= check_box :issue, :draft, :id => "issue-draft" %>
+    <%= check_box :issue, :draft, :id => "issue_draft" %>
     <%= t(:'adva.newsletter.confirm.save_issue_as_draft') %>
   </label>
 </fieldset>

@@ -1,4 +1,4 @@
-<div id="utility-links" class="clearfix">
+<div id="utility_links" class="clearfix">
   <!-- 
   <ul class="breadcrumb">
     <li><a href="#"><%= t(:'adva.titles.dashboard') %></a> &raquo;</li>
@@ -6,7 +6,7 @@
     <li class="active"><a href="#">Small Account</a></li>
   </ul>
   -->
-  <ul class="userlinks">
+  <ul class="user_links">
     <% if current_user %>
       <li><%= t(:'adva.users.info.logged_in_as', :name => link_to_profile(@site, :name => current_user.name)) %></li>
       <li <% unless @site %>class="last"<% end %>><%= link_to t(:'adva.links.logout'), logout_path, :method => :delete %></li>

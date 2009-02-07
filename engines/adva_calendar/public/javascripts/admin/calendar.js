@@ -1,10 +1,10 @@
 var CalendarSearch = Class.create();
 CalendarSearch.create = function() { 
-	var search = new CalendarSearch('calendar-search', [
+	var search = new CalendarSearch('calendar_search', [
     {keys: ['category'],              show: ['categories'],  hide: ['query', 'button']},
     {keys: ['title', 'body', 'tags'], show: ['query'],       hide: ['categories', 'button']}
   ], 'categories');
-	search.onChange($('filterlist'));
+	search.onChange($('filter_list'));
 	return search;
 }
 CalendarSearch.prototype = {
@@ -32,7 +32,7 @@ CalendarSearch.prototype = {
 
 var CalendarEventForm = {
   saveDraft: function() {
-		$F(this) ? $('publish-date').hide() : $('publish-date').show();
+		$F(this) ? $('publish_date').hide() : $('publish_date').show();
   },
 	toggleLocation: function(event) {
 		if (event.target.value == "") {
@@ -44,7 +44,7 @@ var CalendarEventForm = {
 }
 
 Event.addBehavior({
-	'#calendar-event-draft':   function() { Event.observe(this, 'change', CalendarEventForm.saveDraft.bind(this)); },
+	'#calendar_event_draft':   function() { Event.observe(this, 'change', CalendarEventForm.saveDraft.bind(this)); },
   '#calendar_event_location_id':   function() { Event.observe(this, 'change', CalendarEventForm.toggleLocation.bind(this)); },
-  '#calendar-search':  function() { CalendarSearch.create();  }
+  '#calendar_search':  function() { CalendarSearch.create();  }
 });

@@ -92,7 +92,7 @@
 }
 
 #assets {
-	background: url(/images/adva_cms/admin/main-nav-assets.png);
+	background: url(/images/adva_cms/admin/main-nav_assets.png);
 }
 
 #settings {
@@ -174,7 +174,7 @@
   right: 0;
 	margin-right: 165px;
 }
-#assets-search-query {
+#assets_search_query {
 	margin-top: 5px;
   border: 1px solid #ccc;
   right: 0;

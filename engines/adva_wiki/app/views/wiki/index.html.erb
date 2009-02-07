@@ -12,7 +12,7 @@
         <th scope="col"><%= t(:'adva.common.updated') %></th>
       </tr>
     </thead>
-    <tbody id="wikipages-body">
+    <tbody id="wikipages_body">
       <% @wikipages.each do |wikipage| %>
         <tr id="<%= dom_id wikipage %>">
           <td><%= link_to_content wikipage %></td>

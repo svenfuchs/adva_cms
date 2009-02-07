@@ -8,7 +8,7 @@ calendar_for(current_timespan.first.year, current_timespan.first.month,
   :hide_month_navigation => false,
   :month_navigation_url_helper => month_navigation_url_helper) do |day|
   if @section.days_in_month_with_events(day).include?(day)
-    [link_to(day.day, calendar_events_path(:section_id => @section.id, :year => day.year, :month => day.month, :day => day.mday)), { :class => "dayWithEvents" }]
+    [link_to(day.day, calendar_events_path(:section_id => @section.id, :year => day.year, :month => day.month, :day => day.mday)), { :class => "day_with_events" }]
   else
     day.day
   end

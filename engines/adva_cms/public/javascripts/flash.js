@@ -8,16 +8,16 @@ var Flash = {
   // When given an flash message, wrap it in a list and show it on the screen.  
   // This message will auto-hide after a specified amount of milliseconds
   show: function(flashType, message) {
-    // new Effect.ScrollTo('flash-' + flashType);
-    $('flash-' + flashType).innerHTML = '';
+    // new Effect.ScrollTo('flash_' + flashType);
+    $('flash_' + flashType).innerHTML = '';
     if(message.toString().match(/<li/)) message = "<ul>" + message + '</ul>'
-    $('flash-' + flashType).innerHTML = message;
+    $('flash_' + flashType).innerHTML = message;
 
 		if(Flash.applyEffects) {
-    	new Effect.Appear('flash-' + flashType, {duration: 0});
+    	new Effect.Appear('flash_' + flashType, {duration: 0});
     	//ssetTimeout(Flash['fade' + flashType[0].toUpperCase() + flashType.slice(1, flashType.length)].bind(this), 5000)
 		} else {
-			$('flash-' + flashType).show();
+			$('flash_' + flashType).show();
 		}
   },
   errors: function(message) {
@@ -28,12 +28,12 @@ var Flash = {
   },  
   // Responsible for fading notices level messages in the dom    
   fadeNotice: function() {
-    new Effect.Fade('flash-notice', {duration: 1});
-    // new Effect.BlindUp('flash-notice', {duration: 1});
+    new Effect.Fade('flash_notice', {duration: 1});
+    // new Effect.BlindUp('flash_notice', {duration: 1});
   },  
   // Responsible for fading error messages in the DOM
   fadeError: function() {
-    new Effect.Fade('flash-error', {duration: 1});
+    new Effect.Fade('flash_error', {duration: 1});
   }
 }
 Flash.data = {};

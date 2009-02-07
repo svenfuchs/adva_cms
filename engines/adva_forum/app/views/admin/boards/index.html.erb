@@ -2,8 +2,8 @@
 
 <%= render :partial => 'side_panel' %>
 
-<div class='statistics'>
-	<p class='total'>
+<div class="statistics">
+	<p class="total">
 		<%= "This forum has total of #{@section.boards.size} boards, #{@section.topics.size} topics and #{@section.comments.size} posts." %><br />
 		<%= "Click " + link_to('here', forum_path(@section))%> to go to your forum.
 	</p>
@@ -31,7 +31,7 @@
         <th scope="col">&nbsp;</th>
       </tr>
     </thead>
-    <tbody id="articles-body">
+    <tbody id="articles_body">
     <%= render :partial => 'board', :collection => @boards %>
     </tbody>
   </table>

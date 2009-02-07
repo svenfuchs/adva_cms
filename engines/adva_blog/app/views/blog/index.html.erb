@@ -1,5 +1,5 @@
 <% if collection_title(@category, @tags) %>
-  <h2 class="list-header"><%= collection_title(@category, @tags) %></h2>
+  <h2 class="list_header"><%= collection_title(@category, @tags) %></h2>
 <% end %>
 
 <%= render :partial => 'article', :collection => @articles, :locals => {:mode => :many} %>

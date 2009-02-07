@@ -1,2 +1,2 @@
 page.flash.notice t( :'adva.assets.flash.clear.success' )
-page['bucket-assets'].replace_html ''
+page['bucket_assets'].replace_html ''

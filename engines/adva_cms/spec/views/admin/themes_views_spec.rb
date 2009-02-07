@@ -30,7 +30,7 @@ describe "Admin::Themes:" do
 
     it "displays a list of themes" do
       render "admin/themes/index"
-      response.should have_tag('ul[id=?]', 'themelist')
+      response.should have_tag('ul[id=?]', 'theme_list')
     end
   end
 

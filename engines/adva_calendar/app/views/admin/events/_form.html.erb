@@ -23,14 +23,14 @@
     </label>
   </p>
 
-  <p id="end-date">
+  <p id="end_date">
     <%= form.label :end_date, t(:'adva.calendar.attributes.end_date') %>
     <%= form.calendar_date_select :end_date, :value => (@event.end_date ? @event.end_date.localtime.rfc2822 : '') %>
   </p>
 
   <p>
     <%= form.label :body, t(:'adva.calendar.attributes.body') %>
-    <%= form.text_area :body, :class => "use-wysiwyg" %>
+    <%= form.text_area :body, :class => "use_wysiwyg" %>
   </p>
   <p>
     <%= form.label :tag_list, t(:'adva.calendar.attributes.tags') %>
@@ -40,10 +40,10 @@
   
   <%= form.label :draft, t(:'adva.calendar.question_save_as_draft') %>
   <label class="light">
-    <%= check_box_tag :draft, '1', @event.draft?, :id => 'calendar-event-draft' %> <%= t(:'adva.calendar.confirm_save_as_draft') %>
+    <%= check_box_tag :draft, '1', @event.draft?, :id => 'calendar_event_draft' %> <%= t(:'adva.calendar.confirm_save_as_draft') %>
   </label>
 
-  <p id="publish-date" style="<%= @event.draft? ? "display:none" : "" %>">
+  <p id="publish_date" style="<%= @event.draft? ? "display:none" : "" %>">
     <%= form.label :published_at, t(:'adva.calendar.publish_on_date') %>
     <%= form.datetime_select :published_at,
                           :start_year => (@event.published_at || Time.zone.now).year-1,

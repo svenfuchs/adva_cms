@@ -41,7 +41,7 @@ steps_for :asset do
   end
 
   Then "the page has a list of assets with at least one asset" do
-    response.should have_tag('#assets-list .assets-row div img')
+    response.should have_tag('#assets_list .assets_row div img')
   end
 
   Then "the page has an admin asset edit form" do
