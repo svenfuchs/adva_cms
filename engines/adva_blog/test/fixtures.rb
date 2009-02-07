@@ -1,6 +1,6 @@
-user = User.find_by_first_name('user')
-admin = User.find_by_first_name('admin')
-moderator = User.find_by_first_name('moderator')
+user = User.find_by_first_name('a user')
+admin = User.find_by_first_name('an admin')
+moderator = User.find_by_first_name('a moderator')
 
 site         = Site.create! :name => 'site with blog',
                             :title => 'site with blog title',

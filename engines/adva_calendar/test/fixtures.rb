@@ -1,8 +1,5 @@
-Time.stubs(:now).returns Time.utc(2009,2,3, 15,00,00)
-Date.stubs(:today).returns Date.civil(2009,2,3)
-
-user = User.find_by_first_name('user')
-admin = User.find_by_first_name('admin')
+user = User.find_by_first_name('a user')
+admin = User.find_by_first_name('an admin')
 
 site_with_calendars =
 Site.create!     :name  => 'site with calendar',

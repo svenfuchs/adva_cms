@@ -1,7 +1,7 @@
-user      = User.find_by_first_name('user')
-moderator = User.find_by_first_name('moderator')
-admin     = User.find_by_first_name('admin')
-superuser = User.find_by_first_name('superuser')
+user      = User.find_by_first_name('a user')
+moderator = User.find_by_first_name('a moderator')
+admin     = User.find_by_first_name('an admin')
+superuser = User.find_by_first_name('a superuser')
 
 peeping_tom = User.create! :first_name => 'the peeping tom',
                            :email => 'the-peeping-tom@example.com',

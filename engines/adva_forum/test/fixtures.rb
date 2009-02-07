@@ -1,5 +1,5 @@
-user = User.find_by_first_name('user')
-admin = User.find_by_first_name('admin')
+user = User.find_by_first_name('a user')
+admin = User.find_by_first_name('an admin')
 
 site_with_forums =
 Site.create!     :name  => 'site with forum',

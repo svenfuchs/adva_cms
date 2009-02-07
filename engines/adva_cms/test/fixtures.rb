@@ -5,22 +5,22 @@ end
 
 # USERS
 
-user         = User.create! :first_name => 'user',
+user         = User.create! :first_name => 'a user',
                             :email => 'a-user@example.com',
                             :password => 'a password',
                             :verified_at => Time.now
              
-superuser    = User.create! :first_name => 'superuser',
+superuser    = User.create! :first_name => 'a superuser',
                             :email => 'a-superuser@example.com',
                             :password => 'a password',
                             :verified_at => Time.now
              
-admin        = User.create! :first_name => 'admin',
+admin        = User.create! :first_name => 'an admin',
                             :email => 'an-admin@example.com',
                             :password => 'a password',
                             :verified_at => Time.now
              
-moderator    = User.create! :first_name => 'moderator',
+moderator    = User.create! :first_name => 'a moderator',
                             :email => 'a-moderator@example.com',
                             :password => 'a password',
                             :verified_at => Time.now
