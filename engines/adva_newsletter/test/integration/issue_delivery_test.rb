@@ -2,6 +2,7 @@ require File.expand_path(File.join(File.dirname(__FILE__), "..", "test_helper" )
 
 class IssueDeliverieIntegrationTest < ActionController::IntegrationTest
   def setup
+    super
     @site = use_site! "site with newsletter"
     @newsletter = @site.newsletters.first
     @issue = @newsletter.issues.first
