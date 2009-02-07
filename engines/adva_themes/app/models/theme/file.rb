@@ -90,7 +90,7 @@ class Theme < ActiveRecord::Base
 
       def prepend_directory(prefix)
         return directory if directory =~ /^#{prefix}/
-        self.directory = [prefix, directory].join('/')
+        self.directory = [prefix, directory].to_path
       end
 
       def force_directory

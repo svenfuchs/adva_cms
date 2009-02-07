@@ -150,7 +150,7 @@ class WikiHelperTest < ActiveSupport::TestCase
   test "#wikipages_title" do
     category = @wikipage.categories.first
     tags = ['foo', 'bar']
-  
+
     # returns the title with category if given
     wikipages_title(category).should == "Pages about a category"
   

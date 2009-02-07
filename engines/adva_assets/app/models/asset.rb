@@ -59,7 +59,7 @@ class Asset < ActiveRecord::Base
       '/assets'
     end
 
-    def base_dir
+    def base_dir(site)
       Site.multi_sites_enabled ?
         "#{root_dir}/sites/#{site.perma_host}/assets" :
         "#{root_dir}/assets"
@@ -107,7 +107,7 @@ class Asset < ActiveRecord::Base
   end
 
   def path(style = :original)
-    [self.class.base_dir, filename(style)].to_path
+    [self.class.base_dir(site), filename(style)].to_path
   end
 
   def filename(style = :original)

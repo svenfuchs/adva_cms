@@ -16,7 +16,7 @@ Wiki.create!     :site => site,
 category =
 Category.create! :section => wiki,
                  :title => 'a category'
-                 
+
 home_wikipage =
 Wikipage.create! :site => site,
                  :section => wiki,
