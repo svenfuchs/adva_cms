@@ -25,9 +25,10 @@ var LoginLinks = {
 	},
 
 	update_user_links: function(user_name) {
-		if($('logout_link'))   $('logout_link').href = $('logout_link').href.replace(/{return_to}/, escape(document.location.href));
-		if($('login_link'))    $('login_link').href = $('login_link').href.replace(/{return_to}/, escape(document.location.href));
-		if($('messages_link')) $('messages_link').update(user_name);
+		if($('logout_link'))   $('logout_link').href = $('logout_link').href + "?return_to=" + escape(document.location.href);
+		if($('login_link'))    $('login_link').href  = $('login_link').href  + "?return_to=" + escape(document.location.href);
+		
+		$$('span.user_name').invoke('update', user_name);
 	}
 }
 
