@@ -4,7 +4,7 @@ module With
   def it_renders(render_method, *args, &block)
     send("it_renders_#{render_method}", *args, &block)
   end
-  
+
   def it_renders_blank(options = {})
     asserts_status options[:status]
     assert @response.body.strip.blank?
@@ -36,20 +36,21 @@ module With
   def it_assigns_example_values(name, value)
     case value
     when :not_nil
-      assert_not_nil assigns(name), 
+      assert_not_nil assigns(name),
         "expected @#{name} not to be nil, but it is nil"
     when :undefined
-      assert !@controller.send(:instance_variables).include?("@#{name}"), 
+      assert !@controller.send(:instance_variables).include?("@#{name}"),
         "expected @#{name} not to be undefined, but it is defined"
     when Symbol
       if (instance_variable = instance_variable_get("@#{value}")).nil?
-        assert_not_nil assigns(name), 
-          "expected @#{name} not to be nil, but it is nil"
+        assert_not_nil assigns(name), "expected @#{name} not to be nil, but it is nil"
       else
-        assert_equal instance_variable, assigns(name), 
+        assert_equal instance_variable, assigns(name),
           "expected @#{instance_variable} to be equal to #{assigns(name).inspect}, but it is not"
       end
-    when Proc  
+    when Class
+      assert value === assigns(name), "expected #{assigns(name).inspect} to be an instance of #{value.inspect}"
+    when Proc
       assert_equal instance_eval(&value), assigns(name)
     else
       assert_equal value, assigns(name)
@@ -63,7 +64,7 @@ module With
           send("it_assigns_#{collection_type}_values", key, value)
         end
       end
-  
+
     protected
       define_method "it_assigns_#{collection_type}_values" do |key, value|
         key = key.send(collection_op) if collection_op
@@ -82,12 +83,12 @@ module With
         end
       end
   end
-  
+
   def it_redirects_to(path = nil, &block)
     path ||= instance_eval(&block)
     assert_redirected_to path
   end
-  
+
   protected
 
     def assert_content_type(type = :html)
