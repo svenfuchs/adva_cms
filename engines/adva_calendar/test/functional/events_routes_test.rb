@@ -11,7 +11,7 @@ class CalendarRoutesTest < ActionController::TestCase
               /calendars/1/events/2009/02/02
               /calendars/1/event/1
               /calendars/1/event/2007
-              /calendars/1/category/2 )
+              /calendars/1/categories/jazz )
 
   paths.each do |path|
     test "regenerates the original path from the recognized params for #{path}" do
@@ -24,6 +24,7 @@ class CalendarRoutesTest < ActionController::TestCase
 
   describe "routing" do
     calendar_id = Calendar.find_by_permalink('calendar-with-events').id.to_s
+    category_id = Category.find_by_permalink('jazz').id.to_s
 
     with_options :path_prefix => '/calendar-with-events/',
         :section_id => calendar_id, :controller => 'events', :action => 'index' do |r|
@@ -31,8 +32,7 @@ class CalendarRoutesTest < ActionController::TestCase
       r.it_maps :get, "events/2008", :year => "2008"
       r.it_maps :get, "events/2008/11", :year => "2008", :month => "11"
       r.it_maps :get, "events/2008/11/27", :year => "2008", :month => "11", :day => "27"
-      r.it_maps :get, "categories/2", :category_id => "2"
-      r.it_maps :get, "category/2", :category_id => "2"
+      r.it_maps :get, "categories/jazz", :category_id => category_id
     end
 
     with_options :path_prefix => '/calendar-with-events/',

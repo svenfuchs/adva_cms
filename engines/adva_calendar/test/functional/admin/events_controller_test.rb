@@ -2,7 +2,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../../test_helper.rb')
 
 class Admin::EventsControllerTest < ActionController::TestCase
   tests Admin::EventsController
-  with_common :is_admin, :access_granted, :fixed_time, :calendar_with_events
+  with_common :is_superuser, :access_granted, :fixed_time, :calendar_with_events
 
   def default_params
     { :site_id => @section.site_id, :section_id => @section.id }
@@ -11,14 +11,13 @@ class Admin::EventsControllerTest < ActionController::TestCase
   describe "routing" do
     calendar = Calendar.find_by_permalink('calendar-with-events')
     with_options :path_prefix => "/admin/sites/#{calendar.site_id}/sections/#{calendar.id}/", :site_id => calendar.site_id.to_s, :section_id => calendar.id.to_s do |route|
-      route.it_maps :get, "events", :action => 'index'
-      
-      route.it_maps :get, "events/1", :action => 'show', :id => '1'
-      route.it_maps :get, "events/new", :action => 'new'
-      route.it_maps :post, "events", :action => 'create'
-      route.it_maps :get, "events/1/edit", :action => 'edit', :id => '1'
-      route.it_maps :put, "events/1", :action => 'update', :id => '1'
-      route.it_maps :delete, "events/1", :action => 'destroy', :id => '1'
+      route.it_maps :get,    "events",        :action => 'index'
+      route.it_maps :get,    "events/1",      :action => 'show',    :id => '1'
+      route.it_maps :get,    "events/new",    :action => 'new'
+      route.it_maps :post,   "events",        :action => 'create'
+      route.it_maps :get,    "events/1/edit", :action => 'edit',    :id => '1'
+      route.it_maps :put,    "events/1",      :action => 'update',  :id => '1'
+      route.it_maps :delete, "events/1",      :action => 'destroy', :id => '1'
     end
   end
 
@@ -42,12 +41,12 @@ class Admin::EventsControllerTest < ActionController::TestCase
     it_renders_template :edit
     it_guards_permissions :update, :calendar_event
   end
-  
-  describe "POST to :create" do    
+
+  describe "POST to :create" do
     action { post :create, default_params.merge(@params || {}) }
     it_guards_permissions :create, :calendar_event
     it_assigns :event => :not_nil
-    
+
     with :invalid_event_params do
       it_renders_template :new
       it_assigns_flash_cookie :error => :not_nil
@@ -62,7 +61,7 @@ class Admin::EventsControllerTest < ActionController::TestCase
     end
   end
 
-  describe "PUT to :update" do    
+  describe "PUT to :update" do
     action { post :update, default_params.merge(@params || {}).merge(
         :id => @event.id) }
     it_assigns :event
@@ -81,7 +80,7 @@ class Admin::EventsControllerTest < ActionController::TestCase
       end
     end
   end
-  
+
   describe "DELETE to :destroy" do
     action { post :destroy, default_params.merge(:id => @event.id) }
     it_assigns :event => lambda { @event }

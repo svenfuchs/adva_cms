@@ -2,6 +2,7 @@ require File.expand_path(File.join(File.dirname(__FILE__), '../..', 'test_helper
 
 class Admin::EventsTest < ActionController::IntegrationTest
   def setup
+    super
     @site = use_site! 'site with calendar'
     @calendar = @site.sections.find_by_permalink('calendar-with-events')
     @calendar_without_events = @site.sections.find_by_permalink('calendar-without-events')
