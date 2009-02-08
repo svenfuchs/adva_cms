@@ -7,12 +7,12 @@ Album.create!  :site        => site,
                :permalink   => 'an-album',
                :comment_age => 0
 
-basic_photo_attributes  = { :content_type => 'image/jpeg',
-                            :size         => 100,
-                            :author       => superuser,
-                            :filename     => 'test.png',
-                            :section      => album,
-                            :site         => site }
+basic_photo_attributes  = { :data_content_type => 'image/jpeg',
+                            :data_file_name    => 'test.png',
+                            # :size    => 100,
+                            :author  => superuser,
+                            :section => album,
+                            :site    => site }
 
 published_photo_attributes = 
     basic_photo_attributes.merge(:published_at => Time.parse('2008-01-01 12:00:00'))

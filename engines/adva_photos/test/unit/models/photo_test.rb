@@ -1,6 +1,8 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../test_helper.rb')
 
 class PhotoTest < ActiveSupport::TestCase
+  include PhotoTestHelper
+
   def setup
     super
     @photo = Photo.first
@@ -60,18 +62,10 @@ class PhotoTest < ActiveSupport::TestCase
   
   # Callbacks
   
-  test "sets the position before create" do
-    Photo.before_create.should include(:set_position)
+  test "sets the site from the section before validation" do
+    Photo.before_validation.should include(:set_site)
   end
     
-  test "sets the site before create" do
-    Photo.before_create.should include(:set_site)
-  end
-    
-  test "sets the from parent before validation on create" do
-    Photo.before_validation_on_create.should include(:set_values_from_parent)
-  end
-  
   # Public methods
   
   # draft?
@@ -123,4 +117,31 @@ class PhotoTest < ActiveSupport::TestCase
   test "#state?, returns :published when photo is not pending" do
     @published_photo.state.should == :published
   end
+  
+  # filename
+  
+  test "filename returns original data_file_name for :original style" do
+    photo = Photo.new :data_file_name => 'rails.png'
+    photo.filename.should == 'rails.png'
+  end
+  
+  test "filename inserts the style between basename and extension for other styles" do
+    photo = Photo.new :data_file_name => 'rails.png'
+    photo.filename(:thumb).should == 'rails.thumb.png'
+  end
+  
+  # Creation/Paperclip
+  
+  test "creates a valid photo" do
+    photo = create_photo
+    photo.should be_valid
+    photo.path.should be_file
+  end
+  
+  test "creates medium, thumb and tiny variants if ImageMagick is installed" do
+    photo = create_photo
+    [:medium, :thumb, :tiny].each do |style|
+      photo.path(style).should be_file
+    end
+  end if system('which convert') # umm, would this work on windows?
 end

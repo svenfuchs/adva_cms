@@ -8,7 +8,7 @@ class Admin::PhotosController < Admin::BaseController
   before_filter :params_author,       :only => [:create, :update]
   before_filter :params_draft,        :only => [:create, :update]
   before_filter :params_published_at, :only => [:create, :update]
-  before_filter :params_set_ids,    :only => :update
+  before_filter :params_set_ids,      :only => :update
   
   cache_sweeper :photo_sweeper, :category_sweeper, :tag_sweeper,
                 :only => [:create, :update, :destroy]
@@ -20,7 +20,7 @@ class Admin::PhotosController < Admin::BaseController
   end
   
   def new
-    @photo = @section.photos.build :comment_age => @section.comment_age, :filter => @section.content_filter
+    @photo = @section.photos.build :comment_age => @section.comment_age
   end
   
   def edit

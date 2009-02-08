@@ -1,6 +1,6 @@
 <tr id="<%= dom_id photo %>">
   <td><%= link_to photo.title, edit_admin_photo_path(@site, @section, photo), :class => photo.state %></td>
-  <td><%= link_to(image_tag(photo.public_filename(:tiny)), photo.public_filename, :target => '_blank') %></td>
+  <td><%= link_to(image_tag(photo.base_url(:tiny)), photo.filename, :target => '_blank') %></td>
   <td><%= photo.accept_comments? && !photo.comments.empty? ? link_to(photo.comments.size, admin_comments_path) : t(:"adva.common.none") %></td>
   <td><%= published_at_formatted photo %></td>
   <td><%= link_to h(photo.author_name), admin_site_user_path(@site, photo.author) %></td>

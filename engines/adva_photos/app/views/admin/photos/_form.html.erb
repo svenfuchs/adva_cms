@@ -11,13 +11,13 @@
 	</p>
 	
 	<p>
-		<label for="photo_uploaded_data"><%= label_text_for_photo @photo %></label>
-		<%= f.file_field :uploaded_data %>
+		<label for="photo_data"><%= label_text_for_photo @photo %></label>
+		<%= f.file_field :data %>
 	</p>
 	
 	<% unless @photo.new_record? -%>
 		<p>
-    	<%= link_to(image_tag(@photo.public_filename(:large)), @photo.public_filename, :target => '_blank') %>
+    	<%= link_to(image_tag(@photo.base_url(:medium)), @photo.filename) %>
 		</p>
 	<% end %>
 	

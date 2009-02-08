@@ -33,7 +33,7 @@ class Site < ActiveRecord::Base
   has_many :deleted_newsletters
   has_many :locations
 
-  has_many :assets, :order => 'assets.created_at desc', :conditions => 'parent_id is null', :dependent => :destroy do
+  has_many :assets, :order => 'assets.created_at desc', :dependent => :destroy do
     def recent
       find(:all, :limit => 6)
     end

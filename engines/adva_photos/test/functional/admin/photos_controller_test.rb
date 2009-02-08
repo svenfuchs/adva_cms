@@ -10,8 +10,9 @@ class PhotosControllerTest < ActionController::TestCase
   end
   
   def valid_post_params
-    {:photo => { :content_type => 'image/jpg', :size => 100, :title => 'another photo',
-                 :filename => 'another_photo.jpg', :author => "#{@user.id}" }}
+    {:photo => { :title => 'another photo',
+                 :data => File.new(File.dirname(__FILE__) + '/../../fixtures/rails.png'),
+                 :author => "#{@user.id}" }}
   end
   
   def valid_form_params

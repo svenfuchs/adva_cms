@@ -2,6 +2,11 @@ class MoveAssetsToPaperclip < ActiveRecord::Migration
   def self.up
     remove_column :asset_assignments, :content_type
 
+    add_column    :assets, :data_file_name,    :string
+    add_column    :assets, :data_content_type, :string
+    add_column    :assets, :data_file_size,    :integer
+    add_column    :assets, :data_updated_at,   :datetime
+
     remove_column :assets, :parent_id
     remove_column :assets, :size
     remove_column :assets, :thumbnail
