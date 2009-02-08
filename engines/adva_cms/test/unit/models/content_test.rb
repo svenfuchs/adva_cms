@@ -89,10 +89,6 @@ class ContentTest < ActiveSupport::TestCase
     Content.before_validation.should include(:set_site)
   end
 
-  test "generates the permalink before validation" do
-    Content.before_validation.should include(:create_unique_permalink)
-  end
-
   test "apply filters before save" do
     Content.before_save.should include(:process_filters)
   end

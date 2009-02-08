@@ -75,8 +75,9 @@ class WikiHelperTest < ActiveSupport::TestCase
   
   # wikify_link
   test "#wikify_link escapes the given string to a permalink" do
-    mock(PermalinkFu).escape('a wikipage').returns 'a-wikipage'
-    wikify_link('a wikipage')
+    str = 'a wikipage'
+    mock(str).to_url.returns 'a-wikipage'
+    wikify_link(str)
   end
   
   test "#wikify_link with no wikipage exists for the given permalink it adds a css class 'new_wiki_link'" do

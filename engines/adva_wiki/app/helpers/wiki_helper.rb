@@ -25,7 +25,7 @@ module WikiHelper
   end
 
   def wikify_link(str)
-    permalink = PermalinkFu.escape(str)
+    permalink = str.to_url
     options = {}
     options[:class] = "new_wiki_link" unless Wikipage.find_by_permalink(permalink)
     link_to str, wikipage_path(@section, permalink), options

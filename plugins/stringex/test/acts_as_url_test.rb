@@ -8,6 +8,7 @@ rescue LoadError
   require 'active_record'
   
   RAILS_ROOT = File.dirname(__FILE__) 
+  $: << File.join(File.dirname(__FILE__), '../lib')
 end
 
 require File.join(File.dirname(__FILE__), '../init')
@@ -69,9 +70,9 @@ class ActsAsUrlTest < Test::Unit::TestCase
   end
   
   def test_should_create_unique_url
+    3.times { Document.create!(:title => "Unique") }
     @doc = Document.create!(:title => "Unique")
-    @other_doc = Document.create!(:title => "Unique")
-    assert_equal "unique-1", @other_doc.url
+    assert_equal "unique-3", @doc.url
   end
   
   def test_should_not_succ_on_repeated_saves

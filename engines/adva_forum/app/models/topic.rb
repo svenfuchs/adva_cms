@@ -1,5 +1,6 @@
 class Topic < ActiveRecord::Base
-  has_permalink :title
+  # FIXME shouldn't this be scoped to topic and/or forum?
+  has_permalink :title, :url_attribute => :permalink, :only_when_blank => true 
   before_destroy :decrement_counter
   has_many_comments :as => :commentable, :class_name => 'Post'
 

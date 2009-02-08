@@ -11,11 +11,15 @@ class CategoryTest < ActiveSupport::TestCase
     Category.should act_as_nested_set
   end
 
+  test "has a permalink generated from the title" do
+    Category.should have_permalink(:title)
+  end
+
   test 'generates a permalink from the title' do
     @category.title = "a category's title"
     @category.permalink = nil
-    @category.send :create_unique_permalink
-    @category.permalink.should == 'a-category-s-title'
+    @category.send :ensure_unique_url
+    @category.permalink.should == 'a-categorys-title'
   end
   
   # ASSOCIATIONS
@@ -30,12 +34,6 @@ class CategoryTest < ActiveSupport::TestCase
 
   test "has many category_assignments" do
     @category.should have_many(:category_assignments)
-  end
-  
-  # CALLBACKS
-  
-  test 'initializes the permalink before validation (if empty)' do
-    Category.before_validation.should include(:create_unique_permalink)
   end
   
   # VALIDATIONS

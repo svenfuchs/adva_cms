@@ -29,8 +29,8 @@ module Matchy
         Matchy::Expectations::InstantiateWithSti.new(nil, self)
       end
 
-      def have_permalink(*columns)
-        Matchy::Expectations::HavePermalink.new(columns, self)
+      def have_permalink(column)
+        Matchy::Expectations::HavePermalink.new(column, self)
       end
 
       def filter_column(column)
@@ -126,8 +126,7 @@ module Matchy
             "Expected %s to have a permalink generated from %s.", 
             "Expected %s not to have a permalink generated from %s." do |receiver|
       @receiver = receiver
-      @receiver.new.respond_to?(:create_unique_permalink) &&
-      @receiver.permalink_attributes == @expected
+      @receiver.respond_to?(:attribute_to_urlify) && @receiver.attribute_to_urlify == @expected
     end
 
     matcher "HaveCounter", 

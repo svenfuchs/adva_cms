@@ -30,9 +30,11 @@ class SectionTest < ActiveSupport::TestCase
   end
 
   test "has a permalink generated from the title" do
+    Category.should have_permalink(:title)
+
     @section.title = 'new section title'
     @section.permalink = nil
-    @section.send :create_unique_permalink
+    @section.send :ensure_unique_url
     @section.permalink.should == 'new-section-title'
   end
 
@@ -86,17 +88,13 @@ class SectionTest < ActiveSupport::TestCase
   end
   
   # callbacks
-  
-  test "sets the path before validation" do
-    Section.before_validation.should include(:set_path)
-  end
 
   test "sets the comment age before validation" do
     Section.before_validation.should include(:set_comment_age)
   end
-
-  test "generates the permalink before validation" do
-    Section.before_validation.should include(:create_unique_permalink)
+  
+  test "updates the path before save" do
+    Section.before_save.should include(:update_path)
   end
 
   # validations
@@ -182,9 +180,12 @@ class SectionTest < ActiveSupport::TestCase
     @section.comment_age.should == 99
   end
 
-  test "#set_path rebuilds the section's path" do
-    mock(@section).build_path.returns 'the-new-path'
-    @section.send :set_path
+  test "#update_path rebuilds the section's path when the permalink has changed" do
+    # grrr ... can't stub dynamic methods with RR
+    # stub(@section).permalink_changed?.returns(true)
+    stub(@section).attribute_changed?('permalink').returns(true)
+    mock(@section).build_path.returns('the-new-path')
+    @section.send :update_path
     @section.path.should == 'the-new-path'
   end
 

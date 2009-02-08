@@ -42,6 +42,7 @@ module LuckySneaks
         self.url_attribute = options[:url_attribute] || "url"
         self.only_when_blank = options[:only_when_blank] || false
       end
+      alias :has_permalink :acts_as_url
 
       # Initialize the url fields for the records that need it. Designed for people who add
       # <tt>acts_as_url</tt> support once there's already development/production data they'd

@@ -26,7 +26,7 @@ class Content < ActiveRecord::Base
   non_versioned_columns << 'cached_tag_list' << 'assets_count' << 'state'
   instantiates_with_sti
 
-  has_permalink :title, :scope => :section_id
+  has_permalink :title, :url_attribute => :permalink, :only_when_blank => true, :scope => :section_id
   filtered_column :body, :excerpt
 
   belongs_to :site
