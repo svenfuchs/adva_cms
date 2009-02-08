@@ -38,7 +38,7 @@ class AssetTest < ActiveSupport::TestCase
     Asset.should validate_presence_of(:site_id)
   end
   
-  test "creates a valid asset with medium, thumb and tiny styles" do
+  test "creates a valid asset" do
     asset = create_image_asset
     asset.should be_valid
     asset.path.should be_file

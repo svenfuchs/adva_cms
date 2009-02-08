@@ -31,8 +31,8 @@ class Asset < ActiveRecord::Base
   has_filter :data_file_name, :title, :tags_list
 
   has_attached_file :data, :styles => { :medium => "300x300>", :thumb => "120x120#", :tiny => "50x50#" },
-                           :url => ":asset_file_url",
-                           :path => ":asset_file_path"
+                           :url    => ":asset_file_url",
+                           :path   => ":asset_file_path"
 
   validates_presence_of :site_id
   validates_attachment_presence :data

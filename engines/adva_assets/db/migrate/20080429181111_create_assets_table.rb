@@ -3,10 +3,10 @@ class CreateAssetsTable < ActiveRecord::Migration
     create_table :asset_assignments, :force => true do |t|
       t.integer  :content_id
       t.integer  :asset_id
+      t.integer  :position
       t.string   :label
       t.datetime :created_at
       t.boolean  :active
-      t.string   :content_type # hu?
     end
 
     create_table :assets, :force => true do |t|
@@ -22,11 +22,6 @@ class CreateAssetsTable < ActiveRecord::Migration
       t.string   :title
       t.integer  :thumbnails_count, :default => 0
       t.datetime :created_at
-
-      t.string   :data_file_name
-      t.string   :data_content_type
-      t.integer  :data_file_size
-      t.datetime :data_updated_at
     end
   end
 
