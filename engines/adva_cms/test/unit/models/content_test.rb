@@ -5,6 +5,7 @@ class ContentTest < ActiveSupport::TestCase
     super
     @section = Section.first
     @content = @section.articles.first
+    @content_attributes = {:body => 'body',:section => @section, :author => User.first}
   end
 
   test "acts as a taggable" do
@@ -52,7 +53,7 @@ class ContentTest < ActiveSupport::TestCase
   test "has a comments counter" do
     Content.should have_counter(:comments)
   end
-  
+
   # ASSOCIATIONS
 
   test "belongs to a site" do
@@ -82,7 +83,7 @@ class ContentTest < ActiveSupport::TestCase
   test "has many category_assignments" do
     @content.should have_many(:category_assignments)
   end
-  
+
   # CALLBACKS
 
   test "sets the site before validation" do
@@ -92,9 +93,9 @@ class ContentTest < ActiveSupport::TestCase
   test "apply filters before save" do
     Content.before_save.should include(:process_filters)
   end
-  
+
   # VALIDATIONS
-  
+
   test "validates presence of a title" do
     @content.should validate_presence_of(:title)
   end
@@ -178,12 +179,12 @@ class ContentTest < ActiveSupport::TestCase
   test "#owner returns the section" do
     @content.owner.should == @section
   end
-  
+
   test "#attributes= calls update_categories if attributes include a :category_ids key" do
     mock(@content).update_categories.with([1, 2, 3])
     @content.attributes = { :category_ids => [1, 2, 3] }
   end
-  
+
   # FIXME actually diff something
   #
   # describe "#diff_against_version" do
@@ -194,14 +195,14 @@ class ContentTest < ActiveSupport::TestCase
   #     @content.excerpt_html = 'excerpt'
   #     # stub(@content.versions).find_by_version(anything).returns @other
   #   end
-  # 
+  #
   #   test "creates a diff" do
   #     expectation do
   #       mock(HtmlDiff).diff.with anything
   #       @content.diff_against_version(1)
   #     end
   #   end
-  # 
+  #
   #   test "diffs excerpt_html + body_html" do
   #     [@content, @other].each do |target| [:body_html, :excerpt_html].each do |method|
   #       mock(target).stub!(method).returns method.to_s
@@ -231,25 +232,80 @@ class ContentTest < ActiveSupport::TestCase
     @content.send :set_site
     @content.site_id.should == @content.section.site_id
   end
-  
+
   test '#update_categories removes associated categories that are not included in passed category_ids' do
     @foo = Category.create! :title => 'foo', :section => @section
     @bar = Category.create! :title => 'bar', :section => @section
-    
+
     @content.send :update_categories, [@foo.id, @bar.id]
     @content.categories.should_not include(@category)
   end
-    
+
   test '#update_categories assigns categories that are included in passed category_ids but not already associated' do
     @foo = Category.create! :title => 'foo', :section => @section
     @bar = Category.create! :title => 'bar', :section => @section
-    
+
     @content.send :update_categories, [@foo.id, @bar.id]
     @content.categories.should include(@foo, @bar)
   end
-  
+
+  # PERMALINK CREATION
+
+  test "creates a permalink from the title attribute before create" do
+    title = "it's a test title, <em>okay</em>?"
+    content = Content.create! @content_attributes.merge(:title => title)
+    content.permalink.should == "its-a-test-title-okay"
+  end
+
+  test "creates unique permalinks" do
+    content = nil
+    4.times { content = Content.create! @content_attributes.merge(:title => "unique") }
+    content.permalink.should == 'unique-3'
+  end
+
+  test "transliterates characters for permalinks" do
+    transliterations = {
+      %w(À Á Â Ã Å)  => "A",
+      %w(Ä Æ)        => "Ae",
+      "Ç"            => "C",
+      "Ð"            => "D",
+      %w(È É Ê Ë)    => "E",
+      %w(Ì Í Î Ï)    => "I",
+      "Ñ"            => "N",
+      %w(Ò Ó Ô Õ Ø)  => "O",
+      "Ö"            => "Oe",
+      %w(Ù Ú Û)      => "U",
+      "Ü"            => "Ue",
+      # "Ý"            => "Y", # StringEx transliteration is 'U'
+      # "Þ"            => "p", # StringEx transliteration is 'th'
+      %w(à á â ã å)  => "a",
+      %w(ä æ)        => "ae",
+      "ç"            => "c",
+      "ð"            => "d",
+      %w(è é ê ë)    => "e",
+      %w(ì í î ï)    => "i",
+      "ñ"            => "n",
+      %w(ò ó ô õ ø)  => "o",
+      "ö"            => "oe",
+      "ß"            => "ss",
+      %w(ù ú û)      => "u",
+      "ü"            => "ue",
+      "ý"            => "y"
+    }
+
+    source, expected = '', ''
+    transliterations.each do |from, to|
+      from = [from] unless from.is_a?(Array)
+      source   << from.join
+      expected << to * from.size
+    end
+
+    source.to_url.should == expected.downcase
+  end
+
+
   # VERSIONING
-  
+
   test "does not create a new version if neither title, excerpt nor body attributes have changed" do
     @content.save_version?.should be_false
   end
@@ -268,9 +324,9 @@ class ContentTest < ActiveSupport::TestCase
     @content.body = 'another body'
     @content.save_version?.should be_true
   end
-  
+
   # TAGGING
-  
+
   test "works with quoted tags" do
     @content.tag_list = '"foo bar"'
     @content.save!

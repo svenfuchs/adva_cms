@@ -130,18 +130,4 @@ class Content < ActiveRecord::Base
         categories << Category.find(:all, :conditions => ['id in (?)', category_ids])
       end
     end
-
-    # This is from Mephisto. Does it still make any sense? Can we kill it?
-    #
-    # def set_filter_from(filtered_object)
-    #   self.filter = filtered_object.filter
-    # end
-    #
-    # def set_default_filter_from(filtered_object)
-    #   set_filter_from(filtered_object) if filter.nil?
-    # end
-    #
-    # def set_default_filter!
-    #   set_default_filter_from user
-    # end
 end

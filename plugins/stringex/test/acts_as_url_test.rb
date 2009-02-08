@@ -70,9 +70,9 @@ class ActsAsUrlTest < Test::Unit::TestCase
   end
   
   def test_should_create_unique_url
-    3.times { Document.create!(:title => "Unique") }
     @doc = Document.create!(:title => "Unique")
-    assert_equal "unique-3", @doc.url
+    @other_doc = Document.create!(:title => "Unique")
+    assert_equal "unique-1", @other_doc.url
   end
   
   def test_should_not_succ_on_repeated_saves

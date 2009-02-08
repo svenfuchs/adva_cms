@@ -12,7 +12,6 @@ class Section < ActiveRecord::Base
   
   acts_as_role_context :actions => ["create article", "update article", "delete article"],
                        :parent => Site
-                       
   
   serialize :permissions
 
