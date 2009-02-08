@@ -34,7 +34,8 @@ class Photo < ActiveRecord::Base
   class_inheritable_reader    :default_find_options
   write_inheritable_attribute :default_find_options, { :order => 'published_at' }
   
-  has_attached_file :data, :styles => { :medium => "300x300>", :thumb => "120x120#", :tiny => "50x50#" },
+  has_attached_file :data, :styles => { :large => "600x600>", # :medium => "300x300>", 
+                                        :thumb => "120x120>", :tiny => "50x50#" },
                            :url    => ":photo_file_url",
                            :path   => ":photo_file_path"
 

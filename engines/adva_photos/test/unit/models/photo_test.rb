@@ -140,7 +140,7 @@ class PhotoTest < ActiveSupport::TestCase
   
   test "creates medium, thumb and tiny variants if ImageMagick is installed" do
     photo = create_photo
-    [:medium, :thumb, :tiny].each do |style|
+    [:large, :thumb, :tiny].each do |style|
       photo.path(style).should be_file
     end
   end if system('which convert') # umm, would this work on windows?
