@@ -22,7 +22,7 @@ class BlogTest < ActiveSupport::TestCase
   test "#articles_by_month returns a hash with months (dates) as keys and articles as values" do
     @blog.articles_by_month.size.should == 3
     @blog.article_counts_by_month.transpose.first.map(&:month).sort.should == [1, 2, 3]
-    @blog.articles_by_month.transpose.last.flatten.map(&:class).uniq.should == [Article]
+    @blog.articles_by_month.to_a.transpose.last.flatten.map(&:class).uniq.should == [Article]
   end
 
   test '#article_counts_by_month returns a hash with months (dates) as keys and article counts as values' do
