@@ -12,7 +12,13 @@ require 'with-sugar'
 
 require 'webrat'
 require 'webrat/rails'
-Webrat.configuration.open_error_files = false
+
+Webrat.configure do |config|
+  config.mode = :rails
+  config.open_error_files = false
+end
+
+# Webrat.configuration.open_error_files = false
 
 require 'globalize/i18n/missing_translations_raise_handler'
 I18n.exception_handler = :missing_translations_raise_handler
