@@ -5,8 +5,6 @@ module OutputFilter
         html.scan(/(<cell [^>]*\/>)/m).inject({}) do |cells, matches|
           tag = matches.first
           attrs = parse_attributes(tag)
-          # controller, name = attrs.delete('controller'), attrs.delete('name')
-          # cells[tag] = ["#{controller}/#{name}", attrs]
           name, state = attrs.delete('name').split('/')
           cells[tag] = [name, state, attrs]
           cells
@@ -34,11 +32,12 @@ module OutputFilter
     def before(controller) end
 
     def after(controller)
-      cells = parser.cells(controller.response.body)
-      pattern = /(#{cells.keys.join('|')})/
-      controller.response.body.gsub!(pattern) do |tag|
-        controller.response.template.render_cell *cells[tag]
-      end unless cells.empty?
+      if controller.response.body.is_a?(String)
+        cells = parser.cells(controller.response.body)
+        controller.response.body.gsub!(/(#{cells.keys.join('|')})/) do |tag|
+          controller.response.template.render_cell *cells[tag]
+        end unless cells.empty?
+      end
     end
 
     protected
