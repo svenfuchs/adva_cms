@@ -3,7 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + "/../test_helper")
 class WikiRoutesTest < ActionController::TestCase
   tests WikiController
   with_common :a_wiki, :a_wikipage, :a_wikipage_category
-  
+
   paths = %W( /wikis/1
               /wikis/1/categories/a-category
               /wikis/1/tags/foo+bar
@@ -13,7 +13,7 @@ class WikiRoutesTest < ActionController::TestCase
               /wikis/1/pages/a-wikipage/rev/1/diff/1
               /wikis/1/comments.atom
               /wikis/1/pages/a-wikipage/comments.atom )
- 
+
   paths.each do |path|
     test "regenerates the original path from the recognized params for #{path}" do
       without_routing_filters do
@@ -26,12 +26,12 @@ class WikiRoutesTest < ActionController::TestCase
   describe "routing" do
     with :a_wikipage_category do
       # FIXME what about paged routes, e.g. /a-wiki/pages/page/1 ??
-  
+
       ['', '/a-wiki', '/de', '/de/a-wiki'].each do |path_prefix|
-  
+
         common = { :section_id => Wiki.first.id.to_s, :path_prefix => path_prefix } # , :path_suffix => path_suffix
         common.merge! :locale => 'de' if path_prefix =~ /de/
-  
+
         with_options common do |r|
           r.it_maps :get,    '/',                              :action => 'show'
           r.it_maps :get,    '/pages/a-wikipage',              :action => 'show', :id => 'a-wikipage'
@@ -48,7 +48,7 @@ class WikiRoutesTest < ActionController::TestCase
           r.it_maps :delete, '/pages/a-wikipage',              :action => 'destroy', :id => 'a-wikipage'
         end
       end
-  
+
       with_options :section_id => Wiki.first.id.to_s, :format => 'atom' do |r|
         r.it_maps :get, '/a-wiki/comments.atom',                  :action => 'comments'
         r.it_maps :get, '/a-wiki/pages/a-wikipage/comments.atom', :action => 'comments', :id => 'a-wikipage'
@@ -72,55 +72,55 @@ class WikiRoutesTest < ActionController::TestCase
       I18n.locale = :de
     end
 
-    wiki_path               = lambda { path = wiki_path(@section) }
-    tag_path                = lambda { wiki_tag_path(@section, 'foo+bar') }
-    category_path           = lambda { wiki_category_path(@section, @category) }
+    wiki_path          = lambda { path = wiki_path(@section) }
+    tag_path           = lambda { wiki_tag_path(@section, 'foo+bar') }
+    category_path      = lambda { wiki_category_path(@section, @category) }
 
-    formatted_wiki_path     = lambda { formatted_wiki_path(@section, :rss) }
-    formatted_tag_path      = lambda { formatted_wiki_tag_path(@section, 'foo+bar', :rss) }
-    formatted_category_path = lambda { formatted_wiki_category_path(@section, @category, :rss) }
+    wiki_feed_path     = lambda { wiki_path(@section, :format => :rss) }
+    tag_feed_path      = lambda { wiki_tag_path(@section, 'foo+bar', :format => :rss) }
+    category_feed_path = lambda { wiki_category_path(@section, @category, :format => :rss) }
 
-    wikipage_path           = lambda { wikipage_path(@section, @wikipage.permalink) }
-    formatted_wikipage_path = lambda { formatted_wikipage_path(@section, @wikipage.permalink, :rss) }
+    wikipage_path      = lambda { wikipage_path(@section, @wikipage.permalink) }
+    wikipage_feed_path = lambda { wikipage_path(@section, @wikipage.permalink, :format => :rss) }
 
-    it_rewrites wiki_path,               :to => '/',                                     :with => [:is_default_locale, :is_root_section]
-    it_rewrites wiki_path,               :to => '/a-wiki',                               :with => [:is_default_locale]
-    it_rewrites wiki_path,               :to => '/de',                                   :with => [:is_root_section]
-    it_rewrites wiki_path,               :to => '/de/a-wiki'
+    it_rewrites wiki_path,          :to => '/',                                    :with => [:is_default_locale, :is_root_section]
+    it_rewrites wiki_path,          :to => '/a-wiki',                              :with => [:is_default_locale]
+    it_rewrites wiki_path,          :to => '/de',                                  :with => [:is_root_section]
+    it_rewrites wiki_path,          :to => '/de/a-wiki'
 
-    it_rewrites tag_path,                :to => '/tags/foo+bar',                         :with => [:is_default_locale, :is_root_section]
-    it_rewrites tag_path,                :to => '/de/tags/foo+bar',                      :with => [:is_root_section]
-    it_rewrites tag_path,                :to => '/a-wiki/tags/foo+bar',                  :with => [:is_default_locale]
-    it_rewrites tag_path,                :to => '/de/a-wiki/tags/foo+bar'
+    it_rewrites tag_path,           :to => '/tags/foo+bar',                        :with => [:is_default_locale, :is_root_section]
+    it_rewrites tag_path,           :to => '/de/tags/foo+bar',                     :with => [:is_root_section]
+    it_rewrites tag_path,           :to => '/a-wiki/tags/foo+bar',                 :with => [:is_default_locale]
+    it_rewrites tag_path,           :to => '/de/a-wiki/tags/foo+bar'
 
-    it_rewrites category_path,           :to => '/categories/a-category',                :with => [:is_default_locale, :is_root_section]
-    it_rewrites category_path,           :to => '/de/categories/a-category',             :with => [:is_root_section]
-    it_rewrites category_path,           :to => '/a-wiki/categories/a-category',         :with => [:is_default_locale]
-    it_rewrites category_path,           :to => '/de/a-wiki/categories/a-category'
+    it_rewrites category_path,      :to => '/categories/a-category',               :with => [:is_default_locale, :is_root_section]
+    it_rewrites category_path,      :to => '/de/categories/a-category',            :with => [:is_root_section]
+    it_rewrites category_path,      :to => '/a-wiki/categories/a-category',        :with => [:is_default_locale]
+    it_rewrites category_path,      :to => '/de/a-wiki/categories/a-category'
 
-    it_rewrites formatted_wiki_path,     :to => '/a-wiki.rss',                           :with => [:is_default_locale, :is_root_section]
-    it_rewrites formatted_wiki_path,     :to => '/de/a-wiki.rss',                        :with => [:is_root_section]
-    it_rewrites formatted_wiki_path,     :to => '/a-wiki.rss',                           :with => [:is_default_locale]
-    it_rewrites formatted_wiki_path,     :to => '/de/a-wiki.rss'
+    it_rewrites wiki_feed_path,     :to => '/a-wiki.rss',                          :with => [:is_default_locale, :is_root_section]
+    it_rewrites wiki_feed_path,     :to => '/de/a-wiki.rss',                       :with => [:is_root_section]
+    it_rewrites wiki_feed_path,     :to => '/a-wiki.rss',                          :with => [:is_default_locale]
+    it_rewrites wiki_feed_path,     :to => '/de/a-wiki.rss'
 
-    it_rewrites formatted_tag_path,      :to => '/tags/foo+bar.rss',                     :with => [:is_default_locale, :is_root_section]
-    it_rewrites formatted_tag_path,      :to => '/de/tags/foo+bar.rss',                  :with => [:is_root_section]
-    it_rewrites formatted_tag_path,      :to => '/a-wiki/tags/foo+bar.rss',              :with => [:is_default_locale]
-    it_rewrites formatted_tag_path,      :to => '/de/a-wiki/tags/foo+bar.rss'
+    it_rewrites tag_feed_path,      :to => '/tags/foo+bar.rss',                    :with => [:is_default_locale, :is_root_section]
+    it_rewrites tag_feed_path,      :to => '/de/tags/foo+bar.rss',                 :with => [:is_root_section]
+    it_rewrites tag_feed_path,      :to => '/a-wiki/tags/foo+bar.rss',             :with => [:is_default_locale]
+    it_rewrites tag_feed_path,      :to => '/de/a-wiki/tags/foo+bar.rss'
 
-    it_rewrites formatted_category_path, :to => '/categories/a-category.rss',            :with => [:is_default_locale, :is_root_section]
-    it_rewrites formatted_category_path, :to => '/de/categories/a-category.rss',         :with => [:is_root_section]
-    it_rewrites formatted_category_path, :to => '/a-wiki/categories/a-category.rss',     :with => [:is_default_locale]
-    it_rewrites formatted_category_path, :to => '/de/a-wiki/categories/a-category.rss'
+    it_rewrites category_feed_path, :to => '/categories/a-category.rss',           :with => [:is_default_locale, :is_root_section]
+    it_rewrites category_feed_path, :to => '/de/categories/a-category.rss',        :with => [:is_root_section]
+    it_rewrites category_feed_path, :to => '/a-wiki/categories/a-category.rss',    :with => [:is_default_locale]
+    it_rewrites category_feed_path, :to => '/de/a-wiki/categories/a-category.rss'
 
-    it_rewrites wikipage_path,           :to => '/pages/another-wikipage',                :with => [:is_default_locale, :is_root_section]
-    it_rewrites wikipage_path,           :to => '/de/pages/another-wikipage',             :with => [:is_root_section]
-    it_rewrites wikipage_path,           :to => '/a-wiki/pages/another-wikipage',         :with => [:is_default_locale]
-    it_rewrites wikipage_path,           :to => '/de/a-wiki/pages/another-wikipage'
+    it_rewrites wikipage_path,      :to => '/pages/another-wikipage',               :with => [:is_default_locale, :is_root_section]
+    it_rewrites wikipage_path,      :to => '/de/pages/another-wikipage',            :with => [:is_root_section]
+    it_rewrites wikipage_path,      :to => '/a-wiki/pages/another-wikipage',        :with => [:is_default_locale]
+    it_rewrites wikipage_path,      :to => '/de/a-wiki/pages/another-wikipage'
 
-    it_rewrites formatted_wikipage_path,  :to => '/pages/another-wikipage.rss',           :with => [:is_default_locale, :is_root_section]
-    it_rewrites formatted_wikipage_path,  :to => '/de/pages/another-wikipage.rss',        :with => [:is_root_section]
-    it_rewrites formatted_wikipage_path,  :to => '/a-wiki/pages/another-wikipage.rss',    :with => [:is_default_locale]
-    it_rewrites formatted_wikipage_path,  :to => '/de/a-wiki/pages/another-wikipage.rss'
+    it_rewrites wikipage_feed_path,  :to => '/pages/another-wikipage.rss',          :with => [:is_default_locale, :is_root_section]
+    it_rewrites wikipage_feed_path,  :to => '/de/pages/another-wikipage.rss',       :with => [:is_root_section]
+    it_rewrites wikipage_feed_path,  :to => '/a-wiki/pages/another-wikipage.rss',   :with => [:is_default_locale]
+    it_rewrites wikipage_feed_path,  :to => '/de/a-wiki/pages/another-wikipage.rss'
   end
 end
