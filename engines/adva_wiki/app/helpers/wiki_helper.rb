@@ -31,15 +31,6 @@ module WikiHelper
     link_to str, wikipage_path(@section, permalink), options
   end
 
-  # def wikify_link(str)
-  #   permalink = PermalinkFu.escape(str)
-  #   if wikipage = Wikipage.find_by_permalink(permalink)
-  #     link_to str, wikipage.home? ? wiki_path(@section) : wikipage_path(@section, permalink)
-  #   else
-  #     link_to str, wikipage_path(@section, permalink), :class => "new_wiki_link"
-  #   end
-  # end
-
   def wiki_edit_links(wikipage, options = {})
     separator = options[:separator] || '' # || ' &middot; '
 
