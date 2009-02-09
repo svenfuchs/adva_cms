@@ -1,14 +1,21 @@
 class SectionsController < BaseController
   include ActionController::GuardsPermissions::InstanceMethods
 
-  before_filter :set_article
-  before_filter :guard_view_permissions, :only => :show
+  before_filter :set_articles
+  before_filter :guard_view_permissions, :only => [:index, :show]
 
-  # TODO move :comments and @commentable to acts_as_commentable
-  caches_page_with_references :show, :comments, :track => ['@article', '@commentable']
+  caches_page_with_references :index, :show, :comments, 
+    :track => ['@articles', '@article', '@commentable']
+    # TODO move :comments and @commentable to acts_as_commentable
 
   authenticates_anonymous_user
   acts_as_commentable
+  
+  def index
+    action = true ? 'show' : 'index' # Section.is_a_simple_page_displaying_a_single_article?
+    # render @section.render_options TODO breaks specs on Rails 2.2
+    render :action => action
+  end
 
   def show
     # render @section.render_options TODO breaks specs on Rails 2.2
@@ -18,8 +25,10 @@ class SectionsController < BaseController
 
     def set_section; super(Section); end
     
-    def set_article
-      if params[:permalink]
+    def set_articles
+      if false # Section.wants_to_display_multiple_articles?
+        @articles = @section.articles
+      elsif params[:permalink]
         @article = @section.articles.find_by_permalink(params[:permalink], :include => :author)
         raise ActiveRecord::RecordNotFound unless @article and can_view(@article)
       else
@@ -41,4 +50,14 @@ class SectionsController < BaseController
     def current_resource
       @article || @section
     end
+    
+    # does not work for some reason ... would be nicer to "forward" requests
+    # to another action though
+    #
+    # def process(request, response, method = :perform_action, *arguments)
+    #   if request.parameters['action'] == 'show' and true # Section.acts_as_simple_page
+    #     request.parameters['action'] = 'index'
+    #   end
+    #   super
+    # end
 end

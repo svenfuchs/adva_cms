@@ -26,7 +26,7 @@ class SectionsRoutesTest < ActionController::TestCase
         common.merge! :page => 2      if path_suffix =~ /pages/
   
         with_options common do |r|
-          r.it_maps :get, '/',                         :action => 'show'
+          r.it_maps :get, '/',                         :action => 'index'
           r.it_maps :get, '/articles/an-article',      :action => 'show', :permalink => 'an-article'
   
           unless path_suffix =~ /pages/
