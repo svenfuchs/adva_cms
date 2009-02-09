@@ -3,3 +3,4 @@ ActiveSupport::Dependencies.load_once_paths -= ActiveSupport::Dependencies.load_
 I18n.load_path += Dir[File.dirname(__FILE__) + '/locale/**/*.yml']
 
 require 'theme_support'
+
