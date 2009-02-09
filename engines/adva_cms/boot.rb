@@ -1,12 +1,5 @@
-require "#{RAILS_ROOT}/vendor/adva/plugins/engines/boot"
+# require "#{RAILS_ROOT}/vendor/adva/plugins/engines/boot"
 require "#{RAILS_ROOT}/vendor/adva/plugins/cells/boot"
-
-# TODO make this a cattr_accessor on Engines::Plugin?
-Engines::Plugin.class_eval do
-  def default_code_paths
-    %w(app/controllers app/helpers app/models app/observers lib)
-  end
-end
 
 # initialize Rails::Configuration with our own default values to spare users
 # some hassle with the installation and keep the environment cleaner
@@ -20,14 +13,25 @@ end
 # TODO how to improve this?
 
 Rails::Configuration.class_eval do
+  def default_load_paths
+    %w(app/controllers app/helpers app/models app/observers lib)
+  end
+  
   def default_plugins
-    [ :engines_config, :better_nested_set, :safemode, :adva_cms, :all ]
+    # [ :engines_config, :better_nested_set, :safemode, :adva_cms, :all ]
+    [ :better_nested_set, :safemode, :adva_cms, :all ]
   end
 
   def default_plugin_paths
     paths = ["#{root_path}/vendor/adva/engines", "#{root_path}/vendor/adva/plugins", "#{root_path}/vendor/plugins"]
     paths << "#{root_path}/vendor/adva/test" if ENV['RAILS_ENV'] == 'test'
     paths
+  end
+end
+
+Rails::Plugin.class_eval do
+  def app_paths
+    ['models', 'helpers', 'observers'].map { |path| File.join(directory, 'app', path) } << controller_path
   end
 end
 
