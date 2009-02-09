@@ -1,9 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../test_helper.rb')
 
-class AlbumsHelperTest < ActiveSupport::TestCase
+class AlbumsHelperTest < ActionView::TestCase
   include AlbumsHelper
-  include ActionView::Helpers::UrlHelper
-  include ActionView::Helpers::TagHelper
   
   def setup
     super

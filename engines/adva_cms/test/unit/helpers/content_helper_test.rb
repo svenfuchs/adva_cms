@@ -1,10 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../test_helper')
 
-class ContentHelperTest < ActiveSupport::TestCase
+class ContentHelperTest < ActionView::TestCase
   include ContentHelper
-  include ActionView::Helpers::TagHelper
-  include ActionView::Helpers::TranslationHelper
-  include ActionView::Helpers::UrlHelper
   
   def setup
     super
@@ -81,14 +78,8 @@ class ContentHelperTest < ActiveSupport::TestCase
   end
 end
 
-class LinkToContentHelperTest < ActiveSupport::TestCase
+class LinkToContentHelperTest < ActionView::TestCase
   include ContentHelper
-  
-  include ActionView::Helpers::FormTagHelper
-  include ActionView::Helpers::TagHelper
-  include ActionView::Helpers::TranslationHelper
-  include ActionView::Helpers::UrlHelper
-  include ActionView::Helpers::RecordIdentificationHelper
   
   def setup
     super

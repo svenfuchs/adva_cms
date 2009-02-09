@@ -1,9 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + "/../../test_helper")
 
-class RolesHelperTest < ActiveSupport::TestCase
+class RolesHelperTest < ActionView::TestCase
   include RolesHelper
-  include ActionView::Helpers::TagHelper
-  include ActionView::Helpers::UrlHelper
   
   def setup
     super

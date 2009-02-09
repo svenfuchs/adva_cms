@@ -1,19 +1,8 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../test_helper')
 
-class BaseHelperTest < ActiveSupport::TestCase
+class BaseHelperTest < ActionView::TestCase
   include BaseHelper
-  
-  include ActionView::Helpers::TranslationHelper
-  include ActionView::Helpers::TagHelper
-  include ActionView::Helpers::UrlHelper
-  include ActionView::Helpers::CaptureHelper
-  include ActionView::Helpers::FormHelper
-  include ActionView::Helpers::FormTagHelper
-  include ActionView::Helpers::RecordIdentificationHelper
-  include ActionView::Helpers::TextHelper
 
-  attr_accessor :output_buffer
-  
   def setup
     super
     @site = Site.first

@@ -1,13 +1,7 @@
 require File.dirname(__FILE__) + '/../../test_helper'
 
-class CommentsHelperTest < ActiveSupport::TestCase
+class CommentsHelperTest < ActionView::TestCase
   include CommentsHelper
-
-  include ActionView::Helpers::FormTagHelper
-  include ActionView::Helpers::JavaScriptHelper
-  include ActionView::Helpers::PrototypeHelper
-  include ActionView::Helpers::TagHelper
-  include ActionView::Helpers::UrlHelper
 
   attr_accessor :request
   
@@ -19,8 +13,8 @@ class CommentsHelperTest < ActiveSupport::TestCase
     
     stub(self).protect_against_forgery?.returns false
 
-    ActionView::TestController.send :include, CommentsHelper
-    @controller = ActionView::TestController.new
+    TestController.send :include, CommentsHelper
+    @controller = TestController.new
     @request = ActionController::TestRequest.new
   end
 

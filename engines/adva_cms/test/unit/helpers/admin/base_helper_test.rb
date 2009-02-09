@@ -1,13 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../../test_helper')
 
-class AdminBaseHelperTest < ActiveSupport::TestCase
+class AdminBaseHelperTest < ActionView::TestCase
   include Admin::BaseHelper
-  
-  include ActionView::Helpers::TranslationHelper
-  include ActionView::Helpers::TagHelper
-  include ActionView::Helpers::UrlHelper
-  include ActionView::Helpers::FormOptionsHelper
-  include ActionView::Helpers::FormTagHelper
   
   attr_accessor :request
   
@@ -21,7 +15,7 @@ class AdminBaseHelperTest < ActiveSupport::TestCase
     stub(self).admin_users_path.returns 'admin_users_path'
     stub(self).admin_user_path.returns 'admin_user_path'
     
-    @controller = ActionView::TestController.new
+    @controller = TestController.new
     @request = ActionController::TestRequest.new
   end
   

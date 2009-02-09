@@ -2,18 +2,12 @@ require File.expand_path(File.dirname(__FILE__) + '/../../test_helper')
 
 require 'action_view/test_case'
 
-class WikiHelperTest < ActiveSupport::TestCase
+class WikiHelperTest < ActionView::TestCase
   attr_accessor :output_buffer
 
   include WikiHelper
   include RolesHelper
-
-  include ActionView::Helpers::CaptureHelper
-  include ActionView::Helpers::TagHelper
-  include ActionView::Helpers::TextHelper
-  include ActionView::Helpers::TranslationHelper
-  include ActionView::Helpers::UrlHelper
-
+  
   attr_reader :controller
   delegate :wikipage_path_with_home, :to => :controller # umpf
 
@@ -22,8 +16,8 @@ class WikiHelperTest < ActiveSupport::TestCase
     @section = Wiki.first
     @wikipage = @section.wikipages.first
     @another_wikipage = @section.wikipages.second
-
-    @controller = ActionView::TestController.new
+    
+    @controller = TestController.new
     @output_buffer = ''
 
     stub(self).protect_against_forgery?.returns false
@@ -35,12 +29,12 @@ class WikiHelperTest < ActiveSupport::TestCase
   end
 
   test "#wikipage_path removes the path segments /pages/home from the result of wikipage_path_home" do
-    path = @controller.wikipage_path(@section, @wikipage.permalink)
+    path = @controller.send :wikipage_path, @section, @wikipage.permalink
     path.should == '/'
   end
 
   test "#wikipage_path returns the unmodified result of wikipage_path_home when it does not contain /pages/home)" do
-    path = @controller.wikipage_path(@section, @another_wikipage.permalink)
+    path = @controller.send :wikipage_path, @section, @another_wikipage.permalink
     path.should == '/pages/another-wikipage'
   end
 
@@ -50,12 +44,12 @@ class WikiHelperTest < ActiveSupport::TestCase
   end
 
   test "#wikipage_url removes the path segments /pages/home from the result of wikipage_url_home" do
-    url = @controller.wikipage_url(@section, @wikipage.permalink)
+    url = @controller.send :wikipage_url, @section, @wikipage.permalink
     url.should == 'http://test.host'
   end
 
   test "#wikipage_url returns the unmodified result of wikipage_url_home when it does not contain /pages/home)" do
-    url = @controller.wikipage_url(@section, @another_wikipage.permalink)
+    url = @controller.send :wikipage_url, @section, @another_wikipage.permalink
     url.should == 'http://test.host/pages/another-wikipage'
   end
 

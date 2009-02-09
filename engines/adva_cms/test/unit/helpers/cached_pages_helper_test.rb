@@ -1,8 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../test_helper')
 
-class CachedPagesHelperTest < ActiveSupport::TestCase
+class CachedPagesHelperTest < ActionView::TestCase
   include CachedPagesHelper
-  include ActionView::Helpers::DateHelper
   
   def setup
     super

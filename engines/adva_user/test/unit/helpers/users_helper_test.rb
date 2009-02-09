@@ -1,10 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + "/../../test_helper")
 
-class UsersHelperTest < ActiveSupport::TestCase
+class UsersHelperTest < ActionView::TestCase
   include UsersHelper
-  include ActionView::Helpers::AssetTagHelper
-  include ActionView::Helpers::TagHelper
-  include ActionView::Helpers::TranslationHelper
 
   def setup
     super
