@@ -33,5 +33,20 @@ module Webrat
     end
     alias_method :match_selector, :have_selector
     
+    
+    # Asserts that the body of the response contains
+    # the supplied selector
+    def assert_have_selector(expected)
+      hs = HaveSelector.new(expected)
+      assert hs.matches?(response_body), hs.failure_message
+    end
+    
+    # Asserts that the body of the response
+    # does not contain the supplied string or regepx
+    def assert_have_no_selector(expected)
+      hs = HaveSelector.new(expected)
+      assert !hs.matches?(response_body), hs.negative_failure_message
+    end
+    
   end
 end

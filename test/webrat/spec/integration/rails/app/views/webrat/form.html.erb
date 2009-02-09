@@ -1,0 +1,28 @@
+<h1 id='form_title' class='form title'>Webrat Form</h1>
+
+<% form_tag submit_path do %>
+  <label>
+    Text field <%= text_field_tag "text_field" %>
+  </label>
+  
+  <label>
+    TOS <%= check_box_tag "tos" %>
+  </label>
+  
+  <label>
+    Prefilled
+    <input type="text" name="prefilled" value="text" />
+  </label>
+  
+  <label>
+    <%= select_tag "month", "<option></option><option>January</option>" %>
+  </label>
+  
+  <% div_for FakeModel.new do %>
+    <label>
+      Object field <%= text_field_tag "object_field" %>
+    </label>
+  <% end %>
+  
+  <%= submit_tag "Test" %>
+<% end %>
