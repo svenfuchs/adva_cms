@@ -23,8 +23,8 @@ end
 
 ActionController::Caching::Pages::ClassMethods.module_eval do
   def caches_page(*actions)
-    # We want to turn perform_caching on/off at runtime, so we need the filters to 
-    # be registered no matter what. perform_caching is checked at all relevant other 
+    # We want to turn perform_caching on/off at runtime, so we need the filters to
+    # be registered no matter what. perform_caching is checked at all relevant other
     # places, too, though.
     # return unless perform_caching
     options = actions.extract_options!
@@ -36,9 +36,9 @@ ActionController::Assertions::RoutingAssertions.module_eval do
   def recognized_request_for(path, request_method = nil)
     path = "/#{path}" unless path.first == '/'
 
-    request = ActionController::TestRequest.new({}, {}, nil)
+    request = ActionController::TestRequest.new
     request.env["REQUEST_METHOD"] = request_method.to_s.upcase if request_method
-    # Overwritten to use the existing request's host if present because Rails always 
+    # Overwritten to use the existing request's host if present because Rails always
     # creates a new request and gives us no way to initialize the request host
     request.host = @request.host if @request
     request.path   = path
