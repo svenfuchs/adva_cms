@@ -15,9 +15,6 @@ module CacheableFlash
     end
 
     cookies['flash'] = cookie_flash.to_json
-    
-    # JMH -- removed this. why not allow the receiving view to decide which type of flash msg to use?    
-    # Sv -- put it back for now. it results in all flash messages being displayed twice
     flash.clear 
   end
 end
