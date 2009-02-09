@@ -52,6 +52,20 @@ module Webrat
     end
     
     alias_method :match_tag, :have_tag
+    
+    # Asserts that the body of the response contains
+    # the supplied tag with the associated selectors
+    def assert_have_tag(name, attributes = {})
+      ht = HaveTag.new([name, attributes])
+      assert ht.matches?(response_body), ht.failure_message
+    end
+    
+    # Asserts that the body of the response
+    # does not contain the supplied string or regepx
+    def assert_have_no_tag(name, attributes = {})
+      ht = HaveTag.new([name, attributes])
+      assert !ht.matches?(response_body), ht.negative_failure_message
+    end
 
   end
 end

@@ -45,6 +45,7 @@ module Webrat
         when "file"     then FileField
         when "reset"    then ResetField
         when "submit"   then ButtonField
+        when "button"   then ButtonField
         when "image"    then ButtonField
         else  TextField
         end
@@ -79,7 +80,7 @@ module Webrat
       
       case Webrat.configuration.mode
       when :rails
-        ActionController::AbstractRequest.parse_query_parameters("#{name}=#{escaped_value}")
+        rails_request_parser.parse_query_parameters("#{name}=#{escaped_value}")
       when :merb
         ::Merb::Parse.query("#{name}=#{escaped_value}")
       else
@@ -96,6 +97,15 @@ module Webrat
     end
     
   protected
+  
+    def rails_request_parser
+      if defined?(ActionController::AbstractRequest)
+        ActionController::AbstractRequest
+      else
+        # For Rails > 2.2
+        ActionController::UrlEncodedPairParser
+      end
+    end
   
     def form
       Form.load(@session, form_element)
@@ -168,7 +178,7 @@ module Webrat
   class ButtonField < Field #:nodoc:
 
     def self.xpath_search
-      [".//button", ".//input[@type = 'submit']", ".//input[@type = 'image']"]
+      [".//button", ".//input[@type = 'submit']", ".//input[@type = 'button']", ".//input[@type = 'image']"]
     end
     
     def to_param
