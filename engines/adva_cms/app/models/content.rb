@@ -36,7 +36,7 @@ class Content < ActiveRecord::Base
   has_many :assets, :through => :asset_assignments
   has_many :asset_assignments # TODO shouldn't that be :dependent => :delete_all?
   has_many :categories, :through => :category_assignments
-  has_many :category_assignments # TODO shouldn't that be :dependent => :delete_all?
+  has_many :category_assignments, :as => :content # TODO shouldn't that be :dependent => :delete_all?
   has_many :activities, :as => :object # move to adva_activity?
 
   before_validation :set_site
