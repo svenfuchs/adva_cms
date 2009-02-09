@@ -30,6 +30,7 @@ ActionController::Routing::RouteSet::NamedRouteCollection.class_eval do
     code = generate_optimisation_block_without_filtering *args
     if match = code.match(%r(^return (.*) if (.*)))
       <<-code
+
         if #{match[2]}
           result = #{match[1]}
           ActionController::Routing::Routes.filters.run :around_generate, *args, &lambda{ result }
