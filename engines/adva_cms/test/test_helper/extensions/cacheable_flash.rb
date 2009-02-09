@@ -5,8 +5,9 @@ module CacheableFlash
   module TestHelpers
     def flash_cookie
       return {} unless cookies['flash']
-      flash = CGI::unescape cookies['flash'].first
-      HashWithIndifferentAccess.new JSON.parse(flash)
+      flash = CGI::unescape cookies['flash']
+      flash = flash ? JSON.parse(flash) : {}
+      HashWithIndifferentAccess.new flash
     end
   end
 end
