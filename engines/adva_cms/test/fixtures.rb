@@ -94,7 +94,7 @@ CachedPage.create! :site_id => site.id,
                    :section_id => section.id,
                    :url => "http://#{site.host}"
 
-plugin = Engines.plugins[:test_plugin].clone
-plugin.owner = site
-plugin.options = { :string => 'string', :text => 'text'}
-plugin.save!
+# plugin = Rails.plugins[:test_plugin].clone
+# plugin.owner = site
+# plugin.options = { :string => 'string', :text => 'text'}
+# plugin.save!
