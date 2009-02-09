@@ -8,7 +8,9 @@ require_dependency 'theme/file'
 class Theme < ActiveRecord::Base
   cattr_accessor :root_dir
   @@root_dir = "#{RAILS_ROOT}/public"
-  @@default_preview = "#{RAILS_ROOT}/public/images/adva_cms/preview.png"
+
+  cattr_accessor :default_preview
+  @@default_preview = "#{::File.dirname(__FILE__)}/../../public/images/adva_themes/preview.png"
 
   class << self
     def base_dir
@@ -68,7 +70,7 @@ class Theme < ActiveRecord::Base
     end
   
     def create_preview
-      self.preview = Preview.create! :theme => self, :data => ::File.new(@@default_preview)
+      self.preview = Preview.create! :theme => self, :data => ::File.new(default_preview)
     end
   
     def delete_theme_dir
