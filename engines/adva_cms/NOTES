@@ -1,3 +1,9 @@
+Rails 2.3: applied
+http://rails.lighthouseapp.com/projects/8994-ruby-on-rails/tickets/1712-template-is-missing-error-for-engine-in-production-environment#ticket-1712-5
+http://rails.lighthouseapp.com/attachments/86359/do-not-override-plugin-view-path.diff
+
+------------------------------------------------------------------------------
+
 1. ActiveForm http://activeform.rubyforge.org/
 2. Formtastic http://github.com/justinfrench/formtastic/tree/master
 3. SemanticFormBuilder http://github.com/rubypond/semantic_form_builder/tree/master
@@ -32,8 +38,6 @@ FormBuilder.for(Article).define(:buttons) do |form|
 	form.commit_button :save
 	form.cancel_button
 end
-
-
 
 ------------------------------------------------------------------------------
 
