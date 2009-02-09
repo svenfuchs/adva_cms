@@ -15,9 +15,6 @@ ActiveRecord::Base.observers += ['activities/activity_observer', 'activities/art
                                  'activities/topic_observer']
 I18n.load_path += Dir[File.dirname(__FILE__) + '/locale/**/*.yml']
 
-# add Stylesheets
-# for Rails 2.3
-# ActionView::Helpers::AssetTagHelper.stylesheet_expansions[:adva_cms_admin] += 'adva_cms/admin/activities'
-
-# for Rails 2.2
-ActionView::Helpers::AssetTagHelper::StylesheetSources.expansions[:adva_cms_admin] += ['adva_cms/admin/activities']
+# register javascripts and stylesheets
+ActionView::Helpers::AssetTagHelper.register_javascript_expansion :adva_cms_admin => ['adva_cms/admin/asset.js', 'adva_cms/admin/asset_widget.js']
+ActionView::Helpers::AssetTagHelper.register_stylesheet_expansion :adva_cms_admin => ['adva_cms/admin/activities']

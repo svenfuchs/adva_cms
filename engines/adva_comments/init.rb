@@ -9,11 +9,6 @@ ActiveSupport::Dependencies.autoloaded_constants -= %w(ActionController::ActsAsC
 
 require 'format'
 
-# add JavaScripts and Stylesheets
-# for Rails 2.3
-# ActionView::Helpers::AssetTagHelper.javascript_expansions[:adva_cms_admin] += ['adva_cms/admin/comment.js']
-# ActionView::Helpers::AssetTagHelper.stylesheet_expansions[:adva_cms_public] += ['adva_cms/comments']
-
-# for Rails 2.2
-ActionView::Helpers::AssetTagHelper::JavaScriptSources.expansions[:adva_cms_admin] += ['adva_cms/admin/comment.js']
-ActionView::Helpers::AssetTagHelper::StylesheetSources.expansions[:adva_cms_public] += ['adva_cms/comments']
+# register javascripts and stylesheets
+ActionView::Helpers::AssetTagHelper.register_javascript_expansion :adva_cms_admin  => ['adva_cms/admin/comment.js']
+ActionView::Helpers::AssetTagHelper.register_stylesheet_expansion :adva_cms_public => ['adva_cms/comments']

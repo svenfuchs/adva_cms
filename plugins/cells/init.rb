@@ -1,5 +1,5 @@
 # Copyright (c) 2007-2008 Nick Sutterer <apotonick@gmail.com>
-# Copyright (c) 2007-2008 Solide ICT by Peter Bex <peter.bex@solide-ict.nl> 
+# Copyright (c) 2007-2008 Solide ICT by Peter Bex <peter.bex@solide-ict.nl>
 # and Bob Leers <bleers@fastmail.fm>
 # Some portions and ideas stolen ruthlessly from Ezra Zygmuntowicz <ezmobius@gmail.com>
 #
@@ -43,21 +43,23 @@ if Cell.engines_available?
   config.after_initialize do
     Engines.plugins.each do |plugin|
       engine_cells_dir = File.join([plugin.directory, "app/cells"])
-      
+
       # add view paths:
       if File.exists?(engine_cells_dir)
-        Cell::Base.view_paths << engine_cells_dir 
+        Cell::Base.view_paths << engine_cells_dir
         # add code path:
         ActiveSupport::Dependencies.load_paths << engine_cells_dir
       end
     end
   end
-  
+
 end
 
-# calls Dispatcher#to_prepare, so the views get reloaded after each request 
+# Rails 2.3 reload! does not exist anymore since
+# http://github.com/rails/rails/commit/558ab327b733717f4a8de3ed62b8dcd62e9ff9c3
+# calls Dispatcher#to_prepare, so the views get reloaded after each request
 # in development mode.
-config.to_prepare do
-  Cell::Base.view_paths.reload!
-end
+# config.to_prepare do
+#   Cell::Base.view_paths.reload!
+# end
 

@@ -5,9 +5,5 @@ config.to_prepare do
   Section.register_type 'Wiki'
 end
 
-# add JavaScripts
-# for Rails 2.3
-# ActionView::Helpers::AssetTagHelper.javascript_expansions[:adva_cms_admin] += ['adva_cms/admin/wikipage.js']
-
-# for Rails 2.2
-ActionView::Helpers::AssetTagHelper::JavaScriptSources.expansions[:adva_cms_admin] += ['adva_cms/admin/wikipage.js']
+# register javascripts and stylesheets
+ActionView::Helpers::AssetTagHelper.register_javascript_expansion :adva_cms_admin  => ['adva_cms/admin/wikipage.js']
