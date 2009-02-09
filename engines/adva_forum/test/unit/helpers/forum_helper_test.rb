@@ -1,18 +1,14 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../test_helper.rb')
 
-class ForumHelperTest < ActiveSupport::TestCase
+class ForumHelperTest < ActionView::TestCase
   include ForumHelper
-  include ActionView::Helpers::UrlHelper
-  include ActionView::Helpers::TagHelper
-  include ActionView::Helpers::RecordIdentificationHelper
-  include ActionView::Helpers::TranslationHelper
 
 	def setup
 	  super
 	  @topic = Topic.first
 	  # FIXME find a way to remove stubbing
 
-    @controller = ActionView::TestController.new
+    @controller = TestController.new
     @request = ActionController::TestRequest.new
 
     @topic_path = @controller.send(:topic_path, @topic.section, @topic.permalink)

@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../../../test_helper'
 
-class AdminCommentsHelperTest < ActiveSupport::TestCase
+class AdminCommentsHelperTest < ActionView::TestCase
   include Admin::CommentsHelper
   
   test "translates comment_expiration_options" do

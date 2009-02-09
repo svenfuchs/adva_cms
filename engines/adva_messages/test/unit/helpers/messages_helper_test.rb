@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../test_helper.rb')
 
-class MessagesHelperTest < ActiveSupport::TestCase
+class MessagesHelperTest < ActionView::TestCase
   include MessagesHelper
   
   def setup

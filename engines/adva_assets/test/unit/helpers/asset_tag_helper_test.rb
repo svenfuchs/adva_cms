@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../../test_helper'
 
-class AssetTagHelperTest < ActiveSupport::TestCase
+class AdminBaseHelperTest < ActionView::TestCase
   include AssetTestHelper
 
   def setup

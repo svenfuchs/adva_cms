@@ -1,18 +1,15 @@
 require File.dirname(__FILE__) + '/../../test_helper'
 
-class ThemesHelperTest < ActiveSupport::TestCase
+class ThemesHelperTest < ActionView::TestCase
   include ThemeTestHelper
   include ThemesHelper
-  include ActionView::Helpers::AssetTagHelper
-  include ActionView::Helpers::TagHelper
-  include ActionView::Helpers::UrlHelper
   
   def setup
     super
 
     @theme = Theme.find_by_theme_id 'a-theme'
     @site = @theme.site
-    @controller = ActionView::TestController.new
+    @controller = TestController.new
     @request = ActionController::TestRequest.new
     
     @controller.instance_variable_set(:@site, @site)
