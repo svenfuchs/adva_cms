@@ -7,7 +7,7 @@ class IssueIntegrationTest < ActionController::IntegrationTest
     @newsletter = @site.newsletters.first
     Issue.destroy_all
   end
-  
+
   test "admin manages issues" do
     login_as_admin
     visit_newsletters
@@ -24,7 +24,7 @@ private
     visit "/admin/sites/#{@site.id}/newsletters/"
     assert_template "admin/newsletters/index"
   end
-  
+
   def submit_empty_issue_and_fail
     click_link @newsletter.title
 
@@ -37,9 +37,9 @@ private
     click_button "Save"
 
     assert_template "admin/issues/new"
-    response.body.should have_tag ".field_with_error"
+    response.body.should have_tag(".field_with_error")
   end
-  
+
   def submit_draft_issue
     assert_template "admin/issues/new"
     fill_in :issue_title, :with => "draft issue title"
@@ -53,7 +53,7 @@ private
       issue.sholud have_tag("p", "draft issue body")
     end
   end
-  
+
   def submit_non_draft_issue
     click_link "Create a new issue"
 
@@ -87,8 +87,8 @@ private
       issue.should have_tag("p", "EDITED issue body")
     end
   end
-  
-  def delete_issue 
+
+  def delete_issue
     assert_template "admin/issues/show"
     assert_equal 1, @newsletter.issues.count
     click_link "Delete issue"

@@ -10,12 +10,12 @@ class IssueDeliverieIntegrationTest < ActionController::IntegrationTest
     @issue.draft = 0
     @issue.save
   end
-  
+
   def teardown
     super
     remove_all_test_cronjobs
   end
-  
+
   test "admin manages issue deliveries" do
     login_as_admin
     visit_issue
@@ -24,10 +24,10 @@ class IssueDeliverieIntegrationTest < ActionController::IntegrationTest
     send_all_later
     try_to_cancel_delivery_when_delivered
   end
-    
+
 private
-  
-  def visit_issue 
+
+  def visit_issue
     visit "/admin/sites/#{@site.id}/newsletters/#{@newsletter.id}/issues/#{@issue.id}"
 
     assert_template "admin/issues/show"
@@ -41,14 +41,14 @@ private
     assert_template "admin/issues/show"
     assert_flash "Issue was successfully added to the delivery queue"
   end
-  
+
   def cancel_delivery
     assert_template "admin/issues/show"
     click_button "Cancel delivery"
 
     assert_template "admin/issues/show"
     assert_flash "Delivery was successfully cancelled"
-    response.body.should have_tag "#issue" do |issue|
+    response.body.should have_tag("#issue") do |issue|
       issue.should have_tag("h2", "issue title")
       issue.should have_tag("span.state", "On hold")
       issue.should have_tag("p", "issue body")
@@ -65,13 +65,13 @@ private
 
     assert_template "admin/issues/show"
     assert_flash "Cannot cancel delivery because the issue has already been delivered."
-    response.body.should have_tag "#issue" do |issue|
+    response.body.should have_tag("#issue") do |issue|
       issue.should have_tag("h2", "issue title")
       issue.should have_tag("span.state", "On hold")
       issue.should have_tag("p", "issue body")
     end
   end
-  
+
   def send_all_later
     assert_template "admin/issues/show"
     click_button "Send later"
@@ -79,7 +79,7 @@ private
     assert_template "admin/issues/show"
     assert_flash "Issue was successfully added to the queue to deliver later"
   end
-  
+
   def send_preview
     assert_template "admin/issues/show"
     click_link "Send preview"
