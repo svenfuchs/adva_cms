@@ -1,20 +1,15 @@
 class Admin::AssetsController < Admin::BaseController
-  # member_actions.push(*%w(index new create latest search add_bucket clear_bucket edit update))
-  # skip_before_filter :login_required
-  # before_filter :login_required
-
   include AssetsHelper
-  helper :assets
+  helper :assets, :asset_tag
   helper_method :created_notice
-
-  before_filter :set_search_params, :set_assets, :only => [:index]
+  before_filter :set_assets, :only => [:index] # :set_filter_params, 
   before_filter :set_format, :only => [:create]
   before_filter :set_asset, :only => [:edit, :update, :destroy]
 
   guards_permissions :asset
 
   def index
-    @recent = @assets.slice! 0, 4 if params[:source] != 'widget'
+    @recent = @assets.slice!(0, 4) if params[:source] != 'widget' # TODO hu?
     respond_to do |format|
       format.html
       format.js
@@ -34,7 +29,9 @@ class Admin::AssetsController < Admin::BaseController
         flash[:notice] = created_notice
         redirect_to(admin_assets_path)
       end
-      format.js { responds_to_parent { render :action => 'create' } }
+      format.js do
+        responds_to_parent { render :action => 'create' }
+      end
     end
   rescue ActiveRecord::RecordInvalid => e
     respond_to do |format|
@@ -42,7 +39,9 @@ class Admin::AssetsController < Admin::BaseController
         flash[:error] = t(:'adva.assets.flash.upload.failure')
         render :action => 'new'
       end
-      format.js { responds_to_parent { render :action => 'flash_error' } }
+      format.js do
+        responds_to_parent { render :action => 'flash_error' }
+      end
     end
   end
 
@@ -61,26 +60,20 @@ class Admin::AssetsController < Admin::BaseController
   def destroy
     @asset.destroy
     redirect_to admin_assets_path
-    (session[:bucket] || {}).delete(@asset.public_filename)
+    (session[:bucket] || {}).delete(@asset.base_url)
     flash[:notice] = t(:'adva.assets.flash.delete.success', :filename => @asset.filename)
   end
 
   protected
 
     def set_assets
-      @types  = params[:filter].blank? ? [] : params[:filter].keys
-      options = search_options.merge(:per_page => params[:limit], :page => current_page, :total_entries => count_by_conditions)
-      @assets = @types.any? ? site.assets.paginate_by_content_types(@types, :all, options) : site.assets.paginate(options)
+      options = { :per_page => params[:limit] || 24, :page => current_page }
+      filters = normalize_filters(params[:filters])
+      @assets = site.assets.filter_by(*filters).paginate(options)
     end
 
     def set_asset
       @asset = @site.assets.find params[:id]
-    end
-
-    def set_search_params
-      params[:conditions] ||= { :title => true, :tags => true }
-      params[:query] = params[:query].downcase + '%' unless params[:query].blank?
-      params[:limit] ||= 24
     end
 
     def set_format
@@ -88,40 +81,24 @@ class Admin::AssetsController < Admin::BaseController
     end
 
     def created_notice
-      # TODO: is the logic here backwards?
+      # TODO: isn't the logic here backwards?
       @assets.size ?
         t(:'adva.assets.flash.create.first_success', :asset => CGI.escapeHTML(@assets.first.title) ) :
         t(:'adva.assets.flash.create.success', :count => @assets.size )
     end
 
-    def search_options
-      return @search_options if @search_options
-
-      @search_options = returning :conditions => [] do |options|
-        options[:include] = []
-        unless params[:query].blank?
-          if params[:conditions].has_key?(:title)
-            options[:conditions] << Asset.send(:sanitize_sql, ['(LOWER(assets.title) LIKE :query or LOWER(assets.filename) LIKE :query)', {:query => params[:query]}])
-          end
-          if params[:conditions].has_key?(:tags)
-            options[:include] << :tags
-            options[:conditions] << Asset.send(:sanitize_sql, ["(taggings.taggable_type = 'Asset' and tags.name IN (?))", TagList.from(params[:query].chomp("%"))])
-          end
-        end
-        options[:conditions].blank? ? options.delete(:conditions) : options[:conditions] *= ' OR '
-        options.delete(:include) if options[:include].empty?
+    # The filter bar html does not deliver exactly the filter params format that
+    # could be directly piped to the filter_by scope, so we'll rearrange it. 
+    # Someone with javascript superpowers might want to change this , so we could
+    # get rid of this monster method.
+    def normalize_filters(filters)
+      return [] if filters.blank?
+      filters.symbolize_keys!
+      media_types, query = filters.values_at(:media_types, :query)
+      returning([]) do |result|
+        columns = [:title, :tags_list].reject { |column| filters[column].blank? }
+        result << [:contains, columns, query] unless query.blank? or columns.empty?
+        result << [:is_media_type, media_types.keys] if media_types
       end
-    end
-
-    def count_by_conditions
-      type_conditions = @types.blank? ? nil : Asset.types_to_conditions(@types.dup).join(" OR ")
-      @count_by_conditions ||= search_options[:conditions].blank? ? site.assets.count(:all, :conditions => type_conditions) :
-        Asset.count(:joins => search_options[:joins],
-                    :conditions => "site_id = #{site.id} #{type_conditions && "and #{type_conditions}"} AND #{search_options[:conditions]}",
-                    :include => search_options[:include])
-    end
-
-    def allow_member?
-      @asset && @asset.user_id.to_s == current_user.id.to_s
     end
 end

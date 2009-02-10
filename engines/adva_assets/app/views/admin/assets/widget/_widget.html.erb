@@ -1,4 +1,5 @@
 <div id="assets_widget" class="_clearing">
+<div id="assets-widget" class="_clearing">
   <ul class="tabs">
     <li id="tab_attached_assets"><a href="#" title="<%=t :'adva.assets.tab.attached.title' %>"><%=t :'adva.assets.tab.attached.name' %></a></li>
     <li id="tab_latest_assets"><a href="#" title="<%=t :'adva.assets.tab.latest.title' %>"><%=t :'adva.assets.tab.latest.name' %></a></li>
@@ -34,8 +35,8 @@
       Upload an asset 
       <img class="spinner" src="/images/adva_cms/indicator.gif" alt="spinner" style="display:none" />
     </label><br />
-    <%= file_field_tag "assets[0][uploaded_data]", :id => "asset_uploaded_data" %>
-    <input id="upload_assets_button" type="button" value="Upload" />
-    <ul id="uploaded_assets" class="asset_list"></ul>
+    <%= file_field_tag "assets[0][data]", :id => "asset-uploaded-data" %>
+    <input id="upload-assets-button" type="button" value="Upload" />
+    <ul id="uploaded-assets" class="asset-list"></ul>
   </div>
 </div>

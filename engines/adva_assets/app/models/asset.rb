@@ -1,124 +1,135 @@
+Paperclip::Attachment.interpolations.merge! \
+  :asset_file_url  => proc { |data, style| data.instance.url(style)  },
+  :asset_file_path => proc { |data, style| data.instance.path(style) }
+
+# FIXME how to tell paperclip to only create thumbnails etc from images?
+
+require 'has_filter'
+
 class Asset < ActiveRecord::Base
-  cattr_accessor :base_dir
-  @@base_dir = RAILS_ROOT + '/public/assets'
+  cattr_accessor :root_dir
+  @@root_dir = "#{RAILS_ROOT}/public"
 
-  # used for extra mime types that dont follow the convention
-  @@extra_content_types = { :audio => ['application/ogg'], :movie => ['application/x-shockwave-flash'], :pdf => ['application/pdf'] }.freeze
-  cattr_reader :extra_content_types
+  # used for recognizing exceptional mime types
+  @@content_types = {
+    :image => [],
+    :audio => ['application/ogg', 'application/x-wav'],
+    :video => ['application/x-shockwave-flash', 'application/x-mov'],
+    :pdf   => ['application/pdf', 'application/x-pdf']
+  }
+  cattr_reader :content_types
 
-  # use #send due to a ruby 1.8.2 issue
-  @@movie_condition = send(:sanitize_sql, ['content_type LIKE ? OR content_type IN (?)', 'video%', extra_content_types[:movie]]).freeze
-  @@audio_condition = send(:sanitize_sql, ['content_type LIKE ? OR content_type IN (?)', 'audio%', extra_content_types[:audio]]).freeze
-  @@image_condition = send(:sanitize_sql, ['content_type IN (?)', Technoweenie::AttachmentFu.content_types]).freeze
-  @@other_condition = send(:sanitize_sql, [
-    'content_type NOT LIKE ? AND content_type NOT LIKE ? AND content_type NOT IN (?)',
-    'audio%', 'video%', (extra_content_types[:movie] + extra_content_types[:audio] + Technoweenie::AttachmentFu.content_types)]).freeze
-  cattr_reader *%w(movie audio image other).collect! { |t| "#{t}_condition".to_sym }
+  # do we really want this? or do we want to just overwrite existing assets
+  # instead? or even add a config option?
+  before_save :ensure_unique_filename
 
   belongs_to :site
   has_many :contents, :through => :asset_assignments
   has_many :asset_assignments, :order => 'position', :dependent => :delete_all
-  has_attachment :storage => :file_system,
-                 :thumbnails => { :thumb => '120>', :tiny => '50>' },
-                 :max_size => 30.megabytes,
-                 :processor => (Object.const_defined?(:ASSET_IMAGE_PROCESSOR) ? ASSET_IMAGE_PROCESSOR : nil)
-
   acts_as_taggable
+  
+  has_filter :data_file_name, :title, :tags_list
 
-  before_validation_on_create :set_site_from_parent
+  has_attached_file :data, :styles => { :medium => "300x300>", :thumb => "120x120#", :tiny => "50x50#" },
+                           :url    => ":asset_file_url",
+                           :path   => ":asset_file_path"
+
   validates_presence_of :site_id
-  validates_as_attachment
-  validate :rename_unique_filename
+  validates_attachment_presence :data
+  validates_attachment_size :data, :less_than => 30.megabytes
+
+  named_scope :is_media_type, lambda { |types|
+    content_type_conditions(types)
+  }
+
+  # no idea where these would ever be used?
+  content_types.keys.each do |type|
+    named_scope type.to_s.pluralize, lambda {
+      content_type_conditions(type)
+    }
+  end
+  named_scope :others, lambda {
+    content_type_conditions(content_types.keys - [:pdf], :exclude => true )
+  }
 
   class << self
-    def movie?(content_type)
-      content_type.to_s =~ /^video/ || extra_content_types[:movie].include?(content_type)
+    def base_url
+      '/assets'
     end
 
-    def audio?(content_type)
-      content_type.to_s =~ /^audio/ || extra_content_types[:audio].include?(content_type)
+    def base_dir(site)
+      Site.multi_sites_enabled ?
+        "#{root_dir}/sites/#{site.perma_host}/assets" :
+        "#{root_dir}/assets"
+    end
+    
+    [:image, :video, :audio, :pdf, :other].each do |type|
+      define_method("#{type}?") do |content_type|
+        Mime::Type.lookup(content_type).to_s.starts_with(type.to_s) ||
+          content_types[type].try(:include?, content_type) || false
+      end
     end
 
     def other?(content_type)
-      ![:image, :movie, :audio].any? { |a| send("#{a}?", content_type) }
+      ![:image, :video, :audio, :pdf].any? { |type| send(:"#{type}?", content_type) }
     end
 
-    def pdf?(content_type)
-      extra_content_types[:pdf].include? content_type
-    end
+    protected
 
-    def find_all_by_content_types(types, *args)
-      with_content_types(types) { find *args }
-    end
+      def content_type_conditions(types, options = {})
+        types = Array(types)
+        operator, negator = options[:exclude] ? [' AND ', 'NOT '] : [' OR ', nil]
 
-    def with_content_types(types, &block)
-      with_scope(:find => { :conditions => types_to_conditions(types).join(' OR ') }, &block)
-    end
+        patterns = types.map { |type| "#{type}%" }
+        types    = types.map &:to_sym
+        values   = content_types.slice(*types).values.flatten
+        query    = ["data_content_type #{negator}IN (?)"] +
+                   [" data_content_type #{negator}LIKE ?"] * types.size
 
-    def types_to_conditions(types)
-      types.collect! { |t| '(' + send("#{t}_condition") + ')' }
-    end
-  end
-
-  # attachment_fu fix: prevent files from being reprocessed and filenames regenerated
-  # when no file has been uploaded (e.g. only tags being saved)
-  def save_attachment?
-    @temp_paths && File.file?(temp_path.to_s)
-  end
-
-  def full_filename(thumbnail = nil)
-    file_system_path = (thumbnail ? thumbnail_class : self).attachment_options[:file_system_path]
-    File.join(base_dir, permalink, thumbnail_name_for(thumbnail))
+        { :conditions => [query.join(operator), values, *patterns] }
+      end
   end
 
   def title
     t = read_attribute(:title)
-    t.blank? ? filename : t
+    t.blank? ? data_file_name : t
   end
 
-  # def public_filename_with_host(thumbnail = nil)
-  #   returning public_filename_without_host(thumbnail) do |s|
-  #     s.sub! %r(^/assets/[^/]+/), '/assets/' unless Site.multi_sites_enabled
-  #   end
-  # end
-  # alias_method_chain :public_filename, :host
-
-  after_attachment_saved do |record|
-    File.chmod 0644, record.full_filename
-    Asset.update_all ['thumbnails_count = ?', record.thumbnails.count], ['id = ?', record.id] unless record.parent_id
+  [:image, :video, :audio, :pdf, :other].each do |type|
+    define_method("#{type}?") { self.class.send("#{type}?", data_content_type) }
   end
 
-  [:movie, :audio, :other, :pdf].each do |content|
-    define_method("#{content}?") { self.class.send("#{content}?", content_type) }
+  def base_url(style = :original, fallback = false)
+    style = :original unless style == :original or File.exists?(path(style))
+    [self.class.base_url, filename(style)].to_path
   end
 
-  def to_liquid
-    AssetDrop.new self
+  def path(style = :original)
+    [self.class.base_dir(site), filename(style)].to_path
+  end
+
+  def filename(style = :original)
+    style == :original ? data_file_name : [basename, style, extname].to_path('.')
+  end
+
+  def basename
+    data_file_name.gsub(/\.#{extname}$/, "")
+  end
+
+  def extname
+    File.extname(data_file_name).gsub(/^\.+/, '')
   end
 
   protected
-    def rename_unique_filename
-      if (@old_filename || new_record?) && errors.empty? && site_id && filename
-        i      = 1
-        pieces = filename.split('.')
-        ext    = pieces.size == 1 ? nil : pieces.pop
-        base   = pieces * '.'
-        while File.exists?(full_filename)
-          write_attribute :filename, base + "_#{i}#{".#{ext}" if ext}"
+
+    def ensure_unique_filename
+      if new_record? || changes['data_file_name']
+        basename, extname = self.basename, self.extname
+        i = extname =~ /^\d+\./ ? $1 : 1
+        while File.exists?(path)
+          self.data_file_name = [basename, i, extname].to_path('.')
           i += 1
         end
       end
-    end
-
-    def permalink
-      date = created_at || Time.zone.now
-      pieces = [date.year, date.month, date.day]
-      # pieces.unshift site.perma_host if Site.multi_sites_enabled
-      pieces.unshift "sites/#{site.id}" if Site.multi_sites_enabled
-      pieces * '/'
-    end
-
-    def set_site_from_parent
-      self.site_id = parent.site_id if parent_id
     end
 end

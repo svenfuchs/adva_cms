@@ -20,10 +20,6 @@
     <%= f.select :author, author_options, :selected => author_preselect %>
   </p>
   <p>
-    <%= f.label :filter %>
-    <%= f.select :filter, filter_options, {}, :class => 'columnsFilter' %>
-  </p>
-  <p>
     <%= f.label :comment_age, t(:'adva.titles.comments') %>
     <%= f.select :comment_age, comment_expiration_options %>
   </p>

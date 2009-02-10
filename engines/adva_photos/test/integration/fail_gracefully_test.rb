@@ -2,30 +2,34 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', 'test_helper' )
 
 class FailGracefullyTest < ActionController::IntegrationTest
   def setup
-    # Note to self, login_as deletes all the users, so photo.author
-    # does not work anymore. Thats why it has to come before scenario.
-    login_as          :anonymous
-    factory_scenario  :site_with_an_album_sets_and_tags
+    super
+    @site = use_site! 'site with sections'
   end
   
-  def test_fails_gracefully_when_user_tries_to_sort_photos_by_non_existant_tag
-    # Sort photos by non-existant tag
-    get '/tags/null'
-    
+  test 'fails gracefully when user tries to sort photos by non existant tag' do
+    visit '/an-album/tags/null'
+    display_album
+  end
+  
+  test 'fails gracefully when user tries to sort photos by non existant set' do
+    visit '/an-album/sets/null'
+    display_album
+  end
+  
+  test 'fails gracefully when user tries to find non existant photo' do
+    visit '/an-album/photos/6f6'
+    redirect_back_to_album
+  end
+  
+  def visit(path)
+    get path
+  end
+  
+  def redirect_back_to_album
+    assert_redirected_to '/an-album'
+  end
+  
+  def display_album
     assert_template 'albums/index'
-  end
-  
-  def test_fails_gracefully_when_user_tries_to_sort_photos_by_non_existant_set
-    # Sort photos by non-existant set
-    get '/sets/null'
-    
-    assert_template 'albums/index'
-  end
-  
-  def test_fails_gracefully_when_user_tries_to_find_non_existant_photo
-    # Non-existant photo
-    get '/photos/666'
-    
-    assert_redirected_to '/'
   end
 end

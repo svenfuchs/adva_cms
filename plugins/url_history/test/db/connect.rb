@@ -4,7 +4,7 @@ rescue ActiveRecord::ConnectionNotEstablished => e
 
   dir_name = File.dirname(__FILE__)
   log_file = "#{dir_name}/../log/test.log"
-  db_file  = "#{dir_name}/url_history.sqlite3.db"
+  db_file  = "#{dir_name}/test.sqlite3.db"
 
   FileUtils.mkdir_p(File.dirname(log_file)) unless File.exists?(File.dirname(log_file))
 

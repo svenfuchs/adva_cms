@@ -1,3 +1,5 @@
+require_dependency 'site'
+
 class Section < ActiveRecord::Base
 =begin
   class Jail < Safemode::Jail
@@ -10,12 +12,11 @@ class Section < ActiveRecord::Base
   
   acts_as_role_context :actions => ["create article", "update article", "delete article"],
                        :parent => Site
-                       
   
   serialize :permissions
 
   has_option :articles_per_page, :default => 15
-  has_permalink :title, :scope => :site_id
+  has_permalink :title, :url_attribute => :permalink, :only_when_blank => true, :scope => :site_id
   acts_as_nested_set
   has_many_comments
   instantiates_with_sti
@@ -37,7 +38,8 @@ class Section < ActiveRecord::Base
     end
   end
 
-  before_validation :set_path, :set_comment_age
+  before_validation :set_comment_age
+  before_save :update_path
 
   validates_presence_of :title # :site wtf ... this breaks install_controller#index
   validates_uniqueness_of :permalink, :scope => :site_id
@@ -92,8 +94,14 @@ class Section < ActiveRecord::Base
       self.comment_age ||= -1
     end
 
-    def set_path
-      self.path = build_path
+    def update_path
+      if permalink_changed?
+        new_path = build_path
+        unless self.path == new_path
+          self.path = new_path
+          @paths_dirty = true
+        end
+      end
     end
 
     def build_path

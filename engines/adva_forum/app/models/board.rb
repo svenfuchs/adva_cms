@@ -1,34 +1,25 @@
 class Board < ActiveRecord::Base
-  has_counter :topics
-  belongs_to_author :last_author, :validate => false
   acts_as_role_context :parent => Section
-
-  delegate :topics_per_page, :comments_per_page, :to => :section
+  has_counter :topics
 
   before_validation :set_site
   after_create      :assign_topics
-  # Needs to be here before associations, otherwise topics are deleted on last board
-  before_destroy    :unassign_topics, :decrement_counters
-  # Needs to be here after before_destroy, otherwise topics posts are lost when last board is deleted
-  has_many_comments
-
-  belongs_to :site
-  belongs_to :section
-
-  has_many :topics,         :order => "topics.sticky desc, topics.last_updated_at desc",
-                            :foreign_key => :board_id,
-                            :dependent => :delete_all
-
-  has_one  :recent_topic,   :class_name => 'Topic',
-                            :order => "topics.last_updated_at DESC",
-                            :foreign_key => :board_id
-
-  has_one  :recent_comment, :class_name => 'Post',
-                            :order => "comments.created_at DESC",
-                            :foreign_key => :board_id
+  before_destroy    :unassign_topics, :decrement_counters # must happen before associations
+                    
+  belongs_to        :site
+  belongs_to        :section
+  belongs_to_author :last_author, :validate => false
+  has_many          :topics, :foreign_key => :board_id, :dependent => :delete_all, 
+                             :order => "topics.sticky desc, topics.last_updated_at desc"
+  has_many_comments :class_name => 'Post' # must happen after before_destroy
   
+  validates_presence_of :title
+  
+  delegate :topics_per_page, :comments_per_page, :to => :section
+
+  # FIXME somehow remove the method_chain here. looks ugly.
   def after_comment_update_with_cache_attributes(comment)
-    comment = comment.frozen? ? comments.last_one : comment
+    comment = comment.frozen? ? comments.last : comment
     update_attributes! :last_updated_at => (comment ? comment.created_at : nil), 
                        :last_comment_id => (comment ? comment.id : nil), 
                        :last_author     => (comment ? comment.author : nil)

@@ -1,66 +1,78 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'test_helper' ))
+require File.expand_path(File.join(File.dirname(__FILE__), "..", "test_helper" ))
 
-class SubscriptionsTest < ActionController::IntegrationTest
+class SubscriptionIntegrationTest < ActionController::IntegrationTest
   def setup
-    factory_scenario :site_with_newsletter
-    login_as :admin
-    visit "/admin/sites/#{@site.id}/newsletters/"
-
-    assert_template 'admin/newsletters/index'
-    click_link @newsletter.title
-
-    assert_template 'admin/issues/index'
+    super
+    @site = use_site! "site with newsletter"
+    @newsletter = @site.newsletters.first
+    Subscription.destroy_all
   end
   
-  test 'admin opens index: should have no list, should have link to add subscribers' do
-    click_link 'Subscribers'
-
-    assert_template 'admin/newsletter_subscriptions/index'
-    assert_select '.empty'
-    assert_select '.empty>a', 'Add a new subscriber'
+  test "admin manages subscriptions" do
+    login_as_admin
+    visit_subscriptions
+    add_site_user
+    add_subscriber
+    try_to_add_same_subscriber
+    unsubscribe
   end
   
-  test 'admin adds subscriber: should add new subscriber to the newsletter and total subscribers should be 1' do
-    click_link 'Add a new subscriber'
-    
-    assert_template 'admin/newsletter_subscriptions/new'
-    select 'John Doe'
-    click_button 'Add'
+private
 
-    assert_template 'admin/newsletter_subscriptions/index'
-    assert_content 'John Doe'
-    assert_content 'Total subscribers: 1'
+  def visit_subscriptions
+    visit "/admin/sites/#{@site.id}/newsletters/#{@newsletter.id}/subscriptions"
 
-    # admin tries to add same subscriber second time: should show link add new user to the site
-    click_link 'Add a new subscriber'
+    assert_template "admin/newsletter_subscriptions/index"
+    response.body.should have_tag ".empty>a", "Add a new subscriber"
+  end
+  
+  def add_site_user
+    @site.users.destroy_all
+
+    assert_template "admin/newsletter_subscriptions/index"
+    click_link "Add a new subscriber"
+
+    assert_template "admin/newsletter_subscriptions/new"
+    response.body.should have_tag ".empty", /Site does not have any available user/
+    response.body.should have_tag ".empty>a", "Add a new user" 
     
-    assert_template 'admin/newsletter_subscriptions/new'
-    assert_content 'Site does not have any available user'
-    click_link 'Add a new user'
+    # adding site user is out of scope of this test
+    site_user = User.create! :first_name => 'newsletter site user',
+                             :email => 'newsletter-site-user@example.com',
+                             :password => 'password',
+                             :verified_at => Time.now
+    site_user.should_not == nil
+    @site.users << site_user
+    @site.save!
     
-    # admin unsubscribe John Doe 
+    click_link "Subscribers"
+  end
+  
+  def add_subscriber
+    @site.users.should_not == []
+
+    assert_template "admin/newsletter_subscriptions/index"
+    click_link "Add a new subscriber"
+
+    assert_template "admin/newsletter_subscriptions/new"
+    select "newsletter site user"
+    click_button "Add"
+
+    assert_template "admin/newsletter_subscriptions/index"
+    response.body.should have_tag "td>a", "newsletter site user"
+    response.body.should have_tag "p", "Total subscribers: 1"
+  end
+
+  def try_to_add_same_subscriber
+    assert_template "admin/newsletter_subscriptions/index"
+    click_link "Add a new subscriber"
+    
+    assert_template "admin/newsletter_subscriptions/new"
+    response.body.should have_tag ".empty", /Site does not have any available user/
+    response.body.should have_tag ".empty>a", "Add a new user"
+  end
+  
+  def unsubscribe
     # TODO: bring on selenium test for that
-  end
-end
-
-class SubscriptionWithNoSiteUsersTest < ActionController::IntegrationTest
-  def setup
-    factory_scenario :site_with_newsletter
-    login_as :superuser
-    assert_equal 0, @site.users.size
-    visit "/admin/sites/#{@site.id}/newsletters/"
-
-    assert_template 'admin/newsletters/index'
-    click_link @newsletter.title
-
-    assert_template 'admin/issues/index'
-  end
-
-  test 'admin adds a news subscriber: should have no list, should show a link to add new user to the site' do
-    click_link 'Add a new subscriber'
-    
-    assert_template 'admin/newsletter_subscriptions/new'
-    assert_select '.empty'
-    assert_select '.empty>a', 'Add a new user'
   end
 end

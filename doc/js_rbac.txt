@@ -14,14 +14,14 @@ We can have three tiers:
 edit page that requires the user to be at least the author of the comment could
 look like this:
 
-<a class="visible-for site-1-admin section-1-moderator comment-1-author">edit</a>
+<a class="newsletter_stats site-1-admin section-1-moderator comment-1-author">edit</a>
 
 A link to a wikipage's edit page that requires a user to be logged in could be:
 
-<a class="visible-for user">edit</a>
+<a class="newsletter_stats user">edit</a>
 
 (A link to a wikipage's edit page that does not require any authorization
-would simply omit the visible-for class.)
+would simply omit the newsletter_stats class.)
 
 By explicitely listing the possible roles we avoid implementing a role
 hierarchie in the JS layer so the system stays more simple and better

@@ -44,7 +44,7 @@ class Admin::BoardsController < Admin::BaseController
   end
 
   def destroy
-    if @board.destroy
+    if @board.destroy # FIXME remove if else, or is there really a scenario for it?
       flash[:notice] = t(:'adva.boards.flash.destroy.success')
       redirect_to admin_boards_path
     else

@@ -1,4 +1,4 @@
-class AlbumsController < BaseController
+  class AlbumsController < BaseController
   include ActionController::GuardsPermissions::InstanceMethods
   helper :roles
 
@@ -36,7 +36,9 @@ class AlbumsController < BaseController
       options = { :page => current_page, :tags => @tags, :conditions => ["published_at IS NOT NULL"], :order => 'published_at DESC' }
       options[:limit] = request.format == :html ? @section.photos_per_page : 15
       # TODO i think a very expensive way to handle this one ;) .. throw away thing for now
-      source = @set ? @section.photos.collect {|photo| photo if photo.sets.include?(@set) } : @section.photos
+      source = @set ? 
+                @section.photos.collect {|photo| photo if photo.sets.include?(@set) && photo.published? }.compact :
+                @section.photos
       @photos = source.paginate options
     end
 
@@ -48,7 +50,7 @@ class AlbumsController < BaseController
     rescue ActiveRecord::RecordNotFound
       flash[:error] = "Photo you requested could not be found."
       write_flash_to_cookie # TODO make around filter or something
-      redirect_to album_path
+      redirect_to album_path(@section)
     end
 
     def set_set

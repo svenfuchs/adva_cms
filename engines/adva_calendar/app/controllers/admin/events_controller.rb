@@ -4,7 +4,7 @@ class Admin::EventsController < Admin::BaseController
 
   before_filter :set_section
   before_filter :set_event, :only => [:show, :edit, :update, :destroy]
-  before_filter :set_categories, :only => [:new, :edit]
+  before_filter :set_categories, :only => [:new, :edit, :create, :update]
 
   before_filter :params_draft, :only => [:create, :update]
   before_filter :params_published_at, :only => [:create, :update]

@@ -1,0 +1,206 @@
+**Introducting RR**
+
+I'm pleased to introduce a new Test Double framework names RR, which is short for Double Ruby.
+A Test Double is [double description]. You can read more about test doubles at http://xunitpatterns.com/Test%20Double.html.
+
+RR supports the following constructs:
+ * Mock
+ * Stub
+ * instance_of
+ * Probe
+
+**Mock**
+<pre>
+  real_user = User.new
+  mock(User).find('2') {real_user}
+</pre>
+
+The previous example overrides the User.find method and returns real_user. It also sets an expectation
+that the find method will receive the argument '2' once.
+
+**Stub**
+<pre>
+  user = User.new
+  my_article = articles(:my_article)
+  stub(user).can_edit?(my_article) {true}
+</pre>
+
+The previous example overrides can_edit?. When the method receives the article, it returns true.
+
+**instance_of**
+You can mock or stub instances of a class.
+<pre>
+  stub.instance_of(User).can_edit?(my_article) {true}
+</pre>
+
+The previous example stubs the can_edit? method of any intstance of User.
+
+**Probe**
+
+A probe is a test double strategy that lets the real method implementation be called, and allows you
+to intercept the return value, and possibly inject you own replacement return value.
+<pre>
+  my_article = articles(:my_article)
+  mock.probe(User).find('2') do |real_user|
+    stub.probe(real_user).can_edit?(my_article) {true}
+    real_user
+  end
+</pre>
+
+The previous example, lets the real User.find method call happen, and intercepts its return value inside
+of the block.
+
+The real_user's can_edit? method is then stubbed and probed to return true.
+
+**Thats nice, how is it useful?**
+
+As with any tool, Mocks and Stubs have limitations.
+For example, mocks alone do not verify that the mocked out method conforms to the real object's interface.
+Probes solve this issue.
+
+Adding a probe ensures that:
+ * The method call to User.find is valid
+ * The return value of User.find is available to validate and/or add test doubles to
+ * The method call to real_user.can_edit? is valid
+
+**I don't use Mocks. Why should I care?**
+
+State based testing is often the simplest and most straightforward way to make assertions.
+However Interaction assertions can serve as good documentation of how your system fits together.
+Interaction tests can also aid you in making your tests easier to set up and removing coupling between tests.
+
+Lets compare the state and interaction testing approaches in the can edit article example for the
+ArticlesController#edit action:
+
+**State Based Example**
+<pre>
+  user = users(:bob)
+  login(user)
+  my_article = articles(:my_article)
+  user.can_edit?(my_article).should == false
+
+  lambda do
+    post :edit, :id => my_article.id, :body => "Hello everybody"
+  end.should raise_error(SecurityTrangressionError)
+</pre>
+
+**Interaction Based Example**
+<pre>
+  user = users(:bob)
+  login(user)
+  my_article = articles(:my_article)
+  mock.probe(user).can_edit? {false}
+
+  lambda do
+    post :edit, :id => my_article.id, :body => "Hello everybody"
+  end.should raise_error(SecurityTrangressionError)
+</pre>
+
+These two examples are interesting because they verify slight different things.
+The interaction example states that when can_edit? with @article is called and returns false, a SecurityTrangressionError
+is raised.
+The state example gives information that bob cannot edit the article, and from that one can infer that
+bob trying to edit the article will raise a SecurityTrangressionError.
+
+State based testing tends to be more coupling than interaction based testing.
+Note that coupling is not necessarily bad.
+The state based example has both interface, data, and knowledge coupling compared to the interaction based test:
+ * Interface coupling - If can_edit? does not return false, there is an error.
+ * Fixture Data coupling - If the fixture data changes, there is an error.
+ * Knowledge coupling - The ArticleController test needs to know how can_edit? returns false
+
+Interface coupling is actually a good thing, because it verifies the User and ArticleController work
+together proberly. This sort of testing is functional or integration testing.
+
+The Data and Knowledge coupling are not desirable characteristics because they cause the
+developer to be concerned about another part of the system, which takes development time.
+It can also cause unwanted test failures when the global fixture data is changed or when a change
+occurs that makes the ArticleController's test setup logic incorrect.
+
+Martin Fowler also notes that interaction testing has coupling to the edit action's implementation,
+in that the interaction example states that User#can_edit? must be called for the test to pass.
+I've found that sometimes this is desirable and sometimes it is not desirable.
+
+The coupling to the implementation encourages more decomposition but it also makes
+causes brittleness because changing the edit action to call another method will cause
+the test to fail.
+
+I'm not proposing the right solution in this case, because it is dependent on
+your situation. One thing to consider is:
+ * Do you have functional or integration tests for the failure case?
+
+Taking the desirable and undesirable coupling into account
+
+Here is a view example that renders counts:
+
+**State Based Example**
+<pre>
+  user = users(:bob)
+  user.articles.count.should == 5
+  user.articles.comments.count.should == 15
+  user.gold_stars.count.should == 0
+
+  render :template => "users/show"
+  response.body.should include("Articles Posted: 5")
+  response.body.should include("Comments Received: 15")
+  response.body.should include("Gold Stars Received: 0")
+</pre>
+
+**Interaction Based Example**
+<pre>
+  user = User.new
+  mock.probe(user.articles).count {5}
+  mock.probe(user.articles.comments).count {15}
+  mock.probe(user.gold_stars).count {80}
+
+  render :template => "users/show"
+  response.body.should include("Articles Posted: 5")
+  response.body.should include("Comments Received: 15")
+  response.body.should include("Gold Stars Received: 80")
+</pre>
+
+The same tradeoffs are present in this view example as in the ActiclesController example,
+but the values of each of the tradeoffs are different.
+
+State testing couplings:
+ * Interface coupling - If count returns a non-number, there is an error.
+ * Fixture Data coupling - If the fixture data changes, there is an error.
+ * Knowledge coupling - There is no noticeable knowledge coupling.
+
+Interaction testing couplings:
+ * Implementation coupling - If the way the count is determined changes, there is an error.
+
+In these examples, it is fair to expect the counts derived from the fixtures to change quite often.
+Decoupling the counts from your fixtures yields more of a benefit because the interaction based example
+will probably not need to be changed as often as the state based example.
+
+The interaction based example also provides the benefits of:
+ * being faster because there is no database access
+ * providing more focus because non-count user data is not important to this example (the interaction example
+   ignores the user data while the state based approach includes the user data)
+ * not requiring you to change the fixture data to provide add "Gold Stars Received" because having
+   "Gold Stars Received: 0" is almost meaningless (It could easily be calling count on something else
+   that returns 0)
+
+**State vs. Interaction Based testing?**
+
+The examples I provided favor or are neutral to interaction based testing.
+This does not mean all testing should be done with interaction testing.
+There are many situations where state based testing is more
+straightforward and no more coupled than an interaction based test.
+
+Please pick the right toolset for your situation.
+In the future, I will blog about different situations and the trade-offs of
+using a state based approach, and/or an interaction based approach.
+
+**Extremely Bad Examples**
+
+Since this is a blog post, the examples are short and relatively benign.
+However, There are many examples where state and/or interaction
+based testing is overused and abused.
+Expanding your toolset can help you and your coworkers fix these issues.
+
+There are already several nice Mock/Stub frameworks in the ruby world. These libraries include:
+ * Mocha
+ * Flexmock
+ * Rspec's Mock Framework

@@ -21,12 +21,12 @@ end
 
 Rails::Configuration.class_eval do
   def default_plugins
-    [ :engines_config, :theme_support, :better_nested_set, :safemode, :adva_cms, :all ]
+    [ :engines_config, :better_nested_set, :safemode, :adva_cms, :all ]
   end
 
   def default_plugin_paths
     paths = ["#{root_path}/vendor/adva/engines", "#{root_path}/vendor/adva/plugins", "#{root_path}/vendor/plugins"]
-    paths << "#{root_path}/vendor/adva/spec" if ENV['RAILS_ENV'] == 'test'
+    paths << "#{root_path}/vendor/adva/test" if ENV['RAILS_ENV'] == 'test'
     paths
   end
 end
@@ -43,5 +43,6 @@ require 'bluecloth'
 require 'redcloth'
 require 'ruby_pants'
 require 'zip/zip'
-require 'haml'
 require 'cronedit'
+require 'activerecord' # paperclip needs activerecord to be present
+require 'paperclip'

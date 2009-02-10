@@ -1,7 +1,7 @@
 class Site < ActiveRecord::Base
   # TODO make sure the theme name doesn't have any slashes (forbid anything besides [\w\-_\.] ?)
-  acts_as_themed
   acts_as_role_context :actions => ["manage themes", "manage assets"]
+  has_many_themes
   has_many_comments
 
   serialize :permissions
@@ -33,15 +33,14 @@ class Site < ActiveRecord::Base
   has_many :deleted_newsletters
   has_many :locations
 
-  has_many :assets, :order => 'assets.created_at desc', :conditions => 'parent_id is null', :dependent => :destroy do
+  has_many :assets, :order => 'assets.created_at desc', :dependent => :destroy do
     def recent
       find(:all, :limit => 6)
     end
   end
   has_many :cached_pages, :dependent => :destroy, :order => 'cached_pages.updated_at desc'
 
-  before_validation :downcase_host, :replace_host_spaces # :permalinkaze_host
-  before_validation :downcase_host
+  before_validation :downcase_host, :replace_host_spaces # c'mon, can't this be normalize_host or something?
   before_validation :populate_title
   before_destroy :flush_page_cache
 
@@ -129,10 +128,6 @@ class Site < ActiveRecord::Base
     def replace_host_spaces
       self.host = host.to_s.gsub(/^\s+|\s+$/, '').gsub(/\s+/, '-')
     end
-
-    # def permalinkaze_host
-    #   self.host = PermalinkFu.escape(host)
-    # end
 
     def populate_title
       self.title = self.name if self.title.blank?

@@ -26,7 +26,7 @@ class Content < ActiveRecord::Base
   non_versioned_columns << 'cached_tag_list' << 'assets_count' << 'state'
   instantiates_with_sti
 
-  has_permalink :title, :scope => :section_id
+  has_permalink :title, :url_attribute => :permalink, :only_when_blank => true, :scope => :section_id
   filtered_column :body, :excerpt
 
   belongs_to :site
@@ -36,7 +36,8 @@ class Content < ActiveRecord::Base
   has_many :assets, :through => :asset_assignments
   has_many :asset_assignments # TODO shouldn't that be :dependent => :delete_all?
   has_many :categories, :through => :category_assignments
-  has_many :category_assignments # TODO shouldn't that be :dependent => :delete_all?
+  has_many :category_assignments, :as => :content # TODO shouldn't that be :dependent => :delete_all?
+  has_many :activities, :as => :object # move to adva_activity?
 
   before_validation :set_site
   # after_save :save_categories
@@ -129,18 +130,4 @@ class Content < ActiveRecord::Base
         categories << Category.find(:all, :conditions => ['id in (?)', category_ids])
       end
     end
-
-    # This is from Mephisto. Does it still make any sense? Can we kill it?
-    #
-    # def set_filter_from(filtered_object)
-    #   self.filter = filtered_object.filter
-    # end
-    #
-    # def set_default_filter_from(filtered_object)
-    #   set_filter_from(filtered_object) if filter.nil?
-    # end
-    #
-    # def set_default_filter!
-    #   set_default_filter_from user
-    # end
 end

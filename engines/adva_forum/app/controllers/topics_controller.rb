@@ -10,7 +10,8 @@ class TopicsController < BaseController
 
   guards_permissions :topic, :except => [:show, :index], :show => [:previous, :next]
   before_filter :guard_topic_permissions, :only => [:create, :update]
-
+  
+  # FIXME do we even use index action?
   def index
   end
 
@@ -49,7 +50,7 @@ class TopicsController < BaseController
   end
 
   def destroy
-    if @topic.destroy
+    if @topic.destroy # TODO uhm? what is the scenario where this actually fails?
       trigger_events @topic
       flash[:notice] = t(:'adva.topics.flash.destroy.success')
       redirect_to params[:return_to] || forum_path(@section)

@@ -35,7 +35,7 @@ class Admin::SectionsController < Admin::BaseController
       redirect_to edit_admin_section_path(@site, @section)
     else
       flash.now[:error] = t(:'adva.sections.flash.update.failure')
-      render :action => 'show'
+      render :action => 'edit'
     end
   end
 
@@ -45,7 +45,7 @@ class Admin::SectionsController < Admin::BaseController
       redirect_to new_admin_section_path
     else
       flash.now[:error] = t(:'adva.sections.flash.destroy.failure')
-      render :action => 'show'
+      render :action => 'edit'
     end
   end
 
@@ -54,6 +54,8 @@ class Admin::SectionsController < Admin::BaseController
     # for now we can omit this because this action will only be called when
     # a section actually moves
     # moving = !(params[:sections].values.first.keys & ['left_id', 'parent_id']).empty?
+    # TODO filter allowed attributes
+    # TODO expire cache by site
     @site.sections.update(params[:sections].keys, params[:sections].values)
     @site.sections.update_paths! # if moving
     render :text => 'OK'

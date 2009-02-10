@@ -1,19 +1,64 @@
+1. ActiveForm http://activeform.rubyforge.org/
+2. Formtastic http://github.com/justinfrench/formtastic/tree/master
+3. SemanticFormBuilder http://github.com/rubypond/semantic_form_builder/tree/master
+4. AccessibleFormBuilder http://github.com/shift/accessible_form_builder/tree/master
+5. ClassyForms http://github.com/sbfaulkner/classy_forms/tree/master
+
+http://github.com/sprsquish/conditions_fu/tree/master
+http://sprawsm.com/uni-form/
+
+FormBuilder.for(klass) looks for form builders defined for the klass, any of its
+parent classes or a default base form builder. So FormBuilder.for(Article) will
+look for:
+
+- FormBuilder::Article
+- FormBuilder::Content
+- FormBuilder::Base
+
+in this order and returns the first one that is defined.
+
+This evaluates the given block before the :button section is evaluated:
+
+FormBuilder.for(Article).before(:buttons) do |form|
+	form.input :meta_keywords
+	form.input :meta_description
+end
+
+This registers a block for a certain placeholder that would be evaluated when 
+form.buttons is called. The default form builder might define default blocks 
+that could be overwritten:
+
+FormBuilder.for(Article).define(:buttons) do |form|
+	form.commit_button :save
+	form.cancel_button
+end
+
+
+
+------------------------------------------------------------------------------
+
 http://pastie.org/private/brjpbkyvh4ubgnpum01dxq
 http://www.sitepoint.com/blogs/2006/03/03/us-ascii-transliterations-of-unicode-text/
 http://search.cpan.org/~sburke/Text-Unidecode-0.04/lib/Text/Unidecode.pm
 http://pivotallabs.com/users/cheister/blog/articles/603-unicode-transliteration-to-ascii
 http://rubyforge.org/projects/unidecode/
 http://www.jroller.com/obie/entry/fix_that_tranny_add_to
-
 http://github.com/phorsfall/salty_slugs/tree/master
 
-
-
+------------------------------------------------------------------------------
 
 <component name="blog/recent_articles" section_id="1" count="10" />
 <component name="user/recent_users" section_id="1" count="10" />
 
+------------------------------------------------------------------------------
 
+http://pastie.org/private/brjpbkyvh4ubgnpum01dxq
+http://www.sitepoint.com/blogs/2006/03/03/us-ascii-transliterations-of-unicode-text/
+http://search.cpan.org/~sburke/Text-Unidecode-0.04/lib/Text/Unidecode.pm
+http://pivotallabs.com/users/cheister/blog/articles/603-unicode-transliteration-to-ascii
+http://www.jroller.com/obie/entry/fix_that_tranny_add_to
+
+http://github.com/phorsfall/salty_slugs/tree/master
 
 
 adva_cms/lib/time_hacks.rb -- i18nize or replace with localize

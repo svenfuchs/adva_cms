@@ -46,7 +46,7 @@ ActionController::Routing::RouteSet.class_eval do
     @filters ||= RoutingFilter::Chain.new
   end
 
-  def recognize_path_with_filtering(path, env)
+  def recognize_path_with_filtering(path, env = {})
     path = path.dup # string is frozen due to memoize
     filters.run :around_recognize, path, env, &lambda{ recognize_path_without_filtering(path, env) }
   end

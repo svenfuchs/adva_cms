@@ -1,5 +1,6 @@
 class Topic < ActiveRecord::Base
-  has_permalink :title
+  # FIXME shouldn't this be scoped to topic and/or forum?
+  has_permalink :title, :url_attribute => :permalink, :only_when_blank => true 
   before_destroy :decrement_counter
   has_many_comments :as => :commentable, :class_name => 'Post'
 
@@ -12,6 +13,7 @@ class Topic < ActiveRecord::Base
   belongs_to :section
   belongs_to :board
   belongs_to :last_comment, :class_name => 'Comment', :foreign_key => :last_comment_id
+  has_many :activities, :as => :object # move to adva_activity?
 
   belongs_to_author
   belongs_to_author :last_author, :validate => false
@@ -45,9 +47,10 @@ class Topic < ActiveRecord::Base
     end
   end
   
+  # FIXME why not just overwrite update_attributes here and call super?
   def revise(attributes)
+    # self.sticky, self.locked = attributes.delete(:sticky), attributes.delete(:locked)
     board_id = attributes.delete(:board_id)
-    self.sticky, self.locked = attributes.delete(:sticky), attributes.delete(:locked)
     if result = update_attributes(attributes)
       move_to_board(board_id) if board_id
     end
@@ -55,6 +58,7 @@ class Topic < ActiveRecord::Base
   end
   
   def move_to_board(board_id)
+    # FIXME only move if the board_id actually different from self.board_id
     if board
       board.topics_counter.decrement!
       board.comments_counter.decrement_by!(comments_count)
@@ -77,7 +81,7 @@ class Topic < ActiveRecord::Base
   end
 
   def paged?
-    comments_count > @section.comments_per_page
+    comments_count > section.comments_per_page
   end
 
   def last_page
@@ -96,13 +100,14 @@ class Topic < ActiveRecord::Base
 
   # FIXME somehow remove the method_chain here. looks ugly.
   def after_comment_update_with_cache_attributes(comment)
-    if comment = comment.frozen? ? comments.last_one : comment
-      update_attributes! :last_updated_at => comment.created_at, :last_comment_id => comment.id, :last_author => comment.author
+    if comment = comment.frozen? ? comments.last : comment
+      update_attributes! :last_updated_at => comment.created_at, 
+                         :last_comment_id => comment.id, 
+                         :last_author => comment.author
+      after_comment_update_without_cache_attributes(comment)
     else
       self.destroy
     end
-    
-    after_comment_update_without_cache_attributes(comment)
   end
   alias_method_chain :after_comment_update, :cache_attributes
   

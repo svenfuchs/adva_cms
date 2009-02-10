@@ -1,5 +1,0 @@
-#!/usr/bin/env sh
-
-vendor/adva/script/specs --colour --format progress vendor/adva/engines && \
-vendor/adva/script/tests vendor/adva/engines && \
-vendor/adva/script/stories --colour --format=r vendor/adva/engines

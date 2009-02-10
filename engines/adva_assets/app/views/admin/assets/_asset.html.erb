@@ -1,5 +1,5 @@
 <div>
-  <%= link_to(asset_image_for(asset, size || :tiny), asset.public_filename, :target => '_blank') %>
+  <%= link_to(asset_tag(asset, :style => (size || :tiny)), asset.base_url) %>
   <%= "<h4>#{truncate(asset.title, :length => 20)}</h4>" if !asset.image? %>
   <ul class="asset_tools" style="display:none;">
     <li class="edit"><%= link_to t(:'adva.common.edit'), edit_admin_asset_path(@site, asset), :title => 'Edit this file' %></li>

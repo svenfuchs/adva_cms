@@ -1,0 +1,5 @@
+Themes and Files belonging to them are saved as database objects with Paperclip attachments. There are the Template, Javascript, Stylesheet and Image file types.
+
+All attachments are saved to a directory public/themes/[theme.id] in single-site mode and to public/themes/[site.id]/[theme.id] in multi-site mode.
+
+Assets are automatically moved into a subdirectory depending on their file type. E.g. templates will be moved to a templates/ subdirectory. The same happens for images, javascripts and stylesheets. All other files are placed directly into the theme directory.

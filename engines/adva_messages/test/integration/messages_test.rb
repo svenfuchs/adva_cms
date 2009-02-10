@@ -1,168 +1,74 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'test_helper' ))
 
-class AnonymousCannotAccessMessagesTest < ActionController::IntegrationTest
+class MessagesTest < ActionController::IntegrationTest
   def setup
-    factory_scenario :site_with_a_section
+    super
+    @site = use_site! 'site with sections'
+    @user = User.find_by_email('a-user@example.com')
+    @moderator = User.find_by_first_name('a moderator')
+    @message_received = @user.messages_received.first
+    @message_sent     = @user.messages_sent.first
+    @reply_to = @moderator.messages_sent.first
+    @conversation = @user.conversations.first
   end
   
-  def test_the_anonymous_user_visits_the_inbox
-    # go to inbox
-    get '/messages'
-    
-    # the page renders the login screen
-    assert_redirected_to login_path(:return_to => 'http://www.example.com/messages')
+  test 'the anonymous user visits the inbox' do
+    visit_inbox
+    redirect_to_login
   end
-end
+  
+  test 'the user visits the inbox' do
+    login_as_user
+    visit_inbox
+    display_inbox
+  end
+  
+  test 'the user visits the outbox' do
+    login_as_user
+    visit_outbox
+    display_outbox
+  end
 
-class UserBrowsesMessageFoldersTest < ActionController::IntegrationTest
-  def setup
-    factory_scenario :site_with_a_section
-    login_as :user
-    factory_scenario :conversation_with_messages
-  end
-  
-  def test_the_user_visits_the_inbox
-    # go to inbox
-    get '/messages'
-    
-    # the page renders the inbox
-    assert_template 'messages/index'
-  end
-  
-  def test_the_user_visits_the_outbox
-    # go to outbox
-    get '/messages/sent'
-    
-    # the page renders the outbox
-    assert_template 'messages/index'
-  end
-  
-  def test_the_user_visits_message_new_form_from_inbox
-    # go to inbox
-    get '/messages'
-    
-    # clicks a link to create a new message
+  test 'the user visits message new form from outbox' do
+    login_as_user
+    visit_outbox
     click_link 'New message'
-    
-    # the page renders the new form
-    assert_template 'messages/new'
+    display_new_form
+  end
+  
+  test 'the user deletes a message from inbox' do
+    login_as_user
+    visit_inbox
+    delete_the_received_message
   end
 
-  def test_the_user_visits_message_new_form_from_outbox
-    # go to inbox
-    get '/messages/sent'
+  test 'the user deletes a message from outbox' do
+    login_as_user
+    visit_outbox
+    delete_the_sent_message
+  end
     
-    # clicks a link to create a new message
+  test 'the user sends a message' do
+    login_as_user
+    visit_inbox
     click_link 'New message'
-    
-    # the page renders the new form
-    assert_template 'messages/new'
-  end
-end
-
-class UserManipulatesMessages < ActionController::IntegrationTest
-  def setup
-    factory_scenario :site_with_a_section
-    login_as :user
-    factory_scenario :user_with_conversation
+    display_new_form
+    fill_in_and_submit_the_new_form
   end
   
-  def test_the_user_deletes_a_message_from_inbox
-    # go to inbox
-    get '/messages'
-    
-    # user has received message
-    assert @user.messages_received.count == 1
-    
-    click_link 'delete'
-    
-    assert @user.messages_received.count == 0
+  test 'the user replies to a message' do
+    login_as_user
+    visit_inbox
+    click_reply_link
+    display_reply_form
+    fill_in_and_submit_the_reply_form
   end
 
-  def test_the_user_deletes_a_message_from_outbox
-    # go to outbox
-    get '/messages/sent'
-    
-    # user has sent message
-    assert @user.messages_sent.count == 1
-    
-    click_link 'delete'
-    
-    assert @user.messages_sent.count == 0
-  end
-    
-  def test_the_user_sends_a_message
-    johan_mcdoe = Factory :johan_mcdoe
-    
-    @site.users << johan_mcdoe
-    @site.users << @user
-    
-    # site has two users
-    assert @site.users.count == 2
-    
-    # go to message create form
-    get '/messages/new'
-    
-    # user has sent a message before
-    assert @user.messages_sent.count == 1
-    
-    # johan does not have any received messages yet
-    assert johan_mcdoe.messages_received.count == 0
-    
-    # user fills the message form
-    select       'Johan McDoe', :from => 'message[recipient_id]'
-    fill_in      'subject',     :with => 'the message subject'
-    fill_in      'body',        :with => 'the message body'
-    click_button 'Save'
-    
-    # user has sent one more message
-    assert @user.messages_sent.count == 2
-    
-    # and johan received one message
-    assert johan_mcdoe.messages_received.count == 1
-  end
-  
-  def test_the_user_replies_to_a_message
-    johan_mcdoe = Factory :johan_mcdoe
-    
-    @site.users << johan_mcdoe
-    @site.users << @user
-    
-    # user has one sent mail before
-    assert @user.messages_sent.count == 1
-    
-    # johan mcdoe has no received mail before
-    johan_mcdoe.messages_received.count == 0
-    
-    # go to inbox
-    get '/messages'
-    
-    # user has received one message from johan mcdoe
-    @message_received.update_attribute(:sender, johan_mcdoe)
-    
-    click_link 'reply'
-    
-    # the page renders the reply view
-    assert_template 'messages/reply'
-    
-    # user fills the message form
-    fill_in      'body',        :with => 'the reply body'
-    click_button 'Save'
-    
-    # the page renders the reply view
-    assert_template 'messages/index'
-    
-    # user has sent one more message
-    assert @user.messages_sent.count == 2
-    
-    # johan mcdoe has received the reply
-    johan_mcdoe.messages_received.count == 1
-  end
-  
-  # def test_the_user_marks_a_message_as_unread
-  #   # go to inbox
-  #   get '/messages'
-  #   
+  # TODO not implemented feature
+  #
+  # test 'the user marks a message as unread' do
+  #   login_as_user
+  #   visit_inbox
   #   # user has received message
   #   assert @user.messages_received.count == 1
   #   @message = @user.messages_received.first
@@ -173,4 +79,80 @@ class UserManipulatesMessages < ActionController::IntegrationTest
   #   
   #   assert @message.read_at == nil
   # end
+  
+  def visit_inbox
+    get '/messages'
+  end
+  
+  def visit_outbox
+    get '/messages/sent'
+  end
+  
+  def redirect_to_login
+    assert_redirected_to login_path(:return_to => "http://site-with-sections.com/messages")
+  end
+  
+  def display_inbox
+    assert_template 'messages/index'
+    has_tag "h2", :text => /Inbox/
+  end
+  
+  def display_outbox
+    assert_template 'messages/index'
+    has_tag "h2", :text => /Outbox/
+  end
+  
+  def display_new_form
+    assert_template 'messages/new'
+  end
+  
+  def delete_the_received_message
+    click_link "message_#{@message_received.id}_delete"
+    
+    @message_received.reload
+    assert @message_received.deleted_at_recipient != nil
+  end
+  
+  def delete_the_sent_message
+    click_link "message_#{@message_sent.id}_delete"
+    
+    @message_sent.reload
+    assert @message_sent.deleted_at_sender != nil
+  end
+  
+  def fill_in_and_submit_the_new_form
+    messages_count = @user.messages_sent.count
+    moderator_messages_count = @moderator.messages_received.count
+    
+    select       @moderator.name, :from => 'message[recipient_id]'
+    fill_in      'subject',      :with => 'the message subject'
+    fill_in      'body',         :with => 'the message body'
+    click_button 'Save'
+    
+    @user.reload
+    assert @user.messages_sent.count == messages_count + 1
+    @moderator.reload
+    assert @moderator.messages_received.count == moderator_messages_count + 1
+  end
+  
+  def display_reply_form
+    assert_template 'messages/reply'
+  end
+  
+  def fill_in_and_submit_the_reply_form
+    messages_count = @user.messages_sent.count
+    moderator_messages_count = @moderator.messages_received.count
+    
+    fill_in      'body',        :with => 'the reply body'
+    click_button 'Save'
+    
+    @user.reload
+    assert @user.messages_sent.count == messages_count + 1
+    @moderator.reload
+    assert @moderator.messages_received.count == moderator_messages_count + 1
+  end
+  
+  def click_reply_link
+    click_link "message_#{@reply_to.id}_reply"
+  end
 end

@@ -1,6 +1,6 @@
 <h1>Album</h1>
 <% if @album %>
 	<h2><%= @album.title %></h2>
-	<%= link_to image_tag(@photo.public_filename(:thumb)), album_path(@album.id) %>
+	<%= link_to image_tag(@photo.base_url(:thumb)), album_path(@album.id) %>
 	<p><%= link_to "View album (#{pluralize(@album.photos(:conditions => "published_at IS NOT NULL").size, "photo")})", album_path(@album.id) %></p>
 <% end %>

@@ -1,0 +1,20 @@
+<li class="theme<%= ' current' if theme.active? %>">
+  <h4 title="<%= theme.theme_id %>"><%= theme.name %></h4>
+  <p>
+    <% unless theme.version.blank? -%>v<%= theme.version %> |<% end -%>
+    <%= t(:'adva.common.by_author', :author => theme.author_link) %>
+  </p>
+  <% if theme.preview -%>
+		<%= link_to theme_image_tag(theme.theme_id, theme.preview.base_url, :title => theme.theme_id), admin_theme_path(@site, theme) %>
+	<% end -%>
+  
+	<ul class="options">
+    <% if theme.active? %>
+      <li><%= link_to t(:'adva.themes.links.unselect'), admin_site_selected_theme_path(@site, theme), { :confirm => t(:'adva.themes.confirm_unselect'), :method => :delete } %></li>
+    <% else %>
+      <li><%= link_to t(:'adva.themes.links.select'), admin_site_selected_themes_path(@site, :id => theme.id), { :confirm => t(:'adva.themes.confirm_select'), :method => :post } %></li>
+    <% end %>
+    <li><%= link_to t(:'adva.themes.links.edit'), admin_theme_path(@site, theme) %></li>
+    <li><%= link_to t(:'adva.themes.links.delete'), admin_theme_path(@site, theme), { :confirm => t(:'adva.themes.confirm_uninstall'), :method => :delete }  %></li>
+  </ul>
+</li>

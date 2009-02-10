@@ -188,6 +188,8 @@
 }
 #assets_widget .spinner {
 	vertical-align: middle;
+#assets-widget .spinner {
+	/*vertical-align: middle;*/
 }
 #search_assets_query {
 	width: 260px;

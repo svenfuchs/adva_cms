@@ -1,0 +1,52 @@
+1. Call super in setup!
+
+	If you use TestCase#setup to setup your test context, don't forget to call 
+	super! Same goes for #teardown. Currently important setup and teardown stuff
+	is run from those methods in your superclass (see test_helper.rb in 
+	adva_cms/test) so when you do not call super you're likely to break a lot of
+	stuff or even get passing but meaningless tests (because RR validates your
+	mock expectations in #teardown right now).
+
+	class YourTest < ActiveSupport::TestCase
+	  def setup
+	    super
+			# ... your stuff
+		end
+
+	  def teardown
+	    super
+			# ... your stuff
+		end
+	end
+
+2. Pay attention to your test case class names!
+
+	Coming from RSpec it is easy to forget that with Test/Unit test cases are 
+	just classes. So when you copy and paste another test case to start off with 
+	a barebone for a new test case you might forget to update the class name for 
+	the new test case.
+
+	You don't want duplicate class names because when run together these test 
+	cases will mix together to one big class and weird behaviour is very likely 
+	to occur. Duplicate class names for test cases can be annoying to fix 
+	because your tests will pass nicely when run in separate but clash when run 
+	together.
+	
+3. If possible set up your database fixtures in advance
+
+	Like with Rails fixtures we're setting up the database once. Except that we 
+	don't use yaml fixtures but simply instantiate our objects manually so far. 
+	You can look at adva_cms/test/fixtures.rb for an example.
+
+	This database setup happens once before any tests are run. Then before each 
+	test a transaction is started and after each test this transaction is rolled 
+	back. Thus, you can do whatever you want in your tests, the database will 
+	always again be in its original state after your test.
+
+	We're doing this for better performance but also because it is convenient to 
+	have a certain "unified" database state for all the tests (e.g. there's 
+	always a certain user with a certain name etc.)
+	
+	Of course, when you really need to you can always create your own database
+	objects "inline" during the tests. In general we ask you to use the 
+	transaction approach though because it is so much faster.

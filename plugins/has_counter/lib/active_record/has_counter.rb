@@ -38,14 +38,11 @@ module ActiveRecord
             alias_method_chain counter_name, :lazy_creation
           code
         
-          # after_create do |owner|
-          #   Counter.create! :owner => owner, :name => name.to_s
-          # end
-        
           # Wire up the counted class so that it updates our counter
           update = lambda{|record, event|
-            owner = record.send(owner_name) if record.respond_to? owner_name
-            if owner && owner.is_a?(self) && counter = owner.send(counter_name)
+            owner = record.send(owner_name) if record.respond_to?(owner_name)
+            # we do not call the counter when owner is not frozen (deleted)
+            if owner && owner.is_a?(self) && !owner.frozen? && counter = owner.send(counter_name)
               method = options[event]
               method = method.call(record) if Proc === method
               counter.send method if method

@@ -25,6 +25,6 @@ ActiveRecord::Base.class_eval do
   end
   
   def just_created?
-    changes['id'] and changes['id'].first.nil?
+    !!changes['id'] and changes['id'].first.nil?
   end
 end

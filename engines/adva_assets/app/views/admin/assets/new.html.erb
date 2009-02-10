@@ -10,7 +10,7 @@
     <div id="files">
     <% @assets.each_with_index do |asset, i| %>
       <p>
-        <%= file_field_tag "assets[#{i}][uploaded_data]", :id => "assets_data_#{i}", :class => 'file_field' %>
+        <%= file_field_tag "assets[#{i}][data]", :id => "assets_data_#{i}", :class => 'file_field' %>
         <%= text_field_tag "assets[#{i}][title]", asset.title, :class => 'title_field' %>
         <%= text_field_tag "assets[#{i}][tag_list]", asset.tag_list, :class => 'taglist_field' %>
         <a href="#" class="remove_file" title="<%=t :'adva.assets.delete' %>" style="display:none;"><%= image_tag '/images/adva_cms/icons/delete.png' %></a>

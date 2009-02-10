@@ -1,100 +1,141 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'test_helper' ))
 
-class AnonymousUserViewsPhotosTest < ActionController::IntegrationTest
+class FrontendTest < ActionController::IntegrationTest
   def setup
-    # Note to self, login_as deletes all the users, so photo.author
-    # does not work anymore. Thats why it has to come before scenario.
-    login_as          :anonymous
-    factory_scenario  :site_with_an_album_sets_and_tags
+    super
+    @site   = use_site! 'site with sections'
+    @album                  = Album.find_by_permalink('an-album')
+    @unpublished_photo      = Photo.find_by_title('a photo')
+    @photo                  = Photo.find_by_title('a published photo')
+    @photo_with_tag         = Photo.find_by_title('a published photo with tag')
+    @photo_with_set         = Photo.find_by_title('a published photo with set')
+    @photo_with_set_and_tag = Photo.find_by_title('a published photo with set and tag')
+    @set                    = Category.find_by_title('Summer')
+    @tag                    = Tag.find_by_name('Forest')
   end
   
-  def test_anonymous_user_views_the_album
-    # Goto album page
+  test 'an anonymous user views the album' do
+    visit_album
+    unpublished_photo_is_not_shown
+    
+    display_published_photo
+    display_published_photo_with_set
+    display_published_photo_with_tag
+    display_published_photo_with_set_and_tag
+  end
+
+  test 'an anonymous user views a set' do
+    visit_album
+    view_the_set
+    
+    unpublished_photo_is_not_shown
+    published_photo_is_not_shown
+    published_photo_with_tag_is_not_shown
+    
+    display_published_photo_with_set
+    display_published_photo_with_set_and_tag
+  end
+  
+  test 'an anonymous user views a tag' do
+    visit_album
+    view_the_tag
+    
+    unpublished_photo_is_not_shown
+    published_photo_is_not_shown
+    published_photo_with_set_is_not_shown
+    
+    display_published_photo_with_tag
+    display_published_photo_with_set_and_tag
+  end
+  
+  test 'an anonymous user views an empty tag' do
+    visit_album
+    view_the_empty_tag
+    
+    unpublished_photo_is_not_shown
+    published_photo_is_not_shown
+    published_photo_with_set_is_not_shown
+    published_photo_with_tag_is_not_shown
+    published_photo_with_set_and_tag_is_not_shown
+  end
+    
+  test 'an anonymous user views an empty set' do
+    visit_album
+    view_the_empty_set
+    
+    unpublished_photo_is_not_shown
+    published_photo_is_not_shown
+    published_photo_with_set_is_not_shown
+    published_photo_with_tag_is_not_shown
+    published_photo_with_set_and_tag_is_not_shown
+  end
+  
+  def visit_album
     get "/albums/#{@album.id}"
-    
-    # page renders albums index
     assert_template 'albums/index'
-    
-    # user sees all the photos
-    # except the unpublished photo ...
-    assert_select "div#photo_#{@photo.id}", false
-    
-    # the summer photo ...
-    assert_select "div#photo_#{@summer_photo.id}" do
-      assert_select "a[href='/photos/#{@summer_photo.id}']"
-    end
-    
-    # and the winter photo ...
-    assert_select "div#photo_#{@winter_photo.id}" do
-      assert_select "a[href='/photos/#{@winter_photo.id}']"
+  end
+  
+  def view_the_set
+    click_link @set.title
+    assert_template 'albums/index'
+  end
+  
+  def view_the_tag
+    click_link @tag.name
+    assert_template 'albums/index'
+  end
+  
+  def view_the_empty_tag
+    get "/an-album/tags/Empty"
+    assert_template 'albums/index'
+  end
+  
+  def view_the_empty_set
+    get "/an-album/sets/empty"
+    assert_template 'albums/index'
+  end
+  
+  def display_published_photo_with_set_and_tag
+    assert_select "div#photo_#{@photo_with_set_and_tag.id}" do
+      assert_select "a[href='/an-album/photos/#{@photo_with_set_and_tag.id}']"
     end
   end
   
-  def test_anonymous_user_views_a_summer_set
-    # Goto album page
-    get "/albums/#{@album.id}"
-    
-    # page renders albums index
-    assert_template 'albums/index'
-    
-    click_link @summer_set.title
-    
-    # page renders albums index
-    assert_template 'albums/index'
-    
-    # user sees the summer photo ...
-    assert_select "div#photo_#{@summer_photo.id}" do
-      assert_select "a[href='/photos/#{@summer_photo.id}']"
-    end
-    
-    # but not unpublished photo ...
-    assert_select "div#photo_#{@photo.id}", false
-    
-    # or winter photo
-    assert_select "div#photo_#{@winter_photo.id}", false
+  def published_photo_with_set_and_tag_is_not_shown
+    assert_select "div#photo_#{@photo_with_set_and_tag.id}", false
   end
   
-  def test_anonymous_user_views_a_seasons_tag
-    # Goto album page
-    get "/albums/#{@album.id}"
-    
-    # page renders albums index
-    assert_template 'albums/index'
-    
-    click_link @season_tag.name
-    
-    # page renders albums index
-    assert_template 'albums/index'
-    
-    # user sees the summer photo ...
-    assert_select "div#photo_#{@summer_photo.id}" do
-      assert_select "a[href='/photos/#{@summer_photo.id}']"
+  def display_published_photo_with_tag
+    assert_select "div#photo_#{@photo_with_tag.id}" do
+      assert_select "a[href='/an-album/photos/#{@photo_with_tag.id}']"
     end
-    
-    # and the winter photo ...
-    assert_select "div#photo_#{@winter_photo.id}" do
-      assert_select "a[href='/photos/#{@winter_photo.id}']"
+  end
+  
+  def published_photo_with_tag_is_not_shown
+    assert_select "div#photo_#{@photo_with_tag.id}", false
+  end
+  
+  def display_published_photo_with_set
+    assert_select "div#photo_#{@photo_with_set.id}" do
+      assert_select "a[href='/an-album/photos/#{@photo_with_set.id}']"
     end
-    
-    # but not unpublished photo ...
+  end
+  
+  def published_photo_with_set_is_not_shown
+    assert_select "div#photo_#{@photo_with_set.id}", false
+  end
+  
+  def display_published_photo
+    assert_select "div#photo_#{@photo.id}" do
+      assert_select "a[href='/an-album/photos/#{@photo.id}']"
+    end
+  end
+  
+  def published_photo_is_not_shown
     assert_select "div#photo_#{@photo.id}", false
   end
   
-  def test_anonymous_user_views_a_empty_tag
-    # Goto album page
-    get "/tags/Empty"
-    
-    # page renders albums index
-    assert_template 'albums/index'
-    
-    # user does not see any photos
-    # does not see the unpublished photo ...
-    assert_select "div#photo_#{@photo.id}", false
-    
-    # does not see the summer photo ...
-    assert_select "div#photo_#{@summer_photo.id}", false
-    
-    # does not see the winter photo ...
-    assert_select "div#photo_#{@winter_photo.id}", false
+  def unpublished_photo_is_not_shown
+    assert_select "div#photo_#{@unpublished_photo.id}", false
   end
 end

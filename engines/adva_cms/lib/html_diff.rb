@@ -7,7 +7,7 @@ end
 module HtmlDiff
   class << self
     def diff(str1, str2)
-      return 'gem diff/lcs is not installed' unless Diff::LCS
+      return 'gem diff/lcs is not installed' unless defined?(Diff::LCS)
       format = Formatter.new
       Diff::LCS.traverse_sequences(str1, str2, format)
       format.finish
