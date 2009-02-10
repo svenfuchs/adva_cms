@@ -1,5 +1,5 @@
 <fieldset>
-  <% @plugin.default_options.each do |name, option| %>
+  <% @plugin.option_definitions.each do |name, option| %>
     <p>  
       <%= f.label name, name %>
       <% if option[:type] == :text %>
