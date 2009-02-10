@@ -1,6 +1,6 @@
 map.section                     'sections/:section_id',
                                 :controller   => 'sections',
-                                :action       => "show",
+                                :action       => "index",
                                 :conditions => { :method => :get }
 
 map.section_article             'sections/:section_id/articles/:permalink',
