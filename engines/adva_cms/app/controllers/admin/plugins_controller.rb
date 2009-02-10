@@ -27,10 +27,10 @@ class Admin::PluginsController < Admin::BaseController
   protected
 
     def set_plugins
-      @plugins = @site.plugins
+      @plugins = @site.plugins.values
     end
 
     def set_plugin
-      @plugin = @site.plugins[params[:id]] or raise ActiveRecord::RecordNotFound
+      @plugin = @site.plugins[params[:id].to_sym] or raise ActiveRecord::RecordNotFound
     end
 end

@@ -23,7 +23,7 @@
 
 <h3><%= t(:'adva.titles.settings') %></h3>
 
-<% unless @plugin.default_options.empty? %>
+<% unless @plugin.option_definitions.empty? %>
   <% form_for :plugin, @plugin, :url => admin_plugin_path(@site), :html => { :method => :put } do |f| -%>
     <%= render :partial => 'form', :locals => {:f => f} %>
     <p class="buttons">

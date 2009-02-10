@@ -145,16 +145,17 @@ class SiteTest < ActiveSupport::TestCase
 
   # PLUGINS
   
-  test "should clone Engines.plugins" do
-    @site.plugins.first.object_id.should_not == Engines.plugins.first.object_id
+  test "should clone Rails.plugins" do
+    @site.plugins.values.first.should be_instance_of(Rails::Plugin)
+    @site.plugins.values.first.object_id.should_not == Rails.plugins.first.object_id
   end
 
   test "should set plugin owner to site" do
-    @site.plugins.first.instance_variable_get(:@owner).should == @site
+    @site.plugins.values.first.owner.should == @site
   end
 
   test "should save a plugin_configs per site" do
-    Engines::Plugin::Config.delete_all
+    Rails::Plugin::Config.delete_all
     sites = Site.all
 
     plugin_1 = sites.first.plugins[:test_plugin]
