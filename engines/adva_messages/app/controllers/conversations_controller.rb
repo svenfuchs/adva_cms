@@ -11,7 +11,7 @@ class ConversationsController < BaseController
   # def sent
   #   @conversations = current_user.conversations_sent
   #   
-  #   render :template => "conversations/index"
+  #   render :action => "index"
   # end
   
   def show

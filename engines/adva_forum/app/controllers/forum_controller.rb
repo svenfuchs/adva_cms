@@ -23,7 +23,6 @@ class ForumController < BaseController
     # we only need this topic for the topic/new form, right? if so, can we move
     # this to the form partial instead of using an instance variable?
     @topic = Topic.new(:section => @section, :board => @board, :author => current_user)
-    render @section.render_options
   end
 
   protected

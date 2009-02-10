@@ -41,7 +41,7 @@ class Admin::EventsController < Admin::BaseController
     else
       set_categories
       flash[:error] = t(:'adva.calendar.flash.create.failure')
-      render :action => 'new' and return
+      render :action => 'new'
     end
   end
 

@@ -31,7 +31,8 @@ class Admin::ArticlesController < Admin::BaseController
   def show
     @article.revert_to params[:version] if params[:version]
     subdir = @section.type == 'Section' ? 'sections' : @section.type.downcase
-    render @section.render_options(:layout => 'default').merge(:template => "#{subdir}/show")
+    # render @section.render_options(:action => :show, :layout => 'default').merge(:template => "#{subdir}/show")
+    render :template => "#{subdir}/show", :layout => 'default'
   end
 
   def new

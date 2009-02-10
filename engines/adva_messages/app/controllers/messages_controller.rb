@@ -1,7 +1,7 @@
 class MessagesController < BaseController
   authentication_required
   renders_with_error_proc :below_field
-  before_filter :set_message,         :only => [:show, :reply, :destroy]
+  before_filter :set_message, :only => [:show, :reply, :destroy]
   
   def index
     @message_box  = 'Inbox'
@@ -12,7 +12,7 @@ class MessagesController < BaseController
     @message_box  = 'Outbox'
     @messages     = current_user.messages_sent.paginate message_paginate_options
     
-    render :template => "messages/index"
+    render :action => "index"
   end
   
   def show

@@ -18,10 +18,9 @@ class WikiController < BaseController
 
   def index
     respond_to do |format|
-      format.html { render } # @section.render_options TODO causes specs to fail in Rails 2.2
+      format.html { } 
       format.atom { render :layout => false }
     end
-    # TODO @section.render_options.update(:action => 'show')
   end
 
   def new
@@ -30,15 +29,13 @@ class WikiController < BaseController
 
   def show
     set_categories if @wikipage.new_record?
-    if !@wikipage.new_record?
-      render # @section.render_options TODO causes specs to fail in Rails 2.2
-    elsif has_permission? :create, :wikipage
-      render :action => :new, :skip_caching => true
-    else
-      redirect_to_login t(:'adva.wiki.redirect_to_login')
+    if @wikipage.new_record?
+      if has_permission? :create, :wikipage
+        render :action => :new, :skip_caching => true
+      else
+        redirect_to_login t(:'adva.wiki.redirect_to_login')
+      end
     end
-    # options = @wikipage.new_record? ? {:action => :new} : @section.render_options
-    # render options
   end
 
   def diff

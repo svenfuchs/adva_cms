@@ -27,7 +27,7 @@ class Photo < ActiveRecord::Base
   belongs_to :section
   belongs_to :site
   has_many_comments :polymorphic => true
-  has_many :sets, :source => 'category', :through => :category_assignments
+  has_many :sets, :source => 'category', :through => :category_assignments # I wonder why this works :/re
   has_many :category_assignments, :as => :content
   
   # Some Content black magic

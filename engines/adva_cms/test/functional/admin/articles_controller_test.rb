@@ -55,7 +55,7 @@ class AdminArticlesControllerTest < ActionController::TestCase
   
     with :access_granted do
       it_assigns :articles
-      it_renders :template, lambda { @section.is_a?(Blog) ? 'blog/index' : 'articles/index' }
+      it_renders :template, lambda { @section.is_a?(Blog) ? 'admin/blog/index' : 'admin/articles/index' }
       
       it "displays an articles list" do
         has_tag 'p[class=total]', /total: \d article(s)?/i

@@ -17,8 +17,8 @@ class Section < ActiveRecord::Base
 
   has_option :articles_per_page, :default => 15
   has_permalink :title, :url_attribute => :permalink, :only_when_blank => true, :scope => :site_id
-  acts_as_nested_set
   has_many_comments
+  acts_as_nested_set
   instantiates_with_sti
 
   belongs_to :site
@@ -72,14 +72,6 @@ class Section < ActiveRecord::Base
     Content.tag_counts :conditions => "section_id = #{id}"
   end
 
-  def render_options(options = {:template => nil, :layout => nil})
-    options.merge options.keys.inject({}) { |options, type|
-      value = send(type)
-      options[type] = value.sub /^templates\//, '' unless value.blank?
-      options
-    }
-  end
-
   def root_section?
     self == site.sections.root
   end
@@ -87,8 +79,31 @@ class Section < ActiveRecord::Base
   def accept_comments?
     comment_age.to_i > -1
   end
+  
+  # :template => { :show => 'my_blog/show' },
+  # :layout   => { :show => 'layouts/special', :index => 'layouts/custom' }
+  #
+  # :template => 'my_blog',
+  # :layout   => 'custom'
+
+  def render_options(action)
+    @render_options ||= [:layout, :template].inject({}) do |options, type|
+      option = render_option(type, action)
+      options[type] = option if option
+      options
+    end
+  end
 
   protected
+
+    def render_option(type, action)
+      options = self.options || {}
+      option = options[type].is_a?(Hash) ? options[type][action.to_sym] : options[type]
+      if option and option.index('/').nil?
+        option = type == :template ? "#{option}/#{action}" : "layouts/#{option}" 
+      end
+      option
+    end
 
     def set_comment_age
       self.comment_age ||= -1

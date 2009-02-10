@@ -13,12 +13,10 @@ class SectionsController < BaseController
   
   def index
     action = true ? 'show' : 'index' # Section.is_a_simple_page_displaying_a_single_article?
-    # render @section.render_options TODO breaks specs on Rails 2.2
     render :action => action
   end
 
   def show
-    # render @section.render_options TODO breaks specs on Rails 2.2
   end
 
   protected
