@@ -12,7 +12,10 @@ class UrlHistoryAroundFilterTest < ActionController::TestCase
     @controller.instance_variable_set(:@article, @article)
 
     TestController.tracks_url_history(:foo => :bar)
-    ActionController::Routing::Routes.draw { |map| map.connect ':controller/:action/:permalink' }
+    ActionController::Routing::Routes.draw do |map| 
+      map.connect ':controller/:action/:permalink' 
+      map.connect ':controller/non_get', :action => 'non_get'
+    end
   end
 
   test "gets called" do
@@ -20,7 +23,7 @@ class UrlHistoryAroundFilterTest < ActionController::TestCase
     get :show, :permalink => @article.permalink
   end
 
-  test "saves the current url to the urls table if it's not already there" do
+  test "on GET requests it saves the current url to the urls table if it's not already there" do
     get :show, :permalink => @article.permalink
     assert_equal 1, Entry.count
 
@@ -29,11 +32,23 @@ class UrlHistoryAroundFilterTest < ActionController::TestCase
     assert entry.resource.is_a?(Article)
   end
 
-  test "does not write anything when an entry already exists" do
+  test "on GET requests it does not write anything when an entry already exists" do
     get :show, :permalink => @article.permalink
     entries = Entry.all
     get :show, :permalink => @article.permalink
     assert_equal 1, Entry.count
     assert_equal entries.first, Entry.first
+  end
+  
+  test "on POST requests it does not do anything" do
+    assert_no_difference('Entry.count') { post :non_get }
+  end
+  
+  test "on PUT requests it does not do anything" do
+    assert_no_difference('Entry.count') { put :non_get }
+  end
+  
+  test "on DELETE requests it does not do anything" do
+    assert_no_difference('Entry.count') { delete :non_get }
   end
 end

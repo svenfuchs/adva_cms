@@ -36,6 +36,10 @@ class TestController < ActionController::Base
     render :text => 'show'
   end
   
+  def non_get
+    render :text => 'non_get'
+  end
+  
   def current_resource
     @article
   end
