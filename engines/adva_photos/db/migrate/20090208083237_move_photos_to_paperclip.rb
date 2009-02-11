@@ -9,7 +9,6 @@ class MovePhotosToPaperclip < ActiveRecord::Migration
     remove_column :photos, :position
     remove_column :photos, :filter
 
-    remove_column :photos, :version
     remove_column :photos, :content_type
     remove_column :photos, :filename
     remove_column :photos, :thumbnail

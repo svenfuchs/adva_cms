@@ -10,7 +10,6 @@ class AddFileColumnsToPhoto < ActiveRecord::Migration
   end
 
   def self.down
-      remove_column :photos, :version
       remove_column :photos, :content_type
       remove_column :photos, :filename
       remove_column :photos, :thumbnail
