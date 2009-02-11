@@ -17,6 +17,7 @@ class Section < ActiveRecord::Base
 
   has_option :articles_per_page, :default => 15
   has_permalink :title, :url_attribute => :permalink, :sync_url => true, :only_when_blank => true, :scope => :site_id
+  has_many_comments
   acts_as_nested_set
   instantiates_with_sti
 

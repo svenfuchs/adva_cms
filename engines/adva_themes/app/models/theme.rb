@@ -25,10 +25,17 @@ class Theme < ActiveRecord::Base
   has_many :javascripts
   has_many :stylesheets
   has_one  :preview
+<<<<<<< HEAD:engines/adva_themes/app/models/theme.rb
 
   has_permalink :name, :url_attribute => :theme_id, :scope => :site_id,
                        :only_when_blank => false, :sync_url => true
 
+=======
+  
+  has_permalink :name, :url_attribute => :theme_id, :scope => :site_id, 
+                       :only_when_blank => false, :sync_url => true
+  
+>>>>>>> fix models to use StringEx's :sync_url and :only_when_blank in the right way: :permalink is generated from :title whenever the permalink attribute is blank:engines/adva_themes/app/models/theme.rb
   validates_presence_of :name
 
   after_create  :create_theme_dir, :create_preview
