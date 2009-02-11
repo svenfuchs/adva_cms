@@ -43,4 +43,7 @@ class TestController < ActionController::Base
   def current_resource
     @article
   end
+  
+  def default_record_not_found
+  end
 end

@@ -9,31 +9,55 @@ module UrlHistory
     module ActMacro
       def tracks_url_history(options = {})
         return if tracks_url_history?
-        
+
         include InstanceMethods
 
         class_inheritable_accessor  :url_history_options
         write_inheritable_attribute :url_history_options, options
 
         after_filter UrlHistory::AroundFilter
-        
+
         rescue_from ActiveRecord::RecordNotFound, :with => :url_history_record_not_found
       end
-    
+
       def tracks_url_history?
         included_modules.include? UrlHistory::Tracking::InstanceMethods
       end
     end
-  
+
     module InstanceMethods
-      def url_history_record_not_found
+      def url_history_record_not_found(exception)
         if entry = UrlHistory::Entry.recent_by_url(request.url)
           params = entry.updated_params.except('method')
           url = url_for(params)
           redirect_to url unless request.url == url
+        else
+          if handler = handler_for_rescue_except_url_history(exception)
+            handler.arity != 0 ? handler.call(exception) : handler.call
+          else
+            raise exception
+          end
         end
-        # FIXME need to re-raise the exception or pass to the next exception
-        # handler somehow ...
+      end
+      
+      # ugh. rescue_from does not allow chaining handlers. so instead of just
+      # re-raising the exception we need to reimplement the logic, look up the
+      # next handler and call it.
+      def handler_for_rescue_except_url_history(exception)
+        _, rescuer = Array(self.class.rescue_handlers).reverse.detect do |klass_name, handler|
+          unless handler == :url_history_record_not_found
+            klass = self.class.const_get(klass_name) rescue nil
+            klass ||= klass_name.constantize rescue nil
+            exception.is_a?(klass) if klass
+          end
+        end
+
+        case rescuer
+        when Symbol
+          method(rescuer)
+        when Proc
+          rescuer.bind(self.class)
+        end
       end
     end
   end

@@ -1,2 +1,2 @@
-db/*.db
-log/*.log
+./db/*.db
+./log/*.log
