@@ -4,20 +4,20 @@ applyOrRemoveFCKeditors = function() {
   // transform all textareas to FCKeditors, but only if filter is set to plain HTML
   if(filter && $F(filter) == '') {
     // by default, apply FCKeditor to all textareas
-    $$('textarea.use-wysiwyg').each(function(t) {
+    $$('textarea.use_wysiwyg').each(function(t) {
       // some calculations
       height = t.getDimensions()['height'];
       if(height == 0) height = 200; // default height = 200px
 
       // initialize FCKeditor
-      FCKeditor.BasePath = '/javascripts/adva_fckeditor/fckeditor/';
+      FCKeditor.BasePath = '/javascripts/fckeditor/fckeditor/';
       var oFCKeditor = new FCKeditor(t.id, '100%', height, 'adva-cms');
-      oFCKeditor.Config['CustomConfigurationsPath'] = '/javascripts/adva_fckeditor/config.js';
+      oFCKeditor.Config['CustomConfigurationsPath'] = '/javascripts/fckeditor/config.js';
       oFCKeditor.ReplaceTextarea();
     });
   } else {
     // otherwise remove instances
-    $$('textarea.use-wysiwyg').each(function(t) {
+    $$('textarea.use_wysiwyg').each(function(t) {
       f = $(t.id + '___Frame');
       c = $(t.id + '___Config');
       if(f) f.remove();
