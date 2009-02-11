@@ -6,6 +6,16 @@ E.g. in a blog permalinks usually are generated from a slug that is based on an 
 
 UrlHistory adds an controller after_filter that saves a reference mapping the current url to the current resource (e.g. the article). It also adds an exception handler for RecordNotFound exceptions that (when the requested URL could not find the article) will look for a saved entry for the current URL and redirect to the new URL for that resource.
 
+To activate it put the following line into a controller that you want to track URLs:
+
+<pre>
+class ArticlesController
+	tracks_url_history
+end
+</pre>
+
+As UrlHistory catches ActiveRecord::RecordNotFound exceptions make sure that you register any rescue_from handlers before that line.
+
 Two assumptions are made:
 
 * The controller needs to implement a method #current_resource that returns the current resource.
