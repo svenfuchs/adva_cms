@@ -31,7 +31,7 @@ paths = ARGV.clone
 paths = files_to_load(paths)
 
 unless paths.empty?
-  puts 'Running Adva tests...'
+  puts 'Running adva-cms tests...'
   # root_path = File.expand_path(File.dirname(__FILE__)).gsub!(/vendor.*/, '')
   # paths.each{|path| puts path.gsub(root_path, '') }
   paths.each{|path| require path }
