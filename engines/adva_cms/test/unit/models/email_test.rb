@@ -3,56 +3,37 @@ require File.expand_path(File.dirname(__FILE__) + '/../../test_helper')
 class EmailTest < ActiveSupport::TestCase
   def setup
     super
-    # FIXME move to db/populate
-    Email.delete_all
-    @email = Email.create! :from => "admin@example.org",
-                           :to   => "user@example.org",
+    @email = Email.create! :from => "admin@example.com",
+                           :to   => "user@example.com",
                            :mail => "add valid email here"
   end
   
-  teardown do
+  def teardown
+    super
     remove_all_test_cronjobs
   end
-
-  test "is valid with from, to and mail" do
+  
+  test "validations" do
     @email.should be_valid
+    @email.should validate_presence_of(:from)
+    @email.should validate_presence_of(:to)
+    @email.should validate_presence_of(:mail)
   end
 
-  test "is invalid without from" do
-    @email.from = nil
-    @email.should_not be_valid
+  test "##start_delivery should create a cronjob with command Email.deliver_all" do
+    response = Email.start_delivery
+    response.class.should == Cronjob 
+    response.command.should == "Email.deliver_all"
   end
   
-  test "is invalid without to" do
-    @email.to = nil
-    @email.should_not be_valid
-  end
-  
-  test "is invalid without mail" do
-    @email.mail = nil
-    @email.should_not be_valid
-  end
-  
-  # CLASS METHODS
-  
-  # create_cronjob
-  # FIXME fails with NoMethodError: undefined method `create_cronjob'
-  # test "creates a cronjob" do
-  #   response = Email.create_cronjob
-  #   response.class.should == Cronjob 
-  #   response.command.should == "Email.deliver_all"
-  # end
-  
-  # deliver_all
-  test "deliver_all removes cronjob when all emails are delivered" do
+  test "##deliver_all should autoremove cronjob when all emails are delivered" do
     Cronjob.create :cron_id => "email_deliver_all", :command => "test"
     Email.destroy_all
     Email.deliver_all
     Cronjob.find_by_cron_id("email_deliver_all").should be_nil
   end
   
-      
-  test "defaults to 150 mails of outgoing per process" do
+  test "outgoing mails per process should be 150" do
     Adva::Config.number_of_outgoing_mails_per_process = nil
     Adva::Config.number_of_outgoing_mails_per_process.should == 150
   end
