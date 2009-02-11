@@ -2,6 +2,7 @@ module UrlHistory
   class AroundFilter
     class << self
       def after(controller)
+        return unless controller.request.get?
         url = controller.request.url.gsub(/\?.*$/, '')
         Entry.find(:first, :conditions => ["url = ? ", url]) or create_entry!(controller, url)
       end
