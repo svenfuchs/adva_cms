@@ -2,7 +2,7 @@
 
 def files_to_load(paths)
   paths.reject!{|path| path =~ /^--/ } # ignore options
-  paths = ['.'] if paths.empty?
+  paths = [engines_path] if paths.empty?
   result = []
   paths.each do |path|
     if File.directory?(path)
@@ -23,11 +23,15 @@ def dir_pattern(path)
   File.join(path, '**', 'test', '**', '*_test.rb')
 end
 
+def engines_path
+  File.expand_path(File.dirname(__FILE__) + "/../engines")
+end
+
 paths = ARGV.clone
 paths = files_to_load(paths)
 
 unless paths.empty?
-  puts 'Running new-wave unit tests ...'
+  puts 'Running Adva tests...'
   # root_path = File.expand_path(File.dirname(__FILE__)).gsub!(/vendor.*/, '')
   # paths.each{|path| puts path.gsub(root_path, '') }
   paths.each{|path| require path }

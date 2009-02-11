@@ -57,9 +57,10 @@ Development
 
 Please check out /doc directory for high level overview about adva-cms.
  
-Running specs and int tests:
+Running tests:
   rake db:test:clone     # Clones from your development database to test database
-  ruby script/test-adva  # Runs all adva-cms specs and int tests
+  ruby script/test-adva  # Runs all adva-cms tests
+  ruby script/test-adva vendor/adva/engines/adva_wiki # Runs only adva_wiki tests
 
 Please report bugs to Lighthouse: 
   http://artweb-design.lighthouseapp.com/projects/13992-adva_cms/overview

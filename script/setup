@@ -39,14 +39,20 @@ patch_file rails_root + '/Rakefile',
 
 copy_with_backup "/vendor/adva/engines/adva_cms/config/initializers/adva.rb", "/config/initializers/adva.rb"
 
+File.open(rails_root + '/script/test-adva', "w") do |f|
+  f << "#!/usr/bin/env ruby\n"
+  f << "paths = ARGV.clone\n"
+  f << "load 'vendor/adva/script/test'\n"
+end
+
 puts <<END
   
-  Welcome to adva-cms!
+  Welcome to Adva-cms!
   
-  adva-cms is a cutting edge open source application platform
+  Adva-cms is a cutting edge open source application platform
   based on Ruby on Rails and Rails Engines.
 
-  Please run adva-cms migrations and start server:
+  Before start, please run Adva-cms migrations:
   
   rake db:migrate:all
   ruby script/server
@@ -54,6 +60,8 @@ puts <<END
   Open your browser at http://localhost:3000 and 
   say hello to your new app!
   
-  adva-cms team
+  Please read more info from README and /doc directory.
+  
+  Adva-cms team
 
 END
