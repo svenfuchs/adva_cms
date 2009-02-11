@@ -59,7 +59,7 @@ class ArticleTest < ActiveSupport::TestCase
                                         :permalink => @article.permalink }
   end
 
-  test '#full_permalinkraises an exception when the article does not belong to a Blog' do
+  test '#full_permalink raises an exception when the article does not belong to a Blog' do
     @article.reload
     @article.section = Section.new
     lambda{ @article.full_permalink }.should raise_error

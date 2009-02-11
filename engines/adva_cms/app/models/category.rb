@@ -5,7 +5,7 @@ class Category < ActiveRecord::Base
   end
 =end
   acts_as_nested_set
-  has_permalink :title, :url_attribute => :permalink, :only_when_blank => true, :scope => :section_id
+  has_permalink :title, :url_attribute => :permalink, :sync_url => true, :only_when_blank => true, :scope => :section_id
 
   belongs_to :section, :foreign_key => 'section_id'
   has_many :contents, :through => :category_assignments, :source_type => 'Content'
