@@ -13,7 +13,7 @@ module RoutingFilter
         # append the extension to the path unless it has a known extension
         unless result.blank? or result == '/'
           extensions = Mime::EXTENSION_LOOKUP.keys
-          result.replace("#{result}.html") unless result =~ /\.#{extensions.join('|')}(\?|$)/
+          result.replace(result.sub(/(\?|$)/, '.html\1')) unless result =~ /\.#{extensions.join('|')}(\?|$)/
         end
       end
     end
