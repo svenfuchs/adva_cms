@@ -29,8 +29,6 @@ class Wikipage < Content
 end
 
 class TestController < ActionController::Base
-  include UrlHistory::Tracking
-  
   def show
     Article.find_by_permalink(params[:permalink]) || raise(ActiveRecord::RecordNotFound)
     render :text => 'show'

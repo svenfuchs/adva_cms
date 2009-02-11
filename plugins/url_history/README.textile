@@ -16,6 +16,8 @@ end
 
 As UrlHistory catches ActiveRecord::RecordNotFound exceptions make sure that you register any rescue_from handlers before that line.
 
+tracks_url_history also registers a handler for ActionController::RoutingError exceptions. Rails makes it so that this handler can only kick in when registered to the ApplicationController or even ActionController::Base. Thus, if you want UrlHistory to handle routing errors, too (maybe you have some dynamic routing feature) then be sure to register your handlers on the appropriate controller class.
+
 Two assumptions are made:
 
 * The controller needs to implement a method #current_resource that returns the current resource.

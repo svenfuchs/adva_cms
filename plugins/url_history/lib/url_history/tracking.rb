@@ -7,17 +7,15 @@ module UrlHistory
     end
 
     module ActMacro
-      def tracks_url_history(options = {})
+      def tracks_url_history
         return if tracks_url_history?
 
         include InstanceMethods
 
-        class_inheritable_accessor  :url_history_options
-        write_inheritable_attribute :url_history_options, options
-
         after_filter UrlHistory::AroundFilter
 
-        rescue_from ActiveRecord::RecordNotFound, :with => :url_history_record_not_found
+        rescue_from ActiveRecord::RecordNotFound, ActionController::RoutingError, 
+                    :with => :url_history_record_not_found
       end
 
       def tracks_url_history?
@@ -30,13 +28,13 @@ module UrlHistory
         if entry = UrlHistory::Entry.recent_by_url(request.url)
           params = entry.updated_params.except('method')
           url = url_for(params)
-          redirect_to url unless request.url == url
+          redirect_to(url) and return unless request.url == url
+        end
+
+        if handler = handler_for_rescue_except_url_history(exception)
+          handler.arity != 0 ? handler.call(exception) : handler.call
         else
-          if handler = handler_for_rescue_except_url_history(exception)
-            handler.arity != 0 ? handler.call(exception) : handler.call
-          else
-            raise exception
-          end
+          raise exception
         end
       end
       
@@ -62,3 +60,5 @@ module UrlHistory
     end
   end
 end
+
+ActionController::Base.send :include, UrlHistory::Tracking
