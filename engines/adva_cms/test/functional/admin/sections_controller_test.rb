@@ -138,7 +138,7 @@ class AdminSectionsControllerTest < ActionController::TestCase
     
     with :access_granted do
       it "updates the site's sections with the section params" do
-        @section.reload.parent_id.should != @another_section.id
+        @section.reload.parent_id.should == @another_section.id
       end
     
       it "updates the section's paths" do
