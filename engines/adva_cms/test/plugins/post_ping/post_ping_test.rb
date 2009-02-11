@@ -1,4 +1,4 @@
-require File.expand_path(File.dirname(__FILE__) + '/../../../test_helper')
+require File.expand_path(File.dirname(__FILE__) + '/../../test_helper')
 require 'xmlrpc/client'
 
 # in a controller spec for the Admin::ArticlesController
