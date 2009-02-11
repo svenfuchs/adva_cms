@@ -5,7 +5,7 @@ class ContentTest < ActiveSupport::TestCase
     super
     @section = Section.first
     @content = @section.articles.first
-    @content_attributes = {:body => 'body',:section => @section, :author => User.first}
+    @content_attributes = { :title => 'A new content', :body => 'body',:section => @section, :author => User.first }
   end
 
   test "acts as a taggable" do
@@ -108,7 +108,7 @@ class ContentTest < ActiveSupport::TestCase
     @content.valid?.should be_false
   end
 
-  test "validates the uniqueness of the permalink per site" do
+  test "validates the uniqueness of the permalink per section" do
     @content = Content.new
     @content.should validate_uniqueness_of(:permalink, :scope => :section_id)
   end
@@ -245,17 +245,44 @@ class ContentTest < ActiveSupport::TestCase
   end
 
   # PERMALINK CREATION
-
-  test "creates a permalink from the title attribute before create" do
-    title = "it's a test title, <em>okay</em>?"
-    content = Content.create! @content_attributes.merge(:title => title)
-    content.permalink.should == "its-a-test-title-okay"
+  
+  test "it generates a permalink from the title on create if the given permalink is empty" do
+    content = Content.create! @content_attributes
+    content.permalink.should == 'a-new-content'
+  end
+  
+  test "it does not change the permalink on create if the given permalink is not empty" do
+    content = Content.create! @content_attributes.update(:permalink => 'something-else')
+    content.permalink.should == 'something-else'
+  end
+  
+  test "it regenerates the permalink from the title on update when the permalink is deleted" do
+    old_permalink = @content.permalink
+    @content.update_attributes! :permalink => ''
+    @content.permalink.should == old_permalink
+  end
+  
+  test "it does not regenerate the permalink on update if not updated with a new permalink" do
+    old_permalink = @content.permalink
+    @content.update_attributes! :body => 'just a new body'
+    @content.permalink.should == old_permalink
+  end
+  
+  test "it does not regenerate the permalink on update if the given permalink is not empty" do
+    @content.update_attributes! :permalink => 'something-else'
+    @content.permalink.should == 'something-else'
   end
 
   test "creates unique permalinks" do
     content = nil
     4.times { content = Content.create! @content_attributes.merge(:title => "unique") }
     content.permalink.should == 'unique-3'
+  end
+
+  test "it removes characters from the permalink" do
+    title = "it's a test title, <em>okay</em>?"
+    content = Content.create! @content_attributes.merge(:title => title)
+    content.permalink.should == "its-a-test-title-okay"
   end
 
   test "transliterates characters for permalinks" do

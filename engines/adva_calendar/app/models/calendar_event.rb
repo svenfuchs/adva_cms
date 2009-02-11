@@ -9,7 +9,7 @@ class CalendarEvent < ActiveRecord::Base
   alias :calendar :section
   belongs_to :user
 
-  has_permalink :title, :url_attribute => :permalink, :only_when_blank => true, :scope => :section_id
+  has_permalink :title, :url_attribute => :permalink, :sync_url => true, :only_when_blank => true, :scope => :section_id
   acts_as_taggable
   acts_as_role_context :parent => Calendar
 

@@ -28,7 +28,7 @@ class Content < ActiveRecord::Base
   has_many_comments :polymorphic => true
   instantiates_with_sti
 
-  has_permalink :title, :url_attribute => :permalink, :only_when_blank => true, :scope => :section_id
+  has_permalink :title, :url_attribute => :permalink, :sync_url => true, :only_when_blank => true, :scope => :section_id
   filtered_column :body, :excerpt
 
   belongs_to :site

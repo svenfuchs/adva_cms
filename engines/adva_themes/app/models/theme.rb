@@ -24,8 +24,8 @@ class Theme < ActiveRecord::Base
   has_many :stylesheets
   has_one  :preview
   
-  has_permalink :name, :url_attribute => :theme_id, :only_when_blank => false, 
-                       :sync_url => true, :scope => :site_id
+  has_permalink :name, :url_attribute => :theme_id, :scope => :site_id, 
+                       :only_when_blank => false, :sync_url => true
   
   validates_presence_of :name
   
