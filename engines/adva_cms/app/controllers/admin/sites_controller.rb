@@ -79,12 +79,16 @@ class Admin::SitesController < Admin::BaseController
 
     def params_site
       params[:site] ||= {}
-      params[:site].reverse_update 'timezone' => Time.zone.name, 'host' => request.host_with_port, 'email' => current_user.email, 'comment_filter' => 'smartypants_filter'
+      params[:site][:timezone]       ||= Time.zone.name
+      params[:site][:host]           ||= request.host_with_port
+      params[:site][:email]          ||= current_user.email
+      params[:site][:comment_filter] ||= 'smartypants_filter'
     end
 
     def params_section
-      # TODO wtf ... reverse_update causes params[:section].delete(:type) to be nil?
-      params[:section] = {:title => 'Home', :type => Section.types.first}.update(params[:section] || {})
+      params[:section] ||= {}
+      params[:section][:title] ||= 'Home'
+      params[:section][:title] ||= Section.types.first
     end
 
     def protect_single_site_mode
