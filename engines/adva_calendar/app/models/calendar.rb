@@ -14,8 +14,8 @@ class Calendar < Section
     @days_in_month_with_events[month] ||= events.find(:all, 
         :select => 'start_date, end_date', :order => 'start_date ASC',
         :conditions => ['published_at IS NOT NULL 
-            AND (start_date BETWEEN ? AND ?) 
-            OR (start_date <= ? AND end_date >= ?)', 
+            AND ((start_date BETWEEN ? AND ?) 
+            OR (start_date <= ? AND end_date >= ?))', 
             month, end_of_month, month, month]
         ).collect{ |e| 
             e.end_date.blank? ?
