@@ -100,12 +100,14 @@ class ThemeTest < ActiveSupport::TestCase
     zip_path = theme.export
     zip_path.should be_file
   end
-  
+
   test "created ZIP file includes all theme files" do
     theme = @site.themes.create!(:name => 'export-theme')
-    theme.files += [uploaded_stylesheet, uploaded_javascript, uploaded_image, uploaded_template]
-p theme.preview.path
-p File.exists?(theme.preview.path)
+    uploaded_stylesheet(theme)
+    uploaded_javascript(theme)
+    uploaded_image(theme)
+    uploaded_template(theme)
+
     zip_path = theme.export
     zip_file = Zip::ZipFile.new(zip_path)
 
