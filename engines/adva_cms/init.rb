@@ -121,18 +121,9 @@ Tag.class_eval do def to_param; name end end
 
 XssTerminate.untaint_after_find = true
 
-# patch acts_as_versioned to play nice with xss_terminate
-config.to_prepare do
-  ActiveRecord::Base.class_eval do
-    class << self
-      unless method_defined?(:acts_as_versioned_without_filters_attributes)
-        alias :acts_as_versioned_without_filters_attributes :acts_as_versioned
-        def acts_as_versioned(*args)
-          acts_as_versioned_without_filters_attributes(*args)
-          versioned_class.filters_attributes :none => true
-        end
-      end
-    end
+module Globalize::Model::ActiveRecord::Translated::Callbacks
+  def disables_xss_terminate_on_proxy_records
+    globalize_proxy.filters_attributes :none => true
   end
 end
 

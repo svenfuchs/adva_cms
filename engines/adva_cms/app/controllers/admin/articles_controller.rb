@@ -75,7 +75,7 @@ class Admin::ArticlesController < Admin::BaseController
   
   def rollback
     version = params[:article][:version].to_i
-    if @article.version != version and @article.revert_to!(version)
+    if @article.version != version and @article.revert_to(version)
       trigger_event @article, :rolledback
       flash[:notice] = t(:'adva.articles.flash.rollback.success', :version => version)
       redirect_to edit_admin_article_path
