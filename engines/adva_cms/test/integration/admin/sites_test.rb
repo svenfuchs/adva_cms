@@ -23,25 +23,25 @@ module IntegrationTests
 
     def create_a_new_site
       click_link 'New' # FIXME move link to the sidebar
-      fill_in 'site[title]', :with => 'the site'
-      fill_in 'site[name]',  :with => 'the site'
-      fill_in 'site[host]',  :with => 'http://the-site.com'
-      fill_in 'section[title]', :with => 'the home section'
+      fill_in 'site[title]', :with => 'the new site'
+      fill_in 'site[name]',  :with => 'the new site'
+      fill_in 'site[host]',  :with => 'http://the-new-site.com'
+      fill_in 'section[title]', :with => "the new site's home section"
       choose 'Section'
       click_button 'Create'
-      request.url.should =~ %r(/admin/sites/\d+)
+      renders_template "admin/sites/show"
     end
 
     def revise_the_site_settings
       click_link 'Settings'
       fill_in 'site[title]', :with => 'the ubersite'
       click_button 'Save'
-      request.url.should =~ %r(/admin/sites/\d+)
+      renders_template "admin/sites/edit"
     end
 
     def delete_the_site
       click_link 'Delete this site'
-      request.url.should =~ %r(/admin/sites)
+      renders_template "admin/sites/index"
     end
   end
 end
