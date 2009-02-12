@@ -6,11 +6,8 @@ class CreateContentsTable < ActiveRecord::Migration
       t.string     :type, :limit => 20
       t.integer    :position
 
-      t.string     :title
       t.string     :permalink
-      t.text       :excerpt
       t.text       :excerpt_html
-      t.text       :body
       t.text       :body_html
 
       t.references :author, :polymorphic => true
@@ -27,11 +24,12 @@ class CreateContentsTable < ActiveRecord::Migration
       t.datetime   :published_at
       t.timestamps
     end
-    Content.create_versioned_table
+    Content.create_translation_table! :title => :string, :body => :text, 
+      :excerpt => :text, :body_html => :string, :excerpt_html => :text
   end
 
   def self.down
     drop_table :contents
-    Content.drop_versioned_table
+    Content.drop_translation_table
   end
 end
