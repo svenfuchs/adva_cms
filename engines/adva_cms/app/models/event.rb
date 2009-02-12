@@ -5,7 +5,8 @@ class Event
   attr_reader :type        # what happened
   attr_reader :object      # the object that the event is about, e.g. payment
   attr_reader :source      # the origin or the event, e.g. payment processor
-
+  attr_reader :options     # optional options for the event
+  
   class << self
     def trigger(type, object, source, options = {})
       event = Event.new type, object, source, options
