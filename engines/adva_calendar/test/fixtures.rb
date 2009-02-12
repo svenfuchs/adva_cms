@@ -21,6 +21,10 @@ Calendar.create! :site        => site_with_calendars,
                  :permalink   => 'calendar-with-events'
 
 
+Time.stubs(:now).returns Time.utc(2009,2,3, 15,00,00)
+Date.stubs(:today).returns Date.civil(2009,2,3)
+
+# 2009-2-8
 an_upcoming_event =
 CalendarEvent.create! :section => calendar_with_events,
                       :title => 'an upcoming event',
@@ -30,6 +34,7 @@ CalendarEvent.create! :section => calendar_with_events,
                       :end_date => Time.now + 5.days + 2.hours,
                       :published_at => Time.now
 
+# 2009-1-29 to 2009-2-3
 an_ongoing_event =
 CalendarEvent.create! :section => calendar_with_events,
                       :title => 'an ongoing event',
@@ -39,6 +44,7 @@ CalendarEvent.create! :section => calendar_with_events,
                       :end_date => Time.now + 2.hours,
                       :published_at => Time.now - 1.week
 
+# 2009-1-31
 a_past_event =
 CalendarEvent.create! :section => calendar_with_events,
                       :title => 'a past event',
@@ -48,6 +54,7 @@ CalendarEvent.create! :section => calendar_with_events,
                       :end_date => Time.now - 3.days + 2.hours,
                       :published_at => Time.now - 1.week
 
+# 2008-2-3
 a_event_last_year =
 CalendarEvent.create! :section => calendar_with_events,
                       :title => 'a event last year',

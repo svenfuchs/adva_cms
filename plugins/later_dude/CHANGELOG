@@ -1,0 +1,9 @@
+2009/2/2
+---------
+- Introduced options to show and format next and previous month.
+- Replaced option :header_month_format with :current_month to align it with :next_month and :previous_month.
+- Removed some unused methods for month names.
+
+2009/1/14
+---------
+First release
