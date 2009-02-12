@@ -1,23 +1,8 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../test_helper' )
-require File.expand_path(File.dirname(__FILE__) + '/test_helper' )
-
-Content.class_eval do
-  def update_url_history_params(params)
-    if params.has_key?(:year)
-      params.merge self.full_permalink
-    elsif params.has_key?(:permalink)
-      params.merge :permalink => self.permalink
-    else
-      params
-    end
-  end
-end
 
 module IntegrationTests
-  module UrlHistory
+  module UrlHistoryTests
     class ArticleTest < ActionController::IntegrationTest
-      include UrlHistoryTestHelper
-    
       def setup
         super
         @section = Section.find_by_title 'a section'
@@ -26,36 +11,41 @@ module IntegrationTests
         stub(Time).now.returns Time.utc(2008, 1, 2)
       end
 
-      test "without url_history: Admin publishes an article, views it, edits the permalink and gets 404" do
-        uninstall_url_history!
-        login_as_admin
-        visit_admin_articles_index_page
-        create_and_publish_a_new_article
-        visit "/articles/the-article-title"
-        revise_the_article_permalink
-        visit "/articles/the-article-title"
-        assert_status 404
+      unless ApplicationController.tracks_url_history?
+        test "without url_history: Admin publishes an article, views it, edits the permalink and gets 404" do
+          login_as_admin
+          visit_admin_articles_index_page
+          create_and_publish_a_new_article
+          visit "/articles/the-article-title"
+          revise_the_article_permalink
+          visit "/articles/the-article-title"
+          assert_status 404
+        end
       end
       
-      test "with url_history: Admin publishes an article, views it, edits the permalink and gets redirected" do
-        install_url_history!
-        login_as_admin
-        visit_admin_articles_index_page
-        create_and_publish_a_new_article
-        visit "/articles/the-article-title"
-        revise_the_article_permalink
-        visit "/articles/the-article-title"
-        request.url.should =~ %r(/articles/article-permalink-updated)
-      end
+      if ApplicationController.tracks_url_history?
+        test "with url_history: Admin publishes an article, views it, edits the permalink and gets redirected" do
+          login_as_admin
+          visit_admin_articles_index_page
+          create_and_publish_a_new_article
+          visit "/articles/the-article-title"
+          assert_status 200
+          request.url.should =~ %r(/articles/the-article-title)
+          UrlHistory::Entry.recent_by_url(request.url).should_not be_nil
+        
+          revise_the_article_permalink
+          visit "/articles/the-article-title"
+          request.url.should =~ %r(/articles/article-permalink-updated)
+        end
       
-      test "with url_history: Admin visits root section, edits primary article permalink, root section still works" do
-        uninstall_url_history!
-        login_as_admin
-        visit "/"
-        has_text @section.articles.primary.body
-        revise_the_sections_primary_article_permalink
-        visit "/"
-        assert_status 200
+        test "with url_history: Admin visits root section, edits primary article permalink, root section still works" do
+          login_as_admin
+          visit "/"
+          has_text @section.articles.primary.body
+          revise_the_sections_primary_article_permalink
+          visit "/"
+          assert_status 200
+        end
       end
 
       def visit_admin_articles_index_page

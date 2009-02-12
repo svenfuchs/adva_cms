@@ -42,6 +42,9 @@ class Test::Unit::TestCase
   alias_method_chain :teardown, :test_setup
 end
 
+# include this line to test adva-cms with url_history installed
+# require dir + '/plugins/url_history/init_url_history'
+
 require_all dir + "/contexts.rb",
             dir + "/fixtures.rb",
             dir + "/test_helper/**/*.rb"
