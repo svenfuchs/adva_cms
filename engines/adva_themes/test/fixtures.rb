@@ -6,6 +6,7 @@ theme = site.themes.create! :name     => 'a theme',
                             :author   => 'author',
                             :summary  => 'summary'
 
+
 # theme.templates.create!     :name  => 'template.html.erb',
 #                             :data => File.new("#{File.dirname(__FILE__)}/fixtures/template.html.erb")
 # 

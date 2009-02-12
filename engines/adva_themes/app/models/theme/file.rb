@@ -78,6 +78,10 @@ class Theme < ActiveRecord::Base
       [theme.path, directory, name].to_path if name
     end
 
+    def base_path
+      [directory, name].to_path if name
+    end
+
     def url
       [theme.url, directory, name].to_path if name
     end

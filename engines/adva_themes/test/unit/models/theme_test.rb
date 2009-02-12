@@ -80,29 +80,48 @@ class ThemeTest < ActiveSupport::TestCase
   
   # CLASS METHODS
   
+  test "imports a zip theme" do
+    theme_file = theme_fixture
+    
+    assert_difference '@site.themes.size', +1 do
+      @site.themes.import(theme_file)
+    end
+  end
+  
   # INSTANCE METHODS
+  test "returns about hash" do
+    about_hash =  { "name" => "a theme", "author" => "author", "version" => "1.0.0",
+                    "homepage" => "http://homepage.org", "summary" => "summary" }
+    @theme.about.should == about_hash
+  end
+  
+  test "creates a file when exporting a theme" do
+    theme = @site.themes.create!(:name => 'export-theme')
+    zip_path = theme.export
+    zip_path.should be_file
+  end
+  
+  test "created ZIP file includes all theme files" do
+    theme = @site.themes.create!(:name => 'export-theme')
+    theme.files += [uploaded_stylesheet, uploaded_javascript, uploaded_image, uploaded_template]
+p theme.preview.path
+p File.exists?(theme.preview.path)
+    zip_path = theme.export
+    zip_file = Zip::ZipFile.new(zip_path)
+
+    theme.files.each do |file|
+      zip_file.entries.map(&:name).should include(file.base_path)
+    end
+  end
   
   test "activate! activates the theme" do
     @theme.activate!
     @theme.active?.should be_true
   end
   
-  # nope, we stopped doing that
-  # test "activate! exports the theme to the theme base directory" do
-  #   @theme.activate!
-  #   @theme.path.should be_directory
-  # end
-  
   test "deactivate! deactivates the theme" do
     @theme.update_attributes :active => true
     @theme.deactivate!
     @theme.active?.should be_false
   end
-  
-  # nope, we stopped doing that
-  # test "activate! removes the theme to the theme base directory" do
-  #   @theme.activate! # make sure the directory was there
-  #   @theme.deactivate!
-  #   @theme.path.should_not be_directory
-  # end
 end

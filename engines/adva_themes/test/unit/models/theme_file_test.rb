@@ -83,4 +83,8 @@ class ThemeFileTest < ActiveSupport::TestCase
   
   # INSTANCE METHODS
   
+  test "base_path returns the path relative to the theme directory" do
+    uploaded_template.base_path.should == 'templates/foo/bar/template.html.erb'
+  end
+  
 end

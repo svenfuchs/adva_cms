@@ -40,4 +40,8 @@ module ThemeTestHelper
   def uploaded_stylesheet
     Theme::File.create! :theme => @theme, :path => 'styles.css', :data => stylesheet_fixture
   end
+
+  def theme_fixture
+    File.new("#{File.dirname(__FILE__)}/fixtures/theme-for-import.zip")
+  end
 end
