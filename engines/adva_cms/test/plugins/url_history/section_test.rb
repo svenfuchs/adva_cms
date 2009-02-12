@@ -1,23 +1,8 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../test_helper' )
-require File.expand_path(File.dirname(__FILE__) + '/test_helper' )
-
-Section.class_eval do
-  def update_url_history_params(params)
-    if params.has_key?(:year)
-      params.merge self.full_permalink
-    elsif params.has_key?(:permalink)
-      params.merge :permalink => self.permalink
-    else
-      params
-    end
-  end
-end
 
 module IntegrationTests
-  module UrlHistory
+  module UrlHistoryTests
     class SectionTest < ActionController::IntegrationTest
-      include UrlHistoryTestHelper
-    
       def setup
         super
         @section = Section.find_by_title 'a section'
@@ -25,24 +10,32 @@ module IntegrationTests
         @site = @section.site
         use_site! @site
       end
-
-      test "without url_history: Admin views section, edits the permalink and gets 404" do
-        uninstall_url_history!
-        visit '/another-section'
-        login_as_admin
-        revise_the_section_permalink
-        visit '/another-section'
-        assert_status 404
+      
+      unless ApplicationController.tracks_url_history?
+        test "without url_history: Admin views section, edits the permalink and gets 404" do
+          visit '/another-section'
+          login_as_admin
+          revise_the_section_permalink
+          visit '/another-section'
+          assert_status 404
+        end
       end
 
-      test "with url_history: Admin views section, edits the permalink and gets redirected" do
-        install_url_history!
-        visit 'another-section'
-        login_as_admin
-        revise_the_section_permalink
-        visit 'another-section'
-        assert_status 200
-        request.url.should =~ %r(/another-section-updated-permalink)
+      if ApplicationController.tracks_url_history?
+        test "with url_history: Admin views section, edits the permalink and gets redirected" do
+          visit '/'
+
+          visit 'another-section'
+          assert_status 200
+          request.url.should =~ %r(/another-section)
+          UrlHistory::Entry.recent_by_url(request.url).should_not be_nil
+
+          login_as_admin
+          revise_the_section_permalink
+          visit 'another-section'
+          assert_status 200
+          request.url.should =~ %r(/another-section-updated-permalink)
+        end
       end
     
       def revise_the_section_permalink

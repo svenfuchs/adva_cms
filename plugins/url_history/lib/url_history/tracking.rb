@@ -15,7 +15,7 @@ module UrlHistory
         after_filter UrlHistory::AroundFilter
 
         rescue_from ActiveRecord::RecordNotFound, ActionController::RoutingError, 
-                    :with => :url_history_record_not_found
+                    :with => :url_history_page_not_found
       end
 
       def tracks_url_history?
@@ -24,7 +24,7 @@ module UrlHistory
     end
 
     module InstanceMethods
-      def url_history_record_not_found(exception)
+      def url_history_page_not_found(exception)
         if entry = UrlHistory::Entry.recent_by_url(request.url)
           params = entry.updated_params.except('method')
           url = url_for(params)
@@ -34,7 +34,7 @@ module UrlHistory
         if handler = handler_for_rescue_except_url_history(exception)
           handler.arity != 0 ? handler.call(exception) : handler.call
         else
-          raise exception
+          rescue_action_without_handler(exception)
         end
       end
       
@@ -43,7 +43,7 @@ module UrlHistory
       # next handler and call it.
       def handler_for_rescue_except_url_history(exception)
         _, rescuer = Array(self.class.rescue_handlers).reverse.detect do |klass_name, handler|
-          unless handler == :url_history_record_not_found
+          unless handler == :url_history_page_not_found
             klass = self.class.const_get(klass_name) rescue nil
             klass ||= klass_name.constantize rescue nil
             exception.is_a?(klass) if klass
