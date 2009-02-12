@@ -114,7 +114,7 @@ class WikiHelperTest < ActiveSupport::TestCase
   end
 
   test "#wiki_edit_links with a home wikipage that is the first version" do
-    @wikipage.revert_to(@wikipage.versions.first.version)
+    @wikipage.revert_to(@wikipage.versions.first)
     links = wiki_edit_links(@wikipage)
 
     links.should_not =~ /edit this page/             # does not contain a link to edit the wikipage
@@ -126,7 +126,7 @@ class WikiHelperTest < ActiveSupport::TestCase
   end
 
   test "#wiki_edit_links with a non-home wikipage that is an intermediate version" do
-    @another_wikipage.revert_to(@another_wikipage.versions.second.version)
+    @another_wikipage.revert_to(@another_wikipage.versions.second)
     links = wiki_edit_links(@another_wikipage)
 
     links.should_not =~ /edit this page/             # does not contain a link to edit the wikipage
@@ -141,7 +141,7 @@ class WikiHelperTest < ActiveSupport::TestCase
     wiki_edit_links(@wikipage).should have_tag('.visible_for') do |tag|
       tag.should have_tag('a[href=?]', /edit/)
     end
-    @wikipage.revert_to(@wikipage.versions.first.version)
+    @wikipage.revert_to(@wikipage.versions.first)
     wiki_edit_links(@wikipage).should have_tag('.visible_for') do |tag|
       tag.should have_tag('a[href=?]', /version=/)
     end

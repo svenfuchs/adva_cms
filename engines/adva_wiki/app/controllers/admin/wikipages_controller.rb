@@ -57,7 +57,7 @@ class Admin::WikipagesController < Admin::BaseController
 
   def rollback
     version = params[:wikipage][:version].to_i
-    if @wikipage.version != version and @wikipage.revert_to!(version)
+    if @wikipage.version != version and @wikipage.revert_to(version)
       trigger_event @wikipage, :rolledback
       flash[:notice] = t(:'adva.wikipage.flash.rollback.success', :version => params[:version])
       redirect_to edit_admin_wikipage_path

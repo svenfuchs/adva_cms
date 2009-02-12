@@ -49,7 +49,7 @@ module WikiHelper
 	    link_to(t(:'adva.wiki_helper.wiki_edit_links.link_to_home'), wiki_path(@section))
     end unless wikipage.home?
 
-	  if wikipage.version == wikipage.versions.last.version
+	  if wikipage.version == wikipage.versions.last
 	    links << authorized_tag(:li, :update, wikipage) do
 	      link_to(t(:'adva.wiki_helper.wiki_edit_links.link_to_edit'), edit_wikipage_path(@section, wikipage.permalink))
       end
@@ -67,26 +67,26 @@ module WikiHelper
   def wiki_version_links(wikipage)
     links = []
     
-    if wikipage.versions.size > 1
-      if wikipage.version > wikipage.versions.first.version
+    if wikipage.versions.count > 1
+      if wikipage.version > wikipage.versions.first
   	    links << content_tag(:li) do
   	      link_to t(:'adva.wiki_helper.wiki_version_links.link_to_previous_revision'),
   	              wikipage_rev_path(:section_id => @section.id, :id => wikipage.permalink, :version => (wikipage.version - 1))
 	      end
       end
-      if wikipage.version < wikipage.versions.last.version - 1
+      if wikipage.version < wikipage.versions.last - 1
   	    links << content_tag(:li) do
   	      link_to t(:'adva.wiki_helper.wiki_version_links.link_to_next_revision'),
   	              wikipage_rev_path(:section_id => @section.id, :id => wikipage.permalink, :version => (wikipage.version + 1))
 	      end
 	    end
-      if wikipage.version < wikipage.versions.last.version
+      if wikipage.version < wikipage.versions.last
   	    links << content_tag(:li) do
   	      link_to t(:'adva.wiki_helper.wiki_version_links.link_to_current_revision'),
   	              wikipage_path(@section, wikipage.permalink)
 	      end
       end
-      if wikipage.version != wikipage.versions.last.version
+      if wikipage.version != wikipage.versions.last
 	      links << authorized_tag(:li, :update, wikipage) do
 	        link_to t(:'adva.wiki_helper.wiki_version_links.link_to_rollback'),
 	                wikipage_path_with_home(@section, wikipage.permalink, :version => wikipage.version),

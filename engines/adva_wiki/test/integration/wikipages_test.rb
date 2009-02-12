@@ -7,7 +7,6 @@ module IntegrationTests
       @section = Wiki.find_by_title 'a wiki'
       @site = use_site! @section.site
       @wikipage = @section.wikipages.find_by_permalink 'another-wikipage'
-      @previous_revision = @wikipage.versions[@wikipage.versions.count - 1]
     end
     
     # FIXME test with an anonymous user as well as they have some additional form fields
@@ -23,6 +22,7 @@ module IntegrationTests
     def visit_another_wikipage
       visit "/pages/another-wikipage"
       renders_template 'wiki/show'
+      response.body.should have_tag('.entry .content', /third revised version/)
     end
     
     def edit_another_wikipage
@@ -36,13 +36,15 @@ module IntegrationTests
     def review_previous_wikipage_revision
       click_link 'view previous revision'
       renders_template 'wiki/show'
-      response.body.should have_tag('.entry .content', /#{Regexp.escape(@previous_revision.body)}/)
+      previous_body = @wikipage.versions[@wikipage.versions.count - 1].body
+      response.body.should have_tag('.entry .content', /#{Regexp.escape(previous_body)}/)
     end
     
     def rollback_to_previous_wikipage_revision
       click_link 'rollback to this revision'
       renders_template 'wiki/show'
-      response.body.should have_tag('.entry .content', /#{Regexp.escape(@previous_revision.body)}/)
+      previous_body = @wikipage.versions[@wikipage.versions.count - 1].body
+      response.body.should have_tag('.entry .content', /#{Regexp.escape(previous_body)}/)
     end
   end
 end

@@ -15,15 +15,17 @@ WillPaginate::Finder::ClassMethods.class_eval do
 end
 
 class Content < ActiveRecord::Base
-  acts_as_versioned :if_changed => [:title, :body, :excerpt], :limit => 5
+  # TODO is this needed?
   class Version < ActiveRecord::Base
     filters_attributes :none => true
   end
     
+  translates :title, :body, :excerpt, :body_html, :excerpt_html, 
+    :versioned => [ :title, :body, :excerpt, :body_html, :excerpt_html ], 
+    :if_changed => [ :title, :body, :excerpt ], :limit => 5
   acts_as_taggable
   acts_as_role_context :parent => Section
   has_many_comments :polymorphic => true
-  non_versioned_columns << 'cached_tag_list' << 'assets_count' << 'state'
   instantiates_with_sti
 
   has_permalink :title, :url_attribute => :permalink, :only_when_blank => true, :scope => :section_id
@@ -112,7 +114,7 @@ class Content < ActiveRecord::Base
 
   def diff_against_version(version)
     # return '(orginal version)' if version == versions.earliest.version
-    version = versions.find_by_version(version)
+    version = versions[version]
     HtmlDiff.diff version.excerpt_html + version.body_html, excerpt_html + body_html
   end
 
