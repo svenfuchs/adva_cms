@@ -13,18 +13,31 @@ module IntegrationTests
 
     test "Admin creates a new theme, updates its attributes and deletes it" do
       login_as_superuser
-      visits_themes_index_page
-      creates_a_new_theme
-      updates_the_themes_attributes
-      deletes_the_theme
+      visit_themes_index_page
+      create_a_new_theme
+      update_the_themes_attributes
+      delete_the_theme
+    end
+    
+    test "Admin creates a new theme with some files, exports the theme and reimports it" do
+      login_as_superuser
+      visit_themes_index_page
+      create_a_new_theme
+
+      click_link 'Edit'
+      creates_a_new_theme_file :filename => 'layouts/default.html.erb', :data => 'the theme default layout'
+      creates_a_new_theme_file :filename => 'effects.js', :data => 'alert("booom!")'
+
+      export_theme
+      reimport_theme
     end
 
-    def visits_themes_index_page
+    def visit_themes_index_page
       visit @admin_themes_index_page
       assert_template "admin/themes/index"
     end
 
-    def creates_a_new_theme
+    def create_a_new_theme
       click_link 'New theme'
       assert_template "admin/themes/new"
 
@@ -32,8 +45,19 @@ module IntegrationTests
       click_button 'Save'
       assert_template "admin/themes/index"
     end
+    
+    def creates_a_new_theme_file(attributes)
+      click_link 'Create a new file'
+      assert_template "admin/theme_files/new"
 
-    def updates_the_themes_attributes
+      attributes.each do |name, value|
+        fill_in name, :with => value
+      end
+      click_button 'Save'
+      assert_template "admin/theme_files/show"
+    end
+
+    def update_the_themes_attributes
       click_link 'Edit'
       assert_template "admin/themes/show"
       
@@ -45,9 +69,26 @@ module IntegrationTests
       assert_template "admin/themes/show"
     end
     
-    def deletes_the_theme
+    def delete_the_theme
       click_link 'Delete theme'
       assert_template "admin/themes/index"
+    end
+    
+    def export_theme
+      click_link 'Download theme'
+      @exported_theme = Rails.root + "/tmp/themes/imported-theme.zip"
+      ::File.open(@exported_theme, 'w') { |file| file.write(@response.body) }
+    end
+    
+    def reimport_theme
+      assert_difference 'Theme.count' do
+        visit_themes_index_page
+        click_link 'Import theme'
+        attach_file 'Zip file', @exported_theme
+        click_button 'Import'
+        assert_template 'admin/themes/index'
+        has_tag 'h4[title=?]', 'imported-theme', 'imported-theme'
+      end
     end
   end
 end

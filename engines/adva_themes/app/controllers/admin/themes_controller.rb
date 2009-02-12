@@ -2,7 +2,7 @@ class Admin::ThemesController < Admin::BaseController
   layout "admin"
 
   before_filter :set_theme, :only => [:show, :use, :edit, :update, :destroy, :export, :select, :unselect]
-  before_filter :ensure_uploaded_theme_file_saved!, :only => :import
+  # before_filter :ensure_uploaded_theme_file_saved!, :only => :import
   
   guards_permissions :theme, :update => [:select, :unselect], :manage => [:index, :show, :export], :create => :import
 
@@ -53,11 +53,13 @@ class Admin::ThemesController < Admin::BaseController
   end
 
   def import
-    return unless request.post?
+    render and return unless request.post? # renders the import form
     
-    if params[:theme][:file].blank?
+    # uploads and imports the theme
+    file = params[:theme] ? params[:theme][:file] : nil
+    if file.blank?
       flash.now[:error] = t(:'adva.themes.flash.import.error_filename_blank')
-    elsif @site.themes.import @file
+    elsif @site.themes.import(file)
       flash.now[:notice] = t(:'adva.themes.flash.import.success')
       redirect_to admin_themes_path
     else
@@ -69,7 +71,7 @@ class Admin::ThemesController < Admin::BaseController
     zip_path = @theme.export
     send_file(zip_path.to_s, :stream => false) rescue raise "Error sending #{zip_path} file"
   ensure
-    FileUtils.rm_r File.dirname(zip_path)
+    FileUtils.rm_r File.dirname(zip_path) rescue nil
   end
 
   def select
@@ -95,6 +97,7 @@ class Admin::ThemesController < Admin::BaseController
     end
 
     def ensure_uploaded_theme_file_saved!
+      return
       return if request.get? || params[:theme][:file].blank?
       
       file = params[:theme][:file]

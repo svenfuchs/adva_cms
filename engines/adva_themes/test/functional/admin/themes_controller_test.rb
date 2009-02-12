@@ -3,6 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + "/../../test_helper")
 # With.aspects << :access_control
 
 class AdminThemesControllerTest < ActionController::TestCase
+  include ThemeTestHelper
   tests Admin::ThemesController
 
   with_common :a_site, :a_theme, :is_superuser
@@ -212,6 +213,38 @@ class AdminThemesControllerTest < ActionController::TestCase
 
     with :access_granted do
       it_renders :template, :import
+    end
+  end
+
+  describe "POST to :import" do
+    action { post :import, @params }
+
+    it_guards_permissions :create, :theme
+
+    with :access_granted do
+      with "valid uploaded theme zip file" do
+        before { @params = default_params.merge(:theme => { :file => theme_fixture }) }
+        it_redirects_to { admin_themes_path }
+        it_assigns_flash_cookie :notice => :not_nil
+      end
+      
+      with "no theme zip file uploaded" do
+        before { @params = default_params.merge(:theme => { :file => nil }) }
+        it_renders :template, :import
+        it_assigns_flash_cookie :error => :not_nil
+      end
+    end
+  end
+  
+  describe "GET to :export" do
+    action { get :export, default_params.merge(:id => @theme.id) }
+
+    it_guards_permissions :manage, :theme
+
+    with :access_granted do
+      # send file matcher?
+      # it_sends_file ...
+      # deletes temp file?
     end
   end
 

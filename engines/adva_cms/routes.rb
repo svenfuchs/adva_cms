@@ -38,22 +38,6 @@ map.connect                     'admin/sites/:site_id/sections',
                                 :action       => 'update_all',
                                 :conditions   => { :method => :put }
 
-map.resources :themes,          :controller  => 'admin/themes',
-                                :path_prefix => 'admin/sites/:site_id',
-                                :name_prefix => 'admin_',
-                                :collection  => { :import => :any },
-                                :member      => { :export => :get }
-
-map.admin_site_selected_themes  'admin/sites/:site_id/themes/selected',
-                                :controller   => 'admin/themes',
-                                :action       => 'select',
-                                :conditions   => { :method => :post }
-
-map.admin_site_selected_theme   'admin/sites/:site_id/themes/selected/:id',
-                                :controller   => 'admin/themes',
-                                :action       => 'unselect',
-                                :conditions   => { :method => :delete }
-
 map.connect 'cached_pages',     :controller  => 'admin/cached_pages',
                                 :action      => 'clear',
                                 :path_prefix => 'admin/sites/:site_id',
@@ -67,11 +51,6 @@ map.resources :cached_pages,    :controller  => 'admin/cached_pages', # TODO map
 map.resources :plugins,         :controller  => 'admin/plugins', # TODO map manually? we only use some of these
                                 :path_prefix => 'admin/sites/:site_id',
                                 :name_prefix => 'admin_'
-
-map.resources :files,           :controller  => 'admin/theme_files',
-                                :path_prefix => 'admin/sites/:site_id/themes/:theme_id',
-                                :name_prefix => 'admin_theme_',
-                                :collection  => { :import => :any }
 
 map.resources :articles,        :path_prefix => "admin/sites/:site_id/sections/:section_id",
                                 :name_prefix => "admin_",
