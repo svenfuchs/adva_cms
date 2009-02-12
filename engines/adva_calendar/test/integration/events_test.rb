@@ -4,7 +4,7 @@ module IntegrationTests
   class EventsTest < ActionController::IntegrationTest
 
     def setup
-    super
+      super
       Time.stubs(:now).returns Time.utc(2009,2,3, 15,00,00)
       Date.stubs(:today).returns Date.civil(2009,2,3)
       @site = use_site! 'site with calendar'

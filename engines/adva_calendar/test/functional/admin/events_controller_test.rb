@@ -62,8 +62,7 @@ class Admin::EventsControllerTest < ActionController::TestCase
   end
 
   describe "PUT to :update" do
-    action { post :update, default_params.merge(@params || {}).merge(
-        :id => @event.id) }
+    action { post :update, default_params.merge(@params || {}).merge(:id => @event.id) }
     it_assigns :event
     it_guards_permissions :update, :calendar_event
 
