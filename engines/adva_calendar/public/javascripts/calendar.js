@@ -3,11 +3,13 @@ var AjaxfiedLaterDude = {
 		new Ajax.Request(event.target.href + '.js', {
 			method: 'get' });
 		event.preventDefault();
+	},
+	attachEvents: function() {
+		Event.addBehavior({
+			'.calendar a.nav':   function() { Event.observe(this, 'click', AjaxfiedLaterDude.loadCalendarPartial.bind(this)); },
+			'.calendar a.nav':   function() { Event.observe(this, 'click', AjaxfiedLaterDude.loadCalendarPartial.bind(this)); }
+		});		
 	}
 }
 
-
-Event.addBehavior({
-	'.calendar .previous_month a':   function() { Event.observe(this, 'click', AjaxfiedLaterDude.loadCalendarPartial.bind(this)); },
-	'.calendar .next_month a':   function() { Event.observe(this, 'click', AjaxfiedLaterDude.loadCalendarPartial.bind(this)); }
-});
+AjaxfiedLaterDude.attachEvents();

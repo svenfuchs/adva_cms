@@ -1,12 +1,14 @@
 <div id="calendar"><%
-month_navigation_url_helper = Proc.new do |title, args|
-  link_to(title, calendar_events_path({:section_id => @section.id}.merge(args)))
+month_navigation_url_helper = Proc.new do |date|
+  link_to(date.strftime(t(:'date.formats.calendar_header', :default => "%B")),
+    calendar_events_path({:section_id => @section.id, :year => date.year, :month => date.month}),
+    :class => :nav)
 end
 %>
 <%= 
 calendar_for(current_timespan.first.year, current_timespan.first.month, 
-  :hide_month_navigation => false,
-  :month_navigation_url_helper => month_navigation_url_helper) do |day|
+    :next_and_previous_month => month_navigation_url_helper, 
+    :current_month => month_navigation_url_helper) do |day|
   if @section.days_in_month_with_events(day).include?(day)
     [link_to(day.day, calendar_events_path(:section_id => @section.id, :year => day.year, :month => day.month, :day => day.mday)), { :class => "day_with_events" }]
   else
