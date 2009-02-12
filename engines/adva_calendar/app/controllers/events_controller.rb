@@ -31,6 +31,7 @@ class EventsController < BaseController
       format.js { render :update do |page|
           page.replace  'events', :partial => 'events'
           page.replace 'calendar', :partial => 'calendar'
+          page << 'AjaxfiedLaterDude.attachEvents();'
         end
       }
       format.html
