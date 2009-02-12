@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 def files_to_load(paths)
-  paths.reject!{|path| path =~ /^--/ } # ignore options
+  paths.reject!{|path| path =~ /^-/ } # ignore options
   paths = [engines_path] if paths.empty?
   result = []
   paths.each do |path|
@@ -31,8 +31,8 @@ paths = ARGV.clone
 paths = files_to_load(paths)
 
 unless paths.empty?
-  puts 'Running adva-cms tests...'
+  puts 'Running adva-cms tests ...'
   # root_path = File.expand_path(File.dirname(__FILE__)).gsub!(/vendor.*/, '')
   # paths.each{|path| puts path.gsub(root_path, '') }
-  paths.each{|path| require path }
+  paths.sort.each{|path| require path }
 end

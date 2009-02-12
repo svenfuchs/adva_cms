@@ -30,7 +30,7 @@ class Test::Unit::TestCase
     I18n.default_locale = :en
   end
   alias_method_chain :setup, :test_setup
-  
+
   def teardown_with_test_setup
     teardown_without_test_setup
   ensure
@@ -42,13 +42,21 @@ class Test::Unit::TestCase
   alias_method_chain :teardown, :test_setup
 end
 
+# FIXME at_exit { try to rollback any open transactions }
+
 # include this line to test adva-cms with url_history installed
 # require dir + '/plugins/url_history/init_url_history'
 
 require_all dir + "/contexts.rb",
-            dir + "/fixtures.rb",
+            # dir + "/fixtures.rb",
             dir + "/test_helper/**/*.rb"
 require_all dir + "/../../**/test/contexts.rb",
-            dir + "/../../**/test/fixtures.rb",
+            # dir + "/../../**/test/fixtures.rb",
             dir + "/../../**/test/test_helper/**/*.rb"
+
+if DO_PREPARE_DATABASE
+  puts 'Preparing the database ...'
+  require_all dir + "/fixtures.rb"
+  require_all dir + "/../../**/test/fixtures.rb"
+end
 
