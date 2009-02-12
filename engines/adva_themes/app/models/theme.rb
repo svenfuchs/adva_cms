@@ -99,9 +99,9 @@ class Theme < ActiveRecord::Base
     returning(tmp_dir + "#{name}.zip") do |file_name|
       file_name.unlink if file_name.exist?
       Zip::ZipFile.open(file_name, Zip::ZipFile::CREATE) do |zip|
-        ::File.open(tmp_dir + 'about.yml', 'w') { |file| file.write(about.to_yaml) }
+        files.each { |file| zip.add(file.base_path, file.path) if ::File.exists?(file.path) }
+        ::File.open(tmp_dir + 'about.yml', 'w') { |f| f.write(about.to_yaml) }
         zip.add('about.yml', tmp_dir + 'about.yml')
-        files.flatten.each { |file| zip.add(file.base_path, file.path) if File.exists?(file.path) }
       end
     end
   end
