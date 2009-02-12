@@ -20,7 +20,13 @@ class CalendarTest < ActiveSupport::TestCase
       assert !default_calendar_options[key]
     end
 
-    assert default_calendar_options[:use_full_month_names]
+    # default date format for header is to show the full month name if no translation is set in locale
+    assert_equal "%B", default_calendar_options[:current_month]
+
+    # next and previous month aren't shown by default
+    assert !default_calendar_options[:next_month]
+    assert !default_calendar_options[:previous_month]
+    assert !default_calendar_options[:next_and_previous_month]
 
     # some options use i18n ...
     I18n.stubs(:translate).with(:'date.first_day_of_week', :default => "0").then.returns("1")
@@ -31,10 +37,8 @@ class CalendarTest < ActiveSupport::TestCase
     # with default first day of week set in locale
     assert_equal 1, (LaterDude::Calendar.send(:default_calendar_options)[:first_day_of_week]) # have to do this so that we don't use the cached version
 
-    # default date format for header is to show the full month name if no translation is set in locale
-    assert_equal "%B", default_calendar_options[:header_date_format]
     # with default date format set in locale
-    assert_equal "%B %Y", (LaterDude::Calendar.send(:default_calendar_options)[:header_date_format])
+    assert_equal "%B %Y", (LaterDude::Calendar.send(:default_calendar_options)[:current_month])
   end
 
   # options
@@ -47,15 +51,6 @@ class CalendarTest < ActiveSupport::TestCase
     assert_equal ABBR_DAY_NAMES, LaterDude::Calendar.new(2009, 1, :use_full_day_names => false).send(:day_names)
   end
 
-  test "uses full month names" do
-    assert_equal FULL_MONTH_NAMES, LaterDude::Calendar.new(2009, 1).send(:month_names)
-    assert_equal FULL_MONTH_NAMES, LaterDude::Calendar.new(2009, 1, :use_full_month_names => true).send(:month_names)
-  end
-
-  test "uses abbreviated month names" do
-    assert_equal ABBR_MONTH_NAMES, LaterDude::Calendar.new(2009, 1, :use_full_month_names => false).send(:month_names)
-  end
-
   test "doesn't show day names" do
     assert_nil LaterDude::Calendar.new(2009, 1, :hide_day_names => true).send(:show_day_names)
   end
@@ -65,8 +60,77 @@ class CalendarTest < ActiveSupport::TestCase
     assert_nil LaterDude::Calendar.new(2009, 1, :hide_month_name => true).send(:show_month_names)
   end
 
-  test "uses date format for calendar header" do
-    assert_match %r(January 2009), LaterDude::Calendar.new(2009, 1, :header_date_format => "%B %Y").to_html
+  # links/texts for next, previous and current month
+  test "uses next month for a string" do
+    assert_match %r(&raquo;), LaterDude::Calendar.new(2009, 1, :next_month => "&raquo;").send(:next_month)
+  end
+
+  test "uses next month for a strftime string" do
+    assert_match %r(Feb), LaterDude::Calendar.new(2009, 1, :next_month => "%b").send(:next_month)
+  end
+
+  test "uses next month for proc" do
+    assert_match %r(<a href="/events/2009/2">&raquo;</a>), LaterDude::Calendar.new(2009, 1, :next_month => lambda { |date| link_to "&raquo;", "/events/#{date.year}/#{date.month}" }).send(:next_month)
+  end
+
+  test "uses next month for array if first value is a string and second is a proc" do
+    assert_match %r(<a href="/events/2009/2">&raquo;</a>), LaterDude::Calendar.new(2009, 1, :next_month => ["&raquo;", lambda { |date| "/events/#{date.year}/#{date.month}" }]).send(:next_month)
+  end
+
+  test "uses next month for array if first value is a strftime string and second is a proc" do
+    assert_match %r(<a href="/events/2009/2">Feb</a>), LaterDude::Calendar.new(2009, 1, :next_month => ["%b", lambda { |date| "/events/#{date.year}/#{date.month}" }]).send(:next_month)
+  end
+
+  test "uses previous month for a string" do
+    assert_match %r(&laquo;), LaterDude::Calendar.new(2009, 1, :previous_month => "&laquo;").send(:previous_month)
+  end
+
+  test "uses previous month for a strftime string" do
+    assert_match %r(Dec), LaterDude::Calendar.new(2009, 1, :previous_month => "%b").send(:previous_month)
+  end
+
+  test "uses previous month for proc" do
+    assert_match %r(<a href="/events/2008/12">&laquo;</a>), LaterDude::Calendar.new(2009, 1, :previous_month => lambda { |date| link_to "&laquo;", "/events/#{date.year}/#{date.month}" }).send(:previous_month)
+  end
+
+  test "uses previous month for array if first value is a string and second is a proc" do
+    assert_match %r(<a href="/events/2008/12">&laquo;</a>), LaterDude::Calendar.new(2009, 1, :previous_month => ["&laquo;", lambda { |date| "/events/#{date.year}/#{date.month}" }]).send(:previous_month)
+  end
+
+  test "uses previous month for array if first value is a strftime string and second is a proc" do
+    assert_match %r(<a href="/events/2008/12">Dec</a>), LaterDude::Calendar.new(2009, 1, :previous_month => ["%b", lambda { |date| "/events/#{date.year}/#{date.month}" }]).send(:previous_month)
+  end
+
+  test "uses next and previous month for array if first value is a strftime string and second is a proc" do
+    calendar = LaterDude::Calendar.new(2009, 1, :next_and_previous_month => ["%b", lambda { |date| "/events/#{date.year}/#{date.month}" }])
+    assert_match %r(<a href="/events/2008/12">Dec</a>), calendar.send(:previous_month)
+    assert_match %r(<a href="/events/2009/2">Feb</a>), calendar.send(:next_month)
+  end
+
+  test "uses next/previous month options rather than combined option if both are given" do
+    calendar = LaterDude::Calendar.new(2009, 1, :next_month => "&raquo;", :previous_month => "&laquo;", :next_and_previous_month => ["%b", lambda { |date| "/events/#{date.year}/#{date.month}" }])
+    assert_match %r(&laquo;), calendar.send(:previous_month)
+    assert_match %r(&raquo;), calendar.send(:next_month)
+  end
+
+  test "uses current month for a string" do
+    assert_match %r(Current), LaterDude::Calendar.new(2009, 1, :current_month => "Current").send(:current_month)
+  end
+
+  test "uses current month for a strftime string" do
+    assert_match %r(Jan), LaterDude::Calendar.new(2009, 1, :current_month => "%b").send(:current_month)
+  end
+
+  test "uses current month for proc" do
+    assert_match %r(<a href="/events/2009/1">Current</a>), LaterDude::Calendar.new(2009, 1, :current_month => lambda { |date| link_to "Current", "/events/#{date.year}/#{date.month}" }).send(:current_month)
+  end
+
+  test "uses current month for array if first value is a string and second is a proc" do
+    assert_match %r(<a href="/events/2009/1">Current</a>), LaterDude::Calendar.new(2009, 1, :current_month => ["Current", lambda { |date| "/events/#{date.year}/#{date.month}" }]).send(:current_month)
+  end
+
+  test "uses current month for array if first value is a strftime string and second is a proc" do
+    assert_match %r(<a href="/events/2009/1">Jan</a>), LaterDude::Calendar.new(2009, 1, :current_month => ["%b", lambda { |date| "/events/#{date.year}/#{date.month}" }]).send(:current_month)
   end
 
   # helper methods
