@@ -32,7 +32,10 @@ Possible options are:
   * :hide_month_name: Hide the table header showing the month name. Defaults to false.
   * :use_full_day_names: Use full instead of abbreviated day names. Defaults to false.
   * :use_full_month_names: Use full instead of abbreviated month names. Defaults to true.
-  * :header_date_format: Use the given date format to customize how the month name is shown in the table header. This uses I18n.localize internally, so you can either pass a strftime-compatible string which is then interpolated (e.g. "%b %y" to show the abbreviated month and two-digit year) or a symbol which will be looked up in the locale (e.g. :long will look for :'date.formats.long'). Defaults to the :'date.formats.calendar_header' translation in the respective locale or "%B %Y" (e.g. "January 2009") if no translation can be found.
+  * :next_month: Defines if and how the next month should be displayed. See section "Formatting the header section" for further information.
+  * :previous_month: Defines if and how the previous month should be displayed. See section "Formatting the header section" for further information.
+  * :next_and_previous_month: Defines if and how the next and previous month should be displayed. See section "Formatting the header section" for further information.
+  * :current_month: Defines how the current month should be displayed. See section "Formatting the header section" for further information.
 
 You can also pass in a block to mark days according to your own set of rules. The block gets passed each day of the current month (i.e. days of the previous and following month are *not* yielded):
 
@@ -62,6 +65,41 @@ Hint: You can avoid cluttering up your views and move the block to a helper:
   # app/views/calendar/show.html
   <%= calendar_for(2009, 1, &calendar_events_proc)
 
+Formatting the header section
+=============================
+
+You can customize the calendar's header section (i.e. the first table row) by using one or more of the following options:
+  * :next_month
+  * :previous_month
+  * :next_and_previous_month
+  * :current_month
+  
+All of these can either take a single value or an array of two values:
+
+  # simple string
+  :next_month => "&raquo;"
+  
+  # strftime string
+  :next_month => "%b"
+  
+  # proc - will evaluate the proc
+  :next_month => lambda { |date| link_to "&raquo;", calendar_path(date.year, month.year) }
+  
+  # simple string and proc - will evaluate the proc and use it for link_to, e.g. link_to("&raquo;", calendar_path(date.year, month.year))
+  :next_month => ["&raquo;", lambda { |date| calendar_path(date.year, month.year) }]
+
+  # strftime string and proc - will evaluate the proc and use it for link_to, e.g. link_to("Jan", calendar_path(date.year, month.year))
+  :next_month => ["%b", lambda { |date| calendar_path(date.year, month.year) }]
+  
+If you use a proc it gets passed a Date object carrying the respective month, i.e. the proc for :previous_month gets passed a Date object representing the previous month etc.
+
+You can do all kinds of mighty stuff with a proc. Imagine a situation where you want to show the abbreviated month name and then the number of events for the given month:
+  
+  # depending on your routes, this outputs something like <a href="/calendar/2009/1">Jan (3 events)</a>
+  :next_month => lambda { |date| link_to I18n.localize(date, :format => "%b (#{pluralize(Event.in_month(date))})", calendar_path(date.year, date.month) }
+
+The option :next_and_previous_month can be used as a shortcut if you want to use the same formatting for the next and previous month. Both, :next_month and :previous_month override the :next_and_previous_month if given.
+
 i18n
 ====
 
@@ -81,13 +119,6 @@ Of course, you can also put other configuration options in the locale and then p
   <%= calendar_for(2009, 1, :calendar_class => I18n.translate(:'date.calendar.calendar_class', :default => "my_calendar"))
 
 Note that you should always pass in a default in case a translation can't be found since your options override the default options which might result in weird exceptions if the translation is missing.
-
-Next steps
-==========
-
-There are a few things that are missing in this release and will probably be added over the next few days:
-
-  * At the moment, there are no possibilities to just flip through months like in most calendars. I'm undecided if this belongs in this plugins or should just be done by the user.
 
 Bugs & Feedback
 ===============
