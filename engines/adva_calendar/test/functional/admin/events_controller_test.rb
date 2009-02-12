@@ -8,6 +8,24 @@ class Admin::EventsControllerTest < ActionController::TestCase
     { :site_id => @section.site_id, :section_id => @section.id }
   end
 
+  view :form do
+    has_tag 'input[name=?]', 'calendar_event[title]'
+    has_tag 'input[name=?]', 'calendar_event[host]'
+    has_tag 'input[name=?]', 'calendar_event[start_date]'
+    has_tag 'input[name=?]', 'calendar_event[end_date]'
+    has_tag 'input[type=checkbox][name=?]', 'calendar_event[all_day]' do |tags|
+      expected = assigns(:event).all_day? ? 'checked' : nil
+      assert_equal expected, tags.first.attributes['checked']
+    end
+    
+    has_tag 'textarea[name=?]', 'calendar_event[body]'
+    has_tag 'input[name=?]', 'calendar_event[tag_list]'
+    has_tag 'input[type=checkbox][name=draft]' do |tags|
+      expected = assigns(:event).draft? ? 'checked' : nil
+      assert_equal expected, tags.first.attributes['checked']
+    end
+  end
+
   describe "routing" do
     calendar = Calendar.find_by_permalink('calendar-with-events')
     with_options :path_prefix => "/admin/sites/#{calendar.site_id}/sections/#{calendar.id}/", :site_id => calendar.site_id.to_s, :section_id => calendar.id.to_s do |route|
@@ -30,9 +48,14 @@ class Admin::EventsControllerTest < ActionController::TestCase
 
   describe "GET to :new" do
     action { get :new, default_params }
-    it_assigns :event => :not_nil
-    it_renders_template :new
     it_guards_permissions :create, :calendar_event
+
+    it_assigns :event => :not_nil
+    it_renders :template, :new
+
+    has_form_posting_to admin_calendar_events_path do
+      shows :form
+    end
   end
 
   describe "GET to :edit" do
@@ -40,6 +63,9 @@ class Admin::EventsControllerTest < ActionController::TestCase
     it_assigns :event => lambda {@section.events.first}
     it_renders_template :edit
     it_guards_permissions :update, :calendar_event
+    has_form_putting_to admin_calendar_event_path do
+      shows :form
+    end
   end
 
   describe "POST to :create" do
