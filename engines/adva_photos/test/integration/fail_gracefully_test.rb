@@ -17,7 +17,7 @@ class FailGracefullyTest < ActionController::IntegrationTest
   end
   
   test 'fails gracefully when user tries to find non existant photo' do
-    visit '/an-album/photos/6f6'
+    visit '/an-album/photos/abc'
     redirect_back_to_album
   end
   
