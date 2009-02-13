@@ -25,6 +25,9 @@ class Theme < ActiveRecord::Base
       record.errors.add attr, 'may not contain consequtive dots' if value =~ /\.\./
     end
 
+    validates_format_of :name, :with => /^\w/
+    validates_format_of :directory, :with => /^\w/, :allow_nil => true, :allow_blank => true
+
     # before_validation: whitelist allowed characters?
 
     class << self
