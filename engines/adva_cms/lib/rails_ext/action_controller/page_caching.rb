@@ -5,18 +5,20 @@ ActionController::Base.class_eval do
   end
 
   def expire_site_page_cache
-    cache_dir = page_cache_directory
-    if cache_dir.gsub('/', '') =~ /public$/ 
-      # FIXME 
-      # We can not simply kill the whole cache dir in single-site mode.
-      # The following misses assets (like stylesheets) from themes though 
-      # because they are not referenced as cached, yet. Do we need to expire
-      # these assets at all though?
-      expire_pages CachedPage.find_all_by_site_id(@site.id)
-    else
-      @site.cached_pages.delete_all
-      Pathname.new(cache_dir).rmtree rescue Errno::ENOENT
-    end
+    # FIXME 
+    # We can not simply kill the whole cache dir.
+    # The following misses assets (like stylesheets) from themes though 
+    # because they are not referenced as cached, yet. Do we need to expire
+    # these assets at all though?
+    expire_pages CachedPage.find_all_by_site_id(@site.id)
+
+    # cache_dir = page_cache_directory
+    # if cache_dir.gsub('/', '') =~ /public$/ 
+    #   expire_pages CachedPage.find_all_by_site_id(@site.id)
+    # else
+    #   @site.cached_pages.delete_all
+    #   Pathname.new(cache_dir).rmtree rescue Errno::ENOENT
+    # end
     
     # expire asset_tag_helper file_exist_cache so that assets will be re-cached
     ActionController::Base.reset_file_exist_cache!
