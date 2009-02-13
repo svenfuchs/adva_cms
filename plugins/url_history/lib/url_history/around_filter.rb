@@ -10,7 +10,7 @@ module UrlHistory
       protected
       
         def create_entry!(controller, url)
-          if controller.respond_to?(:current_resource) and resource = controller.send(:current_resource)
+          if !url.match(%r(/admin/)) and resource = controller.try(:current_resource)
             Entry.create! :url => url, :resource => resource, :params => stringify(controller.params)
           end
         end
