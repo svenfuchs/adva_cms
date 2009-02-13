@@ -19,6 +19,12 @@ class Message < ActiveRecord::Base
     !parent_id.nil?
   end
   
+  def deliver
+    return self.save unless self.recipient.respond_to?(:banships)
+    
+    Banship.exists?(self.recipient, self.sender) ? true : self.save
+  end
+  
   def mark_as_read
     update_attribute(:read_at, Time.now)
   end

@@ -30,7 +30,7 @@ class MessagesController < BaseController
   def create
     @message = current_user.messages_sent.build(params[:message])
     
-    if @message.save
+    if @message.deliver
       flash[:notice] = "Message was sent successfully."
       trigger_events @message
       redirect_to messages_path
