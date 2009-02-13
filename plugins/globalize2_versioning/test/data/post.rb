@@ -11,6 +11,7 @@ end
 
 class Parent < ActiveRecord::Base
   translates :content
+  validates_presence_of :content
 end
 
 class Child < Parent
@@ -24,6 +25,7 @@ end
 
 class Content < ActiveRecord::Base
   translates :title, :article, :versioned => [ :article ], :limit => 5
+  validates_presence_of :article
 end
 
 class Wiki < Content
