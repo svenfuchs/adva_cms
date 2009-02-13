@@ -213,6 +213,14 @@ class VersioningTest < ActiveSupport::TestCase
     assert !section.revert_to(3)
   end
   
+  test 'revert_to same version' do
+    section = Section.create :content => 'foo'
+    section.update_attribute :content, 'bar'    
+    assert section.revert_to(2)
+    assert_equal 'bar', section.content
+    assert_equal 2, section.version
+  end
+  
   test 'revert_to with callbacks' do
     I18n.fallbacks.map :de => [ :en ]
   
@@ -456,5 +464,13 @@ class VersioningTest < ActiveSupport::TestCase
     section.content = ''
     assert !section.save
     assert_equal 'foo', section.reload.content
+  end
+  
+  test 'update_attributes' do
+    section = Section.create :content => 'foo'
+    section.update_attribute :content, 'bar'
+    assert section.update_attributes( {} )    
+    section.revert_to 1
+    assert section.update_attributes( {} )    
   end
 end
