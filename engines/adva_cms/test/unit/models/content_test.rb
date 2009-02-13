@@ -92,16 +92,11 @@ class ContentTest < ActiveSupport::TestCase
   # VALIDATIONS
 
   test "validates presence of a title" do
-    # TODO (jmh) why doesn't this work?
-    # @content.should validate_presence_of(:title)
+    @content.should validate_presence_of(:title)
   end
 
   test "validates presence of a body" do
-    content = Article.new
-    content.valid?.should be_false
-    
-    # TODO (jmh) why doesn't this work?
-    #@content.should validate_presence_of(:body)
+    @content.should validate_presence_of(:body)
   end
 
   test "validates presence of an author (through belongs_to_author)" do
