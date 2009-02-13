@@ -94,6 +94,8 @@ class BaseHelperAuthorOptionsTest < ActiveSupport::TestCase
   # include ActionView::Helpers::TranslationHelper, ActionView::Helpers::TagHelper, ActionView::Helpers::UrlHelper
   
   def setup
+    super
+
     @site = Site.new
     instance_variable_set(:@site, @site) # wtf
     
@@ -140,6 +142,7 @@ class BaseHelperMicroformatsTest < ActiveSupport::TestCase
   include BaseHelper
   
   def setup
+    super
     Time.zone   = 'Vienna'
     @utc_time   = Time.utc        2008, 10, 9, 12, 0, 0
     @local_time = Time.zone.local 2008, 10, 9, 14, 0, 0

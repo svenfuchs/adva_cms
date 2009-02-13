@@ -5,12 +5,12 @@ class BlogHelperTest < ActiveSupport::TestCase
   include BlogHelper
   
   def setup
+    super
     @blog = Blog.first
     @article = @blog.articles.find_published :first
     @category = @blog.categories.first
     @tags = ['foo', 'bar']
     @month = Time.local(2008, 1)
-    super
   end
   
   describe '#articles_title' do
