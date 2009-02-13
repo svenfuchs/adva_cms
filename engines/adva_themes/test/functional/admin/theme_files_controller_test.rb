@@ -100,6 +100,48 @@ class AdminThemeFilesControllerTest < ActionController::TestCase
     end
   end
   
+  describe "GET to :import" do
+    action { get :import, default_params }
+    
+    it_guards_permissions :update, :theme
+    
+    with :access_granted do
+      it_assigns :theme
+      it_renders :template, :import do
+        has_form_posting_to upload_admin_theme_files_path(@site, @theme) do
+          has_tag 'input[name=?][type=?]', 'file[data]', 'file'
+        end
+      end
+    end
+  end
+  
+  describe "POST to :upload" do
+    action { post :upload, default_params.merge(@params) }
+    
+    with :valid_theme_upload_params do
+      it_guards_permissions :update, :theme
+  
+      with :access_granted do
+        it_assigns :theme, :file => :not_nil
+        it_redirects_to { admin_theme_file_path(@site, @theme, assigns(:file).id) }
+        it_assigns_flash_cookie :notice => :not_nil
+  
+        it "creates the theme image file" do
+          @theme.files.find_by_name('rails.png').should_not be_nil
+        end
+          
+        expect "expires page cache for the current site" do
+          mock(@controller).expire_site_page_cache
+        end
+      end
+    end
+    
+    with :invalid_theme_upload_params do
+      it_renders :template, :import
+      it_assigns_flash_cookie :error => :not_nil
+    end
+  end
+  
   describe "PUT to :update" do
     action { put :update, default_params.merge(@params).merge(:id => @file.id) }
     

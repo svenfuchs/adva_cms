@@ -46,4 +46,16 @@ class Test::Unit::TestCase
       @params = { :file => { :name  => 'invalid', :data => 'the template' } }
     end
   end
+  
+  share :valid_theme_upload_params do
+    before do
+      @params = { :file => { :data => File.new("#{File.dirname(__FILE__)}/fixtures/rails.png") } }
+    end
+  end
+  
+  share :invalid_theme_upload_params do
+    before do
+      @params = { :file => { :data => nil } }
+    end
+  end
 end

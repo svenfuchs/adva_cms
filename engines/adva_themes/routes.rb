@@ -27,4 +27,4 @@ map.admin_site_selected_theme   'admin/sites/:site_id/themes/selected/:id',
 map.resources :files,           :controller  => 'admin/theme_files',
                                 :path_prefix => 'admin/sites/:site_id/themes/:theme_id',
                                 :name_prefix => 'admin_theme_',
-                                :collection  => { :import => :any }
+                                :collection  => { :import => :get, :upload => :post }
