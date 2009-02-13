@@ -20,10 +20,15 @@ class Message < ActiveRecord::Base
   end
   
   def deliver
+    # FIXME implement more elegant way to do this
     return self.save unless self.recipient.respond_to?(:banships)
     
     if Banship.exists?(self.recipient, self.sender)
-      self.recipient            = self.sender
+      # FIXME This stuff needs revisiting!
+      #       Banning other user basically just means that
+      #       we filter his inbox so that he never sees the message.
+      #       But what happens when we implement trashbox?
+      self.read_at              = Time.now
       self.deleted_at_recipient = Time.now
       self.save
     else
