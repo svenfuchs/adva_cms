@@ -38,6 +38,10 @@ module ActiveRecord
       def messages
         (messages_received + messages_sent).uniq
       end
+      
+      def my_conversations
+        messages.collect {|m| m.conversation }.uniq
+      end
     end
     
   end

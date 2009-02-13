@@ -22,7 +22,13 @@ class Message < ActiveRecord::Base
   def deliver
     return self.save unless self.recipient.respond_to?(:banships)
     
-    Banship.exists?(self.recipient, self.sender) ? true : self.save
+    if Banship.exists?(self.recipient, self.sender)
+      self.recipient            = self.sender
+      self.deleted_at_recipient = Time.now
+      self.save
+    else
+      self.save
+    end
   end
   
   def mark_as_read
