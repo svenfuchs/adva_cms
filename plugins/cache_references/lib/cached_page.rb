@@ -27,7 +27,7 @@ class CachedPage < ActiveRecord::Base
         page.section_id = section.id
         page.cleared_at = nil
         page.save!
-      end
+      end if site
     end
 
     def expire_pages(pages)
