@@ -19,7 +19,7 @@ class Theme < ActiveRecord::Base
     validates_presence_of :name
     validates_uniqueness_of :name, :scope => :theme_id
     validates_attachment_presence :data
-    validates_attachment_size :data, :less_than => 100.kilobytes
+    validates_attachment_size :data, :less_than => 500.kilobytes
 
     validates_each :directory, :name do |record, attr, value|
       record.errors.add attr, 'may not contain consequtive dots' if value =~ /\.\./
@@ -31,9 +31,11 @@ class Theme < ActiveRecord::Base
       def new(attributes = {})
         path = attributes.delete(:path)
         type, directory, name, data = attributes.values_at(:type, :directory, :name, :data)
+        path ||= data.try(:original_filename)
 
-        directory, name = split_path(path) if path
-        type ||= type_for(directory, name) if name
+        directory, name = split_path(path) if path and name.blank?
+        directory ||= ''
+        type      ||= type_for(directory, name) if name
         data = StringIO.new(data) if data.is_a?(String)
 
         super attributes.merge(:type => type, :directory => directory, :name => name, :data => data)

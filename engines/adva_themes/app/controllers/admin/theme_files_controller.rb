@@ -4,7 +4,7 @@ class Admin::ThemeFilesController < Admin::BaseController
   before_filter :set_theme
   before_filter :set_file, :only => [:show, :update, :destroy]
 
-  guards_permissions :theme, :update => [:index, :show, :new, :create, :import, :edit, :update, :destroy]
+  guards_permissions :theme, :update => [:index, :show, :new, :create, :import, :upload, :edit, :update, :destroy]
 
   def show
   end
@@ -23,6 +23,19 @@ class Admin::ThemeFilesController < Admin::BaseController
     else
       flash.now[:error] = t(:'adva.theme_files.flash.create.failure')
       render :action => :new
+    end
+  end
+
+  def upload
+    @file = @theme.files.build(params[:file])
+    if @file.save
+      expire_pages_by_site!
+      expire_template!(@file)
+      flash[:notice] = t(:'adva.theme_files.flash.create.success') # FIXME import.failure
+      redirect_to admin_theme_file_path(@site, @theme.id, @file.id)
+    else
+      flash.now[:error] = t(:'adva.theme_files.flash.create.failure') # FIXME import.failure
+      render :action => :import
     end
   end
 

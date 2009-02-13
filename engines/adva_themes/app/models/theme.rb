@@ -89,7 +89,14 @@ class Theme < ActiveRecord::Base
 
     Zip::ZipFile.open(file.path) do |zip|
       zip.each do |entry|
-        files << Theme::File.new(:theme => self, :path => entry.name, :data => entry.get_input_stream)
+        if entry.name == 'about.yml'
+          # FIXME
+        else
+          data = ''
+          entry.get_input_stream { |io| data = io.read }
+          data = StringIO.new(data) 
+          Theme::File.create!(:theme => self, :path => entry.name, :data => data)
+        end
       end
     end
   end
