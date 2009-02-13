@@ -21,7 +21,15 @@ class ConversationsController < BaseController
   protected
   
     def set_conversation
-      @conversation = current_user.conversations.find(params[:id])
+      conversation = Conversation.find(params[:id])
+      # FIXME i think #my_conversations is way too expensive
+      #       but it is currently only way to show conversation
+      #       that was sent by the user but what was not replied on
+      if current_user.my_conversations.include?(conversation)
+        @conversation = conversation
+      else
+        raise ActiveRecord::RecordNotFound
+      end
     rescue
       flash[:error] = "Requested conversation could not be found"
       write_flash_to_cookie # TODO make around filter or something
