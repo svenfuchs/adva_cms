@@ -23,7 +23,7 @@ class Message < ActiveRecord::Base
     # FIXME implement more elegant way to do this
     return self.save unless self.recipient.respond_to?(:banships)
     
-    if Banship.exists?(self.recipient, self.sender)
+    if Banship.exists?(self.recipient, self.sender) || Banship.exists?(self.sender, self.recipient)
       # FIXME This stuff needs revisiting!
       #       Banning other user basically just means that
       #       we filter his inbox so that he never sees the message.
