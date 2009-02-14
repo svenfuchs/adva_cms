@@ -16,6 +16,7 @@ class ForumWithBoardCacheReferencesTest < ActionController::TestCase
   end
   
   def teardown
+    super
     ActionController::Base.perform_caching = @old_perform_caching
   end
   
@@ -54,6 +55,7 @@ class ForumWithoutBoardCacheReferencesTest < ActionController::TestCase
   end
   
   def teardown
+    super
     ActionController::Base.perform_caching = @old_perform_caching
   end
 
