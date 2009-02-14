@@ -11,16 +11,6 @@ module RoutingFilter
       end
       yield
     end
-    
-    # This implementation looks for a section_id param in the args hash, which seems a bit brittle.
-    # def around_generate(*args, &block)
-    #   returning yield do |result|
-    #     if result !~ %r(^/admin/) and root = site_root(args) and result =~ generate_pattern(root)
-    #       result.sub! $2, $3 unless $3 == '.'
-    #       result.replace '/' if result.empty?
-    #     end
-    #   end
-    # end
 
     def around_generate(*args, &block)
       returning yield do |result|
@@ -50,32 +40,5 @@ module RoutingFilter
         site = Site.find_by_host(env[:host_with_port])
         site.sections.root if site
       end
-      
-      # def generate_pattern(root)
-      #   %r(^(/[\w]{2})?(/(?:#{root.type.pluralize.downcase}|sections)/#{root.id}(\.|/|$)))
-      # end
-      
-      # def site_root(args)
-      #   args = args.reverse.detect {|arg| arg.is_a?(Hash) && arg[:section_id] } or return nil
-      #   section = args[:section_id] 
-      #   section = Section.find(section) unless section.is_a?(Section)
-      #   section.site.sections.root
-      # end
-    
-      # def current_root
-      #   Site.find(Thread.current[:site_id]).sections.root if Thread.current[:site_id]
-      # end
   end
 end
-
-# This pattern matches a path that starts (aside from an optional locale) with 
-# a single slash or one of articles|pages|categories|tags, 4 digits or a dot
-# followed by anything.
-#
-# %r(^/?(/[\w]{2})?(/articles|/pages|/boards|/topics|/categories|/tags|/\d{4}|\.|/?$))
-#
-# So all of the following paths will match:
-# / and /de
-# /articles and /de/articles (same with pages, categories, tags)
-# /2008 and /de/2008
-# /.rss and /de.rss

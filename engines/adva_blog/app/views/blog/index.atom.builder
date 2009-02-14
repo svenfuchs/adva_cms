@@ -8,7 +8,7 @@ atom_feed :url => request.url do |feed|
   feed.updated @articles.first ? @articles.first.updated_at : Time.now.utc
 
   @articles.each do |article|
-    url = article_url @section, article.full_permalink
+    url = blog_article_url @section, article.full_permalink
     feed.entry article, :url => url do |entry|
       entry.title article.title
       entry.content article.body_html, :type => 'html'

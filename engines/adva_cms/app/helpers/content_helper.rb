@@ -12,7 +12,7 @@ module ContentHelper
   def content_path(content, options = {})
     case content.section
     when Blog
-      article_path content.section, content.full_permalink.merge(options)
+      blog_article_path content.section, content.full_permalink.merge(options)
     when Wiki
       wikipage_path *[content.section, content.permalink, options].compact
     when Forum

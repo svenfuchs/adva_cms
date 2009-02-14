@@ -8,7 +8,7 @@ class SectionsControllerTest < ActionController::TestCase
   end
   
   describe "GET to :show with no article permalink given" do
-    action { get :show, params_from("/a-section") }
+    action { get :index, params_from("/a-section") }
     
     with :the_article_is_published do
       it_assigns :section, :article

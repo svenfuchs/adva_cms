@@ -2,7 +2,7 @@ require File.expand_path(File.dirname(__FILE__) + "/../test_helper")
 
 class WikiControllerTest < ActionController::TestCase
   include WikiHelper
-  with_common :is_superuser, :a_wiki, :a_wikipage
+  with_common :is_superuser, :a_wiki, :a_wikipage, :a_wikipage_category
   
   view :form do
     has_tag 'input[name=?]', 'wikipage[title]'
@@ -36,8 +36,8 @@ class WikiControllerTest < ActionController::TestCase
   
   describe "GET to :index" do
     action { get :index, @params }
-
-    with [:wiki_path, [:a_wikipage_category, :wiki_category_path], :wiki_tag_path] do
+  
+    with [:wiki_path, :wiki_tag_path] do # FIXME, :wiki_category_path
       it_assigns :site, :section, :wikipages
       it_renders :template, :index do
         has_tag '#wikipages tbody tr', :count => @section.wikipages.count
@@ -52,11 +52,11 @@ class WikiControllerTest < ActionController::TestCase
       # end
       
       it_caches_the_page :track => ['@wikipage', '@wikipages', '@category', {'@site' => :tag_counts, '@section' => :tag_counts}]
-
+  
       it_assigns :category, :in => :'params_from wiki_category_paths'
       it_assigns :tags,     :in => :'params_from wiki_tag_paths'
     end
-
+  
     with :'wiki_feed_path', [:a_wikipage_category, :wiki_category_feed_path], :wiki_tag_feed_path do
       it_assigns :site, :section, :wikipages
       it_renders :template, :index, :format => :atom
@@ -64,7 +64,7 @@ class WikiControllerTest < ActionController::TestCase
   end
 
   describe "GET to :show" do
-    action { get :show, :id => @wikipage.permalink, :version => @version }
+    action { get :show, :section_id => @section, :id => @wikipage.permalink, :version => @version }
     
     # FIXME with no wikipage it renders the wikipage form
     
@@ -99,7 +99,7 @@ class WikiControllerTest < ActionController::TestCase
           #   does not render the comments/form partial
         end
       end
-
+  
       with "a version param given" do
         before { @version = '1' }
         it_renders :template, :show
@@ -115,15 +115,15 @@ class WikiControllerTest < ActionController::TestCase
   end
   
   describe "GET to :diff" do
-    action { get :diff, :id => @wikipage.permalink, :diff_version => 1}
+    action { get :diff, :section_id => @section, :id => @wikipage.permalink, :diff_version => 1}
     before { @wikipage.update_attributes(:body => "#{@wikipage.body} was changed") }
     
     it_assigns :site, :section, :wikipage
     it_renders :template, :diff
   end
-
+  
   describe "GET to :new" do
-    action { get :new }
+    action { get :new, :section_id => @section }
     it_guards_permissions :create, :wikipage
   
     with :access_granted do
@@ -135,9 +135,9 @@ class WikiControllerTest < ActionController::TestCase
       end
     end
   end
-
+  
   describe "POST to :create" do
-    action { post :create, @params }
+    action { post :create, @params.merge(:section_id => @section) }
     it_guards_permissions :create, :wikipage
   
     with :access_granted do
@@ -160,7 +160,7 @@ class WikiControllerTest < ActionController::TestCase
   end
   
   describe "GET to :edit" do
-    action { get :edit, :id => @wikipage.permalink }
+    action { get :edit, :section_id => @section, :id => @wikipage.permalink }
     it_guards_permissions :update, :wikipage
   
     with :access_granted do
@@ -176,12 +176,12 @@ class WikiControllerTest < ActionController::TestCase
   describe "PUT to :update" do
     action do
       Wikipage.with_observers :wikipage_sweeper do
-        put :update, (@params || {}).merge(:id => @wikipage.permalink)
+        put :update, (@params || {}).merge(:section_id => @section, :id => @wikipage.permalink)
       end
     end
-
+  
     it_guards_permissions :update, :wikipage
-
+  
     # FIXME - test with optimistic locking failing, too
     with :wikipage_optimistic_locking_passes do
       with "no version param given" do
@@ -195,7 +195,7 @@ class WikiControllerTest < ActionController::TestCase
             it_triggers_event :wikipage_updated
             it_sweeps_page_cache :by_reference => :wikipage
           end
-
+  
           with :invalid_wikipage_params do
             it_does_not_update :wikipage
             it_renders :template, :edit
@@ -205,7 +205,7 @@ class WikiControllerTest < ActionController::TestCase
           end
         end
       end
-
+  
       with "a version param given" do
         before { @params = { :wikipage => { :version => '1' } } }
         it_guards_permissions :update, :wikipage
@@ -221,7 +221,7 @@ class WikiControllerTest < ActionController::TestCase
       
           with "the wikipage does not have the requested revision (fails)" do
             before { @params = { :wikipage => { :version => '10' } } }
-
+  
             it_does_not_rollback :wikipage
             it_does_not_trigger_any_event
             it_assigns_flash_cookie :error => :not_nil
@@ -232,15 +232,15 @@ class WikiControllerTest < ActionController::TestCase
       end
     end
   end
-
+  
   describe "DELETE to :destroy" do
     action do
       Wikipage.with_observers :wikipage_sweeper do
-        delete :destroy, :id => @wikipage.permalink
+        delete :destroy, :section_id => @section, :id => @wikipage.permalink
       end
     end
     it_guards_permissions :destroy, :wikipage
-
+  
     with :access_granted do
       it_redirects_to { wiki_path(@section) }
       it_assigns_flash_cookie :notice => :not_nil
@@ -248,9 +248,9 @@ class WikiControllerTest < ActionController::TestCase
       it_sweeps_page_cache :by_reference => :wikipage
     end
   end
-
+  
   describe "GET to :comments" do
-    action { get :comments, @params }
+    action { get :comments, @params.merge(:section_id => @section) }
     
     with [:wiki_comment_feed_path, :wikipage_comment_feed_path] do
       it_assigns :section, :comments

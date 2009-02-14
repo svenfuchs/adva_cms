@@ -21,7 +21,7 @@ class IssueIntegrationTest < ActionController::IntegrationTest
 private
 
   def visit_newsletters
-    visit "/admin/sites/#{@site.id}/newsletters/"
+    visit "/admin/sites/#{@site.id}/newsletters"
     assert_template "admin/newsletters/index"
   end
 

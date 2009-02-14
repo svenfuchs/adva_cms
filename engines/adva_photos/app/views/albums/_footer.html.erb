@@ -25,8 +25,8 @@
   
   <ul id="feeds">
 	<% if false -%>
-    <li><%= link_to t( :'adva.links.entries_feed' ),  formatted_album_url(@section, :format => :atom) %></li>
-    <li><%= link_to t( :'adva.links.comments_feed' ), formatted_album_comments_url(@section, :format => :atom) %></li>
+    <li><%= link_to t( :'adva.links.entries_feed' ),  album_url(@section, :format => :atom) %></li>
+    <li><%= link_to t( :'adva.links.comments_feed' ), album_comments_url(@section, :format => :atom) %></li>
   <% end %>
   </ul>
 <% end %>

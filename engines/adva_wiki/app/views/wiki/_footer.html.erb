@@ -26,7 +26,7 @@
   <%= render :partial => 'shared/footer' %>
   
   <ul id="feeds">
-    <li><%= link_to t(:'adva.wiki.view._footer.link_to_entries_feed'), formatted_blog_url(@section, :format => :atom) %></li>
-    <li><%= link_to t(:'adva.wiki.view._footer.link_to_comment_feed'), formatted_blog_comments_url(@section, :format => :atom) %></li>
+    <li><%= link_to t(:'adva.wiki.view._footer.link_to_entries_feed'), wiki_url(@section, :format => :atom) %></li>
+    <li><%= link_to t(:'adva.wiki.view._footer.link_to_comment_feed'), wiki_comments_url(@section, :format => :atom) %></li>
   </ul>
 <% end %>

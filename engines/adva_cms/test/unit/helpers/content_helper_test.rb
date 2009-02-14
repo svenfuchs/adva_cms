@@ -55,7 +55,7 @@ class ContentHelperTest < ActionView::TestCase
   
   test "#content_path given the content's section is a Blog it returns an article_path" do
     @article = Blog.first.articles.first
-    mock(self).article_path.with(@article.section, @article.full_permalink)
+    mock(self).blog_article_path.with(@article.section, @article.full_permalink)
     content_path(@article)
   end
 

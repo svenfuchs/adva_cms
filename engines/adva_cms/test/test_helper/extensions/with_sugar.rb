@@ -120,8 +120,7 @@ class ActiveSupport::TestCase
   end
   
   def has_permalink(article)
-    has_tag 'h2 a[href=?]', 
-      article_path(article.section, article.full_permalink), article.title
+    has_tag 'h2 a[href=?]', blog_article_path(article.section, article.full_permalink), article.title
   end
   
   def without_routing_filters

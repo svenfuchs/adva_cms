@@ -48,7 +48,7 @@ class SectionsRoutesTest < ActionController::TestCase
       other = @section.site.sections.create! :title => 'another section' # FIXME move to db/populate
       other.move_to_left_of @section
 
-      url_rewriter = ActionController::UrlRewriter.new @request, params_from('/de/a-section')
+      url_rewriter = ActionController::UrlRewriter.new @request, :controller => 'sections', :section => @section.id
       @controller.instance_variable_set :@url, url_rewriter
       @controller.instance_variable_set :@site, @site
 

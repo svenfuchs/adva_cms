@@ -6,6 +6,7 @@ class ArticlePingObserver < ActionController::Caching::Sweeper
 
   def after_save(article)
     return unless article.published?
+    return unless article.section.type == 'Blog' # FIXME (relies on blog_url etc.)
 
     SERVICES.each do |service|
       # next if service[:section] && article.assigned_sections.select { |sec| sec if sec.section.name == service[:section].to_s }.length == 0
@@ -71,7 +72,7 @@ class ArticlePingObserver < ActionController::Caching::Sweeper
     end
 
     def blog_feed_url(article)
-      controller.send :formatted_blog_url, article.section, :format => :atom
+      controller.send :blog_feed_url, article.section, :format => :atom
     end
 
     def rest_params(article)

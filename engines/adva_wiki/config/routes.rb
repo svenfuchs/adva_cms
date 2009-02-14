@@ -15,16 +15,15 @@ ActionController::Routing::Routes.draw do |map|
                                   :path_prefix => 'wikis/:section_id',
                                   :name_prefix => 'wiki'
 
-  map.formatted_wiki_comments     'wikis/:section_id/comments.:format',
+  map.wiki_comments               'wikis/:section_id/comments.:format',
                                   :controller   => 'wiki',
                                   :action       => 'comments',
                                   :conditions   => { :method => :get }
 
-  map.formatted_wikipage_comments 'wikis/:section_id/pages/:id/comments.:format',
+  map.wikipage_comments           'wikis/:section_id/pages/:id/comments.:format',
                                   :controller   => 'wiki',
                                   :action       => 'comments',
                                   :conditions   => { :method => :get }
-
 
   map.resources :wikipages,       :path_prefix  => 'admin/sites/:site_id/sections/:section_id',
                                   :name_prefix  => 'admin_',
