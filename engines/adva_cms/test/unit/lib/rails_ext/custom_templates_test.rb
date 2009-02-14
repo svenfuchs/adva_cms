@@ -1,12 +1,16 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../../test_helper')
 
+class CustomTemplatesTestController < ActionController::Base
+  layout 'default'
+  prepend_view_path File.expand_path(File.dirname(__FILE__) + '/../../../fixtures/templates')
+end
+
+ActionController::Routing::Routes.draw do |map|
+  map.connect ':controller/:action/:id', :controller => 'custom_templates_test'
+end
+
 class CustomTemplatesTest < ActionController::TestCase
-  class TestController < ActionController::Base
-    layout 'default'
-    prepend_view_path File.expand_path(File.dirname(__FILE__) + '/../../../fixtures/templates')
-  end
-  
-  tests TestController
+  tests CustomTemplatesTestController
   
   test "render_options with template/layout given as a string" do
     section = Section.new :options => { :template => 'foo', :layout => 'bar' }
@@ -39,7 +43,7 @@ class CustomTemplatesTest < ActionController::TestCase
     section = Section.new :options => { :template => 'alternative_templates' }
     @controller.instance_variable_set :@section, section
     get :show
-    assert_template 'custom_templates_test/test/show'
+    assert_template 'custom_templates_test/show'
   end
 
   test "custom layout exists, so it renders the custom layout" do
@@ -53,7 +57,7 @@ class CustomTemplatesTest < ActionController::TestCase
     section = Section.new :options => { :layout => 'does not exist' }
     @controller.instance_variable_set :@section, section
     get :show
-    assert_template 'custom_templates_test/test/show'
+    assert_template 'custom_templates_test/show'
     @response.layout.should == 'layouts/default'
   end
 end
