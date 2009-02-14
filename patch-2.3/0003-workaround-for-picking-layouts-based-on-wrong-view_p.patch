@@ -1,0 +1,24 @@
+From 877990a8695ae711cb4284c6cfd65f2bb6e4d959 Mon Sep 17 00:00:00 2001
+From: Sven Fuchs <svenfuchs@artweb-design.de>
+Date: Sat, 14 Feb 2009 21:45:27 +0100
+Subject: [PATCH] workaround for picking layouts based on wrong view_paths
+
+---
+ actionpack/lib/action_controller/base.rb |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
+
+diff --git a/actionpack/lib/action_controller/base.rb b/actionpack/lib/action_controller/base.rb
+index 36b80d5..f392302 100644
+--- a/actionpack/lib/action_controller/base.rb
++++ b/actionpack/lib/action_controller/base.rb
+@@ -885,6 +885,7 @@ module ActionController #:nodoc:
+         layout = pick_layout(options)
+         response.layout = layout.path_without_format_and_extension if layout
+         logger.info("Rendering template within #{layout.path_without_format_and_extension}") if logger && layout
++        layout = layout.path_without_format_and_extension
+ 
+         if content_type = options[:content_type]
+           response.content_type = content_type.to_s
+-- 
+1.6.0.5
+

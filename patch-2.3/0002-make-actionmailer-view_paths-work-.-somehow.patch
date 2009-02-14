@@ -1,0 +1,71 @@
+From 8950fcdd4b8f9fad8fb17cf1fca8cacfffc86b38 Mon Sep 17 00:00:00 2001
+From: Sven Fuchs <svenfuchs@artweb-design.de>
+Date: Mon, 9 Feb 2009 09:55:54 +0100
+Subject: [PATCH] make actionmailer view_paths work ... somehow
+
+---
+ actionmailer/lib/action_mailer/base.rb |    8 +++++++-
+ railties/lib/initializer.rb            |    4 ++--
+ railties/lib/rails/plugin/loader.rb    |    4 +++-
+ 3 files changed, 12 insertions(+), 4 deletions(-)
+
+diff --git a/actionmailer/lib/action_mailer/base.rb b/actionmailer/lib/action_mailer/base.rb
+index eda5de4..c15ed65 100644
+--- a/actionmailer/lib/action_mailer/base.rb
++++ b/actionmailer/lib/action_mailer/base.rb
+@@ -427,6 +427,10 @@ module ActionMailer #:nodoc:
+         new.deliver!(mail)
+       end
+ 
++      # def view_paths=(value)
++      #   write_inheritable_attribute :view_paths, ActionView::Base.process_view_paths(value) if value
++      # end
++
+       def template_root
+         self.view_paths && self.view_paths.first
+       end
+@@ -593,8 +597,10 @@ module ActionMailer #:nodoc:
+         "#{template_root}/#{mailer_name}"
+       end
+ 
++      # HACK!!!!
++      
+       def initialize_template_class(assigns)
+-        template = ActionView::Base.new(view_paths, assigns, self)
++        template = ActionView::Base.new(ActionMailer::Base.view_paths, assigns, self)
+         template.template_format = default_template_format
+         template
+       end
+diff --git a/railties/lib/initializer.rb b/railties/lib/initializer.rb
+index aaa9d8b..155e87e 100644
+--- a/railties/lib/initializer.rb
++++ b/railties/lib/initializer.rb
+@@ -481,8 +481,8 @@ Run `rake gems:install` to install the missing gems.
+     # set to use Configuration#view_path.
+     def initialize_framework_views
+       if configuration.frameworks.include?(:action_view)
+-        ActionMailer::Base.view_paths ||= configuration.view_path if configuration.frameworks.include?(:action_mailer)
+-        ActionController::Base.view_paths = configuration.view_path if configuration.frameworks.include?(:action_controller) && ActionController::Base.view_paths.empty?
++        ActionMailer::Base.template_root  = configuration.view_path if configuration.frameworks.include?(:action_mailer) && ActionMailer::Base.view_paths.blank?
++        ActionController::Base.view_paths = configuration.view_path if configuration.frameworks.include?(:action_controller) && ActionController::Base.view_paths.blank?
+       end
+     end
+ 
+diff --git a/railties/lib/rails/plugin/loader.rb b/railties/lib/rails/plugin/loader.rb
+index be81bdf..20b1d22 100644
+--- a/railties/lib/rails/plugin/loader.rb
++++ b/railties/lib/rails/plugin/loader.rb
+@@ -87,7 +87,9 @@ module Rails
+         
+         def add_engine_view_paths
+           # reverse it such that the last engine can overwrite view paths from the first, like with routes
+-          ActionController::Base.view_paths += ActionView::PathSet.new(engines.collect(&:view_path).reverse)
++          paths = ActionView::PathSet.new(engines.collect(&:view_path).reverse)
++          ActionMailer::Base.view_paths.concat paths
++          ActionController::Base.view_paths.concat paths
+         end
+ 
+         # The locate_plugins method uses each class in config.plugin_locators to
+-- 
+1.6.0.5
+
