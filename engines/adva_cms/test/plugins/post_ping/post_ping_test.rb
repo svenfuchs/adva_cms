@@ -1,7 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../test_helper')
 require 'xmlrpc/client'
 
-# in a controller spec for the Admin::ArticlesController
+# in a controller test for the Admin::ArticlesController
 # when you make sure that there's an article in the contents table
 # and you send a POST request to the controller so it sets the article state to published
 # then it should send the pings to the services as configured in ArticlePingObserver::SERVICES
@@ -12,17 +12,17 @@ class ArticlePingObserverTest < ActiveSupport::TestCase
     ArticlePingObserver::SERVICES.clear
     @controller = ActionController::Base.new
     @observer = ArticlePingObserver.instance
-    @article = Article.first
-    @blog = @article.section
+    @blog = Blog.first
+    @article = @blog.articles.first
     @site = @article.site
     
     @blog_url = "http://#{@site.host}/blog"
-    @feed_url = @blog_url + '.atom'
-    @pom_get_url = "http://my.pom.get.ping.site?title=#{@blog.title}&blogurl=#{@blog_url}&rssurl=#{@feed_url}"
+    @blog_feed_url = @blog_url + '.atom'
+    @pom_get_url = "http://my.pom.get.ping.site?title=#{@blog.title}&blogurl=#{@blog_url}&rssurl=#{@blog_feed_url}"
 
     stub(@observer).controller.returns @controller
     stub(@controller).blog_url.returns @blog_url
-    stub(@controller).formatted_blog_url.returns @feed_url
+    stub(@controller).blog_feed_url.with(@blog, :format => :atom).returns @blog_feed_url
   end
 
   test "does not ping when the article is not published" do
@@ -80,7 +80,7 @@ class ArticlePingObserverTest < ActiveSupport::TestCase
     client = XMLRPC::Client.new
     stub(XMLRPC::Client).new2.returns client
 
-    mock(client).call2('weblogUpdates.extendedPing', @blog.title, @blog_url, @feed_url, "foo|bar")
+    mock(client).call2('weblogUpdates.extendedPing', @blog.title, @blog_url, @blog_feed_url, "foo|bar")
     @observer.send :xmlrpc_ping, "http://my.xmlrpc.ping.site", @article
   end
   

@@ -4,7 +4,7 @@ class ConfigurablePluginsTest < ActiveSupport::TestCase
   def setup
     super
     @site = Site.first or flunk('could not find Site')
-    @plugin = Rails.plugins.detect { |plugin| plugin.name == 'test_plugin' }
+    @plugin = Rails.plugins.detect { |plugin| plugin.name == 'test_plugin' }.clone
     @plugin.owner = @site
     
     Rails::Plugin::Config.delete_all

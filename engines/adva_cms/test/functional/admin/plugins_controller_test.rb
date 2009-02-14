@@ -58,36 +58,36 @@ class AdminPluginsControllerTest < ActionController::TestCase
     end
   end
 
-  describe "PUT to :update" do
-    action { put :update, default_params.merge(@params) }
-    before { @params = { :id => @plugin.id, :string => 'changed' } }
-    
-    it_guards_permissions :manage, :site
-  
-    with :access_granted do
-      it_assigns :plugin
-      it_redirects_to { @member_path }
-      it_assigns_flash_cookie :notice => :not_nil
-
-      it "updates the plugin's config options" do
-        @plugin.send(:config).reload.options[:string].should =~ /changed/
-      end
-    end
-  end
-
-  describe "DELETE to :destroy" do
-    action { delete :destroy, default_params.merge(:id => @plugin.id)}
-
-    it_guards_permissions :manage, :site
-    
-    with :access_granted do
-      it_assigns :plugin
-      it_redirects_to { @member_path }
-      it_assigns_flash_cookie :notice => :not_nil
-
-      it "resets the plugin's config options" do
-        @plugin.send(:config).reload.options.should == {}
-      end
-    end
-  end
+  # describe "PUT to :update" do
+  #   action { put :update, default_params.merge(@params) }
+  #   before { @params = { :id => @plugin.id, :string => 'changed' } }
+  #   
+  #   it_guards_permissions :manage, :site
+  # 
+  #   with :access_granted do
+  #     it_assigns :plugin
+  #     it_redirects_to { @member_path }
+  #     it_assigns_flash_cookie :notice => :not_nil
+  # 
+  #     it "updates the plugin's config options" do
+  #       @plugin.send(:config).reload.options[:string].should =~ /changed/
+  #     end
+  #   end
+  # end
+  # 
+  # describe "DELETE to :destroy" do
+  #   action { delete :destroy, default_params.merge(:id => @plugin.id)}
+  # 
+  #   it_guards_permissions :manage, :site
+  #   
+  #   with :access_granted do
+  #     it_assigns :plugin
+  #     it_redirects_to { @member_path }
+  #     it_assigns_flash_cookie :notice => :not_nil
+  # 
+  #     it "resets the plugin's config options" do
+  #       @plugin.send(:config).reload.options.should == {}
+  #     end
+  #   end
+  # end
 end

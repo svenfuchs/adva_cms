@@ -208,7 +208,7 @@ class Test::Unit::TestCase
   
   share :a_plugin do
     before do
-      @plugin = @site.plugins[:test_plugin]
+      @plugin = @site.plugins[:test_plugin].clone
     end
   end
   
