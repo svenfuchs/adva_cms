@@ -1,18 +1,18 @@
 require File.dirname(__FILE__) + '/../../test_helper'
 # RAILS_ROOT = File.expand_path("#{File.dirname(__FILE__)}/../../../../../../..") unless defined?(RAILS_ROOT)
-# 
+#
 # require 'rubygems'
 # require 'active_support'
 # require 'active_support/test_case'
 # require 'action_controller'
 # require File.expand_path(File.dirname(__FILE__) + '/../../../../../test/rr/lib/rr')
 # require File.expand_path(File.dirname(__FILE__) + '/../../../lib/theme_support/compiled_template_expiration')
-
-class Theme
-  def self.root_dir
-    "#{RAILS_ROOT}/tmp"
-  end
-end unless defined?(Theme)
+#
+# class Theme
+#   def self.root_dir
+#     "#{RAILS_ROOT}/tmp"
+#   end
+# end unless defined?(Theme)
 
 class CompiledTemplateExpirationTest < ActiveSupport::TestCase
   def setup
@@ -20,7 +20,7 @@ class CompiledTemplateExpirationTest < ActiveSupport::TestCase
     @now = Time.now
     RR.stub(Time).now.returns @now
   end
-  
+
   def teardown
     super
     FileUtils.rm_r "#{RAILS_ROOT}/tmp/themes" rescue Errno::ENOENT
@@ -28,71 +28,159 @@ class CompiledTemplateExpirationTest < ActiveSupport::TestCase
       ActionView::Base::CompiledTemplates.send(:remove_method, m) if m =~ /^_run_/
     end
   end
-  
-  test "theme_path returns the theme_path segment if the template is a theme template (single-site mode)" do
-    template = create_template("public/themes/theme-1/templates", "layouts/default.html.erb")
-    assert_equal 'themes/theme-1', template.theme_path
-  end
-  
-  test "theme_path returns the theme_path segment if the template is a theme template (multi-site mode)" do
-    template = create_template("public/themes/site-1/theme-1/templates", "layouts/default.html.erb")
-    assert_equal 'themes/site-1/theme-1', template.theme_path
-  end
-  
-  test "theme_modified_since_compile? is true if the theme dir has been touched since the template has been compiled" do
+
+  # test "a new template instance it reads the fresh source" do
+  #   # you never know what actionview magic does ... so let's assert this
+  #   template = create_template
+  #   assert_match /"the default template"/, template.compiled_source
+  #   File.open(template.filename, 'w+') { |f| f.write('the updated template') }
+  #   template = ActionView::Template.new(template.filename, template.load_path)
+  #   assert_match /"the updated template"/, template.compiled_source
+  # end
+  #
+  # test "can lookup templates" do
+  #   assert_nothing_raised { view_paths.find_template("layouts/default", "html") }
+  # end
+  #
+  # test "without expiration it does not update the compiled source from disk" do
+  #   template = view_paths.find_template("layouts/default", "html")   # look up a cached template
+  #   compiled_source = template.compiled_source
+  #   update_template_file(template.filename)                          # change the file
+  #   assert_equal template.compiled_source, compiled_source           # template compiled_source is still the same
+  # end
+  #
+  # test "with expiration it updates the compiled source from disk" do
+  #   template = view_paths.find_template("layouts/default", "html")   # look up a cached template
+  #   template.send :compile, {}
+  #   compiled_source = template.compiled_source
+  #   update_template_file(template.filename)                          # change the file
+  #   template.expire_from_memory!                                     # expire the memoized stuff
+  #   assert_not_equal template.compiled_source, compiled_source       # template compiled_source has now changed
+  # end
+  #
+  # test "with the template being dynamic and modified since compile it recompiles the template" do
+  #   template = view_paths.find_template("layouts/default", "html")   # look up a cached template
+  #   template.send :compile, {}                                       # compile the template
+  #   compiled_source = template.compiled_source                       
+  #   update_template_file(template.filename)                          # change the file
+  #   assert template.dynamic?                                         
+  #   assert template.stale?                                           
+  #   RR.mock(template).compile!(anything, {})                         # expect it will recompile
+  #   template.send :compile, {}                                       
+  #   assert_not_equal template.compiled_source, compiled_source       # make sure compiled_source has changed
+  # end
+
+  # test "load_path does not find a new template (because it's an EagerPath)" do
+  #   paths = view_paths
+  #   create_template "public/themes/theme-1/templates", "something/new.html.erb"
+  #   assert_raises(ActionView::MissingTemplate) { paths.find_template("something/new", "html") }
+  # end
+  # 
+  # test "load_path finds new a template after it was added" do
+  #   paths = view_paths
+  #   template = create_template "public/themes/theme-1/templates", "something/new.html.erb"
+  #   paths.first.update!
+  #   assert_nothing_raised { paths.find_template("something/new", "html") }
+  # end
+
+  # test "can render a template" do
+  #   template = create_template
+  #   view = ActionView::Base.new(template.load_path)
+  #   assert_match /the default template/, view.render(:file => 'layouts/default.html')
+  # end
+
+  test "adds a new template to an eager-loaded view_paths" do
     template = create_template
-    set_template_compiled_at template, @now - 1
-    set_theme_modified_at @now
-    assert template.theme_modified_since_compile?
+    view = ActionView::Base.new(template.load_path)
+    template = create_template("public/themes/theme-1/templates", 'something/new.html')
+    FileUtils.touch(template.load_path)
+    assert_nothing_raised { view.render(:file => 'something/new.html') }
   end
-  
-  test "theme_modified_since_compile? is false if the theme dir has not been touched since the template has been compiled" do
-    template = create_template
-    set_template_compiled_at template, @now
-    set_theme_modified_at @now - 1
-    assert !template.theme_modified_since_compile?
+
+  test "removes a deleted template from an eager-loaded view_paths" do
+    template = create_template("public/themes/theme-1/templates", 'something/new.html')
+    view = ActionView::Base.new(template.load_path)
+    assert view.view_paths.find_template('something/new.html')
+    FileUtils.rm(template.filename)
+    assert_raises(ActionView::MissingTemplate) { view.render(:file => 'something/new.html') }
   end
-  
-  test "theme_modified_since_compile? is false if the template has not been compiled yet" do
-    template = create_template
-    set_template_compiled_at template, nil
-    set_theme_modified_at @now
-    assert !template.theme_modified_since_compile?
-  end
-  
-  test "theme_modified_since_compile? is false if theme directory does not exist" do
-    template = create_template
-    set_template_compiled_at template, nil
-    FileUtils.rm_r "#{RAILS_ROOT}/tmp/themes"
-    assert !template.theme_modified_since_compile?
-  end
-  
-  test "expire_compiled_theme_templates! expires compiled theme templates" do
-    template = create_template
-    template.send :compile, {}
-    template.expire_compiled_theme_templates!
-    assert ActionView::Base::CompiledTemplates.instance_methods(false).empty?
-  end
-  
-  test "expire_compiled_theme_templates! does not expire other compiled templates" do
-    template = create_template 'other/path/to/views'
-    template.send :compile, {}
-    template.expire_compiled_theme_templates!
-    assert !ActionView::Base::CompiledTemplates.instance_methods(false).empty?
-  end
+
+  # test "updates a template in an eager-loaded view_paths" do
+  #   template = create_template
+  #   view = ActionView::Base.new(template.load_path)
+  #   assert_match /the default template/, view.render(:file => 'layouts/default.html')
+  #   update_template_file(template.filename)
+  #   assert_match /the updated template/, view.render(:file => 'layouts/default.html')
+  # end
+
+  # test "dynamic? is true if the template is a theme template (single-site mode)" do
+  #   template = create_template("public/themes/theme-1/templates", "layouts/default.html.erb")
+  #   assert template.dynamic?
+  # end
+  #
+  # test "dynamic? is true if the template is a theme template (multi-site mode)" do
+  #   template = create_template("public/themes/site-1/theme-1/templates", "layouts/default.html.erb")
+  #   assert template.dynamic?
+  # end
+  #
+  # test "dynamic? is false if the template is a regular app template" do
+  #   template = create_template("app/views", "layouts/default.html.erb")
+  #   assert !template.dynamic?
+  # end
+  #
+  # # test "modified_since_compile? is true if the file has been touched since the template was compiled" do
+  # #   template = create_template
+  # #   template.store_compile_time!(@now - 1)
+  # #   set_theme_file_modified_at template.filename, @now
+  # #   assert template.modified_since_compile?
+  # # end
+  # #
+  # # test "modified_since_compile? is false if the theme dir has not been touched since the template has been compiled" do
+  # #   template = create_template
+  # #   template.store_compile_time!(@now)
+  # #   set_theme_file_modified_at template.filename, @now - 1
+  # #   assert !template.modified_since_compile?
+  # # end
+  # #
+  # # test "modified_since_compile? is false if the template has not been compiled yet" do
+  # #   template = create_template
+  # #   template.class.compile_times.clear
+  # #   set_theme_file_modified_at template.filename, @now
+  # #   assert !template.modified_since_compile?
+  # # end
+  # #
+  # # test "modified_since_compile? is false if theme directory does not exist" do
+  # #   template = create_template
+  # #   template.class.compile_times.clear
+  # #   FileUtils.rm_r "#{RAILS_ROOT}/tmp/themes"
+  # #   assert !template.modified_since_compile?
+  # # end
+  #
+  # test "expire_from_memory! expires compiled theme templates" do
+  #   template = create_template
+  #   template.send :compile, {}
+  #   template.expire_from_memory!
+  #   assert ActionView::Base::CompiledTemplates.instance_methods(false).empty?
+  # end
+
 
   def create_template(view_path = "public/themes/theme-1/templates", filename = "layouts/default.html.erb")
     view_path = "#{RAILS_ROOT}/tmp/themes/#{view_path}"
     FileUtils.mkdir_p(File.dirname("#{view_path}/#{filename}"))
-    FileUtils.touch("#{view_path}/#{filename}")
+    File.open("#{view_path}/#{filename}", 'w+') { |f| f.write('the default template') }
     ActionView::Template.new(filename, view_path)
   end
-  
-  def set_template_compiled_at(template, time)
-    ActionView::Template.compile_times[template.theme_path] = time
+
+  def update_template_file(filename)
+    File.open(filename, 'w+') { |f| f.write('the updated template') }
   end
-  
-  def set_theme_modified_at(time)
-    RR.stub(File).mtime.returns time
+
+  def view_paths(path = "public/themes/theme-1/templates")
+    create_template
+    ActionView::PathSet.new(["#{RAILS_ROOT}/tmp/themes/#{path}"])
+  end
+
+  def set_theme_file_modified_at(filename, time)
+    RR.stub(File).mtime(filename).returns time
   end
 end

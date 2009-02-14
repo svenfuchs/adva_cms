@@ -1,56 +1,101 @@
-# ActionView caches compiled templates as Ruby methods. We therefor need a 
+# ActionView caches compiled templates as Ruby methods. We therefor need a
 # mechanism to expire these methods when a theme template has been edited.
-#
-# Thus we cache the time when the first template gets compiled and compare
-# that to the mtime of the theme directory.
-# 
-# For this to work the theme directory needs to be touched manually when a 
-# theme template file is edited.
 
 unless ActionView::Template.method_defined?(:compile_times)
   module ActionView
+    class Base
+      module CompiledTemplates
+        def self.flush_methods(pattern)
+          instance_methods(false).each { |m| remove_method(m) if m =~ /#{pattern}/}
+        end
+      end
+
+      def view_paths
+        @view_paths.update! # what's the best place to check for stale paths?
+        @view_paths
+      end
+    end
+    
+    class PathSet
+      def update!
+        #select(&:stale?).each(&:update!)
+        each(&:update!)
+      end
+    end
+
     class Template
+      class EagerPath # changed so that we can update if dynamic templates have changed
+        extend ActiveSupport::Memoizable
+        
+        def initialize(path)
+          super
+          update!
+          @dynamic = false
+        end
+
+        def add(template)
+          template.load!
+          template.accessible_paths.each do |path| 
+            @paths[path] = template
+          end
+        end
+
+        def remove(template)
+          template.accessible_paths.each { |path| @paths.delete(path) }
+        end
+
+        def update!
+          @paths = {}
+          # maybe only update stale templates and add/remove new/deleted ones
+          templates_in_path { |template| add(template) }
+        end
+
+        def stale?
+          dynamic? and File.mtime(path) >= mtime
+        end
+        
+        def dynamic?
+          !@paths.empty? and @paths.values.first.dynamic?
+        end
+
+        def mtime
+          File.mtime(path)
+        end
+        memoize :mtime
+      end
+
       cattr_accessor :compile_times
       @@compile_times = {}
+
+      def load!
+        @cached = true
+        # freeze # gotta overwrite this to keep Template from freezing itself
+      end
+
+      def stale?
+        # gotta overwrite this so that the template is stale when the next
+        # request happens in the same second
+        File.mtime(filename) >= mtime
+      rescue Errno::ENOENT
+        true
+      end
     end
-  
+
     module Renderable
-      def recompile_with_check_theme_mtime?(symbol)
-        expire_compiled_theme_templates! if theme_path and theme_modified_since_compile?
-        recompile_without_check_theme_mtime?(symbol)
+      def compile_with_dynamic_templates(local_assigns)
+        expire_from_memory! if dynamic? and stale?
+        compile_without_dynamic_templates(local_assigns)
       end
-      alias_method_chain :recompile?, :check_theme_mtime
-    
-      def compile_with_store_compile_times!(*args)
-        compile_without_store_compile_times!(*args)
-        self.class.compile_times[theme_path] ||= Time.now if theme_path
-      end
-      alias_method_chain :compile!, :store_compile_times
+      alias_method_chain :compile, :dynamic_templates
 
-      def theme_modified_since_compile?
-        compiled_at = compile_times[theme_path] || Time.now
-        compiled_at < File.mtime("#{Theme.root_dir}/#{theme_path}") rescue false
+      def dynamic?
+        !!relative_path.match(/\/(themes\/(site-\d+\/)?[^\/]+)\/templates/)
       end
-    
-      # Tries to extract the theme path segment from a path like
-      # public/themes/theme-1/templates/layouts/default.html.erb
-      # Assumes that theme templates always are located in paths that have: 
-      #   - a segment themes/ followed by 
-      #   - an optional segment site-:id/ followed by
-      #   - any arbitrary segment (the theme_id) and then followed by 
-      #   - a segment templates/
-      def theme_path
-        try(:relative_path) =~ /\/(themes\/(site-\d+\/)?[^\/]+)\/templates/ and $1
-      end
+      # memoize :dynamic?
 
-      def expire_compiled_theme_templates!
-        # oh, yes, Rails escapes these method names like this
-        method_segment = theme_path.to_s.gsub(/([^a-zA-Z0-9_])/) { $1.ord } 
-        ActionView::Base::CompiledTemplates.instance_methods(false).each do |method|
-          if method =~ /#{method_segment}/
-            ActionView::Base::CompiledTemplates.send(:remove_method, method)
-          end
-        end unless method_segment.blank?
+      def expire_from_memory!
+        ActionView::Base::CompiledTemplates.flush_methods(method_segment)
+        flush_cache :source, :compiled_source, :mtime
       end
     end
   end
