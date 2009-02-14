@@ -6,7 +6,7 @@ class CronjobTest < ActiveSupport::TestCase
     super
     @cronjob = Cronjob.create! :command => "test_command"
   end
-  
+
   def teardown
     super
     remove_all_test_cronjobs
@@ -22,7 +22,7 @@ class CronjobTest < ActiveSupport::TestCase
     @cronjob.should validate_uniqueness_of(:cron_id)
     @cronjob.should_not validate_presence_of(:due_at)
   end
-  
+
   test "default values" do
     cronjob = Cronjob.new
     cronjob.command.should == nil
@@ -32,7 +32,7 @@ class CronjobTest < ActiveSupport::TestCase
     cronjob.day.should == "*"
     cronjob.month.should == "*"
   end
-  
+
   test "#full_id should return 'test-' prefix when in test mode" do
     @cronjob.full_id.should == "test-#{RAILS_ROOT}--#{@cronjob.id}"
   end
