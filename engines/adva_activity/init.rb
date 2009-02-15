@@ -16,5 +16,4 @@ ActiveRecord::Base.observers += ['activities/activity_observer', 'activities/art
 
 I18n.load_path += Dir[File.dirname(__FILE__) + '/locale/**/*.yml']
 
-# register javascripts and stylesheets
 register_stylesheet_expansion :admin => %w( adva_activity/admin/activities )

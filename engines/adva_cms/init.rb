@@ -141,7 +141,7 @@ register_javascript_expansion \
   :default => %w( adva_cms/parseuri adva_cms/roles adva_cms/application ),
   :login   => %w( ),
   :simple  => %w( ),
-  :admin   => %w( adva_cms/effects adva_cms/dragdrop adva_cms/sortable_tree/sortable_tree,
+  :admin   => %w( adva_cms/effects adva_cms/dragdrop adva_cms/sortable_tree/sortable_tree
                   adva_cms/admin/smart_form.js adva_cms/admin/spotlight.js 
                   adva_cms/admin/sortable_tree.js adva_cms/admin/sortable_list.js
                   adva_cms/admin/admin.js adva_cms/admin/article.js )
@@ -152,6 +152,6 @@ register_stylesheet_expansion \
                   adva_cms/admin/layout/base adva_cms/admin/layout/login ),
   :simple  => %w( adva_cms/admin/base adva_cms/admin/form
                   adva_cms/admin/layout/base adva_cms/admin/layout/simple ),
-  :admin   => %w( adva_cms/admin/form adva_cms/admin/lists,
-                  adva_cms/admin/sortable_tree adva_cms/admin/themes,
+  :admin   => %w( adva_cms/admin/form adva_cms/admin/lists
+                  adva_cms/admin/sortable_tree adva_cms/admin/themes
                   adva_cms/admin/users adva_cms/admin/widgets )

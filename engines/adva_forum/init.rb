@@ -5,5 +5,4 @@ config.to_prepare do
   Section.register_type 'Forum'
 end
 
-# register javascripts and stylesheets
 register_stylesheet_expansion :default => %w( adva_forum/forum )

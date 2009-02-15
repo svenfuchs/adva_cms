@@ -5,9 +5,8 @@
     <%= meta_tags(@article) if @article %>
     <title><%= @site.title %></title>
     
-    <%= stylesheet_link_tag :public %>
-    
-    <%= javascript_include_tag :common, :public %>
+    <%= stylesheet_link_tag :default %>
+    <%= javascript_include_tag :common, :default %>
 
     <%= authorize_elements %>
   </head>
