@@ -6,4 +6,4 @@ config.to_prepare do
 end
 
 # register javascripts and stylesheets
-register_javascript_expansion :admin  => ['adva_cms/admin/wikipage.js']
+register_javascript_expansion :admin  => %w( adva_wiki/admin/wiki.js )

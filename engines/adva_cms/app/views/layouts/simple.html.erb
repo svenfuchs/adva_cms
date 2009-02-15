@@ -4,9 +4,7 @@
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />   
     <title><%= controller.controller_name %></title>
     
-    <%= stylesheet_link_tag    'adva_cms/admin/base', 'adva_cms/admin/form',
-                               'adva_cms/admin/layout/base', 'adva_cms/admin/layout/simple',
-                               :cache => 'cache/admin/simple' %>
+    <%= stylesheet_link_tag    :simple, :cache => 'cache/admin/simple' %>
                                
     <%= javascript_include_tag :common,
                                'adva_cms/dragdrop', 'adva_cms/sortable_tree/sortable_tree',

@@ -3,5 +3,5 @@ ActiveSupport::Dependencies.load_once_paths -= ActiveSupport::Dependencies.load_
 I18n.load_path += Dir[File.dirname(__FILE__) + '/locale/**/*.yml']
 
 # register javascripts and stylesheets
-register_javascript_expansion :admin  => ['adva_cms/admin/asset.js', 'adva_cms/admin/asset_widget.js']
-register_stylesheet_expansion :public => ['adva_cms/assets']
+register_javascript_expansion :admin => %w( adva_assets/admin/asset.js adva_cms/admin/asset_widget.js )
+register_stylesheet_expansion :admin => %w( adva_assets/admin/assets )

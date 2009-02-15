@@ -10,5 +10,5 @@ config.to_prepare do
 end
 
 # register javascripts and stylesheets
-register_javascript_expansion :admin  => ['adva_calendar/admin/calendar.js']
-register_stylesheet_expansion :public => ['adva_calendar/calendar.js']
+register_javascript_expansion :admin   => %w( adva_calendar/admin/calendar.js )
+register_stylesheet_expansion :default => %w( adva_calendar/calendar.js )

@@ -10,5 +10,5 @@ ActiveSupport::Dependencies.autoloaded_constants -= %w(ActionController::ActsAsC
 require 'format'
 
 # register javascripts and stylesheets
-register_javascript_expansion :admin  => ['adva_cms/admin/comment.js']
-register_stylesheet_expansion :public => ['adva_cms/comments']
+register_javascript_expansion :admin   => %w( adva_comments/admin/comments.js )
+register_stylesheet_expansion :default => %w( adva_comments/comments )

@@ -35,7 +35,7 @@ patch_file rails_root + '/config/routes.rb',
            
 patch_file rails_root + '/Rakefile',
            "require 'tasks/rails'",
-           "\nload 'vendor/adva/plugins/engines/tasks/engines.rake'\nload 'vendor/adva/engines/adva_cms/lib/tasks/adva.rake'"
+           "load 'vendor/adva/engines/adva_cms/lib/tasks/adva_cms.rake'"
 
 copy_with_backup "/vendor/adva/engines/adva_cms/config/initializers/adva.rb", "/config/initializers/adva.rb"
 

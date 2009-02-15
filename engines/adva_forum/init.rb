@@ -6,4 +6,4 @@ config.to_prepare do
 end
 
 # register javascripts and stylesheets
-register_stylesheet_expansion :public => ['adva_cms/forum']
+register_stylesheet_expansion :default => %w( adva_forum/forum )

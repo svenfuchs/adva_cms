@@ -135,35 +135,23 @@ config.to_prepare do
   end
 end
 
-# make javascript_expansions and stylesheet_expansions accessible
-# (after commit http://github.com/rails/rails/commit/104898fcb7958bcb69ba0239d6de8aa37f2da9ba) -> Rails 2.3
-# ActionView::Helpers::AssetTagHelper.module_eval { mattr_accessor :javascript_expansions, :stylesheet_expansions }
+register_javascript_expansion \
+  :common  => %w( adva_cms/prototype adva_cms/lowpro
+                  adva_cms/flash adva_cms/cookie adva_cms/json ),
+  :default => %w( adva_cms/parseuri adva_cms/roles adva_cms/application ),
+  :login   => %w( ),
+  :simple  => %w( ),
+  :admin   => %w( adva_cms/effects adva_cms/dragdrop adva_cms/sortable_tree/sortable_tree,
+                  adva_cms/admin/smart_form.js adva_cms/admin/spotlight.js 
+                  adva_cms/admin/sortable_tree.js adva_cms/admin/sortable_list.js
+                  adva_cms/admin/admin.js adva_cms/admin/article.js )
 
-# register two additional JavaScript expansions and two CSS expansions
-register_javascript_expansion(
-  :common => [
-    'adva_cms/prototype', 'adva_cms/effects',
-    'adva_cms/lowpro', 'adva_cms/flash',
-    'adva_cms/cookie', 'adva_cms/json'
-  ],
-  :public => [
-    'adva_cms/parseuri', 'adva_cms/roles',
-    'adva_cms/application'
-  ],
-  :admin => [
-    'adva_cms/dragdrop', 'adva_cms/sortable_tree/sortable_tree',
-    'adva_cms/admin/admin.js', 'adva_cms/admin/article.js',
-    'adva_cms/admin/smart_form.js', 'adva_cms/admin/sortable_tree.js',
-    'adva_cms/admin/sortable_list.js', 'adva_cms/admin/spotlight.js'
-  ])
-register_stylesheet_expansion(
-  :public => [
-    'adva_cms/default', 'adva_cms/common',
-    'adva_cms/forms'
-  ],
-  :admin => [
-    'adva_cms/admin/form', 'adva_cms/admin/lists',
-    'adva_cms/admin/sortable_tree', 'adva_cms/admin/themes',
-    'adva_cms/admin/users', 'adva_cms/admin/widgets'
-  ]
-)
+register_stylesheet_expansion \
+  :default => %w( adva_cms/default adva_cms/common adva_cms/forms ),
+  :login   => %w( adva_cms/admin/base adva_cms/admin/form
+                  adva_cms/admin/layout/base adva_cms/admin/layout/login ),
+  :simple  => %w( adva_cms/admin/base adva_cms/admin/form
+                  adva_cms/admin/layout/base adva_cms/admin/layout/simple ),
+  :admin   => %w( adva_cms/admin/form adva_cms/admin/lists,
+                  adva_cms/admin/sortable_tree adva_cms/admin/themes,
+                  adva_cms/admin/users adva_cms/admin/widgets )
