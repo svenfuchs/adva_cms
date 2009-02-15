@@ -33,6 +33,14 @@ Rails::Plugin.class_eval do
   def app_paths
     ['models', 'helpers', 'observers'].map { |path| File.join(directory, 'app', path) } << controller_path
   end
+  
+  def register_javascript_expansion(*args)
+    ActionView::Helpers::AssetTagHelper.register_javascript_expansion *args
+  end
+  
+  def register_stylesheet_expansion(*args)
+    ActionView::Helpers::AssetTagHelper.register_stylesheet_expansion *args
+  end
 end
 
 # Rails::GemDependency does not allow to freeze gems anywhere else than vendor/gems

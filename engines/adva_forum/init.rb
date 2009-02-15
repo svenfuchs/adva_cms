@@ -6,4 +6,4 @@ config.to_prepare do
 end
 
 # register javascripts and stylesheets
-ActionView::Helpers::AssetTagHelper.register_stylesheet_expansion :adva_cms_public => ['adva_cms/forum']
+register_stylesheet_expansion :public => ['adva_cms/forum']

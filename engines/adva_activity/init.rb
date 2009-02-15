@@ -13,8 +13,9 @@ Activities.include_into 'Site'
 ActiveRecord::Base.observers += ['activities/activity_observer', 'activities/article_observer',
                                  'activities/comment_observer', 'activities/wikipage_observer',
                                  'activities/topic_observer']
+
 I18n.load_path += Dir[File.dirname(__FILE__) + '/locale/**/*.yml']
 
 # register javascripts and stylesheets
-ActionView::Helpers::AssetTagHelper.register_javascript_expansion :adva_cms_admin => ['adva_cms/admin/asset.js', 'adva_cms/admin/asset_widget.js']
-ActionView::Helpers::AssetTagHelper.register_stylesheet_expansion :adva_cms_admin => ['adva_cms/admin/activities']
+register_javascript_expansion :admin => ['adva_cms/admin/asset.js', 'adva_cms/admin/asset_widget.js']
+register_stylesheet_expansion :admin => ['adva_cms/admin/activities']

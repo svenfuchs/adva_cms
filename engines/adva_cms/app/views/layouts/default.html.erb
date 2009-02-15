@@ -5,9 +5,9 @@
     <%= meta_tags(@article) if @article %>
     <title><%= @site.title %></title>
     
-    <%= stylesheet_link_tag :adva_cms_public %>
+    <%= stylesheet_link_tag :public %>
     
-    <%= javascript_include_tag :adva_cms_common, :adva_cms_public %>
+    <%= javascript_include_tag :common, :public %>
 
     <%= authorize_elements %>
   </head>

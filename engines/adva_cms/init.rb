@@ -140,28 +140,28 @@ end
 # ActionView::Helpers::AssetTagHelper.module_eval { mattr_accessor :javascript_expansions, :stylesheet_expansions }
 
 # register two additional JavaScript expansions and two CSS expansions
-ActionView::Helpers::AssetTagHelper.register_javascript_expansion(
-  :adva_cms_common => [
+register_javascript_expansion(
+  :common => [
     'adva_cms/prototype', 'adva_cms/effects',
     'adva_cms/lowpro', 'adva_cms/flash',
     'adva_cms/cookie', 'adva_cms/json'
   ],
-  :adva_cms_public => [
+  :public => [
     'adva_cms/parseuri', 'adva_cms/roles',
     'adva_cms/application'
   ],
-  :adva_cms_admin => [
+  :admin => [
     'adva_cms/dragdrop', 'adva_cms/sortable_tree/sortable_tree',
     'adva_cms/admin/admin.js', 'adva_cms/admin/article.js',
     'adva_cms/admin/smart_form.js', 'adva_cms/admin/sortable_tree.js',
     'adva_cms/admin/sortable_list.js', 'adva_cms/admin/spotlight.js'
   ])
-ActionView::Helpers::AssetTagHelper.register_stylesheet_expansion(
-  :adva_cms_public => [
+register_stylesheet_expansion(
+  :public => [
     'adva_cms/default', 'adva_cms/common',
     'adva_cms/forms'
   ],
-  :adva_cms_admin => [
+  :admin => [
     'adva_cms/admin/form', 'adva_cms/admin/lists',
     'adva_cms/admin/sortable_tree', 'adva_cms/admin/themes',
     'adva_cms/admin/users', 'adva_cms/admin/widgets'

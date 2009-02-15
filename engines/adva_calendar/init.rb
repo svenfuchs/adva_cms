@@ -10,5 +10,5 @@ config.to_prepare do
 end
 
 # register javascripts and stylesheets
-ActionView::Helpers::AssetTagHelper.register_javascript_expansion :adva_cms_admin  => ['adva_calendar/admin/calendar.js']
-ActionView::Helpers::AssetTagHelper.register_stylesheet_expansion :adva_cms_public => ['adva_calendar/calendar.js']
+register_javascript_expansion :admin  => ['adva_calendar/admin/calendar.js']
+register_stylesheet_expansion :public => ['adva_calendar/calendar.js']

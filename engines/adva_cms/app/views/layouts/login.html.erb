@@ -4,9 +4,9 @@
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />   
     <title><%= controller.controller_name %></title>
     
-    <%= stylesheet_link_tag :adva_cms_admin, 'adva_cms/admin/layout/base', 'adva_cms/admin/layout/login',
+    <%= stylesheet_link_tag :admin, 'adva_cms/admin/layout/base', 'adva_cms/admin/layout/login',
                             :cache => 'cache/admin/login' %>
-    <%= javascript_include_tag :adva_cms_common, :adva_cms_admin, :cache => 'cache/admin/login' %>
+    <%= javascript_include_tag :common, :admin, :cache => 'cache/admin/login' %>
     <%= yield :head %>
   </head>
   <body>   

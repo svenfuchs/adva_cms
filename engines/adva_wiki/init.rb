@@ -6,4 +6,4 @@ config.to_prepare do
 end
 
 # register javascripts and stylesheets
-ActionView::Helpers::AssetTagHelper.register_javascript_expansion :adva_cms_admin  => ['adva_cms/admin/wikipage.js']
+register_javascript_expansion :admin  => ['adva_cms/admin/wikipage.js']
