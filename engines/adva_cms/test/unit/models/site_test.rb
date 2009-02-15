@@ -147,7 +147,7 @@ class SiteTest < ActiveSupport::TestCase
   
   test "should clone Rails.plugins" do
     @site.plugins.values.first.should be_instance_of(Rails::Plugin)
-    @site.plugins.values.first.object_id.should_not == Rails.plugins.first.object_id
+    @site.plugins.values.first.object_id.should_not == Rails.plugins.values.first.object_id
   end
 
   test "should set plugin owner to site" do

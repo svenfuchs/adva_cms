@@ -2,11 +2,6 @@
 # Site.plugins from a Rails.plugins.clone
 
 module Rails 
-  # will only contain plugins that announce themselves as configurable by
-  # defining an option
-  mattr_accessor :plugins
-  @@plugins = []
-  
   class Plugin
     module Configurable
       class Config < ActiveRecord::Base
@@ -28,7 +23,6 @@ module Rails
       def option(name, default, type = :string)
         define_option_accessors(name, default)
         option_definitions[name.to_sym] = { :default => default, :type => type }
-        Rails.plugins << self
       end
 
       def options=(options)

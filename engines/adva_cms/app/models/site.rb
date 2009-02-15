@@ -86,7 +86,7 @@ class Site < ActiveRecord::Base
   end
 
   def plugins
-    @plugins ||= Rails.plugins.inject(ActiveSupport::OrderedHash.new) do |plugins, plugin|
+    @plugins ||= Rails.plugins.values.inject(ActiveSupport::OrderedHash.new) do |plugins, plugin|
       plugin = plugin.clone
       plugin.owner = self
       plugins[plugin.name.to_sym] = plugin

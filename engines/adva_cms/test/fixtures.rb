@@ -93,8 +93,3 @@ site.users << moderator
 CachedPage.create! :site_id => site.id,
                    :section_id => section.id,
                    :url => "http://#{site.host}"
-
-# plugin = Rails.plugins.detect { |plugin| plugin.name == 'test_plugin' }
-# plugin.owner = site
-# plugin.options = { :string => 'a string', :text => 'a text'}
-# plugin.save!

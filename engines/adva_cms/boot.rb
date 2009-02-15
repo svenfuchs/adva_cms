@@ -12,13 +12,21 @@ require "#{RAILS_ROOT}/vendor/adva/plugins/cells/boot"
 #
 # TODO how to improve this?
 
+module Rails
+  mattr_reader :plugins
+  @@plugins = ActiveSupport::OrderedHash.new
+end
+
 Rails::Configuration.class_eval do
   def default_load_paths
     %w(app/controllers app/helpers app/models app/observers lib)
   end
   
+  def default_plugin_loader
+    Rails::Plugin::PublishingLoader
+  end
+  
   def default_plugins
-    # [ :engines_config, :better_nested_set, :safemode, :adva_cms, :all ]
     [ :better_nested_set, :safemode, :adva_cms, :all ]
   end
 
@@ -30,6 +38,13 @@ Rails::Configuration.class_eval do
 end
 
 Rails::Plugin.class_eval do
+  class PublishingLoader < Rails::Plugin::Loader # ummm, what's a better name?
+    def register_plugin_as_loaded(plugin)
+      Rails.plugins[plugin.name.to_sym] = plugin
+      super
+    end
+  end
+  
   def app_paths
     ['models', 'helpers', 'observers'].map { |path| File.join(directory, 'app', path) } << controller_path
   end
