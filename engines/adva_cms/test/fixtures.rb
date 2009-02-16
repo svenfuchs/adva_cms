@@ -9,32 +9,32 @@ user         = User.create! :first_name => 'a user',
                             :email => 'a-user@example.com',
                             :password => 'a password',
                             :verified_at => Time.now
-             
+
 superuser    = User.create! :first_name => 'a superuser',
                             :email => 'a-superuser@example.com',
                             :password => 'a password',
                             :verified_at => Time.now
-             
+
 admin        = User.create! :first_name => 'an admin',
                             :email => 'an-admin@example.com',
                             :password => 'a password',
                             :verified_at => Time.now
-             
+
 moderator    = User.create! :first_name => 'a moderator',
                             :email => 'a-moderator@example.com',
                             :password => 'a password',
                             :verified_at => Time.now
-             
+
                User.create! :first_name => 'an unverified user',
                             :email => 'a-unverified-user@example.com',
                             :password => 'a password'
-             
-# SITES      
-             
+
+# SITES
+
 site         = Site.create! :name => 'site with sections',
                             :title => 'site with sections title',
                             :host => 'site-with-sections.com'
-             
+
                Site.create! :name => 'another site',
                             :title => 'another site title',
                             :host => 'another-site.com'

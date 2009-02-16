@@ -167,8 +167,8 @@ class Admin::ArticlesController < Admin::BaseController
       options = {}
       case params[:filter]
       when 'category'
-        options[:joins] = "#{options[:joins]} INNER JOIN category_assignments ON contents.id = category_assignments.content_id"
-        condition = Article.send(:sanitize_sql, ['category_assignments.category_id = ?', params[:category].to_i])
+        options[:joins] = "#{options[:joins]} INNER JOIN categorizations ON contents.id = categorizations.categorizable_id AND categorizations.categorizable_type = 'Content'"
+        condition = Article.send(:sanitize_sql, ['categorizations.category_id = ?', params[:category].to_i])
         options[:conditions] = options[:conditions] ? "(#{options[:conditions]}) AND (#{condition})" : condition
       when 'title'
         options[:conditions] = Content.send(:sanitize_sql, ["LOWER(contents.title) LIKE ?", "%#{params[:query].downcase}%"])

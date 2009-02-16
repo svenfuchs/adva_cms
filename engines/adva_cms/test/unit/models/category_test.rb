@@ -32,8 +32,8 @@ class CategoryTest < ActiveSupport::TestCase
     @category.should have_many(:contents)
   end
 
-  test "has many category_assignments" do
-    @category.should have_many(:category_assignments)
+  test "has many categorizations" do
+    @category.should have_many(:categorizations)
   end
   
   # VALIDATIONS

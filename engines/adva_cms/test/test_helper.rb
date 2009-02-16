@@ -48,10 +48,8 @@ end
 # require dir + '/plugins/url_history/init_url_history'
 
 require_all dir + "/contexts.rb",
-            # dir + "/fixtures.rb",
             dir + "/test_helper/**/*.rb"
 require_all dir + "/../../**/test/contexts.rb",
-            # dir + "/../../**/test/fixtures.rb",
             dir + "/../../**/test/test_helper/**/*.rb"
 
 if DO_PREPARE_DATABASE

@@ -41,8 +41,8 @@ class PhotoTest < ActiveSupport::TestCase
     @photo.should have_many(:sets)
   end
 
-  test "has many category_assignments" do
-    @photo.should have_many(:category_assignments)
+  test "has many categorizations" do
+    @photo.should have_many(:categorizations)
   end
 
   # Validations

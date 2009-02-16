@@ -93,7 +93,7 @@ class LinkToContentHelperTest < ActiveSupport::TestCase
   def setup
     super
     @section = Section.first
-    @article = @section.articles.find_published :first
+    @article = @section.articles.find_by_title 'a section article'
     @category = @section.categories.first
     @tag = Tag.new :name => 'foo'
     
