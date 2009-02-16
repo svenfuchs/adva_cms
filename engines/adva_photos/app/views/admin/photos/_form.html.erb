@@ -17,7 +17,7 @@
 	
 	<% unless @photo.new_record? -%>
 		<p>
-    	<%= link_to(image_tag(@photo.base_url(:medium)), @photo.filename) %>
+    	<%= link_to(image_tag(@photo.base_url(:large)), @photo.filename) %>
 		</p>
 	<% end %>
 	

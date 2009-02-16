@@ -19,30 +19,28 @@ Paperclip::Attachment.interpolations.merge! \
 class Photo < ActiveRecord::Base
   cattr_accessor :root_dir
   @@root_dir = "#{RAILS_ROOT}/public"
-  
+
   acts_as_role_context :parent => Section
   acts_as_taggable
-  
+
   belongs_to_author
   belongs_to :section
-  belongs_to :site
   has_many_comments :polymorphic => true
   has_many :sets, :source => 'category', :through => :category_assignments # I wonder why this works :/re
   has_many :category_assignments, :as => :content
-  
+
   # Some Content black magic
   class_inheritable_reader    :default_find_options
   write_inheritable_attribute :default_find_options, { :order => 'published_at' }
-  
-  has_attached_file :data, :styles => { :large => "600x600>", # :medium => "300x300>", 
+
+  has_attached_file :data, :styles => { :large => "600x600>", # :medium => "300x300>",
                                         :thumb => "120x120>", :tiny => "50x50#" },
                            :url    => ":photo_file_url",
                            :path   => ":photo_file_path"
 
-  before_validation :set_site
   before_save :ensure_unique_filename
-  
-  validates_presence_of :site_id, :title
+
+  validates_presence_of :title
   validates_attachment_presence :data
   validates_attachment_size :data, :less_than => 30.megabytes
 
@@ -68,11 +66,11 @@ class Photo < ActiveRecord::Base
       super options
     end
   end
-  
+
   def draft?
     published_at.nil?
   end
-  
+
   def published?
     !published_at.nil? and published_at <= Time.zone.now
   end
@@ -105,13 +103,12 @@ class Photo < ActiveRecord::Base
   def extname
     File.extname(data_file_name).gsub(/^\.+/, '')
   end
-  
-  protected
-    
-    def set_site
-      self.site ||= section.site
-    end
 
+  def site
+    section.site
+  end
+
+  protected
     def ensure_unique_filename
       if new_record? || changes['data_file_name']
         basename, extname = self.basename, self.extname
