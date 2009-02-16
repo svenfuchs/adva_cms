@@ -14,6 +14,7 @@ class Admin::EventsController < Admin::BaseController
   widget :sub_nav, :partial => 'widgets/admin/sub_nav',
                    :only  => { :controller => ['admin/events'] }
 
+  cache_sweeper :calendar_event_sweeper, :tag_sweeper, :category_sweeper, :only => [:create, :update, :destroy]
   guards_permissions :calendar_event
 
   def index

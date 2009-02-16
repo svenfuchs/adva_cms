@@ -170,6 +170,25 @@ class ArticleTest < ActiveSupport::TestCase
     @article.published_at = nil
     @article.published?.should be_false
   end
+  
+  # just_published?
+  
+  test "just_published? is true when the article was published during the current request cycle" do
+    @article.update_attributes :published_at => Time.now
+    @article.just_published?.should be_true
+  end
+  
+  test "just_published? is false when the article was published during a previous request cycle" do
+    @article.update_attributes :published_at => Time.now
+    @article.clear_changes!
+    @article.just_published?.should be_false
+  end
+  
+  test "just_published? is false when the article is not published" do
+    @article.update_attributes :published_at => nil
+    @article.clear_changes!
+    @article.just_published?.should be_false
+  end
 
   # previous
   

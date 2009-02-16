@@ -63,6 +63,8 @@ class CalendarEvent < ActiveRecord::Base
     }
   }
 
+  # FIXME ... published_at <= Time.zone.now - i.e. events can theoretically be 
+  # published in the future
   named_scope :published, :conditions => 'published_at IS NOT NULL'
 
   named_scope :search, Proc.new { |query, filter|
@@ -78,6 +80,14 @@ class CalendarEvent < ActiveRecord::Base
 
   def draft?
     published_at.nil?
+  end
+
+  def published?
+    !published_at.nil? and published_at <= Time.zone.now
+  end
+  
+  def just_published?
+    published? and published_at_changed?
   end
 
   def self.sanitize_filter(filter)
