@@ -15,7 +15,9 @@ module IntegrationTests
   
     test "Admin creates a new site, changes the settings and deletes it (in multi-site mode)" do
       login_as_superuser
-      visit "/admin/sites/"
+      visit "/admin/sites"
+      assert_template 'admin/sites/index'
+      
       create_a_new_site
       revise_the_site_settings
       delete_the_site
@@ -29,19 +31,19 @@ module IntegrationTests
       fill_in 'section[title]', :with => "the new site's home section"
       choose 'Section'
       click_button 'Create'
-      renders_template "admin/sites/show"
+      assert_template "admin/sites/show"
     end
 
     def revise_the_site_settings
       click_link 'Settings'
       fill_in 'site[title]', :with => 'the ubersite'
       click_button 'Save'
-      renders_template "admin/sites/edit"
+      assert_template "admin/sites/edit"
     end
 
     def delete_the_site
       click_link 'Delete this site'
-      renders_template "admin/sites/index"
+      assert_template "admin/sites/index"
     end
   end
 end

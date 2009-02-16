@@ -11,7 +11,7 @@ end
 
 ActionView::Base.class_eval do
   def render_with_content_for(options = nil, extra_options = {}, &block)
-    unless @registered_contents_rendered
+    unless @registered_contents_rendered or !@controller.respond_to?(:registered_contents)
       @controller.registered_contents.each { |c| c.render(controller, self) }
       @registered_contents_rendered = true
     end

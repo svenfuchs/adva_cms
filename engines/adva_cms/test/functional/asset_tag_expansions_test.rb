@@ -6,7 +6,7 @@ def expected_asset_expansions
       :javascripts => {
         :adva_cms      => %w( adva_cms/prototype.js adva_cms/effects.js adva_cms/lowpro.js
                               adva_cms/flash.js adva_cms/cookie.js adva_cms/json.js
-                              adva_cms/parseuri.js adva_cms/roles.js adva_cms/application.js )
+                              adva_cms/parseuri.js adva_cms/roles.js adva_cms/application.js ),
         :adva_calendar => %w( adva_calendar/calendar.js )
       },
       :stylesheets => {
@@ -23,7 +23,7 @@ def expected_asset_expansions
                               adva_cms/admin/smart_form.js adva_cms/admin/sortable_tree.js
                               adva_cms/admin/sortable_list.js adva_cms/admin/spotlight.js
                               adva_cms/admin/asset.js adva_cms/admin/asset_widget.js
-                              adva_cms/admin/comment.js adva_cms/admin/wikipage.js )
+                              adva_cms/admin/comment.js adva_cms/admin/wikipage.js ),
         :adva_calendar => %w( adva_calendar/admin/calendar.js )
       },
       :stylesheets => {
@@ -37,7 +37,7 @@ def expected_asset_expansions
     :simple => {
       :javascripts => {
         :adva_cms      => %w( adva_cms/admin/base.css adva_cms/admin/form.css
-                              adva_cms/admin/layout/base.css adva_cms/admin/layout/simple.css )
+                              adva_cms/admin/layout/base.css adva_cms/admin/layout/simple.css ),
         :adva_calendar => %w( adva_calendar/calendar.js )
       },
       :stylesheets => {
@@ -55,7 +55,7 @@ def expected_asset_expansions
                               adva_cms/admin/smart_form.js adva_cms/admin/sortable_tree.js
                               adva_cms/admin/sortable_list.js adva_cms/admin/spotlight.js
                               adva_cms/admin/asset.js adva_cms/admin/asset_widget.js
-                              adva_cms/admin/comment.js adva_cms/admin/wikipage.js )
+                              adva_cms/admin/comment.js adva_cms/admin/wikipage.js ),
         :adva_calendar => %w( adva_calendar/admin/calendar.js )
       },
       :stylesheets => {
