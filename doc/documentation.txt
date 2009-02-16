@@ -1,0 +1,67 @@
+Documentation
+ - Getting and installing adva-cms
+	- Setting site domains etc.
+	- Security on adva-cms
+	- Speed with full page-caching
+		- Manually purging cache
+	
+	- Changing the outlook of the website - Themes
+		- Theme management (creating a new, editing etc)
+		- Exporting and importing themes
+		- General use of themes
+		- Designing default themes
+	
+	- User management
+	  - How users can register to website.
+	  - User roles and role controlling
+	
+	- Section and what are they?
+	- Section settings, commenting options, articles per page etc.
+	- Different section types (engines)
+	
+	- Newsletter
+	  - Creating and editing issues
+	  - Adding users to subcribers
+	  - Subscribing to a newsletter
+	  - Sending test issues to self
+	  - Publishing/unpublishing newsletters, sending to subcribers
+	
+	- Forum
+	  - Creating topics, stickying, locking them
+		- Using boards to organize topics
+		- Moderation of forum
+		
+	- Blog
+	  - posting an article and publishing it.
+		- post pinging
+		
+	- Wiki
+		- Creating a wikipage
+		- Version handling (viewing versions, rolling back, etc)
+		
+	- Calendar
+		- Creating events
+		
+	- Private messaging between site users
+	
+	- Photo albums
+		- Uploading photos
+		- Creating sets of photos
+		- Assembling default sets of photos
+		
+	- Handling spam on comments
+	- Activities of the web site
+	- Approving and unapproving comments
+	
+	- Assets and using the assets with articles (asset bucket).
+	
+	- Changing the outlook of the website - Themes
+        - Theme management (creating a new, editing etc)
+        - Exporting and importing themes
+        - General use of themes
+        - Designing default themes
+
+   - Photo albums
+        - Uploading photos
+        - Creating sets of photos
+        - Assembling default sets of photos
