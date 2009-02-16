@@ -6,10 +6,10 @@ class CustomTemplatesTestController < ActionController::Base
 end
 
 ActionController::Routing::Routes.draw do |map|
-  map.connect ':controller/:action/:id', :controller => 'custom_templates_test'
+  map.connect 'custom_templates_test/:action/:id', :controller => 'custom_templates_test'
 end
 
-class CustomTemplatesTest < ActionController::TestCase
+class RenderWithCustomTemplatesTest < ActionController::TestCase
   tests CustomTemplatesTestController
   
   test "render_options with template/layout given as a string" do

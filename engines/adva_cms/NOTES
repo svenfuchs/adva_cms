@@ -1,6 +1,84 @@
-Rails 2.3: applied
-http://rails.lighthouseapp.com/projects/8994-ruby-on-rails/tickets/1712-template-is-missing-error-for-engine-in-production-environment#ticket-1712-5
-http://rails.lighthouseapp.com/attachments/86359/do-not-override-plugin-view-path.diff
+# Configurable Cells
+
+some use cases:
+
+	MenuCell can be placed by the developer:
+
+		content_for(:sidebar) { MenuCell.instance(:"admin/main").render }
+
+	MenuCell instance :"admin/main" can be configured by the developer (code):
+
+		menu[:"admin/menu_main"]
+			menuitem[:overview]
+			menu[:admin]
+				menuitem[:themes]
+				menuitem[:settings]
+
+	MenuCell instance :"admin/main" configuration can be extended by the developer (code):
+
+		Cell.instance(:"admin/menu_main").items(:admin).add :newsletters
+	
+
+	SectionMenuCell instance :menu_top can be configured by the user (db):
+
+		# displays all sections starting at level 2 except the section with id 11
+		cell.start_level = 2
+		cell.exclude_sections = [11]
+
+	RecentArticlesCell instance #1 can be configured by the user (db):
+	
+		cell.section = 1
+		cell.include_children = false
+
+	layouts/admin:
+		<%= yield :header %>
+		
+	BaseController:
+		before_filter :render_cells
+		
+		# could have something like this and populate an ordered hash
+		content_for(:header,  :except => lambda { |c| c.controller_path == 'admin/sites' or c.action.in?(:index, :new) }) do
+			Cell.instance('admin/menu_main').render
+		end
+		
+		# these could use content_for then
+		renders_cell 'admin/menu_main', :to => :header, 
+		                                :except => { :controller => 'admin/sites', :action => [:index, :new] }
+		renders_cell 'admin/menu_user', :to => :header
+		renders_cell 'breadcrumbs',     :to => :header
+
+some api ideas:
+
+	class RecentArticlesCell
+		property :section_id, :type => :integer, :required => true
+		property :include_children, :type => :boolean, :default => false
+	
+		def self.instance(name)
+			# returns an existing or new instance
+		end
+	end
+
+	class Controller
+		def cell(type, name)
+			# gotta scope by site.id if config is looked up from db
+		end
+	end
+
+	class Cell::Menu < Cell
+	end
+
+	# initializers/cells.rb
+	Cell.define "admin/menu_main", :type => Cell::Menu
+	menu = Cell.instance "admin/menu_main"
+	menu.add_item 'overview', :url => lambda { ... }
+	menu.add_item 'assets',   :url => lambda { ... }
+	menu.add_menu 'sections', :populator => lambda { ... } # when a populator is given it populates the menu
+	menu.add_menu 'settings', :url => lambda { ... }       # when an url is given, submenu item has a link
+
+	Cell.define :breadcrumbs
+
+
+
 
 ------------------------------------------------------------------------------
 
@@ -55,14 +133,6 @@ http://github.com/phorsfall/salty_slugs/tree/master
 <component name="user/recent_users" section_id="1" count="10" />
 
 ------------------------------------------------------------------------------
-
-http://pastie.org/private/brjpbkyvh4ubgnpum01dxq
-http://www.sitepoint.com/blogs/2006/03/03/us-ascii-transliterations-of-unicode-text/
-http://search.cpan.org/~sburke/Text-Unidecode-0.04/lib/Text/Unidecode.pm
-http://pivotallabs.com/users/cheister/blog/articles/603-unicode-transliteration-to-ascii
-http://www.jroller.com/obie/entry/fix_that_tranny_add_to
-
-http://github.com/phorsfall/salty_slugs/tree/master
 
 
 adva_cms/lib/time_hacks.rb -- i18nize or replace with localize

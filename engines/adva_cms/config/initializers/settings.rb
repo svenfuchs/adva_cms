@@ -1,5 +1,3 @@
-# Adva config
-
 # Multisite (default is false)
 # to run more than one website with your adva_cms installation set this value to true
 Site.multi_sites_enabled = false

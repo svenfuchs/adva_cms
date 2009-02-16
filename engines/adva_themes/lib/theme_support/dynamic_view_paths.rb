@@ -22,7 +22,8 @@ unless ActionView::Template.method_defined?(:compile_times)
       alias_method_chain :compile, :dynamic_templates
 
       def dynamic?
-        !!relative_path.match(/\/(themes\/(site-\d+\/)?[^\/]+)\/templates/)
+        respond_to?(:relative_path) and 
+          !!relative_path.match(/\/(themes\/(site-\d+\/)?[^\/]+)\/templates/)
       end
       # memoize :dynamic?
 

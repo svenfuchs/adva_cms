@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../../test_helper')
 
-class ConfigurablePluginsTest < ActiveSupport::TestCase
+class PluginConfigurationTest < ActiveSupport::TestCase
   def setup
     super
     @site = Site.first or flunk('could not find Site')

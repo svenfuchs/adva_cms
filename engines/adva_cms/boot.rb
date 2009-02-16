@@ -1,4 +1,3 @@
-# require "#{RAILS_ROOT}/vendor/adva/plugins/engines/boot"
 require "#{RAILS_ROOT}/vendor/adva/plugins/cells/boot"
 
 # initialize Rails::Configuration with our own default values to spare users
@@ -11,11 +10,6 @@ require "#{RAILS_ROOT}/vendor/adva/plugins/cells/boot"
 # the configuration object
 #
 # TODO how to improve this?
-
-module Rails
-  mattr_reader :plugins
-  @@plugins = ActiveSupport::OrderedHash.new
-end
 
 Rails::Configuration.class_eval do
   def default_load_paths
@@ -37,24 +31,30 @@ Rails::Configuration.class_eval do
   end
 end
 
-Rails::Plugin.class_eval do
-  class PublishingLoader < Rails::Plugin::Loader # ummm, what's a better name?
-    def register_plugin_as_loaded(plugin)
-      Rails.plugins[plugin.name.to_sym] = plugin
-      super
+module Rails
+  def self.plugins
+    @@plugins ||= ActiveSupport::OrderedHash.new
+  end
+
+  class Plugin
+    class PublishingLoader < Rails::Plugin::Loader # ummm, what's a better name?
+      def register_plugin_as_loaded(plugin)
+        Rails.plugins[plugin.name.to_sym] = plugin
+        super
+      end
     end
-  end
   
-  def app_paths
-    ['models', 'helpers', 'observers'].map { |path| File.join(directory, 'app', path) } << controller_path
-  end
+    def app_paths
+      ['models', 'helpers', 'observers'].map { |path| File.join(directory, 'app', path) } << controller_path
+    end
   
-  def register_javascript_expansion(*args)
-    ActionView::Helpers::AssetTagHelper.register_javascript_expansion *args
-  end
+    def register_javascript_expansion(*args)
+      ActionView::Helpers::AssetTagHelper.register_javascript_expansion *args
+    end
   
-  def register_stylesheet_expansion(*args)
-    ActionView::Helpers::AssetTagHelper.register_stylesheet_expansion *args
+    def register_stylesheet_expansion(*args)
+      ActionView::Helpers::AssetTagHelper.register_stylesheet_expansion *args
+    end
   end
 end
 

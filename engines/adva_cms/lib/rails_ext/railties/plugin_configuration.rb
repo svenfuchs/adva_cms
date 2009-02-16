@@ -1,6 +1,3 @@
-# FIXME ... ok, this stuff is certainly not thread-safe. maybe populate 
-# Site.plugins from a Rails.plugins.clone
-
 module Rails 
   class Plugin
     module Configurable
