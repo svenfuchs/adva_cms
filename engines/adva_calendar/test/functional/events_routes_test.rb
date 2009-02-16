@@ -9,9 +9,9 @@ class CalendarRoutesTest < ActionController::TestCase
               /calendars/1/events/2009
               /calendars/1/events/2009/02
               /calendars/1/events/2009/02/02
-              /calendars/1/event/1
-              /calendars/1/event/2007
+              /calendars/1/event/an-event
               /calendars/1/categories/jazz )
+              # /calendars/1/event/2007 # hu?
 
   paths.each do |path|
     test "regenerates the original path from the recognized params for #{path}" do
@@ -37,9 +37,8 @@ class CalendarRoutesTest < ActionController::TestCase
 
     with_options :path_prefix => '/calendar-with-events/',
         :section_id => calendar_id, :controller => 'events', :action => 'show' do |r|
-      r.it_maps :get, "event/1", :id => "1"
-      r.it_maps :get, "event/2008", :id => "2008"
-      r.it_maps :get, "event/a-jazz-concert", :id => 'a-jazz-concert'
+      # r.it_maps :get, "event/2008", :id => "2008" # hu?
+      r.it_maps :get, "event/a-jazz-concert", :permalink => 'a-jazz-concert'
     end
   end
 end

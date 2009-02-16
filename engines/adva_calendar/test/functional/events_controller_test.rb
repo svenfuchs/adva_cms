@@ -11,7 +11,7 @@ class EventsControllerTest < ActionController::TestCase
   test "is a BaseController" do
     @controller.should be_kind_of(BaseController)
   end
-  
+
   view :common do
     has_tag 'div[id=footer]'
   end
@@ -31,7 +31,7 @@ class EventsControllerTest < ActionController::TestCase
       end
     end
   end
-  
+
   view :show do
     shows :common
     event = assigns['event']
@@ -54,7 +54,7 @@ class EventsControllerTest < ActionController::TestCase
       end
     end
   end
-  
+
   describe "GET to :index" do
     action { get :index, default_params}
     it_renders_view :index
@@ -77,27 +77,28 @@ class EventsControllerTest < ActionController::TestCase
     it_assigns :current_timespan => timespan
     it_assigns :events => lambda { @section.events.published.upcoming( timespan ) }
   end
-  
+
   describe "GET to :index for recently updated events" do
     action { get :index, default_params.merge(:scope => 'recently_added') }
     it_assigns :events => lambda { @section.events.published.recently_added }
     it_renders_view :index
   end
+
   describe "GET to :index for elapsed updated events" do
     action { get :index, default_params.merge(:scope => 'elapsed') }
     it_assigns :events => lambda { @section.events.published.elapsed }
     it_renders_view :index
   end
 
-# fails to find the category.
-#  describe "GET to :index for a category" do
-#    action { get :index, :category_id => @section.categories.first.id }
-#    it_assigns :categories => lambda { @section.categories.first }
-#    it_assigns :events => lambda { @section.events.published.by_categories(@section.categories.first.id) }
-#  end
+  #  FIXME fails to find the category.
+  #  describe "GET to :index for a category" do
+  #    action { get :index, :category_id => @section.categories.first.id }
+  #    it_assigns :categories => lambda { @section.categories.first }
+  #    it_assigns :events => lambda { @section.events.published.by_categories(@section.categories.first.id) }
+  #  end
 
   describe "GET to :show" do
-    action { get :show, default_params.merge(:id => @section.events.published.first.permalink) }
+    action { get :show, default_params.merge(:permalink => @section.events.published.first.permalink) }
     it_assigns :event
     it_renders_view :show
     it_renders_template :show
