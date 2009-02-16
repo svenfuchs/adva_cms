@@ -4,7 +4,9 @@ class User < ActiveRecord::Base
   # TODO how do we work this in?
   #  acts_as_authenticated_user :token_with => 'Authentication::SingleToken',
   #                             :authenticate_with => nil
-
+  
+  named_scope :verified,      :conditions => "users.verified_at IS NOT NULL"
+  
   has_many :sites, :through => :memberships
   has_many :memberships, :dependent => :delete_all
   has_many :subscriptions, :dependent => :destroy
