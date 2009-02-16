@@ -66,6 +66,10 @@ class Article < Content
   def state
     pending? ? :pending : :published
   end
+  
+  def just_published?
+    published? and published_at_changed?
+  end
 
   def previous
     section.articles.find_published :first, :conditions => ['published_at < ?', published_at], :order => :published_at

@@ -1,5 +1,6 @@
 class CachedPageReference < ActiveRecord::Base
   belongs_to :cached_page
+  belongs_to :object, :polymorphic => true
   
   class << self
     def initialize_with(object, method = nil)

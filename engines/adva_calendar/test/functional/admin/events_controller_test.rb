@@ -17,7 +17,7 @@ class Admin::EventsControllerTest < ActionController::TestCase
       expected = assigns(:event).all_day? ? 'checked' : nil
       assert_equal expected, tags.first.attributes['checked']
     end
-    
+
     has_tag 'textarea[name=?]', 'calendar_event[body]'
     has_tag 'input[name=?]', 'calendar_event[tag_list]'
     has_tag 'input[type=checkbox][name=draft]' do |tags|
@@ -76,7 +76,9 @@ class Admin::EventsControllerTest < ActionController::TestCase
     with :invalid_event_params do
       it_renders_template :new
       it_assigns_flash_cookie :error => :not_nil
+      it_does_not_sweep_page_cache
     end
+
     with :valid_event_params do
       it_saves :event
       it_assigns_flash_cookie :notice => :not_nil
@@ -84,6 +86,7 @@ class Admin::EventsControllerTest < ActionController::TestCase
       it_redirects_to do
         edit_admin_calendar_event_path(default_params.merge(:action => 'edit', :id => @section.events.last.id))
       end
+      it_sweeps_page_cache :by_reference => :section
     end
   end
 
@@ -96,13 +99,16 @@ class Admin::EventsControllerTest < ActionController::TestCase
       it_renders_template :edit
       it_assigns_flash_cookie :error => :not_nil
       it_does_not_trigger_any_event
+      it_does_not_sweep_page_cache
     end
+
     with :valid_event_params do
       it_assigns_flash_cookie :notice => :not_nil
       it_saves :event
       it_redirects_to do
         edit_admin_calendar_event_path(default_params.merge(:action => 'edit', :id => @event.id))
       end
+      it_sweeps_page_cache :by_reference => :event
     end
   end
 
@@ -113,5 +119,6 @@ class Admin::EventsControllerTest < ActionController::TestCase
 
     it_redirects_to { admin_calendar_events_path(@site, @section) }
     it_assigns_flash_cookie :notice => :not_nil
+    it_sweeps_page_cache :by_reference => :event
   end
 end
