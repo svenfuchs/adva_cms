@@ -62,10 +62,6 @@ class PhotoTest < ActiveSupport::TestCase
 
   # Callbacks
 
-  test "sets the site from the section before validation" do
-    Photo.before_validation.should include(:set_site)
-  end
-
   # Public methods
 
   # draft?
