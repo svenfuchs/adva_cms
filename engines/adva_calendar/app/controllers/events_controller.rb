@@ -82,8 +82,7 @@ class EventsController < BaseController
     end
 
     def set_event
-      @event = @section.events.published.find_by_id params[:id]
-      @event ||= @section.events.published.find_by_permalink params[:id]
+      @event = @section.events.published.find_by_permalink params[:permalink]
       if !@event || (@event.draft? && !can_preview?)
         raise ActiveRecord::RecordNotFound
       end
@@ -97,11 +96,11 @@ class EventsController < BaseController
       end
     end
 
-    def current_resource
-      @event || @section
-    end
-
     def can_preview?
       has_permission?('update', 'article')
+    end
+
+    def current_resource
+      @event || @section
     end
 end
