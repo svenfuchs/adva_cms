@@ -82,18 +82,18 @@ class CronjobTest < ActiveSupport::TestCase
     @cronjob.month.should == "1"
   end
 
-  test "#due_at= should convert TimeWithZone to localtime so cronjob will be at same timezone as OS" do
-    Time.stubs(:getlocal).returns Time.utc(2011,1,1, 1,1,1) # an OS time
-    
-    Time.zone = 2
-    time_in_user_time_zone = Time.zone.local(2011,1,1, 1,1,1).in_time_zone(10)
-
-    @cronjob.due_at = time_in_user_time_zone   
-    @cronjob.minute.should == "1"
-    @cronjob.hour.should == "1" # should be in the OS time zone
-    @cronjob.day.should == "1"
-    @cronjob.month.should == "1"
-  end
+  # test "#due_at= should convert TimeWithZone to localtime so cronjob will be at same timezone as OS" do
+  #   Time.stubs(:getlocal).returns Time.utc(2011,1,1, 1,1,1) # an OS time
+  #
+  #   Time.zone = 2
+  #   time_in_user_time_zone = Time.zone.local(2011,1,1, 1,1,1).in_time_zone(10)
+  #
+  #   @cronjob.due_at = time_in_user_time_zone
+  #   @cronjob.minute.should == "1"
+  #   @cronjob.hour.should == "1" # should be in the OS time zone
+  #   @cronjob.day.should == "1"
+  #   @cronjob.month.should == "1"
+  # end
 
   test "#create should create CronEdit cronjob" do
     Cronjob.destroy_all
