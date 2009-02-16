@@ -80,8 +80,8 @@ class ContentTest < ActiveSupport::TestCase
     @content.should have_many(:categories)
   end
 
-  test "has many category_assignments" do
-    @content.should have_many(:category_assignments)
+  test "has many categorizations" do
+    @content.should have_many(:categorizations)
   end
 
   # CALLBACKS

@@ -38,8 +38,8 @@ describe Photo do
       @photo.should have_many(:sets)
     end
 
-    it "has many category_assignments" do
-      @photo.should have_many(:category_assignments)
+    it "has many categorizations" do
+      @photo.should have_many(:categorizations)
     end
   end
   

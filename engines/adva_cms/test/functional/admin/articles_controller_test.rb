@@ -262,7 +262,7 @@ class AdminArticlesControllerTest < ActionController::TestCase
   
     it "fetches articles belonging to a category when :filter == category" do
       @controller.params = {:filter => 'category', :category => '1'}
-      filter_options.should == {:conditions => "category_assignments.category_id = 1"}
+      filter_options.should == {:conditions => "categorizations.category_id = 1"}
     end
   
     it "fetches articles by checking the title when :filter == title" do

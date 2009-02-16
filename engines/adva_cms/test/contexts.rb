@@ -144,7 +144,7 @@ class Test::Unit::TestCase
 
   share :a_published_article do
     before do
-      @article = @section.articles.first
+      @article = @section.articles.first # .find_by_title 'a section article'
       publish @article
     end
   end

@@ -1,9 +1,14 @@
+# Category.class_eval do
+#   has_many :calendar_events, :through => :categorizations, :source => :categorizable, :source_type => 'CalendarEvent'
+# end
 
 class CalendarEvent < ActiveRecord::Base
   has_many :assets, :through => :asset_assignments
   has_many :asset_assignments, :foreign_key => :content_id # TODO shouldn't that be :dependent => :delete_all?
-  has_many :category_assignments, :foreign_key => 'content_id'
-  has_many :categories, :through => :category_assignments
+
+  has_many :categories, :through => :categorizations
+  has_many :categorizations, :as => :categorizable, :dependent => :destroy, :include => :category
+
   belongs_to :location
   belongs_to :section
   alias :calendar :section
@@ -25,8 +30,8 @@ class CalendarEvent < ActiveRecord::Base
 
   named_scope :by_categories, Proc.new { |*category_ids|
     {
-      :conditions => ['category_assignments.category_id IN (?)', category_ids],
-      :include => :category_assignments
+      :conditions => ['categorizations.category_id IN (?)', category_ids],
+      :include => :categorizations
     }
   }
 

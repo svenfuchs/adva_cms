@@ -16,6 +16,10 @@ Paperclip::Attachment.interpolations.merge! \
   :photo_file_url  => proc { |data, style| data.instance.url(style)  },
   :photo_file_path => proc { |data, style| data.instance.path(style) }
 
+# Category.class_eval do
+#   has_many :photos, :through => :categorizations, :source => :categorizable, :source_type => 'Photo'
+# end
+
 class Photo < ActiveRecord::Base
   cattr_accessor :root_dir
   @@root_dir = "#{RAILS_ROOT}/public"
@@ -26,8 +30,8 @@ class Photo < ActiveRecord::Base
   belongs_to_author
   belongs_to :section
   has_many_comments :polymorphic => true
-  has_many :sets, :source => 'category', :through => :category_assignments # I wonder why this works :/re
-  has_many :category_assignments, :as => :content
+  has_many :sets, :source => 'category', :through => :categorizations
+  has_many :categorizations, :as => :categorizable, :dependent => :destroy, :include => :category
 
   # Some Content black magic
   class_inheritable_reader    :default_find_options
