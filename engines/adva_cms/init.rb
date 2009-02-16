@@ -15,7 +15,7 @@ require 'roles'
 require 'event'    # need to force these to be loaded now, so Rails won't
 require 'registry' # reload them between requests (FIXME ... this doesn't seem to happen?)
 
-Paperclip.options[:command_path] = '/usr/local/bin'
+Paperclip.options[:command_path] = %x[which convert].chomp.gsub(/convert/, '')
 
 config.to_prepare do
   Registry.set :redirect, {
