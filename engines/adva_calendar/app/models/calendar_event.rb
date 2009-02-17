@@ -9,7 +9,6 @@ class CalendarEvent < ActiveRecord::Base
   has_many :categories, :through => :categorizations
   has_many :categorizations, :as => :categorizable, :dependent => :destroy, :include => :category
 
-  belongs_to :location
   belongs_to :section
   alias :calendar :section
   belongs_to :user

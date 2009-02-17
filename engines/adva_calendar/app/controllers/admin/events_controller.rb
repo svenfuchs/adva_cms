@@ -103,16 +103,6 @@ class Admin::EventsController < Admin::BaseController
       set_calendar_event_param :end_date, Time.parse(params[:calendar_event][:end_date]) unless params[:calendar_event][:end_date].blank?
     end
 
-    # will check if existing location is selected, otherwise try to create a new one
-    def params_location
-      unless params[:calendar_event][:location_id].blank?
-        @location = @site.locations.find(params[:calendar_event][:location_id])
-      else
-        @location = @site.locations.new(params[:location])
-      end
-      set_calendar_event_param(:location_id, @location.save ? @location.id : nil)
-    end
-
     def save_draft?
       params[:draft] == '1'
     end

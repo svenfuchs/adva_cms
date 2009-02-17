@@ -31,7 +31,6 @@ class Site < ActiveRecord::Base
   has_many :memberships, :dependent => :delete_all
   has_many :newsletters, :dependent => :destroy
   has_many :deleted_newsletters
-  has_many :locations
 
   has_many :assets, :order => 'assets.created_at desc', :dependent => :destroy do
     def recent

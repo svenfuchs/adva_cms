@@ -9,10 +9,13 @@
     <%= form.label :title, t(:'adva.calendar.attributes.title') %>
     <%= form.text_field :title %>
   </p>
-
   <p>
     <%= form.label :host, t(:'adva.calendar.attributes.host') %>
     <%= form.text_field :host %>
+  </p>
+  <p>
+    <%= form.label :location, t(:'adva.calendar.attributes.location') %>
+    <%= form.text_field :location %>
   </p>
 <%= calendar_date_select_includes 'silver' %>
   <p>
@@ -22,12 +25,10 @@
     <%= form.check_box :all_day %> <%= t(:'adva.calendar.attributes.all_day') %>
     </label>
   </p>
-
   <p id="end_date">
     <%= form.label :end_date, t(:'adva.calendar.attributes.end_date') %>
     <%= form.calendar_date_select :end_date, :value => (@event.end_date ? @event.end_date.localtime.rfc2822 : '') %>
   </p>
-
   <p>
     <%= form.label :body, t(:'adva.calendar.attributes.body') %>
     <%= form.text_area :body, :class => "use_wysiwyg" %>
@@ -37,7 +38,6 @@
     <%= form.text_field :tag_list %>
     <span class="hint"><%= t(:'adva.common.hints.tags') %></span>  
   </p>
-  
   <%= form.label :draft, t(:'adva.calendar.question_save_as_draft') %>
   <label class="light">
     <%= check_box_tag :draft, '1', @event.draft?, :id => 'calendar_event_draft' %> <%= t(:'adva.calendar.confirm_save_as_draft') %>

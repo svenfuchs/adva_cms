@@ -8,7 +8,7 @@ class CalendarEventTest < ActiveSupport::TestCase
 
     @calendar = Calendar.find_by_permalink!('calendar-with-events')
     @event = @calendar.events.new(:title => 'A new event', :start_date => '2009-2-24 21:30',
-      :end_date => '2009-2-25 01:30', :user_id => 1, :location_id => 1)
+      :end_date => '2009-2-25 01:30', :user_id => 1)
     @upcoming_event  = @calendar.events.find_by_permalink!('an-upcoming-event')
     @ongoing_event   = @calendar.events.find_by_permalink!('an-ongoing-event')
     @past_event      = @calendar.events.find_by_permalink!('a-past-event')
@@ -80,7 +80,7 @@ class CalendarEventTest < ActiveSupport::TestCase
     @event.should have_many(:categories)
   end
   test "11 should have a location" do
-    @event.should belong_to(:location)
+    @event.should respond_to(:location)
   end
 
   test "12 should have a elapsed scope" do
