@@ -1,0 +1,45 @@
+== Extensible FormBuilder
+
+adva-cms is intended to be as extensible as possible both from the application
+build on top of it and from any kind of plugin. We therefor need a way to hook
+into and modify existing form templates that are shipped with adva-cms.
+
+Although it is always possible to just overwrite the existing template through
+a custom app or theme template adva-cms also provides a more programmatical
+solution called ExtensibleFormBuilder.
+
+adva-cms extends the form_for helper to look up a form builder class for the
+resource you are using. E.g. when you do:
+
+	form_for @article
+	
+then adva-cms will try to find a class named ArticleFormBuilder and use that
+as a form builder for your form. If the class is not defined adva-cms will 
+use the ExtensibleFormBuilder class by default (which right now mostly does 
+the same as the standard Rails FormBuilder class does but also gives you some
+goodies as automatic labels and a field_set helper).
+
+So, to extend the article form from anywhere in your application you can 
+create an ArticleFormBuilder class and define some callbacks on it. 
+ExtensibleFormBuilder provides :before and :after hooks and allows you to 
+reference fields by 
+
+- the current object name (e.g. :article)
+- the field or method name (e.g. :title)
+
+The following example would extend any form that is created using 
+
+	form_for @article
+
+by two additional fields. One is prepended to the :default_fields fieldset,
+the other one appended to the :submit button.
+
+class ArticleFormBuilder < ExtensibleFormBuilder
+  before(:article, :default_fields) do |f|
+    f.text_field :title
+  end
+
+  before(:article, :submit) do |f|
+    link_to 'cancel', article_path
+  end
+end
