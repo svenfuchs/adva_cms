@@ -14,6 +14,7 @@ site         = Site.create! :name => "site with newsletter",
                             :email => 'newsletter@example.com',
                             :host => "site-with-newsletter.com",
                             :google_analytics_tracking_code => "GA-123456"
+
 admin.roles << Rbac::Role.build(:admin, :context => site)
 site.users  << [user, user_newsletter]
 site.save!
