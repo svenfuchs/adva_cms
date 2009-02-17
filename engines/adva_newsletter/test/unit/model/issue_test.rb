@@ -296,68 +296,45 @@ class IssueTest < ActiveSupport::TestCase
     @issue.cancel_delivery.should == false
   end
 
-  test "#has_tracking_enabled? should be tracked and Google Analytics tracking code, campaign name and source name are set" do
-    # @issue.stub!(:track?).and_return(true)
-    # @issue.stub!(:tracking_campaign).and_return("Test campaign")
-    # @issue.stub!(:tracking_source).and_return("Test source")
-    # @issue.newsletter.site.stub!(:google_analytics_tracking_code).and_return("GA-123456")
-
-    # @issue.should have_tracking_enabled
+  test "#has_tracking_enabled? should return true when Google Analytics tracking code, campaign name and source name are set" do
+    @issue.should have_tracking_enabled
   end
 
-  test "#has_tracking_disabled? should be true when not tracked" do
-    # @issue.stub!(:track?).and_return(false)
-    # @issue.stub!(:tracking_campaign).and_return("Test campaign")
-    # @issue.stub!(:tracking_source).and_return("Test source")
-    # @issue.newsletter.site.stub!(:google_analytics_tracking_code).and_return("GA-123456")
-
-    # @issue.should_not have_tracking_enabled
+  test "#has_tracking_disabled? should return false when not tracked" do
+    @issue.track = false
+    @issue.should_not have_tracking_enabled
   end
 
-  test "#has_traking_disable should be true when Google Analytics code is missing" do
-    # @issue.stub!(:track?).and_return(true)
-    # @issue.stub!(:tracking_campaign).and_return("Test campaign")
-    # @issue.stub!(:tracking_source).and_return("Test source")
-    # @issue.newsletter.site.stub!(:google_analytics_tracking_code).and_return(nil)
-
-    # @issue.should_not have_tracking_enabled
+  test "#has_traking_disable should return false when Google Analytics code is missing" do
+    @issue.newsletter.site.google_analytics_tracking_code = nil
+    @issue.should_not have_tracking_enabled
   end
 
-  test "#has_tracking_disabled should be true when campaign name is missing" do
-    # @issue.stub!(:track?).and_return(true)
-    # @issue.stub!(:tracking_campaign).and_return(nil)
-    # @issue.stub!(:tracking_source).and_return("Test source")
-    # @issue.newsletter.site.stub!(:google_analytics_tracking_code).and_return("GA-123456")
-
-    # @issue.should_not have_tracking_enabled
+  test "#has_tracking_disabled should return false when campaign name is missing" do
+    @issue.tracking_campaign = nil
+    @issue.should_not have_tracking_enabled
   end
 
-  test "#has_tracking_disabled should be true when source name is missing" do
-    # @issue.stub!(:track?).and_return(true)
-    # @issue.stub!(:tracking_campaign).and_return("Test campaign")
-    # @issue.stub!(:tracking_source).and_return(nil)
-    # @issue.newsletter.site.stub!(:google_analytics_tracking_code).and_return("GA-123456")
-
-    # @issue.should_not have_tracking_enabled
+  test "#has_tracking_disabled should return false when source name is missing" do
+    @issue.tracking_source = nil
+    @issue.should_not have_tracking_enabled
   end
 
   test "#body_html should track URLs when tracking is enabled" do
-    # before(:each) do
-      # @issue.stub!(:tracking_campaign).and_return("test-campaign")
-      # @issue.stub!(:tracking_source).and_return("test-source")
-      # @issue.body = '<a href="http://www.example.com/newest-products.html?order=date">View our newest products</a>'
-      # @issue.save
-    # end
-    # @issue.stub!(:has_tracking_enabled?).and_return(true)
+    @issue.body = %(<a href="http://#{@issue.newsletter.site.host}/newest-products.html?order=date">View our newest products</a>)
+    @issue.save
 
-    # @issue.body_html.should ==
-    # '<a href="http://www.example.com/newest-products.html?order=date&utm_medium
-    # =newsletter&utm_campaign=test-campaign&utm_source=test-source">View our newest products</a>'
+    expected = %(<a href="http://#{@issue.newsletter.site.host}/newest-products.html?order=date&utm_medium=newsletter&utm_campaign=#{URI.escape(@issue.tracking_campaign)}&utm_source=#{URI.escape(@issue.tracking_source)}">View our newest products</a>)
+    @issue.should have_tracking_enabled
+    @issue.body_html.should == expected
   end
 
   test "#body_html should not track URLs when tracking is disabled" do
-    # @issue.stub!(:has_tracking_enabled?).and_return(false)
-    # @issue.body_html.should ==
-    # '<a href="http://www.example.com/newest-products.html?order=date">View our newest products</a>'
+    @issue.body = %(<a href="http://#{@issue.newsletter.site.host}/newest-products.html?order=date">View our newest products</a>)
+    @issue.save
+    @issue.track = false
+
+    @issue.should_not have_tracking_enabled
+    @issue.body_html.should == %(<a href="http://#{@issue.newsletter.site.host}/newest-products.html?order=date">View our newest products</a>)
   end
 end

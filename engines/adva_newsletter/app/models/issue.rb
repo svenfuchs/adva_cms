@@ -163,7 +163,7 @@ class Issue < BaseIssue
                  :to => user.email,
                  :mail => issue.to_s)
   end
-  
+
   def destroy
     self.deleted_at = Time.now.utc
     self.type = "DeletedIssue"

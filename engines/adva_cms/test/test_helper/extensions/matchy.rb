@@ -50,6 +50,10 @@ module Matchy
         Matchy::Expectations::BeDirectory.new(nil, self)
       end
 
+      def have_tracking_enabled
+        Matchy::Expectations::HaveTrackingEnabled.new(nil, self)
+      end
+
       # def respond_to(expected)
       #   Matchy::Expectations::RespondTo.new(expected, self)
       # end
@@ -154,6 +158,13 @@ module Matchy
             "Expected the directory %s not to exist." do |receiver|
       @receiver = receiver
       File.directory?(receiver)
+    end
+
+    matcher "HaveTrackingEnabled",
+            "Expected %s to have tracking enabled.",
+            "Expected %s to not have tracking enabled." do |receiver|
+      @receiver = receiver
+      receiver.has_tracking_enabled?
     end
 
     # matcher "RespondTo",
