@@ -73,16 +73,29 @@ class ExtensibleFormBuilder < ActionView::Helpers::FormBuilder
                             %w(hidden_field label fields_for apply_form_for_options!)
 
   helpers.each do |method_name|
-    define_method(method_name) do |*args, &block| # use the block to define options
-      options = args.extract_options!
-      name  = args.first
-
-      with_callbacks(name) do
-        tag = super(*(args << options), &block)
-        tag = labelize(tag, name, options) if self.options[:labels]
-        tag
+    class_eval <<-end_src, __FILE__, __LINE__
+      def #{method_name}(*args, &block)
+        options = args.extract_options!
+        name    = args.first
+        
+        with_callbacks(name) do
+          tag = super(*(args << options), &block)
+          tag = labelize(tag, name, options) if self.options[:labels]
+          tag
+        end
       end
-    end
+    end_src
+    
+    # define_method(method_name) do |*args, &block|
+    #   options = args.extract_options!
+    #   name    = args.first
+    # 
+    #   with_callbacks(name) do
+    #     tag = super(*(args << options), &block)
+    #     tag = labelize(tag, name, options) if self.options[:labels]
+    #     tag
+    #   end
+    # end
   end
   
   def field_set(*args, &block)
