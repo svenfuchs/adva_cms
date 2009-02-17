@@ -75,6 +75,7 @@ Category.create! :section => calendar_with_events,
 category_punk =
 Category.create! :section => calendar_with_events,
                  :title => 'Punk'
+
 an_upcoming_event.categories = [category_jazz, category_rock]
 an_ongoing_event.categories  = [category_jazz, category_punk]
 a_past_event.categories      = [category_punk]

@@ -12,7 +12,7 @@ class Test::Unit::TestCase
       @section = Calendar.find_by_permalink 'calendar-with-events'
       @categories = @section.categories
       @events = @section.events.published
-      @event = @section.events.published.first
+      @event = @events.first
       @site = @section.site
       set_request_host!
     end

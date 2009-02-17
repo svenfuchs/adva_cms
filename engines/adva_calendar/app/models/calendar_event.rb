@@ -30,7 +30,8 @@ class CalendarEvent < ActiveRecord::Base
   named_scope :by_categories, Proc.new { |*category_ids|
     {
       :conditions => ['categorizations.category_id IN (?)', category_ids],
-      :include => :categorizations
+      :include => :categorizations,
+      :order => 'start_date DESC'
     }
   }
 
@@ -50,7 +51,7 @@ class CalendarEvent < ActiveRecord::Base
       :conditions => ['(start_date BETWEEN ? AND ?) 
           OR (start_date <= ? AND end_date >= ?)', 
           start_date, end_date, start_date, start_date],
-      :order => 'start_date ASC'
+      :order => 'start_date DESC'
     }
   }
 

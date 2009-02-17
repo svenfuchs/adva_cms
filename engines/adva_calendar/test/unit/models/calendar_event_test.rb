@@ -99,12 +99,12 @@ class CalendarEventTest < ActiveSupport::TestCase
 
     @calendar.events.by_categories(jazz.id).should ==[@upcoming_event, @ongoing_event]
     @calendar.events.by_categories(rock.id).should ==[@upcoming_event, @last_year_event]
-    @calendar.events.by_categories(punk.id).should ==[@ongoing_event, @past_event]
+    @calendar.events.by_categories(punk.id).should ==[@past_event, @ongoing_event]
     @calendar.events.by_categories(jazz.id, rock.id).should ==[@upcoming_event, @ongoing_event, @last_year_event]
   end
 
   test "16 from today on" do
-    @calendar.events.upcoming.should ==[@ongoing_event, @upcoming_event]
+    @calendar.events.upcoming.should ==[@upcoming_event, @ongoing_event]
   end
   test "17 from tomorrow on" do
      @calendar.events.upcoming(Time.now + 1.day).should ==[@upcoming_event]

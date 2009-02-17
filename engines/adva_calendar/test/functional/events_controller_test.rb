@@ -90,12 +90,11 @@ class EventsControllerTest < ActionController::TestCase
     it_renders_view :index
   end
 
-  #  FIXME fails to find the category.
-  #  describe "GET to :index for a category" do
-  #    action { get :index, :category_id => @section.categories.first.id }
-  #    it_assigns :categories => lambda { @section.categories.first }
-  #    it_assigns :events => lambda { @section.events.published.by_categories(@section.categories.first.id) }
-  #  end
+   describe "GET to :index for a category" do
+     action { get :index, default_params.merge(:category_id => @section.categories.first.id) }
+     it_assigns :category => lambda { @section.categories.first }
+     it_assigns :events => lambda { @section.events.published.by_categories(@section.categories.first.id) }
+   end
 
   describe "GET to :show" do
     action { get :show, default_params.merge(:permalink => @section.events.published.first.permalink) }
