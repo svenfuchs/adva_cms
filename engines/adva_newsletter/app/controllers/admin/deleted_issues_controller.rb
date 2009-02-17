@@ -1,4 +1,6 @@
 class Admin::DeletedIssuesController < Admin::BaseController
+  guards_permissions :deleted_issue 
+
   def update
     @deleted_issue = DeletedIssue.find(params[:id])
     @deleted_issue.restore

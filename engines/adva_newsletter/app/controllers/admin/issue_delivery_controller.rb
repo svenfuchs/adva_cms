@@ -1,4 +1,6 @@
 class Admin::IssueDeliveryController < Admin::BaseController
+  guards_permissions :issue 
+
   before_filter :set_newsletter
   before_filter :set_issue
 

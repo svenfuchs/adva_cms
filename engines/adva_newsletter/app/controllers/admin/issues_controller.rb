@@ -1,4 +1,6 @@
 class Admin::IssuesController < Admin::BaseController
+  guards_permissions :issue 
+
   before_filter :set_newsletter, :except => :index
   before_filter :set_issue, :except => [:index, :new, :create]
 
