@@ -140,5 +140,4 @@ class PhotoTest < ActiveSupport::TestCase
       photo.path(style).should be_file
     end
   end unless `which convert`.blank?
-  # if system('which convert') # umm, would this work on windows?
 end

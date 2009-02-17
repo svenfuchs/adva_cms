@@ -3,6 +3,11 @@ require File.expand_path(File.dirname(__FILE__) + '/../../test_helper.rb')
 class PhotosControllerTest < ActionController::TestCase
   tests Admin::PhotosController
   
+  def setup
+    super
+    stub_paperclip_post_processing!
+  end
+  
   with_common :is_superuser, :a_site_with_album
   
   def default_params

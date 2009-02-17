@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../../test_helper'
 
-class AssetTest < ActiveSupport::TestCase
+class AssetWithPaperclipTest < ActiveSupport::TestCase
   include AssetTestHelper
 
   def setup
@@ -12,6 +12,29 @@ class AssetTest < ActiveSupport::TestCase
     asset = create_image_asset
     asset.destroy
     asset.path.should_not be_file
+  end
+
+  test "creates a valid asset" do
+    asset = create_image_asset
+    asset.should be_valid
+    asset.path.should be_file
+  end
+
+  test "creates medium, thumb and tiny variants if ImageMagick is installed" do
+    asset = create_image_asset
+    [:medium, :thumb, :tiny].each do |style|
+      asset.path(style).should be_file
+    end
+  end unless `which convert`.blank?
+end
+
+class AssetTest < ActiveSupport::TestCase
+  include AssetTestHelper
+
+  def setup
+    super
+    @site = Site.first
+    stub_paperclip_post_processing!
   end
 
   test "acts as taggable" do
@@ -37,20 +60,6 @@ class AssetTest < ActiveSupport::TestCase
   test "validates the presence of site_id" do
     Asset.should validate_presence_of(:site_id)
   end
-
-  test "creates a valid asset" do
-    asset = create_image_asset
-    asset.should be_valid
-    asset.path.should be_file
-  end
-
-  test "creates medium, thumb and tiny variants if ImageMagick is installed" do
-    asset = create_image_asset
-    [:medium, :thumb, :tiny].each do |style|
-      asset.path(style).should be_file
-    end
-  end unless `which convert`.blank?
-  # if system('which convert') # umm, would this work on windows?
 
   test "does not change the filename if the file does not exist" do
     create_image_asset.path.should == "#{Asset.root_dir}/assets/rails.png"

@@ -40,6 +40,10 @@ class Test::Unit::TestCase
     clear_themes_dir!
   end
   alias_method_chain :teardown, :test_setup
+  
+  def stub_paperclip_post_processing!
+    stub.proxy(Paperclip::Attachment).new { |attachment| stub(attachment).post_process }
+  end
 end
 
 # FIXME at_exit { try to rollback any open transactions }
