@@ -1,4 +1,5 @@
 class Admin::NewsletterSubscriptionsController < Admin::BaseController
+  guards_permissions :newsletter_subscription 
   
   def index
     @newsletter = Newsletter.find(params[:newsletter_id])

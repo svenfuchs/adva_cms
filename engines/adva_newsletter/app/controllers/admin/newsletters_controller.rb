@@ -1,4 +1,5 @@
 class Admin::NewslettersController < Admin::BaseController
+  guards_permissions :newsletter 
 
   def index
     @newsletters = Newsletter.find(:all)

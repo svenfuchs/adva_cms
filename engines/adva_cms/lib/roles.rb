@@ -111,5 +111,26 @@ Rbac.define do
               :'create photo'       => :admin,
               :'update photo'       => :admin,
               :'destroy photo'      => :admin,
-              :'manage photo'       => :admin
+              :'manage photo'       => :admin,
+
+              :'show newsletter'    => :moderator,
+              :'create newsletter'  => :admin,
+              :'update newsletter'  => :admin,
+              :'destroy newsletter' => :admin,
+
+              :'update deleted_newsletter'  => :admin,
+              :'destroy deleted_newsletter' => :superuser,
+
+              :'show issue'         => :moderator,
+              :'create issue'       => :moderator,
+              :'update issue'       => :moderator,
+              :'destroy issue'      => :moderator,
+              
+              :'update deleted_issue'  => :moderator,
+              :'destroy deleted_issue' => :superuser,
+
+              :'show newsletter_subscription'    => :moderator,
+              :'create newsletter_subscription'  => :moderator,
+              :'update newsletter_subscription'  => :moderator,
+              :'destroy newsletter_subscription' => :moderator
 end
