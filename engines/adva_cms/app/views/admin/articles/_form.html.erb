@@ -4,9 +4,11 @@
   <% end %>
 <% end %>
 
-<fieldset class="clearfix">
+<% f.field_set :class => 'clearfix' do %>
+
   <%= f.label :title %>
   <%= f.text_field :title, :class => 'big'  %>
+
   <p id="excerpt" style="<%= @article.has_excerpt? ? "" : "display:none" %>">
     <label for="article_excerpt">
       <%= t(:'adva.articles.attributes.excerpt') %>
@@ -14,6 +16,7 @@
     </label>
     <%= f.text_area :excerpt, :rows => '8', :class => 'fat use_wysiwyg'  %>
   </p>
+
   <label for="article_body">
     Write your article
     <span class="hint inline">(<%= link_to_function t(:'adva.articles.excerpt_add'), "$('excerpt').toggle()" %>)</span>
@@ -33,4 +36,4 @@
                           :end_year => (Time.zone.now.year + 5),
                           :order => [:month, :day, :year] %>
   </p>
-</fieldset>
+<% end %>

@@ -1,4 +1,5 @@
 <h2><%= t(:'adva.titles.general_settings') %></h2>
+
 <fieldset class="clearfix">
   <div class="col">
     <%= f.label :title %>
@@ -9,6 +10,7 @@
     <%= f.text_field :permalink %>
   </div>
 </fieldset>
+
 <% unless true or @site.current_theme_template_paths.empty? %>
     <%= f.label :template %>
     <%= f.select :template, @site.current_theme_template_paths, :include_blank => true  %>
@@ -17,6 +19,7 @@
     <%= f.label :layout %>
     <%= f.select :layout, @site.current_theme_layout_paths, :include_blank => true  %>
 <% end %>
+
 <%= render :partial => "admin/sections/settings/#{@section.type.underscore}", :locals => { :f => f } %>
 <%= render :partial => "admin/sections/settings/comments", :locals => { :f => f } unless @section.type == 'Forum' %>
 <%= render :partial => "admin/sections/settings/permissions", :locals => { :f => f } %>

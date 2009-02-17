@@ -4,6 +4,7 @@ ActiveSupport::Dependencies.load_once_paths -= ActiveSupport::Dependencies.load_
 require 'redcloth'
 
 require 'adva_config'
+require 'extensible_forms'
 require 'time_hacks'
 require 'core_ext'
 require 'rails_ext'
@@ -17,6 +18,7 @@ require 'registry' # reload them between requests (FIXME ... this doesn't seem t
 
 Paperclip.options[:command_path] = %x[which convert].chomp.gsub(/convert/, '')
 
+
 config.to_prepare do
   Registry.set :redirect, {
     :login        => lambda {|c| c.send :admin_sites_path },
@@ -24,6 +26,7 @@ config.to_prepare do
     :site_deleted => lambda {|c| c.send :admin_sites_path }
   }
 
+  # FIXME this really should go somewhere else ... why did we put it here in the first place?
   class Cell::Base
     class_inheritable_accessor :states
     self.states = []

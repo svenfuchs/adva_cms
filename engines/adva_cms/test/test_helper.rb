@@ -6,6 +6,7 @@ require File.expand_path(dir + "/../../../../../config/environment")
 
 require 'matchy'
 require 'test_help'
+require 'action_view/test_case'
 require 'with'
 require 'with-sugar'
 
