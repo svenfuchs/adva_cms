@@ -8,7 +8,7 @@ module Matchy
         @options = options
       end
     end
-    
+
     module TestCaseExtensions
       def be_nil
         Matchy::Expectations::Be.new(nil, self)
@@ -77,7 +77,7 @@ module Matchy
       def have_many(expected, options = {})
         Matchy::Expectations::Association.new(self, :has_many, expected, options)
       end
-      
+
       def have_tag(*args, &block)
         Matchy::Expectations::AssertSelect.new(:assert_select, self, *args, &block)
       end
@@ -87,12 +87,12 @@ module Matchy
       def matcher(name, failure_message, negative_failure_message, &block)
         matcher = Class.new(Base) do
           define_method :matches?, &block
-          
-          define_method :failure_message do 
+
+          define_method :failure_message do
             failure_message % [@receiver.inspect, @expected.inspect, @options.inspect]
           end
-          
-          define_method :negative_failure_message do 
+
+          define_method :negative_failure_message do
             negative_failure_message % [@receiver.inspect, @expected.inspect, @options.inspect]
           end
         end
@@ -100,84 +100,84 @@ module Matchy
       end
     end
 
-    matcher "Be", 
-            "Expected %s to be %s.", 
+    matcher "Be",
+            "Expected %s to be %s.",
             "Expected %s not to be %s." do |receiver|
       @receiver = receiver
       @expected.class === receiver
     end
 
-    matcher "BeInstanceOf", 
-            "Expected %s to be an instance of %s.", 
+    matcher "BeInstanceOf",
+            "Expected %s to be an instance of %s.",
             "Expected %s not to be an instance of %s." do |receiver|
       @receiver = receiver
       receiver.instance_of? @expected
     end
 
-    # matcher "BeKindOf", 
-    #         "Expected %s to be a kind of %s.", 
+    # matcher "BeKindOf",
+    #         "Expected %s to be a kind of %s.",
     #         "Expected %s not to be a kind of %s." do |receiver|
     #   @receiver = receiver
     #   receiver.kind_of? @expected
     # end
 
-    matcher "BeEmpty", 
-            "Expected %s to be empty.", 
+    matcher "BeEmpty",
+            "Expected %s to be empty.",
             "Expected %s not to be empty." do |receiver|
       @receiver = receiver
       receiver.empty?
     end
 
-    matcher "BeBlank", 
-            "Expected %s to be blank.", 
+    matcher "BeBlank",
+            "Expected %s to be blank.",
             "Expected %s not to be blank." do |receiver|
       @receiver = receiver
       receiver.blank?
     end
 
-    matcher "BeValid", 
-            "Expected %s to be valid.", 
+    matcher "BeValid",
+            "Expected %s to be valid.",
             "Expected %s not to be valid." do |receiver|
       @receiver = receiver
       receiver.valid?
     end
 
-    matcher "BeFile", 
-            "Expected the file %s to exist.", 
+    matcher "BeFile",
+            "Expected the file %s to exist.",
             "Expected the file %s not to exist." do |receiver|
       @receiver = receiver
       File.file?(receiver)
     end
 
-    matcher "BeDirectory", 
-            "Expected the directory %s to exist.", 
+    matcher "BeDirectory",
+            "Expected the directory %s to exist.",
             "Expected the directory %s not to exist." do |receiver|
       @receiver = receiver
       File.directory?(receiver)
     end
 
-    # matcher "RespondTo", 
-    #         "Expected %s to respond to %s.", 
+    # matcher "RespondTo",
+    #         "Expected %s to respond to %s.",
     #         "Expected %s not to respond to %s." do |receiver|
     #   @receiver = receiver
     #   receiver.respond_to? @expected
     # end
 
-    matcher "ValidatePresenceOf", 
-            "Expected %s to validate the presence of %s.", 
+    matcher "ValidatePresenceOf",
+            "Expected %s to validate the presence of %s.",
             "Expected %s not to validate the presence of %s." do |receiver|
       receiver = receiver.new if receiver.is_a?(Class)
       @receiver = receiver
-      
+
       # stubs the method given as @options[:if] on the receiver
       RR.stub(receiver).__creator__.create(@options[:if]).returns(true) if @options[:if]
-      
+
       receiver.send("#{@expected}=", nil)
       !receiver.valid? && receiver.errors.invalid?(@expected)
     end
 
-    matcher "ValidateLengthOf", 
-            "Expected %s to validate the length of %s (with %s).", 
+    matcher "ValidateLengthOf",
+            "Expected %s to validate the length of %s (with %s).",
             "Expected %s not to validate the length of %s (with %s)." do |receiver|
       receiver = receiver.new if receiver.is_a?(Class)
       @receiver = receiver
@@ -188,7 +188,7 @@ module Matchy
       value = receiver.send(@expected).to_s
       value = 'x' if value.blank?
       value = (value * (max  + 1))[0, max + 1]
-      
+
       receiver.send("#{@expected}=", value)
       !receiver.valid? && receiver.errors.invalid?(@expected)
     end
@@ -197,7 +197,8 @@ module Matchy
       def matches?(model)
         RR.reset
         @receiver = model
-        args = @options[:scope] ? RR.satisfy {|args| args.first =~ /.#{@options[:scope]} (=|IS) \?/ } : RR.anything
+        scopes = Array(@options[:scope])
+        args = !scopes.empty? ? RR.satisfy { |args| scopes.each { |scope| args.first =~ /.#{scope} (=|IS) \?/ } } : RR.anything
         RR.mock(model.class).exists?.with(args).returns true
         !model.valid? && model.errors.invalid?(@expected)
         RR.verify
@@ -247,7 +248,7 @@ module Matchy
         "Expected #{@receiver.class.name} not to #{@type} #{@expected.inspect}."
       end
     end
-    
+
       class AssertSelect < Base
         def initialize(assertion, test_case, *args, &block)
           super nil, test_case
