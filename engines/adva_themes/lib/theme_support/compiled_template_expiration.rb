@@ -40,7 +40,7 @@ unless ActionView::Template.method_defined?(:compile_times)
       #   - any arbitrary segment (the theme_id) and then followed by 
       #   - a segment templates/
       def theme_path
-        relative_path =~ /\/(themes\/(site-\d+\/)?[^\/]+)\/templates/ and $1
+        try(:relative_path) =~ /\/(themes\/(site-\d+\/)?[^\/]+)\/templates/ and $1
       end
 
       def expire_compiled_theme_templates!
