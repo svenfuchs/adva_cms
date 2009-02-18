@@ -1,0 +1,3 @@
+in your layout:
+
+<%= meta_tags(@article) if @article %>

@@ -33,8 +33,8 @@ class ContentTest < ActiveSupport::TestCase
   end
 
   test "ignores the columns cached_tag_list, assets_count and state" do
-    defaults = ["id", "type", "version", "lock_version", "versioned_type"]
-    Content.non_versioned_columns.should == defaults + ["cached_tag_list", "assets_count", "state"]
+    columns = %w(id type version lock_version versioned_type cached_tag_list assets_count state)
+    Content.non_versioned_columns.should include(*columns)
   end
 
   test "instantiates with single table inheritance" do

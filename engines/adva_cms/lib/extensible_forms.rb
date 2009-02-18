@@ -100,6 +100,10 @@ class ExtensibleFormBuilder < ActionView::Helpers::FormBuilder
     }
   end
   
+  def render(*args)
+    @template.controller.send(:render, *args)
+  end
+  
   protected
   
     def labelize(tag, method, options = {})
