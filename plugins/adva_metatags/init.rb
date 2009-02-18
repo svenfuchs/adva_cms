@@ -1,0 +1,1 @@
+require 'metatags/article_form_builder'
