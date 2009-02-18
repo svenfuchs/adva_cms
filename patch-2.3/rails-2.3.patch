@@ -1,0 +1,197 @@
+Only in ../../adva-cms/vendor/rails: .git
+Only in ../../adva-cms/vendor/rails: .gitignore
+Only in ../../adva-cms/vendor/rails: 0001-allow-to-register-javascript-stylesheet_expansions-t.patch
+Only in ../../adva-cms/vendor/rails: 0001-make-actionmailer-view_paths-work-.-somehow.patch
+Only in ../../adva-cms/vendor/rails: 0001-workaround-for-picking-layouts-based-on-wrong-view_p.patch
+Only in ../../adva-cms/vendor/rails: Rakefile
+diff -ru vendor/rails/actionmailer/lib/action_mailer/base.rb ../../adva-cms/vendor/rails/actionmailer/lib/action_mailer/base.rb
+--- vendor/rails/actionmailer/lib/action_mailer/base.rb	2009-02-19 00:24:15.000000000 +0100
++++ ../../adva-cms/vendor/rails/actionmailer/lib/action_mailer/base.rb	2009-02-18 16:32:40.000000000 +0100
+@@ -427,6 +427,10 @@
+         new.deliver!(mail)
+       end
+ 
++      # def view_paths=(value)
++      #   write_inheritable_attribute :view_paths, ActionView::Base.process_view_paths(value) if value
++      # end
++
+       def template_root
+         self.view_paths && self.view_paths.first
+       end
+@@ -593,8 +597,10 @@
+         "#{template_root}/#{mailer_name}"
+       end
+ 
++      # HACK!!!!
++      
+       def initialize_template_class(assigns)
+-        template = ActionView::Base.new(view_paths, assigns, self)
++        template = ActionView::Base.new(ActionMailer::Base.view_paths, assigns, self)
+         template.template_format = default_template_format
+         template
+       end
+diff -ru vendor/rails/actionpack/lib/action_controller/base.rb ../../adva-cms/vendor/rails/actionpack/lib/action_controller/base.rb
+--- vendor/rails/actionpack/lib/action_controller/base.rb	2009-02-19 00:24:14.000000000 +0100
++++ ../../adva-cms/vendor/rails/actionpack/lib/action_controller/base.rb	2009-02-18 16:32:41.000000000 +0100
+@@ -885,6 +885,7 @@
+         layout = pick_layout(options)
+         response.layout = layout.path_without_format_and_extension if layout
+         logger.info("Rendering template within #{layout.path_without_format_and_extension}") if logger && layout
++        layout = layout.path_without_format_and_extension if layout
+ 
+         if content_type = options[:content_type]
+           response.content_type = content_type.to_s
+diff -ru vendor/rails/actionpack/lib/action_view/helpers/asset_tag_helper.rb ../../adva-cms/vendor/rails/actionpack/lib/action_view/helpers/asset_tag_helper.rb
+--- vendor/rails/actionpack/lib/action_view/helpers/asset_tag_helper.rb	2009-02-19 00:24:14.000000000 +0100
++++ ../../adva-cms/vendor/rails/actionpack/lib/action_view/helpers/asset_tag_helper.rb	2009-02-18 16:32:41.000000000 +0100
+@@ -300,7 +300,10 @@
+       #     <script type="text/javascript" src="/javascripts/body.js"></script>
+       #     <script type="text/javascript" src="/javascripts/tail.js"></script>
+       def self.register_javascript_expansion(expansions)
+-        @@javascript_expansions.merge!(expansions)
++        expansions.each do |key, values|
++          @@javascript_expansions[key] ||= []
++          @@javascript_expansions[key] += Array(values)
++        end
+       end
+ 
+       @@stylesheet_expansions = {}
+@@ -317,7 +320,10 @@
+       #     <link href="/stylesheets/body.css"  media="screen" rel="stylesheet" type="text/css" />
+       #     <link href="/stylesheets/tail.css"  media="screen" rel="stylesheet" type="text/css" />
+       def self.register_stylesheet_expansion(expansions)
+-        @@stylesheet_expansions.merge!(expansions)
++        expansions.each do |key, values|
++          @@stylesheet_expansions[key] ||= []
++          @@stylesheet_expansions[key] += Array(values)
++        end
+       end
+ 
+       # Register one or more additional JavaScript files to be included when
+diff -ru vendor/rails/actionpack/lib/action_view/template.rb ../../adva-cms/vendor/rails/actionpack/lib/action_view/template.rb
+--- vendor/rails/actionpack/lib/action_view/template.rb	2009-02-19 00:24:14.000000000 +0100
++++ ../../adva-cms/vendor/rails/actionpack/lib/action_view/template.rb	2009-02-18 16:32:41.000000000 +0100
+@@ -133,7 +133,7 @@
+     end
+ 
+     def mime_type
+-      Mime::Type.lookup_by_extension(format) if format
++      Mime::Type.lookup_by_extension(format) if format && defined?(::Mime)
+     end
+     memoize :mime_type
+ 
+Only in ../../adva-cms/vendor/rails/actionpack/test/fixtures/layout_tests/layouts: symlinked
+Only in ../../adva-cms/vendor/rails/actionpack/test/fixtures/public/javascripts: cache
+diff -ru vendor/rails/actionpack/test/template/asset_tag_helper_test.rb ../../adva-cms/vendor/rails/actionpack/test/template/asset_tag_helper_test.rb
+--- vendor/rails/actionpack/test/template/asset_tag_helper_test.rb	2009-02-19 00:24:15.000000000 +0100
++++ ../../adva-cms/vendor/rails/actionpack/test/template/asset_tag_helper_test.rb	2009-02-18 16:32:41.000000000 +0100
+@@ -38,6 +38,10 @@
+     @controller.request = @request
+ 
+     ActionView::Helpers::AssetTagHelper::reset_javascript_include_default
++    ActionView::Helpers::AssetTagHelper.module_eval do
++      @@javascript_expansions = { :defaults => JAVASCRIPT_DEFAULT_SOURCES.dup }
++      @@stylesheet_expansions = {}
++    end
+   end
+ 
+   def teardown
+@@ -182,6 +186,13 @@
+     assert_dom_equal  %(<script src="/javascripts/first.js" type="text/javascript"></script>\n<script src="/javascripts/head.js" type="text/javascript"></script>\n<script src="/javascripts/body.js" type="text/javascript"></script>\n<script src="/javascripts/tail.js" type="text/javascript"></script>\n<script src="/javascripts/last.js" type="text/javascript"></script>), javascript_include_tag('first', :monkey, 'last')
+   end
+ 
++  def test_custom_javascript_expansions_merge_with_existing_symbols
++    ["head", "body", "tail"].each do |script|
++      ActionView::Helpers::AssetTagHelper::register_javascript_expansion :monkey => [script]
++    end
++    assert_dom_equal  %(<script src="/javascripts/first.js" type="text/javascript"></script>\n<script src="/javascripts/head.js" type="text/javascript"></script>\n<script src="/javascripts/body.js" type="text/javascript"></script>\n<script src="/javascripts/tail.js" type="text/javascript"></script>\n<script src="/javascripts/last.js" type="text/javascript"></script>), javascript_include_tag('first', :monkey, 'last')
++  end
++
+   def test_custom_javascript_expansions_and_defaults_puts_application_js_at_the_end
+     ENV["RAILS_ASSET_ID"] = ""
+     ActionView::Helpers::AssetTagHelper::register_javascript_expansion :monkey => ["head", "body", "tail"]
+@@ -189,7 +200,6 @@
+   end
+ 
+   def test_custom_javascript_expansions_with_undefined_symbol
+-    ActionView::Helpers::AssetTagHelper::register_javascript_expansion :monkey => nil
+     assert_raise(ArgumentError) { javascript_include_tag('first', :monkey, 'last') }
+   end
+ 
+@@ -212,7 +222,6 @@
+   end
+ 
+   def test_custom_stylesheet_expansions_with_undefined_symbol
+-    ActionView::Helpers::AssetTagHelper::register_stylesheet_expansion :monkey => nil
+     assert_raise(ArgumentError) { stylesheet_link_tag('first', :monkey, 'last') }
+   end
+ 
+Only in ../../adva-cms/vendor/rails: activemodel
+Only in ../../adva-cms/vendor/rails/activerecord: MIT-LICENSE
+Only in ../../adva-cms/vendor/rails/activerecord/test/fixtures: .gitignore
+Only in vendor/rails/activerecord/test/fixtures: fixture_database.sqlite3
+Only in vendor/rails/activerecord/test/fixtures: fixture_database_2.sqlite3
+Only in ../../adva-cms/vendor/rails/activeresource: MIT-LICENSE
+Only in vendor/rails/activeresource/test: debug.log
+Only in ../../adva-cms/vendor/rails/activesupport: MIT-LICENSE
+Only in ../../adva-cms/vendor/rails/activesupport: Rakefile
+Only in ../../adva-cms/vendor/rails/activesupport: bin
+Only in ../../adva-cms/vendor/rails/activesupport: install.rb
+Only in ../../adva-cms/vendor/rails/activesupport/lib/active_support/vendor/i18n-0.1.1: .gitignore
+Only in ../../adva-cms/vendor/rails/activesupport: test
+Only in ../../adva-cms/vendor/rails: ci
+Only in ../../adva-cms/vendor/rails: do-not-override-plugin-view-path.diff
+Only in ../../adva-cms/vendor/rails: doc
+Only in ../../adva-cms/vendor/rails: pushgems.rb
+diff -ru vendor/rails/railties/lib/initializer.rb ../../adva-cms/vendor/rails/railties/lib/initializer.rb
+--- vendor/rails/railties/lib/initializer.rb	2009-02-19 00:24:16.000000000 +0100
++++ ../../adva-cms/vendor/rails/railties/lib/initializer.rb	2009-02-18 16:32:42.000000000 +0100
+@@ -368,13 +368,13 @@
+     end
+ 
+     def load_view_paths
+-      if configuration.frameworks.include?(:action_view)
+-        if configuration.cache_classes
+-          view_path = ActionView::Template::EagerPath.new(configuration.view_path)
+-          ActionController::Base.view_paths = view_path if configuration.frameworks.include?(:action_controller)
+-          ActionMailer::Base.template_root = view_path if configuration.frameworks.include?(:action_mailer)
+-        end
+-      end
++      # if configuration.frameworks.include?(:action_view)
++      #   if configuration.cache_classes
++      #     view_path = ActionView::Template::EagerPath.new(configuration.view_path)
++      #     ActionController::Base.view_paths = view_path if configuration.frameworks.include?(:action_controller)
++      #     ActionMailer::Base.template_root = view_path if configuration.frameworks.include?(:action_mailer)
++      #   end
++      # end
+     end
+ 
+     # Eager load application classes
+@@ -481,9 +481,8 @@
+     # set to use Configuration#view_path.
+     def initialize_framework_views
+       if configuration.frameworks.include?(:action_view)
+-        view_path = ActionView::Template::Path.new(configuration.view_path)
+-        ActionMailer::Base.template_root ||= view_path if configuration.frameworks.include?(:action_mailer)
+-        ActionController::Base.view_paths = view_path if configuration.frameworks.include?(:action_controller) && ActionController::Base.view_paths.empty?
++        ActionMailer::Base.template_root  = configuration.view_path if configuration.frameworks.include?(:action_mailer) && ActionMailer::Base.view_paths.blank?
++        ActionController::Base.view_paths = configuration.view_path if configuration.frameworks.include?(:action_controller) && ActionController::Base.view_paths.blank?
+       end
+     end
+ 
+diff -ru vendor/rails/railties/lib/rails/plugin/loader.rb ../../adva-cms/vendor/rails/railties/lib/rails/plugin/loader.rb
+--- vendor/rails/railties/lib/rails/plugin/loader.rb	2009-02-19 00:24:16.000000000 +0100
++++ ../../adva-cms/vendor/rails/railties/lib/rails/plugin/loader.rb	2009-02-18 16:32:42.000000000 +0100
+@@ -87,7 +87,9 @@
+         
+         def add_engine_view_paths
+           # reverse it such that the last engine can overwrite view paths from the first, like with routes
+-          ActionController::Base.view_paths += ActionView::PathSet.new(engines.collect(&:view_path).reverse)
++          paths = ActionView::PathSet.new(engines.collect(&:view_path).reverse)
++          ActionMailer::Base.view_paths.concat paths
++          ActionController::Base.view_paths.concat paths
+         end
+ 
+         # The locate_plugins method uses each class in config.plugin_locators to
+Only in ../../adva-cms/vendor/rails/railties: test
+Only in ../../adva-cms/vendor/rails: release.rb
