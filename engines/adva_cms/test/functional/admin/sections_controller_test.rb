@@ -121,6 +121,17 @@ class AdminSectionsControllerTest < ActionController::TestCase
         it_assigns_flash_cookie :error => :not_nil
       end
     end
+  
+    with "valid theme settings" do
+      before { @params = { :section => { :template => 'the/template', :layout => 'the/layout' } } }
+      with :access_granted do
+        it_updates :section
+        it "saves the template and layout to the section" do
+          assigns(:section).template.should == 'the/template'
+          assigns(:section).layout.should == 'the/layout'
+        end
+      end
+    end
   end
   
   describe "PUT to :update_all" do

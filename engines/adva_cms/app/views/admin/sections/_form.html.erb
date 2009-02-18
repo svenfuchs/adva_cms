@@ -23,3 +23,4 @@
 <%= render :partial => "admin/sections/settings/#{@section.type.underscore}", :locals => { :f => f } %>
 <%= render :partial => "admin/sections/settings/comments", :locals => { :f => f } unless @section.type == 'Forum' %>
 <%= render :partial => "admin/sections/settings/permissions", :locals => { :f => f } %>
+<%= render :partial => "admin/sections/settings/templates", :locals => { :f => f } %>

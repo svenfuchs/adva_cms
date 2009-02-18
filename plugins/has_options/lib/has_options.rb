@@ -12,22 +12,27 @@ module HasOptions
     end
 
     module ClassMethods
-      def has_option(name, definition = {})
-        self.option_definitions[name] = definition.reverse_update(:default => nil, :type => :text_field)
-        class_eval %Q(
-          def #{name}
-            #{name}_before_type_cast
-          end
-          def #{name}_before_type_cast
-            self.options ||= {}
-            options[:#{name}] || option_definitions[:#{name}][:default]
-          end
-          def #{name}=(value)
-            options_will_change!
-            self.options ||= {}
-            options[:#{name}] = value
-          end
-        ), __FILE__, __LINE__
+      def has_option(*names)
+        definition = names.extract_options!
+        names.each do |name|
+          self.option_definitions[name] = definition.reverse_update(:default => nil, :type => :text_field)
+          class_eval <<-src, __FILE__, __LINE__
+            def #{name}
+              #{name}_before_type_cast
+            end
+
+            def #{name}_before_type_cast
+              self.options ||= {}
+              options[:#{name}] || option_definitions[:#{name}][:default]
+            end
+
+            def #{name}=(value)
+              options_will_change!
+              self.options ||= {}
+              options[:#{name}] = value
+            end
+          src
+        end
       end
     end
   end

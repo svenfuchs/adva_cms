@@ -16,6 +16,8 @@ class Section < ActiveRecord::Base
   serialize :permissions
 
   has_option :articles_per_page, :default => 15
+  has_option :template, :layout
+  
   has_permalink :title, :url_attribute => :permalink, :sync_url => true, :only_when_blank => true, :scope => :site_id
   has_many_comments
   acts_as_nested_set
@@ -44,6 +46,11 @@ class Section < ActiveRecord::Base
   validates_presence_of :title # :site wtf ... this breaks install_controller#index
   validates_uniqueness_of :permalink, :scope => :site_id
   validates_numericality_of :articles_per_page, :only_integer => true, :message => :only_integer
+  
+  # validates_each :template, :layout do |record, attr, value|
+  #   record.errors.add attr, 'may not contain dots' if value.index('.') # FIXME i18n
+  #   record.errors.add attr, 'may not start with a slahs' if value.index('.') # FIXME i18n
+  # end
 
   # TODO validates_inclusion_of :articles_per_page, :in => 1..30, :message => "can only be between 1 and 30."
 
@@ -80,16 +87,16 @@ class Section < ActiveRecord::Base
     comment_age.to_i > -1
   end
   
-  # :template => { :show => 'my_blog/show' },
-  # :layout   => { :show => 'layouts/special', :index => 'layouts/custom' }
-  #
-  # :template => 'my_blog',
-  # :layout   => 'custom'
-
+  # Template and layout can be specified as full template names like "sections/home"
+  # and 'layouts/simple'. Both can also use * as a wildchard for the current action
+  # name. E.g. "sections/*" will become "sections/show" when the current action is
+  # :show. The template/" and "layout/" (for layout) subdirectories can be given or
+  # omitted, thus "templates/sections/home" and "sections/home" are identical.
   def render_options(action)
-    @render_options ||= [:layout, :template].inject({}) do |options, type|
+    @render_options ||= {}
+    @render_options[action] ||= [:layout, :template].inject({}) do |options, type|
       option = render_option(type, action)
-      options[type] = option if option
+      options[type] = option unless option.blank?
       options
     end
   end
@@ -97,11 +104,10 @@ class Section < ActiveRecord::Base
   protected
 
     def render_option(type, action)
-      options = self.options || {}
-      option = options[type].is_a?(Hash) ? options[type][action.to_sym] : options[type]
-      if option and option.index('/').nil?
-        option = type == :template ? "#{option}/#{action}" : "layouts/#{option}" 
-      end
+      return unless option = send(type)
+      option.sub!(/(\*)$/, action.to_s)
+      option.sub!(/^templates\//, '')
+      option.sub!(/^(?!layouts)/, 'layouts/') if type == :layout and !option.blank?
       option
     end
 
