@@ -32,7 +32,7 @@ class AdminIssuesControllerTest < ActionController::TestCase
   end
   
   describe "PUT :update" do
-    action { put :update, default_params.merge(:title => "test", :body => "test")}
+    action { put :update, default_params.merge(:id => @issue.id, :title => "test", :body => "test")}
     it_guards_permissions :update, :issue
   end
   

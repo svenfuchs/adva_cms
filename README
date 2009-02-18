@@ -16,33 +16,72 @@ similar but separate Rails applications.
 Please check out /doc directory and our site http://adva-cms.org for more info.
  
  
-Installation
+Requirements
 ============
- 
-You need Rails 2.2.2 or newer.
+
+Current master: Rails 2.3.0, ImageMagick for image handling
+Release 0.1.1:  Rails 2.2.x, ImageMagick for image handling
+
+	
+Installation (Release 0.1.1)
+============================
 
   rails my-app
   cd my-app
-  git init
 
-  git submodule add git://github.com/svenfuchs/adva_cms.git vendor/adva 
+	# using git clone
+	git clone git://github.com/svenfuchs/adva_cms.git vendor/adva 
+	cd vendor/adva
+	git checkout -b tag/0.1.1 0.1.1
+	cd -
+ 
+	# alternatively you can use git submodules:
+  # git init
+  # git submodule add git://github.com/svenfuchs/adva_cms.git vendor/adva 
+
   ruby vendor/adva/setup.rb     # adds adva rake tasks and required files
   rake db:migrate:all           # runs adva-cms migrations
 
   ruby script/server
-  firefox http://localhost:3000
+  open http://localhost:3000
 
-	# alternatively use git clone instead of git submodule:
-	# git clone git://github.com/svenfuchs/adva_cms.git vendor/adva 
+You should see adva-cms installation screen. Fill out the form and you're 
+started, enjoy!
+
+
+Installation (Current master)
+=============================
+
+	# TODO we should create a template for this
+
+	rails my-app
+	cd my-app
+
+	# do this if you haven't already installed Rails 2.3.0 gems
+	git clone git://github.com/rails/rails.git vendor/rails 
+	cd vendor/rails
+	git checkout -b 2.3.0 v2.3.0
+	cd -
+	rake rails:update:configs
+	rake rails:update:application_controller
 	
-	# to switch to a certain tag or branch other than the master branch you can do:
-	# cd vendor/adva
-	# git checkout -b [your-branchname] origin/[branchname] or
-	# git checkout -b [your-branchname] [tagname] 
-	# cd -
- 
-You should see adva-cms installation screen. 
-Fill out the form and you're started, enjoy!
+	# Rails 2.3 has some Engine related bugs so you need to apply some patches 
+	cd vendor/rails
+	git am ../vendor/patch-2.3/0001-do-not-override-plugin-view-path.diff
+	git am ../vendor/patch-2.3/0002-make-actionmailer-view_paths-work-.-somehow.patch
+	git am ../vendor/patch-2.3/0004-allow-to-register-javascript-stylesheet_expansions-t.patch
+	cd -
+	
+	ruby vendor/adva/setup.rb
+	rake assets:copy           # copies plugin assets to their directories in public/
+	rake db:migrate:prepare    # copies plugin migrations to the main migration directory
+	rake db:migrate
+	
+	ruby script/server
+  open http://localhost:3000
+
+You should see adva-cms installation screen. Fill out the form and you're 
+started, enjoy!
 
 
 Configuration
@@ -57,7 +96,7 @@ Development
 
 Please check out /doc directory for high level overview about adva-cms.
  
-Running tests:
+Running tests (current master):
   rake db:test:clone       # Clones from your development database to test database
   ruby script/test-adva -p # Prepares the database and runs all adva-cms tests
   ruby script/test-adva    # Runs all adva-cms tests without preparing the database

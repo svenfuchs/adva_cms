@@ -1,8 +1,6 @@
 require 'meta_tags/article_form_builder'
 
 config.to_prepare do
-  require 'application'
-  
   BaseController.helper :meta_tags
   Admin::BaseController.helper :meta_tags
 
