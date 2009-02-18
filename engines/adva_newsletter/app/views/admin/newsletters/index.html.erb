@@ -1,33 +1,53 @@
 <% content_for :sidebar do %>
-  <%= render :partial => 'admin/shared/sidebar_manage' %>
-  <%= render :partial => 'sidebar_actions' %>
+  <%= render :partial => "admin/shared/sidebar_manage" %>
+  <%= render :partial => "sidebar_actions" %>
 <% end %>
 
 <div id="newsletters">
   <% unless @newsletters.empty? %>
     <p class="total">
-      <%= t(:'adva.newsletter.total_newsletters', :newsletters_count => @site.newsletters.size) %>
+      <%= t(:"adva.newsletter.total_newsletters", :newsletters_count => @site.newsletters.size) %>
     </p>
     
     <table class="list" cellspacing="0">
       <thead>
         <tr>
-          <th scope="col"><%= t(:'adva.newsletter.label.name') %></th>
-          <th scope="col"><%= t(:'adva.newsletter.label.issues') %></th>
-          <th scope="col"><%= t(:'adva.newsletter.label.subscribers') %></th>
+          <th scope="col"><%= t(:"adva.newsletter.label.name") %></th>
+          <th scope="col"><%= t(:"adva.newsletter.label.issues") %></th>
+          <th scope="col"><%= t(:"adva.newsletter.label.subscribers") %></th>
           <th scope="col">&nbsp;</th>
         </tr>
       </thead>
       <tbody>
         <% @newsletters.each do |newsletter| %>
           <tr>
-            <td><%= link_to h(newsletter.title), admin_issues_path(@site, newsletter), :class => newsletter.state %></td>
-            <td><%= link_to newsletter.issues_count, admin_issues_path(@site, newsletter) %></td>
-            <td><%= link_to newsletter.subscriptions_count, admin_subscriptions_path(@site, newsletter) %></td>
+            <td>
+              <%= link_to h(newsletter.title),
+                admin_issues_path(@site, newsletter), 
+                :class => newsletter.state %>
+            </td>
+            <td>
+              <%= link_to newsletter.issues_count, 
+                admin_issues_path(@site, newsletter) %>
+            </td>
+            <td>
+              <%= link_to newsletter.subscriptions_count, 
+                admin_subscriptions_path(@site, newsletter) %>
+            </td>
             <td class="table_menu">
               <ul>
-                <li><%= link_to t(:'adva.common.delete'), admin_newsletter_path(@site, newsletter), :method => :delete, :class => :delete %></li>
-                <li><%= link_to t(:'adva.common.edit'), edit_admin_newsletter_path(@site, newsletter), :class => :edit %></li>
+                <li>
+                  <%= link_to t(:"adva.common.delete"),
+                    admin_newsletter_path(@site, newsletter), 
+                    :method => :delete, :class => :delete,
+                    :title => t(:"adva.common.delete") %>
+                </li>
+                <li>
+                  <%= link_to t(:"adva.common.edit"), 
+                    edit_admin_newsletter_path(@site, newsletter), 
+                    :class => :edit,
+                    :title => t(:"adva.common.edit") %>
+                </li>
               </ul>
             </td>
           </tr>
@@ -36,8 +56,8 @@
     </table>
   <% else %>
     <div class="empty">
-      <%= t(:'adva.newsletter.no_newsletters') %>
-      <%= link_to t(:'adva.newsletter.link.new'), new_admin_newsletter_path(@site) %>
+      <%= t(:"adva.newsletter.no_newsletters") %>
+      <%= link_to t(:"adva.newsletter.link.new"), new_admin_newsletter_path(@site) %>
     </div>
   <% end %>
 </div>

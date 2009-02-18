@@ -2,20 +2,34 @@
   <table class="list" cellspacing="0">
     <thead>
       <tr>
-        <th scope="col"><%= t(:'adva.newsletter.label.issue_name') %></th>
-        <th scope="col"><%= t(:'adva.newsletter.label.issue_created_at') %></th>
+        <th scope="col"><%= t(:"adva.newsletter.label.issue_name") %></th>
+        <th scope="col"><%= t(:"adva.newsletter.label.issue_created_at") %></th>
         <th scope="col">&nbsp;</th>
       </tr>
     </thead>
     <tbody>
       <% issues.each do |issue| %>
         <tr>
-          <td><%= link_to h(issue.title), admin_issue_path(@site, @newsletter, issue), :class => issue.state %></td>
+          <td>
+            <%= link_to h(issue.title), 
+              admin_issue_path(@site, @newsletter, issue), 
+              :class => issue.state %>
+          </td>
           <td><%= issue.created_at.to_s(:db) %></td>
           <td class="table_menu">
             <ul>
-              <li><%= link_to t(:'adva.common.delete'), admin_issue_path(@site, @newsletter, issue), :method => :delete, :class => :delete %></li>
-              <li><%= link_to t(:'adva.common.edit'), edit_admin_issue_path(@site, @newsletter, issue), :class => :edit %></li>
+              <li>
+                <%= link_to t(:"adva.common.delete"), 
+                  admin_issue_path(@site, @newsletter, issue), 
+                  :method => :delete, :class => :delete,
+                  :title => t(:"adva.common.delete") %>
+              </li>
+              <li>
+                <%= link_to t(:"adva.common.edit"), 
+                  edit_admin_issue_path(@site, @newsletter, issue), 
+                  :class => :edit,
+                  :title => t(:"adva.common.edit") %>
+              </li>
             </ul>
           </td>
         </tr>
@@ -24,7 +38,7 @@
   </table>
 <% else %>
   <div class="empty">
-    <%= t(:'adva.newsletter.no_issues') %>
-    <%= link_to t(:'adva.newsletter.link.new_issue'), new_admin_issue_path(@site, @newsletter) %>
+    <%= t(:"adva.newsletter.no_issues") %>
+    <%= link_to t(:"adva.newsletter.link.new_issue"), new_admin_issue_path(@site, @newsletter) %>
   </div>
 <% end %>
