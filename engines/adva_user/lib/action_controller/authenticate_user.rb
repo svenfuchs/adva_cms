@@ -84,9 +84,9 @@ module ActionController
       def authenticated?
         !!current_user
       end
-      
+
       # killed this because it's just the wrong way to do it
-      # 
+      #
       # # Will store the current params so that we can return here on
       # # successful login. If you want to redirect to the login yourself
       # # (perhaps you are applying your own security instead of just
