@@ -7,5 +7,13 @@ class Object
   def in?(*array)
     array.include?(self)
   end
+  
+  def not_nil?
+    !nil?
+  end
+
+  def not_blank?
+    !blank?
+  end
 end
 
