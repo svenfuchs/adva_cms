@@ -29,11 +29,13 @@ patch_file 'config/environment.rb',
   "require File.join(File.dirname(__FILE__), '../vendor/adva/engines/adva_cms/boot')"
 
 run "cp -r #{CC_DIR} #{TEST_ADVA_DIR}"
-run "patch -p0 < vendor/adva/patch-2.3/rails-2.3.patch"
 
-rake "db:migrate:prepare"
-run  "rake db:migrate"
-rake "db:test:clone"
+rake  "rails:freeze:gems"
+run   "patch -p0 < vendor/adva/patch-2.3/rails-2.3.patch"
+
+rake  "db:migrate:prepare"
+run   "rake db:migrate"
+rake  "db:test:clone"
 
 end_time = (Time.now - start_time).to_i
-puts "Rails app setup, time elapsed #{end_time} seconds."
+puts  "Rails app setup, time elapsed #{end_time} seconds."
