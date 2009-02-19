@@ -56,20 +56,11 @@ Installation (Current master)
 # install Rails 2.3.0 gems if you don't have them already
 gem install rails --source http://gems.rubyonrails.org
 
-rails my-app
-cd my-app
+# install and setup adva-cms using a template
+rails my-app -m http://github.com/svenfuchs/adva_cms/raw/master/script/adva-cms.template.rb
 
-git clone git://github.com/svenfuchs/adva_cms.git vendor/adva 
-
-# Rails 2.3 has some Engine related bugs so you need to freeze and apply some patches 
-rake rails:freeze:gems
-patch -p0 < vendor/adva/patch-2.3/rails-2.3.patch
-
-ruby vendor/adva/setup.rb
-rake assets:copy           # copies plugin assets to their directories in public/
-rake db:migrate:prepare    # copies plugin migrations to the main migration directory
+# migrate and you're done
 rake db:migrate
-
 ruby script/server
 open http://localhost:3000
 
