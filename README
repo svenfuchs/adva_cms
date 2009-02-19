@@ -16,8 +16,8 @@ similar but separate Rails applications.
 Please check out /doc directory and our site http://adva-cms.org for more info.
  
  
-Installation: Stable release 0.1.1
-==================================
+Installation: Release 0.1.1
+===========================
 
 Required: Rails 2.2.x, ImageMagick for image handling
 
@@ -36,8 +36,8 @@ rake db:migrate:all           # runs adva-cms migrations
 ruby script/server
 open http://localhost:3000
 
-You should see adva-cms installation screen. Fill out the form and you're 
-started, enjoy!
+You should see adva-cms installation screen.
+Fill out the form and you're started, enjoy!
 
 
 Installation: Edge version using rails template
@@ -56,8 +56,8 @@ rake db:migrate
 ruby script/server
 open http://localhost:3000
 
-You should see adva-cms installation screen. Fill out the form and you're 
-started, enjoy!
+You should see adva-cms installation screen. 
+Fill out the form and you're started, enjoy!
 
 
 Installation: Edge version manually
@@ -65,26 +65,30 @@ Installation: Edge version manually
 
 Required: Rails 2.3.0, ImageMagick for image handling
 
+# First install Rails 2.3.0 gems if you don't have it already
+gem install rails --source http://gems.rubyonrails.org
+
 rails my-app
 cd my-app
 
 git init
 git submodule add git://github.com/svenfuchs/adva_cms.git vendor/adva  # or use git clone ...
 
-# Rails 2.3 has some Engine related bugs (19.02.2009) so you need to freeze and apply some patches. 
-# First install Rails 2.3.0 gems if you don't have it already
-gem install rails --source http://gems.rubyonrails.org
+# Rails 2.3 has some Engine related bugs (19.02.2009)
+# so you need to freeze and apply some patches. 
 rake rails:freeze:gems
 patch -p0 < vendor/adva/patch-2.3/rails-2.3.patch
 
 ruby vendor/adva/setup.rb    # setups adva-cms
 rake assets:copy             # copies plugin assets to public/
 rake db:migrate:prepare      # copies plugin migrations to db/migrate/
+rake db:migrate              # usual migration
+
 ruby script/server
 open http://localhost:3000
 
-You should see adva-cms installation screen. Fill out the form and you're 
-started, enjoy!
+You should see adva-cms installation screen. 
+Fill out the form and you're started, enjoy!
 
 
 Configuration
