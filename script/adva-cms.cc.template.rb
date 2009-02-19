@@ -1,3 +1,8 @@
+TEST_DIR        = '/tmp/adva-cms'
+TEST_ADVA_DIR   = TEST_DIR + '/vendor/adva'
+CC_DIR          = '/srv/cruise/projects/adva-cms/work'
+start_time      = Time.now # Just for fun :)
+
 def patch_file(path, after, insert)
   content = File.open(path) { |f| f.read }
   content.gsub!(after, "#{after}\n#{insert}") unless content =~ /#{Regexp.escape(insert)}/mi
@@ -22,17 +27,13 @@ src
 patch_file 'config/environment.rb',
   "require File.join(File.dirname(__FILE__), 'boot')",
   "require File.join(File.dirname(__FILE__), '../vendor/adva/engines/adva_cms/boot')"
-  
-run "cp -r /srv/cruise/projects/adva-cms/work /tmp/adva_cms/vendor/adva"
 
-rake "rails:freeze:gems"
+run "cp -r #{CC_DIR} #{TEST_ADVA_DIR}"
 run "patch -p0 < vendor/adva/patch-2.3/rails-2.3.patch"
 
-rake "assets:copy"
 rake "db:migrate:prepare"
-run  "rake db:migrate > /dev/null"
+run  "rake db:migrate"
 rake "db:test:clone"
-rake "db:schema:dump"
 
-run "cd /tmp/adva_cms"
-run "vendor/adva/script/test vendor/adva/engines/ -p"
+end_time = (Time.now - start_time).to_i
+puts "Rails app setup, time elapsed #{end_time} seconds."
