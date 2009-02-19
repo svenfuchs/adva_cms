@@ -4,9 +4,6 @@ def patch_file(path, after, insert)
   File.open(path, 'w') { |f| f.write(content) }
 end
 
-run "rm -rf /tmp/adva_cms > /dev/null; cd /tmp"
-run "rails -q adva_cms; cd /tmp/adva_cms"
-
 File.unlink 'public/index.html' rescue Errno::ENOENT
 
 rakefile("adva-cms.rake") do
