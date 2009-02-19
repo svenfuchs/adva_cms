@@ -16,29 +16,19 @@ similar but separate Rails applications.
 Please check out /doc directory and our site http://adva-cms.org for more info.
  
  
-Requirements
-============
+Installation: Stable release 0.1.1
+==================================
 
-Current master: Rails 2.3.0, ImageMagick for image handling
-Release 0.1.1:  Rails 2.2.x, ImageMagick for image handling
-
-	
-Installation (Release 0.1.1)
-============================
+Required: Rails 2.2.x, ImageMagick for image handling
 
 rails my-app
 cd my-app
 
-# using git clone
-git clone git://github.com/svenfuchs/adva_cms.git vendor/adva 
+git init
+git submodule add git://github.com/svenfuchs/adva_cms.git vendor/adva  # or use git clone ...
 cd vendor/adva
 git checkout -b tag/0.1.1 0.1.1
 cd -
-
-# alternatively you can use git submodules:
-# git init
-# git submodule add git://github.com/svenfuchs/adva_cms.git vendor/adva 
-# TODO howto checkout a certain tag with submodules?
 
 ruby vendor/adva/setup.rb     # adds adva rake tasks and required files
 rake db:migrate:all           # runs adva-cms migrations
@@ -50,8 +40,10 @@ You should see adva-cms installation screen. Fill out the form and you're
 started, enjoy!
 
 
-Installation (Current master)
-=============================
+Installation: Edge version using rails template
+===============================================
+
+Required: Rails 2.3.0, ImageMagick for image handling
 
 # install Rails 2.3.0 gems if you don't have them already
 gem install rails --source http://gems.rubyonrails.org
@@ -61,6 +53,33 @@ rails my-app -m http://github.com/svenfuchs/adva_cms/raw/master/script/adva-cms.
 
 # migrate and you're done
 rake db:migrate
+ruby script/server
+open http://localhost:3000
+
+You should see adva-cms installation screen. Fill out the form and you're 
+started, enjoy!
+
+
+Installation: Edge version manually
+===================================
+
+Required: Rails 2.3.0, ImageMagick for image handling
+
+rails my-app
+cd my-app
+
+git init
+git submodule add git://github.com/svenfuchs/adva_cms.git vendor/adva  # or use git clone ...
+
+# Rails 2.3 has some Engine related bugs (19.02.2009) so you need to freeze and apply some patches. 
+# First install Rails 2.3.0 gems if you don't have it already
+gem install rails --source http://gems.rubyonrails.org
+rake rails:freeze:gems
+patch -p0 < vendor/adva/patch-2.3/rails-2.3.patch
+
+ruby vendor/adva/setup.rb    # setups adva-cms
+rake assets:copy             # copies plugin assets to public/
+rake db:migrate:prepare      # copies plugin migrations to db/migrate/
 ruby script/server
 open http://localhost:3000
 
