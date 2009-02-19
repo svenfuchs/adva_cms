@@ -24,8 +24,7 @@ Required: Rails 2.2.x, ImageMagick for image handling
 rails my-app
 cd my-app
 
-git init
-git submodule add git://github.com/svenfuchs/adva_cms.git vendor/adva  # or use git clone ...
+git clone git://github.com/svenfuchs/adva_cms.git vendor/adva  # or use git submodule add ...
 cd vendor/adva
 git checkout -b tag/0.1.1 0.1.1
 cd -
@@ -46,7 +45,7 @@ Installation: Edge version using rails template
 Required: Rails 2.3.0, ImageMagick for image handling
 
 # install Rails 2.3.0 gems if you don't have them already
-gem install rails --source http://gems.rubyonrails.org
+sudo gem install rails --source http://gems.rubyonrails.org
 
 # install and setup adva-cms using a template
 rails my-app -m http://github.com/svenfuchs/adva_cms/raw/master/script/adva-cms.template.rb
@@ -66,13 +65,11 @@ Installation: Edge version manually
 Required: Rails 2.3.0, ImageMagick for image handling
 
 # First install Rails 2.3.0 gems if you don't have it already
-gem install rails --source http://gems.rubyonrails.org
+sudo gem install rails --source http://gems.rubyonrails.org
 
 rails my-app
 cd my-app
-
-git init
-git submodule add git://github.com/svenfuchs/adva_cms.git vendor/adva  # or use git clone ...
+git clone git://github.com/svenfuchs/adva_cms.git vendor/adva  # or use git submodule add ...
 
 # Rails 2.3 has some Engine related bugs (19.02.2009)
 # so you need to freeze and apply some patches. 
