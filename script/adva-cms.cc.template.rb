@@ -1,4 +1,4 @@
-TEST_DIR        = '/tmp/adva-cms'
+TEST_DIR        = '/tmp/adva_cms'
 TEST_ADVA_DIR   = TEST_DIR + '/vendor/adva'
 CC_DIR          = '/srv/cruise/projects/adva-cms/work'
 start_time      = Time.now # Just for fun :)
