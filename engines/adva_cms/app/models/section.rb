@@ -92,10 +92,10 @@ class Section < ActiveRecord::Base
   # name. E.g. "sections/*" will become "sections/show" when the current action is
   # :show. The template/" and "layout/" (for layout) subdirectories can be given or
   # omitted, thus "templates/sections/home" and "sections/home" are identical.
-  def render_options(action)
-    @render_options ||= {}
-    @render_options[action] ||= [:layout, :template].inject({}) do |options, type|
-      option = render_option(type, action)
+  def template_options(action)
+    @template_options ||= {}
+    @template_options[action] ||= [:layout, :template].inject({}) do |options, type|
+      option = template_option(type, action)
       options[type] = option unless option.blank?
       options
     end
@@ -103,7 +103,7 @@ class Section < ActiveRecord::Base
 
   protected
 
-    def render_option(type, action)
+    def template_option(type, action)
       return unless option = send(type)
       option.sub!(/(\*)$/, action.to_s)
       option.sub!(/^templates\//, '')

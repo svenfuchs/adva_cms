@@ -17,6 +17,7 @@ class BaseController < ApplicationController
   layout 'default'
   widget :sections, :partial => 'widgets/sections'
 
+  renders_in_context :current_resource
 
   acts_as_themed_controller :current_themes => lambda {|c| c.site.themes.active if c.site }
   #                          :force_template_types => ['html.serb', 'liquid']
