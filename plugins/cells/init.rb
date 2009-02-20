@@ -39,20 +39,32 @@ Cell::Base.view_paths=([RAILS_ROOT+"/app/cells"])
 
 
 # add engine-cells view/code paths, once at server start.
-if Cell.engines_available?
-  config.after_initialize do
-    Engines.plugins.each do |plugin|
-      engine_cells_dir = File.join([plugin.directory, "app/cells"])
+# if Cell.engines_available?
+#   config.after_initialize do
+#     Engines.plugins.each do |plugin|
+#       engine_cells_dir = File.join([plugin.directory, "app/cells"])
+# 
+#       # add view paths:
+#       if File.exists?(engine_cells_dir)
+#         Cell::Base.view_paths << engine_cells_dir
+#         # add code path:
+#         ActiveSupport::Dependencies.load_paths << engine_cells_dir
+#       end
+#     end
+#   end
+# end
 
-      # add view paths:
-      if File.exists?(engine_cells_dir)
-        Cell::Base.view_paths << engine_cells_dir
-        # add code path:
-        ActiveSupport::Dependencies.load_paths << engine_cells_dir
-      end
+# for Rails 2.3, ever plugin is potentially an Engine - (careful: this is our own hack)
+config.after_initialize do
+  Rails.plugins.each do |name, plugin|
+    plugin_cells_dir = File.join([plugin.directory, "app/cells"])
+    # add view paths:
+    if File.exists?(plugin_cells_dir)
+      Cell::Base.view_paths << plugin_cells_dir
+      # add code path:
+      ActiveSupport::Dependencies.load_paths << plugin_cells_dir
     end
   end
-
 end
 
 # Rails 2.3 reload! does not exist anymore since
@@ -62,4 +74,3 @@ end
 # config.to_prepare do
 #   Cell::Base.view_paths.reload!
 # end
-
