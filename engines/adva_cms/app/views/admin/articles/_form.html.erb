@@ -5,6 +5,7 @@
 <% end %>
 
 <% f.field_set do %>
+  <%= hidden_field_tag 'cl', @content_locale %>
   <%= f.text_field :title, :class => 'big', :label => true  %>
 
   <p id="excerpt" style="<%= @article.has_excerpt? ? "" : "display:none" %>">
@@ -33,5 +34,4 @@
                           :start_year => (@article.published_at || Time.zone.now).year-1,
                           :end_year => (Time.zone.now.year + 5),
                           :order => [:month, :day, :year] %>
-  </p>
-<% end %>
+  </p><% end %>

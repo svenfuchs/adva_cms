@@ -263,7 +263,8 @@ en:
         permalink: Use only ASCII characters and use dashes instead of spaces.
         tags: Enter one or more tags separated by a space. You may include spaces by enclosing a tag with quotes. (For example, <em>"Web Dev" Tutorials</em>).
       titles:
-        edit: Edit article
+        edit: Edit article in <strong>{{content_locale}}</strong>
+        new: New article in <strong>{{content_locale}}</strong>
       total_with_count:
         one: "Total: {{count}} article"
         other: "Total: {{count}} articles"
