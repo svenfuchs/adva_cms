@@ -5,6 +5,7 @@
 <% end %>
 
 <fieldset class="clearfix">
+  <%= hidden_field_tag 'cl', @content_locale %>
   <%= f.label :title %>
   <%= f.text_field :title, :class => 'big'  %>
   <p id="excerpt" style="<%= @article.has_excerpt? ? "" : "display:none" %>">

@@ -40,7 +40,8 @@ var ArticleForm = {
 }
 
 Event.addBehavior({
-  '#article_draft':   function() { Event.observe(this, 'change', ArticleForm.saveDraft.bind(this)); },
-  '#article_search':  function() { ArticleSearch.create();  }
+  '#article_draft':         function() { Event.observe(this, 'change', ArticleForm.saveDraft.bind(this)); },
+  '#article_search':        function() { ArticleSearch.create();  },
+  '#content_locale:change': function() { window.location.href = '?cl=' + this.value; }
   // '#revisionnum':  function() { Event.observe(this, 'change', ArticleForm.getRevision.bind(this)); },
 });

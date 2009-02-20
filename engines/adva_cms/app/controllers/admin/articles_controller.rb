@@ -8,7 +8,7 @@ class Admin::ArticlesController < Admin::BaseController
   before_filter :set_section
   before_filter :set_article,         :only => [:show, :edit, :update, :destroy]
   before_filter :set_categories,      :only => [:new, :edit]
-
+  before_filter :set_content_locale,  :only => [:new, :edit, :create, :update]
   before_filter :params_author,       :only => [:create, :update]
   before_filter :params_draft,        :only => [:create, :update]
   before_filter :params_published_at, :only => [:create, :update]
@@ -43,12 +43,16 @@ class Admin::ArticlesController < Admin::BaseController
   end
 
   def create
+    current_locale = I18n.locale
+    I18n.locale = @content_locale
     @article = @section.articles.build(params[:article])
-    
-    if @article.save
+    success = @article.save
+    I18n.locale = current_locale
+
+    if success
       trigger_events @article
       flash[:notice] = t(:'adva.articles.flash.create.success')
-      redirect_to edit_admin_article_path(:id => @article.id)
+      redirect_to edit_admin_article_path(:id => @article.id, :cl => @content_locale)
     else
       set_categories
       flash.now[:error] = t(:'adva.articles.flash.create.failure')
@@ -65,11 +69,11 @@ class Admin::ArticlesController < Admin::BaseController
     if save_with_revision? ? @article.save : @article.save_without_revision
       trigger_events @article
       flash[:notice] = t(:'adva.articles.flash.update.success')
-      redirect_to edit_admin_article_path
+      redirect_to edit_admin_article_path( :cl => @content_locale )
     else
       set_categories
       flash.now[:error] = t(:'adva.articles.flash.update.failure')
-      render :action => 'edit'
+      render :action => 'edit', :cl => @content_locale
     end
   end
   
@@ -78,10 +82,10 @@ class Admin::ArticlesController < Admin::BaseController
     if @article.version != version and @article.revert_to(version)
       trigger_event @article, :rolledback
       flash[:notice] = t(:'adva.articles.flash.rollback.success', :version => version)
-      redirect_to edit_admin_article_path
+      redirect_to edit_admin_article_path( :cl => @content_locale )
     else
       flash[:error] = t(:'adva.articles.flash.rollback.failure', :version => version)
-      redirect_to edit_admin_article_path
+      redirect_to edit_admin_article_path( :cl => @content_locale )
     end
   end
 
@@ -119,6 +123,10 @@ class Admin::ArticlesController < Admin::BaseController
       @categories = @section.categories.roots
     end
 
+    def set_content_locale
+      @content_locale = params[:cl] || I18n.locale      
+    end
+    
     def params_author
       # FIXME - shouldn't we pass params[:article][:author_id] instead?
       author = User.find(params[:article][:author]) if params[:article][:author]

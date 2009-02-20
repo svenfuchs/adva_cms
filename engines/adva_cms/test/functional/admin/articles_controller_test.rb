@@ -105,6 +105,28 @@ class AdminArticlesControllerTest < ActionController::TestCase
       it_assigns :site, :section, :article
       it_renders :template, :new
 
+      has_tag '#main_content_wrapper h2', /en/
+      has_tag '#content_locale option[value="en"][selected="selected"]'
+      has_tag %{input[name="cl"][value="en"]}
+
+      has_form_posting_to admin_articles_path do
+        shows :form
+      end
+    end
+  end
+
+  describe "GET to :new for :de" do
+    action { get :new, default_params.merge( :cl => 'de') }
+    it_guards_permissions :create, :article
+
+    with :access_granted do
+      it_assigns :site, :section, :article
+      it_renders :template, :new
+
+      has_tag '#main_content_wrapper h2', /de/
+      has_tag '#content_locale option[value="de"][selected="selected"]'
+      has_tag %{input[name="cl"][value="de"]}
+
       has_form_posting_to admin_articles_path do
         shows :form
       end
@@ -161,7 +183,34 @@ class AdminArticlesControllerTest < ActionController::TestCase
         it_assigns :site, :section, :article
         it_renders :template, :edit
       end
+
+      has_tag '#main_content_wrapper h2', /en/
+      has_tag '#content_locale option[value="en"][selected="selected"]'
+      has_tag %{input[name="cl"][value="en"]}
+
+
+      has_form_putting_to admin_article_path do
+        shows :form
+        # assert that the taglist field works when taglist contains double quotes
+      end
+    end
+  end
+
+  describe "GET to :edit for :de" do
+    action { get :edit, default_params.merge(:id => @article.id, :cl => 'de') }
+  
+    with [:a_published_article, :an_unpublished_article] do
+      it_guards_permissions :update, :article
+  
+      with :access_granted do
+        it_assigns :site, :section, :article
+        it_renders :template, :edit
+      end
       
+      has_tag '#main_content_wrapper h2', /de/
+      has_tag '#content_locale option[value="de"][selected="selected"]'
+      has_tag %{input[name="cl"][value="de"]}
+
       has_form_putting_to admin_article_path do
         shows :form
         # assert that the taglist field works when taglist contains double quotes
