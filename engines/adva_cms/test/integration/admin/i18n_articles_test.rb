@@ -21,16 +21,6 @@ module IntegrationTests
       delete_article
     end
 
-    test "posting a German article in English interface" do
-      login_as_admin
-      visit_admin_articles_index_page
-      create_a_new_de_article
-      assert_equal 'de', @controller.instance_variable_get(:@content_locale)
-      revise_the_de_article
-      preview_de_article
-      delete_article
-    end
-    
     def visit_admin_articles_index_page
       visit "/admin/sites/#{@site.id}/sections/#{@section.id}/articles"
     end
@@ -43,16 +33,6 @@ module IntegrationTests
       request.url.should =~ %r(/admin/sites/\d+/sections/\d+/articles/\d+/edit)
     end
 
-    def create_a_new_de_article
-      click_link "Create a new article"
-      select 'de', :from => 'content_locale'
-      assert_response :success 
-      fill_in 'article[title]', :with => 'the article title [de]'
-      fill_in 'article[body]',  :with => 'the article body [de]'
-      click_button 'Save'
-      request.url.should =~ %r(/admin/sites/\d+/sections/\d+/articles/\d+/edit)
-    end
-
     def revise_the_article
       fill_in 'article[title]', :with => 'the revised article title'
       fill_in 'article[body]',  :with => 'the revised article body'
@@ -61,22 +41,9 @@ module IntegrationTests
       @back_url = request.url
     end
 
-    def revise_the_de_article
-      fill_in 'article[title]', :with => 'the revised article title [de]'
-      fill_in 'article[body]',  :with => 'the revised article body [de]'
-      click_button 'Save'
-      request.url.should =~ %r(/admin/sites/\d+/sections/\d+/articles/\d+/edit)
-      @back_url = request.url
-    end
-
     def preview_article
       click_link 'Preview this article'
-      request.url.should == "http://#{@site.host}/articles/the-article-title?cl=en"
-    end
-
-    def preview_de_article
-      click_link 'Preview this article'
-      request.url.should == "http://#{@site.host}/articles/the-article-title-de?cl=de"
+      request.url.should == "http://#{@site.host}/articles/the-article-title"
     end
 
     def delete_article

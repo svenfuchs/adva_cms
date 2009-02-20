@@ -73,6 +73,25 @@ article   = Article.create! :site => site,
                             :tag_list => 'foo bar',
                             :author => user
 
+I18n.locale = :de
+           Article.create! :site => site,
+                            :section => section,
+                            :title => 'a section article (de)',
+                            :body => 'a section article body (de)',
+                            :categories => [category],
+                            :tag_list => 'foo bar',
+                            :author => user,
+                            :published_at => Time.parse('2008-01-01 12:00:00')
+
+            Article.create! :site => site,
+                            :section => section,
+                            :title => 'an unpublished section article (de)',
+                            :body => 'an unpublished section article body (de)',
+                            :categories => [category],
+                            :tag_list => 'foo bar',
+                            :author => user
+I18n.locale = :en
+
 attributes = { :site => site, :section => section, :commentable => article, :author => user }
 Comment.create! attributes.merge(:body => 'the approved comment body', :approved => 1)
 Comment.create! attributes.merge(:body => 'the unapproved comment body',:approved => 0)
