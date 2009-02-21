@@ -19,7 +19,7 @@ class AdminThemeFilesControllerTest < ActionController::TestCase
   end
   
   view :form do
-    has_tag 'input[name=?]', 'file[name]'
+    has_tag 'input[name=?]', 'file[base_path]'
     has_tag 'textarea[name=?]', 'file[data]'
     # FIXME
     # renders a file data textarea when the file has text content

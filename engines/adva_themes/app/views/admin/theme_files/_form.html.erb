@@ -1,8 +1,8 @@
 <fieldset class="clearfix">
   <div class="col1">
     <p>
-      <%= f.label :name, t(:'adva.themes.labels.filename') %>
-      <%= f.text_field :name %>
+      <%= f.label :base_path, t(:'adva.themes.labels.filename') %>
+      <%= f.text_field :base_path %>
     </p>
 
     <% if @file.respond_to?(:text) %>

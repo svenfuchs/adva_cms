@@ -80,7 +80,6 @@ class Admin::ThemeFilesController < Admin::BaseController
     end
 
     def set_file
-      @file = @theme.files.find params[:id]
-      raise "can not find file #{params[:id]}" unless @file and @file.valid?
+      @file = @theme.files.find(params[:id]) or raise "can not find file #{params[:id]}"
     end
 end

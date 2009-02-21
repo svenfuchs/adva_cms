@@ -6,6 +6,7 @@ class ThemeFileTest < ActiveSupport::TestCase
   def setup
     super
     @theme = Theme.find_by_name 'a theme'
+    @theme.files.destroy_all
   end
 
   def expect_valid_file(file, type, path)
@@ -43,26 +44,33 @@ class ThemeFileTest < ActiveSupport::TestCase
 
   # VALIDATIONS
 
-  test "is invalid when the extension is not registered for any type" do
+  test "is invalid if :directory/:name is not unique per theme" do
+    existing = uploaded_image
+    file = @theme.files.build :name => existing.name, :directory => existing.directory, :data => image_fixture
+    file.should_not be_valid
+    file.errors.on('name').should =~ /has already been taken/
+  end
+
+  test "is invalid if the extension is not registered for any type" do
     file = Theme::File.new :name => 'invalid.doc', :data => image_fixture
     file.should_not be_valid
     file.errors.on('data').should =~ /not a valid file type/
   end
 
-  test "is invalid when directory contains dots" do
-    file = Theme::File.new :path => '../invalid.png', :data => image_fixture
+  test "is invalid if directory contains dots" do
+    file = Theme::File.new :base_path => '../invalid.png', :data => image_fixture
     file.should_not be_valid
     file.errors.on('data').should =~ /may not contain consecutive dots/
   end
 
   test "is invalid if name starts with non-word character" do
-    file = Theme::File.new(:path => '__MACOSX/._event.html.erb')
+    file = Theme::File.new(:base_path => '__MACOSX/._event.html.erb')
     file.should_not be_valid
     file.errors.invalid?('name').should be_true
   end
 
   test "is invalid if directory starts with non-word character" do
-    file = Theme::File.new(:path => '.hidden/evil.html.erb')
+    file = Theme::File.new(:base_path => '.hidden/evil.html.erb')
     file.should_not be_valid
     file.errors.invalid?('directory').should be_true
   end
@@ -99,4 +107,17 @@ class ThemeFileTest < ActiveSupport::TestCase
     uploaded_template.base_path.should == 'templates/foo/bar/template.html.erb'
   end
 
+  test "changing the directory attribute also moves the file on the disk" do
+    template = uploaded_template
+    template.clear_changes!
+    template.update_attributes!(:directory => 'templates/baz')
+    expect_valid_file(template, Theme::Template, "#{@theme.path}/templates/baz/template.html.erb")
+  end
+
+  test "changing the name attribute also changes the data_file_name and renames the file on the disk" do
+    template = uploaded_template
+    template.clear_changes!
+    template.update_attributes(:base_path => 'templates/baz/renamed.html.erb')
+    expect_valid_file(template, Theme::Template, "#{@theme.path}/templates/baz/renamed.html.erb")
+  end
 end

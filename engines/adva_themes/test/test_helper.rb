@@ -22,23 +22,23 @@ module ThemeTestHelper
   end
 
   def uploaded_template(theme = @theme)
-    Theme::File.create! :theme => theme, :path => 'foo/bar/template.html.erb', :data => template_fixture
+    Theme::File.create! :theme => theme, :base_path => 'foo/bar/template.html.erb', :data => template_fixture
   end
 
   def uploaded_image(theme = @theme)
-    Theme::File.create! :theme => theme, :path => 'rails.png', :data => image_fixture
+    Theme::File.create! :theme => theme, :base_path => 'rails.png', :data => image_fixture
   end
 
   def uploaded_preview(theme = @theme)
-    Theme::File.create! :theme => theme, :path => 'preview.png', :data => preview_fixture
+    Theme::File.create! :theme => theme, :base_path => 'preview.png', :data => preview_fixture
   end
 
   def uploaded_javascript(theme = @theme)
-    Theme::File.create! :theme => theme, :path => 'effects.js', :data => javascript_fixture
+    Theme::File.create! :theme => theme, :base_path => 'effects.js', :data => javascript_fixture
   end
 
   def uploaded_stylesheet(theme = @theme)
-    Theme::File.create! :theme => theme, :path => 'styles.css', :data => stylesheet_fixture
+    Theme::File.create! :theme => theme, :base_path => 'styles.css', :data => stylesheet_fixture
   end
 
   def theme_fixture
