@@ -1,6 +1,5 @@
 require 'theme_support/action_controller'
 require 'theme_support/active_record'
-require 'theme_support/dynamic_view_paths'
 # require 'theme_support/action_mailer'
 
 module ThemeSupport

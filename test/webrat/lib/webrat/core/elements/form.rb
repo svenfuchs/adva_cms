@@ -45,7 +45,7 @@ module Webrat
         next if field.to_param.nil?
         merge(all_params, field.to_param)
       end
-      
+
       all_params
     end
     

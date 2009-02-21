@@ -38,10 +38,9 @@ module ThemeSupport
 
       def add_theme_view_paths
         if respond_to? :current_theme_paths
-          # FIXME should instantiate and cache the Paths collection so that 
-          # they aren't collected per request! See DynamicEagerPath class.
-          # ActionView::DynamicEagerPath.new("#{path}/templates")
-          paths = current_theme_paths.map { |path| "#{path}/templates" }
+          paths = current_theme_paths.map do |path| 
+            ActionView::ReloadableTemplate::ReloadablePath.new("#{path}/templates")
+          end
           prepend_view_path(paths) unless paths.empty?
         end
       end

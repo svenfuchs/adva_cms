@@ -16,7 +16,7 @@ ActiveSupport::Dependencies.load_once_paths -= ActiveSupport::Dependencies.load_
 #   inflect.irregular 'anonymous', 'anonymouses'
 # end
 
-Event.observers << UserMailer
-Event.observers << PasswordMailer
+Event.observers << 'UserMailer'
+Event.observers << 'PasswordMailer'
 
 
