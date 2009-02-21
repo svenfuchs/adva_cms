@@ -6,10 +6,17 @@ class BarObserver; def handle_event!(event) nil; end; end
 class EventTest < ActiveSupport::TestCase
   def setup
     super
+    @old_observers = Event.observers.clone
+    Event.observers.clear
     Event.observers << @foo_observer = FooObserver.new
     Event.observers << @bar_observer = BarObserver.new
     @event = Event.new :foo, nil, nil
     stub(Event).new(:foo, :object, :source, {}).returns @event
+  end
+  
+  def teardown
+    super
+    Event.observers = @old_observers
   end
 
   test '#add_observer takes observers' do
@@ -20,7 +27,7 @@ class EventTest < ActiveSupport::TestCase
     mock(Event).new(:foo, :object, :source, {}).returns @event
     Event.trigger :foo, :object, :source
   end
-
+  
   test "#trigger calls the handle_[event_type]! callback on each observer that implements it" do
     mock(@foo_observer).handle_foo!(@event)
     Event.trigger :foo, :object, :source

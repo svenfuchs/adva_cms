@@ -2,7 +2,7 @@ require File.expand_path(File.dirname(__FILE__) + "/../../test_helper")
 
 class UserMailerTest < ActiveSupport::TestCase
   test "observes events" do
-    Event.observers.include?(UserMailer).should be_true
+    Event.observers.include?('UserMailer').should be_true
   end
   
   test "implements #handle_user_registered!" do

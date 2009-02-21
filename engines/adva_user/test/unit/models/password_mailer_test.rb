@@ -3,7 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + "/../../test_helper")
 class PasswordMailerTest < ActiveSupport::TestCase
 
   test "observes events" do
-    Event.observers.include?(PasswordMailer).should be_true
+    Event.observers.include?('PasswordMailer').should be_true
   end
     
   test "implements #handle_user_password_reset_requested!" do

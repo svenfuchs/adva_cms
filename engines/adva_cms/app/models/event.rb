@@ -11,6 +11,7 @@ class Event
     def trigger(type, object, source, options = {})
       event = Event.new type, object, source, options
       observers.each do |observer| 
+        observer = observer.constantize if observer.is_a?(String)
         callback = :"handle_#{event.type}!" 
         if observer.respond_to? callback
           observer.send callback, event 
