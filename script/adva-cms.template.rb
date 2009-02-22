@@ -25,8 +25,14 @@ patch_file 'config/environment.rb',
   
 git :clone => 'git://github.com/svenfuchs/adva_cms.git vendor/adva # this might take a bit, get a coffee meanwhile :)'
 
-rake "rails:freeze:gems"
-run "patch -p0 < vendor/adva/patch-2.3/rails-2.3.patch"
+# rake "rails:freeze:gems"
+# run "patch -p0 < vendor/adva/patch-2.3/rails-2.3.patch"
+git :clone => 'git://github.com/rails/rails.git vendor/rails'
+inside 'vendor/rails' do
+  run 'git checkout 441e4e22352c8805a882f6a661ab3982dd7eda12'
+  # always switches to root dir, should commit a patch
+  # git :checkout => '441e4e22352c8805a882f6a661ab3982dd7eda12' 
+end
 
 rake "assets:copy"
 rake "db:migrate:prepare"
