@@ -1,14 +1,11 @@
 <h2><%= t(:'adva.sections.titles.section_settings') %></h2>
-<fieldset class="clearfix">
-  <div class="col1">
-    <p>
-      <%= f.label :articles_per_page %>
-      <%= f.text_field :articles_per_page, :class => 'short' %>
-    </p>
-    <p>  
-      <%= f.label :content_filter, 'Content filter' %>
-      <span class="hint"><%= t(:'adva.sections.hints.content_filter') %></span>
-      <%= f.select :content_filter, filter_options %>
-    </p>
-  </div>
-</fieldset>
+
+<% f.field_set :section_settings do %>
+  <% column do %>
+    <%= f.text_field :articles_per_page, :label => true, :class => 'short' %>
+  <% end %>
+
+  <% column do %>
+    <%= f.select :content_filter, filter_options, :label => true, :hint => :'adva.sections.hints.content_filter' %>
+  <% end %>
+<% end %>

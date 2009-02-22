@@ -2,29 +2,22 @@
   <div id="registered_author" style="display: none;">
     <p><%= t(:'adva.info.greeting_logged_in') %></p>
   </div>
+
   <h2>
     <%= @post.new_record? ? t(:'adva.posts.titles.reply') : t(:'adva.posts.titles.edit') %>
   </h2>
+
   <% form_for :post, @post, :url => (@post.new_record? ? topic_posts_path(@section, @topic) : topic_post_path(@section, @topic, @post)), :html => {:method => (@post.new_record? ? :post : :put)} do |f| -%>
     <% fields_for @post.author || User.anonymous do |author| %>
       <div id="anonymous_author">
-        <p>
-          <%= author.label :name, t(:'adva.labels.author_name') %>
-          <%= author.text_field :name %>
-        </p>
-        <p> 
-          <%= author.label :email, t(:'adva.labels.author_email') %>
-          <%= author.text_field :email %>
-        </p>
-        <p> 
-          <%= author.label :homepage %>
-          <%= author.text_field :homepage %>
-        </p>
+	      <%= author.text_field :name, :label => :'adva.labels.author_name' %>
+	      <%= author.text_field :email, :label => :'adva.labels.author_email' %>
+	      <%= author.text_field :homepage, :label => true %>
       </div>
     <% end %>
-    <p>
-      <%= f.text_area :body %>
-    </p>
+
+    <%= f.text_area :body %>
+
     <p id="preview"></p>
     <p>
       <%= submit_tag (@post.new_record? ? t(:'adva.posts.titles.submit_post'): t(:'adva.posts.titles.save_post')) %>

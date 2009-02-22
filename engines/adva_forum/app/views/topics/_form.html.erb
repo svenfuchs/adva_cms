@@ -11,37 +11,21 @@
 
 <% fields_for User.anonymous do |author| %>
   <div id="anonymous_author">
-    <p>
-      <%= author.label :name, t(:'adva.labels.author_name') %>
-      <%= author.text_field :name %>
-    </p>
-    <p> 
-      <%= author.label :email, t(:'adva.labels.author_email') %>
-      <%= author.text_field :email %>
-    </p>
-    <p> 
-      <%= author.label :homepage %>
-      <%= author.text_field :homepage %>
-    </p>
+    <%= author.text_field :name, :label => :'adva.labels.author_name' %>
+    <%= author.text_field :email, :label => :'adva.labels.author_email' %>
+    <%= author.text_field :homepage, :label => true %>
   </div>
 <% end %>
 
-<p>
-  <%= f.label :title %>
-  <%= f.text_field :title, :class => 'wide' %>
-</p>
+<%= f.text_field :title, :class => 'wide', :label => true %>
+
 <% if @topic.new_record? %>
-  <p>
-  	<%= f.label :body %>
-  	<%= f.text_area :body %>
-  </p>
+ 	<%= f.text_area :body, :label => true %>
 <% end %>
 
 <% authorized_tag :p, :moderate, @topic do %>
-  <%= f.check_box :sticky %>
-  <%= f.label :sticky, t(:'adva.topics.states.sticky'), :class => 'inline' %>
-  <%= f.check_box :locked %>
-  <%= f.label :locked, t(:'adva.topics.states.locked'), :class => 'inline' %>
+  <%= f.check_box :sticky, :label => :'adva.topics.states.sticky' %>
+  <%= f.check_box :locked, :label => :'adva.topics.states.locked' %>
 <% end %>
 
 <p id="preview"></p>

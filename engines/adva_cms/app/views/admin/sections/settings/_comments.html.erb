@@ -1,7 +1,7 @@
 <h2><%= t(:'adva.titles.comments') %></h2>
-<fieldset class="clearfix">
-  <div class="col1">
-    <%= f.label :comment_age, t(:'adva.comments.labels.comments') %>
-    <%= f.select :comment_age, comment_expiration_options %>
-  </div>
-</fieldset>
+
+<% f.field_set :comments_settings do %>
+  <% column do %>
+    <%= f.select :comment_age, comment_expiration_options, :label => :'adva.comments.labels.comments' %>
+	<% end %>
+<% end %>

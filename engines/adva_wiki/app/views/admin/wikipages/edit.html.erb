@@ -1,10 +1,10 @@
 <h2>Edit wikipage</h2>
+
 <% split_form_for :wikipage, @wikipage, :url => admin_wikipage_path, :html => {:multipart => true, :method => :put, :id => 'content_form'} do |f| -%>
-	
 	<%= render :partial => "form", :locals => {:f => f} %>
 	
-	<p class="buttons">
-  		<%= f.submit t(:'adva.common.save') %> or 
-  		<%= link_to t(:'adva.common.cancel'), admin_wikipages_path %>
-	</p>
+	<% f.buttons do %>
+		<%= f.submit t(:'adva.common.save') %> or 
+		<%= link_to t(:'adva.common.cancel'), admin_wikipages_path %>
+	<% end %>
 <% end %>

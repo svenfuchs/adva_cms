@@ -18,6 +18,7 @@ require 'registry' # reload them between requests (FIXME ... this doesn't seem t
 
 Paperclip.options[:command_path] = %x[which convert].chomp.gsub(/convert/, '')
 
+ExtensibleFormBuilder.default_class_names(:field_set) << 'clearfix' # sigh
 
 config.to_prepare do
   Registry.set :redirect, {

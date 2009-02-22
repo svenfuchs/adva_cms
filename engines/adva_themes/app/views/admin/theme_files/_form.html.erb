@@ -1,22 +1,17 @@
-<fieldset class="clearfix">
-  <div class="col1">
-    <p>
-      <%= f.label :base_path, t(:'adva.themes.labels.filename') %>
-      <%= f.text_field :base_path %>
-    </p>
+<% f.field_set do %>
+	<p>
+	  <%= f.text_field :base_path, :label => :'adva.themes.labels.filename' %>
+	</p>
 
-    <% if @file.respond_to?(:text) %>
-	    <p>
-	      <%= f.label :data %>
-	      <%= text_area_tag 'file[data]', @file.text, :id => 'file_data' %>
-	    </p> 
-    <% elsif @file.respond_to?(:base_url) and @file.base_url %>
-      <p><%= theme_image_tag @theme.theme_id, @file.base_url %></p>
-    <% end %>
+	<% if @file.respond_to?(:text) %>
+		<%= f.label :data %>
+		<%= text_area_tag 'file[data]', @file.text, :id => 'file_data' %>
+	<% elsif @file.respond_to?(:base_url) and @file.base_url %>
+	  <p><%= theme_image_tag @theme.theme_id, @file.base_url %></p>
+	<% end %>
 
-    <p class="buttons">
-      <%= submit_tag t(:'adva.common.save') %> or 
-      <%= link_to t(:'adva.common.cancel'), admin_theme_path(@site, @theme.id) %>
-    </p>
-  </div>
-</fieldset>
+	<% f.buttons do %>
+	  <%= submit_tag t(:'adva.common.save') %> or 
+	  <%= link_to t(:'adva.common.cancel'), admin_theme_path(@site, @theme.id) %>
+	<% end %>
+<% end %>

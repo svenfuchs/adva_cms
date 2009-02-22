@@ -16,14 +16,12 @@
 <h2><%= t(:'adva.themes.titles.import') %></h2>
 
 <% form_for :theme, @theme, :url => import_admin_themes_path(@site), :html => {:multipart => true} do |f| %>
-  <fieldset class="clearfix">
-    <%= f.label :file, t(:'adva.themes.lables.zip_file') %>
-    <%= f.file_field :file %>
-  </p>
-  </fieldset>
+  <% f.field_set do %>
+    <%= f.file_field :file, :label => :'adva.themes.lables.zip_file' %>
+  <% end %>
   
-  <p class="buttons">
+  <% f.buttons do %>
     <%= f.submit t(:'adva.common.import') %>
     <%= link_to t(:'adva.common.cancel'), admin_themes_path %>
-  </p>
+  <% end %>
 <% end %>

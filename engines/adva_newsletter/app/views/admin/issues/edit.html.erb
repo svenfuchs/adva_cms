@@ -6,10 +6,12 @@
 <% end %>
 
 <h2><%= t(:'adva.newsletter.title.edit_issue') %></h2>
+
 <% split_form_for :issue, @issue, :url => admin_issue_path, :html => {:method => :put, :multipart => true, :id => "content_form"} do |f| %>
   <%= render :partial => "form", :locals => {:f => f} %>  
-  <p class="buttons">
+
+  <% f.buttons do %>
     <%= submit_tag t(:'adva.common.save') %> <%= t(:'adva.common.connector.or') %>
     <%= link_to t(:'adva.common.cancel'), admin_issue_path(@site, @newsletter, @issue) %>
-  </p>
+  <% end %>
 <% end %>

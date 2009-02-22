@@ -1,5 +1,6 @@
 class Admin::InstallController < ApplicationController
   include CacheableFlash
+  helper :base
 
   before_filter :normalize_install_params, :only => :index
   before_filter :protect_install, :except => :confirmation
@@ -22,7 +23,7 @@ class Admin::InstallController < ApplicationController
         @user = User.create_superuser params[:user]
         authenticate_user(:email => @user.email, :password => @user.password)
         
-        #Default email for site
+        # default email for site
         @site.email ||= @user.email
         @site.save
 

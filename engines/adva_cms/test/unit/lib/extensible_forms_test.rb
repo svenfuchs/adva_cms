@@ -3,40 +3,48 @@ require File.expand_path(File.dirname(__FILE__) + '/../../test_helper')
 class FooFormBuilder < ExtensibleFormBuilder
 end
 
+class TestFormBuilder < ExtensibleFormBuilder
+  def self.reset!
+    self.labels = true
+    self.wrap = true
+    self.default_class_names.clear
+  end
+end
+
 module ExtensibleFormsBuilderTests
   class RailsExtTest < ActionView::TestCase
     tests ActionView::Helpers::FormHelper
-  
+
     def setup
       super
       @article = Article.new :title => 'article title'
       @controller = Class.new { def url_for(options); 'url' end }.new
     end
-  
+
     def build_form(&block)
       block ||= Proc.new { |f| concat f.field_set { f.text_field(:title) } }
-      form_for(:article, @article, :builder => ExtensibleFormBuilder, &block) 
+      form_for(:article, @article, :builder => TestFormBuilder, &block)
       output_buffer
     end
-    
+
     test "renders a fieldset" do
       build_form =~ /<fieldset/
-    end 
-  
+    end
+    
     test "adds a default id to the a fieldset" do
       build_form =~ /id="article_default"/
-    end 
+    end
     
     test "adds a custom id to the a fieldset" do
       build_form { |f| concat f.field_set(:foo) } =~ /id="article_foo"/
-    end 
+    end
     
     test "picks a formbuilder for given object_name" do
       pick_form_builder(:foo).should == FooFormBuilder
     end
-  
+
     protected
-  
+
       def protect_against_forgery?
         false
       end
@@ -44,51 +52,72 @@ module ExtensibleFormsBuilderTests
 
   class CoreTest < ActionView::TestCase
     tests ActionView::Helpers::FormHelper
-  
+
     def setup
       super
       @article = Article.new :title => 'article title'
       @controller = Class.new { def url_for(options); 'url' end }.new
-      @builder = ExtensibleFormBuilder.new(nil, nil, self, {}, nil)
-      ExtensibleFormBuilder.options[:labels] = true
+      @builder = TestFormBuilder.new(nil, nil, self, {}, nil)
+      TestFormBuilder.reset!
     end
-  
+
     def teardown
       reset_form_callbacks
     end
-  
+
     def build_form(*args)
       options = args.extract_options!
       method = args.shift || :title
-      form_for(:article, @article, :builder => ExtensibleFormBuilder) do |f|
+      form_for(:article, @article, :builder => TestFormBuilder) do |f|
         concat f.text_field(method, options)
       end
       output_buffer
     end
-  
+
     test "builds the form" do
       assert build_form =~ /<input id="article_title"/
     end
-      
+    
+    # options
+
     test "adds a label when labels enabled" do
       assert build_form =~ /label/
     end
-      
+
     test "does not add a label when labels disabled" do
-      ExtensibleFormBuilder.options[:labels] = false
+      TestFormBuilder.options[:labels] = false
       assert build_form !~ /label/
     end
-      
-    test "extracts the id from generated tag (sigh)" do
-      assert_equal 'article_title', @builder.send(:extract_id, build_form)
+
+    test "adds default_class_names to the generated text_field" do
+      TestFormBuilder.default_class_names(:text_field) << 'default class names'
+      assert build_form =~ /<input class="default class names"/
     end
 
-    test "uses the given label option as label text (when labels enabled)" do
+    test "adds default_class_names to the generated fieldset" do
+      TestFormBuilder.default_class_names(:field_set) << 'default class names'
+      expected = '<fieldset class="bar default class names" id="foo"><legend>legend</legend>baz</fieldset>'
+      assert_equal expected, @builder.field_set(:id => 'foo', :legend => 'legend', :class => 'bar') { 'baz' }
+    end
+    
+    # labels
+    
+    test "uses the given string as label text (labels enabled)" do
       assert build_form(:label => 'the article label') =~ /<label for="article_title">the article label/
     end
-      
+    
+    test "translates the given symbol and uses it as label text (labels enabled)" do
+      assert build_form(:label => :'activerecord.errors.messages.invalid') =~ /<label for="article_title">is invalid/
+    end
+    
+    test "uses the method as as label text when label option is true (labels enabled)" do
+      assert build_form(:label => true) =~ /<label for="article_title">Title/
+    end
+    
+    # callbacks
+    
     test "registers before and after callbacks (given as block or string)" do
-      builder = ExtensibleFormBuilder
+      builder = TestFormBuilder
       assert_nothing_raised do
         builder.before(:article, :title) { |f| 'before!' }
         builder.after(:article, :title, 'after!')
@@ -96,60 +125,69 @@ module ExtensibleFormsBuilderTests
       assert_equal 1, builder.callbacks[:before][:article][:title].size
       assert_equal 1, builder.callbacks[:after][:article][:title].size
     end
-  
+    
     test "run_callbacks returns concatenated callback results (given as block or string)" do
-      2.times { ExtensibleFormBuilder.before(:article, :title) { 'before!' } }
-      2.times { ExtensibleFormBuilder.after(:article, :title, 'after!') }
+      2.times { TestFormBuilder.before(:article, :title) { 'before!' } }
+      2.times { TestFormBuilder.after(:article, :title, 'after!') }
       @builder.object_name = 'article'
       assert_equal 'before!before!', @builder.send(:run_callbacks, :before, :title)
       assert_equal 'after!after!',   @builder.send(:run_callbacks, :after, :title)
     end
-  
+    
     test "with_callbacks returns the concatenated callback results enclosing the passed block's result" do
-      ExtensibleFormBuilder.before(:article, :article_title) { 'before!' }
-      ExtensibleFormBuilder.after(:article, :article_title, 'after!')
+      TestFormBuilder.before(:article, :article_title) { 'before!' }
+      TestFormBuilder.after(:article, :article_title, 'after!')
       @builder.object_name = 'article'
       assert_equal 'before!foo!after!', @builder.send(:with_callbacks, :article_title) { 'foo!' }
     end
-      
+    
     test "renders tag with callbacks" do
-      ExtensibleFormBuilder.before(:article, :title) { 'before!' }
-      ExtensibleFormBuilder.after(:article, :title, 'after!')
+      TestFormBuilder.before(:article, :title) { 'before!' }
+      TestFormBuilder.after(:article, :title, 'after!')
       expected = '<form action="url" method="post">' +
                  'before!<p><label for="article_title">Title</label>' +
                  '<input id="article_title" name="article[title]" size="30" type="text" value="article title" /></p>' +
                  'after!</form>'
       assert_equal expected, build_form
     end
-      
+    
+    # fieldset
+    
     test "generates a fieldset with legend" do
-      expected = '<fieldset id="foo"><legend>legend</legend>bar</fieldset>'
-      assert_equal expected, @builder.field_set(:id => 'foo', :legend => 'legend') { 'bar' }
+      expected = '<fieldset class="bar" id="foo"><legend>legend</legend>baz</fieldset>'
+      assert_equal expected, @builder.field_set(:id => 'foo', :legend => 'legend', :class => 'bar') { 'baz' }
     end
-      
+    
     test "fieldset generation works within formbuilder block (labels enabled)" do
-      form_for(:article, @article, :builder => ExtensibleFormBuilder) do |f|
+      form_for(:article, @article, :builder => TestFormBuilder) do |f|
+        concat f.text_field(:title)
         f.field_set(:id => 'foo') { concat f.text_field(:title) }
       end
       expected = '<form action="url" method="post">' +
-                 '<fieldset id="foo"><p><label for="article_title">Title</label>' +
+                 '<p><label for="article_title">Title</label>' +
+                 '<input id="article_title" name="article[title]" size="30" type="text" value="article title" /></p>' +
+                 '<fieldset id="foo">' +
+                 '<p><label for="article_title">Title</label>' +
                  '<input id="article_title" name="article[title]" size="30" type="text" value="article title" /></p>' +
                  '</fieldset></form>'
-      
       assert_equal expected, output_buffer
     end
-      
+    
+    test "extracts the id from generated tag (sigh)" do
+      assert_equal 'article_title', @builder.send(:extract_id, build_form)
+    end
+
     protected
-  
+
       def protect_against_forgery?
         false
       end
-  
+
       def reset_form_callbacks
-        ExtensibleFormBuilder.callbacks = { :before => {}, :after => {} }
+        TestFormBuilder.callbacks = { :before => {}, :after => {} }
       end
   end
-  
+
   class RenderTest < ActionController::TestCase
     tests Admin::InstallController
   

@@ -6,6 +6,7 @@
   </p>
   <p><%=t :'adva.activity.comment', :actions => activity.all_actions.to_sentence %></p>
   <blockquote><p>&quot;<%= truncate strip_tags(activity.body), 100 %>&quot;</p></blockquote>
+
   <% if activity.object -%>
     <ul>
     <% unless activity.object.commentable_type == 'Topic' %>

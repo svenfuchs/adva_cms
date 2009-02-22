@@ -1,55 +1,40 @@
 <h2><%= t(:'adva.titles.welcome') %></h2>
 
-<p>
-  <%= t(:'adva.sites.install.welcome_to_installation') %>
-</p>
+<p><%= t(:'adva.sites.install.welcome_to_installation') %></p>
+<p><%= t(:'adva.sites.install.can_always_change_settings') %></p>
 
-<p>
-  <%= t(:'adva.sites.install.can_always_change_settings') %>
-</p>
-
-<% form_tag install_path do %>   
+<% form_for :site, Site.new, install_path do |f| %>   
   <h3><%= t(:'adva.titles.website_configuration') %></h3>
-  <fieldset>
+
+	<% f.field_set :config do %>
     <% fields_for @site do |site| %>
-      <p>
-        <%= site.label :name, t(:'adva.sites.label.name') %>
-      	<%= site.text_field :name, :class => 'big' %>
-      </p>
+     	<%= site.text_field :name, :class => 'big', :label => :'adva.sites.label.name' %>
     <% end %>
+
     <% fields_for @user do |user| %>
-    	<p>
-    	  <%= user.label :email, t(:'adva.sites.label.admin_email') %>
-    		<%= user.text_field 'email', :class => 'big' %>
-    	</p>
-    	<p>
-    	  <%= user.label :password %>
-    		<%= user.password_field 'password', :class => 'big' %>
-    	</p>
+   		<%= user.text_field 'email', :class => 'big', :label => :'adva.sites.label.admin_email' %>
+   		<%= user.password_field 'password', :class => 'big', :label => true %>
     <% end %>
-  </fieldset>  
+  <% end %>
   
   <h3><%= t(:'adva.titles.website_home_section') %></h3>  
-  <fieldset>
+
+	<% f.field_set :root_section do %>
     <% fields_for @section do |section| %>
-      <p>
-        <%= section.label :type %>
-        <% Section.types.each_with_index do |type, ix| %>
-          <%= section.radio_button :type, type %>
-          <label for="section_type_<%= type.downcase %>" class="light" style="padding-right: 5px; padding-top: 5px;">
-            <%= type %>
-          </label>
-          <br />
-        <% end %>
-      </p>
-      <p>
-        <%= section.label :title %>
-        <%= section.text_field :title, :class => 'big' %>
-      </p>
+      <%= section.label :type %>
+      <% Section.types.each_with_index do |type, ix| %>
+        <%= section.radio_button :type, type %>
+        <label for="section_type_<%= type.downcase %>" class="light" style="padding-right: 5px; padding-top: 5px;">
+          <%= type %>
+        </label>
+        <br />
+      <% end %>
+
+      <%= section.text_field :title, :class => 'big', :label => true %>
     <% end %>
-  </fieldset>   
+  <% end %>
   
-  <p class="buttons">
+  <% f.buttons do %>
     <%= submit_tag t(:'adva.sites.links.create_site_and_account'), :id => 'create_site_and_account' %>
-  </p>
+  <% end %>
 <% end %>

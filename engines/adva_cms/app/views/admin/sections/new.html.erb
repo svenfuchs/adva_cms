@@ -1,22 +1,16 @@
 <h2><%= t(:'adva.sections.titles.create') %></h2>
 
 <% form_for :section, @section, :url => admin_sections_path do |f| %>
-  <fieldset class="clearfix">
-    <div class="col">
-      <%= f.label :title %>
-      <%= f.text_field :title %>
-    </div>
-    <div class="col">
-      <%= f.label :type %>
-      <% Section.types.each do |type| %>
-        <%= f.radio_button :type, type %>
-        <label for="section_type_<%= type.downcase %>" class="light" style="padding-right: 5px; line-height: 22px;">
-          <%= type %>
-        </label>
-      <% end %>
-    </div>
-  </fieldset>  
-  <p class="buttons">
+	<% f.field_set do %>
+    <%= f.label :type %>
+    <% Section.types.each do |type| %>
+      <%= f.radio_button :type, type, :label => type %>
+    <% end %>
+
+    <%= f.text_field :title, :label => true %>
+  <% end %>
+
+  <% f.buttons do %>
     <%= submit_tag t(:'adva.common.save') %>
-  </p>  
+  <% end %>  
 <% end %>

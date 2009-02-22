@@ -6,12 +6,12 @@
 </ul>
 
 <% unless @event.new_record? -%>
-<h3><%= t(:'adva.titles.actions') %></h3>
-<ul>
-  <li><%= link_to t(:'adva.calendar.links.create'), new_admin_calendar_event_path(@site) %></li>
-  <li><%= link_to @event.draft? ? t(:'adva.calendar.links.preview') : t(:'adva.calendar.links.view'), calendar_event_path(@event.section, @event) %></li>
-  <li><%= link_to t(:'adva.calendar.links.delete'), admin_calendar_event_path, { :confirm => t(:'adva.calendar.confirm_delete'), :method => :delete } %></li>
-</ul>
+	<h3><%= t(:'adva.titles.actions') %></h3>
+	<ul>
+	  <li><%= link_to t(:'adva.calendar.links.create'), new_admin_calendar_event_path(@site) %></li>
+	  <li><%= link_to @event.draft? ? t(:'adva.calendar.links.preview') : t(:'adva.calendar.links.view'), calendar_event_path(@event.section, @event) %></li>
+	  <li><%= link_to t(:'adva.calendar.links.delete'), admin_calendar_event_path, { :confirm => t(:'adva.calendar.confirm_delete'), :method => :delete } %></li>
+	</ul>
 <% end -%>
 
 <% unless @categories.empty? -%>
@@ -21,19 +21,18 @@
 
 
 <h4><%= t(:'adva.titles.assets') %></h4>
+
 <%= render :partial => 'admin/assets/widget/widget', :locals => { :assets => { :latest => @site.assets.recent, :attached => @event.assets, :bucket => bucket_assets } } %>
 
 <h4><%= t(:'adva.titles.optional_settings') %></h4>
-<p>
-  <%= f.label :user_id %>
-  <%= f.select :user_id, author_options, :selected => author_preselect %>
-</p>
-<p>
-  <%= f.label :filter %>
-  <%= f.select :filter, filter_options, {}, :class => 'columnsFilter' %>
-</p>
-<p>
-  <%= f.label :permalink %>
-  <%= f.text_field :permalink %>
-</p>
+
+<%= f.label :user_id %>
+<%= f.select :user_id, author_options, :selected => author_preselect %>
+
+<%= f.label :filter %>
+<%= f.select :filter, filter_options, {}, :class => 'columnsFilter' %>
+
+<%= f.label :permalink %>
+<%= f.text_field :permalink %>
+
 

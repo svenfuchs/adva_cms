@@ -14,24 +14,13 @@
 <% end -%>
 
 <h3><%= t(:'adva.titles.optional_settings') %></h3>
-<fieldset>
-  <p>
-    <%= f.label :author %>
-    <%= f.select :author, author_options, :selected => author_preselect %>
-  </p>
-  <p>
-    <%= f.label :comment_age, t(:'adva.titles.comments') %>
-    <%= f.select :comment_age, comment_expiration_options %>
-  </p>
-	<p>
-  <%= f.label :tag_list %>
-  <span class="hint"><%= t(:'adva.articles.hints.tags') %></span>
-  <%= f.text_field :tag_list %>
-	</p>
+<% f.field_set :optional_settings do %>
+  <%= f.select :author, author_options, :selected => author_preselect, :label => true %>
+  <%= f.select :comment_age, comment_expiration_options, :label => :'adva.titles.comments' %>
+  <%= f.text_field :tag_list, :label => 'Tags', :hint => :'adva.articles.hints.tags' %>
+
 	<% unless @sets.empty? %>
-	<p>
   	<h4><%= 'Publish photo in sets' %></h4>
     <%= render :partial => 'sets/checkboxes', :locals => {:sets => @sets, :photo => @photo} %>
-	</p>
 	<% end %>
-</fieldset>
+<% end %>

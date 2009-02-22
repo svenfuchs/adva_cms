@@ -3,6 +3,7 @@
     <%= activity_datetime activity, recent %><br />
     <%= link_to_activity_user activity %>
   </p>
+
   <p>
     <%=t :'adva.actions.view.actions', :type => activity.object_attributes['type'], 
       :actions => activity.all_actions.to_sentence,

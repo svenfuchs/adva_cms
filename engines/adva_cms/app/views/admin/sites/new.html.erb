@@ -4,27 +4,27 @@
   <%= render :partial => 'form', :locals => {:f => f, :site => @site} %>
   
   <h2><%= t(:'adva.sites.title.home_section') %></h2>  
-  <fieldset class="clearfix">
-  <fieldset class="col">
+
+ 	<% f.field_set do %>
     <% fields_for :section, @section do |section| %>
-      
-        <%= section.label :type %>
-        <% Section.types.each_with_index do |type, ix| %>
-          <%= section.radio_button :type, type %>
-          <label for="section_type_<%= type.downcase %>" class="light" style="padding-right: 5px; padding-top: 5px;">
-            <%= type %>
-          </label>
-        <% end %>
-      </fieldset>
-      <fieldset class="col">
-        <%= section.label :title %>
-        <%= section.text_field :title %>
-   
+			<% column do %>
+	      <%= section.label :type %>
+	      <% Section.types.each_with_index do |type, ix| %>
+	        <%= section.radio_button :type, type %>
+	        <label for="section_type_<%= type.downcase %>" class="light" style="padding-right: 5px; padding-top: 5px;">
+	          <%= type %>
+	        </label>
+	      <% end %>
+      <% end %>
+
+			<% column do %>
+	      <%= section.label :title %>
+	      <%= section.text_field :title %>
+	    <% end %>
     <% end %>
-  </fieldset>
-  </fieldset>
+  <% end %>
   
-  <p class="buttons">
+  <% f.buttons do %>
     <%= f.submit :Create %>
-  </p>
+  <% end %>
 <% end %>

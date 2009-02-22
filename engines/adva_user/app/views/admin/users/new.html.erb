@@ -4,8 +4,8 @@
   <%= render :partial => 'roles', :locals => {:f => f} if @site && current_user.has_role?(:admin, :context => @site) %>
   <%= render :partial => 'memberships', :locals => {:f => f} if @site %>
 
-  <p class="buttons">
+  <% f.buttons do %>
     <%= submit_tag t(:'adva.common.save') %> or 
     <%= link_to(t(:'adva.common.cancel'), @site.nil? ? admin_users_path : admin_site_users_path(@site)) %>
-  </p>
+  <% end %>
 <% end -%>

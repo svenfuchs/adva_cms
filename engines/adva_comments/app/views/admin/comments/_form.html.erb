@@ -1,15 +1,12 @@
 <%= hidden_field_tag "return_to", params[:return_to] || request.request_uri %>
 
-<fieldset>  
-  <p>
-    <%= f.label :body, t(:'adva.titles.comment') %>
-    <%= f.text_area :body, :class => 'fat', :rows => 8  %>
-  </p>
-</fieldset>
+<% f.field_set do %>
+  <%= f.text_area :body, :class => 'fat', :rows => 8, :label => :'adva.titles.comment'  %>
+<% end %>
 
 <%= yield if block_given? %>
 
-<p class="buttons">
+<% f.buttons do %>
   <%= submit_tag t(:'adva.common.save') %>
   <%= link_to t(:'adva.common.cancel'), params[:return_to] if params[:return_to] %>
-</p>
+<% end %>

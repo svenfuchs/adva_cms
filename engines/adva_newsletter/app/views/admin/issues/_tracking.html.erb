@@ -1,6 +1,8 @@
 <%# too hackish? %>
 <h3><%= t(:'adva.titles.tracking') %></h3>
+
 <% if @site.has_tracking_enabled? -%>
+
   <% fields_for :issue do |f| -%>
     <p>
       <%= f.check_box :track, :onclick => "$('tracking_options').toggle();" %>
@@ -8,28 +10,26 @@
     </p>
     <div id="tracking_options"<%= 'style="display:none;"' unless @issue.has_tracking_enabled? %>>
       <span class="hint"><%= t(:'adva.tracking.hints.glossary', :link => link_to(t(:'adva.tracking.hints.glossary_name'), "http://www.google.com/support/googleanalytics/bin/topic.py?topic=11096&hl=#{I18n.locale}")) %></span>
-      <p>
-        <%= f.label :tracking_campaign, t(:'adva.tracking.tracking_campaign') %>
-        <%= f.text_field :tracking_campaign %>
-      </p>
-      <p>
-        <%= f.label :tracking_source, t(:'adva.tracking.tracking_source') %>
-        <%= f.text_field :tracking_source %>
-      </p>
+      <%= f.text_field :tracking_campaign, :label => :'adva.tracking.tracking_campaign' %>
+      <%= f.text_field :tracking_source, :label => :'adva.tracking.tracking_source' %>
     </div>
   <% end -%>
+
   <script type="text/javascript">
-  toggleTrackingOptions = function(event) {
-    checkbox = event.element();
-    
-    // pre-fill values if checkbox is checked
-    if(checkbox.checked) {
-      if(!$F('issue_tracking_campaign'))  $('issue_tracking_campaign').value = decodeURI('<%= @newsletter.title %>');
-      if(!$F('issue_tracking_source'))    $('issue_tracking_source').value = decodeURI($F('issue_title'));
-    }
-  }
-  $('issue_track').observe('click', toggleTrackingOptions);
+	  toggleTrackingOptions = function(event) {
+	    checkbox = event.element();
+
+	    // pre-fill values if checkbox is checked
+	    if(checkbox.checked) {
+	      if(!$F('issue_tracking_campaign'))  $('issue_tracking_campaign').value = decodeURI('<%= @newsletter.title %>');
+	      if(!$F('issue_tracking_source'))    $('issue_tracking_source').value = decodeURI($F('issue_title'));
+	    }
+	  }
+	  $('issue_track').observe('click', toggleTrackingOptions);
   </script>
-  <% else -%>
+
+<% else -%>
+
   <span class="hint"><%= t(:'adva.tracking.hints.no_tracking_code', :settings => link_to(t(:'adva.resources.settings'), edit_admin_site_path(@site))) %></span>
+
 <% end -%>

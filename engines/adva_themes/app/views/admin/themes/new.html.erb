@@ -17,8 +17,8 @@
 
 <% form_for :theme, @theme, :url => admin_themes_path(@site) do |f| %>
 	<%= render :partial => "form", :locals => {:f => f} %>
-	<p class="buttons">
+	<% f.buttons do %>
     <%= f.submit t(:'adva.common.save') %> or 
     <%= link_to t(:'adva.common.cancel'), admin_themes_path %>
-  </p>
+  <% end %>
 <% end %>

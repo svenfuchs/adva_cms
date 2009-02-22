@@ -1,12 +1,11 @@
 <h2>Album settings</h2>
-<fieldset class="clearfix">
-  <div class="col">
-    <%= f.label :photos_per_page %>
-    <%= f.text_field :photos_per_page, :class => 'short' %>
-  </div>
-  <div class="col">  
-    <%= f.label :content_filter, 'Content filter' %>
-    <span class="hint"><%= t(:'adva.sections.hints.content_filter') %></span>
-    <%= f.select :content_filter, filter_options %>
-  </div>
-</fieldset>
+
+<% f.field_set :album_settings do %>
+  <% column do %>
+    <%= f.text_field :photos_per_page, :class => 'short', :label => true %>
+	<% end %>
+
+  <% column do %>
+    <%= f.select :content_filter, filter_options, :label => true, :hint => :'adva.sections.hints.content_filter' %>
+	<% end %>
+<% end %>

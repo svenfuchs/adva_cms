@@ -1,14 +1,12 @@
 <h2>Create a new set</h2>
   
 <% form_for :set, @set, :url => admin_sets_path(@site, @section) do |f| %>
-  <fieldset class="clearfix">
-    <div class="col1">
-      <%= f.label :title %>
-      <%= f.text_field :title %>
-    </div>
-  </fieldset>
-	<p class="buttons">
+  <% f.field_set do %>
+    <%= f.text_field :title, :label => true %>
+  <% end %>
+
+	<% f.buttons do %>
 	  <%= submit_tag t(:'adva.common.save') %> <%= t(:'adva.common.connector.or') %>
     <%= link_to t(:'adva.common.cancel'), admin_sets_path(@site, @section) %>
-	</p>
+	<% end %>
 <% end %>

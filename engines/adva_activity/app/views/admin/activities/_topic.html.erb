@@ -6,7 +6,8 @@
   </p>
   <p><%= t(:'adva.activity.topic', :actions => activity.all_actions.to_sentence) %></p>
   <blockquote><p>&quot;<%= truncate strip_tags(activity.title), 100 %>&quot;</p></blockquote>
-  <% if activity.object -%>
+  
+	<% if activity.object -%>
     <ul>
     <li><%= link_to t(:'adva.common.edit'), edit_topic_path(activity.object.section, activity.object) %></li>
     <li><%= link_to t(:'adva.common.delete'), topic_path(activity.object.section, activity.object), :method => :delete, :confirm => "Are you sure you wish to delete this topic?" %></li>

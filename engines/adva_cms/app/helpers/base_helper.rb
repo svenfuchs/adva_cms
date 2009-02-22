@@ -16,6 +16,15 @@ class ActionView::Base
 end
 
 module BaseHelper
+
+  def column(&block)
+    content_tag(:div, :class => 'col', &block)
+  end
+  
+  def buttons(&block)
+    content_tag(:p, :class => 'buttons', &block)
+  end
+
   def link_to_section_main_action(site, section)
     case section
     when Wiki

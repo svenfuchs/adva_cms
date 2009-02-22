@@ -1,60 +1,45 @@
 <h2><%= t(:'adva.titles.general_settings') %></h2>
-<fieldset class="clearfix">
-  <div class="col">
-    <%= f.label :name, t(:'adva.sites.label.name') %>
-    <%= f.text_field :name, :tabindex => 1 %>
-  	<%= f.label :title, t(:'adva.sites.label.title') %>
-  	<%= f.text_field :title, :tabindex => 3 %>
-  	<%= f.label :email, t(:'adva.sites.label.admin_email') %>
-    <!--<span class="hint"><%= t(:'adva.sites.hints.admin_email') %></span>-->
-  	<%= f.text_field :email, :tabindex => 5 %>
-  </div>
-  <div class="col">
-    <%= f.label :host, t(:'adva.sites.label.host') %>
-    <!-- <span class="hint"><%= t(:'adva.sites.hints.host_name') %></span> -->
-    <%= f.text_field :host, :tabindex => 2 %>
-  	<%= f.label :subtitle, t(:'adva.sites.label.subtitle') %>
-  	<%= f.text_field :subtitle, :tabindex => 4 %>
-    <%= f.label :timezone, t(:'adva.sites.label.timezone') %>
-    <%= f.time_zone_select :timezone, [ ActiveSupport::TimeZone['UTC'] ], :selected => site.timezone, :tabindex => 6 %>
-  </div>
-</fieldset>
-<%# TODO: complete tabindex for other fields %>
+<% f.field_set :general_settings do %>
+  <% column do %>
+    <%= f.text_field :name, :tabindex => 1, :label => :'adva.sites.label.name' %>
+  	<%= f.text_field :title, :tabindex => 3, :label => :'adva.sites.label.title' %>
+  	<%= f.text_field :email, :tabindex => 5, :label => :'adva.sites.label.admin_email' %>
+  <% end %>
+
+  <% column do %>
+    <%= f.text_field :host, :tabindex => 2, :label => :'adva.sites.label.host' %>
+  	<%= f.text_field :subtitle, :tabindex => 4, :label => :'adva.sites.label.subtitle' %>
+    <%= f.time_zone_select :timezone, [ ActiveSupport::TimeZone['UTC'] ], 
+          :selected => site.timezone, :tabindex => 6, :label => :'adva.sites.label.timezone' %>
+  <% end %>
+<% end %>
 
 <h2><%= t(:'adva.titles.comments') %></h2>
-<fieldset class="clearfix">
-  <div class="col"> 
-    <%= f.label :comment_filter, 'Comments filter' %>
-    <span class="hint"><%= t(:'adva.comments.hints.comments_filter') %></span>
-  </div>
-  <div class="col"> 
-    <span class="hint">&nbsp;</span>
-    <%= f.select :comment_filter, filter_options %>
-  </div>
-</fieldset>
+<% f.field_set :comments_settings do %>
+  <%= f.select :comment_filter, filter_options, :label => true, :hint => :'adva.comments.hints.comments_filter' %>
+<% end %>
 
 <h2>Google Analytics</h2>
-<fieldset class="clearfix">
-  <div class="col1">
-    <%= f.label :google_analytics_tracking_code, 'Google Analytics Tracking Code' %>
-    <span class="hint"><%= t(:'adva.tracking.hints.tracking_code') %></span>
-    <%= f.text_field :google_analytics_tracking_code %>
-  </div>
-</fieldset>
+<% f.field_set :google_analytics_settings do %>
+  <% column do %>
+    <%= f.text_field :google_analytics_tracking_code, :label => 'Google Analytics Tracking Code', 
+          :hint => :'adva.tracking.hints.tracking_code' %>
+  <% end %>
+<% end %>
 
-<!-----------------------------------------TODO---------------------------------------->  
 <h2><%= t(:'adva.titles.spam_protection') %></h2>
-<fieldset id="site_spam_settings_fields" class="clearfix">  
-  <div class="col1"> 
+<% f.field_set :spam_settings do %>
+  <% column do %>
     <h4><%= t(:'adva.titles.spam_filters') %></h4>
     <span class="hint"><%= t(:'adva.spam.hints.filters') %></span>
+
     <% SpamEngine::Filter.names.each do |name| %>
-    <h3><%= name %></h3>
-    <p>
-      <%= check_box_tag "site[spam_options][filters][]", name, site.spam_filter_active?(name), :class => "site_spam_options_filter", :id => "site_spam_options_filter_#{name.downcase}" unless name == 'Default' %>
-      <%= label :site, "spam_options_filter_#{name.downcase}", (name != 'Default' ? "Enable #{name} filter" : 'Settings'), :class => 'inline' %>
-    </p>
-    <%= render :partial => "spam/#{name.downcase}_settings", :locals => {:site => site, :active => site.spam_filter_active?(name)} %>
+	    <h3><%= name %></h3>
+	    <p>
+	      <%= check_box_tag "site[spam_options][filters][]", name, site.spam_filter_active?(name), :class => "site_spam_options_filter", :id => "site_spam_options_filter_#{name.downcase}" unless name == 'Default' %>
+	      <%= label :site, "spam_options_filter_#{name.downcase}", (name != 'Default' ? "Enable #{name} filter" : 'Settings'), :class => 'inline' %>
+	    </p>
+	    <%= render :partial => "spam/#{name.downcase}_settings", :locals => {:site => site, :active => site.spam_filter_active?(name)} %>
     <% end %>
-  </div>
-</fieldset>
+  <% end %>
+<% end %>

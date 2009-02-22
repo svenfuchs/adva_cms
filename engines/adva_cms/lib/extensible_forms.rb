@@ -12,23 +12,23 @@ module ActionView
         fields_for_without_resource_form_builders(name, *args, &block)
       end
       alias_method_chain :fields_for, :resource_form_builders
-      
+
       def field_set(object_name, name, content = nil, options = {}, &block)
         InstanceTag.new(object_name, name, self, options.delete(:object)).to_field_set_tag(content, options, &block)
       end
-      
+
       protected
         def singular_class_name(name)
           ActionController::RecordIdentifier.singular_class_name(name)
         end
-        
+
         def pick_form_builder(name)
           "#{name.to_s.classify}FormBuilder".constantize
         rescue NameError
           ActionView::Base.default_form_builder
         end
     end
-  
+
     class InstanceTag
       def to_field_set_tag(content = nil, options = {}, &block)
         options = options.stringify_keys
@@ -48,19 +48,31 @@ class ExtensibleFormBuilder < ActionView::Helpers::FormBuilder
   self.callbacks = { :before => {}, :after => {} }
 
   class_inheritable_accessor :options
-  self.options = { :labels => false }
-  
+  self.options = { :labels => false, :wrap => false, :default_class_names => {} }
+
   class << self
+    [:labels, :wrap].each do |option|
+      define_method(:"#{option}=") { |value| self.options[option] = value }
+    end
+
+    def default_class_names(type = nil)
+      if type
+        self.options[:default_class_names][type] ||= []
+      else
+        self.options[:default_class_names]
+      end
+    end
+
     def before(object_name, method, string = nil, &block)
       add_callback(:before, object_name, method, string || block)
     end
-  
+
     def after(object_name, method, string = nil, &block)
       add_callback(:after, object_name, method, string || block)
     end
 
     protected
-    
+
       def add_callback(stage, object_name, method, callback)
         method = method.to_sym
         callbacks[stage][object_name] ||= { }
@@ -68,29 +80,39 @@ class ExtensibleFormBuilder < ActionView::Helpers::FormBuilder
         callbacks[stage][object_name][method] << callback
       end
   end
-  
-  helpers = field_helpers + %w(date_select datetime_select time_select) -
+
+  helpers = field_helpers + %w(select date_select datetime_select time_select time_zone_select) -
                             %w(hidden_field label fields_for apply_form_for_options!)
 
   helpers.each do |method_name|
     class_eval <<-src, __FILE__, __LINE__
       def #{method_name}(*args, &block)
+        type = #{method_name.to_sym.inspect}
+
         options = args.extract_options!
-        name    = args.first
-        
+        options = add_default_class_names(options, type)
+
+        label, wrap, hint = options.values_at(:label, :wrap, :hint)
+        name = args.first
+
         with_callbacks(name) do
           tag = super(*(args << options), &block)
-          tag = labelize(tag, name, options) if self.options[:labels]
+          tag = hint(tag, hint) if hint
+          tag = labelize(type, tag, name, label) if label || self.options[:labels]
+          tag = wrap(tag) if wrap || self.options[:wrap]
           tag
         end
       end
     src
   end
-  
+
   def field_set(*args, &block)
     options = args.extract_options!
+    options = add_default_class_names(options, :field_set)
+
     name    = args.first
     name ||= :default_fields
+
     @template.concat with_callbacks(name) {
       legend = options.delete(:legend) || ''
       legend = @template.content_tag('legend', legend) unless legend.blank?
@@ -99,15 +121,41 @@ class ExtensibleFormBuilder < ActionView::Helpers::FormBuilder
       end
     }
   end
-  
+
+  def buttons(name = :buttons, &block)
+    with_callbacks(name) do
+      @template.buttons(&block)
+    end
+  end
+
   def render(*args)
     @template.controller.send(:render, *args)
   end
-  
+
   protected
-  
-    def labelize(tag, method, options = {})
-      @template.content_tag(:p, label(method, options[:label]) + tag)
+
+    def labelize(type, tag, method, label = nil)
+      label = case label
+      when String then label
+      when Symbol then I18n.t(label)
+      else nil
+      end
+
+      case type
+      when :check_box, :radio_button
+        tag + "\n" + self.label(method, label, :class => 'inline light', :id => extract_id(tag))
+      else
+        self.label(method, label) + tag
+      end
+    end
+
+    def wrap(tag)
+      @template.content_tag(:p, tag)
+    end
+
+    def hint(tag, hint)
+      hint = I18n.t(hint) if hint.is_a?(Symbol)
+      @template.content_tag(:span, hint, :class => 'hint') + tag
     end
 
     def with_callbacks(method, &block)
@@ -128,11 +176,17 @@ class ExtensibleFormBuilder < ActionView::Helpers::FormBuilder
         end
       end || ''
     end
-    
+
     def callbacks_for(stage, method)
       object_name = @object_name.try(:to_sym)
-      self.callbacks[stage][object_name] and 
+      self.callbacks[stage][object_name] and
       self.callbacks[stage][object_name][method.to_sym]
+    end
+
+    def add_default_class_names(options, type)
+      options[:class] = (Array(options[:class]) + self.class.default_class_names(type)).join(' ')
+      options.delete(:class) if options[:class].blank?
+      options
     end
 
     # yep, we gotta do this crap because there doesn't seem to be a sane way

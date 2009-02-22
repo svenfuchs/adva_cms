@@ -3,9 +3,11 @@
 <p><%= t(:'adva.passwords.info.please_enter_new_password') %></p>
 
 <% form_for 'user', :url => password_path, :html => {:method => :put} do |f| %>
-	<div id="password">
-	  <%= f.label :password %>
-		<%= f.password_field 'password' %>
-	</div>
-	<%= submit_tag t(:'adva.common.save') %>
+  <% f.field_set do %>
+		<%= f.password_field :password, :label => true %>
+  <% end %>
+
+  <% f.buttons do %>
+		<%= submit_tag t(:'adva.common.save') %>
+	<% end %>
 <% end %>

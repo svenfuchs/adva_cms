@@ -19,8 +19,8 @@
   <%= render :partial => 'roles', :locals => {:f => f} if has_permission?('manage', 'roles') %>
   <%= render :partial => 'memberships', :locals => {:f => f} %>
 
-  <p class="buttons">
+  <% f.buttons do %>
     <%= submit_tag t(:'adva.common.save') %> <%= t(:'adva.common.connector.or') %>
     <%= link_to(t(:'adva.common.cancel'), @site.nil? ? admin_users_path : admin_site_users_path(@site)) %>
-  </p>
+  <% end %>
 <% end -%>

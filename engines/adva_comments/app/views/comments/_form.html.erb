@@ -3,11 +3,12 @@
     <div id="registered_author" style="display: none;">
       <p><%= t(:'adva.info.greeting_logged_in') %></p>
     </div>
-    <h2>
-      <%= @comment.new_record? ? t(:'adva.comments.titles.add_reply') : t(:'adva.comments.titles.edit') %>
-    </h2>
+
+    <h2><%= @comment.new_record? ? t(:'adva.comments.titles.add_reply') : t(:'adva.comments.titles.edit') %></h2>
+
     <% form_for :comment, @comment, :url => (@comment.new_record? ? comments_path : comment_path(@comment)), :html => {:method => (@comment.new_record? ? :post : :put)} do |f| -%>
       <%= comment_form_hidden_fields commentable %>
+
       <% fields_for @comment.author do |author| %>
         <div id="anonymous_author">
           <p>
@@ -24,10 +25,13 @@
           </p>
         </div>
       <% end %>
+
       <p>
         <%= f.text_area :body %>
       </p>
+
       <p id="preview"></p>
+
       <p>
         <%= submit_tag (@comment.new_record? ? t(:'adva.comments.titles.submit_comment') : t(:'adva.comments.titles.save_comment')) %>
         <%= link_to_remote_comment_preview %>

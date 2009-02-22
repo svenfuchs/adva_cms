@@ -1,5 +1,6 @@
 <div class="entry">
   <h2><%= t(:'adva.wiki.view.edit.header', :title => @wikipage.title)  %></h2>
+
   <% form_for :wikipage, @wikipage, :url => wikipage_path_with_home(@section, @wikipage.permalink), :html => {:method => :put} do |f| %>
     <%= f.hidden_field :updated_at, :value => @wikipage.updated_at %>
   	<%= render :partial => "form", :locals => {:f => f} %>

@@ -26,9 +26,9 @@
 <% unless @plugin.option_definitions.empty? %>
   <% form_for :plugin, @plugin, :url => admin_plugin_path(@site), :html => { :method => :put } do |f| -%>
     <%= render :partial => 'form', :locals => {:f => f} %>
-    <p class="buttons">
+    <% f.buttons do %>
       <%= f.submit :Save %>
-    </p>
+    <% end %>
   <% end -%>
 <% else %>
   <p class="empty"><%= t(:'adva.plugins.no_config_options_available') %></p>

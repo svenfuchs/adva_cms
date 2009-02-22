@@ -1,23 +1,16 @@
 <%= render :partial => "action_nav" %>
 
 <% form_for @asset, :url => admin_asset_path, :html => { :multipart => true } do |f| %>
-  <p>
-    <%= link_to asset_image_for(@asset, :thumb), @asset.base_url %>
-  </p>
-  <p>
-    <%= f.label :title %>
-    <%= f.text_field :title %>
-  </p>
-  <p>
-    <%= f.label :tag_list, 'Tags' %> <span class="hint"><%=t :'adva.assets.enter_tags' %></span>
-    <%= f.text_field :tag_list %>
-  </p>  
-  <p>
-    <label for="asset_data">Select a file</label>
-    <%= f.file_field :data %>
-  </p>
-  <p class="buttons">
+  <p><%= link_to asset_image_for(@asset, :thumb), @asset.base_url %></p>
+
+	<% f.field_set do %>
+		<%= f.text_field :title, :label => true %>
+		<%= f.text_field :tag_list, :label => 'Tags', :hint => :'adva.assets.enter_tags' %>
+		<%= f.file_field :data, :label => 'Select a file' %>
+	<% end %>
+	
+  <% f.buttons do %>
     <%= submit_tag t( :'adva.assets.save' ) %> <%= t(:'adva.common.connector.or') %> 
-    or <%= link_to t( :'adva.common.cancel' ), admin_assets_path %>
-  </p>
+    <%= link_to t( :'adva.common.cancel' ), admin_assets_path %>
+  <% end %>
 <% end -%>

@@ -1,23 +1,13 @@
 <h2><%= t(:'adva.titles.general_settings') %></h2>
 
-<fieldset class="clearfix">
-  <div class="col">
-    <%= f.label :title %>
-    <%= f.text_field :title %>
-  </div>
-  <div class="col">  
-    <%= f.label :permalink %>
-    <%= f.text_field :permalink %>
-  </div>
-</fieldset>
+<% f.field_set do %>
+  <% column do %>
+    <%= f.text_field :title, :label => true %>
+  <% end %>
 
-<% unless true or @site.current_theme_template_paths.empty? %>
-    <%= f.label :template %>
-    <%= f.select :template, @site.current_theme_template_paths, :include_blank => true  %>
-<% end %>
-<% unless true or @site.current_theme_layout_paths.empty? %>
-    <%= f.label :layout %>
-    <%= f.select :layout, @site.current_theme_layout_paths, :include_blank => true  %>
+  <% column do %>
+    <%= f.text_field :permalink, :label => true %>
+  <% end %>
 <% end %>
 
 <%= render :partial => "admin/sections/settings/#{@section.type.underscore}", :locals => { :f => f } %>

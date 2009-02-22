@@ -20,22 +20,15 @@
 <h2>Upload theme file</h2>
 
 <% form_tag upload_admin_theme_files_path(@site, @theme.id), { :method => :post, :multipart => true } do %>
-  <fieldset class="clearfix">
-    <div class="col1">
-      <div style="margin-bottom:20px;">
-        <p><%= t(:'adva.themes.upload_template_or_asset') %></p>
-        <!-- <h3><%= t(:'adva.themes.titles.valid_file_types') %></h3> -->
-        <!-- <p><%#= t(:'adva.themes.labels.templates') %>: <%#= Theme::Path.template_types.collect(&:first).join(', ') %></p> -->
-        <!-- <p><%#= t(:'adva.themes.labels.asssets') %>: <%#= Theme::Path.asset_types.collect(&:first).join(', ') %></p> -->
-      </div>
-      <p><%= file_field_tag("file[data]", :id => 'file_data') %></p>
+	<fieldset>
+    <div style="margin-bottom:20px;">
+      <p><%= t(:'adva.themes.upload_template_or_asset') %></p>
     </div>
-    <!--<div class="col">
-      <p><%= link_to t(:'adva.themes.links.add_another_file'), "#", :id => "upload_add_file" %></p>
-    </div>-->
+    <p><%= file_field_tag("file[data]", :id => 'file_data') %></p>
   </fieldset>
-  <p class="buttons">
+
+  <% buttons do %>
     <%= submit_tag t(:'adva.common.upload') %> or 
     <%= link_to t(:'adva.common.cancel'), admin_theme_path(@site, @theme.id) %>
-  </p>
+  <% end %>
 <% end %>

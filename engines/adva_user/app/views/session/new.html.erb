@@ -1,29 +1,18 @@
 <div id="centered_box">
   <% form_for @user, :url => session_path, :html => {:id => 'login'} do |f| %>
     <%= hidden_field_tag :return_to, params[:return_to] if params[:return_to] %>
-  	<fieldset>
 
-  	<p>
-  	  <%= f.label :email %>
-  		<%= f.text_field :email, :class => 'big' %>
-  	</p>
-	
-  	<p>
-  	  <%= f.label :password %>
-  		<%= f.password_field :password, :class => 'big' %>
-  	</p>
-	
-  	<p>
-  		<%= check_box_tag 'user[remember_me]', 1, @remember_me, :id => 'user_remember_me' %>
-  	  <%= f.label :remember_me, t(:'adva.session.labels.remember_me'), :class => 'light' %>
-  	</p>
-	
-  	</fieldset>
+  	<% f.field_set do %>
+  		<%= f.text_field :email, :class => 'big', :label => true %>
+  		<%= f.password_field :password, :class => 'big, :label => true' %>
+  		<%= check_box_tag 'user[remember_me]', 1, @remember_me, :id => 'user_remember_me', 
+						:label => :'adva.session.labels.remember_me' %>
+    <% end %>
   	
-  	<p class="buttons">
+  	<% f.buttons do %>
   	  <%= submit_tag t(:'adva.titles.login') %> or
   	  <%= link_to t(:'adva.passwords.titles.new'), new_password_path %>
     	<%#= link_to t(:'adva.users.titles.signup'), new_user_path %>
-    </p>
+    <% end %>
   <% end %>
 </div>

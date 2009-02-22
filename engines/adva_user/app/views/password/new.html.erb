@@ -3,11 +3,10 @@
 <% form_tag password_path do %>
   <fieldset>
     <p><%= t(:'adva.passwords.info.please_enter_email_to_reset_password') %></p>
-
 	  <%= text_field_tag 'user[email]' %>
 	</fieldset>
 	
-  <p class="buttons">
+  <% buttons do %>
     <%= submit_tag 'Reset password' %>
-  </p>
+  <% end %>
 <% end %>

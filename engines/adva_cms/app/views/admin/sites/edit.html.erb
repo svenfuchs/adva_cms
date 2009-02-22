@@ -14,8 +14,8 @@
 
 <% form_for :site, @site, :url => admin_site_path, :html => { :method => :put } do |f| -%>
   <%= render :partial => 'form', :locals => {:f => f, :site => @site} %>
-  <p class="buttons">
+  <% f.buttons do %>
     <%= f.submit t(:'adva.common.save') %> or 
     <%= link_to t(:'adva.common.cancel'), admin_site_path %>
-  </p>
-<% end -%>
+  <% end %>
+<% end %>

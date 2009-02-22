@@ -1,27 +1,32 @@
 <%= render :partial => "action_nav" %>
+
 <h2>Upload asset</h2>
+
 <% form_for Asset.new, :url => admin_assets_path, :html => { :multipart => true, :id => 'asset_form' } do |f| %>
-  <fieldset class="clearfix">
+	<% f.field_set do %>
     <p>
       <label id="file_label"><%=t :'adva.assets.labels.upload.files' %></label>
       <label id="title_label"><%=t :'adva.assets.labels.upload.title' %></label>
       <label id="taglist_label"><%=t :'adva.assets.labels.upload.tags' %></label>
     </p>
+
     <div id="files">
-    <% @assets.each_with_index do |asset, i| %>
-      <p>
-        <%= file_field_tag "assets[#{i}][data]", :id => "assets_data_#{i}", :class => 'file_field' %>
-        <%= text_field_tag "assets[#{i}][title]", asset.title, :class => 'title_field' %>
-        <%= text_field_tag "assets[#{i}][tag_list]", asset.tag_list, :class => 'taglist_field' %>
-        <a href="#" class="remove_file" title="<%=t :'adva.assets.delete' %>" style="display:none;"><%= image_tag '/images/adva_cms/icons/delete.png' %></a>
-        <a href="#" class="tagall_files" id="tagall_files" style="display:none"><%=t :'adva.assets.tag_all' %></a>
-      </p>
-    <% end %>
+	    <% @assets.each_with_index do |asset, i| %>
+	      <p>
+	        <%= file_field_tag "assets[#{i}][data]", :id => "assets_data_#{i}", :class => 'file_field' %>
+	        <%= text_field_tag "assets[#{i}][title]", asset.title, :class => 'title_field' %>
+	        <%= text_field_tag "assets[#{i}][tag_list]", asset.tag_list, :class => 'taglist_field' %>
+	        <a href="#" class="remove_file" title="<%=t :'adva.assets.delete' %>" style="display:none;"><%= image_tag '/images/adva_cms/icons/delete.png' %></a>
+	        <a href="#" class="tagall_files" id="tagall_files" style="display:none"><%=t :'adva.assets.tag_all' %></a>
+	      </p>
+	    <% end %>
     </div>
-  </fieldset>
+  <% end %>
+
   <a href="#" id="asset_add_file" class="widetab"><%=t :'adva.assets.add_file' %></a>  
-  <p class="buttons">
+
+  <% f.buttons do %>
     <%= submit_tag t( :'adva.common.upload' ) %> <%= t(:'adva.common.connector.or') %>
     <%= link_to t( :'adva.common.cancel' ), admin_assets_path %>
-  </p>
+  <% end %>
 <% end -%>

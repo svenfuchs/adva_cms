@@ -3,33 +3,19 @@
 <% form_for :user, :url => user_path, :html => {:id => 'register'} do |f| %>
   <h4><%= t(:'adva.users.titles.your_profile') %></h4>
 
-  <fieldset>  
-    <p>
-      <%= f.label :first_name %>
-      <%= f.text_field :first_name  %>
-      <%= f.label :last_name %>
-      <%= f.text_field :last_name  %>
-    </p>  
-    <p>   
-      <%= f.label :homepage %>
-      <%= f.text_field :homepage  %>
-    </p> 
-    <p>   
-      <%= f.label :email %>
-      <%= f.text_field :email  %>
-    </p>  
-    <p>
-      <%= f.label :password %>
-      <%= f.password_field :password  %>
-    </p> 
-  </fieldset>
+  <% f.field_set do %>
+    <%= f.text_field :first_name, :label => true %>
+    <%= f.text_field :last_name, :label => true %>
+    <%= f.text_field :homepage, :label => true %>
+    <%= f.text_field :email, :label => true %>
+    <%= f.password_field :password, :label => true %>
+  <% end %>
 
-
-  <p class="buttons">
+  <% f.buttons do %>
   	<%=submit_tag t(:'adva.titles.register') %> or
   	<%= link_to t(:'adva.titles.login'), login_url, :id => 'login' %>
   	<%= link_to t(:'adva.passwords.titles.new'), new_password_path %>
-  </p>
+  <% end %>
 <% end %>
 
 

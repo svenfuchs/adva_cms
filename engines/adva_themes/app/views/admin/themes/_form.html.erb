@@ -1,18 +1,13 @@
-<fieldset class="clearfix">
-  <div class="col">
-    <%= f.label :name %>
-    <%= f.text_field :name, :tabindex => 1 %>
-    <%= f.label :author %>
-    <%= f.text_field :author, :tabindex => 4 %>
-    <%= f.label :homepage %>
-    <%= f.text_field :homepage, :tabindex => 6 %>
-    <%= f.label :theme_id, t(:'adva.themes.titles.theme_id') %>
-    <%= f.text_field :theme_id, :tabindex => 3 %>
-  </div>
-  <div class="col">
-    <%= f.label :version %>
-    <%= f.text_field :version, :class => 'short', :tabindex => 2 %>
-    <%= f.label :summary %>
-    <%= f.text_area :summary, :class => 'short', :tabindex => 5 %>
-  </div>
-</fieldset>
+<% f.field_set do %>
+  <% column do %>
+    <%= f.text_field :name, :label => true %>
+    <%= f.text_field :author, :label => true %>
+    <%= f.text_field :homepage, :label => true %>
+    <%= f.text_field :theme_id, :label => true %>
+  <% end %>
+
+  <% column do %>
+    <%= f.text_field :version, :class => 'short', :label => true %>
+    <%= f.text_area :summary, :class => 'short', :label => true %>
+  <% end %>
+<% end %>

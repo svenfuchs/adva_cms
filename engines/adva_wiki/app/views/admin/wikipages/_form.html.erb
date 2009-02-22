@@ -3,15 +3,8 @@
 		<%= render :partial => 'options', :locals => { :f => f } %>
 	<% end %>
 <% end %>
-<fieldset class="clearfix">
-  <div class="col1">
-    <p>
-      <%= f.label :title %>
-      <%= f.text_field :title %>
-    </p>
-    <p>
-      <%= f.label :body %>
-      <%= f.text_area :body %>
-    </p>
-  </div>
-</fieldset>
+
+<% f.field_set do %>
+  <%= f.text_field :title, :label => true %>
+  <%= f.text_area :body, :label => true %>
+<% end %>

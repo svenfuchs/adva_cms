@@ -1,10 +1,10 @@
 <h2><%= t(:'adva.wikipage.view.new.create_new_header') %></h2>
-<% split_form_for :wikipage, @wikipage, :url => admin_wikipages_path, :html => {:multipart => true, :id => 'content_form'} do |f| -%>
 
+<% split_form_for :wikipage, @wikipage, :url => admin_wikipages_path, :html => {:multipart => true, :id => 'content_form'} do |f| -%>
 	<%= render :partial => "form", :locals => {:f => f} %>
 	
-	<p class="buttons">
-  		<%= f.submit t(:'adva.common.Save') %> <%= t(:'adva.common.connector.or') %> 
-  		<%= link_to t(:'adva.common.cancel'), admin_wikipages_path %>
-	</p>
+	<% f.buttons do %>
+ 		<%= f.submit t(:'adva.common.Save') %> <%= t(:'adva.common.connector.or') %> 
+ 		<%= link_to t(:'adva.common.cancel'), admin_wikipages_path %>
+	<% end %>
 <% end %>

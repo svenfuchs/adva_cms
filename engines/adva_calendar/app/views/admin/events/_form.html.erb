@@ -4,50 +4,39 @@
 	<% end -%>
 <% end -%>
 
-<fieldset class="clearfix">
-  <p>
-    <%= form.label :title, t(:'adva.calendar.attributes.title') %>
-    <%= form.text_field :title %>
-  </p>
-  <p>
-    <%= form.label :host, t(:'adva.calendar.attributes.host') %>
-    <%= form.text_field :host %>
-  </p>
-  <p>
-    <%= form.label :location, t(:'adva.calendar.attributes.location') %>
-    <%= form.text_field :location %>
-  </p>
 <%= calendar_date_select_includes 'silver' %>
-  <p>
-    <%= form.label :start_date, t(:'adva.calendar.attributes.start_date') %>
-    <%= form.calendar_date_select :start_date, :value => @event.start_date.localtime.rfc2822 %>
-    <label>
-    <%= form.check_box :all_day %> <%= t(:'adva.calendar.attributes.all_day') %>
-    </label>
-  </p>
+
+<% f.field_set do %>
+  <%= f.text_field :title, :label => :'adva.calendar.attributes.title' %>
+	<%= f.text_field :host, :label => :'adva.calendar.attributes.host' %>
+	<%= f.text_field :location, :label => :'adva.calendar.attributes.location' %>
+
+	<%= f.label :start_date, t(:'adva.calendar.attributes.start_date') %>
+	<%= f.calendar_date_select :start_date, :value => @event.start_date.localtime.rfc2822 %>
+	
+	<label>
+		<%= f.check_box :all_day %> <%= t(:'adva.calendar.attributes.all_day') %>
+	</label>
+
   <p id="end_date">
-    <%= form.label :end_date, t(:'adva.calendar.attributes.end_date') %>
-    <%= form.calendar_date_select :end_date, :value => (@event.end_date ? @event.end_date.localtime.rfc2822 : '') %>
+    <%= f.calendar_date_select :end_date, :value => (@event.end_date ? @event.end_date.localtime.rfc2822 : ''),
+                                          :label => :'adva.calendar.attributes.end_date' %>
   </p>
-  <p>
-    <%= form.label :body, t(:'adva.calendar.attributes.body') %>
-    <%= form.text_area :body, :class => "use_wysiwyg" %>
-  </p>
-  <p>
-    <%= form.label :tag_list, t(:'adva.calendar.attributes.tags') %>
-    <%= form.text_field :tag_list %>
-    <span class="hint"><%= t(:'adva.common.hints.tags') %></span>  
-  </p>
-  <%= form.label :draft, t(:'adva.calendar.question_save_as_draft') %>
+
+  <%= f.text_area :body, :class => "wysiwyg", :label => :'adva.calendar.attributes.body' %>
+  <%= f.text_field :tag_list, :label => :'adva.calendar.attributes.tags', :hint => :'adva.common.hints.tags' %>
+
+  <%= f.label :draft, t(:'adva.calendar.question_save_as_draft') %>
   <label class="light">
-    <%= check_box_tag :draft, '1', @event.draft?, :id => 'calendar_event_draft' %> <%= t(:'adva.calendar.confirm_save_as_draft') %>
+    <%= check_box_tag :draft, '1', @event.draft?, :id => 'calendar_event_draft' %> 
+		<%= t(:'adva.calendar.confirm_save_as_draft') %>
   </label>
 
   <p id="publish_date" style="<%= @event.draft? ? "display:none" : "" %>">
-    <%= form.label :published_at, t(:'adva.calendar.publish_on_date') %>
-    <%= form.datetime_select :published_at,
+    <%= f.label :published_at, t(:'adva.calendar.publish_on_date') %>
+    <%= f.datetime_select :published_at,
                           :start_year => (@event.published_at || Time.zone.now).year-1,
                           :end_year => (Time.zone.now.year + 5),
                           :order => [:month, :day, :year] %>
   </p>
-</fieldset>
+<% end %>
