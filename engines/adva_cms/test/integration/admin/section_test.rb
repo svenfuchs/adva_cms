@@ -19,7 +19,6 @@ module IntegrationTests
 
     def create_a_new_section
       click_link 'Sections'
-      puts @response.body
       fill_in 'title', :with => 'the section'
       choose 'Section'
       click_button 'Save'

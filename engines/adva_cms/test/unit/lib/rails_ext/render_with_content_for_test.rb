@@ -27,6 +27,8 @@ class RenderWithContentForConditionsTest < ActionController::TestCase
   def setup
     super
     @controller.action_name = 'index'
+    @view = Object.new
+    stub(@view).template_format.returns(:html)
   end
   
   test "registers content_for options" do
@@ -37,36 +39,36 @@ class RenderWithContentForConditionsTest < ActionController::TestCase
   
   test "applies when no options were given" do
     content = RegisteredContent.new :foo
-    content.applies?(@controller).should be_true
+    content.applies?(@controller, @view).should be_true
   end
   
   test "applies when controller was included and no action excluded" do
     content = RegisteredContent.new :foo, :only => { :controller => 'content_for_test' }
-    content.applies?(@controller).should be_true
+    content.applies?(@controller, @view).should be_true
   end
   
   test "applies when action was included and no controller excluded" do
     content = RegisteredContent.new :foo, :only => { :action => 'index' }
-    content.applies?(@controller).should be_true
+    content.applies?(@controller, @view).should be_true
   end
   
   test "does not apply when a different controller was included" do
     content = RegisteredContent.new :foo, :only => { :controller => 'something_else' }
-    content.applies?(@controller).should be_false
+    content.applies?(@controller, @view).should be_false
   end
   
   test "does not apply when a different action was included" do
     content = RegisteredContent.new :foo, :only => { :action => 'something_else' }
-    content.applies?(@controller).should be_false
+    content.applies?(@controller, @view).should be_false
   end
   
   test "does not apply when controller was excluded" do
     content = RegisteredContent.new :foo, :except => { :controller => 'content_for_test' }
-    content.applies?(@controller).should be_false
+    content.applies?(@controller, @view).should be_false
   end
   
   test "does not apply when action was excluded" do
     content = RegisteredContent.new :foo, :except => { :action => 'index' }
-    content.applies?(@controller).should be_false
+    content.applies?(@controller, @view).should be_false
   end
 end

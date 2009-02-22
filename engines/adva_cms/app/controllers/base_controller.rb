@@ -1,29 +1,26 @@
-require 'widgets'
-
 class BaseController < ApplicationController
   class SectionRoutingError < ActionController::RoutingError; end
   helper :base, :content, :comments, :users, :roles, :themes
   helper_method :perma_host
 
   include ContentHelper # WTF!
-
   include CacheableFlash
-  include Widgets
 
   before_filter :set_site, :set_section, :set_locale, :set_timezone, :set_cache_root
   around_filter OutputFilter::Cells.new
   attr_accessor :site, :section
 
   layout 'default'
-  widget :sections, :partial => 'widgets/sections'
+  filter_parameter_logging :password
 
   renders_in_context :section
-
   acts_as_themed_controller :current_themes => lambda {|c| c.site.themes.active if c.site }
   #                          :force_template_types => ['html.serb', 'liquid']
   #                          :force_template_types => lambda {|c| ['html.serb', 'liquid'] unless c.class.name =~ /^Admin::/ }
 
-  filter_parameter_logging :password
+  content_for :header, :only => { :format => :html } do
+    Menu.instance(:'default.sections').render(self)
+  end
 
   def comments
     @comments = @commentable.approved_comments

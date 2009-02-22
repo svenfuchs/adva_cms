@@ -9,7 +9,6 @@
   <link rel="stylesheet" type="text/css" href="/stylesheets/adva_cms/admin/print.css" media="print" />
   <!--[if lte IE 6]><link rel="stylesheet" href="/stylesheets/adva_cms/admin/styles.ie6.css" type="text/css" media="screen"/><![endif]-->
   <%= javascript_include_tag :common, :admin, :cache => true %>
-
 </head>
 <body>
   <ul id="acc_links">
@@ -19,21 +18,20 @@
 
   <div id="container">
     <div id="header">
-      <%= render :partial => 'widgets/admin/utility' %>
-      <%= render :partial => 'widgets/admin/navigation' %>
+			<%= yield :header %>
     </div>
 
     <div id="content" class="clearfix">
-      <%#= render :partial => 'widgets/admin/language_select' %>
       <%= yield :form if @content_for_form %>
+
       <div id="main_content"><div id="main_content_wrapper">
         <%= render :partial => 'shared/flash' %>
+
         <div class="padded">
-          <%#= render :partial => 'widgets/admin/sub_nav' %>
-          <%#= render :widget => :sub_nav %>
           <% if @content_for_action_nav %>
             <%= yield :action_nav %>
           <% end %>
+
           <% if @content_for_filter %>
             <div id="filter"><%= yield :filter %></div>
           <% end %>
@@ -43,10 +41,9 @@
       </div></div>
 
       <div id="sidebar">
-        <%= render :partial => 'widgets/admin/section_tree' if @site %>
-        <%#= render :widget => :section_tree %>
         <%= yield :sidebar %>
       </div>
+
       <%= '</form>' if @content_for_form %>
     </div>
   </div>

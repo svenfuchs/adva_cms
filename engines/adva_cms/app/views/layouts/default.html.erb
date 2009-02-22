@@ -25,7 +25,7 @@
           <%= t(:'adva.users.info.logged_in_as', :name => '<span class="user_name"></span>') %> &middot;
 					<a id="logout_link" href="/logout">Logout</a>
         </p>
-        <%= render :widget => :sections %>
+        <%= yield :header %>
       </div>
       <div id="main">
         <%= render :partial => 'shared/flash' %>  

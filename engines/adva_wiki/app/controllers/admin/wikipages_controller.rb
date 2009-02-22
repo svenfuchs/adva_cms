@@ -10,9 +10,6 @@ class Admin::WikipagesController < Admin::BaseController
   cache_sweeper :wikipage_sweeper, :category_sweeper, :tag_sweeper,
                 :only => [:create, :update, :destroy]
 
-  widget :sub_nav, :partial => 'widgets/admin/sub_nav',
-                   :only  => { :controller => ['admin/wikipages'] }
-
   guards_permissions :wikipage
 
   def index

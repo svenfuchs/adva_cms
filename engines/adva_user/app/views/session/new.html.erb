@@ -4,9 +4,9 @@
 
   	<% f.field_set do %>
   		<%= f.text_field :email, :class => 'big', :label => true %>
-  		<%= f.password_field :password, :class => 'big, :label => true' %>
-  		<%= check_box_tag 'user[remember_me]', 1, @remember_me, :id => 'user_remember_me', 
-						:label => :'adva.session.labels.remember_me' %>
+  		<%= f.password_field :password, :class => 'big', :label => true %>
+  		<%= check_box_tag 'user[remember_me]', 1, @remember_me, :id => 'user_remember_me' %>
+			<%= label_tag :user_remember_me, t(:'adva.session.labels.remember_me') %>
     <% end %>
   	
   	<% f.buttons do %>

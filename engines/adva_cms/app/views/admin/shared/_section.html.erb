@@ -2,7 +2,7 @@
   <%= link_to object.title, admin_section_contents_path(object) %>
   <% unless object.children.empty? %>
   <ul>
-    <%= render :partial => 'widgets/admin/section', :collection => object.children %>
+    <%= render :partial => 'admin/shared/section', :collection => object.children %>
   </ul>
   <% end %>
 </li>

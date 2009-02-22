@@ -3,7 +3,6 @@ class Admin::BaseController < ApplicationController
   
   renders_with_error_proc :below_field
   include CacheableFlash
-  include Widgets
 
   before_filter :set_site, :set_locale, :set_timezone, :set_cache_root
   helper :base, :content, :comments, :themes, :users
@@ -14,18 +13,14 @@ class Admin::BaseController < ApplicationController
 
   attr_accessor :site
 
-  widget :menu_global,   :partial => 'widgets/admin/menu_global'
-
-  widget :menu_site,     :partial => 'widgets/admin/menu_site',
-                         :except  => { :controller => 'admin/sites', :action => [:index, :new] }
-
-  widget :section_tree,  :partial => 'widgets/admin/section_tree',
-                         :except  => { :controller => 'admin/sites', :action => [:index, :new] },
-                         :only    => { :controller => ['admin/sites', 'admin/sections', 'admin/articles', 'admin/wikipages'] }
-
-  widget :sub_nav,       :partial => 'widgets/admin/sub_nav',
-                         :except => { :controller => ['admin/sections'], :action => [:index, :new] },
-                         :only  => { :controller => ['admin/sections', 'admin/articles', 'admin/wikipages', 'admin/categories', 'admin/comments'] }
+  content_for :header, :only => { :format => :html } do
+    render(:partial => 'admin/shared/utility') +
+    render(:partial => 'admin/shared/navigation')
+  end
+  
+  content_for :sidebar, :only => { :format => :html } do 
+    render :partial => 'admin/shared/section_tree' if @site
+  end
 
   def admin_section_contents_path(section)
     content_type = section.class.content_type.pluralize.gsub('::', '_').underscore.downcase
