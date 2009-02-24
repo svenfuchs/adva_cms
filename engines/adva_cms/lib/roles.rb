@@ -6,6 +6,7 @@ Rbac.define do
        :grant => :registered?,
        :parent => :anonymous,
        :message => :'adva.roles.errors.messages.not_logged_in'
+       
   role :author,
        :require_context => Content,
        :grant => lambda{|context, user| context && !!context.try(:is_author?, user) },
@@ -132,5 +133,11 @@ Rbac.define do
               :'show newsletter_subscription'    => :moderator,
               :'create newsletter_subscription'  => :moderator,
               :'update newsletter_subscription'  => :moderator,
-              :'destroy newsletter_subscription' => :moderator
+              :'destroy newsletter_subscription' => :moderator,
+              
+              :'show document'    => :anonymous,
+              :'create document'  => :user,
+              :'update document'  => :author,
+              :'destroy document' => :author,
+              :'manage document'  => :author
 end
