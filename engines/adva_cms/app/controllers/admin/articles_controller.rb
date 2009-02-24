@@ -6,13 +6,13 @@ class Admin::ArticlesController < Admin::BaseController
   # member_actions.push *%W(index show new destroy create)
 
   before_filter :set_section
-  before_filter :set_article,         :only => [:show, :edit, :update, :destroy]
-  before_filter :set_categories,      :only => [:new, :edit]
-  before_filter :set_content_locale,  :only => [:new, :edit, :create, :update]
-  before_filter :params_author,       :only => [:create, :update]
-  before_filter :params_draft,        :only => [:create, :update]
-  before_filter :params_published_at, :only => [:create, :update]
-  before_filter :params_category_ids, :only => [:update]
+  before_filter :set_article,           :only => [:show, :edit, :update, :destroy]
+  before_filter :set_categories,        :only => [:new, :edit]
+  before_filter :set_content_locale,    :only => [:new, :edit, :create, :update]
+  before_filter :params_author,         :only => [:create, :update]
+  before_filter :params_draft,          :only => [:create, :update]
+  before_filter :params_published_at,   :only => [:create, :update]
+  before_filter :params_category_ids,   :only => [:update]
 
   cache_sweeper :article_sweeper, :category_sweeper, :tag_sweeper,
                 :only => [:create, :update, :destroy]
@@ -43,16 +43,12 @@ class Admin::ArticlesController < Admin::BaseController
   end
 
   def create
-    current_locale = I18n.locale
-    I18n.locale = @content_locale
     @article = @section.articles.build(params[:article])
-    success = @article.save
-    I18n.locale = current_locale
 
-    if success
+    if @article.save
       trigger_events @article
       flash[:notice] = t(:'adva.articles.flash.create.success')
-      redirect_to edit_admin_article_path(:id => @article.id, :cl => @content_locale)
+      redirect_to edit_admin_article_path(:id => @article.id, :cl => Article.locale)
     else
       set_categories
       flash.now[:error] = t(:'adva.articles.flash.create.failure')
@@ -64,28 +60,30 @@ class Admin::ArticlesController < Admin::BaseController
     params[:article][:version].blank? ? update_attributes : rollback
   end
 
-  def update_attributes
+  def update_attributes    
     @article.attributes = params[:article]
+    
     if save_with_revision? ? @article.save : @article.save_without_revision
       trigger_events @article
       flash[:notice] = t(:'adva.articles.flash.update.success')
-      redirect_to edit_admin_article_path( :cl => @content_locale )
+      redirect_to edit_admin_article_path( :cl => Article.locale )
     else
       set_categories
       flash.now[:error] = t(:'adva.articles.flash.update.failure')
-      render :action => 'edit', :cl => @content_locale
+      render :action => 'edit', :cl => Article.locale
     end
   end
   
   def rollback
     version = params[:article][:version].to_i
+  
     if @article.version != version and @article.revert_to(version)
       trigger_event @article, :rolledback
       flash[:notice] = t(:'adva.articles.flash.rollback.success', :version => version)
-      redirect_to edit_admin_article_path( :cl => @content_locale )
+      redirect_to edit_admin_article_path( :cl => Article.locale )
     else
       flash[:error] = t(:'adva.articles.flash.rollback.failure', :version => version)
-      redirect_to edit_admin_article_path( :cl => @content_locale )
+      redirect_to edit_admin_article_path( :cl => Article.locale )
     end
   end
 
@@ -124,7 +122,7 @@ class Admin::ArticlesController < Admin::BaseController
     end
 
     def set_content_locale
-      @content_locale = params[:cl] || I18n.locale      
+      ActiveRecord::Base.locale = params[:cl].to_sym unless params[:cl].blank?
     end
     
     def params_author

@@ -5,7 +5,7 @@
 <% end %>
 
 <fieldset class="clearfix">
-  <%= hidden_field_tag 'cl', @content_locale %>
+  <%= hidden_field_tag 'cl', Article.locale %>
   <%= f.label :title %>
   <%= f.text_field :title, :class => 'big'  %>
   <p id="excerpt" style="<%= @article.has_excerpt? ? "" : "display:none" %>">
@@ -19,7 +19,7 @@
     Write your article
     <span class="hint inline">(<%= link_to_function t(:'adva.articles.excerpt_add'), "$('excerpt').toggle()" %>)</span>
   </label>
-  <%= f.text_area :body, :class => 'fat use_wysiwyg', :rows => 25  %>
+  <%= f.text_area :body, :class => 'fat use_wysiwyg', :rows => 25 %>
 
   <%= f.label :draft, t(:'adva.articles.question_save_as_draft') %>
   <label class="light">

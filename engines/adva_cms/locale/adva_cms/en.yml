@@ -256,6 +256,8 @@ en:
     contents:
       not_published: not published
     articles:
+      locales:
+        translated: "This article has these translations: {{locales}}"
       question_save_as_draft: Save as Draft?
       confirm_save_as_draft: Yes, save this article as a draft
       hints:
