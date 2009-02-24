@@ -9,7 +9,7 @@
 	<h3><%= t(:'adva.titles.actions') %></h3>
 	<ul>
 	  <li><%= link_to t(:'adva.articles.links.create'), new_admin_article_path(@site) %></li>
-    <li><%= link_to t(:'adva.articles.links.preview'), content_url(@article, :cl => @content_locale) %></li>
+  <li><%= link_to t(:'adva.articles.links.preview'), content_url(@article, :cl => Article.locale) %></li>
 	  <li><%= link_to t(:'adva.articles.links.delete'), admin_article_path, { :confirm => t(:'adva.articles.confirm_delete'), :method => :delete } %></li>
 	</ul>
 <% end %>

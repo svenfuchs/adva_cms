@@ -28,4 +28,10 @@ module Admin::BaseHelper
       link_to(name, admin_site_user_path(site, current_user))
     end
   end
+
+  def translated_locales(article, view)
+    article.translated_locales.map {|tl|
+      link_to tl, edit_admin_article_url( :cl => tl )
+    }.join(', ')
+  end
 end
