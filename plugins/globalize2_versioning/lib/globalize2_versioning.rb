@@ -33,7 +33,7 @@ module Globalize
         @stash.clear
       end
 
-      def highest_version(locale = I18n.locale)
+      def highest_version(locale = ::ActiveRecord::Base.locale)
         @record.globalize_translations.maximum(:version, 
           :conditions => { :locale => locale.to_s, reference_field => @record.id }) || 0
       end
@@ -112,12 +112,12 @@ module Globalize
         module InstanceMethods
           def versioned?; true end
                     
-          def version(locale = I18n.locale)
+          def version(locale = self.class.locale)
             translation = globalize_translations.find_by_locale_and_current(locale.to_s, true)
             translation ? translation.version : nil
           end
           
-          def revert_to(version, locale = I18n.locale)
+          def revert_to(version, locale = self.class.locale)
             version = version.to_i
             return true if version == self.version
             new_translation = globalize_translations.find_by_locale_and_version(locale.to_s, version)
@@ -155,7 +155,7 @@ module Globalize
           
           private
           
-          def clear_old_versions(locale = I18n.locale)
+          def clear_old_versions(locale = self.class.locale)
             if self.class.max_version_limit > 0
               old_version = version - self.class.max_version_limit
               if old_version > 0
@@ -174,33 +174,33 @@ module Globalize
           end
           
           def [](ver)
-            rec = @rec.globalize_translations.find_by_locale_and_version( I18n.locale.to_s, ver )
+            rec = @rec.globalize_translations.find_by_locale_and_version( @rec.class.locale.to_s, ver )
             rec.readonly! if rec
             rec
           end
                     
           def count
-            @rec.globalize_translations.count( :conditions => [ 'locale = ?', I18n.locale.to_s ] )
+            @rec.globalize_translations.count( :conditions => [ 'locale = ?', @rec.class.locale.to_s ] )
           end
           
           def first
-            @rec.globalize_translations.minimum( :version, :conditions => [ 'locale = ?', I18n.locale.to_s ] )
+            @rec.globalize_translations.minimum( :version, :conditions => [ 'locale = ?', @rec.class.locale.to_s ] )
           end
           
           def second
-            rec = @rec.globalize_translations.first :conditions => [ 'locale = ?', I18n.locale.to_s ],
+            rec = @rec.globalize_translations.first :conditions => [ 'locale = ?', @rec.class.locale.to_s ],
               :offset => 1, :order => 'version ASC'
             rec && rec.version
           end
           
           def third
-            rec = @rec.globalize_translations.first :conditions => [ 'locale = ?', I18n.locale.to_s ],
+            rec = @rec.globalize_translations.first :conditions => [ 'locale = ?', @rec.class.locale.to_s ],
               :offset => 2, :order => 'version ASC'
             rec && rec.version
           end
           
           def last
-            @rec.globalize_translations.maximum( :version, :conditions => [ 'locale = ?', I18n.locale.to_s ] )
+            @rec.globalize_translations.maximum( :version, :conditions => [ 'locale = ?', @rec.class.locale.to_s ] )
           end
           
           def empty?

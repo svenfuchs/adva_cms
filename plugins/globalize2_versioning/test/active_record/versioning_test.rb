@@ -24,7 +24,8 @@ class VersioningTest < ActiveSupport::TestCase
   def setup
     I18n.fallbacks.clear 
     reset_db! File.expand_path(File.join(File.dirname(__FILE__), '..', 'data', 'schema.rb'))
-    I18n.locale = :en
+    ActiveRecord::Base.locale = :de
+    ActiveRecord::Base.locale = :en
   end
   
   test 'versioned? method' do
@@ -63,7 +64,7 @@ class VersioningTest < ActiveSupport::TestCase
   end
   
   test 'current version with locale switching' do
-    I18n.locale = :de
+    ActiveRecord::Base.locale = :de
     
     section = Section.create :content => 'foo (de)'
     assert_equal 1, section.globalize_translations.size
@@ -74,7 +75,7 @@ class VersioningTest < ActiveSupport::TestCase
     assert_equal 2, section.version
     assert_equal 'bar (de)', section.content
 
-    I18n.locale = :en
+    ActiveRecord::Base.locale = :en
     section.update_attribute :content, 'foo'
     assert_equal 1, section.version
     section.update_attribute :content, 'bar'
@@ -84,7 +85,7 @@ class VersioningTest < ActiveSupport::TestCase
     section.reload
     assert_equal 3, section.version
 
-    I18n.locale = :de    
+    ActiveRecord::Base.locale = :de    
     assert_equal 2, section.version
     assert_equal 'bar (de)', section.content
   end
@@ -93,14 +94,14 @@ class VersioningTest < ActiveSupport::TestCase
     I18n.fallbacks.map :de => [ :en ]
     section = Section.create :content => 'foo'
     
-    I18n.locale = :de
+    ActiveRecord::Base.locale = :de
     assert_equal 'foo', section.content
     assert_nil section.version
     
-    I18n.locale = :en
+    ActiveRecord::Base.locale = :en
     section.update_attribute :content, 'bar'
     
-    I18n.locale = :de
+    ActiveRecord::Base.locale = :de
     assert_equal 'bar', section.content
     
     # no translation record for :de, so version is nil
@@ -112,9 +113,9 @@ class VersioningTest < ActiveSupport::TestCase
     assert_nil section.version
 
     # load from db, then switch locale
-    I18n.locale = :en
+    ActiveRecord::Base.locale = :en
     section = Section.first
-    I18n.locale = :de
+    ActiveRecord::Base.locale = :de
     assert_equal 'bar', section.content
     assert_nil section.version
   end
@@ -123,14 +124,14 @@ class VersioningTest < ActiveSupport::TestCase
     I18n.fallbacks.map :de => [ :en ]
     section = Section.create :content => 'foo'
     
-    I18n.locale = :de
+    ActiveRecord::Base.locale = :de
     assert_equal 'foo', section.content
     assert_nil section.version
     
-    I18n.locale = :en
+    ActiveRecord::Base.locale = :en
     section.update_attribute :content, 'bar'
     
-    I18n.locale = :de
+    ActiveRecord::Base.locale = :de
     section.update_attribute :content, 'bar (de)'
     assert_equal 1, section.version
 
@@ -149,14 +150,14 @@ class VersioningTest < ActiveSupport::TestCase
     assert_equal 2, section.version
 
     # load from db, then switch locale
-    I18n.locale = :en
+    ActiveRecord::Base.locale = :en
     section = Section.first
-    I18n.locale = :de
+    ActiveRecord::Base.locale = :de
     assert_equal 'baz (de)', section.content
     assert_equal 2, section.version
     
     # continue versioning in :en
-    I18n.locale = :en
+    ActiveRecord::Base.locale = :en
     assert_equal 'bar', section.content
     assert_equal 2, section.version
     section.update_attribute :content, 'baz'
@@ -220,6 +221,14 @@ class VersioningTest < ActiveSupport::TestCase
     assert_equal 'bar', section.content
     assert_equal 2, section.version
   end
+
+  test 'revert_to same version (version is string)' do
+    section = Section.create :content => 'foo'
+    section.update_attribute :content, 'bar'    
+    assert section.revert_to('2')
+    assert_equal 'bar', section.content
+    assert_equal 2, section.version
+  end
   
   test 'revert_to with callbacks' do
     I18n.fallbacks.map :de => [ :en ]
@@ -231,20 +240,20 @@ class VersioningTest < ActiveSupport::TestCase
     assert_equal 3, section.version
 
     # :de
-    I18n.locale = :de
+    ActiveRecord::Base.locale = :de
     section.update_attribute :content, 'baz (de)'
     section.update_attribute :content, 'qux (de)'
     assert_equal 2, section.version
     
-    I18n.locale = :en
+    ActiveRecord::Base.locale = :en
     section.revert_to 1
     assert_equal 'foo', section.content
     assert_equal 1, section.version
 
-    I18n.locale = :de
+    ActiveRecord::Base.locale = :de
     assert_equal 2, section.version
     assert_equal 'qux (de)', section.content
-    I18n.locale = :en
+    ActiveRecord::Base.locale = :en
     
     section.revert_to 2
     assert_equal 'bar', section.content
@@ -255,7 +264,7 @@ class VersioningTest < ActiveSupport::TestCase
     assert_equal 'bar', section.content
     assert_equal 2, section.version    
 
-    I18n.locale = :de
+    ActiveRecord::Base.locale = :de
     assert_equal 2, section.version
     assert_equal 'qux (de)', section.content
     
@@ -263,19 +272,19 @@ class VersioningTest < ActiveSupport::TestCase
     assert_equal 1, section.version
     assert_equal 'baz (de)', section.content
 
-    I18n.locale = :en
+    ActiveRecord::Base.locale = :en
     assert_equal 'bar', section.content
     assert_equal 2, section.version    
-    I18n.locale = :de
+    ActiveRecord::Base.locale = :de
 
     section = Section.first
     assert_equal 1, section.version
     assert_equal 'baz (de)', section.content
 
-    I18n.locale = :en
+    ActiveRecord::Base.locale = :en
     assert_equal 'bar', section.content
     assert_equal 2, section.version    
-    I18n.locale = :de      
+    ActiveRecord::Base.locale = :de      
   end
   
   test 'revert_to and then saving another version' do
@@ -319,13 +328,13 @@ class VersioningTest < ActiveSupport::TestCase
     section.update_attribute :content, 'foo3'
     section.update_attribute :content, 'foo4'
     section.update_attribute :content, 'foo5'
-    assert_not_nil section.globalize_translations.find_by_locale_and_version(I18n.locale.to_s, 1)
+    assert_not_nil section.globalize_translations.find_by_locale_and_version(ActiveRecord::Base.locale.to_s, 1)
     section.update_attribute :content, 'foo6'
-    assert_nil section.globalize_translations.find_by_locale_and_version(I18n.locale.to_s, 1)
-    assert_not_nil section.globalize_translations.find_by_locale_and_version(I18n.locale.to_s, 2)
+    assert_nil section.globalize_translations.find_by_locale_and_version(ActiveRecord::Base.locale.to_s, 1)
+    assert_not_nil section.globalize_translations.find_by_locale_and_version(ActiveRecord::Base.locale.to_s, 2)
     section.update_attribute :content, 'foo7'
-    assert_nil section.globalize_translations.find_by_locale_and_version(I18n.locale.to_s, 2)
-    assert_not_nil section.globalize_translations.find_by_locale_and_version(I18n.locale.to_s, 3)
+    assert_nil section.globalize_translations.find_by_locale_and_version(ActiveRecord::Base.locale.to_s, 2)
+    assert_not_nil section.globalize_translations.find_by_locale_and_version(ActiveRecord::Base.locale.to_s, 3)
   end
   
   test 'empty versions' do
@@ -473,4 +482,12 @@ class VersioningTest < ActiveSupport::TestCase
     section.revert_to 1
     assert section.update_attributes( {} )    
   end
+
+  test 'update_attributes failure' do
+    section = Section.create :content => 'foo'
+    assert !section.update_attributes( { :content => '' } )    
+    assert_nil section.reload.attributes['content']
+    assert_equal 'foo', section.content
+  end
+
 end

@@ -150,9 +150,4 @@ class StiVersioningTest < ActiveSupport::TestCase
     assert_not_nil wiki.globalize_translations.find_by_locale_and_version(I18n.locale.to_s, 3)
   end  
   
-  test 'validation' do
-    child = Wiki.new :article => 'foo'
-    child.article = nil
-    assert !child.valid?    
-  end  
 end
