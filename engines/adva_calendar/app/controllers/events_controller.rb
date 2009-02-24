@@ -11,20 +11,13 @@ class EventsController < BaseController
   acts_as_commentable
 
   # TODO move :comments and @commentable to acts_as_commentable
-  caches_page_with_references :index, :show, :comments, 
+  caches_page_with_references :index, :show, :comments,
     :track => ['@event', '@events', '@category', '@commentable', { '@site' => :tag_counts, '@section' => :tag_counts }]
 
   def index
-    scope = @section.events.published
-    scope = %w(elapsed recently_added).include?(params[:scope]) ? scope.send(params[:scope]) : scope.upcoming(current_timespan)
-
-    @events = if %w(title body).include?(params[:filter])
-      scope.search(params[:query], params[:filter])
-    elsif params[:filter] == 'tags' and not params[:query].blank?
-      scope.find_tagged_with(params[:query])
-    else
-      @category ? scope.by_categories(@category.id) : scope
-    end.paginate(:page => params[:page])
+    # FIXME: it's not too nice to pass in the section but somehow it doesn't work via the association proxy
+    search_params = params.slice(:scope, :filter, :category_id, :query).merge(:timespan => current_timespan, :section => @section)
+    @events = CalendarEvent.find_published_by_params(search_params).paginate(:page => params[:page])
 
     respond_to do |format|
       format.js do
