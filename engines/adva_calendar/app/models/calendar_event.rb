@@ -48,8 +48,8 @@ class CalendarEvent < ActiveRecord::Base
     start_date ||= t
     end_date ||= start_date.end_of_day + 1.month
     {
-      :conditions => ['(start_date BETWEEN ? AND ?) 
-          OR (start_date <= ? AND end_date >= ?)', 
+      :conditions => ['(start_date BETWEEN ? AND ?)
+          OR (start_date <= ? AND end_date >= ?)',
           start_date, end_date, start_date, start_date],
       :order => 'start_date DESC'
     }
@@ -63,7 +63,7 @@ class CalendarEvent < ActiveRecord::Base
     }
   }
 
-  # FIXME ... published_at <= Time.zone.now - i.e. events can theoretically be 
+  # FIXME ... published_at <= Time.zone.now - i.e. events can theoretically be
   # published in the future
   named_scope :published, :conditions => 'published_at IS NOT NULL'
 
@@ -77,6 +77,21 @@ class CalendarEvent < ActiveRecord::Base
   cattr_accessor :require_end_date
   @@require_end_date = true
 
+  class << self
+    def find_published_by_params(params)
+      scope = params[:section].events.published
+      scope = %w(elapsed recently_added).include?(params[:scope]) ? scope.send(params[:scope]) : scope.upcoming(params[:timespan])
+
+      events = if %w(title body).include?(params[:filter])
+        scope.search(params[:query], params[:filter])
+      elsif params[:filter] == 'tags' and not params[:query].blank?
+        scope.find_tagged_with(params[:query])
+      else
+        params[:category_id] ? scope.by_categories(params[:category_id]) : scope
+      end
+    end
+  end
+
   def require_end_date?
     @@require_end_date.present?
   end
@@ -88,7 +103,7 @@ class CalendarEvent < ActiveRecord::Base
   def published?
     !published_at.nil? and published_at <= Time.zone.now
   end
-  
+
   def just_published?
     published? and published_at_changed?
   end
