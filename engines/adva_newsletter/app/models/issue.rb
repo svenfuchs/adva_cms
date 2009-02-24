@@ -4,7 +4,7 @@ class Issue < BaseIssue
   belongs_to :newsletter, :counter_cache => true
   has_one :cronjob, :as => :cronable
 
-  attr_accessible :title, :body, :filter, :draft, :deliver_at, :tracking_source, :track, :tracking_campaign
+  attr_accessible :title, :body, :filter, :draft, :deliver_at
   validates_presence_of :title, :body, :newsletter_id
 
   named_scope :all_included, :include => :newsletter
@@ -12,7 +12,8 @@ class Issue < BaseIssue
   filtered_column :body
   filters_attributes :except => [:body, :body_html]
 
-### Public api
+  # public api
+
   def deliver(options = {})
     options.assert_valid_keys(:later_at,:to)
 
@@ -30,25 +31,23 @@ class Issue < BaseIssue
     return false unless queued?
     published_state!
   end
-  
+
   def editable?
     !new_record? && (draft? || published?)
   end
 
-### attributes
+  # attributes
+
   def email
     newsletter.default_email
   end
-  
+
   def email_with_name
     newsletter.email_with_name
   end
 
-  def body_html
-    has_tracking_enabled? ? track_links(attributes["body_html"]) : attributes["body_html"]
-  end
+  # state management
 
-### State management
   def draft_state!
     return nil unless published?
     self.state = "draft"
@@ -63,7 +62,7 @@ class Issue < BaseIssue
       draft_state!
     end
   end
-  
+
   def published_state!
     return nil unless (draft? || queued?)
     if queued?
@@ -89,7 +88,8 @@ class Issue < BaseIssue
     save
   end
 
-### State status
+  # state status
+
   def draft?
     state == "draft"
   end
@@ -101,7 +101,7 @@ class Issue < BaseIssue
   def published?
     ["hold", "published"].include?(state)
   end
-  
+
   def queued?
     state == "queued"
   end
@@ -109,7 +109,7 @@ class Issue < BaseIssue
   def delivered?
     state == "delivered"
   end
-  
+
   def state_time
     case state
     when "draft"
@@ -122,13 +122,9 @@ class Issue < BaseIssue
       delivered_at
     end
   end
-  
-### Tracking
-  def has_tracking_enabled?
-    track? && !(newsletter.site.google_analytics_tracking_code.blank? || tracking_campaign.blank? || tracking_source.blank?)
-  end
 
-### Delivery
+  # delivery
+
   def deliver_all(datetime = nil)
     return nil unless published?
     if datetime.nil?
@@ -171,16 +167,5 @@ class Issue < BaseIssue
       Newsletter.update_counters self.newsletter_id, :issues_count => -1
     end
     return self
-  end
-
-private
-  def track_links(content)
-    content.gsub(/<a(.*)href="#{Regexp.escape("http://#{newsletter.site.host}")}(.*)"(.*)>/) do |s|
-      m = [$1, $2, $3] # why do I need this?
-      returning %(<a#{m[0]}href="http://#{newsletter.site.host}) do |s|
-        s << ("#{m[1]}#{m[1].include?("?") ? "&" : "?"}utm_medium=newsletter&utm_campaign=#{URI.escape(tracking_campaign)}&utm_source=#{URI.escape(tracking_source)}") if m[1]
-        s << %("#{m[2]}>)
-      end
-    end
   end
 end

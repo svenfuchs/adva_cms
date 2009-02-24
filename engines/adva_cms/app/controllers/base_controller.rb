@@ -18,7 +18,7 @@ class BaseController < ApplicationController
   #                          :force_template_types => ['html.serb', 'liquid']
   #                          :force_template_types => lambda {|c| ['html.serb', 'liquid'] unless c.class.name =~ /^Admin::/ }
 
-  content_for :header, :only => { :format => :html } do
+  content_for :header, :menu, :only => { :format => :html } do
     Menu.instance(:'default.sections').render(self)
   end
 

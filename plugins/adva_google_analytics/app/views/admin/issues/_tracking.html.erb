@@ -1,4 +1,3 @@
-<%# too hackish? %>
 <h3><%= t(:'adva.titles.tracking') %></h3>
 
 <% if @site.has_tracking_enabled? -%>
@@ -6,19 +5,19 @@
   <% fields_for :issue do |f| -%>
     <p>
       <%= f.check_box :track, :onclick => "$('tracking_options').toggle();" %>
-      <%= f.label :track, t(:'adva.tracking.enable_tracking'), :style => "display:inline;" %>
+      <%= f.label :track, t(:'adva.tracking.enable_tracking'), :class => 'inline light' %>
     </p>
     <div id="tracking_options"<%= 'style="display:none;"' unless @issue.has_tracking_enabled? %>>
-      <span class="hint"><%= t(:'adva.tracking.hints.glossary', :link => link_to(t(:'adva.tracking.hints.glossary_name'), "http://www.google.com/support/googleanalytics/bin/topic.py?topic=11096&hl=#{I18n.locale}")) %></span>
       <%= f.text_field :tracking_campaign, :label => :'adva.tracking.tracking_campaign' %>
       <%= f.text_field :tracking_source, :label => :'adva.tracking.tracking_source' %>
+      <span class="hint"><%= t(:'adva.tracking.hints.glossary', :link => link_to(t(:'adva.tracking.hints.glossary_name'), "http://www.google.com/support/googleanalytics/bin/topic.py?topic=11096&hl=#{I18n.locale}")) %></span>
     </div>
   <% end -%>
 
   <script type="text/javascript">
+		// FIXME move to google_analytics.js
 	  toggleTrackingOptions = function(event) {
 	    checkbox = event.element();
-
 	    // pre-fill values if checkbox is checked
 	    if(checkbox.checked) {
 	      if(!$F('issue_tracking_campaign'))  $('issue_tracking_campaign').value = decodeURI('<%= @newsletter.title %>');

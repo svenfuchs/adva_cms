@@ -13,12 +13,12 @@ class Admin::BaseController < ApplicationController
 
   attr_accessor :site
 
-  content_for :header, :only => { :format => :html } do
+  content_for :header, :menus, :only => { :format => :html } do
     render(:partial => 'admin/shared/utility') +
     render(:partial => 'admin/shared/navigation')
   end
   
-  content_for :sidebar, :only => { :format => :html } do 
+  content_for :sidebar, :section_tree, :only => { :format => :html } do 
     render :partial => 'admin/shared/section_tree' if @site
   end
 

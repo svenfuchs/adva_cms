@@ -2,7 +2,6 @@
   <%= render :partial => "admin/shared/sidebar_manage" %>
   <%= render :partial => "sidebar_actions" %>
   <%= render :partial => "optional_settings" %>
-  <%= render :partial => "tracking" %>
 <% end %>
 
 <% split_form_for :issue, @issue, :url => admin_issues_path, :html => {:multipart => true, :id => "content_form"} do |f| %>

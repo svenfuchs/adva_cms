@@ -14,7 +14,7 @@ end
 module ExtensibleFormsBuilderTests
   class RailsExtTest < ActionView::TestCase
     tests ActionView::Helpers::FormHelper
-
+    
     def setup
       super
       @article = Article.new :title => 'article title'
@@ -53,11 +53,15 @@ module ExtensibleFormsBuilderTests
   class CoreTest < ActionView::TestCase
     tests ActionView::Helpers::FormHelper
 
+    attr_reader :controller
+    attr_reader :assigns
+
     def setup
       super
       @article = Article.new :title => 'article title'
       @controller = Class.new { def url_for(options); 'url' end }.new
       @builder = TestFormBuilder.new(nil, nil, self, {}, nil)
+      @assigns = {}
       TestFormBuilder.reset!
     end
 

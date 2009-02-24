@@ -33,15 +33,6 @@
       </div>
       <%= yield :footer or render :partial => 'shared/footer' %>
     </div>
-    <% if @site.has_tracking_enabled? -%>
-    <script type="text/javascript">
-    var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-    document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-    </script>
-    <script type="text/javascript">
-    var pageTracker = _gat._getTracker("<%= @site.google_analytics_tracking_code %>");
-    pageTracker._trackPageview();
-    </script>
-    <% end -%>
+		<%= yield :foot %>
   </body>
 </html>

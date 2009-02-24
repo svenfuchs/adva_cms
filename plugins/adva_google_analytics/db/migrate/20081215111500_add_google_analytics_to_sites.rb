@@ -1,4 +1,4 @@
-class AddGoogleAnalyticsTrackingCodeToSites < ActiveRecord::Migration
+class AddGoogleAnalyticsToSites < ActiveRecord::Migration
   def self.up
     add_column :sites, :google_analytics_tracking_code, :string
   end

@@ -8,7 +8,7 @@ module ActionView
 
         options = args.last.is_a?(Hash) ? args.last : {}
         options[:builder] ||= pick_form_builder(name)
-
+        
         fields_for_without_resource_form_builders(name, *args, &block)
       end
       alias_method_chain :fields_for, :resource_form_builders
@@ -122,14 +122,14 @@ class ExtensibleFormBuilder < ActionView::Helpers::FormBuilder
     }
   end
 
-  def buttons(name = :buttons, &block)
-    with_callbacks(name) do
-      @template.buttons(&block)
-    end
+  def buttons(name = :submit_buttons, &block)
+    @template.concat with_callbacks(name) {
+      @template.capture { @template.buttons(&block) }
+    }
   end
 
   def render(*args)
-    @template.controller.send(:render, *args)
+    @template.send(:render, *args)
   end
 
   protected
@@ -158,6 +158,12 @@ class ExtensibleFormBuilder < ActionView::Helpers::FormBuilder
       @template.content_tag(:span, hint, :class => 'hint') + tag
     end
 
+    def add_default_class_names(options, type)
+      options[:class] = (Array(options[:class]) + self.class.default_class_names(type)).join(' ')
+      options.delete(:class) if options[:class].blank?
+      options
+    end
+
     def with_callbacks(method, &block)
       result = ''
       result += run_callbacks(:before, method) if method
@@ -170,9 +176,12 @@ class ExtensibleFormBuilder < ActionView::Helpers::FormBuilder
       if callbacks = callbacks_for(stage, method.to_sym)
         callbacks.inject('') do |result, callback|
           result + case callback
-            when Proc; callback.call(self) # instance_eval(&callback)
-            else       callback
-          end
+            when Proc
+              assign_ivars!
+              instance_eval(&callback)
+            else
+              callback
+          end.to_s
         end
       end || ''
     end
@@ -182,11 +191,14 @@ class ExtensibleFormBuilder < ActionView::Helpers::FormBuilder
       self.callbacks[stage][object_name] and
       self.callbacks[stage][object_name][method.to_sym]
     end
-
-    def add_default_class_names(options, type)
-      options[:class] = (Array(options[:class]) + self.class.default_class_names(type)).join(' ')
-      options.delete(:class) if options[:class].blank?
-      options
+    
+    def assign_ivars!
+      unless @ivars_assigned
+        @template.assigns.each { |key, value| instance_variable_set("@#{key}", value) }
+        vars = @template.controller.instance_variable_names
+        vars.each { |name| instance_variable_set(name, @template.controller.instance_variable_get(name)) }
+        @ivars_assigned = true
+      end
     end
 
     # yep, we gotta do this crap because there doesn't seem to be a sane way

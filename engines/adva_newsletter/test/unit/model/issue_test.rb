@@ -296,6 +296,7 @@ class IssueTest < ActiveSupport::TestCase
     @issue.cancel_delivery.should == false
   end
 
+  # FIXME move to google_analytics plugin
   test "#has_tracking_enabled? should return true when Google Analytics tracking code, campaign name and source name are set" do
     @issue.should have_tracking_enabled
   end
