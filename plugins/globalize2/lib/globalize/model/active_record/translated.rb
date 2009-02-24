@@ -20,6 +20,7 @@ module Globalize
             # Only set up once per class
             unless included_modules.include? InstanceMethods
               class_inheritable_accessor :globalize_options, :globalize_proxy
+              class_inheritable_writer :locale
               include InstanceMethods
               extend  ClassMethods
               alias_method_chain :reload, :globalize
@@ -63,6 +64,10 @@ module Globalize
             end
           end
           
+          def locale
+            read_inheritable_attribute(:locale) || I18n.locale          
+          end
+          
           def create_translation_table!(fields)
             translated_fields = self.globalize_options[:translated_attributes]
             translated_fields.each do |f|
@@ -102,13 +107,13 @@ module Globalize
         module InstanceMethods
           def reload_with_globalize
             globalize.clear
-
+            
             # clear all globalized attributes
             # TODO what's the best way to handle this?
             self.class.globalize_options[:translated_attributes].each do |attr|
               @attributes.delete attr.to_s
             end
-
+            
             reload_without_globalize
           end
           
