@@ -188,7 +188,6 @@ class AdminArticlesControllerTest < ActionController::TestCase
       has_tag '#content_locale option[value="en"][selected="selected"]'
       has_tag %{input[name="cl"][value="en"]}
 
-
       has_form_putting_to admin_article_path do
         shows :form
         # assert that the taglist field works when taglist contains double quotes
