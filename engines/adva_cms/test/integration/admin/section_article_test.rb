@@ -25,10 +25,37 @@ module IntegrationTests
       login_as_admin
       visit_admin_articles_index_page
       create_a_new_de_article
-      assert_equal 'de', @controller.instance_variable_get(:@content_locale)
+      assert_equal :de, Article.locale
       revise_the_de_article
       preview_de_article
       delete_article
+    end
+    
+    test "editing a German article in English interface" do
+      login_as_admin
+      visit_admin_articles_index_page
+      click_link 'a section article'
+      assert_select 'input#article_title[value="a section article"]'
+      assert_select '#article_body', 'a section article body'
+      visit '/admin/sites/1/sections/1/articles/1/edit?cl=de'
+      assert_response :success 
+      assert_equal :de, Article.locale
+      assert_select 'input#article_title[value="a section article"]'
+      assert_select '#article_body', 'a section article body'
+      fill_in 'article[body]',  :with => 'a section article body in de'
+      click_button 'Save'
+      assert_equal 'a section article body in de', Article.find(1).body
+      assert_equal 'de', @controller.params[:cl]
+      assert_response :success
+      assert_equal :de, Article.locale
+      assert_select 'input#article_title[value="a section article"]'
+
+#     Something weird going on here -- assert_select has something different than @response.body
+#      puts @response.body
+#      assert_select('form fieldset:first-of-type') do |f|
+#        assert_select('textarea#article_body', 'a section article body in de', f)
+#      end
+#      assert_select @response.body, 'textarea#article_body', 'a section article body in de'
     end
     
     def visit_admin_articles_index_page
