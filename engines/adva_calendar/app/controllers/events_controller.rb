@@ -27,12 +27,13 @@ class EventsController < BaseController
     end.paginate(:page => params[:page])
 
     respond_to do |format|
-      format.js { render :update do |page|
-          page.replace  'events', :partial => 'events'
-          page.replace 'calendar', :partial => 'calendar'
-          page << 'AjaxfiedLaterDude.attachEvents();'
+      format.js do
+        render :update do |page|
+          page.select('.calendar_cell .calendar').each do |calendar|
+            page.replace calendar.getAttribute('id'), :partial => 'calendar', :locals => { :calendar_section => @section }
+          end
         end
-      }
+      end
       format.html
       format.ics
     end

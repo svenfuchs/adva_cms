@@ -1,15 +1,6 @@
-var AjaxfiedLaterDude = {
-	loadCalendarPartial: function(event) {
-		new Ajax.Request(event.target.href + '.js', {
-			method: 'get' });
-		event.preventDefault();
-	},
-	attachEvents: function() {
-		Event.addBehavior({
-			'.calendar a.nav':   function() { Event.observe(this, 'click', AjaxfiedLaterDude.loadCalendarPartial.bind(this)); },
-			'.calendar a.nav':   function() { Event.observe(this, 'click', AjaxfiedLaterDude.loadCalendarPartial.bind(this)); }
-		});		
+Event.onReady(function() {
+	// updates .calendar and .events with current calendar sheet and events list
+	if ($$('.calendar_cell').length != 0) {
+		new Ajax.Request($$('.calendar a')[0].href.replace(/([\d\/]*)?\.html/, '.js'), { method: 'get' });
 	}
-}
-
-AjaxfiedLaterDude.attachEvents();
+});
