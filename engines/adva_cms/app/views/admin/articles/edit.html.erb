@@ -1,6 +1,6 @@
 <h2><%= t( :'adva.articles.titles.edit', :content_locale => Article.locale ) %></h2>
 
-<p><%= t( :'adva.articles.locales.translated', :locales => translated_locales(@article, :edit) ) %></p>
+<p id="available_translations"><%= t( :'adva.articles.locales.translated', :locales => translated_locales(@article, :edit) ) %></p>
 <p>
   <%= label_tag :content_locale, 'Locale for this post:' %>
   <select id="content_locale" name="cl"> 

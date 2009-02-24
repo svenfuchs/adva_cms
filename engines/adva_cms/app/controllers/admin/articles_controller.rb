@@ -48,7 +48,7 @@ class Admin::ArticlesController < Admin::BaseController
     if @article.save
       trigger_events @article
       flash[:notice] = t(:'adva.articles.flash.create.success')
-      redirect_to edit_admin_article_path(:id => @article.id, :cl => Article.locale)
+      redirect_to edit_admin_article_path(:id => @article.id, :cl => content_locale)
     else
       set_categories
       flash.now[:error] = t(:'adva.articles.flash.create.failure')
@@ -66,11 +66,11 @@ class Admin::ArticlesController < Admin::BaseController
     if save_with_revision? ? @article.save : @article.save_without_revision
       trigger_events @article
       flash[:notice] = t(:'adva.articles.flash.update.success')
-      redirect_to edit_admin_article_path( :cl => Article.locale )
+      redirect_to edit_admin_article_path( :cl => content_locale )
     else
       set_categories
       flash.now[:error] = t(:'adva.articles.flash.update.failure')
-      render :action => 'edit', :cl => Article.locale
+      render :action => 'edit', :cl => content_locale
     end
   end
   
@@ -80,10 +80,10 @@ class Admin::ArticlesController < Admin::BaseController
     if @article.version != version and @article.revert_to(version)
       trigger_event @article, :rolledback
       flash[:notice] = t(:'adva.articles.flash.rollback.success', :version => version)
-      redirect_to edit_admin_article_path( :cl => Article.locale )
+      redirect_to edit_admin_article_path( :cl => content_locale )
     else
       flash[:error] = t(:'adva.articles.flash.rollback.failure', :version => version)
-      redirect_to edit_admin_article_path( :cl => Article.locale )
+      redirect_to edit_admin_article_path( :cl => content_locale )
     end
   end
 
@@ -122,7 +122,7 @@ class Admin::ArticlesController < Admin::BaseController
     end
 
     def set_content_locale
-      ActiveRecord::Base.locale = params[:cl].to_sym unless params[:cl].blank?
+      ActiveRecord::Base.locale = params[:cl].blank? ? nil : params[:cl].to_sym
     end
     
     def params_author
@@ -196,6 +196,10 @@ class Admin::ArticlesController < Admin::BaseController
 
     def expire_cached_pages_by_reference(record, method = nil)
       expire_pages CachedPage.find_by_reference(record, method)
+    end
+    
+    def content_locale
+      Article.locale == I18n.default_locale ? nil : Article.locale
     end
 end
 
