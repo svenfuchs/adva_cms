@@ -73,7 +73,10 @@ class CalendarEvent < ActiveRecord::Base
       :order => 'start_date DESC'
     }
   }
+
   cattr_accessor :require_end_date
+  @@require_end_date = true
+
   def require_end_date?
     @@require_end_date.present?
   end
