@@ -4,7 +4,7 @@ class Admin::PhotosController < Admin::BaseController
   
   before_filter :set_section
   before_filter :set_sets,            :only => [:new, :edit, :create, :update]
-  before_filter :set_photo,           :only => [:destroy, :update, :edit]
+  before_filter :set_photo,           :only => [:destroy, :edit, :update]
   before_filter :params_author,       :only => [:create, :update]
   before_filter :params_draft,        :only => [:create, :update]
   before_filter :params_published_at, :only => [:create, :update]
@@ -43,6 +43,7 @@ class Admin::PhotosController < Admin::BaseController
       flash[:notice] = "Photo was uploaded successfully."
       redirect_to edit_admin_photo_path(@site, @section, @photo)
     else
+      set_photo
       flash[:error] = "Photo upload failed."
       render :action => 'edit'
     end
