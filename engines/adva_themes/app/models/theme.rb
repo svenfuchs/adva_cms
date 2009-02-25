@@ -97,7 +97,7 @@ class Theme < ActiveRecord::Base
           data = ''
           entry.get_input_stream { |io| data = io.read }
           data = StringIO.new(data) unless data.blank?
-          Theme::File.create!(:theme => self, :path => entry.name, :data => data) rescue next
+          Theme::File.create!(:theme => self, :base_path => entry.name, :data => data) rescue next
         end
       end
     end
