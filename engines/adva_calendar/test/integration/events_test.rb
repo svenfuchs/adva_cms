@@ -33,7 +33,7 @@ module IntegrationTests
       end
     end
     test "03 GET :index for a date" do
-      visit @calendar_path + '/events/' + Date.today.strftime('%Y/%m/%d')
+      visit @calendar_path + '/' + Date.today.strftime('%Y/%m/%d')
       assert_response :success
       assert assigns['events']
     end

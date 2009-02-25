@@ -5,10 +5,10 @@ class CalendarRoutesTest < ActionController::TestCase
 
   with_common :calendar_with_events
 
-  paths = %W( /calendars/1/events
-              /calendars/1/events/2009
-              /calendars/1/events/2009/02
-              /calendars/1/events/2009/02/02
+  paths = %W( /calendars/1
+              /calendars/1/2009
+              /calendars/1/2009/02
+              /calendars/1/2009/02/02
               /calendars/1/event/an-event
               /calendars/1/categories/jazz )
               # /calendars/1/event/2007 # hu?
@@ -29,9 +29,9 @@ class CalendarRoutesTest < ActionController::TestCase
     with_options :path_prefix => '/calendar-with-events/',
         :section_id => calendar_id, :controller => 'events', :action => 'index' do |r|
       r.it_maps :get, ""
-      r.it_maps :get, "events/2008", :year => "2008"
-      r.it_maps :get, "events/2008/11", :year => "2008", :month => "11"
-      r.it_maps :get, "events/2008/11/27", :year => "2008", :month => "11", :day => "27"
+      r.it_maps :get, "2008", :year => "2008"
+      r.it_maps :get, "2008/11", :year => "2008", :month => "11"
+      r.it_maps :get, "2008/11/27", :year => "2008", :month => "11", :day => "27"
       r.it_maps :get, "categories/jazz", :category_id => category_id
     end
 
