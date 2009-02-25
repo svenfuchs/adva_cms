@@ -10,10 +10,11 @@ module RoutingFilter
 
     def around_generate(*args, &block)
       returning yield do |result|
+        target = Array(result).first
         # append the extension to the path unless it has a known extension
-        unless result =~ %r(^/admin) or result.blank? or result == '/'
+        unless target =~ %r(^/admin) or target.blank? or target == '/'
           extensions = Mime::EXTENSION_LOOKUP.keys
-          result.replace(result.sub(/(\?|$)/, '.html\1')) unless result =~ /\.#{extensions.join('|')}(\?|$)/
+          target.replace(target.sub(/(\?|$)/, '.html\1')) unless target =~ /\.#{extensions.join('|')}(\?|$)/
         end
       end
     end
