@@ -22,7 +22,6 @@ class Content < ActiveRecord::Base
     
   acts_as_taggable
   acts_as_role_context :parent => Section
-  has_many_comments :polymorphic => true
   non_versioned_columns << 'cached_tag_list' << 'assets_count' << 'state'
   instantiates_with_sti
 
@@ -44,8 +43,6 @@ class Content < ActiveRecord::Base
 
   class_inheritable_reader :default_find_options
   write_inheritable_attribute :default_find_options, { :order => 'position, published_at' }
-  delegate :comment_filter, :to => :site
-  delegate :accept_comments?, :to => :section
 
   validates_presence_of :title, :body
   validates_uniqueness_of :permalink, :scope => :section_id
@@ -100,14 +97,6 @@ class Content < ActiveRecord::Base
     attributes.symbolize_keys!
     category_ids = attributes.delete(:category_ids)
     returning super do update_categories category_ids if category_ids end
-  end
-
-  def comments_expired_at
-    if comment_age == -1
-      9999.years.from_now
-    else
-      (published_at || Time.zone.now) + comment_age.days
-    end
   end
 
   def diff_against_version(version)

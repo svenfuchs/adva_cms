@@ -16,10 +16,7 @@ class Section < ActiveRecord::Base
   serialize :permissions
 
   has_option :articles_per_page, :default => 15
-  has_option :template, :layout
-  
   has_permalink :title, :url_attribute => :permalink, :sync_url => true, :only_when_blank => true, :scope => :site_id
-  has_many_comments
   acts_as_nested_set
   instantiates_with_sti
 
@@ -40,7 +37,6 @@ class Section < ActiveRecord::Base
     end
   end
 
-  before_validation :set_comment_age
   before_save :update_path
 
   validates_presence_of :title # :site wtf ... this breaks install_controller#index
@@ -53,8 +49,6 @@ class Section < ActiveRecord::Base
   # end
 
   # TODO validates_inclusion_of :articles_per_page, :in => 1..30, :message => "can only be between 1 and 30."
-
-  delegate :spam_engine, :to => :site
 
   class << self
     def register_type(type)
@@ -83,37 +77,7 @@ class Section < ActiveRecord::Base
     self == site.sections.root
   end
 
-  def accept_comments?
-    comment_age.to_i > -1
-  end
-  
-  # Template and layout can be specified as full template names like "sections/home"
-  # and 'layouts/simple'. Both can also use * as a wildchard for the current action
-  # name. E.g. "sections/*" will become "sections/show" when the current action is
-  # :show. The template/" and "layout/" (for layout) subdirectories can be given or
-  # omitted, thus "templates/sections/home" and "sections/home" are identical.
-  def template_options(action)
-    @template_options ||= {}
-    @template_options[action] ||= [:layout, :template].inject({}) do |options, type|
-      option = template_option(type, action)
-      options[type] = option unless option.blank?
-      options
-    end
-  end
-
   protected
-
-    def template_option(type, action)
-      return unless option = send(type)
-      option.sub!(/(\*)$/, action.to_s)
-      option.sub!(/^templates\//, '')
-      option.sub!(/^(?!layouts)/, 'layouts/') if type == :layout and !option.blank?
-      option
-    end
-
-    def set_comment_age
-      self.comment_age ||= -1
-    end
 
     def update_path
       if permalink_changed?
