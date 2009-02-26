@@ -3,7 +3,7 @@
 <p>
   <%= label_tag :content_locale, 'Locale for this post:' %>
   <select id="content_locale" name="cl"> 
-    <%= options_for_select I18n.available_locales, Article.locale.to_s %>
+    <%= options_for_select I18n.available_locales, Article.locale %>
   </select>
 </p>
 
