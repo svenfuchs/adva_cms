@@ -2,7 +2,8 @@ require File.dirname(__FILE__) + '/../../test_helper'
 
 class ThemesHelperTest < ActionView::TestCase
   include ThemeTestHelper
-  include ThemesHelper
+  # include ThemesHelper
+  include AssetTagHelper
   
   def setup
     super
