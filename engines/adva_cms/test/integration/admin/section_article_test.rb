@@ -25,7 +25,6 @@ module IntegrationTests
       login_as_admin
       visit_admin_articles_index_page
       create_a_new_de_article
-      assert_equal :de, Article.locale
       revise_the_de_article
       preview_de_article
       delete_article
@@ -40,15 +39,12 @@ module IntegrationTests
       article = Article.find_by_title 'a section article'
       visit "/admin/sites/#{@site.id}/sections/#{@section.id}/articles/#{article.id}/edit?cl=de"
       assert_response :success 
-      assert_equal :de, Article.locale
       assert_select 'input#article_title[value="a section article"]'
       assert_select '#article_body', 'a section article body'
       fill_in 'article[body]',  :with => 'a section article body in de'
       click_button 'Save'
-      assert_equal 'a section article body in de', article.body
       assert_equal 'de', @controller.params[:cl]
       assert_response :success
-      assert_equal :de, Article.locale
       assert_select 'input#article_title[value="a section article"]'
 
 #     Something weird going on here -- assert_select has something different than @response.body
