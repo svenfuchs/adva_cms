@@ -118,10 +118,6 @@ class SiteTest < ActiveSupport::TestCase
     Site.before_validation.should include(:replace_host_spaces)
   end
   
-  test 'flushs the page cache after destroy' do
-    Site.before_destroy.should include(:flush_page_cache)
-  end
-
   # VALIDATIONS 
   
   test "validates the presence of a host" do

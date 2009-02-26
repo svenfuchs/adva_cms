@@ -4,13 +4,13 @@ class CommentsHelperTest < ActionView::TestCase
   include CommentsHelper
 
   attr_accessor :request
-  
+
   def setup
     super
     @section = Section.first
     @article = @section.articles.first
     @site = @section.site
-    
+
     stub(self).protect_against_forgery?.returns false
 
     TestController.send :include, CommentsHelper
@@ -27,7 +27,7 @@ class CommentsHelperTest < ActionView::TestCase
     mock(self).preview_comments_path.returns '/path/to/comments/preview'
     link_to_remote_comment_preview.should =~ /Ajax.Updater/
   end
-  
+
   # comment_form_hidden_fields
 
   test '#comment_form_hidden_fields includes a hidden return_to field' do
@@ -67,5 +67,80 @@ class CommentsHelperTest < ActionView::TestCase
         it returns the admin_site_comment_path with the :content_id param" do
     @controller.params = { :site_id => 1, :section_id => 1, :content_id => 1 }
     @controller.admin_comments_path(@site).should have_url_params(:content_id)
+  end
+end
+
+class LinkToCommentsHelperTest < ActionView::TestCase
+  include ContentHelper
+  tests CommentsHelper
+
+  def setup
+    super
+    @section = Section.first
+    @article = @section.articles.find_by_title 'a section article'
+    @category = @section.categories.first
+    @tag = Tag.new :name => 'foo'
+
+    stub(self).content_path.returns '/path/to/content#comments'
+    stub(self).section_category_path.returns '/path/to/section/category'
+    stub(self).section_tag_path.returns '/path/to/section/tag'
+  end
+
+  # link_to_content_comments_count
+
+  test "#link_to_content_comments_count returns a link_to_content_comments" do
+    link_to_content_comments_count(@article).should have_tag('a[href=?]', '/path/to/content#comments')
+  end
+
+  test "#link_to_content_comments_count given the option :total is set
+        it returns a link_to_content_comments with the approved and total comments counts as a link text" do
+    link_to_content_comments_count(@article, :total => true).should =~ /\d{2} \(\d{2}\)/
+  end
+
+  test "#link_to_content_comments_count given the option :total is not set
+        it returns a link_to_content_comments with the total comments count as a link text" do
+    link_to_content_comments_count(@article).should =~ /\d{2}/
+  end
+
+  test "#link_to_content_comments_count given the content has no comments
+        it returns the option :alt as plain text" do
+    stub(@article).approved_comments_count.returns 0
+    link_to_content_comments_count(@article, :alt => 'no comments').should == 'no comments'
+  end
+
+  test "#link_to_content_comments_count given the content has no comments and no option :alt was passed
+        it returns 'none' as plain text" do
+    stub(@article).approved_comments_count.returns 0
+    link_to_content_comments_count(@article).should == 'none'
+  end
+
+  # link_to_content_comments
+
+  test "#link_to_content_comments given a content it returns a link to content_path" do
+    link_to_content_comments(@article).should have_tag('a[href=?]', '/path/to/content#comments', '1 Comment')
+  end
+
+  test "#link_to_content_comments given a content and a comment it returns a link to content_path + comment anchor" do
+    comment = @article.comments.first
+    anchor = dom_id(comment)
+    stub(self).content_path(@article, :anchor => anchor).returns "/path/to/content##{anchor}"
+    link_to_content_comments(@article, comment).should == %(<a href="/path/to/content##{anchor}">1 Comment</a>)
+  end
+
+  test "#link_to_content_comments given the first arg is a String it uses the String as link text" do
+    link_to_content_comments('link text', @article).should == '<a href="/path/to/content#comments">link text</a>'
+  end
+
+  test "#link_to_content_comments given the content has no approved comments and the content does not accept comments
+        it returns nil" do
+    mock(@article).approved_comments_count.returns 0
+    mock(@article).accept_comments?.returns false
+    link_to_content_comments(@article).should be_nil
+  end
+
+  # link_to_content_comment
+
+  test "#link_to_content_comment inserts the comment's commentable to the args and calls link_to_content_comments" do
+    link_to_content_comment(@article.comments.first).should == '<a href="/path/to/content#comments">1 Comment</a>'
   end
 end

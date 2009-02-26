@@ -20,6 +20,32 @@ module CommentsHelper
     CODE
   end
 
+  def link_to_content_comments_count(content, options = {:total => true})
+    total = content.comments_count
+    approved = content.approved_comments_count
+    return options[:alt] || t(:'adva.common.none') if approved == 0
+    text = if total == approved or !options[:total]
+      "#{approved.to_s.rjust(2, '0')}"
+    else
+      "#{approved.to_s.rjust(2, '0')} (#{total.to_s.rjust(2, '0')})"
+    end
+    link_to_content_comments text, content
+  end
+
+  def link_to_content_comments(*args)
+    text = args.shift if args.first.is_a? String
+    content, comment = *args
+    return unless content.approved_comments_count > 0 || content.accept_comments?
+    text ||= t(:'adva.comments.titles.comment_with_count', :count => content.approved_comments_count)
+    path = content_path content, :anchor => (comment ? dom_id(comment) : 'comments')
+    link_to text, path
+  end
+
+  def link_to_content_comment(*args)
+    args.insert(args.size - 1, args.last.commentable)
+    link_to_content_comments(*args)
+  end
+
   def link_to_remote_comment_preview
     link_to_remote I18n.t(:'adva.titles.preview'),
       :url     => preview_comments_path,

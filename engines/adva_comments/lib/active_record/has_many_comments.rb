@@ -36,7 +36,7 @@ module ActiveRecord
               find_all_by_author_id_and_author_type(author.id, author.class.name)
             end
           end
-          
+
           # FIXME why do we overwrite the class_name option here? shouldn't we 
           # use the one that was passed with the options hash?
           # FIXME can we remove the Topic dependency here? just ignore it because

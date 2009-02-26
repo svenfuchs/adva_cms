@@ -1,6 +1,6 @@
 class BaseController < ApplicationController
   class SectionRoutingError < ActionController::RoutingError; end
-  helper :base, :content, :comments, :users, :roles, :themes
+  helper :base, :content, :users, :roles
   helper_method :perma_host
 
   include ContentHelper # WTF!
@@ -14,19 +14,9 @@ class BaseController < ApplicationController
   filter_parameter_logging :password
 
   renders_in_context :section
-  acts_as_themed_controller :current_themes => lambda {|c| c.site.themes.active if c.site }
-  #                          :force_template_types => ['html.serb', 'liquid']
-  #                          :force_template_types => lambda {|c| ['html.serb', 'liquid'] unless c.class.name =~ /^Admin::/ }
 
   content_for :header, :menu, :only => { :format => :html } do
     Menu.instance(:'default.sections').render(self)
-  end
-
-  def comments
-    @comments = @commentable.approved_comments
-    respond_to do |format|
-      format.atom { render :template => 'comments/comments', :layout => false }
-    end
   end
 
   protected

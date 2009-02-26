@@ -5,5 +5,5 @@ class SiteFormBuilder < ExtensibleFormBuilder
 end
 
 ActionController::Dispatcher.to_prepare do
-  Section.has_many_comments
+  Site.has_many_comments
 end
