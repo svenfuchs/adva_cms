@@ -8,12 +8,13 @@ class Admin::ArticlesController < Admin::BaseController
   before_filter :set_section
   before_filter :set_article,           :only => [:show, :edit, :update, :destroy]
   before_filter :set_categories,        :only => [:new, :edit]
-  before_filter :set_content_locale,    :only => [:new, :edit, :create, :update]
+  around_filter :set_content_locale,    :only => [:new, :edit, :create, :update]
   before_filter :params_author,         :only => [:create, :update]
   before_filter :params_draft,          :only => [:create, :update]
   before_filter :params_published_at,   :only => [:create, :update]
   before_filter :params_category_ids,   :only => [:update]
 
+  after_filter
   cache_sweeper :article_sweeper, :category_sweeper, :tag_sweeper,
                 :only => [:create, :update, :destroy]
 
@@ -123,6 +124,8 @@ class Admin::ArticlesController < Admin::BaseController
 
     def set_content_locale
       ActiveRecord::Base.locale = params[:cl].blank? ? nil : params[:cl].to_sym
+      yield
+      ActiveRecord::Base.locale = nil
     end
     
     def params_author
