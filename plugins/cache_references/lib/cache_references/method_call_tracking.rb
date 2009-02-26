@@ -45,7 +45,7 @@ module CacheReferences
     #
     # would set up access tracking for the controller's ivar @foo, the method :bar 
     # and the method :buz on the ivar @baz.
-    class Tracker
+    class MethodCallTracker
       attr_reader :references
       
       def initialize

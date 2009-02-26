@@ -9,7 +9,7 @@ class MethodCallTrackerTest < Test::Unit::TestCase
 
   def setup
     @controller = mock('controller')
-    @tracker = MethodCallTracking::Tracker.new
+    @tracker = MethodCallTracking::MethodCallTracker.new
   end
 
   def test_resolve_trackable_resolves_ivars_and_method_names_given_as_symbols_or_strings

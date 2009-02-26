@@ -81,7 +81,7 @@ module CacheReferences
       end
 
       def setup_method_call_tracking
-        @method_call_tracker ||= MethodCallTracking::Tracker.new
+        @method_call_tracker ||= MethodCallTracking::MethodCallTracker.new
         @method_call_tracker.track(self, *method_call_trackables)
       end
       
