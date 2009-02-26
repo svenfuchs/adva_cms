@@ -355,4 +355,5 @@ class ContentTest < ActiveSupport::TestCase
     @content.reload
     @content.tag_list.should == ['foo bar']
     @content.cached_tag_list.should == '"foo bar"'
-  endend
+  end
+end
