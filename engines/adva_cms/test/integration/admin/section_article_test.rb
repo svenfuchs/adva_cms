@@ -37,14 +37,15 @@ module IntegrationTests
       click_link 'a section article'
       assert_select 'input#article_title[value="a section article"]'
       assert_select '#article_body', 'a section article body'
-      visit '/admin/sites/1/sections/1/articles/1/edit?cl=de'
+      article = Article.find_by_title 'a section article'
+      visit "/admin/sites/#{@site.id}/sections/#{@section.id}/articles/#{article.id}/edit?cl=de"
       assert_response :success 
       assert_equal :de, Article.locale
       assert_select 'input#article_title[value="a section article"]'
       assert_select '#article_body', 'a section article body'
       fill_in 'article[body]',  :with => 'a section article body in de'
       click_button 'Save'
-      assert_equal 'a section article body in de', Article.find(1).body
+      assert_equal 'a section article body in de', article.body
       assert_equal 'de', @controller.params[:cl]
       assert_response :success
       assert_equal :de, Article.locale
