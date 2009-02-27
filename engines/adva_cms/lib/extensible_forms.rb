@@ -81,7 +81,7 @@ class ExtensibleFormBuilder < ActionView::Helpers::FormBuilder
       end
   end
 
-  helpers = field_helpers + %w(select date_select datetime_select time_select time_zone_select) -
+  helpers = field_helpers + %w(select date_select datetime_select time_select time_zone_select collection_select) -
                             %w(hidden_field label fields_for apply_form_for_options!)
 
   helpers.each do |method_name|
@@ -92,7 +92,7 @@ class ExtensibleFormBuilder < ActionView::Helpers::FormBuilder
         options = args.extract_options!
         options = add_default_class_names(options, type)
 
-        label, wrap, hint = options.values_at(:label, :wrap, :hint)
+        label, wrap, hint = options.delete(:label), options.delete(:wrap), options.delete(:hint)
         name = args.first
 
         with_callbacks(name) do
