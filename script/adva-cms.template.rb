@@ -22,7 +22,7 @@ src
 patch_file 'config/environment.rb',
   "require File.join(File.dirname(__FILE__), 'boot')",
   "require File.join(File.dirname(__FILE__), '../vendor/adva/engines/adva_cms/boot')"
-  
+
 git :clone => 'git://github.com/svenfuchs/adva_cms.git vendor/adva # this might take a bit, get a coffee meanwhile :)'
 
 # rake "rails:freeze:gems"
@@ -35,4 +35,3 @@ inside 'vendor/rails' do
 end
 
 rake "assets:copy"
-rake "db:migrate:prepare"

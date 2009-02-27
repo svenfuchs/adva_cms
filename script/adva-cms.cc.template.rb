@@ -34,7 +34,6 @@ run "ln -s #{RAILS_DIR} #{TEST_DIR}/vendor/rails"
 # rake  "rails:freeze:gems"
 # run   "patch -p0 < vendor/adva/patch-2.3/rails-2.3.patch"
 
-rake "db:migrate:prepare"
 rake "db:migrate"
 rake "db:test:clone"
 rake "assets:copy"

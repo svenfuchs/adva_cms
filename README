@@ -78,8 +78,8 @@ git checkout 441e4e22352c8805a882f6a661ab3982dd7eda12    # or use master but it 
 
 ruby vendor/adva/setup.rb    # setups adva-cms
 rake assets:copy             # copies plugin assets to public/
-rake db:migrate:prepare      # copies plugin migrations to db/migrate/
-rake db:migrate              # usual migration
+rake db:migrate              # copies engine migrations to app, does usual migration and removes
+                             # engine migrations after it's done
 
 ruby script/server
 open http://localhost:3000
