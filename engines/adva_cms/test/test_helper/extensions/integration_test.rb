@@ -15,8 +15,8 @@ module ActionController
     end
   
     def renders_template(template)
-      assert_response :success
       assert_template template
+      assert_response :success
     end
 
     # Testing cookie based flash message.
