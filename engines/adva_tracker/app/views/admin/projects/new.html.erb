@@ -1,0 +1,10 @@
+<% split_form_for :project, @project, :url => admin_projects_path,
+                  :html => {:multipart => true} do |f| %>
+
+  <%= render :partial => "form", :locals => {:f => f} %>
+
+  <% f.buttons do %>
+    <%= submit_tag t(:"adva.common.save") %> <%= t(:"adva.common.connector.or") %>
+    <%= link_to t(:"adva.common.cancel"), "http://jeerum" # admin_tracker_path %>
+  <% end %>
+<% end %>

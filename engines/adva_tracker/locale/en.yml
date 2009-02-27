@@ -1,0 +1,13 @@
+en:
+  adva:
+    ticket:
+      no_tickets: There are no tickets.
+      flash:
+      button:
+      link:
+        index: Tickets
+        new: Create a new ticket
+        tickets: Tickets
+      label:
+      title:
+      confirm:
