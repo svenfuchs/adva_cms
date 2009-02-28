@@ -92,22 +92,20 @@ class Topic < ActiveRecord::Base
     collection = board ? board.topics : section.topics
     collection.find :first, :conditions => ['last_updated_at > ?', last_updated_at], :order => :last_updated_at
   end
+  
+  def initial_post
+    comments.first
+  end
 
-  # FIXME somehow remove the method_chain here. looks ugly.
-  def after_comment_update_with_cache_attributes(comment)
+  # FIXME can we extract this to an observer or similar?
+  def after_comment_update(comment)
     if comment = comment.frozen? ? comments.last : comment
       update_attributes! :last_updated_at => comment.created_at, 
                          :last_comment_id => comment.id, 
                          :last_author => comment.author
-      after_comment_update_without_cache_attributes(comment)
     else
       self.destroy
     end
-  end
-  alias_method_chain :after_comment_update, :cache_attributes
-  
-  def initial_post
-    comments.first
   end
   
   protected

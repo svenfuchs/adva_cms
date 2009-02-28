@@ -57,15 +57,7 @@ class CommentTest < ActiveSupport::TestCase
   test 'authorizes commenting before create' do
     Comment.before_create.should include(:authorize_commenting)
   end
-  
-  test 'updates the commentable after create' do
-    Comment.after_save.should include(:update_commentable)
-  end
-  
-  test 'updates the commentable after destroy' do
-    Comment.after_destroy.should include(:update_commentable)
-  end
-  
+
   # INSTANCE METHODS
   
   test '#owner returns the commentable' do
@@ -88,7 +80,7 @@ class CommentTest < ActiveSupport::TestCase
     @comment.approved = 0
     @comment.approved?.should be_false
   end
-    
+  
   # state_changes
   
   test "#state_changes returns :updated, :approved when the comment was just approved" do
@@ -126,13 +118,6 @@ class CommentTest < ActiveSupport::TestCase
     @comment.section.should == @comment.commentable.section
   end
   
-  # update_commentable
-  
-  test '#update_commentable calls #after_comment_update on the commentable' do
-    mock(@comment.commentable.target).after_comment_update(@comment)
-    @comment.send :update_commentable
-  end
-  
   # author_link
   
   test "#author_link returns a link when author_url is present" do
@@ -149,7 +134,7 @@ class CommentTest < ActiveSupport::TestCase
   
   test "raises Comment::CommentNotAllowed when commentable.accept_comments? returns false" do
     mock(@article).accept_comments?.returns(false)
-    comment = Comment.new :body => 'body', :author => User.first, :commentable => @article 
+    comment = Comment.new :body => 'body', :author => User.first, :commentable => @article
     lambda{ comment.save! }.should raise_error(Comment::CommentNotAllowed)
   end
   
@@ -170,12 +155,12 @@ class CommentSpamControlTest < ActiveSupport::TestCase
     @section = Section.first
     @article = @section.articles.first
     @comment = @article.comments.first
-    
+
     @engine = @section.spam_engine
-    @report = SpamReport.new :engine => 'name', :spaminess => 0, 
+    @report = SpamReport.new :engine => 'name', :spaminess => 0,
                              :data => {:spam => false, :spaminess => 0, :signature => 'signature'}
     @context = {:url => 'http://www.domain.org/an-article'}
-    
+
     stub(@engine).check_comment(@comment, @context).returns(@report)
   end
 
@@ -188,19 +173,19 @@ class CommentSpamControlTest < ActiveSupport::TestCase
     mock(@comment.section.spam_engine).check_comment(@comment, @context).returns @report
     @comment.check_approval @context
   end
-  
+
   test "#check_approval calculates the comment's spaminess from its spam_reports" do
     mock(@comment).calculate_spaminess.returns 999
     @comment.check_approval @context
     @comment.spaminess.should == 999
   end
-  
+
   test "#check_approval sets the comment approved if it is ham" do
     mock(@comment).ham?.returns true
     @comment.check_approval @context
     @comment.approved?.should be_true
   end
-  
+
   test "#check_approval saves the comment" do
     mock(@comment).save!
     @comment.check_approval @context

@@ -15,14 +15,6 @@ class WikipageTest < ActiveSupport::TestCase
     Wikipage.should filter_attributes(:except => [:body, :cached_tag_list])
   end
 
-  test "acts as a commentable" do
-    Wikipage.should act_as_commentable
-  end
-
-  test "has a comments counter" do
-    Wikipage.should have_counter(:comments)
-  end
-
   # validations
 
   # FIXME implement!

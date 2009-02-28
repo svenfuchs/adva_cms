@@ -18,14 +18,17 @@ module ActiveRecord
         has_counter :approved_comments,
                     :as => options[:as] || name.underscore,
                     :class_name => 'Comment',
-                    :after_create => false,
-                    :after_destroy => false
+                    :callbacks => { 
+                      :after_approve   => :increment!, 
+                      :after_unapprove => :decrement!, 
+                      :after_destroy  => :decrement! 
+                    }
 
         has_many_comments_associations(options)
 
         include InstanceMethods
       end
-        
+
       def has_many_comments_associations(options = {})
         options[:order] = 'comments.created_at, comments.id'
         options[:class_name] ||= 'Comment'
@@ -37,7 +40,7 @@ module ActiveRecord
             end
           end
 
-          # FIXME why do we overwrite the class_name option here? shouldn't we 
+          # FIXME why do we overwrite the class_name option here? shouldn't we
           # use the one that was passed with the options hash?
           # FIXME can we remove the Topic dependency here? just ignore it because
           # there's no concept of approving comments in the Forum?
@@ -53,13 +56,6 @@ module ActiveRecord
     end
 
     module InstanceMethods
-      def after_comment_update(comment)
-        comments_counter.decrement!          if comment.frozen?
-        approved_comments_counter.increment! if comment.just_approved?
-        approved_comments_counter.decrement! if comment.frozen? or comment.just_unapproved?
-        
-        owner.after_comment_update(comment)  if owner and owner.respond_to?(:after_comment_update)
-      end
     end
   end
 end

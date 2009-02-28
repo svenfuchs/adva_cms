@@ -7,6 +7,12 @@ class Comment < ActiveRecord::Base
   end
 =end
 
+  define_callbacks :after_approve, :after_unapprove
+  after_save do |comment|
+    comment.send :callback, :after_approve   if comment.just_approved?
+    comment.send :callback, :after_unapprove if comment.just_unapproved?
+  end
+
   filtered_column :body
   filters_attributes :sanitize => :body_html
 
@@ -20,8 +26,6 @@ class Comment < ActiveRecord::Base
 
   before_validation :set_owners
   before_create :authorize_commenting
-  after_save    :update_commentable
-  after_destroy :update_commentable
 
   def owner
     commentable
@@ -42,14 +46,14 @@ class Comment < ActiveRecord::Base
   def just_unapproved?
     approved_changed? and unapproved?
   end
-  
+
   def state_changes
     state_changes = if just_approved?
       [:approved]
     elsif just_unapproved?
       [:unapproved]
     end || []
-    super + state_changes 
+    super + state_changes
   end
 
   def spam_info
@@ -96,9 +100,4 @@ class Comment < ActiveRecord::Base
         self.section = commentable.section
       end
     end
-
-    def update_commentable
-      owner.after_comment_update(self) if owner && owner.respond_to?(:after_comment_update)
-    end
-
 end

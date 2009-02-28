@@ -1,5 +1,3 @@
-# require_dependency 'site'
-
 class Section < Content
 =begin
   class Jail < Safemode::Jail

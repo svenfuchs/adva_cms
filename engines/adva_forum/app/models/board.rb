@@ -3,32 +3,29 @@ class Board < ActiveRecord::Base
 
   before_validation :set_site
   after_create      :assign_topics
-  before_destroy    :unassign_topics, :decrement_counters # must happen before associations
+  before_destroy    :unassign_topics, :decrement_counters # must happen before associations, why?
                     
   belongs_to        :site
   belongs_to        :section
   belongs_to_author :last_author, :validate => false
   has_many          :topics, :foreign_key => :board_id, :dependent => :delete_all, 
                              :order => "topics.sticky desc, topics.last_updated_at desc"
-  has_many_comments :class_name => 'Post' # must happen after before_destroy
+  has_many_comments :class_name => 'Post'
   
   validates_presence_of :title
   
   delegate :topics_per_page, :comments_per_page, :to => :section
+  
+  def last?
+    owner.boards.size == 1
+  end
 
-  # FIXME somehow remove the method_chain here. looks ugly.
-  def after_comment_update_with_cache_attributes(comment)
+  # FIXME can we extract this to an observer or similar?
+  def after_comment_update(comment)
     comment = comment.frozen? ? comments.last : comment
     update_attributes! :last_updated_at => (comment ? comment.created_at : nil), 
                        :last_comment_id => (comment ? comment.id : nil), 
                        :last_author     => (comment ? comment.author : nil)
-    
-    after_comment_update_without_cache_attributes(comment)
-  end
-  alias_method_chain :after_comment_update, :cache_attributes
-  
-  def last?
-    owner.boards.size == 1
   end
   
   protected

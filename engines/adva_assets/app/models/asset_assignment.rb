@@ -1,7 +1,7 @@
 class AssetAssignment < ActiveRecord::Base
-  belongs_to :content, :counter_cache => 'assets_count'
+  belongs_to :content # FIXME :counter_cache => 'assets_count'
   belongs_to :asset
-  # acts_as_list :scope => :content_id
+
   validates_presence_of :content_id, :asset_id
   validate_on_create :check_for_dupe_content_and_asset
 

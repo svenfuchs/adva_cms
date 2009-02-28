@@ -19,10 +19,6 @@ class ArticleTest < ActiveSupport::TestCase
     Article.should act_as_commentable
   end
 
-  test "has a comments counter" do
-    Article.should have_counter(:comments)
-  end
-  
   # validations
   
   # FIXME implement!

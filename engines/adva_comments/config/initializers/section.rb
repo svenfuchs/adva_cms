@@ -21,6 +21,5 @@ ActionController::Dispatcher.to_prepare do
       def set_comment_age
         self.comment_age ||= -1
       end
-
   end
 end

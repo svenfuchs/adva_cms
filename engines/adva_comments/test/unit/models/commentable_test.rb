@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../../test_helper'
 class CommentableModelTest < ActiveSupport::TestCase
   def setup
     super
-    @commentable = Article.new
+    @commentable = Content.new
   end
 
   test "has many comments" do

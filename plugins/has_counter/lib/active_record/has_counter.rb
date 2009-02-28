@@ -9,9 +9,11 @@ module ActiveRecord
     module ActMacro
       def has_counter(*names)
         options = names.extract_options!
-        options.reverse_merge! :after_create  => :increment!,
-                               :after_destroy => :decrement!
+        callbacks = options[:callbacks] || { :after_create  => :increment!, :after_destroy => :decrement! }
 
+        class_inheritable_accessor :"update_counters"
+        self.update_counters ||= {}
+        
         names.each do |name|
           counter_name = :"#{name}_counter"
           owner_name = options[:as] || self.name.demodulize.underscore
@@ -26,9 +28,10 @@ module ActiveRecord
                                 :conditions => "name = '#{name}'",
                                 :dependent => :delete
         
+          # create the counter lazily upon first access
           class_eval <<-code, __FILE__, __LINE__
             def #{counter_name}_with_lazy_creation(force_reload = false) 
-              result = #{counter_name}_without_lazy_creation force_reload
+              result = #{counter_name}_without_lazy_creation(force_reload)
               if result.nil?
                 Counter.create!(:owner => self, :name => #{name.to_s.inspect})
                 result = #{counter_name}_without_lazy_creation true
@@ -37,26 +40,19 @@ module ActiveRecord
             end
             alias_method_chain counter_name, :lazy_creation
           code
-        
-          # Wire up the counted class so that it updates our counter
-          update = lambda{|record, event|
-            owner = record.send(owner_name) if record.respond_to?(owner_name)
-            # we do not call the counter when owner is not frozen (deleted)
-            if owner && owner.is_a?(self) && !owner.frozen? && counter = owner.send(counter_name)
-              method = options[event]
-              method = method.call(record) if Proc === method
-              counter.send method if method
-            end
-          }
-          class_name.to_s.classify.constantize.class_eval do
-            after_create do |record|
-              update.call(record, :after_create)
-            end
-            after_save do |record|
-              update.call(record, :after_save)
-            end
-            after_destroy do |record| 
-              update.call(record, :after_destroy)
+
+          # Wire up the counted class so that it updates our counter, basically
+          # an anonymous callback/observer pattern
+          target = class_name.to_s.classify.constantize
+          callbacks.keys.each do |callback|
+            target.send callback do |record|
+              owner = record.send(owner_name) if record.respond_to?(owner_name)
+              # do not update the counter when counter's owner (e.g. article) is not frozen (deleted)
+              if self === owner && !owner.frozen? && counter = owner.send(counter_name)
+                method = callbacks[callback]
+                method = method.call(record) if Proc === method
+                counter.send method if method
+              end
             end
           end
         end

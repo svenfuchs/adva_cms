@@ -1,9 +1,30 @@
+# Sections refactoring
+
+Sections are now Contents and Contents are nested sets.
+
+Introduce a new Section type Page, which basically does the same thing as the
+current Section does but adds the ability to configure a single- or 
+multi-article mode. 
+
+
+# Documents refactoring
+
+We have:
+
+Assets       - belong to a Site, can be attached to Contents, have a Paperclip file, don't have a title
+Photos       - belong to an Album, can not be attached to others, have a Paperclip file, have a title
+Documents    - belong to a ?, can be attached to anything, have a Paperclip file, have a title (name)
+Theme::Files - belong to a Theme, can not be attached to others, have a Paperclip file, don't have a title
+
+Obviously we should refactor these to use a single, or maybe two common base classes.
+
+
+------------------------------------------------------------------------------
 
 <component name="blog/recent_articles" section_id="1" count="10" />
 <component name="user/recent_users" section_id="1" count="10" />
 
 ------------------------------------------------------------------------------
-
 
 adva_cms/lib/time_hacks.rb -- i18nize or replace with localize
 adva_cms/helpers/base_helper -- date stuff

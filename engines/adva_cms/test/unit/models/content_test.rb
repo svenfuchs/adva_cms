@@ -41,6 +41,14 @@ class ContentTest < ActiveSupport::TestCase
     @content.should filter_column(:body)
   end
 
+  test "acts as a commentable" do
+    Content.should act_as_commentable
+  end
+
+  test "has a comments counter" do
+    Content.should have_counter(:comments)
+  end
+  
   # ASSOCIATIONS
 
   test "belongs to a site" do
