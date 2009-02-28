@@ -3,4 +3,5 @@
   <%= render "sidebar_actions" %>
 <% end %>
 
-<%= render "admin/projects/projects", :projects => @projects %>
+<h2><%= h(@project.title) %></h2>
+<p><%= h(@project.desc) %></p>

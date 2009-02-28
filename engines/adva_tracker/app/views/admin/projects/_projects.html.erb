@@ -1,0 +1,20 @@
+<% if projects.present? %>
+  <table class="list" cellspacing="0">
+    <thead>
+      <tr>
+        <th scope="col"><%= t(:"adva.tracker.label.project_title") %></th>
+        <th scope="col">&nbsp;</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% projects.each do |project| %>
+        <%= render project %>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <div class="empty">
+    <%= t(:"adva.tracker.message.no_projects") %>
+    <%= link_to t(:"adva.tracker.link.new_project"), new_admin_project_path(@site, @section) %>
+  </div>
+<% end %>

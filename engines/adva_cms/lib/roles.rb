@@ -139,5 +139,10 @@ Rbac.define do
               :'create document'  => :user,
               :'update document'  => :author,
               :'destroy document' => :author,
-              :'manage document'  => :author
+              :'manage document'  => :author,
+
+              :'show project'    => :moderator,
+              :'create project'  => :admin,
+              :'update project'  => :admin,
+              :'destroy project' => :admin
 end

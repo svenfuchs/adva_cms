@@ -1,13 +1,22 @@
 en:
   adva:
-    ticket:
-      no_tickets: There are no tickets.
+    tracker:
       flash:
+        project_successfully_created: Project was successfully created.
+        project_creation_failed: Project creation failed.
+        project_successfully_update: Project was successfully updated.
+        project_update_failed: Project update failed.
+        project_successfully_destroyed: Project successfully destroyed.
       button:
       link:
-        index: Tickets
-        new: Create a new ticket
-        tickets: Tickets
+        projects: Projects
+        new_ticket: Create a new ticket
+        new_project: Create a new project
+        edit_project: Edit project
       label:
-      title:
-      confirm:
+        project_title: Name
+        edit_project: Edit project
+      message:
+        no_tickets: There are no tickets.
+        no_projects: There are no projects.
+        confirm_project_destroy: Are you sure you wish to delete this project?

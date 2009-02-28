@@ -1,0 +1,22 @@
+<tr>
+  <td>
+    <%= link_to h(project.title), admin_project_path(@site, @section, project) %>
+  </td>
+  <td class="table_menu">
+    <ul>
+      <li>
+        <%= link_to t(:"adva.common.delete"),
+          admin_project_path(@site, @section, project),
+          :method => :delete, :class => :delete,
+          :title => t(:"adva.common.delete"),
+          :confirm => t(:"adva.tracker.message.confirm_project_destroy") %>
+      </li>
+      <li>
+        <%= link_to t(:"adva.common.edit"),
+          edit_admin_project_path(@site, @section, project),
+          :class => :edit,
+          :title => t(:"adva.common.edit") %>
+      </li>
+    </ul>
+  </td>
+</tr>

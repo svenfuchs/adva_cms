@@ -2,8 +2,10 @@
   <%= render "admin/shared/sidebar_manage" %>
 <% end %>
 
-<% split_form_for :project, @project, :url => admin_projects_path,
-                  :html => {:multipart => true} do |f| %>
+<h2><%= t(:'adva.tracker.label.edit_project') %></h2>
+
+<% split_form_for :project, @project, :url => admin_project_path(@site, @section, @project),
+                  :html => {:method => :put, :multipart => true} do |f| %>
 
   <%= render "form", :f => f %>
 
