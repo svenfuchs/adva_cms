@@ -15,6 +15,31 @@ class ArticleTest < ActiveSupport::TestCase
     Article.before_create.should include(:set_position)
   end
   
+  test "acts as a commentable" do
+    Article.should act_as_commentable
+  end
+
+  test "has a comments counter" do
+    Article.should have_counter(:comments)
+  end
+  
+  # validations
+  
+  # FIXME implement!
+  # test "validates presence of an author (through belongs_to_author)" do
+  #   @article.should validate_presence_of(:author)
+  # end
+  # 
+  # test "validates that the author is valid (through belongs_to_author)" do
+  #   @article.author = User.new
+  #   @article.valid?.should be_false
+  # end
+  
+  test "validates the uniqueness of the permalink per section" do
+    @article = Article.new
+    @article.should validate_uniqueness_of(:permalink, :scope => :section_id)
+  end
+
   # CLASS METHODS
   
   # find_by_permalink

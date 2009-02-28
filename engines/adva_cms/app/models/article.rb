@@ -7,10 +7,14 @@ class Article < Content
   end
 =end
 
+  default_scope :order => 'published_at desc'
+
   filters_attributes :except => [:excerpt, :excerpt_html, :body, :body_html, :cached_tag_list]
-  write_inheritable_attribute :default_find_options, { :order => 'contents.published_at desc' }
 
   before_create :set_position
+
+  validates_presence_of :title, :body
+  validates_uniqueness_of :permalink, :scope => :section_id
 
   class << self
     def find_by_permalink(*args)

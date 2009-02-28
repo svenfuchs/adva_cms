@@ -1,7 +1,4 @@
 class Site < ActiveRecord::Base
-  # FIXME move the role contexts to their engines
-  acts_as_role_context :actions => ["manage themes", "manage assets"]
-
   serialize :permissions
   serialize :spam_options
 
@@ -63,7 +60,8 @@ class Site < ActiveRecord::Base
   end
 
   def section_ids
-    self.class.connection.select_values "SELECT id FROM sections WHERE site_id = #{id}"
+    types = Section.types.map { |type| "'#{type}'" }.join(', ')
+    self.class.connection.select_values("SELECT id FROM contents WHERE type IN (#{types}) AND site_id = #{id}")
   end
 
   # def tag_counts

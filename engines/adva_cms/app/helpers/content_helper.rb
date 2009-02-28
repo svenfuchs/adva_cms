@@ -33,13 +33,13 @@ module ContentHelper
 
   def link_to_admin_object(object)
     case object
-    when Content
-      path = send :"edit_admin_#{object.class.name.downcase}_path", object.site, object.section, object
-      link_to object.title, path
     when Section
       link_to object.title, admin_section_contents_path(object)
     when Site
       link_to object.name, admin_site_path(object)
+    when Content
+      path = send :"edit_admin_#{object.class.name.downcase}_path", object.site, object.section, object
+      link_to object.title, path
     end
   end
 

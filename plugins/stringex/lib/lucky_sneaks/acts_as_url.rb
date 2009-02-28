@@ -26,15 +26,19 @@ module LuckySneaks
       # <tt>:sync_url</tt>:: If set to true, the url field will be updated when changes are made to the
       #                      attribute it is based on. Default is false.
       def acts_as_url(attribute, options = {})
-        cattr_accessor :attribute_to_urlify
-        cattr_accessor :scope_for_url
-        cattr_accessor :url_attribute # The attribute on the DB
-        cattr_accessor :only_when_blank
+        class_inheritable_accessor :attribute_to_urlify
+        class_inheritable_accessor :scope_for_url
+        class_inheritable_accessor :url_attribute # The attribute on the DB
+        class_inheritable_accessor :only_when_blank
+        
+        callback_installed = Proc.new do |callback|
+          send(:"#{callback}_callback_chain").detect { |c| c.method == :ensure_unique_url }
+        end
         
         if options[:sync_url]
-          before_validation :ensure_unique_url
+          before_validation :ensure_unique_url unless callback_installed.call(:before_validation)
         else
-          before_validation_on_create :ensure_unique_url
+          before_validation_on_create :ensure_unique_url unless callback_installed.call(:before_validation_on_create)
         end
 
         self.attribute_to_urlify = attribute
@@ -73,7 +77,9 @@ module LuckySneaks
         conditions.first << " and #{self.class.scope_for_url} = ?"
         conditions << send(self.class.scope_for_url)
       end
+
       url_owners = self.class.find(:all, :conditions => conditions)
+
       if url_owners.size > 0
         n = 1
         while url_owners.detect{|u| u.send(url_attribute) == "#{base_url}-#{n}"}

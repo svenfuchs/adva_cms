@@ -16,10 +16,6 @@ class ContentTest < ActiveSupport::TestCase
     Content.should act_as_role_context(:roles => :author)
   end
 
-  test "acts as a commentable" do
-    Content.should act_as_commentable
-  end
-
   test "acts as versioned" do
     Content.versioned_attributes.should_not be_empty
   end
@@ -43,10 +39,6 @@ class ContentTest < ActiveSupport::TestCase
   test "filters the excerpt and body" do
     @content.should filter_column(:excerpt)
     @content.should filter_column(:body)
-  end
-
-  test "has a comments counter" do
-    Content.should have_counter(:comments)
   end
 
   # ASSOCIATIONS
@@ -99,20 +91,6 @@ class ContentTest < ActiveSupport::TestCase
     @content.should validate_presence_of(:body)
   end
 
-  test "validates presence of an author (through belongs_to_author)" do
-    @content.should validate_presence_of(:author)
-  end
-
-  test "validates that the author is valid (through belongs_to_author)" do
-    @content.author = User.new
-    @content.valid?.should be_false
-  end
-
-  test "validates the uniqueness of the permalink per section" do
-    @content = Content.new
-    @content.should validate_uniqueness_of(:permalink, :scope => :section_id)
-  end
-
   # CLASS METHODS
 
   test "#find_published finds published articles" do
@@ -146,20 +124,6 @@ class ContentTest < ActiveSupport::TestCase
     delta = date.year, date.month, date.day
     @content.update_attributes! :published_at => published_at
     Content.find_in_time_delta(*delta).should_not include(@content)
-  end
-
-  test "#find_every does not apply the default_find_options (order) if :order option is given" do
-    expectation do
-      mock(Content).find_by_sql(/ORDER BY id/).returns [@content]
-      Content.find :all, :order => :id
-    end
-  end
-
-  test "#find_every applies the default_find_options (order) if :order option is not given" do
-    expectation do
-      mock(Content).find_by_sql(/ORDER BY #{Content.default_find_options[:order]}/).returns [@content]
-      Content.find :all
-    end
   end
 
   test "#find_every finds articles tagged with :tags if the option :tags is given" do

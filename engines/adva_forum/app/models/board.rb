@@ -1,5 +1,4 @@
 class Board < ActiveRecord::Base
-  acts_as_role_context :parent => Section
   has_counter :topics
 
   before_validation :set_site

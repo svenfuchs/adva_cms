@@ -4,11 +4,6 @@ class Topic < ActiveRecord::Base
   before_destroy :decrement_counter
   has_many_comments :as => :commentable, :class_name => 'Post'
 
-  acts_as_role_context :parent => Section
-  # acts_as_role_context :roles => :author, :implicit_roles => lambda{|user|
-  #   comments.by_author(user).map{|comment| Role.build :author, comment }
-  # }
-
   belongs_to :site
   belongs_to :section
   belongs_to :board

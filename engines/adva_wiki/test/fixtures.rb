@@ -8,9 +8,9 @@ Site.create!     :name => 'site with wiki',
 admin.roles << Rbac::Role.build(:admin, :context => site)
 
 wiki =
-Wiki.create!     :site => site,
-                 :title => 'a wiki',
-                 :permalink => 'a-wiki',
+Wiki.create!     :site        => site,
+                 :title       => 'a wiki',
+                 :permalink   => 'a-wiki',
                  :comment_age => 0
 
 category =

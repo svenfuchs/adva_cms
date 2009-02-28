@@ -24,7 +24,6 @@ class Photo < ActiveRecord::Base
   cattr_accessor :root_dir
   @@root_dir = "#{RAILS_ROOT}/public"
 
-  acts_as_role_context :parent => Section
   acts_as_taggable
 
   belongs_to_author
@@ -34,8 +33,7 @@ class Photo < ActiveRecord::Base
   has_many :categorizations, :as => :categorizable, :dependent => :destroy, :include => :category
 
   # Some Content black magic
-  class_inheritable_reader    :default_find_options
-  write_inheritable_attribute :default_find_options, { :order => 'published_at' }
+  default_scope :order => 'published_at desc'
 
   has_attached_file :data, :styles => { :large => "600x600>", # :medium => "300x300>",
                                         :thumb => "120x120>", :tiny => "50x50#" },
@@ -63,7 +61,6 @@ class Photo < ActiveRecord::Base
     end
 
     def find_every(options)
-      options = default_find_options.merge(options)
       if tags = options.delete(:tags)
         options = find_options_for_find_tagged_with(tags, options.update(:match_all => true))
       end

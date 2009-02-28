@@ -45,25 +45,26 @@ class SectionsRoutesTest < ActionController::TestCase
 
   describe "the url_helper section_path" do
     before :each do
-      other = @section.site.sections.create! :title => 'another section' # FIXME move to db/populate
+      # FIXME move to db/populate
+      other = @section.site.sections.create! :title => 'another section', :author => User.first
       other.move_to_left_of @section
-
+  
       url_rewriter = ActionController::UrlRewriter.new @request, :controller => 'sections', :section => @section.id
       @controller.instance_variable_set :@url, url_rewriter
       @controller.instance_variable_set :@site, @site
-
+  
       I18n.default_locale = :en
       I18n.locale = :de
     end
-
+  
     section_path = lambda { section_path(@section) }
     article_path = lambda { section_article_path(@section, 'an-article') }
-
+  
     it_rewrites section_path, :to => '/',                                :with => [:is_default_locale, :is_root_section]
     it_rewrites section_path, :to => '/a-section',                       :with => [:is_default_locale]
     it_rewrites section_path, :to => '/de',                              :with => [:is_root_section]
     it_rewrites section_path, :to => '/de/a-section'
-
+  
     it_rewrites article_path, :to => '/articles/an-article',             :with => [:is_default_locale, :is_root_section]
     it_rewrites article_path, :to => '/a-section/articles/an-article',   :with => [:is_default_locale]
     it_rewrites article_path, :to => '/de/articles/an-article',          :with => [:is_root_section]

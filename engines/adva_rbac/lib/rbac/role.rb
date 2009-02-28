@@ -76,7 +76,7 @@ module Rbac
           end
           attrs ||= {}
           valid_context = attrs[:context] && attrs[:context] != Rbac::Context.root
-          self.context = adjust_context attrs[:context] if valid_context
+          self.context = adjust_context(attrs[:context]) if valid_context
           raise "role #{self.class.name} needs a context" if require_context and !context
         end
       end

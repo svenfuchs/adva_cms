@@ -5,7 +5,7 @@ class PhotoTest < ActiveSupport::TestCase
 
   def setup
     super
-    @photo = Photo.first
+    @photo = Photo.find_by_title('a photo')
     @published_photo = Photo.find_by_title('a published photo')
   end
 
@@ -66,11 +66,11 @@ class PhotoTest < ActiveSupport::TestCase
 
   # draft?
 
-  test '#draft?, returns true when the photo has not published_at date' do
+  test '#draft?, returns true when the photo has a published_at date' do
     @photo.draft?.should be_true
   end
 
-  test '#draft?, returns false when the photo has a published_at date' do
+  test '#draft?, returns false when the photo does not have a published_at date' do
     @published_photo.draft?.should be_false
   end
 

@@ -21,7 +21,7 @@ class RolesHelperTest < ActionView::TestCase
   end
 
   test "#role_to_default_css_class returns the role's context and name if context is given" do
-    role_to_default_css_class(@moderator_role).should =~ /section-[\d]+-moderator/
+    role_to_default_css_class(@moderator_role).should =~ /content-[\d]+-moderator/
   end
   
   # role_to_css_class
@@ -43,7 +43,7 @@ class RolesHelperTest < ActionView::TestCase
   end
   
   test "#role_to_css_class returns 'section-1-moderator' for a user role" do
-    role_to_css_class(@moderator_role).should =~ /section-[\d]+-moderator/
+    role_to_css_class(@moderator_role).should =~ /content-[\d]+-moderator/
   end
   
   test "#role_to_css_class returns 'site-1-admin' for a admin role" do

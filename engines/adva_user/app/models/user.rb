@@ -22,7 +22,7 @@ class User < ActiveRecord::Base
     def by_site(object)
       site = object.is_a?(Site) ? object : object.site
       sql = "type = 'Rbac::Role::Superuser' OR
-             context_id = ? AND context_type = 'Site' OR
+             context_id = ? AND context_type = 'Content' OR
              context_id IN (?) AND context_type = 'Section'"
       find :all, :conditions => [sql, site.id, site.section_ids]
     end

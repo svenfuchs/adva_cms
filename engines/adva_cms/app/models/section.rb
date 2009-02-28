@@ -1,6 +1,6 @@
-require_dependency 'site'
+# require_dependency 'site'
 
-class Section < ActiveRecord::Base
+class Section < Content
 =begin
   class Jail < Safemode::Jail
     allow :id, :type, :categories, :tag_counts
@@ -10,14 +10,11 @@ class Section < ActiveRecord::Base
   @@types = ['Section']
   cattr_reader :types
   
-  acts_as_role_context :actions => ["create article", "update article", "delete article"],
-                       :parent => Site
-  
   serialize :permissions
 
   has_option :articles_per_page, :default => 15
   has_permalink :title, :url_attribute => :permalink, :sync_url => true, :only_when_blank => true, :scope => :site_id
-  has_many_comments
+
   acts_as_nested_set
   instantiates_with_sti
 

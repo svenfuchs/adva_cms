@@ -14,7 +14,32 @@ class WikipageTest < ActiveSupport::TestCase
   test 'does not sanitize the body and cached_tag_list attributes' do
     Wikipage.should filter_attributes(:except => [:body, :cached_tag_list])
   end
-  
+
+  test "acts as a commentable" do
+    Wikipage.should act_as_commentable
+  end
+
+  test "has a comments counter" do
+    Wikipage.should have_counter(:comments)
+  end
+
+  # validations
+
+  # FIXME implement!
+  # test "validates presence of an author (through belongs_to_author)" do
+  #   @wikipage.should validate_presence_of(:author)
+  # end
+  #
+  # test "validates that the author is valid (through belongs_to_author)" do
+  #   @wikipage.author = User.new
+  #   @wikipage.valid?.should be_false
+  # end
+
+  test "validates the uniqueness of the permalink per section" do
+    @wikipage = Wikipage.new
+    @wikipage.should validate_uniqueness_of(:permalink, :scope => :section_id)
+  end
+
   # CALLBACKS
   test 'sets its published attribute to the current time before create' do # FIXME why does it do this??
     Wikipage.before_create.should include(:set_published)
@@ -37,7 +62,7 @@ class WikipageTest < ActiveSupport::TestCase
   end
 
   # filtering
-  test "it does not allow using insecure html in article body and excerpt" do
+  test "it does not allow using insecure html in wikipage body and excerpt" do
     # @wikipage = Wikipage.new :body => 'p{position:absolute; top:50px; left:10px; width:150px; height:150px}. secure html',
     #                          :site => Site.first, :section => @wiki, :author => stub_user
     @wikipage.body = 'p{position:absolute; top:50px; left:10px; width:150px; height:150px}. the paragraph'

@@ -21,19 +21,17 @@ class Content < ActiveRecord::Base
   end
     
   translates :title, :body, :excerpt, :body_html, :excerpt_html, 
-    :versioned => [ :title, :body, :excerpt, :body_html, :excerpt_html ], 
+    :versioned  => [ :title, :body, :excerpt, :body_html, :excerpt_html ], 
     :if_changed => [ :title, :body, :excerpt ], :limit => 5
   acts_as_taggable
-  acts_as_role_context :parent => Section
-  has_many_comments :polymorphic => true
-  instantiates_with_sti
 
+  instantiates_with_sti
   has_permalink :title, :url_attribute => :permalink, :sync_url => true, :only_when_blank => true, :scope => :section_id
   filtered_column :body, :excerpt
 
   belongs_to :site
   belongs_to :section
-  belongs_to_author
+  belongs_to_author :validate => false # FIXME add validations to Article and Wikipage
 
   has_many :assets, :through => :asset_assignments
   has_many :asset_assignments # TODO :dependent => :delete_all?
@@ -43,19 +41,14 @@ class Content < ActiveRecord::Base
 
   before_validation :set_site
   # after_save :save_categories
-
-  class_inheritable_reader :default_find_options
-  write_inheritable_attribute :default_find_options, { :order => 'position, published_at' }
-
-  validates_presence_of :title, :body
-  validates_uniqueness_of :permalink, :scope => :section_id
+  
+  default_scope :order => 'position, published_at'
 
   # acts_as_indexed :fields => [:title, :body, :author]
   # before_validation { |record| record.set_default_filter! }
 
   class << self
     def find_every(options)
-      options = default_find_options.merge(options)
       if tags = options.delete(:tags)
         options = find_options_for_find_tagged_with(tags, options.update(:match_all => true))
       end

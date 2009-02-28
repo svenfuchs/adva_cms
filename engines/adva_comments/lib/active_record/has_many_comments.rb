@@ -6,7 +6,7 @@ module ActiveRecord
 
     module ActMacro
       def has_many_comments(options = {})
-        return if has_many_comments?
+        # return if has_many_comments? # would not work for Section < Content which both have_many_comments
 
         options[:as] = :commentable if options.delete(:polymorphic)
         options[:order] = 'comments.created_at'
@@ -20,7 +20,7 @@ module ActiveRecord
                     :class_name => 'Comment',
                     :after_create => false,
                     :after_destroy => false
-        
+
         has_many_comments_associations(options)
 
         include InstanceMethods

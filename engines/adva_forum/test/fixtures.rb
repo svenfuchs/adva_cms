@@ -66,6 +66,7 @@ board_topic.save!
 board_topic_reply = board_topic.reply user, :body => 'a reply'
 board_topic_reply.save!
 
+
 another_board_topic =
 Topic.post       admin, board_topic_attrs.merge(:title     => 'another board topic',
                                                 :body      => 'another board topic body',
@@ -80,23 +81,23 @@ topic_attrs = {  :site      => site_with_forums,
                  :permalink => 'a-topic' }
 
 first_topic =
-Topic.post       user, topic_attrs.merge(:section => forum_with_two_topics,
-                                         :title => 'first topic',
-                                         :body  => 'first topic body',
-                                         :permalink => 'first-topic')
+Topic.post user, topic_attrs.merge(:section => forum_with_two_topics,
+                                   :title => 'first topic',
+                                   :body  => 'first topic body',
+                                   :permalink => 'first-topic')
 first_topic.save!
 
 last_topic =
-Topic.post       user, topic_attrs.merge(:section => forum_with_two_topics,
-                                         :title => 'last topic',
-                                         :body  => 'last topic body',
-                                         :permalink => 'last-topic')
+Topic.post user, topic_attrs.merge(:section => forum_with_two_topics,
+                                   :title => 'last topic',
+                                   :body  => 'last topic body',
+                                   :permalink => 'last-topic')
 last_topic.save!
 
 topic =
-Topic.post       user, topic_attrs
+Topic.post user, topic_attrs
 topic.save!
 
 topic_reply =
-topic.reply      user, :body => 'a reply'
+topic.reply user, :body => 'a reply'
 topic_reply.save!

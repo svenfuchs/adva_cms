@@ -7,8 +7,6 @@ class Comment < ActiveRecord::Base
   end
 =end
 
-  acts_as_role_context # :parent => Content
-
   filtered_column :body
   filters_attributes :sanitize => :body_html
 
