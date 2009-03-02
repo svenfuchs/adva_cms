@@ -1,9 +1,6 @@
 class Admin::ArticlesController < Admin::BaseController
   layout "admin"
 
-  # before_filter :admin_required
-  # member_actions.push *%W(index show new destroy create)
-
   before_filter :set_section
   before_filter :set_article,           :only => [:show, :edit, :update, :destroy]
   before_filter :set_categories,        :only => [:new, :edit]

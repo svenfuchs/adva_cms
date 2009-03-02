@@ -49,6 +49,10 @@ class ContentTest < ActiveSupport::TestCase
     Content.should have_counter(:comments)
   end
   
+  test "sets the position before create" do
+    Content.before_create.should include(:set_position)
+  end
+  
   # ASSOCIATIONS
 
   test "belongs to a site" do

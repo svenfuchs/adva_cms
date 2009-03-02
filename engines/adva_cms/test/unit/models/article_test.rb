@@ -11,10 +11,6 @@ class ArticleTest < ActiveSupport::TestCase
     Article.should filter_attributes(:except => [:excerpt, :excerpt_html, :body, :body_html, :cached_tag_list])
   end
   
-  test "sets the position before create" do
-    Article.before_create.should include(:set_position)
-  end
-  
   test "has many comments" do
     Article.should have_many_comments
   end
