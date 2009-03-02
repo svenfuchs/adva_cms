@@ -40,12 +40,9 @@ class Content < ActiveRecord::Base
   has_many :categorizations, :as => :categorizable, :dependent => :destroy, :include => :category
 
   before_validation :set_site
-  # after_save :save_categories
+  before_create :set_position # FIXME can we use nested set columns instead?
   
   default_scope :order => 'position, published_at'
-
-  # acts_as_indexed :fields => [:title, :body, :author]
-  # before_validation { |record| record.set_default_filter! }
 
   class << self
     def find_every(options)
@@ -95,6 +92,38 @@ class Content < ActiveRecord::Base
     returning super do update_categories category_ids if category_ids end
   end
 
+  def has_excerpt?
+    !excerpt.blank?
+  end
+
+  def published_month
+    Time.local published_at.year, published_at.month, 1
+  end
+
+  def draft?
+    published_at.nil?
+  end
+
+  def pending?
+    !published?
+  end
+
+  def published?
+    !published_at.nil? and published_at <= Time.zone.now
+  end
+
+  def published_at?(date)
+    published? and date == [:year, :month, :day].map {|key| published_at.send(key).to_s }
+  end
+
+  def state
+    pending? ? :pending : :published
+  end
+  
+  def just_published?
+    published? and published_at_changed?
+  end
+
   def diff_against_version(version)
     # return '(orginal version)' if version == versions.earliest.version
     version = versions[version]
@@ -105,6 +134,10 @@ class Content < ActiveRecord::Base
 
     def set_site
       self.site_id = section.site_id if section
+    end
+
+    def set_position
+      self.position ||= section.articles.maximum(:position).to_i + 1 if section
     end
 
     def update_categories(category_ids)
