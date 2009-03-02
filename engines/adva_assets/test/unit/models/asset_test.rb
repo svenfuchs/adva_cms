@@ -1,7 +1,7 @@
-require File.dirname(__FILE__) + '/../../test_helper'
+require File.expand_path(File.dirname(__FILE__) + '/../../test_helper')
 
 class AssetWithPaperclipTest < ActiveSupport::TestCase
-  include AssetTestHelper
+  include AssetsTestHelper
 
   def setup
     super
@@ -29,7 +29,7 @@ class AssetWithPaperclipTest < ActiveSupport::TestCase
 end
 
 class AssetTest < ActiveSupport::TestCase
-  include AssetTestHelper
+  include AssetsTestHelper
 
   def setup
     super

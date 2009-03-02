@@ -28,7 +28,6 @@ class Photo < ActiveRecord::Base
 
   belongs_to_author
   belongs_to :section
-  has_many_comments :polymorphic => true
   has_many :sets, :source => 'category', :through => :categorizations
   has_many :categorizations, :as => :categorizable, :dependent => :destroy, :include => :category
 
@@ -45,9 +44,6 @@ class Photo < ActiveRecord::Base
   validates_presence_of :title
   validates_attachment_presence :data
   validates_attachment_size :data, :less_than => 30.megabytes
-
-  delegate :comment_filter, :to => :site
-  delegate :accept_comments?, :to => :section
 
   class << self
     def base_url

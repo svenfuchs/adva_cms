@@ -26,27 +26,23 @@ I18n.exception_handler = :missing_translations_raise_handler
 class Test::Unit::TestCase
   include RR::Adapters::TestUnit
   
-  def setup_with_test_setup
-    setup_without_test_setup
+  def setup_with_adva_cms_setup
+    setup_without_adva_cms_setup
     start_db_transaction!
     setup_page_caching!
-    setup_assets_dir!
-    setup_themes_dir!
 
     I18n.locale = nil
     I18n.default_locale = :en
   end
-  alias_method_chain :setup, :test_setup
+  alias_method_chain :setup, :adva_cms_setup
 
-  def teardown_with_test_setup
-    teardown_without_test_setup
+  def teardown_with_adva_cms_setup
+    teardown_without_adva_cms_setup
   ensure
     rollback_db_transaction!
     clear_cache_dir!
-    clear_assets_dir!
-    clear_themes_dir!
   end
-  alias_method_chain :teardown, :test_setup
+  alias_method_chain :teardown, :adva_cms_setup
   
   def stub_paperclip_post_processing!
     stub.proxy(Paperclip::Attachment).new { |attachment| stub(attachment).post_process }
@@ -65,6 +61,7 @@ require_all dir + "/../../**/test/contexts.rb",
 
 if DO_PREPARE_DATABASE
   puts 'Preparing the database ...'
+  # load "#{Rails.root}/db/schema.rb"
   require_all dir + "/fixtures.rb"
   require_all dir + "/../../**/test/fixtures.rb"
 end

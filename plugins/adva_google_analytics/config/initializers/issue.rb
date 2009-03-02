@@ -1,4 +1,4 @@
-if Rails.plugins.keys.include?(:adva_newsletter)
+if Rails.plugin?(:adva_newsletter)
   ActionController::Dispatcher.to_prepare do
     Issue.class_eval do
       attr_accessible :title, :body, :filter, :draft, :deliver_at, :tracking_source, :track, :tracking_campaign

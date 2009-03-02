@@ -6,7 +6,7 @@ class TopicsController < BaseController
   before_filter :set_posts, :only => :show
   before_filter :set_board, :only => [:new, :update]
   cache_sweeper :topic_sweeper, :only => [:create, :update, :destroy]
-  caches_page_with_references :show, :track => ['@topic', '@posts', {'@topic' => :comments_count}]
+  caches_page_with_references :show, :track => ['@topic', '@posts', {'@topic' => :posts_count}]
 
   guards_permissions :topic, :except => [:show, :index], :show => [:previous, :next]
   before_filter :guard_topic_permissions, :only => [:create, :update]
@@ -39,7 +39,7 @@ class TopicsController < BaseController
   end
   
   def update
-    if @topic.revise(params[:topic])
+    if @topic.update_attributes(params[:topic])
       trigger_events @topic
       flash[:notice] = t(:'adva.topics.flash.update.success')
       redirect_to topic_path(@section, @topic.permalink)
@@ -78,24 +78,24 @@ class TopicsController < BaseController
     def set_section; super(Forum); end
 
     def set_board
-      # Board_id depends on if this this GET to a new action or PUT to update
-      # NOTE: GET from backend comes without board_id
+      # board_id depends on if this is a GET to a new action or a PUT to update
+      # NOTE: GET from backend comes without a board_id
       board_id = params[:board_id]          if request.get?
       board_id = params[:topic][:board_id]  if request.put?
-      # We only need to fetch board if there actually is board_id supplied.
+      # We only need to fetch a board if there actually is a board_id supplied.
       if @section.boards.any? && board_id
         @board = @section.boards.find board_id
-        raise "Could not set board while posting to #{@section.path.inspect}" if @board.blank?
+        raise "Could not set board on #{@section.path.inspect}" if @board.blank?
       end
     end
 
     def set_topic
       @topic = @section.topics.find_by_permalink params[:id]
-      redirect_to forum_path(@section) unless @topic # this happens after the last comment has been deleted
+      redirect_to forum_path(@section) unless @topic # this happens after the last post has been deleted
     end
 
     def set_posts
-      @posts = @topic.comments.paginate :page => current_page, :per_page => @section.comments_per_page
+      @posts = @topic.posts.paginate :page => current_page, :per_page => @section.posts_per_page
     end
 
     def guard_topic_permissions

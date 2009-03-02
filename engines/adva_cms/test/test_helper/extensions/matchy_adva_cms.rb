@@ -17,10 +17,6 @@ module Matchy
         Matchy::Expectations::ActAsRoleContext.new(options, self)
       end
 
-      def act_as_commentable
-        Matchy::Expectations::ActAsCommentable.new(nil, self)
-      end
-
       def act_as_versioned
         Matchy::Expectations::ActAsVersioned.new(nil, self)
       end
@@ -39,6 +35,10 @@ module Matchy
 
       def have_counter(name)
         Matchy::Expectations::HaveCounter.new(name, self)
+      end
+
+      def have_many_comments
+        Matchy::Expectations::HaveManyComments.new(nil, self)
       end
 
       def have_many_themes
@@ -63,13 +63,6 @@ module Matchy
             "Expected %s not to act as an authenticated user." do |receiver|
       @receiver = receiver
       @receiver.included_modules.include? Authentication::InstanceMethods
-    end
-
-    matcher "ActAsCommentable", 
-            "Expected %s to act as commentable.", 
-            "Expected %s not act as commentable." do |receiver|
-      @receiver = receiver
-      @receiver.has_many_comments?
     end
 
     matcher "ActAsNestedSet", 
@@ -132,8 +125,15 @@ module Matchy
     matcher "HaveCounter", 
             "Expected %s to have a counter named %s.", 
             "Expected %s not to have a counter named %s." do |receiver|
-      @receiver = receiver
+      @receiver = receiver.is_a?(Class) ? receiver : receiver.class
       !!@receiver.reflect_on_all_associations(:has_one).find { |a| a.name == :"#{@expected}_counter" }
+    end
+
+    matcher "HaveManyComments", 
+            "Expected %s to have many comments.", 
+            "Expected %s not have many comments." do |receiver|
+      @receiver = receiver
+      @receiver.has_many_comments?
     end
 
     matcher "HaveManyThemes", 

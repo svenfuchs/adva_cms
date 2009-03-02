@@ -2,12 +2,12 @@ class Topic < ActiveRecord::Base
   # FIXME shouldn't this be scoped to topic and/or forum?
   has_permalink :title, :url_attribute => :permalink, :sync_url => true, :only_when_blank => true 
   before_destroy :decrement_counter
-  has_many_comments :as => :commentable, :class_name => 'Post'
+  has_many_posts :as => :commentable
 
   belongs_to :site
   belongs_to :section
   belongs_to :board
-  belongs_to :last_comment, :class_name => 'Comment', :foreign_key => :last_comment_id
+  belongs_to :last_post, :class_name => 'Comment', :foreign_key => :last_post_id
   has_many :activities, :as => :object # move to adva_activity?
 
   belongs_to_author
@@ -35,36 +35,33 @@ class Topic < ActiveRecord::Base
   end
 
   def reply(author, attributes)
-    returning comments.build(attributes) do |post| # FIXME should be comments.create ?
+    returning posts.build(attributes) do |post| # FIXME should be posts.create ?
       post.author = author
       post.board = self.board
-      post.commentable = self
+      post.topic = self
     end
   end
   
-  # FIXME why not just overwrite update_attributes here and call super?
-  def revise(attributes)
-    # self.sticky, self.locked = attributes.delete(:sticky), attributes.delete(:locked)
+  def update_attributes(attributes)
     board_id = attributes.delete(:board_id)
-    if result = update_attributes(attributes)
+    returning super do
       move_to_board(board_id) if board_id
     end
-    result
   end
   
   def move_to_board(board_id)
     # FIXME only move if the board_id actually different from self.board_id
     if board
       board.topics_counter.decrement!
-      board.comments_counter.decrement_by!(comments_count)
+      board.posts_counter.decrement_by!(posts_count)
     end
   
     update_attribute(:board_id, board_id)
-    comments.each { |comment| comment.update_attribute(:board_id, board_id) } # FIXME how to bulk update this in one query?
+    posts.each { |post| post.update_attribute(:board_id, board_id) } # FIXME how to bulk update this in one query?
     return unless board(true) # e.g. if board_id is set to nil
 
     board.topics_counter.increment!
-    board.comments_counter.increment_by!(comments_count)
+    board.posts_counter.increment_by!(posts_count)
   end
 
   # def hit!
@@ -76,33 +73,40 @@ class Topic < ActiveRecord::Base
   end
 
   def paged?
-    comments_count > section.comments_per_page
+    posts_count > section.posts_per_page
+  end
+  
+  def page(post)
+    count = posts.count(:all, :conditions => ['id <= ?', post.id])
+    [(count.to_f / section.posts_per_page.to_f).ceil.to_i, 1].max
   end
 
   def last_page
-    @last_page ||= [(comments_count.to_f / section.comments_per_page.to_f).ceil.to_i, 1].max
+    @last_page ||= [(posts_count.to_f / section.posts_per_page.to_f).ceil.to_i, 1].max
   end
 
   def previous
     collection = board ? board.topics : section.topics
-    collection.find :first, :conditions => ['last_updated_at < ?', last_updated_at], :order => :last_updated_at
+    collection.find :first, :conditions => ['last_updated_at < ? AND id < ?', last_updated_at, id], 
+                            :order => "last_updated_at, id"
   end
 
   def next
     collection = board ? board.topics : section.topics
-    collection.find :first, :conditions => ['last_updated_at > ?', last_updated_at], :order => :last_updated_at
+    collection.find :first, :conditions => ['last_updated_at > ? AND id > ?', last_updated_at, id],
+                            :order => "last_updated_at, id"
   end
   
   def initial_post
-    comments.first
+    posts.first
   end
 
   # FIXME can we extract this to an observer or similar?
-  def after_comment_update(comment)
-    if comment = comment.frozen? ? comments.last : comment
-      update_attributes! :last_updated_at => comment.created_at, 
-                         :last_comment_id => comment.id, 
-                         :last_author => comment.author
+  def after_post_update(post)
+    if post = post.frozen? ? posts.last : post
+      update_attributes! :last_updated_at => post.created_at, 
+                         :last_post_id => post.id, 
+                         :last_author => post.author
     else
       self.destroy
     end
@@ -118,7 +122,7 @@ class Topic < ActiveRecord::Base
     end
     
     def decrement_counter
-      section.comments_counter.decrement_by!(comments_count)
-      board.comments_counter.decrement_by!(comments_count) if board
+      section.posts_counter.decrement_by!(posts_count)
+      board.posts_counter.decrement_by!(posts_count) if board
     end
 end

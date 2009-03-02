@@ -16,7 +16,7 @@ class ForumControllerWithoutBoardsTest < ActionController::TestCase
     it_assigns :topics
     it_assigns :topic
     it_renders_template 'forum/show'
-    it_caches_the_page :track => ['@topics', '@boards', '@board', '@commentable']
+    it_caches_the_page :track => ['@topics', '@boards', '@board', '@topic']
     
     it "displays the topics" do
       has_tag 'table[id=topics] tr td[class=topic]'

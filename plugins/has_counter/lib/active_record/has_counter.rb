@@ -18,7 +18,7 @@ module ActiveRecord
           counter_name = :"#{name}_counter"
           owner_name = options[:as] || self.name.demodulize.underscore
           class_name = options[:class_name] || name
-          
+
           define_method :"#{name}_count" do
             send(counter_name).count
           end
@@ -34,7 +34,7 @@ module ActiveRecord
               result = #{counter_name}_without_lazy_creation(force_reload)
               if result.nil?
                 Counter.create!(:owner => self, :name => #{name.to_s.inspect})
-                result = #{counter_name}_without_lazy_creation true
+                result = #{counter_name}_without_lazy_creation(true)
               end
               result
             end
@@ -48,10 +48,11 @@ module ActiveRecord
             target.send callback do |record|
               owner = record.send(owner_name) if record.respond_to?(owner_name)
               # do not update the counter when counter's owner (e.g. article) is not frozen (deleted)
-              if self === owner && !owner.frozen? && counter = owner.send(counter_name)
+              if self === owner && !owner.frozen? && record.class == target
                 method = callbacks[callback]
                 method = method.call(record) if Proc === method
-                counter.send method if method
+                counter = owner.send(counter_name) if method
+                counter.send method if counter && method
               end
             end
           end

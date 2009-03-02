@@ -14,8 +14,10 @@
 	</ul>
 <% end %>
 
-<h3>Assets</h3>
-<%= render :partial => 'admin/assets/widget/widget', :locals => { :assets => { :latest => @site.assets.recent, :attached => @article.assets, :bucket => bucket_assets } } %>
+<% if Rails.plugin?(:adva_assets) %>
+	<h3>Assets</h3>
+	<%= render :partial => 'admin/assets/widget/widget', :locals => { :assets => { :latest => @site.assets.recent, :attached => @article.assets, :bucket => bucket_assets } } %>
+<% end %>
 
 <h3><%= t(:'adva.titles.optional_settings') %></h3>
 <% f.field_set :optional_settings do %>

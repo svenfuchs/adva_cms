@@ -46,16 +46,18 @@ class ActivitiesNotifierTest < ActiveSupport::TestCase
     ActivityNotifier.create_new_content_notification(activity, @user).encoded.should == @mail.encoded
   end
 
-  test "sets the mail up correctly for wikipages" do
-    wikipage = Wikipage.first
-    activity = activity_for(wikipage)
+  if Rails.plugin?(:adva_wiki)
+    test "sets the mail up correctly for wikipages" do
+      wikipage = Wikipage.first
+      activity = activity_for(wikipage)
     
-    @mail.subject = "[#{@site.name} / #{@section.title}] New Wikipage posted"
-    @mail.from    = "#{@site.name} <#{@site.email}>"
-    @mail.body    = "#{wikipage.author_name} <#{wikipage.author_email}> just posted a new Wikipage on #{@site.name} in section #{@section.title}."
-    @mail.to      = "#{@user.email}"
+      @mail.subject = "[#{@site.name} / #{@section.title}] New Wikipage posted"
+      @mail.from    = "#{@site.name} <#{@site.email}>"
+      @mail.body    = "#{wikipage.author_name} <#{wikipage.author_email}> just posted a new Wikipage on #{@site.name} in section #{@section.title}."
+      @mail.to      = "#{@user.email}"
 
-    ActivityNotifier.create_new_content_notification(activity, @user).encoded.should == @mail.encoded
+      ActivityNotifier.create_new_content_notification(activity, @user).encoded.should == @mail.encoded
+    end
   end
   
   def activity_for(object)

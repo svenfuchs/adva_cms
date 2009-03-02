@@ -3,37 +3,37 @@ require File.expand_path(File.dirname(__FILE__) + '/../../test_helper.rb')
 class ForumTest < ActiveSupport::TestCase
   def setup
     super
-    @forum    = Forum.first
-    @topic    = @forum.topics.last
-    @comment  = @forum.comments.last
+    @forum = Forum.first
+    @topic = @forum.topics.last
+    @post  = @forum.posts.last
     
     # FIXME take the stubbing away
     stub(@topic).last_updated_at.returns Time.now
-    stub(@comment).last_updated_at.returns Time.now
+    stub(@post).last_updated_at.returns Time.now
   end
   
   test "is a kind of Section" do
     @forum.should be_kind_of(Section)
   end
   
-  test "acts as a commentable" do
-    Forum.should act_as_commentable
+  test "has many comments" do
+    Forum.should have_many_comments
   end
   
   test "has a topics counter" do
     Forum.should have_counter(:topics)
   end
   
-  test "has a comments counter" do
-    Forum.should have_counter(:comments)
+  test "has a posts counter" do
+    Forum.should have_counter(:posts)
   end
   
   test "has option topics_per_page" do
     Forum.option_definitions.keys.should include(:topics_per_page)
   end
   
-  test "has option comments_per_page" do
-    Forum.option_definitions.keys.should include(:comments_per_page)
+  test "has option posts_per_page" do
+    Forum.option_definitions.keys.should include(:posts_per_page)
   end
   
   test "has option latest_topics_count" do
@@ -63,14 +63,14 @@ class ForumTest < ActiveSupport::TestCase
     @forum.valid?.should be_false
   end
   
-  # comments_per_page
-  test "#comments_per_page, passes when #comments_per_page is numerical" do
-    @forum.comments_per_page = 10
+  # posts_per_page
+  test "#posts_per_page, passes when #posts_per_page is numerical" do
+    @forum.posts_per_page = 10
     @forum.valid?.should be_true
   end
   
-  test "#comments_per_page, fails when #topics_per_page is not numerical" do
-    @forum.comments_per_page = 'ten'
+  test "#posts_per_page, fails when #topics_per_page is not numerical" do
+    @forum.posts_per_page = 'ten'
     @forum.valid?.should be_false
   end
   
@@ -113,17 +113,17 @@ class ForumTest < ActiveSupport::TestCase
   #     Forum.after_create.should include(:set_topics_count)
   #   end
   #   
-  #   it "initializes the comments counter after create" do
-  #     Forum.after_create.should include(:set_comments_count)
+  #   it "initializes the posts counter after create" do
+  #     Forum.after_create.should include(:set_posts_count)
   #   end
   # end
   
   # describe '#after_topic_update' do
   #   before :each do
   #     @forum.topics.stub!(:count)
-  #     @forum.comments.stub!(:count)
+  #     @forum.posts.stub!(:count)
   #     @forum.stub!(:topics_count).and_return stub_counter
-  #     @forum.stub!(:comments_count).and_return stub_counter
+  #     @forum.stub!(:posts_count).and_return stub_counter
   #   end
   #
   #   it "updates the topics counter" do
@@ -131,8 +131,8 @@ class ForumTest < ActiveSupport::TestCase
   #     @forum.send :after_topic_update, @topic
   #   end
   #
-  #   it "updates the comments counter" do
-  #     @forum.comments_count.should_receive(:set).any_number_of_times
+  #   it "updates the posts counter" do
+  #     @forum.posts_count.should_receive(:set).any_number_of_times
   #     @forum.send :after_topic_update, @topic
   #   end
   # end

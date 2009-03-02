@@ -62,15 +62,3 @@ module ThemeSupport
 end
 
 ActionController::Base.send :include, ThemeSupport::ActionController
-
-class ActionController::Base
-  def self.reset_file_exist_cache!
-    @@file_exist_cache = nil
-  end
-end
-
-class ActionView::Base
-  def self.reset_file_exist_cache!
-    @@file_exist_cache = nil
-  end
-end

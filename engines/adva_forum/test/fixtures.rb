@@ -66,6 +66,12 @@ board_topic.save!
 board_topic_reply = board_topic.reply user, :body => 'a reply'
 board_topic_reply.save!
 
+board_topic_reply = board_topic.reply user, :body => 'another reply'
+board_topic_reply.save!
+
+board_topic_reply = board_topic.reply user, :body => 'yet another reply'
+board_topic_reply.save!
+
 
 another_board_topic =
 Topic.post       admin, board_topic_attrs.merge(:title     => 'another board topic',

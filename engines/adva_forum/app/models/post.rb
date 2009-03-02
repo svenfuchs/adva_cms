@@ -1,19 +1,29 @@
 class Post < Comment
-  belongs_to :board
-  belongs_to :topic
+  alias :topic  :commentable
+  alias :topic= :commentable=
 
-  after_save    :update_commentable
-  after_destroy :update_commentable
+  belongs_to :board
+
+  after_save    :update_caches
+  after_destroy :update_caches
 
   def filter
     section.content_filter
   end
 
-  # Calls after_comment_update on the commentable so it has the chance to
+  def previous
+    topic.posts.find :last, :conditions => ['id < ?', id]
+  end
+  
+  def page
+    topic.page(self)
+  end
+
+  # Calls after_post_update on the topic so it has the chance to
   # respond to the event, too, e.g. to update cached attributes and stuff
-  # Can we extract this to an observer or similar?
-  def update_commentable
-    commentable.after_comment_update(self) if commentable && commentable.respond_to?(:after_comment_update)
+  # Can we extract this to an Observer or something?
+  def update_caches
+    topic.after_post_update(self)
   end
 
   # belongs_to :topic, :counter_cache => true

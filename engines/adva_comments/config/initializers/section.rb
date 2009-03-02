@@ -8,9 +8,8 @@ end
 
 ActionController::Dispatcher.to_prepare do
   Section.class_eval do
-    has_many_comments
-
     before_validation :set_comment_age
+    has_many_comments :foreign_key => :section_id, :as => :section
 
     def accept_comments?
       comment_age.to_i > -1

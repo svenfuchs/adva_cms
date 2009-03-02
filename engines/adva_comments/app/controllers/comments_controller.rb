@@ -34,6 +34,7 @@ class CommentsController < BaseController
     @comment = @commentable.comments.build(params[:comment])
     if @comment.save
       trigger_events @comment
+      # FIXME move this to a comment after filter that checks for body_changed?
       @comment.check_approval :permalink => content_url(@comment.commentable), :authenticated => authenticated?
       flash[:notice] = t(:'adva.comments.flash.thank_you')
       redirect_to comment_path(@comment)

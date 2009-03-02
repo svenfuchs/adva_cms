@@ -19,9 +19,5 @@ ActionController::Base.class_eval do
     #   @site.cached_pages.delete_all
     #   Pathname.new(cache_dir).rmtree rescue Errno::ENOENT
     # end
-    
-    # expire asset_tag_helper file_exist_cache so that assets will be re-cached
-    ActionController::Base.reset_file_exist_cache!
-    ActionView::Base.reset_file_exist_cache!
   end
 end

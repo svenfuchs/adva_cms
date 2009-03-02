@@ -104,7 +104,7 @@ class Admin::CommentsController < Admin::BaseController
     end
 
     def postback_spaminess
-      if @comment.approved_changed?
+      if @comment.approved_changed? and @site.respond_to?(:spam_engine)
         spaminess = @comment.approved? ? :ham : :spam
         @site.spam_engine.mark_spaminess spaminess, content_url(@comment.commentable), @comment
       end

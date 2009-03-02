@@ -15,18 +15,18 @@ class SectionTest < ActiveSupport::TestCase
     Section.serialized_attributes.keys.should include('permissions')
   end
 
-  test "has an option :articles_per_page" do
-    lambda{ @section.articles_per_page }.should_not raise_error
+  test "has an option :contents_per_page" do
+    lambda{ @section.contents_per_page }.should_not raise_error
   end
 
-  test "serialize the option :articles_per_page to the database" do
+  test "serialize the option :contents_per_page to the database" do
     @section.instance_variable_set :@options, nil
     @section.save; @section.reload
-    @section.articles_per_page.should == Section.option_definitions[:articles_per_page][:default]
+    @section.contents_per_page.should == Section.option_definitions[:contents_per_page][:default]
     
-    @section.articles_per_page = 20
+    @section.contents_per_page = 20
     @section.save; @section.reload
-    @section.articles_per_page.should == 20
+    @section.contents_per_page.should == 20
   end
 
   test "has a permalink generated from the title" do
@@ -42,8 +42,8 @@ class SectionTest < ActiveSupport::TestCase
     Section.should act_as_nested_set
   end
 
-  test "acts as a commentable" do
-    Section.should act_as_commentable
+  test "has many comments" do
+    Section.should have_many_comments
   end
 
   test "instantiates with single table inheritance" do

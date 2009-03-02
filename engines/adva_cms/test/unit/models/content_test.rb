@@ -41,8 +41,8 @@ class ContentTest < ActiveSupport::TestCase
     @content.should filter_column(:body)
   end
 
-  test "acts as a commentable" do
-    Content.should act_as_commentable
+  test "has many comments" do
+    Content.should have_many_comments
   end
 
   test "has a comments counter" do

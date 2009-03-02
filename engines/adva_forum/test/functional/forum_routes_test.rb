@@ -9,8 +9,9 @@ class ForumRoutesTest < ActionController::TestCase
               /forums/1/boards/1
               /forums/1/boards/1/topics/new
               /forums/1/topics
+              /forums/1/topics/new
               /forums/1/topics/1
-              /forums/1/topics/new )
+              /forums/1/topics/1/edit )
 
   paths.each do |path|
     test "regenerates the original path from the recognized params for #{path}" do
@@ -42,8 +43,13 @@ class ForumRoutesTest < ActionController::TestCase
     end
 
     with_options :controller => 'topics', :section_id => forum_id do |r|
-      r.it_maps :get, '/topics/a-topic',        :action => 'show', :id => 'a-topic'
-      r.it_maps :get, '/de/topics/a-topic',     :action => 'show', :id => 'a-topic', :locale => 'de'
+      r.it_maps :get, '/topics/a-topic',         :action => 'show', :id => 'a-topic'
+      r.it_maps :get, '/de/topics/a-topic',      :action => 'show', :id => 'a-topic', :locale => 'de'
+      r.it_maps :get, '/de/topics/a-topic/edit', :action => 'edit', :id => 'a-topic', :locale => 'de'
+    end
+
+    with_options :controller => 'posts', :section_id => forum_id do |r|
+      r.it_maps :get, '/de/topics/1/posts/1/edit', :action => 'edit', :topic_id => '1', :id => '1', :locale => 'de'
     end
     
     with_options :controller => 'topics', :section_id => forum_id, :format => 'rss' do |r|

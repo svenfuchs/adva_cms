@@ -42,32 +42,32 @@ class PostsTest < ActionController::IntegrationTest
   end
   
   def reply_to_topic
-    @topic.comments.reload # ? why is it 0 here otherwise?
-    post_count = @topic.comments.size
+    @topic.posts.reload # ? why is it 0 here otherwise?
+    post_count = @topic.posts.size
     
     assert_template 'topics/show'
     fill_in       'post[body]', :with => 'Test post body'
     click_button  'Submit post'
     
-    @topic.comments.reload
-    assert @topic.comments.size == post_count + 1
+    @topic.posts.reload
+    assert @topic.posts.size == post_count + 1
     assert_template 'topics/show'
   end
   
   def delete_the_reply
-    @topic.comments.reload # otherwise count is 0. why?
-    post_count = @topic.comments.size
-    post = @topic.comments.find_by_body('a reply')
+    @topic.posts.reload # otherwise count is 0. why?
+    post_count = @topic.posts.size
+    post = @topic.posts.find_by_body('a reply')
     
     click_link  "delete_post_#{post.id}"
     
-    @topic.comments.reload
-    assert @topic.comments.size == post_count - 1
+    @topic.posts.reload
+    assert @topic.posts.size == post_count - 1
     assert_template 'topics/show'
   end
   
   def edit_the_post
-    post = @topic.comments.find_by_body('a reply')
+    post = @topic.posts.find_by_body('a reply')
     assert post.body != 'Updated test post'
     
     click_link "edit_post_#{post.id}"

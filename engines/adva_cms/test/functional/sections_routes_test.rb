@@ -17,7 +17,7 @@ class SectionsRoutesTest < ActionController::TestCase
       end
     end
   end
-
+  
   describe "routing" do
     ['', '/a-section', '/de', '/de/a-section'].each do |path_prefix|
       ['', '/pages/2'].each do |path_suffix|
@@ -45,7 +45,7 @@ class SectionsRoutesTest < ActionController::TestCase
 
   describe "the url_helper section_path" do
     before :each do
-      # FIXME move to db/populate
+      # FIXME move to db/populate?
       other = @section.site.sections.create! :title => 'another section', :author => User.first
       other.move_to_left_of @section
   
@@ -64,7 +64,7 @@ class SectionsRoutesTest < ActionController::TestCase
     it_rewrites section_path, :to => '/a-section',                       :with => [:is_default_locale]
     it_rewrites section_path, :to => '/de',                              :with => [:is_root_section]
     it_rewrites section_path, :to => '/de/a-section'
-  
+      
     it_rewrites article_path, :to => '/articles/an-article',             :with => [:is_default_locale, :is_root_section]
     it_rewrites article_path, :to => '/a-section/articles/an-article',   :with => [:is_default_locale]
     it_rewrites article_path, :to => '/de/articles/an-article',          :with => [:is_root_section]

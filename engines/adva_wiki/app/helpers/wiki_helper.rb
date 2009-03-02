@@ -18,6 +18,10 @@ module WikiHelper
     end
   end
 
+  def wiki_content_path(content, options = {})
+    wikipage_path *[content.section, content.permalink, options].compact
+  end
+  
   def wikify(str)
     redcloth = RedCloth.new(str)
     redcloth.gsub!(/\[\[(.*?)\]\]/u){ wikify_link($1) }

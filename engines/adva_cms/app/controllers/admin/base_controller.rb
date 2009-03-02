@@ -5,7 +5,11 @@ class Admin::BaseController < ApplicationController
   include CacheableFlash
 
   before_filter :set_site, :set_locale, :set_timezone, :set_cache_root
-  helper :base, :content, :users
+  helper :base, :content, :users, :'admin/comments'
+  helper :blog   if Rails.plugin?(:adva_blog) # FIXME move to engines
+  helper :assets if Rails.plugin?(:adva_assets)
+  helper :roles  if Rails.plugin?(:adva_rbac)
+
   helper_method :admin_section_contents_path, :new_admin_content_path, :perma_host
   helper_method :has_permission?
 

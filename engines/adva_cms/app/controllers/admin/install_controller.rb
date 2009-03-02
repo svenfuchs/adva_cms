@@ -11,14 +11,18 @@ class Admin::InstallController < ApplicationController
   renders_with_error_proc :below_field
 
   def index
+    params[:content] ||= { :title => t(:'adva.sites.install.section_default') }
+    params[:content][:type] ||= 'Section'
+
     @site = Site.new params[:site]
-    default_section = {:title => t(:'adva.sites.install.section_default')}
-    @section = @site.sections.build(params[:section] ||= default_section)
+    @section = @site.sections.build(params[:content])
     @user = User.new
 
     if request.post?
       if @site.valid? && @section.valid?
         @site.save
+        @site.sections << @section
+        @section.reload
 
         @user = User.create_superuser params[:user]
         authenticate_user(:email => @user.email, :password => @user.password)

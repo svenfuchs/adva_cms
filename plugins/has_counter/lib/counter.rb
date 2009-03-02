@@ -18,7 +18,6 @@ class Counter < ActiveRecord::Base
   end
   
   def set(value)
-    self.count = value
-    save!
+    update_attributes! :count => value
   end
 end

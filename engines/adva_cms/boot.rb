@@ -32,8 +32,14 @@ Rails::Configuration.class_eval do
 end
 
 module Rails
-  def self.plugins
-    @@plugins ||= ActiveSupport::OrderedHash.new
+  class << self
+    def plugins
+      @@plugins ||= ActiveSupport::OrderedHash.new
+    end
+  
+    def plugin?(name)
+      plugins.keys.include?(name.to_sym)
+    end
   end
 
   class Plugin

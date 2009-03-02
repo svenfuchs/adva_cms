@@ -1,43 +1,18 @@
+defined?(ASSET_TEST_HELPER_LOADED) ? raise("can not load #{__FILE__} twice") : ASSET_TEST_HELPER_LOADED = true
+
 require File.expand_path(File.dirname(__FILE__) + '/../../adva_cms/test/test_helper')
 
-module AssetTestHelper
-  def image_fixture
-    File.new "#{File.dirname(__FILE__)}/fixtures/rails.png"
+class Test::Unit::TestCase
+  def setup_with_adva_assets_setup
+    setup_without_adva_assets_setup
+    setup_assets_dir!
   end
+  alias_method_chain :setup, :adva_assets_setup
 
-  def video_fixture
-    File.new "#{File.dirname(__FILE__)}/fixtures/TextOnly.mov"
+  def teardown_with_adva_assets_setup
+    teardown_without_adva_assets_setup
+  ensure
+    clear_assets_dir!
   end
-
-  def audio_fixture
-    File.new "#{File.dirname(__FILE__)}/fixtures/car_door.wav"
-  end
-
-  def pdf_fixture
-    File.new "#{File.dirname(__FILE__)}/fixtures/confidential.pdf"
-  end
-
-  def text_fixture
-    File.new "#{File.dirname(__FILE__)}/fixtures/plain.txt"
-  end
-
-  def create_image_asset(attributes = {})
-    Asset.create! attributes.merge(:site => @site, :data => image_fixture)
-  end
-
-  def create_video_asset(attributes = {})
-    Asset.create! attributes.merge(:site => @site, :data => video_fixture)
-  end
-
-  def create_audio_asset(attributes = {})
-    Asset.create! attributes.merge(:site => @site, :data => audio_fixture)
-  end
-
-  def create_pdf_asset(attributes = {})
-    Asset.create! attributes.merge(:site => @site, :data => pdf_fixture)
-  end
-
-  def create_text_asset(attributes = {})
-    Asset.create! attributes.merge(:site => @site, :data => text_fixture)
-  end
+  alias_method_chain :teardown, :adva_assets_setup
 end

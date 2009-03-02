@@ -2,7 +2,7 @@
   <td><%= link_to object.title, forum_board_path(@section, object) %></td>
   <td><%= object.description %></td>
 	<td><%= object.topics_count %></td>
-  <td><%= object.comments_count %></td>
+  <td><%= object.posts_count %></td>
 	<td class="actions">
 			<%= link_to t(:'adva.resources.edit'), edit_admin_board_path(@site, @section, object), :class => 'edit', :id => dom_id(object) + '_edit' %>
 			<%= link_to t(:'adva.resources.delete'), admin_board_path(@site, @section, object, :return_to => admin_board_path(@site, @section, object)), :class => 'delete', :id => dom_id(object) + '_delete', :confirm => confirm_board_delete(@section), :method => :delete %>

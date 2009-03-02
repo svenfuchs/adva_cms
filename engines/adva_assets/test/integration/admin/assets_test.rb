@@ -2,7 +2,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../../test_helper' )
 
 module IntegrationTests
   class AdminAssetsTest < ActionController::IntegrationTest
-    include AssetTestHelper
+    include AssetsTestHelper
   
     def setup
       super

@@ -4,7 +4,7 @@
 
 <div class="statistics">
 	<p class="total">
-		<%= "This forum has total of #{@section.boards.size} boards, #{@section.topics.size} topics and #{@section.comments.size} posts." %><br />
+		<%= "This forum has total of #{@section.boards.size} boards, #{@section.topics.size} topics and #{@section.posts.size} posts." %><br />
 		<%= "Click " + link_to('here', forum_path(@section))%> to go to your forum.
 	</p>
 </div>
@@ -13,13 +13,13 @@
 
 <h2><%= t(:'adva.titles.boards') %></h2>
 <% unless @boards.empty? -%>  
-	<p class="hint">
+	<!-- <p class="hint">
     <% if @boards.size > 1 %>
       &middot;
       <%= link_to_function t(:'adva.boards.links.reorder'), "boards_tree.toggle(this, '#{t(:'adva.resources.reordering_done')}');", :id => 'reorder_boards' %>
       <%= image_tag '/images/adva_cms/indicator.gif', :id => 'boards_indicator', :style => 'display: none;' %>
     <% end %>
-  </p>
+  </p> -->
 
   <table id="boards" class="list">
     <thead>
@@ -27,7 +27,7 @@
         <th scope="col"><%= t(:'adva.titles.board') %></th>
         <th scope="col"><%= 'Description' %></th>
         <th scope="col"><%= 'Topics' %></th>
-        <th scope="col"><%= 'Comments' %></th>
+        <th scope="col"><%= 'Posts' %></th>
         <th scope="col">&nbsp;</th>
       </tr>
     </thead>

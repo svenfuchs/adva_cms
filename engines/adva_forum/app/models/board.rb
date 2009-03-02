@@ -10,22 +10,22 @@ class Board < ActiveRecord::Base
   belongs_to_author :last_author, :validate => false
   has_many          :topics, :foreign_key => :board_id, :dependent => :delete_all, 
                              :order => "topics.sticky desc, topics.last_updated_at desc"
-  has_many_comments :class_name => 'Post'
+  has_many_posts
   
   validates_presence_of :title
   
-  delegate :topics_per_page, :comments_per_page, :to => :section
+  delegate :topics_per_page, :posts_per_page, :to => :section
   
   def last?
     owner.boards.size == 1
   end
 
   # FIXME can we extract this to an observer or similar?
-  def after_comment_update(comment)
-    comment = comment.frozen? ? comments.last : comment
-    update_attributes! :last_updated_at => (comment ? comment.created_at : nil), 
-                       :last_comment_id => (comment ? comment.id : nil), 
-                       :last_author     => (comment ? comment.author : nil)
+  def after_post_update(post)
+    post = post.frozen? ? post.last : post
+    update_attributes! :last_updated_at => (post ? post.created_at : nil), 
+                       :last_post_id    => (post ? post.id : nil), 
+                       :last_author     => (post ? post.author : nil)
   end
   
   protected
@@ -36,9 +36,9 @@ class Board < ActiveRecord::Base
       owner.boardless_topics.each do |topic|
         topics << topic
         topics_counter.increment!
-        topic.comments.each do |comment|
-          comment.update_attribute(:board, self)
-          comments_counter.increment!
+        topic.posts.each do |post|
+          post.update_attribute(:board, self)
+          posts_counter.increment!
         end
       end
     end
@@ -50,8 +50,8 @@ class Board < ActiveRecord::Base
       return unless last?
       topics.each do |topic|
         topic.update_attribute(:board_id, nil)
-        topic.comments.each do |comment|
-          comment.update_attribute(:board_id, nil)
+        topic.posts.each do |post|
+          post.update_attribute(:board_id, nil)
         end
       end
     end
@@ -59,7 +59,7 @@ class Board < ActiveRecord::Base
     def decrement_counters
       return if last?
       section.topics_counter.decrement_by!(topics_count)
-      section.comments_counter.decrement_by!(comments_count)
+      section.posts_counter.decrement_by!(posts_count)
     end
     
     def owner

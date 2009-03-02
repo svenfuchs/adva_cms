@@ -33,7 +33,7 @@ class BlogController < BaseController
 
     def set_articles
       options = { :page => current_page, :tags => @tags }
-      options[:limit] = request.format == :html ? @section.articles_per_page : 15
+      options[:limit] = request.format == :html ? @section.contents_per_page : 15
       source = @category ? @category.contents : @section.articles
       @articles = source.paginate_published_in_time_delta params[:year], params[:month], options
     end

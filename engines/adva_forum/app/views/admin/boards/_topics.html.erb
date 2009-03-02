@@ -10,7 +10,7 @@
         <th scope="col"><%= 'Last update on' %></th>
         <th scope="col"><%= 'Author' %></th>
         <th scope="col"><%= 'Title' %></th>
-        <th scope="col"><%= 'Comments' %></th>
+        <th scope="col"><%= 'Posts' %></th>
         <th scope="col">&nbsp;</th>
       </tr>
     </thead>
@@ -20,7 +20,7 @@
 				<td><%= topic.created_at.to_formatted_s(:short) %></td>
 				<td><%= topic.last_author_name %></td>
 				<td><%= link_to_topic(topic) %></td>
-				<td><%= topic.comments.size %></td>
+				<td><%= topic.posts.size %></td>
 				<td class="actions">
     				<%= link_to t(:'adva.resources.edit'), edit_topic_path(@section, topic.permalink), :class => 'edit' %>
     				<%= link_to t(:'adva.resources.delete'), topic_path(@section, topic.permalink, :return_to => admin_boards_path(@site, @section)), :class => 'delete', :confirm => "Are you sure you want to delete this topic?", :method => :delete %>

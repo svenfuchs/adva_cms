@@ -2,10 +2,14 @@ class Site < ActiveRecord::Base
   serialize :permissions
   serialize :spam_options
 
-  has_many :sections, :dependent => :destroy, :order => :lft do
+  has_many :sections, :dependent => :destroy, :order => :lft, :conditions => ['type IN (?)', Section.types] do
     def root
       find_by_parent_id nil, :order => 'lft'
     end
+
+    # def roots
+    #   nested_set_class.find_with_nested_set_scope(:all, :conditions => "(#{nested_set_parent} IS NULL)", :order => "#{nested_set_left}")
+    # end
 
     def paths
       map(&:path)

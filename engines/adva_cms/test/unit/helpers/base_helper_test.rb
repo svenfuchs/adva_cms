@@ -11,31 +11,32 @@ class BaseHelperTest < ActionView::TestCase
   end
   
   # LINK HELPERS
-
+  
+  # method commented out, doesn't seem to be used anyway
   # TODO: should probably solved differently? 
-  test "#link_to_section_main_action builds a link to Wikipages index if section is a Wiki" do
-    @section = Wiki.first
-    stub(self).admin_wikipages_path(@site, @section).returns('/path/to/wikipages')
-    link_to_section_main_action(@site, @section)
-  end
-
-  test "#link_to_section_main_action builds a link to Articles index if section is a Blog" do
-    @section = Blog.first
-    stub(self).admin_articles_path(@site, @section).returns('/path/to/articles')
-    link_to_section_main_action(@site, @section)
-  end
-
-  test "#link_to_section_main_action builds a link to Articles index if section is a Section" do
-    @section = Section.first
-    stub(self).admin_articles_path(@site, @section).returns('/path/to/articles')
-    link_to_section_main_action(@site, @section)
-  end
-
-  test "#link_to_section_main_action builds a link to Boards index if section is a Forum" do
-    @section = Forum.first
-    stub(self).admin_boards_path(@site, @section).returns('/path/to/boards')
-    link_to_section_main_action(@site, @section)
-  end
+  # test "#link_to_section_main_action builds a link to Wikipages index if section is a Wiki" do
+  #   @section = Wiki.first
+  #   stub(self).admin_wikipages_path(@site, @section).returns('/path/to/wikipages')
+  #   link_to_section_main_action(@site, @section)
+  # end
+  # 
+  # test "#link_to_section_main_action builds a link to Articles index if section is a Blog" do
+  #   @section = Blog.first
+  #   stub(self).admin_articles_path(@site, @section).returns('/path/to/articles')
+  #   link_to_section_main_action(@site, @section)
+  # end
+  # 
+  # test "#link_to_section_main_action builds a link to Articles index if section is a Section" do
+  #   @section = Section.first
+  #   stub(self).admin_articles_path(@site, @section).returns('/path/to/articles')
+  #   link_to_section_main_action(@site, @section)
+  # end
+  # 
+  # test "#link_to_section_main_action builds a link to Boards index if section is a Forum" do
+  #   @section = Forum.first
+  #   stub(self).admin_boards_path(@site, @section).returns('/path/to/boards')
+  #   link_to_section_main_action(@site, @section)
+  # end
   
   # SPLIT_FORM_FOR
 

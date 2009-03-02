@@ -23,7 +23,7 @@ module HasOptions
 
             def #{name}_before_type_cast
               self.options ||= {}
-              options[:#{name}] || option_definitions[:#{name}][:default]
+              options[:#{name}] || self.class.option_definition(:#{name}, :default)
             end
 
             def #{name}=(value)
@@ -32,6 +32,12 @@ module HasOptions
               options[:#{name}] = value
             end
           src
+        end
+      
+        def option_definition(name, key)
+          option_definitions[name][key]
+        rescue
+          superclass.option_definition(name, key) unless self.class.superclass == ActiveRecord::Base
         end
       end
     end

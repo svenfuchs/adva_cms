@@ -10,18 +10,12 @@ module ContentHelper
   end
 
   def content_path(content, options = {})
-    case content.section
-    when Blog
-      blog_article_path content.section, content.full_permalink.merge(options)
-    when Wiki
-      wikipage_path *[content.section, content.permalink, options].compact
-    when Forum
-      topic_path content.section
-    when Album
-      photo_path content.section, content
-    else
-      section_article_path *[content.section, content.permalink, options].compact
-    end
+    # FIXME try to unify these helper methods
+    send :"#{content.section.type.underscore}_content_path", content, options
+  end
+  
+  def section_content_path(content, options = {})
+    section_article_path *[content.section, content.permalink, options].compact
   end
 
   def link_to_content(*args)

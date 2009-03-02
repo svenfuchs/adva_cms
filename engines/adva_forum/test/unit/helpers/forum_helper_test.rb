@@ -40,7 +40,7 @@ class ForumHelperTest < ActionView::TestCase
     link_to_last_post(@topic).should have_tag('a[href^=?]', "#{@topic_path}#comment")
   end
 
-  test "#link_to_last_post, given no String preceeds the topic in the argument list it uses the last comment's created_at date as link text" do
+  test "#link_to_last_post, given no String preceeds the topic in the argument list it uses the last post's created_at date as link text" do
     link_to_last_post(@topic).should =~ /[\w]+ [\d]+, [\d]+\ [\d]+\:[\d]+/
   end
 

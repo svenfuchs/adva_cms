@@ -20,23 +20,23 @@ class ForumWithBoardCacheReferencesTest < ActionController::TestCase
     ActionController::Base.perform_caching = @old_perform_caching
   end
   
-  test "forum: list of boards references topics_count and comments_count for forum and boards" do
+  test "forum: list of boards references topics_count and posts_count for forum and boards" do
     get :show, :section_id => @forum.id
 
     references = CachedPageReference.all.map{ |r| [r.object_id, r.object_type, r.method] }
     assert references.include?([@forum.id, 'Forum', 'topics_count'])
-    assert references.include?([@forum.id, 'Forum', 'comments_count'])
+    assert references.include?([@forum.id, 'Forum', 'posts_count'])
     assert references.include?([@board.id, 'Board', 'topics_count'])
-    assert references.include?([@board.id, 'Board', 'comments_count'])
+    assert references.include?([@board.id, 'Board', 'posts_count'])
   end
   
-  test "topic list of a board references the board's topics_count and comments_count as well as each topic's comments_count" do
+  test "topic list of a board references the board's topics_count and posts_count as well as each topic's posts_count" do
     get :show, :section_id => @forum.id, :board_id => @board.id
     
     references = CachedPageReference.all.map{ |r| [r.object_id, r.object_type, r.method] }
     assert references.include?([@board.id, 'Board', 'topics_count'])
-    assert references.include?([@board.id, 'Board', 'comments_count'])
-    assert references.include?([@topic.id, 'Topic', 'comments_count'])
+    assert references.include?([@board.id, 'Board', 'posts_count'])
+    assert references.include?([@topic.id, 'Topic', 'posts_count'])
   end
 end
 
@@ -59,12 +59,12 @@ class ForumWithoutBoardCacheReferencesTest < ActionController::TestCase
     ActionController::Base.perform_caching = @old_perform_caching
   end
 
-  test "topic list of a (boardless) forum references the forum's topics_count and comments_count as well as each topic's comments_count" do
+  test "topic list of a (boardless) forum references the forum's topics_count and posts_count as well as each topic's posts_count" do
     get :show, :section_id => @forum.id
   
     references = CachedPageReference.all.map{ |r| [r.object_id, r.object_type, r.method] }
     assert references.include?([@forum.id, 'Forum', 'topics_count'])
-    assert references.include?([@forum.id, 'Forum', 'comments_count'])
-    assert references.include?([@topic.id, 'Topic', 'comments_count'])
+    assert references.include?([@forum.id, 'Forum', 'posts_count'])
+    assert references.include?([@topic.id, 'Topic', 'posts_count'])
   end
 end

@@ -3,27 +3,28 @@ require File.expand_path(File.dirname(__FILE__) + '/../../test_helper.rb')
 class PostTest < ActiveSupport::TestCase
   def setup
     super
-    @post = Post.first
-  end
-  
-  test "is kind of comment" do
-    @post.should be_kind_of(Comment)
+    @post = Post.find_by_body('another reply')
+    @topic = @post.topic
   end
   
   # CALLBACKS
   
-  test 'updates the commentable after create' do
-    Post.after_save.should include(:update_commentable)
+  test 'updates the topic after create' do
+    Post.after_save.should include(:update_caches)
   end
   
-  test 'updates the commentable after destroy' do
-    Post.after_destroy.should include(:update_commentable)
+  test 'updates the topic after destroy' do
+    Post.after_destroy.should include(:update_caches)
   end
   
-  # update_commentable
+  # INSTANCE METHODS
   
-  test '#update_commentable calls #after_comment_update on the commentable' do
-    mock(@post.commentable.target).after_comment_update(@post)
-    @post.send :update_commentable
+  test '#update_caches calls #after_post_update on the topic' do
+    mock(@post.topic.target).after_post_update(@post)
+    @post.send :update_caches
+  end
+  
+  test 'previous returns the previous post' do
+    @post.previous.should == @topic.posts.find_by_body('a reply')
   end
 end

@@ -15,8 +15,8 @@ class ArticleTest < ActiveSupport::TestCase
     Article.before_create.should include(:set_position)
   end
   
-  test "acts as a commentable" do
-    Article.should act_as_commentable
+  test "has many comments" do
+    Article.should have_many_comments
   end
 
   # validations

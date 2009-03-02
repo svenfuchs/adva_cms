@@ -1,17 +1,3 @@
-# # http://rails.lighthouseapp.com/projects/8994/tickets/1561
-# # can be removed after upgrading to any rails version that contains this patch
-# module ActionView
-#   class TestController < ActionController::Base
-#     attr_accessor :request, :response, :params
-#     def initialize
-#       @request = ActionController::TestRequest.new
-#       @response = ActionController::TestResponse.new
-#       @params = {}
-#       send(:initialize_current_url)
-#     end
-#   end
-# end
-
 # let's have asset_select available in ActiveSupport test cases
 ActiveSupport::TestCase.class_eval do
   include ActionController::Assertions::SelectorAssertions

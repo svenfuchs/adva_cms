@@ -7,7 +7,7 @@ class SiteTest < ActiveSupport::TestCase
   end
 
   test 'acts as commentable' do
-    Site.should act_as_commentable
+    Site.should have_many_comments
   end
 
   test 'acts as role context for the admin role' do
@@ -26,10 +26,6 @@ class SiteTest < ActiveSupport::TestCase
     Site.should have_counter(:comments)
   end
 
-  test 'has many themes' do
-    Site.should have_many_themes
-  end
-
   # ASSOCIATIONS
   
   test "has many sections" do
@@ -42,10 +38,6 @@ class SiteTest < ActiveSupport::TestCase
 
   test "has many memberships" do
     @site.should have_many(:memberships)
-  end
-
-  test "has many assets" do
-    @site.should have_many(:assets)
   end
 
   test "has many cached_pages" do
@@ -65,11 +57,6 @@ class SiteTest < ActiveSupport::TestCase
     @site.sections.update_paths!
     # FIXME ... why does this fail??
     # @site.sections.paths.should include('home', 'home/about', 'home/about/location')
-  end
-
-  test "assets.recent finds the six most recent assets" do
-    mock(@site.assets).find :all, hash_including(:limit => 6)
-    @site.assets.recent
   end
 
   test "users association calls destroy on associated users when destroyed" do
@@ -170,22 +157,6 @@ class SiteTest < ActiveSupport::TestCase
     plugin_2.string.should == 'site_2 string'
   end
 
-  # SPAM ENGINE
-  
-  test "should return the Default spam engine when none configured" do
-    engine = Site.new.spam_engine
-    SpamEngine::FilterChain.should === engine
-    SpamEngine::Filter::Default.should === engine.first
-  end
-
-  test "should return the Defensio spam engine when spam_options :engine is set to 'defensio'" do
-    options = {:defensio => {:key => 'defensio key', :url => 'defensio url'}}
-    engine = Site.new(:spam_options => options).spam_engine
-    SpamEngine::FilterChain.should === engine
-    # FIXME ... why does this fail?
-    # SpamEngine::Filter::Defensio.should === engine.first
-  end
-  
   protected
   
     def bunch_of_nested_sections!

@@ -1,11 +1,11 @@
 class PostsController < BaseController
   authenticates_anonymous_user
-
+  
   before_filter :set_section
   before_filter :set_topic
   before_filter :set_post, :only => [:edit, :update, :destroy]
-  cache_sweeper :comment_sweeper, :only => [:create, :update, :destroy]
-
+  cache_sweeper :post_sweeper, :only => [:create, :update, :destroy]
+  
   guards_permissions :post
   
   def new
@@ -16,7 +16,7 @@ class PostsController < BaseController
     @post = @topic.reply current_user, params[:post]
     if @post.save
       flash[:notice] = t(:'adva.posts.flash.create.success')
-      redirect_to topic_path(@section, @topic.permalink, :anchor => dom_id(@post)) # TODO include page
+      redirect_to topic_path(@section, @topic.permalink, :anchor => dom_id(@post), :page => @topic.last_page)
     else
       flash[:error] = t(:'adva.posts.flash.create.failure')
       render :action => "new"
@@ -29,7 +29,7 @@ class PostsController < BaseController
   def update
     if @post.update_attributes(params[:post])
       flash[:notice] = t(:'adva.posts.flash.update.success')
-      redirect_to topic_path(@section, @topic.permalink, :anchor => dom_id(@post)) # TODO include page
+      redirect_to topic_path(@section, @topic.permalink, :anchor => dom_id(@post), :page => @post.page)
     else
       flash[:error] = t(:'adva.posts.flash.update.failure')
       render :action => "edit"
@@ -43,7 +43,8 @@ class PostsController < BaseController
     else
       @post.destroy
       flash[:notice] = t(:'adva.posts.flash.destroy.success')
-      redirect_to params[:return_to] || topic_path(@section, @topic)
+      params[:return_to] = params[:return_to].sub(/page\/[\d]*$/, @post.previous.page.to_s) if params[:return_to]
+      redirect_to params[:return_to] || topic_path(@section, @topic, :page => @post.previous.page)
     end
   end
 
@@ -55,7 +56,7 @@ class PostsController < BaseController
     end
 
     def set_post
-      @post = @topic.comments.find params[:id]
+      @post = @topic.posts.find params[:id]
     end
 
     def current_resource

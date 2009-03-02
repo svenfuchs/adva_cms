@@ -1,10 +1,14 @@
 class BaseController < ApplicationController
   class SectionRoutingError < ActionController::RoutingError; end
-  helper :base, :content, :users, :roles
+  helper :base, :content, :users
+  helper :roles if Rails.plugin?(:adva_rbac) # FIXME how to automatically include all installed helpers?
+  helper :blog  if Rails.plugin?(:adva_blog)
+
   helper_method :perma_host
 
-  include ContentHelper # WTF!
   include CacheableFlash
+  include ContentHelper # WTF!
+  include BlogHelper if Rails.plugin?(:adva_blog)
 
   before_filter :set_site, :set_section, :set_locale, :set_timezone, :set_cache_root
   around_filter OutputFilter::Cells.new

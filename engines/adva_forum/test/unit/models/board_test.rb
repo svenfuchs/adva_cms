@@ -10,26 +10,18 @@ class BoardTest < ActiveSupport::TestCase
     @topic = forum_without_boards.topics.first
   end
   
-  test "acts as a commentable" do
-    Board.should act_as_commentable
-  end
-  
   test "acts as role context with a Section as a parent" do
     Board.should act_as_role_context(:parent => Section)
   end
 
-  test "has a topics counter" do
-    Board.should have_counter(:topics)
-  end
-  
   test "delegates topics_per_page to the section" do
     @forum.update_attribute(:topics_per_page, 9)
     @board.topics_per_page.should == @forum.topics_per_page
   end
   
-  test "delegates comments_per_page to the section" do
-    @forum.update_attribute(:comments_per_page, 9)
-    @board.comments_per_page.should == @forum.comments_per_page
+  test "delegates posts_per_page to the section" do
+    @forum.update_attribute(:posts_per_page, 9)
+    @board.posts_per_page.should == @forum.posts_per_page
   end
   
   # Associations
@@ -50,8 +42,16 @@ class BoardTest < ActiveSupport::TestCase
     @board.should belong_to(:last_author)
   end
 
-  test "has a comments counter" do
-    @board.should have_one(:comments_counter)
+  test "has many posts" do
+    @board.should have_many(:posts)
+  end
+  
+  test "has a topics counter" do
+    @board.should have_counter(:topics)
+  end
+  
+  test "has a posts counter" do
+    @board.should have_counter(:posts)
   end
   
   # Callbacks
@@ -60,8 +60,8 @@ class BoardTest < ActiveSupport::TestCase
   #   Board.after_create.should include(:set_topics_count)
   # end
   # 
-  # test "initializes the comments counter after create" do
-  #   Board.after_create.should include(:set_comments_count)
+  # test "initializes the posts counter after create" do
+  #   Board.after_create.should include(:set_posts_count)
   # end
   
   test "sets the site before validation" do
@@ -82,8 +82,8 @@ class BoardTest < ActiveSupport::TestCase
     @forum.boards.count.should == @forum.boards.count
   end
 
-  test "should have counted the comments" do
-    @board.comments_count.should == @board.comments.count
+  test "should have counted the posts" do
+    @board.posts_count.should == @board.posts.count
   end
 
   test "should have counted the topics" do
@@ -92,8 +92,8 @@ class BoardTest < ActiveSupport::TestCase
   
   # Cached attributes
   #
-  # test "should have last_comment_id set" do
-  #   @board.last_comment_id.should == @@board.comments.last.id
+  # test "should have last_post_id set" do
+  #   @board.last_post_id.should == @@board.posts.last.id
   # end
   # 
   # test "should have last_updated_at set" do
@@ -106,23 +106,23 @@ class BoardTest < ActiveSupport::TestCase
   
   # Public methods
   
-  # test '#after_comment_update, destroys itself if the comment was destroyed and no more comments exist' do
-  #   @comment.stub!(:frozen?).and_return true
-  #   @board.comments.stub!(:last_one).and_return nil
+  # test '#after_post_update, destroys itself if the post was destroyed and no more posts exist' do
+  #   @post.stub!(:frozen?).and_return true
+  #   @board.posts.stub!(:last_one).and_return nil
   #   @board.should_receive(:destroy)
-  #   @board.after_comment_update(@comment)
+  #   @board.after_post_update(@post)
   # end
   # 
-  # test 'updates its cache attributes if the comment was saved' do
+  # test 'updates its cache attributes if the post was saved' do
   #   @board.should_receive(:update_attributes!).with(@fields)
-  #   @board.after_comment_update(@comment)
+  #   @board.after_post_update(@post)
   # end
   # 
-  # test 'updates its cache attributes if the comment was destroyed but more comments exist' do
-  #   @comment.stub!(:frozen?).and_return true
-  #   @board.comments.stub!(:last_one).and_return @comment
+  # test 'updates its cache attributes if the post was destroyed but more posts exist' do
+  #   @post.stub!(:frozen?).and_return true
+  #   @board.posts.stub!(:last_one).and_return @post
   #   @board.should_receive(:update_attributes!).with(@fields)
-  #   @board.after_comment_update(@comment)
+  #   @board.after_post_update(@post)
   # end
   
   test "#last?, returns true if forum has only one board" do
@@ -169,7 +169,7 @@ class BoardTest < ActiveSupport::TestCase
   #   @topic.board.should == @board
   # end
   # 
-  # test "assigns topics comment(s) to the board" do
+  # test "assigns topics post(s) to the board" do
   #   @board.send(:assign_topics)
   #   @topic.reload
   #   @topic.initial_post.board.should == @board
@@ -191,7 +191,7 @@ class BoardTest < ActiveSupport::TestCase
   #     @topic.board.should be_nil
   #   end
   #   
-  #   it "unassigns topics comment(s) from the board" do
+  #   it "unassigns topics post(s) from the board" do
   #     @board.send(:assign_topics)
   #     @topic.reload
   #     @topic.initial_post.board.should be_nil

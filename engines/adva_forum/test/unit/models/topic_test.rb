@@ -3,19 +3,17 @@ require File.expand_path(File.dirname(__FILE__) + '/../../test_helper.rb')
 class TopicTest < ActiveSupport::TestCase
   def setup
     super
-    @topic  = Topic.first
-    @site   = @topic.section.site
-    @user   = User.first
-    @attributes = {:body => 'body'}
-    @forum = Forum.find_by_permalink('a-forum-with-two-topics')
-    @first_topic  = @forum.topics.find_by_permalink('first-topic')
-    @last_topic   = @forum.topics.find_by_permalink('last-topic')
+    @user = User.first
+    @topic = Topic.find_by_title('a board topic')
+    @last_topic = Topic.find_by_title('another board topic')
+    @forum = @topic.section
+
+    stub(@topic).last_updated_at.returns 3.months.ago
     stub(@last_topic).last_updated_at.returns 1.second.ago
-    stub(@first_topic).last_updated_at.returns 3.months.ago
   end
   
   test "delegates comment_filter to a site" do
-    @topic.comment_filter.should == @site.comment_filter
+    @topic.comment_filter.should == @forum.site.comment_filter
   end
   
   # Class extensions
@@ -23,47 +21,47 @@ class TopicTest < ActiveSupport::TestCase
   test "has a permalink generated from the title" do
     Topic.should have_permalink(:title)
   end
-
-  test 'acts as a commentable' do
-    Topic.should act_as_commentable
-  end
-
+  
   test 'acts as a role context' do
     Topic.should act_as_role_context(:parent => Board)
   end
-
-  # test 'specifies implicit roles (author roles for comments)' do
+  
+  # test 'specifies implicit roles (author roles for posts)' do
   #   @topic.should respond_to(:implicit_roles)
   # end
-
-  test "has a comments counter" do
-    Topic.should have_counter(:comments)
-  end
   
   # Associations
   
   test 'belongs to a site' do
     @topic.should belong_to(:site)
   end
-
+  
   test 'belongs to a section' do
     @topic.should belong_to(:section)
   end
-
+  
   test 'belongs to a board' do
     @topic.should belong_to(:board)
   end
-
-  test 'belongs to a last comment' do
-    @topic.should belong_to(:last_comment)
+  
+  test 'belongs to a last post' do
+    @topic.should belong_to(:last_post)
   end
-
+  
   test 'belongs to a author' do
     @topic.should belong_to(:author)
   end
-
+  
   test 'belongs to a last_author' do
     @topic.should belong_to(:last_author)
+  end
+  
+  test 'have many posts' do
+    @topic.respond_to?(:posts).should be_true
+  end
+  
+  test "has a posts counter" do
+    Topic.should have_counter(:posts)
   end
   
   # Callbacks
@@ -78,7 +76,7 @@ class TopicTest < ActiveSupport::TestCase
     @topic.board = nil # sets section from board before_validate, so remove that one, too
     @topic.should validate_presence_of(:section)
   end
-
+  
   test 'validates the presence of a title' do
     @topic.should validate_presence_of(:title)
   end
@@ -97,12 +95,12 @@ class TopicTest < ActiveSupport::TestCase
     topic.title.should == 'new topic object'
     topic.author.should == @user
   end
-
+  
   test "#post, sets the current author as the topic's last_author" do
     topic = Topic.post(@user, @topic.attributes)
     topic.last_author.should == @user
   end
-
+  
   test "#post, replies to the new topic with an initial post" do
     topic = Topic.post(@user, @topic.attributes)
     topic.initial_post.should_not be_nil
@@ -125,55 +123,48 @@ class TopicTest < ActiveSupport::TestCase
   
   # .reply
   
-  test '#reply, builds a new comment with the given attributes' do
-    post = @topic.reply(@user, @attributes)
-    post.should be_kind_of(Comment)
+  test '#reply, builds a new post with the given attributes' do
+    post = @topic.reply(@user, :body => 'body')
+    post.should be_kind_of(Post)
   end
-
-  test '#reply, sets the comment author' do
-    post = @topic.reply(@user, @attributes)
+  
+  test '#reply, sets the post author' do
+    post = @topic.reply(@user, :body => 'body')
     post.author.should == @user
   end
-
+  
   test '#reply, sets the board' do
-    post = @topic.reply(@user, @attributes)
+    post = @topic.reply(@user, :body => 'body')
     post.board.should == @topic.board
   end
-
-  test '#reply, sets itself as the commentable' do
-    post = @topic.reply(@user, @attributes)
-    post.commentable.should == @topic
+  
+  test '#reply, sets itself as the topic' do
+    post = @topic.reply(@user, :body => 'body')
+    post.topic.should == @topic
   end
-
-  test '#reply, returns a valid comment when a valid, new author and a body were given' do
-    post = @topic.reply(@user, @attributes)
+  
+  test '#reply, returns a valid post when a valid, new author and a body were given' do
+    post = @topic.reply(@user, :body => 'body')
     lambda { post.save! }.should_not raise_error
   end
   
-  # .revise
+  # .update_attributes
   
-  # FIXME "works the same way as update_attributes does, but also uses move_to_board when a board_id was given"
-  # 
-  # test "#revise, does not touch the comments if topics board is not changed" do
-  #   @topic.revise :title => 'new title'
-  #   @topic.comments.each do |comment|
-  #     comment.board_id.should == @topic.board_id
-  #   end
-  # end
-  # 
-  # test "#revise, updates topics comments when board of topics is changed" do
-  #   @topic.revise :board_id => 1
-  #   @topic.comments.each do |comment|
-  #     comment.board_id.should == 1
-  #   end
-  # end
-
+  # works the same way as update_attributes does, but also uses move_to_board when a board_id was given
+  test "#update_attributes moves the topic's posts when the topic's board_id is changed" do
+    @topic.update_attributes :title => 'foo', :board_id => 1
+    @topic.title.should == 'foo'
+    @topic.posts.each do |post|
+      post.board_id.should == 1
+    end
+  end
+  
   # .accept_comments?
-
+  
   test '#accept_comments?, returns true when it is not locked' do
     @topic.accept_comments?.should be_true
   end
-
+  
   test '#accept_comments?, returns false when it is locked' do
     @topic.update_attribute(:locked, 1)
     @topic.accept_comments?.should be_false
@@ -181,99 +172,111 @@ class TopicTest < ActiveSupport::TestCase
   
   # .paged?
   
-  test '#paged?, returns true when the comments_count is greater than the comments_per_page attribute of the section' do
-    stub(@topic).comments_count.returns 150
+  test '#paged?, returns true when the posts_count is greater than the posts_per_page attribute of the section' do
+    stub(@topic).posts_count.returns 150
     @topic.paged?.should be_true
   end
-
-  test '#paged?, returns false when the comments_count is not greater than the comments_per_page attribute of the section' do
-    stub(@topic).comments_count.returns 5
+  
+  test '#paged?, returns false when the posts_count is not greater than the posts_per_page attribute of the section' do
+    stub(@topic).posts_count.returns 5
     @topic.paged?.should be_false
+  end
+  
+  # .page
+  
+  test 'page returns 1 for the first post on page 1' do
+    @topic.section.update_attributes :posts_per_page => 2
+    post = @topic.posts.first
+    post.page.should == 1
+  end
+  
+  test 'page returns 1 for the last post on page 1' do
+    @topic.section.update_attributes :posts_per_page => 2
+    post = @topic.posts.second
+    post.page.should == 1
+  end
+  
+  test 'page returns 1 for the first post on page 2' do
+    @topic.section.update_attributes :posts_per_page => 2
+    post = @topic.posts.third
+    post.page.should == 2
+  end
+  
+  test 'page returns 2 for the last post on page 2' do
+    @topic.section.update_attributes :posts_per_page => 2
+    post = @topic.posts.last
+    post.page.should == 2
   end
   
   # .last_page
   
-  test '#last_page, which is 1 when comments_count is 0' do
-    stub(@topic).comments_count.returns 0
+  test '#last_page, which is 1 when posts_count is 0' do
+    stub(@topic).posts_count.returns 0
     @topic.last_page.should == 1
   end
-
-  test '#last_page, which is 1 when comments_count is lesser than comments_per_page' do
-    stub(@topic).comments_count.returns 5
+  
+  test '#last_page, which is 1 when posts_count is lesser than posts_per_page' do
+    stub(@topic).posts_count.returns 5
     @topic.last_page.should == 1
   end
-
-  test '#last_page, which is 1 when comments_count equals comments_per_page' do
-    stub(@topic).comments_count.returns 10
+  
+  test '#last_page, which is 1 when posts_count equals posts_per_page' do
+    stub(@topic).posts_count.returns 10
     @topic.last_page.should == 1
   end
-
-  test '#last_page, which is 2 when comments_count is greater than comments_per_page' do
-    stub(@topic).comments_count.returns 15
+  
+  test '#last_page, which is 2 when posts_count is greater than posts_per_page' do
+    stub(@topic).posts_count.returns 15
     @topic.last_page.should == 2
   end
   
   # .previous
-  #
-  # FIXME make this work, last_updated_at is same with all the topics
-  # 
-  # test '#previous, returns the previous topic' do
-  #   @last_topic.previous.should == @first_topic
-  # end
-
+  
+  test '#previous, returns the previous topic' do
+    @last_topic.previous.should == @topic
+  end
+  
   test 'returns nil if no previous topic exists' do
-    @first_topic.previous.should be_nil
+    @topic.previous.should be_nil
   end
   
   # .next
   #
-  # FIXME make this work, last_updated_at is same with all the topics
-  # 
-  # test '#next, returns the next topic' do
-  #   @first_topic.next.should == @last_topic
-  # end
-
+  test '#next, returns the next topic' do
+    @topic.next.should == @last_topic
+  end
+  
   test '#next, returns nil if no next topic exists' do
     @last_topic.next.should be_nil
   end
+  
+  test 'destroys itself if the post was destroyed and no more comments exist' do
+    post = @topic.posts.first
+    stub(post).frozen?.returns true
+    stub(@topic.posts).last.returns nil
+    @topic.after_post_update(post)
+    @topic.frozen?.should be_true
+  end
 
-    # describe '#after_comment_update' do
-    #   before :each do
-    #     @comment = stub_comment
-    #     @topic.stub!(:update_attributes!)
-    #     @topic.stub!(:destroy)
-    #   end
-    # 
-    #   it 'destroys itself if the comment was destroyed and no more comments exist' do
-    #     @comment.stub!(:frozen?).and_return true
-    #     @topic.comments.stub!(:last_one).and_return nil
-    #     @topic.should_receive(:destroy)
-    #     @topic.after_comment_update(@comment)
-    #   end
-    # 
-    #   it 'updates its cache attributes if the comment was saved' do
-    #     @topic.comments.stub!(:last_one).and_return nil
-    #     @topic.should_receive(:update_attributes!)
-    #     @topic.after_comment_update(@comment)
-    #   end
-    # 
-    #   it 'updates its cache attributes if the comment was destroyed but more comments exist' do
-    #     @comment.stub!(:frozen?).and_return true
-    #     @topic.comments.stub!(:last_one).and_return @comment
-    #     @topic.should_receive(:update_attributes!)
-    #     @topic.after_comment_update(@comment)
-    #   end
-    # 
-    #   # it 'updates the section by calling after_topic_update' do
-    #   #   @topic.section.should_receive(:after_topic_update)
-    #   #   @topic.after_comment_update(@comment)
-    #   # end
-    # end
+  test 'updates its cache attributes if the post was saved' do
+    post = @topic.posts.first
+    stub(post).frozen?.returns false
+    mock(@topic).update_attributes! :last_updated_at => post.created_at, :last_post_id => post.id, :last_author => post.author
+    @topic.after_post_update(post)
+  end
+  
+  test 'updates its cache attributes if the comment was destroyed but another comment still exists' do
+    post = @topic.posts.first
+    last = @topic.posts.last
+    stub(post).frozen?.returns true
+    mock(@topic).update_attributes! :last_updated_at => last.created_at, :last_post_id => last.id, :last_author => last.author
+    @topic.after_post_update(post)
+  end
   
   # .initial_post
   
   test '#initial_post returns the first post of the topic' do
-    @topic.initial_post.should == @topic.comments.first
+    @topic.initial_post.should == @topic.posts.first
   end
   
   # Protected methods

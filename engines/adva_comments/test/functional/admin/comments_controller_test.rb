@@ -2,6 +2,7 @@ require File.expand_path(File.dirname(__FILE__) + "/../../test_helper")
 
 class AdminCommentsControllerTest < ActionController::TestCase
   include ContentHelper
+  include BlogHelper
   tests Admin::CommentsController
 
   with_common [:a_section, :a_blog], :a_published_article, [:an_approved_comment, :an_unapproved_comment], :is_superuser

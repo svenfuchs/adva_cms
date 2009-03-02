@@ -32,7 +32,7 @@ class Test::Unit::TestCase
   share :a_topic_with_reply do
     before do
       @topic = @section.topics.find_by_permalink 'a-topic'
-      @reply = @topic.comments.find_by_body 'a reply'
+      @reply = @topic.posts.find_by_body 'a reply'
     end
   end
   

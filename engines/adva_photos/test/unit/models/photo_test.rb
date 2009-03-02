@@ -19,8 +19,8 @@ class PhotoTest < ActiveSupport::TestCase
     Photo.should act_as_role_context(:roles => :author)
   end
 
-  test "acts as a commentable" do
-    Photo.should act_as_commentable
+  test "has many comments" do
+    Photo.should have_many_comments
   end
 
   test "has a comments counter" do

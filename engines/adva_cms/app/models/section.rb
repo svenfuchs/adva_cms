@@ -10,11 +10,11 @@ class Section < Content
   
   serialize :permissions
 
-  has_option :articles_per_page, :default => 15
+  has_option :contents_per_page, :default => 15
   has_permalink :title, :url_attribute => :permalink, :sync_url => true, :only_when_blank => true, :scope => :site_id
 
-  acts_as_nested_set
   instantiates_with_sti
+  acts_as_nested_set
 
   belongs_to :site
   has_many :articles, :foreign_key => 'section_id', :dependent => :destroy do
@@ -37,14 +37,14 @@ class Section < Content
 
   validates_presence_of :title # :site wtf ... this breaks install_controller#index
   validates_uniqueness_of :permalink, :scope => :site_id
-  validates_numericality_of :articles_per_page, :only_integer => true, :message => :only_integer
+  validates_numericality_of :contents_per_page, :only_integer => true, :message => :only_integer
   
   # validates_each :template, :layout do |record, attr, value|
   #   record.errors.add attr, 'may not contain dots' if value.index('.') # FIXME i18n
   #   record.errors.add attr, 'may not start with a slahs' if value.index('.') # FIXME i18n
   # end
 
-  # TODO validates_inclusion_of :articles_per_page, :in => 1..30, :message => "can only be between 1 and 30."
+  # TODO validates_inclusion_of :contents_per_page, :in => 1..30, :message => "can only be between 1 and 30."
 
   class << self
     def register_type(type)

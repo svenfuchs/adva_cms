@@ -8,15 +8,14 @@ module ActiveRecord
       def has_many_comments(options = {})
         # return if has_many_comments? # would not work for Section < Content which both have_many_comments
 
-        options[:as] = :commentable if options.delete(:polymorphic)
-        options[:order] = 'comments.created_at'
+        options[:order] = 'comments.created_at, comments.id'
         options[:class_name] ||= 'Comment'
 
         has_counter :comments,
-                    :as => options[:as] || name.underscore
+                    :as => options[:as]
 
         has_counter :approved_comments,
-                    :as => options[:as] || name.underscore,
+                    :as => options[:as],
                     :class_name => 'Comment',
                     :callbacks => { 
                       :after_approve   => :increment!, 
@@ -24,30 +23,18 @@ module ActiveRecord
                       :after_destroy  => :decrement! 
                     }
 
-        has_many_comments_associations(options)
-
-        include InstanceMethods
-      end
-
-      def has_many_comments_associations(options = {})
-        options[:order] = 'comments.created_at, comments.id'
-        options[:class_name] ||= 'Comment'
-
+        options.delete(:as) unless options[:as] == :commentable
         with_options options do |c|
           c.has_many :comments, :dependent => :delete_all do
             def by_author(author)
               find_all_by_author_id_and_author_type(author.id, author.class.name)
             end
           end
-
-          # FIXME why do we overwrite the class_name option here? shouldn't we
-          # use the one that was passed with the options hash?
-          # FIXME can we remove the Topic dependency here? just ignore it because
-          # there's no concept of approving comments in the Forum?
-          condition = "comments.approved = ? AND comments.commentable_type <> 'Topic'"
-          c.has_many :approved_comments,   :conditions => [condition, 1], :class_name => 'Comment'
-          c.has_many :unapproved_comments, :conditions => [condition, 0], :class_name => 'Comment'
+          c.has_many :approved_comments,   :conditions => ["comments.approved = ?", 1] 
+          c.has_many :unapproved_comments, :conditions => ["comments.approved = ?", 0]
         end
+
+        include InstanceMethods
       end
 
       def has_many_comments?
@@ -59,3 +46,4 @@ module ActiveRecord
     end
   end
 end
+ActiveRecord::Base.send :include, ActiveRecord::HasManyComments

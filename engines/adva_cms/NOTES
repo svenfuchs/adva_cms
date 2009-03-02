@@ -1,3 +1,8 @@
+compare what scrooge is doing to observe active_records to what our cache_references
+plugin is doing: http://github.com/methodmissing/scrooge/tree/master
+
+
+
 # Sections refactoring
 
 Sections are now Contents and Contents are nested sets.

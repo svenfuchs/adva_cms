@@ -14,8 +14,10 @@
   </ul>
 <% end -%>
 
-<h3>Assets</h3>
-<%= render :partial => 'admin/assets/widget/widget', :locals => { :assets => { :latest => @site.assets.recent, :attached => @wikipage.assets, :bucket => bucket_assets } } %>
+<% if Rails.plugin?(:adva_assets) %>
+	<h3>Assets</h3>
+	<%= render :partial => 'admin/assets/widget/widget', :locals => { :assets => { :latest => @site.assets.recent, :attached => @wikipage.assets, :bucket => bucket_assets } } %>
+<% end -%>
 
 <% unless @wikipage.versions.empty? -%>
   <h3><%= t(:'adva.wikipage.view._options.wikipage_versions_header') %></h3>

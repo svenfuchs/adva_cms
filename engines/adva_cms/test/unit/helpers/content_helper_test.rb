@@ -5,8 +5,8 @@ class ContentHelperTest < ActionView::TestCase
 
   def setup
     super
-    @site = Site.first
-    @section = Section.first
+    @section = Section.find_by_title 'a section'
+    @site    = @section.site
     @article = @section.articles.find_published :first
   end
 
@@ -52,18 +52,6 @@ class ContentHelperTest < ActionView::TestCase
   end
 
   # content_path
-
-  test "#content_path given the content's section is a Blog it returns an article_path" do
-    @article = Blog.first.articles.first
-    mock(self).blog_article_path.with(@article.section, @article.full_permalink)
-    content_path(@article)
-  end
-
-  test "#content_path given the content's section is a Wiki it returns an wikipage_path" do
-    @wikipage = Wiki.first.wikipages.first
-    mock(self).wikipage_path.with(@wikipage.section, @wikipage.permalink, {})
-    content_path(@wikipage)
-  end
 
   test "#content_path given the content's section is a Section it returns an section_article_path" do
     mock(self).section_article_path.with(@article.section, @article.permalink, {})

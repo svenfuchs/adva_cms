@@ -1,6 +1,5 @@
 class Admin::ArticlesController < Admin::BaseController
   layout "admin"
-  helper 'admin/comments', 'assets', 'roles'
 
   # before_filter :admin_required
   # member_actions.push *%W(index show new destroy create)

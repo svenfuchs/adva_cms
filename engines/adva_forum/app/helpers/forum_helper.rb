@@ -1,4 +1,8 @@
 module ForumHelper
+  def forum_content_path(content, options = {})
+    topic_path content.section # FIXME hu?
+  end
+  
   def confirm_board_delete(forum)
     if forum.boards.size == 1
       t(:'adva.boards.confirm_delete_on_last')
@@ -21,9 +25,9 @@ module ForumHelper
   def link_to_last_post(*args)
     options = args.extract_options!
     topic = args.pop
-    return '' unless topic.last_comment
-    text = args.pop || topic.last_comment.created_at.to_s(:long)
-    options[:anchor] = dom_id(topic.last_comment)
+    return '' unless topic.last_post
+    text = args.pop || topic.last_post.created_at.to_s(:long)
+    options[:anchor] = dom_id(topic.last_post)
     options[:page] = topic.last_page if topic.last_page > 1
     link_to text, topic_path(topic.section, topic.permalink, options)
   end
@@ -53,7 +57,7 @@ module ForumHelper
 
   def topic_attributes(topic, format = nil)
     attrs = []
-    attrs << t(:'adva.topics.titles.post_count', :count => topic.comments_count)
+    attrs << t(:'adva.topics.titles.post_count', :count => topic.posts_count)
     attrs << t(:'adva.topics.states.sticky') if topic.sticky?
     attrs << t(:'adva.topics.states.locked') if topic.locked?
     (format || '%s') % attrs.join(', ') unless attrs.empty?

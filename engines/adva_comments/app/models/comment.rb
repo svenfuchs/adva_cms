@@ -75,10 +75,12 @@ class Comment < ActiveRecord::Base
   end
 
   def check_approval(context = {})
-    section.spam_engine.check_comment(self, context)
-    self.spaminess = calculate_spaminess
-    self.approved = ham?
-    save!
+    if section.respond_to?(:spam_engine)
+      section.spam_engine.check_comment(self, context)
+      self.spaminess = calculate_spaminess
+      self.approved = ham?
+      save!
+    end
   end
 
   def calculate_spaminess

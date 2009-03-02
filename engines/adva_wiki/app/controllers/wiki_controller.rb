@@ -6,6 +6,7 @@ class WikiController < BaseController
   before_filter :set_wikipages, :only => [:index]
   before_filter :set_author_params, :only => [:create, :update]
   before_filter :optimistic_lock, :only => [:update]
+  helper :wiki
 
   authenticates_anonymous_user
   acts_as_commentable
