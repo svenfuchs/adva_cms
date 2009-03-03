@@ -6,25 +6,25 @@ ActionController::Routing::Routes.draw do |map|
   map.filter 'section_paths'
   map.filter 'pagination'
     
-  map.section                     'sections/:section_id',
-                                  :controller   => 'articles',
-                                  :action       => "index",
-                                  :conditions => { :method => :get }
+  map.page                             'pages/:section_id',
+                                       :controller   => 'articles',
+                                       :action       => "index",
+                                       :conditions => { :method => :get }
+                                       
+  map.page_article                     'pages/:section_id/articles/:permalink',
+                                       :controller   => 'articles',
+                                       :action       => "show",
+                                       :conditions => { :method => :get }
+                                       
+  map.formatted_page_comments          'pages/:section_id/comments.:format',
+                                       :controller   => 'articles',
+                                       :action       => "comments",
+                                       :conditions => { :method => :get }
 
-  map.section_article             'sections/:section_id/articles/:permalink',
-                                  :controller   => 'articles',
-                                  :action       => "show",
-                                  :conditions => { :method => :get }
-
-  map.formatted_section_comments  'sections/:section_id/comments.:format',
-                                  :controller   => 'articles',
-                                  :action       => "comments",
-                                  :conditions => { :method => :get }
-
-  map.formatted_section_article_comments  'sections/:section_id/articles/:permalink.:format',
-                                  :controller   => 'articles',
-                                  :action       => "comments",
-                                  :conditions => { :method => :get }
+  map.formatted_page_article_comments  'pages/:section_id/articles/:permalink.:format',  # FIXME can we remove this one?
+                                       :controller   => 'articles',
+                                       :action       => "comments",
+                                       :conditions => { :method => :get }
 
 
   map.connect 'admin',            :controller   => 'admin/sites',

@@ -11,7 +11,7 @@ require File.expand_path(File.dirname(__FILE__) + "/../../test_helper")
 class AdminArticlesControllerTest < ActionController::TestCase
   tests Admin::ArticlesController
 
-  with_common :is_superuser, [:a_section, :a_blog]
+  with_common :is_superuser, [:a_page, :a_blog]
 
   def default_params
     { :site_id => @site.id, :section_id => @section.id }
@@ -55,7 +55,7 @@ class AdminArticlesControllerTest < ActionController::TestCase
   
     with :access_granted do
       it_assigns :articles
-      it_renders :template, lambda { @section.is_a?(Blog) ? 'admin/blog/index' : 'admin/articles/index' }
+      it_renders :template, lambda { "admin/#{@section.type.tableize}/articles/index" }
       
       it "displays an articles list" do
         has_tag 'p[class=total]', /total: \d article(s)?/i
@@ -155,7 +155,7 @@ class AdminArticlesControllerTest < ActionController::TestCase
           assigns(:article).reload.site.should == @site
         end
   
-        it "associates the new Article to the current section" do
+        it "associates the new Article to the current page" do
           assigns(:article).reload.section.should == @section
         end
       end

@@ -82,14 +82,14 @@ class Test::Unit::TestCase
 
   share :a_site do
     before do
-      @site = Site.find_by_host 'site-with-sections.com'
+      @site = Site.find_by_host 'site-with-pages.com'
       set_request_host!
     end
   end
 
-  share :a_section do
+  share :a_page do
     before do
-      @section = Section.find_by_permalink 'a-section'
+      @section = Section.find_by_permalink 'a-page'
       @site = @section.site
       set_request_host!
     end
@@ -144,7 +144,7 @@ class Test::Unit::TestCase
 
   share :a_published_article do
     before do
-      @article = @section.articles.first # .find_by_title 'a section article'
+      @article = @section.articles.first # .find_by_title 'a page article'
       publish @article
     end
   end
@@ -215,16 +215,16 @@ class Test::Unit::TestCase
   
   def valid_site_params
     { :site    => {:name => 'site name', :host => 'valid-host.com' },
-      :section => {:type => 'Section', :title => 'section title'} }
+      :section => {:type => 'Page', :title => 'page title'} }
   end
   
   def valid_install_params
     valid_site_params.merge :user => {:email => 'admin@admin.org', :password => 'password'}
   end
   
-  def valid_section_params
-    { :title      => 'the section title',
-      :type       => 'Section' }
+  def valid_page_params
+    { :title      => 'the page title',
+      :type       => 'Page' }
   end
 
   def valid_article_params(user = nil)
@@ -252,15 +252,15 @@ class Test::Unit::TestCase
     end
   end
   
-  share :valid_section_params do
+  share :valid_page_params do
     before do
-      @params = { :section => valid_section_params }
+      @params = { :section => valid_page_params }
     end
   end
   
-  share :invalid_section_params do
+  share :invalid_page_params do
     before do
-      @params = { :section => valid_section_params.update(:title => '') }
+      @params = { :section => valid_page_params.update(:title => '') }
     end
   end
   

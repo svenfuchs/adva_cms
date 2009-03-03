@@ -95,7 +95,7 @@ describe "Routing Filter::Sections" do
   describe "#after_url_helper" do
     before :each do
       @section = mock_section
-      Section.stub!(:types).and_return ['Section']
+      Section.stub!(:types).and_return ['Page']
       Section.should_receive(:find).with("1").and_return @section
     end
 
@@ -110,11 +110,11 @@ describe "Routing Filter::Sections" do
                 @section.should_receive(:root_section?).and_return(false)
               end
 
-              it "should rewrite the path to #{host}#{locale}/:section_path" do
+              it "should rewrite the path to #{host}#{locale}/:page_path" do
                 after_url_helper(:sections, nil, "#{host}#{locale}/sections/1").should == "#{host}#{locale}/section/"
               end
 
-              it "should rewrite the path to #{host}#{locale}/section_path leaving trailing stuff as is" do
+              it "should rewrite the path to #{host}#{locale}/page_path leaving trailing stuff as is" do
                 after_url_helper(:sections, nil, "#{host}#{locale}/sections/1/something").should == "#{host}#{locale}/section/something"
               end
             end

@@ -1,41 +1,41 @@
 require File.expand_path(File.dirname(__FILE__) + "/../test_helper")
 
-class SectionArticlesControllerTest < ActionController::TestCase
+class PageArticlesControllerTest < ActionController::TestCase
   tests ArticlesController
-  # with_common :a_section, :an_article
+  # with_common :a_page, :an_article
   
   test "is a BaseController" do
     @controller.should be_kind_of(BaseController)
   end
   
   describe 'GET to :index' do
-    action { get :index, params_from('/a-section') }
+    action { get :index, params_from('/a-page') }
     
-    with :a_section do
-      with "the section has some articles" do
+    with :a_page do
+      with "the page has some articles" do
         it_assigns :section, :articles
-        it_renders :template, 'sections/articles/index'
+        it_renders :template, 'pages/articles/index'
         it_caches_the_page :track => '@articles'
         # FIXME displays a list of articles
       end
 
-      with "the section does not have any articles" do
+      with "the page does not have any articles" do
         before { @section.articles.clear }
         it_assigns :section
         it_does_not_assign :article
-        it_renders :template, 'sections/articles/show'
+        it_renders :template, 'pages/articles/show'
         it_caches_the_page :track => '@article'
       end
     end
   end
   
   describe 'GET to :show' do
-    action { get :show, params_from('/a-section/articles/a-section-article') }
+    action { get :show, params_from('/a-page/articles/a-page-article') }
     
-    with :a_section, :an_article do
+    with :a_page, :an_article do
       with :the_article_is_published do
         it_assigns :section, :article
-        it_renders :template, 'sections/articles/show'
+        it_renders :template, 'pages/articles/show'
         it_caches_the_page :track => '@article'
         
         it "displays the article's body" do
@@ -66,7 +66,7 @@ class SectionArticlesControllerTest < ActionController::TestCase
         
         with :is_superuser do
           it_assigns :section, :article
-          it_renders :template, 'sections/articles/show'
+          it_renders :template, 'pages/articles/show'
           it_does_not_cache_the_page
         end
       end
@@ -79,9 +79,9 @@ class SectionArticlesControllerTest < ActionController::TestCase
   end
 
   describe "GET to :comments atom feed with no article permalink given" do
-    action { get :comments, params_from("/a-section/comments.atom") }
+    action { get :comments, params_from("/a-page/comments.atom") }
   
-    with :a_section, :an_article do
+    with :a_page, :an_article do
       with :the_article_is_published do
         it_assigns :section, :comments
         it_renders :template, 'comments/comments', :format => :atom
@@ -96,9 +96,9 @@ class SectionArticlesControllerTest < ActionController::TestCase
   end
   
   describe "GET to :comments atom feed with an article permalink given" do
-    action { get :comments, params_from("/a-section/articles/a-section-article.atom") }
+    action { get :comments, params_from("/a-page/articles/a-page-article.atom") }
   
-    with :a_section, :an_article do
+    with :a_page, :an_article do
       with :the_article_is_published do
         it_assigns :section, :commentable, :comments
         it_renders :template, 'comments/comments', :format => :atom

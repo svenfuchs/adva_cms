@@ -5,7 +5,7 @@ class AdminCommentsControllerTest < ActionController::TestCase
   include BlogHelper
   tests Admin::CommentsController
 
-  with_common [:a_section, :a_blog], :a_published_article, [:an_approved_comment, :an_unapproved_comment], :is_superuser
+  with_common [:a_page, :a_blog], :a_published_article, [:an_approved_comment, :an_unapproved_comment], :is_superuser
 
   def default_params
     { :site_id => @site.id, :return_to => 'return/to/here' }

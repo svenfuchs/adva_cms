@@ -7,7 +7,7 @@ module WikiTests
 
     test "#content_path given the content's section is a Wiki it returns an wikipage_path" do
       @wikipage = Wiki.first.wikipages.second
-      content_path(@wikipage).should =~ %r(/pages/another-wikipage)
+      content_path(@wikipage).should =~ %r(/wikipages/another-wikipage)
     end
   end
 end

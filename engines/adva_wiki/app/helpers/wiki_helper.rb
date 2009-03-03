@@ -8,7 +8,7 @@ module WikiHelper
             alias :wikipage_#{kind}_with_home :wikipage_#{kind}
             def wikipage_#{kind}(*args)
               returning wikipage_#{kind}_with_home(*args) do |url|
-                url.sub! %r(/pages/home$), ''
+                url.sub! %r(/wikipages/home$), ''
                 url.replace '/' if url.empty?
               end
             end

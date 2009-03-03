@@ -12,7 +12,7 @@ class Admin::InstallController < ApplicationController
 
   def index
     params[:content] ||= { :title => t(:'adva.sites.install.section_default') }
-    params[:content][:type] ||= 'Section'
+    params[:content][:type] ||= 'Page'
 
     @site = Site.new params[:site]
     @section = @site.sections.build(params[:content])

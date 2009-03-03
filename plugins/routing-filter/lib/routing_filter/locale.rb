@@ -16,6 +16,7 @@ module RoutingFilter
     def around_generate(*args, &block)
       locale = args.extract_options!.delete(:locale) || I18n.locale
       returning yield do |result|
+        result = result.first if result.is_a?(Array)
         if locale.to_sym != I18n.default_locale
           result.sub!(%r(^(http.?://[^/]*)?(.*))){ "#{$1}/#{locale}#{$2}" }
         end 

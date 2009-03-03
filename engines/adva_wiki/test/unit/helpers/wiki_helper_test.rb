@@ -28,14 +28,14 @@ class WikiHelperTest < ActionView::TestCase
     @controller.should respond_to(:wikipage_path_with_home)
   end
 
-  test "#wikipage_path removes the path segments /pages/home from the result of wikipage_path_home" do
+  test "#wikipage_path removes the path segments /wikipages/home from the result of wikipage_path_home" do
     path = @controller.send :wikipage_path, @section, @wikipage.permalink
     path.should == '/'
   end
 
-  test "#wikipage_path returns the unmodified result of wikipage_path_home when it does not contain /pages/home)" do
+  test "#wikipage_path returns the unmodified result of wikipage_path_home when it does not contain /wikipages/home)" do
     path = @controller.send :wikipage_path, @section, @another_wikipage.permalink
-    path.should == '/pages/another-wikipage'
+    path.should == '/wikipages/another-wikipage'
   end
 
   # wikipage_url
@@ -43,14 +43,14 @@ class WikiHelperTest < ActionView::TestCase
     @controller.should respond_to(:wikipage_url_with_home)
   end
 
-  test "#wikipage_url removes the path segments /pages/home from the result of wikipage_url_home" do
+  test "#wikipage_url removes the path segments /wikipages/home from the result of wikipage_url_home" do
     url = @controller.send :wikipage_url, @section, @wikipage.permalink
     url.should == 'http://test.host'
   end
 
-  test "#wikipage_url returns the unmodified result of wikipage_url_home when it does not contain /pages/home)" do
+  test "#wikipage_url returns the unmodified result of wikipage_url_home when it does not contain /wikipages/home)" do
     url = @controller.send :wikipage_url, @section, @another_wikipage.permalink
-    url.should == 'http://test.host/pages/another-wikipage'
+    url.should == 'http://test.host/wikipages/another-wikipage'
   end
 
   # wikify
@@ -76,7 +76,7 @@ class WikiHelperTest < ActionView::TestCase
 
   test "#wikify_link with no wikipage exists for the given permalink it adds a css class 'new_wiki_link'" do
     result = wikify_link('a missing wikipage')
-    result.should == %(<a href="/pages/a-missing-wikipage" class="new_wiki_link">a missing wikipage</a>)
+    result.should == %(<a href="/wikipages/a-missing-wikipage" class="new_wiki_link">a missing wikipage</a>)
   end
 
   test "#wikify_link with a wikipage exists for the given permalink it returns a link" do

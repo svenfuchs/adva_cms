@@ -11,6 +11,8 @@ class Article < Content
 
   filters_attributes :except => [:excerpt, :excerpt_html, :body, :body_html, :cached_tag_list]
 
+  before_create :set_position
+
   validates_presence_of :title, :body
   validates_uniqueness_of :permalink, :scope => :section_id
   
@@ -76,4 +78,10 @@ class Article < Content
   def just_published?
     published? and published_at_changed?
   end
+  
+  protected
+
+    def set_position
+      self.position ||= section.articles.maximum(:position).to_i + 1 if section
+    end
 end

@@ -4,7 +4,7 @@ module IntegrationTests
   class AdminCategoriesTest < ActionController::IntegrationTest
     def setup
       super
-      @section = Section.find_by_title 'a section'
+      @section = Page.find_by_title 'a page'
       @site = @section.site
       use_site! @site
     end

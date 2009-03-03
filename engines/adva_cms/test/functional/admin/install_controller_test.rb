@@ -80,7 +80,7 @@ class AdminInstallControllerTest < ActionController::TestCase
   # 
   # test "POST :index with invalid user params" do
   #   post :index, :site => {:name => 'Site name'},
-  #                :section => {:type => 'Section', :title => 'section title'}
+  #                :section => {:type => 'Page', :title => 'page title'}
   #                
   #   it_renders :template 'admin/install'
   #   # it_assigns_flash_cookie :error => :not_nil

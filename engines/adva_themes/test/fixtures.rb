@@ -1,4 +1,4 @@
-site = Site.find_by_name 'site with sections'
+site = Site.find_by_name 'site with pages'
 
 theme = site.themes.create! :name     => 'a theme',
                             :version  => '1.0.0',

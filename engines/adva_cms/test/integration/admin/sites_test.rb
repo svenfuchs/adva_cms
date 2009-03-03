@@ -4,7 +4,7 @@ module IntegrationTests
   class AdminSitesTest < ActionController::IntegrationTest
     def setup
       super
-      use_site! 'site with sections'
+      use_site! 'site with pages'
       @old_multi_site_enabled, Site.multi_sites_enabled = Site.multi_sites_enabled, true
     end
     
@@ -28,8 +28,8 @@ module IntegrationTests
       fill_in 'site[title]', :with => 'the new site'
       fill_in 'site[name]',  :with => 'the new site'
       fill_in 'site[host]',  :with => 'http://the-new-site.com'
-      fill_in 'section[title]', :with => "the new site's home section"
-      choose 'Section'
+      fill_in 'section[title]', :with => "the new site's home page"
+      choose 'Page'
       click_button 'Create'
       assert_template "admin/sites/show"
     end

@@ -8,7 +8,7 @@
 #     before :each do
 #       @category = mock_category
 #       @categories_proxy = mock 'categories_proxy', :find_by_path => @category
-#       @section = mock_section(:types => ['Section'], :categories => @categories_proxy)
+#       @section = mock_section(:types => ['Page'], :categories => @categories_proxy)
 #       Section.stub!(:find).and_return @section
 #       Site.stub!(:find_by_host).and_return mock('site', :sections => mock('sections_proxy', :root => @section))
 # 

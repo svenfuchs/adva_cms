@@ -1,7 +1,7 @@
 Menu.instance(:'default.sections', :class => 'menu') do
   if site = controller.site # FIXME why is @site nil here?
     site.sections.roots.each do |child|
-      item child.title, :url => section_path(child)
+      item child.title, :url => page_path(child)
     end
   end
 end

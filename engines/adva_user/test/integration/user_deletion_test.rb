@@ -4,7 +4,7 @@ module IntegrationTests
   class UserDeletionTest < ActionController::IntegrationTest
     def setup
       super
-      @site = use_site! 'site with sections'
+      @site = use_site! 'site with pages'
     end
     
     test "A user deletes his account" do

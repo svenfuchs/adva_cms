@@ -114,12 +114,8 @@ class SectionTest < ActiveSupport::TestCase
 
   # CLASS METHODS
   
-  test "Section.content_type returns 'Article'" do
-    Section.content_type.should == 'Article'
-  end
-  
   test "Section.types returns a collection of registered Section types" do
-    Section.types.should include('Section')
+    Section.types.should include('Page')
   end
 
   test "Section.register_type adds a Section type to the type collection" do
@@ -127,16 +123,16 @@ class SectionTest < ActiveSupport::TestCase
     Section.types.should include('Galerie')
   end
   
-  test "Section.register_type should not shift 'Section' from the top position" do
-    Section.register_type('123-section')
-    Section.types.first.should == 'Section'
+  test "Section.register_type should not shift 'Page' from the top position" do
+    Section.register_type('123-foo-bar')
+    Section.types.first.should == 'Page'
   end
   
   # PUBLIC INSTANCE METHODS
   
-  test "#type returns 'Section' for a Section" do
-    s = Section.create! :title => 'title', :site => @site
-    s.type.should == 'Section'
+  test "#type returns 'Page' for a Page" do
+    s = Page.create! :title => 'title', :site => @site
+    s.type.should == 'Page'
   end
 
   test "#owner returns the site" do

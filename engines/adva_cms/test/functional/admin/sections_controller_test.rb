@@ -6,7 +6,7 @@ class AdminSectionsControllerTest < ActionController::TestCase
   tests Admin::SectionsController
 
   # FIXME caching specs fail in :a_blog context
-  with_common :is_superuser, :a_section
+  with_common :is_superuser, :a_page
   
   def default_params
     { :site_id => @site.id }
@@ -28,7 +28,7 @@ class AdminSectionsControllerTest < ActionController::TestCase
     end
   end
   
-  # FIXME spec and implement :index page for sections
+  # FIXME spec and implement :index page for pages
   
   describe "GET to :new" do
     action { get :new, default_params }
@@ -52,7 +52,7 @@ class AdminSectionsControllerTest < ActionController::TestCase
       end
     end
     
-    with :valid_section_params do
+    with :valid_page_params do
       it_guards_permissions :create, :section
       
       with :access_granted do
@@ -67,7 +67,7 @@ class AdminSectionsControllerTest < ActionController::TestCase
         end
       end
     
-      with :invalid_section_params do
+      with :invalid_page_params do
         it_assigns :site, :section => :not_nil
         it_renders :template, :new
         it_assigns_flash_cookie :error => :not_nil
@@ -102,7 +102,7 @@ class AdminSectionsControllerTest < ActionController::TestCase
       end
     end
   
-    with :valid_section_params do
+    with :valid_page_params do
       it_guards_permissions :update, :section
     
       with :access_granted do
@@ -115,7 +115,7 @@ class AdminSectionsControllerTest < ActionController::TestCase
       end
     end
   
-    with :invalid_section_params do
+    with :invalid_page_params do
       with :access_granted do
         it_renders :template, :edit
         it_assigns_flash_cookie :error => :not_nil
@@ -141,7 +141,7 @@ class AdminSectionsControllerTest < ActionController::TestCase
     end
     
     before do
-      @another_section = Section.find_by_permalink('another-section')
+      @another_section = Section.find_by_permalink('another-page')
       @old_path = @section.path
     end
     

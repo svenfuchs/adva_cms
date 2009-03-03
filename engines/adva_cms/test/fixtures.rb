@@ -31,9 +31,9 @@ moderator    = User.create! :first_name => 'a moderator',
 
 # SITES
 
-site         = Site.create! :name => 'site with sections',
-                            :title => 'site with sections title',
-                            :host => 'site-with-sections.com'
+site         = Site.create! :name => 'site with pages',
+                            :title => 'site with pages title',
+                            :host => 'site-with-pages.com'
 
                Site.create! :name => 'another site',
                             :title => 'another site title',
@@ -41,39 +41,39 @@ site         = Site.create! :name => 'site with sections',
 
 # SECTIONS
 
-section =   Section.create! :site => site,
-                            :title => 'a section',
-                            :permalink => 'a-section',
+page =         Page.create! :site => site,
+                            :title => 'a page',
+                            :permalink => 'a-page',
                             :comment_age => 0
 
-            Section.create! :site => site,
-                            :title => 'another section',
-                            :permalink => 'another-section',
+               Page.create! :site => site,
+                            :title => 'another page',
+                            :permalink => 'another-page',
                             :comment_age => 0
 
-category = Category.create! :section => section,
+category = Category.create! :section => page,
                             :title => 'a category'
 
 # ARTICLES
 
 article   = Article.create! :site => site,
-                            :section => section,
-                            :title => 'a section article',
-                            :body => 'a section article body',
+                            :section => page,
+                            :title => 'a page article',
+                            :body => 'a page article body',
                             :categories => [category],
                             :tag_list => 'foo bar',
                             :author => user,
                             :published_at => Time.parse('2008-01-01 12:00:00')
 
             Article.create! :site => site,
-                            :section => section,
-                            :title => 'an unpublished section article',
-                            :body => 'an unpublished section article body',
+                            :section => page,
+                            :title => 'an unpublished page article',
+                            :body => 'an unpublished page article body',
                             :categories => [category],
                             :tag_list => 'foo bar',
                             :author => user
 
-attributes = { :site => site, :section => section, :commentable => article, :author => user }
+attributes = { :site => site, :section => page, :commentable => article, :author => user }
 Comment.create! attributes.merge(:body => 'the approved comment body', :approved => 1)
 Comment.create! attributes.merge(:body => 'the unapproved comment body',:approved => 0)
 
@@ -81,7 +81,7 @@ Comment.create! attributes.merge(:body => 'the unapproved comment body',:approve
 
 superuser.roles << Rbac::Role.build(:superuser)
 admin.roles << Rbac::Role.build(:admin, :context => site)
-moderator.roles << Rbac::Role.build(:admin, :context => section)
+moderator.roles << Rbac::Role.build(:admin, :context => page)
 
 site.users << user
 site.users << superuser
@@ -91,5 +91,5 @@ site.users << moderator
 # OTHERS
 
 CachedPage.create! :site_id => site.id,
-                   :section_id => section.id,
+                   :section_id => page.id,
                    :url => "http://#{site.host}"

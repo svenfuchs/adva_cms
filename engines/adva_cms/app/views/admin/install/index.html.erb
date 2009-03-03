@@ -20,7 +20,7 @@
   <h3><%= t(:'adva.titles.website_home_section') %></h3>  
 
 	<% f.field_set :root_section do %>
-    <% fields_for @section do |section| %>
+    <% fields_for :section, @section do |section| %>
       <%= section.label :type %>
       <% Section.types.each_with_index do |type, ix| %>
         <%= section.radio_button :type, type %>

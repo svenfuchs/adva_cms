@@ -4,7 +4,7 @@ module IntegrationTests
   class AdminCachedPagesTest < ActionController::IntegrationTest
     def setup
       super
-      @site = use_site! 'site with sections'
+      @site = use_site! 'site with pages'
       @admin_cached_pages_page = "/admin/sites/#{@site.id}/cached_pages"
     end
   

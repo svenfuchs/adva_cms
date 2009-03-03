@@ -6,7 +6,7 @@ module IntegrationTests
   class AdminThemesTest < ActionController::IntegrationTest
     def setup
       super
-      @site = use_site! 'site with sections'
+      @site = use_site! 'site with pages'
       @site.themes.destroy_all
       @admin_themes_index_page = "/admin/sites/#{@site.id}/themes"
     end

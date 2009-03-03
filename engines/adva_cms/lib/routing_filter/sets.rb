@@ -16,6 +16,7 @@ module RoutingFilter
 
     def around_generate(*args, &block)
       returning yield do |result|
+        result = result.first if result.is_a?(Array)
         if result !~ %r(^/admin/) and result =~ %r(/sets/([\d]+))
           set = Category.find $1
           result.sub! "/sets/#{$1}", "/sets/#{set.path}"

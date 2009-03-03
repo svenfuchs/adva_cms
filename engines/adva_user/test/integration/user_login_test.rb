@@ -4,7 +4,7 @@ module IntegrationTests
   class UserLoginTest < ActionController::IntegrationTest
     def setup
       super
-      @site = use_site! 'site with sections'
+      @site = use_site! 'site with pages'
     end
   
     test "A verified user logs in with valid credentials" do

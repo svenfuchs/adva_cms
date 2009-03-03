@@ -40,7 +40,6 @@ class Content < ActiveRecord::Base
   has_many :categorizations, :as => :categorizable, :dependent => :destroy, :include => :category
 
   before_validation :set_site
-  before_create :set_position # FIXME can we use nested set columns instead?
   
   default_scope :order => 'position, published_at'
 
@@ -107,10 +106,6 @@ class Content < ActiveRecord::Base
 
     def set_site
       self.site_id = section.site_id if section
-    end
-
-    def set_position
-      self.position ||= section.articles.maximum(:position).to_i + 1 if section
     end
 
     def update_categories(category_ids)

@@ -5,7 +5,7 @@ require File.expand_path(File.dirname(__FILE__) + "/../../test_helper")
 class AdminCategoriesControllerTest < ActionController::TestCase
   tests Admin::CategoriesController
   
-  with_common :is_superuser, [:a_section, :a_blog], :a_category
+  with_common :is_superuser, [:a_page, :a_blog], :a_category
 
   def default_params
     { :site_id => @site.id, :section_id => @section.id }
@@ -76,7 +76,7 @@ class AdminCategoriesControllerTest < ActionController::TestCase
         it_redirects_to { admin_categories_path }
         it_assigns_flash_cookie :notice => :not_nil
         it_changes 'Category.count' => 1
-        it_sweeps_page_cache :by_section => :section
+        it_sweeps_page_cache :by_page => :section
       end
     end
   
@@ -119,7 +119,7 @@ class AdminCategoriesControllerTest < ActionController::TestCase
         it_redirects_to { edit_admin_category_path(@site, @section, assigns(:category).id) }
         it_assigns_flash_cookie :notice => :not_nil
         it_updates :category
-        it_sweeps_page_cache :by_section => :section
+        it_sweeps_page_cache :by_page => :section
       end
     end
   
@@ -144,7 +144,7 @@ class AdminCategoriesControllerTest < ActionController::TestCase
       it_redirects_to { admin_categories_path }
       it_assigns_flash_cookie :notice => :not_nil
       it_destroys :category
-      it_sweeps_page_cache :by_section => :section
+      it_sweeps_page_cache :by_page => :section
     end
   end
 end

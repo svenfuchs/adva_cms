@@ -3,9 +3,9 @@ require File.expand_path(File.dirname(__FILE__) + '/../../test_helper')
 class ContentTest < ActiveSupport::TestCase
   def setup
     super
-    @section = Section.first
-    @content = @section.articles.first
-    @content_attributes = { :title => 'A new content', :body => 'body',:section => @section, :author => User.first }
+    @page = Page.first
+    @content = @page.articles.first
+    @content_attributes = { :title => 'A new content', :body => 'body',:section => @page, :author => User.first }
   end
 
   test "acts as a taggable" do
@@ -47,10 +47,6 @@ class ContentTest < ActiveSupport::TestCase
 
   test "has a comments counter" do
     Content.should have_counter(:comments)
-  end
-  
-  test "sets the position before create" do
-    Content.before_create.should include(:set_position)
   end
   
   # ASSOCIATIONS
@@ -148,7 +144,7 @@ class ContentTest < ActiveSupport::TestCase
   # INSTANCE METHODS
 
   test "#owner returns the section" do
-    @content.owner.should == @section
+    @content.owner.should == @page
   end
 
   test "#attributes= calls update_categories if attributes include a :category_ids key" do
@@ -205,16 +201,16 @@ class ContentTest < ActiveSupport::TestCase
   end
 
   test '#update_categories removes associated categories that are not included in passed category_ids' do
-    @foo = Category.create! :title => 'foo', :section => @section
-    @bar = Category.create! :title => 'bar', :section => @section
+    @foo = Category.create! :title => 'foo', :section => @page
+    @bar = Category.create! :title => 'bar', :section => @page
 
     @content.send :update_categories, [@foo.id, @bar.id]
     @content.categories.should_not include(@category)
   end
 
   test '#update_categories assigns categories that are included in passed category_ids but not already associated' do
-    @foo = Category.create! :title => 'foo', :section => @section
-    @bar = Category.create! :title => 'bar', :section => @section
+    @foo = Category.create! :title => 'foo', :section => @page
+    @bar = Category.create! :title => 'bar', :section => @page
 
     @content.send :update_categories, [@foo.id, @bar.id]
     @content.categories.should include(@foo, @bar)

@@ -4,7 +4,7 @@ module IntegrationTests
   class AdminSectionArticleTest < ActionController::IntegrationTest
     def setup
       super
-      @section = Section.find_by_title 'a section'
+      @section = Page.find_by_title 'a page'
       @site = @section.site
 
       use_site! @site
@@ -33,26 +33,26 @@ module IntegrationTests
     test "editing a German article in English interface" do
       login_as_admin
       visit_admin_articles_index_page
-      click_link 'a section article'
-      assert_select 'input#article_title[value="a section article"]'
-      assert_select '#article_body', 'a section article body'
-      article = Article.find_by_title 'a section article'
+      click_link 'a page article'
+      assert_select 'input#article_title[value="a page article"]'
+      assert_select '#article_body', 'a page article body'
+      article = Article.find_by_title 'a page article'
       visit "/admin/sites/#{@site.id}/sections/#{@section.id}/articles/#{article.id}/edit?cl=de"
       assert_response :success 
-      assert_select 'input#article_title[value="a section article"]'
-      assert_select '#article_body', 'a section article body'
-      fill_in 'article[body]',  :with => 'a section article body in de'
+      assert_select 'input#article_title[value="a page article"]'
+      assert_select '#article_body', 'a page article body'
+      fill_in 'article[body]',  :with => 'a page article body in de'
       click_button 'Save'
       assert_equal 'de', @controller.params[:cl]
       assert_response :success
-      assert_select 'input#article_title[value="a section article"]'
+      assert_select 'input#article_title[value="a page article"]'
 
 #     Something weird going on here -- assert_select has something different than @response.body
 #      puts @response.body
 #      assert_select('form fieldset:first-of-type') do |f|
-#        assert_select('textarea#article_body', 'a section article body in de', f)
+#        assert_select('textarea#article_body', 'a page article body in de', f)
 #      end
-#      assert_select @response.body, 'textarea#article_body', 'a section article body in de'
+#      assert_select @response.body, 'textarea#article_body', 'a page article body in de'
     end
     
     def visit_admin_articles_index_page

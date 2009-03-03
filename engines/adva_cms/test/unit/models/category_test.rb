@@ -3,8 +3,8 @@ require File.expand_path(File.dirname(__FILE__) + '/../../test_helper')
 class CategoryTest < ActiveSupport::TestCase
   def setup
     super
-    @section = Section.first
-    @category = @section.categories.first
+    @page = Page.first
+    @category = @page.categories.first
   end
 
   test 'acts as a nested set' do
@@ -47,7 +47,7 @@ class CategoryTest < ActiveSupport::TestCase
   end
 
   test 'validates the uniqueness of the permalink per section' do
-    @category.section = @section
+    @category.section = @page
     @category.should validate_uniqueness_of(:permalink, :scope => :section_id)
   end
   

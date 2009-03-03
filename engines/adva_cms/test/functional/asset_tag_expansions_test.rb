@@ -70,10 +70,10 @@
 #
 # class AssetTagExpansionsTest < ActionController::TestCase
 #   tests ArticlesController
-#   with_common :a_section
+#   with_common :a_page
 #
-#   describe "GET to frontend section page" do
-#     action { get :index, params_from("/a-section") }
+#   describe "GET to frontend page page" do
+#     action { get :index, params_from("/a-page") }
 #     it "includes the appropriate asset tags" do
 #
 #     end

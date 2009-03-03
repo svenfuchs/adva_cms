@@ -6,7 +6,7 @@ module IntegrationTests
     
     def setup
       super
-      @site = use_site! 'site with sections'
+      @site = use_site! 'site with pages'
       @theme = @site.themes.find_by_theme_id('a-theme')
       @theme.activate!
       @admin_theme_show_page = "/admin/sites/#{@site.id}/themes/#{@theme.id}"
@@ -19,8 +19,8 @@ module IntegrationTests
       
       # template
       create_a_new_theme_file :filename => 'layouts/default.html.erb', :data => 'the default layout: <%= yield %>'
-      create_a_new_theme_file :filename => 'sections/articles/index.html.erb', :data => 'the section index theme'
-      check_homepage 'the default layout: the section index theme'
+      create_a_new_theme_file :filename => 'pages/articles/index.html.erb', :data => 'the page index theme'
+      check_homepage 'the default layout: the page index theme'
       
       # javascript
       create_a_new_theme_file :filename => 'effects.js', :data => 'alert("booom!")'

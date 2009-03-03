@@ -21,8 +21,7 @@ class Admin::ArticlesController < Admin::BaseController
 
   def index
     @articles = @section.articles.paginate article_options
-    template = @section.type == 'Section' ? 'admin/articles/index' : "admin/#{@section.type.downcase}/index"
-    render :template => template
+    render :template => "admin/#{@section.type.tableize}/articles/index"
   end
 
   def show

@@ -3,7 +3,7 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', 'test_helper' )
 class FrontendTest < ActionController::IntegrationTest
   def setup
     super
-    @site   = use_site! 'site with sections'
+    @site   = use_site! 'site with pages'
     @album                  = Album.find_by_permalink('an-album')
     @unpublished_photo      = Photo.find_by_title('a photo')
     @photo                  = Photo.find_by_title('a published photo')

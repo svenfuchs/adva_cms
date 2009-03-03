@@ -15,7 +15,7 @@ class AdminSitesControllerTest < ActionController::TestCase
   with_common :is_superuser, :multi_sites_enabled, :a_site
   
   def default_params
-    { :site_id => @site.id, :section_id => @section.id }
+    { :site_id => @site.id, :section_id => @page.id }
   end
   
   test "is an Admin::BaseController" do

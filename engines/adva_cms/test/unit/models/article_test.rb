@@ -3,8 +3,8 @@ require File.expand_path(File.dirname(__FILE__) + '/../../test_helper')
 class ArticleTest < ActiveSupport::TestCase
   def setup
     super
-    @section = Blog.first
-    @article = @section.articles.find_published(:first)
+    @page = Page.first
+    @article = @page.articles.find_published(:first)
   end
   
   test "sanitizes the attributes excerpt, excerpt_html, body and body_html" do
@@ -13,6 +13,10 @@ class ArticleTest < ActiveSupport::TestCase
   
   test "has many comments" do
     Article.should have_many_comments
+  end
+  
+  test "sets the position before create" do
+    Article.before_create.should include(:set_position)
   end
 
   # validations
@@ -52,13 +56,13 @@ class ArticleTest < ActiveSupport::TestCase
   
   test "#find_by_permalink finds a record when the passed date scope matches the article's published date" do
     date = [:year, :month, :day].map {|key| @article.published_at.send(key).to_s }
-    @section.articles.find_by_permalink(*date << @article.permalink).should == @article
+    @page.articles.find_by_permalink(*date << @article.permalink).should == @article
   end
   
   test "#find_by_permalink does not find a record when the passed date scope does not match the article's published date" do
     date = [:year, :month, :day].map {|key| @article.published_at.send(key).to_s }
     date[2] = date[2].to_i + 1
-    @section.articles.find_by_permalink(*date << @article.permalink).should be_nil
+    @page.articles.find_by_permalink(*date << @article.permalink).should be_nil
   end
   
   test "#find_by_permalink finds a record when no date scope is passed" do
@@ -70,6 +74,7 @@ class ArticleTest < ActiveSupport::TestCase
   # full_permalink
   
   test '#full_permalink returns a hash with the year, month, day and permalink' do
+    @article.section = Blog.new
     @article.full_permalink.should == { :year      => @article.published_at.year, 
                                         :month     => @article.published_at.month, 
                                         :day       => @article.published_at.day, 
@@ -77,8 +82,6 @@ class ArticleTest < ActiveSupport::TestCase
   end
 
   test '#full_permalink raises an exception when the article does not belong to a Blog' do
-    @article.reload
-    @article.section = Section.new
     lambda{ @article.full_permalink }.should raise_error
   end
   
@@ -92,11 +95,11 @@ class ArticleTest < ActiveSupport::TestCase
   # primary?
   
   test "#primary? returns true when the article is its section's primary article" do
-    @section.articles.primary.primary?.should be_true
+    @page.articles.primary.primary?.should be_true
   end
 
   test "#primary? returns false when the article is not section's primary article" do
-    @section.articles.build.primary?.should be_false
+    @page.articles.build.primary?.should be_false
   end
 
   # has_excerpt
@@ -226,8 +229,8 @@ class ArticleTest < ActiveSupport::TestCase
   # set_position
 
   test "#set_position sorts the article to the bottom of the list (sets to max(position) + 1)" do
-    article = @section.articles.create! :title => 'title', :body => 'body', :author => User.first
-    article.position.should == @section.articles.maximum(:position).to_i
+    article = @page.articles.create! :title => 'title', :body => 'body', :author => User.first
+    article.position.should == @page.articles.maximum(:position).to_i
   end
 
   # filtering

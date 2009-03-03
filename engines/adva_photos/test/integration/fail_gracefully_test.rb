@@ -3,7 +3,7 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', 'test_helper' )
 class FailGracefullyTest < ActionController::IntegrationTest
   def setup
     super
-    @site = use_site! 'site with sections'
+    @site = use_site! 'site with pages'
   end
   
   test 'fails gracefully when user tries to sort photos by non existant tag' do

@@ -5,7 +5,7 @@ module IntegrationTests
     class ArticleTest < ActionController::IntegrationTest
       def setup
         super
-        @section = Section.find_by_title 'a section'
+        @section = Page.find_by_title 'a page'
         @site = @section.site
         use_site! @site
         stub(Time).now.returns Time.utc(2008, 1, 2)
@@ -38,11 +38,11 @@ module IntegrationTests
           request.url.should =~ %r(/articles/article-permalink-updated)
         end
       
-        test "with url_history: Admin visits root section, edits primary article permalink, root section still works" do
+        test "with url_history: Admin visits root page, edits primary article permalink, root page still works" do
           login_as_admin
           visit "/"
           has_text @section.articles.primary.body
-          revise_the_sections_primary_article_permalink
+          revise_the_pages_primary_article_permalink
           visit "/"
           assert_status 200
         end
@@ -63,9 +63,9 @@ module IntegrationTests
         @back_url = request.url
       end
     
-      def revise_the_sections_primary_article_permalink
+      def revise_the_pages_primary_article_permalink
         visit "/admin/sites/#{@site.id}/sections/#{@section.id}/articles/#{@section.articles.primary.id}/edit"
-        fill_in 'article[permalink]', :with => 'section-primary-article-permalink-updated'
+        fill_in 'article[permalink]', :with => 'page-primary-article-permalink-updated'
         click_button 'Save'
         request.url.should =~ %r(/admin/sites/\d+/sections/\d+/articles/\d+/edit)
       end

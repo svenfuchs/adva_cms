@@ -5,9 +5,9 @@ class ContentHelperTest < ActionView::TestCase
 
   def setup
     super
-    @section = Section.find_by_title 'a section'
-    @site    = @section.site
-    @article = @section.articles.find_published :first
+    @page = Page.find_by_title 'a page'
+    @site = @page.site
+    @article = @page.articles.find_published :first
   end
 
   # published_at_formatted
@@ -42,7 +42,7 @@ class ContentHelperTest < ActionView::TestCase
   test "#link_to_admin_object given the passed object is a Section
         it returns a link to admin_section_contents_path(object)" do
     stub(self).admin_section_contents_path.returns 'admin_section_contents_path'
-    link_to_admin_object(@section) =~ /admin_section_contents_path/
+    link_to_admin_object(@page) =~ /admin_section_contents_path/
   end
 
   test "#link_to_admin_object given the passed object is a Site
@@ -53,8 +53,8 @@ class ContentHelperTest < ActionView::TestCase
 
   # content_path
 
-  test "#content_path given the content's section is a Section it returns an section_article_path" do
-    mock(self).section_article_path.with(@article.section, @article.permalink, {})
+  test "#content_path given the content's section is a Page it returns an page_article_path" do
+    mock(self).page_article_path.with(@article.section, @article.permalink, {})
     content_path(@article)
   end
 
@@ -71,29 +71,29 @@ class LinkToContentHelperTest < ActionView::TestCase
 
   def setup
     super
-    @section = Section.first
-    @article = @section.articles.find_by_title 'a section article'
-    @category = @section.categories.first
+    @page = Page.first
+    @article = @page.articles.find_by_title 'a page article'
+    @category = @page.categories.first
     @tag = Tag.new :name => 'foo'
 
-    stub(self).section_category_path.returns '/path/to/section/category'
-    stub(self).section_tag_path.returns '/path/to/section/tag'
+    stub(self).page_category_path.returns '/path/to/page/category'
+    stub(self).page_tag_path.returns '/path/to/page/tag'
   end
 
   # link_to_category
 
   test "#link_to_category links to the given category" do
-    link_to_category(@category).should == %(<a href="/path/to/section/category">#{@category.title}</a>)
+    link_to_category(@category).should == %(<a href="/path/to/page/category">#{@category.title}</a>)
   end
 
   test "#link_to_category given the first argument is a String it uses the String as link text" do
-    link_to_category('link text', @category).should == '<a href="/path/to/section/category">link text</a>'
+    link_to_category('link text', @category).should == '<a href="/path/to/page/category">link text</a>'
   end
 
   # links_to_content_categories
 
   test "#links_to_content_categories returns an array of links to the given content's categories" do
-    links_to_content_categories(@article).should include("<a href=\"/path/to/section/category\">#{@category.title}</a>")
+    links_to_content_categories(@article).should include("<a href=\"/path/to/page/category\">#{@category.title}</a>")
   end
 
   test "#links_to_content_categories returns nil if the content has no categories" do
@@ -104,18 +104,18 @@ class LinkToContentHelperTest < ActionView::TestCase
   # link_to_tag
 
   test "#link_to_tag links to the given tag" do
-    link_to_tag(@section, @tag).should == '<a href="/path/to/section/tag">foo</a>'
+    link_to_tag(@page, @tag).should == '<a href="/path/to/page/tag">foo</a>'
   end
 
   test "#link_to_tag given the first argument is a String it uses the String as link text" do
-    link_to_tag('link text', @section, @tag).should == '<a href="/path/to/section/tag">link text</a>'
+    link_to_tag('link text', @page, @tag).should == '<a href="/path/to/page/tag">link text</a>'
   end
 
   # links_to_content_tags
 
   test "#links_to_content_tags returns an array of links to the given content's tags" do
     links_to_content_tags(@article).should ==
-      ['<a href="/path/to/section/tag">foo</a>', '<a href="/path/to/section/tag">bar</a>']
+      ['<a href="/path/to/page/tag">foo</a>', '<a href="/path/to/page/tag">bar</a>']
   end
 
   test "returns nil if the content has no tags" do

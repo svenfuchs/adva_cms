@@ -14,8 +14,8 @@ module ContentHelper
     send :"#{content.section.type.underscore}_content_path", content, options
   end
   
-  def section_content_path(content, options = {})
-    section_article_path *[content.section, content.permalink, options].compact
+  def page_content_path(content, options = {})
+    page_article_path *[content.section, content.permalink, options].compact
   end
 
   def link_to_content(*args)

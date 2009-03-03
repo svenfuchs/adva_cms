@@ -4,7 +4,7 @@ module IntegrationTests
   class AnonymousLoginTest < ActionController::IntegrationTest
     def setup
       super
-      @site = use_site! 'site with sections'
+      @site = use_site! 'site with pages'
       @site.update_attributes! :permissions => { 'create comment' => 'anonymous' }
     end
   
@@ -16,7 +16,7 @@ module IntegrationTests
     end
     
     def post_a_section_comment_as_anonymous
-      visit '/articles/a-section-article'
+      visit '/articles/a-page-article'
       fill_in "user_name", :with => "John Doe"
       fill_in "user_email", :with => "john@example.com"
       fill_in "comment_body", :with => "What a nice article!"

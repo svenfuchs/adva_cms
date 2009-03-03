@@ -5,7 +5,7 @@ class Section < ActiveRecord::Base
   end
 =end
 
-  @@types = ['Section']
+  @@types = []
   cattr_reader :types
   
   serialize :permissions
@@ -17,16 +17,6 @@ class Section < ActiveRecord::Base
   acts_as_nested_set
 
   belongs_to :site
-  has_many :articles, :foreign_key => 'section_id', :dependent => :destroy do
-    def primary
-      find_published :first, :order => :position
-    end
-
-    def permalinks
-      find_published(:all).map(&:permalink)
-    end
-  end
-
   has_many :categories, :dependent => :destroy, :order => 'lft' do
     def roots
       find :all, :conditions => {:parent_id => nil}, :order => 'lft'
@@ -50,10 +40,6 @@ class Section < ActiveRecord::Base
     def register_type(type)
       @@types << type
       @@types.uniq!
-    end
-    
-    def content_type
-      'Article'
     end
   end
 

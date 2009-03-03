@@ -95,6 +95,6 @@ class ArticlesController < BaseController
     end
 
     def single_mode?
-      @section.type == 'Section' and @section.articles.empty?
+      @section.is_a?(Page) and @section.articles.empty?
     end
 end

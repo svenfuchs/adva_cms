@@ -6,7 +6,7 @@ module IntegrationTests
   
     def setup
       super
-      @site = Site.find_by_name 'site with sections'
+      @site = Site.find_by_name 'site with pages'
       use_site! @site
       @image = image_fixture.path
     end

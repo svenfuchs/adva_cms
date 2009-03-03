@@ -210,7 +210,14 @@ module Matchy
         @receiver = model
         scopes = Array(@options[:scope])
         args = !scopes.empty? ? RR.satisfy { |args| scopes.each { |scope| args.first =~ /.#{scope} (=|IS) \?/ } } : RR.anything
-        RR.mock(model.class).exists?.with(args).returns true
+
+        class_hierarchy = [model.class]
+        while class_hierarchy.first != ActiveRecord::Base
+          class_hierarchy.unshift(class_hierarchy.first.superclass)
+        end
+        finder_class = class_hierarchy.detect { |klass| !klass.abstract_class? }
+        
+        RR.mock(finder_class).exists?.with(args).returns true
         !model.valid? && model.errors.invalid?(@expected)
         RR.verify
         true

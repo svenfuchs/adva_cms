@@ -4,7 +4,7 @@ module IntegrationTests
   class AdminPluginsTest < ActionController::IntegrationTest
     def setup
       super
-      @site = use_site! 'site with sections'
+      @site = use_site! 'site with pages'
       @admin_plugins_page = "http://#{@site.host}/admin/sites/#{@site.id}/plugins"
       @admin_plugin_page  = "http://#{@site.host}/admin/sites/#{@site.id}/plugins/test_plugin"
     end

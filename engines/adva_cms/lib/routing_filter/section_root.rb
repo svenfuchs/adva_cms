@@ -14,6 +14,7 @@ module RoutingFilter
 
     def around_generate(*args, &block)
       returning yield do |result|
+        result = result.first if result.is_a?(Array)
         if result !~ %r(^/admin/) and result =~ generate_pattern
           segments, section_type, section_id, dot_or_dash = $2, $3, $4, $5
           section = Section.find(section_id.to_i)
@@ -28,7 +29,7 @@ module RoutingFilter
     protected
     
       def recognize_pattern
-        @recognize || %r(^/?(/[\w]{2})?(/articles|/event|/pages|/boards|/topics|/photos|/categories|/sets|/tags|/\d{4}|\.|/?$))
+        @recognize || %r(^/?(/[\w]{2})?(/articles|/event|/wikipages|/boards|/topics|/photos|/categories|/sets|/tags|/\d{4}|\.|/?$))
       end
     
       def generate_pattern

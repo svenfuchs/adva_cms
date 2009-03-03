@@ -3,7 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + "/../../test_helper")
 class AdminAssetContentsController < ActionController::TestCase
   tests Admin::AssetContentsController
  
-  with_common :a_section, :an_article, :an_asset, :is_superuser
+  with_common :a_page, :an_article, :an_asset, :is_superuser
 
   test "should be an Admin::BaseController" do
     @controller.should be_kind_of(Admin::BaseController)

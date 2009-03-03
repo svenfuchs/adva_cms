@@ -20,7 +20,7 @@ module IntegrationTests
     end
     
     def visit_another_wikipage
-      visit "/pages/another-wikipage"
+      visit "/wikipages/another-wikipage"
       renders_template 'wiki/show'
       response.body.should have_tag('.entry .content', /third revised version/)
     end

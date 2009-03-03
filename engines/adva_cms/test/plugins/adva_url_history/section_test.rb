@@ -5,42 +5,42 @@ module IntegrationTests
     class SectionTest < ActionController::IntegrationTest
       def setup
         super
-        @section = Section.find_by_title 'a section'
-        @another_section = Section.find_by_title 'another section'
+        @section = Page.find_by_title 'a page'
+        @another_section = Page.find_by_title 'another page'
         @site = @section.site
         use_site! @site
       end
       
       unless ApplicationController.tracks_url_history?
-        test "without url_history: Admin views section, edits the permalink and gets 404" do
-          visit '/another-section'
+        test "without url_history: Admin views page, edits the permalink and gets 404" do
+          visit '/another-page'
           login_as_admin
-          revise_the_section_permalink
-          visit '/another-section'
+          revise_the_page_permalink
+          visit '/another-page'
           assert_status 404
         end
       end
 
       if ApplicationController.tracks_url_history?
-        test "with url_history: Admin views section, edits the permalink and gets redirected" do
+        test "with url_history: Admin views page, edits the permalink and gets redirected" do
           visit '/'
 
-          visit 'another-section'
+          visit 'another-page'
           assert_status 200
-          request.url.should =~ %r(/another-section)
+          request.url.should =~ %r(/another-page)
           UrlHistory::Entry.recent_by_url(request.url).should_not be_nil
 
           login_as_admin
-          revise_the_section_permalink
-          visit 'another-section'
+          revise_the_page_permalink
+          visit 'another-page'
           assert_status 200
-          request.url.should =~ %r(/another-section-updated-permalink)
+          request.url.should =~ %r(/another-page-updated-permalink)
         end
       end
     
-      def revise_the_section_permalink
+      def revise_the_page_permalink
         visit "/admin/sites/#{@site.id}/sections/#{@another_section.id}/edit"
-        fill_in 'section[permalink]', :with => 'another-section-updated-permalink'
+        fill_in 'section[permalink]', :with => 'another-page-updated-permalink'
         click_button 'Save'
         request.url.should =~ %r(/admin/sites/\d+/sections)
       end

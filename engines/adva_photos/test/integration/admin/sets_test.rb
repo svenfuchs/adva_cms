@@ -3,7 +3,7 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'test_hel
 class SetsTest < ActionController::IntegrationTest
   def setup
     super
-    @site = use_site! 'site with sections'
+    @site = use_site! 'site with pages'
     @album = Album.find_by_permalink('an-album')
     @photo = @album.photos.find_by_title('a photo without set')
     @set = @album.sets.first

@@ -22,14 +22,14 @@ class WikiControllerTest < ActionController::TestCase
     @controller.should be_kind_of(BaseController)
   end
 
-  { :wiki_path                  => '/a-wiki/pages',
+  { :wiki_path                  => '/a-wiki/wikipages',
     :wiki_category_path         => '/a-wiki/categories/a-category',
     :wiki_tag_path              => '/a-wiki/tags/foo+bar',
     :wiki_feed_path             => '/a-wiki.atom',
     :wiki_category_feed_path    => '/a-wiki/categories/a-category.atom',
     :wiki_tag_feed_path         => '/a-wiki/tags/foo+bar.atom',
     :wiki_comment_feed_path     => '/a-wiki/comments.atom', 
-    :wikipage_comment_feed_path => '/a-wiki/pages/a-wikipage/comments.atom' }.each do |type, path|
+    :wikipage_comment_feed_path => '/a-wiki/wikipages/a-wikipage/comments.atom' }.each do |type, path|
     
     With.share(type) { before { @params = params_from path } }
   end

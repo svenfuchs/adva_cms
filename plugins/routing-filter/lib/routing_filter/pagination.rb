@@ -12,6 +12,7 @@ module RoutingFilter
     def around_generate(*args, &block)
       page = args.extract_options!.delete(:page)
       returning yield do |result|
+        result = result.first if result.is_a?(Array)
         result.replace "#{result}/pages/#{page}" if page && page != 1
       end
     end

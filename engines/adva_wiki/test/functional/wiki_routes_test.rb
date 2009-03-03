@@ -7,13 +7,13 @@ class WikiRoutesTest < ActionController::TestCase
   paths = %W( /wikis/1
               /wikis/1/categories/a-category
               /wikis/1/tags/foo+bar
-              /wikis/1/pages/a-wikipage
-              /wikis/1/pages/a-wikipage/rev/1
-              /wikis/1/pages/a-wikipage/diff/1
-              /wikis/1/pages/a-wikipage/rev/1/diff/1
+              /wikis/1/wikipages/a-wikipage
+              /wikis/1/wikipages/a-wikipage/rev/1
+              /wikis/1/wikipages/a-wikipage/diff/1
+              /wikis/1/wikipages/a-wikipage/rev/1/diff/1
               /wikis/1/comments.atom
-              /wikis/1/pages/a-wikipage/comments.atom )
-  
+              /wikis/1/wikipages/a-wikipage/comments.atom )
+
   paths.each do |path|
     test "regenerates the original path from the recognized params for #{path}" do
       without_routing_filters do
@@ -25,38 +25,38 @@ class WikiRoutesTest < ActionController::TestCase
 
   describe "routing" do
     with :a_wikipage_category do
-      # FIXME what about paged routes, e.g. /a-wiki/pages/page/1 ??
-
+      # FIXME what about paged routes, e.g. /a-wiki/wikipages/page/1 ??
+  
       ['/', '/a-wiki', '/de', '/de/a-wiki'].each do |path_prefix|
-      
+  
         common = { :section_id => Wiki.first.id.to_s, :path_prefix => path_prefix } # , :path_suffix => path_suffix
         common.merge! :locale => 'de' if path_prefix =~ /de/
-      
+  
         with_options common do |r|
-          r.it_maps :get,    '',                               :action => 'show'
-          r.it_maps :get,    '/pages/a-wikipage',              :action => 'show', :id => 'a-wikipage'
-          r.it_maps :get,    '/pages',                         :action => 'index'
-          r.it_maps :get,    '/pages/a-wikipage/rev/1',        :action => 'show', :id => 'a-wikipage', :version => '1'
-          r.it_maps :get,    '/pages/a-wikipage/diff/1',       :action => 'diff', :id => 'a-wikipage', :diff_version => '1'
-          r.it_maps :get,    '/pages/a-wikipage/rev/1/diff/1', :action => 'diff', :id => 'a-wikipage', :diff_version => '1', :version => '1'
-          r.it_maps :get,    '/categories/a-category',         :action => 'index', :category_id => Wiki.first.categories.first.id.to_s
-          r.it_maps :get,    '/tags/foo+bar',                  :action => 'index', :tags => 'foo+bar'
-          r.it_maps :post,   '/pages',                         :action => 'create'
-          r.it_maps :get,    '/pages/new',                     :action => 'new'
-          r.it_maps :get,    '/pages/a-wikipage/edit',         :action => 'edit',    :id => 'a-wikipage'
-          r.it_maps :put,    '/pages/a-wikipage',              :action => 'update',  :id => 'a-wikipage'
-          r.it_maps :delete, '/pages/a-wikipage',              :action => 'destroy', :id => 'a-wikipage'
+          r.it_maps :get,    '',                                   :action => 'show'
+          r.it_maps :get,    '/wikipages/a-wikipage',              :action => 'show',    :id => 'a-wikipage'
+          r.it_maps :get,    '/wikipages',                         :action => 'index'
+          r.it_maps :get,    '/wikipages/a-wikipage/rev/1',        :action => 'show',    :id => 'a-wikipage', :version => '1'
+          r.it_maps :get,    '/wikipages/a-wikipage/diff/1',       :action => 'diff',    :id => 'a-wikipage', :diff_version => '1'
+          r.it_maps :get,    '/wikipages/a-wikipage/rev/1/diff/1', :action => 'diff',    :id => 'a-wikipage', :diff_version => '1', :version => '1'
+          r.it_maps :get,    '/categories/a-category',             :action => 'index',   :category_id => Wiki.first.categories.first.id.to_s
+          r.it_maps :get,    '/tags/foo+bar',                      :action => 'index',   :tags => 'foo+bar'
+          r.it_maps :post,   '/wikipages',                         :action => 'create'
+          r.it_maps :get,    '/wikipages/new',                     :action => 'new'
+          r.it_maps :get,    '/wikipages/a-wikipage/edit',         :action => 'edit',    :id => 'a-wikipage'
+          r.it_maps :put,    '/wikipages/a-wikipage',              :action => 'update',  :id => 'a-wikipage'
+          r.it_maps :delete, '/wikipages/a-wikipage',              :action => 'destroy', :id => 'a-wikipage'
         end
       end
-
+  
       with_options :section_id => Wiki.first.id.to_s, :format => 'atom' do |r|
         r.it_maps :get, '/a-wiki/comments.atom',                  :action => 'comments'
-        r.it_maps :get, '/a-wiki/pages/a-wikipage/comments.atom', :action => 'comments', :id => 'a-wikipage'
-        r.it_maps :get, '/pages/a-wikipage/comments.atom',        :action => 'comments', :id => 'a-wikipage'
+        r.it_maps :get, '/a-wiki/wikipages/a-wikipage/comments.atom', :action => 'comments', :id => 'a-wikipage'
+        r.it_maps :get, '/wikipages/a-wikipage/comments.atom',        :action => 'comments', :id => 'a-wikipage'
       end
     end
   end
-
+  
   describe "the url_helper wiki_path" do
     before :each do
       @wikipage = Wikipage.find_by_title 'another wikipage title'
@@ -113,14 +113,14 @@ class WikiRoutesTest < ActionController::TestCase
     it_rewrites category_feed_path, :to => '/a-wiki/categories/a-category.rss',    :with => [:is_default_locale]
     it_rewrites category_feed_path, :to => '/de/a-wiki/categories/a-category.rss'
   
-    it_rewrites wikipage_path,      :to => '/pages/another-wikipage',               :with => [:is_default_locale, :is_root_section]
-    it_rewrites wikipage_path,      :to => '/de/pages/another-wikipage',            :with => [:is_root_section]
-    it_rewrites wikipage_path,      :to => '/a-wiki/pages/another-wikipage',        :with => [:is_default_locale]
-    it_rewrites wikipage_path,      :to => '/de/a-wiki/pages/another-wikipage'
+    it_rewrites wikipage_path,      :to => '/wikipages/another-wikipage',               :with => [:is_default_locale, :is_root_section]
+    it_rewrites wikipage_path,      :to => '/de/wikipages/another-wikipage',            :with => [:is_root_section]
+    it_rewrites wikipage_path,      :to => '/a-wiki/wikipages/another-wikipage',        :with => [:is_default_locale]
+    it_rewrites wikipage_path,      :to => '/de/a-wiki/wikipages/another-wikipage'
   
-    it_rewrites wikipage_feed_path,  :to => '/pages/another-wikipage.rss',          :with => [:is_default_locale, :is_root_section]
-    it_rewrites wikipage_feed_path,  :to => '/de/pages/another-wikipage.rss',       :with => [:is_root_section]
-    it_rewrites wikipage_feed_path,  :to => '/a-wiki/pages/another-wikipage.rss',   :with => [:is_default_locale]
-    it_rewrites wikipage_feed_path,  :to => '/de/a-wiki/pages/another-wikipage.rss'
+    it_rewrites wikipage_feed_path,  :to => '/wikipages/another-wikipage.rss',          :with => [:is_default_locale, :is_root_section]
+    it_rewrites wikipage_feed_path,  :to => '/de/wikipages/another-wikipage.rss',       :with => [:is_root_section]
+    it_rewrites wikipage_feed_path,  :to => '/a-wiki/wikipages/another-wikipage.rss',   :with => [:is_default_locale]
+    it_rewrites wikipage_feed_path,  :to => '/de/a-wiki/wikipages/another-wikipage.rss'
   end
 end

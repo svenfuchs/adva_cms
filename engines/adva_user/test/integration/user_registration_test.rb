@@ -4,7 +4,7 @@ module IntegrationTests
   class UserRegistrationTest < ActionController::IntegrationTest
     def setup
       super
-      @site = use_site! 'site with sections'
+      @site = use_site! 'site with pages'
     end
 
     test "User clicks through section frontend section index pages" do
