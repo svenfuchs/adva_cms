@@ -66,7 +66,13 @@ module With
           @_with_contexts = (context.parents << context).map(&:name)
           [:before, :action, :assertion, :after].each do |stage|
             @_with_current_stage = stage
-            context.collect(stage).map { |call| instance_eval &call }
+            context.collect(stage).map do |call| 
+              if @_expected_exception and stage == :action
+                assert_raises(@_expected_exception) { instance_eval(&call) }
+              else
+                instance_eval(&call)
+              end
+            end
           end
         }
       end

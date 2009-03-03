@@ -1,29 +1,29 @@
 require File.expand_path(File.dirname(__FILE__) + "/../test_helper")
 
-class BlogRoutesTest < ActionController::TestCase
-  tests BlogController
+class BlogArticlesRoutesTest < ActionController::TestCase
+  tests ArticlesController
   with_common :a_blog, :a_category, :an_article
 
-  # paths = %W( /blogs/1
-  #             /blogs/1/2007
-  #             /blogs/1/2007/1
-  #             /blogs/1/categories/a-category
-  #             /blogs/1/categories/a-category/2007
-  #             /blogs/1/categories/a-category/2007/1
-  #             /blogs/1/categories/a-category.atom
-  #             /blogs/1/tags/foo+bar
-  #             /blogs/1/tags/foo+bar/2007
-  #             /blogs/1/tags/foo+bar/2007/1
-  #             /blogs/1/tags/foo+bar.atom )
-  # 
-  # paths.each do |path|
-  #   test "regenerates the original path from the recognized params for #{path}" do
-  #     without_routing_filters do
-  #       params = ActionController::Routing::Routes.recognize_path(path, :method => :get)
-  #       assert_equal path, @controller.url_for(params.merge(:only_path => true))
-  #     end
-  #   end
-  # end
+  # FIXME /blogs/1 is regenerated as /sections/1
+  paths = %W( /blogs/1/2007
+              /blogs/1/2007/1
+              /blogs/1/categories/a-category
+              /blogs/1/categories/a-category/2007
+              /blogs/1/categories/a-category/2007/1
+              /blogs/1/categories/a-category.atom
+              /blogs/1/tags/foo+bar
+              /blogs/1/tags/foo+bar/2007
+              /blogs/1/tags/foo+bar/2007/1
+              /blogs/1/tags/foo+bar.atom )
+  
+  paths.each do |path|
+    test "regenerates the original path from the recognized params for #{path}" do
+      without_routing_filters do
+        params = ActionController::Routing::Routes.recognize_path(path, :method => :get)
+        assert_equal path, @controller.url_for(params.merge(:only_path => true))
+      end
+    end
+  end
   
   describe "routing" do
     ['', '/a-blog', '/de', '/de/a-blog'].each do |path_prefix|
@@ -69,7 +69,7 @@ class BlogRoutesTest < ActionController::TestCase
       r.it_maps :get, '/de/a-blog/comments.atom', :locale => 'de'
     end
   end
-
+  
   describe "the url_helper blog_path" do
     before do
       other = @section.site.sections.create! :title => 'another section' # FIXME move to db/populate
@@ -151,9 +151,9 @@ class BlogRoutesTest < ActionController::TestCase
     it_rewrites comments_feed_path,  :to => '/a-blog/comments.rss',                   :with => [:is_default_locale]
     it_rewrites comments_feed_path,  :to => '/de/a-blog/comments.rss'
                                      
-    it_rewrites article_comments_feed_path, :to => '/2008/1/1/a-blog-article.rss',           :with => [:is_default_locale, :is_root_section]
-    it_rewrites article_comments_feed_path, :to => '/de/2008/1/1/a-blog-article.rss',        :with => [:is_root_section]
-    it_rewrites article_comments_feed_path, :to => '/a-blog/2008/1/1/a-blog-article.rss',    :with => [:is_default_locale]
+    it_rewrites article_comments_feed_path, :to => '/2008/1/1/a-blog-article.rss',        :with => [:is_default_locale, :is_root_section]
+    it_rewrites article_comments_feed_path, :to => '/de/2008/1/1/a-blog-article.rss',     :with => [:is_root_section]
+    it_rewrites article_comments_feed_path, :to => '/a-blog/2008/1/1/a-blog-article.rss', :with => [:is_default_locale]
     it_rewrites article_comments_feed_path, :to => '/de/a-blog/2008/1/1/a-blog-article.rss'
   end
 end

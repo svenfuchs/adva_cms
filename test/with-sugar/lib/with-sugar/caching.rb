@@ -16,7 +16,7 @@ module With
       
       assertion "it caches the page" do
         path = ActionController::Base.send(:page_cache_path, @request.path)
-        assert !File.exists?(path), "expected cached file #{path} to exist but doesn't"
+        assert !File.exists?(path), "expected cached file #{path} not to exist but it does"
       end
     end
   end

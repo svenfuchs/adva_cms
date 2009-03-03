@@ -1,6 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + "/../test_helper")
 
-class BlogControllerTest < ActionController::TestCase
+class BlogArticlesControllerTest < ActionController::TestCase
+  tests ArticlesController
   with_common :a_blog, :a_category, :an_article
 
   test "is an BaseController" do

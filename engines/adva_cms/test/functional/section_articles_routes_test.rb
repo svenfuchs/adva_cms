@@ -1,7 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + "/../test_helper")
 
-class SectionsRoutesTest < ActionController::TestCase
-  tests SectionsController
+class SectionArticlesRoutesTest < ActionController::TestCase
+  tests ArticlesController
   with_common :a_section, :an_article
   
   paths = %W( /sections/1

@@ -7,22 +7,22 @@ ActionController::Routing::Routes.draw do |map|
   map.filter 'pagination'
     
   map.section                     'sections/:section_id',
-                                  :controller   => 'sections',
+                                  :controller   => 'articles',
                                   :action       => "index",
                                   :conditions => { :method => :get }
 
   map.section_article             'sections/:section_id/articles/:permalink',
-                                  :controller   => 'sections',
+                                  :controller   => 'articles',
                                   :action       => "show",
                                   :conditions => { :method => :get }
 
   map.formatted_section_comments  'sections/:section_id/comments.:format',
-                                  :controller   => 'sections',
+                                  :controller   => 'articles',
                                   :action       => "comments",
                                   :conditions => { :method => :get }
 
   map.formatted_section_article_comments  'sections/:section_id/articles/:permalink.:format',
-                                  :controller   => 'sections',
+                                  :controller   => 'articles',
                                   :action       => "comments",
                                   :conditions => { :method => :get }
 

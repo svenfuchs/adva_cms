@@ -1,0 +1,26 @@
+<% if @article %>
+
+  <div id="<%= dom_id @article %>" class="entry">
+		<% unless @article.instance_of?(Section) %>
+   		<h2><%= link_to_content(@article) %></h2> 
+		<% end %>
+
+  	<div class="body">
+	    <%= @article.excerpt_html %>
+      <%= @article.body_html %>
+  	</div>
+  </div>
+
+  <%= render :partial => 'comments/list', :locals => { :commentable => @article, :comments => @article.approved_comments } %>
+  <%= render :partial => 'comments/form', :locals => { :commentable => @article } if @article.accept_comments? %>
+
+<% else %>
+
+  <div id="<%= dom_id @section %>" class="entry">
+  	<div class="body">
+	    <%= @section.excerpt_html %>
+      <%= @section.body_html %>
+  	</div>
+  </div>
+
+<% end %>
