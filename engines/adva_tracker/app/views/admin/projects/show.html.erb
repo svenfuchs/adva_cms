@@ -5,3 +5,11 @@
 
 <h2><%= h(@project.title) %></h2>
 <p><%= h(@project.desc) %></p>
+
+<% if @tickets.present? %>
+<% else %>
+  <div class="empty">
+    <%= t(:"adva.tracker.message.no_tickets") %>
+    <%= link_to t(:"adva.tracker.link.new_ticket"), new_admin_ticket_path(@site, @section, @project) %>
+  </div>
+<% end %>

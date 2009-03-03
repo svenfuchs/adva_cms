@@ -7,16 +7,21 @@ en:
         project_successfully_update: Project was successfully updated.
         project_update_failed: Project update failed.
         project_successfully_destroyed: Project successfully destroyed.
+        ticket_successfully_created: Ticket was successfully created.
+        ticket_creation_failed: Ticket creation failed.
       button:
       link:
         projects: Projects
-        new_ticket: Create a new ticket
         new_project: Create a new project
         edit_project: Edit project
+        new_ticket: Create a new ticket
       label:
+        new_project: New Project
         project_title: Name
         edit_project: Edit project
+        new_ticket: New Ticket
+        ticket_title: Name
       message:
-        no_tickets: There are no tickets.
         no_projects: There are no projects.
+        no_tickets: There are no tickets.
         confirm_project_destroy: Are you sure you wish to delete this project?

@@ -6,7 +6,8 @@ class Admin::ProjectsController < Admin::BaseController
   end
   
   def show
-    @project = Project.find(params[:id])
+    @project = Project.find(params[:id], :include => :tickets)
+    @tickets = @project.tickets
   end
   
   def edit

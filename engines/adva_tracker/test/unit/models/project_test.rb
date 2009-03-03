@@ -9,6 +9,7 @@ class ProjectTest < ActiveSupport::TestCase
   
   test "associations" do
     @project.should belong_to(:tracker)
+    @project.should have_many(:tickets, :as => :ticketable)
   end
   
   test "validations" do

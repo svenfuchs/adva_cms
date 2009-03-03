@@ -10,9 +10,13 @@ class CreateTicketTables < ActiveRecord::Migration
     end
     
     create_table :tickets do |t|
+      t.integer    :ticketable_id,   :null => false
+      t.string     :ticketable_type, :null => false
       t.references :user
       t.string     :title
       t.text       :body
+      t.text       :body_html
+      t.string     :filter
       t.string     :state
       t.string     :states
       t.integer    :assignments_count, :default => 0
