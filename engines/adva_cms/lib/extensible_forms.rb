@@ -117,7 +117,7 @@ class ExtensibleFormBuilder < ActionView::Helpers::FormBuilder
       legend = options.delete(:legend) || ''
       legend = @template.content_tag('legend', legend) unless legend.blank?
       @template.field_set(@object_name, name, nil, objectify_options(options)) do
-        legend + (block ? block.call : '')
+        legend.to_s + (block ? block.call.to_s : '')
       end
     }
   end
