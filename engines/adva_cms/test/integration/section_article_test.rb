@@ -20,7 +20,7 @@ module IntegrationTests
   
     def visits_published_article_page
       get '/articles/a-section-article'
-      renders_template "sections/show"
+      renders_template "sections/articles/show"
       displays_article @published_article
       displays_comments @published_article.approved_comments
     end
@@ -33,7 +33,7 @@ module IntegrationTests
     def visits_unpublished_article_page_as_admin
       login_as_admin
       get '/articles/an-unpublished-section-article'
-      renders_template "sections/show"
+      renders_template "sections/articles/show"
       displays_article @unpublished_article
     end
   end

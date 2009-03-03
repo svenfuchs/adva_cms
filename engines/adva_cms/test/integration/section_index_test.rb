@@ -17,9 +17,10 @@ module IntegrationTests
     def visits_section_index
       get "/"
     
-      renders_template "sections/show"
-      displays_article @published_article
-      does_not_display_article @unpublished_article
+      renders_template "sections/articles/index"
+      has_text @published_article.title
+      has_text @published_article.excerpt
+      does_not_have_text @unpublished_article.title
     end
   end
 end

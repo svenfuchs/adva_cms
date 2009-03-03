@@ -21,8 +21,6 @@ class Admin::InstallController < ApplicationController
     if request.post?
       if @site.valid? && @section.valid?
         @site.save
-        @site.sections << @section
-        @section.reload
 
         @user = User.create_superuser params[:user]
         authenticate_user(:email => @user.email, :password => @user.password)

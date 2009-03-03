@@ -44,14 +44,12 @@ site         = Site.create! :name => 'site with sections',
 section =   Section.create! :site => site,
                             :title => 'a section',
                             :permalink => 'a-section',
-                            :comment_age => 0,
-                            :author => user
+                            :comment_age => 0
 
             Section.create! :site => site,
                             :title => 'another section',
                             :permalink => 'another-section',
-                            :comment_age => 0,
-                            :author => user
+                            :comment_age => 0
 
 category = Category.create! :section => section,
                             :title => 'a category'

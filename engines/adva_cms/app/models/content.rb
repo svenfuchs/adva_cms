@@ -44,6 +44,11 @@ class Content < ActiveRecord::Base
   
   default_scope :order => 'position, published_at'
 
+  named_scope :published, lambda { { 
+    :conditions => ['contents.published_at <= ? AND contents.published_at IS NOT NULL', Time.zone.now],
+    :order => :published_at 
+  } }
+  
   class << self
     def find_every(options)
       if tags = options.delete(:tags)
@@ -90,38 +95,6 @@ class Content < ActiveRecord::Base
     attributes.symbolize_keys!
     category_ids = attributes.delete(:category_ids)
     returning super do update_categories category_ids if category_ids end
-  end
-
-  def has_excerpt?
-    !excerpt.blank?
-  end
-
-  def published_month
-    Time.local published_at.year, published_at.month, 1
-  end
-
-  def draft?
-    published_at.nil?
-  end
-
-  def pending?
-    !published?
-  end
-
-  def published?
-    !published_at.nil? and published_at <= Time.zone.now
-  end
-
-  def published_at?(date)
-    published? and date == [:year, :month, :day].map {|key| published_at.send(key).to_s }
-  end
-
-  def state
-    pending? ? :pending : :published
-  end
-  
-  def just_published?
-    published? and published_at_changed?
   end
 
   def diff_against_version(version)

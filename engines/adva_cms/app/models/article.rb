@@ -13,7 +13,7 @@ class Article < Content
 
   validates_presence_of :title, :body
   validates_uniqueness_of :permalink, :scope => :section_id
-
+  
   class << self
     def find_by_permalink(*args)
       options = args.extract_options!
@@ -43,5 +43,37 @@ class Article < Content
 
   def next
     section.articles.find_published :first, :conditions => ['published_at > ?', published_at], :order => :published_at
+  end
+
+  def has_excerpt?
+    !excerpt.blank?
+  end
+
+  def published_month
+    Time.local published_at.year, published_at.month, 1
+  end
+
+  def draft?
+    published_at.nil?
+  end
+
+  def pending?
+    !published?
+  end
+
+  def published?
+    !published_at.nil? and published_at <= Time.zone.now
+  end
+
+  def published_at?(date)
+    published? and date == [:year, :month, :day].map {|key| published_at.send(key).to_s }
+  end
+
+  def state
+    pending? ? :pending : :published
+  end
+  
+  def just_published?
+    published? and published_at_changed?
   end
 end

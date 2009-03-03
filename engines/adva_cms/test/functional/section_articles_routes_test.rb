@@ -46,7 +46,7 @@ class SectionArticlesRoutesTest < ActionController::TestCase
   describe "the url_helper section_path" do
     before :each do
       # FIXME move to db/populate?
-      other = @section.site.sections.create! :title => 'another section', :author => User.first
+      other = @section.site.sections.create! :title => 'another section'
       other.move_to_left_of @section
   
       url_rewriter = ActionController::UrlRewriter.new @request, :controller => 'sections', :section => @section.id

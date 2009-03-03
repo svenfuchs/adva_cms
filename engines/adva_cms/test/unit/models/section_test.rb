@@ -135,7 +135,7 @@ class SectionTest < ActiveSupport::TestCase
   # PUBLIC INSTANCE METHODS
   
   test "#type returns 'Section' for a Section" do
-    s = Section.create! :title => 'title', :site => @site, :author => User.first
+    s = Section.create! :title => 'title', :site => @site
     s.type.should == 'Section'
   end
 
@@ -195,20 +195,15 @@ class SectionTest < ActiveSupport::TestCase
   end
   
   def bunch_of_nested_sections!
-    user = User.find_by_first_name('a user')
-
     home = Section.create!     :site => @site,
                                :title => 'homepage',
-                               :permalink => 'home',
-                               :author => user
+                               :permalink => 'home'
     about = Section.create!    :site => @site,
                                :title => 'about us',
-                               :permalink => 'about',
-                               :author => user
+                               :permalink => 'about'
     location = Section.create! :site => @site,
                                :title => 'how to find us',
-                               :permalink => 'location',
-                               :author => user
+                               :permalink => 'location'
     
     about.move_to_child_of(home)
     location.move_to_child_of(about)

@@ -27,8 +27,7 @@ class Admin::ArticlesController < Admin::BaseController
 
   def show
     @article.revert_to params[:version] if params[:version]
-    subdir = @section.type == 'Section' ? 'sections' : @section.type.downcase
-    render :template => "#{subdir}/show", :layout => 'default'
+    render :template => "#{@section.type.tableize}/articles/show", :layout => 'default'
   end
 
   def new

@@ -20,7 +20,7 @@ module IntegrationTests
   
     def visits_published_article_page
       get '/2008/1/1/a-blog-article'
-      renders_template "blog/show"
+      renders_template "blogs/articles/show"
       displays_article @published_article
       displays_comments @published_article.approved_comments
     end
@@ -31,9 +31,9 @@ module IntegrationTests
     end
   
     def visits_unpublished_article_page_as_admin
-      login_as_admin
+      login_as_superuser
       get '/2008/1/1/an-unpublished-blog-article'
-      renders_template "blog/show"
+      renders_template "blogs/articles/show"
       displays_article @unpublished_article
     end
   end

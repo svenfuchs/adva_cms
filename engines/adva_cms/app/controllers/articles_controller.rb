@@ -49,7 +49,7 @@ class ArticlesController < BaseController
       source = @category ? @category.contents : @section.articles
       @articles = @section.is_a?(Blog) ?
         source.paginate_published_in_time_delta(params[:year], params[:month], options) :
-        source.paginate(options) # FIXME should use published scope
+        source.published.paginate(options) # FIXME should use published scope
     end
 
     def set_article
@@ -80,7 +80,7 @@ class ArticlesController < BaseController
     end
     
     def valid_article?
-      @article and (!@section.is_a?(Blog) or @article.published_at?(params.values_at(:year, :month, :day)))
+      @article and (!@section.is_a?(Blog) or @article.draft? or @article.published_at?(params.values_at(:year, :month, :day)))
     end
 
     def guard_view_permissions

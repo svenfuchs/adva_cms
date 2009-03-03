@@ -2,7 +2,7 @@ class Site < ActiveRecord::Base
   serialize :permissions
   serialize :spam_options
 
-  has_many :sections, :dependent => :destroy, :order => :lft, :conditions => ['type IN (?)', Section.types] do
+  has_many :sections, :dependent => :destroy, :order => :lft do # , :conditions => ['type IN (?)', Section.types]
     def root
       find_by_parent_id nil, :order => 'lft'
     end

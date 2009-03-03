@@ -1,1 +1,10 @@
-(FIXME)
+<ul>
+	<% @articles.each do |article| %>
+		<li>
+			<h4><%= link_to_content(article) %></h4>
+			<% unless article.excerpt.blank? %>
+				<p><%= article.excerpt %></p>
+			<% end %>
+		</li>
+	<% end %>
+</ul>

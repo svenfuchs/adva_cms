@@ -78,7 +78,7 @@ class AdminArticlesControllerTest < ActionController::TestCase
       with :access_granted do
         it "previews the article in the frontend layout" do
           it_assigns :article => :not_nil
-          it_renders :template, lambda { "#{@section.is_a?(Blog) ? 'blog' : 'sections'}/show" }
+          it_renders :template, lambda { "#{@section.type.tableize}/articles/show" }
         end
   
         with "given a :version param" do

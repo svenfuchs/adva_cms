@@ -19,8 +19,8 @@ module IntegrationTests
       
       # template
       create_a_new_theme_file :filename => 'layouts/default.html.erb', :data => 'the default layout: <%= yield %>'
-      create_a_new_theme_file :filename => 'sections/show.html.erb', :data => 'the section show theme'
-      check_homepage 'the default layout: the section show theme'
+      create_a_new_theme_file :filename => 'sections/articles/index.html.erb', :data => 'the section index theme'
+      check_homepage 'the default layout: the section index theme'
       
       # javascript
       create_a_new_theme_file :filename => 'effects.js', :data => 'alert("booom!")'

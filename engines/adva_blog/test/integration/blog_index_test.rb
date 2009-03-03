@@ -32,7 +32,7 @@ module IntegrationTests
     def visits_blog_index
       get "/"
     
-      renders_template "blog/index"
+      renders_template "blogs/articles/index"
       displays_article @published_article
       does_not_display_article @unpublished_article
     end
@@ -41,7 +41,7 @@ module IntegrationTests
       get 'categories/a-category'
       # click_link 'a category'
     
-      renders_template "blog/index"
+      renders_template "blogs/articles/index"
       displays_article @published_article
       does_not_display_article @unpublished_article
     end
@@ -50,7 +50,7 @@ module IntegrationTests
       get 'categories/another-category'
       # click_link 'another category' # FIXME webrat seems to be confused about the current session
 
-      renders_template "blog/index"
+      renders_template "blogs/articles/index"
       does_not_display_article @published_article
       does_not_display_article @unpublished_article
     end
@@ -58,7 +58,7 @@ module IntegrationTests
     def visits_blog_tag_index
       get "/tags/foo"
     
-      renders_template "blog/index"
+      renders_template "blogs/articles/index"
       displays_article @published_article
       does_not_display_article @unpublished_article
     end
@@ -72,7 +72,7 @@ module IntegrationTests
     def visits_blog_this_years_archive_index
       get "/2008"
     
-      renders_template "blog/index"
+      renders_template "blogs/articles/index"
       displays_article @published_article
       does_not_display_article @unpublished_article
     end
@@ -80,7 +80,7 @@ module IntegrationTests
     def visits_blog_last_years_archive_index
       get "/2007"
     
-      renders_template "blog/index"
+      renders_template "blogs/articles/index"
       does_not_display_article @published_article
       does_not_display_article @unpublished_article
     end
@@ -88,7 +88,7 @@ module IntegrationTests
     def visits_blog_this_months_archive_index
       get "/2008/1"
     
-      renders_template "blog/index"
+      renders_template "blogs/articles/index"
       displays_article @published_article
       does_not_display_article @unpublished_article
     end
@@ -96,7 +96,7 @@ module IntegrationTests
     def visits_blog_last_months_archive_index
       get "/2007/12"
     
-      renders_template "blog/index"
+      renders_template "blogs/articles/index"
       does_not_display_article @published_article
       does_not_display_article @unpublished_article
     end
