@@ -52,13 +52,13 @@ puts <<END
   Before start, please copy assets and run migrations:
 
   rake assets:copy             # copies plugin assets to public/
-  rake db:migrate:prepare      # copies plugin migrations to db/migrate/
-  rake db:migrate              # usual migration
+  rake db:migrate              # copies engine migrations to app, does usual migration and removes
+                               # engine migrations after it's done
 
   ruby script/server
   open http://localhost:3000
 
-  You should see adva-cms installation screen. 
+  You should see adva-cms installation screen.
   Fill out the form and you're started, enjoy!
 
   Please read more info from README and /doc directory.
