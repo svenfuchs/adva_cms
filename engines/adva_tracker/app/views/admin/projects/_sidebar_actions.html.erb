@@ -1,9 +1,0 @@
-<h3><%= t(:"adva.titles.actions") %></h3>
-<ul>
-  <% if @project.present? && @project.editable? %>
-    <li>
-      <%= link_to t(:"adva.tracker.link.edit_project"),
-        edit_admin_project_path(@site, @section, @project) %>
-    </li>
-  <% end %>
-</ul>

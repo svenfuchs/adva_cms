@@ -1,9 +1,0 @@
-<h2>
-  <%= h(@ticket.title) %>
-</h2>
-
-<p>
-  <%= @ticket.body_html %>
-</p>
-
-<%= link_to t(:"adva.tracker.link.tickets"), tickets_path(@section, @ticket.ticketable_id) %>
