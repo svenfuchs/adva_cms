@@ -51,7 +51,7 @@ page =         Page.create! :site => site,
                             :permalink => 'another-page',
                             :comment_age => 0
 
-page =         Page.create! :site => another_site,
+               Page.create! :site => another_site,
                             :title => "another site's page",
                             :permalink => 'another-sites-page',
                             :comment_age => 0
