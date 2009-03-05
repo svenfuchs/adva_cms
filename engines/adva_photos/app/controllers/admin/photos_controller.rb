@@ -30,28 +30,28 @@ class Admin::PhotosController < Admin::BaseController
     @photo = @section.photos.build params[:photo]
     
     if @photo.save
-      flash[:notice] = "Photo was uploaded successfully."
+      flash[:notice] = t(:'adva.photos.flash.photo.create.success')
       redirect_to edit_admin_photo_path(@site, @section, @photo)
     else
-      flash[:error] = "Photo upload failed."
+      flash[:error] = t(:'adva.photos.flash.photo.create.failure')
       render :action => 'new'
     end
   end
   
   def update
     if @photo.update_attributes params[:photo]
-      flash[:notice] = "Photo was uploaded successfully."
+      flash[:notice] = t(:'adva.photos.flash.photo.update.success')
       redirect_to edit_admin_photo_path(@site, @section, @photo)
     else
       set_photo
-      flash[:error] = "Photo upload failed."
+      flash[:error] = t(:'adva.photos.flash.photo.update.failure')
       render :action => 'edit'
     end
   end
   
   def destroy
     @photo.destroy
-    flash[:notice] = "Photo was successfully removed."
+    flash[:notice] = t(:'adva.photos.flash.photo.destroy.success')
     redirect_to admin_photos_path(@site, @section)
   end
   
@@ -62,7 +62,7 @@ class Admin::PhotosController < Admin::BaseController
     
     def params_author
       author = User.find(params[:photo][:author]) || current_user
-      set_photo_param(:author, author) or raise "author and current_user not set"
+      set_photo_param(:author, author) or raise t(:'adva.photos.params.author')
     end
 
     def params_draft

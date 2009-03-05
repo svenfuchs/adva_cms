@@ -1,9 +1,9 @@
 <% content_for :sidebar do -%>
   <h3><%= t(:'adva.titles.actions') %></h3>
   <ul>
-    <li><%= link_to "Create a new set", new_admin_set_path(@site, @section) %></li>
+    <li><%= link_to t(:'adva.photos.admin.sets.create'), new_admin_set_path(@site, @section) %></li>
     <% if @sets.size > 1 %>
-      <li><%= link_to_function "Reorder sets", "sets_tree.toggle(this, t(:'adva.resources.reordering_done'));", :id => 'reorder_sets' %>
+      <li><%= link_to_function t(:'adva.photos.admin.sets.reorder'), "sets_tree.toggle(this, t(:'adva.resources.reordering_done'));", :id => 'reorder_sets' %>
       <%= image_tag '/images/adva_cms/indicator.gif', :id => 'sets_indicator', :style => 'display:none;' %></li>
       <li><%= link_to_function "Reorder sets", "sets_tree.toggle(this, '#{t(:'adva.resources.reordering_done')}');", :id => 'reorder_sets' %>
       <%= image_tag '/images/adva_cms/indicator.gif', :id => 'sets_indicator', :style => 'display: none;' %></li>
@@ -13,13 +13,13 @@
 
 <% unless @sets.empty? %>
   <p class="total">
-    <%= "Total number of sets #{@sets.total_entries}" %>
+    <%= t(:'adva.photos.admin.sets.total', :total_entries => @sets.total_entries) %>
   </p>
 
   <table id="sets" class="list">
     <thead>
       <tr>
-        <th scope="col">Title</th>
+        <th scope="col"><%= t(:'adva.photos.common.title') %></th>
         <th></th>
       </tr>
     </thead>
@@ -42,7 +42,7 @@
   
 <% else %>
   <div class="empty">
-    <%= "There are currently no sets" %>
-    <%= link_to "Create one now &raquo;", new_admin_set_path(@site, @section) %>
+    <%= t(:'adva.photos.admin.sets.no_set') %>
+    <%= link_to t(:'adva.photos.admin.sets.create_now') + "&raquo;", new_admin_set_path(@site, @section) %>
   </div>
 <% end %>

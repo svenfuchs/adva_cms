@@ -1,31 +1,31 @@
 <% content_for :sidebar do -%>
-  <h3><%= "Manage" %></h3>
+  <h3><%= t(:'adva.photos.common.manage') %></h3>
   <ul>
-    <li><%= link_to 'Photos', admin_photos_path(@site, @section) %></li>
-		<li><%= link_to "Sets", admin_sets_path(@site, @section) %></li>
-    <li><%= link_to 'Settings', edit_admin_section_path(@site, @section), :id => 'settings_section' %></li>
+    <li><%= link_to t(:'adva.photos.common.photos'), admin_photos_path(@site, @section) %></li>
+		<li><%= link_to t(:'adva.photos.common.sets'), admin_sets_path(@site, @section) %></li>
+    <li><%= link_to t(:'adva.photos.common.settings'), edit_admin_section_path(@site, @section), :id => 'settings_section' %></li>
   </ul>
 
-  <h3><%= 'Actions' %></h3>
+  <h3><%= t(:'adva.photos.common.actions') %></h3>
   <ul>
-    <li><%= link_to 'Upload a photo', new_admin_photo_path(@site, @section) %></li>
+    <li><%= link_to t(:'adva.photos.admin.photos.upload_photo'), new_admin_photo_path(@site, @section) %></li>
   </ul>
 <% end -%>
 
 <% unless @photos.empty? -%>
 
   <p class="total">
-    <%= "Total photo entries #{@photos.total_entries}" %>
+    <%= t(:'adva.photos.admin.photos.total', :total_entries => @photos.total_entries) %>
   </p>
 
   <table id="photos" class="list">
     <thead>
       <tr>
-        <th scope="col">Title</th>
-        <th scope="col">Photo</th>
-        <th scope="col">Comments</th>
-        <th scope="col">Published</th>
-        <th scope="col">Author</th>
+        <th scope="col"><%= t(:'adva.photos.common.title') %></th>
+        <th scope="col"><%= t(:'adva.photos.name') %></th>
+        <th scope="col"><%= t(:'adva.photos.common.comments') %></th>
+        <th scope="col"><%= t(:'adva.photos.common.published') %></th>
+        <th scope="col"><%= t(:'adva.photos.common.author') %></th>
         <th scope="col">&nbsp;</th>
       </tr>
     </thead>
@@ -39,8 +39,8 @@
 <% else %>
 
   <div class="empty">
-			You have no photos in your album.
-      <%= link_to "Upload one now", new_admin_photo_path(@site) %>
+			<%= t(:'adva.photos.admin.photos.no_photo_in_album') %>
+      <%= link_to t(:'adva.photos.admin.photos.upload_now'), new_admin_photo_path(@site) %>
   </div>
 
 <% end %>

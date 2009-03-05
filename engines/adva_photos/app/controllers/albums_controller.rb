@@ -48,7 +48,7 @@
         raise ActiveRecord::RecordNotFound
       end
     rescue ActiveRecord::RecordNotFound
-      flash[:error] = "Photo you requested could not be found."
+      flash[:error] = t(:'adva.photos.flash.photo.set_photo.failure')
       write_flash_to_cookie # TODO make around filter or something
       redirect_to album_path(@section)
     end
@@ -58,7 +58,7 @@
         @set = @section.sets.find params[:set_id]
       end
     rescue ActiveRecord::RecordNotFound
-      flash[:error] = "Set you requested could not be found."
+      flash[:error] = t(:'adva.photos.flash.photo.set_set.failure')
       write_flash_to_cookie # TODO make around filter or something
     end
 
@@ -69,7 +69,7 @@
         raise ActiveRecord::RecordNotFound unless @tags.size == names.size
       end
     rescue ActiveRecord::RecordNotFound
-      flash[:error] = "Tag you requested could not be found."
+      flash[:error] = t(:'adva.photos.flash.photo.set_tags.failure')
       write_flash_to_cookie # TODO make around filter or something
       @tags = nil
     end

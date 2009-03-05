@@ -3,14 +3,14 @@
   	<div class="meta">
   	  <p>
   	    <%= datetime_with_microformat(photo.published_at, :format => :long) %><br />
-  	    <%= 'Uploaded by: ' + photo.author_name %>
+  	    <%= t(:'adva.photos.albums.uploaded_by', :author_name => photo.author_name) %>
     	  <%= link_to_content_comments photo unless mode == :single %>
     	  <% authorized_tag :span, :update, photo do -%>
-      		<%= link_to 'Edit this photo', edit_admin_photo_path(@site, @section, photo) %>
+      		<%= link_to t(:'adva.photos.albums.edit'), edit_admin_photo_path(@site, @section, photo) %>
 		    <% end -%>
   	  </p>
   	  <p>
-      	<%= links_to_photo_sets photo, 'Sets' %>
+      	<%= links_to_photo_sets photo, t(:'adva.photos.common.sets') %>
       	<%= links_to_content_tags photo, :'adva.common.content_tags' %>
       </p>
   	</div>

@@ -2,6 +2,6 @@
   <td><%= link_to object.title, edit_admin_set_path(@site, @section, object) %></td>
   <td class="actions">
     <%= link_to t(:'adva.resources.edit'), edit_admin_set_path(@site, @section, object), :class => 'edit', :id => dom_id(object) + '_edit' %>
-    <%= link_to t(:'adva.resources.delete'), admin_set_path(@site, @section, object), :class => 'delete', :id => dom_id(object) + '_delete', :confirm => "Are you sure you want to delete this set?", :method => :delete %>
+    <%= link_to t(:'adva.resources.delete'), admin_set_path(@site, @section, object), :class => 'delete', :id => dom_id(object) + '_delete', :confirm => t(:'adva.photos.admin.sets.delete_confirmation'), :method => :delete %>
   </td>
 </tr>

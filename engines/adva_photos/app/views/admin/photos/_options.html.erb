@@ -1,15 +1,15 @@
 <h3><%= t(:'adva.titles.manage') %></h3>
 <ul>
-  <li><%= link_to "Photos", admin_photos_path(@site, @section) %></li>
-	<li><%= link_to "Sets", admin_sets_path(@site, @section) %></li>
-  <li><%= link_to 'Settings', edit_admin_section_path(@site, @section), :id => 'settings_section' %></li>
+  <li><%= link_to t(:'adva.photos.common.photos'), admin_photos_path(@site, @section) %></li>
+	<li><%= link_to t(:'adva.photos.common.sets'), admin_sets_path(@site, @section) %></li>
+  <li><%= link_to t(:'adva.photos.common.settings'), edit_admin_section_path(@site, @section), :id => 'settings_section' %></li>
 </ul>
 
 <% unless @photo.new_record? -%>
 <h3><%= t(:'adva.titles.actions') %></h3>
 <ul>
-  <li><%= link_to "Upload new photos", new_admin_photo_path(@site, @section) %></li>
-  <li><%= link_to "Delete photo", admin_photo_path(@site, @section, @photo), { :confirm => "Are you sure you want to delete this photo?", :method => :delete } %></li>
+  <li><%= link_to t(:'adva.photos.admin.photos.upload_photo'), new_admin_photo_path(@site, @section) %></li>
+  <li><%= link_to t(:'adva.photos.admin.photos.delete_photo'), admin_photo_path(@site, @section, @photo), { :confirm => t(:'adva.photos.admin.photos.delete_photo_confirmation'), :method => :delete } %></li>
 </ul>
 <% end -%>
 
@@ -20,7 +20,7 @@
   <%= f.text_field :tag_list, :label => 'Tags', :hint => :'adva.articles.hints.tags' %>
 
 	<% unless @sets.empty? %>
-  	<h4><%= 'Publish photo in sets' %></h4>
+  	<h4><%= t(:'adva.photos.admin.photos.publish_in_set') %></h4>
     <%= render :partial => 'sets/checkboxes', :locals => {:sets => @sets, :photo => @photo} %>
 	<% end %>
 <% end %>

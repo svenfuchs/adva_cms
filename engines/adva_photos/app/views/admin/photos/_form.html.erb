@@ -7,16 +7,16 @@
 <% f.field_set do %>
  	<%= f.text_field :title, :label => true %>
 
-	<label for="photo_data"><%= @photo.new_record? ? 'Choose a photo' : 'Replace the photo' %></label>
+	<label for="photo_data"><%= @photo.new_record? ? t(:'adva.photos.admin.photos.choose_photo') : t(:'adva.photos.admin.photos.replace_photo') %></label>
 	<%= f.file_field :data %>
 	
 	<% unless @photo.new_record? -%>
 		<p><%= link_to(image_tag(@photo.base_url(:large)), @photo.filename) %></p>
 	<% end %>
 	
-  <%= f.label :draft, "Save as a draft" %>
+  <%= f.label :draft, t(:'adva.photos.common.save_as_draft') %>
   <label class="light">
-    <%= check_box_tag :draft, '1', @photo.draft?, :id => 'article_draft' %> <%= "Save this/these photos as a draft" %>
+    <%= check_box_tag :draft, '1', @photo.draft?, :id => 'article_draft' %> <%= t(:'adva.photos.common.save_as_draft_label') %>
   </label>
 	
   <p id="publish_date" style="<%= @photo.draft? ? "display:none" : "" %>">

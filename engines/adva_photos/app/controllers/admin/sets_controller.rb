@@ -16,10 +16,10 @@ class Admin::SetsController < Admin::BaseController
     @set = @section.sets.build params[:set]
     
     if @set.save
-      flash[:notice] = "Set was successfully saved!"
+      flash[:notice] = t(:'adva.photos.flash.set.create.success')
       redirect_to admin_sets_path(@site, @section)
     else
-      flash[:error] = "Set save failed."
+      flash[:error] = t(:'adva.photos.flash.set.create.failure')
       render :action => :new
     end
   end
@@ -29,17 +29,17 @@ class Admin::SetsController < Admin::BaseController
   
   def update
     if @set.update_attributes(params[:set])
-      flash[:notice] = "Set was successfully updated!"
+      flash[:notice] = t(:'adva.photos.flash.set.update.success')
       redirect_to admin_sets_path(@site, @section)
     else
-      flash[:error] = "Set update failed."
+      flash[:error] = t(:'adva.photos.flash.set.update.failure')
       render :action => :edit
     end
   end
   
   def destroy
     @set.destroy
-    flash[:notice] = "Set was successfully removed!"
+    flash[:notice] = t(:'adva.photos.flash.set.destroy.success')
     redirect_to admin_sets_path(@site, @section)
   end
   

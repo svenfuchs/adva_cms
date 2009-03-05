@@ -2,7 +2,7 @@
   <div id="footer" class="clearing">
     <% if !@section.sets.blank? %>
       <div>
-        <h4><%= 'Sets' %></h4>
+        <h4><%= t(:'adva.photos.common.sets') %></h4>
         <ul>
         <% @section.sets.each do |set| %>
           <li><%= link_to_set @section, set %></li>
