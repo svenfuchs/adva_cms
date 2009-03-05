@@ -35,7 +35,7 @@ site         = Site.create! :name => 'site with pages',
                             :title => 'site with pages title',
                             :host => 'site-with-pages.com'
 
-               Site.create! :name => 'another site',
+another_site = Site.create! :name => 'another site',
                             :title => 'another site title',
                             :host => 'another-site.com'
 
@@ -49,6 +49,11 @@ page =         Page.create! :site => site,
                Page.create! :site => site,
                             :title => 'another page',
                             :permalink => 'another-page',
+                            :comment_age => 0
+
+page =         Page.create! :site => another_site,
+                            :title => "another site's page",
+                            :permalink => 'another-sites-page',
                             :comment_age => 0
 
 category = Category.create! :section => page,
