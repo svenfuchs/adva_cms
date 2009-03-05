@@ -21,7 +21,7 @@ Rails::Configuration.class_eval do
   end
   
   def default_plugins
-    [ :better_nested_set, :safemode, :adva_cms, :all ]
+    [ :simple_nested_set, :safemode, :adva_cms, :all ]
   end
 
   def default_plugin_paths

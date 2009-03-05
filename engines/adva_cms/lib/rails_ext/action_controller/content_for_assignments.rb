@@ -34,7 +34,7 @@ ActionView::Renderable.module_eval do
     Proc.new do |*names|
       contents = view.controller.registered_contents.select { |id, content| content.target == names.first }
       contents.each do |id, content|
-        # content_for always prepends the new content. we might want to have
+        # content_for always appends the new content. we might want to have
         # more finegrained control over that.
         view.content_for(names.first, content.render(view))
       end

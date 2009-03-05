@@ -69,7 +69,7 @@ module Matchy
             "Expected %s to act as a nested set.", 
             "Expected %s not act as a nested set." do |receiver|
       @receiver = receiver
-      @receiver.included_modules.include? SymetrieCom::Acts::NestedSet::InstanceMethods
+      @receiver.included_modules.include? ActiveRecord::NestedSet::InstanceMethods
     end
 
     matcher "ActAsRoleContext", 

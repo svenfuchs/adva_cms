@@ -2,26 +2,23 @@ class Site < ActiveRecord::Base
   serialize :permissions
   serialize :spam_options
 
-  has_many :sections, :dependent => :destroy, :order => :lft do # , :conditions => ['type IN (?)', Section.types]
+  has_many :sections, :dependent => :destroy, :order => :lft do
     def root
-      find_by_parent_id nil, :order => 'lft'
+      Section.root(:site_id => proxy_owner.id)
     end
-
-    # def roots
-    #   nested_set_class.find_with_nested_set_scope(:all, :conditions => "(#{nested_set_parent} IS NULL)", :order => "#{nested_set_left}")
-    # end
+    
+    def roots
+      Section.roots(:site_id => proxy_owner.id)
+    end
 
     def paths
       map(&:path)
     end
 
     # TODO this is very expensive! change this to only update_paths when a node has been moved.
-    # maybe move this to betternestedset and hook into move_by instead?
+    # maybe move this to nested_set and hook into move_by instead?
     def update_paths!
-      paths = roots.collect do |root|
-        root.full_set.collect {|node| [node.id, {'path' => node.send(:build_path)}] }
-      end
-      paths = Hash[*paths.flatten]
+      paths = Hash[*roots.map { |r| r.full_set.map { |n| [n.id, { 'path' => n.send(:build_path) }] } }.flatten]
       update paths.keys, paths.values
     end
   end

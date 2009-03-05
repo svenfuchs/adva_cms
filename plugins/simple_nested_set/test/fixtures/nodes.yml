@@ -1,0 +1,34 @@
+root:
+  name: root
+  type: FooNode
+  foo_id: 1
+  lft: 1
+  rgt: 8
+node_2:
+  name: node_2
+  type: FooNode
+  parent: root
+  foo_id: 1
+  lft: 2
+  rgt: 3
+node_3:
+  name: node_3
+  type: FooNode
+  parent: root
+  foo_id: 1
+  lft: 4
+  rgt: 7
+node_4:
+  name: node_4
+  type: FooNode
+  parent: node_3
+  foo_id: 1
+  lft: 5
+  rgt: 6
+unrelated_root:
+  name: unrelated_root
+  type: FooNode
+  foo_id: 2
+  lft: 1
+  rgt: 2
+

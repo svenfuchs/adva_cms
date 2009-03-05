@@ -12,9 +12,8 @@ class Section < ActiveRecord::Base
 
   has_option :contents_per_page, :default => 15
   has_permalink :title, :url_attribute => :permalink, :sync_url => true, :only_when_blank => true, :scope => :site_id
-
+  acts_as_nested_set :scope => :site_id
   instantiates_with_sti
-  acts_as_nested_set
 
   belongs_to :site
   has_many :categories, :dependent => :destroy, :order => 'lft' do
