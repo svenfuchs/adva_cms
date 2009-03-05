@@ -8,7 +8,7 @@ class ProjectTest < ActiveSupport::TestCase
   end
   
   test "associations" do
-    @project.should belong_to(:tracker)
+    @project.should belong_to(:section)
     @project.should have_many(:tickets, :as => :ticketable)
   end
   

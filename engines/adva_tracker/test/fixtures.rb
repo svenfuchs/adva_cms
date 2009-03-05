@@ -15,5 +15,6 @@ tracker = Tracker.create! :site        => site,
 project = tracker.projects.create! :title => "project title",
                                    :desc  => "project desc"
 
-ticket = project.tickets.create! :title => "ticket title",
-                                 :body  => "ticket body"
+ticket = project.tickets.create! :title  => "ticket title",
+                                 :body   => "ticket body",
+                                 :author => user

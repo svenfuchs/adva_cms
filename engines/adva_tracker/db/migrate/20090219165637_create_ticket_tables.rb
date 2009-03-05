@@ -1,18 +1,22 @@
 class CreateTicketTables < ActiveRecord::Migration
   def self.up
     create_table :projects do |t|
-      t.references :section
       t.references :site
+      t.references :section
       t.string     :title
       t.string     :desc
+      t.integer    :tickets_count,    :defoult => 0
       t.integer    :milestones_count, :default => 0
       t.timestamps
     end
     
     create_table :tickets do |t|
+      t.references :user
+      t.references :section
       t.integer    :ticketable_id,   :null => false
       t.string     :ticketable_type, :null => false
-      t.references :user
+      t.integer    :author_id
+      t.string     :author
       t.string     :title
       t.text       :body
       t.text       :body_html

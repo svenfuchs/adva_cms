@@ -30,7 +30,7 @@ class Admin::ProjectsController < Admin::BaseController
     @project = Project.find(params[:id])
 
     if @project.update_attributes(params[:project])
-      flash[:notice] = t(:"adva.tracker.flash.project_successfully_update")
+      flash[:notice] = t(:"adva.tracker.flash.project_successfully_updated")
       redirect_to admin_project_path(@site, @section, @project)
     else
       flash.now[:error] = t(:"adva.tracker.flash.project_update_failed")
@@ -42,7 +42,7 @@ class Admin::ProjectsController < Admin::BaseController
     @project = Project.find(params[:id])
 
     @project.destroy
-    flash[:notice] = t(:"adva.tracker.flash.project_successfully_destroyed")
+    flash[:notice] = t(:"adva.tracker.flash.project_successfully_deleted")
     redirect_to admin_trackers_path(@site, @section)
   end
 end

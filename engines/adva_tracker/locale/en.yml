@@ -4,24 +4,33 @@ en:
       flash:
         project_successfully_created: Project was successfully created.
         project_creation_failed: Project creation failed.
-        project_successfully_update: Project was successfully updated.
+        project_successfully_updated: Project was successfully updated.
         project_update_failed: Project update failed.
-        project_successfully_destroyed: Project successfully destroyed.
+        project_successfully_deleted: Project successfully deleted.
         ticket_successfully_created: Ticket was successfully created.
         ticket_creation_failed: Ticket creation failed.
+        ticket_successfully_updated: Ticket was successfully created.
+        ticket_update_failed: Ticket update failed.
+        ticket_successfully_deleted: Ticket was successfully deleted.
       button:
       link:
         projects: Projects
+        tickets: Tickets
         new_project: Create a new project
         edit_project: Edit project
         new_ticket: Create a new ticket
       label:
+        projects: Projects
         new_project: New Project
         project_title: Name
         edit_project: Edit project
         new_ticket: New Ticket
+        edit_ticket: Edit Ticket
         ticket_title: Name
       message:
+        add_new_one_at_admin_panel: "Please add a new one at the admin panel:"
+        add_new_one_at_frontend: "Please add a new one at the frontend:"
         no_projects: There are no projects.
         no_tickets: There are no tickets.
         confirm_project_destroy: Are you sure you wish to delete this project?
+        confirm_ticket_destroy: Are you sure you wish to delete this ticket?

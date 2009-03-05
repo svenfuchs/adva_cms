@@ -1,0 +1,12 @@
+<% if @projects.present? %>
+  <%= render "projects/projects", :projects => @projects %>
+<% else %>
+  <p class="empty">
+    <%= t(:"adva.tracker.message.no_projects") %>
+    
+    <% authorized_tag :span, :create, @projects do %>
+      <%= link_to t(:"adva.tracker.link.new_project"), new_admin_project_path(@site, @section) %>
+    <% end %>
+  </p>
+<% end %>
+

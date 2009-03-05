@@ -9,14 +9,16 @@ class TicketTest < ActiveSupport::TestCase
   end
   
   test "associations" do
+    @ticket.should belong_to(:ticketable)
   end
   
   test "validations" do
-    @ticket.should be_valid
     @ticket.should validate_presence_of(:title)
     @ticket.should validate_presence_of(:body)
     @ticket.should validate_presence_of(:ticketable_id)
     @ticket.should validate_presence_of(:ticketable_type)
+    @ticket.should validate_presence_of(:author_id)
+    @ticket.should validate_presence_of(:author)
   end
   
   test "sanitization" do

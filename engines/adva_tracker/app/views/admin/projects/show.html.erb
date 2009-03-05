@@ -10,6 +10,7 @@
 <% else %>
   <div class="empty">
     <%= t(:"adva.tracker.message.no_tickets") %>
-    <%= link_to t(:"adva.tracker.link.new_ticket"), new_admin_ticket_path(@site, @section, @project) %>
+    <%= t(:"adva.tracker.message.add_new_one_at_frontend") %>
+    <%= link_to t(:"adva.tracker.link.new_ticket"), new_ticket_path(@section, @project) %>
   </div>
 <% end %>
