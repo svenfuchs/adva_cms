@@ -174,15 +174,19 @@ en:
       hints:
         content_filter: When articles are posted, they use this as the default setting.
       titles:
-        section_settings: Section specific settings
+        page_settings: Page specific settings
         blog_settings: Blog specific settings
         forum_settings: Forum specific settings
         create: Create a new section
+        behaviour: Behaviour
       links:
         delete: Delete this section
         add_section: Add a section
         reorder: Reorder sections
         create: Create a new section
+      settings:
+        single_article_mode: Single article per page
+        multi_article_mode: Multiple articles per page
       confirm_delete: Are you sure you wish to delete this section?
       flash:
         destroy:

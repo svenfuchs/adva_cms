@@ -1,10 +1,11 @@
 class Admin::ArticlesController < Admin::BaseController
   layout "admin"
 
+  before_filter :adjust_action
   before_filter :set_section
   before_filter :set_article,           :only => [:show, :edit, :update, :destroy]
   before_filter :set_categories,        :only => [:new, :edit]
-  around_filter :set_content_locale,    :only => [:new, :edit, :create, :update]
+  around_filter :set_content_locale #,    :only => [:new, :edit, :create, :update]
   before_filter :params_author,         :only => [:create, :update]
   before_filter :params_draft,          :only => [:create, :update]
   before_filter :params_published_at,   :only => [:create, :update]
@@ -30,7 +31,9 @@ class Admin::ArticlesController < Admin::BaseController
   end
 
   def new
-    @article = @section.articles.build :comment_age => @section.comment_age, :filter => @section.content_filter
+    params[:article] ||= {}
+    defaults = { :comment_age => @section.comment_age, :filter => @section.content_filter }
+    @article = @section.articles.build params[:article].update(defaults)
   end
 
   def edit
@@ -104,7 +107,7 @@ class Admin::ArticlesController < Admin::BaseController
   end
 
   protected
-  
+
     def set_section; super; end
 
     def set_article
@@ -149,7 +152,7 @@ class Admin::ArticlesController < Admin::BaseController
       params[:draft] == '1'
     end
 
-    def set_article_param(key, value)
+    def set_article_param(key, value) # FIXME abstract this stuff to set_param(*keys, value) and default_param(*keys, value)
       params[:article] ||= {}
       params[:article][key] = value
     end
@@ -196,6 +199,21 @@ class Admin::ArticlesController < Admin::BaseController
     
     def content_locale
       Article.locale == I18n.default_locale ? nil : Article.locale
+    end
+  
+    # adjusts the action from :index to :new or :edit when the current section 
+    # and it doesn't have any articles
+    def adjust_action
+      if params[:action] == 'index' and @section.try(:single_article_mode)
+        if @section.articles.empty?
+          action = 'new'
+          params[:article] = { :title => @section.title }
+        else
+          action = 'edit'
+          params[:id] = @section.articles.first.id
+        end
+        @action_name = @_params[:action] = request.parameters['action'] = action
+      end
     end
 end
 

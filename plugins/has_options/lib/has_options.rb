@@ -23,11 +23,15 @@ module HasOptions
 
             def #{name}_before_type_cast
               self.options ||= {}
-              options[:#{name}] || self.class.option_definition(:#{name}, :default)
+              options.key?(:#{name}) ? options[:#{name}] : self.class.option_definition(:#{name}, :default)
             end
 
             def #{name}=(value)
               options_will_change!
+              case self.class.option_definition(:#{name}, :type)
+              when :boolean
+                value = ActiveRecord::ConnectionAdapters::Column.value_to_boolean(value)
+              end
               self.options ||= {}
               options[:#{name}] = value
             end

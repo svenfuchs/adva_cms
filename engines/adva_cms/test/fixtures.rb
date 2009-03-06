@@ -46,6 +46,9 @@ page =         Page.create! :site => site,
                             :permalink => 'a-page',
                             :comment_age => 0
 
+page.single_article_mode = false # FIXME make has_options monkeypatch upate_attributes
+page.save!
+
                Page.create! :site => site,
                             :title => 'another page',
                             :permalink => 'another-page',
@@ -64,6 +67,7 @@ category = Category.create! :section => page,
 article   = Article.create! :site => site,
                             :section => page,
                             :title => 'a page article',
+                            :excerpt => 'a page article excerpt',
                             :body => 'a page article body',
                             :categories => [category],
                             :tag_list => 'foo bar',

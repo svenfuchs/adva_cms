@@ -165,7 +165,7 @@ de:
      hints:
        content_filter: Wenn Artikel angelegt werden, nutzen sie diese Einstellungen als Standardwerte.
      titles:
-       section_settings: Sektionsspezifische Einstellungen
+       page_settings: Seitenspezifische Einstellungen
        blog_settings: Blogspezifische Einstellungen
        forum_settings: Forumspezifische Einstellungen
        create: Eine neue Sektion anlegen

@@ -11,20 +11,21 @@ class PageArticlesControllerTest < ActionController::TestCase
   describe 'GET to :index' do
     action { get :index, params_from('/a-page') }
     
-    with :a_page do
-      with "the page has some articles" do
+    with :a_page, :an_article do
+      with "the page is in single_article_mode" do
+        before { @section.single_article_mode = true; @section.save! }
+
+        it_assigns :section
+        it_assigns :article
+        it_renders :template, 'pages/articles/show'
+        it_caches_the_page :track => '@article'
+      end
+      
+      with "the page is not in single_article_mode" do
         it_assigns :section, :articles
         it_renders :template, 'pages/articles/index'
         it_caches_the_page :track => '@articles'
         # FIXME displays a list of articles
-      end
-
-      with "the page does not have any articles" do
-        before { @section.articles.clear }
-        it_assigns :section
-        it_does_not_assign :article
-        it_renders :template, 'pages/articles/show'
-        it_caches_the_page :track => '@article'
       end
     end
   end

@@ -1,5 +1,5 @@
 class Page < Section
-  has_option :single_article, :default => true
+  has_option :single_article_mode, :default => true, :type => :boolean
 
   has_many :articles, :foreign_key => 'section_id', :dependent => :destroy do
     def primary

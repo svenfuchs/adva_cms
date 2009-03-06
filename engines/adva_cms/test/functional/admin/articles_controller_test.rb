@@ -54,15 +54,24 @@ class AdminArticlesControllerTest < ActionController::TestCase
     it_guards_permissions :show, :article
   
     with :access_granted do
-      it_assigns :articles
-      it_renders :template, lambda { "admin/#{@section.type.tableize}/articles/index" }
+      with "in single-article-mode", :in => :a_page do
+        before { @section.single_article_mode = true; @section.save! }
+
+        it_assigns :article
+        it_renders :template, lambda { "admin/#{@section.type.tableize}/articles/edit" }
+      end
       
-      it "displays an articles list" do
-        has_tag 'p[class=total]', /total: \d article(s)?/i
-        has_tag 'table[id=articles] tr td a[href=?]',
-                  edit_admin_article_path(@site, @section, assigns(:articles).first), 
-                  assigns(:articles).first.title
-        # FIXME if article has comments enabled: shows comments counts, otherwise doesn't
+      with "not in single-article-mode" do
+        it_assigns :articles
+        it_renders :template, lambda { "admin/#{@section.type.tableize}/articles/index" }
+      
+        it "displays an articles list" do
+          has_tag 'p[class=total]', /total: \d article(s)?/i
+          has_tag 'table[id=articles] tr td a[href=?]',
+                    edit_admin_article_path(@site, @section, assigns(:articles).first), 
+                    assigns(:articles).first.title
+          # FIXME if article has comments enabled: shows comments counts, otherwise doesn't
+        end
       end
     end
   end

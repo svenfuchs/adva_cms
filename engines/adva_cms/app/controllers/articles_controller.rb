@@ -30,10 +30,9 @@ class ArticlesController < BaseController
   end
 
   protected
-    # adjusts the action from :index to :show when the current section is a Section 
-    # and it doesn't have any articles
+    # adjusts the action from :index to :show when the current section is in single-article mode
     def adjust_action
-      if request.parameters['action'] == 'index' and single_mode?
+      if params[:action] == 'index' and @section.try(:single_article_mode)
         @action_name = @_params[:action] = request.parameters['action'] = 'show'
       end
     end
@@ -56,6 +55,8 @@ class ArticlesController < BaseController
       if params[:permalink]
         @article = @section.articles.find_by_permalink(params[:permalink], :include => :author)
         raise ActiveRecord::RecordNotFound unless valid_article?
+      elsif @section.try(:single_article_mode)
+        @article = @section.articles.first
       end
     end
 
@@ -92,9 +93,5 @@ class ArticlesController < BaseController
 
     def current_resource
       @article || @section
-    end
-
-    def single_mode?
-      @section.is_a?(Page) and @section.articles.empty?
     end
 end

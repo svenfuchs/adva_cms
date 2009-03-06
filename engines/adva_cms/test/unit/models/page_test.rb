@@ -4,12 +4,14 @@ class PageTest < ActiveSupport::TestCase
   def setup
     super
     @site = Site.first
-    # @page = @site.sections.find_by_type(:first, 'Page')
   end
 
-  # CLASS METHODS
-  
-  test "Section.content_type returns 'Article'" do
+  test "Page.content_type returns 'Article'" do
     Page.content_type.should == 'Article'
+  end
+  
+  test "a page has a single_article_mode option that returns true by default" do
+    Page.new.should respond_to(:single_article_mode)
+    Page.new.single_article_mode.should be_true
   end
 end
