@@ -10,7 +10,5 @@
     <%= f.text_field :title, :label => true %>
   <% end %>
 
-  <% f.buttons do %>
-    <%= submit_tag t(:'adva.common.save') %>
-  <% end %>  
+  <%= save_or_cancel_links(f) %>
 <% end %>
