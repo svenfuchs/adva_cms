@@ -18,6 +18,27 @@ module Admin::BaseHelper
     resource_link text, path, options
   end
 
+  def save_or_cancel_links(builder, options={})
+    save_text   = options.delete(:save_text)   || t(:'adva.common.save')
+    or_text     = options.delete(:or_text)     || t(:'adva.common.connector.or')
+    cancel_text = options.delete(:cancel_text) || t(:'adva.common.cancel')
+    cancel_url  = options.delete(:cancel_url)
+
+    save_options = options.delete(:save) || {}
+    save_options.reverse_merge!(:id => 'commit')
+
+    cancel_options = options.delete(:cancel) || {}
+    # cancel_options.reverse_merge!(:id => 'cancel')
+
+    builder.buttons do
+      returning '' do |buttons|
+        buttons << submit_tag(save_text, save_options)
+        buttons << " #{or_text} #{link_to(cancel_text, cancel_url, cancel_options)}" if cancel_url
+      end
+    end
+    nil # need to return nil here so we don't get duplicate output
+  end
+
   def admin_site_select_tag
     return '' unless current_user.has_role?(:superuser) || Site.multi_sites_enabled
     options = []
