@@ -18,7 +18,8 @@ class Site < ActiveRecord::Base
     # TODO this is very expensive! change this to only update_paths when a node has been moved.
     # maybe move this to nested_set and hook into move_by instead?
     def update_paths!
-      paths = Hash[*roots.map { |r| r.full_set.map { |n| [n.id, { 'path' => n.send(:build_path) }] } }.flatten]
+      paths = Hash[*roots.map { |r| 
+        r.self_and_descendants.map { |n| [n.id, { 'path' => n.send(:build_path) }] } }.flatten]
       update paths.keys, paths.values
     end
   end

@@ -6,21 +6,21 @@ module ActiveRecord
         include ActiveRecord::NestedSet::InstanceMethods
         extend ActiveRecord::NestedSet::ClassMethods
 
+        define_callbacks :before_move, :after_move
+
+        before_create  :init_as_node
+        before_destroy :prune_branch
         belongs_to :parent, :class_name => self.name
-        delegate :root, :roots, :to => :nested_set
+
+        default_scope :order => 'lft'
 
         klass = options[:class] || self
         scopes = Array(options[:scope]).map { |s| s.to_s !~ /_id$/ ? :"#{s}_id" : s }
-        condition = lambda { |s|
-          Hash[*scopes.map { |scope| [scope, s.is_a?(Hash) ? s[scope] : s.send(scope)] }.flatten] if scopes.size 
-        }
-        
-        named_scope :nested_set, lambda { |s| { :order => "lft", :conditions => condition.call(s) } } do
-          define_method(:scopes) { scopes }
-          define_method(:scope)  { |s| condition.call(s) }
+        conditions = lambda { |s| scopes.inject({}) { |c, attr| c.merge(attr => s[attr]) } }
+
+        named_scope :nested_set, lambda { |s| { :conditions => conditions.call(s) } } do
+          define_method(:scope_columns) { scopes }
           define_method(:klass)  { klass }
-          define_method(:root)   { first(:conditions => "parent_id IS NULL") }
-          define_method(:roots)  { all(:conditions => "parent_id IS NULL") }
         end
       end
 
@@ -32,29 +32,21 @@ module ActiveRecord
     module ClassMethods
       # Returns the single root
       def root(*args)
-        nested_set(*args).root
+        nested_set(*args).first(:conditions => { :parent_id => nil })
       end
 
       # Returns roots when multiple roots (or virtual root, which is the same)
       def roots(*args)
-        nested_set(*args).roots
+        nested_set(*args).scoped(:conditions => { :parent_id => nil } )
       end
     end
 
     module InstanceMethods
       def nested_set
-        self.class.nested_set(self)
-      end
-      
-      # on creation set lft and rgt to the end of the tree
-      def before_create
-        max_right = nested_set.maximum(:rgt) || 0
-        # adds the new node to the right of all existing nodes
-        self.lft = max_right + 1
-        self.rgt = max_right + 2
+        @nested_set ||= self.class.nested_set(self)
       end
 
-      def update_attributes(attrs) # dangerous. the class itself could also implement this method is there a better way?
+      def update_attributes(attrs) # dangerous. the class itself could implement this, too. what's a better way?
         move_by_attributes(attrs)
         super attrs
       end
@@ -66,12 +58,12 @@ module ActiveRecord
 
       # Returns true if this is a root node.
       def root?
-        parent_id.blank? # && (lft == 1) && (rgt > lft) # hu? why not just look at the parent_id?
+        parent_id.blank?
       end
 
       # Returns true is this is a child node
       def child?
-        !parent_id.blank? # && (lft > 1) && (rgt > lft) # hu? why not just look at the parent_id?
+        !root?
       end
 
       # order by left column
@@ -79,15 +71,14 @@ module ActiveRecord
         lft <=> other.lft
       end
 
-      # Returns the parent
-      def parent
-        nested_set.klass.find(parent_id) unless parent_id.blank?
+      # Returns root
+      def root
+        root? ? self : ancestors.first
       end
 
-      # Returns an array of all parents
-      # Maybe 'full_outline' would be a better name, but we prefer to mimic the Tree class
-      def ancestors
-        nested_set.all(:conditions => "lft < #{lft} AND rgt > #{rgt}")
+      # Returns the parent
+      def parent
+        nested_set.klass.find(parent_id) unless root?
       end
 
       # Returns the array of all parents and self
@@ -95,31 +86,29 @@ module ActiveRecord
         ancestors + [self]
       end
 
-      # Returns the array of all children of the parent, except self
-      def siblings
-        self_and_siblings - [self]
+      # Returns an array of all parents
+      def ancestors
+        nested_set.scoped(:conditions => "lft < #{lft} AND rgt > #{rgt}")
       end
 
-      # Returns the array of all children of the parent, included self
-      def self_and_siblings
-        parent_id.blank? ? nested_set.roots : nested_set.all(:conditions => "parent_id = #{parent_id}")
+      # Returns a set of itself and all of its nested children.
+      def self_and_descendants
+        [self] + descendants
       end
 
-      def left
-        nested_set.first :conditions => "rgt = #{lft - 1}"
+      # Returns a set of all of its children and nested children.
+      def descendants
+        rgt - lft == 1 ? []  : nested_set.scoped(:conditions => ['lft > ? AND rgt < ?', lft, rgt])
       end
 
-      def right
-        nested_set.first(:conditions => "lft = #{rgt + 1}")
+      # Returns a set of only this entry's immediate children including self
+      def self_and_children
+        [self] + children
       end
 
-      # Returns the level of this object in the tree, root level is 0
-      def level
-        table = self.class.table_name
-        scope = nested_set.scopes.map { |s| "#{table}.#{s} = t2.#{s}" }
-        condition = "#{table}.lft BETWEEN t2.lft AND t2.rgt AND #{table}.id = #{id}"
-        condition += " AND " + scope.join(' AND ') unless scope.empty?
-        nested_set.count(:select => "t2.id", :from => "#{table}, #{table} AS t2", :conditions => condition) - 1
+      # Returns a set of only this entry's immediate children
+      def children
+        rgt - lft == 1 ? []  : nested_set.scoped(:conditions => { :parent_id => id })
       end
 
       # Returns the number of nested children of this object.
@@ -127,49 +116,51 @@ module ActiveRecord
         return (rgt - lft - 1) / 2
       end
 
-      # Returns a set of itself and all of its nested children.
-      def full_set
-        (rgt - lft) == 1 ? [self]  : [self] + all_children
+      # Returns the level of this object in the tree, root level is 0
+      def level
+        return parent_id.nil? ? 0 : ancestors.count
       end
 
-      # Returns a set of all of its children and nested children.
-      def all_children
-        nested_set.all(:conditions => "lft > #{lft} AND rgt < #{rgt}")
+      # Returns the array of all children of the parent, included self
+      def self_and_siblings
+        nested_set.scoped(:conditions => { :parent_id => parent_id })
       end
 
-      # Returns a set of only this entry's immediate children
-      def children
-        nested_set.all(:conditions => "parent_id = #{id}")
+      # Returns the array of all children of the parent, except self
+      def siblings
+        without_self self_and_siblings
       end
 
-      # Prunes a branch off of the tree, shifting all of the elements on the right
-      # back to the left so the counts still work.
-      def before_destroy
-        return if rgt.nil? || lft.nil?
-        diff = rgt - lft + 1
+      # Returns the lefthand sibling
+      def left
+        nested_set.first :conditions => { :rgt => lft - 1 }
+      end
 
-        self.class.transaction {
-          nested_set.delete_all "lft > #{lft} AND rgt < #{rgt}"
-          nested_set.update_all "lft = (lft - #{diff})",   "lft >= #{rgt}"
-          nested_set.update_all "rgt = (rgt - #{diff} )",  "rgt >= #{rgt}"
-        }
+      # Returns the righthand sibling
+      def right
+        nested_set.first :conditions => { :lft => rgt + 1 }
       end
 
       def move_by_attributes(attrs)
-        return unless attrs
+        return unless attrs.detect { |key, value| [:parent_id, :left_id, :right_id].include?(key.to_sym) }
+
         attrs.symbolize_keys!
-        attrs.reject! { |key, value| value == 'null' }
+        attrs.reject! { |key, value| value == 'null' } # FIXME shouldn't the key be preserved?
+
+        parent = nested_set.klass.find(attrs[:parent_id] ? attrs[:parent_id] : self.parent_id)
 
         # if left_id is given but blank, set right_id to leftmost one
         if attrs.has_key?(:left_id) && attrs[:left_id].blank?
-          s = self_and_siblings
-          attrs[:right_id] = s.first.id if s.first
+          attrs.delete(:left_id)
+          siblings = parent.children
+          attrs[:right_id] = siblings.first.id if siblings.first
         end
 
         # if right_id is given but blank, set left_id to rightmost one
         if attrs.has_key?(:right_id) && attrs[:right_id].blank?
-          s = self_and_siblings
-          attrs[:left_id] = s.last.id if s.last
+          attrs.delete(:right_id)
+          siblings = parent.children
+          attrs[:left_id] = siblings.last.id if siblings.last
         end
 
         parent_id, left_id, right_id = [:parent_id, :left_id, :right_id].map do |key|
@@ -177,9 +168,9 @@ module ActiveRecord
           value.blank? ? nil : value.to_i
         end
 
-        move_to_child_of(parent_id) if parent_id and parent_id != self.parent_id
         move_to_right_of(left_id)   if left_id and left_id != id
         move_to_left_of(right_id)   if right_id and right_id != id
+        move_to_child_of(parent_id) if parent_id and parent_id != self.parent_id
       end
 
       # Move the node to the left of another node
@@ -198,79 +189,112 @@ module ActiveRecord
       end
 
       protected
-        def move_to(target, position)
-          target = nested_set.klass.find(target) unless target.is_a?(ActiveRecord::Base)
 
-          raise ActiveRecord::ActiveRecordError, "You cannot move a new node" if new_record?
-          protect_impossible_move!(target)
-
-          new_parent_id = (position == :child ? target.id : target.parent_id) || 'NULL'
-
-          # number of self_and_children nodes
-          spread = rgt - lft + 1
-
-          # compute new lft/rgt for self
-          case position
-          when :child
-            if target.lft < lft
-              new_lft = target.lft + 1
-              new_rgt = target.lft + spread
-            else
-              new_lft = target.lft - spread + 1
-              new_rgt = target.lft
-            end
-          when :left
-            if target.lft < lft
-              new_lft = target.lft
-              new_rgt = target.lft + spread - 1
-            else
-              new_lft = target.lft - spread
-              new_rgt = target.lft - 1
-            end
-          when :right
-            if target.rgt < rgt
-              new_lft = target.rgt + 1
-              new_rgt = target.rgt + spread
-            else
-              new_lft = target.rgt - spread + 1
-              new_rgt = target.rgt
-            end
-          else
-            raise ActiveRecord::ActiveRecordError, "Position must be one of: :child, :left, :right (was #{position.inspect})."
-          end
-
-          # boundaries of update action
-          outer_lft, outer_rgt = [lft, new_lft].min, [rgt, new_rgt].max
-
-          # distance from current to new position
-          shift = new_lft - lft
-
-          # shift value for nodes that are inside boundaries but not under self_and_children
-          updown = (shift > 0) ? -spread : spread
-
-          # update and that rules
-          sql = %Q( lft = CASE \
-                      WHEN lft BETWEEN #{lft} AND #{rgt} THEN lft + #{shift} \
-                      WHEN lft BETWEEN #{outer_lft} AND #{outer_rgt} THEN lft + #{updown} \
-                      ELSE lft END, \
-
-                    rgt = CASE \
-                      WHEN rgt BETWEEN #{lft} AND #{rgt} THEN rgt + #{shift} \
-                      WHEN rgt BETWEEN #{outer_lft} AND #{outer_rgt} THEN rgt + #{updown} \
-                      ELSE rgt END, \
-
-                    parent_id = CASE \
-                      WHEN id = #{id} THEN #{new_parent_id} \
-                      ELSE parent_id END )
-
-          nested_set.klass.update_all sql, nested_set.scope(self)
-          self.reload
+        # on creation set lft and rgt to the end of the tree
+        def init_as_node
+          max_right = nested_set.maximum(:rgt) || 0
+          # adds the new node to the right of all existing nodes
+          self.lft = max_right + 1
+          self.rgt = max_right + 2
         end
 
-        def protect_impossible_move!(target)
-          if ((lft <= target.lft) && (target.lft <= rgt)) or ((lft <= target.rgt) && (target.rgt <= rgt))
-            raise ActiveRecord::ActiveRecordError, "Impossible move, target node cannot be inside moved tree."
+        # Prunes a branch off of the tree, shifting all of the elements on the right
+        # back to the left so the counts still work.
+        def prune_branch
+          return if rgt.nil? || lft.nil?
+          diff = rgt - lft + 1
+
+          self.class.transaction {
+            nested_set.delete_all "lft > #{lft} AND rgt < #{rgt}"
+            nested_set.update_all "lft = (lft - #{diff})",   "lft >= #{rgt}"
+            nested_set.update_all "rgt = (rgt - #{diff} )",  "rgt >= #{rgt}"
+          }
+        end
+        
+        def same_scope?(other)
+          nested_set.scope_columns.all? { |attr| self.send(attr) == other.send(attr) }
+        end
+
+        def without_self(scope)
+          scope.scoped :conditions => ["#{self.class.table_name}.id <> ?", id]
+        end
+
+        def move_to(target, position)
+          return if callback(:before_move) == false
+          transaction do
+            target.reload_nested_set if target.is_a?(nested_set.klass)
+            self.reload_nested_set
+
+            target = nested_set.klass.find(target) unless target.is_a?(ActiveRecord::Base)
+            protect_impossible_move!(position, target)
+            
+            bound = case position
+              when :child;  target.rgt
+              when :left;   target.lft
+              when :right;  target.rgt + 1
+              when :root;   1
+            end
+            
+            if bound > rgt
+              bound -= 1
+              other_bound = rgt + 1
+            else
+              other_bound = lft - 1
+            end
+ 
+            # there would be no change
+            return if bound == rgt || bound == lft
+          
+            # we have defined the boundaries of two non-overlapping intervals, 
+            # so sorting puts both the intervals and their boundaries in order
+            a, b, c, d = [lft, rgt, bound, other_bound].sort
+ 
+            new_parent_id = case position
+              when :child;  target.id
+              when :root;   nil
+              else          target.parent_id
+            end
+            
+            # update and that rules
+            sql = %( lft = CASE \
+                       WHEN lft BETWEEN :a AND :b THEN lft + :d - :b \
+                       WHEN lft BETWEEN :c AND :d THEN lft + :a - :c \
+                       ELSE lft END, \
+                   
+                     rgt = CASE \
+                       WHEN rgt BETWEEN :a AND :b THEN rgt + :d - :b \
+                       WHEN rgt BETWEEN :c AND :d THEN rgt + :a - :c \
+                       ELSE rgt END, \
+                   
+                     parent_id = CASE \
+                       WHEN id = :id THEN :new_parent_id \
+                       ELSE parent_id END )
+
+            args = { :a => a, :b => b, :c => c, :d => d, :id => id, :new_parent_id => new_parent_id }
+            nested_set.klass.update_all [sql, args], nested_set.proxy_options[:conditions]
+
+            target.reload_nested_set if target
+            self.reload_nested_set
           end
+        end
+
+        # reload left, right, and parent
+        def reload_nested_set
+          reload :select => 'lft, rgt, parent_id'
+        end
+
+        def protect_impossible_move!(position, target)
+          positions = [:child, :left, :right, :root]
+          impossible_move! "Position must be one of #{positions.inspect} but is '#{position.inspect}'." unless 
+            positions.include?(position)
+          impossible_move! "A new node can not be moved" if new_record?
+          impossible_move! "A node can't be moved to itself" if self == target
+          impossible_move! "A node can't be moved to a different scope" unless same_scope?(target)
+          impossible_move! "A node can't be moved to a descendant." if (lft..rgt).include?(target.lft..target.rgt)
+        end
+        
+        def impossible_move!(message)
+          raise ActiveRecord::ActiveRecordError, "Impossible move: #{message}"
         end
     end
   end

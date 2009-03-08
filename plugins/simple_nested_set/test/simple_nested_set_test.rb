@@ -4,13 +4,21 @@ class BetterNestedSetTest < ActiveSupport::TestCase
   fixtures :nodes
   
   # STRUCTURE
-
-  test "#root returns the root node" do
+  
+  test "Class.root returns the root node" do
     assert_equal 'root', FooNode.root(:foo_id => @root.foo_id).name
   end
   
-  test "#roots returns the root nodes" do
+  test "Class.roots returns the root nodes" do
     assert_equal ['root'], FooNode.roots(:foo_id => @root.foo_id).map(&:name)
+  end
+  
+  test "#root returns self for root" do
+    assert_equal @root, @root.root
+  end
+  
+  test "#root returns the root for a non-root" do
+    assert_equal @root, @node_4.root
   end
   
   test "#root? should return true when called on the root node" do
@@ -65,37 +73,61 @@ class BetterNestedSetTest < ActiveSupport::TestCase
     assert @node_3.right.nil?
   end
   
-  test "#children should return a node's immediate children" do
+  test "#self_and_children should return a node and its immediate children" do
+    assert_equal [@root, @node_2, @node_3], @root.self_and_children
+  end
+  
+  test "#children returns a node's immediate children" do
     assert_equal [@node_2, @node_3], @root.children
   end
   
-  test "#all_children should return all of its nested children" do
-    assert_equal [@node_2, @node_3, @node_4], @root.all_children
-  end
-  
-  test "#full_set should return a set of itself and all of its nested children" do
-    assert_equal [@root, @node_2, @node_3, @node_4], @root.full_set
-  end
-  
-  test "#level should return node's level in the tree (starting with 0 for root)" do
-    assert_equal [0, 1, 1, 2], [@root, @node_2, @node_3, @node_4].map(&:level)
+  test "#children returns an empty array for a leaf" do
+    assert_equal [], @node_4.children
   end
   
   test "#children_count should return the number of nested child nodes" do
     assert_equal [3, 1, 0], [@root, @node_3, @node_4].map(&:children_count)
   end
   
-  test "should compare nodes by their lft columns" do
+  test "#descendants should return all of its nested children" do
+    assert_equal [@node_2, @node_3, @node_4], @root.descendants
+  end
+  
+  test "#descendants returns an empty array for a leaf" do
+    assert_equal [], @node_4.descendants
+  end
+  
+  test "#self_and_descendants should return a set of itself and all of its nested children" do
+    assert_equal [@root, @node_2, @node_3, @node_4], @root.self_and_descendants
+  end
+  
+  test "#level should return node's level in the tree (starting with 0 for root)" do
+    assert_equal [0, 1, 1, 2], [@root, @node_2, @node_3, @node_4].map(&:level)
+  end
+  
+  test "compares nodes by their lft columns" do
     assert_equal [1, 0, -1], [@root, @node_2, @node_4].collect{|node| @node_2 <=> node }
   end
-
+  
+  test "moving a node to itself raises an exception" do
+    assert_raises(ActiveRecord::ActiveRecordError) { @node_2.move_to_left_of @node_2 }
+  end
+  
+  test "moving a node to a different scope raises an exception" do
+    assert_raises(ActiveRecord::ActiveRecordError) { @unrelated_root.move_to_child_of @node_2 }
+  end
+  
+  test "moving a node to a target that is part of the moved branch raises an exception" do
+    assert_raises(ActiveRecord::ActiveRecordError) { @node_3.move_to_child_of @node_4 }
+  end
+  
   # CREATION
-
+  
   test "#before_create should set lft and rgt to the end of the tree" do
     node = FooNode.create! :name => 'new', :foo_id => @root.foo_id
     assert_equal [9, 10], [node.lft, node.rgt]
   end
-
+  
   # test "should raise an error when directly assigning to lft" do
   #   assert_raises(ActiveRecord::ActiveRecordError) { @root.lft = 2 }
   # end
@@ -147,9 +179,9 @@ class BetterNestedSetTest < ActiveSupport::TestCase
     assert_equal @root, @node_4.parent
   end
   
-  test "#move_to_child_of should move a node to the leftmost position in the new parents children collection" do
+  test "#move_to_child_of should move a node to the rightmost position in the new parents children collection" do
     @node_4.move_to_child_of @root
-    assert_equal @node_2, @node_4.right
+    assert_equal @node_3, @node_4.left
   end
   
   test "#move_to will only move nodes included in the nested_set's scope" do
