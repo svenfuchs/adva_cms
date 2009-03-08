@@ -20,7 +20,7 @@ class Admin::EventsController < Admin::BaseController
     @events = if %w(title body).include?(params[:filter])
       scope.search(params[:query], params[:filter])
     elsif params[:filter] == 'tags' and not params[:query].blank?
-      scope.find_tagged_with(params[:query])
+      scope.tagged(params[:query])
     else
       params[:category] ? scope.by_categories(params[:category].to_i) : scope
     end.paginate(:page => params[:page])

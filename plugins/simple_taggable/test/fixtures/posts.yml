@@ -1,0 +1,27 @@
+blue_sky:
+  user: john
+  text: The sky is particularly blue today
+  
+grass:
+  user: john
+  text: The grass seems very green
+  
+rain:
+  user: john
+  text: Why does the rain fall?
+  
+cloudy:
+  user: john
+  text: Is it cloudy?
+
+still_cloudy:
+  user: john
+  text: Is it still cloudy?
+
+ground:
+  user: jane
+  text: The ground is looking too brown
+  
+flowers:
+  user: jane
+  text: Why are the flowers dead?

@@ -112,9 +112,9 @@ class WikiController < BaseController
     end
 
     def set_wikipages
-      options = { :page => current_page, :tags => @tags }
-      source = @category ? @category.contents : @section.wikipages
-      @wikipages = source.paginate options
+      scope = @category ? @category.contents : @section.wikipages
+      scope = scope.tagged(@tags) unless @tags.blank?
+      @wikipages = scope.paginate :page => current_page
     end
 
     def set_category

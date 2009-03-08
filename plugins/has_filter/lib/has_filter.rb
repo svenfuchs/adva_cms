@@ -34,7 +34,8 @@ module ActiveRecord
               { :conditions => filter_condition(column, value, *scope) } 
             }
           end
-          named_scope :scoped, lambda { |scope| scope }
+          # seems to be in rails now
+          # named_scope :scoped, lambda { |scope| scope }
         end
       end
     end

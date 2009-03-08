@@ -40,15 +40,14 @@ class ArticlesController < BaseController
     def set_section; super(Section); end
 
     def set_articles
-      options = { 
-        :page  => current_page, 
-        :tags  => @tags,
-        :limit => (request.format == :html ? @section.contents_per_page : 15)
-      }
-      source = @category ? @category.contents : @section.articles
+      options = { :page  => current_page, :limit => (request.format == :html ? @section.contents_per_page : 15) }
+      
+      scope = @category ? @category.contents : @section.articles
+      scope = scope.tagged(@tags) unless @tags.blank?
+      
       @articles = @section.is_a?(Blog) ?
-        source.paginate_published_in_time_delta(params[:year], params[:month], options) :
-        source.published.paginate(options) # FIXME should use published scope
+        scope.paginate_published_in_time_delta(params[:year], params[:month], options) :
+        scope.published.paginate(options) # FIXME should use published scope
     end
 
     def set_article

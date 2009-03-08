@@ -32,14 +32,10 @@
     def set_section; super(Album); end
 
     def set_photos
-      # TODO that condition part would clearly go to model...
-      options = { :page => current_page, :tags => @tags, :conditions => ["published_at IS NOT NULL"], :order => 'published_at DESC' }
-      options[:limit] = request.format == :html ? @section.photos_per_page : 15
-      # TODO i think a very expensive way to handle this one ;) .. throw away thing for now
-      source = @set ? 
-                @section.photos.collect {|photo| photo if photo.sets.include?(@set) && photo.published? }.compact :
-                @section.photos
-      @photos = source.paginate options
+      scope = @set ? @set.photos : @section.photos
+      scope = scope.tagged(@tags) unless @tags.blank?
+      limit = request.format == :html ? @section.photos_per_page : 15
+      @photos = scope.published.paginate :page => current_page, :limit => limit
     end
 
     def set_photo

@@ -83,7 +83,7 @@ module Matchy
             "Expected %s to act as taggable.", 
             "Expected %s not act as a taggable." do |receiver|
       @receiver = receiver
-      @receiver.included_modules.include? ActiveRecord::Acts::Taggable::InstanceMethods
+      @receiver.acts_as_taggable?
     end
 
     matcher "ActAsVersioned", 

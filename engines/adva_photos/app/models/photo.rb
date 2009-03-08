@@ -1,24 +1,10 @@
-# Let's do some black voodoo magic and have a :tag option for finders
-ActiveRecord::Base.class_eval do
-  class << self
-    VALID_FIND_OPTIONS << :tags
-  end
-end
-
-WillPaginate::Finder::ClassMethods.class_eval do
-  alias :wp_count_without_tags :wp_count unless method_defined? :wp_count_without_tags
-  def wp_count(options, *args)
-    wp_count_without_tags(options.except(:tags), *args)
-  end
-end
-
 Paperclip::Attachment.interpolations.merge! \
   :photo_file_url  => proc { |data, style| data.instance.url(style)  },
   :photo_file_path => proc { |data, style| data.instance.path(style) }
 
-# Category.class_eval do
-#   has_many :photos, :through => :categorizations, :source => :categorizable, :source_type => 'Photo'
-# end
+Category.class_eval do
+  has_many :photos, :through => :categorizations, :source => :categorizable, :source_type => 'Photo'
+end
 
 class Photo < ActiveRecord::Base
   cattr_accessor :root_dir
@@ -31,13 +17,14 @@ class Photo < ActiveRecord::Base
   has_many :sets, :source => 'category', :through => :categorizations
   has_many :categorizations, :as => :categorizable, :dependent => :destroy, :include => :category
 
-  # Some Content black magic
-  default_scope :order => 'published_at desc'
-
-  has_attached_file :data, :styles => { :large => "600x600>", # :medium => "300x300>",
-                                        :thumb => "120x120>", :tiny => "50x50#" },
+  has_attached_file :data, :styles => { :large => "600x600>", :thumb => "120x120>", :tiny => "50x50#" },
                            :url    => ":photo_file_url",
                            :path   => ":photo_file_path"
+
+  default_scope :order => 'published_at desc'
+
+  named_scope :published, lambda { 
+    { :conditions => ['published_at IS NOT NULL AND published_at <= ?', Time.zone.now] } }
 
   before_save :ensure_unique_filename
 
@@ -54,13 +41,6 @@ class Photo < ActiveRecord::Base
       Site.multi_sites_enabled ?
         "#{root_dir}/sites/#{site.perma_host}/photos" :
         "#{root_dir}/photos"
-    end
-
-    def find_every(options)
-      if tags = options.delete(:tags)
-        options = find_options_for_find_tagged_with(tags, options.update(:match_all => true))
-      end
-      super options
     end
   end
 

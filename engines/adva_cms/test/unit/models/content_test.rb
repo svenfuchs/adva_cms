@@ -134,13 +134,6 @@ class ContentTest < ActiveSupport::TestCase
     Content.find_in_time_delta(*delta).should_not include(@content)
   end
 
-  test "#find_every finds articles tagged with :tags if the option :tags is given" do
-    expectation do
-      mock(Content).find_options_for_find_tagged_with(['foo', 'bar'], RR.anything).returns({})
-      Content.find :all, :tags => ['foo', 'bar']
-    end
-  end
-
   # INSTANCE METHODS
 
   test "#owner returns the section" do

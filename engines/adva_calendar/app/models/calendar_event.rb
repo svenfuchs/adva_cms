@@ -84,7 +84,7 @@ class CalendarEvent < ActiveRecord::Base
       events = if %w(title body).include?(params[:filter])
         scope.search(params[:query], params[:filter])
       elsif params[:filter] == 'tags' and not params[:query].blank?
-        scope.find_tagged_with(params[:query])
+        scope.tagged(params[:query])
       else
         params[:category_id] ? scope.by_categories(params[:category_id]) : scope
       end

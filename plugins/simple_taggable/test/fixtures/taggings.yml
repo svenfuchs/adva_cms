@@ -1,0 +1,112 @@
+# Photos
+small_dog_tagged_animal:
+  taggable: small_dog
+  taggable_type: Photo
+  tag: animal
+
+small_dog_tagged_nature:
+  taggable: small_dog
+  taggable_type: Photo
+  tag: nature
+
+small_dog_tagged_great:
+  taggable: small_dog
+  taggable_type: Photo
+  tag: great
+
+big_dog_tagged_animal:
+  taggable: big_dog
+  taggable_type: Photo
+  tag: animal
+
+bad_cat_tagged_sucks:
+  taggable: bad_cat
+  taggable_type: Photo
+  tag: sucks
+
+bad_cat_tagged_animal:
+  taggable: bad_cat
+  taggable_type: Photo
+  tag: animal
+
+bad_cat_tagged_crazy_animal:
+  taggable: bad_cat
+  taggable_type: Photo
+  tag: crazy_animal
+
+flower_tagged_nature:
+  taggable: flower
+  taggable_type: Photo
+  tag: nature
+
+flower_tagged_great:
+  taggable: flower
+  taggable_type: Photo
+  tag: great
+
+sky_tagged_nature:
+  taggable: sky
+  taggable_type: Photo
+  tag: nature
+  
+# Posts
+blue_sky_tagged_good:
+  tag: great
+  taggable: blue_sky
+  taggable_type: Post
+  
+blue_sky_tagged_nature:
+  tag: nature
+  taggable: blue_sky
+  taggable_type: Post
+  
+grass_tagged_nature:
+  tag: nature
+  taggable: grass
+  taggable_type: Post
+  
+rain_tagged_sucks:
+  tag: sucks
+  taggable: rain
+  taggable_type: Post
+  
+rain_tagged_nature:
+  tag: nature
+  taggable: rain
+  taggable_type: Post
+  
+cloudy_tagged_nature:
+  tag: nature
+  taggable: cloudy
+  taggable_type: Post
+  
+still_cloudy_tagged_nature:
+  tag: nature
+  taggable: still_cloudy
+  taggable_type: Post
+
+ground_tagged_nature:
+  tag: nature
+  taggable: ground
+  taggable_type: Post
+  
+ground_tagged_sucks:
+  tag: sucks
+  taggable: ground
+  taggable_type: Post
+  
+flowers_tagged_good:
+  tag: great
+  taggable: flowers
+  taggable_type: Post
+  
+flowers_tagged_nature:
+  tag: nature
+  taggable: flowers
+  taggable_type: Post
+
+# Magazines
+ruby_tagged_great:
+  tag: great
+  taggable: ruby
+  taggable_type: Magazine
