@@ -20,8 +20,5 @@
     <%= f.file_field :file, :label => :'adva.themes.lables.zip_file' %>
   <% end %>
   
-  <% f.buttons do %>
-    <%= f.submit t(:'adva.common.import') %>
-    <%= link_to t(:'adva.common.cancel'), admin_themes_path %>
-  <% end %>
+  <%= save_or_cancel_links(f, :cancel_url => admin_themes_path, :save_text => t(:'adva.common.import')) %>
 <% end %>

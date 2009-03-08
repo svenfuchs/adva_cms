@@ -109,7 +109,7 @@ class SetsTest < ActionController::IntegrationTest
   
   def assign_photo_to_set_and_submit_form
     check         @set.title
-    click_button  'Update'
+    click_button  'Save'
     
     @photo.reload
     assert @photo.sets == [@set]
@@ -117,7 +117,7 @@ class SetsTest < ActionController::IntegrationTest
   
   def unassign_photo_from_set_and_submit_form
     uncheck         @set.title
-    click_button    'Update'
+    click_button    'Save'
     
     @photo.reload
     assert @photo.sets.empty?

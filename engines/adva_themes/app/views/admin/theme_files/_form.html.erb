@@ -10,8 +10,5 @@
 	  <p><%= theme_image_tag @theme.theme_id, @file.base_url %></p>
 	<% end %>
 
-	<% f.buttons do %>
-	  <%= submit_tag t(:'adva.common.save') %> or 
-	  <%= link_to t(:'adva.common.cancel'), admin_theme_path(@site, @theme.id) %>
-	<% end %>
+  <%= save_or_cancel_links(f, :cancel_url => admin_theme_path(@site, @theme.id)) %>
 <% end %>

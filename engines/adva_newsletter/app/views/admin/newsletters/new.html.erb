@@ -5,8 +5,5 @@
 <% split_form_for :newsletter, @newsletter, :url => admin_newsletters_path, :html => {:multipart => true, :id => 'content_form'} do |f| %>
   <%= render :partial => 'form', :locals => {:f => f} %>  
 
-  <% f.buttons do %>
-    <%= submit_tag t(:'adva.common.save') %> <%= t(:'adva.common.connector.or') %>
-    <%= link_to t(:'adva.common.cancel'), admin_newsletters_path %>
-  <% end %>
+  <%= save_or_cancel_links(f, :cancel_url => admin_newsletters_path) %>
 <% end %>

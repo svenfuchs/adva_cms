@@ -3,8 +3,5 @@
 <% split_form_for :wikipage, @wikipage, :url => admin_wikipages_path, :html => {:multipart => true, :id => 'content_form'} do |f| -%>
 	<%= render :partial => "form", :locals => {:f => f} %>
 	
-	<% f.buttons do %>
- 		<%= f.submit t(:'adva.common.Save') %> <%= t(:'adva.common.connector.or') %> 
- 		<%= link_to t(:'adva.common.cancel'), admin_wikipages_path %>
-	<% end %>
+	<%= save_or_cancel_links(f, :cancel_url => admin_wikipages_path) %>
 <% end %>

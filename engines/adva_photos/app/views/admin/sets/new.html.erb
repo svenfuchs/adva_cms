@@ -5,8 +5,5 @@
     <%= f.text_field :title, :label => true %>
   <% end %>
 
-	<% f.buttons do %>
-	  <%= submit_tag t(:'adva.common.save') %> <%= t(:'adva.common.connector.or') %>
-    <%= link_to t(:'adva.common.cancel'), admin_sets_path(@site, @section) %>
-	<% end %>
+  <%= save_or_cancel_links(f, :cancel_url => admin_sets_path(@site, @section)) %>
 <% end %>

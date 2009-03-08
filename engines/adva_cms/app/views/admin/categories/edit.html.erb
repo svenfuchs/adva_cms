@@ -19,8 +19,5 @@
     <% end %>
   <% end %>
 
-  <% f.buttons do %>
-  	<%= submit_tag t(:'adva.common.save') %> <%= t(:'adva.common.connector.or') %> 
-  	<%= link_to t(:'adva.common.cancel'), admin_categories_path %>
-  <% end %>
+  <%= save_or_cancel_links(f, :cancel_url => admin_categories_path) %>
 <% end %>

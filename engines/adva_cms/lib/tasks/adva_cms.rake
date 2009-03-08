@@ -38,8 +38,9 @@ namespace :db do
         puts "copied #{files.size} migrations to db/migrate/app"
       end
 
-      files = Dir["{#{Rails.configuration.plugin_paths.join(',')}}/**/db/migrate/*.rb"]
-
+      dirs = Rails.plugins.values.map(&:directory)
+      files = Dir["{#{dirs.join(',')}}/db/migrate/*.rb"]
+      
       unless files.empty?
         FileUtils.mkdir_p target
         FileUtils.cp files, target

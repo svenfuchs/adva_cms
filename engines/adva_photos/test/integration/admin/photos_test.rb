@@ -45,7 +45,7 @@ class PhotosTest < ActionController::IntegrationTest
   
   def fill_in_and_submit_edit_form
     fill_in       'Title', :with => 'edited title'
-    click_button  'Update'
+    click_button  'Save'
     
     @photo.reload
     assert @photo.title == 'edited title'

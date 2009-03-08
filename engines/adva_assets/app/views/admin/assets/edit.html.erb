@@ -9,8 +9,5 @@
 		<%= f.file_field :data, :label => 'Select a file' %>
 	<% end %>
 	
-  <% f.buttons do %>
-    <%= submit_tag t( :'adva.assets.save' ) %> <%= t(:'adva.common.connector.or') %> 
-    <%= link_to t( :'adva.common.cancel' ), admin_assets_path %>
-  <% end %>
+	<%= save_or_cancel_links(f, :cancel_url => admin_assets_path, :save_text => t(:'adva.assets.save')) %>
 <% end -%>

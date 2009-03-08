@@ -24,7 +24,5 @@
 <% form_for :section, @section, :url => admin_section_path(@site, @section), :html => {:method => :put} do |f| %>
   <%= render :partial => 'form', :locals => {:f => f} %>
 
-  <% f.buttons do %>
-	  <%= submit_tag 'Save' %>
-	<% end %>
+  <%= save_or_cancel_links(f) %>
 <% end %>

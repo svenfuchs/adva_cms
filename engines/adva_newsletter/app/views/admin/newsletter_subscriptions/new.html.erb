@@ -12,10 +12,7 @@
   <% split_form_for :subscription, @subscription, :url => admin_subscriptions_path, :html => {:multipart => true, :id => 'content_form'} do |f| %>
     <%= render :partial => 'form', :locals => {:f => f} %>
 
-    <% f.buttons do %>
-      <%= submit_tag t(:'adva.common.add') %> <%= t(:'adva.common.connector.or') %>
-      <%= link_to t(:'adva.common.cancel'), admin_subscriptions_path %>
-    <% end %>
+    <%= save_or_cancel_links(f, :cancel_url => admin_subscriptions_path, :save_text => t(:'adva.common.add'))%>
   <% end %>
 
 <% else %>

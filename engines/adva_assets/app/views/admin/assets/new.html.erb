@@ -25,8 +25,5 @@
 
   <a href="#" id="asset_add_file" class="widetab"><%=t :'adva.assets.add_file' %></a>  
 
-  <% f.buttons do %>
-    <%= submit_tag t( :'adva.common.upload' ) %> <%= t(:'adva.common.connector.or') %>
-    <%= link_to t( :'adva.common.cancel' ), admin_assets_path %>
-  <% end %>
+  <%= save_or_cancel_links(f, :cancel_url => admin_assets_path, :save_text => t(:'adva.common.upload')) %>
 <% end -%>
