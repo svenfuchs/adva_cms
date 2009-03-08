@@ -1,3 +1,4 @@
+require 'rails_ext/active_record/sqlite_tainted'
 require 'rails_ext/active_record/sti_instantiation'
 require 'rails_ext/active_record/sticky_changes'
 require 'rails_ext/action_controller/event_helper'
