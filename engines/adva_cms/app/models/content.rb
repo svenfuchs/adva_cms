@@ -29,36 +29,17 @@ class Content < ActiveRecord::Base
   
   default_scope :order => 'position, published_at'
 
-  named_scope :published, lambda { 
-    { :conditions => ['contents.published_at IS NOT NULL AND contents.published_at <= ?', Time.zone.now] } }
+  named_scope :published, Proc.new { |*args|
+    options = args.extract_options!
+    conditions = ['contents.published_at IS NOT NULL AND contents.published_at <= ?', Time.zone.now]
+    add_time_delta_condition!(conditions, args) unless args.compact.empty?
+    options.merge :conditions => conditions 
+  }
   
   class << self
-    def find_published_in_time_delta(*args, &block)
-      with_published { find_in_time_delta *args, &block }
-    end
-
-    def find_in_time_delta(*args)
-      options = args.extract_options!
-      with_time_delta *args do find(:all, options) end
-    end
-
-    def with_published(&block)
-      conditions = ['contents.published_at <= ? AND contents.published_at IS NOT NULL', Time.zone.now]
-      with_scope({:find => {:conditions => conditions}}, &block)
-    end
-
-    def with_time_delta(*args, &block)
-      return yield if args.compact.empty?
-      conditions = ["contents.published_at BETWEEN ? AND ?", *Time.delta(*args)]
-      with_scope({:find => {:conditions => conditions}}, &block)
-    end
-
-    def method_missing(name, *args, &block)
-      if name.to_s =~ /find_(all_)?published/
-        with_published { send name.to_s.sub('_published', ''), *args, &block }
-      else
-        super
-      end
+    def add_time_delta_condition!(conditions, args)
+      conditions.first << " AND contents.published_at BETWEEN ? AND ?"
+      conditions.concat Time.delta(*args)
     end
   end
 
@@ -71,6 +52,34 @@ class Content < ActiveRecord::Base
     attributes.symbolize_keys!
     category_ids = attributes.delete(:category_ids)
     returning super do update_categories category_ids if category_ids end
+  end
+
+  def published_month
+    Time.local published_at.year, published_at.month, 1
+  end
+
+  def draft?
+    published_at.nil?
+  end
+
+  def pending?
+    !published?
+  end
+
+  def published?
+    !published_at.nil? and published_at <= Time.zone.now
+  end
+
+  def published_at?(date)
+    published? and date == [:year, :month, :day].map {|key| published_at.send(key).to_s }
+  end
+
+  def state
+    pending? ? :pending : :published
+  end
+  
+  def just_published?
+    published? and published_at_changed?
   end
 
   def diff_against_version(version)

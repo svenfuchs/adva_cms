@@ -7,7 +7,7 @@ class ContentHelperTest < ActionView::TestCase
     super
     @page = Page.find_by_title 'a page'
     @site = @page.site
-    @article = @page.articles.find_published :first
+    @article = @page.articles.published(:limit => 1).first
   end
 
   # published_at_formatted

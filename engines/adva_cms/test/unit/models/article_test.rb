@@ -4,7 +4,7 @@ class ArticleTest < ActiveSupport::TestCase
   def setup
     super
     @page = Page.first
-    @article = @page.articles.find_published(:first)
+    @article = @page.articles.published(:limit => 1).first
   end
   
   test "sanitizes the attributes excerpt, excerpt_html, body and body_html" do
@@ -40,18 +40,10 @@ class ArticleTest < ActiveSupport::TestCase
   
   # find_by_permalink
   
-  test "#find_by_permalink adds a with_time_delta scope if more than one argument is passed" do
-    expectation do
-      mock(Article).with_time_delta('2008', '1', '1')
-      Article.find_by_permalink '2008', '1', '1', 'an-article', :include => :author
-    end
-  end
-  
-  test "#find_by_permalink does not add a with_time_delta scope if only one argument is passed" do
-    expectation do
-      dont_allow(Article).with_time_delta(anything)
-      Article.find_by_permalink 'a-permalink'
-    end
+  test "#find_by_permalink finds articles within passed time span" do
+    article = Article.find_by_permalink '2008', '1', '1', 'a-page-article'
+    article.permalink.should == 'a-page-article'
+    article.published_at.to_date.should == Time.utc('2008', '1', '1').to_date
   end
   
   test "#find_by_permalink finds a record when the passed date scope matches the article's published date" do
@@ -117,24 +109,6 @@ class ArticleTest < ActiveSupport::TestCase
     @article.excerpt = ''
     @article.has_excerpt?.should be_false
   end
-
-  # published_month
-  
-  test '#published_month returns a time object for the first day of the month the article was published in' do
-    @article.published_month.should == Time.local(@article.published_at.year, @article.published_at.month, 1)
-  end
-
-  # draft? 
-  
-  test '#draft? returns true when the article has not published_at date' do
-    @article.published_at = nil
-    @article.draft?.should be_true
-  end
-
-  test '#draft? returns false when the article has a published_at date' do
-    @article.published_at = 1.days.ago
-    @article.draft?.should be_false
-  end
   
   # accept_comments?
   
@@ -168,63 +142,24 @@ class ArticleTest < ActiveSupport::TestCase
     @article.published_at = nil
     @article.accept_comments?.should be_false
   end
-
-  # published?
   
-  test "#published? returns true when published_at equals the current time" do
-    @article.published_at = Time.zone.now
-    @article.published?.should be_true
-  end
-
-  test "#published? returns true when published_at is a past date" do
-    @article.published_at = 1.day.ago
-    @article.published?.should be_true
-  end
-
-  test "#published? returns false when published_at is a future date" do
-    @article.published_at = 1.day.from_now
-    @article.published?.should be_false
-  end
-
-  test "#published? returns false when published_at is nil" do
-    @article.published_at = nil
-    @article.published?.should be_false
-  end
+  # FIXME test the actual model instead
   
-  # just_published?
-  
-  test "just_published? is true when the article was published during the current request cycle" do
-    @article.update_attributes :published_at => Time.now
-    @article.just_published?.should be_true
-  end
-  
-  test "just_published? is false when the article was published during a previous request cycle" do
-    @article.update_attributes :published_at => Time.now
-    @article.clear_changes!
-    @article.just_published?.should be_false
-  end
-  
-  test "just_published? is false when the article is not published" do
-    @article.update_attributes :published_at => nil
-    @article.clear_changes!
-    @article.just_published?.should be_false
-  end
-
-  # previous
-  
-  test "#previous finds the previous published article in the article's section" do
-    options = {:conditions => ["published_at < ?", @article.published_at], :order=>:published_at}
-    mock(Article).find_published(:first, options)
-    @article.previous
-  end
-
-  # next
-  
-  test "#next finds the next published article in the article's section" do
-    options = {:conditions => ["published_at > ?", @article.published_at], :order=>:published_at}
-    mock(Article).find_published(:first, options)
-    @article.next
-  end
+  # # previous
+  # 
+  # test "#previous finds the previous published article in the article's section" do
+  #   options = {:conditions => ["published_at < ?", @article.published_at], :order=>:published_at}
+  #   mock(Article).published(options)
+  #   @article.previous
+  # end
+  # 
+  # # next
+  # 
+  # test "#next finds the next published article in the article's section" do
+  #   options = {:conditions => ["published_at > ?", @article.published_at], :order=>:published_at}
+  #   mock(Article).find_published(:first, options)
+  #   @article.next
+  # end
 
   # set_position
 

@@ -1,7 +1,8 @@
 class Blog < Section  
   has_many :articles, :foreign_key => 'section_id', :dependent => :destroy do
     def permalinks
-      find_published(:all).map(&:permalink)
+      # find_published(:all).map(&:permalink)
+      published.map(&:permalink)
     end
   end
 
@@ -20,6 +21,6 @@ class Blog < Section
   end
 
   def articles_by_month
-    @articles_by_month ||= articles.find_published(:all).group_by(&:published_month)
+    @articles_by_month ||= articles.published.group_by(&:published_month)
   end
 end

@@ -3,11 +3,11 @@ class Page < Section
 
   has_many :articles, :foreign_key => 'section_id', :dependent => :destroy do
     def primary
-      find_published :first, :order => :position
+      published(:order => :position, :limit => 1).first
     end
 
     def permalinks
-      find_published(:all).map(&:permalink)
+      published.map(&:permalink)
     end
   end
 

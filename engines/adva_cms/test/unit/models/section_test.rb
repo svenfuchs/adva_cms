@@ -66,20 +66,6 @@ class SectionTest < ActiveSupport::TestCase
     @section.should have_many(:categories)
   end
 
-  # articles association
-  
-  test "articles#primary returns the topmost published article" do
-    mock(Article).find_published(:first, {:order => :position}).returns :article
-    @section.articles.primary.should == :article
-  end
-
-  test "articles#permalinks returns the permalinks of all published articles" do
-    articles = [Article.new(:permalink => 'article-1'), Article.new(:permalink => 'article-2')]
-    articles.each { |article| mock.proxy(article).permalink }
-    stub(Article).find_published(:all).returns articles
-    @section.articles.permalinks.should == ['article-1', 'article-2']
-  end
-
   # categories association
   
   test "categories#roots returns all categories that do not have a parent category" do

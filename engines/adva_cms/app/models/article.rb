@@ -19,11 +19,11 @@ class Article < Content
   class << self
     def find_by_permalink(*args)
       options = args.extract_options!
-      if args.size > 1
-        permalink = args.pop
-        with_time_delta(*args) do find_by_permalink(permalink, options) end
+      permalink = args.pop
+      unless args.empty?
+        published(*args).find_by_permalink(permalink, options)
       else
-        find :first, options.merge(:conditions => ['permalink = ?', args.first])
+        find :first, options.merge(:conditions => ['permalink = ?', permalink])
       end
     end
   end
@@ -40,43 +40,15 @@ class Article < Content
   end
 
   def previous
-    section.articles.find_published :first, :conditions => ['published_at < ?', published_at], :order => :published_at
+    section.articles.published(:conditions => ['published_at < ?', published_at], :limit => 1).first
   end
 
   def next
-    section.articles.find_published :first, :conditions => ['published_at > ?', published_at], :order => :published_at
+    section.articles.published(:conditions => ['published_at > ?', published_at], :limit => 1).first
   end
 
   def has_excerpt?
     !excerpt.blank?
-  end
-
-  def published_month
-    Time.local published_at.year, published_at.month, 1
-  end
-
-  def draft?
-    published_at.nil?
-  end
-
-  def pending?
-    !published?
-  end
-
-  def published?
-    !published_at.nil? and published_at <= Time.zone.now
-  end
-
-  def published_at?(date)
-    published? and date == [:year, :month, :day].map {|key| published_at.send(key).to_s }
-  end
-
-  def state
-    pending? ? :pending : :published
-  end
-  
-  def just_published?
-    published? and published_at_changed?
   end
   
   protected
