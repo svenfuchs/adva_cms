@@ -1,11 +1,5 @@
 <div id="utility_links" class="clearfix">
-  <!-- 
-  <ul class="breadcrumb">
-    <li><a href="#"><%= t(:'adva.titles.dashboard') %></a> &raquo;</li>
-    <li><a href="#"><%= t(:'adva.titles.accounts') %></a> &raquo;</li>
-    <li class="active"><a href="#">Small Account</a></li>
-  </ul>
-  -->
+  <%= admin_site_select_tag if Site.multi_sites_enabled %>
   <ul class="user_links">
     <% if current_user %>
       <li><%= t(:'adva.users.info.logged_in_as', :name => link_to_profile(@site, :name => current_user.name)) %></li>
