@@ -1,9 +1,9 @@
 <% content_for :sidebar do %>
   <h3><%= t(:'adva.titles.manage') %></h3>
   <ul>
-    <li><%= link_to t(:'adva.titles.site'), edit_admin_site_path(@site) %></li>
-    <li><%= link_to t(:'adva.titles.themes'), admin_themes_path(@site) %></li>
-    <li><%= link_to t(:'adva.titles.cache'), admin_cached_pages_path(@site) %></li>
+    <li><%= link_to t(:'adva.titles.site'), edit_admin_site_path(@site), :id => 'manage_site' %></li>
+    <li><%= link_to t(:'adva.titles.themes'), admin_themes_path(@site), :id => 'manage_themes' %></li>
+    <li><%= link_to t(:'adva.titles.cache'), admin_cached_pages_path(@site), :id => 'manage_cache' %></li>
   </ul>
 
   <h3><%= t(:'adva.titles.actions') %></h3>

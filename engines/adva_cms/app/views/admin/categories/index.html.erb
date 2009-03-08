@@ -1,7 +1,7 @@
 <% content_for :sidebar do -%>
   <h3><%= t(:'adva.titles.actions') %></h3>
   <ul>
-    <li><%= link_to t(:'adva.categories.links.create'), new_admin_category_path %></li>
+    <li><%= link_to t(:'adva.categories.links.create'), new_admin_category_path, :id => 'create_new_category' %></li>
     <% if @categories.size > 1 %>
       <li><%= link_to_function t(:'adva.categories.links.reorder'), "categories_tree.toggle(this, '#{t(:'adva.resources.reordering_done')}');", :id => 'reorder_categories' %>
       <%= image_tag '/images/adva_cms/indicator.gif', :id => 'categories_indicator', :style => 'display: none;' %></li>

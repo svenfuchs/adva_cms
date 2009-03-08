@@ -1,5 +1,5 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../test_helper' )
-
+# TODO continue
 module IntegrationTests
   class AdminCustomTemplatesTest < ActionController::IntegrationTest
     def setup
@@ -8,7 +8,7 @@ module IntegrationTests
       @site = @section.site
       use_site! @site
     end
-  
+
     test "Admin adds custom template settings and checks the frontend" do
       login_as_admin
       visit "/admin/sites/#{@site.id}"
@@ -20,8 +20,8 @@ module IntegrationTests
     def create_a_new_page
       click_link 'Sections'
       fill_in 'title', :with => 'the page'
-      choose 'Page'
-      click_button 'Save'
+      choose 'section_type_page'
+      click_button 'commit'
       request.url.should =~ %r(/admin/sites/\d+/sections/\d+/articles)
     end
 
@@ -29,12 +29,12 @@ module IntegrationTests
       click_link_within '#sidebar', 'Settings'
       fill_in 'title', :with => 'the uberpage'
       select 'Never expire', :from => 'Comments'
-      click_button 'Save'
+      click_button 'commit'
       request.url.should =~ %r(/admin/sites/\d+/sections/\d+/edit)
     end
 
     def delete_the_page
-      click_link 'Delete this section'
+      click_link "delete_section_#{@section.id}"
       request.url.should =~ %r(/admin/sites/\d+/sections/new)
     end
   end

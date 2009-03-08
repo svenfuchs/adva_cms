@@ -4,7 +4,7 @@
 	<h3><%= t(:'adva.titles.actions') %></h3>
 	<ul>
 	  <li><%= link_to t(:'adva.categories.links.create'), new_admin_category_path %></li>
-	  <li><%= link_to t(:'adva.categories.links.delete'), admin_category_path, { :confirm => t(:'adva.categories.confirm_delete'), :method => :delete } %></li>
+	  <li><%= delete_resource_link(@category, admin_category_path) %></li>
 	</ul>
 <% end %>
 

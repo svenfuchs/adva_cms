@@ -3,18 +3,18 @@
 module Admin::BaseHelper
   def view_resource_link(resource, path, options={})
     text = options.delete(:text) || t(:'adva.resources.view')
-    resource_link text, path, options.reverse_merge(:class => 'view', :id => "view_#{resource.class.to_s.downcase}_#{resource.id}")
+    resource_link text, path, options.reverse_merge(:class => 'view', :id => "view_#{resource_class(resource)}_#{resource.id}")
   end
 
   def edit_resource_link(resource, path, options={})
     text = options.delete(:text) || t(:'adva.resources.edit')
-    resource_link text, path, options.reverse_merge(:class => 'edit', :id => "edit_#{resource.class.to_s.downcase}_#{resource.id}")
+    resource_link text, path, options.reverse_merge(:class => 'edit', :id => "edit_#{resource_class(resource)}_#{resource.id}")
   end
 
   def delete_resource_link(resource, path, options={})
     text = options.delete(:text) || t(:'adva.resources.delete')
-    klass = resource.class.to_s
-    options.reverse_merge!(:class => 'delete', :id => "delete_#{klass.downcase}_#{resource.id}", :confirm => t(:"adva.#{klass.tableize}.confirm_delete"), :method => :delete)
+    klass = resource_class(resource)
+    options.reverse_merge!(:class => 'delete', :id => "delete_#{klass}_#{resource.id}", :confirm => t(:"adva.#{klass.pluralize}.confirm_delete"), :method => :delete)
     resource_link text, path, options
   end
 
@@ -74,6 +74,10 @@ module Admin::BaseHelper
   end
 
   private
+  def resource_class(resource)
+    resource.class.to_s.tableize.singularize
+  end
+
   def resource_link(text, path, options={})
     link_to text, path, options
   end

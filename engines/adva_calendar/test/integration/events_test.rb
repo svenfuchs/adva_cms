@@ -26,7 +26,7 @@ module IntegrationTests
           visit @calendar_path
           fill_in :filter_list, :with => filter
           fill_in :time_filter_list, :with => scope
-          click_button 'Search'
+          click_button 'calendar_events_search'
           assert_response :success
           assert assigns['events']
         end

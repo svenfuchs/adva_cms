@@ -3,6 +3,6 @@
     <li><%= link_to content_tag(:span, t(:'adva.titles.settings')), edit_admin_site_path(@site) %></li>
     <li><%= link_to content_tag(:span, t(:'adva.titles.themes')), admin_themes_path(@site) %></li>
     <li><%= link_to content_tag(:span, t(:'adva.titles.cache')), admin_cached_pages_path(@site) %></li>
-    <li class="right"><%= link_to content_tag(:span, t(:'adva.titles.clear_all')), admin_cached_pages_path, :method => :delete %></li>
+    <li class="right"><%= link_to content_tag(:span, t(:'adva.titles.clear_all')), admin_cached_pages_path, :method => :delete, :id => 'clear_all_cached_pages' %></li>
   </ul>
 <% end %>

@@ -28,7 +28,7 @@ class Admin::EventsTest < ActionController::IntegrationTest
   test "03 admin submits an empty event: should be error" do
     visit "/admin/sites/#{@site.id}/sections/#{@calendar.id}/events/new"
     fill_in :calendar_event_title, :with => nil
-    click_button 'Save'
+    click_button 'commit'
 
     assert_template 'admin/events/new'
     assert_select '.field_with_error'
@@ -40,7 +40,7 @@ class Admin::EventsTest < ActionController::IntegrationTest
     fill_in :calendar_event_title, :with => 'Christmas'
     fill_in :calendar_event_start_date, :with => '2009-12-24'
     fill_in :calendar_event_end_date, :with => '2009-12-27'
-    click_button 'Save'
+    click_button 'commit'
 
     assert_template 'admin/events/edit'
     assert_select '.field_with_error', false
@@ -53,7 +53,7 @@ class Admin::EventsTest < ActionController::IntegrationTest
     assert_template 'admin/events/edit'
     fill_in :calendar_event_title, :with => 'A new title'
     fill_in :calendar_event_body, :with => 'An updated description'
-    click_button 'Save'
+    click_button 'commit'
     assert_template 'admin/events/edit'
     assert_select '.field_with_error', false
     @event.reload
@@ -65,8 +65,8 @@ class Admin::EventsTest < ActionController::IntegrationTest
     assert_template 'admin/events/index'
     click_link @event.title
     assert_template 'admin/events/edit'
-    click_link 'Delete'
-  
+    click_link "delete_calendar_event_#{@event.id}"
+
     assert_template 'admin/events/index'
     assert_select "event_%i" % @event.id, false
   end

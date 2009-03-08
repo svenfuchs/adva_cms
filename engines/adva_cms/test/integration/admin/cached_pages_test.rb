@@ -7,7 +7,7 @@ module IntegrationTests
       @site = use_site! 'site with pages'
       @admin_cached_pages_page = "/admin/sites/#{@site.id}/cached_pages"
     end
-  
+
     test "Admin clears the page cache, views a frontend page, checks the page cache and expires that page" do
       login_as_admin
       visit @admin_cached_pages_page
@@ -19,7 +19,7 @@ module IntegrationTests
     end
 
     def clears_page_cache
-      click_link 'Clear all'
+      click_link 'clear_all_cached_pages'
       @response.body.should have_tag('.empty')
     end
 
