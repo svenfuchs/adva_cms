@@ -1,6 +1,5 @@
 # Module containing the methods useful for child IFRAME to parent window communication
 module RespondsToParent
-  
   # Executes the response body as JavaScript in the context of the parent window.
   # Use this method of you are posting a form to a hidden IFRAME or if you would like
   # to use IFRAME base RPC.
@@ -44,3 +43,4 @@ module RespondsToParent
   alias respond_to_parent responds_to_parent
 end
 
+ActionController::Base.send :include, RespondsToParent

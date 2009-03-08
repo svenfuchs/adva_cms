@@ -1,4 +1,4 @@
-require "cacheable_flash/test_helpers"
+# http://github.com/pivotal/cacheable-flash
 
 # modified the original helper to unescape stuff
 module CacheableFlash
@@ -12,4 +12,3 @@ module CacheableFlash
   end
 end
 ActionController::TestResponse.send :include, CacheableFlash::TestHelpers
-
