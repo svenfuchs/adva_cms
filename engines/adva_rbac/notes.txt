@@ -1,3 +1,67 @@
+An account is a group that holds/owns domain models we're interested in. E.g.
+in adva-cms accounts own sites. An account is owned by a user.
+
+An action refers to a controller action. Actions can be grouped to virtual
+actions. By default every resource has the following actions:
+
+	:manage == [:create, :update, :destroy]
+
+We should plan for being able to define additional actions from plugins and 
+maybe even the UI. For example a publishing workflow needs separate 
+permissions for creating/updating and then publishing an article.
+
+(This also is a strong example for why we'd want the model itself to manage 
+its permissions, maybe in a before_validate filter using dirty tracking?)
+
+Using these actions one can configure that:
+
+	[role] can :manage :themes
+
+class Admin::BaseController
+	before_filter :check_permissions
+	
+	def check_permissions
+		current_user.has_permission(current_resource, params[:action])
+	end
+end
+
+class User
+	def has_permission(resource, action)
+		user.has_role?(resource.required_role(action), resource) or
+		user.find_permission(resource, action).to_b
+	end
+	
+	def has_role?(name, context)
+		find_roles(name).detect { role.applies_to(context) }
+	end
+end
+
+class ActiveRecord::Base
+	def required_role(action)
+	  if name = permissions[action.to_sym] || owner.try(:required_role, action)
+			Role.build(name, :context => self)
+		end
+	end
+end
+
+class Role
+	def applies_to(context)
+		contexts = [context] + context.owners
+		contexts.include?(self.context)
+	end
+end
+
+
+
+
+
+
+
+
+
+
+
+
 superuser(root)     »   owner(root)          »   ?
 superuser(root)     »   owner(account)       »   true
 superuser(root)     »   owner(site)          »   true
