@@ -64,7 +64,7 @@ class BoardsTest < ActionController::IntegrationTest
   end
   
   def visit_edit_board_form
-    click_link "board_#{@board.id}_edit"
+    click_link "edit_board_#{@board.id}"
     assert_template 'admin/boards/edit'
   end
   
@@ -93,7 +93,7 @@ class BoardsTest < ActionController::IntegrationTest
   def delete_the_board
     board_count = @forum.boards.size
     
-    click_link "board_#{@board.id}_delete"
+    click_link "delete_board_#{@board.id}"
     
     @forum.reload
     assert @forum.boards.size == board_count - 1

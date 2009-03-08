@@ -1,7 +1,7 @@
 <tr id="<%= dom_id object %>">
   <td><%= link_to object.title, edit_admin_category_path(@site, @section, object) %></td>
   <td class="actions">
-    <%= link_to t(:'adva.resources.edit'), edit_admin_category_path(@site, @section, object), :class => 'edit' %>
-    <%= link_to t(:'adva.resources.delete'), admin_category_path(@site, @section, object), :class => 'delete', :confirm => t(:'adva.categories.confirm_delete'), :method => :delete %>
+    <%= edit_resource_link(object, edit_admin_category_path(@site, @section, object)) %>
+    <%= delete_resource_link(object, admin_category_path(@site, @section, object)) %>
   </td>
 </tr>

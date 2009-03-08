@@ -22,8 +22,8 @@
 				<td><%= link_to_topic(topic) %></td>
 				<td><%= topic.posts.size %></td>
 				<td class="actions">
-    				<%= link_to t(:'adva.resources.edit'), edit_topic_path(@section, topic.permalink), :class => 'edit' %>
-    				<%= link_to t(:'adva.resources.delete'), topic_path(@section, topic.permalink, :return_to => admin_boards_path(@site, @section)), :class => 'delete', :confirm => "Are you sure you want to delete this topic?", :method => :delete %>
+				  <%= edit_resource_link(topic, edit_topic_path(@section, topic.permalink)) %>
+				  <%= delete_resource_link(topic, topic_path(@section, topic.permalink, :return_to => admin_boards_path(@site, @section)), :confirm => "Are you sure you want to delete this topic?") %>
   			</td>
 			</tr>
 		<% end -%>

@@ -5,7 +5,7 @@
   <td><%= published_at_formatted photo %></td>
   <td><%= link_to h(photo.author_name), admin_site_user_path(@site, photo.author) %></td>
   <td class="actions">
-    <%= link_to t(:'adva.resources.edit'), edit_admin_photo_path(@site, @section, photo), :class => 'edit', :id => dom_id(photo) + '_edit' %>
-    <%= link_to t(:'adva.resources.delete'), admin_photo_path(@site, @section, photo), :class => 'delete', :id => dom_id(photo) + '_delete', :confirm => t(:'adva.photos.admin.photos.delete_photo_confirmation'), :method => :delete %>
+    <%= edit_resource_link(photo, edit_admin_photo_path(@site, @section, photo)) %>
+    <%= delete_resource_link(photo, admin_photo_path(@site, @section, photo), :confirm => t(:'adva.photos.admin.photos.delete_photo_confirmation')) %>
   </td>
 </tr>

@@ -53,7 +53,7 @@ class ForumTopicsEdgeCases < ActionController::IntegrationTest
     board = @forum.boards.first
     board_count = @forum.boards.size
     
-    click_link "board_#{board.id}_delete"
+    click_link "delete_board_#{board.id}"
     
     @forum.reload
     assert @forum.boards.size == board_count - 1
