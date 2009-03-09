@@ -72,8 +72,8 @@ module Rails
       def locate_plugins_under(base_path)
         plugins = super
         Dir["{#{plugins.map(&:directory).join(',')}}/vendor/plugins"].each do |path|
-          plugins += super(path)
-        end
+          plugins.concat super(path)
+        end unless plugins.empty?
         plugins
       end
     end

@@ -1,7 +1,7 @@
-TEST_DIR        = '/tmp/adva_cms'
-CC_DIR          = '/srv/cruise/projects/adva-cms/work'
-RAILS_DIR       = '/srv/cruise/shared/rails'
-start_time      = Time.now # Just for fun :)
+TEST_DIR   = '/tmp/adva_cms'
+CC_DIR     = '/srv/cruise/projects/adva-cms/work'
+RAILS_DIR  = '/srv/cruise/shared/rails'
+start_time = Time.now # Just for fun :)
 
 def patch_file(path, after, insert)
   content = File.open(path) { |f| f.read }
@@ -29,8 +29,7 @@ patch_file 'config/environment.rb',
   "require File.join(File.dirname(__FILE__), '../vendor/adva/engines/adva_cms/boot')"
 
 run "ln -s #{CC_DIR} #{TEST_DIR}/vendor/adva"
-run "ln -s #{RAILS_DIR} #{TEST_DIR}/vendor/rails"
-
+# run "ln -s #{RAILS_DIR} #{TEST_DIR}/vendor/rails"
 # rake  "rails:freeze:gems"
 # run   "patch -p0 < vendor/adva/patch-2.3/rails-2.3.patch"
 
