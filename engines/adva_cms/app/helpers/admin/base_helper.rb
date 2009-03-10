@@ -68,8 +68,8 @@ module Admin::BaseHelper
   end
 
   def translated_locales(article, view)
-    article.translated_locales.map {|tl|
-      link_to tl, edit_admin_article_url( :cl => tl )
+    article.translated_locales.map { |tl|
+      link_to tl, edit_admin_article_url(@site, @section, article, :cl => tl)
     }.join(', ')
   end
 
