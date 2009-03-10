@@ -1,6 +1,6 @@
 class AddGoogleAnalyticsToIssues < ActiveRecord::Migration
   def self.up
-    if connection.table_exists?(:issues)
+    if table_exists?(:issues)
       add_column :issues, :track, :boolean, :default => false
       add_column :issues, :tracking_campaign, :string
       add_column :issues, :tracking_source, :string
@@ -8,7 +8,7 @@ class AddGoogleAnalyticsToIssues < ActiveRecord::Migration
   end
 
   def self.down
-    if connection.table_exists?(:issues)
+    if table_exists?(:issues)
       remove_column :issues, :track
       remove_column :issues, :tracking_campaign
       remove_column :issues, :tracking_source
