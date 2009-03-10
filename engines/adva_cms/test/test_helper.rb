@@ -10,39 +10,23 @@ require 'action_view/test_case'
 require 'with'
 require 'with-sugar'
 
-require 'webrat'
-require 'webrat/rails'
-
-Webrat.configure do |config|
-  config.mode = :rails
-  config.open_error_files = false
-end
-
-# Webrat.configuration.open_error_files = false
-
 require 'globalize/i18n/missing_translations_raise_handler'
 I18n.exception_handler = :missing_translations_raise_handler
 
-class Test::Unit::TestCase
+class ActiveSupport::TestCase
   include RR::Adapters::TestUnit
-  
-  def setup_with_adva_cms_setup
-    setup_without_adva_cms_setup
-    start_db_transaction!
-    setup_page_caching!
 
+  setup :start_db_transaction!
+  setup :setup_page_caching!
+  setup :set_locale!
+  
+  teardown :rollback_db_transaction!
+  teardown :clear_cache_dir!
+  
+  def set_locale!
     I18n.locale = nil
     I18n.default_locale = :en
   end
-  alias_method_chain :setup, :adva_cms_setup
-
-  def teardown_with_adva_cms_setup
-    teardown_without_adva_cms_setup
-  ensure
-    rollback_db_transaction!
-    clear_cache_dir!
-  end
-  alias_method_chain :teardown, :adva_cms_setup
   
   def stub_paperclip_post_processing!
     stub.proxy(Paperclip::Attachment).new { |attachment| stub(attachment).post_process }

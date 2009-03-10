@@ -1,4 +1,4 @@
-class Test::Unit::TestCase
+class ActiveSupport::TestCase
   def setup_themes_dir!
     Theme.root_dir = "#{RAILS_ROOT}/tmp"
   end
