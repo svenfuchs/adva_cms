@@ -88,7 +88,7 @@ module IntegrationTests
       click_link 'Upload a new file'
       assert_template "admin/theme_files/import"
 
-      attach_file 'file[data]', image_fixture.path
+      attach_file 'file[data]', image_fixture.path # ActionController::TestUploadedFile.new()
       click_button 'Upload'
 
       assert_template "admin/theme_files/show"

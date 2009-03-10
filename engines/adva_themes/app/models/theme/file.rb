@@ -11,10 +11,10 @@ class Theme < ActiveRecord::Base
 
     has_attached_file :data,
                       :url => ":theme_file_url",
-                      :path => ":theme_file_path" #,
+                      :path => ":theme_file_path",
                       # FIXME fails with a weird file upload error
                       # Tempfile has a name like RackMultipart20090310-22070-hu8w3m-0 which is missing the extension
-                      # :validations => { :extension => lambda { |data, file| validate_extension(data, file) } }
+                      :validations => { :extension => lambda { |data, file| validate_extension(data, file) } }
 
     before_save :force_directory
     after_save :move_data_file
@@ -39,7 +39,7 @@ class Theme < ActiveRecord::Base
 
         base_path = attributes.delete(:base_path)
         type, directory, name, data = attributes.values_at(:type, :directory, :name, :data)
-        base_path ||= data.try(:original_filename)
+        base_path ||= data.original_filename if data.respond_to?(:original_filename)
 
         directory, name = split_path(base_path) if base_path and name.blank?
         directory ||= ''
