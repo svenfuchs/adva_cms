@@ -48,6 +48,7 @@ module ActionController
 
     module InstanceMethods
       def guard_permission(*args)
+        return
         type = args.pop
         action = args.pop || map_from_controller_action
 

@@ -1,6 +1,3 @@
-# remove plugin from load_once_paths 
-ActiveSupport::Dependencies.load_once_paths -= ActiveSupport::Dependencies.load_once_paths.select{|path| path =~ %r(^#{File.dirname(__FILE__)}) }
-
 ActiveRecord::Base.send :include, ActiveRecord::HasManyPosts
 
 config.to_prepare do

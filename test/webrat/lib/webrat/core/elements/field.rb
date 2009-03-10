@@ -352,7 +352,7 @@ module Webrat
       if content_type
         ActionController::TestUploadedFile.new(@value, content_type)
       else
-        ActionController::TestUploadedFile.new(@value)
+        ActionController::TestUploadedFile.new(@value) #.tap { |a| p a }
       end
     end
 

@@ -3,7 +3,6 @@ module Paperclip
   # to the +File+ class. Useful for testing.
   #   user.avatar = File.new("test/test_avatar.jpg")
   module Upfile
-
     # Infer the MIME-type of the file from the extension.
     def content_type
       type = (self.path.match(/\.(\w+)$/)[1] rescue "octet-stream").downcase

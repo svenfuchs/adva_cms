@@ -1,6 +1,3 @@
-# remove plugin from load_once_paths
-ActiveSupport::Dependencies.load_once_paths -= ActiveSupport::Dependencies.load_once_paths.select{|path| path =~ %r(^#{File.dirname(__FILE__)}) }
-
 require 'redcloth'
 
 require 'adva_config'
@@ -11,8 +8,6 @@ require 'rails_ext'
 require 'cells_ext'
 
 require 'menu'
-require 'roles'
-
 require 'event'    # need to force these to be loaded now, so Rails won't
 require 'registry' # reload them between requests (FIXME ... this doesn't seem to happen?)
 
@@ -33,18 +28,6 @@ config.to_prepare do
 end
 
 I18n.load_path += Dir[File.dirname(__FILE__) + '/locale/**/*.yml']
-
-TagList.delimiter = ' '
-Tag.destroy_unused = true
-Tag.class_eval do def to_param; name end end
-
-XssTerminate.untaint_after_find = true
-
-module Globalize::Model::ActiveRecord::Translated::Callbacks
-  def disables_xss_terminate_on_proxy_records
-    globalize_proxy.filters_attributes :none => true
-  end
-end
 
 register_javascript_expansion \
   :common  => %w( adva_cms/prototype adva_cms/lowpro

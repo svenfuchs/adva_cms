@@ -27,7 +27,6 @@
 #   that hook in here
 # * renamed and refactored a bit more :)
 
-
 module XssTerminate
   mattr_accessor :default_filter
   @@default_filter = :strip_tags
@@ -136,3 +135,4 @@ module XssTerminate
     end
   end
 end
+ActiveRecord::Base.send :include, XssTerminate

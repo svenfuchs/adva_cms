@@ -6,15 +6,15 @@ require 'globalize/model/active_record/translated'
 module Globalize
   module Model
     module ActiveRecord
-      class << self                
+      class << self
         def create_proxy_class(klass)
           Object.const_set "#{klass.name}Translation", Class.new(::ActiveRecord::Base){
             belongs_to "#{klass.name.underscore}".intern
-            
+
             def locale
               read_attribute(:locale).to_sym
             end
-            
+
             def locale=(locale)
               write_attribute(:locale, locale.to_s)
             end
@@ -36,3 +36,4 @@ module Globalize
     end
   end
 end
+ActiveRecord::Base.send :include, Globalize::Model::ActiveRecord::Translated
