@@ -1,4 +1,4 @@
-require 'redcloth'
+require 'paperclip' 
 
 require 'adva_config'
 require 'extensible_forms'
@@ -11,13 +11,7 @@ require 'menu'
 require 'event'    # need to force these to be loaded now, so Rails won't
 require 'registry' # reload them between requests (FIXME ... this doesn't seem to happen?)
 
-Paperclip.options[:command_path] = %x[which convert].chomp.gsub(/convert/, '')
-
 ExtensibleFormBuilder.default_class_names(:field_set) << 'clearfix' # sigh
-
-config.to_prepare do
-  Section.register_type 'Page'
-end
 
 config.to_prepare do
   Registry.set :redirect, {

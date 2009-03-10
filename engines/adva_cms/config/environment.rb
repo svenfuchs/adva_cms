@@ -9,14 +9,13 @@ Rails::Initializer.configure do |config|
   config.plugin_gem 'rubypants', :version => '~> 0.2.0', :lib => 'ruby_pants'
 
   # the implementation of plugin_gem immediately loads the gem. paperclip
-  # requires activerecord to be loaded. thus we need to require activerecord
-  # here ... extra-hero-points for whoever can change this.
+  # requires activerecord to be loaded. thus we only add the loadpath and 
+  # actually load it during adva_cms/init.rb.
   #
   # also, this gem is required by adva_assets, adva_photos and adva_themes. it
   # doesn't seem to make too much sense to ship it with each of these engines
   # at this point. so we just leave it here.
-  require 'ActiveRecord' 
   $: << File.dirname(__FILE__) + '/../vendor/gems/thoughtbot-paperclip-2.2.2/lib'
-  require 'paperclip'
+  # require 'paperclip'
   # config.plugin_gem 'thoughtbot-paperclip', :version => '~> 2.2.2', :lib => 'paperclip'
 end

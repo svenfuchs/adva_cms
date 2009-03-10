@@ -1,9 +1,4 @@
 class Category < ActiveRecord::Base
-=begin
-  class Jail < Safemode::Jail
-    allow :id, :title
-  end
-=end
   acts_as_nested_set :scope => :section_id
   has_permalink :title, :url_attribute => :permalink, :sync_url => true, :only_when_blank => true, :scope => :section_id
 

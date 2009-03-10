@@ -5,7 +5,7 @@ class Section < ActiveRecord::Base
   end
 =end
 
-  @@types = []
+  @@types = ['Page']
   cattr_reader :types
   
   serialize :permissions

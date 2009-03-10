@@ -17,7 +17,7 @@ class Content < ActiveRecord::Base
 
   belongs_to :site
   belongs_to :section
-  belongs_to_author :validate => false # FIXME add validations to Article and Wikipage. Hmm, why's this?
+  belongs_to_author :validate => true
 
   has_many :assets, :through => :asset_assignments
   has_many :asset_assignments # TODO :dependent => :delete_all?
