@@ -13,6 +13,10 @@ class Tag < ActiveRecord::Base
     end
   end
 
+  def count
+    read_attribute(:count).to_i
+  end
+
   def ==(object)
     super || (object.is_a?(Tag) && name == object.name)
   end
@@ -20,10 +24,7 @@ class Tag < ActiveRecord::Base
   def to_s
     name
   end
-
-  def count
-    read_attribute(:count).to_i
-  end
+  alias :to_param :to_s
 end
 
 
