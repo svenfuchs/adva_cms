@@ -1,82 +1,52 @@
-require "#{RAILS_ROOT}/vendor/adva/plugins/cells/boot"
-
-# initialize Rails::Configuration with our own default values to spare users
-# some hassle with the installation and keep the environment cleaner
-#
-# we need to do this because Rails does not allow to define multiple config
-# initializer blocks, extend the existing one or change it in any way.
-#
-# might be more "elegant" to wrap around Rails::Initializer.run and extend
-# the configuration object
-#
-# TODO how to improve this?
+# require "#{File.dirname(__FILE__)}/vendor/plugins/cells/boot"
+require "#{File.dirname(__FILE__)}/lib/rails_ext/railties/plugin"
 
 Rails::Configuration.class_eval do
-  def default_load_paths
-    %w(app/controllers app/helpers app/models app/observers lib)
-  end
-  
-  def default_plugin_loader
-    Rails::Plugin::RegisteringLoader
-  end
-  
-  def default_plugin_locators
-    locators = []
-    locators << Rails::Plugin::GemLocator if defined? Gem
-    locators << Rails::Plugin::NestedFileSystemLocator
-  end
-  
-  def default_plugins
-    [ :simple_nested_set, :safemode, :adva_cms, :all ]
-  end
-
+  # needs to be here because we otherwise wouldn't have a good scope for
+  # globbing for plugin config/environment files
   def default_plugin_paths
     paths = ["#{root_path}/vendor/adva/engines", "#{root_path}/vendor/adva/plugins", "#{root_path}/vendor/plugins"]
     paths << "#{root_path}/vendor/adva/test" if ENV['RAILS_ENV'] == 'test'
     paths
   end
+
+  # Rails' GemDependency makes it remarkably hard to extend and add any custom 
+  # behaviour. What we'd probably want is: check our plugin's vendor/gems directory
+  # and use shipped gem if the gem is not vendored in vendor/gems and not installed 
+  # on the system. The following implementation does that except that it does 
+  # not check for vendor/gems. Any takers?
+  def plugin_gem(name, options = {})
+    lib, version = options.values_at(:lib, :version)
+    begin
+      Kernel.send :gem, name, version
+    rescue Gem::LoadError
+      dir = File.dirname(caller.first.split(':').first)
+      $: << File.expand_path("#{dir}/../vendor/gems/#{name}-#{version.gsub(/[^\d\.]*/, '')}/lib")
+    end
+    require(lib || name)
+  end
 end
 
-module Rails
+Rails::Initializer.class_eval do
   class << self
-    def plugins
-      @@plugins ||= ActiveSupport::OrderedHash.new
+    def run_with_plugin_environments(command = :process, configuration = Rails::Configuration.new, &block)
+      Rails.configuration = configuration
+      load_plugin_environments
+      run_without_plugin_environments(command, configuration, &block)
     end
-  
-    def plugin?(name)
-      plugins.keys.include?(name.to_sym)
-    end
-  end
+    alias :run_without_plugin_environments :run
+    alias :run :run_with_plugin_environments
 
-  class Plugin
-    class RegisteringLoader < Rails::Plugin::Loader # ummm, what's a better name?
-      def register_plugin_as_loaded(plugin)
-        Rails.plugins[plugin.name.to_sym] = plugin
-        super
+    def configure
+      yield Rails.configuration
+    end
+
+    protected
+
+      def load_plugin_environments
+        paths = Dir["{#{Rails.configuration.plugin_paths.join(',')}}/*/config/environment.rb"]
+        paths.each { |path| require path }
       end
-    end
-  
-    def app_paths
-      ['models', 'helpers', 'observers'].map { |path| File.join(directory, 'app', path) } << controller_path
-    end
-  
-    def register_javascript_expansion(*args)
-      ActionView::Helpers::AssetTagHelper.register_javascript_expansion *args
-    end
-  
-    def register_stylesheet_expansion(*args)
-      ActionView::Helpers::AssetTagHelper.register_stylesheet_expansion *args
-    end
-    
-    class NestedFileSystemLocator < FileSystemLocator
-      def locate_plugins_under(base_path)
-        plugins = super
-        Dir["{#{plugins.map(&:directory).join(',')}}/vendor/plugins"].each do |path|
-          plugins.concat super(path)
-        end unless plugins.empty?
-        plugins
-      end
-    end
   end
 end
 
@@ -85,13 +55,10 @@ end
 #
 # TODO how to improve this?
 
-gem_dir = "#{RAILS_ROOT}/vendor/adva/gems"
-Dir[gem_dir + '/*'].each{|dir| $:.unshift dir + '/lib'}
-
-require 'bluecloth'
-require 'redcloth'
-require 'ruby_pants'
-require 'zip/zip'
-require 'cronedit'
-require 'activerecord' # paperclip needs activerecord to be present
-require 'paperclip'
+# gem_dir = "#{RAILS_ROOT}/vendor/adva/gems"
+# Dir[gem_dir + '/*'].each{|dir| $:.unshift dir + '/lib'}
+# 
+# require 'zip/zip'
+# # require 'cronedit'
+# require 'activerecord' # paperclip needs activerecord to be present
+# require 'paperclip'

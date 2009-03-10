@@ -28,7 +28,7 @@ end
 
 paths = ARGV.clone
 paths = files_to_load(paths)
-paths.reject! { |path| path =~ %r(adva/engines/.*/vendor/plugins) }
+paths.reject! { |path| path =~ %r(adva/engines/.*/vendor/(plugins|gems)) }
 
 unless paths.empty?
   puts 'Running adva-cms tests ...'

@@ -20,3 +20,7 @@ Adva::Config.number_of_outgoing_mails_per_process = 150
   # "Reply-To" => "site@example.org",
   # "X-Originator-IP" => "0.0.0.0"
 # }
+
+# turn this on to get detailed cache sweeper logging in production mode
+# Site.cache_sweeper_logging = true
+

@@ -17,8 +17,6 @@ class BaseController < ApplicationController
   layout 'default'
   filter_parameter_logging :password
 
-  renders_in_context :section
-
   content_for :header, :menu, :only => { :format => :html } do
     Menu.instance(:'default.sections').render(self)
   end

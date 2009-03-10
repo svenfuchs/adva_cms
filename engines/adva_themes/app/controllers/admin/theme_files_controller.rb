@@ -31,10 +31,10 @@ class Admin::ThemeFilesController < Admin::BaseController
     if @file.save
       expire_pages_by_site!
       expire_template!(@file)
-      flash[:notice] = t(:'adva.theme_files.flash.create.success') # FIXME import.failure
+      flash[:notice] = t(:'adva.theme_files.flash.create.success') # FIXME upload.failure
       redirect_to admin_theme_file_path(@site, @theme.id, @file.id)
     else
-      flash.now[:error] = t(:'adva.theme_files.flash.create.failure') # FIXME import.failure
+      flash.now[:error] = t(:'adva.theme_files.flash.create.failure') # FIXME upload.failure
       render :action => :import
     end
   end

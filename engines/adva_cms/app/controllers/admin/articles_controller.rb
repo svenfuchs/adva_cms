@@ -17,9 +17,6 @@ class Admin::ArticlesController < Admin::BaseController
 
   guards_permissions :article, :update => :update_all
 
-  # TODO remove this dependency from here and put it into the plugin
-  cache_sweeper :article_ping_observer, :only => [:create, :update]
-
   def index
     @articles = @section.articles.paginate article_options
     render :template => "admin/#{@section.type.tableize}/articles/index"
