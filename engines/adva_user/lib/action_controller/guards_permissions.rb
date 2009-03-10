@@ -48,7 +48,6 @@ module ActionController
 
     module InstanceMethods
       def guard_permission(*args)
-        return
         type = args.pop
         action = args.pop || map_from_controller_action
 
@@ -57,7 +56,7 @@ module ActionController
         # return if action.to_sym == :show
 
         unless has_permission?(action, type)
-          role =  current_resource.role_authorizing("#{action} #{type}")
+          role = current_resource.role_authorizing("#{action} #{type}")
           raise RoleRequired.new role, action, type
         end
       end
