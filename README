@@ -62,7 +62,7 @@ Fill out the form and you're started, enjoy!
 Installation: Edge version manually
 ===================================
 
-Required: Rails 2.3.0, ImageMagick for image handling
+Required: Rails 2.3.1 or newer, ImageMagick for image handling
 
 # First install Rails 2.3.0 gems if you don't have it already
 sudo gem install rails --source http://gems.rubyonrails.org
@@ -71,10 +71,10 @@ rails my-app
 cd my-app
 git clone git://github.com/svenfuchs/adva_cms.git vendor/adva  # or use: git submodule add ...
 
-# Rails 2.3.0 has some engine related bugs (25.02.2009), so you need to use edge rails 
+# Rails 2.3.0 has some engine related bugs (11.03.2009), so you need to use a bit newer rails 
 git clone git://github.com/rails/rails.git vendor/rails  # or use: git submodule add ...
 cd vendor/rails
-git checkout 441e4e22352c8805a882f6a661ab3982dd7eda12    # or use master but it might have new bugs
+git checkout -b tag/v2.3.1   # or use master but it might have some new bugs
 
 ruby vendor/adva/setup.rb    # setups adva-cms
 rake assets:copy             # copies plugin assets to public/
@@ -100,7 +100,7 @@ Development
 
 Please check out /doc directory for high level overview about adva-cms.
  
-Running tests for version 0.1.2 or newer:
+Running tests for adva-cms version 0.1.2 or newer:
   rake db:test:clone       			# Clones from your development database to test database
   ruby script/test-adva-cms -p 	# Prepares the database and runs all adva-cms tests
   ruby script/test-adva-cms    	# Runs all adva-cms tests without preparing the database
