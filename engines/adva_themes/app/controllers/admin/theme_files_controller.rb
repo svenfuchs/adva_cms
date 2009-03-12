@@ -68,7 +68,8 @@ class Admin::ThemeFilesController < Admin::BaseController
     def expire_pages_by_site!
       expire_site_page_cache
     end
-
+    
+    # FIXME we don't need this any more, do we?
     def expire_template!(file)
       # expires compiled actionview templates from memory
       # see lib/theme_support/compiled_template_expiration

@@ -1,17 +1,16 @@
-require File.dirname(__FILE__) + '/test_helper.rb'
+require File.dirname(__FILE__) + '/../test_helper.rb'
 
 class UrlHistoryAroundFilterTest < ActionController::TestCase
   include UrlHistory
   tests TestController
 
   def setup
-    Article.delete_all
     Entry.delete_all
 
-    @article = Article.create!(:permalink => 'the-permalink')
+    @article = Article.first
     @controller.instance_variable_set(:@article, @article)
 
-    TestController.tracks_url_history(:foo => :bar)
+    TestController.tracks_url_history
     ActionController::Routing::Routes.draw do |map| 
       map.connect ':controller/:action/:permalink' 
       map.connect ':controller/non_get', :action => 'non_get'

@@ -5,7 +5,7 @@ Rails::Configuration.class_eval do
   # needs to be here because we otherwise wouldn't have a good scope for
   # globbing for plugin config/environment files
   def default_plugin_paths
-    paths = ["#{root_path}/vendor/adva/engines", "#{root_path}/vendor/adva/plugins", "#{root_path}/vendor/plugins"]
+    paths = ["#{root_path}/vendor/plugins"] # "#{root_path}/vendor/adva/engines", "#{root_path}/vendor/adva/plugins"
     paths << "#{root_path}/vendor/adva/test" if ENV['RAILS_ENV'] == 'test'
     paths
   end

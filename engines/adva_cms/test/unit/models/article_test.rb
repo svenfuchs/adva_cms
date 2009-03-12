@@ -67,9 +67,9 @@ class ArticleTest < ActiveSupport::TestCase
   
   test '#full_permalink returns a hash with the year, month, day and permalink' do
     @article.section = Blog.new
-    @article.full_permalink.should == { :year      => @article.published_at.year, 
-                                        :month     => @article.published_at.month, 
-                                        :day       => @article.published_at.day, 
+    @article.full_permalink.should == { :year      => @article.published_at.year.to_i,
+                                        :month     => @article.published_at.month.to_i,
+                                        :day       => @article.published_at.day.to_i,
                                         :permalink => @article.permalink }
   end
 

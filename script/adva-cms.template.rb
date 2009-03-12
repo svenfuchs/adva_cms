@@ -6,12 +6,10 @@ end
 
 File.unlink 'public/index.html' rescue Errno::ENOENT
 
-rakefile("adva-cms.rake") do
-  <<-src
-    require 'tasks/rails'
-    load 'vendor/adva/engines/adva_cms/lib/tasks/adva_cms.rake'
-  src
-end
+rakefile "adva-cms.rake", <<-src
+  require 'tasks/rails'
+  load 'vendor/adva/engines/adva_cms/lib/tasks/adva_cms.rake'
+src
 
 file 'script/test-adva-cms', <<-src
   #!/usr/bin/env ruby
@@ -34,4 +32,12 @@ inside 'vendor/rails' do
   # git :checkout => '441e4e22352c8805a882f6a661ab3982dd7eda12' 
 end
 
-rake "assets:copy"
+rake 'adva:install:core'
+rake 'assets:copy'
+
+# overwrite the rake file so it points to the new location
+rakefile "adva-cms.rake", <<-src
+  require 'tasks/rails'
+  load 'vendor/plugins/adva_cms/lib/tasks/adva_cms.rake'
+src
+

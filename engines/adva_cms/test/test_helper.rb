@@ -1,8 +1,15 @@
 defined?(TEST_HELPER_LOADED) ? raise("can not load #{__FILE__} twice") : TEST_HELPER_LOADED = true
 
+def rails_root
+  dir = File.expand_path(File.dirname(__FILE__) + "/../..")
+  while dir = File.dirname(dir) and dir != '/' do 
+    return dir if File.exists?("#{dir}/config/environment.rb")
+  end
+end
+
 ENV["RAILS_ENV"] = "test"
 dir = File.dirname(__FILE__)
-require File.expand_path(dir + "/../../../../../config/environment")
+require "#{rails_root}/config/environment.rb" #File.expand_path(dir + "/../../../../../config/environment")
 
 require 'matchy'
 require 'test_help'
@@ -40,13 +47,12 @@ end
 
 require_all dir + "/contexts.rb",
             dir + "/test_helper/**/*.rb"
-require_all dir + "/../../**/test/contexts.rb",
-            dir + "/../../**/test/test_helper/**/*.rb"
+require_all dir + "/../../*/test/contexts.rb",
+            dir + "/../../*/test/test_helper/**/*.rb"
 
 if DO_PREPARE_DATABASE
   puts 'Preparing the database ...'
   # load "#{Rails.root}/db/schema.rb"
   require_all dir + "/fixtures.rb"
-  require_all dir + "/../../**/test/fixtures.rb"
+  require_all dir + "/../../*/test/fixtures.rb"
 end
-

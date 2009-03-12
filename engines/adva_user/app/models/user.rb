@@ -9,7 +9,6 @@ class User < ActiveRecord::Base
   
   has_many :sites, :through => :memberships
   has_many :memberships, :dependent => :delete_all
-  has_many :subscriptions, :dependent => :destroy
   has_many :roles, :dependent => :delete_all, :class_name => 'Rbac::Role::Base' do
     def by_context(object)
       roles = by_site object

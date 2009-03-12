@@ -7,7 +7,7 @@ module IntegrationTests
       @section = Blog.first
       @site = @section.site
       use_site! @site
-      stub(Time).now.returns Time.utc(2008, 1, 2)
+      stub(Time).now.returns Time.utc(2008, 1, 1)
     end
   
     test "Admin creates an article, previews, edits and deletes it" do
@@ -41,7 +41,7 @@ module IntegrationTests
 
     def preview_article
       click_link 'Preview this article'
-      request.url.should == "http://#{@site.host}/2008/1/2/the-article-title?cl=en"
+      request.url.should == "http://#{@site.host}/2008/1/1/the-article-title?cl=en"
     end
 
     def delete_article

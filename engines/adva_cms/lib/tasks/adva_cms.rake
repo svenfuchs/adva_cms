@@ -1,3 +1,94 @@
+namespace :adva do
+  namespace :install do
+    desc 'install adva_cms core engines'
+    task :core do
+      ENV['engines'] = %w(adva_activity adva_blog adva_cms adva_comments adva_rbac adva_user).join(',')
+      Rake::Task['adva:install'].invoke
+    end
+    
+    desc 'install all adva_cms engines and plugins'
+    task :all do
+      ENV['engines'] = 'all'
+      ENV['plugins'] = 'all'
+      Rake::Task['adva:install'].invoke
+    end
+  end
+  
+  namespace :uninstall do
+    desc 'install adva_cms core engines'
+    task :core do
+      ENV['engines'] = %w(adva_activity adva_blog adva_cms adva_comments adva_rbac adva_user).join(',')
+      Rake::Task['adva:install'].invoke
+    end
+    
+    desc 'install all adva_cms engines and plugins'
+    task :all do
+      ENV['engines'] = 'all'
+      ENV['plugins'] = 'all'
+      Rake::Task['adva:install'].invoke
+    end
+  end
+  
+  desc 'install selected adva_cms engines (pick some with engines=all plugins=all or engines=name1,name2 plugins=name3)'
+  task :install do
+    perform(:install)
+  end
+  
+  desc 'uninstall selected adva_cms engines (pick some with engines=all plugins=all or engines=name1,name2 plugins=name3)'
+  task :uninstall do
+    perform(:uninstall)
+  end
+  
+  def perform(method)
+    except = ENV['except'] ? ENV['except'].split(',') : []
+    core = %w(adva_activity adva_blog adva_cms adva_comments adva_rbac adva_user)
+    
+    %w(engines plugins).each do |type|
+      if ENV[type]
+        names = ENV[type] == 'all' ? all(type) : ENV[type].split(',')
+        names -= core if ENV[type] == 'all' && method == :uninstall
+        names -= except
+        send(method, type, names) unless ENV[type].nil?
+      end
+    end
+  end
+  
+  def install(type, plugins)
+    FileUtils.mkdir_p(target) unless File.exists?(target)
+    sources = plugins.map { |engine| source(type, engine) }
+  
+    if Rake.application.unix?
+      FileUtils.ln_s sources, target, :force => true
+    elsif Rake.application.windows?
+      FileUtils.cp_r sources, target
+    else
+      raise 'unknown system plattform'
+    end
+  end
+  
+  def uninstall(type, plugins)
+    plugins.each do |plugin|
+      FileUtils.rm_r "#{target}/#{plugin}" rescue Errno::ENOENT
+    end
+  end
+  
+  def all(type)
+    Dir["#{source(type)}/*"].map { |path| File.basename(path) }
+  end
+  
+  def rails_root
+    @rails_root ||= Rake.application.find_rakefile_location.last
+  end
+  
+  def source(type, subdir = nil)
+    "#{rails_root}/vendor/adva/#{type}" + (subdir ? "/#{subdir}" : '')
+  end
+  
+  def target
+    "#{rails_root}/vendor/plugins"
+  end
+end
+
 namespace :db do
   task :migrate => [:environment, 'db:migrate:prepare', 'db:migrate:original_migrate', 'db:migrate:cleanup'] do
     # nothing :)
