@@ -1,3 +1,5 @@
+require 'active_record/connection_adapters/sqlite_adapter'
+
 ActiveRecord::ConnectionAdapters::SQLiteAdapter.class_eval do
   def select_rows_with_tainting(*args)
     returning select_rows_without_tainting(*args) do |result|
