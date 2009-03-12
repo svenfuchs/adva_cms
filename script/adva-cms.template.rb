@@ -6,11 +6,6 @@ end
 
 File.unlink 'public/index.html' rescue Errno::ENOENT
 
-rakefile "adva-cms.rake", <<-src
-  require 'tasks/rails'
-  load 'vendor/adva/engines/adva_cms/lib/tasks/adva_cms.rake'
-src
-
 file 'script/test-adva-cms', <<-src
   #!/usr/bin/env ruby
   paths = ARGV.clone
