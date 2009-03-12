@@ -18,12 +18,5 @@ patch_file 'config/environment.rb',
 
 git :clone => 'git://github.com/svenfuchs/adva_cms.git vendor/adva # this might take a bit, grab a coffee meanwhile :)'
 
-rake 'adva:install:core'
+rake 'adva:install:core -R vendor/adva/engines/adva_cms/lib/tasks'
 rake 'adva:assets:copy'
-
-# overwrite the rake file so it points to the new location
-rakefile "adva-cms.rake", <<-src
-  require 'tasks/rails'
-  load 'vendor/plugins/adva_cms/lib/tasks/adva_cms.rake'
-src
-
