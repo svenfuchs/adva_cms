@@ -143,12 +143,13 @@ ActionController::Dispatcher.to_prepare do
                 :'destroy document' => :author,
                 :'manage document'  => :author,
 
-                :'show project'    => :anonymous,
+                :'show project'    => :user,
                 :'create project'  => :admin,
                 :'update project'  => :admin,
                 :'destroy project' => :admin,
 
-                :'show ticket'    => :anonymous,
+                :'all ticket'     => :user,
+                :'show ticket'    => :user,
                 :'create ticket'  => :user,
                 :'update ticket'  => :author,
                 :'destroy ticket' => :author
