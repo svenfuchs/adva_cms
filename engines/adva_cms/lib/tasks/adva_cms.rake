@@ -39,6 +39,17 @@ namespace :adva do
     perform(:uninstall)
   end
 
+  namespace :assets do
+    desc "Copy public assets from plugins to public/"
+    task :copy do
+      target = "#{Rails.root}/public/"
+      sources = Dir["vendor/plugins/{*,*/**}/public/*"]
+
+      FileUtils.mkdir_p(target) unless File.directory?(target)
+      FileUtils.cp_r sources, target
+    end
+  end
+
   def perform(method)
     except = ENV['except'] ? ENV['except'].split(',') : []
     core = %w(adva_activity adva_blog adva_cms adva_comments adva_rbac adva_user)
@@ -138,18 +149,5 @@ namespace :db do
         puts "copied #{files.size} migrations to db/migrate"
       end
     end
-  end
-end
-
-namespace :assets do
-  desc "Copy public assets from plugins to public/"
-  task :copy do
-    require 'config/environment'
-
-    target = "#{Rails.root}/public/"
-    sources = Dir["{#{Rails.configuration.plugin_paths.join(',')}}/**/public/*"]
-
-    FileUtils.mkdir_p(target) unless File.directory?(target)
-    FileUtils.cp_r sources, target
   end
 end
