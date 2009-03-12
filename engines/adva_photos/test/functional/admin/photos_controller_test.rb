@@ -8,6 +8,24 @@ class PhotosControllerTest < ActionController::TestCase
     stub_paperclip_post_processing!
   end
   
+  view :form do
+    has_tag 'input[name=?]', 'photo[title]'
+    has_tag 'input[name=?][type="file"]', 'photo[data]'
+
+    has_tag 'input[type=checkbox][name=draft]' do |tags|
+      expected = assigns(:photo).draft? ? 'checked' : nil
+      assert_equal expected, tags.first.attributes['checked']
+    end
+
+    has_tag 'select[id=photo_author]'
+    has_tag 'select[id=photo_comment_age]'
+    has_tag 'input[name=?]', 'photo[tag_list]'
+    
+    unless @album.sets.empty?
+      has_tag 'input[name=?]', 'photo[set_ids][]'
+    end
+  end
+  
   with_common :is_superuser, :a_site_with_album
   
   def default_params
@@ -40,8 +58,6 @@ class PhotosControllerTest < ActionController::TestCase
     it_assigns :photos
     it_renders_template :index
     it_does_not_sweep_page_cache
-    
-    # FIXME add important view specs
   end
   
   describe "GET to new" do
@@ -52,7 +68,11 @@ class PhotosControllerTest < ActionController::TestCase
     it_renders_template :new
     it_does_not_sweep_page_cache
     
-    # FIXME add view specs for form
+    it "has a post form" do
+      has_form_posting_to admin_photos_path(@site, @album) do
+        shows :form
+      end
+    end
   end
   
   describe "POST to create" do
@@ -83,7 +103,11 @@ class PhotosControllerTest < ActionController::TestCase
     it_renders_template :edit
     it_does_not_sweep_page_cache
     
-    # FIXME add view specs for form
+    it "has a put form" do
+      has_form_putting_to admin_photo_path(@site, @album, @photo) do
+        shows :form
+      end
+    end
   end
   
   describe "PUT to update" do
