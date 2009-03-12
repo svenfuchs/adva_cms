@@ -49,6 +49,7 @@ sudo gem install rails --source http://gems.rubyonrails.org
 
 # install and setup adva-cms using a template
 rails my-app -m http://github.com/svenfuchs/adva_cms/raw/master/script/adva-cms.template.rb
+cd my-app
 
 # migrate and you're done
 rake db:migrate

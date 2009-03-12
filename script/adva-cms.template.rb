@@ -21,10 +21,10 @@ patch_file 'config/environment.rb',
   "require File.join(File.dirname(__FILE__), 'boot')",
   "require File.join(File.dirname(__FILE__), '../vendor/adva/engines/adva_cms/boot')"
 
-git :clone => 'git://github.com/svenfuchs/adva_cms.git vendor/adva # this might take a bit, get a coffee meanwhile :)'
+git :clone => 'git://github.com/svenfuchs/adva_cms.git vendor/adva # this might take a bit, grab a coffee meanwhile :)'
 
 rake 'adva:install:core'
-rake 'assets:copy'
+rake 'adva:assets:copy'
 
 # overwrite the rake file so it points to the new location
 rakefile "adva-cms.rake", <<-src
