@@ -84,11 +84,64 @@ You should see adva-cms installation screen.
 Fill out the form and you're started, enjoy!
 
 
+Installing/Uninstalling adva-cms engines and plugins
+====================================================
+
+You can install/uninstall adva-cms engines and plugins by using a set of rake
+tasks. Installation simply works by symlinking (copying on Windows) to 
+vendor/plugins.
+
+There are the following tasks/subtasks:
+
+	rake adva:install:all
+	rake adva:install:core
+	rake adva:install
+
+	rake adva:uninstall:all
+	rake adva:uninstall:core
+	rake adva:uninstall
+
+For each of these tasks you can specify the option except and give it a list
+of engine/plugin names that should be excluded from the install/ uninstall
+task. E.g.
+
+	rake adva:install:all except=adva_themes,adva_wiki
+	rake adva:uninstall:all except=adva_themes,adva_wiki
+
+For the tasks adva:install and adva:uninstall one can specify the options
+engines and plugins and give it a list of engine/plugin names that should be
+included to the task. E.g.
+
+	rake adva:install engines=adva_themes,adva_wiki plugins=adva_url_history
+	rake adva:uninstall engines=adva_themes,adva_wiki plugins=adva_url_history
+
+(Accidentally, for the task adva:install:core one can specify the plugins
+option in the same way and thus install all core engines plus certain
+plugins.)
+
+For both the engines and plugins options one can specify the keyword "all"
+which then expands to all available engines and plugins respectively. Thus,
+these are equivalent:
+
+	rake adva:install:all
+	rake adva:install engines=all plugins=all
+
+NOTE please note that right now assets not copied to public/ when engines are
+installed and they are not removed from public/ when engines are uninstalled.
+So after you've installed additional engines you'll most probably want to 
+copy the assets to public:
+
+	rake adva:assets:copy
+
+
 Configuration
 =============
  
-You can change adva-cms configuration at:
-  config/initializers/adva.rb
+You can change adva-cms configuration by including an initializer to your 
+application and overwriting things that adva-cms sets as defaults. See the 
+initializers in adva-cms engines/plugins, e.g. in
+
+	vendor/plugins/adva_cms/config/initializers/*
 
 
 Development
