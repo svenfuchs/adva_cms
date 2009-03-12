@@ -15,17 +15,17 @@ namespace :adva do
   end
 
   namespace :uninstall do
-    desc 'install adva_cms core engines'
+    desc 'uninstall adva_cms core engines'
     task :core do
       ENV['engines'] = %w(adva_activity adva_blog adva_cms adva_comments adva_rbac adva_user).join(',')
-      Rake::Task['adva:install'].invoke
+      Rake::Task['adva:uninstall'].invoke
     end
 
-    desc 'install all adva_cms engines and plugins'
+    desc 'uninstall all adva_cms engines and plugins'
     task :all do
       ENV['engines'] = 'all'
       ENV['plugins'] = 'all'
-      Rake::Task['adva:install'].invoke
+      Rake::Task['adva:uninstall'].invoke
     end
   end
 
@@ -57,7 +57,7 @@ namespace :adva do
     %w(engines plugins).each do |type|
       if ENV[type]
         names = ENV[type] == 'all' ? all(type) : ENV[type].split(',')
-        names -= core if ENV[type] == 'all' && method == :uninstall
+        # names -= core if ENV[type] == 'all' && method == :uninstall
         names -= except
         send(method, type, names) unless ENV[type].nil?
       end

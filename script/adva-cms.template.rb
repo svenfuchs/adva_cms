@@ -23,11 +23,6 @@ patch_file 'config/environment.rb',
 
 git :clone => 'git://github.com/svenfuchs/adva_cms.git vendor/adva # this might take a bit, get a coffee meanwhile :)'
 
-git :clone => 'git://github.com/rails/rails.git vendor/rails'
-inside 'vendor/rails' do
-  run 'git checkout -b tag/v2.3.1'
-end
-
 rake 'adva:install:core'
 rake 'assets:copy'
 
