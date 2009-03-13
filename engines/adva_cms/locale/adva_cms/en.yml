@@ -261,6 +261,7 @@ en:
           success: The category has been updated.
           failure: The category could not be updated.
       confirm_delete: Are you sure you wish to delete this category?
+      all: "&mdash; All categories &mdash;"
     contents:
       not_published: not published
     articles:
@@ -582,6 +583,14 @@ en:
       delete: remove this file field
       tag_all: Apply tags to all
       add_file: Add another file
+      select_file: Select a file
+      edit_asset: Edit this asset
+      delete_asset: Delete this asset
+      clear_bucket: Clear
+      upload: Upload an asset
+      confirm_delete: Are you sure you wish to delete this asset?
+      search_by_tag_or_title: Search by tag or title
+      empty_bucket: Your bucket is empty.
     themes:
       no_themes_available: You currently do not have any themes created.
       lables:

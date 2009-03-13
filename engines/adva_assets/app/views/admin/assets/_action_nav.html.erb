@@ -1,5 +1,7 @@
 <% content_for :action_nav do %>
-  <ul class="sub_nav clearfix">
-    <li><%= link_to content_tag(:span, t(:'adva.assets.new')), new_admin_asset_path %></li>
+  <ul	>
+    <li>
+			<%= new_resource_link Asset, new_admin_asset_path(@site), :text => content_tag(:span, t(:'adva.assets.new')) %>
+		</li>
   </ul>
 <% end %>

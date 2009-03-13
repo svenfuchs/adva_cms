@@ -4,9 +4,9 @@
   <p><%= link_to asset_image_for(@asset, :thumb), @asset.base_url %></p>
 
 	<% f.field_set do %>
-		<%= f.text_field :title, :label => true %>
+		<%= f.text_field :title, 		:label => true %>
 		<%= f.text_field :tag_list, :label => 'Tags', :hint => :'adva.assets.enter_tags' %>
-		<%= f.file_field :data, :label => 'Select a file' %>
+		<%= f.file_field :data, 		:label => t(:'adva.assets.select_file') %>
 	<% end %>
 	
 	<%= save_or_cancel_links(f, :cancel_url => admin_assets_path, :save_text => t(:'adva.assets.save')) %>
