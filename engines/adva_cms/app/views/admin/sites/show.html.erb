@@ -1,17 +1,9 @@
-<!-- <h2>
-  <%= t(:'adva.titles.overview') %>: <%#= @site.title %>
-</h2>
-<p><%#= link_to t(:'adva.sections.links.add_section'), new_admin_section_path(@site) %></p>
-<%#= render :partial => 'sections', :locals => { :sections => @site.sections.roots } %> -->
+<h2><%= t(:'adva.titles.history') %>: <%= @site.title %></h2>
 
-
-<h2 id="history_headline">
-  <%= t(:'adva.titles.history') %>: <%= @site.title %>
-</h2>
 <%= render :partial => 'admin/activities/activities', :object => @activities %>
 
 <% content_for :sidebar do %>
-  <%= render :partial => 'user_activity', :locals => {:users => @users} %>
+  <%= render :partial => 'recent_users', :locals => {:users => @users} %>
   <%= render :partial => 'unapproved_comments', :locals => {:contents => @contents} %>
 <% end %>
 

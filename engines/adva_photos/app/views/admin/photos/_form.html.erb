@@ -1,25 +1,19 @@
 <% content_for :sidebar do %>
-  <% fields_for :photo do |f| -%>
-    <%= render :partial => 'options', :locals => { :f => f } %>
-  <% end %>
+  <%= render :partial => 'options', :locals => { :f => f } %>
 <% end %>
 
 <% f.field_set do %>
  	<%= f.text_field :title, :label => true %>
-
-	<label for="photo_data"><%= @photo.new_record? ? t(:'adva.photos.admin.photos.choose_photo') : t(:'adva.photos.admin.photos.replace_photo') %></label>
-	<%= f.file_field :data %>
+	<%= f.file_field :data, :label => t(:"adva.photos.admin.photos.#{@photo.new_record? ? 'choose' : 'replace'}_photo") %>
 	
 	<% unless @photo.new_record? -%>
 		<p><%= link_to(image_tag(@photo.base_url(:large)), @photo.filename) %></p>
 	<% end %>
 	
   <%= f.label :draft, t(:'adva.photos.common.save_as_draft') %>
-  <label class="light">
-    <%= check_box_tag :draft, '1', @photo.draft?, :id => 'article_draft' %> <%= t(:'adva.photos.common.save_as_draft_label') %>
-  </label>
+  <%= f.check_box :draft?, :id => 'photo_draft', :label => :'adva.photos.confirm_save_as_draft' %>
 	
-  <p id="publish_date" style="<%= @photo.draft? ? "display:none" : "" %>">
+  <p id="photo_published_at_wrapper" style="<%= @photo.draft? ? "display:none" : "" %>">
     <%= f.label :published_at, "Publish on date: " %>
     <%= f.datetime_select :published_at,
                           :start_year => (@photo.published_at || Time.zone.now).year-1,

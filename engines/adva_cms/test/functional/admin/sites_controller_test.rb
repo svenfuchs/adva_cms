@@ -65,7 +65,7 @@ class AdminSitesControllerTest < ActionController::TestCase
       it_renders :template, :show do
         # FIXME
         # :partial => 'admin/activities/activities'
-        # :partial => 'user_activity'
+        # :partial => 'recent_users'
         # :partial => 'unapproved_comments'
       end
     end

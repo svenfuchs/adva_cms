@@ -1,6 +1,6 @@
-<div id="utility_links" class="clearfix">
+<div>
   <%= admin_site_select_tag if Site.multi_sites_enabled %>
-  <ul class="user_links">
+  <ul>
     <% if current_user %>
       <li><%= t(:'adva.users.info.logged_in_as', :name => link_to_profile(@site, :name => current_user.name)) %></li>
       <li <% unless @site %>class="last"<% end %>><%= link_to t(:'adva.links.logout'), logout_path, :method => :delete %></li>
