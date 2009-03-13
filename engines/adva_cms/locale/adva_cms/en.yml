@@ -240,6 +240,7 @@ en:
         name: name
       titles:
         edit: Edit category
+        new: Create a new category
       no_categories_in_section: There are no categories in {{section}}.
       total_with_count:
         one: "Total: {{count}} category"
@@ -247,7 +248,8 @@ en:
       links:
         delete: Delete this category
         reorder: Reorder categories
-        create: Create a new category
+        new: Create a new category
+        create_now: "Create one now &raquo;"
       flash:
         destroy:
           success: The category has been deleted.
@@ -262,8 +264,9 @@ en:
     contents:
       not_published: not published
     articles:
-      locales:
-        translated: "This article has these translations: {{locales}}"
+      translation_links: "This article has these translations: {{locales}}"
+      locale_for_record: "Locale for this article: "
+      write_article: Write your article
       question_save_as_draft: Save as Draft?
       confirm_save_as_draft: Yes, save this article as a draft
       hints:

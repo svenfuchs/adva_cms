@@ -146,7 +146,8 @@ class Admin::ArticlesController < Admin::BaseController
     end
 
     def save_draft?
-      params[:draft] == '1'
+      @save_draft ||= params[:article].delete(:draft)
+      @save_draft == '1'
     end
 
     def set_article_param(key, value) # FIXME abstract this stuff to set_param(*keys, value) and default_param(*keys, value)

@@ -8,12 +8,12 @@
 
 	<% f.field_set :config do %>
     <% fields_for @site do |site| %>
-     	<%= site.text_field :name, :class => 'big', :label => :'adva.sites.label.name' %>
+     	<%= site.text_field :name, :label => :'adva.sites.label.name' %>
     <% end %>
 
     <% fields_for @user do |user| %>
-   		<%= user.text_field 'email', :class => 'big', :label => :'adva.sites.label.admin_email' %>
-   		<%= user.password_field 'password', :class => 'big', :label => true %>
+   		<%= user.text_field :email, :label => :'adva.sites.label.admin_email' %>
+   		<%= user.password_field :password, :label => true %>
     <% end %>
   <% end %>
   
@@ -23,18 +23,15 @@
     <% fields_for :section, @section do |section| %>
       <%= section.label :type %>
       <% Section.types.each_with_index do |type, ix| %>
-        <%= section.radio_button :type, type %>
-        <label for="section_type_<%= type.downcase %>" class="light" style="padding-right: 5px; padding-top: 5px;">
-          <%= type %>
-        </label>
-        <br />
+				<p>
+        	<%= section.radio_button :type, type, :label => type %>
+        </p>
       <% end %>
-
-      <%= section.text_field :title, :class => 'big', :label => true %>
+      <%= section.text_field :title, :label => true %>
     <% end %>
   <% end %>
   
   <% f.buttons do %>
-    <%= submit_tag t(:'adva.sites.links.create_site_and_account'), :id => 'create_site_and_account' %>
+    <%= submit_tag t(:'adva.sites.links.create_site_and_account') %>
   <% end %>
 <% end %>

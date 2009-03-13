@@ -1,16 +1,24 @@
 <%= render :partial => 'action_nav' %>
 
 <% if @plugins.size > 0 -%>
-  <table id="plugins" class="list" cellspacing="0" cellpadding="0">
+  <table>
     <thead>
       <tr>
-        <th scope="col"><%= t(:'adva.plugins.attributes.name') %></th>
-        <th scope="col"><%= t(:'adva.plugins.attributes.version') %></th>
-        <th scope="col"><%= t(:'adva.plugins.attributes.author') %></th>
-        <th scope="col"><%= t(:'adva.plugins.attributes.homepage') %></th>
+        <th>
+					<%= t(:'adva.plugins.attributes.name') %>
+				</th>
+        <th>
+					<%= t(:'adva.plugins.attributes.version') %>
+				</th>
+        <th>
+					<%= t(:'adva.plugins.attributes.author') %>
+				</th>
+        <th>
+					<%= t(:'adva.plugins.attributes.homepage') %>
+				</th>
       </tr>
     </thead>
-    <tbody id="articles">
+    <tbody>
       <%= render :partial => 'plugin', :collection => @plugins %>
     </tbody>
   </table>

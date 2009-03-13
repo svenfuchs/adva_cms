@@ -2,7 +2,7 @@
   <% @plugin.option_definitions.each do |name, option| %>
     <p>  
       <% if option[:type] == :text %>
-        <%= f.text_area name, :label => true, :class => 'short' %>
+        <%= f.text_area name, :label => true %>
       <% else %>
         <%= f.text_field name, :label => true %>
       <% end %>
