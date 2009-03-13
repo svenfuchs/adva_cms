@@ -5,12 +5,12 @@
 <% end %>
 
 <% unless @sites.empty? %>
-  <table id="sites" class="list">
+  <table>
     <thead>
       <tr>
-        <th scope="col" width="20%"><%= t(:'adva.sites.attributes.name') %></th>
-        <th scope="col"><%= t(:'adva.sites.attributes.host') %></th>
-        <th scope="col"></th>
+        <th><%= t(:'adva.sites.attributes.name') %></th>
+        <th><%= t(:'adva.sites.attributes.host') %></th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -27,6 +27,7 @@
     <% end -%>
     </tbody>
   </table>
+
   <%= will_paginate @sites, :id => 'pagination' %>
 
 <% else %>  

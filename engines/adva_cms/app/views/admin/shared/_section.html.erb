@@ -1,4 +1,4 @@
-<li id="<%= dom_id section %>" class="<%= section.type.downcase %> <%#= cycle '', 'highlight', :name => "sections" %>">
+<li>
   <%= link_to object.title, admin_section_contents_path(object) %>
   <% unless object.children.empty? %>
   <ul>

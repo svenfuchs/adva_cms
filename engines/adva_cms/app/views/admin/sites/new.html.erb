@@ -6,21 +6,14 @@
   <h2><%= t(:'adva.sites.title.home_section') %></h2>  
 
  	<% f.field_set do %>
-    <% fields_for :section, @section do |section| %>
-			<% column do %>
-	      <%= section.label :type %>
-	      <% Section.types.each_with_index do |type, ix| %>
-	        <%= section.radio_button :type, type %>
-	        <label for="section_type_<%= type.downcase %>" class="light" style="padding-right: 5px; padding-top: 5px;">
-	          <%= type %>
-	        </label>
-	      <% end %>
+    <% fields_for :section, @section do |s| %>
+      <%= s.label :type %>
+      <% Section.types.each_with_index do |type, ix| %>
+				<%= s.radio_button :type, type, :label => type %>
       <% end %>
 
-			<% column do %>
-	      <%= section.label :title %>
-	      <%= section.text_field :title %>
-	    <% end %>
+      <%= s.label :title %>
+      <%= s.text_field :title %>
     <% end %>
   <% end %>
   

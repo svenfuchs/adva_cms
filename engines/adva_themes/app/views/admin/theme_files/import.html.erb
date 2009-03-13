@@ -21,9 +21,7 @@
 
 <% form_tag upload_admin_theme_files_path(@site, @theme.id), { :method => :post, :multipart => true } do %>
 	<fieldset>
-    <div style="margin-bottom:20px;">
-      <p><%= t(:'adva.themes.upload_template_or_asset') %></p>
-    </div>
+    <p><%= t(:'adva.themes.upload_template_or_asset') %></p>
     <p><%= file_field_tag("file[data]", :id => 'file_data') %></p>
   </fieldset>
 

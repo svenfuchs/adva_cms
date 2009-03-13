@@ -1,7 +1,7 @@
 <% content_for :action_nav do %>
-  <ul class="sub_nav clearfix">
+  <ul>
     <li><%= link_to content_tag(:span, t(:'adva.users.links.create_user')), new_member_path %></li>
-    <% if @user and !@user.new_record? %>
+    <% if @user.exists? %>
       <li><%= link_to content_tag(:span, t(:'adva.users.links.edit_user')), edit_member_path %></li>
     <% end %>
   </ul>

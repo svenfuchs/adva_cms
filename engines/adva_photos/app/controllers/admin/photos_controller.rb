@@ -79,7 +79,8 @@ class Admin::PhotosController < Admin::BaseController
     end
 
     def save_draft?
-      params[:draft] == '1'
+      @save_draft ||= params[:photo].delete(:draft)
+      @save_draft == '1'
     end
 
     def set_photo_param(key, value)
