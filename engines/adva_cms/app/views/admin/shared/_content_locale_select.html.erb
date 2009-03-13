@@ -1,0 +1,13 @@
+<% unless content.new_record? %>
+	<p>
+		<%= t(:"adva.#{content[:type].tableize}.translation_links", :locales => content_translation_links(content, :edit)) %>
+	</p>
+<% end %>
+
+<p>
+  <%= label_tag :content_locale, t(:"adva.#{content[:type].tableize}.locale_for_record") %>
+  <select id="content_locale" name="cl"> 
+    <%= options_for_select I18n.available_locales, Article.locale %>
+  </select>
+</p>
+

@@ -10,7 +10,7 @@ class Admin::BaseController < ApplicationController
   helper :assets if Rails.plugin?(:adva_assets)
   helper :roles  if Rails.plugin?(:adva_rbac)
 
-  helper_method :admin_section_contents_path, :new_admin_content_path, :perma_host
+  helper_method :admin_section_contents_path, :perma_host
   helper_method :has_permission?
 
   authentication_required
@@ -29,11 +29,6 @@ class Admin::BaseController < ApplicationController
   def admin_section_contents_path(section)
     content_type = section.class.content_type.pluralize.gsub('::', '_').underscore.downcase
     send(:"admin_#{content_type}_path", section.site, section)
-  end
-
-  def new_admin_content_path(section)
-    type = section.class.content_type.pluralize.gsub('::', '_').underscore.downcase
-    send :"new_admin_#{content_type}_path", section.site, section
   end
 
   protected

@@ -8,6 +8,8 @@ class AdminBaseHelperTest < ActionView::TestCase
   def setup
     super
     @site = Site.first
+    @section = @site.sections.first
+    @article = @section.articles.first
     stub(self).current_user.returns User.new
 
     stub(self).admin_sites_path.returns 'admin_sites_path'
@@ -17,6 +19,14 @@ class AdminBaseHelperTest < ActionView::TestCase
 
     @controller = TestController.new
     @request = ActionController::TestRequest.new
+  end
+  
+  test "#new_admin_content_path" do
+    new_admin_content_path(@section).should =~ %r(/admin/sites/\d*/sections/\d*/articles/new)
+  end
+
+  test "#edit_admin_content_path" do
+    edit_admin_content_path(@article).should =~ %r(/admin/sites/\d*/sections/\d*/articles/\d*/edit)
   end
 
   # view_resource_link

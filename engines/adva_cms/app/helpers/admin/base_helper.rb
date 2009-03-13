@@ -1,6 +1,16 @@
 # TODO move this to the base_helper?
 
 module Admin::BaseHelper
+  def new_admin_content_path(section)
+    type = section.class.content_type.gsub('::', '_').underscore.downcase
+    send :"new_admin_#{type}_path", section.site, section
+  end
+
+  def edit_admin_content_path(content)
+    type = content.section.class.content_type.gsub('::', '_').underscore.downcase
+    send :"edit_admin_#{type}_path", content.site, content.section, content
+  end
+  
   def view_resource_link(resource, path, options={})
     text = options.delete(:text) || t(:'adva.resources.view')
     resource_link text, path, options.reverse_merge(:class => 'view', :id => "view_#{resource_class(resource)}_#{resource.id}")
@@ -67,9 +77,9 @@ module Admin::BaseHelper
     end
   end
 
-  def translated_locales(article, view)
-    article.translated_locales.map { |tl|
-      link_to tl, edit_admin_article_url(@site, @section, article, :cl => tl)
+  def content_translation_links(content, view)
+    content.translated_locales.map { |tl|
+      link_to tl, edit_admin_article_url(content.site, content.section, content, :cl => tl)
     }.join(', ')
   end
 

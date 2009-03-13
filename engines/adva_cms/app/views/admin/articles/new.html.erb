@@ -1,14 +1,8 @@
-<h2><%= t( :'adva.articles.titles.new', :content_locale => Article.locale ) %></h2>
+<h2><%= t(:'adva.articles.titles.new', :content_locale => Article.locale) %></h2>
 
-<p>
-  <%= label_tag :content_locale, 'Locale for this post:' %>
-  <select id="content_locale" name="cl"> 
-    <%= options_for_select I18n.available_locales, Article.locale %>
-  </select>
-</p>
+<%= render :partial => 'admin/shared/content_locale_select', :locals => { :content => @article } %>
 
 <% split_form_for :article, @article, :url => admin_articles_path, :html => {:multipart => true, :id => 'content_form'} do |f| -%>
   <%= render :partial => 'form', :locals => {:f => f} %>
-
   <%= save_or_cancel_links(f, :cancel_url => admin_articles_path) %>
 <% end %>
