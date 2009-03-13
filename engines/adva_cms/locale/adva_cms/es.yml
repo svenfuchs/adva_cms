@@ -284,7 +284,7 @@ es:
           success: El artículo ha sido eliminado.
           failure: El artículo no pudo ser eliminado.
         rollback:
-          success: Se ha cambiado a una versión previa del artículo. Versión: {{version}}
+          success: "Se ha cambiado a una versión previa del artículo. Versión: {{version}}"
           failure: El artículo no pudo ser devuelto a la versión {{version}}
         create:
           success: El artículo ha sido creado.
