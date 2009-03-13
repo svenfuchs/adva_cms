@@ -2,7 +2,9 @@
   <h3><%= t(:'adva.titles.manage') %></h3>
   <ul>
     <li><%= link_to t(:'adva.titles.site'), edit_admin_site_path(@site), :id => 'manage_site' %></li>
-    <li><%= link_to t(:'adva.titles.themes'), admin_themes_path(@site), :id => 'manage_themes' %></li>
+    <% if Rails.plugin?(:adva_themes) %>
+			<li><%= link_to t(:'adva.titles.themes'), admin_themes_path(@site), :id => 'manage_themes' %></li>
+		<% end %>
     <li><%= link_to t(:'adva.titles.cache'), admin_cached_pages_path(@site), :id => 'manage_cache' %></li>
   </ul>
 
