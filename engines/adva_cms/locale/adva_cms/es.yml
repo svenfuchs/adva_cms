@@ -1,0 +1,832 @@
+es:
+  activerecord:
+    errors:
+      messages:
+        only_integer: debe ser un número entero.
+  adva:
+    common:
+      about: Acerca de
+      details: Detalles
+      by_author: por {{author}}
+      cancel: Cancelar
+      edit: Editar
+      delete: Eliminar
+      hide: Ocultar
+      save: Guardar
+      save_without_revision: Guardar sin revisión
+      import: Importar
+      upload: Subir
+      import: Importar
+      subscribe: Suscribirse
+      approve: Aprobar
+      unapprove: Denegar
+      language: Idioma
+      none: ningún
+      next: Próximo
+      previous: Anterior
+      events: Eventos
+      you: Tú
+      connector:
+        or: o
+      "yes": "si"
+      by_author: por {{author}}
+      content_categories: "en {{links}}<br />"
+      content_tags: "etiquetados: {{links}}<br />"
+      unknown: desconocido
+      add: Agregar
+      add_new: Agregar nuevo
+      hints:
+        tags: "Introduzca una o más etiquetas separadas por un espacio. Puedes incluir espacios colocando la etiqueta entre comillas. (Ej: <em>\"Web Dev\" Tutoriales</em>)."
+    titles:
+      accounts: Accounts
+      actions: Actions
+      archives: Archives
+      articles: Articles
+      assets: Ficheros
+      board: Tablón
+      boards: Tablones
+      cache: Cache
+      categories: Categorías
+      clear: Limpiar
+      clear_all: Limpiar todo
+      comment: Comentario
+      comments: Comentarios
+      dashboard: Dashboard
+      general_settings: Preferencias Generales
+      history: Historial
+      login: Ingresar
+      logout: Salir
+      register: Registrar
+      manage: Gestionar
+      newsletters: Newsletters
+      optional_settings: Preferencias Opcionales
+      overview: General
+      permissions: Permisos
+      plugin: Plugin
+      plugins: Plugins
+      posts: Posts
+      preview: Vista Previa
+      publish_in_categories: Publicar en estas categorías
+      recent_activity: Actividad Reciente
+      restore_defaults: Restaurar Valores Por Defecto
+      sections: Secciones
+      settings: Preferencias
+      site: Site
+      site_users: Usuarios
+      spam_filters: Spam filters
+      spam_protection: Spam protection
+      success: Success!
+      tags: Etiquetas
+      templates: Plantillas
+      theme: Tema
+      themes: Temas
+      topic: Tema
+      tracking: Tracking
+      users: Usuarios
+      roles: Roles
+      website: Website
+      website_configuration: Configuración del site
+      website_home_section: Sección de inicio del site
+      welcome: Bienvenido!
+      wikipages: Wikipages
+    links:
+      back: Atrás
+      delete: Eliminar
+      edit: Editar
+      view: Ver
+      next: siguiente
+      previous: anterior
+      login: Ingresar
+      logout: Salir
+      profile: Perfil
+      sites_overview: Sites overview
+      skip_to_content: Ir al Contenido
+      skip_to_navigation: Ir a la Navegación
+      superusers_admins: Superusuarios + Administradores
+      entries_feed: Suscripción de entradas
+      comments_feed: Suscripción de comentarios
+    labels:
+      author_name: Nombre
+      author_email: E-Mail
+      filters: Filtros
+    messages:
+      insufficient_permissions:
+        title: Permisos Insuficientes
+        body: Si piensas que deberías poder realizar esta acción, por favor contacte con el administrador del site y pídale que reconfigure los permisos para su rol de usuario.
+      not_editable: "Lo sentimos, pero no es editable!"
+    resources:
+      delete: Eliminar
+      edit: Editar
+      reordering_done: Reordenamiento finalizado
+      settings: preferencias
+      view: Ver
+    state:
+      draft: Borrador
+      published: Publicado
+      hold: En espera
+      queued: Encolados
+      delivered: Entregados
+    sites:
+      title:
+        create: Crear nuevo site
+        home_section: Sección de inicio
+      hints:
+        host_name: Incluya el puerto si no es uno estándar. Ej. localhost:3000
+        admin_email: Se muestra en emails enviados desde el site
+      attributes:
+        name: Nombre
+        host: Host
+      install:
+        success_fully_created: Has creado tu site de forma satisfactoria. Felicidades!
+        welcome_to_installation: "Bienvenido al proceso de intalación, de menos de 2 minutos. Sólo introduce la información requerida más abajo y listo."
+        can_always_change_settings: No te procupes. Siempre puedes cambiar tus preferencias mas adelante.
+        section_default: Inicio
+      no_sites: Actualmente no tienes ningun site creado.
+      no_users: El site no tiene ningún usuario.
+      no_available_users: El site no tiene ningún usuario disponible.
+      links:
+        delete: Eliminar este site
+        create_site_and_account: "Crear site y cuenta \xC2\xBB"
+        manage_new: Administrar tu nuevo site &raquo;
+      flash:
+        destroy:
+          success: El site ha sido eliminado.
+          failure: El site no pudo ser eliminado
+        install:
+          error_already_complete: La instalación ya ha sido completada, Por favor ingrese con su cuenta de administrador.
+          success: Felicidades! Has iniciado tu site correctamente.
+          failure: "Los siguientes modelos no pudieron crearse: {{models}}."
+        create:
+          success: El site ha sido creado.
+          failure: El site no pudo ser creado
+        update:
+          success: El site has ser actualizado.
+          failure: El site no pudo ser actualizado
+      label:
+        name: Nombre del site
+        title: Título del site
+        timezone: Zona Horaria
+        admin_email: Email del administrador
+        subtitle: Subtítulo del site
+        host: Host name
+      confirm_delete: Estás seguro que quieres eliminar este site?
+    sections:
+      hints:
+        content_filter: Cuando los artículos son publicados, usan este valor por defecto.
+      titles:
+        section_settings: Configuración específica de la sección
+        blog_settings: Configuración específica del Blog
+        forum_settings: Configuración específica del Foro
+        create: Crear sección
+      links:
+        delete: Eliminar esta sección
+        add_section: Add a section
+        reorder: Reordenar secciones
+        create: Crear sección
+      confirm_delete: Estás seguro que deseas eliminar esta sección?
+      flash:
+        destroy:
+          success: La sección ha sido destruida.
+          failure: La sección no pudo ser destruida.
+        create:
+          success: La sección ha sido creada.
+          failure: La sección no pudo ser creada.
+        update:
+          success: La sección ha sido actualizada.
+          failure: La sección no pudo ser actualizada.
+    blog:
+      titles:
+        date: "de {{date}}"
+        about: "acerca de {{category}}"
+        tags: "etiquetas {{tags}}"
+        articles: "Artículos {{articles}}"
+        show_articles: "Mostrar artículos:"
+        manage: Gestionar
+        actions: Acciones
+      links:
+        articles: Artículos
+        categories: Categorías
+        settings: Preferencias
+        create_article: Crear artículo
+        create_article_now: "Crea uno ahora &raquo;"
+        more: Lee el resto de este artículo
+      options:
+        filter:
+          category: en categoría
+          tags: etiquetado con
+          title: título contiene
+          body: cuerpo contiene
+          draft: no publicado
+      tabs:
+        article: Artículo
+        comments: Comentarios
+        published: Publicado
+        author: Autor
+      feeds:
+        category: Categoría {{category}}
+        tags:
+          one: "Etiqueta: {{tags}}"
+          other: "Etiquetas: {{tags}}"
+      no_articles: "No hay artículos en {{section}}."
+      no_filtered_articles: "No hay artículos que cumplan ese criterio en {{section}}"
+      attribution: "por: {{author}}"
+    categories:
+      attributes:
+        name: name
+      titles:
+        edit: Edit categoría
+      no_categories_in_section: No hay categorías en {{section}}.
+      total_with_count:
+        one: "Total: {{count}} categoría"
+        other: "Total: {{count}} categorías"
+      links:
+        delete: Eliminar esta categoría
+        reorder: Reordenar categorías
+        create: Crear categoría
+      flash:
+        destroy:
+          success: La categoría ha sido eliminada.
+          failure: La categoría no pudo ser eliminada.
+        create:
+          success: La categoría ha sido creada.
+          failure: La categoría no pudo ser creada.
+        update:
+          success: La categoría ha sido actualizada.
+          failure: La categoría no pudo ser actualizada.
+      confirm_delete: Está seguro que desea eliminar esta categoría?
+    contents:
+      not_published: not published
+    articles:
+      locales:
+        translated: "este artículo has these translations: {{locales}}"
+      question_save_as_draft: Guardar como Borrador?
+      confirm_save_as_draft: Si, guardar este artículo como borrador
+      hints:
+        permalink: Use solamente caracteres ASCII y use guiones en lugar de espacios.
+        tags: "Introduzca una o más etiquetas separadas por un espacio. Puedes incluir espacios colocando la etiqueta entre comillas. (Ej: <em>\"Web Dev\" Tutoriales</em>)."
+      titles:
+        edit: Editar artículo en <strong>{{content_locale}}</strong>
+        new: Nuevo artículo en <strong>{{content_locale}}</strong>
+      total_with_count:
+        one: "Total: {{count}} article"
+        other: "Total: {{count}} articles"
+      links:
+        delete: Eliminar este artículo
+        reorder: Reordenar artículos
+        create: Crear artículo
+        create_now: Crea uno ahora
+        preview: Preview este artículo
+      excerpt_add: Agrega un extracto
+      no_articles_in_section: No hay artículos para {{section}}.
+      publish_on_date: Publicar en esta fecha
+      flash:
+        destroy:
+          success: El artículo ha sido eliminado.
+          failure: El artículo no pudo ser eliminado.
+        rollback:
+          success: Se ha cambiado a una versión previa del artículo. Versión: {{version}}
+          failure: El artículo no pudo ser devuelto a la versión {{version}}
+        create:
+          success: El artículo ha sido creado.
+          failure: El artículo no pudo ser creado.
+        update:
+          success: El artículo ha sido actualizado.
+          failure: El artículo no pudo ser actualizado.
+      confirm_delete: Está seguro que desea eliminar este artículo?
+      attributes:
+        excerpt: extracto
+    cached_pages:
+      no_entries: No hay ninguna página en el cache.
+      confirmation:
+        cleared: Esta página ha sido eliminada del cache.
+        cleared_short: Eliminada
+      filter:
+        show_cached_pages: Mostrar páginas en cache
+      total_with_count:
+        one: "Total: {{count}} página en cache"
+        other: "Total: {{count}} páginas en cache"
+      no_entries_matching_criteria: No hay ninguna página en cache con ese criterio.
+      flash:
+        clear:
+          success: The cache ha sido limpiado.
+    comments:
+      flash:
+        thank_you: Gracias por el comentario!
+        create:
+          success: El comentario ha sido creado.
+          failure: El comentario no pudo ser creado.
+        update:
+          success: El comentario ha sido actualizado.
+          failure: El comentario no pudo ser actualizado.
+        destroy:
+          success: El comentario ha sido eliminado.
+          failure: El comentario no pudo ser eliminado.
+      links:
+        delete: Eliminae
+        edit: Editar
+        approve: Aprobar
+        view: Ver
+        unapprove: Denegar
+      titles:
+        comments_awaiting_approval: Comentarios esperando tu aprobación.
+        save_comment: Guardar Comentario
+        comment_on_by: Comentario en '{{on}}' por {{by}}
+        add_reply: Deja tu respuesta
+        comment_number: "Comentario #{{number}}"
+        edit: Editar comentario
+        comments_on: Comentarios en {{location}}
+        submit_comment: Enviar Comentario
+        your_reply: Your reply
+        comment_with_count:
+          one: 1 Comentario
+          other: "{{count}} Comentarios"
+      filter:
+        show_comments: Mostrar comentarios
+        options:
+          all: Todos
+          body: Cuerpo contiene
+          author_name: Autor es
+          author_email: Email del autor es
+          author_url: Website del autor es
+          state: estado es
+        go: Ir
+      state:
+        options:
+          approved: Aprobados
+          unapproved: Denegados
+      options:
+        expiration:
+          not_allowed: No son permitidos
+          never_expire: Nunca expiran
+          x_hours_after_publishing:
+            one: Expiran 1 hora después de publicar
+            other: Expiran {{count}} horas después de publicar
+          x_weeks_after_publishing:
+            one: Expiran 1 semana después de publicar
+            other: Expiran {{count}} semanas después de publicar
+          x_months_after_publishing:
+            one: Expiran 1 mes después de publicar
+            other: Expiran {{count}} meses después de publicar
+      labels:
+        "on": "on"
+        comments: Comentarios
+        approved: Aprobados
+      hints:
+        comments_filter: Cuando se publican los comentarios, usan este formato.
+      confirm_delete: Estás seguro que quieres eliminar este comentario?
+      info:
+        no_comments_for_query: "{{location}} no tiene comentarios para esta búsqueda."
+        under_review: Este comentario esta bajo revisión actualmente.
+      messages:
+        not_allowed: "No se permiten comentarios."
+
+    activity:
+      titles:
+        today: Hoy {{date}}
+        yesterday: Ayer {{date}}
+        past: Antes de {{date}}
+      none: No ha sucedido nada
+      notifier:
+        new: Nueva {{activity}} publicada
+      view:
+        new: "{{name}} <{{email}}> ha publicado {{activity}} en {{site}} en la sección {{section}}."
+      comment: Comentario {{actions}}
+      topic: Tema {{actions}}
+      actions: "{{type}} {{actions}} en {{activity}}."
+    signup:
+      notifications:
+        email_verification:
+          subject: Verificación de Email
+          body: |
+            Estimado {{name}},
+
+            Recientemente te has registrado con nuestro servicio. Nuestro servicio que todos nuestros nuevos usuarios
+            verifiquen su dirección de correo. Simplemente has click más abajo y tu nombre de usuario será registrado,
+            permitiéndote acceder.
+
+            {{link}}
+      flash:
+        destroy:
+          success: La cuenta de usuario {{name}} ha sido eliminada.
+        create:
+          failure: Su registro no pudo ser guardado.
+        verify:
+          success: Has confirmado correctamente tu dirección de correo.
+          failure: Ya has verificado tu dirección de correo.
+    passwords:
+      info:
+        please_enter_email_to_reset_password: Introduzca su dirección de email. Se enviará un correo que incluirá un link para reiniciar su contraseña.
+        please_enter_new_password: Introduzca su nueva contraseña.
+      titles:
+        new: Olvidó su contraseña?
+        edit: Cambie su contraseña
+      notifications:
+        password_updated:
+          subject: Contraseña actualizada
+          body: |
+            Estimado {{name}},
+
+            su contraseña ha sido actualizada correctamente.
+        reset_password:
+          subject: Olvido de contraseña
+          body: |
+            Estimado {{name}},
+
+            Alguien (esperamos seas tú) ha indicado que no puede recordar su contraseña.
+            El enlace que incluímos abajo permitirá que puedas reiniciar tu contraseña.
+
+            {{link}}
+
+            Te sugerimos que reinicies tu contraseña lo antes posible ya que este enlace
+            sólo estará disponible por un tiempo limitado (para proteger tu cuenta).
+
+            Si no has solicitado que se reinicie tu paswword, alguien debe haber introducido
+            tu cuenta, en la sección de olvido de contraseña de nuestro site. Su cuenta
+            esta a salvo, ya que es la única persona a la que se ha enviado este mensaje.
+            Simplemente elimine este correo, ya que ningún cambio se hará a su cuenta si
+            fue enviado por error.
+      flash:
+        new:
+          email_sent: Te hemos enviado una notificación. Por favor revise su correo.
+          no_such_user: No hemos podido encontrar un usuario con esa dirección de correo.
+        update:
+          success: Su password ha sido cambiado correctamente.
+          failure: Su password no pudo ser cambiado.
+    session:
+      flash:
+        destroy:
+          success: Te has desconectado correctamente.
+        create:
+          success: Has ingresado correctamente.
+          failure: No has podido ingresar con ese email y contraseña.
+      labels:
+        remember_me: Recordarme
+    users:
+      attributes:
+        password: Contraseña
+        email: E-Mail
+      links:
+        new: Agregar un usuario nuevo
+        create_user: Crear usuario
+        edit_user: Editar usuario
+      actions:
+        delete_user: Eliminar este usuario
+        create_new: Crear nuevo usuario
+      titles:
+        new: Nuevo usuario
+        edit: Editar usuario
+        register: Registrar cuenta de usuario
+        signup: Registrarse
+        your_profile: Tú Perfil
+      flash:
+        destroy:
+          success: La cuenta de usuario ha sido eliminada.
+          failure: La cuenta de usuario no ha podido ser eliminada.
+        create:
+          success: La cuenta de usuario ha sido creada.
+          failure: La cuenta de usuario no ha podido ser creada.
+        update:
+          success: La cuenta de usuario ha sido actualizada.
+          failure: La cuenta de usuario no ha podido ser actualizada.
+      labels:
+        updated_at: Último ingreso
+        url: Página Inicial
+        created_at: Creado
+        email: Email
+      info:
+        showed_up: "fue visto: {{time_ago}}"
+        logged_in_as: "Usuario: {{name}}"
+      confirm_delete: Está seguro que desea eliminar esta cuenta de usuario?
+    roles:
+      labels:
+        admin_for: "Administrador para: {{context}}"
+        superuser: Superusuario
+      errors:
+        messages:
+          not_an_admin: Necesitas ser un administrador para realizar esta acción.
+          not_logged_in: Necesitas haber ingresado para realizar esta acción.
+          not_a_superuser: Necesitas ser superusario para realizar esta acción.
+          not_an_author: Necesitas ser el autor de este objeto para realizar esta acción.
+          not_a_moderator: Necesitas ser a moderador para realizar esta acción.
+    assets:
+      flash:
+        upload:
+          failure: Error subiendo el fichero.
+        update:
+          success: El fichero ha sido actualizado.
+          failure: Error actualizando el fichero.
+        delete:
+          success: "Eliminado {{filename}}"
+          failure: Error actualizando el fichero.
+        destroy:
+          success: "{{asset}} separado de {{content}}."
+        create:
+          first_success: "Fichero '{{asset}}' subido."
+          success:
+            one: "Se ha subido un fichero."
+            other: "Se han subido {{count}} ficheros."
+        add:
+          success: "{{asset}} agregado a la cesta."
+        clear:
+          success: La cesta ha sido vaciada.
+      validation:
+        duplicate: No se puede asignar dos veces este fichero y contenido
+      tab:
+        attached:
+          title: Ficheros Adjuntos
+          name: Adjunto
+        latest:
+          title: Últimos ficheros subidos
+          name: Últimos
+        bucket:
+          title: Tú cesta
+          name: Cesta
+        search:
+          title: Buscar ficheros
+          name: Buscar
+        upload:
+          title: Subir ficheros
+          name: Subir
+        audio: Audio
+        movies: Vídeos
+        pictures: Fotos
+        others: Otros
+        tags: Etiquetas
+        title: Título
+      new: Nuevo fichero
+      add_to_bucket: Agregar a la cesta
+      no_files: No tienes ficheros de este tipo o no has subido ningún fichero.
+      upload: 'Subir un fichero ahora &raquo;'
+      enter_tags: 'Enter one or more tags separated by a comma or a space (for example, <em>"Web Dev" Tutorials</em> or <em>Web Dev, Tutorials</em>).'
+      save: Guardar Fichero
+      your_bucket: Tú cesta
+      add_files: Agrega ficheros a la cesta temporalmente para usarlos cuando estes creando o revisando los artículos.
+      upload_summary:
+        one: Has subido <strong>un fichero</strong>, usando <strong>{{size}}</strong>.
+        other: Has subido un total de <strong>{{count}} ficheros</strong>, usando <strong>{{size}}</strong>.
+      stats: Algunas estadísticas
+      labels:
+        upload:
+          files: Seleccione ficheros ha subir
+          title: Título
+          tags: Etiquetas (etq1 etq2 etq3)
+      delete: Eliminar este campo del fichero
+      tag_all: Aplicar etiquetas a todos
+      add_file: Agregar otro fichero
+    themes:
+      no_themes_available: Actualmente no tienes ningún tema creado.
+      lables:
+        zip_file: Zip file
+      titles:
+        new: Crear un tema nuevo
+        edit: Editar tema
+        valid_file_types: Tipo de ficheros válidos
+        import: Importar un tema
+        edit_file: Editar un fichero de tema
+        theme_id: Tema ID
+      links:
+        add_another_file: Añadir otro fichero
+        new_theme: Nuevo tema
+        edit: Editar
+        create_one_now: Crea uno ahora. &raquo;
+        delete_file: Eliminar fichero del tema
+        uninstall: Desinstalar
+        download_theme: Descargar tema
+        upload_file: Subir fichero nuevo
+        import_theme: Importar tema
+        create_file: Crear fichero nuevo
+        edit_theme: Editar tema
+        delete_theme: Eliminar tema
+        select_theme: Seleccionar tema
+        unselect_theme: Deseleccionar tema
+        select: Seleccionar
+        unselect: Deseleccionar
+        delete: Eliminar
+      upload_template_or_asset: Sube una plantilla o un fichero.
+      labels:
+        asssets: Ficheros
+        templates: Plantillas
+        filename: Nombre del fichero
+      confirm_select: Está seguro que desea activar este tema?
+      confirm_unselect: Está seguro que desea desactivar este tema?
+      confirm_uninstall: Está seguro que desea desinstalar este tema? (No podrás recupararlo.)
+      flash:
+        destroy:
+          success: El tema ha sido eliminado.
+          failure: El tema no pudo ser eliminado.
+        create:
+          success: El tema ha sido creado.
+          failure: "El tema no pudo ser creado: {{errors}}."
+        update:
+          success: El tema ha sido actualizado.
+          failure: "El tema no pudo ser actualizado: {{errors}}."
+        import:
+          success: El tema ha sido importado.
+          error_filename_blank: El fichero de tema no puede estar en blanco.
+          failure: El fichero no pudo ser importado como un tema.
+    theme_files:
+      types:
+        templates: Plantillas
+        images: Imágenes
+        javascripts: Javascripts
+        stylesheets: Hojas de estilo
+        others: Otros
+      flash:
+        destroy:
+          success: El fichero ha sido eliminado.
+          failure: El fichero no pudo ser eliminado.
+        create:
+          success: El fichero ha sido creado.
+          failure: El fichero no pudo ser creado.
+        update:
+          success: El fichero ha sido actualizado.
+          failure: El fichero no pudo ser actualizado.
+    plugins:
+      no_plugins_installed: Actualmente no hay ningún plugin instalado.
+      attributes:
+        name: Nombre
+        configurable: Configurable
+        author: Autor
+        version: Version
+        homepage: Homepage
+      flash:
+        destroy:
+          success: Las preferencias por defecto han sido restauradas.
+          failure: La sección no pudo ser eliminada.
+        update:
+          success: Las preferencias del plugin han sido actualizadas.
+          failure: La sección no pudo ser creada.
+      no_config_options_available: Este plugin no tiene opciones de configuración disponibles.
+    settings:
+      filter_options:
+        plain_html: HTML
+    boards:
+      topics_count:
+        one: "{{count}} tema"
+        other: "{{count}} temas"
+      comments_count:
+        one: "{{count}} comentario"
+        other: "{{count}} comentarios"
+      info:
+        no_boards_in_forum: No tienes ningún tablón creado en {{forum}}.
+      titles:
+        new: New Tablón
+        edit: Editar Tablón
+      posts_count:
+        one: "{{count}} post"
+        other: "{{count}} posts"
+      links:
+        new: Nuevo Tablón
+        reorder: Reordenar tablones
+        create_now: Crea uno ahora
+      flash:
+        no_next_board: No hay siguiente tablón. Mostrando el último.
+        destroy:
+          success: El tablón ha sido eliminado.
+          failure: El tablón no pudo ser eliminado.
+        create:
+          success: El tablón ha sido creado.
+          failure: El tablón no pudo ser creado.
+        update:
+          success: El tablón ha sido eliminado.
+          failure: El tablón no pudo ser eliminado.
+        no_previous_board: No hay tablón anterior. Mostrando el primero
+      confirm_delete: Todos los temas de este tablón también serán eliminados. Está seguro que desea eliminar este tablón?
+      confirm_delete_on_last: Está seguro que desea eliminar este tablón? Sus temas serán eliminados.
+    topics:
+      info:
+        no_topics_in_forum: No hay temas en este foro.
+        no_topics_in_board: No hay temas en este tablón.
+      titles:
+        new: Nuevo tema
+        edit: Editar tema
+        post_topic: Tema del post
+        latest_post: Último post
+        post_count:
+          one: "{{count}} Post"
+          other: "{{count}} Posts"
+      states:
+        sticky: Sticky
+        locked: Locked
+      links:
+        post_new: Publicar uno ahora
+        post_now: Publicar ahora
+        new_topic: Nuevo tema
+      flash:
+        destroy:
+          success: El tema ha sido eliminado.
+          failure: El tema no pudo ser eliminado.
+        create:
+          success: El tema ha sido creado.
+          failure: El tema no pudo ser creado.
+        update:
+          success: El tema ha sido actualizado.
+          failure: El tema no pudo ser actualizado.
+        no_next_topic: No hay tema siguiente. Mostrando el último.
+        no_previous_topic: No hay tema anterior. Mostrando el primero.
+      confirm_destroy: Está seguro que desea eliminar este post?
+      confirm_delete: Está seguro que desea eliminar este tema?
+    posts:
+      titles:
+        reply: Deja tu respuesta
+        edit: Editar post
+        save_post: Guardar post
+        submit_post: Enviar post
+      flash:
+        destroy:
+          success: El post ha sido eliminado.
+        create:
+          success: El post ha sido guardado.
+          failure: El post no pudo ser guardado.
+        update:
+          success: El post ha sido actualizado.
+          failure: El post no pudo ser actualizado.
+    tracking:
+      enable_tracking: Habilitar Google Analytics
+      tracking_campaign: Campaign
+      tracking_source: Source
+      hints:
+        tracking_code: Use su código de Google Analytics (UA-xxxxxxx-x) para usar el soporte de Google Analytics. Dejar este campo en blanco desactivará el soporte de Google Analytics.
+        no_tracking_code: Para poder usar Google Analytics con su newsletters, debe ingresar su código previamente. Puede hacerlo en {{settings}}.
+        glossary: No estás seguro de qué usar aquí? Visita {{link}} para más información.
+        glossary_name: the Google Analytics help
+    spam:
+      hints:
+        filters: Cuando se publican los comentarios, los siguientes filtros se usan para verficar si son spam.
+      options:
+        default_ham_none: No aprobar automáticamente ningún comentario.
+        default_ham_all: Aprobar todos los comentarios automáticamente.
+        default_ham_authenticated: Aprobar comentarios publicados por usuarios registrados.
+      labels:
+        api_key: API Key
+        site_url: Site URL
+    info:
+      greeting_logged_in: Hola <span>user</span>, ya has ingresado.
+    footer:
+      powered_by: Site powered by adva cms. Theme inspired by depo.
+    flash:
+      authentication_required_role: Necesitas tener el rol {{role}} para ver esta página.
+    sidebar:
+      titles:
+        tags: Etiquetas
+        topics: Temas
+    subscription:
+      no_subscriptions: No hay suscriptores.
+      confirm_delete: Está seguro que deseas desinscribirte?
+      flash:
+        destroy_success: Desinscrito correctamente.
+      link:
+        index: Suscriptores
+        new: Agregar un nuevo suscriptor
+        destroy: Desinscribirse
+      label:
+        user: Usuario
+        subscriber: Suscriptor
+        email: Email
+        time: Tiempo de suscripción
+        subscriptions: Suscriptores
+    locations:
+      attributes:
+        title: Nombre de la ubicación
+        country: País
+        postcode: Código Postal
+        town: Ciudad
+        address: Calle / Numero
+        description: Descripción
+
+    # have cells translations here for the moment
+    cells:
+      album:
+        name: Álbum de fotos
+        states:
+          single:
+            name: Álbum sólo
+            description: Mostrar un sólo album
+            form:
+              section: Sección
+      sections:
+        name: Secciones
+        states:
+          recent_articles:
+            name: Artículos recientes
+            description: Mostrar un cierto número de artículos de una sección
+            form:
+              section: Sección
+              count: Nñumero de artículos
+      blog:
+        name: Blog
+        states:
+          recent_articles:
+            name: Artículos Recientes
+            description: Mostrar un cierto número de artículos de un blog
+            form:
+              section: Sección
+              count: Número de artículos
+      user:
+        name: Usarios
+        states:
+          recent:
+            name: Usarios recientes
+            description: Mostrar una lista con un número de usuario
+            form:
+              count: Número de usuarios
