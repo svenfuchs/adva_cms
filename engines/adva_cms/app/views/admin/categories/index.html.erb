@@ -1,7 +1,7 @@
 <% content_for :sidebar do -%>
   <h3><%= t(:'adva.titles.actions') %></h3>
   <ul>
-    <li><%= link_to t(:'adva.categories.links.create'), new_admin_category_path, :id => 'create_new_category' %></li>
+    <li><%= new_resource_link(Category, new_admin_category_path, :text => t(:'adva.categories.links.new')) %></li>
     <% if @categories.size > 1 %>
       <li><%= link_to_function t(:'adva.categories.links.reorder'), "categories_tree.toggle(this, '#{t(:'adva.resources.reordering_done')}');", :id => 'reorder_categories' %>
       <%= image_tag '/images/adva_cms/indicator.gif', :id => 'categories_indicator', :style => 'display: none;' %></li>
@@ -14,14 +14,14 @@
     <%= t(:'adva.categories.total_with_count', :count => @categories.total_entries) %>
   </p>
 
-  <table id="categories" class="list">
+  <table>
     <thead>
       <tr>
-        <th scope="col"><%= t(:'adva.categories.attributes.name') %></th>
+        <th><%= t(:'adva.categories.attributes.name') %></th>
         <th></th>
       </tr>
     </thead>
-    <tbody id="categories_body">
+    <tbody>
       <%= render :partial => 'category', :collection => @categories %>
     </tbody>
   </table>
@@ -41,6 +41,6 @@
 <% else %>
   <div class="empty">
     <%= t(:'adva.categories.no_categories_in_section', :section => @section.title) %>
-    <%= link_to "Create one now &raquo;", new_admin_category_path %>
+		<%= new_resource_link(Category, new_admin_category_path(@site, @section), :text => t(:'adva.categories.links.create_now')) %>
   </div>
 <% end %>

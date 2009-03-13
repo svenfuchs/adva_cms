@@ -4,11 +4,11 @@
   <%= t(:'adva.sites.install.success_fully_created') %>
 </p>
 
-<p id='user_profile'>
-  <%= t(:'adva.users.attributes.email') %>: <strong><%= @user.email %></strong><br />
+<p>
+  <%= t(:'adva.users.attributes.email') %>: <%= @user.email %>
 </p>
 
 <p>
-  <strong><%= link_to t(:'adva.sites.links.manage_new'), admin_site_path(@site) %></strong>
+  <%= link_to t(:'adva.sites.links.manage_new'), admin_site_path(@site) %>
 </p>
 

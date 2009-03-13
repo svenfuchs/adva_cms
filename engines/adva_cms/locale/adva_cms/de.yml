@@ -233,7 +233,7 @@ de:
      links:
        delete: Diese Kategorie löschen
        reorder: Kategorien umsortieren
-       create: Eine neue Kategorie anlegen
+       new: Eine neue Kategorie anlegen
      flash:
        destroy:
          success: Die Kategorie wurde gelöscht.

@@ -1,34 +1,39 @@
-<h3><%= t(:'adva.titles.manage') %></h3>
-<ul>
-  <li><%= link_to t(:'adva.titles.articles'), admin_articles_path(@site, @section), :id => 'manage_articles' %></li>
-  <li><%= link_to t(:'adva.titles.categories'), admin_categories_path(@site, @section), :id => 'manage_categories' %></li>
-  <li><%= link_to t(:'adva.titles.settings'), edit_admin_section_path(@site, @section), :id => 'manage_settings' %></li>
-</ul>
+<% content_for :sidebar do %>
+  <% fields_for :article do |f| -%>
+		<h3><%= t(:'adva.titles.manage') %></h3>
+		<ul>
+		  <li><%= link_to t(:'adva.titles.articles'), admin_articles_path(@site, @section), :id => 'manage_articles' %></li>
+		  <li><%= link_to t(:'adva.titles.categories'), admin_categories_path(@site, @section), :id => 'manage_categories' %></li>
+		  <li><%= link_to t(:'adva.titles.settings'), edit_admin_section_path(@site, @section), :id => 'manage_settings' %></li>
+		</ul>
 
-<% unless @article.new_record? -%>
-	<h3><%= t(:'adva.titles.actions') %></h3>
-	<ul>
-	  <li><%= link_to t(:'adva.articles.links.create'), new_admin_article_path(@site) %></li>
-  <li><%= link_to t(:'adva.articles.links.preview'), content_url(@article, :cl => Article.locale) %></li>
-	  <li><%= link_to t(:'adva.articles.links.delete'), admin_article_path(@site, @section, @article), { :confirm => t(:'adva.articles.confirm_delete'), :method => :delete } %></li>
-	</ul>
-<% end %>
+		<% unless @article.new_record? -%>
+			<h3><%= t(:'adva.titles.actions') %></h3>
+			<ul>
+			  <li><%= link_to t(:'adva.articles.links.create'), new_admin_article_path(@site) %></li>
+		  <li><%= link_to t(:'adva.articles.links.preview'), content_url(@article, :cl => Article.locale) %></li>
+			  <li><%= link_to t(:'adva.articles.links.delete'), admin_article_path(@site, @section, @article), { :confirm => t(:'adva.articles.confirm_delete'), :method => :delete } %></li>
+			</ul>
+		<% end %>
 
-<% if Rails.plugin?(:adva_assets) %>
-	<h3>Assets</h3>
-	<%= render :partial => 'admin/assets/widget/widget', :locals => { :assets => { :latest => @site.assets.recent, :attached => @article.assets, :bucket => bucket_assets } } %>
-<% end %>
+		<% if Rails.plugin?(:adva_assets) %>
+			<h3>Assets</h3>
+			<%= render :partial => 'admin/assets/widget/widget', :locals => { :assets => { :latest => @site.assets.recent, :attached => @article.assets, :bucket => bucket_assets } } %>
+		<% end %>
 
-<h3><%= t(:'adva.titles.optional_settings') %></h3>
-<% f.field_set :optional_settings do %>
-  <%= f.select :author, author_options, :selected => author_preselect, :label => true %>
-  <%= f.select :filter, filter_options, {}, :class => 'columnsFilter', :label => true %>
-  <%= f.select :comment_age, comment_expiration_options, :label => :'adva.titles.comments' %>
-  <%= f.text_field :permalink, :label => true, :hint => :'adva.articles.hints.permalink' unless @section.try(:single_article_mode) %>
-  <%= f.text_field :tag_list, :label => true, :hint => :'adva.articles.hints.tags' %>
-<% end %>
+		<h3><%= t(:'adva.titles.optional_settings') %></h3>
+		<% f.field_set :optional_settings do %>
+		  <%= f.select :author, author_options, :selected => author_preselect, :label => true %>
+		  <%= f.select :filter, filter_options, {}, :class => 'columnsFilter', :label => true %>
+		  <%= f.select :comment_age, comment_expiration_options, :label => :'adva.titles.comments' %>
+		  <%= f.text_field :permalink, :label => true, :hint => :'adva.articles.hints.permalink' unless @section.try(:single_article_mode) %>
+		  <%= f.text_field :tag_list, :label => true, :hint => :'adva.articles.hints.tags' %>
+		<% end %>
 
-<% unless @categories.empty? %>
-  <h4><%= t(:'adva.titles.publish_in_categories') %></h4>
-  <%= render :partial => 'categories/checkboxes', :locals => { :categories => @categories, :content => @article } %>
+		<% unless @categories.empty? %>
+		  <h4><%= t(:'adva.titles.publish_in_categories') %></h4>
+		  <%= render :partial => 'categories/checkboxes', :locals => { :categories => @categories, :content => @article } %>
+		<% end %>
+  <% end %>
 <% end %>
+		

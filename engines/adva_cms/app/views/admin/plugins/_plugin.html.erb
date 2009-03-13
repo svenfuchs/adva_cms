@@ -1,6 +1,6 @@
-<tr id="<%= dom_id plugin %>" class="<%= cycle("odd","even") %>">
+<tr id="<%= dom_id plugin %>" class="<%= cycle("odd", "even") %>">
   <td>
-    <%= link_to plugin.name, admin_plugin_path(@site, plugin) %>
+		<%= view_resource_link(plugin, admin_plugin_path(@site, plugin), :text => plugin.name) %>
   </td>
   <td>
     <%= plugin.about['version'] %>

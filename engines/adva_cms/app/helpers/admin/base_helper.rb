@@ -1,34 +1,40 @@
 # TODO move this to the base_helper?
 
 module Admin::BaseHelper
-  def new_admin_content_path(section)
+  def new_admin_content_path(section, options = {})
     type = section.class.content_type.gsub('::', '_').underscore.downcase
-    send :"new_admin_#{type}_path", section.site, section
+    send :"new_admin_#{type}_path", section.site, section, options
   end
 
-  def edit_admin_content_path(content)
+  def edit_admin_content_path(content, options = {})
     type = content.section.class.content_type.gsub('::', '_').underscore.downcase
-    send :"edit_admin_#{type}_path", content.site, content.section, content
+    send :"edit_admin_#{type}_path", content.site, content.section, content, options
   end
   
-  def view_resource_link(resource, path, options={})
+  def view_resource_link(resource, path, options = {})
     text = options.delete(:text) || t(:'adva.resources.view')
     resource_link text, path, options.reverse_merge(:class => 'view', :id => "view_#{resource_class(resource)}_#{resource.id}")
   end
 
-  def edit_resource_link(resource, path, options={})
+  def new_resource_link(resource_class, path, options = {})
+    # FIXME make these aware of translations like t(:'adva.categories.links.new')
+    text = options.delete(:text) || t(:'adva.resources.new')
+    resource_link text, path, options.reverse_merge(:class => 'new', :id => "new_#{resource_class}")
+  end
+
+  def edit_resource_link(resource, path, options = {})
     text = options.delete(:text) || t(:'adva.resources.edit')
     resource_link text, path, options.reverse_merge(:class => 'edit', :id => "edit_#{resource_class(resource)}_#{resource.id}")
   end
 
-  def delete_resource_link(resource, path, options={})
+  def delete_resource_link(resource, path, options = {})
     text = options.delete(:text) || t(:'adva.resources.delete')
     klass = resource_class(resource)
     options.reverse_merge!(:class => 'delete', :id => "delete_#{klass}_#{resource.id}", :confirm => t(:"adva.#{klass.pluralize}.confirm_delete"), :method => :delete)
     resource_link text, path, options
   end
 
-  def save_or_cancel_links(builder, options={})
+  def save_or_cancel_links(builder, options = {})
     save_text   = options.delete(:save_text)   || t(:'adva.common.save')
     or_text     = options.delete(:or_text)     || t(:'adva.common.connector.or')
     cancel_text = options.delete(:cancel_text) || t(:'adva.common.cancel')
@@ -78,8 +84,8 @@ module Admin::BaseHelper
   end
 
   def content_translation_links(content, view)
-    content.translated_locales.map { |tl|
-      link_to tl, edit_admin_article_url(content.site, content.section, content, :cl => tl)
+    content.translated_locales.map { |locale|
+      link_to locale, edit_admin_content_path(content, :cl => locale)
     }.join(', ')
   end
 
@@ -88,7 +94,7 @@ module Admin::BaseHelper
     resource.class.to_s.tableize.singularize
   end
 
-  def resource_link(text, path, options={})
+  def resource_link(text, path, options = {})
     link_to text, path, options
   end
 end

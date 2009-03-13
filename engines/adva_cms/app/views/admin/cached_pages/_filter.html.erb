@@ -1,4 +1,8 @@
-<% form_tag admin_cached_pages_path, :method => 'get', :id => 'cached_pages_search' do -%>
-  <label for="search" class="inline"><%= t(:'adva.cached_pages.filter.show_cached_pages') %></label>
-  <%= text_field_tag 'query', params[:query], :id => 'query' %>
+<% content_for :filter do -%>
+	<% form_tag admin_cached_pages_path, :method => 'get', :id => 'cached_pages_search' do -%>
+	  <label for="search" class="inline"><%= t(:'adva.cached_pages.filter.show_cached_pages') %></label>
+	  <%= text_field_tag 'query', params[:query], :id => 'query' %>
+	<% end -%>
 <% end -%>
+
+

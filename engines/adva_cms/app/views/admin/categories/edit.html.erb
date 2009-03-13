@@ -3,7 +3,7 @@
 <% content_for :sidebar do -%>
 	<h3><%= t(:'adva.titles.actions') %></h3>
 	<ul>
-	  <li><%= link_to t(:'adva.categories.links.create'), new_admin_category_path %></li>
+	  <li><%= new_resource_link(Category, new_admin_category_path, :text => t(:'adva.categories.links.new')) %></li>
 	  <li><%= delete_resource_link(@category, admin_category_path) %></li>
 	</ul>
 <% end %>
