@@ -57,7 +57,7 @@ namespace :adva do
     %w(engines plugins).each do |type|
       if ENV[type]
         names = ENV[type] == 'all' ? all(type) : ENV[type].split(',')
-        # names -= core if ENV[type] == 'all' && method == :uninstall
+        names -= core if ENV[type] == 'all' && method == :uninstall
         names -= except
         send(method, type, names) unless ENV[type].nil?
       end

@@ -125,6 +125,11 @@ these are equivalent:
 
 	rake adva:install:all
 	rake adva:install engines=all plugins=all
+	
+When the "all" keyword is used with the uninstall task this only applies to 
+all engines and plugins except the adva-cms core engines. To uninstall these
+you can still simply delete the symlinks (directories on Windows) from 
+vendor/plugins.
 
 NOTE please note that right now assets not copied to public/ when engines are
 installed and they are not removed from public/ when engines are uninstalled.
@@ -144,16 +149,21 @@ initializers in adva-cms engines/plugins, e.g. in
 	vendor/plugins/adva_cms/config/initializers/*
 
 
-Development
-===========
+Running tests
+=============
 
-Please check out /doc directory for high level overview about adva-cms.
- 
 Running tests for adva-cms version 0.1.2 or newer:
+
   rake db:test:clone       			# Clones from your development database to test database
   ruby script/test-adva-cms -p 	# Prepares the database and runs all adva-cms tests
   ruby script/test-adva-cms    	# Runs all adva-cms tests without preparing the database
-  ruby script/test-adva-cms vendor/adva/engines/adva_wiki # Runs only adva_wiki tests
+  ruby script/test-adva-cms vendor/plugins/adva_wiki # Runs only adva_wiki tests
+
+Please check out /doc directory for high level overview about adva-cms.
+
+ 
+Development
+===========
 
 Please report bugs to Lighthouse: 
   http://artweb-design.lighthouseapp.com/projects/13992-adva_cms/overview
