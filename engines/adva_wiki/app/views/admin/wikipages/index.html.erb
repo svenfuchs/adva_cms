@@ -16,22 +16,24 @@
   <p class="total">
     Total: <%= content_tag :strong, t(:'adva.common.wikipage', :count => @wikipages.total_entries) %>.
   </p>
-  <table id="wikipages" class="list" cellspacing="0" cellpadding="0">
+  <table>
     <thead>
       <tr>
-        <th scope="col"><%= t(:'adva.common.wikipage', :count => 1) %></th>
-        <th scope="col"><%= t(:'adva.common.version') %></th>
-        <th scope="col"><%= t(:'adva.common.last_updated') %></th>
-        <th scope="col"><%= t(:'adva.common.by') %></th>
-        <th scope="col"><%= t(:'adva.common.comments') %></th>
-        <th scope="col"></th>
+        <th><%= t(:'adva.common.wikipage', :count => 1) %></th>
+        <th><%= t(:'adva.common.version') %></th>
+        <th><%= t(:'adva.common.last_updated') %></th>
+        <th><%= t(:'adva.common.by') %></th>
+        <th><%= t(:'adva.common.comments') %></th>
+        <th></th>
       </tr>
     </thead>
-    <tbody id="wikipages_body">
+    <tbody>
       <%= render :partial => 'wikipage', :collection => @wikipages %>
     </tbody>
   </table>
+
   <%= will_paginate @wikipages, :id => 'pagination' %>
+
   <script type="text/javascript">
     var wikipages_list = new WikipagesList($('wikipages_body'), {
       onUpdate: function(drag, drop, event) {
@@ -43,8 +45,10 @@
       }
     });
   </script>
+
 <% else -%>
-  <div class="empty" style="margin-bottom:20px">
+
+  <div class="empty">
     <% unless params[:filter] -%>
       <%= t(:'adva.wikipage.view.index.no_wikipages_notice') %>
       <%= link_to t(:'adva.wikipage.view.index.link_to_create_one_now'), new_admin_wikipage_path(@site) %>

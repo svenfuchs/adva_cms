@@ -15,9 +15,7 @@
 
 <h2><%= t(:'adva.titles.themes') %></h2>
 <% unless @themes.empty? -%>
-  <ul id="theme_list">
-    <%= render :partial => 'theme', :collection => @themes %>
-  </ul>
+  <%= render :partial => 'theme', :collection => @themes %>
 <% else -%>
   <div class="empty">
     <%= t(:'adva.themes.no_themes_available') %>

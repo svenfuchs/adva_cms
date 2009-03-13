@@ -1,26 +1,29 @@
-<h3><%= t(:'adva.titles.manage') %></h3>
-<ul>
-  <li><%= link_to t(:'adva.photos.common.photos'), admin_photos_path(@site, @section), :id => 'manage_photos' %></li>
-	<li><%= link_to t(:'adva.photos.common.sets'), admin_sets_path(@site, @section), :id => 'manage_sets' %></li>
-  <li><%= link_to t(:'adva.photos.common.settings'), edit_admin_section_path(@site, @section), :id => 'manage_settings' %></li>
-</ul>
+<% fields_for :photo do |f| -%>
+	<h3><%= t(:'adva.titles.manage') %></h3>
+	<ul>
+	  <li><%= link_to t(:'adva.photos.common.photos'), admin_photos_path(@site, @section), :id => 'manage_photos' %></li>
+		<li><%= link_to t(:'adva.photos.common.sets'), admin_sets_path(@site, @section), :id => 'manage_sets' %></li>
+	  <li><%= link_to t(:'adva.photos.common.settings'), edit_admin_section_path(@site, @section), :id => 'manage_settings' %></li>
+	</ul>
 
-<% unless @photo.new_record? -%>
-<h3><%= t(:'adva.titles.actions') %></h3>
-<ul>
-  <li><%= link_to t(:'adva.photos.admin.photos.upload_photo'), new_admin_photo_path(@site, @section) %></li>
-  <li><%= link_to t(:'adva.photos.admin.photos.delete_photo'), admin_photo_path(@site, @section, @photo), { :confirm => t(:'adva.photos.admin.photos.delete_photo_confirmation'), :method => :delete } %></li>
-</ul>
-<% end -%>
+	<% if @photo.exists? -%>
+		<h3><%= t(:'adva.titles.actions') %></h3>
+		<ul>
+		  <li><%= link_to t(:'adva.photos.admin.photos.upload_photo'), new_admin_photo_path(@site, @section) %></li>
+		  <li><%= link_to t(:'adva.photos.admin.photos.delete_photo'), admin_photo_path(@site, @section, @photo), { :confirm => t(:'adva.photos.admin.photos.delete_photo_confirmation'), :method => :delete } %></li>
+		</ul>
+	<% end -%>
 
-<h3><%= t(:'adva.titles.optional_settings') %></h3>
-<% f.field_set :optional_settings do %>
-  <%= f.select :author, author_options, :selected => author_preselect, :label => true %>
-  <%= f.select :comment_age, comment_expiration_options, :label => :'adva.titles.comments' %>
-  <%= f.text_field :tag_list, :label => 'Tags', :hint => :'adva.articles.hints.tags' %>
+	<h3><%= t(:'adva.titles.optional_settings') %></h3>
+	<% f.field_set :optional_settings do %>
+	  <%= f.select :author, author_options, :selected => author_preselect, :label => true %>
+	  <%= f.select :comment_age, comment_expiration_options, :label => :'adva.titles.comments' %>
+	  <%= f.text_field :tag_list, :label => 'Tags', :hint => :'adva.articles.hints.tags' %>
 
-	<% unless @sets.empty? %>
-  	<h4><%= t(:'adva.photos.admin.photos.publish_in_set') %></h4>
-    <%= render :partial => 'sets/checkboxes', :locals => {:sets => @sets, :photo => @photo} %>
+		<% unless @sets.empty? %>
+	  	<h4><%= t(:'adva.photos.admin.photos.publish_in_set') %></h4>
+	    <%= render :partial => 'sets/checkboxes', :locals => {:sets => @sets, :photo => @photo} %>
+		<% end %>
 	<% end %>
 <% end %>
+	
