@@ -2,22 +2,19 @@
 <%= render :partial => 'filter' %>
 
 <% if @cached_pages.size > 0 -%>
-  <p class="total">
-    <%= t(:'adva.cached_pages.total_with_count', :count => @cached_pages.total_entries) %>
-  </p>
+  <%= content_tag :p, t(:'adva.cached_pages.total_with_count', :count => @cached_pages.total_entries), :class => 'total' %>
 
-  <table>
-    <thead>
-      <tr>
-        <th>URL</th>
-        <th>Date</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <%= render :partial => 'cached_page', :collection => @cached_pages %>
-    </tbody>
-  </table>
+	<% 
+		table_for @cached_pages do |t|
+		  t.columns :url, :cached_at, :actions
+			t.body do |r, cached_page, index|
+	  		r.cell page_cached_at(cached_page)
+				r.cell link_to_remote(t(:'adva.titles.clear'), :url => admin_cached_page_path(@site, cached_page), :method => :delete) +
+               "<span>#{t(:'adva.cached_pages.confirmation.cleared_short')}</span>"
+
+			end
+		end 
+	%>
 
   <%= will_paginate @articles, :id => 'pagination' %>
 

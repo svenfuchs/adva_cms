@@ -1,3 +1,54 @@
+TableBuilder.defaults['table']['class'] = 'list'
+TableBuilder.defaults['i18n']['scope'] = 'adva'
+
+table_for @articles, :id => 'articles', :class => 'list' do |t|
+	t.columns :title, :comments, :published, :author, nil
+	t.body do |row, record, index|
+	  row.cells record.title, comments_cell(record), published_at_cell(record), resource_links(record)
+  end
+end
+
+table_for @articles, :id => 'articles', :class => 'list' do |t|
+	t.column :title, :class => 'that-title'
+	t.column :comments
+	t.column :published
+	t.column :author
+	t.column nil
+	
+	t.body do |row, record, index|
+	  row.cell record.title
+	  row.cell comments_cell(record)
+	  row.cell published_at_cell(record)
+	  row.cell resource_links(record)
+  end
+end
+
+
+table_for @cached_pages do |t|
+  t.columns :url, :cached_at, :actions
+	t.body do |row, record, index|
+	  row.cell record.url
+	  row.cell page_cached_at(record)
+		row.cell link_to(t(:'adva.titles.clear'), admin_cached_page_path(@site, record), :method => :delete) +
+		         "<span>#{t(:'adva.cached_pages.confirmation.cleared_short')}</span>"
+  end
+end
+
+table_for @cached_pages do |t|
+  t.column :url
+	t.column :cached_at, :value => lambda { |record| page_cached_at(record) }
+	t.column :actions,   :value => lambda { |record| 
+		link_to(t(:'adva.titles.clear'), admin_cached_page_path(@site, record), :method => :delete) +
+		"<span>#{t(:'adva.cached_pages.confirmation.cleared_short')}</span>"
+  }
+end
+
+I18n.t(:'adva.articles.columns.title')
+I18n.t(:'activerecord.models.articles.attributes.title') # Model.human_attribute_name(attribute)
+
+------------------------------------------------------------------------------
+
+
 compare what scrooge is doing to observe active_records to what our cache_references
 plugin is doing: http://github.com/methodmissing/scrooge/tree/master
 

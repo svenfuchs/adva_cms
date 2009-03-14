@@ -15,3 +15,5 @@ ActiveRecord::Base.observers << 'activities/wikipage_observer' if Rails.plugin?(
 I18n.load_path += Dir[File.dirname(__FILE__) + '/locale/**/*.yml']
 
 register_stylesheet_expansion :admin => %w( adva_activity/admin/activities )
+
+

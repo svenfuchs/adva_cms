@@ -16,17 +16,16 @@
     <%= t(:'adva.photos.admin.sets.total', :total_entries => @sets.total_entries) %>
   </p>
 
-  <table>
-    <thead>
-      <tr>
-        <th><%= t(:'adva.photos.common.title') %></th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <%= render :partial => 'set', :collection => @sets %>
-    </tbody>
-  </table>
+	<%
+		table_for @sets do |t|
+			t.columns :title, :actions
+			t.body do |r, photo, index|
+	  		r.cell link_to(photo.title, edit_admin_set_path(@site, @section, object))
+				r.cell edit_resource_link(object, edit_admin_set_path(@site, @section, object)) + "\n" +
+				       delete_resource_link(object, admin_set_path(@site, @section, object), :confirm => t(:'adva.photos.admin.sets.delete_confirmation'))
+			end
+		end
+	%>
 
   <script>
     var sets_tree = new SortableTree('sets', {

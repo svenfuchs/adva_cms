@@ -236,6 +236,8 @@ en:
       no_filtered_articles: "There are no articles matching that criteria in {{section}}"
       attribution: "by: {{author}}"
     categories:
+      columns:
+        name: Name
       attributes:
         name: name
       titles:
@@ -265,6 +267,11 @@ en:
     contents:
       not_published: not published
     articles:
+      columns:
+        article: Article
+        comments: Comments
+        published: Published
+        author: Author
       translation_links: "This article has these translations: {{locales}}"
       locale_for_record: "Locale for this article: "
       write_article: Write your article
@@ -305,6 +312,10 @@ en:
       attributes:
         excerpt: excerpt
     cached_pages:
+      columns:
+        url: URL
+        cached_at: Cached
+        actions: Actions
       no_entries: There currently aren't any pages being cached.
       confirmation:
         cleared: This page has been removed from the cache.
