@@ -14,17 +14,16 @@
     <%= t(:'adva.categories.total_with_count', :count => @categories.total_entries) %>
   </p>
 
-  <table>
-    <thead>
-      <tr>
-        <th><%= t(:'adva.categories.attributes.name') %></th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <%= render :partial => 'category', :collection => @categories %>
-    </tbody>
-  </table>
+	<% 
+		table_for @categories do |t|
+			t.columns :name, :actions
+			t.body do |r, category, index|
+	  		r.cell link_to(category.title, edit_admin_category_path(@site, @section, record))
+				r.cell edit_resource_link(category, edit_admin_category_path(@site, @section, record)) + "\n" +
+				       delete_resource_link(category, admin_category_path(@site, @section, record))
+			end
+		end 
+	%>
 
   <script>
     var categories_list = new SortableList('categories', {

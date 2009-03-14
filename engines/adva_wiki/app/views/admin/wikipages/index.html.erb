@@ -16,22 +16,24 @@
   <p class="total">
     Total: <%= content_tag :strong, t(:'adva.common.wikipage', :count => @wikipages.total_entries) %>.
   </p>
-  <table>
-    <thead>
-      <tr>
-        <th><%= t(:'adva.common.wikipage', :count => 1) %></th>
-        <th><%= t(:'adva.common.version') %></th>
-        <th><%= t(:'adva.common.last_updated') %></th>
-        <th><%= t(:'adva.common.by') %></th>
-        <th><%= t(:'adva.common.comments') %></th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <%= render :partial => 'wikipage', :collection => @wikipages %>
-    </tbody>
-  </table>
 
+	<%
+		table_for @wikipages do |t|
+			t.columns :wikipage, :version, :last_updated, :by, :comments, :actions
+			t.body do |r, wikipage, index|
+	  		r.cell link_to wikipage.title, edit_admin_wikipage_path(@site, @section, wikipage)
+				r.cell wikipage.version
+				r.cell wikipage.updated_at.strftime('%d.%m.%Y %H:%M')
+				r.cell link_to(wikipage.author_link, admin_site_user_path(@site, wikipage.author))
+				r.cell !wikipage.comments.empty? ? link_to(wikipage.comments.size, admin_comments_path(:content_id => wikipage.id)) : 'none'
+				r.cell wikipage.version
+				r.cell view_resource_link(wikipage, wikipage_path(@section.id, wikipage.permalink)) + "\n" +
+				       edit_resource_link(wikipage, edit_admin_wikipage_path(@site, @section, wikipage)) + "\n" +
+				       delete_resource_link(wikipage, admin_wikipage_path(@site, @section, wikipage), :confirm => t(:'adva.wikipage.view._wikipages.confirm_delete'))
+			end
+		end
+	%>
+	
   <%= will_paginate @wikipages, :id => 'pagination' %>
 
   <script type="text/javascript">

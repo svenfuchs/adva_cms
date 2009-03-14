@@ -18,21 +18,20 @@
     <%= t(:'adva.photos.admin.photos.total', :total_entries => @photos.total_entries) %>
   </p>
 
-  <table>
-    <thead>
-      <tr>
-        <th><%= t(:'adva.photos.common.title') %></th>
-        <th><%= t(:'adva.photos.name') %></th>
-        <th><%= t(:'adva.photos.common.comments') %></th>
-        <th><%= t(:'adva.photos.common.published') %></th>
-        <th><%= t(:'adva.photos.common.author') %></th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <%= render :partial => 'photo', :collection => @photos %>
-    </tbody>
-  </table>
+	<%
+		table_for @photos do |t|
+			t.columns :title, :name, :comments, :published, :author, :actions
+			t.body do |r, photo, index|
+	  		r.cell link_to(photo.title, edit_admin_photo_path(@site, @section, photo), :class => photo.state)
+				r.cell link_to(image_tag(photo.base_url(:tiny)), photo.filename, :target => '_blank')
+				r.cell photo.accept_comments? && !photo.comments.empty? ? link_to(photo.comments.size, admin_comments_path) : t(:"adva.common.none")
+				r.cell published_at_formatted(photo)
+				r.cell link_to h(photo.author_name), admin_site_user_path(@site, photo.author) + "\n" +
+				       edit_resource_link(photo, edit_admin_photo_path(@site, @section, photo)) + "\n" +
+				       delete_resource_link(photo, admin_photo_path(@site, @section, photo), :confirm => t(:'adva.photos.admin.photos.delete_photo_confirmation'))
+			end
+		end
+	%>
 
   <%= will_paginate @photos, :id => 'pagination' %>
 

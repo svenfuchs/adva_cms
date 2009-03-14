@@ -1,7 +1,0 @@
-<tr id="<%= dom_id object %>">
-  <td><%= link_to object.title, edit_admin_set_path(@site, @section, object) %></td>
-  <td class="actions">
-    <%= edit_resource_link(object, edit_admin_set_path(@site, @section, object)) %>
-    <%= delete_resource_link(object, admin_set_path(@site, @section, object), :confirm => t(:'adva.photos.admin.sets.delete_confirmation')) %>
-  </td>
-</tr>

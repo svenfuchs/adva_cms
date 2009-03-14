@@ -5,32 +5,23 @@
 <% end %>
 
 <% unless @sites.empty? %>
-  <table>
-    <thead>
-      <tr>
-        <th><%= t(:'adva.sites.attributes.name') %></th>
-        <th><%= t(:'adva.sites.attributes.host') %></th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-    <% @sites.each do |site| -%>
-      <tr>
-        <td><%= link_to site.name, admin_site_path(site) %></td>
-        <td><%= site.host %></td>
-        <td>
-          <%= view_resource_link(site, "http://#{site.host}") %>
-          <%= edit_resource_link(site, edit_admin_site_path(site), :text => t(:'adva.resources.settings')) %>
-          <%= delete_resource_link(site, admin_site_path(site)) %>
-        </td>
-      </tr>
-    <% end -%>
-    </tbody>
-  </table>
+
+	<%
+		table_for @sites do |t|
+			t.columns :name, :host, :actions
+			t.body do |r, site, index|
+	  		r.cell link_to(site.name, admin_site_path(site))
+				r.cell site.host
+				r.cell view_resource_link(site, "http://#{site.host}") + "\n" +
+				       edit_resource_link(site, edit_admin_site_path(site), :text => t(:'adva.resources.settings')) + "\n" +
+				       delete_resource_link(site, admin_site_path(site))
+			end
+		end
+	%>
 
   <%= will_paginate @sites, :id => 'pagination' %>
 
-<% else %>  
+<% else %>
 
   <div class="empty">
     <%= t(:'adva.sites.no_sites') %>

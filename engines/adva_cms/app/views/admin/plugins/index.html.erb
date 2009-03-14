@@ -1,28 +1,19 @@
 <%= render :partial => 'action_nav' %>
 
 <% if @plugins.size > 0 -%>
-  <table>
-    <thead>
-      <tr>
-        <th>
-					<%= t(:'adva.plugins.attributes.name') %>
-				</th>
-        <th>
-					<%= t(:'adva.plugins.attributes.version') %>
-				</th>
-        <th>
-					<%= t(:'adva.plugins.attributes.author') %>
-				</th>
-        <th>
-					<%= t(:'adva.plugins.attributes.homepage') %>
-				</th>
-      </tr>
-    </thead>
-    <tbody>
-      <%= render :partial => 'plugin', :collection => @plugins %>
-    </tbody>
-  </table>
-  
+
+	<% 
+		table_for @plugins do |t|
+			t.columns :name, :version, :author, :homepage
+			t.body do |r, plugin, index|
+	  		r.cell view_resource_link(plugin, admin_plugin_path(@site, plugin), :text => plugin.name)
+				r.cell plugin.about['version']
+				r.cell plugin.about['author']
+				r.cell plugin.about['homepage']
+			end
+		end 
+	%>
+
 <% else %>
   <div class="empty">
     <%= t(:'adva.plugins.no_plugins_installed') %>
