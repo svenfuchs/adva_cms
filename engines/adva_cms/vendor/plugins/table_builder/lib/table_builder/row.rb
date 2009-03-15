@@ -1,28 +1,28 @@
 module TableBuilder
   class Row < Tag
-    def self.level; 2 end
-
-    def initialize(parent = nil, columns = [], index = 0, options = {})
-      add_class!(options, 'alternate') if index % 2 == 1
-      super(:tr, parent, options)
+    self.level = 2
+    self.tag_name = :tr
+    
+    def initialize(parent, record = nil, options = {}, &block)
+      super(parent, options)
 
       @parent = parent
-      @columns = columns
-      @index = index
       @cells = []
-    end
-    
-    def cells(*contents)
-      contents.each do |content| cell(content) end
+      @block = block
+
+      yield(*[self, record].compact) if block_given?
     end
 
-    def cell(content, options = {})
+    def cell(*contents)
+      options = contents.last.is_a?(Hash) ? contents.pop : {}
       add_class!(options, current_column_class) if parent.is_a?(Body)
-      @cells << Cell.new(self, content, options)
+      contents.each do |content|
+        @cells << Cell.new(self, content, options)
+      end
     end
 
-    def to_html
-      super(@cells.map(&:to_html))
+    def render
+      super(@cells.map(&:render))
     end
     
     protected
@@ -33,7 +33,8 @@ module TableBuilder
       end
       
       def current_column_class
-        @columns[@cells.count].options[:class] || ''
+        column = table.columns[@cells.count]
+        column && column.options[:class] || '' 
       end
   end
 end

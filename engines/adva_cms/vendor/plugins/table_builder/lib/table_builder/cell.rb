@@ -1,16 +1,21 @@
 module TableBuilder
   class Cell < Tag
-    def self.level; 3 end
-    
+    self.level = 3
+
     attr_reader :content
 
     def initialize(parent, content = nil, options = {})
-      super(parent.head? ? :th : :td, parent, options)
+      super(parent, options)
       @content = content
+      options[:colspan] = table.columns.size if options[:colspan] == :all
     end
 
-    def to_html
+    def render
       super(content)
+    end
+
+    def tag_name
+      parent.head? ? :th : :td 
     end
   end
 end

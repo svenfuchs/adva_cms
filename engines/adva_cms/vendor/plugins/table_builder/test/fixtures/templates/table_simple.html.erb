@@ -1,7 +1,7 @@
-<% table_for @articles do |t|
-	t.columns :id, :title
+<% table_for @articles do |table|
+	table.column :id, :title
 	
-	t.body do |row, record, index|
-	  row.cells record.id, record.title
+	table.row do |row, record|
+	  row.cell record.id, record.title
   end
 end %>

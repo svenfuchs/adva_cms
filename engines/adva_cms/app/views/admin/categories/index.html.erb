@@ -9,37 +9,23 @@
   </ul>
 <% end -%>
 
-<% unless @categories.empty? %>
-  <p class="total">
-    <%= t(:'adva.categories.total_with_count', :count => @categories.total_entries) %>
-  </p>
+<% 
+	table_for @categories do |t|
+		t.column :name, :actions
 
-	<% 
-		table_for @categories do |t|
-			t.columns :name, :actions
-			t.body do |r, category, index|
-	  		r.cell link_to(category.title, edit_admin_category_path(@site, @section, record))
-				r.cell edit_resource_link(category, edit_admin_category_path(@site, @section, record)) + "\n" +
-				       delete_resource_link(category, admin_category_path(@site, @section, record))
-			end
-		end 
-	%>
+		t.head.row do |r|
+			r.cell t(:'adva.categories.total_with_count', :count => @categories.total_entries), :class => :total, :colspan => :all
+		end
+		
+		t.row do |r, category|
+  		r.cell link_to(category.title, edit_admin_category_path(@site, @section, category))
+			r.cell edit_resource_link(category, edit_admin_category_path(@site, @section, category)) + "\n" +
+			       delete_resource_link(category, admin_category_path(@site, @section, category))
+		end
 
-  <script>
-    var categories_list = new SortableList('categories', {
-      onUpdate: function(drag, drop, event) {
-        <%= remote_function(:url => admin_categories_path(@site),
-                            :method =>   :put,
-                            :with   =>   "categories_list.serialize()",
-                            :loading =>  "$('categories_indicator').show()",
-                            :complete => "$('categories_indicator').hide()" ) %>
-      }
-    });
-  </script>
-  
-<% else %>
-  <div class="empty">
-    <%= t(:'adva.categories.no_categories_in_section', :section => @section.title) %>
-		<%= new_resource_link(Category, new_admin_category_path(@site, @section), :text => t(:'adva.categories.links.create_now')) %>
-  </div>
-<% end %>
+		t.empty :p, :class => 'empty' do
+	    t(:'adva.categories.no_categories_in_section', :section => @section.title) + "\n" +
+			new_resource_link(Category, new_admin_category_path(@site, @section), :text => t(:'adva.categories.links.create_now'))
+		end
+	end 
+%>

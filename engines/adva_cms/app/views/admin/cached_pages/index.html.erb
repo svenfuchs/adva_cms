@@ -1,27 +1,27 @@
 <%= render :partial => "action_nav" %>
 <%= render :partial => 'filter' %>
 
-<% if @cached_pages.size > 0 -%>
-  <%= content_tag :p, t(:'adva.cached_pages.total_with_count', :count => @cached_pages.total_entries), :class => 'total' %>
+<% 
+	table_for @cached_pages do |t|
+	  t.column :url, :cached_at, :actions
 
-	<% 
-		table_for @cached_pages do |t|
-		  t.columns :url, :cached_at, :actions
-			t.body do |r, cached_page, index|
-	  		r.cell page_cached_at(cached_page)
-				r.cell link_to_remote(t(:'adva.titles.clear'), :url => admin_cached_page_path(@site, cached_page), :method => :delete) +
-               "<span>#{t(:'adva.cached_pages.confirmation.cleared_short')}</span>"
+		t.head.row do |r|
+			r.cell t(:'adva.cached_pages.total_with_count', :count => @cached_pages.total_entries), :class => :total, :colspan => :all
+		end
 
-			end
-		end 
-	%>
+		t.row do |r, cached_page|
+  		r.cell page_cached_at(cached_page)
+			r.cell link_to_remote(t(:'adva.titles.clear'), :url => admin_cached_page_path(@site, cached_page), :method => :delete) +
+              "<span>#{t(:'adva.cached_pages.confirmation.cleared_short')}</span>"
 
-  <%= will_paginate @articles, :id => 'pagination' %>
+		end
+		
+		t.foot.row do |r|
+			r.cell will_paginate(@cached_pages), :class => :pagination, :colspan => :all
+		end
 
-<% else %>
-
-  <div class="empty">
-    <%= t(params[:query].blank? ? :'adva.cached_pages.no_entries' : :'adva.cached_pages.no_entries_matching_criteria') %>
-  </div>
-
-<% end %>
+		t.empty :p, :class => 'empty' do
+			t(params[:query].blank? ? :'adva.cached_pages.no_entries' : :'adva.cached_pages.no_entries_matching_criteria')
+		end
+	end 
+%>

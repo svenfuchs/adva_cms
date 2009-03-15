@@ -5,25 +5,28 @@
 
 <% unless @newsletters.empty? %>
   <p class="total">
-    <%= t(:'adva.newsletter.total_newsletters', :newsletters_count => @site.newsletters.size) %>
+    <%=  %>
   </p>
 
-	<%
-		table_for @newsletters do |t|
-			t.columns :name, :issues, :subscribers, :actions
-			t.body do |r, newsletter, index|
-	  		r.cell link_to(newsletter.title, admin_issues_path(@site, newsletter), :class => newsletter.state)
-				r.cell link_to(newsletter.issues_count, admin_issues_path(@site, newsletter))
-				r.cell link_to(newsletter.subscriptions_count, admin_subscriptions_path(@site, newsletter))
-				r.cell edit_resource_link(newsletter, edit_admin_newsletter_path(@site, newsletter)) + "\n" +
-				       delete_resource_link(newsletter, admin_newsletter_path(@site, newsletter))
-			end
+<%
+	table_for @newsletters do |t|
+		t.column :name, :issues, :subscribers, :actions
+
+		t.head.row do |r|
+			r.cell t(:'adva.newsletter.total_newsletters', :newsletters_count => @site.newsletters.size), :class => :total, :colspan => :all
 		end
-	%>
-	
-<% else %>
-  <div class="empty">
-    <%= t(:'adva.newsletter.no_newsletters') %>
-    <%= link_to t(:'adva.newsletter.link.new'), new_admin_newsletter_path(@site) %>
-  </div>
-<% end %>
+		
+		t.row do |r, newsletter|
+  		r.cell link_to(newsletter.title, admin_issues_path(@site, newsletter), :class => newsletter.state)
+			r.cell link_to(newsletter.issues_count, admin_issues_path(@site, newsletter))
+			r.cell link_to(newsletter.subscriptions_count, admin_subscriptions_path(@site, newsletter))
+			r.cell edit_resource_link(newsletter, edit_admin_newsletter_path(@site, newsletter)) + "\n" +
+			       delete_resource_link(newsletter, admin_newsletter_path(@site, newsletter))
+		end
+
+		t.empty :p, :class => 'empty' do
+			t(:'adva.newsletter.no_newsletters') + "\n" + 
+			link_to(t(:'adva.newsletter.link.new'), new_admin_newsletter_path(@site))
+		end
+	end
+%>

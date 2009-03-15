@@ -3,27 +3,25 @@
   <%= render :partial => 'sidebar_actions' %>
 <% end %>
 
-<% @newsletter.issues_count == 0 %>
-	<p class="total"><%= t(:'adva.newsletter.total_issues', :issues_count => @newsletter.issues_count) %></p>
-	
-	<%
-		table_for @newsletter.issues do |t|
-			t.columns :name, :created_at, :actions
-			t.body do |r, issue, index|
-	  		r.cell link_to(h(issue.title), admin_issue_path(@site, @newsletter, issue), :class => issue.state)
-				r.cell issue.created_at.to_s(:db)
-				r.cell view_resource_link(issue, admin_issue_path(@site, @newsletter, issue)) + "\n" +
-				       edit_resource_link(issue, edit_admin_issue_path(@site, @newsletter, issue)) + "\n" +
-				       delete_resource_link(issue, admin_issue_path(@site, @newsletter, issue))
-			end
+<%
+	table_for @newsletter.issues do |t|
+		t.column :name, :created_at, :actions
+
+		t.head.row do |r|
+			r.cell t(:'adva.newsletter.total_issues', :issues_count => @newsletter.issues_count), :class => :total, :colspan => :all
 		end
-	%>
-	
-<% else %>
 
-  <div class="empty">
-    <%= t(:'adva.newsletter.no_issues') %>
-    <%= link_to t(:'adva.newsletter.link.new_issue'), new_admin_issue_path(@site, @newsletter) %>
-  </div>
+		t.row do |r, issue|
+  		r.cell link_to(h(issue.title), admin_issue_path(@site, @newsletter, issue), :class => issue.state)
+			r.cell issue.created_at.to_s(:db)
+			r.cell view_resource_link(issue, admin_issue_path(@site, @newsletter, issue)) + "\n" +
+			       edit_resource_link(issue, edit_admin_issue_path(@site, @newsletter, issue)) + "\n" +
+			       delete_resource_link(issue, admin_issue_path(@site, @newsletter, issue))
+		end
 
-<% end %>
+		t.empty :p, :class => 'empty' do
+			t(:'adva.newsletter.no_issues') + "\n" + 
+			link_to(t(:'adva.newsletter.link.new_issue'), new_admin_issue_path(@site, @newsletter))
+		end
+	end
+%>

@@ -1,27 +1,23 @@
 <h2><%= t(:'adva.titles.boards') %></h2>
 
-<% unless @boards.empty? -%>  
+<%
+	table_for @boards do |t|
+		t.column :board, :description, :topics, :posts, :actions
 
-	<%
-		table_for @boards do |t|
-			t.columns :board, :description, :topics, :posts, :actions
-			t.body do |r, board, index|
-				r.cell link_to(board.title, forum_board_path(@section, board))
-				r.cell board.description
-				r.cell board.topics_count
-				r.cell board.posts_count
-				r.cell edit_resource_link(board, edit_admin_board_path(@site, @section, board)) + "\n" +
-				       delete_resource_link(board, admin_board_path(@site, @section, board, :return_to => admin_board_path(@site, @section, board)), :confirm => confirm_board_delete(@section))
-			end
+		t.row do |r, board|
+			r.cell link_to(board.title, forum_board_path(@section, board))
+			r.cell board.description
+			r.cell board.topics_count
+			r.cell board.posts_count
+			r.cell edit_resource_link(board, edit_admin_board_path(@site, @section, board)) + "\n" +
+			       delete_resource_link(board, admin_board_path(@site, @section, board, :return_to => admin_board_path(@site, @section, board)), :confirm => confirm_board_delete(@section))
 		end
-	%>
 
-<% else -%>
-
-	<p class="empty">
-		All the existing forum topics are moved to your first board when you want to create one.<br />
-		If you need one, follow this link <%= link_to 'here', new_admin_board_path(@site, @section) -%>, or 'Create a new board'
-		link on right-hand menu.
-	</p>
-
-<% end -%>
+		t.empty :p, <<-html, :class => 'empty'
+				There currently are no boards in this forum.
+				#{link_to 'Create one now', new_admin_board_path(@site, @section)}<br />
+				All the existing forum topics will be moved to your first board when you create one.
+			html
+		end
+	end
+%>
