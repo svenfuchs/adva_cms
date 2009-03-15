@@ -1,0 +1,20 @@
+<% table_for @articles do |table|
+	table.column :id, :title
+	table.column 'Action', :class => 'action'
+
+	table.head.row do |row|
+		row.cell "total: #{row.table.collection.size}", :colspan => :all, :class => 'total'
+	end
+	
+	table.row do |row, record|
+	  row.cell record.id, record.title
+		row.cell 'action'
+  end
+
+	table.foot.row do |row|
+		row.cell 'foo'
+	end
+	
+	table.empty :p, 'no records!', :class => 'empty'
+end %>
+	

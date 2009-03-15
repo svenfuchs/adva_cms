@@ -1,11 +1,12 @@
 module TableBuilder
   class Tag
+    class_inheritable_accessor :level, :tag_name
+
     include ActionView::Helpers::TagHelper
 
-    attr_reader :name, :options, :parent
+    attr_reader :options, :parent
 
-    def initialize(name, parent = nil, options = {})
-      @name = name
+    def initialize(parent = nil, options = {})
       @parent = parent
       @options = options
     end
@@ -26,10 +27,10 @@ module TableBuilder
       is_a?(Head) || !!parent.try(:head?)
     end
 
-    def to_html(content = nil)
-      content ||= yield(html = '') && html if block_given?
+    def render(content = nil)
+      yield(content = '') if content.nil? && block_given?
       content = lf(indent(content.to_s))
-      lf(content_tag(name, content, options))
+      lf(content_tag(tag_name, content, options))
     end
     
     protected

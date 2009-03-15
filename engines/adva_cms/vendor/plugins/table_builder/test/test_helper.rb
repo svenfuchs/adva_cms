@@ -16,3 +16,34 @@ class Test::Unit::TestCase
   end
 end
 
+module TableBuilder
+  module TableTestHelper
+    def setup
+      @scope = TableBuilder.options[:i18n_scope]
+    end
+  
+    def teardown
+      TableBuilder.options[:i18n_scope] = @scope
+    end
+    
+    def build_column(name, options = {})
+      Column.new(nil, name, options)
+    end
+  
+    def build_table(*columns)
+      columns = [build_column('foo'), build_column('bar')] if columns.empty?
+      table = Table.new(%w(foo bar))
+      table.instance_variable_set(:@columns, columns)
+      columns.each { |column| column.instance_variable_set(:@table, table) }
+      table
+    end
+    
+    def build_body(*columns)
+      Body.new(build_table(*columns))
+    end
+    
+    def build_body_row(*columns)
+      Row.new(build_body(*columns))
+    end
+  end
+end

@@ -41,38 +41,33 @@
   </ul>
 <% end -%>
 
-<% unless @articles.empty? -%>
+<%
+	table_for @articles do |t|
+		t.column :article, :comments, :published, :author, :actions
 
-  <p class="total">
-    <%=t :'adva.articles.total_with_count', :count => @articles.total_entries %>
-  </p>
+		t.head.row do |r|
+			r.cell t(:'adva.articles.total_with_count', :count => @articles.total_entries), :class => :total, :colspan => :all
+		end
 
-  <table>
-    <thead>
-      <tr>
-        <th><%=t :'adva.blog.tabs.article' %></th>
-        <th><%=t :'adva.blog.tabs.comments' %></th>
-        <th><%=t :'adva.blog.tabs.published' %></th>
-        <th><%=t :'adva.blog.tabs.author' %></th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <%= render :partial => 'article', :collection => @articles %>
-    </tbody>
-  </table>
+		t.row do |r, article|
+  		r.cell link_to(article.title, edit_admin_article_path(@site, @section, article), :class => article.state)
+  		r.cell article.accept_comments? && !article.comments.empty? ? link_to(article.comments.size, admin_comments_path) : t(:"adva.common.none")
+			r.cell published_at_formatted(article)
+			r.cell link_to article.author_name, admin_site_user_path(@site, article.author)
+			r.cell view_resource_link(article, content_path(article)) + "\n" +
+			       edit_resource_link(article, edit_admin_article_path(@site, @section, article)) + "\n" +
+			  		 delete_resource_link(article, admin_article_path(@site, @section, article))
+		end
 
-  <%= will_paginate @articles, :id => 'pagination' %>
+		t.foot.row do |r|
+			r.cell will_paginate(@articles), :class => :pagination, :colspan => :all
+		end
 
-<% else %>
-
-  <div class="empty">
-    <% unless params[:filter] %>
-      <%=t :'adva.blog.no_articles', :section => @section.title %>
-      <%= new_resource_link Article, new_admin_article_path(@site, @section), :text => t( :'adva.blog.links.create_article_now' ) %>
-    <% else %>
-      <%=t :'adva.blog.no_filtered_articles', :section => @section.title %>
-    <% end %>
-  </div>
-
-<% end %>
+		t.empty :p, :class => 'empty' do
+			params[:filter] ?
+				t(:'adva.blog.no_filtered_articles', :section => @section.title) :
+				t(:'adva.blog.no_articles', :section => @section.title) + "\n" +
+				link_to(t( :'adva.blog.links.create_article_now' ), new_admin_article_path(@site))
+		end
+	end
+%>

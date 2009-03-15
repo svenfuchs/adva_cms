@@ -1,27 +1,41 @@
 module TableBuilder
   class Table < Tag
-    def self.level; 0 end
+    self.level = 0
+    self.tag_name = :table
 
-    def initialize(collection = [], options = {})
-      @columns = []
+    attr_reader :body, :head, :foot, :collection, :columns
+
+    def initialize(view = nil, collection = [], options = {})
+      @view = view
       @collection = collection
-      @head = Head.new(self, @columns)
+      @columns = []
 
-      super(:table, nil, options.reverse_merge(:id => "#{collection_name}_table", :class => 'list'))
+      super(nil, options.reverse_merge(:id => "#{collection_name}_table", :class => 'list'))
+      
       yield(self) if block_given?
     end
+    
+    ['head', 'body', 'foot'].each do |name|
+      class_eval <<-code
+        def #{name}                                # def head
+          @#{name} ||= #{name.classify}.new(self)  #   @head ||= Head.new(self)
+        end                                        # end
+      code
+    end
 
-    def columns(*names)
+    def column(*names)
       options = names.last.is_a?(Hash) ? names.pop : {}
-      names.each { |name| column(name, options) }
+      names.each do |name| 
+        @columns << Column.new(self, name, options)
+      end
     end
-
-    def column(name, options = {})
-      @columns << Column.new(self, name, options)
+    
+    def empty(*args, &block)
+      @empty = (args << block).compact
     end
-
-    def body(options = {}, &block)
-      @body = Body.new(self, @columns, @collection, options, &block)
+    
+    def row(*args, &block)
+      body.row(*args, &block)
     end
 
     def collection_class
@@ -32,26 +46,24 @@ module TableBuilder
       collection_class.name.tableize.gsub('/', '_')
     end
 
-    def to_html
-      auto_columns if @columns.empty?
-      auto_body    if @body.nil?
-
-      super do |html|
-        html << @head.to_html if @head
-        html << @body.to_html
-      end.gsub(/\n\s*\n/, "\n")
+    def render
+      (@collection.empty? && @empty) ? render_empty : begin
+        column(*collection_attribute_names) if @columns.empty?
+        super do |html|
+          html << head.render
+          html << body.render
+          html << foot.render if @foot && !@foot.empty?
+        end.gsub(/\n\s*\n/, "\n")
+      end
+    end
+    
+    def render_empty
+      @empty.insert(1, @empty.pop.call) if @empty.last.respond_to?(:call)
+      content_tag(*@empty)
     end
 
     protected
-    
-      def auto_columns
-        columns(*collection_attribute_names)
-      end
       
-      def auto_body
-        body { |row, record, index| row.cells *@columns.map { |column| column.value_for(record) } }
-      end
-
       def collection_attribute_names
         record = @collection.first
         names = record.respond_to?(:attribute_names) ? record.attribute_names : []

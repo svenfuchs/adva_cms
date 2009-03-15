@@ -11,37 +11,23 @@
   </ul>
 <% end -%>
 
-<% unless @sets.empty? %>
-  <p class="total">
-    <%= t(:'adva.photos.admin.sets.total', :total_entries => @sets.total_entries) %>
-  </p>
+<%
+	table_for @sets do |t|
+		t.column :title, :actions
 
-	<%
-		table_for @sets do |t|
-			t.columns :title, :actions
-			t.body do |r, photo, index|
-	  		r.cell link_to(photo.title, edit_admin_set_path(@site, @section, object))
-				r.cell edit_resource_link(object, edit_admin_set_path(@site, @section, object)) + "\n" +
-				       delete_resource_link(object, admin_set_path(@site, @section, object), :confirm => t(:'adva.photos.admin.sets.delete_confirmation'))
-			end
+		t.head.row do |r|
+			r.cell t(:'adva.photos.admin.sets.total', :total_entries => @sets.total_entries), :class => :total, :colspan => :all
 		end
-	%>
+		
+		t.row do |r, photo|
+  		r.cell link_to(photo.title, edit_admin_set_path(@site, @section, object))
+			r.cell edit_resource_link(object, edit_admin_set_path(@site, @section, object)) + "\n" +
+			       delete_resource_link(object, admin_set_path(@site, @section, object), :confirm => t(:'adva.photos.admin.sets.delete_confirmation'))
+		end
 
-  <script>
-    var sets_tree = new SortableTree('sets', {
-      onDrop: function(drag, drop, event) {
-        <%= remote_function(:url => admin_sets_path(@site, @section),
-                            :method =>   :put,
-                            :with   =>   "drag.to_params()",
-                            :loading =>  "$('sets_indicator').show()",
-                            :complete => "$('sets_indicator').hide()" ) %>
-      }
-    });
-  </script>
-  
-<% else %>
-  <div class="empty">
-    <%= t(:'adva.photos.admin.sets.no_set') %>
-    <%= link_to t(:'adva.photos.admin.sets.create_now') + "&raquo;", new_admin_set_path(@site, @section) %>
-  </div>
-<% end %>
+		t.empty :p, :class => 'empty' do
+			t(:'adva.photos.admin.sets.no_set') + "\n" + 
+			link_to(t(:'adva.photos.admin.sets.create_now'), new_admin_set_path(@site, @section))
+		end
+	end
+%>
