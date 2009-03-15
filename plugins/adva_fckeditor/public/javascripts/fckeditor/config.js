@@ -20,6 +20,9 @@ FCKConfig.FormatSource = true;
 // ignore empty paragraphs
 FCKConfig.IgnoreEmptyParagraphValue = true;
 
+//don't put <p>&#160</p> all the time
+FCKConfig.FillEmptyBlocks = false;
+
 // don't process entities since we use UTF-8
 FCKConfig.ProcessHTMLEntities = false;
 
