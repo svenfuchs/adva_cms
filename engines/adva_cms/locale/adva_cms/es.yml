@@ -38,10 +38,10 @@ es:
       hints:
         tags: "Introduzca una o más etiquetas separadas por un espacio. Puedes incluir espacios colocando la etiqueta entre comillas. (Ej: <em>\"Web Dev\" Tutoriales</em>)."
     titles:
-      accounts: Accounts
-      actions: Actions
-      archives: Archives
-      articles: Articles
+      accounts: Cuentas
+      actions: Acciones
+      archives: Archivo
+      articles: Artículos
       assets: Ficheros
       board: Tablón
       boards: Tablones
@@ -73,9 +73,9 @@ es:
       settings: Preferencias
       site: Site
       site_users: Usuarios
-      spam_filters: Spam filters
-      spam_protection: Spam protection
-      success: Success!
+      spam_filters: Filtros de spam
+      spam_protection: Protección de spam
+      success: Éxito!
       tags: Etiquetas
       templates: Plantillas
       theme: Tema
@@ -180,7 +180,7 @@ es:
         create: Crear sección
       links:
         delete: Eliminar esta sección
-        add_section: Add a section
+        add_section: Agregar sección
         reorder: Reordenar secciones
         create: Crear sección
       confirm_delete: Estás seguro que deseas eliminar esta sección?
@@ -308,7 +308,7 @@ es:
       no_entries_matching_criteria: No hay ninguna página en cache con ese criterio.
       flash:
         clear:
-          success: The cache ha sido limpiado.
+          success: La cache ha sido limpiada.
     comments:
       flash:
         thank_you: Gracias por el comentario!
@@ -322,7 +322,7 @@ es:
           success: El comentario ha sido eliminado.
           failure: El comentario no pudo ser eliminado.
       links:
-        delete: Eliminae
+        delete: Eliminar
         edit: Editar
         approve: Aprobar
         view: Ver
@@ -336,7 +336,7 @@ es:
         edit: Editar comentario
         comments_on: Comentarios en {{location}}
         submit_comment: Enviar Comentario
-        your_reply: Your reply
+        your_reply: Tu respuesta
         comment_with_count:
           one: 1 Comentario
           other: "{{count}} Comentarios"
