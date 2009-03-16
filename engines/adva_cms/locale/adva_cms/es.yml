@@ -174,15 +174,19 @@ es:
       hints:
         content_filter: Cuando los artículos son publicados, usan este valor por defecto.
       titles:
-        section_settings: Configuración específica de la sección
+        page_settings: Configuración específica de la página
         blog_settings: Configuración específica del Blog
         forum_settings: Configuración específica del Foro
         create: Crear sección
+        behaviour: Comportamiento
       links:
         delete: Eliminar esta sección
         add_section: Agregar sección
         reorder: Reordenar secciones
         create: Crear sección
+      settings:
+        single_article_mode: Un sólo artículo por página
+        multi_article_mode: Multiples artículos por página
       confirm_delete: Estás seguro que deseas eliminar esta sección?
       flash:
         destroy:
