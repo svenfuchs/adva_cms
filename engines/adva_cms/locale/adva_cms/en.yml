@@ -318,6 +318,7 @@ en:
         clear:
           success: The cache has been cleared.
     comments:
+      said_time_ago: said {{time}} ago
       flash:
         thank_you: Thank you for the comment!
         create:
