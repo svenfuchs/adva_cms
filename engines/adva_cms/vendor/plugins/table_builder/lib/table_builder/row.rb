@@ -33,7 +33,7 @@ module TableBuilder
       end
       
       def current_column_class
-        column = table.columns[@cells.count]
+        column = table.columns[@cells.size]
         column && column.options[:class] || '' 
       end
   end
