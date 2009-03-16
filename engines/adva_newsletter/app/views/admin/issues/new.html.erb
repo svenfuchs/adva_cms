@@ -4,7 +4,7 @@
   <%= render :partial => "optional_settings" %>
 <% end %>
 
-<% split_form_for :issue, @issue, :url => admin_issues_path, :html => {:multipart => true, :id => "content_form"} do |f| %>
+<% split_form_for :issue, @issue, :url => admin_issues_path, :html => { :multipart => true } do |f| %>
   <%= render :partial => "form", :locals => {:f => f} %>  
 
   <%= save_or_cancel_links(f, :cancel_url => admin_issues_path) %>
