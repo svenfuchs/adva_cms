@@ -1,9 +1,9 @@
 <% f.field_set do %>
-	<%= f.text_field :title, :class => 'big', :label => :'adva.newsletter.label.title' %>
-	<%= f.text_area :desc, :class => 'fat wysiwyg', :rows => 10, :label => :'adva.newsletter.label.desc' %>
+	<%= f.text_field :title, :label => :'adva.newsletter.label.title' %>
+	<%= f.text_area :desc, :class => 'wysiwyg', :rows => 10, :label => :'adva.newsletter.label.desc' %>
 
 	<%= f.text_field :email, :label => :'adva.newsletter.label.email' %>
 
 	<%= f.label :published, t(:'adva.newsletter.question_publish_newsletter') %>
-	<%= f.check_box :published, :id => "newsletter_published", :label => :'adva.newsletter.label.published' %>
+	<%= f.check_box :published, :label => :'adva.newsletter.label.published' %>
 <% end %>
