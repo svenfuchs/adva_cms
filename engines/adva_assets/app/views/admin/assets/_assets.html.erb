@@ -14,7 +14,7 @@
 <% else %>
   <p class="empty">
     <%=t :'adva.assets.no_files' %>
-    <%= link_to t(:'adva.assets.upload'), :action => 'new' %>
+		<%= new_resource_link Asset, new_admin_asset_path(@site), :text => link_to(t(:'adva.assets.upload')) %>
   </p>
 <% end %>
 

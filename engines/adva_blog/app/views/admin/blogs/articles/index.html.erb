@@ -11,7 +11,7 @@
                               [ t(:'adva.blog.options.filter.draft'),     'draft']], params[:filter] %>
     </select>
     <select name="category" id="categories">
-      <option value="0">&mdash; All Categories &mdash;</option>
+      <option value="0"><%=t :'adva.categories.all' %></option>
       <%= options_from_collection_for_select @section.categories, :id, :title, params[:category].to_i %>      
     </select>
     <%= text_field_tag 'query', params[:query], :id => 'query', :style => 'display: none' %>
@@ -22,14 +22,22 @@
 <% content_for :sidebar do -%>
   <h3><%=t :'adva.blog.titles.manage'  %></h3>
   <ul>
-    <li><%= link_to t(:'adva.blog.links.articles'), admin_articles_path(@site, @section) %></li>
-    <li><%= link_to t(:'adva.blog.links.categories'), admin_categories_path(@site, @section) %></li>
-    <li><%= link_to t(:'adva.blog.links.settings'), edit_admin_section_path(@site, @section) %></li>
+    <li>
+			<%= link_to t(:'adva.blog.links.articles'), admin_articles_path(@site, @section) %>
+		</li>
+    <li>
+			<%= link_to t(:'adva.blog.links.categories'), admin_categories_path(@site, @section) %>
+		</li>
+    <li>
+			<%= edit_resource_link @section, edit_admin_section_path(@site, @section), :text => t(:'adva.blog.links.settings') %>
+		</li>
   </ul>
 
   <h3><%=t :'adva.blog.titles.actions' %></h3>
   <ul>
-    <li><%= link_to t(:'adva.blog.links.create_article'), new_admin_article_path(@site) %></li>
+    <li>
+			<%= new_resource_link Article, new_admin_article_path(@site), :text => t(:'adva.blog.links.create_article') %>
+		</li>
   </ul>
 <% end -%>
 

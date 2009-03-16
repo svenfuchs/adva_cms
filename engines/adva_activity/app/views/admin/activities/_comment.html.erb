@@ -1,23 +1,35 @@
-<li class="activity <%= activity_css_classes(activity) %> <%= cycle '', 'highlight', :name => "activities" %> clearfix">
-  <p class="meta">
-    <%= activity_datetime activity, recent %><br />
-    <%= link_to_activity_user activity %><br />
+<li class="activity <%= activity_css_classes(activity) %> <%= cycle '', 'highlight', :name => "activities" %>">
+  <p>
+    <%= activity_datetime activity, recent %>
+    <%= link_to_activity_user activity %>
     <%= link_to_content activity.object.commentable if activity.object %>
   </p>
-  <p><%=t :'adva.activity.comment', :actions => activity.all_actions.to_sentence %></p>
-  <blockquote><p>&quot;<%= truncate strip_tags(activity.body), 100 %>&quot;</p></blockquote>
+
+  <p>
+		<%=t :'adva.activity.comment', :actions => activity.all_actions.to_sentence %>
+	</p>
+  
+	<p>
+		<%= truncate strip_tags(activity.body), 100 %>
+	</p>
 
   <% if activity.object -%>
     <ul>
-    <% unless activity.object.commentable_type == 'Topic' %>
-      <% unless activity.object.approved? -%>
-        <li><%= link_to t(:'adva.common.approve'), admin_comment_returning_path(activity.object, "comment[approved]" => 1), :method => :put  %></li>
-      <% else -%>  
-        <li><%= link_to t(:'adva.common.unapprove'), admin_comment_returning_path(activity.object, "comment[approved]" => 0), :method => :put  %></li>
-      <% end -%>   
-    <% end -%>   
-    <li><%= link_to t(:'adva.common.edit'), edit_admin_comment_returning_path(activity.object) %></li>
-    <li><%= link_to t(:'adva.common.delete'), admin_comment_returning_path(activity.object), :method => :delete, :confirm => "Are you sure you wish to delete this comment?" %></li>
+    	<% unless activity.object.commentable_type == 'Topic' %>
+      	<% unless activity.object.approved? -%>
+        	<li>
+						<%= link_to t(:'adva.common.approve'), admin_comment_returning_path(activity.object, "comment[approved]" => 1), :method => :put  %>
+					</li>
+	      <% else -%>  
+	        <li>
+						<%= link_to t(:'adva.common.unapprove'), admin_comment_returning_path(activity.object, "comment[approved]" => 0), :method => :put  %>
+					</li>
+	      <% end -%>
+	    <% end -%>
+	    <li>
+				<%= edit_resource_link(activity.object, edit_admin_comment_returning_path(activity.object), :text => t(:'adva.common.edit')) %>
+				<%= delete_resource_link(activity.object, admin_comment_returning_path(activity.object), :confirm => t(:'adva.comments.confirm_delete')) %>
+			</li>
     </ul>
   <% end -%>    
 </li>

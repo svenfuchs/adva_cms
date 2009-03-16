@@ -14,14 +14,14 @@
     </ul>
     <% else -%>
     <div id="<%= type %>_assets" class="panel" style="padding:10px;">
-      Your bucket is empty.
+      <%= t(:'adva.assets.empty_bucket') %>
     </div>
     <% end -%>
   <% end %>
 
   <div id="search_assets" class="panel">
     <label for="search_assets_query">
-      Search by tag or title 
+      <%= t(:'adva.assets.search_by_tag_or_title') %>
       <img id="search_assets_spinner" src="/images/adva_cms/indicator.gif" alt="spinner" style="display:none" />
     </label>
     <input type="text" size="30" name="search_assets_query" id="search_assets_query" />
@@ -31,7 +31,7 @@
   
   <div id="upload_assets" class="panel">
     <label for="asset_uploaded_data">
-      Upload an asset 
+      <%= t(:'adva.assets.upload') %>
       <img class="spinner" src="/images/adva_cms/indicator.gif" alt="spinner" style="display:none" />
     </label><br />
     <%= file_field_tag "assets[0][data]", :id => "asset-uploaded-data" %>
