@@ -4,18 +4,14 @@ module ActionView
     def render(view, local_assigns = {})
       compile(local_assigns)
 
-      stack = view.instance_variable_get(:@_render_stack)
-      stack.push(self)
+      view.with_template self do
+        view.send(:_evaluate_assigns_and_ivars)
+        view.send(:_set_controller_content_type, mime_type) if respond_to?(:mime_type)
 
-      view.send(:_evaluate_assigns_and_ivars)
-      view.send(:_set_controller_content_type, mime_type) if respond_to?(:mime_type)
-
-      result = view.send(method_name(local_assigns), local_assigns, &content_assignments_proc(view))
-
-      stack.pop
-      result
+        view.send(method_name(local_assigns), local_assigns, &content_assignments_proc(view))
+      end
     end
-    
+
     def content_assignments_proc(view)
       Proc.new do |*names|
         ivar = :@_proc_for_layout
@@ -48,7 +44,7 @@ end
 ActionController::Base.class_eval do
   class_inheritable_accessor :registered_contents
   self.registered_contents = ActiveSupport::OrderedHash.new
-  
+
   class << self
     def content_for(target, id, *args, &block)
       self.registered_contents[id] = RegisteredContent.new(id, target, *args, &block)
@@ -58,7 +54,7 @@ end
 
 class RegisteredContent
   attr_reader :id, :target, :content, :options
-  
+
   def initialize(id, target, *args, &block)
     @id = id
     @target = target
@@ -77,17 +73,17 @@ class RegisteredContent
   end
 
   private
-  
+
     def eval_content(view)
       content.is_a?(Proc) ? view.instance_eval(&content) : content
     end
-    
+
     def condition_applies?(type, view)
       proc = lambda do |condition, value|
         condition = options[type][condition]
         condition.is_a?(Proc) ? condition.call(view.controller) : value.in?(condition)
       end
-      proc.call(:controller, view.controller.controller_path) or 
+      proc.call(:controller, view.controller.controller_path) or
       proc.call(:action, view.controller.action_name) or
       proc.call(:format, view.template_format)
     end
