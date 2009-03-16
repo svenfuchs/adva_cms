@@ -1,0 +1,5 @@
+require 'has_filter/filter/base.rb'
+require 'has_filter/filter/chain.rb'
+require 'has_filter/filter/state.rb'
+require 'has_filter/filter/tags.rb'
+require 'has_filter/filter/text.rb'

@@ -1,5 +1,5 @@
 module CachedPagesHelper
-  def cached_page_date(page)
+  def page_cached_at(page)
     if Date.today == page.updated_at.to_date
       if page.updated_at > Time.zone.now - 4.hours
         "#{time_ago_in_words(page.updated_at).gsub(/about /,'~ ')} ago"

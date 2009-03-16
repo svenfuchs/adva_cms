@@ -12,35 +12,31 @@
   </ul>
 <% end -%>
 
-<% unless @photos.empty? -%>
+<%
+	table_for @photos do |t|
+		t.column :title, :name, :comments, :published, :author, :actions
 
-  <p class="total">
-    <%= t(:'adva.photos.admin.photos.total', :total_entries => @photos.total_entries) %>
-  </p>
+		t.head.row do |r|
+			r.cell t(:'adva.photos.admin.photos.total', :total_entries => @photos.total_entries), :class => :total, :colspan => :all
+		end
+		
+		t.row do |r, photo|
+  		r.cell link_to(photo.title, edit_admin_photo_path(@site, @section, photo), :class => photo.state)
+			r.cell link_to(image_tag(photo.base_url(:tiny)), photo.filename, :target => '_blank')
+			r.cell photo.accept_comments? && !photo.comments.empty? ? link_to(photo.comments.size, admin_comments_path) : t(:"adva.common.none")
+			r.cell published_at_formatted(photo)
+			r.cell link_to h(photo.author_name), admin_site_user_path(@site, photo.author) + "\n" +
+			       edit_resource_link(photo, edit_admin_photo_path(@site, @section, photo)) + "\n" +
+			       delete_resource_link(photo, admin_photo_path(@site, @section, photo), :confirm => t(:'adva.photos.admin.photos.delete_photo_confirmation'))
+		end
+		
+		t.foot.row do |r|
+			r.cell will_paginate(@photos), :class => :pagination, :colspan => :all
+		end
 
-  <table>
-    <thead>
-      <tr>
-        <th><%= t(:'adva.photos.common.title') %></th>
-        <th><%= t(:'adva.photos.name') %></th>
-        <th><%= t(:'adva.photos.common.comments') %></th>
-        <th><%= t(:'adva.photos.common.published') %></th>
-        <th><%= t(:'adva.photos.common.author') %></th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <%= render :partial => 'photo', :collection => @photos %>
-    </tbody>
-  </table>
-
-  <%= will_paginate @photos, :id => 'pagination' %>
-
-<% else %>
-
-  <div class="empty">
-			<%= t(:'adva.photos.admin.photos.no_photo_in_album') %>
-      <%= link_to t(:'adva.photos.admin.photos.upload_now'), new_admin_photo_path(@site) %>
-  </div>
-
-<% end %>
+		t.empty :p, :class => 'empty' do
+			t(:'adva.photos.admin.photos.no_photo_in_album') + "\n" + 
+			link_to(t(:'adva.photos.admin.photos.upload_now'), new_admin_photo_path(@site))
+		end
+	end
+%>

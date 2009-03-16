@@ -12,48 +12,35 @@
   </ul>
 <% end -%>
 
-<% unless @wikipages.empty? -%>
-  <p class="total">
-    Total: <%= content_tag :strong, t(:'adva.common.wikipage', :count => @wikipages.total_entries) %>.
-  </p>
-  <table>
-    <thead>
-      <tr>
-        <th><%= t(:'adva.common.wikipage', :count => 1) %></th>
-        <th><%= t(:'adva.common.version') %></th>
-        <th><%= t(:'adva.common.last_updated') %></th>
-        <th><%= t(:'adva.common.by') %></th>
-        <th><%= t(:'adva.common.comments') %></th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <%= render :partial => 'wikipage', :collection => @wikipages %>
-    </tbody>
-  </table>
+<%
+	table_for @wikipages do |t|
+		t.column :wikipage, :version, :last_updated, :by, :comments, :actions
 
-  <%= will_paginate @wikipages, :id => 'pagination' %>
+		t.head.row do |r|
+			r.cell t(:'adva.common.wikipage', :count => @wikipages.total_entries), :class => :total, :colspan => :all
+		end
+		
+		t.row do |r, wikipage|
+  		r.cell link_to wikipage.title, edit_admin_wikipage_path(@site, @section, wikipage)
+			r.cell wikipage.version
+			r.cell wikipage.updated_at.strftime('%d.%m.%Y %H:%M')
+			r.cell link_to(wikipage.author_link, admin_site_user_path(@site, wikipage.author))
+			r.cell !wikipage.comments.empty? ? link_to(wikipage.comments.size, admin_comments_path(:content_id => wikipage.id)) : 'none'
+			r.cell wikipage.version
+			r.cell view_resource_link(wikipage, wikipage_path(@section.id, wikipage.permalink)) + "\n" +
+			       edit_resource_link(wikipage, edit_admin_wikipage_path(@site, @section, wikipage)) + "\n" +
+			       delete_resource_link(wikipage, admin_wikipage_path(@site, @section, wikipage), :confirm => t(:'adva.wikipage.view._wikipages.confirm_delete'))
+		end
+		
+		t.foot.row do |r|
+			r.cell will_paginate(@wikipages), :class => :pagination, :colspan => :all
+		end
 
-  <script type="text/javascript">
-    var wikipages_list = new WikipagesList($('wikipages_body'), {
-      onUpdate: function(drag, drop, event) {
-        <%= remote_function(:url => admin_wikipages_path(@site, @section),
-                            :method =>   :put,
-                            :with   =>   "wikipages_list.serialize()",
-                            :loading =>  "$('wikipages_indicator').show()",
-                            :complete => "$('wikipages_indicator').hide()" ) %>
-      }
-    });
-  </script>
-
-<% else -%>
-
-  <div class="empty">
-    <% unless params[:filter] -%>
-      <%= t(:'adva.wikipage.view.index.no_wikipages_notice') %>
-      <%= link_to t(:'adva.wikipage.view.index.link_to_create_one_now'), new_admin_wikipage_path(@site) %>
-    <% else -%>
-      <%= t(:'adva.wikipage.view.index.no_matching_pages_notice') %>
-    <% end -%>
-  </div>
-<% end -%>
+		t.empty :p, :class => 'empty' do
+	    params[:filter] ?
+	      t(:'adva.wikipage.view.index.no_matching_pages_notice') :
+	      t(:'adva.wikipage.view.index.no_wikipages_notice') + "\n" +
+	      link_to t(:'adva.wikipage.view.index.link_to_create_one_now'), new_admin_wikipage_path(@site)
+		end
+	end
+%>

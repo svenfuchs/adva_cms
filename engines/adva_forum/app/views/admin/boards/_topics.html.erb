@@ -1,44 +1,17 @@
-<% unless @section.topics.empty? -%>
-<div id="topics" class="list">
-	<h2>
-		Recent topics
-	</h2>
-	
-	<table id="topics_latest" class="list">
-    <thead>
-      <tr>
-        <th scope="col"><%= 'Last update on' %></th>
-        <th scope="col"><%= 'Author' %></th>
-        <th scope="col"><%= 'Title' %></th>
-        <th scope="col"><%= 'Posts' %></th>
-        <th scope="col">&nbsp;</th>
-      </tr>
-    </thead>
-    <tbody id="topics_latest_body">
-		<% @section.latest_topics.each do |topic| -%>
-			<tr>
-				<td><%= topic.created_at.to_formatted_s(:short) %></td>
-				<td><%= topic.last_author_name %></td>
-				<td><%= link_to_topic(topic) %></td>
-				<td><%= topic.posts.size %></td>
-				<td class="actions">
-				  <%= edit_resource_link(topic, edit_topic_path(@section, topic.permalink)) %>
-				  <%= delete_resource_link(topic, topic_path(@section, topic.permalink, :return_to => admin_boards_path(@site, @section)), :confirm => "Are you sure you want to delete this topic?") %>
-  			</td>
-			</tr>
-		<% end -%>
-    </tbody>
-  </table>
-</div>
-<% else -%>
-<h2>
-	Topics
-</h2>
-	
-<div class="empty">
-	<p>
-		You do not have any topics on your forum.<br /> You can create a topic from <%= link_to 'here', new_topic_path(@section) %>,
-		or from the 'Create a new Topic' link from right-hand menu.
-	</p>
-</div>
-<% end -%>
+<h2>Topics</h2>
+
+<%
+	table_for @section.topics do |t|
+		t.column :last_updated, :author, :title, :posts, :actions
+		t.row do |r, topic|
+			r.cell topic.created_at.to_formatted_s(:short)
+			r.cell topic.last_author_name
+			r.cell link_to_topic(topic)
+			r.cell topic.posts.size
+			r.cell edit_resource_link(topic, edit_topic_path(@section, topic.permalink)) + "\n" +
+			       delete_resource_link(topic, topic_path(@section, topic.permalink, :return_to => admin_boards_path(@site, @section)), :confirm => "Are you sure you want to delete this topic?")
+		end
+
+		t.empty :p, 'There currently are no topics in this forum.', :class => 'empty'
+	end
+%>

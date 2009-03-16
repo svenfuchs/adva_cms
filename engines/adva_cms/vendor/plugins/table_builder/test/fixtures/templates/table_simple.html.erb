@@ -1,0 +1,7 @@
+<% table_for @articles do |table|
+	table.column :id, :title
+	
+	table.row do |row, record|
+	  row.cell record.id, record.title
+  end
+end %>

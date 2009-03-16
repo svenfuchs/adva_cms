@@ -31,7 +31,7 @@ class AdminCachedPagesControllerTest < ActionController::TestCase
       it_assigns :cached_pages
       it_renders :template, :index do
         has_tag 'p[class=total]', 'Total: 1 cached page', :class => 'total'
-        has_tag 'table[id=cached_pages]'
+        has_tag 'table[id=cached_pages_table]'
         has_tag 'a', /clear/i #[onclick=?], /#{admin_cached_page_path(@site, @cached_page)}/ # FIXME doesn't work. why?
       end
     end

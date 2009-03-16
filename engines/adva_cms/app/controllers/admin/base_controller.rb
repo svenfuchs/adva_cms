@@ -3,6 +3,7 @@ class Admin::BaseController < ApplicationController
   
   renders_with_error_proc :below_field
   include CacheableFlash
+  helper TableBuilder
 
   before_filter :set_site, :set_locale, :set_timezone, :set_cache_root
   helper :base, :content, :users, :'admin/comments'

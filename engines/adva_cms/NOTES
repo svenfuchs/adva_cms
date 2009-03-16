@@ -1,3 +1,95 @@
+FILTERS
+
+assets:
+	- type checkboxes for :audio, :movie, :picture, :other
+	- tagged with :text
+	- title contains :text
+	- (name contains :text?)
+
+blog articles:
+	- in category :name (select)
+	- tagged with :text 
+	- body contains :text
+	- title contains :text
+	- not published
+	- (published?)
+
+calendar events:
+	- tagged with: text
+	- title contains: text
+	- body contains: text
+	- upcoming
+	- elapsed
+	- recently_added
+
+cached_pages:
+	- x contains: text
+	
+comments:
+	- body contains: text
+	- author name/email/url contains: text
+	- approved
+	- unapproved
+
+------------------------------------------------------------------------------
+
+type: checkboxes or selectbox for model.types
+title/body/teaser contains/is/starts_with/ends_with/
+tagged_with tags
+in category
+author name/email/url contains: text
+state is published/unpublished/approved/unapproved
+created_at/updated_at/published_at since/before/today/yesterday/this_week/this_month/this_year [x days/weeks/months]
+
+------------------------------------------------------------------------------
+
+class Article < ActiveRecord::Base
+	has_filters :title => :text,
+	            :body  => :text,
+						  :excerpt => :text,
+							:state => { :type => :select, :states => [:published, :unpublished] },
+						  :tags => :tagged,
+						  :belongs_to => { :model => :category, :type => :select, :options => lambda {|r| r.categories } }
+
+  class << self
+    def filter_chain
+      # [filters]
+    end
+  end
+end
+
+
+
+# form should generate params like this
+params = {
+	:filters => {
+		:body  => { :scope => :contains, :query => 'foo' },
+		:state => [:published, :approved],
+		:tags  => 'foo bar',
+		:belongs_to => { :category => 1 }
+	}
+}
+
+<select name="filters[text][body][][scope]"><option value="contains">contains</option></select>
+<input  name="filters[text][body][][query]" value="foo" type="text">
+<select name="filters[text][body][][scope]"><option value="starts_with">starts_with</option></select>
+<input  name="filters[text][body][][query]" value="bar" type="text">
+<input  name="filters[tags][]"  value="foo bar"   type="text">
+<input  name="filters[state][]" value="published" type="checkbox">
+<input  name="filters[state][]" value="approved"  type="checkbox">
+<select name="filters[belongs_to][][category]"><option value="1">Foo</option></select>
+
+
+
+------------------------------------------------------------------------------
+
+    Photo.any_instance.stubs(:save_attached_files).returns(true)
+    Photo.any_instance.stubs(:delete_attached_files).returns(true)
+    Paperclip::Attachment.any_instance.stubs(:post_process).returns(true)
+
+------------------------------------------------------------------------------
+
+
 compare what scrooge is doing to observe active_records to what our cache_references
 plugin is doing: http://github.com/methodmissing/scrooge/tree/master
 

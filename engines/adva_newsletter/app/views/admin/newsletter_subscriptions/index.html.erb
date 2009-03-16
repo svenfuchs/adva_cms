@@ -3,9 +3,24 @@
   <%= render :partial => "sidebar_actions" %>
 <% end %>
 
-<div id="subscriptions">
-  <% unless @newsletter.subscriptions_count == 0 %>
-    <p class="total"><%= t(:"adva.newsletter.total_subscribers", :subscriptions_count => @newsletter.subscriptions_count) %></p>
-  <% end %>
-  <%= render :partial => "admin/newsletter_subscriptions/subscriptions", :object => @subscriptions %>
-</div>
+<%
+	table_for @subscriptions.issues do |t|
+		t.column :subscriber, :email, :time, :actions
+
+		t.head.row do |r|
+			r.cell t(:"adva.newsletter.total_subscribers", :subscriptions_count => @subscriptions.count), :class => :total, :colspan => :all
+		end
+
+		t.row do |r, issue|
+  		r.cell link_to(subscription.user.name, admin_user_path(subscription.user_id))
+			r.cell subscription.user.email
+			r.cell subscription.created_at.to_s(:db)
+			r.cell delete_resource_link(subscription, admin_subscription_path(@site, @newsletter, subscription), :confirm => t(:'adva.subscription.confirm_delete'))
+		end
+
+		t.empty :p, :class => 'empty' do
+			t(:'adva.subscription.no_subscriptions') + "\n" + 
+			link_to(t(:'adva.subscription.link.new'), new_admin_subscription_path(@site, @newsletter))
+		end
+	end
+%>
