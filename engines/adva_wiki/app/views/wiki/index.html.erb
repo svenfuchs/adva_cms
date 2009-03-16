@@ -1,39 +1,23 @@
 <h2><%= wikipages_title(@category, @tags) %></h2>
 
-<% if @wikipages.size > 0 -%>
-
-  <table id="wikipages" class="list">
-    <thead>
-      <tr>
-        <th scope="col"><%= t(:'adva.common.title') %></th>
-        <% if @section.accept_comments? %>
-          <th scope="col"><%= t(:'adva.common.comments') %></th>
-        <% end %>
-        <th scope="col"><%= t(:'adva.common.updated') %></th>
-      </tr>
-    </thead>
-    <tbody id="wikipages_body">
-      <% @wikipages.each do |wikipage| %>
-        <tr id="<%= dom_id wikipage %>">
-          <td><%= link_to_content wikipage %></td>
-          <% if @section.accept_comments? %>
-            <td><%= link_to_content_comments_count wikipage %></td>
-          <% end %> 
-          <td><%= datetime_with_microformat(wikipage.updated_at, :format => :long) %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-  <p><%= link_to t(:'adva.wiki.view.index.link_to_create'), new_wikipage_path(@section) %></p>
-  <%= will_paginate @wikipages, :id => 'pagination' %>
-  
-<% else %>
-
-  <div class="empty">
-    <%= t(:'adva.wiki.view.index.wiki_empty_notice', :title =>  @section.title) %>.
-    <%= link_to t(:'adva.wiki.view.index.link_to_create_if_empty'), new_wikipage_path(@section) %>
-  </div>
-
-<% end %>
+<%
+	table_for @wikipages do |t|
+		t.column :title, :comments, :last_updated
+		
+		t.row do |r, wikipage|
+  		r.cell link_to_content(wikipage)
+			r.cell link_to_content_comments_count(wikipage)
+			r.cell datetime_with_microformat(wikipage.updated_at, :format => :long)
+		end
+		
+		t.foot.row do |r|
+			r.cell link_to(t(:'adva.wiki.view.index.link_to_create'), new_wikipage_path(@section))
+			r.cell will_paginate(@wikipages), :class => :pagination, :colspan => :all
+		end
+		
+		t.empty :div, "#{t(:'adva.wiki.view.index.wiki_empty_notice', :title =>  @section.title)}.
+    				#{link_to t(:'adva.wiki.view.index.link_to_create_if_empty'), new_wikipage_path(@section)}", :class => 'empty'
+  end
+%>
 
 <%= render :partial => 'footer' %>
