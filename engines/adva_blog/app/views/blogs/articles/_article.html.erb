@@ -3,10 +3,10 @@
   	<div>
   	  <p>
   	    <%= datetime_with_microformat(article.published_at, :format => :long) %><br />
-  	    <%=t :'adva.blog.attribution', :author => article.author_name %>
-    	  <%= link_to_content_comments article if (article.accept_comments? || !article.comments.empty?) && mode != :single # FIXME ugly, to helper? %>
+  	    <%= t(:'adva.blog.attribution', :author => article.author_name) %>
+    	  <%= link_to_content_comments article if (article.accept_comments? || !article.comments.empty?) && mode != :single %>
     	  <% authorized_tag :span, :update, article do -%>
-      		<%= edit_resource_path article, edit_admin_article_path(@site, @section, article), :text => t( :'adva.common.edit' ) %>
+      		<%= link_to t(:'adva.common.edit'), edit_admin_article_path(@site, @section, article) %>
 		    <% end -%>
   	  </p>
   	  <p>

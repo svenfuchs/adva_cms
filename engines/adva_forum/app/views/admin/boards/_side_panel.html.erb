@@ -1,14 +1,14 @@
 <% content_for :sidebar do -%>
   <h3>Manage</h3>
   <ul>
-    <li><%= link_to 'Boards', admin_boards_path(@site, @section) %></li>
-		<li><%= link_to 'Forum', forum_path(@section) %></li>
-    <li><%= link_to 'Settings', edit_admin_section_path(@site, @section), :id => 'settings_section' %></li>
+    <li><%= link_to t(:'adva.boards.links.boards'), admin_boards_path(@site, @section), :id => 'manage_boards' %></li>
+		<li><%= link_to t(:'adva.boards.links.forum'), forum_path(@section), :id => 'manage_forum' %></li>
+    <li><%= link_to t(:'adva.boards.links.settings'), edit_admin_section_path(@site, @section), :id => 'manage_settings' %></li>
   </ul>
 
-  <h3><%= 'Actions' %></h3>
+  <h3><%= t(:'adva.common.titles.actions') %></h3>
   <ul>
-    <li><%= link_to 'Create a new Board', new_admin_board_path(@site, @section) %></li>
-    <li><%= link_to 'Create a new Topic', new_topic_path(@section) %></li>
+    <li><%= new_resource_link Board, new_admin_board_path(@site, @section), :text => t(:'adva.boards.links.create') %></li>
+    <li><%= new_resource_link Topic, new_topic_path(@section), :text => t(:'adva.topics.links.create') %></li>
   </ul>
 <% end -%>

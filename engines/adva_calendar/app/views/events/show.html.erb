@@ -1,14 +1,14 @@
-<div id="<%= dom_id @event %>" class="entry clearing">
-  <div class="meta">
+<div>
+  <div>
     <p>
       <%= link_to t(:'adva.calendar.links.all_events'), calendar_events_path(@section) %>
       <% authorized_tag :span, :update, @event do -%>
-        <%= link_to t( :'adva.common.edit' ), edit_admin_calendar_event_path(@site, @section, @event) %>
+        <%= edit_resource_link @event, edit_admin_calendar_event_path(@site, @section, @event) %>
       <% end -%>
     </p>
     <p>
     <% if @event.all_day? %>
-      <span class="all_day"><%= t(:'adva.calendar.titles.all_day') %></span>
+      <span><%= t(:'adva.calendar.titles.all_day') %></span>
     <% end %>
     <% if event_dates_from_to(@event)[1].blank? -%>
       <%= datetime_with_microformat(event_dates_from_to(@event)[0], :format => :long) %>
@@ -21,7 +21,7 @@
       <%= links_to_content_tags(@event, :'adva.common.content_tags') %>
     </p>
   </div>
-  <div class="content">
+  <div>
     <h2><%= link_to_event @event %></h2>
     <%= h(@event.host) %>
     <%= @event.body_html %>

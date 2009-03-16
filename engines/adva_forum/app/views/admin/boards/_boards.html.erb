@@ -13,11 +13,8 @@
 			       delete_resource_link(board, admin_board_path(@site, @section, board, :return_to => admin_board_path(@site, @section, board)), :confirm => confirm_board_delete(@section))
 		end
 
-		t.empty :p, <<-html, :class => 'empty'
-				There currently are no boards in this forum.
-				#{link_to 'Create one now', new_admin_board_path(@site, @section)}<br />
-				All the existing forum topics will be moved to your first board when you create one.
-			html
-		end
+		t.empty :p, "#{t(:'adva.boards.info.no_boards_in_forum', :forum => @section.title)} 
+								 #{link_to t(:'adva.boards.links.create_now'), new_admin_board_path(@site, @section)}<br />
+								 #{t(:'adva.boards.info.move_topics_to_board')}", :class => 'empty'
 	end
 %>

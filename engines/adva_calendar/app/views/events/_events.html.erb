@@ -1,16 +1,16 @@
-<div id="events">
+<div>
 	<h2><%= collection_title(@category, @tags) %></h2>
 
 	<% unless @events.empty? -%>
-		<table class="list">
+		<table>
 		  <thead>
 		    <tr>
-		      <th scope="col"><%= t(:'adva.calendar.titles.title') %></th>
-		      <th scope="col"><%= t(:'adva.calendar.titles.starting_at') %></th>
-		      <th scope="col"><%= t(:'adva.calendar.titles.ending_at') %></th>
+		      <th><%= t(:'adva.calendar.titles.title') %></th>
+		      <th><%= t(:'adva.calendar.titles.starting_at') %></th>
+		      <th><%= t(:'adva.calendar.titles.ending_at') %></th>
 		    </tr>
 		  </thead>
-		  <tbody id="events_body">
+		  <tbody>
 		    <%= render :partial => 'event', :collection => @events %>
 		  </tbody>
 		</table>

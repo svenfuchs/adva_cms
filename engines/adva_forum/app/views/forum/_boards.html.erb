@@ -1,21 +1,21 @@
 <h2>
   <%= @section.title %>
-  <span class="meta">
+  <span>
     <%= t(:'adva.boards.topics_count', :count => @section.topics_count) %>,
     <%= t(:'adva.boards.posts_count', :count => @section.posts_count) %>
   </span>
 </h2>
 
-<table id="boards" class="list">
+<table>
   <thead>
     <tr>
       <th></th>
-      <th width="30%"></th>
+      <th></th>
     </tr>  
   </thead>
   <tbody>
   <% @boards.each do |board| %>
-    <tr id="<%= dom_id board %>">
+    <tr>
       <td>
         <h3><%= link_to board.title, forum_board_path(@section, board) %></h3>
         <p><%= board.description %></p>

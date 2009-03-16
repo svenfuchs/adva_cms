@@ -4,7 +4,7 @@
 	<%= f.hidden_field :board_id, :value => @section.boards.first.id %>
 <% else -%>
 	<% authorized_tag :p, :moderate, @topic do -%>
-      <%= f.label :board_id, @topic.new_record? ? 'Board' : 'Move to board' %>
+      <%= f.label :board_id, @topic.new_record? ? t(:'adva.boards.labels.board') : t(:'adva.boards.labels.board') %>
       <%= f.select :board_id, forum_boards_select(@section) %>
 	<% end -%>
 <% end %>
