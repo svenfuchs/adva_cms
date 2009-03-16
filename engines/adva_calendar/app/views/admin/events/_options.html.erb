@@ -1,16 +1,28 @@
 <h3><%= t(:'adva.titles.manage') %></h3>
 <ul>
-  <li><%= link_to t(:'adva.calendar.links.events'), admin_calendar_events_path(@site, @section), :id => 'manage_events' %></li>
-  <li><%= link_to t(:'adva.titles.categories'), admin_categories_path(@site, @section), :id => 'manage_categories' %></li>
-  <li><%= link_to t(:'adva.titles.settings'), edit_admin_section_path(@site, @section), :id => 'manage_settings' %></li>
+  <li>
+		<%= link_to t(:'adva.calendar.links.events'), admin_calendar_events_path(@site, @section), :id => 'manage_events' %>
+	</li>
+  <li>
+		<%= link_to t(:'adva.titles.categories'), admin_categories_path(@site, @section), :id => 'manage_categories' %>
+	</li>
+  <li>
+		<%= link_to t(:'adva.titles.settings'), edit_admin_section_path(@site, @section), :id => 'manage_settings' %>
+	</li>
 </ul>
 
 <% unless @event.new_record? -%>
 	<h3><%= t(:'adva.titles.actions') %></h3>
 	<ul>
-	  <li><%= link_to t(:'adva.calendar.links.create'), new_admin_calendar_event_path(@site) %></li>
-	  <li><%= link_to @event.draft? ? t(:'adva.calendar.links.preview') : t(:'adva.calendar.links.view'), calendar_event_path(@event.section, @event) %></li>
-	  <li><%= delete_resource_link(@event, admin_calendar_event_path, :confirm => t(:'adva.calendar.confirm_delete'), :class => nil) %></li>
+	  <li>
+			<%= new_resource_link Event, new_admin_calendar_event_path(@site), :text => t(:'adva.calendar.links.create') %>
+		</li>
+	  <li>
+			<%= view_resource_link @event, calendar_event_path(@event.section, @event), :text => (link_to @event.draft? ? t(:'adva.calendar.links.preview') : t(:'adva.calendar.links.view')) %>
+		</li>
+	  <li>
+			<%= delete_resource_link(@event, admin_calendar_event_path, :confirm => t(:'adva.calendar.confirm_delete'), :class => nil) %>
+		</li>
 	</ul>
 <% end -%>
 

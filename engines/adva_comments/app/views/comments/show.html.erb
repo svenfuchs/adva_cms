@@ -1,10 +1,12 @@
-<div id="comments">
+<div>
   <h2><%= t(:'adva.comments.titles.comment_number', :number => @comment.id) %></h2>
-  <p><%= t(:'adva.comments.labels.on') %>: <%= link_to_content @comment.commentable %></p>
+  <p>
+		<%= t(:'adva.comments.labels.on') %>: <%= link_to_content @comment.commentable %>
+	</p>
   <ol>
     <%= render :partial => 'comments/comment', :object => @comment %>
   </ol>
 </div>
 <% if !@comment.approved? and has_permission?(:update, :comment) %>
-  <%= render :partial => 'comments/form', :locals => {:commentable => @comment.commentable}  %>
+  <%= render :partial => 'comments/form', :locals => { :commentable => @comment.commentable }  %>
 <% end %>

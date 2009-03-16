@@ -1,4 +1,4 @@
-<% split_form_for :calendar_event, @event, :url => admin_calendar_events_path, :html => {:multipart => true, :id => 'content_form'} do |f| -%>
+<% split_form_for :calendar_event, @event, :url => admin_calendar_events_path, :html => { :multipart => true } do |f| -%>
 	<%= render :partial => "form", :locals => { :f => f } %>
 	
 	<%= save_or_cancel_links(f, :cancel_url => admin_calendar_events_path) %>
