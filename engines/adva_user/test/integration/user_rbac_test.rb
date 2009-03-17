@@ -11,19 +11,12 @@ module IntegrationTests
     test "Updating the user account does not remove users roles" do
       login_as_superuser
       visit_user_edit_form
-      check_form_validity
       fill_and_submit_user_edit_form
     end
     
     def visit_user_edit_form
       visit "admin/sites/#{@site.id}/users/#{@superuser.id}/edit"
       assert 'admin/users/edit'
-    end
-    
-    def check_form_validity
-      # FIXME any better way to make a test for bug #256 to fail? this is brittle.
-      assert_no_tag :input, :attributes => { :id => "user_roles_0_selected", :type => "hidden" }
-      assert_no_tag :input, :attributes => { :id => "user_roles_1_selected", :type => "hidden" }
     end
     
     def fill_and_submit_user_edit_form
