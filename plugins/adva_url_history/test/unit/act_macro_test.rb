@@ -20,6 +20,6 @@ class UrlHistoryActMacroTest < ActiveSupport::TestCase
   test "does not install multiple times on repeated calls" do
     TestController.tracks_url_history
     TestController.tracks_url_history
-    assert_equal 1, TestController.filter_chain.select { |filter| filter.method == UrlHistory::AroundFilter }.count
+    assert_equal 1, TestController.filter_chain.select { |filter| filter.method == UrlHistory::AroundFilter }.size
   end
 end
