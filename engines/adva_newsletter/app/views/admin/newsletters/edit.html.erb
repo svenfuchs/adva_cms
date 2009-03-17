@@ -6,5 +6,5 @@
 <% split_form_for :newsletter, @newsletter, :url => admin_newsletter_path, :html => {:method => :put, :multipart => true, :id => 'content_form'} do |f| %>
   <%= render :partial => 'form', :locals => {:f => f} %>  
 
-  <%= save_or_cancel_links(f, admin_newsletter_path(@site)) %>
+  <%= save_or_cancel_links(f, :cancel_url => admin_newsletter_path(@site)) %>
 <% end %>
