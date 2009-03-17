@@ -81,22 +81,6 @@ class UserControllerTest < ActionController::TestCase
     end
   end
 
-  # FIXME there are no edit/update actions
-  #
-  # describe "GET to :edit" do
-  #   action { get :edit, :id => @user.id }
-  #   # it_guards_permissions :update, :user
-  # 
-  #   with :access_granted do
-  #     it_assigns :user
-  #     it_renders :template, :edit do
-  #       has_form_putting_to user_path(@user) do
-  #         shows :form
-  #       end
-  #     end
-  #   end
-  # end
-
   describe "DELETE to :destroy" do
     action { delete :destroy }
     # it_guards_permissions :destroy, :user # FIXME requires authentication
