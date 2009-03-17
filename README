@@ -21,19 +21,23 @@ Installation: Release 0.1.1
 
 Required: Rails 2.2.x, ImageMagick for image handling
 
-rails my-app
-cd my-app
+# Create your app
+  rails my-app
+  cd my-app
 
-git clone git://github.com/svenfuchs/adva_cms.git vendor/adva  # or use git submodule add ...
-cd vendor/adva
-git checkout -b tag/0.1.1 0.1.1
-cd -
+# Clone adva-cms and checkout the 0.1.1 tag
+  git clone git://github.com/svenfuchs/adva_cms.git vendor/adva  # or use git submodule add ...
+  cd vendor/adva
+  git checkout -b tag/0.1.1 0.1.1
+  cd -
 
-ruby vendor/adva/setup.rb     # adds adva rake tasks and required files
-rake db:migrate:all           # runs adva-cms migrations
+# Run the setup script
+  ruby vendor/adva/setup.rb     # adds adva rake tasks and required files
 
-ruby script/server
-open http://localhost:3000
+# Migrate the database and start the server
+  rake db:migrate:all           # runs adva-cms migrations
+  ruby script/server
+  open http://localhost:3000
 
 You should see adva-cms installation screen.
 Fill out the form and you're started, enjoy!
@@ -45,16 +49,16 @@ Installation: Edge version using rails template
 Required: Rails 2.3.2, ImageMagick for image handling
 
 # install Rails 2.3.2 gems if you don't have them already
-sudo gem install rails --source http://gems.rubyonrails.org
+  sudo gem install rails --source http://gems.rubyonrails.org
 
 # install and setup adva-cms using a template
-rails my-app -m http://github.com/svenfuchs/adva_cms/raw/master/script/adva-cms.template.rb
-cd my-app
+  rails my-app -m http://github.com/svenfuchs/adva_cms/raw/master/script/adva-cms.template.rb
+  cd my-app
 
 # migrate and you're done
-rake db:migrate
-ruby script/server
-open http://localhost:3000
+  rake db:migrate
+  ruby script/server
+  open http://localhost:3000
 
 You should see adva-cms installation screen. 
 Fill out the form and you're started, enjoy!
@@ -66,22 +70,38 @@ Installation: Edge version manually
 Required: Rails 2.3.1 or newer, ImageMagick for image handling
 
 # First install Rails 2.3.1 gems if you don't have it already
-sudo gem install rails --source http://gems.rubyonrails.org
+  sudo gem install rails --source http://gems.rubyonrails.org
 
-rails my-app
-cd my-app
-git clone git://github.com/svenfuchs/adva_cms.git vendor/adva  # or use: git submodule add ...
+# Create your app
+  rails my-app
+  cd my-app
 
-Insert this line: "require File.join(File.dirname(__FILE__), '../vendor/adva/engines/adva_cms/boot')"
-in your environment.rb after this line "require File.join(File.dirname(__FILE__), 'boot')".
+# Prepare the config/environment.rb and remove the public/index.html
+  insert: "require File.join(File.dirname(__FILE__), '../vendor/adva/engines/adva_cms/boot')"
+  after line: "require File.join(File.dirname(__FILE__), 'boot')", in your environment.rb.
+  
+  rm public/index.html
 
-rake adva:install:core -R vendor/adva/engines/adva_cms/lib/tasks # installs adva-cms to vendor/plugins
-rake adva:assets:copy # copies plugin assets to public/
-rake db:migrate  # copies engine migrations to app, does usual migration and removes
-                 # engine migrations after it's done
+# Create the script test file for adva-cms
+  create a new file: script/adva-cms-test
+  and add the following lines in it:
 
-ruby script/server
-open http://localhost:3000
+  #!/usr/bin/env ruby
+  paths = ARGV.clone
+  load 'vendor/adva/script/test'
+
+# Clone the adva-cms ( this might take a bit, grab a coffee meanwhile :) )
+  git clone git://github.com/svenfuchs/adva_cms.git vendor/adva  # or use: git submodule add ...
+
+# Install the core engines and copy the assets
+  rake adva:install:core -R vendor/adva/engines/adva_cms/lib/tasks # installs adva-cms to vendor/plugins
+  rake adva:assets:copy                                            # copies plugin assets to public/
+
+# Migrate the database and start the server
+  rake db:migrate  # copies engine migrations to app, does usual migration and removes
+                   # engine migrations after it's done
+  ruby script/server
+  open http://localhost:3000
 
 You should see adva-cms installation screen. 
 Fill out the form and you're started, enjoy!
