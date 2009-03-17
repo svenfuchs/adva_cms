@@ -50,7 +50,7 @@ module Admin::BaseHelper
   end
 
   def admin_site_select_tag
-    return '' unless current_user.has_role?(:superuser) || Site.multi_sites_enabled
+    return '' unless current_user && ( current_user.has_role?(:superuser) || Site.multi_sites_enabled )
     options = []
 
     if current_user.has_role?(:superuser)
