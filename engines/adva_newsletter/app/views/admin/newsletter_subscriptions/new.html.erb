@@ -9,16 +9,16 @@
 
 <% if @newsletter.available_users.present? %>
 
-  <% split_form_for :subscription, @subscription, :url => admin_subscriptions_path, :html => {:multipart => true, :id => 'content_form'} do |f| %>
+  <% split_form_for :subscription, @subscription, :url => admin_subscriptions_path, :html => { :multipart => true } do |f| %>
     <%= render :partial => 'form', :locals => {:f => f} %>
 
-    <%= save_or_cancel_links(f, :cancel_url => admin_subscriptions_path, :save_text => t(:'adva.common.add'))%>
+    <%= save_or_cancel_links(f, :cancel_url => admin_subscriptions_path, :save_text => t(:'adva.common.add')) %>
   <% end %>
 
 <% else %>
 
   <div class="empty">
     <%= t(:'adva.sites.no_available_users') %>
-    <%= link_to t(:'adva.users.links.new'), new_admin_site_user_path %>
+    <%= new_resource_link User, new_admin_site_user_path, :text => t(:'adva.users.links.new') %>
   </div>
 <% end %>

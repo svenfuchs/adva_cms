@@ -1,4 +1,4 @@
 <h3><%= t(:'adva.titles.actions') %></h3>
 <ul>
-  <li><%= link_to t(:'adva.newsletter.link.new'), new_admin_newsletter_path %></li>
+  <li><%= new_resource_link Newsletter, new_admin_newsletter_path(@site), :text => t(:'adva.newsletter.link.new') %></li>
 </ul>

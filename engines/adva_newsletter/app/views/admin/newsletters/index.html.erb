@@ -24,9 +24,9 @@
 			       delete_resource_link(newsletter, admin_newsletter_path(@site, newsletter))
 		end
 
-		t.empty :p, :class => 'empty' do
+		t.empty :p,
 			t(:'adva.newsletter.no_newsletters') + "\n" + 
-			link_to(t(:'adva.newsletter.link.new'), new_admin_newsletter_path(@site))
+			link_to(t(:'adva.newsletter.link.new'), new_admin_newsletter_path(@site)), :class => 'empty'
 		end
 	end
 %>

@@ -18,10 +18,8 @@
 		<%= f.check_box :all_day %> <%= t(:'adva.calendar.attributes.all_day') %>
 	</label>
 
-  <p id="end_date">
-    <%= f.calendar_date_select :end_date, :value => (@event.end_date ? @event.end_date.localtime.rfc2822 : ''),
-                                          :label => :'adva.calendar.attributes.end_date' %>
-  </p>
+  <%= f.calendar_date_select :end_date, :value => (@event.end_date ? @event.end_date.localtime.rfc2822 : ''),
+                                        :label => :'adva.calendar.attributes.end_date' %>
 
   <%= f.text_area :body, :class => "wysiwyg", :label => :'adva.calendar.attributes.body' %>
   <%= f.text_field :tag_list, :label => :'adva.calendar.attributes.tags', :hint => :'adva.common.hints.tags' %>
@@ -32,7 +30,7 @@
 		<%= t(:'adva.calendar.confirm_save_as_draft') %>
   </label>
 
-  <p id="publish_date" style="<%= @event.draft? ? "display:none" : "" %>">
+  <p style="<%= @event.draft? ? "display:none" : "" %>">
     <%= f.label :published_at, t(:'adva.calendar.publish_on_date') %>
     <%= f.datetime_select :published_at,
                           :start_year => (@event.published_at || Time.zone.now).year-1,

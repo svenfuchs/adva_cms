@@ -40,7 +40,7 @@
 	    params[:filter] ?
 	      t(:'adva.wikipage.view.index.no_matching_pages_notice') :
 	      t(:'adva.wikipage.view.index.no_wikipages_notice') + "\n" +
-	      link_to t(:'adva.wikipage.view.index.link_to_create_one_now'), new_admin_wikipage_path(@site)
+	      link_to(t(:'adva.wikipage.view.index.link_to_create_one_now'), new_admin_wikipage_path(@site))
 		end
 	end
 %>

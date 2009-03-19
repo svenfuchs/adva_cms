@@ -329,6 +329,7 @@ en:
         clear:
           success: The cache has been cleared.
     comments:
+      said_time_ago: said {{time}} ago
       flash:
         thank_you: Thank you for the comment!
         create:
@@ -688,6 +689,11 @@ en:
     settings:
       filter_options:
         plain_html: Plain HTML
+    forums:
+      info:
+        total_contents: This forum has total of {{boards}} boards, {{topics}} topics and {{posts}} posts.
+      settings:
+        post_content_filter: 'When forum posts are posted, they use this as a default setting.'
     boards:
       topics_count:
         one: "{{count}} topic"
@@ -697,16 +703,24 @@ en:
         other: "{{count}} comments"
       info:
         no_boards_in_forum: You don't have any boards created in {{forum}}.
+        move_topics_to_board: All the existing forum topics will be moved to your first board when you create one.
       titles:
         new: New Board
         edit: Edit Board
+      labels:
+        board: Board
+        move_to_board: Move to board
       posts_count:
         one: "{{count}} post"
         other: "{{count}} posts"
       links:
+        boards: Boards
+        forum: Forum
+        settings: Settings
         new: New Board
         reorder: Reorder boards
         create_now: Create one now
+        create: Create a new Board
       flash:
         no_next_board: There is no next board. Showing the last one.
         destroy:
@@ -740,6 +754,7 @@ en:
         post_new: Post one now
         post_now: Post one now
         new_topic: New topic
+        create: Create a new Topic
       flash:
         destroy:
           success: The topic has been deleted.

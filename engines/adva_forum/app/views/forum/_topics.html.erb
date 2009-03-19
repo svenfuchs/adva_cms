@@ -3,7 +3,7 @@
 	<% if @board -%>
 		 &middot; <%= @board.title %>
 	<% end -%>
-  <span class="meta">
+  <span>
     <%= t(:'adva.boards.topics_count', :count => @board ? @board.topics_count : @section.topics_count) %>,
     <%= t(:'adva.boards.posts_count', :count => @board ? @board.posts_count : @section.posts_count) %> &middot;
 		<% authorized_tag :span, :create, @topic do %>
@@ -12,12 +12,12 @@
   </span>
 </h2>
 
-<table id="topics" class="list">
+<table>
   <thead>
     <tr>
       <th><%= t(:'adva.titles.topic') %></th>
-      <th width="1%"><%= t(:'adva.titles.posts') %></th>
-      <th width="30%"><%= t(:'adva.topics.titles.latest_post') %></th>
+      <th><%= t(:'adva.titles.posts') %></th>
+      <th><%= t(:'adva.topics.titles.latest_post') %></th>
     </tr>  
   </thead>
   <tbody>

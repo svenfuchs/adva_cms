@@ -18,49 +18,53 @@
 <% end %>
 <% end -%>
 
-
 <% content_for :sidebar do -%>
   <h3><%=t :'adva.calendar.titles.manage'  %></h3>
   <ul>
-    <li><%= link_to t(:'adva.calendar.links.events'), admin_calendar_events_path(@site, @section) %></li>
-    <li><%= link_to t(:'adva.calendar.links.categories'), admin_categories_path(@site, @section) %></li>
-    <li><%= link_to t(:'adva.calendar.links.settings'), edit_admin_section_path(@site, @section) %></li>
+    <li>
+			<%= link_to t(:'adva.calendar.links.events'), admin_calendar_events_path(@site, @section) %>
+		</li>
+    <li>
+			<%= link_to t(:'adva.calendar.links.categories'), admin_categories_path(@site, @section) %>
+		</li>
+    <li>
+			<%= edit_resource_link @section, edit_admin_section_path(@site, @section), :text => t(:'adva.calendar.links.settings') %>
+		</li>
   </ul>
 
   <h3><%=t :'adva.calendar.titles.actions' %></h3>
   <ul>
-    <li><%= link_to t(:'adva.calendar.links.create'), new_admin_calendar_event_path(@site) %></li>
+    <li>
+			<%= new_resource_link Event, new_admin_calendar_event_path(@site), :text => t(:'adva.calendar.links.create') %>
+		</li>
   </ul>
 <% end -%>
 
-
-<% unless @events.empty? -%>
-  <p class="total">
-    <%= t(:'adva.calendar.total_events_with_count', :count => @events.total_entries) %>
-  </p>
-
-  <table id="events" class="list" cellspacing="0" cellpadding="0">
-    <thead>
-      <tr>
-        <th scope="col"><%= t(:'adva.calendar.titles.title') %></th>
-        <th scope="col"><%= t(:'adva.calendar.titles.starting_at') %></th>
-        <th scope="col"><%= t(:'adva.calendar.titles.ending_at') %></th>
-        <th scope="col"><%= t(:'adva.calendar.titles.created_by') %></th>
-        <th scope="col"></th>
-      </tr>
-    </thead>
-    <tbody id="events_body">
-      <%= render :partial => 'event', :collection => @events %>
-    </tbody>
-  </table>
-  <%= will_paginate @events, :id => 'pagination' %>
-<% else -%>
-<div class="empty" style="margin-bottom:20px">
-  <% if params[:filter].blank? -%>
-    <%= t(:'adva.calendar.errors.no_events_in_calendar') %>
-    <%= link_to t(:'adva.calendar.links.create'), new_admin_calendar_event_path(@site) %>
-  <% else -%>
-    <%= t(:'adva.calendar.errors.no_events_found') %>
-  <% end -%>
-</div>
-<% end %>
+<%
+	table_for @events do |t|
+		t.column :title, :starting_at, :ending_at, :created_by, :actions
+		
+		t.head.row do |r|
+			r.cell t(:'adva.calendar.total_events_with_count', :count => @events.total_entries), :class => :total, :colspan => :all
+		end
+		
+		t.row do |r, event|
+			r.cell link_to event.title, edit_admin_calendar_event_path(@site, @section, event)
+			r.cell datetime_with_microformat(event.start_date, :format => (event.all_day? ? :mdy : :long))
+			r.cell event.end_date ? datetime_with_microformat(event.end_date, :format => (event.all_day? ? :mdy : :long)) : t(:'adva.calendar.open_end')
+			r.cell link_to event.user.name, admin_site_user_path(@site, event.user)
+			r.cell view_resource_link(event, admin_calendar_event_path(@site, @section, event)) + "\n" +
+						 edit_resource_link(event, edit_admin_calendar_event_path(@site, @section, event)) + "\n" +
+						 delete_resource_link(event, admin_calendar_event_path(@site, @section, event), :confirm => t(:'adva.calendar.confirm_delete'))
+		end
+		
+		t.foot.row do |r|
+			r.cell will_paginate(@events, :id => 'pagination')
+		end
+		
+		t.empty :div, params[:filter].blank? ?
+    				t(:'adva.calendar.errors.no_events_in_calendar') + "\n" +
+    				new_resource_link(Event, new_admin_calendar_event_path(@site), :text => t(:'adva.calendar.links.create')) :
+    				t(:'adva.calendar.errors.no_events_found'), :class => 'empty'
+	end
+%>
