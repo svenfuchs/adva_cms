@@ -16,90 +16,79 @@ similar but separate Rails applications.
 Please check out /doc directory and our site http://adva-cms.org for more info.
  
  
-Installation: Release 0.1.1
+Installation: Release 0.1.2
 ===========================
 
-Required: Rails 2.2.x, ImageMagick for image handling
+Required: Rails 2.3.2.1, ImageMagick for image handling
 
-# Create your app
-  rails my-app
-  cd my-app
-
-# Clone adva-cms and checkout the 0.1.1 tag
-  git clone git://github.com/svenfuchs/adva_cms.git vendor/adva  # or use git submodule add ...
-  cd vendor/adva
-  git checkout -b tag/0.1.1 0.1.1
-  cd -
-
-# Run the setup script
-  ruby vendor/adva/setup.rb     # adds adva rake tasks and required files
-
-# Migrate the database and start the server
-  rake db:migrate:all           # runs adva-cms migrations
-  ruby script/server
-  open http://localhost:3000
-
-You should see adva-cms installation screen.
-Fill out the form and you're started, enjoy!
-
-
-Installation: Edge version using rails template
-===============================================
-
-Required: Rails 2.3.2, ImageMagick for image handling
-
-# install Rails 2.3.2 gems if you don't have them already
+# install Rails 2.3.2.1 gems if you don't have them already
   sudo gem install rails --source http://gems.rubyonrails.org
 
 # install and setup adva-cms using a template
-  rails my-app -m http://github.com/svenfuchs/adva_cms/raw/master/script/adva-cms.template.rb
-  cd my-app
+  rails my-app -m http://github.com/svenfuchs/adva_cms/raw/master/templates/adva-cms.0.1.2.rb
 
-# migrate and you're done
-  rake db:migrate
+# there's no step 2
+  cd my-app
   ruby script/server
   open http://localhost:3000
 
 You should see adva-cms installation screen. 
 Fill out the form and you're started, enjoy!
 
+You can install additional engines and plugins through rake adva:install. See
+below for more about that.
+
+
+Installation: Edge version using rails template
+===============================================
+
+Required: Rails 2.3.2.1, ImageMagick for image handling
+
+# install Rails 2.3.2.1 gems if you don't have them already
+  sudo gem install rails --source http://gems.rubyonrails.org
+
+# install and setup adva-cms using a template
+  rails my-app -m http://github.com/svenfuchs/adva_cms/raw/master/templates/adva-cms.master.rb
+
+# there's no step 2
+  cd my-app
+  ruby script/server
+  open http://localhost:3000
+
+You should see adva-cms installation screen. 
+Fill out the form and you're started, enjoy!
+
+You can install additional engines and plugins through rake adva:install. See
+below for more about that.
+
 
 Installation: Edge version manually
 ===================================
 
-Required: Rails 2.3.1 or newer, ImageMagick for image handling
+Required: Rails 2.3.2.1 or newer, ImageMagick for image handling
 
-# First install Rails 2.3.1 gems if you don't have it already
+# First install Rails 2.3.2.1 gems if you don't have it already
   sudo gem install rails --source http://gems.rubyonrails.org
 
 # Create your app
   rails my-app
   cd my-app
-
-# Prepare the config/environment.rb and remove the public/index.html
-  insert: "require File.join(File.dirname(__FILE__), '../vendor/adva/engines/adva_cms/boot')"
-  after line: "require File.join(File.dirname(__FILE__), 'boot')", in your environment.rb.
-  
   rm public/index.html
 
-# Create the script test file for adva-cms
-  create a new file: script/adva-cms-test
-  and add the following lines in it:
-
-  #!/usr/bin/env ruby
-  paths = ARGV.clone
-  load 'vendor/adva/script/test'
+# Prepare the config/environment.rb and remove the public/index.html
+	# in config/environment.rb make sure you have:
+	require File.join(File.dirname(__FILE__), 'boot')
+	require File.join(File.dirname(__FILE__), '../vendor/adva/engines/adva_cms/boot') # insert this line
 
 # Clone the adva-cms ( this might take a bit, grab a coffee meanwhile :) )
   git clone git://github.com/svenfuchs/adva_cms.git vendor/adva  # or use: git submodule add ...
 
 # Install the core engines and copy the assets
-  rake adva:install:core -R vendor/adva/engines/adva_cms/lib/tasks # installs adva-cms to vendor/plugins
-  rake adva:assets:copy                                            # copies plugin assets to public/
+  rake adva:install:core -R vendor/adva/engines/adva_cms/lib/tasks # install adva-cms to vendor/plugins/
+  rake adva:assets:copy                                            # copy plugin assets to public/
 
 # Migrate the database and start the server
-  rake db:migrate  # copies engine migrations to app, does usual migration and removes
-                   # engine migrations after it's done
+  rake db:migrate
   ruby script/server
   open http://localhost:3000
 

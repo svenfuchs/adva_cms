@@ -28,7 +28,6 @@ run "ln -s #{CC_DIR} #{TEST_DIR}/vendor/adva"
 
 rake "db:migrate"
 rake "db:test:clone"
-rake "assets:copy"
 
 end_time = (Time.now - start_time).to_i
 puts  "Rails app setup, time elapsed #{end_time} seconds."
