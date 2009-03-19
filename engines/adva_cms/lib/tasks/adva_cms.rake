@@ -32,6 +32,8 @@ namespace :adva do
   desc 'install selected adva_cms engines (pick some with engines=all plugins=all or engines=name1,name2 plugins=name3)'
   task :install do
     perform(:install)
+    Rake::Task['db:migrate'].invoke
+    Rake::Task['adva:assets:copy'].invoke
   end
 
   desc 'uninstall selected adva_cms engines (pick some with engines=all plugins=all or engines=name1,name2 plugins=name3)'
@@ -47,6 +49,7 @@ namespace :adva do
 
       FileUtils.mkdir_p(target) unless File.directory?(target)
       FileUtils.cp_r sources, target
+      puts "copying assets to public ..."
     end
   end
 
@@ -59,7 +62,10 @@ namespace :adva do
         names = ENV[type] == 'all' ? all(type) : ENV[type].split(',')
         names -= core if ENV[type] == 'all' && method == :uninstall
         names -= except
-        send(method, type, names) unless ENV[type].nil?
+        unless ENV[type].nil?
+          puts "#{method}ing #{type}: #{names.join(', ')}"
+          send(method, type, names)
+        end
       end
     end
   end
@@ -102,7 +108,7 @@ end
 
 namespace :db do
   task :migrate => [:environment, 'db:migrate:prepare', 'db:migrate:original_migrate', 'db:migrate:cleanup'] do
-    # nothing :)
+    # there's nothing else to do ...
   end
 
   namespace :migrate do
