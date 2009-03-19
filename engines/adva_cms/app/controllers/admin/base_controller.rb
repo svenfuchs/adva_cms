@@ -6,7 +6,7 @@ class Admin::BaseController < ApplicationController
   helper TableBuilder
 
   before_filter :set_site, :set_locale, :set_timezone, :set_cache_root
-  helper :base, :content, :users, :'admin/comments'
+  helper :base, :content, :filter, :users, :'admin/comments'
   helper :blog   if Rails.plugin?(:adva_blog) # FIXME move to engines
   helper :assets if Rails.plugin?(:adva_assets)
   helper :roles  if Rails.plugin?(:adva_rbac)

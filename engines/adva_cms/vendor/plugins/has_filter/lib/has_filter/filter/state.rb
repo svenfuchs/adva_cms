@@ -1,22 +1,24 @@
 module HasFilter
   module Filter
   	class State < Base
+  	  self.priority = 3
   		self.scopes = [:state]
 
-  		def to_form_fields
-  			options[:states].map { |state| state_tag(state) }
+  		def to_form_fields(options = {})
+  			@options[:states].map { |state| state_tag(state) }
   		end
 		
-  		def scope(target, params)
+  		def scope(target)
 	      # FIXME assert that state is a valid state!
-  		  params.each { |state| target = target.send(state) }
-		    target
+  		  selected.inject(target) { |target, state| target.send(state) }
   		end
 		
   		protected
   		
   		  def state_tag(state)
-  		    check_box_tag(form_field_name(:state), state, false, :id => form_field_id(:state))
+  		    id = form_field_id(:state, state)
+  		    view.check_box_tag(form_field_name(:state, nil), state, selected.include?(state), :id => id) + 
+  		    view.label_tag(id, state)
 		    end
   	end
 	end

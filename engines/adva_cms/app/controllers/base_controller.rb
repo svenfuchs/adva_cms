@@ -1,6 +1,6 @@
 class BaseController < ApplicationController
   class SectionRoutingError < ActionController::RoutingError; end
-  helper :base, :content, :users
+  helper :base, :content, :filter, :users
   helper :roles if Rails.plugin?(:adva_rbac) # FIXME how to automatically include all installed helpers?
   helper :blog  if Rails.plugin?(:adva_blog)
   helper TableBuilder
