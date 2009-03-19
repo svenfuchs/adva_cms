@@ -15,6 +15,7 @@ require 'registry' # reload them between requests (FIXME ... this doesn't seem t
 
 Registry.set :redirect, {
   :login        => lambda {|c| c.send :admin_sites_path },
+  :logout       => '/',
   :verify       => '/',
   :site_deleted => lambda {|c| c.send :admin_sites_path }
 }
