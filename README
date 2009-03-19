@@ -19,9 +19,9 @@ Please check out /doc directory and our site http://adva-cms.org for more info.
 Installation: Release 0.1.2
 ===========================
 
-Required: Rails 2.3.2.1, ImageMagick for image handling
+Required: Rails 2.3.2, ImageMagick for image handling
 
-# install Rails 2.3.2.1 gems if you don't have them already
+# install Rails 2.3.2 gems if you don't have them already
   sudo gem install rails --source http://gems.rubyonrails.org
 
 # install and setup adva-cms using a template
@@ -42,9 +42,9 @@ below for more about that.
 Installation: Edge version using rails template
 ===============================================
 
-Required: Rails 2.3.2.1, ImageMagick for image handling
+Required: Rails 2.3.2, ImageMagick for image handling
 
-# install Rails 2.3.2.1 gems if you don't have them already
+# install Rails 2.3.2 gems if you don't have them already
   sudo gem install rails --source http://gems.rubyonrails.org
 
 # install and setup adva-cms using a template
