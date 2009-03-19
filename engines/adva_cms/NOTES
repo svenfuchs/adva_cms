@@ -44,12 +44,17 @@ created_at/updated_at/published_at since/before/today/yesterday/this_week/this_m
 ------------------------------------------------------------------------------
 
 class Article < ActiveRecord::Base
-	has_filters :title => :text,
-	            :body  => :text,
-						  :excerpt => :text,
-							:state => { :type => :select, :states => [:published, :unpublished] },
-						  :tags => :tagged,
-						  :belongs_to => { :model => :category, :type => :select, :options => lambda {|r| r.categories } }
+	has_filter :text   => { :attributes => [:title, :body, :excerpt] },
+						 :state  => { :states => [:published, :unpublished] }, # :type => :select
+						 :tagged => { :type => :select },
+						 :categorized => :categorized
+
+  has_filter :tagged, :categorized,
+             :text  => [:title, :body, :excerpt],
+             :state => [:published, :unpublished]
+						  
+	has_filter :title, :body, :excerpt, :tagged, :categorized, 
+	           :state => [:published, :unpublished]
 
   class << self
     def filter_chain
@@ -79,6 +84,12 @@ params = {
 <input  name="filters[state][]" value="approved"  type="checkbox">
 <select name="filters[belongs_to][][category]"><option value="1">Foo</option></select>
 
+<select name="filters[text][][attribute]"><option value="title">Title</option></select>
+<select name="filters[text][][scope]"><option value="contains">contains</option></select>
+<input  name="filters[text][][query]" value="foo" type="text">
+<select name="filters[text][][attribute]"><option value="body">Body</option></select>
+<select name="filters[text][][scope]"><option value="starts_with">starts_with</option></select>
+<input  name="filters[text][][query]" value="bar" type="text">
 
 
 ------------------------------------------------------------------------------

@@ -1,3 +1,7 @@
+require 'tag_list'
+require 'tag'
+require 'tagging'
+
 module ActiveRecord
   module Acts
     module Taggable

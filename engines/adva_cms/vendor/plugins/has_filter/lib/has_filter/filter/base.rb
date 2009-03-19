@@ -1,38 +1,67 @@
 module HasFilter
   module Filter
   	class Base
-  	  include ActionView::Helpers::TagHelper
-  	  include ActionView::Helpers::FormTagHelper
-  	  include ActionView::Helpers::FormOptionsHelper
-
-  		class_inheritable_accessor :scopes
-		  attr_accessor :model, :attribute, :options
-
-  		def initialize(attribute = nil, options = {})
-  			@attribute = attribute
+  		class_inheritable_accessor :scopes, :priority
+		  attr_accessor :set, :options
+		  delegate :view, :to => :set
+  		
+  		class << self
+  		  def build(*args)
+  	      [new(*args)]
+  	    end
+  	  end
+  		
+  		def initialize(options = {})
   			@options = options
   		end
+  	  
+  	  def attribute
+  	    @options[:attribute] if @options
+	    end
+	    
+	    def matches?(name)
+	      type == name
+      end
+  		
+  		def select(selected)
+  		  @selected = selected
+		  end
+		  
+		  def selected
+		    @selected ||= {}
+	    end
+		  
+		  def selected?
+        set.selected?(type)
+	    end
 		
   		def type
   		  @type ||= self.class.name.demodulize.underscore.to_sym
   	  end
+	    
+	    def to_field_set_tag(options = {})
+        view.capture do
+    		  options.reverse_merge! :id => "filter_#{type}_#{set.index}", :class => "filter filter_#{attribute || type}"
+  	      options[:class] += ' selected' if selected?
+          view.field_set_tag(nil, options.slice(:id, :class, :label)) do
+            to_form_fields(options).join("\n")
+          end
+        end
+      end
   	  
   	  protected
-  		
-    		def form_field_name(type, attribute = nil, key = nil)
-    		  "filters[#{type}]" + (attribute ? "[#{attribute}]" : '') + "[]" + (key ? "[#{key}]" : '')
+  	    
+    		def filter_select_option
+		      [I18n.t(type, :scope => :'has_filter.filters', :default => type.to_s.gsub('_', ' ')), type]
+  	    end
+
+    		def form_field_name(*keys)
+    		  "filters[]" + keys.map { |key| "[#{key}]" }.join
   		  end
 		  
-  		  def form_field_id(type, attribute = nil, key = nil)
-  		    "filter_#{type}" + (attribute ? "_#{attribute}" : '') + (key ? "_#{key}" : '')
+  		  def form_field_id(*keys)
+    		  "filter" + keys.map { |key| "_#{key}" }.join + "_#{set.index}"
   	    end
-  		
-  		  def options_for_scope_select
-  		    options = self.class.scopes.map do |scope| 
-  		      [I18n.t(scope, :scope => :'has_filter.scopes', :default => scope.to_s.gsub('_', ' ')), scope]
-		      end
-  		    "\n" + options_for_select(options) + "\n"
-		    end
   	end
 	end
 end

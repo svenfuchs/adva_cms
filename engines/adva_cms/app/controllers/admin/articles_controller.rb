@@ -3,6 +3,7 @@ class Admin::ArticlesController < Admin::BaseController
 
   before_filter :adjust_action
   before_filter :set_section
+  before_filter :set_articles,          :only => [:index]
   before_filter :set_article,           :only => [:show, :edit, :update, :destroy]
   before_filter :set_categories,        :only => [:new, :edit]
   around_filter :set_content_locale #,    :only => [:new, :edit, :create, :update]
@@ -18,7 +19,6 @@ class Admin::ArticlesController < Admin::BaseController
   guards_permissions :article, :update => :update_all
 
   def index
-    @articles = @section.articles.paginate article_options
     render :template => "admin/#{@section.type.tableize}/articles/index"
   end
 
@@ -106,6 +106,13 @@ class Admin::ArticlesController < Admin::BaseController
   protected
 
     def set_section; super; end
+    
+    def set_articles
+      # TODO params[:per_page] ??
+      options = {:page => current_page, :per_page => params[:per_page], :order => 'contents.position, contents.id DESC'}
+      options.reverse_merge(filter_options)
+      @articles = @section.articles.filtered(params[:filters]).paginate options
+    end
 
     def set_article
       @article = @section.articles.find params[:id]
@@ -160,12 +167,6 @@ class Admin::ArticlesController < Admin::BaseController
       params[:article][key] ||= value
     end
     
-    def article_options
-      # TODO params[:per_page] ??
-      options = {:page => current_page, :per_page => params[:per_page], :order => 'contents.position, contents.id DESC'}
-      options.reverse_merge(filter_options)
-    end
-
     def filter_options
       options = {}
       case params[:filter]

@@ -7,6 +7,10 @@ class Article < Content
 
   validates_presence_of :title, :body
   validates_uniqueness_of :permalink, :scope => :section_id
+
+  has_filter :tagged, :categorized,
+             :text  => { :attributes => [:title, :body, :excerpt] },
+             :state => { :states => [:published, :unpublished] }
   
   class << self
     def find_by_permalink(*args)

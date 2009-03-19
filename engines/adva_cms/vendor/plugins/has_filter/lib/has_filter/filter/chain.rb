@@ -1,51 +1,45 @@
+# A filter chain is a collection of filter sets. A filter set hold individual 
+# filters of which only one can be active/selected at a time.
+
 module HasFilter
   module Filter
     class Chain < Array
-      include ActionView::Helpers::TagHelper
-      include ActionView::Helpers::TextHelper
-      include ActionView::Helpers::FormTagHelper
-      include ActionView::Helpers::FormOptionsHelper
-      include ActionView::Helpers::CaptureHelper
-
-      def scope(target, params)
-        params.each do |type, params|
-          filter = find_filter(type)
-          target = filter.scope(target, params) if filter
+      class << self
+        def build(owner, *args)
+          new owner, Set.build(*args)
         end
-		    target
       end
-    
-      def find_filter(type)
-        detect { |filter| filter.type == type }
+      
+      attr_reader :owner, :view
+      
+      def initialize(owner, *sets)
+        @owner = owner
+        concat sets.each { |set| set.chain = self }
+      end
+      
+      def select(params)
+        params ||= []
+        adjust_size(params)
+        each { |set| set.select(params[set.index]) }
+        self
+      end
+      
+      def scope
+        inject(owner) { |target, set| set.scope(target) }
       end
 		  
-		  attr_accessor :output_buffer
-  		def to_form_fields
-  		  @output_buffer = ''
-        field_set_tag :class => 'filters' do
-          filter_select_tag + "\n" + map do |filter| 
-    		    field_set_tag(field_set_options(filter)) { filter.to_form_fields.join("\n") }
-    		  end.join("\n")
-  		  end
+  		def to_form_fields(view, options = {})
+  		  @view = view
+        map { |set| set.to_field_set_tag(options) }
   		end
   		
   		protected
-  		
-    		def filter_select_tag
-  		    options = map(&:type).map do |type| 
-  		      [I18n.t(type, :scope => :'has_filter.filters', :default => type.to_s.gsub('_', ' ')), type]
-  	      end
-  		    select_tag :selected_filter, "\n" + options_for_select(options) + "\n"
-  	    end
-  		
-    		def field_set_tag(options = {}, &block)
-    		  options = options.map { |key, value| %( #{key}="#{value}") }
-    		  "<fieldset#{options}>\n#{block.call}\n</fieldset>"
-  		  end
-		  
-  		  def field_set_options(filter)
-  		    { :id => "filter_#{filter.type}", :class => 'filter' + (filter == first ? ' first' : '') }
-  	    end
+  		  
+  		  def adjust_size(params)
+  		    size = [params.size, 1].max
+  		    replace (1..size).map { first.dup }
+  		    each_with_index { |set, index| set.index = index }
+        end
     end
   end
 end
