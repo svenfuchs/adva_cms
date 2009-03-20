@@ -9,6 +9,7 @@
   <link rel="stylesheet" type="text/css" href="/stylesheets/adva_cms/admin/print.css" media="print" />
   <!--[if lte IE 6]><link rel="stylesheet" href="/stylesheets/adva_cms/admin/styles.ie6.css" type="text/css" media="screen"/><![endif]-->
   <%= javascript_include_tag :common, :admin, :cache => true %>
+  <%= yield :layout_head %>
 </head>
 <body>
   <ul id="acc_links">
