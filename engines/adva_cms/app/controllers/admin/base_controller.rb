@@ -1,19 +1,20 @@
 class Admin::BaseController < ApplicationController
   layout "admin"
-  
+
   renders_with_error_proc :below_field
   include CacheableFlash
   include ContentHelper
   include ResourceHelper
   helper TableBuilder
 
-  before_filter :set_site, :set_locale, :set_timezone, :set_cache_root
   helper :base, :resource, :content, :filter, :users, :'admin/comments'
   helper :blog   if Rails.plugin?(:adva_blog) # FIXME move to engines
   helper :assets if Rails.plugin?(:adva_assets)
   helper :roles  if Rails.plugin?(:adva_rbac)
 
   helper_method :perma_host, :has_permission?
+
+  before_filter :set_site, :set_locale, :set_timezone, :set_cache_root
 
   authentication_required
 
@@ -23,12 +24,16 @@ class Admin::BaseController < ApplicationController
     render(:partial => 'admin/shared/utility') +
     render(:partial => 'admin/shared/navigation')
   end
-  
-  content_for :sidebar, :section_tree, :only => { :format => :html } do 
+
+  content_for :sidebar, :section_tree, :only => { :format => :html } do
     render :partial => 'admin/shared/section_tree' if @site
   end
 
   protected
+
+    def current_resource
+      @section || @site || Site.new
+    end
 
     def require_authentication
       update_role_context!(params) # TODO no idea what this is good for ...
@@ -69,6 +74,8 @@ class Admin::BaseController < ApplicationController
       params[:locale] =~ /^[\w]{2}$/ or raise 'invalid locale' if params[:locale]
       I18n.locale = params[:locale] || I18n.default_locale
       I18n.locale.untaint
+
+      ActiveRecord::Base.locale = params[:cl].blank? ? nil : params[:cl].to_sym
     end
 
     def set_timezone
@@ -87,8 +94,8 @@ class Admin::BaseController < ApplicationController
       set_section if params[:section_id] and !@section
     end
 
-    def current_resource
-      @section || @site || Site.new
+    def content_locale
+      Article.locale == I18n.default_locale ? nil : Article.locale
     end
 
     def perma_host
@@ -106,4 +113,12 @@ class Admin::BaseController < ApplicationController
     def set_cache_root
       self.class.page_cache_directory = page_cache_directory.to_s
     end
+
+    # # FIXME make this declarative, so that one can call
+    # # default_param :article, :author_id do current_user.id end on the controller
+    # def default_param(*keys)
+    #   value, key = keys.pop, keys.pop
+    #   target = keys.inject(params) { |target, k| target[k] ||= {} }
+    #   target[key] ||= value
+    # end
 end

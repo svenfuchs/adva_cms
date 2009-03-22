@@ -30,6 +30,11 @@ class ArticlesController < BaseController
   end
 
   protected
+
+    def current_resource
+      @article || @section
+    end
+    
     # adjusts the action from :index to :show when the current section is in single-article mode
     def adjust_action
       if params[:action] == 'index' and @section.try(:single_article_mode)
@@ -43,7 +48,6 @@ class ArticlesController < BaseController
       scope = @category ? @category.contents : @section.articles
       scope = scope.tagged(@tags) unless @tags.blank?
       scope = @section.is_a?(Blog) ? scope.published(params[:year], params[:month]) : scope.published
-      
       @articles = scope.paginate(:page  => current_page, :limit => @section.contents_per_page)
     end
 
@@ -85,9 +89,5 @@ class ArticlesController < BaseController
         raise ActiveRecord::RecordNotFound unless has_permission?('update', 'article')
         skip_caching!
       end
-    end
-
-    def current_resource
-      @article || @section
     end
 end

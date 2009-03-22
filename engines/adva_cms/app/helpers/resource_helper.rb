@@ -1,41 +1,32 @@
 module ResourceHelper
   def resource_url(action, resource, options = {})
     type, resource = *resource.reverse if resource.is_a?(Array)
-    options[:only_path] = true unless options.key?(:only_path)
     raise "can not generate a url for a new #{resource.class.name}" if resource.try(:new_record?)
-
+    
+    namespace = resource_url_namespace(options)
     type = normalize_resource_type(action, type, resource)
+    options.reverse_merge! :only_path => true
+    
     args = resource_owners(resource) << options
-
-    namespace = options.key?(:namespace) ? options.delete(:namespace) : current_namespace
     args.shift unless namespace.try(:to_sym) == :admin
 
-    method = [namespace, type]
-    method << (options.delete(:only_path) ? 'path' : 'url')
-    method.unshift(action) if [:new, :edit].include?(action.to_sym)
-
-    send method.compact.join('_'), *args.uniq
+    send resource_url_method(namespace, action, type, options), *args.uniq
   end
-
+  
   def resource_link(action, *args)
     action = action.to_sym
     url_options = args.extract_options!.dup
     options = url_options.slice!(:only_path, :namespace, :anchor)
-    resource, text = *args.reverse
-    
-    type, resource = *resource.reverse if resource.is_a?(Array)
-    type = normalize_resource_type(action, type, resource)
-    raise "can not generate a url for a new #{resource.class.name}" if resource.try(:new_record?)
 
-    text ||= t(:"adva.#{type.to_s.pluralize}.links.#{action}", :default => :"adva.resources.links.#{action}")
-    text = t(text) if text.is_a?(Symbol)
+    resource, text = *args.reverse
+    type, resource = *resource.reverse if resource.is_a?(Array)
+
+    type = normalize_resource_type(action, type, resource)
+    text = normalize_resource_link_text(text, action, type)
+    options = normalize_resource_link_options(options, action, type, resource)
 
     resource = [resource, type] if [:index, :new].include?(action)
     url = options.delete(:url) || resource_url(action, resource, url_options)
-
-    options[:class] ||= "#{action} #{type}"
-    options[:id] ||= resource_link_id(action, type, resource)
-    options.reverse_merge!(resource_delete_options(type, options)) if action == :delete
 
     link_to(text, url, options)
   end
@@ -70,7 +61,11 @@ module ResourceHelper
       type
     end
 
-    def current_namespace
+    def resource_url_namespace(options)
+      options.key?(:namespace) ? options.delete(:namespace) : current_controller_namespace
+    end
+
+    def current_controller_namespace
       path = respond_to?(:controller_path) ? controller_path : controller.controller_path
       namespace = path.split('/')[0..-2].join('_')
       namespace.blank? ? nil : namespace
@@ -96,6 +91,27 @@ module ResourceHelper
       end
 
       owners << resource
+    end
+
+    def resource_url_method(namespace, action, type, options)
+      method = [namespace, type]
+      method << (options.delete(:only_path) ? 'path' : 'url')
+      method.unshift(action) if [:new, :edit].include?(action.to_sym)
+
+      method.compact.join('_')
+    end
+  
+    def normalize_resource_link_options(options, action, type, resource)
+      options[:class] ||= "#{action} #{type}"
+      options[:id] ||= resource_link_id(action, type, resource)
+      options.reverse_merge!(resource_delete_options(type, options)) if action == :delete
+      options
+    end
+  
+    def normalize_resource_link_text(text, action, type)
+      text ||= t(:"adva.#{type.to_s.pluralize}.links.#{action}", :default => :"adva.resources.links.#{action}")
+      text = t(text) if text.is_a?(Symbol)
+      text
     end
 
     def resource_delete_options(type, options)
