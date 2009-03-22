@@ -1,0 +1,107 @@
+module ResourceHelper
+  def resource_url(action, resource, options = {})
+    type, resource = *resource.reverse if resource.is_a?(Array)
+    options[:only_path] = true unless options.key?(:only_path)
+    raise "can not generate a url for a new #{resource.class.name}" if resource.try(:new_record?)
+
+    type = normalize_resource_type(action, type, resource)
+    args = resource_owners(resource) << options
+
+    namespace = options.key?(:namespace) ? options.delete(:namespace) : current_namespace
+    args.shift unless namespace.try(:to_sym) == :admin
+
+    method = [namespace, type]
+    method << (options.delete(:only_path) ? 'path' : 'url')
+    method.unshift(action) if [:new, :edit].include?(action.to_sym)
+
+    send method.compact.join('_'), *args.uniq
+  end
+
+  def resource_link(action, *args)
+    action = action.to_sym
+    url_options = args.extract_options!.dup
+    options = url_options.slice!(:only_path, :namespace, :anchor)
+    resource, text = *args.reverse
+    
+    type, resource = *resource.reverse if resource.is_a?(Array)
+    type = normalize_resource_type(action, type, resource)
+    raise "can not generate a url for a new #{resource.class.name}" if resource.try(:new_record?)
+
+    text ||= t(:"adva.#{type.to_s.pluralize}.links.#{action}", :default => :"adva.resources.links.#{action}")
+    text = t(text) if text.is_a?(Symbol)
+
+    resource = [resource, type] if [:index, :new].include?(action)
+    url = options.delete(:url) || resource_url(action, resource, url_options)
+
+    options[:class] ||= "#{action} #{type}"
+    options[:id] ||= resource_link_id(action, type, resource)
+    options.reverse_merge!(resource_delete_options(type, options)) if action == :delete
+
+    link_to(text, url, options)
+  end
+
+  [:index, :new, :show, :edit, :delete].each do |action|
+    define_method(:"#{action}_url") do |*args|
+      resource_url(action, *args)
+    end
+
+    define_method(:"#{action}_path") do |*args|
+      args << options = args.extract_options!
+      options[:only_path] = true
+      resource_url(action, *args)
+    end
+
+    define_method(:"link_to_#{action}") do |*args|
+      resource_link(action, *args)
+    end
+  end
+
+  def links_to_actions(actions, *args)
+    actions.map { |action| resource_link(action, *args) }.join("\n")
+  end
+
+  protected
+
+    def normalize_resource_type(action, type, resource)
+      type ||= resource.class.name
+      type = 'section' if type.to_s.classify.constantize < Section
+      type = type.to_s.tableize if action == :index
+      type = type.to_s.demodulize.underscore
+      type
+    end
+
+    def current_namespace
+      path = respond_to?(:controller_path) ? controller_path : controller.controller_path
+      namespace = path.split('/')[0..-2].join('_')
+      namespace.blank? ? nil : namespace
+    end
+    
+    def resource_link_id(action, type, resource)
+      id = [action, type]
+      id << resource.id if resource.is_a?(ActiveRecord::Base)
+      id.join('_')
+    end
+
+    def resource_owners(resource)
+      return [] unless resource
+      return resource.owners << resource if resource.respond_to?(:owners)
+
+      owners = []
+      if resource.respond_to?(:section)
+        owners << resource.section.site << resource.section
+      elsif resource.respond_to?(:site)
+        owners << resource.site
+      elsif resource.respond_to?(:owner)
+        owners << resource.owner
+      end
+
+      owners << resource
+    end
+
+    def resource_delete_options(type, options)
+      message = options.delete(:confirm)
+      message ||= t(:"adva.#{type.to_s.pluralize}.confirm_delete", :default => :"adva.resources.confirm_delete")
+      message = t(message) if message.is_a?(Symbol)
+      { :confirm => message, :method => :delete }
+    end
+end
