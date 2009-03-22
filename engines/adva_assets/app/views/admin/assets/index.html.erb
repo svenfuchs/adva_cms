@@ -1,7 +1,8 @@
 <%= render :partial => "action_nav" %>
 
-<% content_for :filter do -%>
-  <%= render :partial => 'filter' %>
+<% content_for :sidebar do -%>
+  <h3>Filters</h3>
+	<% filter_for(Asset) %>
 <% end -%>
 
 <div>

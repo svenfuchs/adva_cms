@@ -43,7 +43,8 @@ namespace :adva do
     desc "Copy public assets from plugins to public/"
     task :copy do
       target = "#{Rails.root}/public/"
-      sources = Dir["vendor/plugins/{*,*/**}/public/*"]
+      sources = Dir["vendor/plugins/{*,*/**}/public/*"] + 
+                Dir["vendor/plugins/{*,*/**}/vendor/plugins/**/public/*"]
 
       FileUtils.mkdir_p(target) unless File.directory?(target)
       FileUtils.cp_r sources, target
