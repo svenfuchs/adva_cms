@@ -44,7 +44,7 @@ if Rails.plugin?(:adva_post_ping)
       end
 
       def publish_article
-        uncheck 'draft'
+        uncheck 'article[draft]'
         select_date "2008-1-1", :from => 'Publish on this date'
         click_button 'Save'
         request.url.should =~ %r(/admin/sites/\d+/sections/\d+/articles/\d+/edit)

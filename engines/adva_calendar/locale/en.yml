@@ -62,11 +62,12 @@ en:
           elapsed: Elapsed
           recently_added: Recently added
       links:
+        show: View
+        new: Create a new event
         events: Events
         all_events: All events
         categories: Categories
         settings: Settings
-        create: Create a new event
         preview: Preview
         view: View
         delete: Delete

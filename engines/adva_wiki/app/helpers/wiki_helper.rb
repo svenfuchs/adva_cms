@@ -1,27 +1,35 @@
 module WikiHelper
   class << self
     def included(base)
-      [ActionController::Base, ActionView::Base].each do |target|
-        return if target.method_defined? :wikipage_path_with_home
-        [:path, :url].each do |kind|
-          target.class_eval <<-CODE
-            alias :wikipage_#{kind}_with_home :wikipage_#{kind}
-            def wikipage_#{kind}(*args)
-              returning wikipage_#{kind}_with_home(*args) do |url|
-                url.sub! %r(/wikipages/home$), ''
-                url.replace '/' if url.empty?
-              end
-            end
-          CODE
+      ActionController::Routing::Routes.named_routes.instance_variable_get(:@module).class_eval do
+        return if method_defined? :wikipage_path_with_home
+        [:path, :url].each do |type|
+          alias :"wikipage_#{type}_with_home" :"wikipage_#{type}"
+          define_method :"wikipage_#{type}" do |*args|
+            options = args.extract_options!
+            wikipage, wiki = *args.reverse
+            wiki ||= wikipage.section
+            permalink = wikipage.respond_to?(:permalink) ? wikipage.permalink : wikipage
+            wikipage_strip_home send(:"wikipage_#{type}_with_home", wiki, permalink, options)
+          end
+        end
+        
+        # alias :wikipage_url_with_home :wikipage_url
+        # def wikipage_url(*args)
+        #   options = args.extract_options!
+        #   wikipage, wiki = *args.reverse
+        #   wiki ||= wikipage.section
+        #   wikipage_strip_home wikipage_url_with_home(wiki, wikipage.permalink, options)
+        # end
+  
+        def wikipage_strip_home(path)
+          path.sub! %r(/wikipages/home$), ''
+          path.empty? ? '/' : path
         end
       end
     end
   end
 
-  def wiki_content_path(content, options = {})
-    wikipage_path *[content.section, content.permalink, options].compact
-  end
-  
   def wikify(str)
     redcloth = RedCloth.new(str)
     redcloth.gsub!(/\[\[(.*?)\]\]/u){ wikify_link($1) }
@@ -48,9 +56,6 @@ module WikiHelper
 	    links << authorized_tag(:li, :update, wikipage) do
 	      link_to(t(:'adva.wiki_helper.wiki_edit_links.link_to_edit'), edit_wikipage_path(@section, wikipage.permalink))
       end
-      # links << authorized_tag(:li, :destroy, wikipage) do
-      #   link_to(t(:'adva.wiki_helper.wiki_edit_links.link_to_delete'), wikipage_path(@section, wikipage.permalink), { :confirm => t(:'adva.wiki_helper.wiki_edit_links.confirm_delete'), :method => :delete })
-      # end unless wikipage.home?
     end
     
     links << wiki_version_links(wikipage)
@@ -78,7 +83,7 @@ module WikiHelper
       if wikipage.version < wikipage.versions.last
   	    links << content_tag(:li) do
   	      link_to t(:'adva.wiki_helper.wiki_version_links.link_to_current_revision'),
-  	              wikipage_path(@section, wikipage.permalink)
+  	              wikipage_path(wikipage)
 	      end
       end
       if wikipage.version != wikipage.versions.last

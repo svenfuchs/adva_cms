@@ -9,12 +9,11 @@
 			r.cell board.description
 			r.cell board.topics_count
 			r.cell board.posts_count
-			r.cell edit_resource_link(board, edit_admin_board_path(@site, @section, board)) + "\n" +
-			       delete_resource_link(board, admin_board_path(@site, @section, board, :return_to => admin_board_path(@site, @section, board)), :confirm => confirm_board_delete(@section))
+			r.cell links_to_actions([:edit, :delete], board)
 		end
 
-		t.empty :p, "#{t(:'adva.boards.info.no_boards_in_forum', :forum => @section.title)} 
-								 #{link_to t(:'adva.boards.links.create_now'), new_admin_board_path(@site, @section)}<br />
-								 #{t(:'adva.boards.info.move_topics_to_board')}", :class => 'empty'
+		t.empty :p, t(:'adva.boards.info.no_boards_in_forum', :forum => @section.title) + "\n" +
+								link_to_new(:'adva.boards.links.create_now', [@section, :board]) + "<br />\n" +
+								t(:'adva.boards.info.move_topics_to_board'), :class => 'empty'
 	end
 %>

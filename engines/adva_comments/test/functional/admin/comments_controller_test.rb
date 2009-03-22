@@ -1,9 +1,10 @@
 require File.expand_path(File.dirname(__FILE__) + "/../../test_helper")
 
 class AdminCommentsControllerTest < ActionController::TestCase
-  include ContentHelper
+  include ResourceHelper
   include BlogHelper
   tests Admin::CommentsController
+  attr_reader :controller
 
   with_common [:a_page, :a_blog], :a_published_article, [:an_approved_comment, :an_unapproved_comment], :is_superuser
 
@@ -14,13 +15,13 @@ class AdminCommentsControllerTest < ActionController::TestCase
   view :comment do
     has_text @comment.body
 
-    comment_path = content_path @article, :anchor => "comment_#{@comment.id}"
-    has_tag 'a[href=?]', comment_path, 'View'               # displays a link to the comment on the frontend view
-    has_tag 'a', 'Edit'                                     # displays a link to edit the comment
-    has_tag 'a', 'Delete'                                   # displays a link to delete the comment
-    has_tag 'a', 'Approve'   if within :unapproved_comment  # displays a link to approve comment
-    has_tag 'a', 'Unapprove' if within :approved_comment    # displays a link to unapprove comment
-    # has_tag 'a', 'Reply'   if with? :approved_comment     # displays a link to reply to the comment
+    comment_path = show_path(@article, :anchor => "comment_#{@comment.id}")
+    has_tag 'a[href=?]', comment_path, 'View'              # displays a link to the comment on the frontend view
+    has_tag 'a', 'Edit'                                    # displays a link to edit the comment
+    has_tag 'a', 'Delete'                                  # displays a link to delete the comment
+    has_tag 'a', 'Approve'   if within :unapproved_comment # displays a link to approve comment
+    has_tag 'a', 'Unapprove' if within :approved_comment   # displays a link to unapprove comment
+    # has_tag 'a', 'Reply'   if with? :approved_comment    # displays a link to reply to the comment
   end
 
   test "is an Admin::BaseController" do

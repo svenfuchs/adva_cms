@@ -4,18 +4,18 @@
 <% end %>
 
 <%
-	table_for @subscriptions.issues do |t|
+	table_for @subscriptions do |t|
 		t.column :subscriber, :email, :time, :actions
 
 		t.head.row do |r|
 			r.cell t(:"adva.newsletter.total_subscribers", :subscriptions_count => @subscriptions.count), :class => :total, :colspan => :all
 		end
 
-		t.row do |r, issue|
+		t.row do |r, subscription|
   		r.cell link_to(subscription.user.name, admin_user_path(subscription.user_id))
 			r.cell subscription.user.email
 			r.cell subscription.created_at.to_s(:db)
-			r.cell delete_resource_link(subscription, admin_subscription_path(@site, @newsletter, subscription), :confirm => t(:'adva.subscription.confirm_delete'))
+			r.cell link_to_delete(subscription, :url => admin_subscription_path(@site, @newsletter, subscription))
 		end
 
 		t.empty :p, :class => 'empty' do

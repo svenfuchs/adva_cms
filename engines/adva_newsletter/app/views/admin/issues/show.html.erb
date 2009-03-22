@@ -3,11 +3,11 @@
   <%= render :partial => "sidebar_actions" %>
 <% end %>
 
-<div>
+<div id="issue">
   <h2>
     <%= h(@issue.title) %>
   </h2>
-  <p>
+  <p class="state">
     <%= t(:"adva.state.#{@issue.state}") %>
   </p>
 

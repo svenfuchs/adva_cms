@@ -1,8 +1,4 @@
 module AlbumsHelper
-  def album_content_path(content, options = {})
-    photo_path content.section, content
-  end
-  
   def collection_title(set=nil, tags=nil)
     title = []
     title << 'about '  + set.title if set

@@ -42,6 +42,9 @@ en:
     wikipages_helper: 
       wiki_version_links: 
         confirm_rollback: Are you sure you wish to rollback to this version?
+    wikipages:
+      links:
+        show: View this wikipage
     wikipage: 
       params_author: 
         exception: 

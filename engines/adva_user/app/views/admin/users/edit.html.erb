@@ -19,5 +19,5 @@
   <%= render :partial => 'roles', :locals => {:f => f} if has_permission?('manage', 'roles') %>
   <%= render :partial => 'memberships', :locals => {:f => f} %>
 
-  <%= save_or_cancel_links(f, :cancel_url => (@site.nil? ? admin_users_path : admin_site_users_path(@site))) %>
+  <% save_or_cancel_links(f, :cancel_url => (@site.nil? ? admin_users_path : admin_site_users_path(@site))) %>
 <% end -%>

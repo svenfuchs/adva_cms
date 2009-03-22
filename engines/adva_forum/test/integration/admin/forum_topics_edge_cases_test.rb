@@ -33,7 +33,7 @@ class ForumTopicsEdgeCases < ActionController::IntegrationTest
   end
   
   def visit_new_board_form
-    click_link 'Create a new board'
+    click_link 'new_board'
     assert_template 'admin/boards/new'
   end
   

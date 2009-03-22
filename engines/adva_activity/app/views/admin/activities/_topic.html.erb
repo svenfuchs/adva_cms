@@ -9,12 +9,8 @@
   
 	<% if activity.object -%>
     <ul>
-			<li>
-				<%= edit_resource_link(activity.object, edit_topic_path(activity.object.section, activity.object), :text => t(:'adva.common.edit')) %>
-			</li>
-			<li>
-				<%= delete_resource_link(activity.object, topic_path(activity.object.section, activity.object), :confirm => t(:'adva.topics.confirm_delete')) %>
-			</li>
+			<li><%= link_to_edit(activity.object) %></li>
+			<li><%= link_to_delete(activity.object) %></li>
     </ul>
   <% end -%>    
 </li>

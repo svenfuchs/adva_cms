@@ -80,8 +80,8 @@ class WikiRoutesTest < ActionController::TestCase
     tag_feed_path      = lambda { wiki_tag_path(@section, 'foo+bar', :format => :rss) }
     category_feed_path = lambda { wiki_category_path(@section, @category, :format => :rss) }
   
-    wikipage_path      = lambda { wikipage_path(@section, @wikipage.permalink) }
-    wikipage_feed_path = lambda { wikipage_path(@section, @wikipage.permalink, :format => :rss) }
+    wikipage_path      = lambda { wikipage_path(@section, @wikipage) }
+    wikipage_feed_path = lambda { wikipage_path(@section, @wikipage, :format => :rss) }
   
     it_rewrites wiki_path,          :to => '/',                                    :with => [:is_default_locale, :is_root_section]
     it_rewrites wiki_path,          :to => '/a-wiki',                              :with => [:is_default_locale]

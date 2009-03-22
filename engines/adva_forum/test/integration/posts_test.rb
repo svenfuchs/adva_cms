@@ -58,7 +58,7 @@ class PostsTest < ActionController::IntegrationTest
     @topic.posts.reload # otherwise count is 0. why?
     post_count = @topic.posts.size
     post = @topic.posts.find_by_body('a reply')
-    
+
     click_link  "delete_post_#{post.id}"
     
     @topic.posts.reload

@@ -145,7 +145,7 @@ class WikiControllerTest < ActionController::TestCase
   
       with :valid_wikipage_params do
         it_saves :wikipage
-        it_redirects_to { wikipage_path(@section, assigns(:wikipage).permalink) }
+        it_redirects_to { wikipage_path(assigns(:wikipage)) }
         it_assigns_flash_cookie :notice => :not_nil
         it_triggers_event :wikipage_created
       end
@@ -190,7 +190,7 @@ class WikiControllerTest < ActionController::TestCase
         with :access_granted do
           with :valid_wikipage_params do
             it_updates :wikipage
-            it_redirects_to { wikipage_path(@section, @wikipage.permalink) }
+            it_redirects_to { wikipage_path(@wikipage) }
             it_assigns_flash_cookie :notice => :not_nil
             it_triggers_event :wikipage_updated
             it_sweeps_page_cache :by_reference => :wikipage
@@ -215,7 +215,7 @@ class WikiControllerTest < ActionController::TestCase
             it_rollsback :wikipage, :to => 1
             it_triggers_event :wikipage_rolledback
             it_assigns_flash_cookie :notice => :not_nil
-            it_redirects_to { wikipage_path(@section, @wikipage.permalink) }
+            it_redirects_to { wikipage_path(@wikipage) }
             it_sweeps_page_cache :by_reference => :wikipage
           end
       
@@ -225,7 +225,7 @@ class WikiControllerTest < ActionController::TestCase
             it_does_not_rollback :wikipage
             it_does_not_trigger_any_event
             it_assigns_flash_cookie :error => :not_nil
-            it_redirects_to { wikipage_path(@section, @wikipage.permalink, :version => @wikipage.version) }
+            it_redirects_to { wikipage_path(@wikipage, :version => @wikipage.version) }
             it_does_not_sweep_page_cache
           end
         end

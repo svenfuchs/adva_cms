@@ -5,7 +5,7 @@
 		t.column :name, :version, :author, :homepage
 
 		t.row do |r, plugin|
-  		r.cell view_resource_link(plugin, admin_plugin_path(@site, plugin), :text => plugin.name)
+  		r.cell link_to_show(plugin.name, plugin, :class => 'plugin')
 			r.cell plugin.about['version']
 			r.cell plugin.about['author']
 			r.cell plugin.about['homepage']

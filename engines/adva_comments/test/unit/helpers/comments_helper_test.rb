@@ -81,7 +81,7 @@ class LinkToCommentsHelperTest < ActionView::TestCase
     @category = @section.categories.first
     @tag = Tag.new :name => 'foo'
 
-    stub(self).content_path.returns '/path/to/content#comments'
+    stub(self).show_path.returns '/path/to/content#comments'
     stub(self).section_category_path.returns '/path/to/section/category'
     stub(self).section_tag_path.returns '/path/to/section/tag'
   end
@@ -116,14 +116,14 @@ class LinkToCommentsHelperTest < ActionView::TestCase
 
   # link_to_content_comments
 
-  test "#link_to_content_comments given a content it returns a link to content_path" do
+  test "#link_to_content_comments given a content it returns a link to show_path" do
     link_to_content_comments(@article).should have_tag('a[href=?]', '/path/to/content#comments', '1 Comment')
   end
 
-  test "#link_to_content_comments given a content and a comment it returns a link to content_path + comment anchor" do
+  test "#link_to_content_comments given a content and a comment it returns a link to show_path + comment anchor" do
     comment = @article.comments.first
     anchor = dom_id(comment)
-    stub(self).content_path(@article, :anchor => anchor).returns "/path/to/content##{anchor}"
+    stub(self).show_path(@article, :anchor => anchor).returns "/path/to/content##{anchor}"
     link_to_content_comments(@article, comment).should == %(<a href="/path/to/content##{anchor}">1 Comment</a>)
   end
 

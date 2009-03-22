@@ -1,7 +1,7 @@
 <% content_for :sidebar do -%>
   <h3><%= t(:'adva.titles.actions') %></h3>
-  <ul>
-    <li><%= new_resource_link(Category, new_admin_category_path, :text => t(:'adva.categories.links.new')) %></li>
+	<ul>
+	  <li><%= link_to_new([@section, :category]) %></li>
     <% if @categories.size > 1 %>
       <li><%= link_to_function t(:'adva.categories.links.reorder'), "categories_tree.toggle(this, '#{t(:'adva.resources.reordering_done')}');", :id => 'reorder_categories' %>
       <%= image_tag '/images/adva_cms/indicator.gif', :id => 'categories_indicator', :style => 'display: none;' %></li>
@@ -16,16 +16,16 @@
 		t.head.row do |r|
 			r.cell t(:'adva.categories.total_with_count', :count => @categories.total_entries), :class => :total, :colspan => :all
 		end
-		
+
 		t.row do |r, category|
-  		r.cell link_to(category.title, edit_admin_category_path(@site, @section, category))
-			r.cell edit_resource_link(category, edit_admin_category_path(@site, @section, category)) + "\n" +
-			       delete_resource_link(category, admin_category_path(@site, @section, category))
+			r.cell link_to_edit(category.title, category, :class => 'category')
+			r.cell link_to_edit(category) + "\n" +
+			       link_to_delete(category)
 		end
 
 		t.empty :p, :class => 'empty' do
 	    t(:'adva.categories.no_categories_in_section', :section => @section.title) + "\n" +
-			new_resource_link(Category, new_admin_category_path(@site, @section), :text => t(:'adva.categories.links.create_now'))
+			link_to_new(:'adva.categories.links.create_now', [@section, :category])
 		end
 	end 
 %>

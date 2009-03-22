@@ -11,7 +11,7 @@
   <% else %>
     <%= link_to t(:'adva.comments.links.approve'), admin_comment_path(comment, "comment[approved]" => 1, :return_to => "#{request.request_uri}##{dom_id(comment)}"), :method => :put  %> | 
   <% end %>
-  <%= edit_resource_link comment, edit_admin_comment_path(comment, :return_to => "#{request.request_uri}##{dom_id(comment)}"), :text => t(:'adva.comments.links.edit') %> |
-  <%= delete_resource_link comment, admin_comment_returning_path(comment, :return_to => "#{request.request_uri}##{dom_id(comment)}"), :text => t(:'adva.comments.links.delete') %> |
+  <%= link_to_edit comment, :url => edit_admin_comment_path(comment, :return_to => "#{request.request_uri}##{dom_id(comment)}") %> |
+  <%= link_to_delete comment, :url => admin_comment_path(comment, :return_to => "#{request.request_uri}##{dom_id(comment)}") %> |
   <%= link_to_content_comment(t(:'adva.comments.links.view'), comment) %>
 </cite>

@@ -8,7 +8,6 @@
 
   <h3><%= t(:'adva.common.titles.actions') %></h3>
   <ul>
-    <li><%= new_resource_link Board, new_admin_board_path(@site, @section), :text => t(:'adva.boards.links.create') %></li>
-    <li><%= new_resource_link Topic, new_topic_path(@section), :text => t(:'adva.topics.links.create') %></li>
+		<li><%= link_to_new [@section, :board] %></li>
   </ul>
 <% end -%>

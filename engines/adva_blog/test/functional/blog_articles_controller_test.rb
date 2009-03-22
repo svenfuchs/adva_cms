@@ -66,7 +66,7 @@ class BlogArticlesControllerTest < ActionController::TestCase
       end
       
       has_tag 'div[id=footer]' do
-        has_tag 'ul[id=categories-list]'
+        has_tag 'ul[id=categories_list]'
         has_tag 'ul[id=archives]'
         # has_tag 'ul[id=tags-list]' # FIXME currently tags are not displayed
       end

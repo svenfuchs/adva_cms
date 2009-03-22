@@ -12,7 +12,7 @@ class PhotosControllerTest < ActionController::TestCase
     has_tag 'input[name=?]', 'photo[title]'
     has_tag 'input[name=?][type="file"]', 'photo[data]'
 
-    has_tag 'input[type=checkbox][name=draft]' do |tags|
+    has_tag 'input[type=checkbox][name=?]', 'photo[draft]' do |tags|
       expected = assigns(:photo).draft? ? 'checked' : nil
       assert_equal expected, tags.first.attributes['checked']
     end

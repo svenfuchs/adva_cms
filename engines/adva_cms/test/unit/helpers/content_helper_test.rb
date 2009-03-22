@@ -2,12 +2,15 @@ require File.expand_path(File.dirname(__FILE__) + '/../../test_helper')
 
 class ContentHelperTest < ActionView::TestCase
   include ContentHelper
+  include ResourceHelper
+  attr_reader :controller
 
   def setup
     super
     @page = Page.find_by_title 'a page'
     @site = @page.site
     @article = @page.articles.published(:limit => 1).first
+    @controller = Class.new { def controller_path; 'articles' end }.new
   end
 
   # published_at_formatted
@@ -31,38 +34,21 @@ class ContentHelperTest < ActionView::TestCase
     published_at_formatted(@article).should == "January 1st, #{previous_year}"
   end
 
-  # link_to_admin_object
+  # link_to_admin
 
-  test "#link_to_admin_object given the passed object is a Content
-        it returns a link to edit_admin_[content_type]_path" do
-    stub(self).edit_admin_article_path.returns 'edit_admin_article_path'
-    link_to_admin_object(@article).should =~ /edit_admin_article_path/
+  test "#link_to_object when passed an Article it returns a link to admin_article_path" do
+    assert_html link_to_admin(@article), 'a[href=?][class=?][id=?]', 
+      %r(/admin/sites/\d+/sections/\d+/articles/\d+/edit), 'edit article', %r(edit_article_\d+) , @article.title
   end
-
-  test "#link_to_admin_object given the passed object is a Section
-        it returns a link to admin_section_contents_path(object)" do
-    stub(self).admin_section_contents_path.returns 'admin_section_contents_path'
-    link_to_admin_object(@page) =~ /admin_section_contents_path/
+  
+  test "#link_to_object when passed a Section it returns a link to admin_section_contents_path(object)" do
+    assert_html link_to_admin(@page), 'a[href=?][class=?][id=?]', 
+      %r(/admin/sites/\d+/sections/\d+/articles), 'show section', %r(show_section_\d+) , @page.title
   end
-
-  test "#link_to_admin_object given the passed object is a Site
-        it returns a link to admin_site_path" do
-    stub(self).admin_site_path.returns 'admin_site_path'
-    link_to_admin_object(@site) =~ /admin_site_path/
-  end
-
-  # content_path
-
-  test "#content_path given the content's section is a Page it returns an page_article_path" do
-    mock(self).page_article_path.with(@article.section, @article.permalink, {})
-    content_path(@article)
-  end
-
-  # content_url
-
-  test "#content_url delegates to content_path and prepends the current protocol, host and port" do
-    mock(self).content_path(@article, {}).returns '/path/to/content'
-    content_url(@article).should == "http://#{@article.site.host}/path/to/content"
+  
+  test "#link_to_object when passed a Site it returns a link to admin_site_path" do
+    assert_html link_to_admin(@site), 'a[href=?][class=?][id=?]', 
+      %r(/admin/sites/\d+), 'show site', %r(show_site_\d+) , @site.name
   end
 end
 

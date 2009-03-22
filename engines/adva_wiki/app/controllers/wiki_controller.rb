@@ -48,7 +48,7 @@ class WikiController < BaseController
     if @wikipage.save
       trigger_events @wikipage
       flash[:notice] = t(:'adva.wiki.flash.create.success')
-      redirect_to wikipage_path(:section_id => @section, :id => @wikipage.permalink)
+      redirect_to wikipage_path(@wikipage)
     else
       flash[:error] = t(:'adva.wiki.flash.create.failure')
       render :action => :new
@@ -67,7 +67,7 @@ class WikiController < BaseController
     if @wikipage.update_attributes(params[:wikipage])
       trigger_event @wikipage, :updated
       flash[:notice] = t(:'adva.wiki.flash.update_attributes.success')
-      redirect_to wikipage_path(:section_id => @section, :id => @wikipage.permalink)
+      redirect_to wikipage_path(@wikipage)
     else
       flash.now[:error] = t(:'adva.wiki.flash.update_attributes.failure')
       render :action => :edit
@@ -79,10 +79,10 @@ class WikiController < BaseController
     if @wikipage.version != version and @wikipage.revert_to(version)
       trigger_event @wikipage, :rolledback
       flash[:notice] = t(:'adva.wiki.flash.rollback.success', :version => version)
-      redirect_to wikipage_path(:section_id => @section, :id => @wikipage.permalink)
+      redirect_to wikipage_path(@wikipage)
     else
       flash.now[:error] = t(:'adva.wiki.flash.rollback.failure', :version => version)
-      redirect_to wikipage_path(:section_id => @section, :id => @wikipage.permalink, :version => @wikipage.version)
+      redirect_to wikipage_path(@wikipage, :version => @wikipage.version)
       # render :action => :edit
     end
   end

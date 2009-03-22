@@ -42,6 +42,10 @@ class Content < ActiveRecord::Base
       conditions.concat Time.delta(*args)
     end
   end
+  
+  def owners
+    owner.owners << owner
+  end
 
   def owner
     section

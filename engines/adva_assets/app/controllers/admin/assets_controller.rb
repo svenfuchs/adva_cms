@@ -69,7 +69,8 @@ class Admin::AssetsController < Admin::BaseController
     def set_assets
       options = { :per_page => params[:limit] || 24, :page => current_page }
       filters = normalize_filters(params[:filters])
-      @assets = site.assets.filter_by(*filters).paginate(options)
+      # @assets = site.assets.filter_by(*filters).paginate(options)
+      @assets = site.assets.paginate(options)
     end
 
     def set_asset

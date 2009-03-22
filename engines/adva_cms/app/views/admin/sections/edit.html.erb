@@ -17,12 +17,12 @@
   <h3><%= t(:'adva.titles.actions') %></h3>
   <ul>
     <li><%= link_to t(:'adva.sections.links.create'), new_admin_section_path(@site) %></li>
-    <li><%= delete_resource_link(@section, admin_section_path(@site, @section), :text => t(:'adva.sections.links.delete'), :class => nil) %></li>
+    <li><%= link_to_delete(@section) %></li>
   </ul>
 <% end -%>
 
 <% form_for :section, @section, :url => admin_section_path(@site, @section), :html => {:method => :put} do |f| %>
   <%= render :partial => 'form', :locals => {:f => f} %>
 
-  <%= save_or_cancel_links(f) %>
+  <% save_or_cancel_links(f) %>
 <% end %>

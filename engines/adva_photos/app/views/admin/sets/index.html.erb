@@ -3,10 +3,8 @@
   <ul>
     <li><%= link_to t(:'adva.photos.admin.sets.create'), new_admin_set_path(@site, @section) %></li>
     <% if @sets.size > 1 %>
-      <li><%= link_to_function t(:'adva.photos.admin.sets.reorder'), "sets_tree.toggle(this, t(:'adva.resources.reordering_done'));", :id => 'reorder_sets' %>
+      <li><%= link_to_function t(:'adva.photos.admin.sets.reorder'), "sets_tree.toggle(this, #{t(:'adva.resources.reordering_done')});", :id => 'reorder_sets' %>
       <%= image_tag '/images/adva_cms/indicator.gif', :id => 'sets_indicator', :style => 'display:none;' %></li>
-      <li><%= link_to_function "Reorder sets", "sets_tree.toggle(this, '#{t(:'adva.resources.reordering_done')}');", :id => 'reorder_sets' %>
-      <%= image_tag '/images/adva_cms/indicator.gif', :id => 'sets_indicator', :style => 'display: none;' %></li>
     <% end %>
   </ul>
 <% end -%>
@@ -19,10 +17,11 @@
 			r.cell t(:'adva.photos.admin.sets.total', :total_entries => @sets.total_entries), :class => :total, :colspan => :all
 		end
 		
-		t.row do |r, photo|
-  		r.cell link_to(photo.title, edit_admin_set_path(@site, @section, object))
-			r.cell edit_resource_link(object, edit_admin_set_path(@site, @section, object)) + "\n" +
-			       delete_resource_link(object, admin_set_path(@site, @section, object), :confirm => t(:'adva.photos.admin.sets.delete_confirmation'))
+		t.row do |r, set|
+  		r.cell link_to(set.title, edit_admin_set_path(@site, @section, set))
+			# r.cell links_to_actions([:edit, :delete], set) can't use this here because set is a Category, not a Set :(
+			r.cell link_to_edit(set, :url => edit_admin_set_path(@site, @section, set)) + "\n" +
+						 link_to_delete(set, :url => admin_set_path(@site, @section, set), :confirm => :'adva.photos.admin.sets.delete_confirmation')
 		end
 
 		t.empty :p, :class => 'empty' do

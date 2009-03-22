@@ -46,7 +46,7 @@ class ForumsTest < ActionController::IntegrationTest
   end
   
   def visit_edit_section_form
-    click_link 'settings_section'
+    click_link 'manage_settings'
     assert_template 'sections/edit'
   end
   

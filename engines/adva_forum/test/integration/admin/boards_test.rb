@@ -59,7 +59,7 @@ class BoardsTest < ActionController::IntegrationTest
   end
   
   def visit_new_board_form
-    click_link 'Create a new board'
+    click_link 'new_board'
     assert_template 'admin/boards/new'
   end
   
@@ -92,7 +92,6 @@ class BoardsTest < ActionController::IntegrationTest
   
   def delete_the_board
     board_count = @forum.boards.size
-    
     click_link "delete_board_#{@board.id}"
     
     @forum.reload

@@ -24,8 +24,8 @@ module HasFilter
         self
       end
       
-      def scope
-        inject(owner) { |target, set| set.scope(target) }
+      def scope(target = nil)
+        inject(target || owner) { |target, set| set.scope(target) }
       end
 		  
   		def to_form_fields(view, options = {})

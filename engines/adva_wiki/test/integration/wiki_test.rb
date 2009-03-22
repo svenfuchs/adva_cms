@@ -51,7 +51,7 @@ module IntegrationTests
     def review_wikipages_list
       click_link 'all pages'
       renders_template 'wiki/index'
-      has_tag '#wikipages.list tbody tr', :count => @section.wikipages.count
+      has_tag '#wikipages tbody tr', :count => @section.wikipages.count
     end
   end
 end

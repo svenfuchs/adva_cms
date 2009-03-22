@@ -1,8 +1,4 @@
 module ForumHelper
-  def forum_content_path(content, options = {})
-    topic_path content.section # FIXME hu?
-  end
-  
   def confirm_board_delete(forum)
     if forum.boards.size == 1
       t(:'adva.boards.confirm_delete_on_last')

@@ -1,17 +1,17 @@
 <h2>
   <%= @section.title %>
-  <span>
+  <span class="meta">
     <%= t(:'adva.boards.topics_count', :count => @section.topics_count) %>,
     <%= t(:'adva.boards.posts_count', :count => @section.posts_count) %>
   </span>
 </h2>
 
-<table>
+<table id="boards" class="list">
   <thead>
     <tr>
       <th></th>
       <th></th>
-    </tr>  
+    </tr>
   </thead>
   <tbody>
   <% @boards.each do |board| %>

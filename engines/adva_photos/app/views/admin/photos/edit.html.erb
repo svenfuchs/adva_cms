@@ -1,5 +1,5 @@
 <% split_form_for :photo, @photo, :url => admin_photo_path(@site, @photo.section, @photo), :html => {:multipart => true, :method => :put} do |f| -%>
   <%= render :partial => 'form', :locals => {:f => f} %>  
 
-  <%= save_or_cancel_links(f, :cancel_url => admin_photo_path(@site, @photo.section)) %>
+  <% save_or_cancel_links(f, :cancel_url => admin_photo_path(@site, @photo.section)) %>
 <% end -%>

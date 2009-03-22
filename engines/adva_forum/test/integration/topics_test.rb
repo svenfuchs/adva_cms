@@ -91,7 +91,7 @@ class TopicsTest < ActionController::IntegrationTest
   end
   
   def edit_the_topic_and_submit_the_form
-    click_link "topic_#{@topic.id}_edit"
+    click_link "edit_topic_#{@topic.id}"
     assert @topic.title != 'Updated test topic'
 
     fill_in         'Title', :with => 'Updated test topic'
@@ -103,7 +103,7 @@ class TopicsTest < ActionController::IntegrationTest
   end
   
   def sticky_the_topic_and_submit_the_form
-    click_link "topic_#{@topic.id}_edit"
+    click_link "edit_topic_#{@topic.id}"
 
     check           'Sticky'
     click_button    'Save'
@@ -114,7 +114,7 @@ class TopicsTest < ActionController::IntegrationTest
   end
   
   def lock_the_topic_and_submit_the_form
-    click_link "topic_#{@topic.id}_edit"
+    click_link "edit_topic_#{@topic.id}"
 
     check           'Locked'
     click_button    'Save'
@@ -127,7 +127,7 @@ class TopicsTest < ActionController::IntegrationTest
   def delete_the_topic
     topic_count = @forum.topics.size
 
-    click_link "topic_#{@topic.id}_delete"
+    click_link "delete_topic_#{@topic.id}"
     assert_template 'forum/show'
     
     @forum.reload

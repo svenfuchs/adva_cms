@@ -21,15 +21,13 @@
 		end
 		
 		t.row do |r, wikipage|
-  		r.cell link_to wikipage.title, edit_admin_wikipage_path(@site, @section, wikipage)
+  		r.cell link_to_edit(wikipage.title, wikipage, :class => 'wikipage')
 			r.cell wikipage.version
 			r.cell wikipage.updated_at.strftime('%d.%m.%Y %H:%M')
 			r.cell link_to(wikipage.author_link, admin_site_user_path(@site, wikipage.author))
 			r.cell !wikipage.comments.empty? ? link_to(wikipage.comments.size, admin_comments_path(:content_id => wikipage.id)) : 'none'
-			r.cell wikipage.version
-			r.cell view_resource_link(wikipage, wikipage_path(@section.id, wikipage.permalink)) + "\n" +
-			       edit_resource_link(wikipage, edit_admin_wikipage_path(@site, @section, wikipage)) + "\n" +
-			       delete_resource_link(wikipage, admin_wikipage_path(@site, @section, wikipage), :confirm => t(:'adva.wikipage.view._wikipages.confirm_delete'))
+			r.cell link_to_preview(wikipage) + "\n" +
+						 links_to_actions([:edit, :delete], wikipage)
 		end
 		
 		t.foot.row do |r|

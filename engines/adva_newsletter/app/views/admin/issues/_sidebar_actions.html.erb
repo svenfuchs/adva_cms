@@ -1,9 +1,7 @@
 <h3><%= t(:"adva.titles.actions") %></h3>
 <ul>
   <% if @issue.present? && @issue.editable?  %>
-    <li>
-			<%= edit_resource_link @issue, edit_admin_issue_path(@site, @newsletter, @issue), :text => t(:"adva.newsletter.link.edit_issue") %>
-		</li>
+    <li><%= link_to_edit :"adva.newsletter.link.edit_issue", @issue %></li>
     <li>
 			<%= link_to t(:"adva.newsletter.link.send_preview_issue"), admin_delivery_path(@site, @newsletter, @issue),
       :method => :post, :confirm => t(:"adva.newsletter.confirm.send_preview_issue") %>
@@ -13,8 +11,6 @@
   <%= render :partial => 'admin/shared/sidebar_common' %>
 
   <% if @issue.present? && !@issue.new_record? %>
-    <li>
-			<%= delete_resource_link @issue, admin_issue_path(@site, @newsletter, @issue), :text => t(:"adva.newsletter.link.delete_issue") %>
-		</li>
+    <li><%= link_to_delete :"adva.newsletter.link.delete_issue", @issue %></li>
   <% end %>
 </ul>

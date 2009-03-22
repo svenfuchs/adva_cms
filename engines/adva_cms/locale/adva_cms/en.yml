@@ -116,10 +116,12 @@ en:
       not_editable: "Sorry, but it's not editable!"
     resources:
       delete: Delete
+      new: New
       edit: Edit
       reordering_done: Done reordering
       settings: settings
       view: View
+      show: View
     state:
       draft: Draft
       published: Published
@@ -145,6 +147,10 @@ en:
       no_users: Site does not have any users.
       no_available_users: Site does not have any available user.
       links:
+        index: Sites
+        new: Create a new site
+        edit: Settings
+        show: View
         delete: Delete this site
         create_site_and_account: "Create site & account \xC2\xBB"
         manage_new: Manage your new site &raquo;
@@ -180,6 +186,10 @@ en:
         create: Create a new section
         behaviour: Behaviour
       links:
+        index: Sections
+        new: Create a new section
+        show: View
+        edit: Settings
         delete: Delete this section
         add_section: Add a section
         reorder: Reorder sections
@@ -247,6 +257,7 @@ en:
         one: "Total: {{count}} category"
         other: "Total: {{count}} categories"
       links:
+        index: Categories
         delete: Delete this category
         reorder: Reorder categories
         new: Create a new category
@@ -286,6 +297,10 @@ en:
         one: "Total: {{count}} article"
         other: "Total: {{count}} articles"
       links:
+        index: Articles
+        new: Create a new article
+        edit: Edit
+        show: View
         delete: Delete this article
         reorder: Reorder articles
         create: Create a new article
@@ -530,6 +545,8 @@ en:
           not_an_author: You need to be the author of this object to perform this action.
           not_a_moderator: You need to be a moderator to perform this action.
     assets:
+      links:
+        new: New asset
       flash:
         upload:
           failure: The asset upload failed.
@@ -754,7 +771,7 @@ en:
         post_new: Post one now
         post_now: Post one now
         new_topic: New topic
-        create: Create a new Topic
+        new: Create a new Topic
       flash:
         destroy:
           success: The topic has been deleted.
