@@ -1,4 +1,5 @@
 require 'rails_ext/action_controller/cacheable_flash'
+require 'rails_ext/action_controller/default_params'
 require 'rails_ext/action_controller/event_helper'
 require 'rails_ext/action_controller/page_caching'
 require 'rails_ext/action_controller/content_for_assignments'

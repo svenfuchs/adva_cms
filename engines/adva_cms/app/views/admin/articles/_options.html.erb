@@ -23,7 +23,7 @@
 
 		<h3><%= t(:'adva.titles.optional_settings') %></h3>
 		<% f.field_set :optional_settings do %>
-		  <%= f.select :author, author_options, :selected => author_preselect, :label => true %>
+		  <%= f.select :author_id, author_options, :selected => author_preselect, :label => true %>
 		  <%= f.select :filter, filter_options, {}, :class => 'columnsFilter', :label => true %>
 		  <%= f.select :comment_age, comment_expiration_options, :label => :'adva.titles.comments' %>
 		  <%= f.text_field :permalink, :label => true, :hint => :'adva.articles.hints.permalink' unless @section.try(:single_article_mode) %>

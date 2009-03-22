@@ -76,7 +76,7 @@ module HasFilter
           query = (["#{column} #{operator} ?"] * values.size)
           values = values.map{ |value| format ? format % value : value }.map(&:downcase)
           scope = { :conditions => [query.join(' OR '), *values] }
-          translated?(column) ? scope.merge!(:joins => :globalize_translations) : scope
+          translated?(column) ? scope.merge!(:joins => :globalize_translations, :conditions => ['current = ?', true]) : scope
         end
         
         def translated?(column)

@@ -214,12 +214,12 @@ class Test::Unit::TestCase
   
   
   def valid_site_params
-    { :site    => {:name => 'site name', :host => 'valid-host.com' },
-      :section => {:type => 'Page', :title => 'page title'} }
+    { :site    => { :name => 'site name', :host => 'valid-host.com' },
+      :section => { :type => 'Page', :title => 'page title' } }
   end
   
   def valid_install_params
-    valid_site_params.merge :user => {:email => 'admin@admin.org', :password => 'password'}
+    valid_site_params.merge :user => { :email => 'admin@admin.org', :password => 'password' }
   end
   
   def valid_page_params
@@ -229,14 +229,14 @@ class Test::Unit::TestCase
 
   def valid_article_params(user = nil)
     user ||= @user
-    { :title      => 'an article',
-      :body       => 'an article body',
-      :author     => user.id }
+    { :title     => 'an article',
+      :body      => 'an article body',
+      :author_id => user.id }
   end
   
   def valid_category_params
-    { :title      => 'the category title',
-      :permalink  => 'the-category-title' }
+    { :title     => 'the category title',
+      :permalink => 'the-category-title' }
   end
 
   share :valid_site_params do

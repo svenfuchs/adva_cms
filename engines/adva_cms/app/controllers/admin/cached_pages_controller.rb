@@ -6,7 +6,6 @@ class Admin::CachedPagesController < Admin::BaseController
 
   guards_permissions :cached_page, :manage => [:index, :destroy, :clear]
 
-  # Makes rspec happy
   def index
   end
 
