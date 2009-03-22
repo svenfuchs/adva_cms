@@ -9,5 +9,5 @@
 		<%= f.file_field :data, 		:label => t(:'adva.assets.select_file') %>
 	<% end %>
 	
-	<%= save_or_cancel_links(f, :cancel_url => admin_assets_path, :save_text => t(:'adva.assets.save')) %>
+	<% save_or_cancel_links(f, :cancel_url => admin_assets_path, :save_text => t(:'adva.assets.save')) %>
 <% end -%>

@@ -59,8 +59,8 @@ private
     click_button "Add"
 
     assert_template "admin/newsletter_subscriptions/index"
+    response.body.should have_tag("th[class=total]", "Total subscribers: 1")
     response.body.should have_tag("td>a", "newsletter site user")
-    response.body.should have_tag("p", "Total subscribers: 1")
   end
 
   def try_to_add_same_subscriber

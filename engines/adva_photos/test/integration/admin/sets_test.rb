@@ -13,15 +13,15 @@ class SetsTest < ActionController::IntegrationTest
     login_as_admin
     visit_album_backend
     click_link 'Sets'
-    display_sets
+    assert_template 'admin/sets/index'
   end
-
+  
   test 'an admin creates a new set' do
     login_as_admin
     visit_album_backend
     click_link 'Sets'
     click_link 'Create a new set'
-    display_set_new_form
+    assert_template 'admin/sets/new'
     fill_in_and_submit_new_set_form
   end
 
@@ -29,8 +29,8 @@ class SetsTest < ActionController::IntegrationTest
     login_as_admin
     visit_album_backend
     click_link 'Sets'
-    click_link_edit_set
-    display_set_edit_form
+    click_link "edit_category_#{@set.id}"
+    assert_template 'admin/sets/edit'
     fill_in_and_submit_edit_set_form
   end
 
@@ -40,16 +40,16 @@ class SetsTest < ActionController::IntegrationTest
     click_link 'Sets'
     click_link_delete_set
   end
-
+  
   test 'an admin assigns a photo to the set' do
     login_as_admin
     visit_photo_edit_form
     assign_photo_to_set_and_submit_form
   end
-
+  
   test 'an admin unassigns a photo from the set' do
     @photo.sets << @set; @photo.reload
-
+  
     login_as_admin
     visit_photo_edit_form
     unassign_photo_from_set_and_submit_form
@@ -64,29 +64,11 @@ class SetsTest < ActionController::IntegrationTest
     assert_template 'admin/photos/edit'
   end
 
-  def click_link_edit_set
-    click_link "edit_category_#{@set.id}"
-  end
-
   def click_link_delete_set
     sets_count = @album.sets.size
-
     click_link "delete_category_#{@set.id}"
-
     @album.reload
     assert @album.sets.size == sets_count - 2 # - 2 because given set has a subset
-  end
-
-  def display_sets
-    assert_template 'admin/sets/index'
-  end
-
-  def display_set_new_form
-    assert_template 'admin/sets/new'
-  end
-
-  def display_set_edit_form
-    assert_template 'admin/sets/edit'
   end
 
   def fill_in_and_submit_new_set_form

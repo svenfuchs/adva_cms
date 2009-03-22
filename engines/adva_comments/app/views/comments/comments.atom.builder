@@ -3,7 +3,7 @@ atom_feed :url => request.url do |feed|
   feed.updated @comments.empty? ? Time.now : @comments.first.created_at
 
   @comments.each do |comment|
-    url = content_url(comment.commentable, :anchor => dom_id(comment))
+    url = show_url(comment.commentable, :anchor => dom_id(comment))
     feed.entry comment, :url => url do |entry|
       entry.title I18n.t(:'adva.comments.titles.comment_on_by', :on => comment.commentable.title, :by => comment.author_name)
       entry.content comment.body_html, :type => 'html'

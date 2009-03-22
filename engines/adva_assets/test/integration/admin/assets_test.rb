@@ -28,7 +28,7 @@ module IntegrationTests
     end
 
     def create_a_new_asset
-      click_link 'New asset'
+      click_link 'new_asset'
       renders_template 'admin/assets/new'
 
       fill_in 'assets[0][title]',    :with => 'the new asset'
@@ -41,14 +41,16 @@ module IntegrationTests
     end
     
     def edit_the_asset
-      click_link 'Edit this file'
-      fill_in 'title', :with => 'the new asset title'
+      asset = Asset.find_by_title('the new asset')
+      click_link "edit_asset_#{asset.id}"
+      fill_in 'title', :with => 'the updated asset'
       click_button 'Save Asset'
       request.url.should =~ %r(/admin/sites/\d+/assets)
     end
 
     def delete_the_asset
-      click_link 'Delete this asset'
+      asset = Asset.find_by_title('the updated asset')
+      click_link "delete_asset_#{asset.id}"
       request.url.should =~ %r(/admin/sites/\d+/assets)
       "#{Asset.root_dir}/assets/rails.png".should_not be_file
     end

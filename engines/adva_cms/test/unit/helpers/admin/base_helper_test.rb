@@ -20,117 +20,6 @@ class AdminBaseHelperTest < ActionView::TestCase
     @controller = TestController.new
     @request = ActionController::TestRequest.new
   end
-  
-  test "#new_admin_content_path" do
-    new_admin_content_path(@section).should =~ %r(/admin/sites/\d*/sections/\d*/articles/new)
-  end
-
-  test "#edit_admin_content_path" do
-    edit_admin_content_path(@article).should =~ %r(/admin/sites/\d*/sections/\d*/articles/\d*/edit)
-  end
-
-  # view_resource_link
-  test "#view_resource_link" do
-    resource = Object.new
-    stub(resource).id { 1 }
-    stub(resource).class { 'Resource' }
-    html = view_resource_link(resource, 'url')
-    html.should have_tag('a[href=?][class=?][id=?]', 'url', 'view', 'view_resource_1', 'View')
-  end
-
-  test "#view_resource_link uses options hash" do
-    resource = Object.new
-    stub(resource).id { 1 }
-    stub(resource).class { 'Resource' }
-    html = view_resource_link(resource, 'url', :title => 'title')
-    html.should have_tag('a[href=?][class=?][id=?][title=?]', 'url', 'view', 'view_resource_1', 'title', 'View')
-  end
-
-  test "#view_resource_link uses options hash and overrides default" do
-    resource = Object.new
-    stub(resource).id { 1 }
-    stub(resource).class { 'Resource' }
-    html = view_resource_link(resource, 'url', :id => 'id')
-    html.should have_tag('a[href=?][class=?][id=?]', 'url', 'view', 'id', 'View')
-  end
-
-  test "#view_resource_link uses custom text" do
-    resource = Object.new
-    stub(resource).id { 1 }
-    stub(resource).class { 'Resource' }
-    html = view_resource_link(resource, 'url', :text => 'text')
-    html.should have_tag('a[href=?][class=?][id=?]', 'url', 'view', 'view_resource_1', 'text')
-  end
-
-  # edit_resource_link
-  test "#edit_resource_link" do
-    resource = Object.new
-    stub(resource).id { 1 }
-    stub(resource).class { 'Resource' }
-    html = edit_resource_link(resource, 'url')
-    html.should have_tag('a[href=?][class=?][id=?]', 'url', 'edit', 'edit_resource_1', 'Edit')
-  end
-
-  test "#edit_resource_link uses options hash" do
-    resource = Object.new
-    stub(resource).id { 1 }
-    stub(resource).class { 'Resource' }
-    html = edit_resource_link(resource, 'url', :title => 'title')
-    html.should have_tag('a[href=?][class=?][id=?][title=?]', 'url', 'edit', 'edit_resource_1', 'title', 'Edit')
-  end
-
-  test "#edit_resource_link uses options hash and overrides default" do
-    resource = Object.new
-    stub(resource).id { 1 }
-    stub(resource).class { 'Resource' }
-    html = edit_resource_link(resource, 'url', :id => 'id')
-    html.should have_tag('a[href=?][class=?][id=?]', 'url', 'edit', 'id', 'Edit')
-  end
-
-  test "#edit_resource_link uses custom text" do
-    resource = Object.new
-    stub(resource).id { 1 }
-    stub(resource).class { 'Resource' }
-    html = edit_resource_link(resource, 'url', :text => 'text')
-    html.should have_tag('a[href=?][class=?][id=?]', 'url', 'edit', 'edit_resource_1', 'text')
-  end
-
-  # delete_resource_link
-  test "#delete_resource_link" do
-    stub(self).protect_against_forgery? { false } # let's make it easier
-    resource = Object.new
-    stub(resource).id { 1 }
-    stub(resource).class { 'Resource' }
-    html = delete_resource_link(resource, 'url')
-    html.should have_tag('a[href=?][class=?][id=?]', 'url', 'delete', 'delete_resource_1', 'Delete')
-  end
-
-  test "#delete_resource_link uses options hash" do
-    stub(self).protect_against_forgery? { false } # let's make it easier
-    resource = Object.new
-    stub(resource).id { 1 }
-    stub(resource).class { 'Resource' }
-    html = delete_resource_link(resource, 'url', :title => 'title')
-    html.should have_tag('a[href=?][class=?][id=?][title=?]', 'url', 'delete', 'delete_resource_1', 'title', 'Delete')
-  end
-
-  test "#delete_resource_link uses options hash and overrides default" do
-    stub(self).protect_against_forgery? { false } # let's make it easier
-    resource = Object.new
-    stub(resource).id { 1 }
-    stub(resource).class { 'Resource' }
-    html = delete_resource_link(resource, 'url', :id => 'id')
-    html.should have_tag('a[href=?][class=?][id=?]', 'url', 'delete', 'id', 'Delete')
-  end
-
-  test "#delete_resource_link uses custom text" do
-    stub(self).protect_against_forgery? { false } # let's make it easier
-    resource = Object.new
-    stub(resource).id { 1 }
-    stub(resource).class { 'Resource' }
-    html = delete_resource_link(resource, 'url', :text => 'text')
-    html.should have_tag('a[href=?][class=?][id=?]', 'url', 'delete', 'delete_resource_1', 'text')
-  end
 
   # save_or_cancel_links
   class TestFormBuilder < ExtensibleFormBuilder
@@ -243,5 +132,37 @@ class AdminBaseHelperTest < ActionView::TestCase
   test "#link_to_profile returns admin/users/1 as a profile link if site is set but user is a superuser" do
     stub(current_user).has_role?(:superuser).returns true
     link_to_profile(@site).should == "<a href=\"admin_user_path\">Profile</a>"
+  end
+end
+
+class CachedPagesHelperTest < ActionView::TestCase
+  include Admin::BaseHelper
+  
+  def setup
+    super
+    @page = CachedPage.first
+    
+    @time_now = Time.local 2008, 1, 2, 12
+    @yesterday = Time.local 2008, 1, 1, 12
+    
+    stub(Time).now.returns @time_now # wtf ... time_now_in_words ignores the timezone
+    stub(Time.zone).now.returns @time_now
+    stub(Time.zone.now).yesterday.returns @yesterday
+    stub(Date).today.returns @time_now.to_date
+  end
+
+  test '#page_cached_at returns a variant of time_ago_in_words if the cached page was updated no more than 4 hours ago' do
+    @page.updated_at = @time_now - 55.minutes
+    page_cached_at(@page).should == '~ 1 hour ago'
+  end
+
+  test "#page_cached_at returns a formatted date preceeded with 'Today' if the cached page was updated earlier today" do
+    @page.updated_at = @time_now - 6.hours
+    page_cached_at(@page).should =~ /Today, /
+  end
+  
+  test "#page_cached_at returns a formatted date if the cached page was updated before today" do
+    @page.updated_at = @yesterday
+    page_cached_at(@page).should == 'Jan 01, 2008'
   end
 end

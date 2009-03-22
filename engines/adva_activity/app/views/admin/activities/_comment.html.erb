@@ -27,8 +27,8 @@
 	      <% end -%>
 	    <% end -%>
 	    <li>
-				<%= edit_resource_link(activity.object, edit_admin_comment_returning_path(activity.object), :text => t(:'adva.common.edit')) %>
-				<%= delete_resource_link(activity.object, admin_comment_returning_path(activity.object), :confirm => t(:'adva.comments.confirm_delete')) %>
+				<%= link_to_edit(activity.object, :url => edit_admin_comment_returning_path(activity.object)) %>
+				<%= link_to_delete(activity.object, :url => admin_comment_returning_path(activity.object)) %>
 			</li>
     </ul>
   <% end -%>    

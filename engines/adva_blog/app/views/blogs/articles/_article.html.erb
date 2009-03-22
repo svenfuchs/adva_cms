@@ -1,6 +1,6 @@
 <% if article %>
-  <div id="<%= dom_id article %>">
-  	<div>
+  <div id="<%= dom_id(article) %>" class="entry clearing">
+  	<div class="meta">
   	  <p>
   	    <%= datetime_with_microformat(article.published_at, :format => :long) %><br />
   	    <%= t(:'adva.blog.attribution', :author => article.author_name) %>
@@ -14,7 +14,7 @@
       	<%= links_to_content_tags article, :'adva.common.content_tags' %>
       </p>
   	</div>
-  	<div>
+  	<div class="content">
     	<h2>
     	  <%= link_to_content article %>
     	</h2> 

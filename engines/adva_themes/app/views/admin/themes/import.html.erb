@@ -20,5 +20,5 @@
     <%= f.file_field :file, :label => :'adva.themes.lables.zip_file' %>
   <% end %>
   
-  <%= save_or_cancel_links(f, :cancel_url => admin_themes_path, :save_text => t(:'adva.common.import')) %>
+  <% save_or_cancel_links(f, :cancel_url => admin_themes_path, :save_text => t(:'adva.common.import')) %>
 <% end %>

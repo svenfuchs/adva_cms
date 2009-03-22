@@ -17,5 +17,5 @@
 <% form_for :site, @site, :url => admin_site_path, :html => { :method => :put } do |f| -%>
   <%= render :partial => 'form', :locals => {:f => f, :site => @site} %>
   
-  <%= save_or_cancel_links(f, :cancel_url => admin_site_path) %>
+  <% save_or_cancel_links(f, :cancel_url => admin_site_path) %>
 <% end %>

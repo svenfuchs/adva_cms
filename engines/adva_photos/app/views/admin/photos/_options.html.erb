@@ -6,7 +6,7 @@
 	  <li><%= link_to t(:'adva.photos.common.settings'), edit_admin_section_path(@site, @section), :id => 'manage_settings' %></li>
 	</ul>
 
-	<% if @photo.exists? -%>
+	<% unless @photo.new_record? -%>
 		<h3><%= t(:'adva.titles.actions') %></h3>
 		<ul>
 		  <li><%= link_to t(:'adva.photos.admin.photos.upload_photo'), new_admin_photo_path(@site, @section) %></li>
@@ -26,4 +26,3 @@
 		<% end %>
 	<% end %>
 <% end %>
-	

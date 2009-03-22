@@ -86,7 +86,7 @@ module TableBuilder
         table.column('a'); table.column('b')
         table.row { |row, record| row.cell(record); row.cell(record) }
       end
-      assert_html table.render, 'table[id=strings_table][class=list]' do
+      assert_html table.render, 'table[id=strings][class=list]' do
         assert_select 'thead tr th[scope=col]', 'a'
         assert_select 'tbody tr td', 'a'
         assert_select 'tbody tr[class=alternate] td', 'b'
@@ -98,7 +98,7 @@ module TableBuilder
         table.column 'a', 'b'
         table.row { |row, record| row.cell record, record }
       end
-      assert_html table.render, 'table[id=strings_table][class=list]' do
+      assert_html table.render, 'table[id=strings][class=list]' do
         assert_select 'thead tr th[scope=col]', 'a'
         assert_select 'tbody tr td', 'a'
         assert_select 'tbody tr[class=alternate] td', 'b'
@@ -153,7 +153,7 @@ module TableBuilder
   
     def test_render_simple
       html = @view.render(:file => 'table_simple')
-      assert_html html, 'table[id=table_builder_records_table][class=list]' do
+      assert_html html, 'table[id=table_builder_records][class=list]' do
         assert_select 'thead tr' do
           assert_select 'th[scope=col]', 'ID'
           assert_select 'th[scope=col]', 'Title'
@@ -177,7 +177,7 @@ module TableBuilder
       
     def test_render_auto_columns
       html = @view.render(:file => 'table_auto_columns')
-      assert_html html, 'table[id=table_builder_records_table][class=list]' do
+      assert_html html, 'table[id=table_builder_records][class=list]' do
         assert_select 'thead tr' do
           assert_select 'th[scope=col]', 'Id'
           assert_select 'th[scope=col]', 'Title'
@@ -197,7 +197,7 @@ module TableBuilder
       
     def test_render_all
       html = @view.render(:file => 'table_all')
-      assert_html html, 'table[id=table_builder_records_table][class=list]' do
+      assert_html html, 'table[id=table_builder_records][class=list]' do
         assert_select 'thead tr' do
           assert_select 'th[colspan=2][class=total]', 'total: 2'
         end

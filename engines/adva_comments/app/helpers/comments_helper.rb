@@ -37,7 +37,7 @@ module CommentsHelper
     content, comment = *args
     return unless content.approved_comments_count > 0 || content.accept_comments?
     text ||= t(:'adva.comments.titles.comment_with_count', :count => content.approved_comments_count)
-    path = content_path content, :anchor => (comment ? dom_id(comment) : 'comments')
+    path = show_path(content, :anchor => comment ? dom_id(comment) : 'comments')
     link_to text, path
   end
 

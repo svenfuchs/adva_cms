@@ -30,7 +30,9 @@ table.list a.pending {
 	padding-left: 30px;
 	background: url(/images/adva_cms/icons/hourglass.png) no-repeat;
 }
-table.list a.view {
+table.list a.show,
+table.list a.view,
+table.list a.preview {
 	display: block;
 	float: left;
 	width: 16px;
@@ -40,7 +42,7 @@ table.list a.view {
 	overflow: hidden;
 	background: url(/images/adva_cms/icons/page_white_magnify.png) no-repeat;
 }
-table.list a.edit, a.edit {
+table.list a.edit {
 	display: block;
 	float: left;
 	width: 16px;
@@ -50,7 +52,7 @@ table.list a.edit, a.edit {
 	overflow: hidden;
 	background: url(/images/adva_cms/icons/pencil.png) no-repeat;
 }
-table.list a.delete, a.delete {
+table.list a.delete {
 	display: block;
 	float: left;
 	width: 16px;

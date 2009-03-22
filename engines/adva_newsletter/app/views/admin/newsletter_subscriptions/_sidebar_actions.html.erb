@@ -1,5 +1,5 @@
 <h3><%= t(:'adva.titles.actions') %></h3>
 <ul>
-  <li><%= new_resource_link Issue, new_admin_issue_path, :text => t(:'adva.newsletter.link.new_issue') %></li>
-  <li><%= new_resource_link Subscription, new_admin_subscription_path, :text => t(:'adva.subscription.link.new') %></li>
+	<li><%= link_to_new :'adva.newsletter.link.new_issue', [@newsletter, :issue] %></li>
+	<li><%= link_to_new :'adva.subscription.link.new', [@issue, :issue], :url => new_admin_subscription_path %></li>
 </ul>

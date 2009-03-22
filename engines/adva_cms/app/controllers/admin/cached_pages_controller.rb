@@ -1,6 +1,4 @@
 class Admin::CachedPagesController < Admin::BaseController
-  helper :cached_pages
-
   before_filter :set_cached_pages, :only => :index
   before_filter :set_cached_page, :only => :destroy
 

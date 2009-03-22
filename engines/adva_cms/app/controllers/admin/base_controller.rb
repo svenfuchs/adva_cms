@@ -3,16 +3,17 @@ class Admin::BaseController < ApplicationController
   
   renders_with_error_proc :below_field
   include CacheableFlash
+  include ContentHelper
+  include ResourceHelper
   helper TableBuilder
 
   before_filter :set_site, :set_locale, :set_timezone, :set_cache_root
-  helper :base, :content, :filter, :users, :'admin/comments'
+  helper :base, :resource, :content, :filter, :users, :'admin/comments'
   helper :blog   if Rails.plugin?(:adva_blog) # FIXME move to engines
   helper :assets if Rails.plugin?(:adva_assets)
   helper :roles  if Rails.plugin?(:adva_rbac)
 
-  helper_method :admin_section_contents_path, :perma_host
-  helper_method :has_permission?
+  helper_method :perma_host, :has_permission?
 
   authentication_required
 
@@ -25,11 +26,6 @@ class Admin::BaseController < ApplicationController
   
   content_for :sidebar, :section_tree, :only => { :format => :html } do 
     render :partial => 'admin/shared/section_tree' if @site
-  end
-
-  def admin_section_contents_path(section)
-    content_type = section.class.content_type.pluralize.gsub('::', '_').underscore.downcase
-    send(:"admin_#{content_type}_path", section.site, section)
   end
 
   protected

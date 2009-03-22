@@ -1,39 +1,6 @@
 # TODO move this to the base_helper?
 
 module Admin::BaseHelper
-  def new_admin_content_path(section, options = {})
-    type = section.class.content_type.gsub('::', '_').underscore.downcase
-    send :"new_admin_#{type}_path", section.site, section, options
-  end
-
-  def edit_admin_content_path(content, options = {})
-    type = content.section.class.content_type.gsub('::', '_').underscore.downcase
-    send :"edit_admin_#{type}_path", content.site, content.section, content, options
-  end
-  
-  def view_resource_link(resource, path, options = {})
-    text = options.delete(:text) || t(:'adva.resources.view')
-    resource_link text, path, options.reverse_merge(:class => 'view', :id => "view_#{resource_class(resource)}_#{resource.id}")
-  end
-
-  def new_resource_link(resource_class, path, options = {})
-    # FIXME make these aware of translations like t(:'adva.categories.links.new')
-    text = options.delete(:text) || t(:'adva.resources.new')
-    resource_link text, path, options.reverse_merge(:class => 'new', :id => "new_#{resource_class}")
-  end
-
-  def edit_resource_link(resource, path, options = {})
-    text = options.delete(:text) || t(:'adva.resources.edit')
-    resource_link text, path, options.reverse_merge(:class => 'edit', :id => "edit_#{resource_class(resource)}_#{resource.id}")
-  end
-
-  def delete_resource_link(resource, path, options = {})
-    text = options.delete(:text) || t(:'adva.resources.delete')
-    klass = resource_class(resource)
-    options.reverse_merge!(:class => 'delete', :id => "delete_#{klass}_#{resource.id}", :confirm => t(:"adva.#{klass.pluralize}.confirm_delete"), :method => :delete)
-    resource_link text, path, options
-  end
-
   def save_or_cancel_links(builder, options = {})
     save_text   = options.delete(:save_text)   || t(:'adva.common.save')
     or_text     = options.delete(:or_text)     || t(:'adva.common.connector.or')
@@ -42,9 +9,7 @@ module Admin::BaseHelper
 
     save_options = options.delete(:save) || {}
     save_options.reverse_merge!(:id => 'commit')
-
     cancel_options = options.delete(:cancel) || {}
-    # cancel_options.reverse_merge!(:id => 'cancel')
 
     builder.buttons do
       returning '' do |buttons|
@@ -52,7 +17,6 @@ module Admin::BaseHelper
         buttons << " #{or_text} #{link_to(cancel_text, cancel_url, cancel_options)}" if cancel_url
       end
     end
-    nil # need to return nil here so we don't get duplicate output
   end
 
   def admin_site_select_tag
@@ -83,18 +47,21 @@ module Admin::BaseHelper
     end
   end
 
-  def content_translation_links(content, view)
-    content.translated_locales.map { |locale|
-      link_to locale, edit_admin_content_path(content, :cl => locale)
-    }.join(', ')
+  def links_to_content_translations(content)
+    locales = content.translated_locales.map { |locale| block_given? ? yield(locale.to_s) : locale }
+    t(:"adva.#{content[:type].tableize}.translation_links", :locales => locales.join(', '))
   end
 
-  private
-  def resource_class(resource)
-    resource.class.to_s.tableize.singularize
+  def page_cached_at(page)
+    if Date.today == page.updated_at.to_date
+      if page.updated_at > Time.zone.now - 4.hours
+        "#{time_ago_in_words(page.updated_at).gsub(/about /,'~ ')} ago"
+      else
+        "Today, #{page.updated_at.strftime('%l:%M %p')}"
+      end
+    else
+      page.updated_at.strftime("%b %d, %Y")
+    end
   end
 
-  def resource_link(text, path, options = {})
-    link_to text, path, options
-  end
 end

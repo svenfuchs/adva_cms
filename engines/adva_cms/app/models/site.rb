@@ -53,6 +53,10 @@ class Site < ActiveRecord::Base
     self.class.multi_sites_enabled
   end
 
+  def owners
+    []
+  end
+
   def owner
     nil
   end

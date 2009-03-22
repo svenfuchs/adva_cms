@@ -59,6 +59,7 @@
 			float: left;
 			line-height: 22px;
 			margin-right: 4px;
+			outline: 0px;
 		}
 		form.filters .set:first-child a.remove_filter {
 			display: none;
@@ -83,13 +84,12 @@
 		end
 
 		t.row do |r, article|
-  		r.cell link_to(article.title, edit_admin_article_path(@site, @section, article), :class => article.state)
+			r.cell link_to_edit(article.title, article, :class => article.state)
   		r.cell article.accept_comments? && !article.comments.empty? ? link_to(article.comments.size, admin_comments_path) : t(:"adva.common.none")
 			r.cell published_at_formatted(article)
 			r.cell link_to article.author_name, admin_site_user_path(@site, article.author)
-			r.cell view_resource_link(article, content_path(article)) + "\n" +
-			       edit_resource_link(article, edit_admin_article_path(@site, @section, article)) + "\n" +
-			  		 delete_resource_link(article, admin_article_path(@site, @section, article))
+			r.cell link_to_preview(article) + "\n" +
+			       links_to_actions([:edit, :delete], article)
 		end
 
 		t.foot.row do |r|
@@ -98,7 +98,7 @@
 
 		t.empty :p, :class => 'empty' do
 			t(:'adva.articles.no_articles_in_section', :section => @section.title) + "\n" +
-			new_resource_link(Article, new_admin_article_path(@site, @section), :text => t(:'adva.articles.links.create_now'))
+			link_to_new(:'adva.articles.links.create_now', [@site, :article])
 		end
 	end
 %>

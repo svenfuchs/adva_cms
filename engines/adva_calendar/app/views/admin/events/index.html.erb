@@ -21,22 +21,14 @@
 <% content_for :sidebar do -%>
   <h3><%=t :'adva.calendar.titles.manage'  %></h3>
   <ul>
-    <li>
-			<%= link_to t(:'adva.calendar.links.events'), admin_calendar_events_path(@site, @section) %>
-		</li>
-    <li>
-			<%= link_to t(:'adva.calendar.links.categories'), admin_categories_path(@site, @section) %>
-		</li>
-    <li>
-			<%= edit_resource_link @section, edit_admin_section_path(@site, @section), :text => t(:'adva.calendar.links.settings') %>
-		</li>
+    <li><%= link_to_index [@section, :calendar_events] %></li>
+    <li><%= link_to_index [@section, :categories] %></li>
+    <li><%= link_to_edit @section %></li>
   </ul>
 
   <h3><%=t :'adva.calendar.titles.actions' %></h3>
   <ul>
-    <li>
-			<%= new_resource_link Event, new_admin_calendar_event_path(@site), :text => t(:'adva.calendar.links.create') %>
-		</li>
+    <li><%= link_to_new([@section, :calendar_event]) %></li>
   </ul>
 <% end -%>
 
@@ -49,22 +41,19 @@
 		end
 		
 		t.row do |r, event|
-			r.cell link_to event.title, edit_admin_calendar_event_path(@site, @section, event)
+			r.cell link_to_edit(event.title, event) # :class => event.state
 			r.cell datetime_with_microformat(event.start_date, :format => (event.all_day? ? :mdy : :long))
 			r.cell event.end_date ? datetime_with_microformat(event.end_date, :format => (event.all_day? ? :mdy : :long)) : t(:'adva.calendar.open_end')
 			r.cell link_to event.user.name, admin_site_user_path(@site, event.user)
-			r.cell view_resource_link(event, admin_calendar_event_path(@site, @section, event)) + "\n" +
-						 edit_resource_link(event, edit_admin_calendar_event_path(@site, @section, event)) + "\n" +
-						 delete_resource_link(event, admin_calendar_event_path(@site, @section, event), :confirm => t(:'adva.calendar.confirm_delete'))
+			r.cell links_to_actions([:show, :edit, :delete], event)
 		end
 		
 		t.foot.row do |r|
 			r.cell will_paginate(@events, :id => 'pagination')
 		end
-		
+
 		t.empty :div, params[:filter].blank? ?
-    				t(:'adva.calendar.errors.no_events_in_calendar') + "\n" +
-    				new_resource_link(Event, new_admin_calendar_event_path(@site), :text => t(:'adva.calendar.links.create')) :
-    				t(:'adva.calendar.errors.no_events_found'), :class => 'empty'
+			t(:'adva.calendar.errors.no_events_in_calendar') + "\n" + link_to_new(:'adva.calendar.links.new', [@section, :calendar_event]) :
+			t(:'adva.calendar.errors.no_events_found'), :class => 'empty'
 	end
 %>

@@ -5,7 +5,7 @@
 		t.column :title, :comments, :last_updated
 		
 		t.row do |r, wikipage|
-  		r.cell link_to_content(wikipage)
+  		r.cell link_to_show(wikipage)
 			r.cell link_to_content_comments_count(wikipage)
 			r.cell datetime_with_microformat(wikipage.updated_at, :format => :long)
 		end

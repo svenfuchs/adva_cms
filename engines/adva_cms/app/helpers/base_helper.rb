@@ -24,18 +24,6 @@ module BaseHelper
   def buttons(&block)
     content_tag(:p, :class => 'buttons', &block)
   end
-  
-  # doesn't seem to be used anyway
-  # def link_to_section_main_action(site, section)
-  #   case section
-  #   when Wiki
-  #     link_to content_tag(:span, t(:'adva.titles.wikipages')), admin_wikipages_path(site, section)
-  #   when Forum
-  #     link_to content_tag(:span, t(:'adva.titles.boards')), admin_boards_path(site, section)
-  #   when Section, Blog
-  #     link_to content_tag(:span, t(:'adva.titles.articles')), admin_articles_path(site, section)
-  #   end
-  # end
 
   # does exactly the same as the form_for helper does, but splits off the
   # form head tag and captures it to the content_for :form collector

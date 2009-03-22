@@ -19,7 +19,7 @@
   <% end -%>
 <% end -%>
 
-<h3><%= t(:'adva.comments.titles.comments_on', :location => link_to_admin_object(@content || @section || @site)) %></h3>
+<h3><%= t(:'adva.comments.titles.comments_on', :location => link_to_admin(@content || @section || @site)) %></h3>
 
 <ul id="comments_list">
   <% unless @comments.empty? %>

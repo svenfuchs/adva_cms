@@ -3,11 +3,6 @@
   <%= render :partial => "sidebar_actions" %>
 <% end %>
 
-<% unless @newsletters.empty? %>
-  <p class="total">
-    <%=  %>
-  </p>
-
 <%
 	table_for @newsletters do |t|
 		t.column :name, :issues, :subscribers, :actions
@@ -20,13 +15,12 @@
   		r.cell link_to(newsletter.title, admin_issues_path(@site, newsletter), :class => newsletter.state)
 			r.cell link_to(newsletter.issues_count, admin_issues_path(@site, newsletter))
 			r.cell link_to(newsletter.subscriptions_count, admin_subscriptions_path(@site, newsletter))
-			r.cell edit_resource_link(newsletter, edit_admin_newsletter_path(@site, newsletter)) + "\n" +
-			       delete_resource_link(newsletter, admin_newsletter_path(@site, newsletter))
+			r.cell links_to_actions([:edit, :delete], newsletter)
 		end
 
-		t.empty :p,
+		t.empty :p, :class => 'empty' do
 			t(:'adva.newsletter.no_newsletters') + "\n" + 
-			link_to(t(:'adva.newsletter.link.new'), new_admin_newsletter_path(@site)), :class => 'empty'
+			link_to(t(:'adva.newsletter.link.new'), new_admin_newsletter_path(@site))
 		end
 	end
 %>

@@ -44,10 +44,10 @@ module HasFilter
       end
       
       def filtered(filters)
-        # filter_chain.scope(filters)
-        filter_chain.select(filters).scope
+        scope = scope(:find).blank? ? self : scoped(scope(:find))
+        filter_chain.select(filters).scope(scope)
       end
-    
+
       def has_filter?
         included_modules.include? HasFilter::ActiveRecord::InstanceMethods
       end

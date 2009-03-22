@@ -1,12 +1,12 @@
 <h2>
   <%= @topic.title %>  
-  <span>
+  <span class="meta">
     <%= topic_attributes @topic %>
     <% authorized_tag :span, :update, @topic do %>
-      &middot; <%= link_to t(:'adva.common.edit'), edit_topic_path(@section, @topic.permalink) %>
+      &middot; <%= link_to_edit(:'adva.common.edit', @topic) %>
     <% end %>
     <% authorized_tag :span, :destroy, @topic do %>
-      &middot; <%= link_to t(:'adva.common.delete'), topic_returning_path(@section, @topic.permalink), { :confirm => t(:'adva.topics.confirm_delete'), :method => :delete } %>
+      &middot; <%= link_to_delete(:'adva.common.delete', @topic, :url => topic_returning_path(@section, @topic.permalink)) %>
     <% end %>
   </span>
 </h2>

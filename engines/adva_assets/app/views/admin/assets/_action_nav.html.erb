@@ -1,7 +1,5 @@
 <% content_for :action_nav do %>
   <ul	>
-    <li>
-			<%= new_resource_link Asset, new_admin_asset_path(@site), :text => content_tag(:span, t(:'adva.assets.new')) %>
-		</li>
+    <li><%= link_to_new [@site, :asset] %></li>
   </ul>
 <% end %>
