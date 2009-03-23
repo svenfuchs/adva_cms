@@ -6,7 +6,7 @@
       &middot; <%= link_to_edit(:'adva.common.edit', @topic) %>
     <% end %>
     <% authorized_tag :span, :destroy, @topic do %>
-      &middot; <%= link_to_delete(:'adva.common.delete', @topic, :url => topic_returning_path(@section, @topic.permalink)) %>
+      &middot; <%= link_to_delete(:'adva.common.delete', @topic, :url => topic_path(@section, @topic.permalink, :return => true)) %>
     <% end %>
   </span>
 </h2>
@@ -25,6 +25,3 @@
 <% authorized_tag :span, :create, @post do %>
 	<%= render :partial => 'posts/form' %>
 <% end %>
-
-
-
