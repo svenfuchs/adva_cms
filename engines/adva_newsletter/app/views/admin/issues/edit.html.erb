@@ -1,6 +1,9 @@
+<% content_for :action_nav do %>
+	<%= Menu.instance(:'admin.newsletters.manage').render(self) %>
+	<%= Menu.instance(:'admin.issues.actions').render(self) %>
+<% end %>
+
 <% content_for :sidebar do %>
-  <%= render :partial => "admin/shared/sidebar_manage" %>
-  <%= render :partial => "sidebar_actions" %>
   <%= render :partial => "optional_settings" %>
 <% end %>
 
