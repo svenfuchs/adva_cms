@@ -1,4 +1,9 @@
-<h2>Edit wikipage</h2>
+<% content_for :action_nav do -%>
+	<%= Menu.instance(:'admin.wikipages.manage').render(self) %>
+	<%= Menu.instance(:'admin.wikipages.actions').render(self) %>
+<% end -%>
+
+<h2><%= t(:'adva.wikipage.view.edit.header', :title => @wikipage.title) %></h2>
 
 <% split_form_for :wikipage, @wikipage, :url => admin_wikipage_path, :html => {:multipart => true, :method => :put, :id => 'content_form'} do |f| -%>
 	<%= render :partial => "form", :locals => {:f => f} %>

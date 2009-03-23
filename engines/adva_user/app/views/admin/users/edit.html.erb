@@ -1,15 +1,13 @@
+<% content_for :action_nav do -%>
+	<%= Menu.instance(:'admin.users.actions').render(self) %>
+<% end -%>
+
 <% content_for :sidebar do %>
   <div class="user">
     <%= gravatar_img(@user) %>
     <h3><%= @user.name %></h3>
     <p><%= @user.email %></p>
-  </div>
-
-  <h3><%= t(:'adva.titles.actions') %></h3>
-  <ul>
-    <li><%= link_to t(:'adva.users.actions.create_new'), new_member_path %></li>
-    <li><%= link_to t(:'adva.users.actions.delete_user'), admin_user_path(@user), :method => :delete, :confirm => t(:'adva.users.confirm_delete') %></li>
-  </ul>
+  </div
 <% end -%>
 
 <h2><%= t(:'adva.users.titles.edit') %></h2>

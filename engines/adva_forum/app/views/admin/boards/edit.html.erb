@@ -1,3 +1,8 @@
+<% content_for :action_nav do -%>
+	<% Menu.instance(:'admin.forums.boards.manage').render(self) %>
+	<% Menu.instance(:'admin.forums.boards.actions').render(self) %>
+<% end -%>
+
 <h3><%= t(:'adva.boards.titles.edit') %></h3>
 
 <% form_for :board, @board, :url => admin_board_path, :html => {:method => :put} do |f| %>

@@ -1,6 +1,9 @@
-<h2><%= @section.title %></h2>
+<% content_for :action_nav do -%>
+	<% Menu.instance(:'admin.forums.boards.manage').render(self) %>
+	<% Menu.instance(:'admin.forums.boards.actions').render(self) %>
+<% end -%>
 
-<%= render :partial => 'side_panel' %>
+<h2><%= @section.title %></h2>
 
 <p class="total">
 	<%= t(:'adva.forums.info.total_contents', :boards => @section.boards.size, :topics => @section.topics.size, :posts => @section.posts.size ) %>
