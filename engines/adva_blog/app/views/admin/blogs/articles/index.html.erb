@@ -1,44 +1,18 @@
-<% content_for :filter do %>
-  <% form_tag admin_articles_path, :method => 'get', :id => 'article_search' do -%>
-    <label for="search" class="inline">
-      <%=t :'adva.blog.titles.show_articles' %>
-    </label>
-    <select name="filter" id="filter_list">
-      <%= options_for_select [[ t(:'adva.blog.options.filter.category'),  'category'],
-                              [ t(:'adva.blog.options.filter.tags'),      'tags'],
-                              [ t(:'adva.blog.options.filter.title'),     'title'],
-                              [ t(:'adva.blog.options.filter.body'),      'body'],
-                              [ t(:'adva.blog.options.filter.draft'),     'draft']], params[:filter] %>
-    </select>
-    <select name="category" id="categories">
-      <option value="0"><%=t :'adva.categories.all' %></option>
-      <%= options_from_collection_for_select @section.categories, :id, :title, params[:category].to_i %>      
-    </select>
-    <%= text_field_tag 'query', params[:query], :id => 'query', :style => 'display: none' %>
-    <input type="submit" id="button" value="Go" style="display: none" />
-  <% end -%>
-<% end -%>
-
 <% content_for :sidebar do -%>
   <h3><%=t :'adva.blog.titles.manage'  %></h3>
   <ul>
-    <li>
-			<%= link_to t(:'adva.blog.links.articles'), admin_articles_path(@site, @section) %>
-		</li>
-    <li>
-			<%= link_to t(:'adva.blog.links.categories'), admin_categories_path(@site, @section) %>
-		</li>
-    <li>
-			<%= edit_resource_link @section, edit_admin_section_path(@site, @section), :text => t(:'adva.blog.links.settings') %>
-		</li>
+    <li><%= link_to t(:'adva.blog.links.articles'), admin_articles_path(@site, @section) %></li>
+    <li><%= link_to t(:'adva.blog.links.categories'), admin_categories_path(@site, @section) %></li>
+    <li><%= link_to_edit(@section) %></li>
   </ul>
 
   <h3><%=t :'adva.blog.titles.actions' %></h3>
   <ul>
-    <li>
-			<%= new_resource_link Article, new_admin_article_path(@site), :text => t(:'adva.blog.links.create_article') %>
-		</li>
+    <li><%= link_to_new [@section, :article] %></li>
   </ul>
+
+  <h3>Filters</h3>
+	<% filter_for(Article, :categories => Section.first.categories) %>
 <% end -%>
 
 <%
@@ -50,13 +24,12 @@
 		end
 
 		t.row do |r, article|
-  		r.cell link_to(article.title, edit_admin_article_path(@site, @section, article), :class => article.state)
+			r.cell link_to_edit(article.title, article, :class => article.state)
   		r.cell article.accept_comments? && !article.comments.empty? ? link_to(article.comments.size, admin_comments_path) : t(:"adva.common.none")
 			r.cell published_at_formatted(article)
 			r.cell link_to article.author_name, admin_site_user_path(@site, article.author)
-			r.cell view_resource_link(article, content_path(article)) + "\n" +
-			       edit_resource_link(article, edit_admin_article_path(@site, @section, article)) + "\n" +
-			  		 delete_resource_link(article, admin_article_path(@site, @section, article))
+			r.cell link_to_preview(article) + "\n" +
+			       links_to_actions([:edit, :delete], article)
 		end
 
 		t.foot.row do |r|

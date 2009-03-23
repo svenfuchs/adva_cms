@@ -1,7 +1,5 @@
 <% unless content.new_record? %>
-	<p>
-		<%= t(:"adva.#{content[:type].tableize}.translation_links", :locales => content_translation_links(content, :edit)) %>
-	</p>
+	<p><%= links_to_content_translations(content){ |locale| link_to_edit(locale, content, :cl => locale) } %></p>
 <% end %>
 
 <p>

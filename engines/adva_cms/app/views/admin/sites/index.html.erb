@@ -9,11 +9,10 @@
 		t.column :name, :host, :actions
 
 		t.row do |r, site|
-  		r.cell link_to(site.name, admin_site_path(site))
+  		r.cell link_to_show(site.name, site, :class => 'site')
 			r.cell site.host
-			r.cell view_resource_link(site, "http://#{site.host}") + "\n" +
-			       edit_resource_link(site, edit_admin_site_path(site), :text => t(:'adva.resources.settings')) + "\n" +
-			       delete_resource_link(site, admin_site_path(site))
+			r.cell link_to_show(site, :url => "http://#{site.host}") + "\n" +
+						 links_to_actions([:edit, :delete], site)
 		end
 
 		t.foot.row do |r|

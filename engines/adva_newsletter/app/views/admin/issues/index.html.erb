@@ -12,11 +12,9 @@
 		end
 
 		t.row do |r, issue|
-  		r.cell link_to(h(issue.title), admin_issue_path(@site, @newsletter, issue), :class => issue.state)
+  		r.cell link_to_show(issue.title, issue, :class => issue.state)
 			r.cell issue.created_at.to_s(:db)
-			r.cell view_resource_link(issue, admin_issue_path(@site, @newsletter, issue)) + "\n" +
-			       edit_resource_link(issue, edit_admin_issue_path(@site, @newsletter, issue)) + "\n" +
-			       delete_resource_link(issue, admin_issue_path(@site, @newsletter, issue))
+			r.cell links_to_actions([:show, :edit, :delete], issue)
 		end
 
 		t.empty :p, :class => 'empty' do

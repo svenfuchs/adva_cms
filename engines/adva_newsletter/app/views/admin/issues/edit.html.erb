@@ -12,5 +12,5 @@
 <% split_form_for :issue, @issue, :url => admin_issue_path, :html => { :method => :put, :multipart => true } do |f| %>
   <%= render :partial => "form", :locals => {:f => f} %>  
 
-  <%= save_or_cancel_links(f, :cancel_url => admin_issue_path(@site, @newsletter, @issue)) %>
+  <% save_or_cancel_links(f, :cancel_url => admin_issue_path(@site, @newsletter, @issue)) %>
 <% end %>

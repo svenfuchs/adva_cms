@@ -1,8 +1,6 @@
 <h2><%= t(:'adva.boards.titles.new') %></h2>
   
 <% form_for :board, @board, :url => admin_boards_path do |f| %>
-
   <%= render :partial => 'form', :locals => {:f => f} %>
-
-  <%= save_or_cancel_links(f, :cancel_url => admin_boards_path(@site, @board.section)) %>
+  <% save_or_cancel_links(f, :cancel_url => admin_boards_path(@site, @board.section)) %>
 <% end %>

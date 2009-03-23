@@ -8,5 +8,5 @@
 <% form_for :theme, @theme, :url => admin_theme_path(@site, @theme.id), :html => { :method => :put } do |f| %>
 	<%= render :partial => "form", :locals => {:f => f} %>
 
-  <%= save_or_cancel_links(f, :cancel_url => admin_themes_path) %>
+  <% save_or_cancel_links(f, :cancel_url => admin_themes_path) %>
 <% end %>

@@ -67,9 +67,7 @@ class Admin::AssetsController < Admin::BaseController
   protected
 
     def set_assets
-      options = { :per_page => params[:limit] || 24, :page => current_page }
-      filters = normalize_filters(params[:filters])
-      @assets = site.assets.filter_by(*filters).paginate(options)
+      @assets = site.assets.filtered(params[:filters]).paginate(:per_page => params[:limit] || 24, :page => current_page)
     end
 
     def set_asset
@@ -85,20 +83,5 @@ class Admin::AssetsController < Admin::BaseController
       @assets.size ?
         t(:'adva.assets.flash.create.first_success', :asset => CGI.escapeHTML(@assets.first.title) ) :
         t(:'adva.assets.flash.create.success', :count => @assets.size )
-    end
-
-    # The filter bar html does not deliver exactly the filter params format that
-    # could be directly piped to the filter_by scope, so we'll rearrange it. 
-    # Someone with javascript superpowers might want to change this , so we could
-    # get rid of this monster method.
-    def normalize_filters(filters)
-      return [] if filters.blank?
-      filters.symbolize_keys!
-      media_types, query = filters.values_at(:media_types, :query)
-      returning([]) do |result|
-        columns = [:title, :tags_list].reject { |column| filters[column].blank? }
-        result << [:contains, columns, query] unless query.blank? or columns.empty?
-        result << [:is_media_type, media_types.keys] if media_types
-      end
     end
 end

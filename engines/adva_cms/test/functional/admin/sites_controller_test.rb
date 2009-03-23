@@ -47,9 +47,9 @@ class AdminSitesControllerTest < ActionController::TestCase
       it_renders :template, :index do
         has_tag 'table[id=sites] tbody tr', :count => Site.count do
           has_tag 'a[href=?]', admin_site_path(@site), @site.name
-          has_tag 'a[href=?][class=?]', admin_site_path(@site), 'delete', /delete/i
-          has_tag 'a[href=?][class=?]', edit_admin_site_path(@site), 'edit', /settings/i
-          has_tag 'a[href=?][class=?]', "http://#{@site.host}", 'view'
+          has_tag 'a[href=?][class=?]', admin_site_path(@site), 'delete site', /delete/i
+          has_tag 'a[href=?][class=?]', edit_admin_site_path(@site), 'edit site', /settings/i
+          has_tag 'a[href=?][class=?]', "http://#{@site.host}", 'show site'
         end
       end
     end

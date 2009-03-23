@@ -90,7 +90,8 @@ class TopicsController < BaseController
     end
 
     def set_topic
-      @topic = @section.topics.find_by_permalink params[:id]
+      # FIXME simplify this ...
+      @topic = @section.topics.find :first, :conditions => ["id = ? OR permalink = ?", params[:id], params[:id]]
       redirect_to forum_path(@section) unless @topic # this happens after the last post has been deleted
     end
 

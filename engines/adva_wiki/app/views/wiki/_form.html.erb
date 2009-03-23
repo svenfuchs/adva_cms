@@ -27,7 +27,7 @@
 <% f.buttons do %>
   <%= f.submit "Save" %>
   <% unless @wikipage.new_record? or @wikipage.home? %>
-    <%= link_to(t(:'adva.common.delete'), wikipage_path(@section, @wikipage.permalink), { :confirm => t(:'adva.wiki.view._form.confirm_delete'), :method => :delete }) %>
-  	<%= link_to t(:'adva.common.cancel'), wikipage_path(@section, @wikipage.permalink) %>
+    <%= link_to(t(:'adva.common.delete'), wikipage_path(@section, @wikipage), { :confirm => t(:'adva.wiki.view._form.confirm_delete'), :method => :delete }) %>
+  	<%= link_to t(:'adva.common.cancel'), wikipage_path(@section, @wikipage) %>
   <% end %> or
 <% end %>

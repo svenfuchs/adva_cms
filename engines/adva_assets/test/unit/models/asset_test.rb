@@ -127,18 +127,18 @@ class AssetTest < ActiveSupport::TestCase
     assets.should include(video)
   end
 
-  test "Asset.filter_by filtering works" do
-    image = create_image_asset :title => 'that image'
-    create_text_asset
-
-    assets = Asset.filter_by(:is, :title, 'that image')
-    assets.size.should == 1
-    assets.should include(image)
-
-    assets = Asset.filter_by([:is, :title, 'that image'], [:is_media_type, :image])
-    assets.size.should == 1
-    assets.should include(image)
-  end
+  # test "Asset.filter_by filtering works" do
+  #   image = create_image_asset :title => 'that image'
+  #   create_text_asset
+  # 
+  #   assets = Asset.filter_by(:is, :title, 'that image')
+  #   assets.size.should == 1
+  #   assets.should include(image)
+  # 
+  #   assets = Asset.filter_by([:is, :title, 'that image'], [:is_media_type, :image])
+  #   assets.size.should == 1
+  #   assets.should include(image)
+  # end
 
   # CLASS METHODS
 

@@ -10,7 +10,7 @@ module TableBuilder
       @collection = collection
       @columns = []
 
-      super(nil, options.reverse_merge(:id => "#{collection_name}_table", :class => 'list'))
+      super(nil, options.reverse_merge(:id => collection_name, :class => "#{collection_name} list"))
       
       yield(self) if block_given?
     end
@@ -43,7 +43,7 @@ module TableBuilder
     end
 
     def collection_name
-      collection_class.name.tableize.gsub('/', '_')
+      collection_class.name.tableize.gsub('/', '_').gsub('rails_', '')
     end
 
     def render

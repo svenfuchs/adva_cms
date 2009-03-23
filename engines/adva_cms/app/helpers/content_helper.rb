@@ -3,37 +3,52 @@ module ContentHelper
     return t(:'adva.contents.not_published') unless article && article.published?
     article.published_at.to_ordinalized_s(article.published_at.year == Time.now.year ? :stub : :mdy)
   end
-
-  def content_url(content, options = {})
-    protocol = options.delete(:protocol) || 'http://'
-    protocol + content.site.host + content_path(content, options)
+  
+  def article_url(section, article, options = {})
+		article.section.is_a?(Page) ? 
+			page_article_url(*[section, article.permalink, options].compact) :
+			blog_article_url(section, article.full_permalink.merge(options))
   end
 
-  def content_path(content, options = {})
-    # FIXME try to unify these helper methods
-    send :"#{content.section.type.underscore}_content_path", content, options
+	def article_path(section, article, options = {})
+		article.section.is_a?(Page) ? 
+			page_article_path(*[section, article.permalink, options].compact) :
+			blog_article_path(section, article.full_permalink.merge(options))
+	end
+
+  def admin_section_contents_path(section)
+    content_type = section.class.content_type.pluralize.gsub('::', '_').underscore.downcase
+    send(:"admin_#{content_type}_path", section.site, section)
+  end
+
+  def link_to_preview(*args)
+    options = args.extract_options!
+    content, text = *args.reverse
+    
+    text ||= :"adva.#{content.class.name.tableize}.links.preview"
+    url = show_path(content, :cl => content.class.locale, :namespace => nil)
+    
+    options.reverse_merge!(:url => url, :class => "preview #{content.class.name.underscore}")
+    link_to_show text, content, options
   end
   
-  def page_content_path(content, options = {})
-    page_article_path *[content.section, content.permalink, options].compact
-  end
-
   def link_to_content(*args)
-    content = args.pop
-    return unless content
-    text = args.pop || content.title
-    link_to text, content_path(content)
+    options = args.extract_options!
+    object, text = *args.reverse
+    link_to_show(text || (object.is_a?(Site) ? object.name : object.title), object, options) if object
   end
-
-  def link_to_admin_object(object)
+  
+  def link_to_admin(*args)
+    options = args.extract_options!
+    options.update :namespace => :admin
+    object, text = *args.reverse
     case object
-    when Section
-      link_to object.title, admin_section_contents_path(object)
-    when Site
-      link_to object.name, admin_site_path(object)
     when Content
-      path = send :"edit_admin_#{object.class.name.downcase}_path", object.site, object.section, object
-      link_to object.title, path
+      link_to_edit(object.title, object, options)
+    when Section
+      link_to_show(object.title, object, options.merge(:url => admin_section_contents_path(object)))
+    when Site
+      link_to_show(object.name, object, options.merge(:url => admin_site_path(object)))
     end
   end
 

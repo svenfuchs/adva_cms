@@ -4,5 +4,5 @@
 
 <% split_form_for :article, @article, :url => admin_articles_path, :html => {:multipart => true, :id => 'content_form'} do |f| -%>
   <%= render :partial => 'form', :locals => {:f => f} %>
-  <%= save_or_cancel_links(f, :cancel_url => admin_articles_path) %>
+  <% save_or_cancel_links(f, :cancel_url => admin_articles_path) %>
 <% end %>

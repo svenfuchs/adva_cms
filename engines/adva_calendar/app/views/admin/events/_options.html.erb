@@ -14,15 +14,9 @@
 <% unless @event.new_record? -%>
 	<h3><%= t(:'adva.titles.actions') %></h3>
 	<ul>
-	  <li>
-			<%= new_resource_link Event, new_admin_calendar_event_path(@site), :text => t(:'adva.calendar.links.create') %>
-		</li>
-	  <li>
-			<%= view_resource_link @event, calendar_event_path(@event.section, @event), :text => (link_to @event.draft? ? t(:'adva.calendar.links.preview') : t(:'adva.calendar.links.view')) %>
-		</li>
-	  <li>
-			<%= delete_resource_link(@event, admin_calendar_event_path, :confirm => t(:'adva.calendar.confirm_delete'), :class => nil) %>
-		</li>
+	  <li><%= link_to_new [@section, :calendar_event] %></li>
+	  <li><%= link_to_preview :"adva.calendar.links.#{@event.draft? ? 'preview' : 'show'}", @event %></li>
+	  <li><%= link_to_delete(@event) %></li>
 	</ul>
 <% end -%>
 
@@ -39,7 +33,7 @@
 <h4><%= t(:'adva.titles.optional_settings') %></h4>
 
 <%= f.label :user_id %>
-<%= f.select :user_id, author_options, :selected => author_preselect %>
+<%= f.select :user_id, author_options(@site.users), :selected => author_selected(@article) %>
 
 <%= f.label :filter %>
 <%= f.select :filter, filter_options, {}, :class => 'columnsFilter' %>

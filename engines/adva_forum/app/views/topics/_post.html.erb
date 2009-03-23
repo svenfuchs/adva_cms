@@ -1,5 +1,5 @@
-<div>
-  <div>
+<div class="entry clearing" id="<%= dom_id post %>">
+  <div class="meta">
     <p>
       <%= post.created_at.to_s(:long) %>
     </p>
@@ -9,15 +9,15 @@
       <%#= post.author.roles.map(&:name).map(&:to_s).map(&:camelize).join(', ') %><br> <!-- TODO does not work with anonymous users -->
     </p>
   </div>
-  <div>
+  <div class="body">
     <%= post.body_html %>
-    <p>
+    <p class="util">
       <% authorized_tag :span, :update, post do %>
-        <%= link_to t(:'adva.links.edit'), edit_topic_post_returning_path(@section, @topic, post) %>
+        <%= link_to_edit :'adva.links.edit', post, :url => edit_topic_post_path(@section, @topic, post, :return => true) %>
       <% end %>
 			<% unless post == @topic.initial_post %>
       	<% authorized_tag :span, :destroy, post do %>
-        &middot; <%= link_to t(:'adva.links.delete'), topic_post_returning_path(@section, @topic, post), { :confirm => t(:'adva.topics.confirm_destroy'), :method => :delete } %>
+        &middot; <%= link_to_delete :'adva.links.delete', post, :url => topic_post_path(@section, @topic, post, :return => true) %>
       	<% end %>
 			<% end %>
     </p>

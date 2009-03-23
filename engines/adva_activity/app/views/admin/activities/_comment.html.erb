@@ -18,17 +18,17 @@
     	<% unless activity.object.commentable_type == 'Topic' %>
       	<% unless activity.object.approved? -%>
         	<li>
-						<%= link_to t(:'adva.common.approve'), admin_comment_returning_path(activity.object, "comment[approved]" => 1), :method => :put  %>
+						<%= link_to t(:'adva.common.approve'), admin_comment_path(activity.object, "comment[approved]" => 1, :return => true), :method => :put  %>
 					</li>
 	      <% else -%>  
 	        <li>
-						<%= link_to t(:'adva.common.unapprove'), admin_comment_returning_path(activity.object, "comment[approved]" => 0), :method => :put  %>
+						<%= link_to t(:'adva.common.unapprove'), admin_comment_path(activity.object, "comment[approved]" => 0, :return => true), :method => :put  %>
 					</li>
 	      <% end -%>
 	    <% end -%>
 	    <li>
-				<%= edit_resource_link(activity.object, edit_admin_comment_returning_path(activity.object), :text => t(:'adva.common.edit')) %>
-				<%= delete_resource_link(activity.object, admin_comment_returning_path(activity.object), :confirm => t(:'adva.comments.confirm_delete')) %>
+				<%= link_to_edit(activity.object, :url => edit_admin_comment_path(activity.object, :return => true)) %>
+				<%= link_to_delete(activity.object, :url => admin_comment_path(activity.object, :return => true)) %>
 			</li>
     </ul>
   <% end -%>    

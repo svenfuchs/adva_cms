@@ -9,66 +9,7 @@
   <h3><%= t(:'adva.titles.actions') %></h3>
   <ul>
     <li><%= link_to t(:'adva.articles.links.create'), new_admin_article_path(@site) %></li>
-    <% if @articles.size > 1 %>
-      <li>
-        <%= link_to_function t(:'adva.articles.links.reorder'), "articles_list.toggle(this, '#{t(:'adva.resources.reordering_done')}');", :id => 'reorder_sections' %>
-        <%= image_tag '/images/adva_cms/indicator.gif', :id => 'articles_indicator', :style => 'display: none;' %>
-      </li>
-    <% end %>
   </ul>
-<% end -%>
-
-<% content_for :sidebar do %>
-	<style>
-		form.filters {
-			position: relative;
-			margin-bottom: 20px;
-		}
-		form.filters fieldset {
-			position: relative;
-			padding: 4px !important;
-			margin: 0px !important;
-		}
-		form.filters fieldset.set fieldset {
-			display: none;
-			padding: 0px !important;
-		}
-		form.filters .selected_filter, 
-		form.filters fieldset.set fieldset.selected {
-			display: inline;
-			vertical-align: middle;
-		}
-		form.filters fieldset.set input {
-			width: 100px;
-		}
-		form.filters fieldset.set input[type=checkbox] {
-			width: auto;
-		}
-		form.filters fieldset.set label {
-			font-weight: normal;
-			padding: 0px 4px !important;
-			display: inline;
-		}
-		form.filters .set span {
-			position: absolute;
-			right: 0px;
-			width: 30px;
-		}
-		form.filters .set span a {
-			display: block;
-			float: left;
-			line-height: 22px;
-			margin-right: 4px;
-		}
-		form.filters .set:first-child a.remove_filter {
-			display: none;
-		}
-		form.filters input.submit {
-			position: absolute;
-			right: 0px;
-			top: -24px;
-		}
-	</style>
 
   <h3>Filters</h3>
 	<% filter_for(Article, :categories => Section.first.categories) %>
@@ -83,13 +24,12 @@
 		end
 
 		t.row do |r, article|
-  		r.cell link_to(article.title, edit_admin_article_path(@site, @section, article), :class => article.state)
+			r.cell link_to_edit(article.title, article, :class => article.state)
   		r.cell article.accept_comments? && !article.comments.empty? ? link_to(article.comments.size, admin_comments_path) : t(:"adva.common.none")
 			r.cell published_at_formatted(article)
 			r.cell link_to article.author_name, admin_site_user_path(@site, article.author)
-			r.cell view_resource_link(article, content_path(article)) + "\n" +
-			       edit_resource_link(article, edit_admin_article_path(@site, @section, article)) + "\n" +
-			  		 delete_resource_link(article, admin_article_path(@site, @section, article))
+			r.cell link_to_preview(article) + "\n" +
+			       links_to_actions([:edit, :delete], article)
 		end
 
 		t.foot.row do |r|
@@ -98,7 +38,7 @@
 
 		t.empty :p, :class => 'empty' do
 			t(:'adva.articles.no_articles_in_section', :section => @section.title) + "\n" +
-			new_resource_link(Article, new_admin_article_path(@site, @section), :text => t(:'adva.articles.links.create_now'))
+			link_to_new(:'adva.articles.links.create_now', [@site, :article])
 		end
 	end
 %>

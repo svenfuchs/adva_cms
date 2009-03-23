@@ -1,11 +1,32 @@
 <%= render :partial => "action_nav" %>
 
-<% content_for :filter do -%>
-  <%= render :partial => 'filter' %>
+<% content_for :sidebar do -%>
+  <h3>Filters</h3>
+	<% filter_for(Asset) %>
 <% end -%>
 
 <div>
-  <%= render :partial => "assets" %>
+	<% if @recent.any? %>
+	  <div id="recent_assets" class="assets_row">
+	    <%= render :partial => 'asset', :collection => @recent, :locals => {:size => :thumb} %>
+	  </div>
+
+	  <% if @assets.any? %>
+	    <% @assets.in_groups_of(7) do |group| -%>
+	      <div class="assets_row">
+	        <%= render :partial => 'asset', :collection => group.compact, :locals => {:size => :thumb} %>
+	      </div>
+	    <% end %>
+	  <% end %>
+
+	<% else %>
+	  <p class="empty">
+	    <%=t :'adva.assets.no_files' %>
+			<%= link_to_new :'adva.assets.upload', [@site, :asset] %>
+	  </p>
+	<% end %>
+
+	<%= will_paginate @assets, :id => 'pagination' %>
 </div>
 
 <% content_for :sidebar do %>

@@ -42,16 +42,26 @@ class Content < ActiveRecord::Base
       conditions.concat Time.delta(*args)
     end
   end
+  
+  def owners
+    owner.owners << owner
+  end
 
   def owner
     section
   end
 
   # Using callbacks for such lowlevel things is just awkward. So let's hook in here.
-  def attributes=(attributes, guard_protected_attributes = true)
-    attributes.symbolize_keys!
-    category_ids = attributes.delete(:category_ids)
-    returning super do update_categories category_ids if category_ids end
+  def attributes=(attrs, guard_protected_attributes = true)
+    published_at = Time.extract_from_attributes!(attrs, :published_at, :local)
+
+    draft = attrs.delete(:draft).to_i == 0
+    attrs[:published_at] = published_at || Time.now if draft
+
+    category_ids = attrs.delete(:category_ids)
+    returning super do 
+      update_categories category_ids.reject(&:blank?) if category_ids 
+    end
   end
 
   def published_month
@@ -88,6 +98,17 @@ class Content < ActiveRecord::Base
     HtmlDiff.diff version.excerpt_html + version.body_html, excerpt_html + body_html
   end
 
+  def to_param(key)
+    value = if self.respond_to?(key)
+      self.send(key)
+    elsif [:year, :month, :day].include?(key)
+      published_at.send(key)
+    else
+      super()
+    end
+    value ? value.to_s : nil
+  end
+  
   protected
 
     def set_site

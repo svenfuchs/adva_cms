@@ -1,8 +1,4 @@
 module BlogHelper
-  def blog_content_path(content, options = {})
-    blog_article_path content.section, content.full_permalink.merge(options)
-  end
-  
   def articles_title(*args)
     options = args.extract_options!
     category, tags, month = *args

@@ -1,5 +1,5 @@
 <% content_for :footer do -%>
-  <div>
+  <div id="footer" class="clearing">
     <% unless @section.categories.blank? -%>
     <div>
       <h4><%= t(:'adva.titles.categories')%></h4>
@@ -24,7 +24,7 @@
 
   <%= render :partial => 'shared/footer' %>
   
-  <ul>
+  <ul id="feeds">
     <li><%= link_to t(:'adva.links.entries_feed'), formatted_calendar_events_url(@section, :format => :ics) %></li>
   </ul>
 <% end -%>

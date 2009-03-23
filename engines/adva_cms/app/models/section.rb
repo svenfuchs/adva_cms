@@ -36,6 +36,10 @@ class Section < ActiveRecord::Base
     end
   end
 
+  def owners
+    owner.owners << owner
+  end
+
   def owner
     site
   end

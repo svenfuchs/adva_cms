@@ -11,6 +11,14 @@ class Category < ActiveRecord::Base
   validates_presence_of :section, :title
   validates_uniqueness_of :permalink, :scope => :section_id
   
+  def owners
+    owner.owners << owner
+  end
+
+  def owner
+    section
+  end
+  
   protected
   
     def update_path
