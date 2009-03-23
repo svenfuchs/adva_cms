@@ -1,0 +1,45 @@
+body {
+  width: 99%;
+}
+
+div#page {
+  width: 100%;
+  float: left;
+  border: 1px solid black;
+  overflow: hidden;
+}
+
+div#context_browser, div#content, div#sidebar {
+  padding: 1%;
+  float: left;
+  padding-bottom:100%;
+  margin-bottom:-99%;
+}
+
+div#context_browser {
+  width: 15%;
+  border: 1px solid yellow;
+  margin-right: 1%;
+}
+
+div#content {
+  border: 1px solid red;
+}
+
+div#sidebar {
+  width: 15%;
+  border: 1px solid blue;
+  margin-left: 1%;
+}
+
+div#context_browser.collapsed {
+  width: 5%;
+}
+
+div#content.full {
+  width: 72%;
+}
+
+div#content.collapsed {
+  width: 62%;
+}

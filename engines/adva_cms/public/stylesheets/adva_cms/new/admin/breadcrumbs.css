@@ -1,0 +1,8 @@
+ul#breadcrumbs {
+  list-style-type: none;
+}
+
+ul#breadcrumbs li {
+  float: left;
+  margin-right: 10px;
+}
