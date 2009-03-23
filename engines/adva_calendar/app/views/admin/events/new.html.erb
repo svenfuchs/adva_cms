@@ -1,3 +1,8 @@
+<% content_for :action_nav do -%>
+	<%= Menu.instance(:'admin.calendars.manage').render(self) %>
+	<%= Menu.instance(:'admin.calendars.actions').render(self) %>
+<% end -%>
+
 <% split_form_for :calendar_event, @event, :url => admin_calendar_events_path, :html => { :multipart => true } do |f| -%>
 	<%= render :partial => "form", :locals => { :f => f } %>
 	

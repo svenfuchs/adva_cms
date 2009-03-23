@@ -1,16 +1,9 @@
+<% content_for :action_nav do -%>
+	<%= Menu.instance(:'admin.pages.articles.manage').render(self) %>
+	<%= Menu.instance(:'admin.pages.articles.actions').render(self) %>
+<% end -%>
+
 <% content_for :sidebar do -%>
-  <h3><%= t(:'adva.titles.manage') %></h3>
-  <ul>
-    <li><%= link_to t(:'adva.titles.articles'), admin_articles_path(@site, @section), :id => 'manage_articles' %></li>
-    <li><%= link_to t(:'adva.titles.categories'), admin_categories_path(@site, @section), :id => 'manage_categories' %></li>
-    <li><%= link_to t(:'adva.titles.settings'), edit_admin_section_path(@site, @section), :id => 'manage_settings' %></li>
-  </ul>
-
-  <h3><%= t(:'adva.titles.actions') %></h3>
-  <ul>
-    <li><%= link_to t(:'adva.articles.links.create'), new_admin_article_path(@site) %></li>
-  </ul>
-
   <h3>Filters</h3>
 	<% filter_for(Article, :categories => Section.first.categories) %>
 <% end %>

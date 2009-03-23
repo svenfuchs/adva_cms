@@ -1,20 +1,3 @@
-# class ActionView::Base
-#   unless method_defined? :method_missing_with_returning_paths
-#     def method_missing_with_returning_paths(name, *args)
-#       name = name.to_s
-#       if name.sub!(/_returning(_path|_url)$/, '')
-#         options = args.extract_options!
-#         options.reverse_merge! :return_to => params[:return_to] || request.request_uri
-#         args << options
-#         send :"#{name}#{$1}", *args
-#       else
-#         method_missing_without_returning_paths name.to_sym, *args
-#       end
-#     end
-#     alias_method_chain :method_missing, :returning_paths
-#   end
-# end
-
 module BaseHelper
   def column(&block)
     content_tag(:div, :class => 'col', &block)
@@ -61,7 +44,8 @@ module BaseHelper
   end
 
   def author_options(users)
-    authors = [[current_user.name, current_user.id]] + users.map { |author| [author.name, author.id] }
+    authors = [[current_user.name, current_user.id]] 
+    authors += users.map { |author| [author.name, author.id] }
     authors.uniq
   end
 

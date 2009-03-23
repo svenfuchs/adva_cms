@@ -1,12 +1,5 @@
-<% content_for :sidebar do -%>
-  <h3><%= t(:'adva.titles.actions') %></h3>
-	<ul>
-	  <li><%= link_to_new([@section, :category]) %></li>
-    <% if @categories.size > 1 %>
-      <li><%= link_to_function t(:'adva.categories.links.reorder'), "categories_tree.toggle(this, '#{t(:'adva.resources.reordering_done')}');", :id => 'reorder_categories' %>
-      <%= image_tag '/images/adva_cms/indicator.gif', :id => 'categories_indicator', :style => 'display: none;' %></li>
-    <% end %>
-  </ul>
+<% content_for :action_nav do -%>
+	<%= Menu.instance(:'admin.categories.actions').render(self) %>
 <% end -%>
 
 <% 

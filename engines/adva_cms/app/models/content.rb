@@ -98,16 +98,16 @@ class Content < ActiveRecord::Base
     HtmlDiff.diff version.excerpt_html + version.body_html, excerpt_html + body_html
   end
 
-  def to_param(key)
-    value = if self.respond_to?(key)
-      self.send(key)
-    elsif [:year, :month, :day].include?(key)
-      published_at.send(key)
-    else
-      super()
-    end
-    value ? value.to_s : nil
-  end
+  # def to_param(key)
+  #   value = if self.respond_to?(key)
+  #     self.send(key)
+  #   elsif [:year, :month, :day].include?(key)
+  #     published_at.send(key)
+  #   else
+  #     super()
+  #   end
+  #   value ? value.to_s : nil
+  # end
   
   protected
 

@@ -18,18 +18,9 @@
 <% end %>
 <% end -%>
 
-<% content_for :sidebar do -%>
-  <h3><%=t :'adva.calendar.titles.manage'  %></h3>
-  <ul>
-    <li><%= link_to_index [@section, :calendar_events] %></li>
-    <li><%= link_to_index [@section, :categories] %></li>
-    <li><%= link_to_edit @section %></li>
-  </ul>
-
-  <h3><%=t :'adva.calendar.titles.actions' %></h3>
-  <ul>
-    <li><%= link_to_new([@section, :calendar_event]) %></li>
-  </ul>
+<% content_for :action_nav do -%>
+	<%= Menu.instance(:'admin.calendars.manage').render(self) %>
+	<%= Menu.instance(:'admin.calendars.actions').render(self) %>
 <% end -%>
 
 <%

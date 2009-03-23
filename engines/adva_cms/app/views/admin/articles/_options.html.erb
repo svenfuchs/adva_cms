@@ -1,21 +1,5 @@
 <% content_for :sidebar do %>
   <% fields_for :article do |f| -%>
-		<h3><%= t(:'adva.titles.manage') %></h3>
-		<ul>
-			<li><%= link_to_index([@section, :article]) %></li>
-			<li><%= link_to_index([@section, :category]) %></li>
-			<li><%= link_to_edit(@section) %></li>
-		</ul>
-
-		<% unless @article.new_record? -%>
-			<h3><%= t(:'adva.titles.actions') %></h3>
-			<ul>
-				<li><%= link_to_new([@section, :article]) %></li>
-				<li><%= link_to_preview(@article) %></li>
-				<li><%= link_to_delete(@article) %></li>
-			</ul>
-		<% end %>
-
 		<% if Rails.plugin?(:adva_assets) %>
 			<h3>Assets</h3>
 			<%= render :partial => 'admin/assets/widget/widget', :locals => { :assets => { :latest => @site.assets.recent, :attached => @article.assets, :bucket => bucket_assets } } %>
