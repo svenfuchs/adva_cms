@@ -81,14 +81,10 @@ end
 
 class BaseHelperAuthorOptionsTest < ActiveSupport::TestCase
   include BaseHelper
-  # include ActionView::Helpers::TranslationHelper, ActionView::Helpers::TagHelper, ActionView::Helpers::UrlHelper
   
   def setup
     super
 
-    @site = Site.new
-    instance_variable_set(:@site, @site) # wtf
-    
     @user = User.new :name => 'John Doe'
     @member_1 = User.new :name => 'Donald Duck'
     @member_2 = User.new :name => 'Uncle Scrooge'
@@ -103,28 +99,23 @@ class BaseHelperAuthorOptionsTest < ActiveSupport::TestCase
   # AUTHOR OPTIONS
   
   test '#author_options returns a nested array containing the current user as a fallback option if the site does not have any members' do
-    stub(@site).users.returns []
-    author_options.should == [['John Doe', @user.id]]
+    users = []
+    author_options(users).should == [['John Doe', @user.id]]
   end
 
   test '#author_options returns a nested array containing the members of the site' do
-    stub(@site).users.returns [@user]
-    author_options.should == [['John Doe', @user.id]]
+    users = [@user]
+    author_options(users).should == [['John Doe', @user.id]]
   end
   
-  test '#author_options returns always current_user as an option along with the members of the site' do
-    stub(@site).users.returns [@member_1, @member_2]
-    author_options.should == [['Donald Duck', @member_1.id], ['John Doe', @user.id], ['Uncle Scrooge', @member_2.id]]
+  test '#author_options always returns current_user as an option along with the given users and makes sure user names are unique' do
+    expected_options = [['John Doe', @user.id], ['Donald Duck', @member_1.id], ['Uncle Scrooge', @member_2.id]]
+    author_options([@member_1, @member_2]).should == expected_options
+    author_options([@user, @member_1, @member_2, @user]).should == expected_options
   end
   
-  test '#author_options returns always current_user as an option along with the members of the site and makes sure user names are unique' do
-    stub(@site).users.returns [@user, @member_1, @member_2, @user]
-    author_options.should == [['Donald Duck', @member_1.id], ['John Doe', @user.id], ['Uncle Scrooge', @member_2.id]]
-  end
-  
-  test "#author_preselect returns an id of current_user if article does not have any author or if content cannot be determined" do
-    stub(self).current_user.returns @member_1
-    author_preselect.should == @member_1.id
+  test "#author_selected returns an id of current_user if article does not have an author" do
+    author_selected(nil).should == @user.id
   end
 end
 

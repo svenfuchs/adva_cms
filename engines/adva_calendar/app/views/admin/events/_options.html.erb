@@ -33,7 +33,7 @@
 <h4><%= t(:'adva.titles.optional_settings') %></h4>
 
 <%= f.label :user_id %>
-<%= f.select :user_id, author_options, :selected => author_preselect %>
+<%= f.select :user_id, author_options(@site.users), :selected => author_selected(@article) %>
 
 <%= f.label :filter %>
 <%= f.select :filter, filter_options, {}, :class => 'columnsFilter' %>
