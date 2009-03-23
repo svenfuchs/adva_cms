@@ -1,6 +1,6 @@
-<% content_for :sidebar do %>
-  <%= render :partial => 'admin/shared/sidebar_manage' %>
-<% end %>
+<%# content_for :sidebar do %>
+  <%#= render :partial => 'admin/shared/sidebar_manage' %>
+<%# end %>
 
 <% split_form_for :newsletter, @newsletter, :url => admin_newsletters_path, :html => { :multipart => true } do |f| %>
   <%= render :partial => 'form', :locals => {:f => f} %>  

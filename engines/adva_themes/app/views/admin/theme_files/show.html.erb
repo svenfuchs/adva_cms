@@ -1,20 +1,9 @@
-<% content_for :sidebar do %>
-  <h3><%= t(:'adva.titles.manage') %></h3>
-  <ul>
-    <li><%= link_to t(:'adva.titles.site'), edit_admin_site_path(@site), :id => 'manage_site' %></li>
-    <li><%= link_to t(:'adva.titles.themes'), admin_themes_path(@site), :id => 'manage_themes' %></li>
-    <li><%= link_to t(:'adva.titles.cache'), admin_cached_pages_path(@site), :id => 'manage_cache' %></li>
-  </ul>
+<% content_for :action_nav do -%>
+	<%= Menu.instance(:'admin.sites.manage').render(self) %>
+	<%= Menu.instance(:'admin.sites.themes.files.actions').render(self) %>
+<% end -%>
 
-  <h3><%= t(:'adva.titles.actions') %></h3>
-  <ul>
-    <li><%= link_to t(:'adva.themes.links.create_file'), new_admin_theme_file_path(@site, @theme.id) %></li>
-    <li><%= link_to t(:'adva.themes.links.upload_file'), import_admin_theme_files_path(@site, @theme.id) %></li>
-    <li><%= link_to t(:'adva.themes.links.delete_file'), admin_theme_file_path(@site, @theme.id, @file.id), { :confirm => "Are you sure you wish to delete this file?", :method => :delete } %></li>
-    <li><%= link_to t(:'adva.themes.links.edit_theme'), edit_admin_theme_path(@site, @theme.id) %></li>
-    <li><%= link_to t(:'adva.themes.links.download_theme'), export_admin_theme_path(@site, @theme.id) %></li>
-  </ul>
-  
+<% content_for :sidebar do %>
   <%= render :partial => 'admin/theme_files/files' %>
 <% end %>
 

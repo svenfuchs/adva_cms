@@ -1,3 +1,8 @@
+<% content_for :action_nav do -%>
+	<%= Menu.instance(:'admin.sites.manage').render(self) %>
+	<%= Menu.instance(:'admin.sites.actions').render(self) %>
+<% end -%>
+
 <h2><%= t(:'adva.titles.history') %>: <%= @site.title %></h2>
 
 <%= render :partial => 'admin/activities/activities', :object => @activities %>
