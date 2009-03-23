@@ -83,8 +83,8 @@ class RegisteredContent
         condition = options[type][condition]
         condition.is_a?(Proc) ? condition.call(view.controller) : value.in?(condition)
       end
-      proc.call(:controller, view.controller.controller_path) or
-      proc.call(:action, view.controller.action_name) or
-      proc.call(:format, view.template_format)
+      proc.call(:controller, view.controller.controller_path.to_sym) or
+      proc.call(:action, view.controller.action_name.to_sym) or
+      proc.call(:format, view.template_format.to_sym)
     end
 end

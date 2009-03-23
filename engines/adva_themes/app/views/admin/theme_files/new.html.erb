@@ -1,13 +1,8 @@
-<% content_for :action_nav do -%>
-	<%= Menu.instance(:'admin.sites.manage').render(self) %>
-	<%= Menu.instance(:'admin.sites.themes.files.actions').render(self) %>
-<% end -%>
-
 <% content_for :sidebar do %>
   <%= render :partial => 'admin/theme_files/files' %>
 <% end %>
 
-<h2>Create theme file</h2>
+<h2><%= t(:'adva.theme_files.titles.create') %></h2>
 
 <% form_for :file, @file, :url => admin_theme_files_path(@site, @theme.id), :html => { :method => :post } do |f| -%>
   <%= render :partial => 'form', :locals => {:f => f} %>

@@ -1,19 +1,4 @@
 <% fields_for :photo do |f| -%>
-	<h3><%= t(:'adva.titles.manage') %></h3>
-	<ul>
-	  <li><%= link_to t(:'adva.photos.common.photos'), admin_photos_path(@site, @section), :id => 'manage_photos' %></li>
-		<li><%= link_to t(:'adva.photos.common.sets'), admin_sets_path(@site, @section), :id => 'manage_sets' %></li>
-	  <li><%= link_to t(:'adva.photos.common.settings'), edit_admin_section_path(@site, @section), :id => 'manage_settings' %></li>
-	</ul>
-
-	<% unless @photo.new_record? -%>
-		<h3><%= t(:'adva.titles.actions') %></h3>
-		<ul>
-		  <li><%= link_to t(:'adva.photos.admin.photos.upload_photo'), new_admin_photo_path(@site, @section) %></li>
-		  <li><%= link_to t(:'adva.photos.admin.photos.delete_photo'), admin_photo_path(@site, @section, @photo), { :confirm => t(:'adva.photos.admin.photos.delete_photo_confirmation'), :method => :delete } %></li>
-		</ul>
-	<% end -%>
-
 	<h3><%= t(:'adva.titles.optional_settings') %></h3>
 	<% f.field_set :optional_settings do %>
 	  <%= f.select :author, author_options, :selected => author_preselect, :label => true %>

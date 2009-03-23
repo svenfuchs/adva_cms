@@ -1,14 +1,3 @@
-<% content_for :sidebar do -%>
-  <h3><%= t(:'adva.titles.actions') %></h3>
-  <ul>
-    <li><%= link_to t(:'adva.photos.admin.sets.create'), new_admin_set_path(@site, @section) %></li>
-    <% if @sets.size > 1 %>
-      <li><%= link_to_function t(:'adva.photos.admin.sets.reorder'), "sets_tree.toggle(this, #{t(:'adva.resources.reordering_done')});", :id => 'reorder_sets' %>
-      <%= image_tag '/images/adva_cms/indicator.gif', :id => 'sets_indicator', :style => 'display:none;' %></li>
-    <% end %>
-  </ul>
-<% end -%>
-
 <%
 	table_for @sets do |t|
 		t.column :title, :actions

@@ -1,19 +1,3 @@
-<% unless @wikipage.new_record? -%>
-  <h3>Manage</h3>
-  <ul>
-    <li><%= link_to t(:'adva.wikipage.view._options.link_to_wikipages'), admin_wikipages_path(@site, @section) %></li>
-    <li><%= link_to t(:'adva.wikipage.view._options.link_to_categories'), admin_categories_path(@site, @section) %></li>
-    <li><%= link_to t(:'adva.wikipage.view._options.link_to_settings'), edit_admin_section_path(@site, @section) %></li>
-  </ul>
-
-  <h3>Actions</h3>
-  <ul>
-    <li><%= link_to t(:'adva.wikipage.view._options.link_to_create'), new_admin_wikipage_path(@site) %></li>
-    <li><%= link_to_show(@wikipage, :url => show_path(@wikipage, :namespace => nil)) %></li>
-    <li><%= link_to t(:'adva.wikipage.view._options.link_to_delete'), admin_wikipage_path, { :confirm => t(:'adva.wikipage.view._options.confirm_delete'), :method => :delete } %></li>
-  </ul>
-<% end -%>
-
 <% if Rails.plugin?(:adva_assets) %>
 	<h3>Assets</h3>
 	<%= render :partial => 'admin/assets/widget/widget', :locals => { :assets => { :latest => @site.assets.recent, :attached => @wikipage.assets, :bucket => bucket_assets } } %>

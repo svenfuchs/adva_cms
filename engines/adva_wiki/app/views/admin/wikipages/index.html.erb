@@ -1,17 +1,3 @@
-<% content_for :sidebar do -%>
-  <h3><%= t(:'adva.wikipage.view.index.manage_header') %></h3>
-  <ul>
-    <li><%= link_to t(:'adva.wikipage.view._options.link_to_wikipages'), admin_wikipages_path(@site, @section) %></li>
-    <li><%= link_to t(:'adva.common.categories'), admin_categories_path(@site, @section) %></li>
-    <li><%= link_to t(:'adva.common.settings'), edit_admin_section_path(@site, @section) %></li>
-  </ul>
-
-  <h3><%= t(:'adva.wikipage.view.index.actions_header') %></h3>
-  <ul>
-    <li><%= link_to t(:'adva.wikipage.view.index.link_to_create'), new_admin_wikipage_path(@site) %></li>
-  </ul>
-<% end -%>
-
 <%
 	table_for @wikipages do |t|
 		t.column :wikipage, :version, :last_updated, :by, :comments, :actions

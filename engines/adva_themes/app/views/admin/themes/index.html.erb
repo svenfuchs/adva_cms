@@ -1,8 +1,3 @@
-<% content_for :action_nav do -%>
-	<%= Menu.instance(:'admin.sites.manage').render(self) %>
-	<%= Menu.instance(:'admin.sites.themes.actions').render(self) %>
-<% end -%>
-
 <h2><%= t(:'adva.titles.themes') %></h2>
 <% unless @themes.empty? -%>
   <%= render :partial => 'theme', :collection => @themes %>

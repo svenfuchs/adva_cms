@@ -1,13 +1,8 @@
-<% content_for :action_nav do -%>
-	<%= Menu.instance(:'admin.sites.manage').render(self) %>
-	<%= Menu.instance(:'admin.sites.themes.files.actions').render(self) %>
-<% end -%>
-
 <% content_for :sidebar do %>
   <%= render :partial => 'admin/theme_files/files' %>
 <% end %>
 
-<h2>Upload theme file</h2>
+<h2><%= t(:'adva.theme_files.titles.upload') %></h2>
 
 <% form_tag upload_admin_theme_files_path(@site, @theme.id), { :method => :post, :multipart => true } do %>
 	<fieldset>

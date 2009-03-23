@@ -1,9 +1,3 @@
-<% content_for :action_nav do -%>
-  <ul class="sub_nav clearfix">
-    <li><%= link_to content_tag(:span, 'New'), :action => "new" %></li>
-  </ul>
-<% end %>
-
 <%
 	table_for @sites do |t|
 		t.column :name, :host, :actions

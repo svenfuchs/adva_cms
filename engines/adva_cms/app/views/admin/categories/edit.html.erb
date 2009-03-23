@@ -1,13 +1,5 @@
 <h2><%= t(:'adva.categories.titles.edit') %></h2>
 
-<% content_for :sidebar do -%>
-	<h3><%= t(:'adva.titles.actions') %></h3>
-	<ul>
-	  <li><%= link_to_new([@section, :category]) %></li>
-	  <li><%= link_to_delete(@category) %></li>
-	</ul>
-<% end %>
-
 <% form_for :category, @category, :url => admin_category_path, :html => {:method => :put} do |f| %>
 	<% f.field_set do %>
     <% column do %>

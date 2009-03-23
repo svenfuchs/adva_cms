@@ -1,4 +1,8 @@
 class Admin::UsersController < Admin::BaseController
+  content_for :'main_right', :users_actions, :only => { :action => [:index, :show, :new, :edit] } do
+    Menu.instance(:'admin.users.actions').render(self)
+  end
+
   before_filter :set_users, :only => [:index]
   before_filter :set_user,  :only => [:show, :edit, :update, :destroy]
   before_filter :authorize_access

@@ -1,8 +1,3 @@
-<% content_for :action_nav do %>
-	<%= Menu.instance(:'admin.newsletters.manage').render(self	) %>
-	<%= Menu.instance(:'admin.issues.actions').render(self	) %>
-<% end %>
-
 <%
 	table_for @newsletter.issues do |t|
 		t.column :name, :created_at, :actions

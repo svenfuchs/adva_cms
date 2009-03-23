@@ -1,28 +1,4 @@
-<% content_for :sidebar do -%>
-  <h3><%= t(:'adva.titles.manage') %></h3>
-  <ul>
-	<% if @section.type == 'Album' -%>
-    <li><%= link_to 'Photos', admin_photos_path(@site, @section) %></li>
-    <li><%= link_to 'Sets', admin_sets_path(@site, @section) %></li>
-	<% elsif @section.type == 'Forum' -%>
-		<li><%= link_to 'Boards', admin_boards_path(@site, @section) %></li>
-    <li><%= link_to 'Forum', forum_path(@section) %></li>
-  <% else -%>
-  	<li><%= link_to t(:'adva.titles.articles'), admin_articles_path(@site, @section), :id => 'manage_articles' %></li>
-    <li><%= link_to t(:'adva.titles.categories'), admin_categories_path(@site, @section), :id => 'manage_categories' %></li>  
-  <% end -%>
-    <li><%= link_to t(:'adva.titles.settings'), edit_admin_section_path(@site, @section), :id => 'manage_settings' %></li>
-  </ul>
-
-  <h3><%= t(:'adva.titles.actions') %></h3>
-  <ul>
-    <li><%= link_to t(:'adva.sections.links.create'), new_admin_section_path(@site) %></li>
-    <li><%= link_to_delete(@section) %></li>
-  </ul>
-<% end -%>
-
 <% form_for :section, @section, :url => admin_section_path(@site, @section), :html => {:method => :put} do |f| %>
   <%= render :partial => 'form', :locals => {:f => f} %>
-
   <% save_or_cancel_links(f) %>
 <% end %>

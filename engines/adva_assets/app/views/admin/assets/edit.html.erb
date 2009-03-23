@@ -1,4 +1,6 @@
-<%= render :partial => "action_nav" %>
+<% content_for :action_nav do %>
+	<%= Menu.instance(:'admin.assets.actions').render(self) %>
+<% end %>
 
 <% form_for @asset, :url => admin_asset_path, :html => { :multipart => true } do |f| %>
   <p><%= link_to asset_image_for(@asset, :thumb), @asset.base_url %></p>

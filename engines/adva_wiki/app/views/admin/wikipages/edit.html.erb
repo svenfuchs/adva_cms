@@ -1,4 +1,4 @@
-<h2>Edit wikipage</h2>
+<h2><%= t(:'adva.wikipage.view.edit.header', :title => @wikipage.title) %></h2>
 
 <% split_form_for :wikipage, @wikipage, :url => admin_wikipage_path, :html => {:multipart => true, :method => :put, :id => 'content_form'} do |f| -%>
 	<%= render :partial => "form", :locals => {:f => f} %>
