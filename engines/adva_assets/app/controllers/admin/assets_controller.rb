@@ -1,4 +1,8 @@
 class Admin::AssetsController < Admin::BaseController
+  content_for :action_nav, :assets_actions, :only => { :action => [:index, :show, :new, :edit] } do
+    Menu.instance(:'admin.assets.actions').render(self)
+  end
+
   include AssetsHelper
   helper :assets, :asset_tag
   helper_method :created_notice
@@ -6,10 +10,6 @@ class Admin::AssetsController < Admin::BaseController
   before_filter :set_format, :only => [:create]
   before_filter :set_asset, :only => [:edit, :update, :destroy]
   
-  # content_for :action_nav, :assets_actions, :only => { :action => [:index, :new, :edit] } do
-  #   Menu.instance(:'admin.assets.actions').render(self)
-  # end
-
   guards_permissions :asset
 
   def index

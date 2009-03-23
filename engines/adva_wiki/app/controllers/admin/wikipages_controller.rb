@@ -1,5 +1,12 @@
 class Admin::WikipagesController < Admin::BaseController
-  layout "admin"
+  content_for :'main_left', :wikipages_manage, :only => { :action => [:index, :show, :new, :edit] } do
+    Menu.instance(:'admin.wikipages.manage').render(self)
+  end
+
+  content_for :'main_right', :wikipages_actions, :only => { :action => [:index, :show, :new, :edit] } do
+    Menu.instance(:'admin.wikipages.actions').render(self)
+  end
+
   helper :wiki
 
   before_filter :set_section

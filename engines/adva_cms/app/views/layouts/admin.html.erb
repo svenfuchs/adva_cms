@@ -19,7 +19,11 @@
 
   <div id="container">
     <div id="header">
-			<%= yield :header %>
+			<%= render :partial => 'admin/shared/utility' %>
+			<div>
+				<%= Menu.instance(:'admin.top.left').render(self) %>
+				<%= Menu.instance(:'admin.top.right').render(self) %>
+			</div>
     </div>
 
     <div id="content" class="clearfix">
@@ -29,9 +33,8 @@
         <%= render :partial => 'shared/flash' %>
 
         <div class="padded">
-          <% if @content_for_action_nav %>
-            <%= yield :action_nav %>
-          <% end %>
+          <%= yield :'main_left' %>
+          <%= yield :'main_right' %>
 
           <% if @content_for_filter %>
             <div id="filter"><%= yield :filter %></div>
