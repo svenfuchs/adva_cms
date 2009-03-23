@@ -1,4 +1,6 @@
-<%= render :partial => 'action_nav' %>
+<% content_for :action_nav do -%>
+	<%= Menu.instance(:'admin.plugins.manage').render(self) %>
+<% end -%>
 
 <% content_for :sidebar do %>
   <h4><%= t(:'adva.common.about') %></h4>

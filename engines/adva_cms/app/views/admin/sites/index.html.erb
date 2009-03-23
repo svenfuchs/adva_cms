@@ -1,8 +1,7 @@
 <% content_for :action_nav do -%>
-  <ul class="sub_nav clearfix">
-    <li><%= link_to content_tag(:span, 'New'), :action => "new" %></li>
-  </ul>
-<% end %>
+	<%= Menu.instance(:'admin.sites.manage').render(self) %>
+	<%= Menu.instance(:'admin.sites.actions').render(self) %>
+<% end -%>
 
 <%
 	table_for @sites do |t|

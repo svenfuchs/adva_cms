@@ -1,6 +1,6 @@
 <% content_for :action_nav do %>
 	<%= Menu.instance(:'admin.sites.manage').render(self) %>
-	<%= Menu.instance(:'admin.sites.themes.actions').render(self) %>
+	<%= Menu.instance(:'admin.sites.cached_pages.actions').render(self) %>
 <% end %>
 <%= render :partial => 'filter' %>
 

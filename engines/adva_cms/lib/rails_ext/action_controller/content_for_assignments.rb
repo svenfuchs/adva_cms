@@ -80,6 +80,7 @@ class RegisteredContent
 
     def condition_applies?(type, view)
       proc = lambda do |condition, value|
+        p options
         condition = options[type][condition]
         condition.is_a?(Proc) ? condition.call(view.controller) : value.in?(condition)
       end

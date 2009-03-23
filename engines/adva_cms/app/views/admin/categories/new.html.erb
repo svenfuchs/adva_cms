@@ -1,3 +1,7 @@
+<% content_for :action_nav do -%>
+	<%= Menu.instance(:'admin.categories.actions').render(self) %>
+<% end -%>
+
 <h2><%= t(:'adva.categories.titles.new') %></h2>
   
 <% form_for :category, @category, :url => admin_categories_path do |f| %>

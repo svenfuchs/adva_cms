@@ -105,7 +105,7 @@ class Admin::ArticlesController < Admin::BaseController
     end
 
     def set_articles
-      options = {:page => current_page, :per_page => 25, :order => 'contents.position, contents.id DESC'}
+      options = { :page => current_page, :per_page => 25, :order => 'contents.position, contents.id DESC' }
       @articles = @section.articles.filtered(params[:filters]).paginate options
     end
 
