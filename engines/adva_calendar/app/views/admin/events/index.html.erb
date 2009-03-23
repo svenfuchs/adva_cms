@@ -18,11 +18,6 @@
 <% end %>
 <% end -%>
 
-<% content_for :action_nav do -%>
-	<%= Menu.instance(:'admin.calendars.manage').render(self) %>
-	<%= Menu.instance(:'admin.calendars.actions').render(self) %>
-<% end -%>
-
 <%
 	table_for @events do |t|
 		t.column :title, :starting_at, :ending_at, :created_by, :actions

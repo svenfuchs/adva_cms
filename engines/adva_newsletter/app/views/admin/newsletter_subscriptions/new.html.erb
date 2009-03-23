@@ -1,12 +1,3 @@
-<% content_for :sidebar do %>
-  <%= render :partial => 'admin/shared/sidebar_manage' %>
-  <h3><%= t(:'adva.titles.actions') %></h3>
-  <ul>
-    <%= render :partial => 'admin/shared/sidebar_common' %>
-    <li><%= link_to t(:'adva.users.links.new'), new_admin_site_user_path %></li>
-  </ul>
-<% end %>
-
 <% if @newsletter.available_users.present? %>
 
   <% split_form_for :subscription, @subscription, :url => admin_subscriptions_path, :html => { :multipart => true } do |f| %>
@@ -21,4 +12,5 @@
     <%= t(:'adva.sites.no_available_users') %>
     <%= link_to_new :'adva.users.links.new', [@site, :user] %>
   </div>
+
 <% end %>

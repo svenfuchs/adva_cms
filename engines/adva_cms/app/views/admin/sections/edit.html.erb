@@ -1,10 +1,4 @@
-<% content_for :action_nav do -%>
-	<% Menu.instance(:'admin.sections.manage').render(self) %>
-	<% Menu.instance(:'admin.sections.actions').render(self) %>
-<% end -%>
-
 <% form_for :section, @section, :url => admin_section_path(@site, @section), :html => {:method => :put} do |f| %>
   <%= render :partial => 'form', :locals => {:f => f} %>
-
   <% save_or_cancel_links(f) %>
 <% end %>

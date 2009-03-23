@@ -1,8 +1,3 @@
-<% content_for :sidebar do %>
-  <%= render :partial => "admin/shared/sidebar_manage" %>
-  <%= render :partial => "sidebar_actions" %>
-<% end %>
-
 <%
 	table_for @subscriptions do |t|
 		t.column :subscriber, :email, :time, :actions

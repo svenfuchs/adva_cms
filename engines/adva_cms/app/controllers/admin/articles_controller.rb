@@ -1,5 +1,11 @@
 class Admin::ArticlesController < Admin::BaseController
-  layout "admin"
+  content_for :'main_left', :articles_manage, :only => { :action => [:index, :show, :new, :edit] } do
+    Menu.instance(:'admin.articles.manage').render(self)
+  end
+  
+  content_for :'main_right', :articles_actions, :only => { :action => [:index, :show, :new, :edit] } do
+    Menu.instance(:'admin.articles.actions').render(self)
+  end
 
   default_param :article, :author_id, :only => [:create, :update], &lambda { current_user.id }
 
