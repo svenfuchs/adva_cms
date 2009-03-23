@@ -13,11 +13,11 @@
     <%= post.body_html %>
     <p class="util">
       <% authorized_tag :span, :update, post do %>
-        <%= link_to_edit :'adva.links.edit', post, :url => edit_topic_post_returning_path(@section, @topic, post) %>
+        <%= link_to_edit :'adva.links.edit', post, :url => edit_topic_post_path(@section, @topic, post, :return => true) %>
       <% end %>
 			<% unless post == @topic.initial_post %>
       	<% authorized_tag :span, :destroy, post do %>
-        &middot; <%= link_to_delete :'adva.links.delete', post, :url => topic_post_returning_path(@section, @topic, post) %>
+        &middot; <%= link_to_delete :'adva.links.delete', post, :url => topic_post_path(@section, @topic, post, :return => true) %>
       	<% end %>
 			<% end %>
     </p>

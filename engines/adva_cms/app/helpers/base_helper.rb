@@ -1,22 +1,21 @@
-class ActionView::Base
-  unless method_defined? :method_missing_with_returning_paths
-    def method_missing_with_returning_paths(name, *args)
-      name = name.to_s
-      if name.sub!(/_returning(_path|_url)$/, '')
-        options = args.extract_options!
-        options.reverse_merge! :return_to => params[:return_to] || request.request_uri
-        args << options
-        send :"#{name}#{$1}", *args
-      else
-        method_missing_without_returning_paths name.to_sym, *args
-      end
-    end
-    alias_method_chain :method_missing, :returning_paths
-  end
-end
+# class ActionView::Base
+#   unless method_defined? :method_missing_with_returning_paths
+#     def method_missing_with_returning_paths(name, *args)
+#       name = name.to_s
+#       if name.sub!(/_returning(_path|_url)$/, '')
+#         options = args.extract_options!
+#         options.reverse_merge! :return_to => params[:return_to] || request.request_uri
+#         args << options
+#         send :"#{name}#{$1}", *args
+#       else
+#         method_missing_without_returning_paths name.to_sym, *args
+#       end
+#     end
+#     alias_method_chain :method_missing, :returning_paths
+#   end
+# end
 
 module BaseHelper
-
   def column(&block)
     content_tag(:div, :class => 'col', &block)
   end
@@ -61,19 +60,13 @@ module BaseHelper
     end.unshift [t(:'adva.settings.filter_options.plain_html'), '']
   end
 
-  # FIXME refactor to not use instance variables
-  def author_options
-    members = [[current_user.name, current_user.id]]
-    return members if @site.users.empty?
-
-    members += @site.users.collect {|member| [member.name, member.id]}
-    members.uniq.sort
+  def author_options(users)
+    authors = [[current_user.name, current_user.id]] + users.map { |author| [author.name, author.id] }
+    authors.uniq
   end
 
-  def author_preselect
-    content = (@article || @wikipage)
-    return current_user.id if content.nil?
-    content.author ? content.author.id : current_user.id
+  def author_selected(content)
+    content.try(:author_id) || current_user.id
   end
 
   # Helper for adding active class to menu li
