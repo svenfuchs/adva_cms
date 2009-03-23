@@ -1,12 +1,8 @@
-<h2><%= t(:'adva.photos.common.edit_set') %></h2>
-
-<% content_for :sidebar do -%>
-	<h3><%= t(:'adva.titles.actions') %></h3>
-	<ul>
-	  <li><%= link_to t(:'adva.photos.admin.sets.create'), new_admin_set_path(@site, @section) %></li>
-	  <li><%= link_to t(:'adva.photos.admin.sets.delete'), admin_set_path(@site, @section, @set), { :confirm => t(:'adva.photos.admin.sets.delete_confirmation'), :method => :delete } %></li>
-	</ul>
+<% content_for :action_nav do -%>
+	<%= Menu.instance(:'admin.sets.actions').render(self) %>
 <% end -%>
+
+<h2><%= t(:'adva.photos.common.edit_set') %></h2>
 
 <% form_for :set, @set, :url => admin_set_path(@site, @section, @set), :html => {:method => :put} do |f| %>
 	<% f.field_set do %>

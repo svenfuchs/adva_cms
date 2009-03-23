@@ -1,4 +1,6 @@
-<%= render :partial => 'action_nav' %>
+<% content_for :action_nav do -%>
+	<%= Menu.instance(:'admin.users.actions').render(self) %>
+<% end -%>
 
 <% content_for :sidebar do %>
   <div class="user">

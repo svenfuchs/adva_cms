@@ -1,8 +1,5 @@
-<% content_for :sidebar do -%>
-  <h3><%= t(:'adva.titles.actions') %></h3>
-  <ul>
-    <li><%= link_to t(:'adva.users.actions.create_new'), new_member_path %></li>
-  </ul>
+<% content_for :action_nav do -%>
+	<%= Menu.instance(:'admin.users.actions').render(self) %>
 <% end -%>
 
 <h2><%= t(:'adva.titles.users') %></h2>

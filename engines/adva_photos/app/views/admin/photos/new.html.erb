@@ -1,3 +1,8 @@
+<% content_for :action_nav do -%>
+	<% Menu.instance(:'admin.photos.manage').render(self) %>
+	<% Menu.instance(:'admin.photos.actions').render(self) %>
+<% end -%>
+
 <% split_form_for :photo, @photo, :url => admin_photos_path(@site, @photo.section), :html => {:multipart => true} do |f| -%>
   <%= render :partial => 'form', :locals => {:f => f} %>  
 

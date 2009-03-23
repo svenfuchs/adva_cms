@@ -159,7 +159,88 @@ Menu.instance(:'admin.sites.actions', :class => 'actions') do
   end
 end
 
-# Themes
+# adva-forum menus
+Menu.instance(:'admin.forums.boards.manage', :class => 'manage') do
+  item :boards   :caption => link_to(t(:'adva.boards.links.boards'),    admin_boards_path(@site, @section), :id => 'manage_boards')
+	item :forum    :caption => link_to(t(:'adva.boards.links.forum'),     forum_path(@section), :id => 'manage_forum')
+  item :settings :caption => link_to(t(:'adva.boards.links.settings'),  edit_admin_section_path(@site, @section), :id => 'manage_settings')
+end
+
+Menu.instance(:'admin.forums.boards.actions', :class => 'actions') do
+  item :forum_create, :caption => link_to_new([@section, :board])
+  
+  if @forum && !@forum.new_record?
+    item :forum_delete, :caption => link_to_delete(@section)
+  end
+end
+
+# adva-newsletters menus
+
+Menu.instance(:'admin.newsletters.manage', :class => 'manage') do
+  # active_newsletters = active_li?("admin/newsletters")
+  # active_issues      = active_li?("admin/issues")
+  # active_subscriptions = active_li?("admin/newsletter_subscriptions")
+
+  if @newsletter.present? && !@newsletter.new_record?
+    item :issues, :caption => link_to(t(:'adva.newsletter.link.issues'), admin_issues_path(@site, @newsletter))
+    item :subscriptions, :caption => link_to(t(:'adva.newsletter.link.subscribers'), admin_subscriptions_path(@site, @newsletter))
+  end
+end
+
+Menu.instance(:'admin.newsletters.actions', :class => 'actions') do
+  item :create_newsletter, :caption => new_resource_link(Newsletter, new_admin_newsletter_path(@site),
+                                        :text => t(:'adva.newsletter.link.new'))
+end
+
+# adva-newsletters issues menus
+
+Menu.instance(:'admin.issues.actions', :class => 'actions') do
+  item :create_issue, :caption => new_resource_link(Issue, new_admin_issue_path(@site, @newsletter),
+                                   :text => t(:'adva.newsletter.link.new_issue'))
+
+  if @issue.present? && @issue.editable?
+    item :issue_edit, :caption => edit_resource_link(@issue, edit_admin_issue_path(@site, @newsletter, @issue),
+                                                :text => t(:"adva.newsletter.link.edit_issue"))
+
+    item :issue_preview, :caption => link_to(t(:"adva.newsletter.link.send_preview_issue"),
+                                      admin_delivery_path(@site, @newsletter, @issue),
+                                      :method => :post, :confirm => t(:"adva.newsletter.confirm.send_preview_issue"))
+  end
+
+  if @issue.present? && !@issue.new_record?
+    item :delete_issue, :caption => delete_resource_link(@issue, admin_issue_path(@site, @newsletter, @issue),
+                                     :text => t(:"adva.newsletter.link.delete_issue"))
+  end
+end
+
+# adva-photos menus
+Menu.instance(:'admin.photos.actions', :class => 'actions') do
+  item :photos,   :caption => link_to(t(:'adva.photos.common.photos'),    admin_photos_path(@site, @section), :id => 'manage_photos')
+  item :sets,     :caption => link_to(t(:'adva.photos.common.sets'),      admin_sets_path(@site, @section), :id => 'manage_sets')
+  item :settings, :caption => link_to(t(:'adva.photos.common.settings'),  edit_admin_section_path(@site, @section), :id => 'manage_settings')
+end
+
+Menu.instance(:'admin.photos.actions', :class => 'actions') do
+	item :photo_upload, :caption => link_to(t(:'adva.photos.admin.photos.upload_photo'), new_admin_photo_path(@site, @section))
+  
+	if @photo && !@photo.new_record?
+	  item :photo_edit,   :caption => link_to_edit(@photo)
+	  item :photo_delete, :caption => link_to(t(:'adva.photos.admin.photos.delete_photo'), admin_photo_path(@site, @section, @photo),
+	                                  { :confirm => t(:'adva.photos.admin.photos.delete_photo_confirmation'), :method => :delete })
+  end
+end
+
+# adva-photos sets menus
+Menu.instance(:'admin.photos.sets.actions', :class => 'actions') do
+  item :set_create, :caption => link_to(t(:'adva.photos.admin.sets.create'), new_admin_set_path(@site, @section))
+  
+  if @set && !@set.new_record?
+    item :set_edit,   :caption => link_to_edit(@set)
+    item :set_delete, :caption => link_to_delete(@set)
+  end
+end
+
+# adva-themes menus
 Menu.instance(:'admin.sites.themes.actions', :class => 'actions') do
   unless @theme.present?
     item 'create_theme', :caption => link_to(t(:'adva.themes.links.new_theme'), new_admin_theme_path(@site))
@@ -186,7 +267,7 @@ Menu.instance(:'admin.sites.themes.actions', :class => 'actions') do
   end
 end
 
-# Theme files
+# adva-themes theme-files menus
 Menu.instance(:'admin.sites.themes.files.actions', :class => 'actions') do
   item 'create_theme_file', :caption => link_to(t(:'adva.themes.links.create_file'), new_admin_theme_file_path(@site, @theme.id))
   item 'upload_theme_file', :caption => link_to(t(:'adva.themes.links.upload_file'), import_admin_theme_files_path(@site, @theme.id))
@@ -196,41 +277,28 @@ Menu.instance(:'admin.sites.themes.files.actions', :class => 'actions') do
   item 'download_theme_file', :caption => link_to(t(:'adva.themes.links.download_theme'), export_admin_theme_path(@site, @theme.id))
 end
 
-# Newsletters
-
-Menu.instance(:'admin.newsletters.manage', :class => 'manage') do
-  # active_newsletters = active_li?("admin/newsletters")
-  # active_issues      = active_li?("admin/issues")
-  # active_subscriptions = active_li?("admin/newsletter_subscriptions")
-
-  if @newsletter.present? && !@newsletter.new_record?
-    item 'issues', :caption => link_to(t(:'adva.newsletter.link.issues'), admin_issues_path(@site, @newsletter))
-    item 'subscriptions', :caption => link_to(t(:'adva.newsletter.link.subscribers'), admin_subscriptions_path(@site, @newsletter))
+# adva-user menus
+Menu.instance(:'admin.users.actions', :class => 'actions') do
+  item :user_create, :caption => link_to(content_tag(:span, t(:'adva.users.links.create_user')), new_member_path)
+  
+  if @user && !@user.new_record?
+    item :user_edit, :caption => link_to(content_tag(:span, t(:'adva.users.links.edit_user')), edit_member_path)
+    item :user_delete, :caption => link_to_delete(@user)
   end
 end
 
-Menu.instance(:'admin.newsletters.actions', :class => 'actions') do
-  item "create_newsletter", :caption => new_resource_link(Newsletter, new_admin_newsletter_path(@site),
-                                        :text => t(:'adva.newsletter.link.new'))
+# adva-wiki menus
+Menu.instance(:'admin.wikipages.manage', :class => 'manage') do
+  item :wikipages,  :caption => link_to(t(:'adva.wikipage.view._options.link_to_wikipages'),   admin_wikipages_path(@site, @section))
+  item :categories, :caption => link_to(t(:'adva.wikipage.view._options.link_to_categories'),  admin_categories_path(@site, @section))
+  item :settings,   :caption => link_to(t(:'adva.wikipage.view._options.link_to_settings'),    edit_admin_section_path(@site, @section))
 end
 
-# Issues
-
-Menu.instance(:'admin.issues.actions', :class => 'actions') do
-  item "create_issue", :caption => new_resource_link(Issue, new_admin_issue_path(@site, @newsletter),
-                                   :text => t(:'adva.newsletter.link.new_issue'))
-
-  if @issue.present? && @issue.editable?
-    item "issue_#{@issue.id}_edit", :caption => edit_resource_link(@issue, edit_admin_issue_path(@site, @newsletter, @issue),
-                                                :text => t(:"adva.newsletter.link.edit_issue"))
-
-    item "issue_preview", :caption => link_to(t(:"adva.newsletter.link.send_preview_issue"),
-                                      admin_delivery_path(@site, @newsletter, @issue),
-                                      :method => :post, :confirm => t(:"adva.newsletter.confirm.send_preview_issue"))
-  end
-
-  if @issue.present? && !@issue.new_record?
-    item "delete_issue", :caption => delete_resource_link(@issue, admin_issue_path(@site, @newsletter, @issue),
-                                     :text => t(:"adva.newsletter.link.delete_issue"))
+Menu.instance(:'admin.wikipages.actions', :class => 'actions') do
+  item :wikipage_create, :caption => link_to(t(:'adva.wikipage.view._options.link_to_create'), new_admin_wikipage_path(@site))
+  
+  if @wikipage && !@wikipage.new_record?
+    item :wikipage_show,   :caption => link_to_show(@wikipage, :url => show_path(@wikipage, :namespace => nil))
+    item :wikipage_delete, :caption => link_to t(:'adva.wikipage.view._options.link_to_delete'), admin_wikipage_path, { :confirm => t(:'adva.wikipage.view._options.confirm_delete'), :method => :delete }
   end
 end

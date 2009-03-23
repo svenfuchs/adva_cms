@@ -688,6 +688,9 @@ en:
         update:
           success: The file has been updated.
           failure: The file could not be updated.
+      titles:
+        upload: Upload a theme file
+        create: Create theme file
     plugins:
       no_plugins_installed: There currently aren't any plugins installed.
       attributes:

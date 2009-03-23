@@ -1,3 +1,7 @@
+<% content_for :action_nav do -%>
+	<%= Menu.instance(:'admin.users.actions').render(self) %>
+<% end -%>
+
 <h2><%= t(:'adva.users.titles.new') %></h2>
 <% form_for :user, @user, :url => collection_path do |f| -%>
   <%= render :partial => 'form', :locals => {:f => f} %>  
