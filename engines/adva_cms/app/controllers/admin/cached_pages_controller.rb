@@ -1,5 +1,5 @@
 class Admin::CachedPagesController < Admin::BaseController
-  content_for :'main_left', :sites_manage, :only => { :action => [:index, :show, :new, :edit] } do
+  content_for :'main_left', :cached_pages_manage, :only => { :action => [:index, :show, :new, :edit] } do
     Menu.instance(:'admin.sites.manage').render(self)
   end
 

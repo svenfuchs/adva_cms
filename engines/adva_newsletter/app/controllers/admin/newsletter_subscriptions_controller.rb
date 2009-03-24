@@ -1,9 +1,9 @@
 class Admin::NewsletterSubscriptionsController < Admin::BaseController
-  content_for :'main_left', :newsletters_manage, :only => { :action => [:index, :show, :new, :edit] } do
+  content_for :'main_left', :subscriptions_manage, :only => { :action => [:index, :show, :new, :edit] } do
     Menu.instance(:'admin.newsletters.manage').render(self)
   end
 
-  content_for :'main_right', :newsletters_actions, :only => { :action => [:index, :show, :new, :edit] } do
+  content_for :'main_right', :subscriptions_actions, :only => { :action => [:index, :show, :new, :edit] } do
     Menu.instance(:'admin.newsletters.actions').render(self)
   end
 
