@@ -1,19 +1,11 @@
 class Admin::ArticlesController < Admin::BaseController
-  content_for :'main_left', :articles_manage, :only => { :action => [:index, :show, :new, :edit] } do
-    Menu.instance(:'admin.articles.manage').render(self)
-  end
-  
-  content_for :'main_right', :articles_actions, :only => { :action => [:index, :show, :new, :edit] } do
-    Menu.instance(:'admin.articles.actions').render(self)
-  end
-
   default_param :article, :author_id, :only => [:create, :update], &lambda { current_user.id }
 
   before_filter :adjust_action
   before_filter :set_section
-  before_filter :set_articles,          :only => [:index]
-  before_filter :set_article,           :only => [:show, :edit, :update, :destroy]
-  before_filter :set_categories,        :only => [:new, :edit]
+  before_filter :set_articles,   :only => [:index]
+  before_filter :set_article,    :only => [:show, :edit, :update, :destroy]
+  before_filter :set_categories, :only => [:new, :edit]
 
   cache_sweeper :article_sweeper, :category_sweeper, :tag_sweeper,
                 :only => [:create, :update, :destroy]

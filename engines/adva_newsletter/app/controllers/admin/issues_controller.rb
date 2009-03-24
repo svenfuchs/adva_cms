@@ -1,12 +1,4 @@
 class Admin::IssuesController < Admin::BaseController
-  content_for :'main_left', :issues_manage, :only => { :action => [:index, :show, :new, :edit] } do
-    Menu.instance(:'admin.newsletters.manage').render(self)
-  end
-
-  content_for :'main_right', :issues_actions, :only => { :action => [:index, :show, :new, :edit] } do
-    Menu.instance(:'admin.issues.actions').render(self)
-  end
-
   guards_permissions :issue 
 
   before_filter :set_newsletter, :except => :index

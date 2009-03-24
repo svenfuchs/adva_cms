@@ -1,5 +1,10 @@
 en:
   adva:
+    calendar_events:
+      links:
+        index: Events
+        new: New
+        delete: Delete
     calendar:
       open_end: Open end
       confirm_delete: Are you sure you wish to delete this event?

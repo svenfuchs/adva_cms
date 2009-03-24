@@ -12,7 +12,7 @@
 
 <h3><%= t(:'adva.wikipage.view._options.optional_settings_header') %></h3>
 
-<%= f.select :author, author_options, :selected => author_preselect, :label => true %>
+<%= f.select :author, author_options(@site.users), :selected => author_selected(@wikipage), :label => true %>
 <%= f.select :filter, filter_options, {}, :class => 'columnsFilter', :label => true %>
 <%= f.select :comment_age, comment_expiration_options, :label => :'adva.wikipage.view._options.label_for_comments' %>
 <%= f.text_field :permalink, :label => true, :hint => :'adva.wikipage.view._options.permalink_hint' %>

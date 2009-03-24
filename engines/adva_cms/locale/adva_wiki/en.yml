@@ -44,7 +44,10 @@ en:
         confirm_rollback: Are you sure you wish to rollback to this version?
     wikipages:
       links:
-        show: View this wikipage
+        index: Wikipages
+        show: View
+        new: New
+        edit: Edit
     wikipage: 
       params_author: 
         exception: 

@@ -1,7 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../test_helper.rb')
 
-class EventsControllerTest < ActionController::TestCase
-  tests EventsController
+class CalendarEventsControllerTest < ActionController::TestCase
+  tests CalendarEventsController
   with_common :is_user, :fixed_time, :calendar_with_events
 
   def default_params

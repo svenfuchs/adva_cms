@@ -1,4 +1,4 @@
-module EventsHelper
+module CalendarEventsHelper
   def collection_title(category=nil, tags=nil)
     title = []
     title << current_timespan.first.strftime(current_timespan_format||t(:'adva.calendar.titles.formats.year_month')) unless current_timespan.first.blank?

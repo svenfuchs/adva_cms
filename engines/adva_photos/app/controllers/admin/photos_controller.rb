@@ -1,12 +1,4 @@
 class Admin::PhotosController < Admin::BaseController
-  content_for :'main_left', :photos_manage, :only => { :action => [:index, :show, :new, :edit] } do
-    Menu.instance(:'admin.photos.manage').render(self)
-  end
-
-  content_for :'main_right', :photos_actions, :only => { :action => [:index, :show, :new, :edit] } do
-    Menu.instance(:'admin.photos.actions').render(self)
-  end
-
   helper 'admin/comments'
   
   before_filter :set_section

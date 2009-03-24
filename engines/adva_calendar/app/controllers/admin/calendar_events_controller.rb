@@ -1,12 +1,4 @@
-class Admin::EventsController < Admin::BaseController
-  content_for :'main_left', :events_manage, :only => { :action => [:index, :show, :new, :edit] } do
-    Menu.instance(:'admin.calendars.manage').render(self)
-  end
-
-  content_for :'main_right', :events_actions, :only => { :action => [:index, :show, :new, :edit] } do
-    Menu.instance(:'admin.calendars.actions').render(self)
-  end
-
+class Admin::CalendarEventsController < Admin::BaseController
   helper :assets, :roles
 
   before_filter :set_section

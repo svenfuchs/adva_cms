@@ -1,4 +1,4 @@
-class EventsController < BaseController
+class CalendarEventsController < BaseController
   include ActionController::GuardsPermissions::InstanceMethods
   helper :roles
 
@@ -76,6 +76,7 @@ class EventsController < BaseController
     end
 
     def set_event
+      p params
       @event = @section.events.published.find_by_permalink params[:permalink]
       if !@event || (@event.draft? && !can_preview?)
         raise ActiveRecord::RecordNotFound

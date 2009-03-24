@@ -1,8 +1,4 @@
 class Admin::PluginsController < Admin::BaseController
-  content_for :'main_right', :plugins_manage, :only => { :action => [:index, :show, :new, :edit] } do
-    Menu.instance(:'admin.plugins.manage').render(self)
-  end
-
   before_filter :set_plugins, :only => :index
   before_filter :set_plugin, :only => [:show, :edit, :update, :destroy]
 

@@ -1,5 +1,11 @@
 en:
   adva:
+    sets:
+      links:
+        index: Sets
+        new: New
+        edit: Edit
+        delete: Delete
     photos:
       name: Photo
       common:
@@ -16,6 +22,9 @@ en:
         author: Author
         album_settings: Album settings
         edit_set: Edit set
+      links:
+        index: Photos
+        new: New
       admin:
         photos:
           choose_photo: Choose a photo

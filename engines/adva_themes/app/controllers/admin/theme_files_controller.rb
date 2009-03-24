@@ -1,8 +1,4 @@
 class Admin::ThemeFilesController < Admin::BaseController
-  content_for :'main_right', :theme_files_actions, :only => { :action => [:index, :show, :new, :edit] } do
-    Menu.instance(:'admin.theme_files.actions').render(self)
-  end
-
   before_filter :set_theme
   before_filter :set_file, :only => [:show, :update, :destroy]
 

@@ -1,11 +1,11 @@
-div#header div#navigation {
+div#header div#top {
   margin-top: 28px;
   margin-left: 20px;
   background-color: black;
   color: white;
 }
 
-div#header div#navigation ul {
+div#header div#top ul {
   float: left;
   position: relative; /* slight hack to allow correct tab colors */
   top: 4px;
@@ -13,40 +13,45 @@ div#header div#navigation ul {
   border-left: 1px solid #424242;
 }
 
-div#header div#navigation ul li {
+div#header div#top ul li {
   float: left;
-  padding: 5px 20px 9px 20px;
   border-right: 1px solid #424242;
   cursor: pointer;
 }
 
-div#header div#navigation ul#right_navigation {
+div#header div#top ul li a {
+  display: block;
+  padding: 5px 20px 9px 20px;
+  outline: 0px;
+}
+
+div#header div#top .right {
   float: right;
 }
 
-div#header div#navigation a {
+div#header div#top a {
   text-decoration: none;
   color: white;
 }
 
-div#header div#navigation li.active {
+div#header div#top li.active {
   background-color: white;
 }
 
-div#header div#navigation li.active a {
+div#header div#top li.active a {
   color: black;
 }
 
-div#header div#navigation li:hover {
+div#header div#top li:hover {
   background-color: white;
   color: black;
 }
 
-div#header div#navigation li:hover a {
+div#header div#top li:hover a {
   color: black;
 }
 
-div#header div#navigation a.more {
+div#header div#top a.more {
   background: url(/images/adva_cms/admin/new/ui/menu_more.png) no-repeat;
   background-position: 0px 6px;
   text-indent: 12px;
@@ -56,6 +61,6 @@ div#header div#navigation a.more {
   float: left;
 }
 
-div#header div#navigation li:hover a.more {
+div#header div#top li:hover a.more {
  background-image: url(/images/adva_cms/admin/new/ui/menu_more_hover.png);
 }

@@ -1,12 +1,4 @@
 class Admin::CachedPagesController < Admin::BaseController
-  content_for :'main_left', :cached_pages_manage, :only => { :action => [:index, :show, :new, :edit] } do
-    Menu.instance(:'admin.sites.manage').render(self)
-  end
-
-  content_for :'main_right', :cached_pages_actions, :only => { :action => [:index, :show, :new, :edit] } do
-    Menu.instance(:'admin.cached_pages.actions').render(self)
-  end
-
   before_filter :set_cached_pages, :only => :index
   before_filter :set_cached_page, :only => :destroy
 
