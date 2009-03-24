@@ -51,7 +51,7 @@ pt:
       clear_all: Limpar tudo
       comment: Comentário
       comments: Comentários
-      dashboard: Quadro-negro
+      dashboard: Painel de controle
       general_settings: Configurações gerais
       history: História
       login: Login
@@ -172,284 +172,285 @@ pt:
       confirm_delete: Você tem certeza que deseja apagar este site?
     sections:
       hints:
-        content_filter: When articles are posted, they use this as the default setting.
+        content_filter: Quando artigos são postados, eles usam estas configurações como padrão.
       titles:
-        page_settings: Page specific settings
-        blog_settings: Blog specific settings
-        forum_settings: Forum specific settings
-        create: Create a new section
-        behaviour: Behaviour
+        page_settings: Configurações específicas da página
+        blog_settings: Configurações específicas do blog
+        forum_settings: Configurações específicas do forum
+        create: Criar uma nova sessão
+        behaviour: Comportamento
       links:
-        delete: Delete this section
-        add_section: Add a section
-        reorder: Reorder sections
-        create: Create a new section
+        delete: Apagar esta sessão
+        add_section: Adicionar uma sessão
+        reorder: Reordenar sessões
+        create: Criar uma nova sessão
       settings:
-        single_article_mode: Single article per page
-        multi_article_mode: Multiple articles per page
-      confirm_delete: Are you sure you wish to delete this section?
+        single_article_mode: Artigo único por página
+        multi_article_mode: Múltiplos artigos por página
+      confirm_delete: Você tem certeza que deseja apagar esta sessão?
       flash:
         destroy:
-          success: The section has been destroyed.
-          failure: The section could not be destroyed.
+          success: A sessão foi destruída.
+          failure: A sessão não pode ser destruída.
         create:
-          success: The section has been created.
-          failure: The section could not be created.
+          success: A sessão foi criada.
+          failure: A sessão não pode ser criada.
         update:
-          success: The section has been updated.
-          failure: The section could not be updated.
+          success: A sessão foi atualizada.
+          failure: A sessão não pode ser atualizada.
     blog:
       titles:
-        date: "from {{date}}"
-        about: "about {{category}}"
-        tags: "tagged {{tags}}"
-        articles: "Articles {{articles}}"
-        show_articles: "Show articles:"
-        manage: Manage
-        actions: Actions
+        date: "de {{date}}"
+        about: "sobre {{category}}"
+        tags: "marcada {{tags}}"
+        articles: "Artigos {{articles}}"
+        show_articles: "Mostrar artigos:"
+        manage: Gerenciar
+        actions: Ações
       links:
-        articles: Articles
-        categories: Categories
-        settings: Settings
-        create_article: Create a new article
-        create_article_now: "Create one now &raquo;"
-        more: Read the rest of this entry
+        articles: Artigos
+        categories: Categorias
+        settings: Configurações
+        create_article: Criar um novo artigo
+        create_article_now: "Criar um agora &raquo;"
+        more: Leia o resto desta entrada
       options:
         filter:
-          category: in category
-          tags: tagged with
-          title: whose title contains
-          body: whose body contains
-          draft: not published
+          category: na categoria
+          tags: marcado com
+          title: cujo título contém
+          body: cujo corpo contém
+          draft: não publicado
       tabs:
-        article: Article
-        comments: Comments
-        published: Published
-        author: Author
+        article: Artigo
+        comments: Comentários
+        published: Publicado
+        author: Autor
       feeds:
-        category: Category {{category}}
+        category: Categoria {{category}}
         tags:
-          one: "Tag: {{tags}}"
-          other: "Tags: {{tags}}"
-      no_articles: "There are no articles in {{section}}."
-      no_filtered_articles: "There are no articles matching that criteria in {{section}}"
-      attribution: "by: {{author}}"
+          one: "Marcador: {{tags}}"
+          other: "Marcadoress: {{tags}}"
+      no_articles: "Não existem artigos em {{section}}."
+      no_filtered_articles: "Não existe nenhum artigo casando com o critério em {{section}}"
+      attribution: "por: {{author}}"
     categories:
       attributes:
-        name: name
+        name: nome
       titles:
-        edit: Edit category
-      no_categories_in_section: There are no categories in {{section}}.
+        edit: Editar categoria
+      no_categories_in_section: Não existem categorias em {{section}}.
       total_with_count:
-        one: "Total: {{count}} category"
-        other: "Total: {{count}} categories"
+        one: "Total: {{count}} categoria"
+        other: "Total: {{count}} categorias"
       links:
-        delete: Delete this category
-        reorder: Reorder categories
-        create: Create a new category
+        delete: Apagar esta categoria
+        reorder: Re-ordenar categorias
+        create: Criar uma nova categoria
       flash:
         destroy:
-          success: The category has been deleted.
-          failure: The category could not be deleted.
+          success: A categoria foi apagada.
+          failure: A categoria não pode ser apagada.
         create:
-          success: The category has been created.
-          failure: The category could not be created.
+          success: A categoria foi criada.
+          failure: A categoria não pode ser criada.
         update:
-          success: The category has been updated.
-          failure: The category could not be updated.
-      confirm_delete: Are you sure you wish to delete this category?
+          success: A categoria foi atualizada.
+          failure: A categoria não pode ser atualizada.
+      confirm_delete: Você tem certeza que deseja apagar esta categoria?
     contents:
-      not_published: not published
+      not_published: não publicado
     articles:
       locales:
-        translated: "This article has these translations: {{locales}}"
-      question_save_as_draft: Save as Draft?
-      confirm_save_as_draft: Yes, save this article as a draft
+        translated: "Este artigo tem estas traduções: {{locales}}"
+      question_save_as_draft: Salvar como rascunho?
+      confirm_save_as_draft: Sim, salvar este artigo como um rascunho
       hints:
-        permalink: Use only ASCII characters and use dashes instead of spaces.
-        tags: Enter one or more tags separated by a space. You may include spaces by enclosing a tag with quotes. (For example, <em>"Web Dev" Tutorials</em>).
+        permalink: Usar somente caracteres ASCII e usar traços no lugar de espaços.
+        tags: Entre com um ou mais marcadores separados por espaço. Você pode incluir espaços se englobar os textos dos marcadores com aspas. (Por exemplo, <em>Tutoriais "Web Dev"</em>).
       titles:
-        edit: Edit article in <strong>{{content_locale}}</strong>
-        new: New article in <strong>{{content_locale}}</strong>
+        edit: Editar artigo em <strong>{{content_locale}}</strong>
+        new: Novo artigo em <strong>{{content_locale}}</strong>
       total_with_count:
-        one: "Total: {{count}} article"
-        other: "Total: {{count}} articles"
+        one: "Total: {{count}} artigo"
+        other: "Total: {{count}} artigos"
       links:
-        delete: Delete this article
-        reorder: Reorder articles
-        create: Create a new article
-        create_now: Create one now
-        preview: Preview this article
-      excerpt_add: Add an excerpt
-      no_articles_in_section: There are no articles in {{section}}.
-      publish_on_date: Publish on this date
+        delete: Apagar este artigo
+        reorder: Re-ordenar artigos
+        create: Criar um novo artigo
+        create_now: Criar um agorar
+        preview: Visualizar este artigo
+      excerpt_add: Adicionar um trecho
+      no_articles_in_section: Não existem artigos em {{section}}.
+      publish_on_date: Publicar nesta data
       flash:
         destroy:
-          success: The article has been deleted.
-          failure: The article could not be deleted.
+          success: O artigo foi apagado.
+          failure: O artigo não pode ser apagado.
         rollback:
-          success: The article has been rolled back to revision {{version}}
-          failure: The article could not be rolled back to revision {{version}}
+          success: O artigo voltou à revisão {{version}}
+          failure: O artigo não pode voltar à revisão {{version}}
         create:
-          success: The article has been created.
-          failure: The article could not be created.
+          success: O artigo foi criado.
+          failure: O artigo não pode ser criado.
         update:
-          success: The article has been updated.
-          failure: The article could not be updated.
-      confirm_delete: Are you sure you wish to delete this article?
+          success: O artigo foi atualizado.
+          failure: O artigo não pode ser atualizado.
+      confirm_delete: Você tem certeza que deseja apagar este artigo?
       attributes:
-        excerpt: excerpt
+        excerpt: trecho
     cached_pages:
-      no_entries: There currently aren't any pages being cached.
+      no_entries: Atualmente não há páginas no cache.
       confirmation:
-        cleared: This page has been removed from the cache.
-        cleared_short: Cleared
+        cleared: Esta página foi removida do cache.
+        cleared_short: Limpa
       filter:
-        show_cached_pages: Show cached pages
+        show_cached_pages: Mostrar as páginas no cache
       total_with_count:
-        one: "Total: {{count}} cached page"
-        other: "Total: {{count}} cached pages"
-      no_entries_matching_criteria: There currently aren't any pages being cached that match this criteria.
+        one: "Total: {{count}} página no cache"
+        other: "Total: {{count}} páginas no cache"
+      no_entries_matching_criteria: Atualmente não há páginas no cache que casam com este critério.
       flash:
         clear:
-          success: The cache has been cleared.
+          success: O cache foi limpo.
     comments:
       flash:
-        thank_you: Thank you for the comment!
+        thank_you: Obrigado pelo comentário!
         create:
-          success: The comment has been created.
-          failure: The comment could not be created.
+          success: O comentário foi criado.
+          failure: O comentário não pode ser criado.
         update:
-          success: The comment has been updated.
-          failure: The comment could not be updated.
+          success: O comentário foi atualizado.
+          failure: O comentário não pode ser atualizado.
         destroy:
-          success: The comment has been deleted.
-          failure: The comment could not be deleted.
+          success: O comentário foi apagado.
+          failure: O comentário não pode ser apagado.
       links:
-        delete: Delete
-        edit: Edit
-        approve: Approve
-        view: View
-        unapprove: Unapprove
+        delete: Apagar
+        edit: Editar
+        approve: Aprovar
+        view: Ver
+        unapprove: Reprovar
       titles:
-        comments_awaiting_approval: Comments awaiting your approval
-        save_comment: Save Comment
-        comment_on_by: Comment on '{{on}}' by {{by}}
-        add_reply: Leave your reply
-        comment_number: "Comment #{{number}}"
-        edit: Edit comment
-        comments_on: Comments on {{location}}
-        submit_comment: Submit Comment
-        your_reply: Your reply
+        comments_awaiting_approval: Comentários aguardando sua aprovação
+        save_comment: Salvar Comentário
+        comment_on_by: Comentário em '{{on}}' por {{by}}
+        add_reply: Deixe o seu retorno
+        comment_number: "Comentário #{{number}}"
+        edit: Editar comentário
+        comments_on: Comentários em {{location}}
+        submit_comment: Enviar Comentário
+        your_reply: Seu retorno
         comment_with_count:
-          one: 1 Comment
-          other: "{{count}} Comments"
+          one: 1 Comentário
+          other: "{{count}} Comentários"
       filter:
-        show_comments: Show comments
+        show_comments: Mostrar comentários
         options:
-          all: All
-          body: Whose body contains
-          author_name: Whose author is
-          author_email: Author's email is
-          author_url: Author's website is
-          state: Whose state is
-        go: Go
+          all: Tudo
+          body: Cujo corpo contém
+          author_name: Cujo autor é
+          author_email: Email do autor é
+          author_url: Website do autor é
+          state: Cuja situação é
+        go: Ir
       state:
         options:
-          approved: Approved
-          unapproved: Unapproved
+          approved: Aprovado
+          unapproved: Reprovado
       options:
         expiration: 
-          not_allowed: Are not allowed
-          never_expire: Never expire
+          not_allowed: Não é permitido
+          never_expire: Nunca expira
           x_hours_after_publishing:
-            one: Expire 1 hour after publishing
-            other: Expire {{count}} hours after publishing
+            one: Expira 1 hora após a publicação
+            other: Expira {{count}} horas após a publicação
           x_weeks_after_publishing:
-            one: Expire 1 week after publishing
-            other: Expire {{count}} weeks after publishing
+            one: Expira 1 semana após publicação
+            other: Expira {{count}} semanas após a publicação
           x_months_after_publishing:
-            one: Expire 1 month after publishing
-            other: Expire {{count}} months after publishing
+            one: Expira 1 mês após a publicação
+            other: Expira {{count}} meses após a publicação
       labels:
-        "on": "on"
-        comments: Comments
-        approved: Approved
+        "on": "ligado"
+        comments: Comentários
+        approved: Aprovado
       hints:
-        comments_filter: When comments are posted, they use this markup.
-      confirm_delete: Are you sure you wish to delete this comment?
+        comments_filter: Quando comentários são postados, eles usam este código de marcação.
+      confirm_delete: Você tem certeza que deseja apagar este comentário?
       info:
-        no_comments_for_query: This {{location}} has no comments matching your query.
-        under_review: This comment is currently under review.
+        no_comments_for_query: Este {{location}} não tem comentários casando com a sua pesquisa.
+        under_review: Este comentário está atualmente em revisão.
       messages:
-        not_allowed: "Comments are not allowed here."
+        not_allowed: "Não são permitidos comentários aqui."
 
     activity:
       titles:
-        today: Today {{date}}
-        yesterday: Yesterday {{date}}
-        past: Before {{date}}
-      none: Nothing happened
+        today: Hoje {{date}}
+        yesterday: Amanhã {{date}}
+        past: Antes {{date}}
+      none: Nada aconteceu
       notifier:
-        new: New {{activity}} posted
+        new: Novo {{activity}} postado
       view:
-        new: "{{name}} <{{email}}> just posted a new {{activity}} on {{site}} in section {{section}}."
-      comment: Comment {{actions}}
-      topic: Topic {{actions}}  
-      actions: "{{type}} {{actions}} in {{activity}}."
+        new: "{{name}} <{{email}}> acabou de postar um novo {{activity}} no {{site}} na sessão {{section}}."
+      comment: Comentário {{actions}}
+      topic: Tópico {{actions}}
+      actions: "{{type}} {{actions}} em {{activity}}."
     signup:
       notifications:
         email_verification:
-          subject: Email Verification
+          subject: Verificação de Email
           body: |
-            Dear {{name}},
+            Caro(a) {{name}},
 
-            You recently registered for our service. Our service requires
-            all new users to verify their email address. Simply click the link below and
-            your username will be verified allowing you to login.
+            Você recentemente se registrou em nosso serviço. Todos os novos usuários
+            do nosso serviço devem fazer uma confirmação do endereço de email.
+            Por favor, clique no link abaixo para que o seu usuário seja validado
+            e você possa entrar.
 
             {{link}}
       flash:
         destroy:
-          success: The user account {{name}} has been deleted.
+          success: A conta de usuário {{name}} foi cancelada.
         create:
-          failure: Your registration could not be saved.
+          failure: Seu registro não pode ser salvo.
         verify:
-          success: You successfully confirmed your email address.
-          failure: You have already verified your email address.
+          success: Seu endereço de email foi confirmado com sucesso.
+          failure: Você já fez a verificação do seu endereço de email.
     passwords:
       info:
-        please_enter_email_to_reset_password: Please enter your email address. An email will be sent to you which will include a link to reset your password.
-        please_enter_new_password: Please enter your new password.
+        please_enter_email_to_reset_password: Por favor entre com o seu endereço de email. Uma mensagem será enviada para você incluindo um link para re-definir sua senha.
+        please_enter_new_password: Por favor entre sua nova senha.
       titles:
-        new: Reset your password
-        edit: Change your password
+        new: Re-definir sua senha
+        edit: Mudar sua senha
       notifications:
         password_updated:
-          subject: Password Updated
+          subject: Senha atualizada
           body: |
-            Dear {{name}},
+            Caro(a) {{name}},
 
-            you have successfully updated your password.
+            sua senha foi atualizada com sucesso.
         reset_password:
-          subject: Forgotton Password
+          subject: Senha esquecida
           body: |
-            Dear {{name}},
+            Caro(a) {{name}},
 
-            Someone (hopefully you) has indicated that you cannot remember your password.
-            To let you reset your password we have provided a link below that will allow
-            you to reset your password.
+            Alguém (esperamos que seja você) indicou que você não pode se lembrar de sua senha.
+            Para permitir que você redefina a sua senha estamos fornecendo a você o link abaixo
+            que vai permitir que isto seja feito.
 
             {{link}}
 
-            It is suggested you reset your password as soon as possible since this is a
-            time-limited link (to protect your account).
+            Sugerimos que você re-defina a sua senha assim que possível, já que este link
+            tem uma validade limitada (para proteger a sua conta).
 
-            If you did not request that your password be changed someone must have
-            entered your account in the "forgot password" page on our site. Your account is
-            still perfectly safe since you were the only person this message was sent to.
-            Simply delete this message and no changes will be made to your account if this
-            message was sent in error.
+            Se você não requisitou esta redefinição de senha alguém deve ter
+            entrado em sua conta na página "senha esquecida" do nosso site. Sua conta ainda
+            está em perfeita segurança já que você é a única pessoa para a qual esta mensagem foi enviada.
+            Simplesmente apague esta mensagem e nenhuma mudança será feita em sua conta se
+            esta mensagem foi enviada por engano.
       flash:
         new:
           email_sent: We just sent you a notice. Please check your email.
