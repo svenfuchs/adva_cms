@@ -1,5 +1,5 @@
 class Admin::AssetsController < Admin::BaseController
-  content_for :action_nav, :assets_actions, :only => { :action => [:index, :show, :new, :edit] } do
+  content_for :main_right, :assets_actions, :only => { :action => [:index, :show, :new, :edit] } do
     Menu.instance(:'admin.assets.actions').render(self)
   end
 
