@@ -258,9 +258,9 @@ en:
         other: "Total: {{count}} categories"
       links:
         index: Categories
+        new: New
         delete: Delete this category
         reorder: Reorder categories
-        new: Create a new category
         create_now: "Create one now &raquo;"
       flash:
         destroy:
@@ -298,7 +298,7 @@ en:
         other: "Total: {{count}} articles"
       links:
         index: Articles
-        new: Create a new article
+        new: New
         edit: Edit
         show: View
         delete: Delete this article
@@ -326,6 +326,9 @@ en:
       attributes:
         excerpt: excerpt
     cached_pages:
+      links:
+        index: Cache
+        clear_all: Clear all
       columns:
         url: URL
         cached_at: Cached
@@ -504,7 +507,8 @@ en:
       links: 
         new: Add a new user
         create_user: Create user
-        edit_user: Edit user
+        edit: Edit
+        delete: Delete
       actions:
         delete_user: Delete this user
         create_new: Create a new user
@@ -631,23 +635,20 @@ en:
         edit_file: Edit theme file
         theme_id: Theme ID
       links:
+        index: Themes
         add_another_file: Add another file
-        new_theme: New theme
+        new: New
         edit: Edit
-        create_one_now: Create one now. &raquo;
-        delete_file: Delete theme file
-        uninstall: Uninstall
-        download_theme: Download theme
-        upload_file: Upload a new file
-        import_theme: Import theme
-        create_file: Create a new file
-        edit_theme: Edit theme
-        delete_theme: Delete theme
-        select_theme: Select theme
-        unselect_theme: Unselect theme
         select: Select
         unselect: Unselect
         delete: Delete
+        create_one_now: Create one now. &raquo;
+        delete_file: Delete theme file
+        uninstall: Uninstall
+        download: Download
+        upload_file: Upload a new file
+        import: Import
+        create_file: Create a new file
       upload_template_or_asset: Upload a template or an asset.
       labels:
         asssets: Assets
@@ -671,6 +672,13 @@ en:
           error_filename_blank: The theme file cannot be blank.
           failure: The file could not be imported as a theme.
     theme_files:
+      links:
+        new_file: New File
+        new: New
+        edit: Edit
+        delete: Delete
+        upload: Upload
+      confirm_delete: Are you sure you wish to delete this file?
       types:
         templates: Templates
         images: Images
@@ -734,10 +742,11 @@ en:
         one: "{{count}} post"
         other: "{{count}} posts"
       links:
+        index: Boards
+        new: New Board
         boards: Boards
         forum: Forum
         settings: Settings
-        new: New Board
         reorder: Reorder boards
         create_now: Create one now
         create: Create a new Board

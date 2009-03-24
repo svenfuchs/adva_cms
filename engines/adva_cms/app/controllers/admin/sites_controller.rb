@@ -1,12 +1,4 @@
 class Admin::SitesController < Admin::BaseController
-  content_for :'main_left', :sites_manage, :only => { :action => [:index, :show, :new, :edit] } do
-    Menu.instance(:'admin.sites.manage').render(self)
-  end
-
-  content_for :'main_right', :sites_actions, :only => { :action => [:index, :show, :new, :edit] } do
-    Menu.instance(:'admin.sites.actions').render(self)
-  end
-
   before_filter :params_site, :only => [:new, :create]
   before_filter :params_section, :only => [:new, :create]
   before_filter :protect_single_site_mode, :only => [:index, :new, :create, :destroy]

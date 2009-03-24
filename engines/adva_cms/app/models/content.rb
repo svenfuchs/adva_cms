@@ -53,10 +53,10 @@ class Content < ActiveRecord::Base
 
   # Using callbacks for such lowlevel things is just awkward. So let's hook in here.
   def attributes=(attrs, guard_protected_attributes = true)
-    published_at = Time.extract_from_attributes!(attrs, :published_at, :local)
-
-    draft = attrs.delete(:draft).to_i == 0
-    attrs[:published_at] = published_at || Time.now if draft
+    if attrs.delete(:draft).to_i == 1
+      attrs = attrs.reject { |k, v| k.to_s =~ /^published_at.+/ } 
+      self.published_at = nil
+    end
 
     category_ids = attrs.delete(:category_ids)
     returning super do 

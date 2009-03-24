@@ -4,51 +4,75 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>Admin <%= controller.controller_name %></title>
 
-  <style type="text/css"> @import '/stylesheets/adva_cms/admin/styles.css';</style>
-  <%= stylesheet_link_tag  :admin, :cache => true %>
-  <link rel="stylesheet" type="text/css" href="/stylesheets/adva_cms/admin/print.css" media="print" />
-  <!--[if lte IE 6]><link rel="stylesheet" href="/stylesheets/adva_cms/admin/styles.ie6.css" type="text/css" media="screen"/><![endif]-->
-  <%= javascript_include_tag :common, :admin, :cache => true %>
+  <link rel="stylesheet" href="/stylesheets/adva_cms/new/blueprint/src/reset.css" type="text/css" media="screen, projection" />
+  <link rel="stylesheet" href="/stylesheets/adva_cms/new/admin/base.css" type="text/css" media="screen, projection" />
+  <link rel="stylesheet" href="/stylesheets/adva_cms/new/admin/navigation.css" type="text/css" media="screen, projection" />
+  <link rel="stylesheet" href="/stylesheets/adva_cms/new/admin/sidebar.css" type="text/css" media="screen, projection" />
+  <link rel="stylesheet" href="/stylesheets/adva_cms/new/admin/breadcrumbs.css" type="text/css" media="screen, projection" />
+  <link rel="stylesheet" href="/stylesheets/adva_cms/new/admin/tables.css" type="text/css" media="screen, projection" />
+  <link rel="stylesheet" href="/stylesheets/adva_cms/new/admin/links.css" type="text/css" media="screen, projection" />
+  <link rel="stylesheet" href="/stylesheets/adva_cms/new/admin/forms.css" type="text/css" media="screen, projection" />
+  <link rel="stylesheet" href="/stylesheets/adva_cms/new/admin/content.css" type="text/css" media="screen, projection" />
+  <script src="/javascripts/adva_cms/prototype.js" type="text/javascript"></script>
+  <script src="/javascripts/adva_cms/effects.js" type="text/javascript"></script>
+
+  <%#= stylesheet_link_tag  :admin, :cache => true %>
+  <%#= javascript_include_tag :common, :admin, :cache => true %>
+
+  <script type="text/javascript">
+  function toggleContextBrowser() {
+    cb = $('context_browser');
+    cb_con = $('context_browser_content');
+    con = $('content');
+    if(cb.hasClassName('collapsed')) {
+      cb.removeClassName('collapsed');
+      con.removeClassName('full');
+      con.addClassName('collapsed');
+      $('context_browser_toggle').src = '/images/adva_cms/admin/new/ui/context_browser_show.png';
+    } else {
+      cb.addClassName('collapsed');
+      con.addClassName('full');
+      con.removeClassName('collapsed');
+      $('context_browser_toggle').src = '/images/adva_cms/admin/new/ui/context_browser_hide.png';
+    }
+  }
+  </script>
 </head>
 <body>
-  <ul id="acc_links">
-      <li><a href="#main-nav"><%= t(:'adva.links.skip_to_navigation') %></a></li>
-      <li><a href="#content"><%= t(:'adva.links.skip_to_content') %></a></li>
-  </ul>
+  <div id="header">
+    <div id="top">
+			<%#= render :partial => 'admin/shared/utility' %>
+			<%= Menu.instance(:'admin.top.left').render(self) %>
+			<%= Menu.instance(:'admin.top.right').render(self) %>
+    </div>
+  </div>
+	<div id="page">
+    <div id="sidebar">
+      <%= yield :sidebar %>
+    </div>
 
-  <div id="container">
-    <div id="header">
-			<%= render :partial => 'admin/shared/utility' %>
-			<div>
-				<%= Menu.instance(:'admin.top.left').render(self) %>
-				<%= Menu.instance(:'admin.top.right').render(self) %>
+	  <div id="content">
+      <ul id="breadcrumbs">
+        <li><a href="#">Sites</a></li>
+        <li><a href="#">Site 3</a></li>
+        <li class="active"><a href="#">Company</a></li>
+        <li>About Us</li>
+      </ul>
+
+      <div id="main_menu">
+        <%= yield :'main_left' %>
+        <%= yield :'main_right' %>
 			</div>
-    </div>
+	    
+			<%= yield :form if @content_for_form %>
 
-    <div id="content" class="clearfix">
-      <%= yield :form if @content_for_form %>
+	    <div id="main_content">
+	      <%= render :partial => 'shared/flash' %>
+        <%= yield %>
+	    </div>
 
-      <div id="main_content"><div id="main_content_wrapper">
-        <%= render :partial => 'shared/flash' %>
-
-        <div class="padded">
-          <%= yield :'main_left' %>
-          <%= yield :'main_right' %>
-
-          <% if @content_for_filter %>
-            <div id="filter"><%= yield :filter %></div>
-          <% end %>
-
-          <%= yield %>
-        </div>
-      </div></div>
-
-      <div id="sidebar">
-        <%= yield :sidebar %>
-      </div>
-
-      <%= '</form>' if @content_for_form %>
-    </div>
+	    <%= '</form>' if @content_for_form %>
+		</div>
   </div>
 </body>
 </html>

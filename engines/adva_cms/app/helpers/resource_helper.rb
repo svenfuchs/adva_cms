@@ -98,7 +98,7 @@ module ResourceHelper
       method << (options.delete(:only_path) ? 'path' : 'url')
       method.unshift(action) if [:new, :edit].include?(action.to_sym)
 
-      method.compact.join('_')
+      method.compact.join('_').gsub('/', '_')
     end
   
     def normalize_resource_link_options(options, action, type, resource)
@@ -109,14 +109,16 @@ module ResourceHelper
     end
   
     def normalize_resource_link_text(text, action, type)
-      text ||= t(:"adva.#{type.to_s.pluralize}.links.#{action}", :default => :"adva.resources.links.#{action}")
+      type = type.to_s.gsub('/', '_').pluralize
+      text ||= t(:"adva.#{type}.links.#{action}", :default => :"adva.resources.links.#{action}")
       text = t(text) if text.is_a?(Symbol)
       text
     end
 
     def resource_delete_options(type, options)
+      type = type.to_s.gsub('/', '_').pluralize
       message = options.delete(:confirm)
-      message ||= t(:"adva.#{type.to_s.pluralize}.confirm_delete", :default => :"adva.resources.confirm_delete")
+      message ||= t(:"adva.#{type}.confirm_delete", :default => :"adva.resources.confirm_delete")
       message = t(message) if message.is_a?(Symbol)
       { :confirm => message, :method => :delete }
     end

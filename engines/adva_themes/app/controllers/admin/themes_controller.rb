@@ -1,12 +1,4 @@
 class Admin::ThemesController < Admin::BaseController
-  content_for :'main_left', :themes_manage, :only => { :action => [:index, :show, :new, :edit] } do
-    Menu.instance(:'admin.themes.manage').render(self)
-  end
-
-  content_for :'main_right', :themes_actions, :only => { :action => [:index, :show, :new, :edit] } do
-    Menu.instance(:'admin.themes.actions').render(self)
-  end
-
   before_filter :set_theme, :only => [:show, :use, :edit, :update, :destroy, :export, :select, :unselect]
   # before_filter :ensure_uploaded_theme_file_saved!, :only => :import
   

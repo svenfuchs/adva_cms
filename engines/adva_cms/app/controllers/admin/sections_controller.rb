@@ -1,12 +1,4 @@
 class Admin::SectionsController < Admin::BaseController
-  content_for :'main_left', :sections_manage, :only => { :action => [:index, :show, :new, :edit] } do
-    Menu.instance(:'admin.sections.manage').render(self)
-  end
-
-  content_for :'main_right', :sections_actions, :only => { :action => [:index, :show, :new, :edit] } do
-    Menu.instance(:'admin.sections.actions').render(self)
-  end
-
   before_filter :set_section, :only => [:edit, :update, :destroy]
   before_filter :normalize_params, :only => :update_all
 

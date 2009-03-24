@@ -19,6 +19,10 @@ module Menu
         instance.definitions << block if block
       end
     end
+    
+    def reset!
+      @@instances = {}
+    end
   end
 
   class Base

@@ -1,8 +1,4 @@
 class Admin::SetsController < Admin::BaseController
-  content_for :'main_right', :sets_actions, :only => { :action => [:index, :show, :new, :edit] } do
-    Menu.instance(:'admin.sets.actions').render(self)
-  end
-
   before_filter :set_sets,  :only => :index
   before_filter :set_set,   :only => [:edit, :update, :destroy]
   

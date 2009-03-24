@@ -1,12 +1,4 @@
 class Admin::BoardsController < Admin::BaseController
-  content_for :'main_left', :boards_manage, :only => { :action => [:index, :show, :new, :edit] } do
-    Menu.instance(:'admin.boards.manage').render(self)
-  end
-
-  content_for :'main_right', :boards_actions, :only => { :action => [:index, :show, :new, :edit] } do
-    Menu.instance(:'admin.boards.actions').render(self)
-  end
-
   helper :forum
   before_filter :set_section
   before_filter :set_boards, :only => [:index]

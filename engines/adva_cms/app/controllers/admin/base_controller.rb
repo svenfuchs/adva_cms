@@ -1,4 +1,15 @@
 class Admin::BaseController < ApplicationController
+  # registers :left and :right admin menus for the current controller to their 
+  # content_for slots in layouts/admin, e.g. admin.articles.left to :main_left
+  def self.inherited(child)
+    super
+    [:left, :right].each do |key|
+      child.content_for :"main_#{key}", :"#{child.controller_name}_#{key}" do
+        Menu.instance(:"admin.#{child.controller_name}.#{key}").render(self)
+      end
+    end
+  end
+
   layout "admin"
 
   renders_with_error_proc :below_field

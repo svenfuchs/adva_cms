@@ -1,7 +1,7 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'test_helper' ))
 
 module IntegrationTests
-  class EventsTest < ActionController::IntegrationTest
+  class CalendarEventsTest < ActionController::IntegrationTest
 
     def setup
       super

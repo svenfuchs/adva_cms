@@ -1,5 +1,17 @@
 en:
   adva:
+    newsletters:
+      links:
+        index: Newsletters
+        new: New
+        edit: Edit
+        delete: Delete
+    issues:
+      links:
+        index: Issues
+        new: New
+        edit: Edit
+        delete: Delete
     newsletter:
       no_newsletters: There are no newsletters.
       question_publish_newsletter: Should we make it public?
@@ -33,7 +45,7 @@ en:
         send_later: Send later
       link:
         index: Newsletters
-        new: Create a newsletter
+        new: New
         issues: Issues
         subscribers: Subscribers
         send_preview_issue: Send preview

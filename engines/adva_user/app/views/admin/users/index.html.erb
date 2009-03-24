@@ -1,4 +1,4 @@
 <h2><%= t(:'adva.titles.users') %></h2>
-<%= render :partial => 'user', :locals => { :users => @users } %>
+<%= render :partial => 'user', :collection => @users %>
 
 <%= will_paginate @users, :id => 'pagination' %>

@@ -1,8 +1,4 @@
 class Admin::CategoriesController < Admin::BaseController
-  content_for :'main_right', :categories_actions, :only => { :action => [:index, :show, :new, :edit] } do
-    Menu.instance(:'admin.categories.actions').render(self)
-  end
-
   before_filter :set_section
   before_filter :set_categories, :only => [:index]
   before_filter :set_category,   :only => [:edit, :update, :destroy]

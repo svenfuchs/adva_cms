@@ -1,7 +1,7 @@
 <% fields_for :photo do |f| -%>
 	<h3><%= t(:'adva.titles.optional_settings') %></h3>
 	<% f.field_set :optional_settings do %>
-	  <%= f.select :author, author_options, :selected => author_preselect, :label => true %>
+	  <%= f.select :author, author_options(@site.users), :selected => author_selected(@photo), :label => true %>
 	  <%= f.select :comment_age, comment_expiration_options, :label => :'adva.titles.comments' %>
 	  <%= f.text_field :tag_list, :label => 'Tags', :hint => :'adva.articles.hints.tags' %>
 
