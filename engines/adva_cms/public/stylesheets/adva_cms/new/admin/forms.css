@@ -1,0 +1,7 @@
+label {
+  cursor: pointer;
+}
+
+input[type="text"], select, textarea {
+  padding: 2px 3px;
+}

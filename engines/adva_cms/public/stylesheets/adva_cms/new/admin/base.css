@@ -1,45 +1,57 @@
 body {
-  width: 99%;
+  margin: 0;
+  font-size: 0.75em;
+  font-family: "Helvetica Neue", "Helvetica", "Arial", Verdana;
 }
 
 div#page {
-  width: 100%;
-  float: left;
-  border: 1px solid black;
+  clear: both;
   overflow: hidden;
 }
 
-div#context_browser, div#content, div#sidebar {
-  padding: 1%;
+div#header {
   float: left;
-  padding-bottom:100%;
-  margin-bottom:-99%;
+  width: 100%;
+  border-bottom: 4px solid #b80000;
+  background: url(/images/adva_cms/admin/new/ui/header_bg.png) repeat-x;
+  background-color: #000;
+  color: white;
+}
+
+div#context_browser, div#content, div#sidebar {
+  padding: 10px;
+  padding-bottom:10000px;
+  margin-bottom:-9990px;
 }
 
 div#context_browser {
-  width: 15%;
-  border: 1px solid yellow;
-  margin-right: 1%;
+  float: left;
+  width: 150px;
 }
 
 div#content {
-  border: 1px solid red;
+  width: auto;
+  margin-right: 390px;
+  margin-left: 20px;
 }
 
 div#sidebar {
-  width: 15%;
-  border: 1px solid blue;
-  margin-left: 1%;
+  float: right;
+  width: 350px;
 }
 
 div#context_browser.collapsed {
-  width: 5%;
+  width: 22px;
+}
+
+img#context_browser_toggle {
+  float: right;
 }
 
 div#content.full {
-  width: 72%;
+  margin-left: 78px;
 }
 
 div#content.collapsed {
-  width: 62%;
+  margin-left: 170px;
 }

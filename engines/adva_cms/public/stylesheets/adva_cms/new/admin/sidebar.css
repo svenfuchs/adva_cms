@@ -1,0 +1,98 @@
+div#login_status {
+  text-align: right;
+  background-color: #fbf7e4;
+}
+
+div#login_status a {
+  padding: 0 2px;
+}
+
+div#login_status a#go_to_website {
+  background-image: url(/images/adva_cms/admin/new/ui/website-arrow.png);
+  background-position: right;
+  background-repeat: no-repeat;
+  padding-left: 10px;
+  padding-right: 15px;
+  color: white;
+  background-color: #b80000;
+}
+
+div#search {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #666;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+div#search input#search_text {
+  width: 320px;
+  margin-right: 5px;
+  border: 1px solid #d3ceaa;
+}
+
+div#search input#do_search {
+  cursor: pointer;
+  vertical-align: text-bottom;
+}
+
+div#section_contents_summary {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+div#filter {
+  margin-bottom: 5px;
+}
+
+div#filter div.option {
+  background-color: #fbf7e4;
+  padding: 5px;
+  border-bottom: 2px solid white;
+}
+
+div#filter input, div#filter select {
+  background-color: #fbf7e4;
+  border: 1px solid #a39373;
+}
+
+div#filter input#filter_text {
+  margin-left: 5px;
+  width: 215px;
+}
+
+div#filter label#filter_field {
+  margin-left: 5px;
+  margin-right: 40px;
+}
+
+div#filter label#filter_field_tags, label#filter_field_title {
+  padding: 2px 5px;
+}
+
+div#filter label#filter_field_tags.active, label#filter_field_title.active {
+  background-color: #a39373;
+  color: white;
+}
+
+div#filter span.add_filter, div#filter span.remove_filter {
+  width: 16px;
+  height: 16px;
+  text-indent: 16px;
+  overflow: hidden;
+  display: block;
+  float: right;
+  margin-left: 2px;
+  cursor: pointer;
+}
+
+div#filter span.add_filter {
+  background: url(/images/adva_cms/admin/new/buttons/add_filter.png) no-repeat;
+}
+
+div#filter span.remove_filter {
+  background: url(/images/adva_cms/admin/new/buttons/remove_filter.png) no-repeat;
+}
+
+a#activate_helpers {
+  float: right;
+}
