@@ -1,4 +1,4 @@
 <div>
-	<%= Menu.instance(:'admin.main.left').render(self) if @site and !@site.new_record? %>
-	<%= Menu.instance(:'admin.main.right').render(self) %>
+	<%= Menu.instance(:'admin.top.left').render(self) if @site and !@site.new_record? %>
+	<%= Menu.instance(:'admin.top.right').render(self) %>
 </div>

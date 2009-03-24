@@ -1,3 +1,3 @@
-Menu.instance(:'admin.main.left', :class => 'left') do 
+Menu.instance(:'admin.top.left', :class => 'left') do 
   item :assets, :url => admin_assets_path(@site), :before => :settings
 end
