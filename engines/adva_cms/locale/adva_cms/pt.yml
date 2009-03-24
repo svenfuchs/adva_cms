@@ -102,74 +102,74 @@ pt:
       sites_overview: Visão geral dos sites
       skip_to_content: Pular para o Conteúdo
       skip_to_navigation: Pular para Navegação
-      superusers_admins: Superusuários + Administradores
-      entries_feed: Entries feed
-      comments_feed: Comments feed      
+      superusers_admins: Super-usuários + Administradores
+      entries_feed: Feed de entradas
+      comments_feed: Feed de comentários
     labels:
       author_name: Nome
       author_email: E-Mail
       filters: Filtros
     messages: 
       insufficient_permissions: 
-        title: Insufficient permissions
-        body: If you think you should be allowed to perform this action please contact the admin of this site and ask him to reconfigure the permissions for your role.
-      not_editable: "Sorry, but it's not editable!"
+        title: Permissões insuficientes
+        body: Se você acha que você deve poder exercer esta ação, por favor entre em contato com o administrador deste site e peça a ele para reconfigurar as suas permissões de acesso.
+      not_editable: "Desculpe, mas isto não pode ser modificado!"
     resources:
-      delete: Delete
-      edit: Edit
-      reordering_done: Done reordering
-      settings: settings
-      view: View
+      delete: Apagar
+      edit: Editar
+      reordering_done: Re-ordenação concluída
+      settings: configurações
+      view: Ver
     state:
-      draft: Draft
-      published: Published
-      hold: On hold
-      queued: Queued
-      delivered: Delivered
+      draft: Rascunho
+      published: Publicado
+      hold: Em espera
+      queued: Na fila
+      delivered: Despachado
     sites:
       title:
-        create: Create a new site
-        home_section: Home section
+        create: Criar um novo site
+        home_section: Sessão principal
       hints:
-        host_name: Include the port if it's a non-standard one. E.g. localhost:3000
-        admin_email: Shown in emails sent from your site
+        host_name: Inclua a porta se não for padrão. I.e. localhost:3000
+        admin_email: Mostrado em emails enviados do seu site
       attributes:
-        name: Name
-        host: Host
+        name: Nome
+        host: Hospedeiro
       install:
-        success_fully_created: You have successfully created your site. Enjoy!
-        welcome_to_installation: "Welcome to the less-than-two-minutes installation process. Just fill in the information below and you're done. "
-        can_always_change_settings: Don't worry. You can always change these settings later.
-        section_default: Home
-      no_sites: You currently do not have any sites created.
-      no_users: Site does not have any users.
-      no_available_users: Site does not have any available user.
+        success_fully_created: Você teve sucesso na criação de seu site. Divirta-se!
+        welcome_to_installation: "Bemvindo ao processo de instalação em-menos-de-dois-minutos. Apenas preencha a informação abaixo e pronto. "
+        can_always_change_settings: Não se preocupe. Você sempre pode mudar estas configurações mais tarde.
+        section_default: Principal
+      no_sites: Atualmente você não tem nenhum site criado.
+      no_users: O site não tem nenhum usuário.
+      no_available_users: O site não tem nenhum usuário disponível.
       links:
-        delete: Delete this site
-        create_site_and_account: "Create site & account \xC2\xBB"
-        manage_new: Manage your new site &raquo;
+        delete: Apagar este site
+        create_site_and_account: "Criar site & conta \xC2\xBB"
+        manage_new: Controlar o seu novo site &raquo;
       flash:
         destroy:
-          success: The site has been deleted.
-          failure: The site could not be deleted
+          success: Este site foi apagado.
+          failure: Este site não pode ser apagado
         install:
-          error_already_complete: Installation is already complete. Please log in with your admin account.
-          success: Congratulations! You have successfully set up your site.
-          failure: "The following models could not be created: {{models}}."
+          error_already_complete: A instalação já está completa. Por favor, entre na sua conta de administrador.
+          success: Parabéns! Você teve sucesso na configuração de seu site.
+          failure: "Os seguintes modelos não puderam ser criados: {{models}}."
         create:
-          success: The site has been created.
-          failure: The site could not be created
+          success: O site foi criado.
+          failure: O site não pode ser criado
         update:
-          success: The site has been updated.
-          failure: The site could not be updated
+          success: O site foi atualizado.
+          failure: O site não pode ser atualizado
       label:
-        name: Website name
-        title: Website title
-        timezone: Website Timezone
-        admin_email: Administrator email
-        subtitle: Website subtitle
-        host: Host name
-      confirm_delete: Are you sure you wish to delete this site?
+        name: Nome do website
+        title: Título do website
+        timezone: Timezone do website
+        admin_email: Email do administrador
+        subtitle: Sub-título do website
+        host: Nome do hospedeiro
+      confirm_delete: Você tem certeza que deseja apagar este site?
     sections:
       hints:
         content_filter: When articles are posted, they use this as the default setting.
