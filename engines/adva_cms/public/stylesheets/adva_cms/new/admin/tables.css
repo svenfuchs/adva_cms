@@ -1,0 +1,47 @@
+table.list {
+  width: 100%;
+}
+
+table.list th {
+  font-weight: bold;
+}
+
+table.list th, table.list td {
+  padding: 5px 5px 5px 20px;
+  border-bottom: 1px solid #d3ceaa;
+}
+
+table.list th + th, table.list td + td {
+  padding-left: 5px;
+}
+
+table.list img.status {
+  margin-right: 5px;
+  vertical-align: text-bottom;
+}
+
+table.list td.options {
+  text-align: right;
+}
+
+table.list a.view, table.list a.edit, table.list a.delete {
+  display: block;
+  float: left;
+  width: 16px;
+  height: 16px;
+  overflow: hidden;
+  text-indent: 16px;
+  margin-right: 5px;
+}
+
+table.list a.view {
+  background: url(/images/adva_cms/admin/new/buttons/view.png) no-repeat;
+}
+
+table.list a.edit {
+  background: url(/images/adva_cms/admin/new/buttons/edit.png) no-repeat;
+}
+
+table.list a.delete {
+  background: url(/images/adva_cms/admin/new/buttons/delete.png) no-repeat;
+}

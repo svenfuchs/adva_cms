@@ -4,5 +4,22 @@ ul#breadcrumbs {
 
 ul#breadcrumbs li {
   float: left;
-  margin-right: 10px;
+  padding: 0 10px 0 15px;
+  background-color: #fbf7e4;
+  background-image: url(/images/adva_cms/admin/new/ui/breadcrumb.png);
+  background-position: left;
+  background-repeat: no-repeat;
+}
+
+ul#breadcrumbs li.active {
+  background-image: url(/images/adva_cms/admin/new/ui/breadcrumb-active.png);
+  background-color: #b80000;
+}
+
+ul#breadcrumbs li.active + li {
+  background-image: url(/images/adva_cms/admin/new/ui/breadcrumb-last.png);
+}
+
+ul#breadcrumbs li.active a {
+  color: white;
 }
