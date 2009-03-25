@@ -1,4 +1,4 @@
-pt:
+pt_BR:
   activerecord:
     errors:
       messages:
@@ -335,12 +335,12 @@ pt:
         comments_awaiting_approval: Comentários aguardando sua aprovação
         save_comment: Salvar Comentário
         comment_on_by: Comentário em '{{on}}' por {{by}}
-        add_reply: Deixe o seu retorno
+        add_reply: Deixe o seu comentário
         comment_number: "Comentário #{{number}}"
         edit: Editar comentário
         comments_on: Comentários em {{location}}
         submit_comment: Enviar Comentário
-        your_reply: Seu retorno
+        your_reply: Seu comentário
         comment_with_count:
           one: 1 Comentário
           other: "{{count}} Comentários"
@@ -453,386 +453,386 @@ pt:
             esta mensagem foi enviada por engano.
       flash:
         new:
-          email_sent: We just sent you a notice. Please check your email.
-          no_such_user: We could not find a user with the email address you entered.
+          email_sent: Nós acabamos de lhe enviar um aviso. Por favor, verifique o seu email.
+          no_such_user: Nós não pudemos encontrar um usuário com endereço de email fornecido.
         update:
-          success: Your password was changed successfully.
-          failure: Your password could not be changed.
+          success: Sua senha foi alterada com sucesso.
+          failure: Sua senha não pode ser alterada.
     session:
       flash:
         destroy:
-          success: Logged out successfully.
+          success: Saída com sucesso.
         create:
-          success: Logged in successfully.
-          failure: Could not login with this email and password.
+          success: Entrada com sucesso.
+          failure: Não é possível fazer a entrada com este email e senha.
       labels:
-        remember_me: Remember me
+        remember_me: Me lembre
     users: 
       attributes: 
-        password: Password
+        password: Senha
         email: E-Mail
       links: 
-        new: Add a new user
-        create_user: Create user
-        edit_user: Edit user
+        new: Acrescentar um novo usuário
+        create_user: Criar um usuário
+        edit_user: Editar usuário
       actions:
-        delete_user: Delete this user
-        create_new: Create a new user
+        delete_user: Apagar este usuário
+        create_new: Criar um novo usuário
       titles:
-        new: New user
-        edit: Edit user
-        register: Register a user account
-        signup: Sign up
-        your_profile: Your Profile
+        new: Novo usuário
+        edit: Editar usuário
+        register: Registrar uma conta de usuário
+        signup: Fazer a inscrição
+        your_profile: Seu perfil
       flash:
         destroy:
-          success: The user account has been deleted.
-          failure: The user account could not be deleted.
+          success: A conta de usuário foi apagada.
+          failure: A conta de usuário não pode ser apagada.
         create:
-          success: The user account has been created.
-          failure: The user account could not be created.
+          success: A conta de usuário foi criada.
+          failure: A conta de usuário não pode ser criada.
         update:
-          success: The user account has been updated.
-          failure: The user account could not be updated.
+          success: A conta de usuário foi alterada.
+          failure: A conta de usuário não pode ser alterada.
       labels:
-        updated_at: Last login
-        url: Homepage
-        created_at: Created
+        updated_at: Última entrada
+        url: Principal
+        created_at: Criado
         email: Email
       info: 
-        showed_up: "showed up: {{time_ago}}"
-        logged_in_as: "Logged in as: {{name}}"
-      confirm_delete: Are you sure you wish to delete this user account?
+        showed_up: "apareceu: {{time_ago}}"
+        logged_in_as: "Entrou como: {{name}}"
+      confirm_delete: Você tem certeza que deseja apagar esta conta de usuário?
     roles:
       labels:
-        admin_for: "Admin for: {{context}}"
-        superuser: Superuser
+        admin_for: "Administrador para: {{context}}"
+        superuser: Super-usuário
       errors: 
         messages: 
-          not_an_admin: You need to be an admin to perform this action.
-          not_logged_in: You need to be logged in to perform this action.
-          not_a_superuser: You need to be a superuser to perform this action.
-          not_an_author: You need to be the author of this object to perform this action.
-          not_a_moderator: You need to be a moderator to perform this action.
+          not_an_admin: Você precisa ser um administrador para executar esta ação.
+          not_logged_in: Você tem que entrar para executar esta ação.
+          not_a_superuser: Você tem que ser um super-usuário para executar esta ação.
+          not_an_author: Você tem que ser o autor deste objeto para executar esta ação.
+          not_a_moderator: Você tem que ser um moderador para executar esta ação.
     assets:
       flash:
         upload:
-          failure: The asset upload failed.
+          failure: O carregamento do apetrecho falhou.
         update:
-          success: The asset has been updated.
-          failure: The asset update failed.
+          success: O apetrecho foi atualizado.
+          failure: A atualização do apetrecho falhou.
         delete:
-          success: "Deleted {{filename}}"
-          failure: The asset update failed.
+          success: "{{filename}} apagado"
+          failure: A atualização do apetrecho falhou.
         destroy:
-          success: "{{asset}} detached from this {{content}}."
+          success: "{{asset}} des-anexado deste {{content}}."
         create:
-          first_success: "'{{asset}}' was uploaded."
+          first_success: "'{{asset}}' foi carregado."
           success: 
-            one: "One asset was uploaded."
-            other: "{{count}} assets were uploaded."
+            one: "Um apetrecho foi carregado."
+            other: "{{count}} apetrechos foram carregados."
         add:
-          success: "{{asset}} added to bucket."
+          success: "{{asset}} adicionado à cesta."
         clear:
-          success: Asset bucket has been cleared.
+          success: Apetrecho da cesta foi limpo.
       validation:
-        duplicate: Cannot have a duplicate assignment for this content and asset
+        duplicate: Não pode haver uma atribuição duplicada para este conteúdo e apetrecho
       tab:
         attached:
-          title: Attached assets
-          name: Attached
+          title: Apetrechos anexados
+          name: Anexado
         latest:
-          title: Latest assets uploaded
-          name: Latest
+          title: Últimos apetrechos carregados
+          name: Último
         bucket:
-          title: Your asset bucket
-          name: Bucket
+          title: Sua cesta de apetrechos
+          name: Cesta
         search:
-          title: Search for assets
-          name: Search
+          title: Procurar por apetrechos
+          name: Procurar
         upload:
-          title: Upload new assets
-          name: Upload
+          title: Carregar novos apetrechos
+          name: Carregar
         audio: Audio
-        movies: Movies
-        pictures: Pictures
-        others: Others
-        tags: Tags
-        title: Title
-      new: New asset
-      add_to_bucket: Add to bucket
-      no_files: You have no files of this type or have yet to upload any files.
-      upload: 'Upload one now &raquo;'
-      enter_tags: 'Enter one or more tags separated by a comma or a space (for example, <em>"Web Dev" Tutorials</em> or <em>Web Dev, Tutorials</em>).'
-      save: Save Asset
-      your_bucket: Your bucket
-      add_files: Add files to your bucket temporarily in order to carry them with you when creating or revising articles.
+        movies: Filmes
+        pictures: Figuras
+        others: Outros
+        tags: Marcadores
+        title: Título
+      new: Novo apetrecho
+      add_to_bucket: Adicionar à cesta
+      no_files: Você não possui arquivos deste tipo ou ainda tem que carregar arquivos.
+      upload: 'Carregar um agora &raquo;'
+      enter_tags: 'Entre com um ou mais marcadores separados por vírgula ou espaço (por exemplo, <em>Tutoriais "Web Dev"</em> ou <em>Tutoriais, Web Dev</em>).'
+      save: Salvar Apetrecho
+      your_bucket: Sua cesta
+      add_files: Adicionar arquivos à sua cesta temporariamente para carregá-los com você quando estiver criando ou revisando artigos.
       upload_summary:
-        one: You have a uploaded <strong>one asset</strong>, using <strong>{{size}}</strong>.
-        other: You have a uploaded a total of <strong>{{count}} assets</strong>, using <strong>{{size}}</strong>.
-      stats: Some stats
+        one: Você carregou <strong>one asset</strong>, usando <strong>{{size}}</strong>.
+        other: Você carregou um total de <strong>{{count}} apetrechos</strong>, usando <strong>{{size}}</strong>.
+      stats: Algumas estatísticas
       labels:
         upload:
-          files: Select files to upload
-          title: Title
-          tags: Tags (space separated)
-      delete: remove this file field
-      tag_all: Apply tags to all
-      add_file: Add another file
+          files: Arquivos selecionados para carregamento
+          title: Título
+          tags: Marcadores (separados por espaços)
+      delete: remover este campo de arquivo
+      tag_all: Aplicar marcadores a todos
+      add_file: Adicionar outro arquivo
     themes:
-      no_themes_available: You currently do not have any themes created.
+      no_themes_available: Atualmente você não tem nenhum tema criado.
       lables:
-        zip_file: Zip file
+        zip_file: Arquivo zip
       titles:
-        new: Create a new theme
-        edit: Edit theme
-        valid_file_types: Valid file types
-        import: Import a theme
-        edit_file: Edit theme file
-        theme_id: Theme ID
+        new: Criar um novo tema
+        edit: Editar tema
+        valid_file_types: Tipos de arquivo válidos
+        import: Importar um tema
+        edit_file: Editar um arquivo de tema
+        theme_id: ID do tema
       links:
-        add_another_file: Add another file
-        new_theme: New theme
-        edit: Edit
-        create_one_now: Create one now. &raquo;
-        delete_file: Delete theme file
-        uninstall: Uninstall
-        download_theme: Download theme
-        upload_file: Upload a new file
-        import_theme: Import theme
-        create_file: Create a new file
-        edit_theme: Edit theme
-        delete_theme: Delete theme
-        select_theme: Select theme
-        unselect_theme: Unselect theme
-        select: Select
-        unselect: Unselect
-        delete: Delete
-      upload_template_or_asset: Upload a template or an asset.
+        add_another_file: Adicionar outro arquivo
+        new_theme: Novo tema
+        edit: Editar
+        create_one_now: Criar um agora. &raquo;
+        delete_file: Apagar arquivo de tema
+        uninstall: Des-instalar
+        download_theme: Baixar tema
+        upload_file: Carregar um novo arquivo
+        import_theme: Importar tema
+        create_file: Criar um novo arquivo
+        edit_theme: Editar tema
+        delete_theme: Apagar tema
+        select_theme: Selecionar tema
+        unselect_theme: De-selecionar tema
+        select: Selecionar
+        unselect: De-selecionar
+        delete: Apagar
+      upload_template_or_asset: Carregar um modelo ou um apetrecho.
       labels:
-        asssets: Assets
-        templates: Templates
-        filename: Filename
-      confirm_select: Are you sure you wish to activate this theme?
-      confirm_unselect: Are you sure you wish to deactivate this theme?
-      confirm_uninstall: Are you sure you wish to uninstall this theme? (You won't be able to recover it.)
+        asssets: Apetrechos
+        templates: Modelos
+        filename: Nome do arquivo
+      confirm_select: Você tem certeza que deseja ativar este tema?
+      confirm_unselect: Você tem certeza que deseja des-ativar este tema?
+      confirm_uninstall: Você tem certeza que deseja des-instalar este tema? (Você não poderá restaurá-lo.)
       flash:
         destroy:
-          success: The theme has been deleted.
-          failure: The theme could not be deleted.
+          success: O tema foi apagado.
+          failure: O tema não pode ser apagado.
         create:
-          success: The theme has been created.
-          failure: "The theme could not be created: {{errors}}."
+          success: O tema voi criado.
+          failure: "O tema não pode ser criado: {{errors}}."
         update:
-          success: The theme has been updated.
-          failure: "The theme could not be updated: {{errors}}."
+          success: O tema foi atualizado.
+          failure: "O tema não pode ser atualizado: {{errors}}."
         import:
-          success: The theme has been imported.
-          error_filename_blank: The theme file cannot be blank.
-          failure: The file could not be imported as a theme.
+          success: O tema foi importado.
+          error_filename_blank: O arquivo de tema não pode ser branco.
+          failure: O arquivo não pode ser importado como um tema.
     theme_files:
       types:
-        templates: Templates
-        images: Images
+        templates: Modelos
+        images: Imagens
         javascripts: Javascripts
-        stylesheets: Stylesheets
-        others: Others
+        stylesheets: Folhas de estilo
+        others: Outros
       flash:
         destroy:
-          success: The file has been deleted.
-          failure: The file could not be deleted.
+          success: O arquivo foi apagado.
+          failure: O arquivo não pode ser apagado.
         create:
-          success: The file has been created.
-          failure: The file could not be created.
+          success: O arquivo foi criado.
+          failure: O arquivo não pode ser criado.
         update:
-          success: The file has been updated.
-          failure: The file could not be updated.
+          success: O arquivo foi atualizado.
+          failure: O arquivo não pode ser atualizado.
     plugins:
-      no_plugins_installed: There currently aren't any plugins installed.
+      no_plugins_installed: Atualmente não existem plugins instalados.
       attributes:
-        name: Name
-        configurable: Configurable
-        author: Author
-        version: Version
-        homepage: Homepage
+        name: Nome
+        configurable: Configurável
+        author: Autor
+        version: Versão
+        homepage: Principal
       flash:
         destroy:
-          success: The default settings have been restored.
-          failure: The section could not be deleted.
+          success: As configurações padrão foram re-estabelecidas.
+          failure: A sessão não pode ser apagada.
         update:
-          success: The plugin settings have been updated.
-          failure: The section could not be created.
-      no_config_options_available: This plugin does not have any config options available.
+          success: As configurações do plugin foram atualizadas.
+          failure: A sessão não pode ser criada.
+      no_config_options_available: Este plugin não tem nenhuma opção de configuração disponível.
     settings:
       filter_options:
-        plain_html: Plain HTML
+        plain_html: HTML puro
     boards:
       topics_count:
-        one: "{{count}} topic"
-        other: "{{count}} topics"
+        one: "{{count}} tópico"
+        other: "{{count}} tópicos"
       comments_count:
-        one: "{{count}} comment"
-        other: "{{count}} comments"
+        one: "{{count}} comentário"
+        other: "{{count}} comentários"
       info:
-        no_boards_in_forum: You don't have any boards created in {{forum}}.
+        no_boards_in_forum: Você não tem nenhum grupo criado em {{forum}}.
       titles:
-        new: New Board
-        edit: Edit Board
+        new: Novo Grupo
+        edit: Editar Grupo
       posts_count:
-        one: "{{count}} post"
-        other: "{{count}} posts"
+        one: "{{count}} postagem"
+        other: "{{count}} postagens"
       links:
-        new: New Board
-        reorder: Reorder boards
-        create_now: Create one now
+        new: Novo Grupo
+        reorder: Re-ordenar grupos
+        create_now: Criar um agora
       flash:
-        no_next_board: There is no next board. Showing the last one.
+        no_next_board: Não existe próximo grupo. Mostrando o último.
         destroy:
-          success: The board has been deleted.
-          failure: The board could not be deleted.
+          success: O grupo foi apagado.
+          failure: O grupo não pode ser apagado.
         create:
-          success: The board has been created.
-          failure: The board could not be created.
+          success: O grupo foi criado.
+          failure: O grupo não pode ser criado.
         update:
-          success: The board has been updated.
-          failure: The board could not be updated.
-        no_previous_board: There is no previous board. Showing the first one.
-      confirm_delete: All the topics of this board are also deleted with the board. Are you sure you wish to delete this board?
-      confirm_delete_on_last: Are you sure you wish to delete this board? Your topics will not be removed.
+          success: O grupo foi atualizado.
+          failure: O grupo não pode ser atualizado.
+        no_previous_board: Não existe nenhum grupo anterior. Mostrando o primeiro.
+      confirm_delete: Todos os tópicos deste grupo são também apagados com o grupo. Você tem certeza que deseja apagar este grupo?
+      confirm_delete_on_last: Você tem certeza que deseja apagar este grupo? Seus tópicos não serão removidos.
     topics:
       info:
-        no_topics_in_forum: There are no topics in this forum.
-        no_topics_in_board: There are no topics in this board.
+        no_topics_in_forum: Não existem tópicos neste forum.
+        no_topics_in_board: Não existem tópicos neste grupo.
       titles:
-        new: New topic
-        edit: Edit topic
-        post_topic: Post Topic
-        latest_post: Latest post
+        new: Novo tópico
+        edit: Editar tópico
+        post_topic: Postar Tópico
+        latest_post: Última postagem
         post_count:
-          one: "{{count}} Post"
-          other: "{{count}} Posts"
+          one: "{{count}} Postagem"
+          other: "{{count}} Postagens"
       states:
-        sticky: Sticky
-        locked: Locked
+        sticky: Colado
+        locked: Trancado
       links:
-        post_new: Post one now
-        post_now: Post one now
-        new_topic: New topic
+        post_new: Postar um novo
+        post_now: Postar um agora
+        new_topic: Novo tópico
       flash:
         destroy:
-          success: The topic has been deleted.
-          failure: The topic could not be deleted.
+          success: O tópico foi apagado.
+          failure: O tópico não pode ser apagado.
         create:
-          success: The topic has been created.
-          failure: The topic could not be created.
+          success: O tópico foi criado.
+          failure: O tópico não pode ser criado.
         update:
-          success: The topic has been updated.
-          failure: The topic could not be updated.
-        no_next_topic: There is no next topic. Showing the last one.
-        no_previous_topic: There is no previous topic. Showing the first one.
-      confirm_destroy: Are you sure you wish to delete this post?
-      confirm_delete: Are you sure you wish to delete this topic?
+          success: O tópico foi atualizado.
+          failure: O tópico não pode ser atualizado.
+        no_next_topic: Não existe próximo tópico. Mostrando o último.
+        no_previous_topic: Não existe tópico anterior. Mostrando o primeiro.
+      confirm_destroy: Você tem certeza que deseja apagar esta postagem?
+      confirm_delete: Você tem certeza que deseja apagar este tópico?
     posts:
       titles:
-        reply: Leave your reply
-        edit: Edit your post
-        save_post: Save post
-        submit_post: Submit post
+        reply: Deixe o seu comentário
+        edit: Editar sua postagem
+        save_post: Salvar postagem
+        submit_post: Enviar postagem
       flash:
         destroy:
-          success: The post has been deleted.
+          success: A postagem foi apagada.
         create:
-          success: The post has been saved.
-          failure: The post could not be saved.
+          success: A postagem foi salva.
+          failure: A postagem não pode ser salva.
         update:
-          success: The post has been updated.
-          failure: The post could not be updated.
+          success: A postagem foi atualizada.
+          failure: A postagem não pode ser atualizada.
     tracking:
-      enable_tracking: Enable tracking with Google Analytics
-      tracking_campaign: Campaign
-      tracking_source: Source
+      enable_tracking: Habilitar monitoramento com o Google Analytics
+      tracking_campaign: Campanha
+      tracking_source: Fonte
       hints:
-        tracking_code: Use your Google Analytics Tracking Code (UA-xxxxxxx-x) to enable Google Analytics support. Leaving this blank will deactivate Google Analytics support.
-        no_tracking_code: In order to use Google Analytics to track your newsletters, you need to set up your tracking code first. You can do this in the {{settings}}.
-        glossary: Not sure what to use here? Check {{link}} for further information.
-        glossary_name: the Google Analytics help
+        tracking_code: Usar o seu código de monitoramento do Google Analytics (UA-xxxxxxx-x) para permitir o apoio do Google Analytics. Deixando em branco des-ativa o apoio do Google Analytics.
+        no_tracking_code: Para usar o Google Analytics para monitorar suas cartas, você precisa definir o seu código de monitoramente primeiro. Você pode fazer isto no {{settings}}.
+        glossary: Não está certo do que usar aqui? Verifique {{link}} para informações adicionais.
+        glossary_name: a ajuda do Google Analytics
     spam:
       hints:
-        filters: When comments are posted, the following filters are used to check their spam status.
+        filters: Quando comentários são postados, os seguintes filtros são utilizados para verificar seu estado de spam.
       options:
-        default_ham_none: Do not automatically approve any comments.
-        default_ham_all: Approve all comments automatically.
-        default_ham_authenticated: Approve comments posted by authenticated users.
+        default_ham_none: Não aprove nenhum comentário automaticamente.
+        default_ham_all: Aprovar todos os comentários automaticamente.
+        default_ham_authenticated: Aprovar comentários postados por usuários autenticados.
       labels:
-        api_key: API Key
-        site_url: Site URL
+        api_key: Chave API
+        site_url: URL do site
     info:
-      greeting_logged_in: Hi <span>user</span>, you are logged in.
+      greeting_logged_in: Olá <span>user</span>, você entrou no sistema.
     footer:
-      powered_by: Site powered by adva cms. Theme inspired by depo.
+      powered_by: Site incrementado por adva cms. Tema inspirado por depo.
     flash:
-      authentication_required_role: You need to have the role {{role}} to view this page.
+      authentication_required_role: Você precisa ter o perfil {{role}} para ver esta página.
     sidebar:
       titles:
-        tags: Tags
-        topics: Topics
+        tags: Marcadores
+        topics: Tópicos
     subscription:
-      no_subscriptions: There are no subscribers.
-      confirm_delete: Are you sure you want unsubscribe?
+      no_subscriptions: Não existem assinantes.
+      confirm_delete: Você tem certeza que deseja se des-cadastrar?
       flash:
-        destroy_success: Successfully unsubsribed.
+        destroy_success: Des-cadastramento com sucesso.
       link:
-        index: Subscribers
-        new: Add a new subscriber
-        destroy: Unsubscribe
+        index: Assinantes
+        new: Adicionar um novo assinante
+        destroy: Des-cadastrar
       label:
-        user: Users
-        subscriber: Subscriber
+        user: Usuários
+        subscriber: Assinante
         email: Email
-        time: Subscription time
-        subscriptions: Subscribers
+        time: Tempo de assinatura
+        subscriptions: Assinantes
     locations:
       attributes:
-        title: Location name
-        country: Country
-        postcode: Postcode
-        town: Town
-        address: Street / Number
-        description: Description
+        title: Nome do local
+        country: País
+        postcode: Código postal
+        town: Cidade
+        address: Rua / Número
+        description: Descrição
     
     # have cells translations here for the moment
     cells:
       album:
-        name: Photoalbum
+        name: Foto-álbum
         states:
           single:
-            name: Single photoalbum
-            description: Display a single photoalbum
+            name: Foto-álbum simples
+            description: Mostrar um foto-álgum simples
             form:
-              section: Section
+              section: Sessão
       sections:
-        name: Sections
+        name: Sessões
         states:
           recent_articles:
-            name: Recent articles
-            description: Display a given number of articles from a certain section
+            name: Artigos recentes
+            description: Mostrar alguns artigos de uma sessão
             form:
-              section: Section
-              count: Number of articles
+              section: Sessão
+              count: Número de artigos
       blog:
         name: Blog
         states:
           recent_articles:
-            name: Recent articles
-            description: Display a given number of articles from a certain blog
+            name: Artigos recentes
+            description: Mostrar alguns artigos de um blog
             form:
-              section: Section
-              count: Number of articles
+              section: Sessão
+              count: Número de artigos
       user:
-        name: Users
+        name: Usuários
         states:
           recent:
-            name: Recent users
-            description: Display a list with a given number of users
+            name: Usuários recentes
+            description: Mostrar uma lista com alguns usuários
             form:
-              count: Number of users
+              count: Número de usuários
