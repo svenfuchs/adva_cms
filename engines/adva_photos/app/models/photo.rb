@@ -25,7 +25,10 @@ class Photo < ActiveRecord::Base
 
   named_scope :published, lambda { 
     { :conditions => ['published_at IS NOT NULL AND published_at <= ?', Time.zone.now] } }
-
+    
+  named_scope :drafts, lambda { 
+    { :conditions => ['published_at IS NULL'] } }
+    
   before_save :ensure_unique_filename
 
   validates_presence_of :title

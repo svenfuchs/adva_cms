@@ -36,6 +36,13 @@ class Content < ActiveRecord::Base
     options.merge :conditions => conditions 
   }
   
+  named_scope :drafts, Proc.new { |*args|
+    options = args.extract_options!
+    conditions = ['contents.published_at IS NULL']
+    add_time_delta_condition!(conditions, args) unless args.compact.empty?
+    options.merge :conditions => conditions 
+  }
+  
   class << self
     def add_time_delta_condition!(conditions, args)
       conditions.first << " AND contents.published_at BETWEEN ? AND ?"

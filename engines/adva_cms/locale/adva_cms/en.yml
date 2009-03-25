@@ -278,6 +278,13 @@ en:
     contents:
       not_published: not published
     articles:
+      count:
+        one: "{{count}} article"
+        other: "{{count}} articles"
+      published_count: "{{count}} published"
+      draft_count:
+        one: "{{count}} draft"
+        other: "{{count}} drafts"
       columns:
         article: Article
         comments: Comments
@@ -724,9 +731,15 @@ en:
       settings:
         post_content_filter: 'When forum posts are posted, they use this as a default setting.'
     boards:
+      boards_count:
+        one: "{{count}} board"
+        other: "{{count}} boards"
       topics_count:
         one: "{{count}} topic"
         other: "{{count}} topics"
+      posts_count:
+        one: "{{count}} post"
+        other: "{{count}} posts"
       comments_count:
         one: "{{count}} comment"
         other: "{{count}} comments"
@@ -739,9 +752,6 @@ en:
       labels:
         board: Board
         move_to_board: Move to board
-      posts_count:
-        one: "{{count}} post"
-        other: "{{count}} posts"
       links:
         index: Boards
         new: New Board

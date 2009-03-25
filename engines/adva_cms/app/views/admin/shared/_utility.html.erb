@@ -1,16 +1,15 @@
-<div>
-  <%= admin_site_select_tag if Site.multi_sites_enabled %>
-  <ul>
-    <% if current_user %>
-      <li><%= t(:'adva.users.info.logged_in_as', :name => link_to_profile(@site, :name => current_user.name)) %></li>
-      <li <% unless @site %>class="last"<% end %>><%= link_to t(:'adva.links.logout'), logout_path, :method => :delete %></li>
-    <% else %>
-      <li>You're not logged in</li> 
-      <li <% unless @site %>class="last"<% end %>><%= link_to t(:'adva.links.login'), :controller => 'session', :action => 'new' %></li>    
-    <% end %>
-    <% if @site %>
-      <li class="last"><%= link_to t(:'adva.titles.website') + ' »', "http://#{@site.host}" %></li>
-    <% end %>
-  </ul>
+<div id="login_status">
+	<%#= admin_site_select_tag if Site.multi_sites_enabled %>
+  <% if current_user %>
+		<%= t(:'adva.users.info.logged_in_as', :name => link_to_profile(@site, :name => current_user.name)) %>
+		<%= link_to t(:'adva.links.logout'), logout_path, :method => :delete %>
+	<% else %>
+  	You're not logged in <%= link_to t(:'adva.links.login'), :controller => 'session', :action => 'new' %>
+  <% end %>
+  <% if @site %>
+    <%= link_to t(:'adva.titles.website') + ' »', "http://#{@site.host}", :id => 'go_to_website' %>
+  <% end %>
+  <div id="search">
+  	<input type="text" id="search_text" value="I am under construction!"/><input id="do_search" type="image" src="/images/adva_cms/admin/new/buttons/search.png" alt="Search" />
+	</div>
 </div>
-
