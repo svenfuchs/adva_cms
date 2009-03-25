@@ -12,6 +12,12 @@ en:
         new: New
         edit: Edit
         delete: Delete
+    subscriptions:
+      links:
+        index: Subscriptions
+        new: New
+        edit: Edit
+        delete: Delete
     newsletter:
       no_newsletters: There are no newsletters.
       question_publish_newsletter: Should we make it public?

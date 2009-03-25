@@ -196,32 +196,53 @@ end
 
 Menu.instance(:'admin.newsletters.left', :class => 'left') do
   item :newsletters, :caption => link_to_index([@site, :newsletter])
+  
+  if @newsletter.present? && !@newsletter.new_record?
+    item :newsletters, :caption => link_to_index([@newsletter, :issue])
+    item :newsletters, :caption => link_to_index([@newsletter, :subscription])
+  end
 end
 
 Menu.instance(:'admin.newsletters.right', :class => 'right') do
-  item :new, :caption => link_to_new([@site, :newsletter])
+  item :new, :caption => link_to_new([@site, :newsletter]) if @newsletters
   if @newsletter.present? && !@newsletter.new_record?
-    item :issues, :caption => link_to_index([@newsletter, :issue])
-    item :edit, :caption => link_to_edit(@newsletter)
+    item :new, :caption => link_to_new([@site, :newsletter])
+    # item :edit, :caption => link_to_edit(@newsletter) # FIXME: We only need this if we have a show action or ?
     item :delete, :caption => link_to_delete(@newsletter)
   end
 end
 
 # adva-newsletters issues menus
 
-Menu.instance(:'admin.issues.right', :class => 'right') do
-  item :new, :caption => link_to_new([@newsletter, :issue])
+Menu.instance(:'admin.issues.left', :class => 'left') do
+  item :newsletters,   :caption => link_to_index([@site, :newsletter])
+  item :issues,        :caption => link_to_index([@newsletter, :issue])
+  item :subscriptions, :caption => link_to_index([@newsletter, :subscription])
+end
 
-  if @issue.present? # && @issue.editable?
+Menu.instance(:'admin.issues.right', :class => 'right') do
+  item :new, :caption => link_to_new([@newsletter, :issue]) if @issues
+
+  if @issue.present? && !@issue.new_record? # && @issue.editable?
+    item :new,     :caption => link_to_new([@newsletter, :issue])
     item :edit,    :caption => link_to_edit(@issue)
     item :preview, :caption => link_to(t(:"adva.newsletter.link.send_preview_issue"),
                                       admin_delivery_path(@site, @newsletter, @issue),
                                       :method => :post, :confirm => t(:"adva.newsletter.confirm.send_preview_issue"))
+    item :delete,  :caption => link_to_delete(@issue)
   end
+end
 
-  if @issue.present? && !@issue.new_record?
-    item :delete, :caption => link_to_delete(@issue)
-  end
+# adva-newsletters subscriptions menus
+
+Menu.instance(:'admin.newsletter_subscriptions.left', :class => 'left') do
+  item :newsletters,   :caption => link_to_index([@site, :newsletter])
+  item :issues,        :caption => link_to_index([@newsletter, :issue])
+  item :subscriptions, :caption => link_to_index([@newsletter, :subscription])
+end
+
+Menu.instance(:'admin.newsletter_subscriptions.right', :class => 'right') do
+  item :new, :caption => link_to_new([@newsletter, :subscription]) unless @subscription
 end
 
 # adva-photos menus
