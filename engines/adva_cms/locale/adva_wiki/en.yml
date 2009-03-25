@@ -92,7 +92,10 @@ en:
         create: 
           succsess: The wikipage has been successfully created.
           failure: The wikipage could not been created.
-    wiki: 
+    wiki:
+      wikipages_count:
+        one: "{{count}} wikipage"
+        other: "{{count}} wikipages"
       optimistic_lock: 
         exception: 
           missing_timestamp: "Can not update wikipage: timestamp missing. Please make sure that your form has a hidden field: updated_at."

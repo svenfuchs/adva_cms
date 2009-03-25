@@ -6,6 +6,15 @@ en:
         new: New
         delete: Delete
     calendar:
+      events_count:
+        one: "{{count}} event"
+        other: "{{count}} events"
+      events_published_count:
+        one: "{{count}} published"
+        other: "{{count}} published"
+      events_draft_count:
+        one: "{{count}} draft"
+        other: "{{count}} drafts"
       open_end: Open end
       confirm_delete: Are you sure you wish to delete this event?
       publish_on_date: Publish on this date

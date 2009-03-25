@@ -6,6 +6,14 @@ en:
         new: New
         edit: Edit
         delete: Delete
+    albums:
+      photos_count:
+        one: "{{count}} photo"
+        other: "{{count}} photos"
+      photos_published_count: "{{count}} published"
+      photos_draft_count:
+        one: "{{count}} draft"
+        other: "{{count}} drafts"
     photos:
       name: Photo
       common:
