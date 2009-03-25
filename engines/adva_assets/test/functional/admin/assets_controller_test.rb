@@ -33,8 +33,7 @@ class AdminAssetsControllerTest < ActionController::TestCase
   
   describe "GET to :index" do
     action { get :index, default_params }
-    # FIXME
-    # it_guards_permissions :show, :asset
+    it_guards_permissions :show, :asset
     
     with :access_granted do
       it_assigns :recent
@@ -46,8 +45,7 @@ class AdminAssetsControllerTest < ActionController::TestCase
     action { post :create, default_params.merge(@params) }
     
     with :valid_asset_params do
-      # FIXME
-      # it_guards_permissions :create, :asset
+      it_guards_permissions :create, :asset
   
       with :access_granted do
         it_assigns :site, :assets
@@ -69,8 +67,7 @@ class AdminAssetsControllerTest < ActionController::TestCase
     action { put :update, default_params.merge(@params).merge(:id => @asset.id) }
   
     with :valid_asset_params do
-      # FIXME
-      # it_guards_permissions :update, :article
+      it_guards_permissions :update, :article
       
       with :access_granted do
         it_assigns :site, :asset
@@ -91,8 +88,7 @@ class AdminAssetsControllerTest < ActionController::TestCase
   describe "DELETE to :destroy" do
     action { delete :destroy, default_params.merge(:id => @asset.id) }
     
-    # FIXME
-    # it_guards_permissions :destroy, :asset
+    it_guards_permissions :destroy, :asset
     
     with :access_granted do
       it_assigns :site, :asset
@@ -101,10 +97,10 @@ class AdminAssetsControllerTest < ActionController::TestCase
       
       # FIXME
       # before do
-      #   # @session[:bucket] = { @asset.id => asset_image_args_for(@asset, :tiny) }
+      #   @session[:bucket] = { @asset.id => asset_image_args_for(@asset, :tiny) }
       # end
       # it "removes the asset from the session bucket" do
-      #   # session[:bucket]
+      #   assert session[:bucket].empty?
       # end
     end
   end

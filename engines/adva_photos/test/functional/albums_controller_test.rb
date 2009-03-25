@@ -59,42 +59,43 @@ class AlbumsControllerTest < ActionController::TestCase
     end
   end
   
-  # FIXME when we have atom feed
-    #describe "Atom feeds" do
-    # describe "GET to /albums/1.atom" do
-    #   act! { request_to :get, "/albums/#{@album.id}.atom" }
-    #   it_renders_template 'index', :format => :atom
-    #   it_gets_page_cached
-    # end
-    # 
-    # describe "GET to /albums/1/tags/tagged.atom" do
-    #   act! { request_to :get, "/albums/#{@album.id}/tags/tagged.atom" }
-    #   it_renders_template 'index', :format => :atom
-    #   it_gets_page_cached
-    # end
-    # 
-    # describe "GET to /albums/1/sets/summer.atom" do
-    #   act! { request_to :get, "/albums/#{@album.id}/sets/summer.atom" }
-    #   it_renders_template 'index', :format => :atom
-    #   it_gets_page_cached
-    # end
-    # 
-    # describe "GET to /albums/1/photos/1.atom" do
-    #   act! { request_to :get, "/albums/#{@album.id}/photos/#{@photo.id}.atom" }
-    #   it_renders_template 'comments/comments', :format => :atom
-    #   it_gets_page_cached
-    # end
-    # 
-    # describe "GET to /albums/1/comments.atom" do
-    #   act! { request_to :get, "/albums/#{@album.id}/comments.atom" }
-    #   it_renders_template 'comments/comments', :format => :atom
-    #   it_gets_page_cached
-    # end
-    # 
-    # describe "GET to /albums/1/photos/1/comments.atom" do
-    #   act! { request_to :get, "/albums/#{@album.id}/photos/#{@photo.id}.atom" }
-    #   it_renders_template 'comments/comments', :format => :atom
-    #   it_gets_page_cached
-    # end
+  # FIXME uncomment when we are going to implement an atom feed for photos
+  #
+  # describe "Atom feeds" do
+  #   describe "GET to /albums/1.atom" do
+  #     act! { request_to :get, "/albums/#{@album.id}.atom" }
+  #     it_renders_template 'index', :format => :atom
+  #     it_gets_page_cached
+  #   end
+  #   
+  #   describe "GET to /albums/1/tags/tagged.atom" do
+  #     act! { request_to :get, "/albums/#{@album.id}/tags/tagged.atom" }
+  #     it_renders_template 'index', :format => :atom
+  #     it_gets_page_cached
+  #   end
+  #   
+  #   describe "GET to /albums/1/sets/summer.atom" do
+  #     act! { request_to :get, "/albums/#{@album.id}/sets/summer.atom" }
+  #     it_renders_template 'index', :format => :atom
+  #     it_gets_page_cached
+  #   end
+  #   
+  #   describe "GET to /albums/1/photos/1.atom" do
+  #     act! { request_to :get, "/albums/#{@album.id}/photos/#{@photo.id}.atom" }
+  #     it_renders_template 'comments/comments', :format => :atom
+  #     it_gets_page_cached
+  #   end
+  #   
+  #   describe "GET to /albums/1/comments.atom" do
+  #     act! { request_to :get, "/albums/#{@album.id}/comments.atom" }
+  #     it_renders_template 'comments/comments', :format => :atom
+  #     it_gets_page_cached
+  #   end
+  #   
+  #   describe "GET to /albums/1/photos/1/comments.atom" do
+  #     act! { request_to :get, "/albums/#{@album.id}/photos/#{@photo.id}.atom" }
+  #     it_renders_template 'comments/comments', :format => :atom
+  #     it_gets_page_cached
+  #   end
   # end
 end

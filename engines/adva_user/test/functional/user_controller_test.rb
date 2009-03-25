@@ -68,7 +68,7 @@ class UserControllerTest < ActionController::TestCase
     
         it_triggers_event :user_verified
         it_assigns_flash_cookie :notice => :not_nil
-        # FIXME it_redirects_to where?
+        it_redirects_to Registry.get(:redirect, :verify)
       end
 
       with "the user can not be verified" do
@@ -76,14 +76,14 @@ class UserControllerTest < ActionController::TestCase
     
         it_does_not_trigger_any_event
         it_assigns_flash_cookie :error => :not_nil
-        # FIXME it_redirects_to where?
+        it_redirects_to Registry.get(:redirect, :verify)
       end
     end
   end
 
   describe "DELETE to :destroy" do
     action { delete :destroy }
-    # it_guards_permissions :destroy, :user # FIXME requires authentication
+    it_guards_permissions :destroy, :user
 
     with :access_granted do
       before { stub(@controller).current_user.returns(@user) }

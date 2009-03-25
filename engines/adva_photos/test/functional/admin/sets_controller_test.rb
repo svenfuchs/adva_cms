@@ -45,8 +45,6 @@ class SetsControllerTest < ActionController::TestCase
     it_assigns :sets
     it_renders_template :index
     it_does_not_sweep_page_cache
-    
-    # FIXME add important view specs
   end
   
   describe "GET to new" do

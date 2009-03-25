@@ -1,5 +1,4 @@
 site = Site.find_by_name('site with pages')
-user = User.find_by_first_name('a user')
 superuser = User.find_by_first_name('a superuser')
 
 album =
