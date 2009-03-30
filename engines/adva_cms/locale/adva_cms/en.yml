@@ -37,6 +37,7 @@ en:
       add_new: add new
       hints:
         tags: Enter one or more tags separated by a space. You may include spaces by enclosing a tag with quotes. (For example, <em>"Web Dev" Tutorials</em>).
+      confirm: Are you sure?
     titles: 
       accounts: Accounts
       actions: Actions
