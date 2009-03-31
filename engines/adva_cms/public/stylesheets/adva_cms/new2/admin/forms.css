@@ -17,20 +17,28 @@
 #content .col > * {
 	margin-left: -9px;
 }
+#content .col > .inline {
+	margin-left: 0;
+}
 input[type=text],
 textarea {
 	width: 100%;
 	padding: 4px 8px;
-	font-size: 1em;
+	font-size: 14px;
 	border: 1px solid #999;
   font-family: "Helvetica Neue", "Helvetica", "Arial", Verdana;
 }
+textarea {
+  height: 100px;
+}
+textarea.big {
+  height: 400px;
+}
 select {
   margin: 3px 0;
-	font-size: 0.85em;
 }
 input.big[type=text] {
-  font-size: 1.5em;
+  font-size: 20px;
 }
 textarea.small {
 	height: 79px;
@@ -41,8 +49,8 @@ label {
   color: #555;
 	text-shadow: #fff 1px 1px;
   line-height: 1.2em;
-	margin-top: 1em;
-	margin-bottom: 0.5em;
+	margin-top: 15px;
+	margin-bottom: 6px;
 }
 label.inline {
   position: relative;

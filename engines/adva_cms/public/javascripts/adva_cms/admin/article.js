@@ -35,7 +35,7 @@ ArticleSearch.prototype = {
 
 var ArticleForm = {
   saveDraft: function() {
-    $F(this) ? $('publish_date').hide() : $('publish_date').show();
+    $F(this) ? $('article_published_at_wrapper').hide() : $('article_published_at_wrapper').show();
   }
 }
 

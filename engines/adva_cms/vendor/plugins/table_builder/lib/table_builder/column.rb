@@ -6,7 +6,8 @@ module TableBuilder
       @table = table
       @name = name
       @value = options.delete(:value)
-      @options = options || {}
+      @options = options.dup || {}
+      @options[:class] ||= name
     end
     
     def content
