@@ -5,11 +5,12 @@
 
 <%
 	table_for @articles do |t|
-		t.column :article, :comments, :published, :author, :actions
+		t.column :article, :comments, :published, :author
+		t.column :actions, :class => :actions
 
-		t.head.row do |r|
-			r.cell t(:'adva.articles.total_with_count', :count => @articles.total_entries), :class => :total, :colspan => :all
-		end
+		# t.head.row do |r|
+		# 	r.cell t(:'adva.articles.total_with_count', :count => @articles.total_entries), :class => :total, :colspan => :all
+		# end
 
 		t.row do |r, article|
 			r.cell link_to_edit(article.title, article, :class => article.state)

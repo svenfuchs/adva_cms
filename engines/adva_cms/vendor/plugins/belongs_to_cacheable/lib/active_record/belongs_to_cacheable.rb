@@ -7,7 +7,7 @@ module ActiveRecord
     module ActMacro
       def belongs_to_cacheable(*args)
         options = args.extract_options!
-        options.reverse_merge! :validate => true
+        options.reverse_merge! :validate => true  # FIXME Content.author should not be polymorphic
         validate = options.delete :validate # TODO make this more flexible
         associations = args
 

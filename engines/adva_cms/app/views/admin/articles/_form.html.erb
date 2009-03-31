@@ -1,31 +1,34 @@
+
 <% f.field_set do %>
-  <%= hidden_field_tag 'cl', Article.locale %>
-  <%= f.text_field :title, :class => 'big', :label => true  %>
+	<% column do %>
+	  <%= hidden_field_tag 'cl', Article.locale %>
+	  <%= f.text_field :title, :class => 'big', :label => true  %>
 
-  <p id="article_excerpt_wrapper" style="<%= @article.has_excerpt? ? "" : "display:none" %>">
-    <label for="article_excerpt">
-      <%= t(:'adva.articles.attributes.excerpt') %>
-      <span class="hint inline">(<%= link_to_function t(:'adva.common.hide'), "$('excerpt').toggle()" %>)</span>
-    </label>
-    <%= f.text_area :excerpt, :rows => '8', :class => 'wysiwyg' %>
-  </p>
+	  <p id="article_excerpt_wrapper" style="<%= @article.has_excerpt? ? "" : "display:none" %>">
+	    <label for="article_excerpt">
+	      <%= t(:'adva.articles.attributes.excerpt') %>
+	      <span class="hint inline">(<%= link_to_function t(:'adva.common.hide'), "$('excerpt').toggle()" %>)</span>
+	    </label>
+	    <%= f.text_area :excerpt, :rows => '8', :class => 'wysiwyg' %>
+	  </p>
 
-  <label for="article_body">
-    <%= t(:'adva.articles.write_article') %>
-    <span class="hint inline">(<%= link_to_function t(:'adva.articles.excerpt_add'), "$('excerpt').toggle()" %>)</span>
-  </label>
-  <%= f.text_area :body, :class => 'fat wysiwyg', :rows => 25 %>
+	  <label for="article_body">
+	    <%= t(:'adva.articles.write_article') %>
+	    <span class="hint inline">(<%= link_to_function t(:'adva.articles.excerpt_add'), "$('excerpt').toggle()" %>)</span>
+	  </label>
+	  <%= f.text_area :body, :class => 'fat wysiwyg', :rows => 25 %>
 
-  <%= f.label :draft, t(:'adva.articles.question_save_as_draft') %>
-  <%= f.check_box :draft?, :id => 'article_draft', :label => :'adva.articles.confirm_save_as_draft' %>
+	  <%= f.label :draft, t(:'adva.articles.question_save_as_draft') %>
+	  <%= f.check_box :draft?, :id => 'article_draft', :label => :'adva.articles.confirm_save_as_draft' %>
 
-  <p id="article_published_at_wrapper" style="<%= @article.draft? ? "display:none" : "" %>">
-    <%= f.label :published_at, t(:'adva.articles.publish_on_date') %>
-    <%= f.datetime_select :published_at,
-                          :start_year => (@article.published_at || Time.zone.now).year-1,
-                          :end_year => (Time.zone.now.year + 5),
-                          :order => [:month, :day, :year] %>
-	</p>
+	  <p id="article_published_at_wrapper" style="<%= @article.draft? ? "display:none" : "" %>">
+	    <%= f.label :published_at, t(:'adva.articles.publish_on_date') %>
+	    <%= f.datetime_select :published_at,
+	                          :start_year => (@article.published_at || Time.zone.now).year-1,
+	                          :end_year => (Time.zone.now.year + 5),
+	                          :order => [:month, :day, :year] %>
+		</p>
+	<% end %>
 <% end %>
 
 <%= render :partial => 'options', :locals => { :f => f } %>

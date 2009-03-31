@@ -55,7 +55,7 @@ module HasFilter
           view.field_set_tag(nil, :class => 'set') do
             tag = filter_select_tag(view) + "\n"
             tag << map { |filter| filter.to_field_set_tag(options.dup) }.join("\n")
-            tag << view.content_tag(:span) do
+            tag << view.content_tag(:span, :class => 'controls') do
               view.content_tag(:a, '+', :href => '#', :class => 'add_filter') + 
               view.content_tag(:a, '-', :href => '#', :class => 'remove_filter')
             end

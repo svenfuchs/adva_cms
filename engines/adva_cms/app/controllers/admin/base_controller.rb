@@ -1,18 +1,7 @@
 class Admin::BaseController < ApplicationController
-  # registers :left and :right admin menus for the current controller to their 
-  # content_for slots in layouts/admin, e.g. admin.articles.left to :main_left
-  def self.inherited(child)
-    super
-    [:left, :right].each do |key|
-      child.content_for :"main_#{key}", :"#{child.controller_name}_#{key}" do
-        Menu.instance(:"admin.#{child.controller_name}.#{key}").render(self)
-      end
-    end
-  end
-
   layout "admin"
 
-  renders_with_error_proc :below_field
+  renders_with_error_proc :above_field
   include CacheableFlash
   include ContentHelper
   include ResourceHelper
@@ -30,15 +19,6 @@ class Admin::BaseController < ApplicationController
   authentication_required
 
   attr_accessor :site
-
-  # content_for :header, :menus, :only => { :format => :html } do
-  #   render(:partial => 'admin/shared/utility') +
-  #   render(:partial => 'admin/shared/navigation')
-  # end
-
-  content_for :sidebar, :section_tree, :only => { :format => :html } do
-    render :partial => 'admin/shared/section_tree' if @site
-  end
 
   protected
 
@@ -124,12 +104,4 @@ class Admin::BaseController < ApplicationController
     def set_cache_root
       self.class.page_cache_directory = page_cache_directory.to_s
     end
-
-    # # FIXME make this declarative, so that one can call
-    # # default_param :article, :author_id do current_user.id end on the controller
-    # def default_param(*keys)
-    #   value, key = keys.pop, keys.pop
-    #   target = keys.inject(params) { |target, k| target[k] ||= {} }
-    #   target[key] ||= value
-    # end
 end

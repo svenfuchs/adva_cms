@@ -1,0 +1,70 @@
+#content fieldset {
+  clear: both;
+	margin: 0 9px 20px 9px;
+}
+#content .col {
+	width: 46%;
+}
+#content .col:last-child {
+	float: right;
+}
+#content .col:first-child {
+	float: left;
+}
+#content .col:only-child {
+	width: 100%;
+}
+#content .col > * {
+	margin-left: -9px;
+}
+input[type=text],
+textarea {
+	width: 100%;
+	padding: 4px 8px;
+	font-size: 1em;
+	border: 1px solid #999;
+  font-family: "Helvetica Neue", "Helvetica", "Arial", Verdana;
+}
+select {
+  margin: 3px 0;
+	font-size: 0.85em;
+}
+input.big[type=text] {
+  font-size: 1.5em;
+}
+textarea.small {
+	height: 79px;
+}
+label {
+	display: block;
+	clear: both;
+  color: #555;
+	text-shadow: #fff 1px 1px;
+  line-height: 1.2em;
+	margin-top: 1em;
+	margin-bottom: 0.5em;
+}
+label.inline {
+  position: relative;
+  display: inline;
+  top: -2px;
+  vertical-align: baseline;
+}
+label.light {
+  font-weight: normal;
+}
+#content form p {
+	margin-top: 0.5em;
+}
+.error_message {
+  float: right;
+  margin-top: -25px;
+  margin-right: -9px;
+  color: #c00000;
+  font-style: italic;
+  font-size: .9em;
+}
+.hint {
+  font-size: 0.85em;
+  color: #999;
+}

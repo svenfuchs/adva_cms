@@ -1,0 +1,151 @@
+#header {
+	width: 100%;
+	padding-top: 5px;
+	background-color: black;
+	border-bottom: 5px solid #c22222;
+}
+#header:after {
+	content: '-'; 
+	display: block; 
+	height: 0; 
+	clear: both; 
+	visibility: hidden;
+}
+#header ul.top {
+  clear: none;
+	position: relative;
+	list-style-type: none;
+}
+#header ul.left {
+	float: left;
+	margin-left: 3%;
+}
+#header ul.right {
+	float: right;
+	margin-right: 2%;
+}
+#header .top li {
+	float: left;
+	margin-left: -1px;
+}
+#header .top a {
+	display: block;
+	padding: 4px 16px 4px 16px;
+	color: #fff;
+	outline: none;
+}
+#header .top .active a {
+	color: #fff;
+	background-color: #c22222;
+}
+#header .top a:hover {
+  color: #222;
+  background-color: #fff;
+  text-decoration: none;
+}
+#header .top li.sections > ul {
+  display: none;
+  position: absolute;
+  z-index: 99;
+  top: 25px;
+  border: 2px solid #ddd;
+  background-color: #fff;
+}
+#header .top li ul {
+  list-style-type: none;
+}
+#header .top li > ul li {
+  padding-left: 25px !important;
+}
+#header .top li:hover ul {
+  display: block;
+}
+#header .top li > ul li {
+  float: none;
+}
+#header .top li > ul li a {
+  margin-left: -25px;
+  color: #000;
+}
+#header .top li > ul li a:hover {
+  background-color: #ddd;
+}
+
+#breadcrumbs {
+	float: left;
+  list-style-type: none;
+  margin: 15px 0 20px 6%;
+}
+#breadcrumbs li {
+  float: left;
+  padding: 0 0 0 4px;
+}
+#breadcrumbs li:first-child {
+  float: left;
+  padding: 0 0 0 0px;
+}
+#breadcrumbs li:after { 
+  content: " » " 
+}
+#breadcrumbs li,
+#breadcrumbs li a {
+	color: #999;
+	font-size: 9pt;
+}
+#login_status {
+	float: right;
+	margin: 15px 6% 0 0;
+	text-align: right;
+}
+#login_status,
+#login_status a {
+	color: #999;
+	font-size: 9pt;
+}
+#search {
+	position: absolute;
+	right: 6%;
+	bottom: 5px;
+  padding: 0;
+}
+#search input {
+  color: #888;
+  width: 100px;
+  background: white url(file:///Users/sven/Development/projects/adva_cms/adva_cms/public/images/adva_cms/admin/new/buttons/search.png) no-repeat right center;
+  font-size: 0.9em;
+	padding: 3px 18px 3px 6px;
+	border: 1px solid #aaa;
+}
+#main_menu {
+	position: absolute;
+	bottom: 2px;
+  width: 100%;
+}
+#main_menu ul {
+  list-style-type: none;
+}
+#main_menu li {
+  float: left;
+}
+#main_menu .left {
+  margin-left: 6%;
+}
+#main_menu .right {
+  float: right;
+  margin-right: 6%;
+}
+#main_menu .right li {
+  float: left;
+  margin-left: 20px;
+}
+#main_menu li a {
+  padding: 6px 16px 4px 16px;
+  outline: none;
+}
+#main_menu li.active a {
+	background-color: #ddd;
+}
+#main_menu li a:hover {
+  background-color: #fff;
+  text-decoration: none;
+}

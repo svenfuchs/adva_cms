@@ -1,0 +1,109 @@
+p.total {
+	background-color: #eee;
+	text-align: center;	
+  padding: 3px 3px;
+	margin-top: 10px;
+}
+table.list {
+	width: 100%;
+	border-collapse: collapse;
+}
+table.list th {
+	padding: 8px 10px;
+	text-align: left;
+	font-weight: bold;
+}
+table.list thead tr:last-child th {
+	border-bottom: 3px solid #ddd;
+}
+table.list tbody tr {
+	border-bottom: 1px solid #ddd;  
+}
+table.list tbody td {
+	padding: 8px 10px;
+}
+table.list tbody td.actions {
+  width: 63px;
+}
+
+table.list a.published {
+  padding-left: 30px;
+  background: url(/images/adva_cms/icons/tick.png) no-repeat;
+}
+table.list a.draft,
+table.list a.hold,
+table.list a.queued,
+table.list a.pending {
+  padding-left: 30px;
+  background: url(/images/adva_cms/icons/hourglass.png) no-repeat;
+}
+
+table.list td.actions a {
+  display: block;
+  float: left;
+  width: 16px;
+  height: 16px; 
+  margin-left: 5px;
+  text-indent: 16px;
+  overflow: hidden;
+}
+table.list td.actions a.show,
+table.list td.actions a.preview {
+  background: url(/images/adva_cms/icons/page_white_magnify.png) no-repeat;
+}
+table.list td.actions a.edit {
+  background: url(/images/adva_cms/icons/pencil.png) no-repeat;
+}
+table.list td.actions a.delete {
+  background: url(/images/adva_cms/icons/bin_closed.png) no-repeat;
+}
+
+/* comments list */
+
+/*#comments_list li {
+  padding: 15px 40px;
+  background: url(/images/adva_cms/icons/comment.png) no-repeat 15px 15px;
+}
+#comments_list li.highlight {
+  padding: 20px 20px 20px 55px !important;
+  padding-bottom: 3px;
+  border: 1px solid #add;
+  background-color: #eaf6f6 !important;
+  margin: 20px 0; 
+}
+#comments_list blockquote {
+  margin: 0px 0px 10px 0px;
+}
+#comments_list cite {
+  font-size: 11px;
+  font-style: normal;
+}*/
+
+/* cached_pages list */
+
+/*#cached_pages {
+  width: 100%;
+}
+#cached_pages th {
+  padding: 8px 10px;
+  text-align: left;
+  border-bottom: 5px solid #ccc;
+}
+#cached_pages td {
+  padding: 8px 10px;
+  border-bottom: 1px solid #eee;
+}
+#cached_pages tr.deleted td {
+  text-decoration: line-through;
+  color: #aaa;
+}
+#cached_pages tr.deleted a {
+  display: none;
+}
+#cached_pages tr span {
+  display: none;
+}
+#cached_pages tr.deleted span {
+  display: block;
+}
+*/

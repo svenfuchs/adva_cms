@@ -6,6 +6,7 @@ class Admin::SectionsController < Admin::BaseController
   guards_permissions :section, :update => :update_all
 
   def index
+    @sections = @site.sections
   end
 
   def new

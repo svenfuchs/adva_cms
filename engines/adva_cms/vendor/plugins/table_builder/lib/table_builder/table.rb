@@ -39,7 +39,7 @@ module TableBuilder
     end
 
     def collection_class
-      @collection.first.class
+      @collection.first.class # base_class
     end
 
     def collection_name

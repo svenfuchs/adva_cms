@@ -1,10 +1,11 @@
 <% 
 	table_for @categories do |t|
-		t.column :name, :actions
+		t.column :category
+		t.column :actions, :class => :actions
 
-		t.head.row do |r|
-			r.cell t(:'adva.categories.total_with_count', :count => @categories.total_entries), :class => :total, :colspan => :all
-		end
+		# t.head.row do |r|
+		# 	r.cell t(:'adva.categories.total_with_count', :count => @categories.total_entries), :class => :total, :colspan => :all
+		# end
 
 		t.row do |r, category|
 			r.cell link_to_edit(category.title, category, :class => 'category')

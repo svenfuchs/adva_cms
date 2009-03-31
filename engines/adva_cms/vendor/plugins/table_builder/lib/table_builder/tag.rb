@@ -40,7 +40,6 @@ module TableBuilder
       
       def indent(str)
         str.gsub(/^/, "  ")
-        # str.split("\n").map { |l| l.blank? ? l : "  #{l}" }.join("\n")
       end
       
       def add_class!(options, klass)
