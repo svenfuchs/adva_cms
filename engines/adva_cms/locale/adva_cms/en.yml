@@ -72,7 +72,7 @@ en:
       edit: Edit
       delete: Delete
       newsletters: Newsletters
-      optional_settings: Optional Settings
+      options: Options
       overview: Overview
       permissions: Permissions
       photos: Photos
@@ -351,7 +351,7 @@ en:
           failure: The article could not be updated.
       confirm_delete: Are you sure you wish to delete this article?
       attributes:
-        excerpt: excerpt
+        excerpt: Excerpt
     cached_pages:
       links:
         index: Cache

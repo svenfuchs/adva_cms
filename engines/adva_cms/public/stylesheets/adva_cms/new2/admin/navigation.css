@@ -43,19 +43,19 @@
   background-color: #fff;
   text-decoration: none;
 }
-#header .top li.sections > ul {
+#header .top li > ul {
   display: none;
   position: absolute;
   z-index: 99;
   top: 25px;
   border: 2px solid #ddd;
-  background-color: #fff;
+  background-color: #fff !important;
 }
 #header .top li ul {
   list-style-type: none;
 }
 #header .top li > ul li {
-  padding-left: 25px !important;
+  padding-left: 25px;
 }
 #header .top li:hover ul {
   display: block;
@@ -65,10 +65,13 @@
 }
 #header .top li > ul li a {
   margin-left: -25px;
-  color: #000;
+  color: #000 !important;
+}
+#header .top li > ul li a {
+  background-color: #fff !important;
 }
 #header .top li > ul li a:hover {
-  background-color: #ddd;
+  background-color: #ddd !important;
 }
 
 #breadcrumbs {

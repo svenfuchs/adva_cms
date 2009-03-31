@@ -1,6 +1,6 @@
 var Flash = {
 	transferFromCookies: function() {
-	  var data = JSON.parse(unescape(Cookie.get("flash")));
+	  var data = JSON.parse(unescape(Cookie.get("flash")).gsub(/\+/, ' '));
 	  if(!data) data = {};
 	  Flash.data = data;
 	  Cookie.erase("flash");
@@ -15,9 +15,11 @@ var Flash = {
 
 		if(Flash.applyEffects) {
     	new Effect.Appear('flash_' + flashType, {duration: 0});
-    	//ssetTimeout(Flash['fade' + flashType[0].toUpperCase() + flashType.slice(1, flashType.length)].bind(this), 5000)
+    	setTimeout(Flash['fade' + flashType[0].toUpperCase() + flashType.slice(1, flashType.length)].bind(this), 5000)
 		} else {
-			$('flash_' + flashType).show();
+			var flash = $('flash_' + flashType)
+			flash.show();
+	    Event.observe(flash, 'click', function() { new Effect.Fade(this, { duration: 0.5 }); });
 		}
   },
   errors: function(message) {
@@ -37,7 +39,7 @@ var Flash = {
   }
 }
 Flash.data = {};
-Flash.applyEffects = true;
+Flash.applyEffects = false;
 
 Event.onReady(function() {
 	Flash.transferFromCookies();

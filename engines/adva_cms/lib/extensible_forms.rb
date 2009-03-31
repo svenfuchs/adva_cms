@@ -121,6 +121,12 @@ class ExtensibleFormBuilder < ActionView::Helpers::FormBuilder
       end
     }
   end
+  
+  # def tabs(&block)
+  #   @template.concat with_callbacks(name) {
+  #     @template.capture { @template.buttons(&block) }
+  #   }
+  # end
 
   def buttons(name = :submit_buttons, &block)
     @template.concat with_callbacks(name) {

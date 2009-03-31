@@ -11,7 +11,7 @@ require 'menu'
 require 'event'    # need to force these to be loaded now, so Rails won't
 require 'registry' # reload them between requests (FIXME ... this doesn't seem to happen?)
 
-ExtensibleFormBuilder.default_class_names(:field_set) << 'clearfix' # sigh
+# ExtensibleFormBuilder.default_class_names(:field_set) << 'clearfix' # sigh
 
 config.to_prepare do
   Registry.set :redirect, {

@@ -7,16 +7,16 @@
 	  <p id="article_excerpt_wrapper" style="<%= @article.has_excerpt? ? "" : "display:none" %>">
 	    <label for="article_excerpt">
 	      <%= t(:'adva.articles.attributes.excerpt') %>
-	      <span class="hint inline">(<%= link_to_function t(:'adva.common.hide'), "$('excerpt').toggle()" %>)</span>
+	      <span class="hint inline">(<%= link_to_function t(:'adva.common.hide'), "$('article_excerpt_wrapper').toggle()" %>)</span>
 	    </label>
-	    <%= f.text_area :excerpt, :rows => '8', :class => 'wysiwyg' %>
+	    <%= f.text_area :excerpt, :class => 'wysiwyg' %>
 	  </p>
 
 	  <label for="article_body">
 	    <%= t(:'adva.articles.write_article') %>
-	    <span class="hint inline">(<%= link_to_function t(:'adva.articles.excerpt_add'), "$('excerpt').toggle()" %>)</span>
+	    <span class="hint inline">(<%= link_to_function t(:'adva.articles.excerpt_add'), "$('article_excerpt_wrapper').toggle()" %>)</span>
 	  </label>
-	  <%= f.text_area :body, :class => 'fat wysiwyg', :rows => 25 %>
+	  <%= f.text_area :body, :class => 'big wysiwyg' %>
 
 	  <%= f.label :draft, t(:'adva.articles.question_save_as_draft') %>
 	  <%= f.check_box :draft?, :id => 'article_draft', :label => :'adva.articles.confirm_save_as_draft' %>
