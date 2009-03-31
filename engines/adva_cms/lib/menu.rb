@@ -1,8 +1,8 @@
 # Menu.instance 'admin/menu_main' do |view|
 #   item 'overview', :url => url_for(...)
 #   item 'assets',   :url => url_for(...)
-#   menu 'sections', :populator => lambda {...} # when a populator is given it populates the menu
-#   menu 'settings', :url => url_for(...)       # when an url is given, submenu item has a link
+#   menu 'sections', :populate => lambda {...} # used for populating the menu programmatically
+#   menu 'settings', :url => url_for(...)      # when an url is given, submenu item has a link
 # end
 # 
 # Menu.instance 'admin/menu_main' do
@@ -20,7 +20,7 @@ module Menu
       end
     end
     
-    def reset!
+    def reset
       @@instances = {}
     end
   end
@@ -44,8 +44,9 @@ module Menu
     end
     
     def render(view)
-      reset!
-      apply_definitions!(view)
+      reset
+      apply_definitions(view)
+      highlight(view.request.path)
       view.render :partial => @options[:partial], :locals => { :menu => self }
     end
     
@@ -62,7 +63,11 @@ module Menu
     end
     
     def caption
-      content_tag :span, id
+      options[:caption] ||= url && link_to(id.is_a?(Symbol) ? I18n.t(:"adva.titles.#{id}") : id, url)
+    end
+    
+    def url
+      options[:url] ||= (options[:caption] =~ /href="([^"]*)"/ and $1) or nil # FIXME remove the caption option?
     end
     
     def partial
@@ -86,11 +91,11 @@ module Menu
         object
       end
       
-      def reset!
+      def reset
         @items = []
       end
     
-      def apply_definitions!(view)
+      def apply_definitions(view)
         view.instance_variable_set(:@__menu, self)
         (class << view; self; end).class_eval do
           def method_missing(name, *args, &block)
@@ -99,7 +104,19 @@ module Menu
           end
         end
         definitions.each { |definition| view.instance_eval(&definition) }
+        view.instance_eval(&options[:populate]) if options[:populate]
+        items.each { |item| item.send(:apply_definitions, view) if item.is_a?(Menu::Base) }
       end
+      
+      def highlight(path)
+        # add_class_name('active') if path =~ %r(^#{url}(/|$))
+        items.each { |item| item.highlight(path) }
+      end
+    
+      # def add_class_name(class_name)
+      #   options[:class] ||= ''
+      #   options[:class] = options[:class].to_s.split(' ').push(class_name).uniq.join(' ')
+      # end
   end
   
   class Item
@@ -114,11 +131,23 @@ module Menu
     end
     
     def caption
-      options[:caption] || link_to(id.is_a?(Symbol) ? I18n.t(:"adva.titles.#{id}") : id, url)
+      options[:caption] ||= begin
+        raise "you have to set either :url or :caption" unless url
+        link_to(id.is_a?(Symbol) ? I18n.t(:"adva.titles.#{id}") : id, url)
+      end
     end
     
     def url
-      options[:url] || '#'
+      options[:url] ||= (options[:caption] =~ /href="[^"]*"/ and $1) or nil
+    end
+    
+    def highlight(path)
+      add_class_name('active') if path =~ %r(^#{url}(/|$))
+    end
+    
+    def add_class_name(class_name)
+      options[:class] ||= ''
+      options[:class] = options[:class].to_s.split(' ').push(class_name).uniq.join(' ')
     end
   end
 end

@@ -1,5 +1,7 @@
 <h2><%= t(:'adva.titles.comments') %></h2>
 
 <% f.field_set :comments_settings do %>
-  <%= f.select :comment_filter, filter_options, :label => true, :hint => :'adva.comments.hints.comments_filter' %>
+	<% column do %>
+  	<%= f.select :comment_filter, filter_options, :label => true, :hint => :'adva.comments.hints.comments_filter' %>
+	<% end %>
 <% end %>

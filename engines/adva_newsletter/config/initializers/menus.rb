@@ -1,3 +1,3 @@
-Menu.instance(:'admin.top.left', :class => 'left') do 
+Menus.instance(:'admin.top.left') do
   item :newsletters, :url => admin_newsletters_path(@site), :after => :assets
 end

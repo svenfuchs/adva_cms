@@ -1,22 +1,27 @@
 <% content_for :sidebar do %>
   <% fields_for :article do |f| -%>
-		<% if Rails.plugin?(:adva_assets) %>
-			<h3>Assets</h3>
-			<%= render :partial => 'admin/assets/widget/widget', :locals => { :assets => { :latest => @site.assets.recent, :attached => @article.assets, :bucket => bucket_assets } } %>
-		<% end %>
-
 		<h3><%= t(:'adva.titles.optional_settings') %></h3>
 		<% f.field_set :optional_settings do %>
+		  <%= label_tag :content_locale, t(:"adva.common.locale") %>
+		  <select name="cl"> 
+		    <%= options_for_select I18n.available_locales, Article.locale %>
+		  </select>
+		
 		  <%= f.select :author_id, author_options(@site.users), :selected => author_selected(@article), :label => true %>
 		  <%= f.select :filter, filter_options, {}, :class => 'columnsFilter', :label => true %>
 		  <%= f.select :comment_age, comment_expiration_options, :label => :'adva.titles.comments' %>
 		  <%= f.text_field :permalink, :label => true, :hint => :'adva.articles.hints.permalink' unless @section.try(:single_article_mode) %>
 		  <%= f.text_field :tag_list, :label => true, :hint => :'adva.articles.hints.tags' %>
+
+			<% unless @categories.empty? %>
+			  <label><%= t(:'adva.titles.publish_in_categories') %></label>
+			  <%= render :partial => 'categories/checkboxes', :locals => { :categories => @categories, :content => @article } %>
+			<% end %>
 		<% end %>
 
-		<% unless @categories.empty? %>
-		  <h4><%= t(:'adva.titles.publish_in_categories') %></h4>
-		  <%= render :partial => 'categories/checkboxes', :locals => { :categories => @categories, :content => @article } %>
+		<% if Rails.plugin?(:adva_assets) %>
+			<h3>Assets</h3>
+			<%= render :partial => 'admin/assets/widget/widget', :locals => { :assets => { :latest => @site.assets.recent, :attached => @article.assets, :bucket => bucket_assets } } %>
 		<% end %>
   <% end %>
 <% end %>

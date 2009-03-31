@@ -26,7 +26,7 @@
 
 		t.empty :p, :class => 'empty' do
 			t(:'adva.articles.no_articles_in_section', :section => @section.title) + "\n" +
-			link_to_new(:'adva.articles.links.create_now', [@site, :article])
+			link_to_new(:'adva.articles.links.create_now', [@section, :article])
 		end
 	end
 %>

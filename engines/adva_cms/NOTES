@@ -1,3 +1,15 @@
+MENUS
+
+Menu.instance(:admin).render(self, :select => { :level => 1, :scope => :primary, :items => [:sections] })
+
+
+
+
+
+
+
+
+
 FILTERS
 
 assets:
@@ -31,65 +43,6 @@ comments:
 	- approved
 	- unapproved
 
-------------------------------------------------------------------------------
-
-type: checkboxes or selectbox for model.types
-title/body/teaser contains/is/starts_with/ends_with/
-tagged_with tags
-in category
-author name/email/url contains: text
-state is published/unpublished/approved/unapproved
-created_at/updated_at/published_at since/before/today/yesterday/this_week/this_month/this_year [x days/weeks/months]
-
-------------------------------------------------------------------------------
-
-class Article < ActiveRecord::Base
-	has_filter :text   => { :attributes => [:title, :body, :excerpt] },
-						 :state  => { :states => [:published, :unpublished] }, # :type => :select
-						 :tagged => { :type => :select },
-						 :categorized => :categorized
-
-  has_filter :tagged, :categorized,
-             :text  => [:title, :body, :excerpt],
-             :state => [:published, :unpublished]
-						  
-	has_filter :title, :body, :excerpt, :tagged, :categorized, 
-	           :state => [:published, :unpublished]
-
-  class << self
-    def filter_chain
-      # [filters]
-    end
-  end
-end
-
-
-
-# form should generate params like this
-params = {
-	:filters => {
-		:body  => { :scope => :contains, :query => 'foo' },
-		:state => [:published, :approved],
-		:tags  => 'foo bar',
-		:belongs_to => { :category => 1 }
-	}
-}
-
-<select name="filters[text][body][][scope]"><option value="contains">contains</option></select>
-<input  name="filters[text][body][][query]" value="foo" type="text">
-<select name="filters[text][body][][scope]"><option value="starts_with">starts_with</option></select>
-<input  name="filters[text][body][][query]" value="bar" type="text">
-<input  name="filters[tags][]"  value="foo bar"   type="text">
-<input  name="filters[state][]" value="published" type="checkbox">
-<input  name="filters[state][]" value="approved"  type="checkbox">
-<select name="filters[belongs_to][][category]"><option value="1">Foo</option></select>
-
-<select name="filters[text][][attribute]"><option value="title">Title</option></select>
-<select name="filters[text][][scope]"><option value="contains">contains</option></select>
-<input  name="filters[text][][query]" value="foo" type="text">
-<select name="filters[text][][attribute]"><option value="body">Body</option></select>
-<select name="filters[text][][scope]"><option value="starts_with">starts_with</option></select>
-<input  name="filters[text][][query]" value="bar" type="text">
 
 
 ------------------------------------------------------------------------------

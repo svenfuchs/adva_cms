@@ -1,0 +1,2 @@
+require 'tags'
+require 'menus'

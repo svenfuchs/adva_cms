@@ -1,6 +1,7 @@
 class ArticleFormBuilder < ExtensibleFormBuilder
   after(:article, :default_fields) do |f|
     <<-html
+      <h2>Metatags</h2>
       <fieldset class="clearfix">
         <div class="col">
           #{ f.text_field(:meta_author, :label => true) }
@@ -10,7 +11,7 @@ class ArticleFormBuilder < ExtensibleFormBuilder
 
         <div class="col">
           #{ f.text_field(:meta_keywords, :label => true) }
-          #{ f.text_area(:meta_description, :class => 'short', :label => true) }
+          #{ f.text_area(:meta_description, :class => 'small', :label => true) }
         </div>
       </fieldset>
     html

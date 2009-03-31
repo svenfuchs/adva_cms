@@ -1,7 +1,7 @@
 <% unless menu.empty? %>
 	<ul class="<%= menu.options[:class] %>">
 		<% menu.items.each do |item| %>
-			<li class="<%= item.id %>">
+			<li id="<%= item.id %>" class="<%= item.options[:class] %>">
 				<%= item.caption %>
 				<%= render :partial => item.partial, :object => item if item.is_a?(Menu::Base) %>
 			</li>

@@ -1,6 +1,6 @@
-<h2><%= t(:'adva.articles.titles.edit', :content_locale => Article.locale) %></h2>
+<h2><%= t(:'adva.articles.titles.edit') %></h2>
 
-<%= render :partial => 'admin/shared/content_locale_select', :locals => { :content => @article } %>
+<%= links_to_content_translations(@article) %>
 
 <% split_form_for :article, @article, :url => admin_article_path(@site, @section, @article), :html => {:multipart => true, :method => :put} do |f| -%>
   <%= render :partial => 'form', :locals => {:f => f} %>  

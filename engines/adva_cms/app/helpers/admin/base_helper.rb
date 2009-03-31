@@ -47,9 +47,13 @@ module Admin::BaseHelper
     end
   end
 
-  def links_to_content_translations(content)
-    locales = content.translated_locales.map { |locale| block_given? ? yield(locale.to_s) : locale }
-    t(:"adva.#{content[:type].tableize}.translation_links", :locales => locales.join(', '))
+  def links_to_content_translations(content, &block)
+    return '' if content.new_record?
+    block = Proc.new { |locale| link_to_edit(locale, content, :cl => locale) } unless block
+    locales = content.translated_locales.map { |locale| block.call(locale.to_s) }
+    content_tag(:span, :class => 'content_translations') do
+      t(:"adva.#{content[:type].tableize}.translation_links", :locales => locales.join(', '))
+    end
   end
 
   def page_cached_at(page)

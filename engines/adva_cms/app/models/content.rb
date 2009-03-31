@@ -58,12 +58,13 @@ class Content < ActiveRecord::Base
     section
   end
 
-  # Using callbacks for such lowlevel things is just awkward. So let's hook in here.
   def attributes=(attrs, guard_protected_attributes = true)
     if attrs.delete(:draft).to_i == 1
       attrs = attrs.reject { |k, v| k.to_s =~ /^published_at.+/ } 
       self.published_at = nil
     end
+    # FIXME this is only needed because belongs_to_cacheable can't be non-polymorphic, yet
+    self.author = User.find(attrs[:author_id]) if attrs[:author_id] 
 
     category_ids = attrs.delete(:category_ids)
     returning super do 

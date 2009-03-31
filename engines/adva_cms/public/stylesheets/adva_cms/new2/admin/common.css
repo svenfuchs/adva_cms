@@ -1,0 +1,30 @@
+body {
+	font-size: 10pt;
+  color: #222; 
+  background: #fff;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+a {
+	color: #000;
+	text-decoration: none;
+}
+p {
+	margin-top: 1.2em;
+}
+
+/* flash, errors, notices */
+
+p.flash {
+  margin-top: 0;
+  padding: 0.75em 0;
+}
+p.flash.notice {
+  background: #cfc;
+  color: #051;
+  text-align: center;
+}
+p.flash.error {
+  background: #e6acb6;
+  color: #510;
+  text-align: center;
+}

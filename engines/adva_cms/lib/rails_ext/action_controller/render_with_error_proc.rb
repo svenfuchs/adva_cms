@@ -6,18 +6,12 @@ ActionController::Base.class_eval do
   end
 
   @@field_error_procs = {
-    :below_field => Proc.new do |html_tag, instance|
-      if html_tag =~ /<label/
-        %( <span class="field_with_error">
-             #{html_tag}
-           </span> )
-      else
-        %( <span class="field_with_error">
-             #{html_tag}
-             <span class="error_message">#{Array(instance.error_message).to_sentence}</span>
-           </span> )
-      end
-    end
+    :above_field => Proc.new { |html_tag, instance|
+      html_tag =~ /<label/ ? html_tag : %(<span class="error_message">#{Array(instance.error_message).to_sentence}</span>) + html_tag
+    },
+    :below_field => Proc.new { |html_tag, instance|
+      html_tag =~ /<label/ ? html_tag : html_tag + %(<span class="error_message">#{Array(instance.error_message).to_sentence}</span>)
+    }
   }
   cattr_accessor :field_error_procs
   

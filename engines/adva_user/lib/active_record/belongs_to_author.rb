@@ -8,7 +8,7 @@ module ActiveRecord
       def belongs_to_user(*args)
         options = args.extract_options!
         args = (args.empty? ? [:user] : args)
-        belongs_to_cacheable *args.dup << options
+        belongs_to_cacheable *args.dup << options # FIXME should not be polymorphic!
         
         args.each do |name|
           class_eval <<-code, __FILE__, __LINE__

@@ -30,8 +30,8 @@ class Admin::ArticlesController < Admin::BaseController
   end
 
   def create
+    p params
     @article = @section.articles.build(params[:article])
-
     if @article.save
       trigger_events @article
       flash[:notice] = t(:'adva.articles.flash.create.success')

@@ -34,12 +34,16 @@ register_javascript_expansion \
                   adva_cms/admin/sortable_tree.js adva_cms/admin/sortable_list.js
                   adva_cms/admin/admin.js adva_cms/admin/article.js )
 
+  
+
 register_stylesheet_expansion \
   :default => %w( adva_cms/default adva_cms/common adva_cms/forms ),
   :login   => %w( adva_cms/admin/base adva_cms/admin/form
                   adva_cms/admin/layout/base adva_cms/admin/layout/login ),
   :simple  => %w( adva_cms/admin/base adva_cms/admin/form
                   adva_cms/admin/layout/base adva_cms/admin/layout/simple ),
-  :admin   => %w( adva_cms/admin/form adva_cms/admin/lists
-                  adva_cms/admin/sortable_tree adva_cms/admin/themes
-                  adva_cms/admin/users adva_cms/admin/widgets )
+  :admin   => %w( adva_cms/new2/reset
+  								adva_cms/new2/admin/layout adva_cms/new2/admin/common
+                  adva_cms/new2/admin/navigation adva_cms/new2/admin/sidebar
+                  adva_cms/new2/admin/forms adva_cms/new2/admin/lists
+                  adva_cms/new2/admin/content )

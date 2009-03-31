@@ -5,6 +5,8 @@ en:
         only_integer: can only be whole number.
   adva:
     common:
+      locale: Locale
+      content_locale: Content locale
       about: About
       details: Details
       by_author: by {{author}}
@@ -40,6 +42,7 @@ en:
     titles: 
       accounts: Accounts
       actions: Actions
+      activate: Activate
       archives: Archives
       articles: Articles
       assets: Assets
@@ -52,16 +55,26 @@ en:
       comment: Comment
       comments: Comments
       dashboard: Dashboard
+      deactivate: Deactivate
+      download: Download
+      events: Events
+      files: Files
       general_settings: General settings
       history: History
+      import: Import
+      issues: Issues
       login: Login
       logout: Logout
       register: Register
       manage: Manage
+      new: New
+      edit: Edit
+      delete: Delete
       newsletters: Newsletters
       optional_settings: Optional Settings
       overview: Overview
       permissions: Permissions
+      photos: Photos
       plugin: Plugin
       plugins: Plugins
       posts: Posts
@@ -69,12 +82,15 @@ en:
       publish_in_categories: Publish in these categories
       recent_activity: Recent activity
       restore_defaults: Restore Defaults
+      roles: Roles
       sections: Sections
+      sets: Sets
       settings: Settings
+      show: Show
       site: Site
-      site_users: Site users
       spam_filters: Spam filters
       spam_protection: Spam protection
+      subscriptions: Subscriptions
       success: Success!
       tags: Tags
       templates: Templates
@@ -82,8 +98,8 @@ en:
       themes: Themes
       topic: Topic
       tracking: Tracking
+      upload: Upload
       users: Users
-      roles: Roles
       website: Website
       website_configuration: Website configuration
       website_home_section: Website home section
@@ -208,6 +224,9 @@ en:
         update:
           success: The section has been updated.
           failure: The section could not be updated.
+      total_with_count:
+        one: "Total: {{count}} section"
+        other: "Total: {{count}} sections"
     blog:
       titles:
         date: "from {{date}}"
@@ -246,7 +265,7 @@ en:
       attribution: "by: {{author}}"
     categories:
       columns:
-        name: Name
+        category: Category
       attributes:
         name: name
       titles:
@@ -259,7 +278,8 @@ en:
       links:
         index: Categories
         new: New
-        delete: Delete this category
+        edit: Edit
+        delete: Delete
         reorder: Reorder categories
         create_now: "Create one now &raquo;"
       flash:
@@ -289,7 +309,7 @@ en:
         comments: Comments
         published: Published
         author: Author
-      translation_links: "This article has these translations: {{locales}}"
+      translation_links: "available translations: {{locales}}"
       locale_for_record: "Locale for this article: "
       write_article: Write your article
       question_save_as_draft: Save as Draft?
@@ -298,8 +318,8 @@ en:
         permalink: Use only ASCII characters and use dashes instead of spaces.
         tags: Enter one or more tags separated by a space. You may include spaces by enclosing a tag with quotes. (For example, <em>"Web Dev" Tutorials</em>).
       titles:
-        edit: Edit article in <strong>{{content_locale}}</strong>
-        new: New article in <strong>{{content_locale}}</strong>
+        edit: Edit article
+        new: New article
       total_with_count:
         one: "Total: {{count}} article"
         other: "Total: {{count}} articles"
@@ -308,11 +328,10 @@ en:
         new: New
         edit: Edit
         show: View
-        delete: Delete this article
+        delete: Delete
+        preview: Preview
         reorder: Reorder articles
-        create: Create a new article
         create_now: Create one now
-        preview: Preview this article
       excerpt_add: Add an excerpt
       no_articles_in_section: There are no articles in {{section}}.
       publish_on_date: Publish on this date
@@ -661,8 +680,8 @@ en:
         asssets: Assets
         templates: Templates
         filename: Filename
-      confirm_select: Are you sure you wish to activate this theme?
-      confirm_unselect: Are you sure you wish to deactivate this theme?
+      confirm_activate: Are you sure you wish to activate this theme?
+      confirm_unactivate: Are you sure you wish to deactivate this theme?
       confirm_uninstall: Are you sure you wish to uninstall this theme? (You won't be able to recover it.)
       flash:
         destroy:

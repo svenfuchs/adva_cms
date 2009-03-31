@@ -27,8 +27,20 @@ class AdminSectionsControllerTest < ActionController::TestCase
       r.it_maps :delete, "sections/1",      :action => 'destroy', :id => '1'
     end
   end
-  
-  # FIXME spec and implement :index page for pages
+
+  describe "GET to :index" do
+    action { get :index, default_params }
+    
+    it_guards_permissions :show, :sections
+    
+    with :access_granted do
+      it_assigns :site, :sections
+      it_renders :template, :index do
+        puts @response.body
+        has_tag 'table[id=sections_list] tr td a[href=?]', edit_admin_section_path(@site, @section)
+      end
+    end
+  end
   
   describe "GET to :new" do
     action { get :new, default_params }

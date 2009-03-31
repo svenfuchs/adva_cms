@@ -1,0 +1,23 @@
+<div id="section_contents_summary">
+	<% if @section && !@section.new_record? -%>
+		<% if @section.is_a?(Page) || @section.is_a?(Blog) -%>
+			<%= t(:'adva.articles.count', 					:count => @section.articles.size) %> |
+			<%= t(:'adva.articles.published_count', :count => @section.articles.published.size) %> |
+			<%= t(:'adva.articles.draft_count', 		:count => @section.articles.drafts.size) %>
+		<% elsif @section.is_a?(Album) -%>
+			<%= t(:'adva.albums.photos_count', 					 :count => @section.photos.size) %> |
+			<%= t(:'adva.albums.photos_published_count', :count => @section.photos.published.size) %> |
+			<%= t(:'adva.albums.photos_draft_count', 		 :count => @section.photos.drafts.size) %>
+		<% elsif @section.is_a?(Calendar) -%>
+			<%= t(:'adva.calendar.events_count', 					 :count => @section.events.size) %> |
+			<%= t(:'adva.calendar.events_published_count', :count => @section.events.published.size) %> |
+			<%= t(:'adva.calendar.events_draft_count', 		 :count => @section.events.drafts.size) %>
+		<% elsif @section.is_a?(Wiki) -%>
+			<%= t(:'adva.wiki.wikipages_count', :count => @section.wikipages.size) %>
+		<% elsif @section.is_a?(Forum) -%>
+			<%= t(:'adva.boards.boards_count', :count => @section.boards.size) %> |
+			<%= t(:'adva.boards.topics_count', :count => @section.topics.size) %> |
+			<%= t(:'adva.boards.posts_count',  :count => @section.posts.size) %>
+		<% end -%>
+	<% end -%>
+</div>
