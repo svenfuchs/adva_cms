@@ -74,7 +74,7 @@ module Tags
     end
 
     def render
-      content = self.content || ''
+      content = (self.content || '').dup
       yield(content) if block_given?
       content_tag(tag_name, content.to_s, options)
     end

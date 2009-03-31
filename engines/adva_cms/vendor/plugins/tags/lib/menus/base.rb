@@ -34,9 +34,7 @@ module Menus
 		  build(scope) if options.delete(:build)
 		  activate(options.delete(:activate)) if options.key?(:activate)
 		  html = !empty? && matches?(options.slice(:level)) ? render_menu(scope, options) : render_children(scope, options)
-		  if parent.try(:matches?, options.slice(:level)) || parent.nil? && empty?
-		    html = Tags::Li.new(content.render + html, :class => (active == true ? 'active' : nil)).render
-	    end
+		  html = render_content(html) if parent.try(:matches?, options.slice(:level)) || parent.nil? && empty?
 		  html
 	  end
 	  
@@ -65,6 +63,7 @@ module Menus
         klass.send(:define_method, :method_missing) { |m, *args, &block| @_menu_.respond_to?(m) ? @_menu_.send(m, *args, &block) : super }
 
         definitions.each { |definition| scope.instance_eval(&definition) }
+        scope.instance_eval(&options[:populate]) if options[:populate]
         klass.send(:remove_method, :method_missing)
 
         children.each { |child| child.send(:build, scope) if child.respond_to?(:build) }
@@ -79,5 +78,35 @@ module Menus
       def render_children(scope, options)
         children.map { |child| child.render(scope, options) }.join
       end
+      
+      def render_content(html)
+		    Tags::Li.new(content.render + html, :class => (active == true ? 'active' : nil)).render
+      end
 	end
+	
+	class SectionsMenu < Base
+	  attr_reader :sections
+	  
+	  def initialize(*args)
+	    @sections = []
+	    super
+    end
+    
+	  def section(id, options = {}, &block)
+	    @sections << Menus::Base.new(id, options)
+    end
+	  
+	  def content
+	    @content ||= begin
+	      tag = url ? Tags::A.new(text, :href => url) : Tags::Span.new(text)
+	      tag.render + Tags::Ul.new(:id => 'sections').render do |html|
+	        sections.each { |section| html << Tags::Li.new(Tags::A.new(section.id, :href => section.url).render).render }
+        end
+      end
+    end
+    
+    def render_content(html)
+	    Tags::Li.new(content + html, :class => (active == true ? 'active' : nil)).render
+    end
+  end
 end
