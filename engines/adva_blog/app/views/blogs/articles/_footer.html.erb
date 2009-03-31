@@ -35,7 +35,7 @@
   <%= render :partial => 'shared/footer' %>
   
   <ul id="feeds">
-    <li><%= link_to t( :'adva.links.entries_feed' ),  blog_url(@section, :format => :atom) %></li>
+    <li><%= link_to t( :'adva.links.entries_feed' ),  blog_feed_url(@section, :format => :atom) %></li>
     <li><%= link_to t( :'adva.links.comments_feed' ), blog_comments_url(@section, :format => :atom) %></li>
   </ul>
 <% end %>
