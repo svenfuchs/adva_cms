@@ -47,8 +47,10 @@ end
 Menus.instance(:admin) do
   if @site and !@site.new_record?
     item :overview, :url => admin_site_path(@site), :branch => :left
-
-    item :sections, :url => index_path([@site, :section]), :branch => :left do 
+    
+    sections = lambda { @site.sections.each { |s| section s.title, :url => admin_section_contents_path(s) } }
+    
+    item :sections, :url => index_path([@site, :section]), :branch => :left, :type => Menus::SectionsMenu, :populate => sections do 
       item :sections, :url => index_path([@site, :section]) do
         item :new, :url => new_path([@site, :section])
         if @section and !@section.new_record?
