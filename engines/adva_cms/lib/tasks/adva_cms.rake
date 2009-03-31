@@ -90,7 +90,7 @@ namespace :adva do
   end
 
   def all(type)
-    Dir["#{source(type)}/*"].map { |path| File.basename(path) }
+    Dir["#{absolute_source(type)}/*"].map { |path| File.basename(path) }
   end
 
   def rails_root
@@ -98,6 +98,10 @@ namespace :adva do
   end
 
   def source(type, subdir = nil)
+    "../adva/#{type}" + (subdir ? "/#{subdir}" : '')
+  end
+
+  def absolute_source(type, subdir = nil)
     "#{rails_root}/vendor/adva/#{type}" + (subdir ? "/#{subdir}" : '')
   end
 
