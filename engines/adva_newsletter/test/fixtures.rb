@@ -1,13 +1,10 @@
-Time.stubs(:now).returns Time.utc(2009,2,3, 15,00,00)
-Date.stubs(:today).returns Date.civil(2009,2,3)
-
 user = User.find_by_first_name("a user")
 admin = User.find_by_first_name("an admin")
 
 user_newsletter = User.create! :first_name => 'user newsletter',
                                :email => 'user-newsletter@example.com',
                                :password => 'password',
-                               :verified_at => Time.now
+                               :verified_at => Time.utc(2009, 2, 3, 15, 0, 0)
 
 site         = Site.create! :name => "site with newsletter",
                             :title => "site with newsletter title",

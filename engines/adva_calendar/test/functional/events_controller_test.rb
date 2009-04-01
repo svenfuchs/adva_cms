@@ -15,6 +15,7 @@ class EventsControllerTest < ActionController::TestCase
   view :common do
     has_tag 'div[id=footer]'
   end
+
   view :index do
     shows :common
     has_tag 'form[id=calendar_search]'
@@ -56,48 +57,77 @@ class EventsControllerTest < ActionController::TestCase
   end
 
   describe "GET to :index" do
+    before do
+      @date = Date.today
+      @timespan = [@date, nil]
+    end
+
     action { get :index, default_params}
+
     it_renders_view :index
-    it_assigns :current_timespan => [Date.today, nil]
     it_assigns :events => lambda { @section.events.published.upcoming }
+
+    it "assigns current timespan" do
+      assigns(:current_timespan).should == @timespan
+    end
   end
 
   describe "GET to :index for last month" do
-    action { get :index, default_params.merge(:year => Date.today.year, :month => Date.today.month - 1) }
+    before do
+      @date = Date.today - 1.month
+      @timespan = [@date.beginning_of_month, @date.end_of_month]
+    end
+
+    action { get :index, default_params.merge(:year => @date.year, :month => @date.month) }
+
     it_renders_view :index
-    timespan = [(Date.today - 1.month).beginning_of_month, (Date.today - 1.month).end_of_month]
-    it_assigns :current_timespan => timespan
-    it_assigns :events => lambda { @section.events.published.upcoming(timespan) }
+    it_assigns :events => lambda { @section.events.published.upcoming(@timespan) }
+
+    it "assigns current timespan" do
+      assigns(:current_timespan).should == @timespan
+    end
   end
 
   describe "GET to :index with a specific day" do
-    action { get :index, default_params.merge(:year => Date.today.year, :month => Date.today.month, :day => Date.today.day + 4) }
+    before do
+      @date = Date.today + 4.days
+      @timespan = [@date.beginning_of_day, @date.end_of_day]
+    end
+
+    action { get :index, default_params.merge(:year => @date.year, :month => @date.month, :day => @date.day) }
+
     it_renders_view :index
-    timespan = [Date.today + 4.days, (Date.today + 4.days).end_of_day]
-    it_assigns :current_timespan => timespan
-    it_assigns :events => lambda { @section.events.published.upcoming( timespan ) }
+    it_assigns :events => lambda { @section.events.published.upcoming(@timespan) }
+
+    it "assigns current timespan" do
+      assigns(:current_timespan).should == @timespan
+    end
   end
 
   describe "GET to :index for recently updated events" do
     action { get :index, default_params.merge(:scope => 'recently_added') }
+
     it_assigns :events => lambda { @section.events.published.recently_added }
     it_renders_view :index
   end
 
   describe "GET to :index for elapsed updated events" do
     action { get :index, default_params.merge(:scope => 'elapsed') }
+
     it_assigns :events => lambda { @section.events.published.elapsed }
     it_renders_view :index
   end
 
    describe "GET to :index for a category" do
      action { get :index, default_params.merge(:category_id => @section.categories.first.id) }
+
      it_assigns :category => lambda { @section.categories.first }
      it_assigns :events => lambda { @section.events.published.by_categories(@section.categories.first.id) }
    end
 
   describe "GET to :show" do
     action { get :show, default_params.merge(:permalink => @section.events.published.first.permalink) }
+
     it_assigns :event
     it_renders_view :show
     it_renders_template :show

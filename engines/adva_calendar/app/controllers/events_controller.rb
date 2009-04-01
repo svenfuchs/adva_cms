@@ -56,15 +56,15 @@ class EventsController < BaseController
       if m == 0 and d == 0
         @current_timespan_format = t(:'adva.calendar.titles.formats.year')
         date = Date.new(y)
-        @current_timespan = [date, date.end_of_year]
+        @current_timespan = [date.beginning_of_year, date.end_of_year]
       elsif m > 0 and d == 0
         @current_timespan_format = t(:'adva.calendar.titles.formats.year_month')
         date = Date.new(y, m)
-        @current_timespan = [date, date.end_of_month]
+        @current_timespan = [date.beginning_of_month, date.end_of_month]
       elsif m > 0 and d > 0
         @current_timespan_format = t(:'adva.calendar.titles.formats.year_month_day')
         date = Date.new(y, m, d)
-        @current_timespan = [date, date.end_of_day]
+        @current_timespan = [date.beginning_of_day, date.end_of_day]
       end
     end
 
