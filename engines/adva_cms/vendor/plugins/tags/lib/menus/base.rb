@@ -60,7 +60,11 @@ module Menus
 
         klass = (class << scope; self; end)
         scope.instance_variable_set(:@_menu_, self)
-        klass.send(:define_method, :method_missing) { |m, *args, &block| @_menu_.respond_to?(m) ? @_menu_.send(m, *args, &block) : super }
+        klass.class_eval do
+          def method_missing(m, *args, &block)
+            @_menu_.respond_to?(m) ? @_menu_.send(m, *args, &block) : super
+          end
+        end
 
         definitions.each { |definition| scope.instance_eval(&definition) }
         scope.instance_eval(&options[:populate]) if options[:populate]
