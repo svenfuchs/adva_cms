@@ -65,11 +65,8 @@ class EventsControllerTest < ActionController::TestCase
     action { get :index, default_params}
 
     it_renders_view :index
+    it_assigns :current_timespan => lambda { @timespan }
     it_assigns :events => lambda { @section.events.published.upcoming }
-
-    it "assigns current timespan" do
-      assigns(:current_timespan).should == @timespan
-    end
   end
 
   describe "GET to :index for last month" do
@@ -81,11 +78,8 @@ class EventsControllerTest < ActionController::TestCase
     action { get :index, default_params.merge(:year => @date.year, :month => @date.month) }
 
     it_renders_view :index
+    it_assigns :current_timespan => lambda { @timespan }
     it_assigns :events => lambda { @section.events.published.upcoming(@timespan) }
-
-    it "assigns current timespan" do
-      assigns(:current_timespan).should == @timespan
-    end
   end
 
   describe "GET to :index with a specific day" do
@@ -97,11 +91,8 @@ class EventsControllerTest < ActionController::TestCase
     action { get :index, default_params.merge(:year => @date.year, :month => @date.month, :day => @date.day) }
 
     it_renders_view :index
+    it_assigns :current_timespan => lambda { @timespan }
     it_assigns :events => lambda { @section.events.published.upcoming(@timespan) }
-
-    it "assigns current timespan" do
-      assigns(:current_timespan).should == @timespan
-    end
   end
 
   describe "GET to :index for recently updated events" do

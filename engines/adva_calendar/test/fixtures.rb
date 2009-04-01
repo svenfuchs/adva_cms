@@ -21,7 +21,7 @@ Calendar.create! :site        => site_with_calendars,
                  :permalink   => 'calendar-with-events'
 
 
-now = Time.utc(2009, 2, 3, 15, 0, 0)
+time = Time.utc(2009, 2, 3, 15, 0, 0)
 
 # 2009-2-8
 an_upcoming_event =
@@ -29,9 +29,9 @@ CalendarEvent.create! :section => calendar_with_events,
                       :title => 'an upcoming event',
                       :body => 'We are so much looking forward for this event',
                       :user => user,
-                      :start_date => now + 5.days,
-                      :end_date => now + 5.days + 2.hours,
-                      :published_at => now
+                      :start_date => time + 5.days,
+                      :end_date => time + 5.days + 2.hours,
+                      :published_at => time
 
 # 2009-1-29 to 2009-2-3
 an_ongoing_event =
@@ -39,9 +39,9 @@ CalendarEvent.create! :section => calendar_with_events,
                       :title => 'an ongoing event',
                       :body => 'This event started earlier and will end soon',
                       :user => user,
-                      :start_date => now - 5.days,
-                      :end_date => now + 2.hours,
-                      :published_at => now - 1.week
+                      :start_date => time - 5.days,
+                      :end_date => time + 2.hours,
+                      :published_at => time - 1.week
 
 # 2009-1-31
 a_past_event =
@@ -49,9 +49,9 @@ CalendarEvent.create! :section => calendar_with_events,
                       :title => 'a past event',
                       :body => 'The event took place three days ago',
                       :user => user,
-                      :start_date => now - 3.days,
-                      :end_date => now - 3.days + 2.hours,
-                      :published_at => now - 1.week
+                      :start_date => time - 3.days,
+                      :end_date => time - 3.days + 2.hours,
+                      :published_at => time - 1.week
 
 # 2008-2-3
 a_event_last_year =
@@ -59,8 +59,8 @@ CalendarEvent.create! :section => calendar_with_events,
                       :title => 'a event last year',
                       :body => 'We had a lot of fun last year',
                       :user => user,
-                      :start_date => now - 1.year,
-                      :end_date => now - 1.year + 2.hours,
+                      :start_date => time - 1.year,
+                      :end_date => time - 1.year + 2.hours,
                       :published_at => nil
 
 category_jazz =
