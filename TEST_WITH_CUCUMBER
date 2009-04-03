@@ -51,12 +51,20 @@ Over the jar that was installed with the Selenium gem:
 
 GEM_INSTALL_DIR/Selenium-1.1.14/lib/selenium/openqa/selenium-server.jar.txt # yes, with .txt in the end
 
-Step 6: Run Selenium
+Step 6: Create a selenium environment
+=====================================
+$ cp config/environments/test.rb config/environments/selenium.rb
+
+# database.yml
+selenium:
+  test
+
+Step 7: Run Selenium
 ====================
 
 $ selenium
 
-Step 7: Run stories with automated browser (firefox)
+Step 8: Run stories with automated browser (firefox)
 =====================================================
 
 $ script/cucumber -p selenium
