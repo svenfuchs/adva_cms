@@ -1,4 +1,4 @@
-I18n.load_path += Dir[File.dirname(__FILE__) + '/config/locales/**/*.yml']
+I18n.load_path += Dir[File.dirname(__FILE__) + '/locale/**/*.yml']
 
 require 'theme_support'
 
