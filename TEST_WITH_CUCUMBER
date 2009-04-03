@@ -1,0 +1,106 @@
+PRE-REQUISITES
+==============
+
+Java Runtime Environment 1.5.0+ for Selenium tests
+
+
+
+SETUP
+=====
+
+Step 1: Install BDD tools
+=========================
+# config/environments/test.rb
+config.gem "rspec-rails", :lib => false
+config.gem "rspec", :lib => false
+config.gem "cucumber"
+config.gem "webrat"
+
+(sudo) rake gems:install gems:unpack RAILS_ENV=test
+
+$ script/generate rspec
+$ script/generate cucumber
+
+Step 2: Configure your Cucumber profile
+=======================================
+$ ln -s vendor/adva/features/cucumber.yml . # symlink into Rails.root directory
+
+Step 3: Run the stories with simulated browser (webrat)
+=======================================================
+$ script/cucumber
+
+Step 4: Install the Selenium gems
+=================================
+
+$ (sudo) gem install Selenium selenium-client
+
+Step 5: Install Selenium Remote
+===============================
+
+Unfortunately the jar that the Selenium gem (version 1.1.14) comes with does not work with Firefox 3. So we have to get the latest jar from the Selenium-RC site:
+
+Download the Selenium RC Beta 2:
+
+http://seleniumhq.org/download/
+
+Once you have extracted the download we copy:
+
+selenium-remote-control-1.0-beta-2/selenium-server-1.0-beta-2/selenium-server.jar
+
+Over the jar that was installed with the Selenium gem:
+
+GEM_INSTALL_DIR/Selenium-1.1.14/lib/selenium/openqa/selenium-server.jar.txt # yes, with .txt in the end
+
+Step 6: Run Selenium
+====================
+
+$ selenium
+
+Step 7: Run stories with automated browser (firefox)
+=====================================================
+
+$ script/cucumber -p selenium
+
+
+
+
+
+BEHIND THE SCENES
+=================
+Adva root now contains a directory called features:
+features/
+  cucumber.yml                  # Contains the Cucumber profiles, mandatory.     
+  steps_definitions/            # Global steps definitions
+    webrat_steps.rb             # A set of useful steps, automatically included everywhere.
+  support/                      # Global configurations for steps, paths, etc..
+    env.rb                      # Common support for both simulated and automated browser tests
+    javascript.rb               # Support for automated browser tests (firefox)
+    paths.rb                    # Common paths definitions
+    plain.rb                    # Support for simulated browser tests (webrat)
+
+For now cucumber.yml contains hardcoded paths for test only adva_calendar engine.
+In the *future* it should be replaced by Rake tasks like:
+  $ rake cucumber                               # run all the simulated stories
+  $ rake cucumber:webrat                        # same of above
+  $ rake cucumber:selenium                      # run all the automated stories
+  $ rake cucumber:webrat PLUGIN=adva_calendar   # run simulated stories for adva_calendar only
+
+
+
+The current setup automatically load fixtures from adva_cms and prepare the database.
+For now they aren't automatically instantiated and available as instance vars, some of them are
+manually loaded by features/support/javascript.rb, just for run the only example of adva_calendar.
+In the *future* we should be able to load and instantiate all the fixtures from the current engine
+we are testing.
+
+
+
+Each engine should have the following structure for features:
+adva_calendar/
+  # ...
+  features/
+    javascript/                 # describe stories for automated browser (firefox)
+      create_events.feature
+    plain/                      # describe stories for simulated browser (webrat)
+    step_definitions            # define steps for stories
+      calendar_steps.rb
