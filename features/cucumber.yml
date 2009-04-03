@@ -1,0 +1,2 @@
+default: -r vendor/adva/features/support/env.rb -r vendor/adva/features/support/plain.rb -r vendor/adva/engines/adva_calendar/features/step_definitions vendor/adva/engines/adva_calendar/features/plain
+selenium: -r vendor/adva/features/support/env.rb -r vendor/adva/features/support/javascript.rb -r vendor/adva/engines/adva_calendar/features/step_definitions vendor/adva/engines/adva_calendar/features/javascript vendor/adva/engines/adva_calendar/features/plain
