@@ -152,6 +152,11 @@ ActionController::Dispatcher.to_prepare do
                 :'show ticket'    => :user,
                 :'create ticket'  => :user,
                 :'update ticket'  => :author,
-                :'destroy ticket' => :author
+                :'destroy ticket' => :author,
+
+                :'show ticket_state'    => :user,
+                :'create ticket_state'  => :admin,
+                :'update ticket_state'  => :admin,
+                :'destroy ticket_state' => :admin
   end
 end
