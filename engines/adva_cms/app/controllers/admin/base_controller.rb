@@ -79,7 +79,7 @@ class Admin::BaseController < ApplicationController
     end
 
     def set_site
-      @site = Site.find(params[:site_id]) if params[:site_id]
+      @site = params[:site] ? Site.find(params[:site_id]) : Site.find_by_host(request.host_with_port)
     end
 
     def set_section
