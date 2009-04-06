@@ -86,8 +86,13 @@ de:
 
   support:
     array:
-      sentence_connector: "und"
-      skip_last_comma: true
+      # older Rails versions
+      # sentence_connector: "und"
+      # skip_last_comma: true
+      # Rails >= v.2.3
+      words_connector: ", "
+      two_words_connector: " und "
+      last_word_connector: " und "
         
   activerecord:
     errors:
