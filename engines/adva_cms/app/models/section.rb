@@ -34,6 +34,9 @@ class Section < ActiveRecord::Base
       @@types << type
       @@types.uniq!
     end
+    def content_type
+      'Article'
+    end
   end
 
   def owner

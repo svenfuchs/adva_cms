@@ -13,13 +13,12 @@ require 'registry' # reload them between requests (FIXME ... this doesn't seem t
 
 ExtensibleFormBuilder.default_class_names(:field_set) << 'clearfix' # sigh
 
-config.to_prepare do
-  Registry.set :redirect, {
-    :login        => lambda {|c| c.send :admin_sites_path },
-    :verify       => '/',
-    :site_deleted => lambda {|c| c.send :admin_sites_path }
-  }
-end
+Registry.set :redirect, {
+  :login        => lambda {|c| c.send :admin_sites_path },
+  :logout       => '/',
+  :verify       => '/',
+  :site_deleted => lambda {|c| c.send :admin_sites_path }
+}
 
 I18n.load_path += Dir[File.dirname(__FILE__) + '/locale/**/*.yml']
 

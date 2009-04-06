@@ -83,9 +83,10 @@ Required: Rails 2.3.2.1 or newer, ImageMagick for image handling
 # Clone the adva-cms ( this might take a bit, grab a coffee meanwhile :) )
   git clone git://github.com/svenfuchs/adva_cms.git vendor/adva  # or use: git submodule add ...
 
-# Install the core engines and copy the assets
-  rake adva:install:core -R vendor/adva/engines/adva_cms/lib/tasks # install adva-cms to vendor/plugins/
-  rake adva:assets:copy                                            # copy plugin assets to public/
+rake adva:install:core -R vendor/adva/engines/adva_cms/lib/tasks # installs adva-cms to vendor/plugins
+rake assets:copy # copies plugin assets to public/
+rake db:migrate  # copies engine migrations to app, does usual migration and removes
+                 # engine migrations after it's done
 
 # Migrate the database and start the server
   rake db:migrate
