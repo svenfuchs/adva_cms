@@ -170,6 +170,7 @@ Running tests for adva-cms version 0.1.2 or newer:
   ruby script/test-adva-cms -p 	# Prepares the database and runs all adva-cms tests
   ruby script/test-adva-cms    	# Runs all adva-cms tests without preparing the database
   ruby script/test-adva-cms vendor/plugins/adva_wiki # Runs only adva_wiki tests
+  WEBRAT_MODE=selenium ruby script/test-adva-cms     # Runs integration tests in automated browser mode
 
 Please check out /doc directory for high level overview about adva-cms.
 
