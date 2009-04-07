@@ -1,0 +1,28 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title><%= "#{@plugin} - #{@title}" %></title>
+
+    <script src="/jquery.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/testrunner.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" href="/testsuite.css" type="text/css" media="screen" charset="utf-8">
+  
+    <script src="<%= @target %>" type="text/javascript" charset="utf-8"></script>
+
+    <script type="text/javascript" charset="utf-8">
+      $(document).ready(function(){
+       <%= @test_suite %>
+      });
+    </script>
+
+  </head>
+  <body>
+   <h1><%= "#{@plugin.upcase} | #{@title.upcase}" %></h1>
+   <h2 id="banner"></h2>
+   <h2 id="userAgent"></h2>
+   <ol id="tests"></ol>
+   <div id="main"></div>
+  </body>
+</html>
