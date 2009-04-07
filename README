@@ -158,9 +158,30 @@ Running tests for adva-cms version 0.1.2 or newer:
   ruby script/test-adva-cms -p 	# Prepares the database and runs all adva-cms tests
   ruby script/test-adva-cms    	# Runs all adva-cms tests without preparing the database
   ruby script/test-adva-cms vendor/plugins/adva_wiki # Runs only adva_wiki tests
-  WEBRAT_MODE=selenium ruby script/test-adva-cms     # Runs integration tests in automated browser mode
+  WEBRAT_MODE=selenium ruby script/test-adva-cms     # Runs integration tests in automated browser mode (see Installing Selenium section)
 
 Please check out /doc directory for high level overview about adva-cms.
+
+
+Installing Selenium
+===================
+
+$ (sudo) gem install Selenium selenium-client
+
+
+Unfortunately the jar that the Selenium gem (version 1.1.14) comes with does not work with Firefox 3. So we have to get the latest jar from the Selenium-RC site:
+
+Download the Selenium RC Beta 2:
+
+http://seleniumhq.org/download/
+
+Once you have extracted the download we copy:
+
+selenium-remote-control-1.0-beta-2/selenium-server-1.0-beta-2/selenium-server.jar
+
+Over the jar that was installed with the Selenium gem:
+
+GEM_INSTALL_DIR/Selenium-1.1.14/lib/selenium/openqa/selenium-server.jar.txt # yes, with .txt in the end
 
  
 Development
