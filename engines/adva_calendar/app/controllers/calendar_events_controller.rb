@@ -76,7 +76,6 @@ class CalendarEventsController < BaseController
     end
 
     def set_event
-      p params
       @event = @section.events.published.find_by_permalink params[:permalink]
       if !@event || (@event.draft? && !can_preview?)
         raise ActiveRecord::RecordNotFound

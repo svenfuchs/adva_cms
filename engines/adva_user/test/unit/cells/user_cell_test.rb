@@ -1,3 +1,5 @@
+# FIXME Commented out test! Convert!
+#
 # require File.dirname(__FILE__) + '/../spec_helper'
 # 
 # describe UserCell do

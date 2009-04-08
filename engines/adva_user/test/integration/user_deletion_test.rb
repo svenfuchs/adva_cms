@@ -14,8 +14,8 @@ module IntegrationTests
       # TODO
       # there's no user profile page so far
       # visit user_path
-      # click_link 'Edit User'
-      # click_link 'delete'
+      # click_link 'Edit'
+      # click_link 'Delete'
 
       # user deletes the own profile
       delete user_path

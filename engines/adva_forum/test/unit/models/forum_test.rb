@@ -88,8 +88,8 @@ class ForumTest < ActiveSupport::TestCase
   # CLASS METHODS
     
   # .content_type
-  test "Forum#content_type returns 'Board'" do
-    Forum.content_type.should == 'Board'
+  test "Forum#content_type returns 'Topic'" do
+    Forum.content_type.should == 'Topic'
   end
   
   # INSTANCE METHODS

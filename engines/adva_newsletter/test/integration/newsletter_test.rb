@@ -20,12 +20,12 @@ private
     visit "/admin/sites/#{@site.id}/newsletters"
 
     assert_template "admin/newsletters/index"
-    response.body.should have_tag(".empty>a", "Create a newsletter")
+    response.body.should have_tag(".empty>a", /Create one now/)
   end
 
   def submit_invalid_newsletter_and_fail
     assert_template "admin/newsletters/index"
-    click_link "Create a newsletter"
+    click_link "New"
 
     assert_template "admin/newsletters/new"
     fill_in :newsletter_title, :with => nil
@@ -33,14 +33,14 @@ private
     click_button "Save"
 
     assert_template "admin/newsletters/new"
-    response.body.should have_tag(".field_with_error")
+    response.body.should have_tag(".error_message")
 
     click_link "Newsletters"
   end
 
   def submit_newsletter
     assert_template "admin/newsletters/index"
-    click_link "Create a newsletter"
+    click_link "New"
 
     fill_in :newsletter_title, :with => "newsletter test title"
     fill_in :newsletter_desc, :with => "newsletter test desc"
@@ -51,6 +51,8 @@ private
   end
 end
 
+# FIXME implement these, if already implemented, delete these
+#
 # class NewsletterIntegrationTest < ActionController::IntegrationTest
   # def setup
     # super

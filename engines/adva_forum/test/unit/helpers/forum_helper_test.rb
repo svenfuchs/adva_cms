@@ -37,7 +37,8 @@ class ForumHelperTest < ActionView::TestCase
   
   # .link_to_last_post
   test "#link_to_last_post, links to the last post of a topic" do
-    link_to_last_post(@topic).should have_tag('a[href^=?]', "#{@topic_path}#comment")
+    last_post_id = @topic.last_post.id
+    link_to_last_post(@topic).should have_tag('a[anchor^=?]', "comment_#{last_post_id}")
   end
 
   test "#link_to_last_post, given no String preceeds the topic in the argument list it uses the last post's created_at date as link text" do

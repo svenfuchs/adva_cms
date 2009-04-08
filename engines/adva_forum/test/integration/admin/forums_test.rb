@@ -26,12 +26,6 @@ class ForumsTest < ActionController::IntegrationTest
     delete_the_section
   end
   
-  test 'an admin visits the forum frontend' do
-    login_as_admin
-    visit_forum_backend
-    visit_frontend
-  end
-  
   def visit_forum_backend
     @forum = Forum.find_by_permalink('a-forum-with-boards')
     @board = @forum.boards.find_by_title('a board')
@@ -59,7 +53,7 @@ class ForumsTest < ActionController::IntegrationTest
     
     @site.reload
     assert @site.sections.count == sections_count + 1
-    assert_template 'admin/boards/index'
+    assert_template 'admin/topics/index'
   end
   
   def fill_in_and_submit_edit_section_form
@@ -76,14 +70,9 @@ class ForumsTest < ActionController::IntegrationTest
   def delete_the_section
     section_count = @site.sections.size
     
-    click_link 'Delete this section'
+    click_link 'Delete'
     
     assert @site.sections.size == section_count - 1
     assert_template 'admin/sections/new'
-  end
-  
-  def visit_frontend
-    click_link 'Forum'
-    assert_template '/'
   end
 end

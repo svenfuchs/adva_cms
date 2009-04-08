@@ -36,7 +36,6 @@ class AdminSectionsControllerTest < ActionController::TestCase
     with :access_granted do
       it_assigns :site, :sections
       it_renders :template, :index do
-        puts @response.body
         has_tag 'table[id=sections_list] tr td a[href=?]', edit_admin_section_path(@site, @section)
       end
     end

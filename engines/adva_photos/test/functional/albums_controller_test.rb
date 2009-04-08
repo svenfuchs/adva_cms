@@ -33,7 +33,7 @@ class AlbumsControllerTest < ActionController::TestCase
       action { get :show, photo_params }
       
       it_assigns_flash_cookie :error => :not_nil
-      it_redirects_to 'an-album'
+      it_redirects_to '/an-album'
     end
   end
   
