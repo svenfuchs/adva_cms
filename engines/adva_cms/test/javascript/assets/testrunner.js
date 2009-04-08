@@ -213,7 +213,20 @@ var config = {
 	// block until document ready
 	blocking: true,
 	//restrict modules/tests by get parameters
-	filters: GETParams,
+  // filters: GETParams,
+  // Made compatible with jstest.rb
+  filters: $.grep(GETParams, function(param, i){ return !/^resultsURL/.test(param) && !/^t/.test(param) }),
+  // TODO dry the selector
+  resultsParams: $.map(GETParams, function(param, i){ 
+    if(/^resultsURL/.test(param)){
+      // TODO find the proper jQuery method
+      return param.split("resultsURL=")[1];
+    } else if (/^t/.test(param)){
+      return param;
+    } else {
+      return null;
+    }
+  }),
 	isLocal: !!(window.location.protocol == 'file:')
 };
 
@@ -235,7 +248,15 @@ $.extend(window, {
 		equiv: equiv,
 		ok: ok,
 		done: function(failures, total){},
-		log: function(result, message){}
+		log: function(result, message){},
+		postResults: function(resultsParams){
+		  $.ajax({
+		    type: "GET",
+		    url: resultsParams[0],
+		    data: resultsParams[1],
+		    async: false
+		  });
+		}
 	},
 	// legacy methods below
 	isSet: isSet,
@@ -331,6 +352,7 @@ function runTest() {
 			.join(''))
 			.appendTo("body");
 		$("#banner").addClass(config.stats.bad ? "fail" : "pass");
+		QUnit.postResults(config.resultsParams);
 		QUnit.done( config.stats.bad, config.stats.all );
 	});
 }
