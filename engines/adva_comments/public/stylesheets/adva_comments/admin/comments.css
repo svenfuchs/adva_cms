@@ -1,0 +1,18 @@
+#comments_list li {
+	padding: 15px 40px;
+	background: url(/images/adva_cms/icons/comment.png) no-repeat 15px 15px;
+}
+#comments_list li.highlight {
+  padding: 20px 20px 20px 55px !important;
+  padding-bottom: 3px;
+  border: 1px solid #add;
+  background-color: #eaf6f6 !important;
+  margin: 20px 0;	
+}
+#comments_list blockquote {
+	margin: 0px 0px 10px 0px;
+}
+#comments_list cite {
+	font-size: 11px;
+	font-style: normal;
+}

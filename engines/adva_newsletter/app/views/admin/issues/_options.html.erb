@@ -1,0 +1,5 @@
+<% fields_for :issue do |f| %>
+  <% f.field_set :optional_settings do %>
+    <%= f.select :filter, filter_options, {}, :class => 'columnsFilter', :label => :'adva.labels.filters' %>
+  <% end %>
+<% end %>
