@@ -1,5 +1,5 @@
 <h3>
-  Sections
+  <%= t(:'adva.titles.sections') %>
   <% if @site.sections.size > 1 %>
     <%= link_to_function t(:'adva.sections.links.reorder'), "sections_tree.toggle(this, '#{t(:'adva.resources.reordering_done')}');", :id => 'reorder_sections' %>
     <%= image_tag '/images/adva_cms/indicator.gif', :id => 'sections_indicator', :style => 'display: none;' %>
