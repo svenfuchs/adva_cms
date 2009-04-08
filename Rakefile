@@ -3,10 +3,10 @@ require File.expand_path(File.dirname(__FILE__) + "/engines/adva_cms/test/javasc
 namespace :test do
   desc "Runs all the JavaScript unit tests and collects the results"
   AdvaJavaScriptTestTask.new(:js) do |t|
-    tests_to_run     = ENV['TESTS']    && ENV['TESTS'].split(',')
+    plugins_to_test  = ENV['PLUGINS']  && ENV['PLUGINS'].split(',')
     browsers_to_test = ENV['BROWSERS'] && ENV['BROWSERS'].split(',')
 
-    t.prepare_plugins(tests_to_run)
+    t.prepare_plugins(plugins_to_test)
     t.prepare_tests
     t.mount("/", File.expand_path(File.dirname(__FILE__) + "/engines/adva_cms/test/javascript/assets"))
     t.mount_plugins

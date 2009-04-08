@@ -368,9 +368,14 @@ class JavaScriptTestTask < ::Rake::TaskLib
 end
 
 class AdvaJavaScriptTestTask < JavaScriptTestTask  
-  # TODO implement properly
-  def prepare_plugins(tests_to_run)
-    @plugins = { "adva_calendar" => File.expand_path(File.dirname(__FILE__) + "/../../../../adva_calendar") }
+  def prepare_plugins(plugins)
+    plugins ||= Dir[File.expand_path(File.dirname(__FILE__) + "/../../../../*")].map{ |dir| File.basename(dir) }    
+    @plugins = plugins.inject({}) do |result,plugin|
+      plugin_root = File.expand_path(File.dirname(__FILE__) + "/../../../../#{plugin}")
+      raise "Unknown plugin #{plugin}" unless File.directory?(plugin_root)
+      result[plugin] = plugin_root
+      result
+    end
   end
 
   def mount_plugins
