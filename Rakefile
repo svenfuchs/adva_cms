@@ -8,7 +8,7 @@ namespace :test do
 
     t.prepare_plugins(plugins_to_test)
     t.prepare_tests
-    t.mount("/", File.expand_path(File.dirname(__FILE__) + "/engines/adva_cms/test/javascript/assets"))
+    t.mount_root
     t.mount_plugins
 
     %w( safari firefox ie konqueror opera ).each do |browser|
