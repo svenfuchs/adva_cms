@@ -8,7 +8,7 @@ module Tags
     end
 	  
 	  def level
-	    @level ||= parents.count
+	    @level ||= parents.size
     end
     
     def parents
