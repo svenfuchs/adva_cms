@@ -1,0 +1,18 @@
+<%
+	table_for @section.topics do |t|
+		t.column :board if @section.has_boards?
+		t.column :title, :author, :posts, :last_updated, :actions
+
+		t.row do |r, topic|
+			r.cell topic.board.title if @section.has_boards?
+			r.cell link_to_topic(topic)
+			r.cell topic.last_author_name
+			r.cell topic.posts_count
+			r.cell datetime_with_microformat(topic.last_updated_at, :format => :short) + "\n" + 
+					   I18n.t(:'adva.common.by_author', :author => topic.last_author_name)
+			r.cell link_to_last_post(I18n.t(:'adva.links.view'), topic, :class => 'show')
+		end
+
+		t.empty :p, t(:'adva.topics.info.no_topics_in_forum'), :class => 'empty'
+	end
+%>
