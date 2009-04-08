@@ -320,7 +320,7 @@ class JavaScriptTestTask < ::Rake::TaskLib
         end
       end
 
-      # TODO cleanup test tmp directories
+      @test_builder.teardown
       @server.shutdown
       t.join
     end
@@ -367,46 +367,28 @@ class JavaScriptTestTask < ::Rake::TaskLib
   end
 end
 
-class AdvaJavaScriptTestTask < JavaScriptTestTask  
+class AdvaJavaScriptTestTask < JavaScriptTestTask
   def prepare_plugins(plugins)
-    plugins ||= Dir[File.expand_path(File.dirname(__FILE__) + "/../../../../*")].map{ |dir| File.basename(dir) }    
-    @plugins = plugins.inject({}) do |result,plugin|
-      plugin_root = File.expand_path(File.dirname(__FILE__) + "/../../../../#{plugin}")
-      raise "Unknown plugin #{plugin}" unless File.directory?(plugin_root)
-      result[plugin] = plugin_root
-      result
+    @plugins ||= Dir[File.expand_path(File.dirname(__FILE__) + "/../../../../*")].map{ |dir| File.basename(dir) }    
+    @plugins = @plugins.map do |name|
+      plugin = Plugin.new(name)
+      raise "Unknown plugin #{plugin}" unless plugin.exist?
+      plugin
     end
   end
 
   def mount_plugins
-    @plugins.each do |plugin, plugin_root|
+    @plugins.each do |plugin|
       # TODO verify why it doesn't work with NonCachingFileHandler
-      # @server.mount "/#{plugin}",      NonCachingFileHandler, "#{plugin_root}/public"
-      @server.mount "/#{plugin}",      WEBrick::HTTPServlet::DefaultFileHandler, "#{plugin_root}/public"
-      @server.mount "/#{plugin}/test", NonCachingFileHandler, "#{plugin_root}/test/javascript/tmp"
+      # @server.mount "/#{plugin}",      NonCachingFileHandler, "#{plugin.root}/public"
+      @server.mount "/#{plugin}",      WEBrick::HTTPServlet::DefaultFileHandler, "#{plugin.root}/public"
+      @server.mount "/#{plugin}/test", NonCachingFileHandler, "#{plugin.root}/test/javascript/tmp"
     end
   end
 
-  # TODO refactoring
   def prepare_tests
-    template = File.new(File.expand_path(File.dirname(__FILE__) + "/../templates/test_case.erb")).read
-    template = ERB.new(template)
-    @plugins.each do |plugin, plugin_root|
-      test_path = "#{plugin_root}/test/javascript"
-      temp_test_path = "#{test_path}/tmp"
-      FileUtils.mkdir_p "#{temp_test_path}/unit"
-      FileUtils.mkdir_p "#{temp_test_path}/functional"
-      Dir["#{test_path}/**/*_test.js"].each do |test_case|
-        @plugin     = plugin
-        @title      = File.basename(test_case, ".js")
-        @test_suite = File.new(test_case).read
-        @target = test_case.gsub(%r{#{test_path}/(unit|functional)/}, "")
-        @target = "/#{plugin}/javascripts/#{plugin}/#{@target}"
-        test_type = test_case =~ /unit/ ? "unit" : "functional"
-        File.open("#{temp_test_path}/#{test_type}/#{@title}.html", 'w') { |f| f.write(template.result(binding)) }
-        self.run "/#{plugin}/test/#{test_type}/#{@title}.html"
-      end
-    end
+    @test_builder = TestBuilder.new(self, @plugins)
+    @test_builder.setup
   end
 end
 
@@ -478,43 +460,105 @@ class TestSuiteResults
 end
 
 class TestBuilder
-  UNITTEST_DIR = File.expand_path('test')
-  FIXTURES_DIR = File.join(UNITTEST_DIR, 'unit', 'fixtures')
-  TMP_DIR      = File.join(UNITTEST_DIR, 'unit', 'tmp')
-  TEMPLATE     = File.join(UNITTEST_DIR, 'lib', 'template.erb')
-  
-  def initialize(filename, template = TEMPLATE)
-    @filename          = filename
-    @template          = template
-    @js_filename       = File.basename(@filename)
-    @basename          = @js_filename.sub("_test.js", "")
+  TEMPLATE_PATH = File.expand_path(File.dirname(__FILE__) + "/../templates/test_case.erb")
+  attr_reader :test_task
+
+  def initialize(test_task, plugins)
+    @test_task, @plugins  = test_task, plugins
+    @template = ERB.new(File.new(TEMPLATE_PATH).read)
   end
-  
-  def html_fixtures
-    content = ""
-    file = File.join(FIXTURES_DIR, "#{@basename}.html")
-    File.open(file).each { |l| content << l } if File.exists?(file)
-    content
-  end
-  
-  def external_fixtures(extension)
-    filename = "#{@basename}.#{extension}"
-    File.exists?(File.join(FIXTURES_DIR, filename)) ? filename : nil
-  end
-  
-  def render
-    @title                 = @basename.gsub("_", " ").strip.capitalize
-    @html_fixtures         = html_fixtures
-    @js_fixtures_filename  = external_fixtures("js")
-    @css_fixtures_filename = external_fixtures("css")
-    
-    File.open(destination, "w+") do |file|
-      file << ERB.new(IO.read(@template), nil, "%").result(binding)
+
+  def setup
+    @plugins.each do |plugin|
+      plugin.create_temp_test_path
+      plugin.test_cases.each do |test_case|
+        @test_case  = test_case
+        @plugin     = plugin
+        @title      = test_case.title
+        @test_suite = test_case.content
+        @target     = test_case.target
+        self.write_template
+        self.test_task.run test_case.url
+      end
     end
   end
-  
-  def destination
-    filename = File.basename(@filename, ".js")
-    File.join(TMP_DIR, "#{filename}.html")
+
+  def teardown
+    @plugins.each { |plugin| plugin.destroy_temp_test_path }
+  end
+
+  protected
+    def write_template
+      template_path = "#{@plugin.temp_test_path}/#{@test_case.type}/#{@title}.html"
+      File.open(template_path, 'w') { |f| f.write(@template.result(binding)) }
+    end
+end
+
+class Plugin
+  PLUGINS_ROOT = File.expand_path(File.dirname(__FILE__) + "/../../../../")
+  attr_reader :name
+
+  def initialize(name)
+    @name = name
+  end
+
+  def test_cases
+    @test_cases ||= Dir["#{test_path}/**/*_test.js"].map {|file| TestCase.new(self.name, file)}
+  end
+
+  def root
+    @root ||= File.join(PLUGINS_ROOT, name)
+  end
+
+  def test_path
+    "#{root}/test/javascript"
+  end
+
+  def temp_test_path
+    "#{test_path}/tmp"
+  end
+
+  def create_temp_test_path
+    destroy_temp_test_path
+    FileUtils.mkdir_p "#{temp_test_path}/unit"
+    FileUtils.mkdir_p "#{temp_test_path}/functional"
+  end
+
+  def destroy_temp_test_path
+    FileUtils.rm_rf(temp_test_path) rescue nil
+  end
+
+  def exist?
+    File.directory?(root)
+  end
+
+  def to_s
+    name
+  end
+end
+
+class TestCase
+  def initialize(plugin_name, path)
+    @plugin_name, @path = plugin_name, path
+  end
+
+  def title
+    File.basename(@path, ".js")
+  end
+
+  def content
+    File.new(@path).read
+  end
+
+  def type
+    @path =~ /unit/ ? "unit" : "functional"
+  end
+
+  def target
+    "/#{@plugin_name}/javascripts/#{@plugin_name}/#{@path.gsub(%r{#{@path}/#{type}/}, "")}"
+  end
+
+  def url
+    "/#{@plugin_name}/test/#{type}/#{title}.html"
   end
 end
