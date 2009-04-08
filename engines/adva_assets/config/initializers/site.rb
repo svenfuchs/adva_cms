@@ -3,5 +3,9 @@ ActionController::Dispatcher.to_prepare do
     def recent
       find(:all, :limit => 6)
     end
+    
+    def bucket(bucket)
+      bucket.blank? ? [] : find(bucket.keys) rescue []
+    end
   end
 end

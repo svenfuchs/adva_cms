@@ -1,7 +1,6 @@
 <% 
 	table_for @categories do |t|
-		t.column :category
-		t.column :actions, :class => :actions
+		t.column :category, :actions
 
 		# t.head.row do |r|
 		# 	r.cell t(:'adva.categories.total_with_count', :count => @categories.total_entries), :class => :total, :colspan => :all

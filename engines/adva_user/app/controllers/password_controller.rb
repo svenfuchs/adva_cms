@@ -2,7 +2,7 @@ class PasswordController < BaseController
   authentication_required :except => [:new, :create]
   renders_with_error_proc :below_field
 
-  layout 'simple'
+  layout 'login'
 
   def new
   end

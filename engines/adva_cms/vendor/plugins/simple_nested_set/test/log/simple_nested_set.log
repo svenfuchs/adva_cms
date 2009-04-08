@@ -5668,3 +5668,163 @@ Unable to load node, underlying cause no such file to load -- node.rb
  parent_id = CASE WHEN id = 601991061 THEN 291909616 ELSE parent_id END WHERE ("nodes"."foo_id" = 1) AND ( ("nodes"."type" = 'FooNode' ) ) [0m
   [4;35;1mFooNode Load (0.5ms)[0m   [0mSELECT * FROM "nodes" WHERE ("nodes"."id" = 601991061) AND ( ("nodes"."type" = 'FooNode' ) ) [0m
   [4;36;1mFooNode Load (0.8ms)[0m   [0;1mSELECT * FROM "nodes" WHERE (lft = 4) AND ("nodes"."foo_id" = 1) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft LIMIT 1[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+Unable to load node, underlying cause no such file to load -- node.rb 
+
+ /usr/local/lib/ruby/gems/1.8/gems/activesupport-2.3.2/lib/active_support/dependencies.rb:380:in `load_without_new_constant_marking'
+/usr/local/lib/ruby/gems/1.8/gems/activesupport-2.3.2/lib/active_support/dependencies.rb:380:in `load_file'
+/usr/local/lib/ruby/gems/1.8/gems/activesupport-2.3.2/lib/active_support/dependencies.rb:521:in `new_constants_in'
+/usr/local/lib/ruby/gems/1.8/gems/activesupport-2.3.2/lib/active_support/dependencies.rb:379:in `load_file'
+/usr/local/lib/ruby/gems/1.8/gems/activesupport-2.3.2/lib/active_support/dependencies.rb:259:in `require_or_load'
+/usr/local/lib/ruby/gems/1.8/gems/activesupport-2.3.2/lib/active_support/dependencies.rb:224:in `depend_on'
+/usr/local/lib/ruby/gems/1.8/gems/activesupport-2.3.2/lib/active_support/dependencies.rb:136:in `require_dependency'
+/usr/local/lib/ruby/gems/1.8/gems/activerecord-2.3.2/lib/active_record/fixtures.rb:850:in `try_to_load_dependency'
+/usr/local/lib/ruby/gems/1.8/gems/activerecord-2.3.2/lib/active_record/fixtures.rb:865:in `require_fixture_classes'
+/usr/local/lib/ruby/gems/1.8/gems/activerecord-2.3.2/lib/active_record/fixtures.rb:862:in `each'
+/usr/local/lib/ruby/gems/1.8/gems/activerecord-2.3.2/lib/active_record/fixtures.rb:862:in `require_fixture_classes'
+/usr/local/lib/ruby/gems/1.8/gems/activerecord-2.3.2/lib/active_record/fixtures.rb:845:in `fixtures'
+./vendor/adva/engines/adva_cms/vendor/plugins/simple_nested_set/test/simple_nested_set_test.rb:4
+/usr/local/lib/ruby/site_ruby/1.8/rubygems/custom_require.rb:31:in `gem_original_require'
+/usr/local/lib/ruby/site_ruby/1.8/rubygems/custom_require.rb:31:in `require'
+/usr/local/lib/ruby/gems/1.8/gems/redgreen-1.2.2/bin/rg:6
+/usr/local/bin/rg:19:in `load'
+/usr/local/bin/rg:19
+  [4;35;1mFooNode Load (1.3ms)[0m   [0mSELECT * FROM "nodes" WHERE ((lft < 5 AND rgt > 6) AND ("nodes"."foo_id" = 1)) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;36;1mSQL (0.4ms)[0m   [0;1mSELECT max("nodes".rgt) AS max_rgt FROM "nodes" WHERE ("nodes"."foo_id" = 1) AND ( ("nodes"."type" = 'FooNode' ) ) [0m
+  [4;35;1mFooNode Create (0.3ms)[0m   [0mINSERT INTO "nodes" ("name", "foo_id", "lft", "type", "parent_id", "rgt") VALUES('new', 1, 9, 'FooNode', NULL, 10)[0m
+  [4;36;1mFooNode Delete all (0.3ms)[0m   [0;1mDELETE FROM "nodes" WHERE (lft > 2 AND rgt < 3) AND ("nodes"."foo_id" = 1) AND ( ("nodes"."type" = 'FooNode' ) ) [0m
+  [4;35;1mFooNode Update (0.2ms)[0m   [0mUPDATE "nodes" SET lft = (lft - 2) WHERE (lft >= 3) AND ("nodes"."foo_id" = 1) AND ( ("nodes"."type" = 'FooNode' ) ) [0m
+  [4;36;1mFooNode Update (0.2ms)[0m   [0;1mUPDATE "nodes" SET rgt = (rgt - 2 ) WHERE (rgt >= 3) AND ("nodes"."foo_id" = 1) AND ( ("nodes"."type" = 'FooNode' ) ) [0m
+  [4;35;1mFooNode Destroy (0.1ms)[0m   [0mDELETE FROM "nodes" WHERE "id" = 601991063[0m
+  [4;36;1mFooNode Load (0.5ms)[0m   [0;1mSELECT * FROM "nodes" WHERE ("nodes"."id" = 291909616) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;35;1mFooNode Load (0.5ms)[0m   [0mSELECT * FROM "nodes" WHERE ("nodes"."id" = 601991062) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;36;1mFooNode Load (0.5ms)[0m   [0;1mSELECT * FROM "nodes" WHERE ("nodes"."id" = 601991061) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;35;1mFooNode Delete all (0.3ms)[0m   [0mDELETE FROM "nodes" WHERE (lft > 4 AND rgt < 7) AND ("nodes"."foo_id" = 1) AND ( ("nodes"."type" = 'FooNode' ) ) [0m
+  [4;36;1mFooNode Update (0.1ms)[0m   [0;1mUPDATE "nodes" SET lft = (lft - 4) WHERE (lft >= 7) AND ("nodes"."foo_id" = 1) AND ( ("nodes"."type" = 'FooNode' ) ) [0m
+  [4;35;1mFooNode Update (0.2ms)[0m   [0mUPDATE "nodes" SET rgt = (rgt - 4 ) WHERE (rgt >= 7) AND ("nodes"."foo_id" = 1) AND ( ("nodes"."type" = 'FooNode' ) ) [0m
+  [4;36;1mFooNode Destroy (0.1ms)[0m   [0;1mDELETE FROM "nodes" WHERE "id" = 601991062[0m
+  [4;35;1mFooNode Load (0.1ms)[0m   [0mSELECT * FROM "nodes" WHERE ("nodes"."id" = 601991061) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;36;1mFooNode Load (1.1ms)[0m   [0;1mSELECT * FROM "nodes" WHERE (("nodes"."foo_id" = 1 AND "nodes"."parent_id" = 291909616)) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;35;1mFooNode Load (1.4ms)[0m   [0mSELECT * FROM "nodes" WHERE ((lft > 1 AND rgt < 8) AND ("nodes"."foo_id" = 1)) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;36;1mFooNode Load (0.4ms)[0m   [0;1mSELECT * FROM "nodes" WHERE ("nodes"."rgt" = 1) AND ("nodes"."foo_id" = 1) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft LIMIT 1[0m
+  [4;35;1mFooNode Load (0.8ms)[0m   [0mSELECT * FROM "nodes" WHERE ("nodes"."rgt" = 3) AND ("nodes"."foo_id" = 1) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft LIMIT 1[0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mSELECT count(*) AS count_all FROM "nodes" WHERE ((lft < 2 AND rgt > 3) AND ("nodes"."foo_id" = 1)) AND ( ("nodes"."type" = 'FooNode' ) ) [0m
+  [4;35;1mSQL (0.3ms)[0m   [0mSELECT count(*) AS count_all FROM "nodes" WHERE ((lft < 4 AND rgt > 7) AND ("nodes"."foo_id" = 1)) AND ( ("nodes"."type" = 'FooNode' ) ) [0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mSELECT count(*) AS count_all FROM "nodes" WHERE ((lft < 5 AND rgt > 6) AND ("nodes"."foo_id" = 1)) AND ( ("nodes"."type" = 'FooNode' ) ) [0m
+  [4;35;1mFooNode Load (0.3ms)[0m   [0mSELECT lft, rgt, parent_id FROM "nodes" WHERE ("nodes"."id" = 291909616) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;36;1mFooNode Load (0.3ms)[0m   [0;1mSELECT lft, rgt, parent_id FROM "nodes" WHERE ("nodes"."id" = 601991061) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;35;1mFooNode Update (0.4ms)[0m   [0mUPDATE "nodes" SET lft = CASE WHEN lft BETWEEN 5 AND 6 THEN lft + 7 - 6 WHEN lft BETWEEN 7 AND 7 THEN lft + 5 - 7 ELSE lft END, 
+ rgt = CASE WHEN rgt BETWEEN 5 AND 6 THEN rgt + 7 - 6 WHEN rgt BETWEEN 7 AND 7 THEN rgt + 5 - 7 ELSE rgt END, 
+ parent_id = CASE WHEN id = 601991061 THEN 291909616 ELSE parent_id END WHERE ("nodes"."foo_id" = 1) AND ( ("nodes"."type" = 'FooNode' ) ) [0m
+  [4;36;1mFooNode Load (0.3ms)[0m   [0;1mSELECT lft, rgt, parent_id FROM "nodes" WHERE ("nodes"."id" = 291909616) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;35;1mFooNode Load (0.3ms)[0m   [0mSELECT lft, rgt, parent_id FROM "nodes" WHERE ("nodes"."id" = 601991061) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;36;1mFooNode Load (0.5ms)[0m   [0;1mSELECT * FROM "nodes" WHERE ("nodes"."id" = 291909616) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;35;1mFooNode Load (0.3ms)[0m   [0mSELECT lft, rgt, parent_id FROM "nodes" WHERE ("nodes"."id" = 291909616) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;36;1mFooNode Load (0.4ms)[0m   [0;1mSELECT lft, rgt, parent_id FROM "nodes" WHERE ("nodes"."id" = 601991061) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;35;1mFooNode Update (0.4ms)[0m   [0mUPDATE "nodes" SET lft = CASE WHEN lft BETWEEN 5 AND 6 THEN lft + 7 - 6 WHEN lft BETWEEN 7 AND 7 THEN lft + 5 - 7 ELSE lft END, 
+ rgt = CASE WHEN rgt BETWEEN 5 AND 6 THEN rgt + 7 - 6 WHEN rgt BETWEEN 7 AND 7 THEN rgt + 5 - 7 ELSE rgt END, 
+ parent_id = CASE WHEN id = 601991061 THEN 291909616 ELSE parent_id END WHERE ("nodes"."foo_id" = 1) AND ( ("nodes"."type" = 'FooNode' ) ) [0m
+  [4;36;1mFooNode Load (0.3ms)[0m   [0;1mSELECT lft, rgt, parent_id FROM "nodes" WHERE ("nodes"."id" = 291909616) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;35;1mFooNode Load (0.3ms)[0m   [0mSELECT lft, rgt, parent_id FROM "nodes" WHERE ("nodes"."id" = 601991061) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;36;1mFooNode Load (0.9ms)[0m   [0;1mSELECT * FROM "nodes" WHERE ("nodes"."rgt" = 5) AND ("nodes"."foo_id" = 1) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft LIMIT 1[0m
+  [4;35;1mFooNode Load (0.4ms)[0m   [0mSELECT lft, rgt, parent_id FROM "nodes" WHERE ("nodes"."id" = 601991063) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;36;1mFooNode Load (0.3ms)[0m   [0;1mSELECT lft, rgt, parent_id FROM "nodes" WHERE ("nodes"."id" = 601991061) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;35;1mFooNode Update (0.4ms)[0m   [0mUPDATE "nodes" SET lft = CASE WHEN lft BETWEEN 2 AND 4 THEN lft + 6 - 4 WHEN lft BETWEEN 5 AND 6 THEN lft + 2 - 5 ELSE lft END, 
+ rgt = CASE WHEN rgt BETWEEN 2 AND 4 THEN rgt + 6 - 4 WHEN rgt BETWEEN 5 AND 6 THEN rgt + 2 - 5 ELSE rgt END, 
+ parent_id = CASE WHEN id = 601991061 THEN 291909616 ELSE parent_id END WHERE ("nodes"."foo_id" = 1) AND ( ("nodes"."type" = 'FooNode' ) ) [0m
+  [4;36;1mFooNode Load (0.3ms)[0m   [0;1mSELECT lft, rgt, parent_id FROM "nodes" WHERE ("nodes"."id" = 601991063) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;35;1mFooNode Load (0.3ms)[0m   [0mSELECT lft, rgt, parent_id FROM "nodes" WHERE ("nodes"."id" = 601991061) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;36;1mFooNode Load (0.9ms)[0m   [0;1mSELECT * FROM "nodes" WHERE ("nodes"."lft" = 4) AND ("nodes"."foo_id" = 1) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft LIMIT 1[0m
+  [4;35;1mFooNode Load (0.4ms)[0m   [0mSELECT lft, rgt, parent_id FROM "nodes" WHERE ("nodes"."id" = 601991061) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;36;1mFooNode Load (0.3ms)[0m   [0;1mSELECT lft, rgt, parent_id FROM "nodes" WHERE ("nodes"."id" = 601991063) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;35;1mFooNode Update (0.3ms)[0m   [0mUPDATE "nodes" SET lft = CASE WHEN lft BETWEEN 2 AND 3 THEN lft + 4 - 3 WHEN lft BETWEEN 4 AND 4 THEN lft + 2 - 4 ELSE lft END, 
+ rgt = CASE WHEN rgt BETWEEN 2 AND 3 THEN rgt + 4 - 3 WHEN rgt BETWEEN 4 AND 4 THEN rgt + 2 - 4 ELSE rgt END, 
+ parent_id = CASE WHEN id = 601991063 THEN 601991062 ELSE parent_id END WHERE ("nodes"."foo_id" = 1) AND ( ("nodes"."type" = 'FooNode' ) ) [0m
+  [4;36;1mFooNode Load (0.4ms)[0m   [0;1mSELECT lft, rgt, parent_id FROM "nodes" WHERE ("nodes"."id" = 601991061) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;35;1mFooNode Load (0.4ms)[0m   [0mSELECT lft, rgt, parent_id FROM "nodes" WHERE ("nodes"."id" = 601991063) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;36;1mFooNode Load (0.5ms)[0m   [0;1mSELECT * FROM "nodes" WHERE ("nodes"."id" = 601991062) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;35;1mFooNode Load (0.4ms)[0m   [0mSELECT lft, rgt, parent_id FROM "nodes" WHERE ("nodes"."id" = 601991061) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;36;1mFooNode Load (0.3ms)[0m   [0;1mSELECT lft, rgt, parent_id FROM "nodes" WHERE ("nodes"."id" = 601991063) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;35;1mFooNode Update (0.4ms)[0m   [0mUPDATE "nodes" SET lft = CASE WHEN lft BETWEEN 2 AND 3 THEN lft + 6 - 3 WHEN lft BETWEEN 4 AND 6 THEN lft + 2 - 4 ELSE lft END, 
+ rgt = CASE WHEN rgt BETWEEN 2 AND 3 THEN rgt + 6 - 3 WHEN rgt BETWEEN 4 AND 6 THEN rgt + 2 - 4 ELSE rgt END, 
+ parent_id = CASE WHEN id = 601991063 THEN 601991062 ELSE parent_id END WHERE ("nodes"."foo_id" = 1) AND ( ("nodes"."type" = 'FooNode' ) ) [0m
+  [4;36;1mFooNode Load (0.3ms)[0m   [0;1mSELECT lft, rgt, parent_id FROM "nodes" WHERE ("nodes"."id" = 601991061) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;35;1mFooNode Load (0.3ms)[0m   [0mSELECT lft, rgt, parent_id FROM "nodes" WHERE ("nodes"."id" = 601991063) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;36;1mFooNode Load (0.5ms)[0m   [0;1mSELECT * FROM "nodes" WHERE ("nodes"."id" = 601991062) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;35;1mFooNode Load (0.3ms)[0m   [0mSELECT lft, rgt, parent_id FROM "nodes" WHERE ("nodes"."id" = 601991062) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;36;1mFooNode Load (0.4ms)[0m   [0;1mSELECT lft, rgt, parent_id FROM "nodes" WHERE ("nodes"."id" = 601991063) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;35;1mFooNode Update (0.3ms)[0m   [0mUPDATE "nodes" SET lft = CASE WHEN lft BETWEEN 2 AND 3 THEN lft + 7 - 3 WHEN lft BETWEEN 4 AND 7 THEN lft + 2 - 4 ELSE lft END, 
+ rgt = CASE WHEN rgt BETWEEN 2 AND 3 THEN rgt + 7 - 3 WHEN rgt BETWEEN 4 AND 7 THEN rgt + 2 - 4 ELSE rgt END, 
+ parent_id = CASE WHEN id = 601991063 THEN 291909616 ELSE parent_id END WHERE ("nodes"."foo_id" = 1) AND ( ("nodes"."type" = 'FooNode' ) ) [0m
+  [4;36;1mFooNode Load (0.3ms)[0m   [0;1mSELECT lft, rgt, parent_id FROM "nodes" WHERE ("nodes"."id" = 601991062) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;35;1mFooNode Load (0.4ms)[0m   [0mSELECT lft, rgt, parent_id FROM "nodes" WHERE ("nodes"."id" = 601991063) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;36;1mFooNode Load (0.8ms)[0m   [0;1mSELECT * FROM "nodes" WHERE ("nodes"."rgt" = 5) AND ("nodes"."foo_id" = 1) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft LIMIT 1[0m
+  [4;35;1mFooNode Load (0.5ms)[0m   [0mSELECT * FROM "nodes" WHERE ("nodes"."id" = 291909616) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;36;1mFooNode Load (0.5ms)[0m   [0;1mSELECT * FROM "nodes" WHERE ("nodes"."lft" = 8) AND ("nodes"."foo_id" = 1) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft LIMIT 1[0m
+  [4;35;1mFooNode Load (0.9ms)[0m   [0mSELECT * FROM "nodes" WHERE ("nodes"."lft" = 4) AND ("nodes"."foo_id" = 1) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft LIMIT 1[0m
+  [4;36;1mFooNode Load (0.9ms)[0m   [0;1mSELECT * FROM "nodes" WHERE ((lft < 5 AND rgt > 6) AND ("nodes"."foo_id" = 1)) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft LIMIT 1[0m
+  [4;35;1mFooNode Load (1.1ms)[0m   [0mSELECT * FROM "nodes" WHERE ((lft < 5 AND rgt > 6) AND ("nodes"."foo_id" = 1)) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;36;1mFooNode Load (1.0ms)[0m   [0;1mSELECT * FROM "nodes" WHERE (("nodes"."foo_id" = 1 AND "nodes"."parent_id" = 291909616)) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;35;1mFooNode Load (1.3ms)[0m   [0mSELECT * FROM "nodes" WHERE ((lft > 1 AND rgt < 8) AND ("nodes"."foo_id" = 1)) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;36;1mFooNode Load (1.1ms)[0m   [0;1mSELECT * FROM "nodes" WHERE (("nodes"."foo_id" = 1 AND "nodes"."parent_id" = 291909616)) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;35;1mFooNode Load (0.8ms)[0m   [0mSELECT * FROM "nodes" WHERE (((nodes.id <> 601991063) AND ("nodes"."parent_id" = 291909616)) AND ("nodes"."foo_id" = 1)) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;36;1mFooNode Load (0.8ms)[0m   [0;1mSELECT * FROM "nodes" WHERE ("nodes"."parent_id" IS NULL) AND ("nodes"."foo_id" = 1) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft LIMIT 1[0m
+  [4;35;1mFooNode Load (0.9ms)[0m   [0mSELECT * FROM "nodes" WHERE (("nodes"."foo_id" = 1 AND "nodes"."parent_id" IS NULL)) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;36;1mFooNode Load (0.3ms)[0m   [0;1mSELECT lft, rgt, parent_id FROM "nodes" WHERE ("nodes"."id" = 601991063) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;35;1mFooNode Load (0.3ms)[0m   [0mSELECT lft, rgt, parent_id FROM "nodes" WHERE ("nodes"."id" = 21196841) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;36;1mFooNode Load (0.3ms)[0m   [0;1mSELECT lft, rgt, parent_id FROM "nodes" WHERE ("nodes"."id" = 601991061) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;35;1mFooNode Load (0.3ms)[0m   [0mSELECT lft, rgt, parent_id FROM "nodes" WHERE ("nodes"."id" = 601991062) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;36;1mFooNode Load (0.3ms)[0m   [0;1mSELECT lft, rgt, parent_id FROM "nodes" WHERE ("nodes"."id" = 601991063) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;35;1mFooNode Load (0.3ms)[0m   [0mSELECT lft, rgt, parent_id FROM "nodes" WHERE ("nodes"."id" = 601991063) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;36;1mFooNode Load (0.5ms)[0m   [0;1mSELECT * FROM "nodes" WHERE ("nodes"."id" = 291909616) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;35;1mFooNode Load (0.9ms)[0m   [0mSELECT * FROM "nodes" WHERE (("nodes"."foo_id" = 1 AND "nodes"."parent_id" = 291909616)) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft LIMIT 1[0m
+  [4;36;1mFooNode Load (0.8ms)[0m   [0;1mSELECT * FROM "nodes" WHERE (("nodes"."foo_id" = 1 AND "nodes"."parent_id" = 291909616)) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft LIMIT 1[0m
+  [4;35;1mFooNode Load (0.3ms)[0m   [0mSELECT lft, rgt, parent_id FROM "nodes" WHERE ("nodes"."id" = 601991061) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;36;1mFooNode Load (0.5ms)[0m   [0;1mSELECT * FROM "nodes" WHERE ("nodes"."id" = 601991063) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;35;1mFooNode Update (0.4ms)[0m   [0mUPDATE "nodes" SET lft = CASE WHEN lft BETWEEN 2 AND 4 THEN lft + 6 - 4 WHEN lft BETWEEN 5 AND 6 THEN lft + 2 - 5 ELSE lft END, 
+ rgt = CASE WHEN rgt BETWEEN 2 AND 4 THEN rgt + 6 - 4 WHEN rgt BETWEEN 5 AND 6 THEN rgt + 2 - 5 ELSE rgt END, 
+ parent_id = CASE WHEN id = 601991061 THEN 291909616 ELSE parent_id END WHERE ("nodes"."foo_id" = 1) AND ( ("nodes"."type" = 'FooNode' ) ) [0m
+  [4;36;1mFooNode Load (0.4ms)[0m   [0;1mSELECT lft, rgt, parent_id FROM "nodes" WHERE ("nodes"."id" = 601991063) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;35;1mFooNode Load (0.4ms)[0m   [0mSELECT lft, rgt, parent_id FROM "nodes" WHERE ("nodes"."id" = 601991061) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;36;1mFooNode Load (0.9ms)[0m   [0;1mSELECT * FROM "nodes" WHERE ("nodes"."lft" = 4) AND ("nodes"."foo_id" = 1) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft LIMIT 1[0m
+  [4;35;1mFooNode Load (0.5ms)[0m   [0mSELECT * FROM "nodes" WHERE ("nodes"."id" = 291909616) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;36;1mFooNode Load (0.8ms)[0m   [0;1mSELECT * FROM "nodes" WHERE (("nodes"."foo_id" = 1 AND "nodes"."parent_id" = 291909616)) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft DESC LIMIT 1[0m
+  [4;35;1mFooNode Load (0.8ms)[0m   [0mSELECT * FROM "nodes" WHERE (("nodes"."foo_id" = 1 AND "nodes"."parent_id" = 291909616)) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft DESC LIMIT 1[0m
+  [4;36;1mFooNode Load (0.3ms)[0m   [0;1mSELECT lft, rgt, parent_id FROM "nodes" WHERE ("nodes"."id" = 601991063) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;35;1mFooNode Load (0.5ms)[0m   [0mSELECT * FROM "nodes" WHERE ("nodes"."id" = 601991062) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;36;1mFooNode Update (0.3ms)[0m   [0;1mUPDATE "nodes" SET lft = CASE WHEN lft BETWEEN 2 AND 3 THEN lft + 7 - 3 WHEN lft BETWEEN 4 AND 7 THEN lft + 2 - 4 ELSE lft END, 
+ rgt = CASE WHEN rgt BETWEEN 2 AND 3 THEN rgt + 7 - 3 WHEN rgt BETWEEN 4 AND 7 THEN rgt + 2 - 4 ELSE rgt END, 
+ parent_id = CASE WHEN id = 601991063 THEN 291909616 ELSE parent_id END WHERE ("nodes"."foo_id" = 1) AND ( ("nodes"."type" = 'FooNode' ) ) [0m
+  [4;35;1mFooNode Load (0.4ms)[0m   [0mSELECT lft, rgt, parent_id FROM "nodes" WHERE ("nodes"."id" = 601991062) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;36;1mFooNode Load (0.4ms)[0m   [0;1mSELECT lft, rgt, parent_id FROM "nodes" WHERE ("nodes"."id" = 601991063) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;35;1mFooNode Load (0.8ms)[0m   [0mSELECT * FROM "nodes" WHERE ("nodes"."rgt" = 5) AND ("nodes"."foo_id" = 1) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft LIMIT 1[0m
+  [4;36;1mFooNode Load (0.5ms)[0m   [0;1mSELECT * FROM "nodes" WHERE ("nodes"."id" = 291909616) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;35;1mFooNode Load (0.3ms)[0m   [0mSELECT lft, rgt, parent_id FROM "nodes" WHERE ("nodes"."id" = 601991063) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;36;1mFooNode Load (0.5ms)[0m   [0;1mSELECT * FROM "nodes" WHERE ("nodes"."id" = 601991062) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;35;1mFooNode Update (0.4ms)[0m   [0mUPDATE "nodes" SET lft = CASE WHEN lft BETWEEN 2 AND 3 THEN lft + 7 - 3 WHEN lft BETWEEN 4 AND 7 THEN lft + 2 - 4 ELSE lft END, 
+ rgt = CASE WHEN rgt BETWEEN 2 AND 3 THEN rgt + 7 - 3 WHEN rgt BETWEEN 4 AND 7 THEN rgt + 2 - 4 ELSE rgt END, 
+ parent_id = CASE WHEN id = 601991063 THEN 291909616 ELSE parent_id END WHERE ("nodes"."foo_id" = 1) AND ( ("nodes"."type" = 'FooNode' ) ) [0m
+  [4;36;1mFooNode Load (0.4ms)[0m   [0;1mSELECT lft, rgt, parent_id FROM "nodes" WHERE ("nodes"."id" = 601991062) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;35;1mFooNode Load (0.3ms)[0m   [0mSELECT lft, rgt, parent_id FROM "nodes" WHERE ("nodes"."id" = 601991063) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;36;1mFooNode Load (0.8ms)[0m   [0;1mSELECT * FROM "nodes" WHERE ("nodes"."rgt" = 5) AND ("nodes"."foo_id" = 1) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft LIMIT 1[0m
+  [4;35;1mFooNode Load (0.5ms)[0m   [0mSELECT * FROM "nodes" WHERE ("nodes"."id" = 601991062) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;36;1mFooNode Load (0.3ms)[0m   [0;1mSELECT lft, rgt, parent_id FROM "nodes" WHERE ("nodes"."id" = 601991063) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;35;1mFooNode Load (0.5ms)[0m   [0mSELECT * FROM "nodes" WHERE ("nodes"."id" = 601991062) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;36;1mFooNode Update (0.4ms)[0m   [0;1mUPDATE "nodes" SET lft = CASE WHEN lft BETWEEN 2 AND 3 THEN lft + 6 - 3 WHEN lft BETWEEN 4 AND 6 THEN lft + 2 - 4 ELSE lft END, 
+ rgt = CASE WHEN rgt BETWEEN 2 AND 3 THEN rgt + 6 - 3 WHEN rgt BETWEEN 4 AND 6 THEN rgt + 2 - 4 ELSE rgt END, 
+ parent_id = CASE WHEN id = 601991063 THEN 601991062 ELSE parent_id END WHERE ("nodes"."foo_id" = 1) AND ( ("nodes"."type" = 'FooNode' ) ) [0m
+  [4;35;1mFooNode Load (0.4ms)[0m   [0mSELECT lft, rgt, parent_id FROM "nodes" WHERE ("nodes"."id" = 601991062) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;36;1mFooNode Load (0.3ms)[0m   [0;1mSELECT lft, rgt, parent_id FROM "nodes" WHERE ("nodes"."id" = 601991063) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;35;1mFooNode Load (0.5ms)[0m   [0mSELECT * FROM "nodes" WHERE ("nodes"."id" = 601991062) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;36;1mFooNode Load (0.5ms)[0m   [0;1mSELECT * FROM "nodes" WHERE ("nodes"."id" = 601991062) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;35;1mFooNode Load (0.3ms)[0m   [0mSELECT lft, rgt, parent_id FROM "nodes" WHERE ("nodes"."id" = 601991061) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;36;1mFooNode Load (0.5ms)[0m   [0;1mSELECT * FROM "nodes" WHERE ("nodes"."id" = 601991063) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;35;1mFooNode Update (0.4ms)[0m   [0mUPDATE "nodes" SET lft = CASE WHEN lft BETWEEN 2 AND 4 THEN lft + 6 - 4 WHEN lft BETWEEN 5 AND 6 THEN lft + 2 - 5 ELSE lft END, 
+ rgt = CASE WHEN rgt BETWEEN 2 AND 4 THEN rgt + 6 - 4 WHEN rgt BETWEEN 5 AND 6 THEN rgt + 2 - 5 ELSE rgt END, 
+ parent_id = CASE WHEN id = 601991061 THEN 291909616 ELSE parent_id END WHERE ("nodes"."foo_id" = 1) AND ( ("nodes"."type" = 'FooNode' ) ) [0m
+  [4;36;1mFooNode Load (0.6ms)[0m   [0;1mSELECT lft, rgt, parent_id FROM "nodes" WHERE ("nodes"."id" = 601991063) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;35;1mFooNode Load (0.3ms)[0m   [0mSELECT lft, rgt, parent_id FROM "nodes" WHERE ("nodes"."id" = 601991061) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft[0m
+  [4;36;1mFooNode Load (0.8ms)[0m   [0;1mSELECT * FROM "nodes" WHERE ("nodes"."lft" = 4) AND ("nodes"."foo_id" = 1) AND ( ("nodes"."type" = 'FooNode' ) ) ORDER BY lft LIMIT 1[0m

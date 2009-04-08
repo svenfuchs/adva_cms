@@ -1,13 +1,17 @@
-MENUS
-
-Menu.instance(:admin).render(self, :select => { :level => 1, :scope => :primary, :items => [:sections] })
+refactor menus to only render used menus
 
 
+filters: selects multiple versions (e.g. articles list)
+theme/theme_files navigation
+themes merge new and upload?
 
+make wikipage form use :author_id
+issues edit (js)
+assets: bucket link is broken (js)
 
+FAQ
 
-
-
+- how to configure fckeditor
 
 
 FILTERS

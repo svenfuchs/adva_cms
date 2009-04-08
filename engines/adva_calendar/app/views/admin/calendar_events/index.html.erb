@@ -22,9 +22,9 @@
 	table_for @events do |t|
 		t.column :title, :starting_at, :ending_at, :created_by, :actions
 		
-		t.head.row do |r|
-			r.cell t(:'adva.calendar.total_events_with_count', :count => @events.total_entries), :class => :total, :colspan => :all
-		end
+		# t.head.row do |r|
+		# 	r.cell t(:'adva.calendar.total_events_with_count', :count => @events.total_entries), :class => :total, :colspan => :all
+		# end
 		
 		t.row do |r, event|
 			r.cell link_to_edit(event.title, event) # :class => event.state

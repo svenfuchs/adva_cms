@@ -9,13 +9,6 @@ module AssetsHelper
     image_tag(*asset_image_args_for(asset, style, options))
   end
 
-  def bucket_assets
-    return [] unless session[:bucket]
-    @bucket_assets ||= @site.assets.find session[:bucket].keys
-  rescue ActiveRecord::RecordNotFound
-    @bucket_assets = []
-  end
-
   def asset_image_args_for(asset, style = :tiny, options = {})
     # thumb_size = Array.new(2).fill(Asset.attachment_options[:thumbnails][thumbnail].to_i).join('x')
     # options    = options.reverse_merge(:title => "#{asset.title} \n #{asset.tags.join(', ')}", :size => thumb_size)

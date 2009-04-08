@@ -6,7 +6,7 @@ module ActivitiesHelper
                :locals => { :activity => activity, :recent => recent }
       end
     else
-      html = %(<li class="activity_none shade">#{I18n.t(:'adva.activity.none')}.</li>)
+      html = %(<li class="empty shade">#{I18n.t(:'adva.activity.none')}.</li>)
     end
     %(<ul class="activities">#{html}</ul>)
   end
@@ -18,9 +18,17 @@ module ActivitiesHelper
   end
 
   def activity_datetime(activity, short = false)
-    if activity.from
-      from = activity.from.send *(short ? [:to_s, :time_only] :  [:to_ordinalized_s, :plain])
-      to = activity.to.send *(short ? [:to_s, :time_only] :  [:to_ordinalized_s, :plain])
+    if activity.from and short
+      from = activity.from.to_s(:time_only)
+      to = activity.to.to_s(:time_only)
+      "#{from} - #{to}"
+    elsif activity.from and activity.from.to_date != activity.to.to_date
+      from = activity.from.to_ordinalized_s(:plain)
+      to = activity.to.to_ordinalized_s(:plain)
+      "#{from} - #{to}"
+    elsif activity.from
+      from = activity.from.to_ordinalized_s(:plain)
+      to = activity.to.to_ordinalized_s(:time_only)
       "#{from} - #{to}"
     else
       activity.created_at.send *(short ? [:to_s, :time_only] :  [:to_ordinalized_s, :plain])

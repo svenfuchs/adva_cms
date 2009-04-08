@@ -1,44 +1,44 @@
-form.filters {
+#filters {
   position: relative;
 }
-form.filters .set {
+#filters .set {
 	white-space: nowrap;
 	background-color: #efefef;
 }
-form.filters .set fieldset {
+#filters .set fieldset {
   display: none;
   vertical-align: middle;
 }
-form.filters .selected_filter, 
-form.filters .set .selected {
+#filters .selected_filter, 
+#filters .set .selected {
   display: inline;
 }
-form.filters .set select {
+#filters .set select {
   vertical-align: middle;
 }
-form.filters .set input[type=text] {
+#filters .set input[type=text] {
   width: 50px;
   padding: 1px 5px 2px 5px;
   font-size: 0.9em;
   vertical-align: middle;
 }
-form.filters .set input[type=checkbox] {
+#filters .set input[type=checkbox] {
   vertical-align: middle;
 }
-form.filters .set label {
+#filters .set label {
   display: inline;
   margin: -2px 0 2px 0;
   font-weight: normal;
   font-size: 0.85em;
   vertical-align: baseline;
 }
-form.filters .set .controls {
+#filters .set .controls {
   position: absolute;
   right: 0px;
   width: 24px;
   vertical-align: middle;
 }
-form.filters .set .controls a {
+#filters .set .controls a {
   float: left;
   overflow: hidden;
   width: 12px;
@@ -46,7 +46,7 @@ form.filters .set .controls a {
   text-decoration: none;
   outline: 0px;
 }
-form.filters .set:first-child .controls a.remove_filter {
+#filters .set:first-child .controls a.remove_filter {
   display: none;
   text-indent: 20px;
 }

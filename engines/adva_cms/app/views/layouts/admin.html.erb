@@ -18,8 +18,8 @@
 			<div class="navigation">
 				<%= render :partial => 'admin/shared/breadcrumbs' %>
 	      <div id="main_menu">
-	        <%= Menus.instance(:admin).render(self, :level => 2, :class => 'main left') %>
-	        <%= Menus.instance(:admin).render(self, :level => 3, :class => 'main right') %>
+	        <%= Menus.instance(:admin).render(self, :level => 2, :class => 'menu main left') %>
+	        <%= Menus.instance(:admin).render(self, :level => 3, :class => 'menu main right') %>
 				</div>
 			</div>
       <%= render :partial => 'shared/flash' %>

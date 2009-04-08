@@ -1,5 +1,5 @@
 <% content_for :sidebar do %>
-  <%= render :partial => "optional_settings" %>
+  <%= render :partial => "options" %>
 <% end %>
 
 <% split_form_for :issue, @issue, :url => admin_issues_path, :html => { :multipart => true } do |f| %>

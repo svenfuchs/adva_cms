@@ -6,7 +6,7 @@
   		<%= f.text_field :email, :class => 'big', :label => true %>
   		<%= f.password_field :password, :class => 'big', :label => true %>
   		<%= check_box_tag 'user[remember_me]', 1, @remember_me, :id => 'user_remember_me' %>
-			<%= label_tag :user_remember_me, t(:'adva.session.labels.remember_me') %>
+			<%= label_tag :user_remember_me, t(:'adva.session.labels.remember_me'), :class => 'inline light' %>
     <% end %>
   	
   	<% f.buttons do %>

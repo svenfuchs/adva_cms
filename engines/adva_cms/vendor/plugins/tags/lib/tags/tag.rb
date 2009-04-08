@@ -8,7 +8,7 @@ module Tags
     end
 	  
 	  def level
-	    @level = parents.count
+	    @level ||= parents.count
     end
     
     def parents
@@ -34,6 +34,13 @@ module Tags
 
         children.insert(index, child)
         child
+      end
+      
+      def add_class(class_name)
+        unless class_name.blank?
+          options[:class] ||= ''
+          options[:class] = options[:class].split(' ').push(class_name).uniq.join(' ')
+        end
       end
   end
   
@@ -86,13 +93,6 @@ module Tags
       
       def indent(str)
         str.gsub(/^/, "  ")
-      end
-      
-      def add_class(class_name)
-        unless class_name.blank?
-          options[:class] ||= ''
-          options[:class] = options[:class].split(' ').push(class_name).uniq.join(' ')
-        end
       end
   end
 

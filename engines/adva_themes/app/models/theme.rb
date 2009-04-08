@@ -49,6 +49,10 @@ class Theme < ActiveRecord::Base
       end
     end
   end
+  
+  def others
+    [preview]
+  end
 
   def about
     %w(name author version homepage summary).inject({}) do |result, key|

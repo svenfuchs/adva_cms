@@ -1,19 +1,2 @@
 <h2><%= t(:'adva.titles.boards') %></h2>
 
-<%
-	table_for @boards do |t|
-		t.column :board, :description, :topics, :posts, :actions
-
-		t.row do |r, board|
-			r.cell link_to(board.title, forum_board_path(@section, board))
-			r.cell board.description
-			r.cell board.topics_count
-			r.cell board.posts_count
-			r.cell links_to_actions([:edit, :delete], board)
-		end
-
-		t.empty :p, t(:'adva.boards.info.no_boards_in_forum', :forum => @section.title) + "\n" +
-								link_to_new(:'adva.boards.links.create_now', [@section, :board]) + "<br />\n" +
-								t(:'adva.boards.info.move_topics_to_board'), :class => 'empty'
-	end
-%>

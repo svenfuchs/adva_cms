@@ -5,6 +5,7 @@ Paperclip::Attachment.interpolations.merge! \
 class Theme < ActiveRecord::Base
   class File < ActiveRecord::Base
     class_inheritable_writer :valid_extensions
+    class_inheritable_accessor :file_type
 
     belongs_to :theme
     instantiates_with_sti
@@ -160,22 +161,27 @@ class Theme < ActiveRecord::Base
   end
 
   class Image < File
+    self.file_type = :image
     self.valid_extensions = %w(.jpg .jpeg .gif .png)
   end
 
   class Javascript < TextFile
+    self.file_type = :javascript
     self.valid_extensions = %w(.js)
   end
 
   class Stylesheet < TextFile
+    self.file_type = :stylesheet
     self.valid_extensions = %w(.css)
   end
 
   class Template < TextFile
+    self.file_type = :template
     self.valid_extensions = %w(.erb .haml .liquid)
   end
 
   class Preview < File
+    self.file_type = :preview
     self.valid_extensions = %w(.jpg .jpeg .gif .png)
 
     class << self

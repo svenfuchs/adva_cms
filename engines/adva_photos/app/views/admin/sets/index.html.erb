@@ -2,9 +2,9 @@
 	table_for @sets do |t|
 		t.column :title, :actions
 
-		t.head.row do |r|
-			r.cell t(:'adva.photos.admin.sets.total', :total_entries => @sets.total_entries), :class => :total, :colspan => :all
-		end
+		# t.head.row do |r|
+		# 	r.cell t(:'adva.photos.admin.sets.total', :total_entries => @sets.total_entries), :class => :total, :colspan => :all
+		# end
 		
 		t.row do |r, set|
   		r.cell link_to(set.title, edit_admin_set_path(@site, @section, set))

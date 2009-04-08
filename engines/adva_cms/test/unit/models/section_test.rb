@@ -176,17 +176,23 @@ class SectionTest < ActiveSupport::TestCase
     section.send(:build_path).should == "home/about/location"
   end
   
+  # NESTED SET
+  
+  test "initializes the lft and rgt attributes" do
+    home, about, location = *bunch_of_sections!
+    expected = [about.lft - 2, about.rgt - 2, location.lft - 2, location.rgt - 2]
+    [home.lft, home.rgt, about.lft, about.rgt].should == expected
+  end
+  
+  def bunch_of_sections!
+    home     = @site.sections.create! :title => 'homepage', :permalink => 'home'
+    about    = @site.sections.create! :title => 'about us', :permalink => 'about'
+    location = @site.sections.create! :title => 'how to find us', :permalink => 'location'
+    [home, about, location]
+  end
+  
   def bunch_of_nested_sections!
-    home = Section.create!     :site => @site,
-                               :title => 'homepage',
-                               :permalink => 'home'
-    about = Section.create!    :site => @site,
-                               :title => 'about us',
-                               :permalink => 'about'
-    location = Section.create! :site => @site,
-                               :title => 'how to find us',
-                               :permalink => 'location'
-    
+    home, about, location = *bunch_of_sections!
     about.move_to_child_of(home)
     location.move_to_child_of(about)
     location

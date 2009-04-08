@@ -37,8 +37,6 @@ en:
       unknown: unknown
       add: Add
       add_new: add new
-      hints:
-        tags: Enter one or more tags separated by a space. You may include spaces by enclosing a tag with quotes. (For example, <em>"Web Dev" Tutorials</em>).
     titles: 
       accounts: Accounts
       actions: Actions
@@ -67,6 +65,7 @@ en:
       logout: Logout
       register: Register
       manage: Manage
+      meta_tags: Meta tags
       new: New
       edit: Edit
       delete: Delete
@@ -80,7 +79,7 @@ en:
       posts: Posts
       preview: Preview
       publish_in_categories: Publish in these categories
-      recent_activity: Recent activity
+      recently_logged_in: Recently logged in
       restore_defaults: Restore Defaults
       roles: Roles
       sections: Sections
@@ -97,6 +96,7 @@ en:
       theme: Theme
       themes: Themes
       topic: Topic
+      topics: Topics
       tracking: Tracking
       upload: Upload
       users: Users
@@ -125,6 +125,9 @@ en:
       author_name: Name
       author_email: E-Mail
       filters: Filters
+    hints:
+      permalink: Use only ASCII characters and use dashes instead of spaces.
+      tags: Enter one or more tags separated by a space. You may include spaces by enclosing a tag with quotes. (For example, <em>"Web Dev" Tutorials</em>).
     messages: 
       insufficient_permissions: 
         title: Insufficient permissions
@@ -138,6 +141,7 @@ en:
       settings: settings
       view: View
       show: View
+      confirm_delete: "Are you sure you want to delete this item?"
     state:
       draft: Draft
       published: Published
@@ -191,7 +195,7 @@ en:
         admin_email: Administrator email
         subtitle: Website subtitle
         host: Host name
-      confirm_delete: Are you sure you wish to delete this site?
+      confirm_delete: Are you sure you want to delete this site?
     sections:
       hints:
         content_filter: When articles are posted, they use this as the default setting.
@@ -213,7 +217,7 @@ en:
       settings:
         single_article_mode: Single article per page
         multi_article_mode: Multiple articles per page
-      confirm_delete: Are you sure you wish to delete this section?
+      confirm_delete: Are you sure you want to delete this section?
       flash:
         destroy:
           success: The section has been destroyed.
@@ -261,10 +265,11 @@ en:
           one: "Tag: {{tags}}"
           other: "Tags: {{tags}}"
       no_articles: "There are no articles in {{section}}."
-      no_filtered_articles: "There are no articles matching that criteria in {{section}}"
+      no_filtered_articles: "There are no articles matching that criteria in {{section}}."
       attribution: "by: {{author}}"
     categories:
       columns:
+        title: Title
         category: Category
       attributes:
         name: name
@@ -292,7 +297,7 @@ en:
         update:
           success: The category has been updated.
           failure: The category could not be updated.
-      confirm_delete: Are you sure you wish to delete this category?
+      confirm_delete: Are you sure you want to delete this category?
       all: "&mdash; All categories &mdash;"
     contents:
       not_published: not published
@@ -314,9 +319,6 @@ en:
       write_article: Write your article
       question_save_as_draft: Save as Draft?
       confirm_save_as_draft: Yes, save this article as a draft
-      hints:
-        permalink: Use only ASCII characters and use dashes instead of spaces.
-        tags: Enter one or more tags separated by a space. You may include spaces by enclosing a tag with quotes. (For example, <em>"Web Dev" Tutorials</em>).
       titles:
         edit: Edit article
         new: New article
@@ -333,7 +335,8 @@ en:
         reorder: Reorder articles
         create_now: Create one now
       excerpt_add: Add an excerpt
-      no_articles_in_section: There are no articles in {{section}}.
+      no_articles: "There are no articles in {{section}}."
+      no_filtered_articles: "There are no articles matching that criteria in {{section}}."
       publish_on_date: Publish on this date
       flash:
         destroy:
@@ -348,7 +351,7 @@ en:
         update:
           success: The article has been updated.
           failure: The article could not be updated.
-      confirm_delete: Are you sure you wish to delete this article?
+      confirm_delete: Are you sure you want to delete this article?
       attributes:
         excerpt: Excerpt
     cached_pages:
@@ -358,7 +361,6 @@ en:
       columns:
         url: URL
         cached_at: Cached
-        actions: Actions
       no_entries: There currently aren't any pages being cached.
       confirmation:
         cleared: This page has been removed from the cache.
@@ -437,7 +439,7 @@ en:
         approved: Approved
       hints:
         comments_filter: When comments are posted, they use this markup.
-      confirm_delete: Are you sure you wish to delete this comment?
+      confirm_delete: Are you sure you want to delete this comment?
       info:
         no_comments_for_query: This {{location}} has no comments matching your query.
         under_review: This comment is currently under review.
@@ -562,7 +564,7 @@ en:
       info: 
         showed_up: "showed up: {{time_ago}}"
         logged_in_as: "Logged in as: {{name}}"
-      confirm_delete: Are you sure you wish to delete this user account?
+      confirm_delete: Are you sure you want to delete this user account?
     roles:
       labels:
         admin_for: "Admin for: {{context}}"
@@ -637,7 +639,7 @@ en:
         upload:
           files: Select files to upload
           title: Title
-          tags: Tags (space separated)
+          tags: Tags
       delete: remove this file field
       tag_all: Apply tags to all
       add_file: Add another file
@@ -646,7 +648,7 @@ en:
       delete_asset: Delete this asset
       clear_bucket: Clear
       upload: Upload an asset
-      confirm_delete: Are you sure you wish to delete this asset?
+      confirm_delete: Are you sure you want to delete this asset?
       search_by_tag_or_title: Search by tag or title
       empty_bucket: Your bucket is empty.
     themes:
@@ -665,8 +667,8 @@ en:
         add_another_file: Add another file
         new: New
         edit: Edit
-        select: Select
-        unselect: Unselect
+        activate: Activate
+        deactivate: Deactivate
         delete: Delete
         create_one_now: Create one now. &raquo;
         delete_file: Delete theme file
@@ -680,9 +682,10 @@ en:
         asssets: Assets
         templates: Templates
         filename: Filename
-      confirm_activate: Are you sure you wish to activate this theme?
-      confirm_unactivate: Are you sure you wish to deactivate this theme?
-      confirm_uninstall: Are you sure you wish to uninstall this theme? (You won't be able to recover it.)
+      confirm_activate: Are you sure you want to activate this theme?
+      confirm_deactivate: Are you sure you want to deactivate this theme?
+      confirm_delete: Are you sure you want to delete this theme?
+      confirm_uninstall: Are you sure you want to uninstall this theme? (You won't be able to recover it.)
       flash:
         destroy:
           success: The theme has been deleted.
@@ -698,18 +701,28 @@ en:
           error_filename_blank: The theme file cannot be blank.
           failure: The file could not be imported as a theme.
     theme_files:
+      no_files: You currently do not have any files available.
+      columns:
+        path: Path
+        type: Type
       links:
+        create_one_now: Create one now. &raquo;
         new_file: New File
         new: New
         edit: Edit
         delete: Delete
         upload: Upload
-      confirm_delete: Are you sure you wish to delete this file?
+      confirm_delete: Are you sure you want to delete this file?
       types:
+        template: Template
         templates: Templates
+        image: Image
         images: Images
+        javascript: Javascript
         javascripts: Javascripts
+        stylesheet: Stylesheet
         stylesheets: Stylesheets
+        preview: Preview
         others: Others
       flash:
         destroy:
@@ -749,6 +762,11 @@ en:
       settings:
         post_content_filter: 'When forum posts are posted, they use this as a default setting.'
     boards:
+      columns:
+        title: Title
+        description: Description
+        topics_count: Topics count
+        posts_count: Posts count
       boards_count:
         one: "{{count}} board"
         other: "{{count}} boards"
@@ -763,7 +781,7 @@ en:
         other: "{{count}} comments"
       info:
         no_boards_in_forum: You don't have any boards created in {{forum}}.
-        move_topics_to_board: All the existing forum topics will be moved to your first board when you create one.
+        move_topics_to_board: Existing forum topics will be moved to your first board when you create one.
       titles:
         new: New Board
         edit: Edit Board
@@ -791,9 +809,15 @@ en:
           success: The board has been updated.
           failure: The board could not be updated.
         no_previous_board: There is no previous board. Showing the first one.
-      confirm_delete: All the topics of this board are also deleted with the board. Are you sure you wish to delete this board?
-      confirm_delete_on_last: Are you sure you wish to delete this board? Your topics will not be removed.
+      confirm_delete: Are you sure you want to delete this board? All the topics of this board are also deleted with the board.
+      confirm_delete_on_last: Are you sure you want to delete this board? Your topics will not be removed.
     topics:
+      columns:
+        board: Board
+        title: Title
+        author: Author
+        last_updated: Last updated
+        posts: Posts
       info:
         no_topics_in_forum: There are no topics in this forum.
         no_topics_in_board: There are no topics in this board.
@@ -825,8 +849,7 @@ en:
           failure: The topic could not be updated.
         no_next_topic: There is no next topic. Showing the last one.
         no_previous_topic: There is no previous topic. Showing the first one.
-      confirm_destroy: Are you sure you wish to delete this post?
-      confirm_delete: Are you sure you wish to delete this topic?
+      confirm_delete: Are you sure you want to delete this topic?
     posts:
       titles:
         reply: Leave your reply
@@ -842,6 +865,7 @@ en:
         update:
           success: The post has been updated.
           failure: The post could not be updated.
+      confirm_delete: Are you sure you want to delete this post?
     tracking:
       enable_tracking: Enable tracking with Google Analytics
       tracking_campaign: Campaign

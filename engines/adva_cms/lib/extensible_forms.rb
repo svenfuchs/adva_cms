@@ -47,6 +47,9 @@ class ExtensibleFormBuilder < ActionView::Helpers::FormBuilder
   class_inheritable_accessor :callbacks
   self.callbacks = { :before => {}, :after => {} }
 
+  class_inheritable_accessor :tabs
+  self.tabs = [] #ActiveSupport::OrderedHash.new
+
   class_inheritable_accessor :options
   self.options = { :labels => false, :wrap => false, :default_class_names => {} }
 
@@ -69,6 +72,11 @@ class ExtensibleFormBuilder < ActionView::Helpers::FormBuilder
 
     def after(object_name, method, string = nil, &block)
       add_callback(:after, object_name, method, string || block)
+    end
+    
+    def tab(name, options = {}, &block)
+      self.tabs.reject! { |n, b| name == n }
+      self.tabs << [name, block]
     end
 
     protected
@@ -122,11 +130,28 @@ class ExtensibleFormBuilder < ActionView::Helpers::FormBuilder
     }
   end
   
-  # def tabs(&block)
-  #   @template.concat with_callbacks(name) {
-  #     @template.capture { @template.buttons(&block) }
-  #   }
-  # end
+  def tabs
+    yield if block_given?
+    assign_ivars!
+    @template.concat @template.content_tag(:div, :class => 'tabs') {
+      @template.content_tag(:ul) {
+        self.class.tabs.map { |name, block|
+          klass = self.class.tabs.first.first == name ? 'active' : nil
+          @template.content_tag 'li', @template.link_to(I18n.t(name, :scope => :'adva.titles'), "##{name}"), :class => klass
+        }.join
+      } +
+      self.class.tabs.map { |name, block|
+        klass = self.class.tabs.first.first == name ? 'tab active' : 'tab'
+        @template.content_tag 'div', block.call(self), :id => "tab_#{name}", :class => klass
+      }.join
+    }
+  end
+
+  def tab(name, &block)
+    with_callbacks(:"tab_#{name}") {
+      self.class.tab(name, &block)
+    }
+  end
 
   def buttons(name = :submit_buttons, &block)
     @template.concat with_callbacks(name) {
@@ -173,7 +198,7 @@ class ExtensibleFormBuilder < ActionView::Helpers::FormBuilder
     def with_callbacks(method, &block)
       result = ''
       result += run_callbacks(:before, method) if method
-      result += yield
+      result += yield.to_s
       result += run_callbacks(:after, method) if method
       result
     end

@@ -54,8 +54,6 @@ class Admin::CategoriesController < Admin::BaseController
 
   protected
 
-    def set_section; super; end
-
     def set_categories
       @categories = @section.categories.paginate :conditions => {:parent_id => nil}, :page => current_page
     end

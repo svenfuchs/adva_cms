@@ -1,14 +1,14 @@
 <%
 	table_for @photos do |t|
-		t.column :title, nil, :name, :comments, :published, :author, :actions
+		t.column :photo, :title, :comments, :published, :author, :actions
 
-		t.head.row do |r|
-			r.cell t(:'adva.photos.admin.photos.total', :total_entries => @photos.total_entries), :class => :total, :colspan => :all
-		end
+		# t.head.row do |r|
+		# 	r.cell t(:'adva.photos.admin.photos.total', :total_entries => @photos.total_entries), :class => :total, :colspan => :all
+		# end
 		
 		t.row do |r, photo|
+			r.cell link_to(image_tag(photo.base_url(:tiny)), photo.base_url)
   		r.cell link_to(photo.title, edit_admin_photo_path(@site, @section, photo), :class => photo.state)
-			r.cell link_to(image_tag(photo.base_url(:tiny)), photo.filename, :target => '_blank')
 			r.cell photo.accept_comments? && !photo.comments.empty? ? link_to(photo.comments.size, admin_comments_path) : t(:"adva.common.none")
 			r.cell published_at_formatted(photo)
 			r.cell link_to h(photo.author_name), admin_site_user_path(@site, photo.author)
