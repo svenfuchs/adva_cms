@@ -27,7 +27,7 @@ en:
         link_to_home: return to home
         link_to_edit: edit this page
         link_to_delete: delete this page
-        confirm_delete: Are you sure you wish to delete this page?
+        confirm_delete: Are you sure you want to delete this page?
       collection_title: 
         category_title: about {{title}}
         collect_pages: "Pages "
@@ -36,23 +36,31 @@ en:
       wiki_version_links: 
         link_to_current_revision: return to current revision
         link_to_rollback: rollback to this revision
-        confirm_rollback: Are you sure you wish to rollback to this version?
+        confirm_rollback: Are you sure you want to rollback to this version?
         link_to_previous_revision: view previous revision
         link_to_next_revision: view next revision
     wikipages_helper: 
       wiki_version_links: 
-        confirm_rollback: Are you sure you wish to rollback to this version?
+        confirm_rollback: Are you sure you want to rollback to this version?
     wikipages:
       links:
         index: Wikipages
         show: View
         new: New
         edit: Edit
+        delete: Delete
+      columns:
+        wikipage: Wikipage
+        version: Version 
+        updated: Updated
+        author: Author
+        comments: Comments
     wikipage: 
       params_author: 
         exception: 
           author_and_current_user_not_set: author and current_user not set
       view: 
+        confirm_delete: Are you sure you want to delete this wikipage?
         _options: 
           publish_categories_header: Publish in these categories
           link_to_settings: Settings
@@ -65,10 +73,7 @@ en:
           tags_hint: Separate tags by spaces. Enclose tags with quotes to include spaces.
           link_to_create: Create a new wikipage
           link_to_wikipages: Wikipages
-          confirm_delete: Are you sure you wish to delete this wikipage?
           optional_settings_header: Optional settings
-        _wikipages: 
-          confirm_delete: Are you sure you wish to delete this wikipage?
         edit:
           header: "Edit: {{title}}"
         index: 
@@ -130,7 +135,6 @@ en:
           tag_hint: Separate tags by spaces. Enclose tags with quotes to include spaces.
           label_for_author_email: Your email
           label_for_author_name: Your name
-          confirm_delete: Are you sure you wish to delete this page?
         index: 
           wiki_empty_notice: There are no wikipages in {{title}}
           link_to_create_if_empty: Create one now &raquo;

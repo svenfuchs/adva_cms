@@ -1,7 +1,6 @@
 <h2><%= t(:'adva.users.titles.register') %></h2>
 
 <% form_for :user, :url => user_path, :html => {:id => 'register'} do |f| %>
-  <h4><%= t(:'adva.users.titles.your_profile') %></h4>
 
   <% f.field_set do %>
     <%= f.text_field :first_name, :label => true %>
@@ -14,7 +13,6 @@
   <% f.buttons do %>
   	<%=submit_tag t(:'adva.titles.register') %> or
   	<%= link_to t(:'adva.titles.login'), login_url, :id => 'login' %>
-  	<%= link_to t(:'adva.passwords.titles.new'), new_password_path %>
   <% end %>
 <% end %>
 

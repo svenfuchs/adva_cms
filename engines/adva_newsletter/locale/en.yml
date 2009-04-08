@@ -1,24 +1,38 @@
 en:
   adva:
     newsletters:
+      columns:
+        name: Name
+        issues: Issues
+        subscribers: Subscribers
       links:
         index: Newsletters
         new: New
         edit: Edit
         delete: Delete
     issues:
+      confirm_delete: Are you sure you want to delete this issue?
+      columns:
+        name: Name
+        created_at: Created at
       links:
         index: Issues
         new: New
         edit: Edit
         delete: Delete
     subscriptions:
+      confirm_delete: Are you sure you want to delete this subscription?
+      columns:
+        name: Name
+        email: E-Mail
+        subscribed_at: Subscribed at
       links:
         index: Subscriptions
         new: New
         edit: Edit
         delete: Delete
     newsletter:
+      confirm_delete: Are you sure you want to delete this newsletter?
       no_newsletters: There are no newsletters.
       question_publish_newsletter: Should we make it public?
       confirm_save_as_draft: Yes, save this issue as draft

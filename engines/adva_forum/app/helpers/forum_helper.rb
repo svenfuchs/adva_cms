@@ -25,7 +25,7 @@ module ForumHelper
     text = args.pop || topic.last_post.created_at.to_s(:long)
     options[:anchor] = dom_id(topic.last_post)
     options[:page] = topic.last_page if topic.last_page > 1
-    link_to text, topic_path(topic.section, topic.permalink, options)
+    link_to text, topic_path(topic.section, topic.permalink), options
   end
 
   def link_to_prev_topic(*args)

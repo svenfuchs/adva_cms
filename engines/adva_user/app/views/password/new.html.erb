@@ -3,6 +3,7 @@
 <% form_tag password_path do %>
   <fieldset>
     <p><%= t(:'adva.passwords.info.please_enter_email_to_reset_password') %></p>
+		<%= label_tag 'user[email]', t(:"adva.users.attributes.email") %>
 	  <%= text_field_tag 'user[email]' %>
 	</fieldset>
 	

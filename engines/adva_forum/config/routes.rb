@@ -21,9 +21,12 @@ ActionController::Routing::Routes.draw do |map|
 
   # ADMIN
 
+  map.resources :topics, :path_prefix => "admin/sites/:site_id/sections/:section_id",
+                         :name_prefix => "admin_",
+                         :namespace   => "admin/"
+
   map.resources :boards, :path_prefix => "admin/sites/:site_id/sections/:section_id",
                          :name_prefix => "admin_",
                          :namespace   => "admin/",
                          :member      => {:update_all => :put}
-
 end

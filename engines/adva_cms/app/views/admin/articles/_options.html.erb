@@ -1,73 +1,26 @@
-<% content_for :sidebar do %>
-  <% fields_for :article do |f| -%>
-		<div class="tabs">
-			<ul>
-				<li class="active"><a href="#article_options"><%= t(:'adva.titles.options') %></a></li>
-				<li><a href="#article_meta_tags">Meta Tags</a></li>
-				<li><a href="#article_assets">Assets</a></li>
-			</ul>
-			<div class="tab active" id="tab_article_options">
-				<% f.field_set :optional_settings do %>
-				  <%= label_tag :content_locale, t(:"adva.common.locale") %>
-				  <select name="cl"> 
-				    <%= options_for_select I18n.available_locales, Article.locale %>
-				  </select>
-
-				  <%= f.text_field :permalink, :label => true, :hint => :'adva.articles.hints.permalink' unless @section.try(:single_article_mode) %>
-				  <%= f.text_field :tag_list, :label => true, :hint => :'adva.articles.hints.tags' %>
+<% 
+	content_for :sidebar do
+		f.tabs do
+		  f.tab :options do
+		    html = label_tag(:content_locale, t(:"adva.common.locale")) + 
+		            %(<select name="cl">#{options_for_select I18n.available_locales, Article.locale}</select>) + 
+		            (@section.try(:single_article_mode) ? '' : f.text_field(:permalink, :label => true, :hint => :'adva.hints.permalink')) + 
+		            f.text_field(:tag_list, :label => true, :hint => :'adva.hints.tags')
+      
+		  	unless @categories.empty?
+		  	  html << %(<label>#{t(:'adva.titles.publish_in_categories')}</label>) + 
+		  	          render(:partial => 'categories/checkboxes', :locals => { :categories => @categories, :content => @article })
+		  	end
+      
+		    html << f.select(:filter, filter_options, {}, :class => 'columnsFilter', :label => true) + 
+		            f.select(:comment_age, comment_expiration_options, :label => :'adva.titles.comments') + 
+		            f.select(:author_id, author_options(@site.users), :selected => author_selected(@article), :label => true)
+		  end
 		
-					<% unless @categories.empty? %>
-					  <label><%= t(:'adva.titles.publish_in_categories') %></label>
-					  <%= render :partial => 'categories/checkboxes', :locals => { :categories => @categories, :content => @article } %>
-					<% end %>
-
-				  <%= f.select :filter, filter_options, {}, :class => 'columnsFilter', :label => true %>
-				  <%= f.select :comment_age, comment_expiration_options, :label => :'adva.titles.comments' %>
-
-				  <%= f.select :author_id, author_options(@site.users), :selected => author_selected(@article), :label => true %>
-				<% end %>
-		  </div>
-			<div class="tab" id="tab_article_meta_tags">
-				<%= %(
-				<fieldset class="clearfix">
-		      <div class="col">
-		        #{ f.text_field(:meta_author, :label => true) }
-		        #{ f.text_field(:meta_geourl, :label => true) }
-		        #{ f.text_field(:meta_copyright, :label => true) }
-		      </div>
-
-		      <div class="col">
-		        #{ f.text_field(:meta_keywords, :label => true) }
-		        #{ f.text_area(:meta_description, :class => 'small', :label => true) }
-		      </div>
-		    </fieldset>
-				) %>
-		  </div>
-			<div class="tab" id="tab_article_assets">
-				<% if Rails.plugin?(:adva_assets) %>
-					<%= render :partial => 'admin/assets/widget/widget', :locals => { :assets => { :latest => @site.assets.recent, :attached => @article.assets, :bucket => bucket_assets } } %>
-				<% end %>
-			</div>
-		</div>
-		
-<script>
-	Tabs = {
-		hide_all: function() {
-			$$(".tabs > ul li").each(function(el){ el.removeClassName('active')})
-			$$(".tabs .tab").each(function(el){ el.removeClassName('active')})
-		},
-		click: function(el) {
-			var id = 'tab_' + el.href.split('#')[1]
-			Tabs.hide_all(); // hrmm ...
-			$(id).addClassName('active');
-			$(el.parentNode).addClassName('active');
-		}
-	}
-
-	Event.addBehavior({
-		'.tabs > ul li a:click': function() { Tabs.click(this) },
-	});	
-</script>
-  <% end %>
-<% end %>
-		
+			f.tab :assets do 
+				assets = { :latest => @site.assets.recent, :attached => @article.assets, :bucket => @site.assets.bucket(session[:bucket]) }
+				render :partial => 'admin/assets/widget/widget', :locals => { :assets => assets }
+			end if Rails.plugin?(:adva_assets)
+		end
+	end 
+%>

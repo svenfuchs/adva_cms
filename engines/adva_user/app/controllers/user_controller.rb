@@ -2,7 +2,7 @@ class UserController < BaseController
   renders_with_error_proc :below_field
   filter_parameter_logging :password
 
-  layout 'simple'
+  layout 'login'
 
   def new
     @user = User.new

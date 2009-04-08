@@ -1,11 +1,11 @@
 <h2><%= t(:'adva.assets.upload') %></h2>
 
 <% form_for Asset.new, :url => admin_assets_path, :html => { :multipart => true } do |f| %>
-	<% f.field_set do %>
+	<% f.field_set :id => 'files' do %>
     <p>
-      <label><%=t :'adva.assets.labels.upload.files' %></label>
-      <label><%=t :'adva.assets.labels.upload.title' %></label>
-      <label><%=t :'adva.assets.labels.upload.tags' %></label>
+      <label class="file"><%=t :'adva.assets.labels.upload.files' %></label>
+      <label class="title"><%=t :'adva.assets.labels.upload.title' %></label>
+      <label class="tags"><%=t :'adva.assets.labels.upload.tags' %></label>
     </p>
 
     <div>
@@ -25,7 +25,7 @@
     </div>
   <% end %>
 
-  <a href="#" id="asset_add_file" class="widetab"><%=t :'adva.assets.add_file' %></a>  
+  <a href="#" id="asset_add_file" class="wide_button"><%=t :'adva.assets.add_file' %></a>  
 
   <% save_or_cancel_links(f, :cancel_url => admin_assets_path, :save_text => t(:'adva.common.upload')) %>
 <% end -%>

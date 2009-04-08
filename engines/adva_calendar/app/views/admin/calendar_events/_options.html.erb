@@ -1,21 +1,23 @@
-<% unless @categories.empty? -%>
-  <h4><%= t(:'adva.calendar.titles.publish_in_categories') %></h4>
-  <%= render :partial => 'categories/checkboxes', :locals => { :categories => @categories, :content => @event } %>
-<% end -%>
+<% 
+	content_for :sidebar do
+		f.tabs do
+		  f.tab :options do
+		    html = f.text_field(:permalink, :label => true, :hint => :'adva.hints.permalink') + 
+		           f.text_field(:tag_list, :label => true, :hint => :'adva.hints.tags')
+      
+		  	unless @categories.empty?
+		  	  html << %(<label>#{t(:'adva.titles.publish_in_categories')}</label>) + 
+		  	          render(:partial => 'categories/checkboxes', :locals => { :categories => @categories, :content => @event })
+		  	end
+      
+		    html << f.select(:filter, filter_options, {}, :class => 'columnsFilter', :label => true) + 
+		            f.select(:user_id, author_options(@site.users), :selected => author_selected(@event), :label => true)
+		  end
 
-<h4><%= t(:'adva.titles.assets') %></h4>
-
-<%= render :partial => 'admin/assets/widget/widget', :locals => { :assets => { :latest => @site.assets.recent, :attached => @event.assets, :bucket => bucket_assets } } %>
-
-<h4><%= t(:'adva.titles.optional_settings') %></h4>
-
-<%= f.label :user_id %>
-<%= f.select :user_id, author_options(@site.users), :selected => author_selected(@article) %>
-
-<%= f.label :filter %>
-<%= f.select :filter, filter_options, {}, :class => 'columnsFilter' %>
-
-<%= f.label :permalink %>
-<%= f.text_field :permalink %>
-
-
+			f.tab :assets do 
+				assets = { :latest => @site.assets.recent, :attached => @event.assets, :bucket => @site.assets.bucket(session[:bucket]) }
+				render :partial => 'admin/assets/widget/widget', :locals => { :assets => assets }
+			end if Rails.plugin?(:adva_assets)
+		end
+	end 
+%>

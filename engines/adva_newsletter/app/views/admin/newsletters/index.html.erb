@@ -7,9 +7,9 @@
 	table_for @newsletters do |t|
 		t.column :name, :issues, :subscribers, :actions
 
-		t.head.row do |r|
-			r.cell t(:'adva.newsletter.total_newsletters', :newsletters_count => @site.newsletters.size), :class => :total, :colspan => :all
-		end
+		# t.head.row do |r|
+		# 	r.cell t(:'adva.newsletter.total_newsletters', :newsletters_count => @site.newsletters.size), :class => :total, :colspan => :all
+		# end
 		
 		t.row do |r, newsletter|
   		r.cell link_to(newsletter.title, admin_issues_path(@site, newsletter), :class => newsletter.state)

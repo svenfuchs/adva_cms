@@ -1,7 +1,7 @@
 class PasswordController < BaseController
   renders_with_error_proc :below_field
 
-  layout 'simple'
+  layout 'login'
 
   def new
   end

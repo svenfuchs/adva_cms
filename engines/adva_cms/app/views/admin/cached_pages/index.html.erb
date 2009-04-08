@@ -4,9 +4,9 @@
 	table_for @cached_pages do |t|
 	  t.column :url, :cached_at, :actions
 
-		t.head.row do |r|
-			r.cell t(:'adva.cached_pages.total_with_count', :count => @cached_pages.total_entries), :class => :total, :colspan => :all
-		end
+		# t.head.row do |r|
+		# 	r.cell t(:'adva.cached_pages.total_with_count', :count => @cached_pages.total_entries), :class => :total, :colspan => :all
+		# end
 
 		t.row do |r, cached_page|
   		r.cell page_cached_at(cached_page)

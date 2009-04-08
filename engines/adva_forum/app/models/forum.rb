@@ -24,8 +24,12 @@ class Forum < Section
 
   class << self
     def content_type
-      'Board'
+      'Topic'
     end
+  end
+  
+  def has_boards?
+    boards.size != 0
   end
 
   def latest_topics

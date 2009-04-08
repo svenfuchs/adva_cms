@@ -1,10 +1,10 @@
 <%
 	table_for @wikipages do |t|
-		t.column :wikipage, :version, :last_updated, :by, :comments, :actions
+		t.column :wikipage, :version, :updated, :author, :comments, :actions
 
-		t.head.row do |r|
-			r.cell t(:'adva.common.wikipage', :count => @wikipages.total_entries), :class => :total, :colspan => :all
-		end
+		# t.head.row do |r|
+		# 	r.cell t(:'adva.common.wikipage', :count => @wikipages.total_entries), :class => :total, :colspan => :all
+		# end
 		
 		t.row do |r, wikipage|
   		r.cell link_to_edit(wikipage.title, wikipage, :class => 'wikipage')

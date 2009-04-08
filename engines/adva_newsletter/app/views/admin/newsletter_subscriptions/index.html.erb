@@ -1,10 +1,10 @@
 <%
 	table_for @subscriptions do |t|
-		t.column :subscriber, :email, :time, :actions
+		t.column :name, :email, :subscribed_at, :actions
 
-		t.head.row do |r|
-			r.cell t(:"adva.newsletter.total_subscribers", :subscriptions_count => @subscriptions.count), :class => :total, :colspan => :all
-		end
+		# t.head.row do |r|
+		# 	r.cell t(:"adva.newsletter.total_subscribers", :subscriptions_count => @subscriptions.count), :class => :total, :colspan => :all
+		# end
 
 		t.row do |r, subscription|
   		r.cell link_to(subscription.user.name, admin_user_path(subscription.user_id))

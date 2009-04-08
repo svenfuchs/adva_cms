@@ -3,7 +3,7 @@
 	<% filter_for(Asset) %>
 <% end -%>
 
-<div>
+<div id="assets_list">
 	<% if @recent.any? %>
 	  <div id="recent_assets" class="assets_row">
 	    <%= render :partial => 'asset', :collection => @recent, :locals => {:size => :thumb} %>
@@ -34,7 +34,7 @@
   </h3>
   <p><%=t :'adva.assets.add_files' %></p>
   <ul>
-    <%= render :partial => "admin/assets/widget/asset", :collection => bucket_assets, :locals => { :content => nil, :prefix => 'bucket' } %>
+    <%= render :partial => "admin/assets/widget/asset", :collection => @site.assets.bucket(session[:bucket]), :locals => { :content => nil, :prefix => 'bucket' } %>
   </ul>
 
   <h4><%=t :'adva.assets.stats' %></h4>

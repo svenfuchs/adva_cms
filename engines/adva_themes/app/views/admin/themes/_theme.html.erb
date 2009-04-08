@@ -9,9 +9,9 @@
 
 		<ul class="options">
 	    <% if theme.active? %>
-	      <li><%= link_to t(:'adva.titles.activate'), admin_site_selected_theme_path(@site, theme), { :confirm => t(:'adva.themes.confirm_activate'), :method => :delete } %></li>
-	    <% else %>
 	      <li><%= link_to t(:'adva.titles.deactivate'), admin_site_selected_themes_path(@site, :id => theme.id), { :confirm => t(:'adva.themes.confirm_deactivate'), :method => :post } %></li>
+	    <% else %>
+	      <li><%= link_to t(:'adva.titles.activate'), admin_site_selected_theme_path(@site, theme), { :confirm => t(:'adva.themes.confirm_activate'), :method => :delete } %></li>
 	    <% end %>
 	    <li><%= link_to t(:'adva.themes.links.edit'), edit_admin_theme_path(@site, theme) %></li>
 	    <li><%= link_to t(:'adva.themes.links.delete'), admin_theme_path(@site, theme), { :confirm => t(:'adva.themes.confirm_uninstall'), :method => :delete }  %></li>

@@ -1,2 +1,21 @@
 <h2><%= t(:'adva.titles.theme') %>: <%= @theme.name %></h2>
-<%= render :partial => 'admin/theme_files/files' %>
+
+<% 
+	table_for @theme.files, :collection_name => 'theme_files' do |t|
+	  t.column :path, :type, :actions
+
+		t.row do |r, file|
+			r.cell link_to(file.base_path, admin_theme_file_path(@site, @theme.id, file.id))
+			r.cell t(:"adva.theme_files.types.#{file.class.file_type}")
+			r.cell link_to(t(:'adva.theme_files.links.edit'), admin_theme_file_path(@site, @theme.id, file.id), :class => 'edit')  + "\n" +
+						 link_to(t(:'adva.theme_files.links.delete'), admin_theme_file_path(@site, @theme.id, file.id),
+									 	 :confirm => t(:'adva.theme_files.confirm_delete'), :method => 'delete', :class => 'delete')
+						 
+		end
+		
+		t.empty :p, :class => 'empty' do
+			t(:'adva.theme_files.no_files') + "\n" +
+				link_to_new(:'adva.theme_files.links.create_one_now', [@theme, :file])
+		end
+	end 
+%>

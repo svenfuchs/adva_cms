@@ -1,24 +1,25 @@
-<% if Rails.plugin?(:adva_assets) %>
-	<h3>Assets</h3>
-	<%= render :partial => 'admin/assets/widget/widget', :locals => { :assets => { :latest => @site.assets.recent, :attached => @wikipage.assets, :bucket => bucket_assets } } %>
-<% end -%>
+<% 
+	content_for :sidebar do
+		f.tabs do
+		  f.tab :options do
+		    html = label_tag(:content_locale, t(:"adva.common.locale")) + 
+		            f.text_field(:permalink, :label => true, :hint => :'adva.hints.permalink') + 
+		            f.text_field(:tag_list, :label => true, :hint => :'adva.hints.tags')
+      
+		  	unless @categories.empty?
+		  	  html << %(<label>#{t(:'adva.titles.publish_in_categories')}</label>) + 
+		  	          render(:partial => 'categories/checkboxes', :locals => { :categories => @categories, :content => @wikipage })
+		  	end
+      
+		    html << f.select(:filter, filter_options, {}, :class => 'columnsFilter', :label => true) + 
+		            f.select(:comment_age, comment_expiration_options, :label => :'adva.titles.comments') + 
+		            f.select(:author, author_options(@site.users), :selected => author_selected(@wikipage), :label => true)
+		  end
 
-<% unless @wikipage.versions.empty? -%>
-  <h3><%= t(:'adva.wikipage.view._options.wikipage_versions_header') %></h3>
-  <p>
-  	<%= wiki_version_links(@wikipage) %>
-  </p>
-<% end -%>
-
-<h3><%= t(:'adva.wikipage.view._options.optional_settings_header') %></h3>
-
-<%= f.select :author, author_options(@site.users), :selected => author_selected(@wikipage), :label => true %>
-<%= f.select :filter, filter_options, {}, :class => 'columnsFilter', :label => true %>
-<%= f.select :comment_age, comment_expiration_options, :label => :'adva.wikipage.view._options.label_for_comments' %>
-<%= f.text_field :permalink, :label => true, :hint => :'adva.wikipage.view._options.permalink_hint' %>
-<%= f.text_field :tag_list, :label => 'Tags', :hint => :'adva.wikipage.view._options.tags_hint' %>
-
-<% unless @categories.blank? %>
-  <h4><%= t(:'adva.wikipage.view._options.publish_categories_header') %></h4>
-  <%= render :partial => 'categories/checkboxes', :locals => { :categories => @categories, :content => @wikipage } %>
-<% end %>
+			f.tab :assets do 
+				assets = { :latest => @site.assets.recent, :attached => @wikipage.assets, :bucket => @site.assets.bucket(session[:bucket]) }
+				render :partial => 'admin/assets/widget/widget', :locals => { :assets => assets }
+			end if Rails.plugin?(:adva_assets)
+		end
+	end 
+%>

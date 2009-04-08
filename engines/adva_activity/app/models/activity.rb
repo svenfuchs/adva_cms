@@ -71,7 +71,10 @@ class Activity < ActiveRecord::Base
   end
 
   def all_actions
-    siblings.reverse.map(&:actions).compact.flatten + actions
+    actions = Array(siblings.reverse.map(&:actions).compact.flatten) + self.actions
+    previous = nil
+    actions.reject! { |action| (action == previous).tap { previous = action } }
+    actions
   end
 
   def from

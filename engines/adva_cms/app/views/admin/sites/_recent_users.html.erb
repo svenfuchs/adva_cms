@@ -1,6 +1,6 @@
 <% unless users.blank? %>
-  <h3><%= t(:'adva.titles.recent_activity') %></h3>
-  <ul>
+  <h3><%= t(:'adva.titles.recently_logged_in') %></h3>
+  <ul id="users">
     <% users.each do |user| %>
       <li>
         <%= gravatar_img user %><%= link_to who(user), :controller => 'users', :action => 'show', :id => user %><br /> 

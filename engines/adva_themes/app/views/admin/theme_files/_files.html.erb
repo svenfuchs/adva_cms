@@ -1,4 +1,4 @@
-<% ['templates', 'stylesheets', 'javascripts', 'images'].each do |type| files = @theme.send(type) %>
+<% ['templates', 'stylesheets', 'javascripts', 'images', 'others'].each do |type| files = @theme.send(type) %>
   <% unless files.empty? %>
     <h3><%= t(:"adva.theme_files.types.#{type}") %></h3>
     <ul>
