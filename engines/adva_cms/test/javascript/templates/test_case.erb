@@ -3,7 +3,7 @@
 <html>
   <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-    <title><%= "#{@plugin} - #{@title}" %></title>
+    <title><%= "#{@plugin.name} - #{@title}" %></title>
 
     <script src="/jquery.js" type="text/javascript" charset="utf-8"></script>
     <script src="/testrunner.js" type="text/javascript" charset="utf-8"></script>
@@ -19,7 +19,7 @@
 
   </head>
   <body>
-   <h1><%= "#{@plugin.upcase} | #{@title.upcase}" %></h1>
+   <h1><%= "#{@plugin.name.upcase} | #{@title.upcase}" %></h1>
    <h2 id="banner"></h2>
    <h2 id="userAgent"></h2>
    <ol id="tests"></ol>
