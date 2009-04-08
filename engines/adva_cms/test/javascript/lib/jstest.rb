@@ -1,4 +1,13 @@
+#
+# (c) 2005-2009 Prototype Team http://prototypejs.org
+#
+
+require 'rake/tasklib'
+require 'thread'
 require 'webrick'
+require 'fileutils'
+include FileUtils
+require 'erb'
 
 class Browser
   def supported?; true; end
@@ -156,6 +165,43 @@ class OperaBrowser < Browser
   end
 end
 
+# shut up, webrick :-)
+class ::WEBrick::HTTPServer
+  def access_log(config, req, res)
+    # nop
+  end
+end
+
+class ::WEBrick::BasicLog
+  def log(level, data)
+    # nop
+  end
+end
+
+class WEBrick::HTTPResponse
+  alias send send_response
+  def send_response(socket)
+    send(socket) unless fail_silently?
+  end
+  
+  def fail_silently?
+    @fail_silently
+  end
+  
+  def fail_silently
+    @fail_silently = true
+  end
+end
+
+class WEBrick::HTTPRequest
+  def to_json
+    headers = []
+    each { |k, v| headers.push "#{k.inspect}: #{v.inspect}" }
+    headers = "{" << headers.join(', ') << "}"
+    %({ "headers": #{headers}, "body": #{body.inspect}, "method": #{request_method.inspect} })
+  end
+end
+
 class WEBrick::HTTPServlet::AbstractServlet
   def prevent_caching(res)
     res['ETag'] = nil
@@ -163,6 +209,46 @@ class WEBrick::HTTPServlet::AbstractServlet
     res['Cache-Control'] = 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0'
     res['Pragma'] = 'no-cache'
     res['Expires'] = Time.now - 100**4
+  end
+end
+
+class BasicServlet < WEBrick::HTTPServlet::AbstractServlet
+  def do_GET(req, res)
+    prevent_caching(res)
+    res['Content-Type'] = "text/plain"
+    
+    req.query.each do |k, v|
+      res[k] = v unless k == 'responseBody'
+    end
+    res.body = req.query["responseBody"]
+    
+    raise WEBrick::HTTPStatus::OK
+  end
+  
+  def do_POST(req, res)
+    do_GET(req, res)
+  end
+end
+
+class SlowServlet < BasicServlet
+  def do_GET(req, res)
+    sleep(2)
+    super
+  end
+end
+
+class DownServlet < BasicServlet
+  def do_GET(req, res)
+    res.fail_silently
+  end
+end
+
+class InspectionServlet < BasicServlet
+  def do_GET(req, res)
+    prevent_caching(res)
+    res['Content-Type'] = "application/json"
+    res.body = req.to_json
+    raise WEBrick::HTTPStatus::OK
   end
 end
 
@@ -183,18 +269,302 @@ class NonCachingFileHandler < WEBrick::HTTPServlet::FileHandler
   end
 end
 
-class ::WEBrick::HTTPServer
-  def access_log(config, req, res)
-    # nop
-  end
-end
+class JavaScriptTestTask < ::Rake::TaskLib
 
-class ::WEBrick::BasicLog
-  def log(level, data)
-    # nop
-  end
-end
+  def initialize(name=:test)
+    @name = name
+    @tests = []
+    @browsers = []
 
-def get_url()
+    @queue = Queue.new
+
+    @server = WEBrick::HTTPServer.new(:Port => 4711) # TODO: make port configurable
+    @server.mount_proc("/results") do |req, res|
+      @queue.push(req)
+      res.body = "OK"
+    end
+    @server.mount("/response", BasicServlet)
+    @server.mount("/slow", SlowServlet)
+    @server.mount("/down", DownServlet)
+    @server.mount("/inspect", InspectionServlet)
+    yield self if block_given?
+    define
+  end
+
+  def define
+    task @name do
+      trap("INT") { @server.shutdown; exit }
+      t = Thread.new { @server.start }
+      
+      # run all combinations of browsers and tests
+      @browsers.each do |browser|
+        if browser.supported?
+          t0 = Time.now
+          test_suite_results = TestSuiteResults.new
+
+          browser.setup
+          puts "\nStarted tests in #{browser}."
+          
+          @tests.each do |test|
+            browser.visit(get_url(test))
+            results = TestResults.new(@queue.pop.query, test[:url])
+            print results
+            test_suite_results << results
+          end
+          
+          print "\nFinished in #{Time.now - t0} seconds."
+          print test_suite_results
+          browser.teardown
+        else
+          puts "\nSkipping #{browser}, not supported on this OS."
+        end
+      end
+
+      @test_builder.teardown
+      @server.shutdown
+      t.join
+    end
+  end
   
+  def get_url(test)
+    params = "resultsURL=http://localhost:4711/results&t=" + ("%.6f" % Time.now.to_f)
+    params << "&tests=#{test[:testcases]}" unless test[:testcases] == :all
+    "http://localhost:4711#{test[:url]}?#{params}"
+  end
+  
+  def mount(path, dir=nil)
+    dir = Dir.pwd + path unless dir
+
+    # don't cache anything in our tests
+    @server.mount(path, NonCachingFileHandler, dir)
+  end
+
+  # test should be specified as a hash of the form
+  # {:url => "url", :testcases => "testFoo,testBar"}.
+  # specifying :testcases is optional
+  def run(url, testcases = :all)
+    @tests << { :url => url, :testcases => testcases }
+  end
+
+  def browser(browser)
+    browser =
+      case(browser)
+        when :firefox
+          FirefoxBrowser.new
+        when :safari
+          SafariBrowser.new
+        when :ie
+          IEBrowser.new
+        when :konqueror
+          KonquerorBrowser.new
+        when :opera
+          OperaBrowser.new
+        else
+          browser
+      end
+
+    @browsers<<browser
+  end
+end
+
+class AdvaJavaScriptTestTask < JavaScriptTestTask
+  ASSETS_PATH = File.expand_path(File.dirname(__FILE__) + "/../assets")
+
+  def prepare_plugins(plugins)
+    @plugins ||= Dir[File.expand_path(File.dirname(__FILE__) + "/../../../../*")].map{ |dir| File.basename(dir) }    
+    @plugins = @plugins.map do |name|
+      plugin = Plugin.new(name)
+      raise "Unknown plugin #{plugin}" unless plugin.exist?
+      plugin
+    end
+  end
+
+  def mount_root
+    mount "/", ASSETS_PATH
+  end
+
+  def mount_plugins
+    @plugins.each do |plugin|
+      # TODO verify why it doesn't work with NonCachingFileHandler
+      # @server.mount "/#{plugin}",      NonCachingFileHandler, "#{plugin.root}/public"
+      @server.mount "/#{plugin}",      WEBrick::HTTPServlet::DefaultFileHandler, "#{plugin.root}/public"
+      @server.mount "/#{plugin}/test", NonCachingFileHandler, "#{plugin.root}/test/javascript/tmp"
+    end
+  end
+
+  def prepare_tests
+    @test_builder = TestBuilder.new(self, @plugins)
+    @test_builder.setup
+  end
+end
+
+class TestResults
+  attr_reader :modules, :tests, :assertions, :failures, :errors, :filename
+  def initialize(query, filename)
+    @modules    = query['modules'].to_i
+    @tests      = query['tests'].to_i
+    @assertions = query['assertions'].to_i
+    @failures   = query['failures'].to_i
+    @errors     = query['errors'].to_i
+    @filename   = filename
+  end
+  
+  def error?
+    @errors > 0
+  end
+  
+  def failure?
+    @failures > 0
+  end
+  
+  def to_s
+    return "E" if error?
+    return "F" if failure?
+    "."
+  end
+end
+
+class TestSuiteResults
+  def initialize
+    @modules    = 0
+    @tests      = 0
+    @assertions = 0
+    @failures   = 0
+    @errors     = 0
+    @error_files   = []
+    @failure_files = []
+  end
+  
+  def <<(result)
+    @modules    += result.modules
+    @tests      += result.tests
+    @assertions += result.assertions
+    @failures   += result.failures
+    @errors     += result.errors
+    @error_files.push(result.filename)   if result.error?
+    @failure_files.push(result.filename) if result.failure?
+  end
+  
+  def error?
+    @errors > 0
+  end
+  
+  def failure?
+    @failures > 0
+  end
+  
+  def to_s
+    str = ""
+    str << "\n  Failures: #{@failure_files.join(', ')}" if failure?
+    str << "\n  Errors:   #{@error_files.join(', ')}" if error?
+    "#{str}\n#{summary}\n\n"
+  end
+  
+  def summary
+    "#{@modules} modules, #{@tests} tests, #{@assertions} assertions, #{@failures} failures, #{@errors} errors."
+  end
+end
+
+class TestBuilder
+  TEMPLATE_PATH = File.expand_path(File.dirname(__FILE__) + "/../templates/test_case.erb")
+  attr_reader :test_task
+
+  def initialize(test_task, plugins)
+    @test_task, @plugins  = test_task, plugins
+    @template = ERB.new(File.new(TEMPLATE_PATH).read)
+  end
+
+  def setup
+    @plugins.each do |plugin|
+      plugin.create_temp_test_path
+      plugin.test_cases.each do |test_case|
+        @test_case  = test_case
+        @plugin     = plugin
+        @title      = test_case.title
+        @test_suite = test_case.content
+        @target     = test_case.target
+        self.write_template
+        self.test_task.run test_case.url
+      end
+    end
+  end
+
+  def teardown
+    @plugins.each { |plugin| plugin.destroy_temp_test_path }
+  end
+
+  protected
+    def write_template
+      template_path = "#{@plugin.temp_test_path}/#{@test_case.type}/#{@title}.html"
+      File.open(template_path, 'w') { |f| f.write(@template.result(binding)) }
+    end
+end
+
+class Plugin
+  PLUGINS_ROOT = File.expand_path(File.dirname(__FILE__) + "/../../../../")
+  attr_reader :name
+
+  def initialize(name)
+    @name = name
+  end
+
+  def test_cases
+    @test_cases ||= Dir["#{test_path}/**/*_test.js"].map {|file| TestCase.new(self.name, file)}
+  end
+
+  def root
+    @root ||= File.join(PLUGINS_ROOT, name)
+  end
+
+  def test_path
+    "#{root}/test/javascript"
+  end
+
+  def temp_test_path
+    "#{test_path}/tmp"
+  end
+
+  def create_temp_test_path
+    destroy_temp_test_path
+    FileUtils.mkdir_p "#{temp_test_path}/unit"
+    FileUtils.mkdir_p "#{temp_test_path}/functional"
+  end
+
+  def destroy_temp_test_path
+    FileUtils.rm_rf(temp_test_path) rescue nil
+  end
+
+  def exist?
+    File.directory?(root)
+  end
+
+  def to_s
+    name
+  end
+end
+
+class TestCase
+  def initialize(plugin_name, path)
+    @plugin_name, @path = plugin_name, path
+  end
+
+  def title
+    File.basename(@path, ".js")
+  end
+
+  def content
+    File.new(@path).read
+  end
+
+  def type
+    @path =~ /unit/ ? "unit" : "functional"
+  end
+
+  def target
+    "/#{@plugin_name}/javascripts/#{@plugin_name}/#{@path.gsub(%r{#{@path}/#{type}/}, "")}"
+  end
+
+  def url
+    "/#{@plugin_name}/test/#{type}/#{title}.html"
+  end
 end

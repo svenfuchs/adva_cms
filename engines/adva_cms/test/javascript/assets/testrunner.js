@@ -207,13 +207,29 @@ if( noglobals )
 var config = {
 	stats: {
 		all: 0,
-		bad: 0
+		bad: 0,
+		modules: 0,
+		tests: 0,
+		errors: 0
 	},
 	queue: [],
 	// block until document ready
 	blocking: true,
 	//restrict modules/tests by get parameters
-	filters: GETParams,
+  // filters: GETParams,
+  // Made compatible with jstest.rb
+  filters: $.grep(GETParams, function(param, i){ return !/^resultsURL/.test(param) && !/^t/.test(param) }),
+  // TODO dry the selector
+  resultsParams: $.map(GETParams, function(param, i){ 
+    if(/^resultsURL/.test(param)){
+      // TODO find the proper jQuery method
+      return param.split("resultsURL=")[1];
+    } else if (/^t/.test(param)){
+      return param;
+    } else {
+      return null;
+    }
+  }),
 	isLocal: !!(window.location.protocol == 'file:')
 };
 
@@ -235,7 +251,22 @@ $.extend(window, {
 		equiv: equiv,
 		ok: ok,
 		done: function(failures, total){},
-		log: function(result, message){}
+		log: function(result, message){},
+		postResults: function(resultsParams, stats){
+		  results = [ resultsParams[1],
+		              "modules="    + stats.modules,
+		              "tests="      + stats.tests,
+		              "assertions=" + stats.all,
+		              "failures="   + stats.bad,
+		              "errors="     + stats.errors
+		            ].join("&");
+		  $.ajax({
+		    type: "GET",
+		    url: resultsParams[0],
+		    data: results,
+		    async: false
+		  });
+		}
 	},
 	// legacy methods below
 	isSet: isSet,
@@ -331,6 +362,7 @@ function runTest() {
 			.join(''))
 			.appendTo("body");
 		$("#banner").addClass(config.stats.bad ? "fail" : "pass");
+		QUnit.postResults(config.resultsParams, config.stats);
 		QUnit.done( config.stats.bad, config.stats.all );
 	});
 }
@@ -374,6 +406,7 @@ function test(name, callback) {
 	synchronize(function() {
 		config.assertions = [];
 		config.expected = null;
+		config.stats.tests++;
 		try {
 			if( !pollution )
 				saveGlobal();
@@ -387,6 +420,7 @@ function test(name, callback) {
 			callback();
 		} catch(e) {
 			if( typeof console != "undefined" && console.error && console.warn ) {
+			  config.stats.errors++;
 				console.error("Test " + name + " died, exception and test follows");
 				console.error(e);
 				console.warn(callback.toString());
@@ -454,6 +488,7 @@ function test(name, callback) {
 function module(name, lifecycle) {
 	config.currentModule = name;
 	config.moduleLifecycle = lifecycle;
+	config.stats.modules++;
 }
 
 /**
