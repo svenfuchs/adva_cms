@@ -371,8 +371,8 @@ class AdvaJavaScriptTestTask < JavaScriptTestTask
   ASSETS_PATH = File.expand_path(File.dirname(__FILE__) + "/../assets")
 
   def prepare_plugins(plugins)
-    @plugins ||= Dir[File.expand_path(File.dirname(__FILE__) + "/../../../../*")].map{ |dir| File.basename(dir) }    
-    @plugins = @plugins.map do |name|
+    plugins ||= Dir[File.expand_path(File.dirname(__FILE__) + "/../../../../*")].map{ |dir| File.basename(dir) }    
+    @plugins = plugins.map do |name|
       plugin = Plugin.new(name)
       raise "Unknown plugin #{plugin}" unless plugin.exist?
       plugin
