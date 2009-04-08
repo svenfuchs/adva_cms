@@ -30,7 +30,7 @@
 			r.cell link_to_edit(event.title, event) # :class => event.state
 			r.cell datetime_with_microformat(event.start_date, :format => (event.all_day? ? :mdy : :long))
 			r.cell event.end_date ? datetime_with_microformat(event.end_date, :format => (event.all_day? ? :mdy : :long)) : t(:'adva.calendar.open_end')
-			r.cell link_to event.user.name, admin_site_user_path(@site, event.user)
+			r.cell link_to(event.user.name, admin_site_user_path(@site, event.user))
 			r.cell link_to_show(event, :namespace => nil) + "\n" +
 						 links_to_actions([:edit, :delete], event)
 		end

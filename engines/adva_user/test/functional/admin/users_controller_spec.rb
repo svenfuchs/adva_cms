@@ -1,4 +1,4 @@
-# FIXME implement these
+# FIXME convert these
 
 # require File.dirname(__FILE__) + "/../../spec_helper"
 #

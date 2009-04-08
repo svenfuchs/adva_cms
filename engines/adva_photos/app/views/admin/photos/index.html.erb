@@ -11,7 +11,7 @@
   		r.cell link_to(photo.title, edit_admin_photo_path(@site, @section, photo), :class => photo.state)
 			r.cell photo.accept_comments? && !photo.comments.empty? ? link_to(photo.comments.size, admin_comments_path) : t(:"adva.common.none")
 			r.cell published_at_formatted(photo)
-			r.cell link_to h(photo.author_name), admin_site_user_path(@site, photo.author)
+			r.cell link_to(h(photo.author_name), admin_site_user_path(@site, photo.author))
 			r.cell links_to_actions([:edit, :delete], photo)
 		end
 		

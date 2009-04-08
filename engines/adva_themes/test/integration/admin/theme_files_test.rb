@@ -11,7 +11,9 @@ module IntegrationTests
       @theme.activate!
       @admin_theme_show_page = "/admin/sites/#{@site.id}/themes/#{@theme.id}"
     end
-
+    
+    # FIXME implement or delete if already implemented
+    #
     # test "Admin creates a bunch of theme files, updates and deletes them" do
     #   login_as_superuser
     #   visit_theme_show_page
@@ -74,7 +76,7 @@ module IntegrationTests
     end
 
     def create_a_new_theme_file(attributes)
-      click_link 'Create a new file'
+      click_link 'New'
       assert_template "admin/theme_files/new"
 
       attributes.each do |name, value|
@@ -85,7 +87,7 @@ module IntegrationTests
     end
     
     def upload_theme_file
-      click_link 'Upload a new file'
+      click_link 'Upload'
       assert_template "admin/theme_files/import"
 
       attach_file 'file[data]', image_fixture.path # ActionController::TestUploadedFile.new()
@@ -104,7 +106,7 @@ module IntegrationTests
     
     def delete_the_theme_file(name)
       click_link name
-      click_link 'Delete theme file'
+      click_link 'Delete'
       assert_template "admin/themes/show"
     end
   end

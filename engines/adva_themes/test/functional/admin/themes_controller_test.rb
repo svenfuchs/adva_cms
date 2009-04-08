@@ -49,7 +49,6 @@ class AdminThemesControllerTest < ActionController::TestCase
     with :access_granted do
       it_assigns :themes
       it_renders :template, :index do
-        has_tag 'a[href=?]', new_admin_theme_path(@site)
         has_tag 'ul[id=theme_list]'
       end
     end

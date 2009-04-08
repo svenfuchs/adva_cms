@@ -25,7 +25,7 @@ if Rails.plugin?(:adva_post_ping)
         login_as_admin
       
         visit "/admin/sites/#{@site.id}/sections/#{@section.id}/articles"
-        click_link "Create a new article"
+        click_link "New"
 
         expect_no_pings do
           create_a_new_article

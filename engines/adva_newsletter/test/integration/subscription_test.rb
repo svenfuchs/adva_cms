@@ -23,18 +23,18 @@ private
     visit "/admin/sites/#{@site.id}/newsletters/#{@newsletter.id}/subscriptions"
 
     assert_template "admin/newsletter_subscriptions/index"
-    response.body.should have_tag(".empty>a", "Add a new subscriber")
+    response.body.should have_tag(".empty>a", /Create one now/)
   end
 
   def add_site_user
     @site.users.destroy_all
 
     assert_template "admin/newsletter_subscriptions/index"
-    click_link "Add a new subscriber"
+    click_link "New"
 
     assert_template "admin/newsletter_subscriptions/new"
     response.body.should have_tag(".empty", /Site does not have any available user/)
-    response.body.should have_tag(".empty>a", "Add a new user" )
+    response.body.should have_tag(".empty>a", "Create one now" )
 
     # adding site user is out of scope of this test
     site_user = User.create! :first_name => 'newsletter site user',
@@ -52,7 +52,7 @@ private
     @site.users.should_not == []
 
     assert_template "admin/newsletter_subscriptions/index"
-    click_link "Add a new subscriber"
+    click_link "New"
 
     assert_template "admin/newsletter_subscriptions/new"
     select "newsletter site user"
@@ -65,11 +65,11 @@ private
 
   def try_to_add_same_subscriber
     assert_template "admin/newsletter_subscriptions/index"
-    click_link "Add a new subscriber"
+    click_link "New"
 
     assert_template "admin/newsletter_subscriptions/new"
     response.body.should have_tag(".empty", /Site does not have any available user/)
-    response.body.should have_tag(".empty>a", "Add a new user")
+    response.body.should have_tag(".empty>a", "Create one now")
   end
 
   def unsubscribe

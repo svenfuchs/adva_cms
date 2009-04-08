@@ -8,7 +8,7 @@ class ForumTopicsEdgeCases < ActionController::IntegrationTest
   
   test 'an admin creates a new board in a forum with existing topics and no boards' do
     login_as_admin
-    visit_forum_backend
+    visit_boards_index
     visit_new_board_form
     fill_in_and_submit_the_new_board_form
     topics_are_now_assigned_to_the_board
@@ -16,7 +16,7 @@ class ForumTopicsEdgeCases < ActionController::IntegrationTest
   
   test 'an admin deletes the last board should preserve topics' do
     login_as_admin
-    visit_forum_backend
+    visit_boards_index
     visit_new_board_form
     fill_in_and_submit_the_new_board_form
     topics_are_now_assigned_to_the_board
@@ -24,7 +24,7 @@ class ForumTopicsEdgeCases < ActionController::IntegrationTest
     topics_are_now_unassigned_from_the_board
   end
   
-  def visit_forum_backend
+  def visit_boards_index
     @forum = Forum.find_by_permalink('a-forum-without-boards')
     @topics = @forum.topics
     
@@ -33,7 +33,7 @@ class ForumTopicsEdgeCases < ActionController::IntegrationTest
   end
   
   def visit_new_board_form
-    click_link 'new_board'
+    click_link 'New'
     assert_template 'admin/boards/new'
   end
   

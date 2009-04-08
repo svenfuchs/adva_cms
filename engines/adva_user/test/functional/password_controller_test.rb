@@ -26,7 +26,7 @@ class PasswordControllerTest < ActionController::TestCase
       
       it_triggers_event :user_password_reset_requested
       it_assigns_flash_cookie :notice => :not_nil
-      it_redirects_to { login_path }
+      it_redirects_to { login_url }
     end
     
     with "an email adress that does not belong to a user" do

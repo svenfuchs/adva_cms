@@ -1,7 +1,3 @@
-<% content_for :sidebar do %>
-  <%= render :partial => "options" %>
-<% end %>
-
 <h2><%= t(:'adva.newsletter.title.edit_issue') %></h2>
 
 <% split_form_for :issue, @issue, :url => admin_issue_path, :html => { :method => :put, :multipart => true } do |f| %>
