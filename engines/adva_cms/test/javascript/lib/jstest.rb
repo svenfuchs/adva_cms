@@ -406,8 +406,9 @@ class AdvaJavaScriptTestTask < JavaScriptTestTask
 end
 
 class TestResults
-  attr_reader :tests, :assertions, :failures, :errors, :filename
+  attr_reader :modules, :tests, :assertions, :failures, :errors, :filename
   def initialize(query, filename)
+    @modules    = query['modules'].to_i
     @tests      = query['tests'].to_i
     @assertions = query['assertions'].to_i
     @failures   = query['failures'].to_i
@@ -432,6 +433,7 @@ end
 
 class TestSuiteResults
   def initialize
+    @modules    = 0
     @tests      = 0
     @assertions = 0
     @failures   = 0
@@ -441,6 +443,7 @@ class TestSuiteResults
   end
   
   def <<(result)
+    @modules    += result.modules
     @tests      += result.tests
     @assertions += result.assertions
     @failures   += result.failures
@@ -465,7 +468,7 @@ class TestSuiteResults
   end
   
   def summary
-    "#{@tests} tests, #{@assertions} assertions, #{@failures} failures, #{@errors} errors."
+    "#{@modules} modules, #{@tests} tests, #{@assertions} assertions, #{@failures} failures, #{@errors} errors."
   end
 end
 

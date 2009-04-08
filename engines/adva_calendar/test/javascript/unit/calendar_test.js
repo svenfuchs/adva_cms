@@ -21,3 +21,7 @@ test("some other test", function() {
  equals( true, false, "failing test" );
  equals( true, true, "passing test" );
 });
+
+test("raise error", function() {
+  [0, 1][3].toString();
+});
