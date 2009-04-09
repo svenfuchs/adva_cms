@@ -24,8 +24,8 @@ class CreateContentsTable < ActiveRecord::Migration
       t.datetime   :published_at
       t.timestamps
     end
-    Content.create_translation_table! :title => :string, :body => :text, 
-      :excerpt => :text, :body_html => :string, :excerpt_html => :text
+    Content.create_translation_table! :title => :string, :body => :text,
+      :excerpt => :text, :body_html => :text, :excerpt_html => :text
   end
 
   def self.down
