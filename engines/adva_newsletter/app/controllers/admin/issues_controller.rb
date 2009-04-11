@@ -49,12 +49,17 @@ class Admin::IssuesController < Admin::BaseController
     redirect_to admin_issues_path(@site, @newsletter)
   end
   
-private
-  def set_newsletter
-    @newsletter = Newsletter.find(params[:newsletter_id])
-  end
+  protected
   
-  def set_issue
-    @issue = Issue.find(params[:id])
-  end
+    def set_menu
+      @menu = Menus::Admin::Issues.new
+    end
+
+    def set_newsletter
+      @newsletter = Newsletter.find(params[:newsletter_id])
+    end
+  
+    def set_issue
+      @issue = Issue.find(params[:id])
+    end
 end

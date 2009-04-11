@@ -55,6 +55,11 @@ class Admin::PhotosController < Admin::BaseController
   end
   
   protected
+
+    def set_menu
+      @menu = Menus::Admin::Photos.new
+    end
+
     def photo_paginate_options
       {:page => params[:page], :order => 'created_at DESC'}
     end

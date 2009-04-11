@@ -76,7 +76,7 @@ class ForumsTest < ActionController::IntegrationTest
   def delete_the_section
     section_count = @site.sections.size
     
-    click_link 'Delete this section'
+    click_link 'Delete'
     
     assert @site.sections.size == section_count - 1
     assert_template 'admin/sections/new'

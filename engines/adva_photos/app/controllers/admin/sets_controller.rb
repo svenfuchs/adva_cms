@@ -44,6 +44,11 @@ class Admin::SetsController < Admin::BaseController
   end
   
   protected
+
+    def set_menu
+      @menu = Menus::Admin::Sets.new
+    end
+
     def set_sets
       @sets = @section.sets.paginate :conditions => {:parent_id => nil}, :page => current_page
     end

@@ -71,6 +71,17 @@ class Admin::SitesController < Admin::BaseController
       end
     end
 
+    def set_menu
+      @menu = case params[:action]
+      when 'show'
+        Menus::Admin::Sites.new
+      when 'edit'
+        Menus::Admin::Settings.new
+      else
+        Menus::Admin::Sites::Main.new
+      end
+    end
+
     def set_site
       @site = Site.find params[:id] if params[:id]
     end

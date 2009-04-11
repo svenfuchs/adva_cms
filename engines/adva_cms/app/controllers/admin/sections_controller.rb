@@ -61,6 +61,10 @@ class Admin::SectionsController < Admin::BaseController
 
   protected
 
+    def set_menu
+      @menu = Menus::Admin::Sections.new
+    end
+
     def set_section
       @section = @site.sections.find(params[:id])
     end

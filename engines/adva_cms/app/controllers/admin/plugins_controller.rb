@@ -26,6 +26,10 @@ class Admin::PluginsController < Admin::BaseController
 
   protected
 
+    def set_menu
+      @menu = Menus::Admin::Plugins.new
+    end
+
     def set_plugins
       @plugins = @site.plugins.values
     end

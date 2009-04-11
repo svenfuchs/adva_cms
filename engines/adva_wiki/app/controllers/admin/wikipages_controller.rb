@@ -76,6 +76,10 @@ class Admin::WikipagesController < Admin::BaseController
 
   private
 
+    def set_menu
+      @menu = Menus::Admin::Wiki.new
+    end
+
     def set_section
       super
     end

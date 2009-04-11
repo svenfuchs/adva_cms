@@ -1,6 +1,6 @@
   class AlbumsController < BaseController
   include ActionController::GuardsPermissions::InstanceMethods
-  helper :roles
+  helper :roles, :photos
 
   before_filter :set_section
   before_filter :set_set, :set_tags, :set_photos, :only => :index

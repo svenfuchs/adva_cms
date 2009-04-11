@@ -1,2 +1,3 @@
 require 'tags'
-require 'menus'
+require 'menu'
+require 'breadcrumbs'

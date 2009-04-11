@@ -143,7 +143,7 @@ class AdminResourceHelperTest < ActionView::TestCase
     assert_html link_to_new([@site, :section]), 'a[href=?][class=new section]', @paths[:sections][:new], 'Create a new section'
     assert_html link_to_show(@section), 'a[href=?][class=show section]', @paths[:sections][:show], 'View'
     assert_html link_to_edit(@section), 'a[href=?][class=edit section]', @paths[:sections][:edit], 'Settings'
-    assert_html link_to_delete(@section), 'a[href=?][class=delete section]', @paths[:sections][:show], 'Delete this section'
+    assert_html link_to_delete(@section), 'a[href=?][class=delete section]', @paths[:sections][:show], 'Delete'
   end
 
   test 'resource_link helpers for sites' do

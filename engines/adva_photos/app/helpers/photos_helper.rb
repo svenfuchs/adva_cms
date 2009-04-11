@@ -1,4 +1,4 @@
-module AlbumsHelper
+module PhotosHelper
   def collection_title(set=nil, tags=nil)
     title = []
     title << 'about '  + set.title if set

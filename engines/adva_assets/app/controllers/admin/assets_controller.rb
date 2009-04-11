@@ -66,6 +66,10 @@ class Admin::AssetsController < Admin::BaseController
 
   protected
 
+    def set_menu
+      @menu = Menus::Admin::Assets.new
+    end
+
     def set_assets
       @assets = site.assets.filtered(params[:filters]).paginate(:per_page => params[:limit] || 24, :page => current_page)
     end

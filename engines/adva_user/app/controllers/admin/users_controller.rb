@@ -59,6 +59,10 @@ class Admin::UsersController < Admin::BaseController
 
   private
 
+    def set_menu
+      @menu = Menus::Admin::Users.new
+    end
+
     def set_users
       @users = if @site
         @site.users_and_superusers.paginate :page => current_page

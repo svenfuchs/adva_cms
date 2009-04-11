@@ -56,6 +56,14 @@ module Admin::BaseHelper
     end
   end
 
+  def link_to_clear_cached_pages(site)
+    link_to(t(:'adva.cached_pages.links.clear_all'), admin_cached_pages_path(site), :method => :delete)
+  end
+
+  def link_to_restore_plugin_defaults(site, plugin)
+    link_to(t(:'adva.titles.restore_defaults'), admin_plugin_path(site, plugin), :confirm => t(:'adva.plugins.confirm_reset'))
+  end
+
   def page_cached_at(page)
     if Date.today == page.updated_at.to_date
       if page.updated_at > Time.zone.now - 4.hours

@@ -55,6 +55,10 @@ class Admin::BoardsController < Admin::BaseController
 
   protected
 
+    def set_menu
+      @menu = Menus::Admin::Boards.new
+    end
+
     def set_boards
       @boards = @section.boards :order => :position
     end

@@ -5,13 +5,13 @@
 			<%= "v#{theme.version}" unless theme.version.blank? %>
 	    <%= t(:'adva.common.by_author', :author => theme.author_link) %>
 	  </p>
-		<%= link_to theme_image_tag(theme.theme_id, theme.preview.base_url, :title => theme.theme_id), admin_theme_path(@site, theme) if theme.preview %>
+		<%= link_to theme_image_tag(theme.theme_id, theme.preview.base_url, :title => theme.theme_id), index_path([theme, :'theme/file']) if theme.preview %>
 
 		<ul class="options">
 	    <% if theme.active? %>
-	      <li><%= link_to t(:'adva.titles.deactivate'), admin_site_selected_themes_path(@site, :id => theme.id), { :confirm => t(:'adva.themes.confirm_deactivate'), :method => :post } %></li>
+				<li><%= link_to_deactivate_theme(theme) %></li>
 	    <% else %>
-	      <li><%= link_to t(:'adva.titles.activate'), admin_site_selected_theme_path(@site, theme), { :confirm => t(:'adva.themes.confirm_activate'), :method => :delete } %></li>
+				<li><%= link_to_activate_theme(theme) %></li>
 	    <% end %>
 	    <li><%= link_to t(:'adva.themes.links.edit'), edit_admin_theme_path(@site, theme) %></li>
 	    <li><%= link_to t(:'adva.themes.links.delete'), admin_theme_path(@site, theme), { :confirm => t(:'adva.themes.confirm_uninstall'), :method => :delete }  %></li>

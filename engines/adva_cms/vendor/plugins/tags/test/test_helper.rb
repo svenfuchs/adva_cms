@@ -7,7 +7,7 @@ require 'action_controller'
 require 'action_view'
 require 'action_view/test_case'
 require 'tags'
-require 'menus'
+require 'menu'
 
 class Test::Unit::TestCase
   include ActionController::Assertions::SelectorAssertions
