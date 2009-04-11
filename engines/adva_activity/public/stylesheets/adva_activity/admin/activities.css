@@ -1,7 +1,5 @@
-/* activities */
-
 .activities h3 {
-	border-bottom: 1px solid #ccc;
+  font-size: 12pt;
 }
 .activities h4,
 .activities p,
@@ -9,22 +7,37 @@
 	margin: 0px 0px 3px 0px;
 	font-weight: normal;
 }
+.activities ul {
+  margin-top: 10px;
+  list-style-type: none;
+}
 .activities blockquote {
 	font-style: italic;
 }
 .activities .meta {
+  clear: right;
 	float: right;
-	margin: 0px 0px 4px 0px;
-	padding-bottom: 0px;
+	margin: 0;
+	padding-bottom: 0;
 	text-align: right;
 }
-.activities .activity li {	
-	display: inline;
+.activities .meta,
+.activities .meta a {
+	font-size: 12px;
+	color: #888;
+	line-height: 20px;
+}
+.activities li.empty {	
+	margin-top: 10px;
 }
 
 .activities .activity {	
 	padding: 10px 10px 10px 35px;
 }
+.activities .activity.highlight {
+  background-color: #f6f6f6;
+}
+
 .activity.comment_created {
 	background: url(/images/adva_cms/icons/comment_add.png) no-repeat 10px 11px;
 }

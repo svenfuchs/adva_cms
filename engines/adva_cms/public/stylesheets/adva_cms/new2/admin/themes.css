@@ -1,0 +1,49 @@
+#theme_list {
+  list-style: none;
+	margin: 0;
+	padding: 0px;
+}
+#theme_list li {
+  display: block;
+  position: relative;
+  float: left;
+	margin: 0px;
+	padding: 0px;
+  text-align: center;
+  padding: 20px 40px 30px 0;
+}
+#theme_list h4 {
+	font-size: 14px;
+	margin: 0px 0px 4px 0px;
+}
+#theme_list p {
+	margin: 0px 0px 8px 0px;
+  font-weight: normal;
+  font-size: 11px;
+  color: #777;
+}
+#theme_list img,
+#screenshot img {
+  width: 130px;
+  height: 130px;
+  background: #fff;
+  margin: 5px;
+  padding: 5px;
+  border: 1px solid #ddd;
+}
+#theme_list ul.options {
+	text-align: center;
+	padding: 4px 0px;
+}
+#theme_list ul.options li {
+	float: none;
+	display: inline;
+	padding: 4px;
+	font-size: 12px;
+}
+#theme_list .current img {
+	margin: 0px;
+  padding: 10px;
+	border-color: transparent;
+	background: url(/images/adva_cms/theme_selected.png) no-repeat;
+}

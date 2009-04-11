@@ -24,8 +24,8 @@ end
 I18n.load_path += Dir[File.dirname(__FILE__) + '/locale/**/*.yml']
 
 register_javascript_expansion \
-  :common  => %w( adva_cms/prototype adva_cms/lowpro
-                  adva_cms/flash adva_cms/cookie adva_cms/json ),
+  :common  => %w( adva_cms/prototype adva_cms/lowpro adva_cms/flash 
+                  adva_cms/cookie adva_cms/json ),
   :default => %w( adva_cms/parseuri adva_cms/roles adva_cms/application ),
   :login   => %w( ),
   :simple  => %w( ),
@@ -33,8 +33,6 @@ register_javascript_expansion \
                   adva_cms/admin/smart_form adva_cms/admin/spotlight 
                   adva_cms/admin/sortable_tree adva_cms/admin/sortable_list
                   adva_cms/admin/admin adva_cms/admin/article adva_cms/admin/tabs )
-
-  
 
 register_stylesheet_expansion \
   :default => %w( adva_cms/default adva_cms/common adva_cms/forms ),
@@ -46,7 +44,7 @@ register_stylesheet_expansion \
                   adva_cms/new2/layout/simple ),
   :admin   => %w( adva_cms/new2/reset
   								adva_cms/new2/layout/admin adva_cms/new2/admin/common
-                  adva_cms/new2/admin/navigation adva_cms/new2/admin/sidebar
+                  adva_cms/new2/admin/header adva_cms/new2/admin/sidebar
                   adva_cms/new2/admin/forms adva_cms/new2/admin/lists
                   adva_cms/new2/admin/content adva_cms/new2/admin/themes
                   adva_cms/new2/admin/users)
