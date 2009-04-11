@@ -1,4 +1,8 @@
+#calendar_event_datetimes .col {
+  position: relative;
+}
 #calendar_event_datetimes img {
   position: absolute;
-  right: 0px;
+  top: 43px;
+  right: -13px;
 }

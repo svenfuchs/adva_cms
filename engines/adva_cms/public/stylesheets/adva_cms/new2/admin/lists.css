@@ -37,8 +37,8 @@ table.list a.pending {
   padding-left: 30px;
   background: url(/images/adva_cms/icons/hourglass.png) no-repeat;
 }
+
 .actions a {
-  background-color: yellow;
   display: block;
   float: left;
   width: 16px;
@@ -57,6 +57,7 @@ table.list a.pending {
 .actions a.delete {
   background: url(/images/adva_cms/icons/bin_closed.png) no-repeat;
 }
+
 
 /* comments list */
 

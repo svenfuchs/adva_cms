@@ -20,7 +20,7 @@
 }
 .asset_tools {
 	position: absolute;
-	bottom: 1px;
+	bottom: 5px;
   width: 60px;
 	background-color: #efefef;
 	padding-top: 1px;
@@ -40,48 +40,54 @@
   margin: 0px 2px;
   text-indent: -9999px;
   text-decoration: none;
+  outline: none;
 }
 .asset_tools li.edit a   { background-image: url(/images/adva_cms/icons/pencil.png) }
 .asset_tools li.delete a { background-image: url(/images/adva_cms/icons/delete.png) }
 .asset_tools li.bucket a { background-image: url(/images/adva_cms/icons/attach.png) }
 
-#asset_form label {
+#new_asset label {
+  clear: none;
 	float: left;
-	margin: 20px 16px 0 0;
-	font-weight: normal;
-	font-size: 11px;
+	margin-top: 6px;
+	font-size: 12px;
 }
-#asset_form #file_label {
-	width: 270px;
-	margin-right: 0px;
+#new_asset label.file {
+	width: 35%;
 }
-#asset_form #title_label,
-#asset_form #taglist_label {
+#new_asset label.title,
+#new_asset label.tags {
 	width: 22%;
+	margin-right: 26px;
 }
-#asset_form #files {
+#new_asset #files {
 	clear: both;
 	padding-bottom: 4px !important;
 }
-#asset_form #files p {
+#new_asset #files p {
 	clear: both;
 	padding: 4px;
+	white-space: nowrap;
 }
-#asset_form #files p a {
+#new_asset #files p a {
 	font-size: 11px;
 }
-#asset_form .file_field {
+#new_asset .file_field {
 	float: left;
-	width: 270px;
+	width: 35%;
 }
-#asset_form .title_field,
-#asset_form .taglist_field {
+#new_asset .title_field,
+#new_asset .taglist_field {
 	width: 22%;
 	float: left;
 	margin-right: 8px;
 }
 
 /* assets widget */
+
+#assets_widget {
+  margin-top: 20px;
+}
 
 #assets_widget .tabs {
 	margin: 0 0 2px 0 !important;
@@ -100,6 +106,7 @@
   font-size: 90%;
 	text-decoration: none;
   background-color: #ccc;
+  outline: none;
 }
 #assets_widget .tabs .selected a {
   background-color: #fff !important;
@@ -130,7 +137,7 @@
 
 #assets_widget .panel {
 	float: left;
-	width: 90%;
+	width: 98%;
 	margin-top: 0px;
 	margin-bottom: 25px;
   padding: 3px 8px 8px 8px;

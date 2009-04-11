@@ -1,6 +1,6 @@
 #content fieldset {
   clear: both;
-	margin: 0 9px 20px 9px;
+	margin: 0 9px 0px 0px;
 }
 #content .col {
 	width: 46%;
@@ -15,12 +15,13 @@
 	width: 100%;
 }
 #content .col > * {
-	margin-left: -9px;
+	/*margin-left: -4px;*/
 }
 #content .col > .inline {
 	margin-left: 0;
 }
 input[type=text],
+input[type=password],
 textarea {
 	width: 100%;
 	padding: 4px 8px;
@@ -37,7 +38,8 @@ textarea.big {
 select {
   margin: 3px 0;
 }
-input.big[type=text] {
+input.big[type=text],
+input.big[type=password] {
   font-size: 20px;
 }
 textarea.small {
@@ -61,8 +63,14 @@ label.inline {
 label.light {
   font-weight: normal;
 }
+#content form h2 {
+  font-size: 12pt;
+}
 #content form p {
 	margin-top: 0.5em;
+}
+#content form p.buttons {
+	margin-top: 1.2em;
 }
 .error_message {
   float: right;
@@ -75,4 +83,18 @@ label.light {
 .hint {
   font-size: 0.85em;
   color: #999;
+}
+.wide_button {
+  display: block;
+  color: #555;
+  background: #f6f6f6;
+  padding: 5px;
+  text-decoration: none;
+  margin-top: 10px;
+  text-align: center;
+  outline: none;
+}
+.wide_button:hover {
+  background-color: #ddd;
+  text-decoration: none;
 }

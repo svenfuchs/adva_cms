@@ -11,16 +11,16 @@
 	clear: both; 
 	visibility: hidden;
 }
-#header ul.top {
+#header .top ul {
   clear: none;
 	position: relative;
 	list-style-type: none;
 }
-#header ul.left {
+#header .top ul.left {
 	float: left;
 	margin-left: 3%;
 }
-#header ul.right {
+#header .top ul.right {
 	float: right;
 	margin-right: 2%;
 }
@@ -54,9 +54,6 @@
 #header .top li ul {
   list-style-type: none;
 }
-#header .top li > ul li {
-  padding-left: 25px;
-}
 #header .top li:hover ul {
   display: block;
 }
@@ -64,7 +61,6 @@
   float: none;
 }
 #header .top li > ul li a {
-  margin-left: -25px;
   color: #000 !important;
 }
 #header .top li > ul li a {
@@ -73,6 +69,16 @@
 #header .top li > ul li a:hover {
   background-color: #ddd !important;
 }
+#header #sections_menu a.active {
+  background: transparent url(/images/adva_cms/icons/tick.png) no-repeat scroll 5px 5px;
+}
+#header #sections_menu .level_0 { padding-left: 25px; }
+#header #sections_menu .level_1 { padding-left: 40px; }
+#header #sections_menu .level_2 { padding-left: 55px; }
+#header #sections_menu .level_3 { padding-left: 80px; }
+#header #sections_menu .level_4 { padding-left: 105px; }
+#header #sections_menu .level_5 { padding-left: 130px; }
+#header #sections_menu .level_6 { padding-left: 155px; }
 
 #breadcrumbs {
 	float: left;
@@ -88,7 +94,10 @@
   padding: 0 0 0 0px;
 }
 #breadcrumbs li:after { 
-  content: " » " 
+  content: "\0020 \0020 \0020 \00BB \0020";
+}
+#breadcrumbs li.last:after { 
+  content: " ";
 }
 #breadcrumbs li,
 #breadcrumbs li a {
@@ -129,6 +138,13 @@
 }
 #main_menu li {
   float: left;
+}
+#main_menu h4 {
+  display: inline;
+  margin-top: 0;
+  padding: 6px 16px 0 0;
+  color: #888;
+  font-weight: normal;
 }
 #main_menu .left {
   margin-left: 6%;

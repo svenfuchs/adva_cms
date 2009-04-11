@@ -3,12 +3,20 @@
   padding: 20px 8%;
 	font-size: 12px;
 }
+#sidebar ul {
+  margin-top: 12px;
+  list-style-type: none;
+}
 #sidebar fieldset {
 	padding: 0 2%;
 }
 #sidebar fieldset > * {
 	margin-left: -6px;
 	margin-right: -6px;
+}
+#sidebar #filters fieldset > * {
+  margin-left: 0;
+  margin-right: 0;
 }
 #sidebar fieldset label {
 	margin-top: 12px;
@@ -24,9 +32,8 @@
 #sidebar fieldset p {
 	margin-top: 0.4em;
 }
-#sidebar ul {
+#sidebar fieldset ul {
 	margin-top: 8px;
-  list-style-type: none;
 }
 
 #sidebar .tabs > ul {
