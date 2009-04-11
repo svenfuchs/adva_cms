@@ -19,7 +19,7 @@ class PhotosTest < ActionController::IntegrationTest
   test 'an admin uploads a photo' do
     login_as_admin
     visit_album_backend
-    click_link 'Upload a photo'
+    click_link 'Upload'
     display_new_photo_form
     fill_in_and_submit_new_form
   end

@@ -8,37 +8,25 @@ class BoardsTest < ActionController::IntegrationTest
   
   test 'an admin creates a new board' do
     login_as_admin
-    visit_forum_backend
+    visit_board_index
     visit_new_board_form
     fill_in_and_submit_the_new_board_form
   end
   
   test 'an admin edits a board' do
     login_as_admin
-    visit_forum_backend
+    visit_board_index
     visit_edit_board_form
     fill_in_and_submit_the_edit_board_form
   end
   
   test 'an admin deletes the board' do
     login_as_admin
-    visit_forum_backend
+    visit_board_index
     delete_the_board
   end
   
-  test 'an admin creates a new board for topics, deletes the only board of forum and visits the forum frontend' do
-    login_as_admin
-    visit_boardless_forum_backend
-    visit_new_board_form
-    fill_in_and_submit_the_new_board_form
-    
-    @board = @forum.boards.first
-    
-    delete_the_board
-    visit_frontend
-  end
-  
-  def visit_forum_backend
+  def visit_board_index
     @forum = Forum.find_by_permalink('a-forum-with-boards')
     @board = @forum.boards.find_by_title('a board')
     
@@ -46,20 +34,8 @@ class BoardsTest < ActionController::IntegrationTest
     assert_template 'admin/boards/index'
   end
   
-  def visit_frontend
-    click_link 'Forum'
-    assert_template 'forum/show'
-  end
-  
-  def visit_boardless_forum_backend
-    @forum = Forum.find_by_permalink('a-forum-without-boards')
-    
-    get admin_boards_path(@site, @forum)
-    assert_template 'admin/boards/index'
-  end
-  
   def visit_new_board_form
-    click_link 'new_board'
+    click_link 'New'
     assert_template 'admin/boards/new'
   end
   

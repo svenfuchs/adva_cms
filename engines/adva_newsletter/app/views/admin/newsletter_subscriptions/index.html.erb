@@ -15,7 +15,7 @@
 
 		t.empty :p, :class => 'empty' do
 			t(:'adva.subscription.no_subscriptions') + "\n" + 
-			link_to(t(:'adva.subscription.link.new'), new_admin_subscription_path(@site, @newsletter))
+			link_to(t(:'adva.links.create_one_now'), new_admin_subscription_path(@site, @newsletter))
 		end
 	end
 %>

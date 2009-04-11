@@ -20,7 +20,7 @@ class SetsTest < ActionController::IntegrationTest
     login_as_admin
     visit_album_backend
     click_link 'Sets'
-    click_link 'Create a new set'
+    click_link 'New'
     assert_template 'admin/sets/new'
     fill_in_and_submit_new_set_form
   end

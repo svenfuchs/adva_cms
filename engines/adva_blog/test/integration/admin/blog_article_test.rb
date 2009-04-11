@@ -24,7 +24,7 @@ module IntegrationTests
     end
 
     def create_a_new_article
-      click_link "Create a new article"
+      click_link "New"
       fill_in 'article[title]', :with => 'the article title'
       fill_in 'article[body]',  :with => 'the article body'
       click_button 'Save'
@@ -40,13 +40,13 @@ module IntegrationTests
     end
 
     def preview_article
-      click_link 'Preview this article'
+      click_link 'Preview'
       request.url.should == "http://#{@site.host}/2008/1/1/the-article-title?cl=en"
     end
 
     def delete_article
       visit @back_url
-      click_link 'Delete this article'
+      click_link 'Delete'
       request.url.should =~ %r(/admin/sites/\d+/sections/\d+/articles)
       response.body.should_not =~ %r(the revised article title)
     end

@@ -29,7 +29,7 @@ private
     click_link @newsletter.title
 
     assert_template "admin/issues/index"
-    click_link "Create a new issue"
+    click_link "New"
 
     assert_template "admin/issues/new"
     fill_in :issue_title, :with => nil
@@ -37,7 +37,7 @@ private
     click_button "Save"
 
     assert_template "admin/issues/new"
-    response.body.should have_tag(".field_with_error")
+    response.body.should have_tag(".error_message")
   end
 
   def submit_draft_issue
@@ -55,7 +55,7 @@ private
   end
 
   def submit_non_draft_issue
-    click_link "Create a new issue"
+    click_link "New"
 
     assert_template "admin/issues/new"
     fill_in :issue_title, :with => "issue test title"
@@ -91,7 +91,7 @@ private
   def delete_issue
     assert_template "admin/issues/show"
     assert_equal 1, @newsletter.issues.count
-    click_link "Delete issue"
+    click_link "Delete"
 
     assert_template "admin/issues/index"
     assert_flash "Newsletter issue was successfully moved to trash."

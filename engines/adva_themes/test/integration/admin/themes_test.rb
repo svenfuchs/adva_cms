@@ -38,7 +38,7 @@ module IntegrationTests
     end
 
     def create_a_new_theme
-      click_link 'New theme'
+      click_link 'Create one now'
       assert_template "admin/themes/new"
 
       fill_in 'name', :with => 'a new theme'
@@ -47,7 +47,7 @@ module IntegrationTests
     end
     
     def creates_a_new_theme_file(attributes)
-      click_link 'Create a new file'
+      click_link 'New'
       assert_template "admin/theme_files/new"
 
       attributes.each do |name, value|
@@ -59,9 +59,6 @@ module IntegrationTests
 
     def update_the_themes_attributes
       click_link 'Edit'
-      assert_template "admin/themes/show"
-      
-      click_link 'Edit theme' # FIXME ugh ...
       assert_template "admin/themes/edit"
 
       fill_in 'name', :with => 'an updated theme'
@@ -70,12 +67,12 @@ module IntegrationTests
     end
     
     def delete_the_theme
-      click_link 'Delete theme'
+      click_link 'Delete'
       assert_template "admin/themes/index"
     end
     
     def export_theme
-      click_link 'Download theme'
+      click_link 'Download'
       @exported_theme = "#{Rails.root}/tmp/themes/imported-theme.zip"
       ::File.open(@exported_theme, 'w+') { |file| file.write(@response.body) }
     end
@@ -83,7 +80,7 @@ module IntegrationTests
     def reimport_theme
       assert_difference 'Theme.count' do
         visit_themes_index_page
-        click_link 'Import theme'
+        click_link 'Import'
         attach_file 'Zip file', @exported_theme
         click_button 'Import'
         assert_template 'admin/themes/index'

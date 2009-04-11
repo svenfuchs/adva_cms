@@ -8,6 +8,7 @@ en:
       links:
         index: Newsletters
         new: New
+        create_now: Create one now
         edit: Edit
         delete: Delete
     issues:

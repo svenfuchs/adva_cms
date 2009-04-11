@@ -43,7 +43,6 @@ class AdminWikipagesControllerTest < ActionController::TestCase
       it_assigns :wikipages
       it_renders :template, :index do
         has_tag 'table[id=wikipages]'
-        has_tag 'a[href=?]', new_admin_wikipage_path(@site, @section)
       end
     end
   end
