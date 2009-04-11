@@ -47,4 +47,10 @@ class Admin::NewslettersController < Admin::BaseController
     flash[:notice] = t(:'adva.newsletter.flash.newsletter_moved_to_trash_success')
     redirect_to admin_newsletters_path(@site)
   end
+  
+  protected
+  
+    def set_menu
+      @menu = Menus::Admin::Newsletter.new
+    end
 end

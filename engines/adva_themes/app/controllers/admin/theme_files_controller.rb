@@ -73,6 +73,10 @@ class Admin::ThemeFilesController < Admin::BaseController
       # see lib/theme_support/compiled_template_expiration
       FileUtils.touch(@theme.path) if file.is_a?(Theme::Template) && File.directory?(@theme.path)
     end
+    
+    def set_menu
+      @menu = Menus::Admin::ThemeFiles.new
+    end
 
     def set_theme
       @theme = @site.themes.find(params[:theme_id]) or raise "can not find theme #{params[:theme_id]}"

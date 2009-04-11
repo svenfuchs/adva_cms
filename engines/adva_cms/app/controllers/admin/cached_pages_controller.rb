@@ -22,7 +22,12 @@ class Admin::CachedPagesController < Admin::BaseController
     redirect_to admin_cached_pages_path
   end
 
-  private
+  protected
+
+    def set_menu
+      @menu = Menus::Admin::CachedPages.new
+    end
+    
     def set_cached_pages
       conditions = params[:query] ? ['url LIKE ?', ["%#{params[:query]}%"]] : nil
       @cached_pages = @site.cached_pages.paginate :page => current_page, :conditions => conditions, :include => :references

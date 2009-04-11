@@ -47,6 +47,7 @@ en:
       board: Board
       boards: Boards
       cache: Cache
+      calendar_events: Events
       categories: Categories
       clear: Clear
       clear_all: Clear all
@@ -87,6 +88,7 @@ en:
       settings: Settings
       show: Show
       site: Site
+      sites: Sites
       spam_filters: Spam filters
       spam_protection: Spam protection
       subscriptions: Subscriptions
@@ -100,11 +102,12 @@ en:
       tracking: Tracking
       upload: Upload
       users: Users
+      view: View
       website: Website
       website_configuration: Website configuration
       website_home_section: Website home section
       welcome: Welcome!
-      wikipages: Wikipages
+      wikipages: Pages
     links: 
       back: Back
       create_one_now: Create one now. &raquo;
@@ -135,13 +138,14 @@ en:
         body: If you think you should be allowed to perform this action please contact the admin of this site and ask him to reconfigure the permissions for your role.
       not_editable: "Sorry, but it's not editable!"
     resources:
-      delete: Delete
-      new: New
-      edit: Edit
-      reordering_done: Done reordering
-      settings: settings
-      view: View
-      show: View
+      links:
+        view: View
+        show: View
+        new: New
+        edit: Edit
+        delete: Delete
+        reorder: Reorder
+        reordering_done: Done reordering
       confirm_delete: "Are you sure you want to delete this item?"
     state:
       draft: Draft
@@ -211,7 +215,7 @@ en:
         new: Create a new section
         show: View
         edit: Settings
-        delete: Delete this section
+        delete: Delete
         add_section: Add a section
         reorder: Reorder sections
         create: Create a new section

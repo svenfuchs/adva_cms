@@ -9,22 +9,17 @@
 </head>
 <body>
   <div id="header">
-		<%= Menus.instance(:admin).render(self, :level => 1, :branch => :left,  :class => 'top left', :build => true, :activate => request.path) %>
-		<%= Menus.instance(:admin).render(self, :level => 1, :branch => :right, :class => 'top right') %>
+		<%= @menu.build(self).root.render(:class => 'top') %>
   </div>
 	<div id="page">
 		<%= yield :form if @content_for_form %>
 		<div id="main">
 			<div class="navigation">
-				<%= render :partial => 'admin/shared/breadcrumbs' %>
-	      <div id="main_menu">
-	        <%= Menus.instance(:admin).render(self, :level => 2, :class => 'menu main left') %>
-	        <%= Menus.instance(:admin).render(self, :level => 3, :class => 'menu main right') %>
-				</div>
+				<%= Breadcrumbs.new(@menu.active.breadcrumbs).render %>
+				<%= @menu.root.find(:main).try(:render, :id => 'main_menu') %>
 			</div>
       <%= render :partial => 'shared/flash' %>
 			<div id="content">
-				<%#=h Menus.instance(:'foo.bar').render(self) %>
         <%= yield %>
 			</div>
 		</div>

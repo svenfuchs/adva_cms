@@ -69,6 +69,10 @@ class Admin::CalendarEventsController < Admin::BaseController
   end
 
   private
+    def set_menu
+      @menu = Menus::Admin::Calendar.new
+    end
+  
     def set_section
       @calendar = @section = Calendar.find(params[:section_id], :conditions => {:site_id => @site.id})
     end

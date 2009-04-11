@@ -8,9 +8,6 @@ class Admin::ThemesController < Admin::BaseController
     @themes = @site.themes.find(:all)
   end
 
-  def show
-  end
-
   def new
     @theme = Theme.new
   end
@@ -75,19 +72,23 @@ class Admin::ThemesController < Admin::BaseController
   def select
     @theme.activate!
     expire_pages_by_site!
-    redirect_to admin_themes_path
+    redirect_to params[:return_to] || admin_themes_path
   end
 
   def unselect
     @theme.deactivate!
     expire_pages_by_site!
-    redirect_to admin_themes_path
+    redirect_to params[:return_to] || admin_themes_path
   end
 
-  private
+  protected
 
     def expire_pages_by_site!
       expire_site_page_cache
+    end
+
+    def set_menu
+      @menu = Menus::Admin::Themes.new
     end
 
     def set_theme

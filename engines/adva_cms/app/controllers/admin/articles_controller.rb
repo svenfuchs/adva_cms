@@ -100,6 +100,10 @@ class Admin::ArticlesController < Admin::BaseController
     def current_resource
       @article || @section
     end
+    
+    def set_menu
+      @menu = Menus::Admin::Articles.new
+    end
 
     def set_articles
       options = { :page => current_page, :per_page => 25, :order => 'contents.position, contents.id DESC' }

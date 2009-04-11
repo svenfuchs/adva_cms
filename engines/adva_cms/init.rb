@@ -7,7 +7,7 @@ require 'core_ext'
 require 'rails_ext'
 require 'cells_ext'
 
-require 'menu'
+# require 'menu'
 require 'event'    # need to force these to be loaded now, so Rails won't
 require 'registry' # reload them between requests (FIXME ... this doesn't seem to happen?)
 

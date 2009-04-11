@@ -20,7 +20,7 @@ class BaseController < ApplicationController
   filter_parameter_logging :password
 
   content_for :header, :menu, :only => { :format => :html } do
-    Menu.instance(:'default.sections').render(self)
+#    Menu.instance(:'default.sections').render(self)
   end
 
   protected
