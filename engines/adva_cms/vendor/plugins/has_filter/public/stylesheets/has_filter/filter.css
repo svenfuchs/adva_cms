@@ -1,13 +1,20 @@
 #filters {
   position: relative;
+  padding-top: 15px;
 }
 #filters .set {
+  min-width: 300px;
+  position: relative;
 	white-space: nowrap;
-	background-color: #efefef;
+	padding: 4px 8px;
+	margin-bottom: 2px;
+	background-color: #e8e8e8;
+	/*border-bottom: 1px solid #b1b1b1;*/
 }
 #filters .set fieldset {
   display: none;
   vertical-align: middle;
+  padding: 0;
 }
 #filters .selected_filter, 
 #filters .set .selected {
@@ -35,18 +42,53 @@
 #filters .set .controls {
   position: absolute;
   right: 0px;
-  width: 24px;
+  width: 36px;
   vertical-align: middle;
 }
 #filters .set .controls a {
-  float: left;
+  display: block;
+  float: right;
   overflow: hidden;
-  width: 12px;
-  text-align: center;
-  text-decoration: none;
+  margin-top: 4px;
+  width: 18px;
+  height: 18px;
   outline: 0px;
+  text-indent: 18px;
 }
-#filters .set:first-child .controls a.remove_filter {
+#filters .set .controls a.filter_add {
+  background: url(/images/has_filter/filter_add.png) top left;
+}
+#filters .set .controls a.filter_remove {
+  background: url(/images/has_filter/filter_remove.png) top left;
+}
+#filters .set:first-child .controls a.filter_remove {
   display: none;
   text-indent: 20px;
+}
+#filters .set .controls a.filter_add {
+  margin-right: 4px;
+}
+#filters .set .controls a.filter_remove {
+  margin-left: -4px;
+}
+#filters div.submit {
+  display: inline-block;
+  height: 18px;
+  padding-left: 16px;
+  background: url(/images/has_filter/filter_button_left.png) repeat-x top left;
+  vertical-align: top;
+}
+#filters div.submit a {
+  display: inline-block;
+  padding: 0px 16px 0px 0px;
+  background: url(/images/has_filter/filter_button_right.png) repeat-x top right;
+  font-size: 11px;
+  line-height: 18px;
+  color: #555;
+  outline: none;
+  vertical-align: top;
+}
+#filters div.submit a:hover {
+  color: #333;
+  text-decoration: none;
 }

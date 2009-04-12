@@ -2,16 +2,15 @@
   list-style: none;
   margin-top: 20px;
   padding-right: 10px;
+  overflow: hidden;
 }
 #users li {
 	float: left;
 	width: 302px;
   padding: 10px 0;
-  border-top:1px solid #E5E5E5;
-  border-bottom:1px solid #E5E5E5;
 }
-#users h3 {
-	margin: 0px;
+#users li p {
+  margin: 0;
 }
 #users img.avatar {
   float: left;
@@ -25,16 +24,6 @@ img.avatar {
   border: 1px solid #ccc;
   max-width: 50px;
   max-height: 50px;
-}
-#sidebar div.user {
-	margin-top: 20px;
-	height: 80px;
-}
-#sidebar div.user h3 {
-	margin: 0px;
-}
-#sidebar div.user p {
-	margin: 10px;
 }
 #sidebar img.avatar {
   float: left;

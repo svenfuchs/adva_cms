@@ -36,15 +36,11 @@ register_javascript_expansion \
 
 register_stylesheet_expansion \
   :default => %w( adva_cms/default adva_cms/common adva_cms/forms ),
-  :login   => %w( adva_cms/new2/reset
-  								adva_cms/new2/admin/common adva_cms/new2/admin/forms
-                  adva_cms/new2/layout/login ),
-  :simple  => %w( adva_cms/new2/reset
-  								adva_cms/new2/admin/common adva_cms/new2/admin/forms
-                  adva_cms/new2/layout/simple ),
-  :admin   => %w( adva_cms/new2/reset
-  								adva_cms/new2/layout/admin adva_cms/new2/admin/common
-                  adva_cms/new2/admin/header adva_cms/new2/admin/sidebar
-                  adva_cms/new2/admin/forms adva_cms/new2/admin/lists
-                  adva_cms/new2/admin/content adva_cms/new2/admin/themes
-                  adva_cms/new2/admin/users)
+  :login   => %w( adva_cms/admin/reset adva_cms/admin/common adva_cms/admin/forms 
+                  adva_cms/layout/login ),
+  :simple  => %w( adva_cms/reset adva_cms/admin/common adva_cms/admin/forms 
+                  adva_cms/layout/simple ),
+  :admin   => %w( adva_cms/reset adva_cms/layout/admin adva_cms/admin/common
+                  adva_cms/admin/header adva_cms/admin/sidebar adva_cms/admin/forms 
+                  adva_cms/admin/lists adva_cms/admin/content adva_cms/admin/themes
+                  adva_cms/admin/users)

@@ -38,7 +38,7 @@
 
 #sidebar .tabs > ul {
 	overflow: auto;
-	margin: -20px -9% 0 -9%;
+	margin: -20px -9.5% 0 -9.5%;
 	padding: 0px 12px 0px 12px;
 	background-color: #ddd;
 	list-style-type: none;
@@ -53,7 +53,7 @@
 	font-size: 12px;
 }
 #sidebar .tabs > ul li.active {
-	background-color: #f6f6f6;
+	background: #f6f6f6 url(/images/adva_cms/admin/tab_sidebar_active.png) repeat-x;
 }
 #sidebar .tabs > ul li a:hover {
 	background-color: #fff;
@@ -72,15 +72,12 @@
 }
 
 .filters {
-  min-width: 286px;
+  margin-left: -12px;
+  margin-right: -12px;
 }
-.filters .set fieldset {
-  margin-right: 30px;
+.filters .submit {
+  float: right;
+  margin-top: 4px;
+  margin-bottom: 25px;
 }
-.filters select {
-}
-.filters input.submit {
-  position: absolute;
-  right: 0px;
-  top: -24px;
-}
+

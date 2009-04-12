@@ -1,9 +1,0 @@
-button { 
-  width:auto; 
-  overflow:visible; }
-
-#main_content h2 a{right:30px;}
-.assistance h3 a.info{left:-35px !important;}
-.language{float:none !important;text-align:right;}
-.language label{position:absolute;right:180px;}
-
