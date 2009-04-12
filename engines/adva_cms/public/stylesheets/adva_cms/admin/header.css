@@ -37,6 +37,7 @@
 #header .top .active a {
 	color: #fff;
 	background-color: #c22222;
+	background-image: url(/images/adva_cms/admin/tab_top_active.png);
 }
 #header .top a:hover {
   color: #222;
@@ -123,7 +124,7 @@
 #search input {
   color: #888;
   width: 100px;
-  background: white url(file:///Users/sven/Development/projects/adva_cms/adva_cms/public/images/adva_cms/admin/new/buttons/search.png) no-repeat right center;
+  background: white url(/images/adva_cms/admin/new/buttons/search.png) no-repeat right center;
   font-size: 0.9em;
 	padding: 3px 18px 3px 6px;
 	border: 1px solid #aaa;
@@ -162,7 +163,7 @@
   outline: none;
 }
 #main_menu li.active a {
-	background-color: #ddd;
+	background: #ddd url(/images/adva_cms/admin/tab_main_active.png) repeat-x;
 }
 #main_menu li a:hover {
   background-color: #fff;
