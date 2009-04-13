@@ -28,4 +28,10 @@ class Admin::NewsletterSubscriptionsController < Admin::BaseController
     flash[:notice] = t(:'adva.subscription.flash.destroy_success')
     redirect_to admin_subscriptions_path(@site, @subscription.subscribable_id)
   end
+  
+  protected
+  
+    def set_menu
+      @menu = Menus::Admin::NewsletterSubscriptions.new
+    end
 end

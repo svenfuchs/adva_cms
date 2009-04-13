@@ -1,9 +1,11 @@
-refactor menus to only render used menus
+front end menu
+comments
 
-
+filters: css
 filters: selects multiple versions (e.g. articles list)
 theme/theme_files navigation
 themes merge new and upload?
+Menu::Item.new should take an action and object so that it can use the resource_link helpers for creating links (to have ids and classes set)
 
 make wikipage form use :author_id
 issues edit (js)

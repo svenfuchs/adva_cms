@@ -19,7 +19,7 @@ module IntegrationTests
     end
 
     def clears_page_cache
-      click_link 'clear_all_cached_pages'
+      click_link 'Clear all'
       @response.body.should have_tag('.empty')
     end
 

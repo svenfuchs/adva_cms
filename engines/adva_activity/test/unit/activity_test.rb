@@ -58,7 +58,7 @@ class ActivityTest < ActiveSupport::TestCase
 
   test "#all_actions returns all actions from all siblings in a chronological order" do
     @activity.siblings = @others
-    @activity.all_actions.should == ['created', 'edited', 'edited', 'edited', 'revised']
+    @activity.all_actions.should == ['created', 'edited', 'revised']
   end
   
   test "when a missing method is called it looks for a corresponding key in object_attributes" do

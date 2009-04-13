@@ -60,6 +60,8 @@ class RegisteredContent
     @target = target
     @options = args.extract_options!
     @content = block_given? ? block : args.first
+    
+    normalize_options!
   end
 
   def render(view)
@@ -86,5 +88,16 @@ class RegisteredContent
       proc.call(:controller, view.controller.controller_path.to_sym) or
       proc.call(:action, view.controller.action_name.to_sym) or
       proc.call(:format, view.template_format.to_sym)
+    end
+    
+    def normalize_options!
+      @options.each do |type, condition|
+        condition.each do |key, value|
+          case value
+          when Array:  @options[type][key] = value.map(&:to_sym)
+          when String: @options[type][key] = value.to_sym
+          end
+        end
+      end
     end
 end

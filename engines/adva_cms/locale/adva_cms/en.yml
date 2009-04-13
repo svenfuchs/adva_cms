@@ -173,10 +173,10 @@ en:
       no_available_users: Site does not have any available user.
       links:
         index: Sites
-        new: Create a new site
+        new: New
         edit: Settings
         show: View
-        delete: Delete this site
+        delete: Delete
         create_site_and_account: "Create site & account \xC2\xBB"
         manage_new: Manage your new site &raquo;
       flash:

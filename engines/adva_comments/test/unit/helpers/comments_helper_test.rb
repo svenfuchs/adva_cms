@@ -71,7 +71,7 @@ class CommentsHelperTest < ActionView::TestCase
 end
 
 class LinkToCommentsHelperTest < ActionView::TestCase
-  include ContentHelper
+  include ContentHelper, ResourceHelper
   tests CommentsHelper
 
   def setup
@@ -80,16 +80,12 @@ class LinkToCommentsHelperTest < ActionView::TestCase
     @article = @section.articles.find_by_title 'a page article'
     @category = @section.categories.first
     @tag = Tag.new :name => 'foo'
-
-    stub(self).show_path.returns '/path/to/content#comments'
-    stub(self).section_category_path.returns '/path/to/section/category'
-    stub(self).section_tag_path.returns '/path/to/section/tag'
   end
 
   # link_to_content_comments_count
 
   test "#link_to_content_comments_count returns a link_to_content_comments" do
-    link_to_content_comments_count(@article).should have_tag('a[href=?]', '/path/to/content#comments')
+    link_to_content_comments_count(@article).should have_tag('a[href=?]', '/articles/a-page-article#comments')
   end
 
   test "#link_to_content_comments_count given the option :total is set
@@ -117,18 +113,17 @@ class LinkToCommentsHelperTest < ActionView::TestCase
   # link_to_content_comments
 
   test "#link_to_content_comments given a content it returns a link to show_path" do
-    link_to_content_comments(@article).should have_tag('a[href=?]', '/path/to/content#comments', '1 Comment')
+    link_to_content_comments(@article).should have_tag('a[href=?]', '/articles/a-page-article#comments', '1 Comment')
   end
 
   test "#link_to_content_comments given a content and a comment it returns a link to show_path + comment anchor" do
     comment = @article.comments.first
     anchor = dom_id(comment)
-    stub(self).show_path(@article, :anchor => anchor).returns "/path/to/content##{anchor}"
-    link_to_content_comments(@article, comment).should == %(<a href="/path/to/content##{anchor}">1 Comment</a>)
+    link_to_content_comments(@article, comment).should == %(<a href="/articles/a-page-article##{anchor}">1 Comment</a>)
   end
 
   test "#link_to_content_comments given the first arg is a String it uses the String as link text" do
-    link_to_content_comments('link text', @article).should == '<a href="/path/to/content#comments">link text</a>'
+    link_to_content_comments('link text', @article).should == '<a href="/articles/a-page-article#comments">link text</a>'
   end
 
   test "#link_to_content_comments given the content has no approved comments and the content does not accept comments
@@ -141,6 +136,8 @@ class LinkToCommentsHelperTest < ActionView::TestCase
   # link_to_content_comment
 
   test "#link_to_content_comment inserts the comment's commentable to the args and calls link_to_content_comments" do
-    link_to_content_comment(@article.comments.first).should == '<a href="/path/to/content#comments">1 Comment</a>'
+    comment = @article.comments.first
+    anchor = dom_id(comment)
+    link_to_content_comment(comment).should == %(<a href="/articles/a-page-article##{anchor}">1 Comment</a>)
   end
 end

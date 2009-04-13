@@ -9,7 +9,7 @@ module IntegrationTests
       @site = use_site! 'site with pages'
       @theme = @site.themes.find_by_theme_id('a-theme')
       @theme.activate!
-      @admin_theme_show_page = "/admin/sites/#{@site.id}/themes/#{@theme.id}"
+      @admin_theme_files_page = "/admin/sites/#{@site.id}/themes/#{@theme.id}/files"
     end
     
     # FIXME implement or delete if already implemented
@@ -71,8 +71,8 @@ module IntegrationTests
     end
 
     def visit_theme_show_page
-      visit @admin_theme_show_page
-      assert_template "admin/themes/show"
+      visit @admin_theme_files_page
+      assert_template "admin/theme_files/index"
     end
 
     def create_a_new_theme_file(attributes)

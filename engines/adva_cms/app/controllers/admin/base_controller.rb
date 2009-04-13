@@ -12,7 +12,7 @@ class Admin::BaseController < ApplicationController
   helper :assets if Rails.plugin?(:adva_assets)
   helper :roles  if Rails.plugin?(:adva_rbac)
 
-  helper_method :perma_host, :has_permission?
+  helper_method :content_locale, :perma_host, :has_permission?
 
   before_filter :set_menu, :set_site, :set_locale, :set_timezone, :set_cache_root
 
@@ -60,6 +60,10 @@ class Admin::BaseController < ApplicationController
     def current_page
       @page ||= params[:page].blank? ? 1 : params[:page].to_i
     end
+    
+    def set_menu
+      @menu = Menus::Admin::Sites.new
+    end
 
     def set_locale
       params[:locale] =~ /^[\w]{2}$/ or raise 'invalid locale' if params[:locale]
@@ -86,7 +90,7 @@ class Admin::BaseController < ApplicationController
     end
 
     def content_locale
-      Article.locale == I18n.default_locale ? nil : Article.locale
+      ActiveRecord::Base.locale == I18n.default_locale ? nil : ActiveRecord::Base.locale
     end
 
     def perma_host

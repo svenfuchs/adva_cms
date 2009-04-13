@@ -1,11 +1,11 @@
 <% 
-	table_for @sections do |t|
+	table_for @sections, :collection_name => :sections do |t|
 		t.column :section
 		t.column :actions, :class => :actions
 
-		t.head.row do |r|
-			r.cell t(:'adva.sections.total_with_count', :count => @sections.size), :class => :total, :colspan => :all
-		end
+		# t.head.row do |r|
+		# 	r.cell t(:'adva.sections.total_with_count', :count => @sections.size), :class => :total, :colspan => :all
+		# end
 
 		t.row do |r, section|
 			r.cell link_to(section.title, admin_section_contents_path(section))

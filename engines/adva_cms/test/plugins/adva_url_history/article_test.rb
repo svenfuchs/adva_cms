@@ -54,7 +54,7 @@ if ActionController::Base.respond_to?(:tracks_url_history)
         end
 
         def create_and_publish_a_new_article
-          click_link "Create a new article"
+          click_link "New"
           fill_in 'article[title]', :with => 'the article title'
           fill_in 'article[body]',  :with => 'the article body'
           select_date "2008-1-1",   :from => 'Publish on this date'

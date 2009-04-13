@@ -18,8 +18,8 @@ module IntegrationTests
     end
 
     def create_a_new_category
-      click_link 'manage_categories'
-      click_link 'new_category'
+      click_link 'categories'
+      click_link 'new'
       fill_in 'title', :with => 'the category'
       click_button 'commit'
       request.url.should =~ %r(/admin/sites/\d+/sections/\d+/categories)

@@ -19,6 +19,7 @@ module IntegrationTests
 
     def create_a_new_page
       click_link 'Sections'
+      click_link 'New'
       fill_in 'title', :with => 'the page'
       choose 'Page'
       click_button 'Save'
@@ -26,7 +27,7 @@ module IntegrationTests
     end
 
     def revise_the_page_settings
-      click_link_within '#sidebar', 'Settings'
+      click_link_within '#main_menu', 'Settings'
       fill_in 'title', :with => 'the uberpage'
       select 'Never expire', :from => 'Comments'
       click_button 'Save'
@@ -34,7 +35,7 @@ module IntegrationTests
     end
 
     def delete_the_page
-      click_link 'Delete this section'
+      click_link 'Delete'
       request.url.should =~ %r(/admin/sites/\d+/sections/new)
     end
   end

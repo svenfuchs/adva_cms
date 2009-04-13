@@ -19,6 +19,7 @@ module IntegrationTests
 
     def create_a_new_section
       click_link 'Sections'
+      click_link 'New'
       fill_in 'title', :with => 'the blog'
       choose 'Blog'
       click_button 'Save'
@@ -26,7 +27,7 @@ module IntegrationTests
     end
 
     def revise_the_section_settings
-      click_link_within '#sidebar', 'Settings'
+      click_link_within '#main_menu', 'Settings'
       fill_in 'title', :with => 'the uberblog'
       click_button 'Save'
       request.url.should =~ %r(/admin/sites/\d+/sections/\d+/edit)

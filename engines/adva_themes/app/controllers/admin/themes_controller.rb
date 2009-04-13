@@ -31,7 +31,7 @@ class Admin::ThemesController < Admin::BaseController
     else
       errors = @theme.errors.full_messages.to_sentence
       flash.now[:error] = t(:'adva.themes.flash.update.failure', :errors => errors)
-      render :action => :show
+      render :action => :edit
     end
   end
 
