@@ -6,7 +6,7 @@ module ResourceHelper
     namespace = resource_url_namespace(options)
     type = normalize_resource_type(action, type, resource)
     options.reverse_merge! :only_path => true
-    
+
     args = resource_owners(resource) << options
     args.shift unless namespace.try(:to_sym) == :admin
 

@@ -3,15 +3,15 @@
 </blockquote>
 
 <cite>
-  &mdash; <%= comment.author_link %>
+  <%= comment.author_link %>
   <%= "(#{comment.author_email})" %> 
-  <%= t(:'adva.comments.said_time_ago', :time => time_ago_in_words(comment.created_at)) %>
+  <%= t(:'adva.comments.said_time_ago', :time => time_ago_in_words(comment.created_at)) %> &middot; 
   <% if comment.approved? %>
-    <%= link_to t(:'adva.comments.links.unapprove'), admin_comment_path(comment, "comment[approved]" => 0, :return_to => "#{request.request_uri}##{dom_id(comment)}"), :method => :put  %> | 
+    <%= link_to t(:'adva.comments.links.unapprove'), admin_comment_path(comment, "comment[approved]" => 0, :return_to => "#{request.request_uri}##{dom_id(comment)}"), :method => :put  %> &middot; 
   <% else %>
-    <%= link_to t(:'adva.comments.links.approve'), admin_comment_path(comment, "comment[approved]" => 1, :return_to => "#{request.request_uri}##{dom_id(comment)}"), :method => :put  %> | 
+    <%= link_to t(:'adva.comments.links.approve'), admin_comment_path(comment, "comment[approved]" => 1, :return_to => "#{request.request_uri}##{dom_id(comment)}"), :method => :put  %> &middot; 
   <% end %>
-  <%= link_to_edit comment, :url => edit_admin_comment_path(comment, :return_to => "#{request.request_uri}##{dom_id(comment)}") %> |
-  <%= link_to_delete comment, :url => admin_comment_path(comment, :return_to => "#{request.request_uri}##{dom_id(comment)}") %> |
+  <%= link_to_edit comment, :url => edit_admin_comment_path(comment, :return_to => "#{request.request_uri}##{dom_id(comment)}") %> &middot; 
+  <%= link_to_delete comment, :url => admin_comment_path(comment, :return_to => "#{request.request_uri}##{dom_id(comment)}") %> &middot; 
   <%= link_to_content_comment(t(:'adva.comments.links.view'), comment) %>
 </cite>

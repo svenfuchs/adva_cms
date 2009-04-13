@@ -16,7 +16,7 @@ class AlbumsTest < ActionController::IntegrationTest
   test 'an admin views the album settings page' do
     login_as_admin
     visit_backend_album_page
-    click_link 'settings_section'
+    click_link_within '#main_menu', 'settings'
     display_section_settings_edit_form
   end
   

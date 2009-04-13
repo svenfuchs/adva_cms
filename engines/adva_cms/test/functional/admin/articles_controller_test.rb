@@ -26,7 +26,8 @@ class AdminArticlesControllerTest < ActionController::TestCase
       assert_equal expected, tags.first.attributes['checked']
     end
 
-    has_tag 'select[id=article_author]'
+    has_tag 'select[id=article_author_id]'
+    has_tag 'select[name=cl] option[value=?][selected=selected]', @controller.params[:cl] || :en
 
     # FIXME renders checkboxes
     # FIXME renders assets widget
@@ -66,7 +67,7 @@ class AdminArticlesControllerTest < ActionController::TestCase
         it_renders :template, lambda { "admin/#{@section.type.tableize}/articles/index" }
       
         it "displays an articles list" do
-          has_tag 'th[class=total]', /total: \d article(s)?/i
+          # has_tag 'th[class=total]', /total: \d article(s)?/i
           has_tag 'table[id=articles] tr td a[href=?]',
                     edit_admin_article_path(@site, @section, assigns(:articles).first), 
                     assigns(:articles).first.title
@@ -114,10 +115,6 @@ class AdminArticlesControllerTest < ActionController::TestCase
       it_assigns :site, :section, :article
       it_renders :template, :new
 
-      has_tag '#main_content_wrapper h2', /en/
-      has_tag '#content_locale option[value="en"][selected="selected"]'
-      has_tag %{input[name="cl"][value="en"]}
-
       has_form_posting_to admin_articles_path do
         shows :form
       end
@@ -131,10 +128,6 @@ class AdminArticlesControllerTest < ActionController::TestCase
     with :access_granted do
       it_assigns :site, :section, :article
       it_renders :template, :new
-
-      has_tag '#main_content_wrapper h2', /de/
-      has_tag '#content_locale option[value="de"][selected="selected"]'
-      has_tag %{input[name="cl"][value="de"]}
 
       has_form_posting_to admin_articles_path do
         shows :form
@@ -193,10 +186,6 @@ class AdminArticlesControllerTest < ActionController::TestCase
         it_renders :template, :edit
       end
 
-      has_tag '#main_content_wrapper h2', /en/
-      has_tag '#content_locale option[value="en"][selected="selected"]'
-      has_tag %{input[name="cl"][value="en"]}
-
       has_form_putting_to admin_article_path do
         shows :form
         # assert that the taglist field works when taglist contains double quotes
@@ -215,10 +204,6 @@ class AdminArticlesControllerTest < ActionController::TestCase
         it_renders :template, :edit
       end
       
-      has_tag '#main_content_wrapper h2', /de/
-      has_tag '#content_locale option[value="de"][selected="selected"]'
-      has_tag %{input[name="cl"][value="de"]}
-
       has_form_putting_to admin_article_path do
         shows :form
         # assert that the taglist field works when taglist contains double quotes
@@ -307,39 +292,6 @@ class AdminArticlesControllerTest < ActionController::TestCase
         it_sweeps_page_cache :by_reference => :article
         # TODO redirect? flash?
       end
-    end
-  end
-  
-  def filter_options
-    @controller.send(:filter_options).slice(:conditions)
-  end
-  
-  describe "filter_options" do
-    before { @controller.instance_variable_set :@section, @section }
-  
-    it "fetches articles belonging to a category when :filter == category" do
-      @controller.params = {:filter => 'category', :category => '1'}
-      filter_options.should == {:conditions => "categorizations.category_id = 1"}
-    end
-  
-    it "fetches articles by checking the title when :filter == title" do
-      @controller.params = {:filter => 'title', :query => 'foo'}
-      filter_options.should == {:conditions => "LOWER(contents.title) LIKE '%foo%'"}
-    end
-  
-    it "fetches articles by checking the excerpt and body when :filter == body" do
-      @controller.params = {:filter => 'body', :query => 'foo'}
-      filter_options.should == {:conditions => "LOWER(contents.excerpt) LIKE '%foo%' OR LOWER(contents.body) LIKE '%foo%'"}
-    end
-  
-    it "fetches articles by checking the tags when :filter == tags" do
-      @controller.params = {:filter => 'tags', :query => 'foo bar'}
-      filter_options.should == {:conditions => "tags.name IN ('foo','bar')"}
-    end
-  
-    it "fetches articles by checking published_at when :filter == draft" do
-      @controller.params = {:filter => 'draft'}
-      filter_options.should == {:conditions => "published_at is null"}
     end
   end
 end

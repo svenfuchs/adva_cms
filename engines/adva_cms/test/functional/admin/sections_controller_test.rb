@@ -36,7 +36,7 @@ class AdminSectionsControllerTest < ActionController::TestCase
     with :access_granted do
       it_assigns :site, :sections
       it_renders :template, :index do
-        has_tag 'table[id=sections_list] tr td a[href=?]', edit_admin_section_path(@site, @section)
+        has_tag 'table[id=sections] tr td a[href=?]', edit_admin_section_path(@site, @section)
       end
     end
   end

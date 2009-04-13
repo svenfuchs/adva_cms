@@ -40,8 +40,8 @@ module IntegrationTests
     end
 
     def preview_article
-      click_link 'Preview'
-      request.url.should == "http://#{@site.host}/2008/1/1/the-article-title?cl=en"
+      click_link 'Show'
+      request.url.should == "http://#{@site.host}/2008/1/1/the-article-title"
     end
 
     def delete_article

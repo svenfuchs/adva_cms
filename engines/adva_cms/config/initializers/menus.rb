@@ -2,7 +2,7 @@ module Menus
   module Admin
     class Sites < Menu::Group
       define do
-        breadcrumb :site, :content => link_to_show(@site.name, @site)
+        breadcrumb :site, :content => link_to_show(@site.name, @site) if @site && !@site.new_record?
 
         menu :left, :class => 'left' do
           item :sites, :url => admin_sites_path if Site.multi_sites_enabled
@@ -75,6 +75,7 @@ module Menus
           activates object.parent.find(:articles)
           item :new, :url => new_path([@section, :article])
           if @article and !@article.new_record?
+            item :show,   :url => show_path(@article, :cl => content_locale, :namespace => nil)
             item :edit,   :url => edit_path(@article)
             item :delete, :content => link_to_delete(@article)
           end
@@ -237,7 +238,10 @@ module Menus
         parent Sites.new.build(scope).find(:newsletters)
         menu :left, :class => 'left' do
           item :newsletters, :url => index_path([@site, :newsletter])
-          item :issues,      :url => index_path([@newsletter, :issue]) if @newsletter && !@newsletter.new_record?
+          if @newsletter && !@newsletter.new_record?
+            item :issues, :url => index_path([@newsletter, :issue]) 
+            item :subscriptions, :url => index_path([@newsletter, :subscription]) 
+          end
         end
       end
     end
@@ -269,6 +273,15 @@ module Menus
       end
     end
 
+    class NewsletterSubscriptions < NewsletterBase
+      define do
+        menu :right, :class => 'right' do
+          activates object.parent.find(:subscriptions)
+          item :new, :url => new_path([@newsletter, :subscription])
+        end
+      end
+    end
+
     class ThemesBase < Menu::Group
       define do
         id :main
@@ -285,6 +298,7 @@ module Menus
         menu :right, :class => 'right' do
           activates object.parent.find(:themes)
           item :new, :url => new_path([@site, :theme])
+          item :import, :url => import_admin_themes_path(@site)
           if @theme and !@theme.new_record?
             item :edit,   :url => edit_path(@theme)
             if @theme.active?
@@ -321,6 +335,9 @@ module Menus
           item :settings, :url => edit_path(@site)
           item :cache,    :url => index_path([@site, :cached_page])
           item :plugins,  :url => admin_plugins_path(@site)
+        end
+        menu :right, :class => 'right' do
+          item :delete, :content => link_to_delete(@site)
         end
       end
     end

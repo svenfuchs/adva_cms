@@ -40,7 +40,7 @@ class ForumsTest < ActionController::IntegrationTest
   end
   
   def visit_edit_section_form
-    click_link 'manage_settings'
+    click_link_within '#main_menu', 'Settings'
     assert_template 'sections/edit'
   end
   

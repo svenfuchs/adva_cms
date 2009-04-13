@@ -4,9 +4,6 @@ class Admin::ThemeFilesController < Admin::BaseController
 
   guards_permissions :theme, :update => [:index, :show, :new, :create, :import, :upload, :edit, :update, :destroy]
 
-  def show
-  end
-
   def new
     @file = Theme::Template.new :theme => @theme
   end

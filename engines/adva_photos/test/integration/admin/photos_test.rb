@@ -16,10 +16,10 @@ class PhotosTest < ActionController::IntegrationTest
     fill_in_and_submit_edit_form
   end
 
-  test 'an admin uploads a photo' do
+  test 'an admin creates a new photo' do
     login_as_admin
     visit_album_backend
-    click_link 'Upload'
+    click_link 'New'
     display_new_photo_form
     fill_in_and_submit_new_form
   end

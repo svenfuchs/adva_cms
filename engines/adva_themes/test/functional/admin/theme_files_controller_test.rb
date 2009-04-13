@@ -48,6 +48,19 @@ class AdminThemeFilesControllerTest < ActionController::TestCase
     end
   end
 
+  describe "GET to :index" do
+    action { get :index, default_params }
+
+    it_guards_permissions :update, :theme
+
+    with :access_granted do
+      it_assigns :theme
+      it_renders :template, :index do
+        has_tag 'table[id=theme_files][class~=list]'
+      end
+    end
+  end
+
   describe "GET to :show" do
     action { get :show, default_params.merge(:id => @file.id) }
   

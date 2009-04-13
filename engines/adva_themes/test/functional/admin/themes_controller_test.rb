@@ -54,19 +54,6 @@ class AdminThemesControllerTest < ActionController::TestCase
     end
   end
 
-  describe "GET to :show" do
-    action { get :show, default_params.merge(:id => @theme.id) }
-
-    it_guards_permissions :manage, :theme
-
-    with :access_granted do
-      it_assigns :theme
-      it_renders :template, :show do
-        # FIXME ... displays a list of files
-      end
-    end
-  end
-
   describe "GET to :new" do
     action { get :new, default_params }
 
@@ -142,7 +129,7 @@ class AdminThemesControllerTest < ActionController::TestCase
     end
 
     with :invalid_theme_params do
-      it_renders :template, :show
+      it_renders :template, :edit
       it_assigns_flash_cookie :error => :not_nil
     end
   end

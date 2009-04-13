@@ -48,7 +48,7 @@ class ExtensibleFormBuilder < ActionView::Helpers::FormBuilder
   self.callbacks = { :before => {}, :after => {} }
 
   class_inheritable_accessor :tabs
-  self.tabs = [] #ActiveSupport::OrderedHash.new
+  self.tabs = []
 
   class_inheritable_accessor :options
   self.options = { :labels => false, :wrap => false, :default_class_names => {} }

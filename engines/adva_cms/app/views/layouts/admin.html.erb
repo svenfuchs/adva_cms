@@ -15,7 +15,7 @@
 		<%= yield :form if @content_for_form %>
 		<div id="main">
 			<div class="navigation">
-				<%= Breadcrumbs.new(@menu.active.breadcrumbs).render %>
+				<%= Breadcrumbs.new(@menu.active.breadcrumbs).render if @menu.active %>
 				<%= @menu.root.find(:main).try(:render, :id => 'main_menu') %>
 			</div>
       <%= render :partial => 'shared/flash' %>

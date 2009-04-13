@@ -3,7 +3,7 @@
 		f.tabs do
 		  f.tab :options do
 		    html = label_tag(:content_locale, t(:"adva.common.locale")) + 
-		            %(<select name="cl">#{options_for_select I18n.available_locales, Article.locale}</select>) + 
+		            %(<select id="content_locale" name="cl">#{options_for_select I18n.available_locales, Article.locale}</select>) + 
 		            (@section.try(:single_article_mode) ? '' : f.text_field(:permalink, :label => true, :hint => :'adva.hints.permalink')) + 
 		            f.text_field(:tag_list, :label => true, :hint => :'adva.hints.tags')
       

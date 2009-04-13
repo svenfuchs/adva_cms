@@ -42,7 +42,7 @@ module IntegrationTests
     end
 
     def delete_the_site
-      click_link 'Delete this site'
+      click_link 'Delete'
       assert_template "admin/sites/index"
     end
   end

@@ -33,9 +33,11 @@ module IntegrationTests
     test "editing a German article in English interface" do
       login_as_admin
       visit_admin_articles_index_page
+      
       click_link 'a page article'
       assert_select 'input#article_title[value="a page article"]'
       assert_select '#article_body', 'a page article body'
+      
       article = Article.find_by_title 'a page article'
       visit "/admin/sites/#{@site.id}/sections/#{@section.id}/articles/#{article.id}/edit?cl=de"
       assert_response :success 
@@ -43,6 +45,7 @@ module IntegrationTests
       assert_select '#article_body', 'a page article body'
       fill_in 'article[body]',  :with => 'a page article body in de'
       click_button 'Save'
+      
       assert_equal 'de', @controller.params[:cl]
       assert_response :success
       assert_select 'input#article_title[value="a page article"]'
@@ -60,7 +63,7 @@ module IntegrationTests
     end
 
     def create_a_new_article
-      click_link "Create a new article"
+      click_link "New"
       fill_in 'article[title]', :with => 'the article title'
       fill_in 'article[body]',  :with => 'the article body'
       click_button 'Save'
@@ -68,7 +71,7 @@ module IntegrationTests
     end
 
     def create_a_new_de_article
-      click_link "Create a new article"
+      click_link "New"
       select 'de', :from => 'content_locale'
       assert_response :success 
       fill_in 'article[title]', :with => 'the article title [de]'
@@ -94,18 +97,18 @@ module IntegrationTests
     end
 
     def preview_article
-      click_link 'Preview this article'
-      request.url.should == "http://#{@site.host}/articles/the-article-title?cl=en"
+      click_link 'Show'
+      request.url.should == "http://#{@site.host}/articles/the-article-title"
     end
 
     def preview_de_article
-      click_link 'Preview this article'
+      click_link 'Show'
       request.url.should == "http://#{@site.host}/articles/the-article-title-de?cl=de"
     end
 
     def delete_article
       visit @back_url
-      click_link 'Delete this article'
+      click_link 'Delete'
       request.url.should =~ %r(/admin/sites/\d+/sections/\d+/articles)
       response.body.should_not =~ %r(the revised article title)
     end

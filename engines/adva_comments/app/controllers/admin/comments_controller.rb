@@ -51,17 +51,17 @@ class Admin::CommentsController < Admin::BaseController
   private
 
     def set_section
-      @section = @site.sections.find(params[:section_id]) if params[:section_id]
-      super 
+      # @section = @site.sections.find(params[:section_id]) if params[:section_id]
+      # super 
     end
 
     def set_contents
-      source = @section || @site
-      @contents = source.unapproved_comments.group_by(&:commentable)
+      # source = @section || @site
+      # @contents = source.unapproved_comments.group_by(&:commentable)
     end
 
     def set_content
-      @content = Content.find(params[:content_id]) if params[:content_id]
+      # @content = Content.find(params[:content_id]) if params[:content_id]
     end
 
     def set_commentable
@@ -78,7 +78,10 @@ class Admin::CommentsController < Admin::BaseController
     def set_comments
       source = @content || @section || @site
       collection = source.comments
-      @comments = collection.paginate filter_options 
+      # FIXME how to remove the Topic dependency here? 
+      # maybe make Comment a subclass of Comment::Base or something so that we can use STI to exclude 
+      # special comment types?
+      @comments = collection.all(:conditions => ['commentable_type NOT IN (?)', 'Topic']).paginate filter_options 
     end
 
     def set_comment
