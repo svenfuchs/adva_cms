@@ -169,6 +169,7 @@ class ExtensibleFormBuilder < ActionView::Helpers::FormBuilder
       label = case label
       when String then label
       when Symbol then I18n.t(label)
+      when TrueClass then I18n.t(method, :scope => [:activerecord, :attributes, object.class.to_s.downcase.to_sym])
       else nil
       end
 
