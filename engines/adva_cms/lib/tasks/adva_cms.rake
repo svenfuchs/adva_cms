@@ -45,12 +45,27 @@ namespace :adva do
     desc "Copy public assets from plugins to public/"
     task :copy do
       target = "#{Rails.root}/public/"
-      sources = Dir["vendor/plugins/{*,*/**}/public/*"] + 
+      sources = Dir["vendor/plugins/{*,*/**}/public/*"] +
                 Dir["vendor/plugins/{*,*/**}/vendor/plugins/**/public/*"]
 
       FileUtils.mkdir_p(target) unless File.directory?(target)
       FileUtils.cp_r sources, target
-      puts "copying assets to public ..."
+    end
+
+    desc "Copy assets from public to their respective engines"
+    task :backport => :environment do
+      sources = Dir["#{Rails.root}/public/{images,javascripts,stylesheets}/*"]
+      sources.select { |s| File.directory?(s) }.each do |source|
+        path = source.gsub("#{Rails.root}/public/", '')
+        # determine asset type and owning plugin
+        type, plugin_name = path.split('/')
+        plugin = Rails.plugins[plugin_name.to_sym]
+        if plugin
+          target = "#{plugin.directory}/public/#{type}"
+          FileUtils.mkdir_p(target) unless File.directory?(target)
+          FileUtils.cp_r source, target
+        end
+      end
     end
   end
 
@@ -112,8 +127,10 @@ namespace :adva do
 end
 
 namespace :db do
-  task :migrate => [:environment, 'db:migrate:prepare', 'db:migrate:original_migrate', 'db:migrate:cleanup'] do
-    # there's nothing else to do ...
+  task :migrate => :environment do
+    Rake::Task["db:migrate:prepare"]
+    Rake::Task["db:migrate:original_migrate"]
+    Rake::Task["db:migrate:cleanup"]
   end
 
   namespace :migrate do
