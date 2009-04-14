@@ -478,12 +478,8 @@ class TestBuilder
     @plugins.each do |plugin|
       plugin.create_temp_test_path
       plugin.test_cases.each do |test_case|
-        @test_case  = test_case
-        @plugin     = plugin
-        @title      = test_case.title
-        @test_suite = test_case.content
-        @target     = test_case.target
-        self.write_template
+        @test_case = test_case
+        self.write_template plugin
         self.test_task.run test_case.url
       end
     end
@@ -494,8 +490,8 @@ class TestBuilder
   end
 
   protected
-    def write_template
-      template_path = "#{@plugin.temp_test_path}/#{@test_case.type}/#{@title}.html"
+    def write_template(plugin)
+      template_path = "#{plugin.temp_test_path}/#{@test_case.type}/#{@test_case.title}.html"
       File.open(template_path, 'w') { |f| f.write(@template.result(binding)) }
     end
 end
@@ -509,7 +505,7 @@ class Plugin
   end
 
   def test_cases
-    @test_cases ||= Dir["#{test_path}/**/*_test.js"].map {|file| TestCase.new(self.name, file)}
+    @test_cases ||= Dir["#{test_path}/**/*_test.js"].map {|file| TestCase.new(self, file)}
   end
 
   def root
@@ -544,8 +540,10 @@ class Plugin
 end
 
 class TestCase
-  def initialize(plugin_name, path)
-    @plugin_name, @path = plugin_name, path
+  attr_reader :plugin
+
+  def initialize(plugin, path)
+    @plugin, @path = plugin, path
   end
 
   def title
@@ -557,14 +555,23 @@ class TestCase
   end
 
   def type
-    @path =~ /unit/ ? "unit" : "functional"
+    @type ||= @path =~ /unit/ ? "unit" : "functional"
+  end
+
+  def relative_path
+    @relative_path ||= @path.gsub("#{@plugin.root}/test/javascript/#{type}/", "")
   end
 
   def target
-    "/#{@plugin_name}/javascripts/#{@plugin_name}/#{@path.gsub(%r{#{@path}/#{type}/}, "")}"
+    "/#{@plugin.name}/javascripts/#{@plugin.name}/#{relative_path}"
+  end
+
+  def html_fixtures
+    path = "#{@plugin.root}/test/javascript/fixtures/#{type}/#{relative_path.gsub("_test.js", "_fixtures.html")}"
+    File.new(path).read
   end
 
   def url
-    "/#{@plugin_name}/test/#{type}/#{title}.html"
+    "/#{@plugin.name}/test/#{type}/#{title}.html"
   end
 end
