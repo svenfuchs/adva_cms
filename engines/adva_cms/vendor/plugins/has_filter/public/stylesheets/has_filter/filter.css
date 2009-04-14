@@ -1,15 +1,14 @@
 #filters {
+  min-width: 320px;
   position: relative;
   padding-top: 15px;
 }
 #filters .set {
-  min-width: 300px;
   position: relative;
 	white-space: nowrap;
-	padding: 4px 8px;
+	padding: 0;
 	margin-bottom: 2px;
 	background-color: #e8e8e8;
-	/*border-bottom: 1px solid #b1b1b1;*/
 }
 #filters .set fieldset {
   display: none;
@@ -18,7 +17,7 @@
 }
 #filters .selected_filter, 
 #filters .set .selected {
-  display: inline;
+  display: inline-block;
 }
 #filters .set select {
   vertical-align: middle;
@@ -40,16 +39,17 @@
   vertical-align: baseline;
 }
 #filters .set .controls {
+  display: inline-block;
   position: absolute;
-  right: 0px;
+  right: 4px;
+  top: 3px;
   width: 36px;
-  vertical-align: middle;
+  height: 18px;
 }
 #filters .set .controls a {
-  display: block;
+  display: inline-block;
   float: right;
   overflow: hidden;
-  margin-top: 4px;
   width: 18px;
   height: 18px;
   outline: 0px;
@@ -66,10 +66,10 @@
   text-indent: 20px;
 }
 #filters .set .controls a.filter_add {
-  margin-right: 4px;
+/*  margin-right: 4px;*/
 }
 #filters .set .controls a.filter_remove {
-  margin-left: -4px;
+/*  margin-left: -4px;*/
 }
 #filters div.submit {
   display: inline-block;

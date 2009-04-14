@@ -1,4 +1,3 @@
-
 #sidebar {
   padding: 20px 8%;
 	font-size: 12px;
@@ -17,6 +16,9 @@
 #sidebar #filters fieldset > * {
   margin-left: 0;
   margin-right: 0;
+}
+#sidebar #filters .set > select:first-child {
+  margin-left: 8px;
 }
 #sidebar fieldset label {
 	margin-top: 12px;
@@ -51,8 +53,12 @@
 	padding: 3px 15px;
 	outline: none;
 	font-size: 12px;
+  -webkit-border-top-left-radius: 4px;
+  -webkit-border-top-right-radius: 4px;
+  -moz-border-top-left-radius: 4px;
+  -moz-border-top-right-radius: 4px;
 }
-#sidebar .tabs > ul li.active {
+#sidebar .tabs > ul li.active a {
 	background: #f6f6f6 url(/images/adva_cms/admin/tab_sidebar_active.png) repeat-x;
 }
 #sidebar .tabs > ul li a:hover {

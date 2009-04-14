@@ -1,3 +1,11 @@
+#header {
+  position: relative;
+  height: 110px;
+	width: 100%;
+	background-color: #fbf7e4;
+	background: #fbf7e4 url(/images/adva_cms/admin/header_bg.png) bottom left;
+	border-bottom: 4px solid #ddd;
+}
 #page {
 	clear: both;
 	display: inline-block;
@@ -41,13 +49,6 @@
 #main, #left, #right {
 	padding-bottom: 32767px !important;
 	margin-bottom: -32767px !important; 
-}
-.navigation {
-  position: relative;
-	width: 100%;
-	height: 72px;
-	background-color: #fbf7e4;
-	border-bottom: 4px solid #ddd;
 }
 #content {
 	clear: both;
