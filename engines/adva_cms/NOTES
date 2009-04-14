@@ -2,9 +2,11 @@ front end menu
 admin comments section
 sidebar min-width
 
-Menu::Item.new should take an action and object so that it can use the 
+Menu::Item.new should take an action and object so that it can use the
 	resource_link helpers for creating links (to have ids and classes set)
 
+split menus to engine initializers
+style install page
 filters: checkbox styles
 theme/theme_files navigation
 themes merge new and upload?
