@@ -1,90 +1,108 @@
-#header {
+/*.tabs ul li a {
+  -webkit-border-top-left-radius: 4px;
+  -webkit-border-top-right-radius: 4px;
+  -moz-border-top-left-radius: 4px;
+  -moz-border-top-right-radius: 4px;
+}*/
+#top {
 	width: 100%;
 	padding-top: 5px;
 	background-color: black;
 	border-bottom: 5px solid #c22222;
+  /*-webkit-box-shadow: 0px 0px 4px #888;*/
 }
-#header:after {
+#top:after {
 	content: '-'; 
 	display: block; 
 	height: 0; 
 	clear: both; 
 	visibility: hidden;
 }
-#header .top ul {
+#top ul {
   clear: none;
 	position: relative;
 	list-style-type: none;
 }
-#header .top ul.left {
+#top ul.left {
 	float: left;
 	margin-left: 3%;
 }
-#header .top ul.right {
+#top ul.right {
 	float: right;
 	margin-right: 2%;
 }
-#header .top li {
+#top li {
 	float: left;
 	margin-left: -1px;
 }
-#header .top a {
+#top a {
 	display: block;
 	padding: 4px 16px 4px 16px;
 	color: #fff;
 	outline: none;
 }
-#header .top .active a {
+#top > ul > li > a {
+  -webkit-border-top-left-radius: 4px;
+  -webkit-border-top-right-radius: 4px;
+  -moz-border-top-left-radius: 4px;
+  -moz-border-top-right-radius: 4px;
+}
+#top .active > a {
 	color: #fff;
 	background-color: #c22222;
 	background-image: url(/images/adva_cms/admin/tab_top_active.png);
 }
-#header .top a:hover {
+#top a:hover {
   color: #222;
   background-color: #fff;
   text-decoration: none;
 }
-#header .top li > ul {
+#top li > ul {
   display: none;
   position: absolute;
   z-index: 99;
-  top: 25px;
-  border: 2px solid #ddd;
+  top: 27px;
+  padding-left: 1px;
+  border: 1px solid #ddd;
   background-color: #fff !important;
+  -webkit-box-shadow: 3px 3px 6px #aaa;
+  -moz-box-shadow: 3px 3px 6px #aaa;
 }
-#header .top li ul {
+#top li ul {
   list-style-type: none;
 }
-#header .top li:hover ul {
+#top li:hover ul {
   display: block;
 }
-#header .top li > ul li {
+#top li > ul li {
   float: none;
 }
-#header .top li > ul li a {
+#top li > ul li a {
   color: #000 !important;
 }
-#header .top li > ul li a {
+#top li > ul li a {
   background-color: #fff !important;
 }
-#header .top li > ul li a:hover {
+#top li > ul li a:hover {
   background-color: #ddd !important;
 }
-#header #sections_menu a.active {
-  background: transparent url(/images/adva_cms/icons/tick.png) no-repeat scroll 5px 5px;
+
+#sections_menu a.active {
+  background-color: #fbf7e4 !important;
 }
-#header #sections_menu .level_0 { padding-left: 25px; }
-#header #sections_menu .level_1 { padding-left: 40px; }
-#header #sections_menu .level_2 { padding-left: 55px; }
-#header #sections_menu .level_3 { padding-left: 80px; }
-#header #sections_menu .level_4 { padding-left: 105px; }
-#header #sections_menu .level_5 { padding-left: 130px; }
-#header #sections_menu .level_6 { padding-left: 155px; }
+#sections_menu .level_0 { padding-left: 16px; }
+#sections_menu .level_1 { padding-left: 32px; }
+#sections_menu .level_2 { padding-left: 48px; }
+#sections_menu .level_3 { padding-left: 64px; }
+#sections_menu .level_4 { padding-left: 80px; }
+#sections_menu .level_5 { padding-left: 96px; }
+#sections_menu .level_6 { padding-left: 112px; }
 
 #breadcrumbs {
 	float: left;
   list-style-type: none;
-  margin: 15px 0 20px 6%;
+  margin: 15px 0 20px 3%;
+  padding-left: 16px;
 }
 #breadcrumbs li {
   float: left;
@@ -107,7 +125,7 @@
 }
 #login_status {
 	float: right;
-	margin: 15px 6% 0 0;
+	margin: 15px 3% 0 0;
 	text-align: right;
 }
 #login_status,
@@ -115,6 +133,7 @@
 	color: #999;
 	font-size: 9pt;
 }
+
 #search {
 	position: absolute;
 	right: 6%;
@@ -129,6 +148,7 @@
 	padding: 3px 18px 3px 6px;
 	border: 1px solid #aaa;
 }
+
 #main_menu {
 	position: absolute;
 	bottom: 2px;
@@ -143,29 +163,53 @@
 #main_menu h4 {
   display: inline;
   margin-top: 0;
-  padding: 6px 16px 0 0;
-  color: #888;
+  padding: 6px 16px 0 16px;
   font-weight: normal;
 }
 #main_menu .left {
-  margin-left: 6%;
+  margin-left: 3%;
+}
+#main_menu .left li a {
+  padding: 6px 16px 4px 16px;
+  outline: none;
+  -webkit-border-top-left-radius: 4px;
+  -webkit-border-top-right-radius: 4px;
+  -moz-border-top-left-radius: 4px;
+  -moz-border-top-right-radius: 4px;
+}
+#main_menu .left li.active > a {
+	background: #ddd url(/images/adva_cms/admin/tab_main_active.png) repeat-x;
+}
+#main_menu .left li a:hover {
+  background-color: #fff;
+  text-decoration: none;
 }
 #main_menu .right {
   float: right;
-  margin-right: 6%;
+  margin-right: 33%;
+  margin-top: -2px;
 }
 #main_menu .right li {
   float: left;
-  margin-left: 20px;
+  margin-left: 8px;
+  height: 21px;
 }
-#main_menu li a {
-  padding: 6px 16px 4px 16px;
+#main_menu .right li a {
+  display: block;
+  padding: 0 10px;
+  height: 21px;
+  line-height: 20px;
+  font-size: 12px;
   outline: none;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
 }
-#main_menu li.active a {
-	background: #ddd url(/images/adva_cms/admin/tab_main_active.png) repeat-x;
-}
-#main_menu li a:hover {
-  background-color: #fff;
+#main_menu .right li a:hover {
+  background: #fff !important;
   text-decoration: none;
+}
+#main_menu .right li.active a {
+  background: #ddd;
+}
+#main_menu .right li.active {
 }

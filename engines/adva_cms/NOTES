@@ -1,15 +1,23 @@
 front end menu
-comments
+admin comments section
+sidebar min-width
 
-filters: css
-filters: selects multiple versions (e.g. articles list)
+Menu::Item.new should take an action and object so that it can use the 
+	resource_link helpers for creating links (to have ids and classes set)
+
+filters: checkbox styles
 theme/theme_files navigation
 themes merge new and upload?
-Menu::Item.new should take an action and object so that it can use the resource_link helpers for creating links (to have ids and classes set)
 
+make sections and categories nestable
+filters: selects multiple versions (e.g. articles list)
+section dropdown menu handle
 make wikipage form use :author_id
 issues edit (js)
 assets: bucket link is broken (js)
+
+
+
 
 FAQ
 

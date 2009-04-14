@@ -3,30 +3,25 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>Admin <%= controller.controller_name %></title>
-
   <%= stylesheet_link_tag :admin, :cache => true %>
   <%= javascript_include_tag :common, :admin, :cache => true %>
 </head>
 <body>
   <div id="header">
-		<%= @menu.build(self).root.render(:class => 'top') %>
+		<%= @menu.build(self).root.render(:id => 'top') %>
+		<%= render :partial => 'admin/shared/login_status' %>
+		<%= Breadcrumbs.new(@menu.active.breadcrumbs).render if @menu.active %>
+		<%= @menu.root.find(:main).try(:render, :id => 'main_menu') %>
   </div>
 	<div id="page">
 		<%= yield :form if @content_for_form %>
 		<div id="main">
-			<div class="navigation">
-				<%= Breadcrumbs.new(@menu.active.breadcrumbs).render if @menu.active %>
-				<%= @menu.root.find(:main).try(:render, :id => 'main_menu') %>
-			</div>
       <%= render :partial => 'shared/flash' %>
 			<div id="content">
         <%= yield %>
 			</div>
 		</div>
 		<div id="right">
-			<div class="navigation">
-				<%= render :partial => 'admin/shared/login_status' %>
-			</div>
     	<div id="sidebar">
       	<%= yield :sidebar %>
     	</div>

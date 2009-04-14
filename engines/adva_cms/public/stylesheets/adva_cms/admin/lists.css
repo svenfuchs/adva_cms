@@ -24,6 +24,7 @@ table.list tbody td {
 }
 table.list tbody td.actions {
   width: 63px;
+  white-space: nowrap;
 }
 
 table.list a.published {
@@ -39,13 +40,15 @@ table.list a.pending {
 }
 
 .actions a {
-  display: block;
-  float: left;
+  display: inline-block;
   width: 16px;
   height: 16px; 
-  margin-left: 5px;
+  margin-left: 4px;
   text-indent: 16px;
   overflow: hidden;
+}
+.actions a:first-child {
+  margin-left: 0;
 }
 .actions a.show,
 .actions a.preview {
@@ -55,7 +58,7 @@ table.list a.pending {
   background: url(/images/adva_cms/icons/pencil.png) no-repeat;
 }
 .actions a.delete {
-  background: url(/images/adva_cms/icons/bin_closed.png) no-repeat;
+  background: url(/images/adva_cms/icons/bin_closed.png) no-repeat -5px top;
 }
 
 
