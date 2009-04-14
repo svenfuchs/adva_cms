@@ -3,27 +3,30 @@
 <html>
   <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-    <title><%= "#{@plugin.name} - #{@title}" %></title>
+    <title><%= "#{@test_case.plugin.name} - #{@test_case.title}" %></title>
 
     <script src="/jquery.js" type="text/javascript" charset="utf-8"></script>
     <script src="/jquery-ui.js" type="text/javascript" charset="utf-8"></script>
     <script src="/testrunner.js" type="text/javascript" charset="utf-8"></script>
     <link rel="stylesheet" href="/testsuite.css" type="text/css" media="screen" charset="utf-8">
   
-    <script src="<%= @target %>" type="text/javascript" charset="utf-8"></script>
+    <script src="<%= @test_case.target %>" type="text/javascript" charset="utf-8"></script>
 
     <script type="text/javascript" charset="utf-8">
       $(document).ready(function(){
-       <%= @test_suite %>
+       <%= @test_case.content %>
       });
     </script>
 
   </head>
   <body>
-   <h1><%= "#{@plugin.name.upcase} | #{@title.upcase}" %></h1>
+   <h1><%= "#{@test_case.plugin.name.upcase} | #{@test_case.title.upcase}" %></h1>
    <h2 id="banner"></h2>
    <h2 id="userAgent"></h2>
    <ol id="tests"></ol>
    <div id="main"></div>
+   <div id="fixtures" style="display:none">
+     <%= @test_case.html_fixtures %>
+   </div>
   </body>
 </html>
