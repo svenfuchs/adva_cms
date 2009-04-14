@@ -114,7 +114,12 @@ module ExtensibleFormsBuilderTests
       assert build_form(:label => :'activerecord.errors.messages.invalid') =~ /<label for="article_title">is invalid/
     end
 
-    test "uses the method as as label text when label option is true (labels enabled)" do
+    test "uses the ActiveRecord namespace's translation as label text when label option is true" do
+      I18n.backend.store_translations(:en, { :activerecord => { :attributes => { :article => { :body => "Text" } } } })
+      assert build_form(:body, :label => true) =~ /<label for="article_body">Text/
+    end
+
+    test "uses the humanized method name as label text when label option is true and no translation can be found in ActiveRecord namespace (labels enabled)" do
       assert build_form(:label => true) =~ /<label for="article_title">Title/
     end
 
