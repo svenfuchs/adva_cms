@@ -1,4 +1,11 @@
-<% 
+<% content_for :head do -%>
+<script type="text/javascript">
+$(document).ready(function() {
+  $('table#sections tr.section').draggable();
+});
+</script>
+<% end -%>
+<%
 	table_for @sections, :collection_name => :sections do |t|
 		t.column :section
 		t.column :actions, :class => :actions
@@ -7,7 +14,7 @@
 		# 	r.cell t(:'adva.sections.total_with_count', :count => @sections.size), :class => :total, :colspan => :all
 		# end
 
-		t.row do |r, section|
+		t.row(:class => 'section') do |r, section|
 			r.cell link_to(section.title, admin_section_contents_path(section))
 			r.cell link_to_edit(section) + "\n" +
 			       link_to_delete(section)
@@ -17,5 +24,5 @@
 	    t(:'adva.sections.no_sections_in_site', :section => @section.title) + "\n" +
 			link_to_new(:'adva.sections.links.create_now', [@site, :section])
 		end
-	end 
+	end
 %>
