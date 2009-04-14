@@ -23,16 +23,23 @@ end
 
 I18n.load_path += Dir[File.dirname(__FILE__) + '/locale/**/*.yml']
 
+# register_javascript_expansion \
+#   :common  => %w( adva_cms/prototype adva_cms/lowpro adva_cms/flash 
+#                   adva_cms/cookie adva_cms/json ),
+#   :default => %w( adva_cms/parseuri adva_cms/roles adva_cms/application ),
+#   :login   => %w( ),
+#   :simple  => %w( ),
+#   :admin   => %w( adva_cms/effects adva_cms/dragdrop adva_cms/sortable_tree/sortable_tree
+#                   adva_cms/admin/smart_form adva_cms/admin/spotlight 
+#                   adva_cms/admin/sortable_tree adva_cms/admin/sortable_list
+#                   adva_cms/admin/admin adva_cms/admin/article adva_cms/admin/tabs )
+
 register_javascript_expansion \
-  :common  => %w( adva_cms/prototype adva_cms/lowpro adva_cms/flash 
-                  adva_cms/cookie adva_cms/json ),
-  :default => %w( adva_cms/parseuri adva_cms/roles adva_cms/application ),
-  :login   => %w( ),
-  :simple  => %w( ),
-  :admin   => %w( adva_cms/effects adva_cms/dragdrop adva_cms/sortable_tree/sortable_tree
-                  adva_cms/admin/smart_form adva_cms/admin/spotlight 
-                  adva_cms/admin/sortable_tree adva_cms/admin/sortable_list
-                  adva_cms/admin/admin adva_cms/admin/article adva_cms/admin/tabs )
+  :common => %w(adva_cms/jquery adva_cms/jquery-ui),
+  :login => %w(),
+  :default => %w(),
+  :simple => %w(),
+  :admin => %w()
 
 register_stylesheet_expansion \
   :default => %w( adva_cms/default adva_cms/common adva_cms/forms ),
