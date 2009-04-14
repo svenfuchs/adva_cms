@@ -45,8 +45,16 @@ module Menu
     end
 
     def item(id, options = {})
+      action, resource = *options.values_at(:action, :resource)
       type = options.delete(:type) || Item
-      object.children << type.new(id, options)
+      object.children << item = type.new(id, options)
+      if action && resource
+        item.content = resource_link(action, item.text, resource, :namespace => item.namespace) 
+      end
+    end
+    
+    def namespace(namespace)
+      object.namespace = namespace
     end
 
     def breadcrumb(id, options = {})
