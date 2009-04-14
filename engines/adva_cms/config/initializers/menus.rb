@@ -2,22 +2,23 @@ module Menus
   module Admin
     class Sites < Menu::Group
       define do
+        namespace :admin
         breadcrumb :site, :content => link_to_show(@site.name, @site) if @site && !@site.new_record?
 
         menu :left, :class => 'left' do
-          item :sites, :url => admin_sites_path if Site.multi_sites_enabled
+          item :sites, :action => :index, :resource => :site if Site.multi_sites_enabled
           if @site && !@site.new_record?
-            item :overview,    :url => admin_site_path(@site)
-            item :sections,    :url => index_path([@site, :section]), :type => Menu::SectionsMenu, :populate => lambda { @site.sections }
-            item :newsletters, :url => index_path([@site, :newsletter])
-            item :assets,      :url => admin_assets_path(@site)
+            item :overview,    :action => :show,  :resource => @site
+            item :sections,    :action => :index, :resource => [@site, :section], :type => Menu::SectionsMenu, :populate => lambda { @site.sections }
+            item :newsletters, :action => :index, :resource => [@site, :newsletter]
+            item :assets,      :action => :index, :resource => [@site, :asset]
           end
         end
 
         menu :right, :class => 'right' do
-          item :themes,      :url => index_path([@site, :theme])
-          item :settings,    :url => edit_admin_site_path(@site)
-          item :users,       :url => admin_site_users_path(@site)
+          item :themes,   :action => :index, :resource => [@site, :theme]
+          item :settings, :action => :edit,  :resource => @site
+          item :users,    :action => :index, :resource => [@site, :user]
         end if @site && !@site.new_record?
       end
 
@@ -26,7 +27,7 @@ module Menus
           id :main
           parent Sites.new.build(scope).find(:sites)
           menu :right, :class => 'right' do
-            item :new, :url => new_path([:site])
+            item :new, :action => :new, :resource => :site
           end
         end
       end
@@ -41,15 +42,15 @@ module Menus
           type = "Menus::Admin::Sections::#{@section.type}".constantize rescue Content
           menu :left, :class => 'left', :type => type
           menu :right, :class => 'right' do
-            item :delete, :content => link_to_delete(@section)
+            item :delete, :action => :delete, :resource => @section
           end
         else
           menu :left, :class => 'left' do
-            item :sections, :url => index_path([@site, :section])
+            item :sections, :action => :index, :resource => [@site, :section]
           end
           menu :right, :class => 'right' do
             activates object.parent.find(:sections)
-            item :new, :url => new_path([@site, :section])
+            item :new, :action => :new, :resource => [@site, :section]
           end
         end
       end
@@ -58,9 +59,9 @@ module Menus
         define do
           type = @section.class.content_type.underscore
           item :section, :content => content_tag(:h4, "#{@section.title}:")
-          item type.pluralize.to_sym, :url => index_path([@section, type])
-          item :categories, :url => index_path([@section, :category])
-          item :settings, :url => edit_path(@section)
+          item type.pluralize.to_sym, :action => :index, :resource => [@section, type]
+          item :categories, :action => :index, :resource => [@section, :category]
+          item :settings,   :action => :edit,  :resource => @section
         end
       end
     end
@@ -73,11 +74,11 @@ module Menus
         menu :left, :class => 'left', :type => Sections::Content
         menu :right, :class => 'right' do
           activates object.parent.find(:articles)
-          item :new, :url => new_path([@section, :article])
+          item :new, :action => :new, :resource => [@section, :article]
           if @article and !@article.new_record?
-            item :show,   :url => show_path(@article, :cl => content_locale, :namespace => nil)
-            item :edit,   :url => edit_path(@article)
-            item :delete, :content => link_to_delete(@article)
+            item :show,   :action => :show, :resource => @article, :url => show_path(@article, :cl => content_locale, :namespace => nil)
+            item :edit,   :action => :edit, :resource => @article
+            item :delete, :action => :delete, :resource => @article
           end
         end
       end
@@ -91,10 +92,10 @@ module Menus
         menu :left, :class => 'left', :type => Sections::Content
         menu :right, :class => 'right' do
           activates object.parent.find(:categories)
-          item :new, :url => new_path([@section, :category])
+          item :new, :action => :new, :resource => [@section, :category]
           if @category && !@category.new_record?
-            item :edit, :url => edit_path(@category)
-            item :delete, :content => link_to_delete(@category)
+            item :edit,   :action => :edit, :resource => @category
+            item :delete, :action => :delete, :resource => @category
           end
         end
       end
@@ -108,10 +109,10 @@ module Menus
         menu :left, :class => 'left', :type => Sections::Content
         menu :right, :class => 'right' do
           activates object.parent.find(:calendar_events)
-          item :new, :url => new_path([@section, :calendar_event])
+          item :new, :action => :new, :resource => [@section, :calendar_event]
           if @event and !@event.new_record?
-            item :edit,   :url => edit_path(@event)
-            item :delete, :content => link_to_delete(@event)
+            item :edit,   :action => :edit, :resource => @event
+            item :delete, :action => :delete, :resource => @event
           end
         end
       end

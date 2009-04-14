@@ -2,6 +2,8 @@ require 'menu/builder'
 
 module Menu
   class Base < Tags::Tag
+    include ResourceHelper
+
     class_inheritable_accessor :definitions
     self.definitions = []
 
@@ -11,14 +13,16 @@ module Menu
       end
     end
 
-    attr_accessor :id, :url, :active, :parent, :children
+    attr_accessor :id, :content, :action, :resource, :namespace, :url, :active, :parent, :children
     attr_writer :activates, :breadcrumbs
 
     def initialize(id = nil, options = {})
       super(options)
       @id = id || self.class.name.demodulize.underscore.sub('_menu', '').to_sym
       @breadcrumbs = []
-		  [:text, :content, :url].each { |key| instance_variable_set(:"@#{key}", options.delete(key)) }
+		  [:content, :action, :resource, :text, :url].each do |key| 
+		    instance_variable_set(:"@#{key}", options.delete(key))
+	    end
     end
 
     def find(key)
@@ -37,6 +41,10 @@ module Menu
 
     def activates
       @activates ||= parent
+    end
+    
+    def namespace
+      @namespace or parent.try(:namespace)
     end
 
     def breadcrumbs
@@ -96,7 +104,7 @@ module Menu
     end
 
 	  def content
-	    @content ||= url ? Tags::A.new(text, :href => url).render : Tags::Span.new(text).render
+	    @content ||= url ? Tags::A.new(text, :id => id, :href => url).render : Tags::Span.new(text).render
     end
   end
 
