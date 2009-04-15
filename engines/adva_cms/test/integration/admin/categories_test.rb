@@ -34,7 +34,7 @@ module IntegrationTests
 
     def delete_the_category
       category = Category.find_by_title('the ubercategory')
-      click_link "delete_category_#{category.id}"
+      click_link "Delete"
       request.url.should =~ %r(/admin/sites/\d+/sections/\d+/categories)
     end
   end
