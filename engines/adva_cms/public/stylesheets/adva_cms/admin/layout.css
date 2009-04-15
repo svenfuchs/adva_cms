@@ -1,6 +1,3 @@
-#body {
-  display: table;
-}
 #header {
   position: relative;
   height: 110px;
@@ -9,32 +6,18 @@
 	background: #fbf7e4 url(/images/adva_cms/admin/header_bg.png) bottom left;
 	border-bottom: 4px solid #ddd;
 }
-#page {
-	display: table-row;
-}
 #main {
 	display: table-cell;
-  width: 70%;
+  width: 75%;
   vertical-align: top;
 }
 #main.collapsed {
-	width: 50%;
-  margin-left: 25%;
-}
-#left {
-	float: left;
-	width: 25%;
-	margin-left: -100%;
-	padding-right: 1px;
-}
-#left.collapsed {
-	width: 0%;
+	padding-left: 250px;
 }
 #right {
 	display: table-cell;
 	width: 350px;
   min-width: 350px;
-  max-width: 350px;
   vertical-align: top;
 	background-color: #f6f6f6;
 }
@@ -42,4 +25,12 @@
   position: relative;
 	margin-bottom: 20px;
 	padding: 20px 6%;
+}
+#left {
+  position: absolute;
+  left: 0;
+  width: 250px;
+}
+#left.collapsed {
+  display: none;
 }
