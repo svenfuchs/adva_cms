@@ -13,7 +13,7 @@
       
 		    html << f.select(:filter, filter_options, {}, :class => 'columnsFilter', :label => true) + 
 		            f.select(:comment_age, comment_expiration_options, :label => :'adva.titles.comments') + 
-		            f.select(:author, author_options(@site.users), :selected => author_selected(@wikipage), :label => true)
+								f.select(:author_id, author_options(@site.users), :selected => author_selected(@wikipage), :label => true)
 		  end
 
 			f.tab :assets do 

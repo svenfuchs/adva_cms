@@ -385,8 +385,9 @@ class AdvaJavaScriptTestTask < JavaScriptTestTask
 
   def mount_plugins
     @plugins.each do |plugin|
-      mount "/#{plugin}",      "#{plugin.root}/public"
-      mount "/#{plugin}/test", "#{plugin.root}/test/javascript/tmp"
+      mount "/#{plugin}",        "#{plugin.root}/public"
+      mount "/#{plugin}/assets", "#{plugin.root}/test/javascript/assets"
+      mount "/#{plugin}/test",   "#{plugin.root}/test/javascript/tmp"
     end
   end
 
@@ -571,9 +572,5 @@ class TestCase
 
   def url
     "/#{@plugin.name}/test/#{type}/#{title}.html"
-  end
-
-  def show_html_fixtures?
-    @show_html_fixtures ||= ENV['SHOW_HTML_FIXTURES'] === "true" 
   end
 end
