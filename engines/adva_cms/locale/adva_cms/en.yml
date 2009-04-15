@@ -270,7 +270,7 @@ en:
           one: "Tag: {{tags}}"
           other: "Tags: {{tags}}"
       no_articles: "There are no articles in {{section}}."
-      no_filtered_articles: "There are no articles matching that criteria in {{section}}."
+      no_filtered_articles: "There are no articles matching that criteria."
       attribution: "by: {{author}}"
     categories:
       columns:
@@ -341,7 +341,7 @@ en:
         create_now: Create one now
       excerpt_add: Add an excerpt
       no_articles: "There are no articles in {{section}}."
-      no_filtered_articles: "There are no articles matching that criteria in {{section}}."
+      no_filtered_articles: "There are no articles matching that criteria."
       publish_on_date: Publish on this date
       flash:
         destroy:
