@@ -1,10 +1,9 @@
 <% content_for :sidebar do -%>
  	<div class="tabs">
 		<ul>
-			<li class="active"><a href="#">Filters</a></li>
+			<li class="active"><a href="#filters" onclick="return false;">Filters</a></li>
 		</ul>
 		<div class="tab active" id="tab_filters">
-  		<label></label>
 			<% filter_for(Article, :categories => Section.first.categories) %>
 		</div>
 	</div>
@@ -13,10 +12,6 @@
 <%
 	table_for @articles do |t|
 		t.column :article, :comments, :published, :author, :actions
-
-		# t.head.row do |r|
-		# 	r.cell t(:'adva.articles.total_with_count', :count => @articles.total_entries), :class => :total, :colspan => :all
-		# end
 
 		t.row do |r, article|
 			r.cell link_to_edit(article.title, article, :class => article.state)
@@ -32,10 +27,10 @@
 		end
 
 		t.empty :p, :class => 'empty' do
-			params[:filter] ?
-				t(:'adva.blog.no_filtered_articles', :section => @section.title) :
-				t(:'adva.blog.no_articles', :section => @section.title) + "\n" +
-				link_to(t( :'adva.blog.links.create_article_now' ), new_admin_article_path(@site))
+			params[:filters] ?
+				t(:'adva.articles.no_filtered_articles') :
+				t(:'adva.articles.no_articles', :section => @section.title) + "\n" +
+				link_to_new(:'adva.articles.links.create_now', [@section, :article])
 		end
 	end
 %>
