@@ -219,7 +219,7 @@ de:
          one: "Tag: {{tags}}"
          other: "Tags: {{tags}}"
      no_articles: "Es gibt keine Artikel in {{section}}."
-     no_filtered_articles: "Es gibt keine Artikel, die die Kriterien für {{section}} erfüllen"
+     no_filtered_articles: "Es gibt keine Artikel, die die Kriterien erfüllen."
      attribution: "von: {{author}}"
    categories:
      attributes:
