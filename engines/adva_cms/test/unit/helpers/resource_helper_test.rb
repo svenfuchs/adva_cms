@@ -38,8 +38,8 @@ class ResourceHelperTest < ActionView::TestCase
   end
   
   test 'resource_link helpers for articles' do
-    assert_html link_to_show(@blog_article), 'a[href=?][class=show article]', @paths[:blog_articles][:show], 'View'
-    assert_html link_to_show(@page_article), 'a[href=?][class=show article]', @paths[:page_articles][:show], 'View'
+    assert_html link_to_show(@blog_article), 'a[href=?][class=show article]', @paths[:blog_articles][:show], 'Show'
+    assert_html link_to_show(@page_article), 'a[href=?][class=show article]', @paths[:page_articles][:show], 'Show'
   end
 end
 
@@ -125,7 +125,7 @@ class AdminResourceHelperTest < ActionView::TestCase
   test 'resource_link helpers for articles' do
     assert_html link_to_index([@section, :article]), 'a[href=?][class=index articles]', @paths[:articles][:index], 'Articles'
     assert_html link_to_new([@section, :article]), 'a[href=?][class=new article]', @paths[:articles][:new], 'New'
-    assert_html link_to_show(@article), 'a[href=?][class=show article]', @paths[:articles][:show], 'View'
+    assert_html link_to_show(@article), 'a[href=?][class=show article]', @paths[:articles][:show], 'Show'
     assert_html link_to_edit(@article), 'a[href=?][class=edit article]', @paths[:articles][:edit], 'Edit'
     assert_html link_to_delete(@article), 'a[href=?][class=delete article]', @paths[:articles][:show], 'Delete'
   end
@@ -141,7 +141,7 @@ class AdminResourceHelperTest < ActionView::TestCase
   test 'resource_link helpers for sections' do
     assert_html link_to_index([@site, :section]), 'a[href=?][class=index sections]', @paths[:sections][:index], 'Sections'
     assert_html link_to_new([@site, :section]), 'a[href=?][class=new section]', @paths[:sections][:new], 'Create a new section'
-    assert_html link_to_show(@section), 'a[href=?][class=show section]', @paths[:sections][:show], 'View'
+    assert_html link_to_show(@section), 'a[href=?][class=show section]', @paths[:sections][:show], 'Show'
     assert_html link_to_edit(@section), 'a[href=?][class=edit section]', @paths[:sections][:edit], 'Settings'
     assert_html link_to_delete(@section), 'a[href=?][class=delete section]', @paths[:sections][:show], 'Delete'
   end
@@ -149,7 +149,7 @@ class AdminResourceHelperTest < ActionView::TestCase
   test 'resource_link helpers for sites' do
     assert_html link_to_index([:site]), 'a[href=?][class=index sites]', @paths[:sites][:index], 'Sites'
     assert_html link_to_new([:site]), 'a[href=?][class=new site]', @paths[:sites][:new], 'New'
-    assert_html link_to_show(@site), 'a[href=?][class=show site]', @paths[:sites][:show], 'View'
+    assert_html link_to_show(@site), 'a[href=?][class=show site]', @paths[:sites][:show], 'Show'
     assert_html link_to_edit(@site), 'a[href=?][class=edit site]', @paths[:sites][:edit], 'Settings'
     assert_html link_to_delete(@site), 'a[href=?][class=delete site]', @paths[:sites][:show], 'Delete'
   end

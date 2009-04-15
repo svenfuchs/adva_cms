@@ -84,11 +84,9 @@ module Menus
           activates object.parent.find(:articles)
           item :new, :action => :new, :resource => [@section, :article]
           if @article and !@article.new_record?
-            # article show link is also a preview link and directs to frontend, if we use :action 
-            # and :resource, the link generated would suggest backend show action instead
             item :show,   :content  => link_to_show(@article, :cl => content_locale, :namespace => nil)
             item :edit,   :action   => :edit,   :resource => @article
-            item :delete, :action   => :delete, :resource => @article
+            item :delete, :content  => link_to_delete(@article)
           end
         end
       end
@@ -104,8 +102,8 @@ module Menus
           activates object.parent.find(:categories)
           item :new, :action => :new, :resource => [@section, :category]
           if @category && !@category.new_record?
-            item :edit,   :action => :edit,   :resource => @category
-            item :delete, :action => :delete, :resource => @category
+            item :edit,   :action  => :edit,   :resource => @category
+            item :delete, :content => link_to_delete(@category)
           end
         end
       end
@@ -121,8 +119,8 @@ module Menus
           activates object.parent.find(:calendar_events)
           item :new, :action => :new, :resource => [@section, :calendar_event]
           if @event and !@event.new_record?
-            item :edit,   :action => :edit,   :resource => @event
-            item :delete, :action => :delete, :resource => @event
+            item :edit,   :action  => :edit,   :resource => @event
+            item :delete, :content => link_to_delete(@event)
           end
         end
       end
@@ -169,8 +167,8 @@ module Menus
           activates object.parent.find(:boards)
           item :new, :action => :new, :resource => [@section, :board]
           if @board and !@board.new_record?
-            item :edit,   :action => :edit,   :resource => @board
-            item :delete, :action => :delete, :resource => @board
+            item :edit,   :action  => :edit,   :resource => @board
+            item :delete, :content => link_to_delete(@board)
           end
         end
       end
@@ -183,9 +181,9 @@ module Menus
 
         menu :left, :class => 'left' do
           item :section,  :content => content_tag(:h4, "#{@section.title}:")
-          item :photos,   :action => :index, :resource => [@section, :photo]
-          item :sets,     :action => :index, :resource => [@section, :set]
-          item :settings, :action => :edit, :resource => @section
+          item :photos,   :action  => :index, :resource => [@section, :photo]
+          item :sets,     :action  => :index, :resource => [@section, :set]
+          item :settings, :action  => :edit, :resource => @section
         end
       end
     end
@@ -196,8 +194,8 @@ module Menus
           activates object.parent.find(:photos)
           item :new, :action => :new, :resource => [@section, :photo]
           if @photo and !@photo.new_record?
-            item :edit,   :action => :edit,   :resource => @photo
-            item :delete, :action => :delete, :resource => @photo
+            item :edit,   :action  => :edit,   :resource => @photo
+            item :delete, :content => link_to_delete(@photo)
           end
         end
       end
@@ -209,8 +207,8 @@ module Menus
           activates object.parent.find(:sets)
           item :new, :action => :new, :resource => [@section, :set]
           if @set and !@set.new_record?
-            item :edit,   :action => :edit,   :resource => @set
-            item :delete, :action => :delete, :resource => @set
+            item :edit,   :action  => :edit,   :resource => @set
+            item :delete, :content => link_to_delete(@set)
           end
         end
       end
@@ -227,8 +225,8 @@ module Menus
 
           item :new, :action => :new, :resource => [@section, :wikipage]
           if @wikipage and !@wikipage.new_record?
-            item :edit,   :action => :edit,   :resource => @wikipage
-            item :delete, :action => :delete, :resource => @wikipage
+            item :edit,   :action  => :edit,   :resource => @wikipage
+            item :delete, :content => link_to_delete(@wikipage)
           end
         end
       end
@@ -247,8 +245,8 @@ module Menus
           activates object.parent.find(:assets)
           item :new, :action => :new, :resource => [@site, :asset]
           if @asset and !@asset.new_record?
-            item :edit,   :action => :edit,   :resource => @asset
-            item :delete, :action => :delete, :resource => @asset
+            item :edit,   :action  => :edit,   :resource => @asset
+            item :delete, :content => link_to_delete(@asset)
           end
         end
       end
@@ -274,8 +272,8 @@ module Menus
           activates object.parent.find(:newsletters)
           item :new, :action => :new, :resource => [@site, :newsletter]
           if @newsletter and !@newsletter.new_record?
-            item :edit,   :action => :edit,   :resource => @newsletter
-            item :delete, :action => :delete, :resource => @newsletter
+            item :edit,   :action  => :edit,   :resource => @newsletter
+            item :delete, :content => link_to_delete(@newsletter)
           end
         end
       end
@@ -287,9 +285,9 @@ module Menus
           activates object.parent.find(:issues)
           item :new, :action => :new, :resource => [@newsletter, :issue]
           if @issue and !@issue.new_record?
-            item :view,   :action => :show,   :resource => @issue
-            item :edit,   :action => :edit,   :resource => @issue
-            item :delete, :action => :delete, :resource => @issue
+            item :view,   :action  => :show,   :resource => @issue
+            item :edit,   :action  => :edit,   :resource => @issue
+            item :delete, :content => link_to_delete(@issue)
           end
         end
       end
@@ -328,8 +326,8 @@ module Menus
             else
               item :activate,   :content => link_to_activate_theme(@theme)
             end
-            item :download, :url    => export_admin_theme_path(@site, @theme)
-            item :delete,   :action => :delete, :resource => @theme
+            item :download, :url     => export_admin_theme_path(@site, @theme)
+            item :delete,   :content => link_to_delete(@theme)
           end
         end
       end
@@ -359,7 +357,7 @@ module Menus
           item :plugins,  :url    => admin_plugins_path(@site)
         end
         menu :right, :class => 'right' do
-          item :delete,   :action => :delete, :resource => @site
+          item :delete,   :content => link_to_delete(@site)
         end
       end
     end
@@ -396,9 +394,9 @@ module Menus
           activates object.parent.find(:users)
           item :new, :action => :new, :resource => [@site, :user], :namespace => :'admin_site'
           if @user && !@user.new_record?
-            item :show,   :action => :show,   :resource => @user, :namespace => :'admin_site'
-            item :edit,   :action => :edit,   :resource => @user, :namespace => :'admin_site'
-            item :delete, :action => :delete, :resource => @user, :namespace => :'admin_site'
+            item :show,   :action  => :show,   :resource => @user, :namespace => :'admin_site'
+            item :edit,   :action  => :edit,   :resource => @user, :namespace => :'admin_site'
+            item :delete, :content => link_to_delete(@user)
           end
         end
       end
