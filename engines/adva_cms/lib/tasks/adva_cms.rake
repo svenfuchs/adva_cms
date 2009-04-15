@@ -128,9 +128,9 @@ end
 
 namespace :db do
   task :migrate => :environment do
-    Rake::Task["db:migrate:prepare"]
-    Rake::Task["db:migrate:original_migrate"]
-    Rake::Task["db:migrate:cleanup"]
+    Rake::Task["db:migrate:prepare"].invoke
+    Rake::Task["db:migrate:original_migrate"].invoke
+    Rake::Task["db:migrate:cleanup"].invoke
   end
 
   namespace :migrate do
