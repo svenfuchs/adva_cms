@@ -61,7 +61,7 @@ class InstallationTest < ActionController::IntegrationTest
 
     # check that the user sees the site dashboard
     assert_template "admin/sites/show"
-
+    
     # logout
     click_link "Logout"
 

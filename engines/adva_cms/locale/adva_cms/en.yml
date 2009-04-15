@@ -140,7 +140,7 @@ en:
     resources:
       links:
         view: View
-        show: View
+        show: Show
         new: New
         edit: Edit
         delete: Delete
@@ -175,7 +175,7 @@ en:
         index: Sites
         new: New
         edit: Settings
-        show: View
+        show: Show
         delete: Delete
         create_site_and_account: "Create site & account \xC2\xBB"
         manage_new: Manage your new site &raquo;
@@ -213,7 +213,7 @@ en:
       links:
         index: Sections
         new: Create a new section
-        show: View
+        show: Show
         edit: Settings
         delete: Delete
         add_section: Add a section
@@ -334,7 +334,7 @@ en:
         index: Articles
         new: New
         edit: Edit
-        show: View
+        show: Show
         delete: Delete
         preview: Preview
         reorder: Reorder articles

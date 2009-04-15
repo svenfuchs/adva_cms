@@ -29,6 +29,8 @@ module IntegrationTests
       creates_a_new_theme_file :filename => 'layouts/default.html.erb', :data => 'the theme default layout'
       creates_a_new_theme_file :filename => 'effects.js', :data => 'alert("booom!")'
 
+      click_link 'Themes'
+      click_link 'Edit'
       export_theme
       reimport_theme
     end
@@ -39,7 +41,7 @@ module IntegrationTests
     end
 
     def create_a_new_theme
-      click_link 'New'
+      click_link 'Create one now'
       assert_template "admin/themes/new"
 
       fill_in 'name', :with => 'a new theme'
@@ -73,8 +75,6 @@ module IntegrationTests
     end
     
     def export_theme
-      click_link 'Themes'
-      click_link 'Edit'
       click_link 'Download'
       @exported_theme = "#{Rails.root}/tmp/themes/imported-theme.zip"
       ::File.open(@exported_theme, 'w+') { |file| file.write(@response.body) }
@@ -83,7 +83,6 @@ module IntegrationTests
     def reimport_theme
       assert_difference 'Theme.count' do
         visit_themes_index_page
-        click_link 'Edit'
         click_link 'Import'
         attach_file 'Zip file', @exported_theme
         click_button 'Import'
