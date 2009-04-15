@@ -385,10 +385,8 @@ class AdvaJavaScriptTestTask < JavaScriptTestTask
 
   def mount_plugins
     @plugins.each do |plugin|
-      # TODO verify why it doesn't work with NonCachingFileHandler
-      # @server.mount "/#{plugin}",      NonCachingFileHandler, "#{plugin.root}/public"
-      @server.mount "/#{plugin}",      WEBrick::HTTPServlet::DefaultFileHandler, "#{plugin.root}/public"
-      @server.mount "/#{plugin}/test", NonCachingFileHandler, "#{plugin.root}/test/javascript/tmp"
+      mount "/#{plugin}",      "#{plugin.root}/public"
+      mount "/#{plugin}/test", "#{plugin.root}/test/javascript/tmp"
     end
   end
 
@@ -470,7 +468,7 @@ class TestBuilder
   attr_reader :test_task
 
   def initialize(test_task, plugins)
-    @test_task, @plugins  = test_task, plugins
+    @test_task, @plugins = test_task, plugins
     @template = ERB.new(File.new(TEMPLATE_PATH).read)
   end
 
@@ -563,7 +561,7 @@ class TestCase
   end
 
   def target
-    "/#{@plugin.name}/javascripts/#{@plugin.name}/#{relative_path}"
+    "/#{@plugin.name}/javascripts/#{@plugin.name}/#{relative_path.gsub("_test", "")}"
   end
 
   def html_fixtures
@@ -573,5 +571,9 @@ class TestCase
 
   def url
     "/#{@plugin.name}/test/#{type}/#{title}.html"
+  end
+
+  def show_html_fixtures?
+    @show_html_fixtures ||= ENV['SHOW_HTML_FIXTURES'] === "true" 
   end
 end
