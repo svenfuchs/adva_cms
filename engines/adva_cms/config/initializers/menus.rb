@@ -26,8 +26,7 @@ module Menus
         menu :right, :class => 'right' do
           item :themes,   :action => :index, :resource => [@site, :theme]
           item :settings, :action => :edit,  :resource => @site
-          # FIXME does not work!
-          item :users,    :action => :index, :resource => [@site, :user], :url => admin_site_users_path(@site)
+          item :users,    :action => :index, :resource => [@site, :user], :namespace => :'admin_site'
         end if @site && !@site.new_record?
       end
 
@@ -391,20 +390,15 @@ module Menus
         parent Sites.new.build(scope).find(:users)
 
         menu :left, :class => 'left' do
-          # item :users, :action => :index, :resource => [@site, :user]
-          item :users, :url => admin_site_users_path(@site)
+          item :users,    :action => :index, :resource => [@site, :user], :namespace => :'admin_site'
         end
         menu :right, :class => 'right' do
           activates object.parent.find(:users)
-          # item :new, :action => :new, :resource => @user
-          item :new, :url => new_admin_site_user_path(@site)
+          item :new, :action => :new, :resource => [@site, :user], :namespace => :'admin_site'
           if @user && !@user.new_record?
-            # item :show,   :action => :show,   :resource => @user
-            # item :edit,   :action => :edit,   :resource => @user
-            # item :delete, :action => :delete, :resource => @user
-            item :show,   :url => admin_site_user_path(@site, @user)
-            item :edit,   :url => edit_admin_site_user_path(@site, @user)
-            item :delete, :content => link_to_delete(@user)
+            item :show,   :action => :show,   :resource => @user, :namespace => :'admin_site'
+            item :edit,   :action => :edit,   :resource => @user, :namespace => :'admin_site'
+            item :delete, :action => :delete, :resource => @user, :namespace => :'admin_site'
           end
         end
       end
