@@ -1,26 +1,3 @@
-admin comments section
-sidebar min-width
-
-filter: how to pass parameters through all the links?
-split menus to engine initializers
-style install page (?)
-filters: checkbox styles
-
-make sections and categories nestable
-filters: selects multiple versions (e.g. articles list)
-section dropdown menu handle
-make wikipage form use :author_id
-issues edit (js)
-assets: bucket link is broken (js)
-sexy up default theme
-
-
-Menu::Item.new should take an action and object so that it can use the
-	resource_link helpers for creating links (to have ids and classes set)
-
-
-
-
 FAQ
 
 - how to configure fckeditor
