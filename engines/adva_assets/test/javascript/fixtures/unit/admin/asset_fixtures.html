@@ -20,3 +20,22 @@
     <input id="commit" name="commit" type="submit" value="Upload"> or <a href="/admin/sites/1/assets">Cancel</a>
   </p>
 </form>
+
+<div id="assets_list">
+  <div id="recent_assets" class="assets_row">
+    <div>
+      <a href="/adva_assets/assets/rails.png"><img alt="rails logo" src="/adva_assets/assets/rails.thumb.png" style="thumb"></a>
+      <ul class="asset_tools" style="display:none;">
+        <li class="edit">
+          <a href="/admin/sites/1/assets/1/edit" title="Edit this file">Edit</a>
+        </li>
+        <li class="delete">
+          <a href="/admin/sites/1/assets/1" onclick="if (confirm('Are you sure you wish to delete this?')) { var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'delete'); f.appendChild(m);var s = document.createElement('input'); s.setAttribute('type', 'hidden'); s.setAttribute('name', 'authenticity_token'); s.setAttribute('value', 'yFMS6eWc3SmWbPgdM0yeDGMb260wXDPXr6zyHkqjpRM='); f.appendChild(s);f.submit(); };return false;" title="Delete this asset">Delete</a>
+        </li>
+        <li class="bucket">
+          <a href="#" onclick="new Ajax.Request('/admin/sites/1/assets/bucket?asset_id=1', {asynchronous:true, evalScripts:true, parameters:'authenticity_token=' + encodeURIComponent('yFMS6eWc3SmWbPgdM0yeDGMb260wXDPXr6zyHkqjpRM=')}); return false;" title="Add to bucket">Add to bucket</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
