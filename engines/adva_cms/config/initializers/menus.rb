@@ -18,7 +18,8 @@ module Menus
         menu :right, :class => 'right' do
           item :themes,   :action => :index, :resource => [@site, :theme]
           item :settings, :action => :edit,  :resource => @site
-          item :users,    :action => :index, :resource => [@site, :user]
+          # FIXME does not work!
+          item :users,    :action => :index, :resource => [@site, :user], :url => admin_site_users_path(@site)
         end if @site && !@site.new_record?
       end
 
@@ -76,9 +77,11 @@ module Menus
           activates object.parent.find(:articles)
           item :new, :action => :new, :resource => [@section, :article]
           if @article and !@article.new_record?
-            item :show,   :action => :show, :resource => @article, :url => show_path(@article, :cl => content_locale, :namespace => nil)
-            item :edit,   :action => :edit, :resource => @article
-            item :delete, :action => :delete, :resource => @article
+            # article show link is also a preview link and directs to frontend, if we use :action 
+            # and :resource, the link generated would suggest backend show action instead
+            item :show,   :content  => link_to_show(@article, :cl => content_locale, :namespace => nil)
+            item :edit,   :action   => :edit,   :resource => @article
+            item :delete, :action   => :delete, :resource => @article
           end
         end
       end
@@ -94,7 +97,7 @@ module Menus
           activates object.parent.find(:categories)
           item :new, :action => :new, :resource => [@section, :category]
           if @category && !@category.new_record?
-            item :edit,   :action => :edit, :resource => @category
+            item :edit,   :action => :edit,   :resource => @category
             item :delete, :action => :delete, :resource => @category
           end
         end
@@ -111,7 +114,7 @@ module Menus
           activates object.parent.find(:calendar_events)
           item :new, :action => :new, :resource => [@section, :calendar_event]
           if @event and !@event.new_record?
-            item :edit,   :action => :edit, :resource => @event
+            item :edit,   :action => :edit,   :resource => @event
             item :delete, :action => :delete, :resource => @event
           end
         end
@@ -131,9 +134,9 @@ module Menus
       class Forum < Menu::Menu
         define do
           item :section, :content => content_tag(:h4, "#{@section.title}:")
-          item :topics, :url => index_path([@section, :topic])
-          item :boards, :url => index_path([@section, :board])
-          item :settings, :url => edit_path(@section)
+          item :topics,   :action => :index, :resource => [@section, :topic]
+          item :boards,   :action => :index, :resource => [@section, :board]
+          item :settings, :action => :edit,  :resource => @section
         end
       end
     end
@@ -146,10 +149,10 @@ module Menus
         menu :left, :class => 'left', :type => Sections::Forum
         menu :right, :class => 'right'do
           activates object.parent.find(:boards)
-          item :new, :url => new_path([@section, :board])
+          item :new, :action => :new, :resource => [@section, :board]
           if @board and !@board.new_record?
-            item :edit,   :url => edit_path(@board)
-            item :delete, :content => link_to_delete(@board)
+            item :edit,   :action => :edit,   :resource => @board
+            item :delete, :action => :delete, :resource => @board
           end
         end
       end
@@ -161,10 +164,10 @@ module Menus
         parent Sites.new.build(scope).find(:sections)
 
         menu :left, :class => 'left' do
-          item :section, :content => content_tag(:h4, "#{@section.title}:")
-          item :photos, :url => index_path([@section, :photo])
-          item :sets, :url => index_path([@section, :set])
-          item :settings, :url => edit_path(@section)
+          item :section,  :content => content_tag(:h4, "#{@section.title}:")
+          item :photos,   :action => :index, :resource => [@section, :photo]
+          item :sets,     :action => :index, :resource => [@section, :set]
+          item :settings, :action => :edit, :resource => @section
         end
       end
     end
@@ -173,10 +176,10 @@ module Menus
       define do
         menu :right, :class => 'right' do
           activates object.parent.find(:photos)
-          item :new, :url => new_path([@section, :photo])
+          item :new, :action => :new, :resource => [@section, :photo]
           if @photo and !@photo.new_record?
-            item :edit,   :url => edit_path(@photo)
-            item :delete, :content => link_to_delete(@photo)
+            item :edit,   :action => :edit,   :resource => @photo
+            item :delete, :action => :delete, :resource => @photo
           end
         end
       end
@@ -186,10 +189,10 @@ module Menus
       define do
         menu :right, :class => 'right' do
           activates object.parent.find(:sets)
-          item :new, :url => new_path([@section, :set])
+          item :new, :action => :new, :resource => [@section, :set]
           if @set and !@set.new_record?
-            item :edit,   :url => edit_admin_set_path(@site, @section, @set)
-            item :delete, :content => link_to_delete_set(@set)
+            item :edit,   :action => :edit,   :resource => @set
+            item :delete, :action => :delete, :resource => @set
           end
         end
       end
@@ -204,10 +207,10 @@ module Menus
         menu :right, :class => 'right' do
           activates object.parent.find(:wikipages)
 
-          item :new, :url => new_path([@section, :wikipage])
+          item :new, :action => :new, :resource => [@section, :wikipage]
           if @wikipage and !@wikipage.new_record?
-            item :edit,   :url => edit_path(@wikipage)
-            item :delete, :content => link_to_delete(@wikipage)
+            item :edit,   :action => :edit,   :resource => @wikipage
+            item :delete, :action => :delete, :resource => @wikipage
           end
         end
       end
@@ -224,10 +227,10 @@ module Menus
 
         menu :right, :class => 'right' do
           activates object.parent.find(:assets)
-          item :new, :url => new_path([@site, :asset])
+          item :new, :action => :new, :resource => [@site, :asset]
           if @asset and !@asset.new_record?
-            item :edit,   :url => edit_path(@asset)
-            item :delete, :content => link_to_delete(@asset)
+            item :edit,   :action => :edit,   :resource => @asset
+            item :delete, :action => :delete, :resource => @asset
           end
         end
       end
@@ -238,10 +241,10 @@ module Menus
         id :main
         parent Sites.new.build(scope).find(:newsletters)
         menu :left, :class => 'left' do
-          item :newsletters, :url => index_path([@site, :newsletter])
+          item :newsletters, :action => :index, :resource => [@site, :newsletter]
           if @newsletter && !@newsletter.new_record?
-            item :issues, :url => index_path([@newsletter, :issue]) 
-            item :subscriptions, :url => index_path([@newsletter, :subscription]) 
+            item :issues,        :action => :index, :resource => [@newsletter, :issue]
+            item :subscriptions, :action => :index, :resource => [@newsletter, :subscription]
           end
         end
       end
@@ -251,10 +254,10 @@ module Menus
       define do
         menu :right, :class => 'right' do
           activates object.parent.find(:newsletters)
-          item :new, :url => new_path([@site, :newsletter])
+          item :new, :action => :new, :resource => [@site, :newsletter]
           if @newsletter and !@newsletter.new_record?
-            item :edit,   :url => edit_path(@newsletter)
-            item :delete, :content => link_to_delete(@newsletter)
+            item :edit,   :action => :edit,   :resource => @newsletter
+            item :delete, :action => :delete, :resource => @newsletter
           end
         end
       end
@@ -264,11 +267,11 @@ module Menus
       define do
         menu :right, :class => 'right' do
           activates object.parent.find(:issues)
-          item :new, :url => new_path([@newsletter, :issue])
+          item :new, :action => :new, :resource => [@newsletter, :issue]
           if @issue and !@issue.new_record?
-            item :view,   :url => show_path(@issue)
-            item :edit,   :url => edit_path(@issue)
-            item :delete, :content => link_to_delete(@issue)
+            item :view,   :action => :show,   :resource => @issue
+            item :edit,   :action => :edit,   :resource => @issue
+            item :delete, :action => :delete, :resource => @issue
           end
         end
       end
@@ -278,7 +281,7 @@ module Menus
       define do
         menu :right, :class => 'right' do
           activates object.parent.find(:subscriptions)
-          item :new, :url => new_path([@newsletter, :subscription])
+          item :new, :action => :new, :resource => [@newsletter, :subscription]
         end
       end
     end
@@ -288,8 +291,8 @@ module Menus
         id :main
         parent Sites.new.build(scope).find(:themes)
         menu :left, :class => 'left' do
-          item :themes, :url => index_path([@site, :theme])
-          item :files,  :url => index_path([@theme, :'theme/file']) if @theme && !@theme.new_record?
+          item :themes, :action => :index, :resource => [@site, :theme]
+          item :files,  :action => :index, :resource => [@theme, :'theme/file'] if @theme && !@theme.new_record?
         end
       end
     end
@@ -298,17 +301,17 @@ module Menus
       define do
         menu :right, :class => 'right' do
           activates object.parent.find(:themes)
-          item :new, :url => new_path([@site, :theme])
-          item :import, :url => import_admin_themes_path(@site)
+          item :new,    :action => :new, :resource => [@site, :theme]
+          item :import, :url    => import_admin_themes_path(@site)
           if @theme and !@theme.new_record?
-            item :edit,   :url => edit_path(@theme)
+            item :edit, :action => :edit, :resource => @theme
             if @theme.active?
               item :deactivate, :content => link_to_deactivate_theme(@theme)
             else
-              item :activate, :content => link_to_activate_theme(@theme)
+              item :activate,   :content => link_to_activate_theme(@theme)
             end
-            item :download, :url => export_admin_theme_path(@site, @theme)
-            item :delete, :content => link_to_delete(@theme)
+            item :download, :url    => export_admin_theme_path(@site, @theme)
+            item :delete,   :action => :delete, :resource => @theme
           end
         end
       end
@@ -318,11 +321,11 @@ module Menus
       define do
         menu :right, :class => 'right' do
           activates object.parent.find(:files)
-          item :new, :url => new_path([@theme, :'theme/file'])
-          item :upload, :url => import_admin_theme_files_path(@site, @theme.id)
+          item :new,    :action => :new, :resource => [@theme, :'theme/file']
+          item :upload, :url    => import_admin_theme_files_path(@site, @theme.id)
           if @file and !@file.new_record?
-            item :edit,   :url => admin_theme_file_path(@site, @theme.id, @file)
-            item :delete, :content => link_to_delete_theme_file(@file)
+            item :edit,   :url      => admin_theme_file_path(@site, @theme.id, @file)
+            item :delete, :content  => link_to_delete_theme_file(@file)
           end
         end
       end
@@ -333,12 +336,12 @@ module Menus
         id :main
         parent Sites.new.build(scope).find(:settings)
         menu :left, :class => 'left' do
-          item :settings, :url => edit_path(@site)
-          item :cache,    :url => index_path([@site, :cached_page])
-          item :plugins,  :url => admin_plugins_path(@site)
+          item :settings, :action => :edit,  :resource => @site
+          item :cache,    :action => :index, :resource => [@site, :cached_page]
+          item :plugins,  :url    => admin_plugins_path(@site)
         end
         menu :right, :class => 'right' do
-          item :delete, :content => link_to_delete(@site)
+          item :delete,   :action => :delete, :resource => @site
         end
       end
     end
@@ -356,7 +359,7 @@ module Menus
         menu :right, :class => 'right' do
           activates object.parent.find(:plugins)
           if @plugin
-            item :show, :url => show_path(@plugin)
+            item :show,             :action  => :show, :resource => @plugin
             item :restore_defaults, :content => link_to_restore_plugin_defaults(@site, @plugin)
           end
         end
@@ -369,13 +372,18 @@ module Menus
         parent Sites.new.build(scope).find(:users)
 
         menu :left, :class => 'left' do
+          # item :users, :action => :index, :resource => [@site, :user]
           item :users, :url => admin_site_users_path(@site)
         end
         menu :right, :class => 'right' do
           activates object.parent.find(:users)
+          # item :new, :action => :new, :resource => @user
           item :new, :url => new_admin_site_user_path(@site)
           if @user && !@user.new_record?
-            item :view,   :url => admin_site_user_path(@site, @user)
+            # item :show,   :action => :show,   :resource => @user
+            # item :edit,   :action => :edit,   :resource => @user
+            # item :delete, :action => :delete, :resource => @user
+            item :show,   :url => admin_site_user_path(@site, @user)
             item :edit,   :url => edit_admin_site_user_path(@site, @user)
             item :delete, :content => link_to_delete(@user)
           end
