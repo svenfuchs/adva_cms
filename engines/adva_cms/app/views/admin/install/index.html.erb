@@ -1,31 +1,36 @@
-<h2><%= t(:'adva.titles.welcome') %></h2>
+<h2><%= t(:'adva.titles.install') %></h2>
 
 <p><%= t(:'adva.sites.install.welcome_to_installation') %></p>
 <p><%= t(:'adva.sites.install.can_always_change_settings') %></p>
 
-<% form_for :site, Site.new, install_path do |f| %>   
+<% form_for :site, Site.new, install_path do |f| %>
   <h3><%= t(:'adva.titles.website_configuration') %></h3>
-
-	<% f.field_set :config do %>
+  <% f.field_set :site do %>
     <% fields_for @site do |site| %>
      	<%= site.text_field :name, :label => :'adva.sites.label.name' %>
     <% end %>
+  <% end %>
 
-    <% fields_for @user do |user| %>
-   		<%= user.text_field :email, :label => :'adva.sites.label.admin_email' %>
-   		<%= user.password_field :password, :label => true %>
+	<% f.field_set :home_section do %>
+    <% fields_for :section, @section do |s| %>
+      <% column do %>
+      <%= s.collection_select :type, Section.types, :to_s, :to_s, {}, :label => true, :style => "width:100%;" %>
+      <% end %>
+      <% column do %>
+      <%= s.text_field :title, :label => true %>
+      <% end %>
     <% end %>
   <% end %>
   
-  <h3><%= t(:'adva.titles.website_home_section') %></h3>  
-
-	<% f.field_set :root_section do %>
-    <% fields_for :section, @section do |s| %>
-      <%= s.label :type %>
-      <% Section.types.each_with_index do |type, ix| %>
-				<p><%= s.radio_button :type, type, :label => type %></p>
-      <% end %>
-      <%= s.text_field :title, :label => true %>
+  <h3><%= t(:'adva.titles.your_admin_account') %></h3>
+	<% f.field_set :admin_account do %>
+    <% fields_for @user do |user| %>
+      <% column do %>
+   		<%= user.text_field :email, :label => :'adva.sites.label.admin_email' %>
+   		<% end %>
+   		<% column do %>
+   		<%= user.password_field :password, :label => true %>
+   		<% end %>
     <% end %>
   <% end %>
   

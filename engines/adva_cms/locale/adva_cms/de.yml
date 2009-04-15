@@ -50,6 +50,7 @@ de:
      dashboard: Gesamtübersicht
      general_settings: Allgemeine Einstellungen
      history: Verlauf
+     installation: adva-cms Installation
      login: Anmelden
      logout: Abmelden
      register: Registrieren
@@ -80,10 +81,9 @@ de:
      users: Benutzer
      roles: Rollen
      website: Webseite
-     website_configuration: Webseitenkonfiguration
-     website_home_section: Webseitenstartsektion
-     welcome: Willkommen!
+     website_configuration: Webseitenkonfiguration &amp; Startsektion
      wikipages: Wiki-Seiten
+     your_admin_account: Ihr Administratorkonto
    links:
      back: Zurück
      delete: Löschen
@@ -131,7 +131,7 @@ de:
        host: Host
      install:
        success_fully_created: Sie haben Ihre Webseite erfolgreich angelegt. Viel Spaß damit!
-       welcome_to_installation: "Willkommen zu diesem weniger-als-zwei-Minuten-Installationsprozess. Füllen Sie die Informationen unten aus und Sie sind fertig. "
+       welcome_to_installation: "Willkommen beim adva-cms Installationsprozess! Um Ihre Webseite aufzusetzen, benötigen Sie weniger als zwei Minuten. Füllen Sie bitte einfach die folgenden Felder aus."
        can_always_change_settings: Keine Bange! Sie können diese Einstellungen später jederzeit ändern.
        section_default: Startseite
      no_sites: Sie haben zur Zeit keine Webseiten angelegt. 
