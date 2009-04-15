@@ -59,12 +59,12 @@ class AdminArticlesControllerTest < ActionController::TestCase
         before { @section.single_article_mode = true; @section.save! }
 
         it_assigns :article
-        it_renders :template, lambda { "admin/#{@section.type.tableize}/articles/edit" }
+        it_renders :template, lambda { "admin/articles/edit" }
       end
       
       with "not in single-article-mode" do
         it_assigns :articles
-        it_renders :template, lambda { "admin/#{@section.type.tableize}/articles/index" }
+        it_renders :template, lambda { "admin/articles/index" }
       
         it "displays an articles list" do
           # has_tag 'th[class=total]', /total: \d article(s)?/i

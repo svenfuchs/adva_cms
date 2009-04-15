@@ -13,7 +13,6 @@ class Admin::ArticlesController < Admin::BaseController
   guards_permissions :article, :update => :update_all
 
   def index
-    render :template => "admin/#{@section.type.tableize}/articles/index"
   end
 
   def show
