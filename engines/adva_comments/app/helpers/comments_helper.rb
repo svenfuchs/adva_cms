@@ -33,17 +33,22 @@ module CommentsHelper
   end
 
   def link_to_content_comments(*args)
-    text = args.shift if args.first.is_a? String
+    options = args.extract_options!
+    text = args.shift if args.first.is_a?(String) || args.first.is_a?(Symbol)
     content, comment = *args
     return unless content.approved_comments_count > 0 || content.accept_comments?
+
+    text = t(text) if text.is_a?(Symbol)
     text ||= t(:'adva.comments.titles.comment_with_count', :count => content.approved_comments_count)
     path = show_path(content, :namespace => nil, :anchor => (comment ? dom_id(comment) : 'comments'))
-    link_to text, path
+
+    link_to text, path, options
   end
 
   def link_to_content_comment(*args)
+    options = args.extract_options!
     args.insert(args.size - 1, args.last.commentable)
-    link_to_content_comments(*args)
+    link_to_content_comments(*args << options)
   end
 
   def link_to_remote_comment_preview

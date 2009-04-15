@@ -1,42 +1,40 @@
-<% content_for :filter do %>
-  <% form_tag admin_comments_path, :method => 'get', :id => 'comment_search' do -%>
-    <label for="search" class="inline">
-      t(:'adva.comments.filter.show_comments'):
-    </label>
-    <select name="filter" id="filter_list">
-      <%= options_for_select comments_filter_options, params[:filter] %>
-    </select>
-    <select name="state" id="states">
-      <%= options_for_select comments_state_options, params[:state] %>      
-    </select>
-  	<% if @section -%>
-  	  <%= hidden_field_tag :section_id, @section.id %>
-  	<% elsif @content -%>
-  	  <%= hidden_field_tag :content_id, @content.id %>
-      <% end -%>
-  	<%= text_field_tag 'query', params[:query], :id => 'query', :style => 'display: none' %>
-    <input type="submit" id="button" value="<%= t(:'adva.comments.filter.go') %>" style="display: none" />
-  <% end -%>
+<% content_for :sidebar do -%>
+ 	<div class="tabs">
+		<ul>
+			<li class="active"><a href="#filters" onclick="return false;">Filters</a></li>
+		</ul>
+		<div class="tab active" id="tab_filters">
+			<% filter_for(Comment) %>
+		</div>
+	</div>
 <% end -%>
 
-<h3><%= t(:'adva.comments.titles.comments_on', :location => link_to_admin(@content || @section || @site)) %></h3>
+<h2><%= t(:'adva.titles.comments') %></h2>
 
 <ul id="comments_list">
   <% unless @comments.empty? %>
-    <% @comments.reverse.each do |comment, i| %>
+    <% @comments.each do |comment, i| %>
     <li class="<%= cycle 'alt', '' %>" id="<%= dom_id(comment) %>">
-      <%= render :partial => 'comment', :object => comment %>
+			<h4><%= link_to_content(comment.commentable, :namespace => nil) %></h4>
+			<div class="actions">
+				<%= comment.approved? ?
+					    link_to(t(:'adva.comments.links.unapprove'), admin_comment_path(comment, "comment[approved]" => 0, :return_to => request.request_uri), :class => 'text', :method => :put) :
+					 	  link_to(t(:'adva.comments.links.approve'), admin_comment_path(comment, "comment[approved]" => 1, :return_to => request.request_uri), :class => 'text', :method => :put) %> 
+			  <%= link_to_edit(comment, :url => edit_admin_comment_path(comment, :return_to => request.request_uri)) %> 
+			  <%= link_to_delete(comment, :url => admin_comment_path(comment, :return_to => request.request_uri)) %> 
+			  <%= link_to_content_comment(t(:'adva.comments.links.view'), comment, :class => 'show') %>
+			</div>
+			<cite>
+			  <%= comment.author_link %>
+			  <%= "(#{comment.author_email})" %> 
+			  <%= t(:'adva.comments.said_time_ago', :time => time_ago_in_words(comment.created_at)) %> 
+			</cite>
+			<blockquote>
+			  <%= strip_tags(comment.body) %>
+			</blockquote>
     </li>
     <% end %>
   <% else %>
-    <li class="alt"><%= t(:'adva.comments.info.no_comments_for_query', :location => ((@content || @section) ? (@content || @section).type.downcase : 'site')) %></li>
+    <li class="alt"><%= params[:filters] ? t(:'adva.comments.no_filtered_comments') : t(:'adva.comments.no_comments') %></li>
   <% end %>
 </ul>
-
-
-<script type="text/javascript" language="javascript" charset="utf-8">
-// <![CDATA[
-  var comment = $(document.location.hash.substring(1));
-  if(comment) Element.addClassName(comment, 'highlight');
-// ]]>
-</script>

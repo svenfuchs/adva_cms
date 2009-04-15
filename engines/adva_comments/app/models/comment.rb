@@ -1,12 +1,6 @@
 class Comment < ActiveRecord::Base
   class CommentNotAllowed < StandardError; end
 
-=begin
-  class Jail < Safemode::Jail
-    allow :new_record?
-  end
-=end
-
   define_callbacks :after_approve, :after_unapprove
   after_save do |comment|
     comment.send :callback, :after_approve   if comment.just_approved?
@@ -16,6 +10,9 @@ class Comment < ActiveRecord::Base
   filtered_column :body
   filters_attributes :sanitize => :body_html
 
+  has_filter :text  => { :attributes => [:body] },
+             :state => { :states => [:approved, :unapproved] }
+  
   belongs_to :site
   belongs_to :section
   belongs_to :commentable, :polymorphic => true

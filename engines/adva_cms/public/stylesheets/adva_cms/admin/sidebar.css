@@ -1,5 +1,6 @@
 #sidebar {
-  padding: 20px 8%;
+  margin-right: -1px;
+  padding: 20px 30px;
 	font-size: 12px;
 }
 #sidebar ul {
@@ -40,7 +41,7 @@
 
 #sidebar .tabs > ul {
 	overflow: auto;
-	margin: -20px -9.5% 0 -9.5%;
+	margin: -20px -30px 0 -30px;
 	padding: 0px 12px 0px 12px;
 	background-color: #ddd;
 	list-style-type: none;

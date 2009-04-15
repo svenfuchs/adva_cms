@@ -20,8 +20,8 @@ module Menu
       vars.each { |name| instance_variable_set(name, scope.controller.instance_variable_get(name)) }
     end
   
-    def id(id)
-      object.id = id
+    def id(key)
+      object.key = key
     end
   
     def options(options)
@@ -37,29 +37,30 @@ module Menu
       object.activates = activates
     end
     
-    def menu(id, options = {}, &block)
+    def menu(key, options = {}, &block)
       type = options.delete(:type) || Menu
-      menu = type.new(id, options)
+      menu = type.new(key, options)
       object.children << menu
       Builder.new(menu, scope, block || type.definitions).object
     end
 
-    def item(id, options = {})
+    def item(key, options = {})
       action, resource = *options.values_at(:action, :resource)
       type = options.delete(:type) || Item
-      object.children << item = type.new(id, options)
       if action && resource
-        item.content = resource_link(action, item.text, resource, :namespace => item.namespace) 
+        url = resource_url(action, resource, :namespace => object.namespace, :only_path => true) 
+        options.update :id => "#{action}_#{key}", :url => url
       end
+      object.children << item = type.new(key, options)
     end
     
     def namespace(namespace)
       object.namespace = namespace
     end
 
-    def breadcrumb(id, options = {})
+    def breadcrumb(key, options = {})
       type = options.delete(:type) || Item
-      object.instance_variable_get(:@breadcrumbs) << type.new(id, options)
+      object.instance_variable_get(:@breadcrumbs) << type.new(key, options)
     end
     
     def method_missing(method, *args, &block)

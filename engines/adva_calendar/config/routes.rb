@@ -7,7 +7,7 @@ ActionController::Routing::Routes.draw do |map|
                                   :year => nil, :month => nil, :day => nil,
                                   :requirements => { :year => /\d{4}/, :month => /\d{1,2}/ }
 
-    m.connect                     "calendars/:section_id",
+    m.calendar                    "calendars/:section_id",
                                   :controller => 'calendar_events',
                                   :action => 'index'
 

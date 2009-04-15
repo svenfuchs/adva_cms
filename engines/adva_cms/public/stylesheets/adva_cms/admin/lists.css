@@ -21,6 +21,7 @@ table.list tbody tr {
 }
 table.list tbody td {
 	padding: 8px 10px;
+	vertical-align: top;
 }
 table.list tbody td.actions {
   width: 63px;
@@ -46,6 +47,15 @@ table.list a.pending {
   margin-left: 4px;
   text-indent: 16px;
   overflow: hidden;
+  vertical-align: middle;
+}
+.actions a.text {
+  display: inline;
+  text-indent: 0;
+  height: auto;
+  width: auto;
+  overflow: none;
+  font-size: 12px;
 }
 .actions a:first-child {
   margin-left: 0;

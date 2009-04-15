@@ -4,6 +4,10 @@ module ContentHelper
     article.published_at.to_ordinalized_s(article.published_at.year == Time.now.year ? :stub : :mdy)
   end
   
+  def section_path(section, options = {})
+    send :"#{section.type.downcase}_path", section, options
+  end
+  
   def article_url(section, article, options = {})
 		article.section.is_a?(Page) ? 
 			page_article_url(*[section, article.permalink, options].compact) :

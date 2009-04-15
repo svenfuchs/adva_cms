@@ -16,7 +16,6 @@
         <h2><%= @site.subtitle %></h2>
 
         <p id="login_links" class="navigation">
-          &middot; 
 					<a id="login_link" href="/login">Login</a>
         </p>
         <p id="logout_links" class="navigation" style="display: none;">
@@ -25,6 +24,7 @@
 					<a id="logout_link" href="/logout">Logout</a>
         </p>
         <%= yield :header %>
+				<%= Menus::Sections.new.build(self).root.render(:id => 'sections') %>
       </div>
       <div id="main">
         <%= render :partial => 'shared/flash' %>  

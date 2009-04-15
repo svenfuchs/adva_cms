@@ -94,7 +94,8 @@ module ResourceHelper
     end
 
     def resource_url_method(namespace, action, type, options)
-      method = [namespace, type]
+      method = [namespace, type].compact
+
       method << (options.delete(:only_path) ? 'path' : 'url')
       method.unshift(action) if [:new, :edit].include?(action.to_sym)
 

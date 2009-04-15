@@ -2,8 +2,6 @@ require 'menu/builder'
 
 module Menu
   class Base < Tags::Tag
-    include ResourceHelper
-
     class_inheritable_accessor :definitions
     self.definitions = []
 
@@ -13,20 +11,18 @@ module Menu
       end
     end
 
-    attr_accessor :id, :content, :action, :resource, :namespace, :url, :active, :parent, :children
+    attr_accessor :key, :content, :namespace, :url, :active, :parent, :children
     attr_writer :activates, :breadcrumbs
 
-    def initialize(id = nil, options = {})
+    def initialize(key = nil, options = {})
       super(options)
-      @id = id || self.class.name.demodulize.underscore.sub('_menu', '').to_sym
+      @key = key || self.class.name.demodulize.underscore.sub('_menu', '').to_sym
       @breadcrumbs = []
-		  [:content, :action, :resource, :text, :url].each do |key| 
-		    instance_variable_set(:"@#{key}", options.delete(key))
-	    end
+		  [:id, :content, :text, :url].each { |key| instance_variable_set(:"@#{key}", options.delete(key)) }
     end
 
     def find(key)
-      child = children.detect { |item| item.id == key } and return child
+      child = children.detect { |item| item.key == key } and return child
       children.each { |child| child = child.find(key) and return child }
       nil
     end
@@ -35,12 +31,16 @@ module Menu
       return self if keys.empty?
       keys = keys.first.to_s.split('.').map(&:to_sym) + keys[1, keys.size] if keys.first
       key = keys.shift
-      child = children.detect { |item| item.id == key } or raise "can not find item #{key.inspect}"
+      child = children.detect { |item| item.key == key } or raise "can not find item #{key.inspect}"
       (child.nil? || keys.empty?) ? child : child[*keys]
     end
 
     def activates
       @activates ||= parent
+    end
+    
+    def id
+      @id ||= @key
     end
     
     def namespace
@@ -89,7 +89,7 @@ module Menu
   class Item < Base
     def breadcrumbs
       breadcrumbs = Array(activates.breadcrumbs).compact
-      breadcrumbs << self.dup unless breadcrumbs.map(&:id).include?(id)
+      breadcrumbs << self.dup unless breadcrumbs.map(&:key).include?(key)
       breadcrumbs
     end
 
@@ -100,7 +100,7 @@ module Menu
     end
 
     def text
-      @text ||= id.is_a?(Symbol) ? I18n.t(id, :scope => :'adva.titles') : id
+      @text ||= key.is_a?(Symbol) ? I18n.t(key, :scope => :'adva.titles') : key
     end
 
 	  def content
@@ -141,7 +141,7 @@ module Menu
     end
     
     def item
-      Item.new id, :text => @text, :content => @content, :url => @url
+      Item.new key, :text => @text, :content => @content, :url => @url
     end
     
     def active_section
