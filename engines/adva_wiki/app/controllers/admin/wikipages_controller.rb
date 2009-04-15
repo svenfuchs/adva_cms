@@ -4,7 +4,6 @@ class Admin::WikipagesController < Admin::BaseController
   before_filter :set_section
   before_filter :set_wikipage, :only => [:show, :edit, :update, :destroy]
   before_filter :set_categories, :only => [:new, :edit]
-  before_filter :params_author, :only => [:create, :update]
 
   cache_sweeper :wikipage_sweeper, :category_sweeper, :tag_sweeper,
                 :only => [:create, :update, :destroy]
@@ -91,13 +90,6 @@ class Admin::WikipagesController < Admin::BaseController
 
     def set_categories
       @categories = @section.categories.roots
-    end
-
-    def params_author
-      return if params[:version]
-      params[:wikipage] ||= {}
-      author = params[:wikipage][:author] ? User.find(params[:wikipage][:author]) : current_user
-      set_wikipage_param(:author, author) or raise t(:'adva.wikipage.exception.author_and_current_user_not_set')
     end
 
     def set_wikipage_param(key, value)

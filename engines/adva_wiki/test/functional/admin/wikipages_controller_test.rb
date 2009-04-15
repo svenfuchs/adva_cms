@@ -14,7 +14,7 @@ class AdminWikipagesControllerTest < ActionController::TestCase
   view :form do
     has_tag 'input[name=?]', 'wikipage[title]'
     has_tag 'textarea[name=?]', 'wikipage[body]'
-    has_tag 'select[name=?]', 'wikipage[author]'
+    has_tag 'select[name=?]', 'wikipage[author_id]'
     # FIXME displays checkboxes for categories
     # FIXME displays a selectbox for selecting an author for an article
   end
