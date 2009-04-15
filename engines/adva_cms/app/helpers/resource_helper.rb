@@ -54,7 +54,7 @@ module ResourceHelper
   protected
 
     def normalize_resource_type(action, type, resource)
-      type ||= resource.class.name
+      type ||= resource.is_a?(Symbol) ? resource : resource.class.name
       type = 'section' if type.to_s.classify.constantize < Section
       type = type.to_s.tableize if action == :index
       type = type.to_s.demodulize.underscore
@@ -78,7 +78,7 @@ module ResourceHelper
     end
 
     def resource_owners(resource)
-      return [] unless resource
+      return [] if resource.nil? || resource.is_a?(Symbol)
       return resource.owners << resource if resource.respond_to?(:owners)
 
       owners = []
