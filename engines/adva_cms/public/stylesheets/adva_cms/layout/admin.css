@@ -1,3 +1,6 @@
+#body {
+  display: table;
+}
 #header {
   position: relative;
   height: 110px;
@@ -7,26 +10,12 @@
 	border-bottom: 4px solid #ddd;
 }
 #page {
-	clear: both;
-	display: inline-block;
-	overflow: hidden;
-}
-/* opera hack \*/
-#page {
-	display: block;
-}
-/* end opera hack */
-#page:after {
-	content: '-'; 
-	display: block; 
-	height: 0; 
-	clear: both; 
-	visibility: hidden;
+	display: table-row;
 }
 #main {
-	display: inline;
-	float: left;
-	width: 70%;
+	display: table-cell;
+  width: 70%;
+  vertical-align: top;
 }
 #main.collapsed {
 	width: 50%;
@@ -42,16 +31,15 @@
 	width: 0%;
 }
 #right {
-	float: left;
-	width: 30%;
+	display: table-cell;
+	width: 350px;
+  min-width: 350px;
+  max-width: 350px;
+  vertical-align: top;
 	background-color: #f6f6f6;
 }
-#main, #left, #right {
-	padding-bottom: 32767px !important;
-	margin-bottom: -32767px !important; 
-}
 #content {
-	clear: both;
+  position: relative;
 	margin-bottom: 20px;
 	padding: 20px 6%;
 }

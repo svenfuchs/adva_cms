@@ -1,0 +1,21 @@
+<% content_for :filter do %>
+  <% form_tag admin_comments_path, :method => 'get', :id => 'comment_search' do -%>
+    <label for="search" class="inline">
+      t(:'adva.comments.filter.show_comments'):
+    </label>
+    <select name="filter" id="filter_list">
+      <%= options_for_select comments_filter_options, params[:filter] %>
+    </select>
+    <select name="state" id="states">
+      <%= options_for_select comments_state_options, params[:state] %>      
+    </select>
+  	<% if @section -%>
+  	  <%= hidden_field_tag :section_id, @section.id %>
+  	<% elsif @content -%>
+  	  <%= hidden_field_tag :content_id, @content.id %>
+      <% end -%>
+  	<%= text_field_tag 'query', params[:query], :id => 'query', :style => 'display: none' %>
+    <input type="submit" id="button" value="<%= t(:'adva.comments.filter.go') %>" style="display: none" />
+  <% end -%>
+<% end -%>
+

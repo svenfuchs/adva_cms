@@ -49,6 +49,10 @@ class Admin::CommentsController < Admin::BaseController
   end
 
   private
+  
+    def set_menu
+      @menu = Menus::Admin::Comments.new
+    end
 
     def set_section
       # @section = @site.sections.find(params[:section_id]) if params[:section_id]
@@ -77,11 +81,13 @@ class Admin::CommentsController < Admin::BaseController
 
     def set_comments
       source = @content || @section || @site
-      collection = source.comments
       # FIXME how to remove the Topic dependency here? 
       # maybe make Comment a subclass of Comment::Base or something so that we can use STI to exclude 
       # special comment types?
-      @comments = collection.all(:conditions => ['commentable_type NOT IN (?)', 'Topic']).paginate filter_options 
+      collection = source.comments.scoped(:conditions => ['commentable_type NOT IN (?)', 'Topic'])
+
+      options = { :page => current_page, :per_page => 25, :order => 'created_at.id DESC' }
+      @comments = collection.filtered(params[:filters]).paginate filter_options 
     end
 
     def set_comment

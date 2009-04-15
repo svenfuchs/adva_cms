@@ -15,10 +15,20 @@
   background-color: #eaf6f6 !important;
   margin: 20px 0;	
 }
+#comments_list .actions {
+  float: right;
+  margin-top: -1px;
+  height: 20px;
+  line-height: 20px;
+  overflow: hidden;
+}
+#comments_list .actions a {
+  margin-top: -2px;
+}
 #comments_list blockquote {
 	margin: 0;
 }
 #comments_list cite {
-	font-size: 11px;
+  font-size: 12px;
 	font-style: normal;
 }

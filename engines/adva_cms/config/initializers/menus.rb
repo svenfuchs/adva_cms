@@ -1,4 +1,11 @@
 module Menus
+  class Sections < Menu::Menu
+    define do
+      id :sections
+      @site.sections.each { |section| item section.title, :action => :show, :resource => section }
+    end
+  end
+  
   module Admin
     class Sites < Menu::Group
       define do
@@ -10,6 +17,7 @@ module Menus
           if @site && !@site.new_record?
             item :overview,    :action => :show,  :resource => @site
             item :sections,    :action => :index, :resource => [@site, :section], :type => Menu::SectionsMenu, :populate => lambda { @site.sections }
+            item :comments,    :action => :index, :resource => [@site, :comment]
             item :newsletters, :action => :index, :resource => [@site, :newsletter]
             item :assets,      :action => :index, :resource => [@site, :asset]
           end
@@ -117,6 +125,17 @@ module Menus
             item :edit,   :action => :edit,   :resource => @event
             item :delete, :action => :delete, :resource => @event
           end
+        end
+      end
+    end
+
+    class Comments < Menu::Group
+      define do
+        id :main
+        parent Sites.new.build(scope).find(:comments)
+
+        menu :left, :class => 'left' do
+          item :comments, :action => :index, :resource => [@site, :comment]
         end
       end
     end

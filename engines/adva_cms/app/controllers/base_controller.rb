@@ -19,10 +19,6 @@ class BaseController < ApplicationController
   layout 'default'
   filter_parameter_logging :password
 
-  content_for :header, :menu, :only => { :format => :html } do
-#    Menu.instance(:'default.sections').render(self)
-  end
-
   protected
     def set_site
       @site = Site.find_by_host(request.host_with_port) # or raise "can not set site from host #{request.host_with_port}"

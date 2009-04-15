@@ -446,11 +446,11 @@ en:
         comments_filter: When comments are posted, they use this markup.
       confirm_delete: Are you sure you want to delete this comment?
       info:
-        no_comments_for_query: This {{location}} has no comments matching your query.
         under_review: This comment is currently under review.
       messages:
         not_allowed: "Comments are not allowed here."
-
+      no_comments: There are no comments.
+      no_filtered_comments: There are no comments matching your query.
     activity:
       titles:
         today: Today {{date}}
