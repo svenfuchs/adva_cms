@@ -56,6 +56,7 @@ module Menu
     end
 
     def activate(path)
+      path.sub! %r((\?|/pages/.*)), ''
       path == url ? activation_path.each { |item| item.active = self } : self.active = false
       children.each { |child| child.activate(path) }
     end
