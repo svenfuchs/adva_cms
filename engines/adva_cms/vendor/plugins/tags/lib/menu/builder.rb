@@ -46,9 +46,10 @@ module Menu
 
     def item(key, options = {})
       action, resource = *options.values_at(:action, :resource)
+      namespace = options.delete(:namespace) || object.namespace
       type = options.delete(:type) || Item
       if action && resource
-        url = resource_url(action, resource, :namespace => object.namespace, :only_path => true) 
+        url = resource_url(action, resource, :namespace => namespace, :only_path => true) 
         options.update :id => "#{action}_#{key}", :url => url
       end
       object.children << item = type.new(key, options)
