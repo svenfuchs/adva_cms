@@ -573,8 +573,4 @@ class TestCase
   def url
     "/#{@plugin.name}/test/#{type}/#{title}.html"
   end
-
-  def show_html_fixtures?
-    @show_html_fixtures ||= ENV['SHOW_HTML_FIXTURES'] === "true" 
-  end
 end
