@@ -14,7 +14,7 @@ ActionController::Routing::Routes.draw do |map|
                              :member => { :verify => :get }
 
   map.resources :users,      :path_prefix => "admin",
-                             :name_prefix => "admin_",
+                             :name_prefix => "admin_global_",
                              :namespace   => "admin/"
 
   map.resources :users,      :path_prefix => "admin/sites/:site_id",

@@ -5,17 +5,17 @@ ActionController::Routing::Routes.draw do |map|
   map.filter 'section_root'
   map.filter 'section_paths'
   map.filter 'pagination'
-    
+
   map.page                             'pages/:section_id',
                                        :controller   => 'articles',
                                        :action       => "index",
                                        :conditions => { :method => :get }
-                                       
+
   map.page_article                     'pages/:section_id/articles/:permalink',
                                        :controller   => 'articles',
                                        :action       => "show",
                                        :conditions => { :method => :get }
-                                       
+
   map.formatted_page_comments          'pages/:section_id/comments.:format',
                                        :controller   => 'articles',
                                        :action       => "comments",
@@ -38,7 +38,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :sections,        :controller  => 'admin/sections',
                                   :path_prefix => 'admin/sites/:site_id',
                                   :name_prefix => 'admin_'
-                                
+
   # the resources :collection option does not allow to put to the collection url
   # so we connect another route, which seems slightly more restful
   map.connect                     'admin/sites/:site_id/sections',
