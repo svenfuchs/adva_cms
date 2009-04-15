@@ -35,6 +35,8 @@
 $().ready(function(){
   $("#asset_add_file").click(function(){ $(this).addInput(); });
   $("#tagall_files").click(function(){ $(this).applyTagsToAll(); });
+  $(".assets_row div").mouseover( function(){ $(this).find("ul:first").show(); });
+  $(".assets_row div").mouseout(  function(){ $(this).find("ul:first").hide(); });
 });
 
 Asset = {

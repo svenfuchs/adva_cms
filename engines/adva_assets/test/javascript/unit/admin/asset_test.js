@@ -24,10 +24,22 @@ var TestUtils = {
   },
   emptyCopyFromTags: function() {
     this.fillCopyFromWithTags("");
+  },
+  asset: function() {
+    return $(".assets_row div:first");
+  },
+  assetTools: function() {
+    return $(".asset_tools:first");
+  },
+  simulateMouseOver: function() {
+    this.asset().mouseover();
+  },
+  simulateMouseOut: function() {
+    this.asset().mouseout();
   }
 }
 
-module("addInput");
+module("ADD INPUT");
 test("should add input row on click", function() {
   equals(TestUtils.files().size(), 1);
   TestUtils.simulateClick();
@@ -68,7 +80,7 @@ test("should remove input row when click on 'remove_file' link", function(){
   equals(TestUtils.files().size(), filesCount - 1, "should remove row when click on 'remove_file' link");
 });
 
-module("applyTagsToAll");
+module("APPLY TAGS TO ALL");
 test("should apply tags to all when click on 'tagall_files'", function(){
   TestUtils.simulateClick();
   TestUtils.tagAll();
@@ -82,4 +94,18 @@ test("should add tags when click on 'tagall_files' and input has existing tags",
   TestUtils.fillCopyFromWithTags(TestUtils.lastFileRow(), "rails");
   TestUtils.tagAll();
   equals(TestUtils.lastFileRow().find("input:last").val(), "rails " + TestUtils.defaultTags);
+});
+
+module("ASSET TOOLS");
+test("should show assets tools when mouse is over an asset preview", function(){
+  ok(!TestUtils.assetTools().is(":visible"), "asset tools should be hidden by default");
+  TestUtils.simulateMouseOver();
+  ok(TestUtils.assetTools().is(":visible"), "asset tools should be visible when the mouse is over the relative asset preview");
+});
+
+test("should hide assets tools when mouse is away from an asset preview", function(){
+  TestUtils.simulateMouseOver();
+  ok(TestUtils.assetTools().is(":visible"), "asset tools should be visible when the mouse is over the relative asset preview");
+  TestUtils.simulateMouseOut();
+  ok(!TestUtils.assetTools().is(":visible"), "asset tools should be hidden when the mouse is away from the asset preview");
 });
