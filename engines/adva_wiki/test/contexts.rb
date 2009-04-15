@@ -16,7 +16,7 @@ class Test::Unit::TestCase
   def valid_wikipage_params(user)
     { :title      => 'a wikipage',
       :body       => 'a wikipage body',
-      :author     => user.id }
+      :author_id  => user.id }
   end
 
   share :valid_wikipage_params do
