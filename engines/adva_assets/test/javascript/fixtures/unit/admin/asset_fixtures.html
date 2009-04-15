@@ -1,0 +1,22 @@
+<form action="/admin/sites/1/assets" class="new_asset" enctype="multipart/form-data" id="new_asset" method="post" name="new_asset">
+  <div style="margin:0;padding:0">
+    <input name="authenticity_token" type="hidden" value="raBQGMwGZungYNBFp3HF4v7H+9wb8b8MseH/pXZg63A=">
+  </div>
+  <fieldset id="files">
+    <p>
+      <label class="file">Select files to upload</label> <label class="title">Title</label> <label class="tags">Tags</label>
+    </p>
+    <div>
+      <p>
+        <input class="file_field" id="assets_data_0" name="assets[0][data]" type="file">
+        <input class="title_field" id="assets_0_title" name="assets[0][title]" type="text">
+        <input class="taglist_field" id="assets_0_tag_list" name="assets[0][tag_list]" type="text" value="">
+        <a href="#" class="remove_file" title="remove this file field" style="display:none;">delete</a>
+        <a href="#" class="tagall_files" id="tagall_files" style="display:none" name="tagall_files">Apply tags to all</a>
+      </p>
+    </div>
+  </fieldset><a href="#" id="asset_add_file" class="wide_button" name="asset_add_file">Add another file</a>
+  <p class="buttons">
+    <input id="commit" name="commit" type="submit" value="Upload"> or <a href="/admin/sites/1/assets">Cancel</a>
+  </p>
+</form>
