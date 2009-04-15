@@ -16,7 +16,7 @@ module ResourceHelper
   def resource_link(action, *args)
     action = action.to_sym
     url_options = args.extract_options!.dup
-    options = url_options.slice!(:only_path, :namespace, :anchor)
+    options = url_options.slice!(:only_path, :namespace, :anchor, :cl) # FIXME rather slice out known link_to options here
 
     resource, text = *args.reverse
     type, resource = *resource.reverse if resource.is_a?(Array)
