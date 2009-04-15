@@ -7,7 +7,7 @@ class Admin::BaseController < ApplicationController
   include ResourceHelper
   helper TableBuilder
 
-  helper :base, :resource, :content, :filter, :users, :'admin/comments'
+  helper :base, :resource, :content, :filter, :users, :'admin/users', :'admin/comments'
   helper :blog   if Rails.plugin?(:adva_blog) # FIXME move to engines
   helper :assets if Rails.plugin?(:adva_assets)
   helper :roles  if Rails.plugin?(:adva_rbac)
