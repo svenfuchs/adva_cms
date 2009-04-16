@@ -30,8 +30,8 @@ module Menus
           activates object.parent.find(:boards)
           item :new, :action => :new, :resource => [@section, :board]
           if @board and !@board.new_record?
-            item :edit,   :action => :edit,   :resource => @board
-            item :delete, :action => :delete, :resource => @board
+            item :edit,   :action => :edit, :resource => @board
+            item :delete, :content => link_to_delete(@board)
           end
         end
       end

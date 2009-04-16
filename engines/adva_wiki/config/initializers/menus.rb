@@ -11,8 +11,8 @@ module Menus
 
           item :new, :action => :new, :resource => [@section, :wikipage]
           if @wikipage and !@wikipage.new_record?
-            item :edit,   :action => :edit,   :resource => @wikipage
-            item :delete, :action => :delete, :resource => @wikipage
+            item :edit,   :action => :edit, :resource => @wikipage
+            item :delete, :content => link_to_delete(@wikipage)
           end
         end
       end

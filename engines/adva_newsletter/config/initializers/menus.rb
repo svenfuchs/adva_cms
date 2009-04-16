@@ -21,7 +21,7 @@ module Menus
           item :new, :action => :new, :resource => [@site, :newsletter]
           if @newsletter and !@newsletter.new_record?
             item :edit,   :action => :edit,   :resource => @newsletter
-            item :delete, :action => :delete, :resource => @newsletter
+            item :delete, :content => link_to_delete(@newsletter)
           end
         end
       end
@@ -33,9 +33,9 @@ module Menus
           activates object.parent.find(:issues)
           item :new, :action => :new, :resource => [@newsletter, :issue]
           if @issue and !@issue.new_record?
-            item :view,   :action => :show,   :resource => @issue
-            item :edit,   :action => :edit,   :resource => @issue
-            item :delete, :action => :delete, :resource => @issue
+            item :view,   :action => :show, :resource => @issue
+            item :edit,   :action => :edit, :resource => @issue
+            item :delete, :content => link_to_delete(@issue)
           end
         end
       end

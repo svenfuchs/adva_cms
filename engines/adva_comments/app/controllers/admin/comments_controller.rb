@@ -1,34 +1,13 @@
 class Admin::CommentsController < Admin::BaseController
   layout "admin"
 
-  before_filter :set_section, :set_content
-  before_filter :set_contents, :set_comments, :only => :index
-  before_filter :set_comment, :only => [:show, :edit, :update, :destroy]
+  before_filter :set_comments, :only => :index
+  before_filter :set_comment, :only => [:edit, :update, :destroy]
   before_filter :set_commentable, :set_comment_params, :only => :create
   after_filter :postback_spaminess, :only => [:update]
 
   cache_sweeper :comment_sweeper, :only => [:create, :update, :destroy]
   guards_permissions :comment
-
-  def index
-  end
-
-  def show
-    @reply = Comment.new :commentable_type => @comment.commentable_type,
-                         :commentable_id => @comment.commentable_id
-  end
-
-  # def create
-  #   @comment = @commentable.comments.build params[:comment]
-  #   if @comment.save
-  #     flash[:notice] = t(:'adva.comments.flash.create.success')
-  #     redirect_to params[:return_to]
-  #   else
-  #     @reply, @comment = @comment, @section.comments.find(params[:comment_id])
-  #     flash.now[:error] = t(:'adva.comments.flash.create.failure')
-  #     render :action => :show
-  #   end
-  # end
 
   def update
     if @comment.update_attributes params[:comment]
@@ -52,20 +31,6 @@ class Admin::CommentsController < Admin::BaseController
   
     def set_menu
       @menu = Menus::Admin::Comments.new
-    end
-
-    def set_section
-      # @section = @site.sections.find(params[:section_id]) if params[:section_id]
-      # super 
-    end
-
-    def set_contents
-      # source = @section || @site
-      # @contents = source.unapproved_comments.group_by(&:commentable)
-    end
-
-    def set_content
-      # @content = Content.find(params[:content_id]) if params[:content_id]
     end
 
     def set_commentable

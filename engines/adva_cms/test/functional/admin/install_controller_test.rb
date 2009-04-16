@@ -28,7 +28,7 @@ class AdminInstallControllerTest < ActionController::TestCase
         has_form_posting_to install_path do
           has_tag 'input[name=?]', 'site[name]'
           has_tag 'input[name=?]', 'section[title]'
-          has_tag 'input[name=?][type=radio]', 'section[type]'
+          has_tag 'select[name=?]', 'section[type]'
         end
       end
 

@@ -22,10 +22,10 @@ module Menus
             if @theme.active?
               item :deactivate, :content => link_to_deactivate_theme(@theme)
             else
-              item :activate,   :content => link_to_activate_theme(@theme)
+              item :activate, :content => link_to_activate_theme(@theme)
             end
-            item :download, :url    => export_admin_theme_path(@site, @theme)
-            item :delete,   :action => :delete, :resource => @theme
+            item :download, :url => export_admin_theme_path(@site, @theme)
+            item :delete,   :content => link_to_delete(@theme)
           end
         end
       end
@@ -38,7 +38,7 @@ module Menus
           item :new,    :action => :new, :resource => [@theme, :'theme/file']
           item :upload, :url    => import_admin_theme_files_path(@site, @theme.id)
           if @file and !@file.new_record?
-            item :edit,   :url      => admin_theme_file_path(@site, @theme.id, @file)
+            item :edit,   :url => admin_theme_file_path(@site, @theme.id, @file)
             item :delete, :content  => link_to_delete_theme_file(@file)
           end
         end

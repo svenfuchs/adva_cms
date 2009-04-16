@@ -56,20 +56,20 @@ class AdminCommentsControllerTest < ActionController::TestCase
     end
   end
 
-  describe "GET to :show" do
-    action { get :show, default_params.merge(:id => @comment.id) }
-    it_guards_permissions :show, :comment
-
-    with :access_granted do
-      it_assigns :comment
-      it_renders :template, :show do
-        has_tag 'h3', 'Comment'
-        has_text @comment.body
-        shows :comment
-        # FIXME shows a reply form
-      end
-    end
-  end
+  # describe "GET to :show" do
+  #   action { get :show, default_params.merge(:id => @comment.id) }
+  #   it_guards_permissions :show, :comment
+  # 
+  #   with :access_granted do
+  #     it_assigns :comment
+  #     it_renders :template, :show do
+  #       has_tag 'h3', 'Comment'
+  #       has_text @comment.body
+  #       shows :comment
+  #       # FIXME shows a reply form
+  #     end
+  #   end
+  # end
 
   # FIXME ... implement these
   #

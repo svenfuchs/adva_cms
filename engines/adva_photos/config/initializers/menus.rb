@@ -20,8 +20,8 @@ module Menus
           activates object.parent.find(:photos)
           item :new, :action => :new, :resource => [@section, :photo]
           if @photo and !@photo.new_record?
-            item :edit,   :action => :edit,   :resource => @photo
-            item :delete, :action => :delete, :resource => @photo
+            item :edit,   :action => :edit, :resource => @photo
+            item :delete, :content => link_to_delete(@photo)
           end
         end
       end
@@ -33,8 +33,8 @@ module Menus
           activates object.parent.find(:sets)
           item :new, :action => :new, :resource => [@section, :set]
           if @set and !@set.new_record?
-            item :edit,   :action => :edit,   :resource => @set
-            item :delete, :action => :delete, :resource => @set
+            item :edit,   :action => :edit, :resource => @set
+            item :delete, :content => link_to_delete(@set)
           end
         end
       end
