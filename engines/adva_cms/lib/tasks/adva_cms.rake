@@ -62,7 +62,10 @@ namespace :adva do
       sources.each do |source|
         split = source.split('/')
         folder, type = split[-1], split[-2]
-        FileUtils.ln_s source, "#{target}#{type}/#{folder}", :force => true, :verbose => true
+        real_target = "#{target}#{type}/#{folder}"
+        # TODO: is this necessary? it seems so ...
+        FileUtils.rm_rf real_target if File.exists?(real_target) || File.symlink?(real_target)
+        FileUtils.ln_s source, real_target, :force => true, :verbose => true
       end
     end
 
