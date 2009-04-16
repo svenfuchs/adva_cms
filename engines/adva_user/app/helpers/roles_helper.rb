@@ -18,7 +18,7 @@ module RolesHelper
   # for the current user and toggle visibility for authorized elements.
   def authorize_elements(object = nil)
     object_path = object ? "/#{object.class.name.downcase.pluralize}/#{object.id}" : ''
-    <<-js
+    javascript_tag <<-js
       var uid = Cookie.get('uid');
       if(uid) {
         $.ajax({

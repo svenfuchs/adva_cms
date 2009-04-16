@@ -38,7 +38,7 @@ register_javascript_expansion \
   :common => %w( adva_cms/jquery adva_cms/jquery-lowpro adva_cms/jquery-ui adva_cms/json adva_cms/cookie
                  adva_cms/jquery.flash ),
   :login => %w(),
-  :default => %w( adva_cms/jquery.roles ),
+  :default => %w( adva_cms/jquery.roles adva_cms/jquery.dates adva_cms/parseuri adva_cms/application ),
   :simple => %w(),
   :admin => %w()
 
