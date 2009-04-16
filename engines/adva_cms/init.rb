@@ -51,4 +51,4 @@ register_stylesheet_expansion \
   :admin   => %w( adva_cms/reset adva_cms/admin/layout adva_cms/admin/common
                   adva_cms/admin/header adva_cms/admin/sidebar adva_cms/admin/forms 
                   adva_cms/admin/lists adva_cms/admin/content adva_cms/admin/themes
-                  adva_cms/admin/users)
+                  adva_cms/admin/users adva_cms/jquery/jquery-ui )
