@@ -56,20 +56,21 @@ namespace :adva do
     desc "Symlink public assets from plugins to public/"
     task :symlink do
       target = "#{Rails.root}/public/"
-      sources = Dir["vendor/plugins/{*,*/**}/public/*/*"] +
-                Dir["vendor/plugins/{*,*/**}/vendor/plugins/**/public/*/*"]
+      sources = Dir["#{Rails.root}/vendor/plugins/{*,*/**}/public/*/*"] +
+                Dir["#{Rails.root}/vendor/plugins/{*,*/**}/vendor/plugins/**/public/*/*"]
 
       sources.each do |source|
-        type = source.split('/')[-2] # images/javascripts/stylesheets/etc.
-        FileUtils.ln_s source, target + type, :force => true
+        split = source.split('/')
+        folder, type = split[-1], split[-2]
+        FileUtils.ln_s source, "#{target}#{type}/#{folder}", :force => true, :verbose => true
       end
     end
 
     desc "Copy public assets from plugins to public/"
     task :copy do
       target = "#{Rails.root}/public/"
-      sources = Dir["vendor/plugins/{*,*/**}/public/*"] +
-                Dir["vendor/plugins/{*,*/**}/vendor/plugins/**/public/*"]
+      sources = Dir["#{Rails.root}/vendor/plugins/{*,*/**}/public/*"] +
+                Dir["#{Rails.root}/vendor/plugins/{*,*/**}/vendor/plugins/**/public/*"]
 
       FileUtils.mkdir_p(target) unless File.directory?(target)
       FileUtils.cp_r sources, target
