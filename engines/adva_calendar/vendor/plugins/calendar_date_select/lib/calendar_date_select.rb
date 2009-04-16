@@ -14,7 +14,6 @@ if Object.const_defined?(:Rails) && File.directory?(Rails.root + "public")
         new(object_name, method_name, template_object, nil, object)
       end
     end
-    
   else
     ActionView::Helpers::InstanceTag.class_eval do
       class << self; alias new_with_backwards_compatibility new; end
