@@ -96,7 +96,7 @@ module Menu
 
     def render
 	    tag = Tags::Li.new(content, :class => 'item')
-	    tag.add_class('active') if active
+	    tag.add_class('active') if active && active.key != :delete # yuk - find a better way to not highlight the delete link when the view page is active
 	    tag.render
     end
 
