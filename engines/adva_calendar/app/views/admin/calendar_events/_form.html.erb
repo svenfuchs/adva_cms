@@ -4,8 +4,6 @@
 	<% end -%>
 <% end -%>
 
-<%= calendar_date_select_includes 'silver' %>
-
 <% f.field_set :title do %>
 	<% column do %>
   	<%= f.text_field :title, :label => :'adva.calendar.attributes.title' %>
@@ -22,11 +20,11 @@
 <% f.field_set :datetimes do %>
 	<% column do %>
 		<%= f.label :start_date, t(:'adva.calendar.attributes.start_date') %>
-		<%= f.calendar_date_select :start_date, :value => @event.start_date.localtime.rfc2822 %>
+		<%= f.text_field :start_date, :value => @event.start_date.localtime.rfc2822 %>
 	<% end %>
 	<% column do %>	
 		<%= f.label :start_date, t(:'adva.calendar.attributes.end_date') %>
-	  <%= f.calendar_date_select :end_date, :value => (@event.end_date ? @event.end_date.localtime.rfc2822 : '') %>
+	  <%= f.text_field :end_date, :value => (@event.end_date ? @event.end_date.localtime.rfc2822 : '') %>
 		<label>
 			<%= f.check_box :all_day %> <%= t(:'adva.calendar.attributes.all_day') %>
 		</label>
@@ -51,3 +49,20 @@
 	  </p>
 	<% end %>
 <% end %>
+<script type="text/javascript">
+$(document).ready(function() {
+  options = {
+    dateFormat: 'D, d M yy',
+    dayNames: ['<%= t(:'date.day_names').join("', '") %>'],
+    dayNamesMin: ['<%= t(:'date.abbr_day_names').join("', '") %>'],
+    dayNamesShort: ['<%= t(:'date.abbr_day_names').join("', '") %>'],
+    monthNames: ['<%= t(:'date.month_names').join("', '") %>'],
+    monthNamesShort: ['<%= t(:'date.abbr_month_names').join("', '") %>'],
+    navigationAsDateFormat: true,
+    prevText: 'MM yy',
+    nextText: 'MM yy'
+  }
+  $('#calendar_event_start_date').datepicker(options);
+  $('#calendar_event_end_date').datepicker(options);
+});
+</script>
