@@ -10,9 +10,9 @@ applyOrRemoveFCKeditors = function() {
       if(height == 0) height = 200; // default height = 200px
 
       // initialize FCKeditor
-      FCKeditor.BasePath = '/javascripts/fckeditor/fckeditor/';
+      FCKeditor.BasePath = '/javascripts/adva_fckeditor/fckeditor/';
       var oFCKeditor = new FCKeditor(t.id, '100%', height, 'adva-cms');
-      oFCKeditor.Config['CustomConfigurationsPath'] = '/javascripts/fckeditor/config.js';
+      oFCKeditor.Config['CustomConfigurationsPath'] = '/javascripts/adva_fckeditor/config.js';
       oFCKeditor.ReplaceTextarea();
     });
   } else {
