@@ -35,7 +35,7 @@ I18n.load_path += Dir[File.dirname(__FILE__) + '/locale/**/*.yml']
 #                   adva_cms/admin/admin adva_cms/admin/article adva_cms/admin/tabs )
 
 register_javascript_expansion \
-  :common => %w( adva_cms/jquery adva_cms/jquery-ui adva_cms/json adva_cms/cookie
+  :common => %w( adva_cms/jquery adva_cms/jquery-lowpro adva_cms/jquery-ui adva_cms/json adva_cms/cookie
                  adva_cms/jquery.flash ),
   :login => %w(),
   :default => %w(),
