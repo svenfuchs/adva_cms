@@ -67,8 +67,14 @@ Installation: Edge version manually
 
 Required: Rails 2.3.2.1 or newer, ImageMagick for image handling
 
-# First install Rails 2.3.2.1 gems if you don't have it already
-  sudo gem install rails --source http://gems.rubyonrails.org
+rails my-app
+cd my-app
+git clone git://github.com/svenfuchs/adva_cms.git vendor/adva  # or use: git submodule add ...
+
+rake adva:install:core -R vendor/adva/engines/adva_cms/lib/tasks # installs adva-cms to vendor/plugins
+rake adva:assets:install # copies plugin assets to public/
+rake db:migrate  # copies engine migrations to app, does usual migration and removes
+                 # engine migrations after it's done
 
 # Create your app
   rails my-app
@@ -143,12 +149,12 @@ all engines and plugins except the adva-cms core engines. To uninstall these
 you can still simply delete the symlinks (directories on Windows) from 
 vendor/plugins.
 
-NOTE please note that right now assets not copied to public/ when engines are
+NOTE please note that right now assets not installed to public/ when engines are
 installed and they are not removed from public/ when engines are uninstalled.
 So after you've installed additional engines you'll most probably want to 
-copy the assets to public:
+install the assets to public:
 
-	rake adva:assets:copy
+	rake adva:assets:install
 
 
 Configuration
@@ -221,3 +227,4 @@ Clemens Kofler
 Priit Tamboom
 Thomas R. Koll
 Joshua Harvey
+Luca Guidi
