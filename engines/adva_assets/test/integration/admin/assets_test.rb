@@ -36,7 +36,7 @@ module IntegrationTests
       attach_file 'assets[0][data]', @image
       click_button 'Upload'
 
-      request.url.should =~ %r(/admin/sites/\d+/assets)
+      request.url.should =~ %r(/admin/sites/\d+/assets$)
       "#{Asset.root_dir}/assets/rails.png".should be_file
     end
     
@@ -45,13 +45,13 @@ module IntegrationTests
       click_link "Edit"
       fill_in 'title', :with => 'the updated asset'
       click_button 'Save Asset'
-      request.url.should =~ %r(/admin/sites/\d+/assets)
+      request.url.should =~ %r(/admin/sites/\d+/assets$)
     end
 
     def delete_the_asset
       asset = Asset.find_by_title('the updated asset')
       click_link "Delete"
-      request.url.should =~ %r(/admin/sites/\d+/assets)
+      request.url.should =~ %r(/admin/sites/\d+/assets$)
       "#{Asset.root_dir}/assets/rails.png".should_not be_file
     end
   end

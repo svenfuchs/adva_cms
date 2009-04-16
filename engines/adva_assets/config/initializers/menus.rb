@@ -14,7 +14,7 @@ module Menus
           item :new, :action => :new, :resource => [@site, :asset]
           if @asset and !@asset.new_record?
             item :edit,   :action => :edit,   :resource => @asset
-            item :delete, :action => :delete, :resource => @asset
+            item :delete, :content => link_to_delete(@asset)
           end
         end
       end

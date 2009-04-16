@@ -71,6 +71,7 @@ en:
       new: New
       edit: Edit
       delete: Delete
+      home_section: Home section
       newsletters: Newsletters
       options: Options
       overview: Overview
@@ -105,9 +106,9 @@ en:
       users: Users
       view: View
       website: Website
-      website_configuration: Website &amp; home section configuration
+      website_configuration: Website configuration
       wikipages: Pages
-      your_admin_account: Your admin account
+      admin_account: Admin account
     links: 
       back: Back
       create_one_now: Create one now. &raquo;
@@ -156,7 +157,6 @@ en:
     sites:
       title:
         create: Create a new site
-        home_section: Home section
       hints:
         host_name: Include the port if it's a non-standard one. E.g. localhost:3000
         admin_email: Shown in emails sent from your site
@@ -170,7 +170,6 @@ en:
         section_default: Home
       no_sites: You currently do not have any sites created.
       no_users: Site does not have any users.
-      no_available_users: Site does not have any available user.
       links:
         index: Sites
         new: New
@@ -901,7 +900,7 @@ en:
         tags: Tags
         topics: Topics
     subscription:
-      no_subscriptions: There are no subscribers.
+      no_subscriptions: There are no subscriptions.
       confirm_delete: Are you sure you want unsubscribe?
       flash:
         destroy_success: Successfully unsubsribed.

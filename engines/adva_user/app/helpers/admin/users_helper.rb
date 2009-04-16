@@ -6,4 +6,12 @@ module Admin::UsersHelper
   def admin_user_path(*args)
     args.first.is_a?(Site) ? admin_site_user_path(*args) : admin_global_user_path(*args)
   end
+  
+  def new_admin_user_path(*args)
+    args.first.is_a?(Site) ? new_admin_site_user_path(*args) : new_admin_global_user_path(*args)
+  end
+  
+  def edit_admin_user_path(*args)
+    args.first.is_a?(Site) ? edit_admin_site_user_path(*args) : edit_admin_global_user_path(*args)
+  end
 end

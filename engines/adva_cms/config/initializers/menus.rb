@@ -50,7 +50,7 @@ module Menus
           type = "Menus::Admin::Sections::#{@section.type}".constantize rescue Content
           menu :left, :class => 'left', :type => type
           menu :right, :class => 'right' do
-            item :delete, :action => :delete, :resource => @section
+            item :delete, :content  => link_to_delete(@section)
           end
         else
           menu :left, :class => 'left' do

@@ -46,15 +46,11 @@ class InstallationTest < ActionController::IntegrationTest
     # check that the system authenticates the user as a superuser
     assert admin.has_role?(:superuser)
 
+    # check the admin's email
+    assert_equal 'test@example.org', admin.email
+
     # check that site has default email (same as user one for default)
     assert_equal admin.email, site.email
-
-    # check that confirmation page has correct user attributes
-    assert_select 'p', /test@example.org/
-
-    # FIXME ... we do not show the password in plain text any more. might
-    # want to hide it by default and reveal it on "show my password" though
-    # assert_select 'p#user_profile', /test_password/
 
     # go to admin main page
     get admin_site_path(Site.first)

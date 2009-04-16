@@ -11,7 +11,7 @@ module Menus
           item :new, :action => :new, :resource => [@section, :calendar_event]
           if @event and !@event.new_record?
             item :edit,   :action => :edit,   :resource => @event
-            item :delete, :action => :delete, :resource => @event
+            item :delete, :content => link_to_delete(@event)
           end
         end
       end

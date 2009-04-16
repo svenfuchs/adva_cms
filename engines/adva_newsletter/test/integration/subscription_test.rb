@@ -23,7 +23,7 @@ private
     visit "/admin/sites/#{@site.id}/newsletters/#{@newsletter.id}/subscriptions"
 
     assert_template "admin/newsletter_subscriptions/index"
-    response.body.should have_tag(".empty>a", /Create one now/)
+    response.body.should have_tag(".empty > a", /Create one now/)
   end
 
   def add_site_user
@@ -33,8 +33,7 @@ private
     click_link "New"
 
     assert_template "admin/newsletter_subscriptions/new"
-    response.body.should have_tag(".empty", /Site does not have any available user/)
-    response.body.should have_tag(".empty>a", /Create one now/)
+    response.body.should have_tag(".empty", /no users available/)
 
     # adding site user is out of scope of this test
     site_user = User.create! :first_name => 'newsletter site user',
@@ -68,8 +67,7 @@ private
     click_link "New"
 
     assert_template "admin/newsletter_subscriptions/new"
-    response.body.should have_tag(".empty", /Site does not have any available user/)
-    response.body.should have_tag(".empty>a", /Create one now/)
+    response.body.should have_tag(".empty", /no users available/)
   end
 
   def unsubscribe
