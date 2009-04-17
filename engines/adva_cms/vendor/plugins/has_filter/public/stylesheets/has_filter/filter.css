@@ -95,20 +95,3 @@
   color: #333;
   cursor: pointer;
 }
-
-/*
-#filters div.submit a {
-  display: inline-block;
-  padding: 0px 16px 0px 0px;
-  background: url(/images/has_filter/filter_button_right.png) repeat-x top right;
-  font-size: 11px;
-  line-height: 18px;
-  color: #555;
-  outline: none;
-  vertical-align: top;
-}
-#filters div.submit a:hover {
-  color: #333;
-  text-decoration: none;
-}
-*/
