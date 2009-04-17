@@ -1,15 +1,17 @@
+// <%= t(:'adva.cached_pages.confirmation.cleared_short') %>
 try {
-  var count = $$('p.total strong').pop();
-  if(count) {
-    count.update(parseInt(count.innerHTML) - 1);
-  }
-  
-  var row = $('<%= dom_id(@cached_page) %>');
-  if(row) {
-    row.addClassName('deleted');
-  }
-  
-  Flash.notice("<%= t(:'adva.cached_pages.confirmation.cleared') %>")  
+  // var count = $('p.total strong').pop();
+  // if(count) {
+  //   $(count).html(parseInt(count.html()) - 1);
+  // }
+  //
+  // var row = $('#<%= dom_id(@cached_page) %>');
+  // if(row) {
+  //   $(row).addClass('deleted');
+  // }
+
+  $('#<%= dom_id(@cached_page) %>').remove();
+  Flash.notice("<%= t(:'adva.cached_pages.confirmation.cleared') %>")
 
 } catch(e) {
   alert(e)
