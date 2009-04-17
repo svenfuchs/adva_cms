@@ -6,5 +6,5 @@ config.to_prepare do
   Section.register_type 'Calendar'
 end
 
-register_javascript_expansion :admin => %w( adva_calendar/admin/jquery.calendar )
+register_javascript_expansion :admin => %w()
 register_stylesheet_expansion :admin => %w( adva_calendar/admin/calendar )

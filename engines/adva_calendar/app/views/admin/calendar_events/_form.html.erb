@@ -38,11 +38,11 @@
 
 	  <%= f.label :draft, t(:'adva.calendar.question_save_as_draft') %>
 	  <label class="light">
-	    <%= check_box_tag :draft, '1', @event.draft?, :id => 'calendar_event_draft' %> 
+	    <%= check_box_tag :draft, '1', @event.draft?, :id => 'toggle_draft' %> 
 			<%= t(:'adva.calendar.confirm_save_as_draft') %>
 	  </label>
 
-	  <p id="publish_date" style="<%= @event.draft? ? "display:none" : "" %>">
+	  <p id="publish_date_wrapper" style="<%= @event.draft? ? "display:none" : "" %>">
 	    <%= f.label :published_at, t(:'adva.calendar.publish_on_date') %>
 	    <%= f.datetime_select :published_at,
 	                          :start_year => (@event.published_at || Time.zone.now).year-1,

@@ -1,10 +1,14 @@
-$(document).ready(function() {
-  $('td.actions a.clear').click(function(event) {
+var CachedPage = {
+  clear: function(event) {
     event.preventDefault();
     $.ajax({
       url: this.href,
       type: 'delete',
       dataType: 'script'
     });
-  });
+  }
+}
+
+$(document).ready(function() {
+  $('td.actions a.clear').click(CachedPage.clear);
 })

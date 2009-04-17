@@ -20,6 +20,12 @@ var Flash = {
 		flash.show();
 	},
 	
+	showAll: function() {
+	  $.each(['notice', 'error'], function() {
+      Flash.show(this.toString());
+    })
+	},
+	
 	error: function(message) {
     this.show('error', message);
   },
@@ -30,7 +36,5 @@ var Flash = {
 }
 
 $(document).ready(function() {
-  $.each(['notice', 'error'], function() {
-    Flash.show(this.toString());
-  })
+  Flash.showAll();
 })
