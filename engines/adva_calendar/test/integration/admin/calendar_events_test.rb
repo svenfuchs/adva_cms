@@ -39,8 +39,12 @@ module IntegrationTests
     test "04 admin submits a new event: should be success" do
       visit "/admin/sites/#{@site.id}/sections/#{@calendar.id}/events/new"
       fill_in :calendar_event_title, :with => 'Christmas'
-      fill_in :calendar_event_start_date, :with => '2009-12-24'
-      fill_in :calendar_event_end_date, :with => '2009-12-27'
+      # remove these when moving back to datetime picker
+      select_datetime('December 24, 2009 0:00', :id_prefix => :calendar_event_start_date)
+      select_datetime('December 27, 2009 23:59', :id_prefix => :calendar_event_end_date)
+      # remove comments when moving back to datetime picker
+      # fill_in :calendar_event_start_date, :with => '2009-12-24'
+      # fill_in :calendar_event_end_date, :with => '2009-12-27'
       click_button 'commit'
 
       assert_template 'admin/calendar_events/edit'
