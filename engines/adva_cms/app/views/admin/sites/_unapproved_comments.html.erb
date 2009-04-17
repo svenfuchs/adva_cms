@@ -3,7 +3,9 @@
   <ul>
   <% contents.each do |content, comments| %>
     <li>
+      <% if content %>
       <%= link_to "<strong>(#{comments.size})</strong> #{content.title}", admin_comments_path(:content_id => content.id, :filter => :unapproved) %>
+      <% end %>
     </li>
   <% end %>
   </ul>
