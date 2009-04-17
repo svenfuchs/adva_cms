@@ -7,14 +7,14 @@
 	  <p id="article_excerpt_wrapper" style="<%= @article.has_excerpt? ? "" : "display:none" %>">
 	    <label for="article_excerpt">
 	      <%= t(:'adva.articles.attributes.excerpt') %>
-	      <span class="hint inline">(<%= link_to_function t(:'adva.common.hide'), "$('article_excerpt_wrapper').toggle()" %>)</span>
+	      <span class="hint inline" id="hide_excerpt_hint">(<%= link_to t(:'adva.common.hide'), '#', :id => 'hide_excerpt' %>)</span>
 	    </label>
 	    <%= f.text_area :excerpt, :class => 'wysiwyg' %>
 	  </p>
 
 	  <label for="article_body">
 	    <%= t(:'adva.articles.write_article') %>
-	    <span class="hint inline">(<%= link_to_function t(:'adva.articles.excerpt_add'), "$('article_excerpt_wrapper').toggle()" %>)</span>
+	    <span class="hint inline" id="add_excerpt_hint">(<%= link_to t(:'adva.articles.excerpt_add'), '#', :id => 'add_excerpt' %>)</span>
 	  </label>
 	  <%= f.text_area :body, :class => 'big wysiwyg' %>
 
