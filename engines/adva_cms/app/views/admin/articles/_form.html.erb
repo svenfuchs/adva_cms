@@ -19,9 +19,9 @@
 	  <%= f.text_area :body, :class => 'big wysiwyg' %>
 
 	  <%= f.label :draft, t(:'adva.articles.question_save_as_draft') %>
-	  <%= f.check_box :draft?, :id => 'article_draft', :label => :'adva.articles.confirm_save_as_draft' %>
+	  <%= f.check_box :draft?, :id => 'toggle_draft', :label => :'adva.articles.confirm_save_as_draft' %>
 
-	  <p id="article_published_at_wrapper" style="<%= @article.draft? ? "display:none" : "" %>">
+	  <p id="publish_date_wrapper" style="<%= @article.draft? ? "display:none" : "" %>">
 	    <%= f.label :published_at, t(:'adva.articles.publish_on_date') %>
 	    <%= f.datetime_select :published_at,
 	                          :start_year => (@article.published_at || Time.zone.now).year-1,
