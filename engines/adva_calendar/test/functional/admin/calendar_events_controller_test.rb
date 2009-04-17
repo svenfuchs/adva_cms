@@ -11,8 +11,13 @@ class Admin::CalendarEventsControllerTest < ActionController::TestCase
   view :form do
     has_tag 'input[name=?]', 'calendar_event[title]'
     has_tag 'input[name=?]', 'calendar_event[host]'
-    has_tag 'input[name=?]', 'calendar_event[start_date]'
-    has_tag 'input[name=?]', 'calendar_event[end_date]'
+    # remove this when moving back to datetime picker
+    %w(start_date end_date).each do |field|
+      1.upto(5) { |n| has_tag('select[name=?]', "calendar_event[#{field}(#{n}i)]") }
+    end
+    # remove comments when moving back to datetime picker
+    # has_tag 'input[name=?]', 'calendar_event[start_date]'
+    # has_tag 'input[name=?]', 'calendar_event[end_date]'
     has_tag 'input[type=checkbox][name=?]', 'calendar_event[all_day]' do |tags|
       expected = assigns(:event).all_day? ? 'checked' : nil
       assert_equal expected, tags.first.attributes['checked']
