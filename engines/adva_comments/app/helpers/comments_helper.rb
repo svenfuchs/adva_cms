@@ -52,12 +52,8 @@ module CommentsHelper
   end
 
   def link_to_remote_comment_preview
-    link_to_remote I18n.t(:'adva.titles.preview'),
-      :url     => preview_comments_path,
-      :with    => "Form.serialize($('comment_form'))",
-      :update  => 'preview',
-      :loading => "$('comment_preview_spinner').show();",
-      :loaded  => "$('comment_preview_spinner').hide();"
+    link_to(I18n.t(:'adva.titles.preview'), preview_comments_path, :id => 'preview_comment', :style => "display:none;") +
+      image_tag('adva_cms/indicator.gif', :alt => '', :id => 'comment_preview_spinner', :style => 'display:none;')
   end
 
   def comment_form_hidden_fields(commentable)

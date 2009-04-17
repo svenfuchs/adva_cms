@@ -1,4 +1,3 @@
-Event.onReady(function() {
-  var roles = new Array(<%= authorizing_css_classes(@roles, :separator => ', ', :quote => true) %>);
-  authorize_elements(roles);
+$(document).ready(function() {
+  authorize_elements([<%= authorizing_css_classes(@roles, :separator => ', ', :quote => true) %>]);
 });

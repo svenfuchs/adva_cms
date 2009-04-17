@@ -567,7 +567,7 @@ class TestCase
 
   def html_fixtures
     path = "#{@plugin.root}/test/javascript/fixtures/#{type}/#{relative_path.gsub("_test.js", "_fixtures.html")}"
-    File.new(path).read
+    File.new(path).read rescue ""
   end
 
   def url

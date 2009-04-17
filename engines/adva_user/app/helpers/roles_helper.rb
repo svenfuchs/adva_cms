@@ -21,19 +21,24 @@ module RolesHelper
     javascript_tag <<-js
       var uid = Cookie.get('uid');
       if(uid) {
-        new Ajax.Request('/users/' + uid + '/roles#{object_path}.js', {
-          method: 'get', asynchronous: false, evalScripts: true
-        })
+        $.ajax({
+          url: '/users/' + uid + '/roles#{object_path}.js',
+          type: 'get',
+          async: false,
+          dataType: 'script'
+        });
       }
       var aid = Cookie.get('aid');
       if(aid) {
-        Event.onReady(function() {
-          var roles = new Array('anonymous-' + aid);
-          authorize_elements(roles);
+        $(document).ready(function() {
+          authorize_elements(['anonymous-' + aid]);
         });
-        // new Ajax.Request('/anonymouses/' + aid + '.js', {
-        //   method: 'get', asynchronous: false, evalScripts: true,
-        // })
+        // $.ajax({
+        //   url: '/anonymouses/' + aid + '.js',
+        //   type: 'get',
+        //   async: false,
+        //   dataType: 'script'
+        // });
       }
     js
   end

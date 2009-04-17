@@ -78,9 +78,11 @@
   background: url(/images/has_filter/filter_button_left.png) repeat-x top left;
   vertical-align: top;
 }
-#filters div.submit a {
+
+#filters div.submit button {
   display: inline-block;
-  padding: 0px 16px 0px 0px;
+  padding: 1px 16px 0px 0px;
+  border: 0;
   background: url(/images/has_filter/filter_button_right.png) repeat-x top right;
   font-size: 11px;
   line-height: 18px;
@@ -88,7 +90,8 @@
   outline: none;
   vertical-align: top;
 }
-#filters div.submit a:hover {
+
+#filters div.submit button:hover {
   color: #333;
-  text-decoration: none;
+  cursor: pointer;
 }
