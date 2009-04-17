@@ -40,7 +40,7 @@ register_javascript_expansion \
   :login => %w(),
   :default => %w( adva_cms/jquery.roles adva_cms/jquery.dates adva_cms/parseuri adva_cms/application ),
   :simple => %w(),
-  :admin => %w()
+  :admin => %w( adva_cms/admin/jquery.article )
 
 register_stylesheet_expansion \
   :default => %w( adva_cms/default adva_cms/common adva_cms/forms ),
