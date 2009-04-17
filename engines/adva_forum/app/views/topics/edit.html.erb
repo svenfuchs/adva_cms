@@ -3,8 +3,7 @@
   <%= render :partial => 'form', :locals => {:f => f} %>
   <p>
     <%= submit_tag t(:'adva.common.save') %>
-    <%= link_to_remote_comment_preview %> or
-    <img src="/images/adva_cms/indicator.gif" id="comment_preview_spinner" style="display:none;" />
+    <%= link_to_remote_comment_preview %> <%= t(:'adva.common.connector.or') %>
     <%= link_to t(:'adva.common.cancel'), topic_path(@section, @topic.permalink) %>
   </p>
 <% end %>

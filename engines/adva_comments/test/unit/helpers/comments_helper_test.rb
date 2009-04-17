@@ -23,10 +23,10 @@ class CommentsHelperTest < ActionView::TestCase
       "Comments: #{@site.title} &raquo; #{@section.title} &raquo; #{@article.title}"
   end
 
-  test '#link_to_remote_comment_preview returns a rote link to preview_comments_path' do
-    mock(self).preview_comments_path.returns '/path/to/comments/preview'
-    link_to_remote_comment_preview.should =~ /Ajax.Updater/
-  end
+  # test '#link_to_remote_comment_preview returns a rote link to preview_comments_path' do
+  #   mock(self).preview_comments_path.returns '/path/to/comments/preview'
+  #   link_to_remote_comment_preview.should =~ /Ajax.Updater/
+  # end
 
   # comment_form_hidden_fields
 
