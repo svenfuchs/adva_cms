@@ -1,5 +1,6 @@
-var Comment = {
-  preview: function(event) {
+$(document).ready(function() {
+  $('a#preview_comment').show();
+  $('a#preview_comment').click(function(event) {
     event.preventDefault();
     $.ajax({
       url: this.href,
@@ -16,10 +17,5 @@ var Comment = {
         $('#comment_preview_spinner').hide();
       }
     });
-  }
-}
-
-$(document).ready(function() {
-  $('a#preview_comment').show();
-  $('a#preview_comment').click(Comment.preview);
+  });
 });
