@@ -4,7 +4,7 @@ var CommentForm = {
     if (user_name) {
 		try {
 		  $('#registered_author span').each(function() {
-		    this.html(user_name);
+		    $(this).html(user_name);
 		  });
 		} catch(err) {}
 		try { $('#registered_author').show(); } catch(err) {}
@@ -33,7 +33,7 @@ var LoginLinks = {
 		if($('#login_link'))  $('#login_link').href  = $('#login_link').href  + "?return_to=" + escape(document.location.href);
 		
 		$('span.user_name').each(function() {
-		  this.html(user_name);
+		  $(this).html(user_name);
 		});
 	}
 };

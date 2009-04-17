@@ -13,7 +13,7 @@ authorize_elements = function(roles) {
   $.each(elements, function() {
     element = $(this);
     if(element) {
-      element.removeClassName('visible_for');
+      element.removeClass('visible_for');
     }
   })
 }
