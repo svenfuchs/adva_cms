@@ -4,7 +4,7 @@ applyOrRemoveFCKeditors = function() {
     filter = $('select.columnsFilter');
 
     // transform all textareas to FCKeditors, but only if filter is set to plain HTML
-    if(filter && $(filter).val() != '') {
+    if(filter && $(filter).val() == '') {
       // some calculations
       height = $(this).height();
       if(height == 0) height = 200; // default height = 200px
