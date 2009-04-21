@@ -19,6 +19,7 @@ module Menu
       @key = key || self.class.name.demodulize.underscore.sub('_menu', '').to_sym
       @breadcrumbs = []
 		  [:id, :content, :text, :url].each { |key| instance_variable_set(:"@#{key}", options.delete(key)) }
+		  @url.sub!(/\?.*/, '') if @url
     end
 
     def find(key)
@@ -38,11 +39,11 @@ module Menu
     def activates
       @activates ||= parent
     end
-    
+
     def id
       @id ||= @key
     end
-    
+
     def namespace
       @namespace or parent.try(:namespace)
     end
@@ -57,7 +58,7 @@ module Menu
 
     def activate(path)
       path.sub! %r((\?|/pages/.*)), ''
-      url && url.starts_with(path) ? activation_path.each { |item| item.active = self } : self.active = false
+      url == path ? activation_path.each { |item| item.active = self } : self.active = false
       children.each { |child| child.activate(path) }
     end
 
@@ -140,13 +141,13 @@ module Menu
       path = path =~ %r((^.*/sections/[\d]+)) && $1 or return
       @sections.each { |section| section.active = self if section.url.starts_with(path) }
     end
-    
+
     def item
       Item.new key, :text => @text, :content => @content, :url => @url
     end
-    
+
     def active_section
-      section = sections.detect { |section| section.active } 
+      section = sections.detect { |section| section.active }
       section && Item.new(:section, :text => section.id, :url => @url)
     end
 
