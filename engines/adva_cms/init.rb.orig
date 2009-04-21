@@ -1,0 +1,47 @@
+require 'paperclip' 
+
+require 'adva_config'
+require 'extensible_forms'
+require 'time_hacks'
+require 'core_ext'
+require 'rails_ext'
+require 'cells_ext'
+
+# require 'menu'
+require 'event'    # need to force these to be loaded now, so Rails won't
+require 'registry' # reload them between requests (FIXME ... this doesn't seem to happen?)
+
+config.to_prepare do
+  Registry.set :redirect, {
+    :login        => lambda {|c| c.send :admin_sites_path },
+    :verify       => '/',
+    :site_deleted => lambda {|c| c.send :admin_sites_path }
+  }
+end
+
+I18n.load_path += Dir[File.dirname(__FILE__) + '/locale/**/*.yml']
+
+register_javascript_expansion \
+  :common  => %w( adva_cms/jquery/jquery adva_cms/jquery/jquery-lowpro adva_cms/jquery/jquery-ui 
+                  adva_cms/jquery.common adva_cms/json adva_cms/cookie adva_cms/jquery.flash ),
+  :login   => %w(),
+  :default => %w( adva_cms/jquery.roles adva_cms/jquery.dates adva_cms/parseuri adva_cms/application ),
+<<<<<<< HEAD:engines/adva_cms/init.rb
+  :simple  => %w(),
+  :admin   => %w( adva_cms/admin/jquery.admin adva_cms/jquery/jquery.tablednd_0_5 adva_cms/jquery/jquery.table_tree 
+                  adva_cms/admin/jquery.table_tree adva_cms/admin/jquery.article adva_cms/admin/jquery.cached_pages )
+=======
+  :simple => %w(),
+  :admin => %w( adva_cms/admin/admin adva_cms/admin/jquery.article adva_cms/admin/jquery.cached_pages )
+>>>>>>> fa921f89e30921188ed878a5ead94c56f92d7768:engines/adva_cms/init.rb
+
+register_stylesheet_expansion \
+  :default => %w( adva_cms/default adva_cms/common adva_cms/forms ),
+  :login   => %w( adva_cms/admin/reset adva_cms/admin/common adva_cms/admin/forms 
+                  adva_cms/layout/login ),
+  :simple  => %w( adva_cms/reset adva_cms/admin/common adva_cms/admin/forms 
+                  adva_cms/layout/simple ),
+  :admin   => %w( adva_cms/reset adva_cms/admin/layout adva_cms/admin/common
+                  adva_cms/admin/header adva_cms/admin/top adva_cms/admin/sidebar adva_cms/admin/forms 
+                  adva_cms/admin/lists adva_cms/admin/content adva_cms/admin/themes
+                  adva_cms/admin/users adva_cms/jquery/jquery-ui )
