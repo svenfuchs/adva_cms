@@ -16,7 +16,7 @@ module Menus
 
     class Newsletter < NewsletterBase
       define do
-        menu :right, :class => 'right' do
+        menu :actions, :class => 'actions' do
           activates object.parent.find(:newsletters)
           item :new, :action => :new, :resource => [@site, :newsletter]
           if @newsletter and !@newsletter.new_record?
@@ -29,7 +29,7 @@ module Menus
 
     class Issues < NewsletterBase
       define do
-        menu :right, :class => 'right' do
+        menu :actions, :class => 'actions' do
           activates object.parent.find(:issues)
           item :new, :action => :new, :resource => [@newsletter, :issue]
           if @issue and !@issue.new_record?
@@ -43,7 +43,7 @@ module Menus
 
     class NewsletterSubscriptions < NewsletterBase
       define do
-        menu :right, :class => 'right' do
+        menu :actions, :class => 'actions' do
           activates object.parent.find(:subscriptions)
           item :new, :action => :new, :resource => [@newsletter, :subscription]
         end

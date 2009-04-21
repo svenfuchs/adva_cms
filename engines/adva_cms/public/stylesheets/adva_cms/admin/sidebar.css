@@ -1,49 +1,22 @@
 #sidebar {
-  padding: 20px 30px;
 	font-size: 12px;
 }
 #sidebar ul {
-  margin-top: 12px;
   list-style-type: none;
-}
-#sidebar fieldset {
-	padding: 0 2%;
-}
-#sidebar fieldset > * {
-	margin-left: -6px;
-	margin-right: -6px;
-}
-#sidebar #filters fieldset > * {
-  margin-left: 0;
-  margin-right: 0;
 }
 #sidebar #filters .set > select:first-child {
   margin-left: 8px;
 }
-#sidebar fieldset label {
-	margin-top: 12px;
-	margin-bottom: 3px;
-}
-#sidebar fieldset input[type=text],
-#sidebar fieldset textarea {
+#sidebar input[type=text],
+#sidebar textarea {
 	padding: 3px 6px !important;
 	font-size: 12px;
+	width: 290px;
 }
-#sidebar fieldset select {
-}
-#sidebar fieldset p {
-	margin-top: 0.4em;
-}
-#sidebar fieldset ul {
-	margin-top: 8px;
-}
-
 #sidebar .tabs > ul {
 	overflow: auto;
-	margin: -20px -30px 0 -30px;
 	padding: 0px 12px 0px 12px;
 	background-color: #ddd;
-	list-style-type: none;
 }
 #sidebar .tabs > ul li {
 	float: left;
@@ -68,6 +41,8 @@
 	display: none;
 	clear: both;
 	padding-top: 5px;
+	padding-left: 20px;
+	padding-right: 20px;
 }
 #sidebar .tabs .tab.active {
 	display: block;
@@ -76,14 +51,9 @@
 	font-size: 1.2em;
 	font-weight: bold;
 }
-
-.filters {
-  margin-left: -12px;
-  margin-right: -12px;
-}
 .filters .submit {
   float: right;
   margin-top: 4px;
-  margin-bottom: 25px;
+  margin-bottom: 15px;
 }
 

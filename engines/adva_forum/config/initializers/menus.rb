@@ -26,7 +26,7 @@ module Menus
         parent Sites.new.build(scope).find(:sections)
 
         menu :left, :class => 'left', :type => Sections::Forum
-        menu :right, :class => 'right'do
+        menu :actions, :class => 'actions'do
           activates object.parent.find(:boards)
           item :new, :action => :new, :resource => [@section, :board]
           if @board and !@board.new_record?
