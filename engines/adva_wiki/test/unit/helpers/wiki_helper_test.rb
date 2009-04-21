@@ -7,7 +7,7 @@ class WikiHelperTest < ActionView::TestCase
 
   include WikiHelper
   include RolesHelper
-  
+
   attr_reader :controller
   delegate :wikipage_path_with_home, :to => :controller # umpf
 
@@ -16,7 +16,7 @@ class WikiHelperTest < ActionView::TestCase
     @section = Wiki.first
     @wikipage = @section.wikipages.first
     @another_wikipage = @section.wikipages.second
-    
+
     @controller = TestController.new
     @output_buffer = ''
 
@@ -59,8 +59,17 @@ class WikiHelperTest < ActionView::TestCase
   end
   
   test "#wikify calls wikify_link for everything included in [[double backets]]" do
-    mock(self).wikify_link('link').times(2)
+    mock(self).wikify_link('link', nil).times(2)
     wikify('[[link]] [[link]]')
+
+    mock(self).wikify_link('link', 'text').times(2)
+    wikify('[[link|text]] [[link|text]]')
+  end
+
+  test "#wikify builds links (with and without extra text)" do
+    wikify('[[a missing wikipage]]').should include(%(<a href="/wikipages/a-missing-wikipage" class="new_wiki_link">a missing wikipage</a>))
+    wikify('[[a missing wikipage|this is missing]]').should include(%(<a href="/wikipages/a-missing-wikipage" class="new_wiki_link">this is missing</a>))
+    wikify('[[a missing wikipage|we can use | goalposts]]').should include(%(<a href="/wikipages/a-missing-wikipage" class="new_wiki_link">we can use | goalposts</a>))
   end
   
   test "#wikify auto_links the result" do
