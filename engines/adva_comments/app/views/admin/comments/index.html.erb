@@ -1,4 +1,4 @@
-<% content_for :filter do %>
+<% content_for :filter do -%>
   <% form_tag admin_comments_path, :method => 'get', :id => 'comment_search' do -%>
     <label for="search" class="inline">
       <%= t(:'adva.comments.filter.show_comments') %>:
@@ -9,15 +9,15 @@
     <select name="state" id="states">
       <%= options_for_select comments_state_options, params[:state] %>      
     </select>
-  	<% if @section %>
+  	<% if @section -%>
   	  <%= hidden_field_tag :section_id, @section.id %>
-  	<% elsif @content %>
+  	<% elsif @content -%>
   	  <%= hidden_field_tag :content_id, @content.id %>
-      <% end %>
+      <% end -%>
   	<%= text_field_tag 'query', params[:query], :id => 'query', :style => 'display: none' %>
     <input type="submit" id="button" value="<%= t(:'adva.comments.filter.go') %>" style="display: none" />
   <% end %>
-<% end %>
+<% end -%>
 
 <h3><%= t(:'adva.comments.titles.comments_on', :location => link_to_admin_object(@content || @section || @site)) %></h3>
 

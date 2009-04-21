@@ -21,18 +21,19 @@ module WikiHelper
   def wiki_content_path(content, options = {})
     wikipage_path *[content.section, content.permalink, options].compact
   end
-  
+
   def wikify(str)
     redcloth = RedCloth.new(str)
-    redcloth.gsub!(/\[\[(.*?)\|(.*?)\]\]/u){ wikify_link($1,$2) }
+    redcloth.gsub!(/\[\[(.*?)(\|[^\]]*)?\]\]/) { wikify_link($1, $2.to_s[1..-1]) }
     auto_link redcloth.to_html
   end
 
-  def wikify_link(str,txt)
+  def wikify_link(str, text=nil)
     permalink = str.to_url
+    text ||= str
     options = {}
     options[:class] = "new_wiki_link" unless Wikipage.find_by_permalink(permalink)
-    link_to txt, wikipage_path(@section, permalink), options
+    link_to text, wikipage_path(@section, permalink), options
   end
 
   def wiki_edit_links(wikipage, options = {})
@@ -52,16 +53,16 @@ module WikiHelper
       #   link_to(t(:'adva.wiki_helper.wiki_edit_links.link_to_delete'), wikipage_path(@section, wikipage.permalink), { :confirm => t(:'adva.wiki_helper.wiki_edit_links.confirm_delete'), :method => :delete })
       # end unless wikipage.home?
     end
-    
+
     links << wiki_version_links(wikipage)
 	  links << content_tag(:li, options[:append]) if options[:append]
 
     content_tag :ul, links * "\n", :class => 'links'
   end
-  
+
   def wiki_version_links(wikipage)
     links = []
-    
+
     if wikipage.versions.count > 1
       if wikipage.version > wikipage.versions.first
   	    links << content_tag(:li) do
@@ -89,18 +90,18 @@ module WikiHelper
         end
       end
     end
-    
+
     links
   end
 
   def wikipages_title(*args)
     options = args.extract_options!
     category, tags = *args
-    
+
     title = []
     title << t(:'adva.wiki_helper.collection_title.category_title', :title => category.title) if category
     title << t(:'adva.wiki_helper.collection_title.tags_title', :title => tags.to_sentence) if tags
-    
+
     title = title.empty? ? t(:'adva.wiki_helper.collection_title.all_pages') : t(:'adva.wiki_helper.collection_title.collect_pages') + title.join(', ')
     options[:format] ? options[:format] % title : title
   end
