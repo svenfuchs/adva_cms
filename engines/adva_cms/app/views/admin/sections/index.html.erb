@@ -1,20 +1,10 @@
-<% content_for :head do -%>
-<script type="text/javascript">
-$(document).ready(function() {
-  $('table#sections tr.section').draggable();
-});
-</script>
-<% end -%>
 <%
-	table_for @sections, :collection_name => :sections do |t|
+	table_for @sections, :collection_name => :sections, :class => 'sections list tree' do |t|
 		t.column :section
 		t.column :actions, :class => :actions
 
-		# t.head.row do |r|
-		# 	r.cell t(:'adva.sections.total_with_count', :count => @sections.size), :class => :total, :colspan => :all
-		# end
-
 		t.row(:class => 'section') do |r, section|
+			r.add_class "level_#{section.level}"
 			r.cell link_to(section.title, admin_section_contents_path(section))
 			r.cell link_to_edit(section) + "\n" +
 			       link_to_delete(section)

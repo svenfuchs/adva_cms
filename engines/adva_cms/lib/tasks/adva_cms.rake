@@ -53,17 +53,18 @@ namespace :adva do
 
     desc "Symlink public assets from plugins to public/"
     task :symlink do
-      target = "#{Rails.root}/public/"
+      target_dir = "#{Rails.root}/public"
       sources = Dir["#{Rails.root}/vendor/plugins/{*,*/**}/public/*/*"] +
                 Dir["#{Rails.root}/vendor/plugins/{*,*/**}/vendor/plugins/**/public/*/*"]
 
       sources.each do |source|
         split = source.split('/')
         folder, type = split[-1], split[-2]
-        real_target = "#{target}#{type}/#{folder}"
+        target = "#{target_dir}/#{type}/#{folder}"
         # TODO: is this necessary? it seems so ...
-        FileUtils.rm_rf real_target if File.exists?(real_target) || File.symlink?(real_target)
-        FileUtils.ln_s source, real_target, :force => true, :verbose => true
+        FileUtils.rm_rf target if File.exists?(target) || File.symlink?(target)
+        FileUtils.mkdir_p(File.dirname(target))
+        FileUtils.ln_s source, target, :force => true, :verbose => true
       end
     end
 

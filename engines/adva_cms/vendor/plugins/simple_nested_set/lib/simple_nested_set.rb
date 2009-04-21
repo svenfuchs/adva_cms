@@ -43,7 +43,7 @@ module ActiveRecord
 
     module InstanceMethods
       def nested_set
-        @nested_set ||= self.class.nested_set(self)
+        @nested_set ||= self.class.base_class.nested_set(self)
       end
 
       def update_attributes(attrs) # dangerous. the class itself could implement this, too. what's a better way?
@@ -147,19 +147,20 @@ module ActiveRecord
         attrs.symbolize_keys!
         attrs.reject! { |key, value| value == 'null' } # FIXME shouldn't the key be preserved?
 
-        parent = nested_set.klass.find(attrs[:parent_id] ? attrs[:parent_id] : self.parent_id)
+        parent_id = attrs[:parent_id] ? attrs[:parent_id] : self.parent_id
+        parent = parent_id.blank? ? nil : nested_set.klass.find(parent_id)
 
         # if left_id is given but blank, set right_id to leftmost one
         if attrs.has_key?(:left_id) && attrs[:left_id].blank?
           attrs.delete(:left_id)
-          siblings = parent.children
+          siblings = parent ? parent.children : self.class.roots(self)
           attrs[:right_id] = siblings.first.id if siblings.first
         end
 
         # if right_id is given but blank, set left_id to rightmost one
         if attrs.has_key?(:right_id) && attrs[:right_id].blank?
           attrs.delete(:right_id)
-          siblings = parent.children
+          siblings = parent ? parent.children : self.class.roots(self)
           attrs[:left_id] = siblings.last.id if siblings.last
         end
 
@@ -290,7 +291,7 @@ module ActiveRecord
           impossible_move! "A new node can not be moved" if new_record?
           impossible_move! "A node can't be moved to itself" if self == target
           impossible_move! "A node can't be moved to a different scope" unless same_scope?(target)
-          impossible_move! "A node can't be moved to a descendant." if (lft..rgt).include?(target.lft..target.rgt)
+          # impossible_move! "A node can't be moved to a descendant." if (lft..rgt).include?(target.lft..target.rgt)
         end
         
         def impossible_move!(message)

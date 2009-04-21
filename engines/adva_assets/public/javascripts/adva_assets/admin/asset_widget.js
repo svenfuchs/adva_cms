@@ -156,6 +156,6 @@ Event.addBehavior({
 });                                 
 
 Event.onReady(function() {
-  TinyTab.assets = new TinyTab('assets_widget', 'panels');
+	TinyTab.assets = new TinyTab('assets_widget', 'panels');
 	AssetWidget.updateSelected();
 });

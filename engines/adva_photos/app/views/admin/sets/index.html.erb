@@ -1,14 +1,11 @@
 <%
-	table_for @sets do |t|
+	table_for @section.sets, :class => 'sets list tree' do |t|
 		t.column :title, :actions
 
-		# t.head.row do |r|
-		# 	r.cell t(:'adva.photos.admin.sets.total', :total_entries => @sets.total_entries), :class => :total, :colspan => :all
-		# end
-		
 		t.row do |r, set|
+			r.add_class "level_#{set.level}"
   		r.cell link_to(set.title, edit_admin_set_path(@site, @section, set))
-			# r.cell links_to_actions([:edit, :delete], set) can't use this here because set is a Category, not a Set :(
+			# r.cell links_to_actions([:edit, :delete], set) FIXME can't use this here because set is a Category, not a Set
 			r.cell link_to_edit(set, :url => edit_admin_set_path(@site, @section, set)) + "\n" +
 						 link_to_delete(set, :url => admin_set_path(@site, @section, set), :confirm => :'adva.photos.admin.sets.delete_confirmation')
 		end

@@ -20,6 +20,7 @@ table.list tbody tr {
 	border-bottom: 1px solid #ddd;  
 }
 table.list tbody td {
+	position: relative;
 	padding: 8px 10px;
 	vertical-align: top;
 }
@@ -27,6 +28,15 @@ table.list tbody td.actions {
   width: 63px;
   white-space: nowrap;
 }
+
+table.list tr.level_1 td:first-child { padding-left: 35px; }
+table.list tr.level_2 td:first-child { padding-left: 60px; }
+table.list tr.level_3 td:first-child { padding-left: 85px; }
+table.list tr.level_4 td:first-child { padding-left: 110px; }
+table.list tr.level_5 td:first-child { padding-left: 135px; }
+table.list tr.level_6 td:first-child { padding-left: 160px; }
+table.list tr.level_7 td:first-child { padding-left: 185px; }
+table.list tr.level_8 td:first-child { padding-left: 210px; }
 
 table.list a.published {
   padding-left: 30px;
@@ -69,6 +79,15 @@ table.list a.pending {
 }
 .actions a.delete {
   background: url(/images/adva_cms/icons/bin_closed.png) no-repeat -5px top;
+}
+
+table.list .drag {
+	background-color: #f6f6f6;
+}
+table.list img.spinner {
+	margin-top: 2px;
+	margin-left: 6px;
+	vertical-align: top;
 }
 
 

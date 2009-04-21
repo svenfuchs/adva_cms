@@ -35,12 +35,13 @@ I18n.load_path += Dir[File.dirname(__FILE__) + '/locale/**/*.yml']
 #                   adva_cms/admin/admin adva_cms/admin/article adva_cms/admin/tabs )
 
 register_javascript_expansion \
-  :common => %w( adva_cms/jquery adva_cms/jquery-lowpro adva_cms/jquery-ui adva_cms/jquery.common
-                 adva_cms/json adva_cms/cookie adva_cms/jquery.flash ),
-  :login => %w(),
+  :common  => %w( adva_cms/jquery/jquery adva_cms/jquery/jquery-lowpro adva_cms/jquery/jquery-ui 
+                  adva_cms/jquery.common adva_cms/json adva_cms/cookie adva_cms/jquery.flash ),
+  :login   => %w(),
   :default => %w( adva_cms/jquery.roles adva_cms/jquery.dates adva_cms/parseuri adva_cms/application ),
-  :simple => %w(),
-  :admin => %w( adva_cms/admin/jquery.article adva_cms/admin/jquery.cached_pages )
+  :simple  => %w(),
+  :admin   => %w( adva_cms/jquery/jquery.tablednd_0_5 adva_cms/jquery/jquery.table_tree 
+                  adva_cms/admin/jquery.table_tree adva_cms/admin/jquery.article adva_cms/admin/jquery.cached_pages )
 
 register_stylesheet_expansion \
   :default => %w( adva_cms/default adva_cms/common adva_cms/forms ),

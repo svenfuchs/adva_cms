@@ -33,6 +33,10 @@ module TableBuilder
       lf(content_tag(tag_name, content, options))
     end
     
+    def add_class(klass)
+      add_class!(options, klass)
+    end
+    
     protected
       def lf(str)
         "\n#{str}\n"
