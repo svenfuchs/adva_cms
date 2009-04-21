@@ -14,7 +14,7 @@ class Admin::BaseController < ApplicationController
 
   helper_method :content_locale, :perma_host, :has_permission?
 
-  before_filter :set_menu, :set_site, :set_locale, :set_timezone, :set_cache_root
+  before_filter :set_menu, :set_site, :set_section, :set_locale, :set_timezone, :set_cache_root
 
   authentication_required
 

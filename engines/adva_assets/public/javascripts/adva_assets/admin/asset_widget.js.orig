@@ -156,6 +156,26 @@ var AssetWidget = {
   }	
 };
 
+<<<<<<< HEAD:engines/adva_assets/public/javascripts/adva_assets/admin/asset_widget.js
+Event.addBehavior({
+  '#assets_widget .attach_asset:click': function() { AssetWidget.attachAsset(this, $('content_form').authenticity_token.value); return false; },
+  '#assets_widget .detach_asset:click': function() { AssetWidget.detachAsset(this, $('content_form').authenticity_token.value); return false; },
+  '#assets_widget .asset:mouseover': 	  function() { AssetWidget.showAttachTools(this.getAttribute('id')); },
+  '#assets_widget .asset:mouseout': 		function() { AssetWidget.hideAttachTools(this.getAttribute('id')); },
+
+	'#search_assets_button:click':        function(event) { AssetWidget.search($F('search_assets_query')); },
+	'#search_assets_query:keypress':      function(event) { if(event.keyCode == Event.KEY_RETURN) { AssetWidget.search($F('search_assets_query')); Event.stop(event); } },
+	'#upload_assets_button:click':        function(event) { AssetWidget.upload($('asset_uploaded_data'), $('content_form').authenticity_token.value);}
+
+  // '#assets_widget .asset img':          function() { new Draggable(this, { revert: true, ghosting: true }); },
+	//'#article_body':                      function() { Droppables.add(this, { onDrop: function(drag, drop, event) {} }); }
+});                                 
+
+Event.onReady(function() {
+	TinyTab.assets = new TinyTab('assets_widget', 'panels');
+	AssetWidget.updateSelected();
+});
+=======
 // Event.addBehavior({
 //   '#assets_widget .attach_asset:click': function() { AssetWidget.attachAsset(this, $('content_form').authenticity_token.value); return false; },
 //   '#assets_widget .detach_asset:click': function() { AssetWidget.detachAsset(this, $('content_form').authenticity_token.value); return false; },
@@ -174,3 +194,4 @@ var AssetWidget = {
 //   TinyTab.assets = new TinyTab('assets_widget', 'panels');
 //  AssetWidget.updateSelected();
 // });
+>>>>>>> fa921f89e30921188ed878a5ead94c56f92d7768:engines/adva_assets/public/javascripts/adva_assets/admin/asset_widget.js

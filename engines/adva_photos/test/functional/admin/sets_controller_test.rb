@@ -42,7 +42,7 @@ class SetsControllerTest < ActionController::TestCase
   describe "GET to index" do
     action { get :index, default_params }
     
-    it_assigns :sets
+    it_assigns :section
     it_renders_template :index
     it_does_not_sweep_page_cache
     

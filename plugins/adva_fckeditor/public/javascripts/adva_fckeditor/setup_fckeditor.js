@@ -1,38 +1,32 @@
 applyOrRemoveFCKeditors = function() {
-  filter = $$('select.columnsFilter').first();
+  $('textarea.wysiwyg').each(function() {
+    id = $(this).attr('id');
+    filter = $('select.columnsFilter');
 
-  // transform all textareas to FCKeditors, but only if filter is set to plain HTML
-  if(filter && $F(filter) == '') {
-    // by default, apply FCKeditor to all textareas
-    $$('textarea.wysiwyg').each(function(t) {
+    // transform all textareas to FCKeditors, but only if filter is set to plain HTML
+    if(filter && $(filter).val() == '') {
       // some calculations
-      height = t.getDimensions()['height'];
+      height = $(this).height();
       if(height == 0) height = 200; // default height = 200px
 
       // initialize FCKeditor
       FCKeditor.BasePath = '/javascripts/adva_fckeditor/fckeditor/';
-      var oFCKeditor = new FCKeditor(t.id, '100%', height, 'adva-cms');
+      var oFCKeditor = new FCKeditor(id, '100%', height, 'adva-cms');
       oFCKeditor.Config['CustomConfigurationsPath'] = '/javascripts/adva_fckeditor/config.js';
       oFCKeditor.ReplaceTextarea();
-    });
-  } else {
-    // otherwise remove instances
-    $$('textarea.wysiwyg').each(function(t) {
-      f = $(t.id + '___Frame');
-      c = $(t.id + '___Config');
+    } else {
+      f = $('#' + id + '___Frame');
+      c = $('#' + id + '___Config');
       if(f) f.remove();
       if(c) c.remove();
-      $(t).show();
-    });
-  }
+      $(this).show();
+    }
+  });
 }
 
-Event.onReady(function() {
+$(document).ready(function() {
   applyOrRemoveFCKeditors();
-});
-
-Event.addBehavior({
-  'select.columnsFilter:change':function(e) {
+  $('select.columnsFilter').change(function() {
     applyOrRemoveFCKeditors();
-  }
-});
+  });
+})
