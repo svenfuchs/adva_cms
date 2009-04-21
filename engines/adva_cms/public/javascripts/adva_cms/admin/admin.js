@@ -1,30 +1,10 @@
-var Comments = {
-  filter: function() {
-    location.href = "?filter=" + $F(this).toLowerCase();
-  }
-}
-
-var SiteSelect = Class.create();
-SiteSelect.change = function(event) {
-  location.href = event.element().getValue();
-}
-
-var SiteSpamOptions = Class.create();
-SiteSpamOptions.change = function(event) {
-  var engine = event.element().value
-  $$('.site_spam_settings').each(function(element){
-    element.removeClassName('active');
-  })
-  $('site_spam_settings_' + engine.toLowerCase()).addClassName('active');
-}
-
-Event.addBehavior({
-  '#site_select': function() { Event.observe(this, 'change', SiteSelect.change.bind(this)); },
-  // '.site_spam_options_engine': function() { Event.observe(this, 'change', SiteSpamOptions.change.bind(this)); },
-  '#comments_filter': function() { Event.observe(this, 'change', Comments.filter.bind(this)); }
-}) 
-
-// function log(line) {
-//   $('log').update($('log').innerHTML + "<p>" + line + "</p>")
-// }
-
+$(document).ready(function() {
+  $('div.tabs li a').click(function() {
+    div = $(this).closest('div');
+    $('div.active, li.active', div).removeClass('active')
+    // activate selected tab and tab content
+    $(this).closest('li').addClass('active');
+    selected = '#tab_' + $(this).attr('href').replace('#', '');
+    $(selected).addClass('active');
+  });
+})

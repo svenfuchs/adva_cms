@@ -64,6 +64,10 @@
 }
 #sidebar .tabs > ul li a:hover {
 	background-color: #fff;
+	text-decoration: none;
+}
+#sidebar .tabs > ul li.active a:hover {
+  cursor: default;
 }
 #sidebar .tabs .tab {
 	display: none;
