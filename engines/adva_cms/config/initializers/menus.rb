@@ -26,7 +26,7 @@ module Menus
         menu :right, :class => 'right' do
           item :themes,   :action => :index, :resource => [@site, :theme]
           item :settings, :action => :edit,  :resource => @site
-          item :users,    :action => :index, :resource => [@site, :user], :namespace => :'admin_site'
+          item :users,    :action => :index, :resource => [@site, :user]
         end if @site && !@site.new_record?
       end
 

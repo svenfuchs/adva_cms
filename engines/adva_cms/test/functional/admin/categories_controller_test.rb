@@ -37,11 +37,9 @@ class AdminCategoriesControllerTest < ActionController::TestCase
     it_guards_permissions :show, :category
   
     with :access_granted do
-      it_assigns :site, :section, :categories
+      it_assigns :site, :section
       it_renders :template, :index do
         has_tag 'table[id=categories] tr td a[href=?]', edit_admin_category_path(@site, @section, @category)
-        # FIXME renders a link to make the categories list sortable when categories count is > 2
-        # 'Reorder categories'
       end
     end
   end

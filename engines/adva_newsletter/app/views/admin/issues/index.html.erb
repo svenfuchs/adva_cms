@@ -2,10 +2,6 @@
 	table_for @newsletter.issues do |t|
 		t.column :name, :created_at, :actions
 
-		# t.head.row do |r|
-		# 	r.cell t(:'adva.newsletter.total_issues', :issues_count => @newsletter.issues_count), :class => :total, :colspan => :all
-		# end
-
 		t.row do |r, issue|
   		r.cell link_to_show(issue.title, issue, :class => issue.state)
 			r.cell issue.created_at.to_s(:db)
