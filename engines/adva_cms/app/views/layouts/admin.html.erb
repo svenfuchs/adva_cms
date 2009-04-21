@@ -8,25 +8,19 @@
 	<%= javascript_tag "window._auth_token = #{form_authenticity_token.inspect}" %>
 </head>
 <body>
-  <div id="header">
-		<%= @menu.build(self).root.render(:id => 'top') %>
-		<%= render :partial => 'admin/shared/login_status' %>
-		<%= Breadcrumbs.new(@menu.active.breadcrumbs).render if @menu.active %>
-		<%= @menu.root.find(:main).try(:render, :id => 'main_menu') %>
-  </div>
+	<%= @menu.build(self).root.render(:id => 'top') %>
+	<%= render :partial => 'admin/shared/header' %>
 	<div id="page">
 		<%= yield :form if @content_for_form %>
-		<div id="main">
+		<div class="main">
       <%= render :partial => 'shared/flash' %>
 			<div id="content">
         <%= yield %>
 			</div>
 		</div>
-		<div id="right">
-    	<div id="sidebar">
-      	<%= yield :sidebar %>
-    	</div>
-		</div>
+   	<div id="sidebar" class="right">
+     	<%= yield :sidebar %>
+   	</div>
     <%= '</form>' if @content_for_form %>
 		<div id="left" class="collapsed">
 		</div>

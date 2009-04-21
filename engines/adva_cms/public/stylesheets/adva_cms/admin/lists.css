@@ -50,7 +50,7 @@ table.list a.pending {
   background: url(/images/adva_cms/icons/hourglass.png) no-repeat;
 }
 
-.actions a {
+#content .actions a {
   display: inline-block;
   width: 16px;
   height: 16px; 
@@ -59,7 +59,7 @@ table.list a.pending {
   overflow: hidden;
   vertical-align: middle;
 }
-.actions a.text {
+#content .actions a.text {
   display: inline;
   text-indent: 0;
   height: auto;
@@ -67,17 +67,17 @@ table.list a.pending {
   overflow: none;
   font-size: 12px;
 }
-.actions a:first-child {
+#content .actions a:first-child {
   margin-left: 0;
 }
-.actions a.show,
-.actions a.preview {
+#content .actions a.show,
+#content .actions a.preview {
   background: url(/images/adva_cms/icons/page_white_magnify.png) no-repeat;
 }
-.actions a.edit {
+#content .actions a.edit {
   background: url(/images/adva_cms/icons/pencil.png) no-repeat;
 }
-.actions a.delete {
+#content .actions a.delete {
   background: url(/images/adva_cms/icons/bin_closed.png) no-repeat -5px top;
 }
 

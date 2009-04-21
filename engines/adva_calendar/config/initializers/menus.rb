@@ -6,7 +6,7 @@ module Menus
         parent Sites.new.build(scope).find(:sections)
 
         menu :left, :class => 'left', :type => Sections::Content
-        menu :right, :class => 'right' do
+        menu :actions, :class => 'actions' do
           activates object.parent.find(:calendar_events)
           item :new, :action => :new, :resource => [@section, :calendar_event]
           if @event and !@event.new_record?

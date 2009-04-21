@@ -8,7 +8,7 @@ module Menus
         menu :left, :class => 'left' do
           item :users,    :action => :index, :resource => [@site, :user], :namespace => :'admin_site'
         end
-        menu :right, :class => 'right' do
+        menu :actions, :class => 'actions' do
           activates object.parent.find(:users)
           item :new, :action => :new, :resource => [@site, :user], :namespace => :'admin_site'
           if @user && !@user.new_record?

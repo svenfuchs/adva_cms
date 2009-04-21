@@ -16,7 +16,7 @@ module Menus
 
     class Photos < AlbumBase
       define do
-        menu :right, :class => 'right' do
+        menu :actions, :class => 'actions' do
           activates object.parent.find(:photos)
           item :new, :action => :new, :resource => [@section, :photo]
           if @photo and !@photo.new_record?
@@ -29,7 +29,7 @@ module Menus
 
     class Sets < AlbumBase
       define do
-        menu :right, :class => 'right' do
+        menu :actions, :class => 'actions' do
           activates object.parent.find(:sets)
           item :new, :action => :new, :resource => [@section, :set]
           if @set and !@set.new_record?

@@ -83,6 +83,7 @@ label.light {
 .hint {
   font-size: 0.85em;
   color: #999;
+	margin-top: 6px;
 }
 .wide_button {
   display: block;

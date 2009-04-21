@@ -13,7 +13,7 @@ module Menus
 
     class Themes < ThemesBase
       define do
-        menu :right, :class => 'right' do
+        menu :actions, :class => 'actions' do
           activates object.parent.find(:themes)
           item :new,    :action => :new, :resource => [@site, :theme]
           item :import, :url    => import_admin_themes_path(@site)
@@ -33,7 +33,7 @@ module Menus
 
     class ThemeFiles < ThemesBase
       define do
-        menu :right, :class => 'right' do
+        menu :actions, :class => 'actions' do
           activates object.parent.find(:files)
           item :new,    :action => :new, :resource => [@theme, :'theme/file']
           item :upload, :url    => import_admin_theme_files_path(@site, @theme.id)

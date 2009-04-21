@@ -12,7 +12,7 @@ module Menus
         namespace :admin
         breadcrumb :site, :content => link_to_show(@site.name, @site) if @site && !@site.new_record?
 
-        menu :left, :class => 'left' do
+        menu :left, :class => 'main' do
           item :sites, :action => :index, :resource => :site if Site.multi_sites_enabled
           if @site && !@site.new_record?
             item :overview,    :action => :show,  :resource => @site
@@ -34,7 +34,7 @@ module Menus
         define do
           id :main
           parent Sites.new.build(scope).find(:sites)
-          menu :right, :class => 'right' do
+          menu :actions, :class => 'actions' do
             item :new, :action => :new, :resource => :site
           end
         end
@@ -49,14 +49,14 @@ module Menus
         if @section and !@section.new_record?
           type = "Menus::Admin::Sections::#{@section.type}".constantize rescue Content
           menu :left, :class => 'left', :type => type
-          menu :right, :class => 'right' do
+          menu :actions, :class => 'actions' do
             item :delete, :content  => link_to_delete(@section)
           end
         else
           menu :left, :class => 'left' do
             item :sections, :action => :index, :resource => [@site, :section]
           end
-          menu :right, :class => 'right' do
+          menu :actions, :class => 'actions' do
             activates object.parent.find(:sections)
             item :new, :action => :new, :resource => [@site, :section]
             item :reorder, :content => link_to_index(:'adva.links.reorder', [@site, :section], :id => 'reorder_sections', :class => 'reorder')
@@ -81,14 +81,14 @@ module Menus
         parent Sites.new.build(scope).find(:sections)
 
         menu :left, :class => 'left', :type => Sections::Content
-        menu :right, :class => 'right' do
+        menu :actions, :class => 'actions' do
           activates object.parent.find(:articles)
           item :new, :action => :new, :resource => [@section, :article]
           if @article and !@article.new_record?
             item :show,   :content  => link_to_show(@article, :cl => content_locale, :namespace => nil)
             item :edit,   :action   => :edit, :resource => @article
             item :delete, :content  => link_to_delete(@article)
-          elsif !@article
+          elsif !@article and @section.is_a?(Page)
             item :reorder, :content => link_to_index(:'adva.links.reorder', [@section, :article], :id => 'reorder_articles', :class => 'reorder')
           end
         end
@@ -101,7 +101,7 @@ module Menus
         parent Sites.new.build(scope).find(:sections)
 
         menu :left, :class => 'left', :type => Sections::Content
-        menu :right, :class => 'right' do
+        menu :actions, :class => 'actions' do
           activates object.parent.find(:categories)
           item :new, :action => :new, :resource => [@section, :category]
           if @category && !@category.new_record?
@@ -123,7 +123,7 @@ module Menus
           item :cache,    :action => :index, :resource => [@site, :cached_page]
           item :plugins,  :url    => admin_plugins_path(@site)
         end
-        menu :right, :class => 'right' do
+        menu :actions, :class => 'actions' do
           item :delete,   :content => link_to_delete(@site)
         end
       end
@@ -131,7 +131,7 @@ module Menus
 
     class CachedPages < Settings
       define do
-        menu :right, :class => 'right' do
+        menu :actions, :class => 'actions' do
           item :clear_all, :content => link_to_clear_cached_pages(@site)
         end
       end
@@ -139,7 +139,7 @@ module Menus
 
     class Plugins < Settings
       define do
-        menu :right, :class => 'right' do
+        menu :actions, :class => 'actions' do
           activates object.parent.find(:plugins)
           if @plugin
             item :show,             :action  => :show, :resource => @plugin

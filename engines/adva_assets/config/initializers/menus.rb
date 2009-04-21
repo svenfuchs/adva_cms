@@ -9,7 +9,7 @@ module Menus
           item :assets, :url => admin_assets_path(@site)
         end
 
-        menu :right, :class => 'right' do
+        menu :actions, :class => 'actions' do
           activates object.parent.find(:assets)
           item :new, :action => :new, :resource => [@site, :asset]
           if @asset and !@asset.new_record?
