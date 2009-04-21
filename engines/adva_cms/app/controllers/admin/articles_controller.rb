@@ -73,11 +73,11 @@ class Admin::ArticlesController < Admin::BaseController
   end
 
   def update_all
-    allowed = ['position']
-    attrs = Hash[*params[:articles].collect do |id, pair|
-       [id, Hash[*pair.select{|key, value| allowed.include?(key) }.flatten]]
-    end.flatten]
-    @section.articles.update attrs.keys, attrs.values
+    # FIXME we currently use :update_all to update the position for a single object
+    # instead we should either use :update_all to batch update all objects on this
+    # resource or use :update. applies to articles, sections, categories etc.
+    id, attributes = *params[:articles].collect { |id, data| [id, { :left_id => data[:left_id] }] }.first
+    @section.articles.find(id).move_to(attributes)
     expire_cached_pages_by_reference @section # TODO should be in the sweeper
     render :text => 'OK'
   end

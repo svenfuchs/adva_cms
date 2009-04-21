@@ -35,6 +35,8 @@ module Menus
           if @set and !@set.new_record?
             item :edit,   :action => :edit, :resource => @set
             item :delete, :content => link_to_delete(@set)
+          elsif !@set
+            item :reorder, :content => link_to_index(:'adva.links.reorder', [@section, :set], :id => 'reorder_sets', :class => 'reorder')
           end
         end
       end

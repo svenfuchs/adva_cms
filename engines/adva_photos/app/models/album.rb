@@ -4,6 +4,12 @@ class Album < Section
     def roots
       find :all, :conditions => {:parent_id => nil}, :order => 'lft'
     end
+
+    def update_paths!
+      paths = Hash[*roots.map { |r| 
+        r.self_and_descendants.map { |n| [n.id, { 'path' => n.send(:build_path) }] } }.flatten]
+      update paths.keys, paths.values
+    end
   end
   has_option :photos_per_page, :default => 25
   

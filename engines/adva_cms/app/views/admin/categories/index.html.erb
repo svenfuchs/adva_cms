@@ -1,12 +1,9 @@
 <% 
-	table_for @categories do |t|
+	table_for @section.categories, :class => 'categories list tree' do |t|
 		t.column :category, :actions
 
-		# t.head.row do |r|
-		# 	r.cell t(:'adva.categories.total_with_count', :count => @categories.total_entries), :class => :total, :colspan => :all
-		# end
-
 		t.row do |r, category|
+			r.add_class "level_#{category.level}"
 			r.cell link_to_edit(category.title, category, :class => 'category')
 			r.cell link_to_edit(category) + "\n" +
 			       link_to_delete(category)

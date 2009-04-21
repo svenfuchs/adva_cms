@@ -48,6 +48,9 @@ class Admin::SectionsController < Admin::BaseController
   end
 
   def update_all
+    # FIXME we currently use :update_all to update the position for a single object
+    # instead we should either use :update_all to batch update all objects on this
+    # resource or use :update. applies to articles, sections, categories etc.
     # TODO add a after_move hook to better_nested_set
     # for now we can omit this because this action will only be called when
     # a section actually moves
@@ -55,7 +58,7 @@ class Admin::SectionsController < Admin::BaseController
     # TODO filter allowed attributes
     # TODO expire cache by site
     @site.sections.update(params[:sections].keys, params[:sections].values)
-    @site.sections.update_paths! # if moving
+    @site.sections.update_paths!
     render :text => 'OK'
   end
 

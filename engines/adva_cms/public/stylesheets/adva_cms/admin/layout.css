@@ -6,6 +6,14 @@
 	background: #fbf7e4 url(/images/adva_cms/admin/header_bg.png) bottom left;
 	border-bottom: 4px solid #ddd;
 }
+#page {
+	display: table;
+	width: 100%;
+}
+#page > form {
+	display: table-row;
+	width: 100%;
+}
 #main {
 	display: table-cell;
   width: 75%;

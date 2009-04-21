@@ -26,4 +26,10 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :sets,   :path_prefix => "admin/sites/:site_id/sections/:section_id",
                          :name_prefix => "admin_",
                          :namespace   => "admin/"
+
+  map.connect            'admin/sites/:site_id/sections/:section_id/sets',
+                         :controller   => 'admin/sets',
+                         :action       => 'update_all',
+                         :conditions   => { :method => :put }
+
 end

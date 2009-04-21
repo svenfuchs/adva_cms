@@ -120,6 +120,7 @@ en:
       login: Log In
       logout: Logout
       profile: Profile
+      reorder: Reorder
       sites_overview: Sites overview
       skip_to_content: Skip to Content
       skip_to_navigation: Skip to Navigation
@@ -336,7 +337,6 @@ en:
         show: Show
         delete: Delete
         preview: Preview
-        reorder: Reorder articles
         create_now: Create one now
       excerpt_add: Add an excerpt
       no_articles: "There are no articles in {{section}}."

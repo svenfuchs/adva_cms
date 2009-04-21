@@ -56,10 +56,10 @@
   text-indent: 18px;
 }
 #filters .set .controls a.filter_add {
-  background: url(/images/has_filter/filter_add.png) top left;
+  background: url(/images/has_filter/filter_add.png) left top;
 }
 #filters .set .controls a.filter_remove {
-  background: url(/images/has_filter/filter_remove.png) top left;
+  background: url(/images/has_filter/filter_remove.png) left top;
 }
 #filters .set:first-child .controls a.filter_remove {
   display: none;
@@ -72,23 +72,26 @@
 /*  margin-left: -4px;*/
 }
 #filters div.submit {
-  display: inline-block;
   height: 18px;
+	padding: 0;
   padding-left: 16px;
-  background: url(/images/has_filter/filter_button_left.png) repeat-x top left;
+	margin-right: 2px;
+  background: url(/images/has_filter/filter_button_left.png) repeat-x left top;
   vertical-align: top;
 }
 
 #filters div.submit button {
-  display: inline-block;
-  padding: 1px 16px 0px 0px;
-  border: 0;
-  background: url(/images/has_filter/filter_button_right.png) repeat-x top right;
+	display: block;
+	float: right;
+  padding: 0px 16px 0px 0px;
+	margin-right: -2px;
+	border: 0;
+  background: url(/images/has_filter/filter_button_right.png) repeat-x right top;
   font-size: 11px;
-  line-height: 18px;
+	height: 20px;
   color: #555;
   outline: none;
-  vertical-align: top;
+	text-decoration: none;
 }
 
 #filters div.submit button:hover {
