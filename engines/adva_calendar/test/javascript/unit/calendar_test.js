@@ -1,3 +1,5 @@
+// TODO: implement some real tests
+/*
 test("a basic test example", function() {
   ok( true, "this test is fine" );
   var value = "hello";
@@ -25,3 +27,4 @@ test("some other test", function() {
 test("raise error", function() {
   [0, 1][3].toString();
 });
+*/
