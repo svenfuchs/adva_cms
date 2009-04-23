@@ -29,10 +29,6 @@ patch_file rails_root + '/config/environment.rb',
            "require File.join(File.dirname(__FILE__), 'boot')",
            "require File.join(File.dirname(__FILE__), '../vendor/adva/engines/adva_cms/boot')"
 
-patch_file rails_root + '/Rakefile',
-           "require 'tasks/rails'",
-           "load 'vendor/adva/engines/adva_cms/lib/tasks/adva_cms.rake'"
-
 # copy_with_backup "/vendor/adva/engines/adva_cms/config/initializers/adva_cms.rb", 
 #                  "/config/initializers/adva_cms.rb"
 

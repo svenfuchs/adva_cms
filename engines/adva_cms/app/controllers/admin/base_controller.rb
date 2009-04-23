@@ -49,12 +49,12 @@ class Admin::BaseController < ApplicationController
     end
 
     def return_from(action, options = {})
-      params[:return_to] || begin
+      URI.unescape(params[:return_to] || begin
         url = Registry.get(:redirect, action)
         url = Registry.get(:redirect, url) if url.is_a?(Symbol)
         url = url.call(self) if url.is_a?(Proc)
         url || options[:default] || '/'
-      end
+      end)
     end
 
     def current_page

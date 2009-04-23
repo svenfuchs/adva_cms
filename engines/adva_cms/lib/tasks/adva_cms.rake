@@ -160,8 +160,10 @@ namespace :adva do
   end
 end
 
+Rake::Task["db:migrate"].clear_actions
+
 namespace :db do
-  task :migrate => :environment do
+  task :migrate do
     Rake::Task["db:migrate:prepare"].invoke
     Rake::Task["db:migrate:original_migrate"].invoke
     Rake::Task["db:migrate:cleanup"].invoke
