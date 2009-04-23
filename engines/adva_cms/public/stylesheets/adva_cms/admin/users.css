@@ -20,6 +20,11 @@
   max-height: 50px;
   max-width: 50px;
 }
+#sidebar #users img.avatar {
+	margin-top: 0;
+  max-height: 50px;
+  max-width: 50px;
+}
 img.avatar {
   padding: 3px;
   background: #fff;

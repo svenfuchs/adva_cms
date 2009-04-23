@@ -892,7 +892,8 @@ en:
     info:
       greeting_logged_in: Hi <span>user</span>, you are logged in.
     footer:
-      powered_by: Site powered by adva cms. Theme inspired by depo.
+      site_powered_by: "Site powered by {{link}}."
+      theme_inspired_by: Theme inspired by depo.
     flash:
       authentication_required_role: You need to have the role {{role}} to view this page.
     sidebar:

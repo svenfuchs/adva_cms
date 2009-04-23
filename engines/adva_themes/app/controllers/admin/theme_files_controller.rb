@@ -51,7 +51,7 @@ class Admin::ThemeFilesController < Admin::BaseController
       expire_pages_by_site! # FIXME could expire cached assets individually
       expire_template!(@file)
       flash[:notice] = t(:'adva.theme_files.flash.destroy.success')
-      redirect_to admin_theme_path(@site, @theme.id)
+      redirect_to admin_theme_files_path(@site, @theme.id)
     else
       flash.now[:error] = t(:'adva.theme_files.flash.destroy.failure')
       render :action => :show

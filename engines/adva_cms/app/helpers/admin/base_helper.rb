@@ -39,12 +39,8 @@ module Admin::BaseHelper
 
   def link_to_profile(site = nil, options = {})
     name = options[:name].nil? ? t(:'adva.links.profile') : options[:name]
-
-    if site.nil? || site.new_record? || current_user.has_role?(:superuser)
-      link_to(name, admin_user_path(current_user))
-    else
-      link_to(name, admin_site_user_path(site, current_user))
-    end
+    site = nil if site.new_record?
+    link_to(name, admin_user_path(site, current_user))
   end
 
   def links_to_content_translations(content, &block)

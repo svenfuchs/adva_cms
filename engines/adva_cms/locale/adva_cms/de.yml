@@ -742,6 +742,8 @@ de:
      greeting_logged_in: Hallo <span>user</span>, Sie sind angemeldet.
    footer:
      powered_by: Webseite angetrieben von adva cms. Motiv inspiriert von depo.
+     site_powered_by: "Webseite basiert auf {{link}}."
+     theme_inspired_by: Design inspiriert durch depo.
    flash:
      authentication_required_role: Sie müssen die Rolle {{role}} haben, um diese Seite zu sehen.
    sidebar:

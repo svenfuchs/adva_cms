@@ -193,7 +193,7 @@ class AdminThemeFilesControllerTest < ActionController::TestCase
     with :access_granted do
       it_destroys :file
       it_assigns :theme, :file => :not_nil
-      it_redirects_to { admin_theme_path(@site, @theme.id) }
+      it_redirects_to { admin_theme_files_path(@site, @theme.id) }
       it_assigns_flash_cookie :notice => :not_nil
       
       expect "expires page cache for the current site" do
