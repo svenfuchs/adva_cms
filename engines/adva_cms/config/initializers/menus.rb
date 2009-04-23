@@ -24,10 +24,12 @@ module Menus
         end
 
         menu :right, :class => 'right' do
-          item :themes,   :action => :index, :resource => [@site, :theme]
-          item :settings, :action => :edit,  :resource => @site
-          item :users,    :action => :index, :resource => [@site, :user]
-        end if @site && !@site.new_record?
+          if @site && !@site.new_record?
+            item :themes,   :action => :index, :resource => [@site, :theme]
+            item :settings, :action => :edit,  :resource => @site
+          end
+          item :users, :action => :index, :resource => [@site, :user]
+        end 
       end
 
       class Main < Menu::Group
@@ -114,7 +116,7 @@ module Menus
       end
     end
 
-    class Settings < Menu::Group
+    class SettingsBase < Menu::Group
       define do
         id :main
         parent Sites.new.build(scope).find(:settings)
@@ -123,13 +125,18 @@ module Menus
           item :cache,    :action => :index, :resource => [@site, :cached_page]
           item :plugins,  :url    => admin_plugins_path(@site)
         end
+      end
+    end
+    
+    class Settings < SettingsBase
+      define do
         menu :actions, :class => 'actions' do
           item :delete,   :content => link_to_delete(@site)
         end
       end
     end
 
-    class CachedPages < Settings
+    class CachedPages < SettingsBase
       define do
         menu :actions, :class => 'actions' do
           item :clear_all, :content => link_to_clear_cached_pages(@site)
@@ -137,7 +144,7 @@ module Menus
       end
     end
 
-    class Plugins < Settings
+    class Plugins < SettingsBase
       define do
         menu :actions, :class => 'actions' do
           activates object.parent.find(:plugins)

@@ -1,3 +1,6 @@
+body {
+	min-width: 775px;
+}
 body > div {
 	display: table;
 	width: 100%;
@@ -20,14 +23,13 @@ body > div {
 	padding-top: 5px;
 	background-color: black;
 	border-bottom: 5px solid #c22222;
+	white-space: nowrap;
 }
 #header {
   height: 75px;
 	background-color: #fbf7e4;
 	background: #fbf7e4 url(/images/adva_cms/admin/header_bg.png) bottom left;
 	border-bottom: 4px solid #ddd;
-}
-#page {
 }
 #page > form {
 	display: table-row;
@@ -44,6 +46,7 @@ body > div {
 	clear: both;
   position: relative;
 	margin: 20px 0;
+	padding-bottom: 20px;
 }
 #left {
   position: absolute;

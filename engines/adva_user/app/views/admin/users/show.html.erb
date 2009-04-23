@@ -1,11 +1,3 @@
-<% content_for :sidebar do %>
-  <div class="user">
-    <%= gravatar_img(@user) %>
-    <h3><%= @user.name %></h3>
-    <p><%= @user.email %></p>
-  </div>  
-<% end -%>
-
 <h2><%= @user.name %></h2>
 
 <h3><%= t(:'adva.common.details') %></h3>
@@ -31,3 +23,5 @@
   <%= t(:'adva.users.labels.updated_at') %>:
   <%= @user.updated_at %>
 </p>
+
+<%= render :partial => 'sidebar' %>

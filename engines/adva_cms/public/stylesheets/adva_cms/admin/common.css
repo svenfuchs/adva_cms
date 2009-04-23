@@ -29,12 +29,15 @@ h4 {
 p {
 	margin-top: 1.2em;
 }
+th, td {
+	vertical-align: top;
+}
 
 /* flash, errors, notices */
 
 p.flash {
-  margin-top: 0;
   padding: 0.75em 0;
+	margin: -22px -10% 0 -10%;
 }
 p.flash.notice {
   background: #cfc;

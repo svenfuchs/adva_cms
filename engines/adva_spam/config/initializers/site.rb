@@ -1,6 +1,7 @@
 class SiteFormBuilder < ExtensibleFormBuilder
   after(:site, :default_fields) do |f|
-    render :partial => 'admin/sites/spam_settings', :locals => { :f => f, :site => @template.controller.site }
+    site = @template.controller.site || Site.new
+    render :partial => 'admin/sites/spam_settings', :locals => { :f => f, :site => site }
   end
 end
 

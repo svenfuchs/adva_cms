@@ -1,13 +1,15 @@
 #users {
   list-style: none;
-  margin-top: 20px;
   padding-right: 10px;
   overflow: hidden;
+}
+#users h4 {
+	margin-top: 0;
 }
 #users li {
 	float: left;
 	width: 302px;
-  padding: 10px 0;
+  padding-bottom: 10px;
 }
 #users li p {
   margin: 0;
@@ -26,6 +28,8 @@ img.avatar {
   max-height: 50px;
 }
 #sidebar img.avatar {
-  float: left;
+	margin-top: 15px;
   margin-right: 10px;
+  max-width: 100px;
+  max-height: 100px;
 }

@@ -20,18 +20,16 @@ class Admin::SitesController < Admin::BaseController
   end
 
   def new
-    @site = Site.new params[:site]
-    @section = @site.sections.build params[:section]
   end
 
   def create
-    @site = Site.new params[:site]
-    @section = @site.sections.build(params[:section])
-    @site.sections << @section
+    site = Site.new params[:site]
+    section = site.sections.build(params[:section])
+    site.sections << section
 
-    if @site.save
+    if site.save
       flash[:notice] = t(:'adva.sites.flash.create.success')
-      redirect_to admin_site_path(@site)
+      redirect_to admin_site_path(site)
     else
       flash.now[:error] = t(:'adva.sites.flash.create.failure')
       render :action => :new

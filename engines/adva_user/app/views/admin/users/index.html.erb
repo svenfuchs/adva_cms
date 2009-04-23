@@ -1,4 +1,15 @@
-<h2><%= t(:'adva.titles.users') %></h2>
-<%= render :partial => 'user', :collection => @users %>
+<% @users.each do |user| %>
+	<ul id="users">
+		<li>
+		  <%= gravatar_img(user) %>
+		  <h4><%= link_to user.name, admin_user_path(@site, user) %></h4>
+		  <p><%= user.email %></p>
+		  <p class="actions">
+		    <%= link_to t(:'adva.links.edit'), edit_admin_user_path(@site, user), :class => 'edit' %>
+		    <%= link_to t(:'adva.links.delete'), admin_user_path(@site, user), :class => 'delete', :confirm => t(:'adva.users.confirm_delete'), :method => :delete %>
+		  </p>
+		</li> 
+	</ul>	
+<% end %>
 
 <%= will_paginate @users, :id => 'pagination' %>

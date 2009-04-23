@@ -3,7 +3,11 @@
 <%= render :partial => 'admin/activities/activities', :object => @activities %>
 
 <% content_for :sidebar do %>
-  <%= render :partial => 'recent_users', :locals => {:users => @users} %>
-  <%= render :partial => 'unapproved_comments', :locals => {:contents => @contents} %>
+	<div class="tabs">
+		<div class="tab active">
+		  <%= render :partial => 'recent_users', :locals => {:users => @users} %>
+		  <%= render :partial => 'unapproved_comments', :locals => {:contents => @contents} %>
+		</div>
+	</div>
 <% end %>
 

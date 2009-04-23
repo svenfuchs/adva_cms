@@ -80,11 +80,10 @@ class AdminSitesControllerTest < ActionController::TestCase
     # it_guards_permissions :create, :site
     
     with :access_granted do
-      it_assigns :site => :not_nil
       it_renders :template, :new do
         has_form_posting_to admin_sites_path do
           has_tag 'input[name=?]', 'section[title]'
-          has_tag 'input[name=?]', 'section[type]', :count => Section.types.size
+          has_tag 'select[name=?]', 'section[type]'
         end
       end
     end
@@ -100,15 +99,13 @@ class AdminSitesControllerTest < ActionController::TestCase
       # it_guards_permissions :create, :site
   
       with :access_granted do
-        it_assigns :site => :not_nil
         it_changes 'Site.count' => 1
-        it_redirects_to { admin_site_path(assigns(:site)) }
+        it_redirects_to { admin_site_path(Site.last) } # urgs
         it_assigns_flash_cookie :notice => :not_nil
       end
     end
   
     with :invalid_site_params do
-      it_assigns :site => :not_nil
       it_renders :template, :new
       it_assigns_flash_cookie :error => :not_nil
     end

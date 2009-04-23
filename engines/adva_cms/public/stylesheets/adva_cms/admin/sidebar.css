@@ -1,6 +1,16 @@
 #sidebar {
 	font-size: 12px;
 }
+#sidebar h3 {
+	clear: both;
+	margin-bottom: 1em;
+	font-size: 1.1em;
+	font-weight: bold;
+}
+#sidebar h3 a {
+	font-weight: normal;
+	font-size: 11px;
+}
 #sidebar ul {
   list-style-type: none;
 }
@@ -44,16 +54,10 @@
 #sidebar .tabs .tab {
 	display: none;
 	clear: both;
-	padding-top: 5px;
-	padding-left: 20px;
-	padding-right: 20px;
+	padding: 5px 20px 20px 20px;
 }
 #sidebar .tabs .tab.active {
 	display: block;
-}
-#sidebar h3 {
-	font-size: 1.2em;
-	font-weight: bold;
 }
 .filters .submit {
   float: right;

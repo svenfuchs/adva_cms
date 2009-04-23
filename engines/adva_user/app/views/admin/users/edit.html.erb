@@ -1,17 +1,7 @@
-<% content_for :sidebar do %>
-  <div class="user">
-    <%= gravatar_img(@user) %>
-    <h3><%= @user.name %></h3>
-    <p><%= @user.email %></p>
-  </div
-<% end -%>
-
 <h2><%= t(:'adva.users.titles.edit') %></h2>
 
-<% form_for :user, @user, :url => member_path, :html => {:method => :put} do |f| -%>
+<% form_for :user, @user, :url => admin_user_path(@site, @user), :html => {:method => :put} do |f| -%>
   <%= render :partial => 'form', :locals => {:f => f} %>  
-  <%= render :partial => 'roles', :locals => {:f => f} if has_permission?('manage', 'roles') %>
-  <%= render :partial => 'memberships', :locals => {:f => f} %>
-
-  <% save_or_cancel_links(f, :cancel_url => (@site.nil? ? admin_users_path : admin_site_users_path(@site))) %>
 <% end -%>
+
+<%= render :partial => 'sidebar' %>

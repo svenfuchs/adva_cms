@@ -1,4 +1,4 @@
-<h2><%= t(:'adva.titles.theme') %>: <%= @theme.name %></h2>
+<h2><%= @theme.name %></h2>
 
 <% 
 	table_for @theme.files, :collection_name => 'theme_files' do |t|

@@ -1,17 +1,25 @@
 <% content_for :sidebar do %>
-  <h4><%= t(:'adva.common.about') %></h4>
-  <% if @plugin.about['summary'] %>
-    <p><%= @plugin.about['summary'] %></p>
-  <% end %>
-  <% if @plugin.about['version'] %>
-    <p><%= t(:'adva.plugins.attributes.version') %>: <%= @plugin.about['version'] %></p>
-  <% end %>
-  <% if @plugin.about['author'] %>
-    <p><%= t(:'adva.plugins.attributes.author') %>: <%= @plugin.about['author'] %></p>
-  <% end %>
-  <% if @plugin.about['homepage'] %>
-    <p><%= t(:'adva.plugins.attributes.homepage') %>: <%= @plugin.about['homepage'] %></p>
-  <% end %>
+	<% if @plugin.about.detect { |key, value| !value.blank? } %>
+		<div class="tabs">
+			<ul>
+				<li class="active"><a href="#about" onclick="return false;"><%= t(:'adva.common.about') %></a></li>
+			</ul>
+			<div class="tab active">
+			  <% if @plugin.about['summary'] %>
+			    <p><%= @plugin.about['summary'] %></p>
+			  <% end %>
+			  <% if @plugin.about['version'] %>
+			    <p><%= t(:'adva.plugins.attributes.version') %>: <%= @plugin.about['version'] %></p>
+			  <% end %>
+			  <% if @plugin.about['author'] %>
+			    <p><%= t(:'adva.plugins.attributes.author') %>: <%= @plugin.about['author'] %></p>
+			  <% end %>
+			  <% if @plugin.about['homepage'] %>
+			    <p><%= t(:'adva.plugins.attributes.homepage') %>: <%= @plugin.about['homepage'] %></p>
+			  <% end %>
+			</div>
+		</div>
+	<% end %>
 <% end %>
 
 <% if @plugin.about['description'] %>

@@ -1,14 +1,14 @@
 class Admin::UsersController < Admin::BaseController
+  include Admin::UsersHelper
+
   before_filter :set_users, :only => [:index]
   before_filter :set_user,  :only => [:show, :edit, :update, :destroy]
   before_filter :authorize_access
   before_filter :authorize_params, :only => :update
   filter_parameter_logging :password
 
-  helper_method :collection_path, :member_path, :new_member_path, :edit_member_path
-
   guards_permissions :user
-
+  
   def index
   end
 
@@ -25,7 +25,7 @@ class Admin::UsersController < Admin::BaseController
       @user.verify! # TODO hu??
       trigger_events @user
       flash[:notice] = t(:'adva.users.flash.create.success')
-      redirect_to member_path(@user)
+      redirect_to admin_user_path(@site, @user)
     else
       flash.now[:error] = t(:'adva.users.flash.create.failure')
       render :action => :new
@@ -39,7 +39,7 @@ class Admin::UsersController < Admin::BaseController
     if @user.update_attributes params[:user]
       trigger_events @user
       flash[:notice] = t(:'adva.users.flash.update.success')
-      redirect_to @user.is_site_member?(@site) ? member_path(@user) : collection_path
+      redirect_to admin_user_path(@site, @user)
     else
       flash.now[:error] = t(:'adva.users.flash.update.failure')
       render :action => :edit
@@ -50,7 +50,7 @@ class Admin::UsersController < Admin::BaseController
     if @user.destroy
       trigger_events @user
       flash[:notice] = t(:'adva.users.flash.destroy.success')
-      redirect_to collection_path
+      redirect_to admin_users_path(@site)
     else
       flash.now[:error] = t(:'adva.users.flash.destroy.failure')
       render :action => :edit
@@ -64,11 +64,8 @@ class Admin::UsersController < Admin::BaseController
     end
 
     def set_users
-      @users = if @site
-        @site.users_and_superusers.paginate :page => current_page
-      else
-        User.admins_and_superusers.paginate :page => current_page
-      end
+      @users = @site ? @site.users_and_superusers.paginate(:page => current_page) : 
+                       User.admins_and_superusers.paginate(:page => current_page)
     end
 
     def set_user
@@ -89,23 +86,5 @@ class Admin::UsersController < Admin::BaseController
         raise "unauthorized parameter" # TODO raise something more meaningful
       end
       # TODO as well check for membership site_id if !user.has_role?(:superuser)
-    end
-
-    def collection_path
-      @site ? admin_site_users_path(@site.id) : admin_users_path
-    end
-
-    def member_path(user = nil)
-      user ||= @user
-      @site ? admin_site_user_path(@site.id, user) : admin_user_path(user)
-    end
-
-    def new_member_path
-      @site ? new_admin_site_user_path(@site.id) : new_admin_user_path
-    end
-
-    def edit_member_path(user = nil)
-      user ||= @user
-      @site ? edit_admin_site_user_path(@site.id, user) : edit_admin_user_path(user)
     end
 end

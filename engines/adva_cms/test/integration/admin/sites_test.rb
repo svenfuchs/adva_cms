@@ -29,7 +29,6 @@ module IntegrationTests
       fill_in 'site[name]',  :with => 'the new site'
       fill_in 'site[host]',  :with => 'http://the-new-site.com'
       fill_in 'section[title]', :with => "the new site's home page"
-      choose 'Page'
       click_button 'Save'
       assert_template "admin/sites/show"
     end

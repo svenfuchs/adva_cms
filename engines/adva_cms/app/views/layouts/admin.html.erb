@@ -13,6 +13,7 @@
 	<div id="page">
 		<%= yield :form if @content_for_form %>
 		<div class="main">
+			<%= @menu.root.find(:main).try(:render, :id => 'main_menu') %>
       <%= render :partial => 'shared/flash' %>
 			<div id="content">
         <%= yield %>
