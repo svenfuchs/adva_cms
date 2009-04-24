@@ -629,7 +629,8 @@ en:
         title: Title
       new: New asset
       add_to_bucket: Add to bucket
-      no_files: You have no files of this type or have yet to upload any files.
+      no_files: You do not have any files yet.
+      no_files_filtered: You do not have any files matching these criteria.
       upload: 'Upload one now &raquo;'
       enter_tags: 'Enter one or more tags separated by a comma or a space (for example, <em>"Web Dev" Tutorials</em> or <em>Web Dev, Tutorials</em>).'
       save: Save Asset

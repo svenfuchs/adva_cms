@@ -27,20 +27,15 @@ body > div {
 }
 #header {
   height: 75px;
+	/*background: #fbf7e4 url(/images/adva_cms/admin/header_bg.png) bottom left;*/
 	background-color: #fbf7e4;
-	background: #fbf7e4 url(/images/adva_cms/admin/header_bg.png) bottom left;
 	border-bottom: 4px solid #ddd;
 }
 #page > form {
 	display: table-row;
 	width: 100%;
 }
-#main {
-	display: table-cell;
-  vertical-align: top;
-}
-#main.collapsed {
-	padding-left: 250px;
+#page .main {
 }
 #content {
 	clear: both;

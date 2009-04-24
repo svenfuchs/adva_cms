@@ -47,12 +47,13 @@ class ForumsTest < ActionController::IntegrationTest
   def fill_in_and_submit_new_section_form
     sections_count = @site.sections.count
     
-    choose 'Forum'
+    select 'Forum'
     fill_in 'Title', :with => 'test forum'
     click_button 'Save'
     
     @site.reload
     assert @site.sections.count == sections_count + 1
+    assert @site.sections.last.is_a?(Forum)
     assert_template 'admin/topics/index'
   end
   

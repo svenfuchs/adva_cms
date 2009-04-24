@@ -25,7 +25,7 @@ class SessionController < BaseController
   def destroy
     logout
     flash[:notice] = t(:'adva.session.flash.destroy.success')
-    redirect_to '/'
+    redirect_to return_from(:logout)
   end
 
   private

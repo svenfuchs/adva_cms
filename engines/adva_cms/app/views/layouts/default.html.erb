@@ -16,12 +16,11 @@
         <h2><%= @site.subtitle %></h2>
 
         <p id="login_links" class="navigation">
-					<a id="login_link" href="/login">Login</a>
+					<%= link_to(t(:'adva.titles.login'), login_path(:return_to => request.request_uri), :id => 'login_link') %>
         </p>
         <p id="logout_links" class="navigation" style="display: none;">
-          &middot; 
           <%= t(:'adva.users.info.logged_in_as', :name => '<span class="user_name"></span>') %> &middot;
-					<a id="logout_link" href="/logout">Logout</a>
+					<%= link_to(t(:'adva.titles.logout'), logout_path(:return_to => request.request_uri), :id => 'logout_link') %>
         </p>
         <%= yield :header %>
 				<%= Menus::Sections.new.build(self).root.render(:id => 'sections') %>

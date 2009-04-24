@@ -116,6 +116,15 @@ module Menu
 
   class Group < Base
     self.tag_name = 'div'
+    
+    # attr_accessor :wrap
+    # 
+    # def initialize(key = nil, options = {})
+    #   @wrap = options[:wrap]
+    # end
+    # 
+    # def render
+    # end
   end
 
 	class SectionsMenu < Item

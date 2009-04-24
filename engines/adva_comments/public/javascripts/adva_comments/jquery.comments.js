@@ -1,3 +1,15 @@
+var CommentForm = {
+  init: function() {
+		var user_name = Cookie.get('uname');
+    if (user_name) {
+    	user_name = unescape(user_name).replace(/\+/g, " ");
+			try { $('#registered_author span').each(function() { $(this).html(user_name); }); } catch(err) {}
+			try { $('#registered_author').show(); } catch(err) {}
+			try { $('#anonymous_author').hide();  } catch(err) {}
+    }
+  }
+};
+
 var Comment = {
   preview: function(event) {
     event.preventDefault();

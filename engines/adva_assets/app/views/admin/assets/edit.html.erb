@@ -4,9 +4,6 @@
 
 <% form_for @asset, :url => admin_asset_path, :html => { :multipart => true } do |f| %>
 	<% f.field_set do %>
-		<%= f.file_field :data, :label => t(:'adva.assets.select_file') %>
-	<% end %>
-	<% f.field_set do %>
 		<% column do %>
 			<%= f.text_field :title, :label => true %>
 		<% end %>
@@ -14,6 +11,8 @@
 			<%= f.text_field :tag_list, :label => 'Tags', :hint => :'adva.assets.enter_tags' %>
 		<% end %>
 	<% end %>
-	
+	<% f.field_set do %>
+		<%= f.file_field :data, :label => t(:'adva.assets.select_file') %>
+	<% end %>
 	<% save_or_cancel_links(f, :cancel_url => admin_assets_path, :save_text => t(:'adva.assets.save')) %>
 <% end -%>

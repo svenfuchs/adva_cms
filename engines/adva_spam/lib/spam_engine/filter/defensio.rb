@@ -8,11 +8,11 @@ module SpamEngine
       end
 
       def mark_as_ham(comment, context = {})
-        key && url
+        # FIXME implement this!
       end
 
       def mark_as_spam(comment, context = {})
-        key && url
+        # FIXME implement this!
       end
 
       protected

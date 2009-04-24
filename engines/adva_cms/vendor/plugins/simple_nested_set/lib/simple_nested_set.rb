@@ -145,7 +145,7 @@ module ActiveRecord
         return unless attrs.detect { |key, value| [:parent_id, :left_id, :right_id].include?(key.to_sym) }
 
         attrs.symbolize_keys!
-        attrs.reject! { |key, value| value == 'null' } # FIXME shouldn't the key be preserved?
+        attrs.each { |key, value| attrs[key] = nil if value == 'null' }
 
         parent_id = attrs[:parent_id] ? attrs[:parent_id] : self.parent_id
         parent = parent_id.blank? ? nil : nested_set.klass.find(parent_id)

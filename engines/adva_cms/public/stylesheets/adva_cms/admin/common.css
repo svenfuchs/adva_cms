@@ -37,7 +37,7 @@ th, td {
 
 p.flash {
   padding: 0.75em 0;
-	margin: -22px -10% 0 -10%;
+	margin: 0 -10% 0 -10%;
 }
 p.flash.notice {
   background: #cfc;

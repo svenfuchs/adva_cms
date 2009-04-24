@@ -21,8 +21,10 @@ module IntegrationTests
       click_link 'Sections'
       click_link 'New'
       fill_in 'title', :with => 'the page'
-      choose 'Page'
+      select 'Page'
       click_button 'Save'
+      
+      assert @site.sections.last.is_a?(Page)
       request.url.should =~ %r(/admin/sites/\d+/sections/\d+/articles)
     end
 

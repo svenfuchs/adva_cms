@@ -1,18 +1,3 @@
-var CommentForm = {
-  init: function() {
-    var user_name = unescape(Cookie.get('uname')).replace(/\+/g, " ");
-    if (user_name) {
-		try {
-		  $('#registered_author span').each(function() {
-		    $(this).html(user_name);
-		  });
-		} catch(err) {}
-		try { $('#registered_author').show(); } catch(err) {}
-		try { $('#anonymous_author').hide(); } catch(err) {}
-    }
-  }
-};
-
 var LoginLinks = {
 	init: function() {
 		var user_id = Cookie.get('uid');

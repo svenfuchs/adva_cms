@@ -1,52 +1,28 @@
-<% content_for :sidebar do -%>
- 	<div class="tabs">
-		<ul>
-			<li class="active"><a href="#filters" onclick="return false;">Filters</a></li>
-		</ul>
-		<div class="tab active" id="tab_filters">
-			<% filter_for(Asset) %>			
-			<h3>
-			  <%=t :'adva.assets.your_bucket' %>
-			  <%= link_to_remote t(:'adva.assets.clear_bucket'), :url => admin_assets_bucket_path, :method => :delete %>
-			</h3>
-			<p><%=t :'adva.assets.add_files' %></p>
-			<ul>
-			  <%= render :partial => "admin/assets/widget/asset", :collection => @site.assets.bucket(session[:bucket]), :locals => { :content => nil, :prefix => 'bucket' } %>
-			</ul>
 
-			<h3><%=t :'adva.assets.stats' %></h3>
-			<p>
-			<%=t :'adva.assets.upload_summary', :count => @site.assets.count, 
-			  :size => number_to_human_size(@site.assets.sum(:data_file_size) || 0).to_s.downcase %>
-			</p>
-		</div>
-	</div>
-<% end -%>
+<% if @recent.any? %>
 
-<div id="assets_list">
-	<% if @recent.any? %>
-	  <div id="recent_assets" class="assets_row">
+	<div id="assets_list" class="recent_assets">
+	  <div class="assets_row">
 	    <%= render :partial => 'asset', :collection => @recent, :locals => {:size => :thumb} %>
 	  </div>
+  </div>
 
-	  <% if @assets.any? %>
-	    <% @assets.in_groups_of(7) do |group| -%>
+  <% if @assets.any? %>
+		<div id="assets_list">
+	    <% @assets.in_groups_of(4) do |group| -%>
 	      <div class="assets_row">
-	        <%= render :partial => 'asset', :collection => group.compact, :locals => {:size => :thumb} %>
+	        <%= render :partial => 'asset', :collection => group, :locals => {:size => :thumb} %>
 	      </div>
 	    <% end %>
-	  <% end %>
+    </div>
+  <% end %>
 
-	<% else %>
-	  <p class="empty">
-	    <%=t :'adva.assets.no_files' %>
-			<%= link_to_new :'adva.assets.upload', [@site, :asset] %>
-	  </p>
-	<% end %>
-
-	<%= will_paginate @assets, :id => 'pagination' %>
-</div>
-
-<% content_for :sidebar do %>
-
+<% else %>
+  <p class="empty">
+    <%= t params[:filters] ? :'adva.assets.no_files_filtered' : :'adva.assets.no_files' %>
+  </p>
 <% end %>
+
+<%= will_paginate @assets, :id => 'pagination' %>
+
+<% render :partial => 'sidebar' %>

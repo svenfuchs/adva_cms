@@ -34,10 +34,12 @@ class AlbumsTest < ActionController::IntegrationTest
     section_count = @site.sections.size
     
     fill_in 'Title', :with => 'My first album'
+    select 'Album'
     click_button 'Save'
     
     @site.reload
     assert @site.sections.size == section_count + 1
+    assert @site.sections.last.is_a?(Album)
   end
   
   def display_section_settings_edit_form

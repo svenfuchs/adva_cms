@@ -1,13 +1,10 @@
-<% content_for :sidebar do %>
-  <%= render :partial => 'options', :locals => { :f => f } %>
-<% end %>
 
 <% f.field_set do %>
  	<%= f.text_field :title, :label => true %>
 	<%= f.file_field :data, :label => t(:"adva.photos.admin.photos.#{@photo.new_record? ? 'choose' : 'replace'}_photo") %>
 	
 	<% unless @photo.new_record? -%>
-		<p><%= link_to(image_tag(@photo.base_url(:large)), @photo.filename) %></p>
+		<p><%= link_to(image_tag(@photo.base_url(:large)), @photo.base_url) %></p>
 	<% end %>
 	
   <%= f.label :draft, t(:'adva.photos.common.save_as_draft') %>
@@ -21,3 +18,5 @@
                           :order => [:month, :day, :year] %>
   </p>
 <% end %>
+
+<% render :partial => 'sidebar', :locals => { :f => f } %>

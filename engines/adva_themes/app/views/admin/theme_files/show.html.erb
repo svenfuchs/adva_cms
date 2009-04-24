@@ -1,16 +1,6 @@
-<% content_for :sidebar do %> 	
-	<div class="tabs">
-		<ul>
-			<li class="active"><a href="#files" onclick="return false;">Files</a></li>
-		</ul>
-		<div class="tab active">
-  		<%= render :partial => 'admin/theme_files/files' %>
-		</div>
-	</div>
-<% end %>
-
 <h2><%= t(:'adva.themes.titles.edit_file') %></h2>
 <% form_for :file, @file, :url => admin_theme_file_path(@site, @theme.id, @file.id), :html => { :method => :put } do |f| -%>
   <%= render :partial => 'form', :locals => {:f => f} %>
 <% end %>
 
+<% render :partial => 'sidebar' %>

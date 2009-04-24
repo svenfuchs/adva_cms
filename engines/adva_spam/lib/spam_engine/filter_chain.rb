@@ -18,6 +18,10 @@ module SpamEngine
     def check_comment(comment, context = {})
       run :check_comment, comment, context
     end
+    
+    def mark_spaminess(spaminess, comment, context = {})
+      run :"mark_as_#{spaminess}", comment, context
+    end
 
     protected
 

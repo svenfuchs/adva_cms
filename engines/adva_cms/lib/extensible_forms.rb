@@ -23,9 +23,10 @@ module ActionView
         end
 
         def pick_form_builder(name)
-          "#{name.to_s.classify}FormBuilder".constantize
+          name = "#{name.to_s.classify}FormBuilder"
+          name.constantize
         rescue NameError
-          ActionView::Base.default_form_builder
+          Object.const_set(name, Class.new(ActionView::Base.default_form_builder))
         end
     end
 

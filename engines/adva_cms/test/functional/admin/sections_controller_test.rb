@@ -49,7 +49,7 @@ class AdminSectionsControllerTest < ActionController::TestCase
       it_assigns :site, :section => :not_nil
       it_renders :template, :new do
         has_form_posting_to admin_sections_path do
-          has_tag 'input[name=?]', 'section[type]', :count => Section.types.size
+          has_tag 'select[name=?]', 'section[type]'
           has_tag 'input[name=?]', 'section[title]'
         end
       end

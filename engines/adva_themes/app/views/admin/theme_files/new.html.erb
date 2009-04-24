@@ -1,6 +1,3 @@
-<% content_for :sidebar do %>
-  <%= render :partial => 'admin/theme_files/files' %>
-<% end %>
 
 <h2><%= t(:'adva.theme_files.titles.create') %></h2>
 
@@ -8,3 +5,4 @@
   <%= render :partial => 'form', :locals => {:f => f} %>
 <% end %>
 
+<% render :partial => 'sidebar' %>

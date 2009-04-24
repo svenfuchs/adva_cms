@@ -154,6 +154,8 @@ class BetterNestedSetTest < ActiveSupport::TestCase
   
   # MOVE
   
+  # FIXME really should test #move_by_attributes
+  
   test "#move_to_left_of move a node to the left of the target node" do
     @node_4.move_to_left_of @node_2
     assert_equal @node_2, @node_4.right
@@ -185,7 +187,7 @@ class BetterNestedSetTest < ActiveSupport::TestCase
   end
   
   test "#move_to will only move nodes included in the nested_set's scope" do
-    
+    # FIXME
   end
   
   # update_attributes!

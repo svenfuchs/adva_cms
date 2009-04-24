@@ -1,4 +1,5 @@
 #breadcrumbs {
+	position: absolute;
 	height: 18px;
 	margin-top: 15px;
   list-style-type: none;
@@ -36,11 +37,11 @@
 }
 
 #main_menu {
-	margin-top: -28px;
-	margin-bottom: 28px;
-	white-space: nowrap;
 	display: table;
 	width: 100%;
+	height: 28px;
+	margin-top: -28px;
+	white-space: nowrap;
 }
 #main_menu ul {
   list-style-type: none;

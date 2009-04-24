@@ -27,7 +27,7 @@ class Admin::ThemesController < Admin::BaseController
   def update
     if @theme.update_attributes params[:theme]
       flash[:notice] = t(:'adva.themes.flash.update.success')
-      redirect_to admin_theme_path(@site, @theme.id)
+      redirect_to edit_admin_theme_path(@site, @theme.id)
     else
       errors = @theme.errors.full_messages.to_sentence
       flash.now[:error] = t(:'adva.themes.flash.update.failure', :errors => errors)

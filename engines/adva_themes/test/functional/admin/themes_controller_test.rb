@@ -119,7 +119,7 @@ class AdminThemesControllerTest < ActionController::TestCase
 
         it_saves :theme
         it_assigns :site, :theme => :not_nil
-        it_redirects_to { admin_theme_path(@site, assigns(:theme).id) }
+        it_redirects_to { edit_admin_theme_path(@site, assigns(:theme).id) }
         it_assigns_flash_cookie :notice => :not_nil
 
         it "updates the theme with the theme params" do

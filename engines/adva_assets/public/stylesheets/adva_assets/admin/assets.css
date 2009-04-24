@@ -1,43 +1,41 @@
 /* assets */
 
 #assets_list {
-	width: 800px;
-	margin-top: 20px;
+	display: table;
+	border-spacing: 20px;
+	margin-left: -20px;
 }
 .assets_row {
-	float: left;
-	clear: both;
-  margin-bottom: 25px;
+	display: table-row;
+}
+.recent_assets {
+	border-bottom: 4px solid #f0f0f0;
 }
 .assets_row div {
-	float: left;
-	margin-right: 45px;
+	display: table-cell;
   position: relative;
+	text-align: center;
 }
 .assets_row img {
   padding: 5px;
   border: 1px solid #ccc;
 }
 .asset_tools {
-	position: absolute;
-	bottom: 5px;
-  width: 60px;
+	position: relative;
+	z-index: 99;
+	width: 70px;
 	background-color: #efefef;
-	padding-top: 1px;
-	margin-right: auto;
-}
-#recent_assets .asset_tools {
-	left: 35px;
+	height: 22px;
+	margin: -27px auto 0 auto;
 }
 .asset_tools li {
-	display: inline;
+	display: inline-block;
 }
 .asset_tools li a {
-  float: left;
-  display: block;
+  display: inline-block;
   height: 16px;
   width: 16px;
-  margin: 0px 2px;
+  margin: 3px 2px 0 2px;
   text-indent: -9999px;
   text-decoration: none;
   outline: none;
