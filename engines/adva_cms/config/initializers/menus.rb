@@ -61,7 +61,7 @@ module Menus
           menu :actions, :class => 'actions' do
             activates object.parent.find(:sections)
             item :new, :action => :new, :resource => [@site, :section]
-            item :reorder, :content => link_to_index(:'adva.links.reorder', [@site, :section], :id => 'reorder_sections', :class => 'reorder')
+            item :reorder, :content => link_to_index(:'adva.links.reorder', [@site, :section], :id => 'reorder_sections', :class => 'reorder') if @site.sections.size > 1
           end
         end
       end
@@ -90,7 +90,7 @@ module Menus
             item :show,   :content  => link_to_show(@article, :cl => content_locale, :namespace => nil)
             item :edit,   :action   => :edit, :resource => @article
             item :delete, :content  => link_to_delete(@article)
-          elsif !@article and @section.is_a?(Page)
+          elsif !@article and @section.is_a?(Page) and @section.articles.size > 1
             item :reorder, :content => link_to_index(:'adva.links.reorder', [@section, :article], :id => 'reorder_articles', :class => 'reorder')
           end
         end
@@ -109,7 +109,7 @@ module Menus
           if @category && !@category.new_record?
             item :edit,   :action  => :edit,   :resource => @category
             item :delete, :content => link_to_delete(@category)
-          elsif !@category
+          elsif !@category and @section.categories.size > 1
             item :reorder, :content => link_to_index(:'adva.links.reorder', [@section, :category], :id => 'reorder_categories', :class => 'reorder')
           end
         end

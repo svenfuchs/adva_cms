@@ -56,7 +56,7 @@ TableTree = {
 	Base: function() {},
 	Table: function(table, type, collection_url) {
 		this.is_tree = $(table).hasClass('tree')
-		this.table = $('tbody', table);
+		this.table = table; //$('tbody', table)
 		this.type = type;
 		this.level = -1;
 		this.collection_url = collection_url;
@@ -96,7 +96,18 @@ TableTree.Table.prototype = jQuery.extend(new TableTree.Base(), {
 		});
 	},
 	setSortable: function() {
-		$('tr', this.table).each(function() { 
+		$('tr', this.table).each(function() {
+		  // thead
+		  cells = $('th', this);
+		  cells.each(function(ix) {
+		    if(ix == 0) {
+		      this.setAttribute('colspan', cells.length);
+		    } else {
+		      $(this).hide();
+		    }
+		  });
+
+      // tbody
 			cells = $('td', this);
 			cells.each(function(ix) {
 				if (ix == 0) {
@@ -113,10 +124,23 @@ TableTree.Table.prototype = jQuery.extend(new TableTree.Base(), {
 		});
 	},
 	setUnsortable: function() {
-		$('tr', this.table).each(function(ix) { 
+		$('tr', this.table).each(function(ix) {
+		  // thead
+		  cells = $('th', this);
+		  cells.each(function(ix) {
+		    if(ix == 0) {
+		      this.setAttribute('colspan', 1);
+		    } else {
+		      $(this).show();
+		    }
+		  });
+
+      // tbody
 			$('td', this).each(function(ix) {
-				if (ix == 0) {
-					$('a', this).each(function() { $(this).show(); });
+				if(ix == 0) {
+					$('a', this).each(function() { 
+					  $(this).show();
+					});
 					$('img.spinner', this).remove();
 					this.removeChild(this.lastChild);
 					this.setAttribute('colspan', 1);
