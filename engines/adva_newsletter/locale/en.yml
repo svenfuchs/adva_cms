@@ -92,6 +92,7 @@ en:
         issue_deliver_at: Deliver at
         issue_deliver_at_long: "Issue will be delivered at {{delivery_time}}"
       title:
+        new: New newsletter
         edit: Edit newsletter
         edit_issue: Edit issue
       confirm:

@@ -6,11 +6,12 @@
 	<div class="right">
 	  <% if current_user %>
 			<%= t(:'adva.users.info.logged_in_as', :name => link_to_profile(@site, :name => current_user.name)) %> &middot;
-			<%= link_to t(:'adva.links.logout'), logout_path, :method => :delete %> &middot;
+			<%= link_to t(:'adva.links.logout'), logout_path, :method => :delete %>
 		<% else %>
-	  	You're not logged in <%= link_to t(:'adva.links.login'), :controller => 'session', :action => 'new' %> &middot;
+	  	You're not logged in <%= link_to t(:'adva.links.login'), :controller => 'session', :action => 'new' %>
 	  <% end %>
 	  <% if @site %>
+			 &middot;
 	    <%= link_to t(:'adva.titles.website') + ' »', "http://#{@site.host}", :id => 'go_to_website' %>
 	  <% end %>
 	</div>
