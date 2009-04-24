@@ -17,11 +17,10 @@ class Admin::AssetsController < Admin::BaseController
   end
 
   def new
-    @assets = [Asset.new]
   end
 
   def create
-    @assets = @site.assets.build(params[:assets].values)
+    @assets = @site.assets.build(params[:assets])
     Asset.transaction { @assets.each &:save! }
 
     respond_to do |format|

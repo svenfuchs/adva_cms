@@ -7,13 +7,13 @@ class Test::Unit::TestCase
 
   share :valid_asset_params do
     before do
-      @params = { :assets => { '0' => valid_asset_params } }
+      @params = { :assets => [valid_asset_params] }
     end
   end
   
   share :invalid_asset_params do
     before do
-      @params = { :assets => { '0' => valid_asset_params.update(:site_id => 0, :title => '', :data => nil) } }
+      @params = { :assets => [valid_asset_params.update(:site_id => 0, :title => '', :data => nil)] }
     end
   end
 
