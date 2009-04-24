@@ -1,27 +1,34 @@
-<%= f.label :title %>
-<%= f.text_field :title, :label => true %>
-
-<%= f.label :permalink %>
-<%= f.text_field :permalink, :label => true %>
-
-<%= f.label :body %>
-<%= f.text_area :body, :label => true %>
+<p>
+  <%= f.text_field :title, :label => true %>
+</p>
+<p>
+  <%= f.text_field :permalink, :label => true %>
+</p>
+<p>
+  <%= f.text_area :body, :label => true %>
+</p>
 
 <% unless @section.categories.blank? %>
+<p>
   <label>Categories</label>
   <% @section.categories.each do |category| %>
     <%= content_category_checkbox(@wikipage, category) %>
     <label for="wikipage_category_<%= category.id %>" class="inline"><%= category.title %></label>
   <% end %>
+</p>
 <% end %>
 
-<%= f.text_field :tag_list, :label => 'Tags', :hint => :'adva.wiki.view._form.tag_hint' %>
+<p>
+  <%= f.text_field :tag_list, :label => 'Tags' %> <span class="hint"><%= t(:'adva.wiki.view._form.tag_hint') %></span>
+</p>
 
 <% unless current_user.registered? %>
+<p>
   <% fields_for @wikipage.author do |author| %>
     <%= author.text_field :name, :label => :'adva.wiki.view._form.label_for_author_name' %>
     <%= author.text_field :email, :label => :'adva.wiki.view._form.label_for_author_email' %>
-  <% end %>  
+  <% end %>
+</p>
 <% end %>
 
 <% f.buttons do %>
@@ -29,5 +36,5 @@
   <% unless @wikipage.new_record? or @wikipage.home? %>
     <%= link_to(t(:'adva.common.delete'), wikipage_path(@section, @wikipage), { :confirm => t(:'adva.wiki.view._form.confirm_delete'), :method => :delete }) %>
   	<%= link_to t(:'adva.common.cancel'), wikipage_path(@section, @wikipage) %>
-  <% end %> or
+  <% end %>
 <% end %>
