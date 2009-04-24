@@ -18,6 +18,9 @@
 .visible_for {
 	display: none;
 }
+.anonymous {
+	display: auto;
+}
 
 /* LISTS */
 

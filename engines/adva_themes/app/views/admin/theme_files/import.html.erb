@@ -1,7 +1,3 @@
-<% content_for :sidebar do %>
-  <%= render :partial => 'admin/theme_files/files' %>
-<% end %>
-
 <h2><%= t(:'adva.theme_files.titles.upload') %></h2>
 
 <% form_tag upload_admin_theme_files_path(@site, @theme.id), { :method => :post, :multipart => true } do %>
@@ -15,3 +11,5 @@
     <%= link_to t(:'adva.common.cancel'), admin_theme_path(@site, @theme.id) %>
   <% end %>
 <% end %>
+
+<% render :partial => 'sidebar' %>

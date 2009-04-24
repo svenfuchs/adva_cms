@@ -21,7 +21,7 @@ module IntegrationTests
       click_link 'Sections'
       click_link 'New'
       fill_in 'title', :with => 'the page'
-      choose 'section_type_page'
+      select 'Page'
       click_button 'commit'
       request.url.should =~ %r(/admin/sites/\d+/sections/\d+/articles)
     end

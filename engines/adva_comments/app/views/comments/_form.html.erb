@@ -1,5 +1,6 @@
+<%# @comment ||= commentable.comments.build %>
 <% if @comment %>
-  <div id="comment_form_wrapper">
+	<% authorized_tag(:div, :create, @comment, :id => 'comment_form_wrapper') do %>
     <div id="registered_author" style="display: none;">
       <p><%= t(:'adva.info.greeting_logged_in') %></p>
     </div>
@@ -37,5 +38,5 @@
         <%= link_to_remote_comment_preview %>
       </p>
     <% end %>
-  </div>
+	<% end %>
 <% end %>

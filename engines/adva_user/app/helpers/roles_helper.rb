@@ -6,11 +6,11 @@ module RolesHelper
 
   def role_to_css_class(role)
     return unless role
-    if role.instance_of? Rbac::Role::Author
-      [role.context.author_type.underscore, role.context.author_id].join('-') + ' ' + role_to_default_css_class(role)
-    else
-      role_to_default_css_class(role)
+    roles = ''
+    if role.instance_of?(Rbac::Role::Author) && role.context.author_type
+      roles << [role.context.author_type.underscore, role.context.author_id].join('-') + ' ' 
     end
+    roles << role_to_default_css_class(role)
   end
 
   # Includes a javascript tag that will load a javascript snippet
@@ -30,22 +30,14 @@ module RolesHelper
       }
       var aid = Cookie.get('aid');
       if(aid) {
-        $(document).ready(function() {
-          authorize_elements(['anonymous-' + aid]);
-        });
-        // $.ajax({
-        //   url: '/anonymouses/' + aid + '.js',
-        //   type: 'get',
-        //   async: false,
-        //   dataType: 'script'
-        // });
+        $(document).ready(function() { authorize_elements(['anonymous-' + aid]); });
       }
     js
   end
 
   def authorized_tag(name, action, object, options = {}, &block)
     add_authorizing_css_classes! options, action, object
-    content_tag name, options, &block
+    content_tag(name, options, &block)
   end
 
   def authorized_link_to(text, url, action, object, options = {})

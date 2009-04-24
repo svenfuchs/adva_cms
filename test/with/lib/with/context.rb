@@ -63,8 +63,7 @@ module With
       def define_test_method(target, context, options = {})
         method_name = generate_test_method_name(context)
         target.send :define_method, method_name, &lambda {
-          @_with_contexts = (context.parents << context).map(&:name)
-          [:before, :action, :assertion, :after].each do |stage|
+          call_stage = lambda do |stage|
             @_with_current_stage = stage
             context.collect(stage).map do |call| 
               if @_expected_exception and stage == :action
@@ -74,9 +73,15 @@ module With
               end
             end
           end
+          begin
+            @_with_contexts = (context.parents << context).map(&:name)
+            [:before, :action, :assertion].each { |stage| call_stage.call(stage) } 
+          ensure
+            call_stage.call(:after)
+          end
         }
       end
-
+      
       def generate_test_method_name(context)
         contexts = context.parents << context
         assertions = context.calls(:assertion)

@@ -39,7 +39,7 @@ module Admin::BaseHelper
 
   def link_to_profile(site = nil, options = {})
     name = options[:name].nil? ? t(:'adva.links.profile') : options[:name]
-    site = nil if site.new_record?
+    site = nil if site.try(:new_record?)
     link_to(name, admin_user_path(site, current_user))
   end
 

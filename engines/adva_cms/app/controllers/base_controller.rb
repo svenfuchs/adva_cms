@@ -66,7 +66,6 @@ class BaseController < ApplicationController
     end
 
     def return_from(action, options = {})
-      p params[:return_to]
       URI.unescape(params[:return_to] || begin
         url = Registry.get(:redirect, action)
         url = Registry.get(:redirect, url) if url.is_a?(Symbol)
