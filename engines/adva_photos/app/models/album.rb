@@ -13,6 +13,10 @@ class Album < Section
   end
   has_option :photos_per_page, :default => 25
   
+  has_filter :tagged, :categorized,
+             :text  => { :attributes => :title },
+             :state => { :states => [:published, :unpublished] }
+  
   def self.content_type
     'Photo'
   end

@@ -4,7 +4,7 @@
 		t.column :title, :author, :posts, :last_updated, :actions
 
 		t.row do |r, topic|
-			r.cell topic.board.title if @section.has_boards?
+			r.cell link_to(topic.board.title, forum_board_path(@section, topic.board)) if @section.has_boards?
 			r.cell link_to_topic(topic)
 			r.cell topic.last_author_name
 			r.cell topic.posts_count

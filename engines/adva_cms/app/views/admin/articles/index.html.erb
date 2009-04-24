@@ -1,13 +1,3 @@
-<% content_for :sidebar do -%>
- 	<div class="tabs">
-		<ul>
-			<li class="active"><a href="#filters" onclick="return false;">Filters</a></li>
-		</ul>
-		<div class="tab active" id="tab_filters">
-			<% filter_for(Article, :categories => Section.first.categories) %>
-		</div>
-	</div>
-<% end -%>
 
 <%
 	table_for @articles do |t|
@@ -34,3 +24,14 @@
 		end
 	end
 %>
+
+<% content_for :sidebar do -%>
+ 	<div class="tabs">
+		<ul>
+			<li class="active"><a href="#filters" onclick="return false;">Filters</a></li>
+		</ul>
+		<div class="tab active" id="tab_filters">
+			<% filter_for(Article, :categories => Section.first.categories) %>
+		</div>
+	</div>
+<% end -%>
