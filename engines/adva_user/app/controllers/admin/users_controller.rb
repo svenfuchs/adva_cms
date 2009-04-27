@@ -20,8 +20,9 @@ class Admin::UsersController < Admin::BaseController
   end
 
   def create
-    @user = @site ? @site.users.build : User.new
-    if @user.update_attributes(params[:user])
+    # FIXME new users does not become as a members of the site!
+    @user = @site ? @site.users.build(params[:user]) : User.new(params[:user])
+    if @user.save
       @user.verify! # TODO hu??
       trigger_events @user
       flash[:notice] = t(:'adva.users.flash.create.success')
@@ -71,6 +72,9 @@ class Admin::UsersController < Admin::BaseController
     def set_user
       options = @site ? {:include => [:roles, :memberships], :conditions => ['memberships.site_id = ? OR roles.type = ?', @site.id, 'Rbac::Role::Superuser']} : {}
       @user = User.find params[:id], options
+    rescue
+      flash[:error] = t(:'adva.users.flash.not_member_of_this_site')
+      redirect_to admin_users_path(@site)
     end
 
     def authorize_access

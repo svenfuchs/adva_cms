@@ -551,6 +551,7 @@ en:
         signup: Sign up
         your_profile: Your Profile
       flash:
+        not_member_of_this_site: The user you requested is not a member of this site.
         destroy:
           success: The user account has been deleted.
           failure: The user account could not be deleted.
