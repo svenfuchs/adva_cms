@@ -14,7 +14,7 @@ together seamlessly, so the whole platform feels much more consistent for
 similar but separate Rails applications.
  
 Please check out /doc directory and our site http://adva-cms.org for more info.
- 
+
  
 Installation: Release 0.1.2
 ===========================
@@ -32,12 +32,35 @@ Required: Rails 2.3.2, ImageMagick for image handling
   ruby script/server
   open http://localhost:3000
 
-You should see adva-cms installation screen. 
+You should see adva-cms installation screen.
 Fill out the form and you're started, enjoy!
 
 You can install additional engines and plugins through rake adva:install. See
 below for more about that.
 
+Installation: Release 0.2.0
+===========================
+
+NOTE! NOT YET RELEASED! DO NOT EXPECT TO WORK JUST YET, BUT VERY SOON!
+
+Required: Rails 2.3.2, ImageMagick for image handling
+
+# install Rails 2.3.2 gems if you don't have them already
+  sudo gem install rails --source http://gems.rubyonrails.org
+
+# install and setup adva-cms using a template
+  rails my-app -m http://github.com/svenfuchs/adva_cms/raw/master/templates/adva-cms.0.2.0.rb
+
+# there's no step 2
+  cd my-app
+  ruby script/server
+  open http://localhost:3000
+
+You should see adva-cms installation screen. 
+Fill out the form and you're started, enjoy!
+
+You can install additional engines and plugins through rake adva:install. See
+below for more about that.
 
 Installation: Edge version using rails template
 ===============================================
@@ -67,15 +90,6 @@ Installation: Edge version manually
 
 Required: Rails 2.3.2.1 or newer, ImageMagick for image handling
 
-rails my-app
-cd my-app
-git clone git://github.com/svenfuchs/adva_cms.git vendor/adva  # or use: git submodule add ...
-
-rake adva:install:core -R vendor/adva/engines/adva_cms/lib/tasks # installs adva-cms to vendor/plugins
-rake adva:assets:install # copies plugin assets to public/
-rake db:migrate  # copies engine migrations to app, does usual migration and removes
-                 # engine migrations after it's done
-
 # Create your app
   rails my-app
   cd my-app
@@ -84,17 +98,16 @@ rake db:migrate  # copies engine migrations to app, does usual migration and rem
 # Prepare the config/environment.rb and remove the public/index.html
 	# in config/environment.rb make sure you have:
 	require File.join(File.dirname(__FILE__), 'boot')
-	require File.join(File.dirname(__FILE__), '../vendor/adva/engines/adva_cms/boot') # insert this line
+	require File.join(File.dirname(__FILE__), '../vendor/adva/engines/adva_cms/boot') # this line
 
 # Clone the adva-cms ( this might take a bit, grab a coffee meanwhile :) )
   git clone git://github.com/svenfuchs/adva_cms.git vendor/adva  # or use: git submodule add ...
 
 # Install the core engines and copy the assets
   rake adva:install:core -R vendor/adva/engines/adva_cms/lib/tasks # install adva-cms to vendor/plugins/
-  rake adva:assets:copy                                            # copy plugin assets to public/
+  rake adva:assets:install                                         # copy plugin assets to public/
 
-# Migrate the database and start the server
-  rake db:migrate
+# Start the server
   ruby script/server
   open http://localhost:3000
 
@@ -172,9 +185,10 @@ Running tests
 
 Running tests for adva-cms version 0.1.2 or newer:
 
-  rake db:test:clone       			# Clones from your development database to test database
-  ruby script/test-adva-cms -p 	# Prepares the database and runs all adva-cms tests
-  ruby script/test-adva-cms    	# Runs all adva-cms tests without preparing the database
+  rake db:test:clone       										# Clones from your development database to test database
+	vendor/adva/script/test vendor/adva/engines # Runs all tests if you do not have a script file
+  ruby script/test-adva-cms -p 								# Prepares the database and runs all adva-cms tests
+  ruby script/test-adva-cms    								# Runs all adva-cms tests without preparing the database
   ruby script/test-adva-cms vendor/plugins/adva_wiki # Runs only adva_wiki tests
   WEBRAT_MODE=selenium ruby script/test-adva-cms     # Runs integration tests in automated browser mode (see Installing Selenium section)
 
