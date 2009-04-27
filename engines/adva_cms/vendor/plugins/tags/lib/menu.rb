@@ -148,7 +148,7 @@ module Menu
     def activate(path)
       super
       path = path =~ %r((^.*/sections/[\d]+)) && $1 or return
-      @sections.each { |section| section.active = self if section.url.starts_with(path) }
+      @sections.each { |section| section.active = self if section.url.starts_with?(path) }
     end
 
     def item
