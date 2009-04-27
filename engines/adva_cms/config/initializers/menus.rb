@@ -18,14 +18,14 @@ module Menus
             item :overview,    :action => :show,  :resource => @site
             item :sections,    :action => :index, :resource => [@site, :section], :type => Menu::SectionsMenu, :populate => lambda { @site.sections }
             item :comments,    :action => :index, :resource => [@site, :comment]
-            item :newsletters, :action => :index, :resource => [@site, :newsletter]
-            item :assets,      :action => :index, :resource => [@site, :asset]
+            item :newsletters, :action => :index, :resource => [@site, :newsletter] if Rails.plugins.include?(:adva_newsletter)
+            item :assets,      :action => :index, :resource => [@site, :asset]      if Rails.plugins.include?(:adva_assets)
           end
         end
 
         menu :right, :class => 'right' do
           if @site && !@site.new_record?
-            item :themes,   :action => :index, :resource => [@site, :theme]
+            item :themes,   :action => :index, :resource => [@site, :theme]         if Rails.plugins.include?(:adva_themes)
             item :settings, :action => :edit,  :resource => @site
           end
           item :users, :action => :index, :resource => [@site, :user]
