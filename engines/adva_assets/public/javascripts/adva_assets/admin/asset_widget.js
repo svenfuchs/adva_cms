@@ -1,57 +1,49 @@
-var TinyTab = {
-  assets: {
-    selectedTab: function() {
-      return null;
-    },
-    selectFirstTab: function() {
-      return null;
-    }
-  }
-};
+(function($) { $.fn.exist = function() { return this.length > 0; }; })(jQuery);
 
-// TinyTab.prototype = {
-//   initialize: function(element, panels) {
-//    this.container = $(element)
-//     if(this.container) {
-//      var tabs = $(this.container).select('.tabs')[0];
-//      tabs.cleanWhitespace();
-//      this.tabs = $A(tabs.childNodes);
-// 
-//      this.panels = $(this.container).select('.panel');
-//      this.showPanel(this.panels[0]);
-// 
-//      this.selectFirstTab();
-//      this.tabs.each(function(link) {
-//        Event.observe(link, 'click', function(event) {
-//          this.selectTab(Event.element(event).parentNode)
-//          Event.stop(event);
-//        }.bindAsEventListener(this));
-//      }.bind(this));
-//    }
-//   },
-//  selectedTab: function(element) {
-//    return this.tabs.detect(function(tab){ return tab.hasClassName('selected') })
-//  },
-//  selectFirstTab: function() {
-//    var tab = this.tabs.detect(function(tab){ return tab.visible() });
-//    this.selectTab(tab);
-//  },
-//  selectTab: function(element) {
-//    this.unselectTab();
-//     element.addClassName('selected');
-//     this.showPanel(element);
-//  },
-//  unselectTab: function() {
-//    var selected = this.selectedTab();
-//    if(selected) selected.removeClassName('selected');
-//  },
-//  showPanel: function(element) {
-//     this.panels.each(function(panel) { Element.hide(panel) });
-//     $(element.getAttribute('id').replace('tab_', '')).show();
-//  }
-// };
+var TinyTab = $.klass({
+  initialize: function(element, panels) {
+    this.container = $(element);
+    if(this.container.exist()) {
+      var tabs = this.container.find(".tabs:first");
+      // tabs.cleanWhitespace(); TODO find a jQuery equivalent method
+      this.tabs = tabs.children();
+      
+      this.panels = this.container.find(".panel");
+      this.showFirstPanel();
+      this.selectFirstTab();
+      var self = this;
+      this.tabs.each(function() {
+        $(this).bind("click", {self: self, element: this}, function(eventData) {
+          var self = eventData.data.self;
+          self.selectTab(eventData.data.element);
+          eventData.stopPropagation();
+        });
+      });
+    }
+  },
+  selectFirstTab: function() {
+    this.selectTab(this.tabs[0]);
+  },
+  selectTab: function(element) {
+    this.tabs.removeClass("selected");
+    $(element).addClass("selected");
+  },
+  selectedTab: function() {
+    return $($.grep(this.tabs, function(tab, i) {
+      return $(tab).hasClass("selected");
+    })[0]);
+  },
+  showFirstPanel: function() {
+    this.showPanel(this.panels[0]);
+  },
+  showPanel: function(element) {
+    this.panels.hide();
+    $(element).show();
+  }
+});
 
 var AssetWidget = {
+  tinyTab: null,
 	siteId: function() {
 		return location.href.match(/sites\/([0-9]+)\//)[1];
 	},
@@ -97,8 +89,8 @@ var AssetWidget = {
 	},
 	updateSelectedTab: function(show) {
 		show ? this.showSelectedTab() : this.hideSelectedTab();
-		if(!TinyTab.assets.selectedTab()){
-			TinyTab.assets.selectFirstTab();
+		if(!this.tinyTab.selectedTab()){
+			this.tinyTab.selectFirstTab();
 		}
 	},
 	showSelectedTab: function() {
@@ -106,8 +98,8 @@ var AssetWidget = {
 	},
 	hideSelectedTab: function() {
 		$('#tab_attached_assets').hide();
-		if(TinyTab.assets.selectedTab() == $('#tab_attached_assets')) {
-			TinyTab.assets.unselectTab();
+		if(this.tinyTab.selectedTab() == $('#tab_attached_assets')) {
+			this.tinyTab.unselectTab();
 		}
 		$('#attached_assets').hide();
 	},
@@ -169,8 +161,8 @@ var AssetWidget = {
 //   // '#assets_widget .asset img':          function() { new Draggable(this, { revert: true, ghosting: true }); },
 //  //'#article_body':                      function() { Droppables.add(this, { onDrop: function(drag, drop, event) {} }); }
 // });                                 
-// 
-// Event.onReady(function() {
-//   TinyTab.assets = new TinyTab('assets_widget', 'panels');
-//  AssetWidget.updateSelected();
-// });
+//
+$(document).ready(function() {
+  AssetWidget.tinyTab = new TinyTab("#assets_widget", "#panels");
+  AssetWidget.updateSelected();
+});
