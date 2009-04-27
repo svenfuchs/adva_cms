@@ -1,9 +1,18 @@
 TestUtils = {
   element: $("#asset_1"),
+  tinyTab: function() {
+    return new TinyTab('#assets_widget', '#panels');
+  },
   reset: function() {
     $("#tab_attached_assets").hide();
   }
 }
+
+module("jQuery exist");
+test("should verify existence of elements", function() {
+  ok($("#assets_widget").exist(), "should verify the existence of #assets_widget");
+  ok(!$("#unexistent").exist(),   "shouldn't verify the existence of #unexistent");
+});
 
 module("ASSET WIDGET");
 
@@ -127,4 +136,43 @@ test("should upload", function() {
   AssetWidget.upload(TestUtils.element, "authenticityToken");
   ok(AssetWidget.exist("#asset_upload_frame"), "should create an iframe");
   ok(false, "flunked: TODO allow WEBrick to accept POST reqs");
+});
+
+module("TINY TAB");
+test("should initialize", function() {
+  tinyTab = TestUtils.tinyTab();
+  // equals(tinyTab.tabs, $(".tabs").children());
+  // equals(tinyTab.panels, $(".panel"));
+  equals(tinyTab.tabs.length, 5);
+  equals(tinyTab.panels.length, 1);
+  ok($(tinyTab.panels[0]).is(":visible"), "first panel should be visible");
+  ok($(tinyTab.tabs[0]).hasClass("selected"), "first panel should be selected")
+});
+
+test("should observe tabs clicks", function() {
+  tinyTab = TestUtils.tinyTab();
+  tab = $(tinyTab.tabs[3]);
+  tab.click();
+  ok(tab.hasClass("selected"), "should have 'selected' class");
+});
+
+test("should select tab", function() {
+  tinyTab = TestUtils.tinyTab();
+  tab = tinyTab.tabs.find(":last");
+  tinyTab.selectTab(tab);
+  ok(tab.hasClass("selected"), "should have 'selected' class");
+});
+
+test("should select first tab", function() {
+  tinyTab = TestUtils.tinyTab();
+  tinyTab.selectFirstTab();
+  ok(tinyTab.tabs.find(":first").hasClass("selected"), "should have 'selected' class");
+});
+
+test("should return selected tab", function() {
+  tinyTab = TestUtils.tinyTab();
+  tab = $(tinyTab.tabs[2]);
+  $(".selected").removeClass("selected");
+  tinyTab.selectTab(tab);
+  equals(tinyTab.selectedTab().attr("id"), tab.attr("id"));
 });
