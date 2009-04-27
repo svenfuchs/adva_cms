@@ -1,5 +1,5 @@
 module Activities
-  class SectionObserver < Activities::Logger
+  class SectionObserver < ActiveRecord::Observer
     observe :section
 
     def after_destroy(record)
