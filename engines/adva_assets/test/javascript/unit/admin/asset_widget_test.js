@@ -134,7 +134,7 @@ test("should search", function() {
 
 test("should upload", function() {
   AssetWidget.upload(TestUtils.element, "authenticityToken");
-  ok(AssetWidget.exist("#asset_upload_frame"), "should create an iframe");
+  ok($("#asset_upload_frame").exist(), "should create an iframe");
   ok(false, "flunked: TODO allow WEBrick to accept POST reqs");
 });
 
@@ -158,15 +158,15 @@ test("should observe tabs clicks", function() {
 
 test("should select tab", function() {
   tinyTab = TestUtils.tinyTab();
-  tab = tinyTab.tabs.find(":last");
+  tab = tinyTab.tabs[1];
   tinyTab.selectTab(tab);
-  ok(tab.hasClass("selected"), "should have 'selected' class");
+  ok($(tab).hasClass("selected"), "should have 'selected' class");
 });
 
 test("should select first tab", function() {
   tinyTab = TestUtils.tinyTab();
   tinyTab.selectFirstTab();
-  ok(tinyTab.tabs.find(":first").hasClass("selected"), "should have 'selected' class");
+  ok($(tinyTab.tabs[0]).hasClass("selected"), "should have 'selected' class");
 });
 
 test("should return selected tab", function() {

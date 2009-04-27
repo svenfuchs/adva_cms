@@ -27,6 +27,7 @@ var TinyTab = $.klass({
   selectTab: function(element) {
     this.tabs.removeClass("selected");
     $(element).addClass("selected");
+    this.showPanel(element);
   },
   selectedTab: function() {
     return $($.grep(this.tabs, function(tab, i) {
@@ -38,12 +39,13 @@ var TinyTab = $.klass({
   },
   showPanel: function(element) {
     this.panels.hide();
-    $(element).show();
+    $("#" + (element.id || $(element).attr("id")).replace("tab_", "")).show();
   }
 });
 
 var AssetWidget = {
   tinyTab: null,
+  authenticityToken: null,
 	siteId: function() {
 		return location.href.match(/sites\/([0-9]+)\//)[1];
 	},
@@ -65,24 +67,21 @@ var AssetWidget = {
 	memberUrl: function(element) {
 		return this.collectionUrl(element) + '/' + this.memberId();
 	},
-  attachAsset: function(element, authenticityToken) {
+  attachAsset: function(element) {
     if(!this.isAttached(element)) {
-      $.post(this.collectionUrl(element), { 'content_id': this.memberId(), 'authenticity_token': authenticityToken });
+      $.post(this.collectionUrl(element), { 'content_id': this.memberId(), 'authenticity_token': this.authenticityToken });
 		}
   },
-  detachAsset: function(element, authenticityToken) {
+  detachAsset: function(element) {
     if(this.isAttached(element)) {
-      $.post(this.memberUrl(element), { '_method': 'delete', 'authenticity_token': authenticityToken });
+      $.post(this.memberUrl(element), { '_method': 'delete', 'authenticity_token': this.authenticityToken });
 		}
-  },
-  exist: function(selector) {
-    return $(selector).length > 0;
   },
 	isAttached: function(element) {
-	  return this.exist("#attached_asset_" + this.assetId(element));
+	  return $("#attached_asset_" + this.assetId(element)).exist();
 	},
 	updateSelected: function() {
-		if(!this.exist('#assets_widget')) return;
+		if(!$('#assets_widget').exist()) return;
 		var selectedIds = this.selectedAssetIds();
 		this.updateSelectedTab(selectedIds.length > 0);
 		this.updateSelectedAssets(selectedIds);
@@ -130,8 +129,8 @@ var AssetWidget = {
     $('#search_assets_spinner').show();
     $.get(this.assetsUrl(), { query: escape(query), limit: 6, source: 'widget' });
 	},
-  upload: function(element, authenticityToken) {
-    if(!this.exist("#asset_upload_frame"))
+  upload: function(element) {
+    if(!$("#asset_upload_frame").exist())
       $('body').append('<iframe id="asset_upload_frame" name="asset_upload_frame" style="display:none"></iframe>');
 
 		var form = $(document.createElement("form"))
@@ -139,7 +138,7 @@ var AssetWidget = {
 		             .attr("enctype", "multipart/form-data")
 		             .attr("target", "asset_upload_frame")
 		             .attr("style", "display:none");
-		form.append('<input type="hidden" name="authenticity_token" value="'+authenticityToken+'"></input>')
+		form.append('<input type="hidden" name="authenticity_token" value="'+this.authenticityToken+'"></input>')
 		    .append('<input type="hidden" name="respond_to_parent" value="1"></input>')
 		    .append($(element).clone(true));
     $('body').append(form);
@@ -148,21 +147,17 @@ var AssetWidget = {
   }	
 };
 
-// Event.addBehavior({
-//   '#assets_widget .attach_asset:click': function() { AssetWidget.attachAsset(this, $('content_form').authenticity_token.value); return false; },
-//   '#assets_widget .detach_asset:click': function() { AssetWidget.detachAsset(this, $('content_form').authenticity_token.value); return false; },
-//   '#assets_widget .asset:mouseover':     function() { AssetWidget.showAttachTools(this.getAttribute('id')); },
-//   '#assets_widget .asset:mouseout':    function() { AssetWidget.hideAttachTools(this.getAttribute('id')); },
-// 
-//  '#search_assets_button:click':        function(event) { AssetWidget.search($F('search_assets_query')); },
-//  '#search_assets_query:keypress':      function(event) { if(event.keyCode == Event.KEY_RETURN) { AssetWidget.search($F('search_assets_query')); Event.stop(event); } },
-//  '#upload_assets_button:click':        function(event) { AssetWidget.upload($('asset_uploaded_data'), $('content_form').authenticity_token.value);}
-// 
-//   // '#assets_widget .asset img':          function() { new Draggable(this, { revert: true, ghosting: true }); },
-//  //'#article_body':                      function() { Droppables.add(this, { onDrop: function(drag, drop, event) {} }); }
-// });                                 
-//
 $(document).ready(function() {
   AssetWidget.tinyTab = new TinyTab("#assets_widget", "#panels");
+  AssetWidget.authenticityToken = $("[name=authenticity_token]").val();
   AssetWidget.updateSelected();
+  
+  $("#assets_widget .attach_asset").click(function(event) { AssetWidget.attachAsset($(this)); });
+  $("#assets_widget .detach_asset").click(function(event) { AssetWidget.detachAsset($(this)); });
+  $("#assets_widget .asset").mouseover(function(event) { AssetWidget.showAttachTools($(this).attr("id")); });
+  $("#assets_widget .asset").mouseout(function(event)  { AssetWidget.hideAttachTools($(this).attr("id")); });
+
+  $("#search_assets_button").click(function(event)   { AssetWidget.search($("#search_assets_query").val()); });
+  $("#search_assets_query").keypress(function(event) { if(event.keyCode == 13) { AssetWidget.search($("#search_assets_query").val()); event.preventDefault(); } });
+  $("#upload-assets-button").click(function(event)   { AssetWidget.upload($('#asset-uploaded-data')); });
 });
