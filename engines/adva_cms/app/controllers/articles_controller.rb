@@ -35,10 +35,13 @@ class ArticlesController < BaseController
       @article || @section
     end
     
-    # adjusts the action from :index to :show when the current section is in single-article mode
+    # adjusts the action from :index to :show when the current section is in single-article mode ...
     def adjust_action
       if params[:action] == 'index' and @section.try(:single_article_mode)
-        @action_name = @_params[:action] = request.parameters['action'] = 'show'
+        # ... but only if there is one published article
+        unless @section.articles.blank? || @section.articles.first.draft?
+          @action_name = @_params[:action] = request.parameters['action'] = 'show'
+        end
       end
     end
 

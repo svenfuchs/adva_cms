@@ -62,7 +62,7 @@ class InstallationTest < ActionController::IntegrationTest
     click_link "Logout"
 
     # check that the user sees the frontend
-    assert_template "pages/articles/show"
+    assert_template "pages/articles/index"
 
     #check that the frontend contains the site title
     assert response.body =~ /adva-cms test/i, "frontend should contain site title"
