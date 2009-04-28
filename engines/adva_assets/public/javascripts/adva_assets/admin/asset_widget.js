@@ -135,6 +135,7 @@ var AssetWidget = {
 
 		var form = $(document.createElement("form"))
 		             .attr("method", "post")
+		             .attr("action", this.assetsUrl())
 		             .attr("enctype", "multipart/form-data")
 		             .attr("target", "asset_upload_frame")
 		             .attr("style", "display:none");
