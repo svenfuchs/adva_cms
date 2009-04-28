@@ -133,6 +133,7 @@ var AssetWidget = {
     if(!$("#asset_upload_frame").exist())
       $('body').append('<iframe id="asset_upload_frame" name="asset_upload_frame" style="display:none"></iframe>');
 
+    var parent = $(element).parent();
 		var form = $(document.createElement("form"))
 		             .attr("method", "post")
 		             .attr("action", this.assetsUrl())
@@ -141,12 +142,12 @@ var AssetWidget = {
 		             .attr("style", "display:none");
 		form.append('<input type="hidden" name="authenticity_token" value="'+this.authenticityToken+'"></input>')
 		    .append('<input type="hidden" name="respond_to_parent" value="1"></input>')
-		    .append($(element).clone(true));
+        .append($(element));
     $('body').append(form);
 
     form.submit();
     form.remove();
-    element.val("");
+    parent.prepend('<input id="asset-uploaded-data" name="assets[][data]" type="file" />');
   }	
 };
 
