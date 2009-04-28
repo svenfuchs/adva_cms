@@ -143,8 +143,10 @@ var AssetWidget = {
 		    .append('<input type="hidden" name="respond_to_parent" value="1"></input>')
 		    .append($(element).clone(true));
     $('body').append(form);
+
     form.submit();
     form.remove();
+    element.val("");
   }	
 };
 
