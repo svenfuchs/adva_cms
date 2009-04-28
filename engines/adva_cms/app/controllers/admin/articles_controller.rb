@@ -1,7 +1,7 @@
 class Admin::ArticlesController < Admin::BaseController
   default_param :article, :author_id, :only => [:create, :update], &lambda { current_user.id }
 
-  before_filter :adjust_action
+  before_filter :protect_single_article_mode
   before_filter :set_section
   before_filter :set_articles,   :only => [:index]
   before_filter :set_article,    :only => [:show, :edit, :update, :destroy]
@@ -121,17 +121,25 @@ class Admin::ArticlesController < Admin::BaseController
       @save_revision ||= !!params.delete(:save_revision)
     end
 
-    # adjusts the action from :index to :new or :edit when the current section and it doesn't have any articles
-    def adjust_action
+    # # adjusts the action from :index to :new or :edit when the current section and it doesn't have any articles
+    # def adjust_action
+    #   if params[:action] == 'index' and @section.try(:single_article_mode)
+    #     if @section.articles.empty?
+    #       action = 'new'
+    #       params[:article] = { :title => @section.title }
+    #     else
+    #       action = 'edit'
+    #       params[:id] = @section.articles.first.id
+    #     end
+    #     @action_name = @_params[:action] = request.parameters['action'] = action
+    #   end
+    # end
+    
+    def protect_single_article_mode
       if params[:action] == 'index' and @section.try(:single_article_mode)
-        if @section.articles.empty?
-          action = 'new'
-          params[:article] = { :title => @section.title }
-        else
-          action = 'edit'
-          params[:id] = @section.articles.first.id
-        end
-        @action_name = @_params[:action] = request.parameters['action'] = action
+        redirect_to @section.articles.empty? ? 
+          new_admin_article_path(@site, @section, :article => { :title => @section.title }) :
+          edit_admin_article_path(@site, @section, @section.articles.first)
       end
     end
 

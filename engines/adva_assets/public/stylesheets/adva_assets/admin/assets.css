@@ -89,6 +89,7 @@
 
 #assets_widget .tabs {
 	margin: 0 0 2px 0 !important;
+	white-space: nowrap;
 }
 #assets_widget .tabs li {
   display: inline;
@@ -97,7 +98,6 @@
 }
 #assets_widget .tabs li a {
   padding: 5px 5px 3px 20px;
-  margin-right: 3px;
   border: 1px solid #ccc;
   border-bottom: 0px;
   color: #333;
@@ -135,8 +135,7 @@
 
 #assets_widget .panel {
 	float: left;
-	width: 98%;
-	margin-top: 0px;
+	margin-top: -1px;
 	margin-bottom: 25px;
   padding: 3px 8px 8px 8px;
 	border: 1px solid #ccc;

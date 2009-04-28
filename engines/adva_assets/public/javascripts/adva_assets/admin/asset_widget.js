@@ -69,7 +69,20 @@ var AssetWidget = {
 	},
   attachAsset: function(element) {
     if(!this.isAttached(element)) {
-      $.post(this.collectionUrl(element), { 'content_id': this.memberId(), 'authenticity_token': this.authenticityToken });
+      /*$.post(this.collectionUrl(element), {
+				'content_id': this.memberId(),
+				'authenticity_token': this.authenticityToken,
+				'type': 'script'
+			});*/			
+      $.ajax({
+        url: this.collectionUrl(element),
+				data: {
+					content_id: this.memberId(),
+					authenticity_token: this.authenticityToken
+				},
+        type: 'post',
+        dataType: 'script'
+      });
 		}
   },
   detachAsset: function(element) {
@@ -118,11 +131,12 @@ var AssetWidget = {
 	  });
 	},	
   showAttachTools: function(id) {
-    if(this.isEdit())
-      $.each(['attach', 'detach'], function() { $("#" + this + "_" + id).show(); });
+		if(this.isEdit()) {
+			$('#' + id + ' div').show();
+		}
   },  
   hideAttachTools: function(id) {
-    $.each(['attach', 'detach'], function() { $("#" + this + "_" + id).hide(); });
+		$('#' + id + ' div').hide();
   },
 	search: function(query) {
     if(!query) return;
@@ -155,11 +169,13 @@ $(document).ready(function() {
   AssetWidget.tinyTab = new TinyTab("#assets_widget", "#panels");
   AssetWidget.authenticityToken = $("[name=authenticity_token]").val();
   AssetWidget.updateSelected();
-  
-  $("#assets_widget .attach_asset").click(function(event) { AssetWidget.attachAsset($(this)); });
-  $("#assets_widget .detach_asset").click(function(event) { AssetWidget.detachAsset($(this)); });
-  $("#assets_widget .asset").mouseover(function(event) { AssetWidget.showAttachTools($(this).attr("id")); });
-  $("#assets_widget .asset").mouseout(function(event)  { AssetWidget.hideAttachTools($(this).attr("id")); });
+
+	// attach/detach callbacks currently do not work
+
+  // $("#assets_widget .attach_asset").click(function(event) { AssetWidget.attachAsset($(this)); });
+  // $("#assets_widget .detach_asset").click(function(event) { AssetWidget.detachAsset($(this)); });
+  // $("#assets_widget .asset").mouseover(function(event) { AssetWidget.showAttachTools($(this).attr("id")); });
+  // $("#assets_widget .asset").mouseout(function(event)  { AssetWidget.hideAttachTools($(this).attr("id")); });
 
   $("#search_assets_button").click(function(event)   { AssetWidget.search($("#search_assets_query").val()); });
   $("#search_assets_query").keypress(function(event) { if(event.keyCode == 13) { AssetWidget.search($("#search_assets_query").val()); event.preventDefault(); } });
