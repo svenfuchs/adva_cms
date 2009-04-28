@@ -1,5 +1,8 @@
-page.flash.notice created_notice
-page.insert_html(:top, 'latest_assets', :partial => "admin/assets/widget/asset", :collection => @assets, :locals => { :prefix => 'latest', :content => false })
-page.insert_html(:bottom, 'uploaded_assets', :partial => "admin/assets/widget/asset", :collection => @assets, :locals => { :prefix => 'uploaded', :content => false })
-page << "AssetWidget.updateSelected();"
-
+page << <<-END
+  $("#flash_notice").html("#{created_notice}").show();
+  lastUploadedFile = '#{render(:partial => "admin/assets/widget/asset", :collection => @assets, :locals => { :prefix => 'latest', :content => false }).gsub("\n", "")}';
+  uploadedFile = '#{render(:partial => "admin/assets/widget/asset", :collection => @assets, :locals => { :prefix => 'uploaded', :content => false }).gsub("\n", "")}';
+  $("#latest_assets").prepend(lastUploadedFile);
+  $("#uploaded_assets").append(uploadedFile);
+  AssetWidget.updateSelected();
+END
