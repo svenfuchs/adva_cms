@@ -15,33 +15,8 @@ similar but separate Rails applications.
  
 Please check out /doc directory and our site http://adva-cms.org for more info.
 
- 
-Installation: Release 0.1.2
-===========================
-
-Required: Rails 2.3.2, ImageMagick for image handling
-
-# install Rails 2.3.2 gems if you don't have them already
-  sudo gem install rails --source http://gems.rubyonrails.org
-
-# install and setup adva-cms using a template
-  rails my-app -m http://github.com/svenfuchs/adva_cms/raw/master/templates/adva-cms.0.1.2.rb
-
-# there's no step 3
-  cd my-app
-  ruby script/server
-  open http://localhost:3000
-
-You should see adva-cms installation screen.
-Fill out the form and you're started, enjoy!
-
-You can install additional engines and plugins through rake adva:install. See
-below for more about that.
-
 Installation: Release 0.2.0
 ===========================
-
-NOTE! NOT YET RELEASED! DO NOT EXPECT TO WORK JUST YET, BUT VERY SOON!
 
 Required: Rails 2.3.2, ImageMagick for image handling
 
