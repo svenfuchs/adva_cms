@@ -27,7 +27,7 @@ Required: Rails 2.3.2, ImageMagick for image handling
 # install and setup adva-cms using a template
   rails my-app -m http://github.com/svenfuchs/adva_cms/raw/master/templates/adva-cms.0.1.2.rb
 
-# there's no step 2
+# there's no step 3
   cd my-app
   ruby script/server
   open http://localhost:3000
@@ -51,7 +51,7 @@ Required: Rails 2.3.2, ImageMagick for image handling
 # install and setup adva-cms using a template
   rails my-app -m http://github.com/svenfuchs/adva_cms/raw/master/templates/adva-cms.0.2.0.rb
 
-# there's no step 2
+# there's no step 3
   cd my-app
   ruby script/server
   open http://localhost:3000
@@ -73,7 +73,7 @@ Required: Rails 2.3.2, ImageMagick for image handling
 # install and setup adva-cms using a template
   rails my-app -m http://github.com/svenfuchs/adva_cms/raw/master/templates/adva-cms.master.rb
 
-# there's no step 2
+# there's no step 3
   cd my-app
   ruby script/server
   open http://localhost:3000

@@ -33,7 +33,7 @@ namespace :adva do
   task :install do
     perform(:install)
     Rake::Task['db:migrate'].invoke
-    Rake::Task['adva:assets:copy'].invoke
+    Rake::Task['adva:assets:install'].invoke
   end
 
   desc 'uninstall selected adva_cms engines (pick some with engines=all plugins=all or engines=name1,name2 plugins=name3)'
@@ -66,7 +66,7 @@ namespace :adva do
         # TODO: is this necessary? it seems so ...
         FileUtils.rm_rf target if File.exists?(target) || File.symlink?(target)
         FileUtils.mkdir_p(File.dirname(target))
-        FileUtils.ln_s source, target, :force => true, :verbose => true
+        FileUtils.ln_s source, target, :force => true # :verbose => true
       end
     end
 
