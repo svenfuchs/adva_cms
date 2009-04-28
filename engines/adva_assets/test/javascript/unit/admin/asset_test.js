@@ -54,6 +54,15 @@ test("should empty inputs when new created", function() {
   });
 });
 
+test("should create input with unique DOM ids", function() {
+  TestUtils.simulateClick();
+  inputs = $(TestUtils.files()[1]).find(":input");
+  inputs.each(function() {
+    ok(!$(this).attr("id").match("0"), "Should increment the id count");
+    ok(!$(this).attr("name").match("0"), "Should increment the name count");
+  });
+});
+
 test("should hide 'remove_file' link for first row", function(){
   ok(!TestUtils.copyFrom().find(".remove_file:first").is(":visible"), "'remove_file' shouldn't be visible");
 });
