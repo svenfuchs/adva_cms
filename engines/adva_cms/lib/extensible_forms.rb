@@ -26,7 +26,7 @@ module ActionView
           name = "#{name.to_s.classify}FormBuilder"
           name.constantize
         rescue NameError
-          Object.const_set(name, Class.new(ActionView::Base.default_form_builder))
+          Object.const_set(name, Class.new(ActionView::Base.default_form_builder)) rescue ActionView::Base.default_form_builder
         end
     end
 

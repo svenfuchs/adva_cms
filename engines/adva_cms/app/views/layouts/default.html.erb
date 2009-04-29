@@ -8,6 +8,7 @@
     <%= javascript_include_tag :common, :default %>
 
     <%= authorize_elements %>
+    <%= yield :head %>
   </head>
   <body>
     <div id="page">
