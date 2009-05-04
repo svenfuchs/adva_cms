@@ -10,7 +10,7 @@ class ContentCell < BaseCell
     set_section
     
     order = @opts[:order] ? @opts[:order] : "created_at DESC"
-    limit = @opts[:limit] ? @opts[:limit] : 10
+    limit = @opts[:count] ? @opts[:count] : 5
     @content = Content.published(:order => order, :limit => limit)
     nil
   end

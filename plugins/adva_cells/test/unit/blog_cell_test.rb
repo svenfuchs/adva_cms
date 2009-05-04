@@ -12,7 +12,7 @@ class BlogCellTest < ActiveSupport::TestCase
     @cell.instance_variable_get(:@articles).should == recent_articles
   end
   
-  test "#recent article amount can be altered by @opts[:count]" do
+  test "#recent_articles article amount can be altered by @opts[:count]" do
     @cell.instance_variable_set(:@opts, { :count => 1 })
     @cell.recent_articles
     @cell.instance_variable_get(:@articles).should == recent_articles("published_at DESC", 1)

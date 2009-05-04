@@ -13,7 +13,7 @@ class ContentCellTest < ActiveSupport::TestCase
   end
   
   test "#recent content item amount can be altered by @opts[:limit]" do
-    @cell.instance_variable_set(:@opts, { :limit => 1 })
+    @cell.instance_variable_set(:@opts, { :count => 1 })
     @cell.recent
     @cell.instance_variable_get(:@content).should == recent_content("created_at DESC", 1)
   end
@@ -27,7 +27,7 @@ class ContentCellTest < ActiveSupport::TestCase
   # FIXME test the cached_references
   # FIXME test the has_state option
   
-  def recent_content(order = "created_at DESC", limit = 10)
+  def recent_content(order = "created_at DESC", limit = 5)
     Content.published(:order => order, :limit => limit)
   end
 end
