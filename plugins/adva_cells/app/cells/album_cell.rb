@@ -10,7 +10,7 @@ class AlbumCell < BaseCell
     set_section
 
     @album = Album.find(:first, :conditions => ["id = ? OR permalink = ?", @opts[:section], @opts[:section]])
-    @photo = Photo.find(options[:photo_id], :conditions => "published_at IS NOT NULL") if @opts[:photo_id]
+    @photo = Photo.find(@opts[:photo_id], :conditions => "published_at IS NOT NULL") if @opts[:photo_id]
     @photo ||= @album.photos(:conditions => "published_at IS NOT NULL").first if @album
 
     nil

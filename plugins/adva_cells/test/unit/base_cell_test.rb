@@ -1,15 +1,5 @@
 require File.expand_path(File.dirname(__FILE__) + '/../test_helper')
 
-class CellTestController
-  def site
-    @site ||= Site.first
-  end
-  
-  def section
-    site.sections.first
-  end
-end
-
 class BaseCellTest < ActiveSupport::TestCase
   def setup
     super
@@ -17,7 +7,7 @@ class BaseCellTest < ActiveSupport::TestCase
     @section    = @site.sections.last
     @root       = @site.sections.root
     @controller = CellTestController.new
-    @cell       = BaseCell.new(@controller, nil)
+    @cell       = BaseCell.new(@controller)
     @cell.send(:set_site)
   end
   
@@ -27,7 +17,7 @@ class BaseCellTest < ActiveSupport::TestCase
   end
   
   # .set_section
-  test "#set_section sets the section from options[:section_id] if available" do
+  test "#set_section sets the section from options[:section] if available" do
     @cell.instance_variable_set(:@opts, {:section => @section.id})
     @cell.send(:set_section)
     @cell.instance_variable_get(:@section).should == @section
