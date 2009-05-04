@@ -6,9 +6,7 @@
     
     <%= stylesheet_link_tag    :simple, :cache => 'cache/admin/simple' %>
                                
-    <%= javascript_include_tag :common,
-                               'adva_cms/dragdrop', 'adva_cms/sortable_tree/sortable_tree',
-                               :cache => 'cache/admin/simple' %>
+    <%= javascript_include_tag :common, 'adva_cms/dragdrop', :cache => 'cache/admin/simple' %>
 
     <%= yield :head %>
   </head>
