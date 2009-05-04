@@ -3,6 +3,8 @@ class ContentCell < BaseCell
   
   has_state :recent
   
+  helper :content, :resource
+  
   def recent
     # TODO make these before filters
     symbolize_options!
