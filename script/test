@@ -51,8 +51,8 @@ end
 unless ARGV.first == 'TEST'
   require 'test/unit'
   Runner.run(*ARGV.reject { |arg| arg =~ /^-/ || arg =~ /\=/ })
-  Test::Unit::AutoRunner.run # calling exit would not run the at_exit hook?
-  exit
+  result = Test::Unit::AutoRunner.run # calling exit would not run the at_exit hook?
+  exit(result)
 end
 
 
