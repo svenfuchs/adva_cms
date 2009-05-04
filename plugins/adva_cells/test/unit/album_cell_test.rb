@@ -35,6 +35,7 @@ class AlbumCellTest < ActiveSupport::TestCase
   end
   
   # FIXME test the cached_references
+  # FIXME test the has_state option
 
   # FIXME should we just set the photo to nil or raise active_record::record_not_found like it is
   # doing now?

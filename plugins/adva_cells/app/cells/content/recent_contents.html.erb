@@ -1,0 +1,8 @@
+<div style="border: 3px solid #eee; padding: 12px; margin-bottom: 20px;">
+	<h2>Latest additions to our site</h2>
+	<ul>
+	<% @content.each do |content| %>
+	  <li><%= link_to_content content %></li>
+	<% end %>
+	</ul>
+</div>
