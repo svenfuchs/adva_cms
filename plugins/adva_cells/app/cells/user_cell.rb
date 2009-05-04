@@ -4,11 +4,13 @@ class UserCell < BaseCell
   has_state :recent
 
   def recent
-    # TODO make these before filters
+    # FIXME make these before filters
     symbolize_options!
     set_site
     set_section
-
+    
+    # FIXME this works for single site scenario, but for multisite you probably want
+    #       to get all the site users and not users from every site
     @count = @opts[:count] || 5
     @users = User.all(:limit => @count, :order => "id DESC")
 
