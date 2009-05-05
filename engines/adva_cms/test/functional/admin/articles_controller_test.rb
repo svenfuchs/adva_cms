@@ -122,6 +122,10 @@ class AdminArticlesControllerTest < ActionController::TestCase
   end
 
   describe "GET to :new for :de" do
+    after do
+      Article.locale = I18n.locale
+    end
+    
     action { get :new, default_params.merge( :cl => 'de') }
     it_guards_permissions :create, :article
 
@@ -194,6 +198,10 @@ class AdminArticlesControllerTest < ActionController::TestCase
   end
 
   describe "GET to :edit for :de" do
+    after do
+      Article.locale = I18n.locale
+    end
+    
     action { get :edit, default_params.merge(:id => @article.id, :cl => 'de') }
   
     with [:a_published_article, :an_unpublished_article] do
