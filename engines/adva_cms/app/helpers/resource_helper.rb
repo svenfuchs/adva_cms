@@ -105,6 +105,7 @@ module ResourceHelper
     def normalize_resource_link_options(options, action, type, resource)
       options[:class] ||= "#{action} #{type}"
       options[:id] ||= resource_link_id(action, type, resource)
+      options[:title] ||= t(:"adva.titles.#{action}")
       options.reverse_merge!(resource_delete_options(type, options)) if action == :delete
       options
     end
