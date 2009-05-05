@@ -1,0 +1,20 @@
+This will only document major changes.  Please see the commit log for minor changes.
+
+-2009-04-27
+* restoring models now cascades to child dependent => destroy models via Matt Todd
+
+-2009-04-22
+* destroying and restoring records no longer triggers saving/updating callbacks
+
+-2009-03-28
+* removing syntax for calculation require (all find and ActiveRecord calculations are done on-the-fly now via method_missing)
+* adding ability to specify alternate fields and values for destroyed objects
+* adding in support for _destroyed_only methods (with inspiration from David Krmpotic)
+* adding init.rb via David Krmpotic
+* adding jewler tasks via Scott Woods
+
+-2009-03-24
+* requiring specific syntax to include calculations
+
+-2009-03-21
+* initial release

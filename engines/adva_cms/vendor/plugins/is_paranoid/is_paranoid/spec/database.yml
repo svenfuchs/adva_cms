@@ -1,0 +1,3 @@
+test:
+  :adapter: sqlite3
+  :dbfile: is_paranoid.db
