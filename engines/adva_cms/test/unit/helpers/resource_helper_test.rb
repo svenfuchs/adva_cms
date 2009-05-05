@@ -153,4 +153,23 @@ class AdminResourceHelperTest < ActionView::TestCase
     assert_html link_to_edit(@site), 'a[href=?][class=edit site]', @paths[:sites][:edit], 'Settings'
     assert_html link_to_delete(@site), 'a[href=?][class=delete site]', @paths[:sites][:show], 'Delete'
   end
+
+  test 'should populate title option with default value taken from adva.titles.#{action}' do
+    link_to_new(@article).should =~ /title="New"/
+    link_to_show(@article).should =~ /title="Show"/
+    link_to_edit(@article).should =~ /title="Edit"/
+    link_to_delete(@article).should =~ /title="Delete"/
+  end
+  
+  test 'should not populate title option because there is no translation for given action' do
+    link_to_index(@article).should_not =~ /title=/
+  end
+  
+  test 'should return given title' do
+    link_to_index(@article,   :title => "test-title").should =~ /title="test-title"/
+    link_to_new(@article,     :title => "test-title").should =~ /title="test-title"/
+    link_to_show(@article,    :title => "test-title").should =~ /title="test-title"/
+    link_to_edit(@article,    :title => "test-title").should =~ /title="test-title"/
+    link_to_delete(@article,  :title => "test-title").should =~ /title="test-title"/
+  end
 end
