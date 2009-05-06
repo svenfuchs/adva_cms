@@ -11,6 +11,7 @@ class Admin::InstallController < ApplicationController
   renders_with_error_proc :below_field
 
   def index
+    params[:content] = params[:section]
     params[:content] ||= { :title => t(:'adva.sites.install.section_default') }
     params[:content][:type] ||= 'Page'
 

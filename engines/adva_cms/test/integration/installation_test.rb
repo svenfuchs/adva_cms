@@ -67,4 +67,25 @@ class InstallationTest < ActionController::IntegrationTest
     #check that the frontend contains the site title
     assert response.body =~ /adva-cms test/i, "frontend should contain site title"
   end
+  
+  test "user installs the initial site with blog section and different section title (fix for bug #293)" do
+    # go to root page
+    get "/"
+
+    # user should see the install template
+    assert_template "admin/install/index"
+
+    # fill in the form and submit the form
+    fill_in :site_name,     :with => "adva-cms test"
+    fill_in :user_email,    :with => "test@example.org"
+    fill_in :user_password, :with => "test_password"
+    select  'Blog',         :from => "section_type"
+    fill_in :section_title, :with => "Blog"
+    click_button "Create"
+
+    # check that root section is created and it is a blog and has the title user defined
+    site = Site.first
+    assert_equal Blog, site.sections.first.class
+    assert_equal "Blog", site.sections.first.title
+  end
 end
