@@ -20,8 +20,9 @@ class Admin::UsersController < Admin::BaseController
   end
 
   def create
-    # FIXME new users does not become as a members of the site!
-    @user = @site ? @site.users.build(params[:user]) : User.new(params[:user])
+    @user = User.new(params[:user])
+    @user.memberships.build(:site => @site) if @site
+    
     if @user.save
       @user.verify! # TODO hu??
       trigger_events @user
