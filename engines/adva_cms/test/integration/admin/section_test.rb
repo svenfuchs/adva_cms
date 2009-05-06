@@ -16,7 +16,18 @@ module IntegrationTests
       revise_the_page_settings
       delete_the_page
     end
-
+    
+    test "Admin creates a page, edits the article and deletes the section, after this the admin
+          visits the overview page (fix for bug #222)" do
+      login_as_admin
+      visit "/admin/sites/#{@site.id}"
+      create_a_new_page
+      post_the_article_form
+      click_link_within '#main_menu', 'Settings'
+      delete_the_page
+      visit_overview_page
+    end
+    
     def create_a_new_page
       click_link 'Sections'
       click_link 'New'
@@ -26,6 +37,14 @@ module IntegrationTests
       
       assert @site.sections.last.is_a?(Page)
       request.url.should =~ %r(/admin/sites/\d+/sections/\d+/articles)
+    end
+    
+    def post_the_article_form
+      assert_template 'admin/articles/new'
+      
+      fill_in     'article[body]',  :with => 'the article body'
+      check       'article[draft]'
+      click_button :save
     end
 
     def revise_the_page_settings
@@ -39,6 +58,11 @@ module IntegrationTests
     def delete_the_page
       click_link 'Delete'
       request.url.should =~ %r(/admin/sites/\d+/sections/new)
+    end
+    
+    def visit_overview_page
+      click_link 'Overview'
+      assert_template 'admin/sites/show'
     end
   end
 end
