@@ -49,14 +49,6 @@ class IssueTest < ActiveSupport::TestCase
     @issue.editable?.should == false
   end
 
-  test "#destroy should move Issue to DeletedIssue" do
-    Issue.find_by_id(@issue.id).should_not == nil
-    DeletedIssue.find_by_id(@issue.id).should == nil
-    @issue.destroy
-    Issue.find_by_id(@issue.id).should == nil
-    DeletedIssue.find_by_id(@issue.id).should_not == nil
-  end
-
   test "#destroy should decrease issues_count by -1" do
     @newsletter = Newsletter.first
     @newsletter.issues_count.should == 1

@@ -9,7 +9,6 @@ class NewsletterTest < ActiveSupport::TestCase
 
   test "associations" do
     @newsletter.should have_many(:issues)
-    @newsletter.should have_many(:deleted_issues)
     @newsletter.should have_many(:subscriptions, :as => :subscribable)
     @newsletter.should have_many(:users, :through => :subscriptions)
   end
@@ -21,14 +20,6 @@ class NewsletterTest < ActiveSupport::TestCase
 
   test "published scope" do
     Newsletter.published.proxy_options[:conditions].should == "newsletters.published = 1"
-  end
-
-  test "#destroy should move Newsletter to DeletedNewsletter" do
-    Newsletter.find_by_id(@newsletter.id).should_not == nil
-    DeletedNewsletter.find_by_id(@newsletter.id).should == nil
-    @newsletter.destroy
-    Newsletter.find_by_id(@newsletter.id).should == nil
-    DeletedNewsletter.find_by_id(@newsletter.id).should_not == nil
   end
 
   test "#available_users should return all site users except already subscribed" do

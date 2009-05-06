@@ -1,7 +1,6 @@
-class Newsletter < BaseNewsletter
+class Newsletter < ActiveRecord::Base
   belongs_to :site
   has_many :issues, :dependent => :destroy
-  has_many :deleted_issues
   has_many :subscriptions, :as => :subscribable
   has_many :users, :through => :subscriptions
 
@@ -13,19 +12,22 @@ class Newsletter < BaseNewsletter
 
   before_save :do_not_save_default_email
 
+  is_paranoid
+
+  def owners
+    owner.owners << owner
+  end
+
+  def owner
+    site
+  end
+
   def published?
     self.published == 1
   end
 
   def state
     published? ? "published" : "pending"
-  end
-
-  def destroy
-    self.deleted_at = Time.now.utc
-    self.type = "DeletedNewsletter"
-    self.save
-    return self
   end
 
   def available_users

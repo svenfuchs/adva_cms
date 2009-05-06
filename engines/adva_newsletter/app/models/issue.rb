@@ -1,6 +1,6 @@
 require 'uri'
 
-class Issue < BaseIssue
+class Issue < ActiveRecord::Base
   belongs_to :newsletter, :counter_cache => true
   has_one :cronjob, :as => :cronable
 
@@ -11,6 +11,16 @@ class Issue < BaseIssue
 
   filtered_column :body
   filters_attributes :except => [:body, :body_html]
+
+  is_paranoid 
+
+  def owners
+    owner.owners << owner
+  end
+
+  def owner
+    newsletter
+  end
 
   # public api
 
@@ -158,14 +168,5 @@ class Issue < BaseIssue
     Email.create(:from => self.newsletter.default_email,
                  :to => user.email,
                  :mail => issue.to_s)
-  end
-
-  def destroy
-    self.deleted_at = Time.now.utc
-    self.type = "DeletedIssue"
-    if self.save
-      Newsletter.update_counters self.newsletter_id, :issues_count => -1
-    end
-    return self
   end
 end
