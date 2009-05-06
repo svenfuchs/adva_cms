@@ -61,7 +61,9 @@ module Menus
           menu :actions, :class => 'actions' do
             activates object.parent.find(:sections)
             item :new, :action => :new, :resource => [@site, :section]
-            item :reorder, :content => link_to_index(:'adva.links.reorder', [@site, :section], :id => 'reorder_sections', :class => 'reorder') if @site.sections.size > 1
+            if !@section and @site.sections.size > 1
+              item :reorder, :content => link_to_index(:'adva.links.reorder', [@site, :section], :id => 'reorder_sections', :class => 'reorder')
+            end
           end
         end
       end
