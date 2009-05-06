@@ -21,7 +21,7 @@ class Admin::UsersController < Admin::BaseController
 
   def create
     @user = User.new(params[:user])
-    @user.memberships.build(:site => @site) if @site
+    @user.memberships.build(:site => @site) if @site and !@user.has_role?(:superuser)
     
     if @user.save
       @user.verify! # TODO hu??
