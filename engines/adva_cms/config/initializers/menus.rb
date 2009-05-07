@@ -15,11 +15,12 @@ module Menus
         menu :left, :class => 'main' do
           item :sites, :action => :index, :resource => :site if Site.multi_sites_enabled
           if @site && !@site.new_record?
-            item :overview,    :action => :show,  :resource => @site
-            item :sections,    :action => :index, :resource => [@site, :section], :type => Menu::SectionsMenu, :populate => lambda { @site.sections }
-            item :comments,    :action => :index, :resource => [@site, :comment]
-            item :newsletters, :action => :index, :resource => [@site, :newsletter] if Rails.plugins.include?(:adva_newsletter)
-            item :assets,      :action => :index, :resource => [@site, :asset]      if Rails.plugins.include?(:adva_assets)
+            item :overview,      :action => :show,  :resource => @site
+            item :sections,      :action => :index, :resource => [@site, :section], :type => Menu::SectionsMenu, :populate => lambda { @site.sections }
+            item :comments,      :action => :index, :resource => [@site, :comment]
+            item :newsletters,   :action => :index, :resource => [@site, :newsletter]   if Rails.plugins.include?(:adva_newsletter)
+            item :assets,        :action => :index, :resource => [@site, :asset]        if Rails.plugins.include?(:adva_assets)
+            item :contact_mails, :action => :index, :resource => [@site, :contact_mail] if Rails.plugins.include?(:adva_contact_mails)
           end
         end
 
