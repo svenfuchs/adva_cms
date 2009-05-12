@@ -22,6 +22,7 @@ module FunctionalTests
       action { get :index, default_params }
     
       it_assigns :contact_mails
+      it_assigns :menu
       it_renders :template, :index
     end
   
@@ -37,6 +38,7 @@ module FunctionalTests
         action { get :show, default_params.merge(:id => @contact_mail.id) }
       
         it_assigns :contact_mail
+        it_assigns :menu
         it_renders :template, :show
       end
     end
@@ -46,6 +48,7 @@ module FunctionalTests
         action { delete :destroy, default_params.merge(:id => @contact_mail.id) }
     
         it_assigns :contact_mail
+        it_assigns :menu
         it_assigns_flash_cookie :notice => :not_nil
         it_redirects_to { admin_contact_mails_path(@site) }
       end

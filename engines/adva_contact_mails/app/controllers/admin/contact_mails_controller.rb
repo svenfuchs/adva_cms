@@ -22,4 +22,8 @@ class Admin::ContactMailsController < Admin::BaseController
       write_flash_to_cookie # FIXME make around filter or something
       redirect_to admin_contact_mails_path(@site)
     end
+  
+    def set_menu
+      @menu = Menus::Admin::ContactMails.new
+    end
 end
