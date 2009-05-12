@@ -23,7 +23,6 @@ def copy_with_backup(from_relative_path, to_relative_path)
 end
 
 File.unlink rails_root + '/public/index.html' rescue Errno::ENOENT
-FileUtils.cp rails_root + '/vendor/adva/script/test', rails_root + '/script/test-adva'
 
 patch_file rails_root + '/config/environment.rb',
            "require File.join(File.dirname(__FILE__), 'boot')",
@@ -32,7 +31,7 @@ patch_file rails_root + '/config/environment.rb',
 # copy_with_backup "/vendor/adva/engines/adva_cms/config/initializers/adva_cms.rb", 
 #                  "/config/initializers/adva_cms.rb"
 
-File.open(rails_root + '/script/test-adva-cms', "w") do |f|
+File.open(rails_root + '/script/test-adva', "w") do |f|
   f << "#!/usr/bin/env ruby\n"
   f << "paths = ARGV.clone\n"
   f << "load 'vendor/adva/script/test'\n"
