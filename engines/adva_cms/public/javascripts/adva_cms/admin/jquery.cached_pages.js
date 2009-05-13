@@ -1,5 +1,5 @@
-var CachedPage = {
-  clear: function(event) {
+/*var CachedPage = {
+  clearAll: function(event) {
     event.preventDefault();
     $.ajax({
       url: this.href,
@@ -10,5 +10,5 @@ var CachedPage = {
 }
 
 $(document).ready(function() {
-  $('td.actions a.clear').click(CachedPage.clear);
-})
+  $('td.actions a.clear').click(CachedPage.clearAll);
+})*/
