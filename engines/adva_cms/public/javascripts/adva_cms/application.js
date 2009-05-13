@@ -26,9 +26,6 @@ var LoginLinks = {
 URI.parseOptions.strictMode = true;
 
 $(document).ready(function() {
-  if($('#anonymous_author')) {
-	  CommentForm.init();
-  }
 	if($('#logout_links')) {
 		LoginLinks.init();
 	}

@@ -32,6 +32,10 @@ var Comment = {
 }
 
 $(document).ready(function() {
+  if($('#anonymous_author')) {
+	  CommentForm.init();
+  }
+
   $('a#preview_comment').show();
   $('a#preview_comment').click(Comment.preview);
 });
