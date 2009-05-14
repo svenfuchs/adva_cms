@@ -56,8 +56,8 @@ module ResourceHelper
     def normalize_resource_type(action, type, resource)
       type ||= resource.is_a?(Symbol) ? resource : resource.class.name
       type = 'section' if type.to_s.classify.constantize < Section
-      type = type.to_s.tableize if action == :index
-      type = type.to_s.demodulize.underscore
+      type = type.to_s.tableize.gsub("/","_") if action == :index
+      type = type.to_s.split("::").first == "Adva" ? type.to_s.underscore.gsub("/","_") : type.to_s.demodulize.underscore
       type
     end
 

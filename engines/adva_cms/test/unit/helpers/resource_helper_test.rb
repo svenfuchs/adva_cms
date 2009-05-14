@@ -172,4 +172,8 @@ class AdminResourceHelperTest < ActionView::TestCase
     link_to_edit(@article,    :title => "test-title").should =~ /title="test-title"/
     link_to_delete(@article,  :title => "test-title").should =~ /title="test-title"/
   end
+  
+  test 'resurce_url should return resource path with subclass' do
+    #TODO currently there are no subclass modelis in adva_cms to test against
+  end
 end
