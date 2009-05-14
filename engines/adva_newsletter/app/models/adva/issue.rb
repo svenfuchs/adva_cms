@@ -1,6 +1,8 @@
 require 'uri'
 
-class Issue < ActiveRecord::Base
+class Adva::Issue < ActiveRecord::Base
+  set_table_name "adva_issues"
+
   belongs_to :newsletter, :counter_cache => true
   has_one :cronjob, :as => :cronable
 
@@ -144,7 +146,7 @@ class Issue < ActiveRecord::Base
     end
 
     if save
-      cronjob = self.build_cronjob :command => "Issue.find(#{self.id}).create_emails", :due_at => deliver_at
+      cronjob = self.build_cronjob :command => "Adva::Issue.find(#{self.id}).create_emails", :due_at => deliver_at
       queued_state! if cronjob.save
     end
   end

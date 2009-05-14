@@ -1,34 +1,26 @@
 require File.expand_path(File.join(File.dirname(__FILE__), "../..", "test_helper" ))
 
-class IssueIntegrationTest < ActionController::IntegrationTest
+class AdvaIssueIntegrationTest < ActionController::IntegrationTest
   def setup
     super
     @site = use_site! "site with newsletter"
     @newsletter = @site.newsletters.first
-    Issue.destroy_all
-  end
-
-  test "admin manages issues" do
+    @issue = @newsletter.issues.first
     login_as_admin
-    visit_newsletters
-    submit_empty_issue_and_fail
-    submit_draft_issue
-    delete_issue
-    submit_non_draft_issue
-    edit_issue
+    visit "/admin/sites/#{@site.id}/newsletters/#{@newsletter.id}/issues"
+    assert_template "admin/issues/index"
   end
-
-private
-
-  def visit_newsletters
+  
+  test "visit issues index from newsletter index" do
     visit "/admin/sites/#{@site.id}/newsletters"
+    
     assert_template "admin/newsletters/index"
-  end
-
-  def submit_empty_issue_and_fail
     click_link @newsletter.title
 
     assert_template "admin/issues/index"
+  end
+
+  test "submit empty issue and fail" do
     click_link "New"
 
     assert_template "admin/issues/new"
@@ -40,7 +32,9 @@ private
     response.body.should have_tag(".error_message")
   end
 
-  def submit_draft_issue
+  test "submit draft issue" do
+    click_link "New"
+
     assert_template "admin/issues/new"
     fill_in :issue_title, :with => "draft issue title"
     fill_in :issue_body, :with => "draft issue body"
@@ -54,7 +48,7 @@ private
     end
   end
 
-  def submit_non_draft_issue
+  test "submit non draft issue" do
     click_link "New"
 
     assert_template "admin/issues/new"
@@ -71,7 +65,9 @@ private
     end
   end
 
-  def edit_issue
+  test "edit issue" do
+    click_link @issue.title
+
     assert_template "admin/issues/show"
     click_link "Edit"
 
@@ -88,7 +84,9 @@ private
     end
   end
 
-  def delete_issue
+  test "delete_issue" do
+    click_link @issue.title
+
     assert_template "admin/issues/show"
     assert_equal 1, @newsletter.issues.count
     click_link "Delete"

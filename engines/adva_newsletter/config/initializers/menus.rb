@@ -7,7 +7,7 @@ module Menus
         menu :left, :class => 'left' do
           item :newsletters, :action => :index, :resource => [@site, :newsletter]
           if @newsletter && !@newsletter.new_record?
-            item :issues,        :action => :index, :resource => [@newsletter, :issue]
+            item :issues,        :action => :index, :resource => [@newsletter, "Adva::Issue"]
             item :subscriptions, :action => :index, :resource => [@newsletter, :subscription]
           end
         end
@@ -31,7 +31,7 @@ module Menus
       define do
         menu :actions, :class => 'actions' do
           activates object.parent.find(:issues)
-          item :new, :action => :new, :resource => [@newsletter, :issue]
+          item :new, :action => :new, :resource => [@newsletter, "Adva::Issue"]
           if @issue and !@issue.new_record?
             item :view,   :action => :show, :resource => @issue
             item :edit,   :action => :edit, :resource => @issue

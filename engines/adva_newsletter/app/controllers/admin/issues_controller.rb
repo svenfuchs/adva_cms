@@ -6,29 +6,29 @@ class Admin::IssuesController < Admin::BaseController
 
   def index
     @newsletter = Newsletter.all_included.find(params[:newsletter_id])
-    @issues = @newsletter.issues
+    @issues = @newsletter.issues.reload
   end
 
   def show
   end
 
   def new
-    @issue = Issue.new
+    @issue = Adva::Issue.new
   end
 
   def edit
     if !@issue.editable?
       flash[:error] = t(:"adva.messages.not_editable")
-      redirect_to admin_issue_path(@site, @newsletter, @issue)
+      redirect_to admin_adva_issue_path(@site, @newsletter, @issue)
     end
   end
 
   def create
     @issue = @newsletter.issues.build(params[:issue])
 
-    if @issue.save
-      flash[:notice] = t(:"adva.newsletter.flash.issue_create_success")
-      redirect_to admin_issue_path(@site, @newsletter, @issue)
+  if @issue.save
+    flash[:notice] = t(:"adva.newsletter.flash.issue_create_success")
+    redirect_to admin_adva_issue_path(@site, @newsletter, @issue)
     else
       render :action => "new"
     end
@@ -37,7 +37,7 @@ class Admin::IssuesController < Admin::BaseController
   def update
     if @issue.update_attributes(params[:issue])
       flash[:notice] = t(:"adva.newsletter.flash.issue_update_success")
-      redirect_to admin_issue_path(@site, @newsletter, @issue)
+      redirect_to admin_adva_issue_path(@site, @newsletter, @issue)
     else
       render :action => "edit"
     end
@@ -46,7 +46,7 @@ class Admin::IssuesController < Admin::BaseController
   def destroy
     @issue.destroy
     flash[:notice] = t(:"adva.newsletter.flash.issue_moved_to_trash_success")
-    redirect_to admin_issues_path(@site, @newsletter)
+    redirect_to admin_adva_issues_path(@site, @newsletter)
   end
   
   protected
@@ -60,6 +60,6 @@ class Admin::IssuesController < Admin::BaseController
     end
   
     def set_issue
-      @issue = Issue.find(params[:id])
+      @issue = Adva::Issue.find(params[:id])
     end
 end

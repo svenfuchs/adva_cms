@@ -5,7 +5,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :issues, :controller => "admin/issues",
                          :path_prefix => "admin/sites/:site_id/newsletters/:newsletter_id",
-                         :name_prefix => "admin_"
+                         :name_prefix => "admin_adva_"
 
   map.resources :deleted_issues, :controller => "admin/deleted_issues",
                          :path_prefix => "admin/sites/:site_id",

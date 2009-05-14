@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../../test_helper'
 
-class IssueTest < ActiveSupport::TestCase
+class AdvaIssueTest < ActiveSupport::TestCase
   def setup
     super
     @site = Site.find_by_name("site with newsletter")
@@ -28,7 +28,7 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   test "sanitization" do
-    Issue.should filter_attributes(:except => [:body, :body_html])
+    Adva::Issue.should filter_attributes(:except => [:body, :body_html])
   end
 
   test "#editable? should be editable when state is draft or published" do
@@ -38,7 +38,7 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   test "#edtitable? should NOT be editable when new record" do
-    issue = Issue.new
+    issue = Adva::Issue.new
     issue.editable?.should == false
   end
 
@@ -144,7 +144,7 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   test "#draft? should be true by default" do
-    Issue.new.draft?.should == true
+    Adva::Issue.new.draft?.should == true
   end
 
   test "#draft? should be false when published" do
@@ -152,7 +152,7 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   test "#published? should be false by defalt" do
-    Issue.new.published?.should == false
+    Adva::Issue.new.published?.should == false
   end
 
   test "#published? should be true when published" do
@@ -167,7 +167,7 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   test "#queued? should be false by default" do
-    Issue.new.queued?.should == false
+    Adva::Issue.new.queued?.should == false
   end
 
   test "#queued? should be true when queued" do
@@ -176,7 +176,7 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   test "#delivered? should be false by defalut" do
-    Issue.new.delivered?.should == false
+    Adva::Issue.new.delivered?.should == false
   end
 
   test "#delivered? should be true when delivered" do
@@ -186,7 +186,7 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   test "#draft should be 1 by default" do
-    Issue.new.draft.should == 1
+    Adva::Issue.new.draft.should == 1
   end
 
   test "#draft should be 0 when published" do

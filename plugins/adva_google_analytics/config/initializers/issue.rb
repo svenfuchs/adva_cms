@@ -1,6 +1,6 @@
 if Rails.plugin?(:adva_newsletter)
   ActionController::Dispatcher.to_prepare do
-    Issue.class_eval do
+    Adva::Issue.class_eval do
       attr_accessible :title, :body, :filter, :draft, :deliver_at, :tracking_source, :track, :tracking_campaign
   
       def has_tracking_enabled?
