@@ -1,4 +1,6 @@
-class Subscription < ActiveRecord::Base
+class Adva::Subscription < ActiveRecord::Base
+  set_table_name "adva_subscriptions"
+
   belongs_to :user
   belongs_to :subscribable, :polymorphic => true, :counter_cache => true
 

@@ -1,9 +1,9 @@
 <% if @newsletter.available_users.present? %>
 
-  <% split_form_for :subscription, @subscription, :url => admin_subscriptions_path, :html => { :multipart => true } do |f| %>
+  <% split_form_for :subscription, @subscription, :url => admin_adva_subscriptions_path, :html => { :multipart => true } do |f| %>
     <%= render :partial => 'form', :locals => {:f => f} %>
 
-    <% save_or_cancel_links(f, :cancel_url => admin_subscriptions_path, :save_text => t(:'adva.common.add')) %>
+    <% save_or_cancel_links(f, :cancel_url => admin_adva_subscriptions_path, :save_text => t(:'adva.common.add')) %>
   <% end %>
 
 <% else %>

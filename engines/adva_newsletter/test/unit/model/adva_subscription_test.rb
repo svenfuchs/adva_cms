@@ -3,7 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../../test_helper')
 class SubscriptionTest < ActiveSupport::TestCase
   def setup
     super
-    @subscription = Subscription.new :user_id => User.first.id
+    @subscription = Adva::Subscription.new :user_id => User.first.id
   end
 
   test "should be valid" do
@@ -20,6 +20,6 @@ class SubscriptionTest < ActiveSupport::TestCase
 
   # confirmed scope
   test "only returns confirmed subscriptions (double opt-in)" do
-    Subscription.confirmed.proxy_options[:conditions].should == "confirmed_at IS NOT NULL"
+    Adva::Subscription.confirmed.proxy_options[:conditions].should == "confirmed_at IS NOT NULL"
   end
 end

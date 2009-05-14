@@ -1,7 +1,7 @@
 class Newsletter < ActiveRecord::Base
   belongs_to :site
   has_many :issues, :dependent => :destroy, :class_name => "Adva::Issue"
-  has_many :subscriptions, :as => :subscribable
+  has_many :subscriptions, :as => :subscribable, :class_name => "Adva::Subscription"
   has_many :users, :through => :subscriptions
 
   attr_accessible :title, :desc, :published, :email
