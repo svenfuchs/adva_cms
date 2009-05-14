@@ -7,4 +7,4 @@ $(document).ready(function() {
     selected = '#tab_' + $(this).attr('href').replace('#', '');
     $(selected).addClass('active');
   });
-})
+});

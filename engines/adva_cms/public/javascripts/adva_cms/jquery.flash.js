@@ -37,4 +37,4 @@ var Flash = {
 
 $(document).ready(function() {
   Flash.showAll();
-})
+});

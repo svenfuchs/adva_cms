@@ -29,4 +29,4 @@ $(document).ready(function() {
   $('select.columnsFilter').change(function() {
     applyOrRemoveFCKeditors();
   });
-})
+});

@@ -19,5 +19,5 @@ authorize_elements = function(roles) {
 }
 
 $(document).ready(function() {
-  authorize_elements(['anonymous'])
-})
+  authorize_elements(['anonymous']);
+});
