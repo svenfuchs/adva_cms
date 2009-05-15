@@ -50,7 +50,7 @@ class AdvaIssueTest < ActiveSupport::TestCase
   end
 
   test "#destroy should decrease issues_count by -1" do
-    @newsletter = Newsletter.first
+    @newsletter = Adva::Newsletter.first
     @newsletter.issues_count.should == 1
     @newsletter.issues.first.destroy
     @newsletter.reload.issues_count.should == 0
@@ -251,7 +251,7 @@ class AdvaIssueTest < ActiveSupport::TestCase
 
   test "#deliver_all should create cronjob" do
     @issue.deliver_all.should_not == nil
-    @issue.cronjob.class.should == Cronjob
+    @issue.cronjob.class.should == Adva::Cronjob
     @issue.cronjob.should_not == nil
   end
 

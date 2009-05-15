@@ -9,7 +9,7 @@
   <p><%= @issue.body_html %></p>
 
   <% if @issue.published? %>
-    <% split_form_for :issue, @issue, :url => admin_delivery_path(@site, @newsletter, @issue),
+    <% split_form_for :issue, @issue, :url => admin_adva_delivery_path(@site, @newsletter, @issue),
                       :html => {:method => :post, :multipart => true, :id => "content_form"} do |f| %>
       <div id="delivery" class="buttons"> 
         <span id="send_now">
@@ -25,7 +25,7 @@
   
   <% if @issue.queued? %>
     <div id="delivery" class="buttons"> 
-      <% split_form_for :issue, @issue, :url => admin_delivery_path(@site, @newsletter, @issue),
+      <% split_form_for :issue, @issue, :url => admin_adva_delivery_path(@site, @newsletter, @issue),
                         :html => {:method => :delete} do |f| %>
         <%= submit_tag t(:"adva.newsletter.button.cancel_delivery") %>
         <span id="delivery_time">

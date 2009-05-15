@@ -5,7 +5,7 @@ module Menus
         id :main
         parent Sites.new.build(scope).find(:newsletters)
         menu :left, :class => 'left' do
-          item :newsletters, :action => :index, :resource => [@site, :newsletter]
+          item :newsletters, :action => :index, :resource => [@site, "Adva::Newsletter"]
           if @newsletter && !@newsletter.new_record?
             item :issues,        :action => :index, :resource => [@newsletter, "Adva::Issue"]
             item :subscriptions, :action => :index, :resource => [@newsletter, "Adva::Subscription"]
@@ -14,11 +14,11 @@ module Menus
       end
     end
 
-    class Newsletter < NewsletterBase
+    class Newsletters < NewsletterBase
       define do
         menu :actions, :class => 'actions' do
           activates object.parent.find(:newsletters)
-          item :new, :action => :new, :resource => [@site, :newsletter]
+          item :new, :action => :new, :resource => [@site, "Adva::Newsletter"]
           if @newsletter and !@newsletter.new_record?
             item :edit,   :action => :edit,   :resource => @newsletter
             item :delete, :content => link_to_delete(@newsletter)

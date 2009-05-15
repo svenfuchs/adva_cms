@@ -1,16 +1,18 @@
-class Email < ActiveRecord::Base
+class Adva::Email < ActiveRecord::Base
+  set_table_name "adva_emails"
+
   attr_accessible :from, :to, :mail
   validates_presence_of :from, :to, :mail
   
   class << self
     def start_delivery
-      Cronjob.create :cron_id => "email_deliver_all", :command => "Email.deliver_all"
+      Adva::Cronjob.create :cron_id => "email_deliver_all", :command => "Email.deliver_all"
     end
     
     def deliver_all
       self.find(:all, :limit => Adva::Config.number_of_outgoing_mails_per_process).each do |email|
         if email.present?
-          Mailer.deliver(TMail::Mail.parse(email.mail))
+          Adva::Mailer.deliver(TMail::Mail.parse(email.mail))
           email.destroy
         end
       end
@@ -19,8 +21,8 @@ class Email < ActiveRecord::Base
 
   private
     def autoremove_cronjob
-      cronjob = Cronjob.find_by_cron_id("email_deliver_all")
-      cronjob.destroy if Email.first.blank? && cronjob.present?
+      cronjob = Adva::Cronjob.find_by_cron_id("email_deliver_all")
+      cronjob.destroy if Adva::Email.first.blank? && cronjob.present?
     end
   end
 end

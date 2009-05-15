@@ -1,20 +1,22 @@
 require File.expand_path(File.join(File.dirname(__FILE__), "../..", "test_helper" ))
 
-class NewsletterIntegrationTest < ActionController::IntegrationTest
+class AdvaNewsletterIntegrationTest < ActionController::IntegrationTest
   def setup
     super
     @site = use_site! "site with newsletter"
     login_as_admin
+    visit "/admin/sites/#{@site.id}/newsletters"
+    assert_template "admin/newsletters/index"
   end
   
   test "admin visits newsletters, should see index with empty message" do
-    Newsletter.destroy_all
-    visit_index
+    Adva::Newsletter.destroy_all
+    visit "/admin/sites/#{@site.id}/newsletters"
+    assert_template "admin/newsletters/index"
     response.body.should have_tag(".empty>a", /Create one now/)
   end
   
   test "admin submits invalid newsletter, should fail with error messages" do
-    visit_index
     click_link "New"
 
     assert_template "admin/newsletters/new"
@@ -27,7 +29,6 @@ class NewsletterIntegrationTest < ActionController::IntegrationTest
   end
   
   test "admin submits newsletter, should be success and show new item at index" do
-    visit_index
     click_link "New"
 
     assert_template "admin/newsletters/new"
@@ -40,7 +41,6 @@ class NewsletterIntegrationTest < ActionController::IntegrationTest
   end
 
   test "admin EDITS a new newsletter: should be SUCCESS" do
-    visit_index
     click_link "Edit"
 
     assert_template "admin/newsletters/edit"
@@ -54,11 +54,5 @@ class NewsletterIntegrationTest < ActionController::IntegrationTest
 
   test "admin DELETES a newsletter" do
     #TODO we need selenium test
-  end
-  
-private
-  def visit_index
-    visit "/admin/sites/#{@site.id}/newsletters"
-    assert_template "admin/newsletters/index"
   end
 end

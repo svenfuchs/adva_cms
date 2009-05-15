@@ -1,4 +1,4 @@
-class NewsletterMailer < ActionMailer::Base
+class Adva::NewsletterMailer < ActionMailer::Base
   def issue(issue,user)
     recipients  user.email
     from        issue.newsletter.default_email

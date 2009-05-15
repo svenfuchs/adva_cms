@@ -1,4 +1,6 @@
-class Newsletter < ActiveRecord::Base
+class Adva::Newsletter < ActiveRecord::Base
+  set_table_name "adva_newsletters"
+
   belongs_to :site
   has_many :issues, :dependent => :destroy, :class_name => "Adva::Issue"
   has_many :subscriptions, :as => :subscribable, :class_name => "Adva::Subscription"
@@ -8,7 +10,7 @@ class Newsletter < ActiveRecord::Base
   validates_presence_of :title, :site_id
 
   named_scope :all_included, :include => [:issues,:subscriptions]
-  named_scope :published, :conditions => "newsletters.published = 1"
+  named_scope :published, :conditions => "adva_newsletters.published = 1"
 
   before_save :do_not_save_default_email
 

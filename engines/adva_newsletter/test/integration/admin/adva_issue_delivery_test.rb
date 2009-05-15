@@ -9,6 +9,11 @@ class IssueDeliverieIntegrationTest < ActionController::IntegrationTest
 
     @issue.draft = 0
     @issue.save
+
+    login_as_admin
+    visit "/admin/sites/#{@site.id}/newsletters/#{@newsletter.id}/issues/#{@issue.id}"
+    assert_template "admin/issues/show"
+    response.body.should have_tag("p.state", "On hold")
   end
 
   def teardown
@@ -16,33 +21,16 @@ class IssueDeliverieIntegrationTest < ActionController::IntegrationTest
     remove_all_test_cronjobs
   end
 
-  test "admin manages issue deliveries" do
-    login_as_admin
-    visit_issue
-    send_all_now
-    cancel_delivery
-    send_all_later
-    try_to_cancel_delivery_when_delivered
-  end
-
-private
-
-  def visit_issue
-    visit "/admin/sites/#{@site.id}/newsletters/#{@newsletter.id}/issues/#{@issue.id}"
-
-    assert_template "admin/issues/show"
-    response.body.should have_tag("p.state", "On hold")
-  end
-
-  def send_all_now
-    assert_template "admin/issues/show"
+  test "send all now" do
     click_button "Send now"
 
     assert_template "admin/issues/show"
     assert_flash "Issue was successfully added to the delivery queue"
   end
 
-  def cancel_delivery
+  test "cancel delivery" do
+    click_button "Send now"
+
     assert_template "admin/issues/show"
     click_button "Cancel delivery"
 
@@ -55,7 +43,8 @@ private
     end
   end
 
-  def try_to_cancel_delivery_when_delivered
+  test "try to cancel delivery when delivered" do
+    click_button "Send now"
     @issue.queued_state!
     @issue.delivered_state!
     @issue.state.should == "delivered"
@@ -72,7 +61,7 @@ private
     end
   end
 
-  def send_all_later
+  test "send all later" do
     assert_template "admin/issues/show"
     click_button "Send later"
 
@@ -80,10 +69,7 @@ private
     assert_flash "Issue was successfully added to the queue to deliver later"
   end
 
-  def send_preview
-    assert_template "admin/issues/show"
-    click_link "Send preview"
-
+  test "send preview" do
     # TODO: we need selenium tests
   end
 end

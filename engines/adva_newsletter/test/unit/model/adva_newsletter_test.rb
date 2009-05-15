@@ -4,7 +4,7 @@ class NewsletterTest < ActiveSupport::TestCase
   def setup
     super
     @site = Site.find_by_name("site with newsletter")
-    @newsletter = Newsletter.first
+    @newsletter = Adva::Newsletter.first
   end
 
   test "associations" do
@@ -19,11 +19,11 @@ class NewsletterTest < ActiveSupport::TestCase
   end
 
   test "published scope" do
-    Newsletter.published.proxy_options[:conditions].should == "newsletters.published = 1"
+    Adva::Newsletter.published.proxy_options[:conditions].should == "adva_newsletters.published = 1"
   end
 
   test "#available_users should return all site users except already subscribed" do
-    newsletter = Newsletter.find_by_title("newsletter without subscriptions")
+    newsletter = Adva::Newsletter.find_by_title("newsletter without subscriptions")
     newsletter.available_users.size.should == 2
     new_subscriber = newsletter.subscriptions.create :user_id => @site.users.first.id
     newsletter.available_users.size.should == 1

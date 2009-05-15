@@ -3,8 +3,8 @@ require 'uri'
 class Adva::Issue < ActiveRecord::Base
   set_table_name "adva_issues"
 
-  belongs_to :newsletter, :counter_cache => true
-  has_one :cronjob, :as => :cronable
+  belongs_to :newsletter, :counter_cache => true, :class_name => "Adva::Newsletter"
+  has_one :cronjob, :as => :cronable, :class_name => "Adva::Cronjob"
 
   attr_accessible :title, :body, :filter, :draft, :deliver_at
   validates_presence_of :title, :body, :newsletter_id
@@ -152,7 +152,7 @@ class Adva::Issue < ActiveRecord::Base
   end
 
   def deliver_to(user)
-    NewsletterMailer.deliver_issue(self,user)
+    Adva::NewsletterMailer.deliver_issue(self,user)
   end
 
   def create_emails
@@ -161,14 +161,14 @@ class Adva::Issue < ActiveRecord::Base
       newsletter.users.each do |user|
         create_email_to(user)
       end
-      Email.start_delivery
+      Adva::Email.start_delivery
     end
   end
 
   def create_email_to(user)
-    issue = NewsletterMailer.create_issue(self,user)
-    Email.create(:from => self.newsletter.default_email,
-                 :to => user.email,
-                 :mail => issue.to_s)
+    issue = Adva::NewsletterMailer.create_issue(self,user)
+    Adva::Email.create(:from => self.newsletter.default_email,
+                       :to => user.email,
+                       :mail => issue.to_s)
   end
 end

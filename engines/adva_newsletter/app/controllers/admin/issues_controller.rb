@@ -5,7 +5,7 @@ class Admin::IssuesController < Admin::BaseController
   before_filter :set_issue, :except => [:index, :new, :create]
 
   def index
-    @newsletter = Newsletter.all_included.find(params[:newsletter_id])
+    @newsletter = Adva::Newsletter.all_included.find(params[:newsletter_id])
     @issues = @newsletter.issues.reload
   end
 
@@ -56,7 +56,7 @@ class Admin::IssuesController < Admin::BaseController
     end
 
     def set_newsletter
-      @newsletter = Newsletter.find(params[:newsletter_id])
+      @newsletter = Adva::Newsletter.find(params[:newsletter_id])
     end
   
     def set_issue

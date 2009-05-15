@@ -1,10 +1,10 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../test_helper')
 
 #TODO: There's a DummyCrontab class in cronedit, maybe one could use that?
-class CronjobTest < ActiveSupport::TestCase
+class AdvaCronjobTest < ActiveSupport::TestCase
   def setup
     super
-    @cronjob = Cronjob.create! :command => "test_command"
+    @cronjob = Adva::Cronjob.create! :command => "test_command"
   end
 
   def teardown
@@ -24,7 +24,7 @@ class CronjobTest < ActiveSupport::TestCase
   end
 
   test "default values" do
-    cronjob = Cronjob.new
+    cronjob = Adva::Cronjob.new
     cronjob.command.should == nil
     cronjob.due_at.should == nil
     cronjob.minute.should == "*"
@@ -53,7 +53,7 @@ class CronjobTest < ActiveSupport::TestCase
     @cronjob.runner_command.should ==
       "export GEM_PATH=#{Gem.path.join(":")}; " +
       "#{ruby_path} -rubygems #{RAILS_ROOT}/script/runner -e test 'test_command; " +
-      "Cronjob.find(#{@cronjob.id}).destroy;'"
+      "Adva::Cronjob.find(#{@cronjob.id}).destroy;'"
   end
 
   test "#due_at should return DateTime" do
@@ -97,8 +97,8 @@ class CronjobTest < ActiveSupport::TestCase
   end
 
   test "#create should create CronEdit cronjob" do
-    Cronjob.destroy_all
-    cronjob = Cronjob.create! :command => "test_command"
+    Adva::Cronjob.destroy_all
+    cronjob = Adva::Cronjob.create! :command => "test_command"
     `crontab -l`.should =~ cronjob_regexp(cronjob.id)
   end
 

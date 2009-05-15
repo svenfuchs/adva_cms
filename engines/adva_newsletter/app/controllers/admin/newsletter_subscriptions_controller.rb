@@ -2,17 +2,17 @@ class Admin::NewsletterSubscriptionsController < Admin::BaseController
   guards_permissions :newsletter_subscription 
   
   def index
-    @newsletter = Newsletter.find(params[:newsletter_id])
+    @newsletter = Adva::Newsletter.find(params[:newsletter_id])
     @subscriptions = @newsletter.subscriptions
   end
   
   def new
-    @newsletter = Newsletter.find(params[:newsletter_id])
+    @newsletter = Adva::Newsletter.find(params[:newsletter_id])
     @subscription = Adva::Subscription.new
   end
   
   def create
-    @newsletter = Newsletter.find(params[:newsletter_id])
+    @newsletter = Adva::Newsletter.find(params[:newsletter_id])
     @subscription = @newsletter.subscriptions.build(params[:subscription])
     
     if @subscription.save

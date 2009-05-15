@@ -27,7 +27,7 @@ class Admin::IssueDeliveryController < Admin::BaseController
 
 private
   def set_newsletter
-    @newsletter = Newsletter.find(params[:newsletter_id])
+    @newsletter = Adva::Newsletter.find(params[:newsletter_id])
   end
   
   def set_issue
