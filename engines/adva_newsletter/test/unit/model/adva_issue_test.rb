@@ -245,6 +245,7 @@ class AdvaIssueTest < ActiveSupport::TestCase
   end
 
   test "#deliver should not change state to queued when deliver to user" do
+    mock(@issue).deliver_to(@user)
     @issue.deliver :to => @user
     @issue.published?.should == true
   end
