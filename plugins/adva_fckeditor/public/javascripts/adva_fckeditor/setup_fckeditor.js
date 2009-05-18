@@ -17,8 +17,8 @@ applyOrRemoveFCKeditors = function() {
     } else {
       f = $('#' + id + '___Frame');
       c = $('#' + id + '___Config');
-      if(f) f.remove();
-      if(c) c.remove();
+      if(f) $(f).remove();
+      if(c) $(c).remove();
       $(this).show();
     }
   });

@@ -1,18 +1,3 @@
-// adva-cms default toolbar
-FCKConfig.ToolbarSets['adva-cms'] = [
-  ['Source','-','Save','Preview'],
-  ['Cut','Copy','Paste','PasteText','PasteWord','-','Print'],
-  ['Undo','Redo','-','Find','Replace','-','SelectAll'],
-  '/',
-  ['Bold','Italic','Underline','StrikeThrough','-','Subscript','Superscript'],
-  ['OrderedList','UnorderedList','-','Outdent','Indent','Blockquote'],
-  ['JustifyLeft','JustifyCenter','JustifyRight','JustifyFull'],
-  ['Link','Unlink','Anchor', 'ConfigureCell'],
-  ['Table','Rule','SpecialChar'],
-  ['TextColor','BGColor'],
-  ['FitWindow','ShowBlocks']
-];
-
 // format the HTML output and source
 FCKConfig.FormatOutput = true;
 FCKConfig.FormatSource = true;
@@ -36,5 +21,32 @@ FCKConfig.PluginsPath = FCKConfig.BasePath + '../../fckeditor_plugins/';
 // add our Cells plugin
 FCKConfig.Plugins.Add('cells', 'en,de');
 
+// table tools plugins
+var originalPluginsPath = FCKConfig.BasePath + 'plugins/';
+FCKConfig.Plugins.Add('tablecommands', null, originalPluginsPath);
+FCKConfig.Plugins.Add('dragresizetable', null, originalPluginsPath);
+
 // auto detect language
 FCKConfig.AutoDetectLanguage = true;
+
+// adva-cms default toolbar
+FCKConfig.ToolbarSets['adva-cms'] = [
+  ['Source','-','Save','Preview'],
+  ['Cut','Copy','Paste','PasteText','PasteWord','-','Print'],
+  ['Undo','Redo','-','Find','Replace','-','SelectAll'],
+  '/',
+  ['Bold','Italic','Underline','StrikeThrough','-','Subscript','Superscript'],
+  ['OrderedList','UnorderedList','-','Outdent','Indent','Blockquote'],
+  ['JustifyLeft','JustifyCenter','JustifyRight','JustifyFull'],
+  ['Link','Unlink','Anchor', 'ConfigureCell'],
+  ['Rule','SpecialChar'],
+  ['TextColor','BGColor'],
+  '/',
+  ['Table', '-', 'TableInsertRowAfter', 'TableDeleteRows', '-',
+    'TableInsertColumnAfter', 'TableDeleteColumns', '-',
+    'TableInsertCellAfter', 'TableDeleteCells', '-',
+    'TableMergeCells', 'TableHorizontalSplitCell', '-', 'TableCellProp']
+];
+
+// use custom stylesheet for editor
+// FCKConfig.EditorAreaCSS = '/themes/a-theme/stylesheets/editor.css';
