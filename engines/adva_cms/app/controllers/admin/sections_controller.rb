@@ -17,7 +17,7 @@ class Admin::SectionsController < Admin::BaseController
     @section = @site.sections.build params[:section]
     if @section.save
       flash[:notice] = t(:'adva.sections.flash.create.success')
-      redirect_to admin_section_contents_path(@section)
+      redirect_to (params[:commit] == t(:'adva.sections.links.save_and_create_new') ? new_admin_section_path : admin_section_contents_path(@section))
     else
       flash.now[:error] = t(:'adva.sections.flash.update.failure')
       render :action => "new"
