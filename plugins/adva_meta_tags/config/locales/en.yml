@@ -1,0 +1,6 @@
+en:
+  adva:
+    meta_tags:
+      hints:
+        meta_geourl_link: http://geourl.org/
+        meta_geourl: "See {{meta_geourl_link}} for details."
