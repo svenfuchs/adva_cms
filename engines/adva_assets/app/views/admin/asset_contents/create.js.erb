@@ -1,3 +1,4 @@
 $('#flash_notice').html('<%= "#{@asset.title} assigned to this #{@content.type.to_s.downcase}." %>').show();
+<%= "$('#attached_assets').html('');" if @content.assets.count == 1 -%>
 $('#attached_assets').append('<%= render(:partial => "admin/assets/widget/asset", :locals => { :asset => @asset, :content => @content, :prefix => 'attached' }).gsub("\n", '') %>');
 AssetWidget.updateSelected();

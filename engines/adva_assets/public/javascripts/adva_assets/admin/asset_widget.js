@@ -67,7 +67,8 @@ var AssetWidget = {
 	memberUrl: function(element) {
 		return this.collectionUrl(element) + '/' + this.memberId();
 	},
-  attachAsset: function(element) {
+  attachAsset: function(element, async) {
+    if(async === undefined){ async = true; }
     if(!this.isAttached(element)) {
       /*$.post(this.collectionUrl(element), {
 				'content_id': this.memberId(),
@@ -81,7 +82,8 @@ var AssetWidget = {
 					authenticity_token: this.authenticityToken
 				},
         type: 'post',
-        dataType: 'script'
+        dataType: 'script',
+        async: async
       });
 		}
   },
@@ -172,9 +174,9 @@ $(document).ready(function() {
 
 	// attach/detach callbacks currently do not work
 
-  // $("#assets_widget .attach_asset").click(function(event) { AssetWidget.attachAsset($(this)); });
+  $("#assets_widget .attach_asset").click(function(event) { AssetWidget.attachAsset($(this)); });
   // $("#assets_widget .detach_asset").click(function(event) { AssetWidget.detachAsset($(this)); });
-  // $("#assets_widget .asset").mouseover(function(event) { AssetWidget.showAttachTools($(this).attr("id")); });
+  $("#assets_widget .asset").mouseover(function(event) { AssetWidget.showAttachTools($(this).attr("id")); });
   // $("#assets_widget .asset").mouseout(function(event)  { AssetWidget.hideAttachTools($(this).attr("id")); });
 
   $("#search_assets_button").click(function(event)   { AssetWidget.search($("#search_assets_query").val()); });

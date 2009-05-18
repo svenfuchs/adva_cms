@@ -5,6 +5,8 @@ TestUtils = {
   },
   reset: function() {
     $("#tab_attached_assets").hide();
+    $("#flash_notice").html("").hide();
+    $("#attached_assets").text("Your bucket is empty.");
   }
 }
 
@@ -47,9 +49,14 @@ test("should return member url", function() {
 });
 
 test("should attach asset", function() {
-  ok(false, "flunked: TODO allow WEBrick to accept POST reqs");
-  // $.extend(AssetWidget, { collectionUrl: function(element) { return "/adva_assets/assets/controller";} });
-  // ok(AssetWidget.attachAsset(TestUtils.element), "should attach asset");
+  $.extend(AssetWidget, { collectionUrl: function(element) { return "/adva_assets/controllers/attach"; } });
+  AssetWidget.attachAsset(TestUtils.element, false);
+  ok($("#flash_notice").is(":visible"), "should be visible");
+  equals($("#flash_notice").html(), "pony.jpg assigned to this article.");
+  ok($("#tab_attached_assets").hasClass("selected"), "should be selected");
+  ok($("#tab_attached_assets").is(":visible"), "should be visible");
+  // ok($("#attached_assets").text() == "", "should delete 'Your bucket is empty string.'");
+  ok($("#attached_asset_1").exist(), "should exist");
 });
 
 test("should detach asset", function() {
