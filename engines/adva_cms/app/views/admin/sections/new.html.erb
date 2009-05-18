@@ -10,5 +10,10 @@
     <% end %>
   <% end %>
 
-  <% save_or_cancel_links(f) %>
+  <% f.buttons do %>
+    <%= submit_tag t(:'adva.common.save') %>
+    <%= submit_tag t(:'adva.sections.links.save_and_create_new') %>
+    <%= t(:'adva.common.connector.or') %>
+    <%= link_to(t(:'adva.common.cancel'), admin_sections_path) %>
+  <% end %>
 <% end %>

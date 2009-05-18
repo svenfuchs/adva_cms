@@ -216,6 +216,7 @@ en:
         create: Create a new section
         behaviour: Behaviour
       links:
+        save_and_create_new: Save and create another section
         index: Sections
         new: Create a new section
         show: Show
