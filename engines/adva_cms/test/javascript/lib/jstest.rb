@@ -2,6 +2,8 @@
 # (c) 2005-2009 Prototype Team http://prototypejs.org
 #
 
+require 'rubygems'
+require 'activesupport'
 require 'rake/tasklib'
 require 'thread'
 require 'webrick'
@@ -388,6 +390,7 @@ class AdvaJavaScriptTestTask < JavaScriptTestTask
       mount "/#{plugin}",        "#{plugin.root}/public"
       mount "/#{plugin}/assets", "#{plugin.root}/test/javascript/assets"
       mount "/#{plugin}/test",   "#{plugin.root}/test/javascript/tmp"
+      mount_controllers plugin
     end
   end
 
@@ -395,6 +398,15 @@ class AdvaJavaScriptTestTask < JavaScriptTestTask
     @test_builder = TestBuilder.new(self, @plugins)
     @test_builder.setup
   end
+
+  private
+    def mount_controllers(plugin)
+      Dir["#{plugin.root}/test/javascript/assets/**/*_controller.rb"].each do |controller|
+        require controller
+        controller = File.basename(controller, ".rb")
+        @server.mount "/#{plugin}/controllers/#{controller.gsub("_controller", "")}", controller.camelize.constantize
+      end
+    end
 end
 
 class TestResults
