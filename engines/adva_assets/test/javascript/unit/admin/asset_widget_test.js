@@ -56,7 +56,7 @@ test("should attach asset", function() {
   ok($("#tab_attached_assets").hasClass("selected"), "should be selected");
   ok($("#tab_attached_assets").is(":visible"), "should be visible");
   // ok($("#attached_assets").text() == "", "should delete 'Your bucket is empty string.'");
-  ok($("#attached_asset_1").exist(), "should exist");
+  ok($("#attached_asset_23").exist(), "should exist");
 });
 
 test("should detach asset", function() {
@@ -115,9 +115,9 @@ test("should return selected assets ids", function() {
 
 test("should show attach tools", function() {
   $.extend(AssetWidget, {isEdit: function() { return true; }});
-  AssetWidget.showAttachTools(1);
-  ok($("#attach_1").is(":visible"), "should be visible");
-  ok($("#detach_1").is(":visible"), "should be visible");
+  AssetWidget.showAttachTools("latest_asset_1");
+  ok($("#attach_latest_asset_1").is(":visible"), "should be visible");
+  ok($("#detach_latest_asset_1").is(":visible"), "should be visible");
 });
 
 test("should hide attach tools", function() {
