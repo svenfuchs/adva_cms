@@ -1,0 +1,2 @@
+$('#flash_notice').html('<%= "#{@asset.title} unassigned from this #{@content.type.to_s.downcase}." %>').show();
+$('#attached_asset_<%= @asset.id %>').fadeOut("slow", function(){ $(this).remove(); AssetWidget.updateSelected(); });

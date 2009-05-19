@@ -17,6 +17,10 @@ class Admin::AssetContentsController < Admin::BaseController
   def destroy
     @asset.contents.delete @content
     @asset.save
+
+    respond_to do |format|
+      format.js
+    end
   end
 
   private

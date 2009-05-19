@@ -70,11 +70,6 @@ var AssetWidget = {
   attachAsset: function(element, async) {
     if(async === undefined){ async = true; }
     if(!this.isAttached(element)) {
-      /*$.post(this.collectionUrl(element), {
-				'content_id': this.memberId(),
-				'authenticity_token': this.authenticityToken,
-				'type': 'script'
-			});*/			
       $.ajax({
         url: this.collectionUrl(element),
 				data: {
@@ -87,9 +82,19 @@ var AssetWidget = {
       });
 		}
   },
-  detachAsset: function(element) {
+  detachAsset: function(element, async) {
     if(this.isAttached(element)) {
-      $.post(this.memberUrl(element), { '_method': 'delete', 'authenticity_token': this.authenticityToken });
+      if(async === undefined){ async = true; }
+      $.ajax({
+        url: this.memberUrl(element),
+        data: {
+          _method: 'delete',
+          authenticity_token: this.authenticityToken
+        },
+        type: 'post',
+        dataType: 'script',
+        async: async
+      });
 		}
   },
 	isAttached: function(element) {
@@ -172,12 +177,10 @@ $(document).ready(function() {
   AssetWidget.authenticityToken = $("[name=authenticity_token]").val();
   AssetWidget.updateSelected();
 
-	// attach/detach callbacks currently do not work
-
   $("#assets_widget .attach_asset").click(function(event) { AssetWidget.attachAsset($(this)); });
-  // $("#assets_widget .detach_asset").click(function(event) { AssetWidget.detachAsset($(this)); });
+  $("#assets_widget .detach_asset").click(function(event) { AssetWidget.detachAsset($(this)); });
   $("#assets_widget .asset").mouseover(function(event) { AssetWidget.showAttachTools($(this).attr("id")); });
-  // $("#assets_widget .asset").mouseout(function(event)  { AssetWidget.hideAttachTools($(this).attr("id")); });
+  $("#assets_widget .asset").mouseout(function(event)  { AssetWidget.hideAttachTools($(this).attr("id")); });
 
   $("#search_assets_button").click(function(event)   { AssetWidget.search($("#search_assets_query").val()); });
   $("#search_assets_query").keypress(function(event) { if(event.keyCode == 13) { AssetWidget.search($("#search_assets_query").val()); event.preventDefault(); } });

@@ -7,6 +7,18 @@ TestUtils = {
     $("#tab_attached_assets").hide();
     $("#flash_notice").html("").hide();
     $("#attached_assets").text("Your bucket is empty.");
+  },
+  attachAsset: function() {
+    this.reset();
+    $("#attached_assets").html('<ul id="attached_assets" class="panel asset_list">' +
+      '<li id="attached_asset_4" class="asset attached_asset selected">' +
+        '<a href="/assets/flower.jpg"><img alt="flower" src="/assets/flower.tiny.jpg?1240920626"></a>' +
+        '<div style="display:none">' +
+          '<a href="#"><img alt="Add" class="attach_asset" height="16" id="attach_attached_asset_4" src="/images/adva_cms/icons/add.png?1239718032" width="16" name="attach_attached_asset_4"></a>' +
+          '<a href="#"><img alt="Delete" class="detach_asset" height="16" id="detach_attached_asset_4" src="/images/adva_cms/icons/delete.png?1239718032" width="16" name="detach_attached_asset_4"></a>' +
+        '</div>' +
+      '</li>' +
+    '</ul>');
   }
 }
 
@@ -56,18 +68,21 @@ test("should attach asset", function() {
   ok($("#tab_attached_assets").hasClass("selected"), "should be selected");
   ok($("#tab_attached_assets").is(":visible"), "should be visible");
   // ok($("#attached_assets").text() == "", "should delete 'Your bucket is empty string.'");
-  ok($("#attached_asset_23").exist(), "should exist");
+  ok($("#attached_asset_23").exist(), "#attached_asset_23 should exist");
 });
 
 test("should detach asset", function() {
-  ok(false, "flunked: TODO allow WEBrick to accept POST reqs");
-  // $.extend(AssetWidget, { collectionUrl: function(element) { return "/adva_assets/assets/controller";} });
-  // ok(AssetWidget.detachAsset($("#asset_2")), "should detach asset");
+  $.extend(AssetWidget, { collectionUrl: function(element) { return "/adva_assets/controllers/detach";} });
+  TestUtils.attachAsset();
+  AssetWidget.detachAsset($("#asset_2"), false);
+  ok($("#flash_notice").is(":visible"), "#flash_notice should be visible");
+  equals($("#flash_notice").html(), "flower.jpg unassigned from this article.");
+  ok(!$("#attached_asset_4").exist(), "#attached_asset_4 shouldn't exist");
 });
 
 test("should verify if it is attached", function() {
   ok(!AssetWidget.isAttached(TestUtils.element), "It should not be attached (no attached_asset_1 element).");
-  ok(AssetWidget.isAttached($("#asset_2")), "It should be attached (attached_asset_2 element).");
+  ok(AssetWidget.isAttached($("#asset_2")), "It should be attached (attached_asset_4 element).");
 });
 
 test("should update selected", function() {

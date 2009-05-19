@@ -1,3 +1,0 @@
-page.flash.notice t( :'adva.assets.flash.destroy.success', :asset => @asset.title, :content => @content.type.downcase )
-page.visual_effect :fade, "attached_asset_#{@asset.id}", 
-                   :afterFinish => "function(options){ options.element.remove(); AssetWidget.updateSelected(); }"
