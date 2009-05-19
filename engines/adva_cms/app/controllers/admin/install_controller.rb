@@ -25,7 +25,7 @@ class Admin::InstallController < ApplicationController
 
         @user = User.create_superuser params[:user]
         authenticate_user(:email => @user.email, :password => @user.password)
-        
+
         # default email for site
         @site.email ||= @user.email
         @site.save
@@ -44,7 +44,7 @@ class Admin::InstallController < ApplicationController
       params[:site] ||= {}
       params[:site].merge! :host => request.host_with_port
     end
-  
+
     def perma_host
       @site.try(:perma_host) || 'admin'
     end

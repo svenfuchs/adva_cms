@@ -2,22 +2,22 @@ class Test::Unit::TestCase
   def publish(article)
     article.update_attributes!(:published_at => Time.parse('2008-01-01 12:00:00')) unless article.published?
   end
-  
+
   def unpublish(article)
     article.update_attributes!(:published_at => nil) if article.published?
   end
-  
+
   def set_request_host!
     @request.host = @site.host if @request && @site
   end
-  
+
   share :is_default_locale do
     before { I18n.default_locale = I18n.locale }
   end
 
   # FIXME abstract these
   share :multi_sites_enabled do
-    before do 
+    before do
       @old_multi_sites_enabled = Site.multi_sites_enabled
       Site.multi_sites_enabled = true
     end
@@ -27,7 +27,7 @@ class Test::Unit::TestCase
   end
 
   share :single_site_enabled do
-    before do 
+    before do
       @old_multi_sites_enabled = Site.multi_sites_enabled
       Site.multi_sites_enabled = false
     end
@@ -37,7 +37,7 @@ class Test::Unit::TestCase
   end
 
   share :perform_caching_enabled do
-    before do 
+    before do
       @old_perform_caching_enabled = ActionController::Base.perform_caching
       ActionController::Base.perform_caching = true
     end
@@ -47,7 +47,7 @@ class Test::Unit::TestCase
   end
 
   share :perform_caching_disabled do
-    before do 
+    before do
       @old_perform_caching_enabled = ActionController::Base.perform_caching
       ActionController::Base.perform_caching = false
     end
@@ -75,7 +75,7 @@ class Test::Unit::TestCase
   end
 
   share :no_site do
-    before do 
+    before do
       Site.delete_all
     end
   end
@@ -94,20 +94,28 @@ class Test::Unit::TestCase
       set_request_host!
     end
   end
-  
+
+  share :an_unpublished_section do
+    before do
+      @section = Section.find_by_permalink('an-unpublished-section')
+      @site = @section.site
+      set_request_host!
+    end
+  end
+
   share :is_root_section do
     before do
       @section.reload.move_to_left_of(@section.site.sections.root) unless @section.root_section?
     end
   end
-  
+
   share :comments_or_commenting_allowed do
     before do
       # no comments present but commenting is still allowed
-      @site.comments.clear 
+      @site.comments.clear
     end
   end
-  
+
   share :comments_or_commenting_allowed do
     before do
       # commenting disallowed, but comments still present
@@ -115,7 +123,7 @@ class Test::Unit::TestCase
       Array(target).each { |t| t.update_attributes! :comment_age => -1 unless @article.comment_age == -1 }
     end
   end
-  
+
   share :no_comments_and_commenting_not_allowed do
     before do
       @site.comments.clear
@@ -123,7 +131,7 @@ class Test::Unit::TestCase
       Array(target).each { |t| t.update_attributes! :comment_age => -1 unless @article.comment_age == -1 }
     end
   end
-  
+
   share :a_category do
     before do
       @category = @section.categories.first
@@ -148,7 +156,7 @@ class Test::Unit::TestCase
       publish @article
     end
   end
-  
+
   share :a_published_photo do
     before do
       @photo = @album.photos.first
@@ -181,7 +189,7 @@ class Test::Unit::TestCase
       unpublish @article
     end
   end
-  
+
   share :the_article_belongs_to_the_category do
     # nothing to do
   end
@@ -191,7 +199,7 @@ class Test::Unit::TestCase
       @article.categories.clear unless @article.categories.empty?
     end
   end
-  
+
   share :article_has_an_excerpt do
     before { @article.update_attributes! :excerpt => 'the article excerpt' }
   end
@@ -199,29 +207,29 @@ class Test::Unit::TestCase
   share :article_has_no_excerpt do
     # nothing to do
   end
-  
+
   share :a_cached_page do
-    before do 
+    before do
       @cached_page = CachedPage.first
     end
   end
-  
+
   share :a_plugin do
     before do
       @plugin = @site.plugins[:test_plugin].clone
     end
   end
-  
-  
+
+
   def valid_site_params
     { :site    => { :name => 'site name', :host => 'valid-host.com' },
       :section => { :type => 'Page', :title => 'page title' } }
   end
-  
+
   def valid_install_params
     valid_site_params.merge :user => { :email => 'admin@admin.org', :password => 'password' }
   end
-  
+
   def valid_page_params
     { :title      => 'the page title',
       :type       => 'Page' }
@@ -233,7 +241,7 @@ class Test::Unit::TestCase
       :body      => 'an article body',
       :author_id => user.id }
   end
-  
+
   def valid_category_params
     { :title     => 'the category title',
       :permalink => 'the-category-title' }
@@ -244,32 +252,32 @@ class Test::Unit::TestCase
       @params = valid_site_params
     end
   end
-  
+
   share :invalid_site_params do
     before do
       @params = valid_site_params
       @params[:site][:name] = ''
     end
   end
-  
+
   share :valid_page_params do
     before do
       @params = { :section => valid_page_params }
     end
   end
-  
+
   share :invalid_page_params do
     before do
       @params = { :section => valid_page_params.update(:title => '') }
     end
   end
-  
+
   share :valid_install_params do
     before do
       @params = valid_install_params
     end
   end
-  
+
   share :invalid_install_params do
     before do
       @params = valid_install_params
@@ -290,19 +298,19 @@ class Test::Unit::TestCase
       end
     end
   end
-  
+
   share :valid_category_params do
     before do
       @params = { :category => valid_category_params }
     end
   end
-  
+
   share :invalid_category_params do
     before do
       @params = { :category => valid_category_params.update(:title => '') }
     end
   end
-  
+
   share :save_revision_param do
     before { @params.merge! :save_revision => '1' }
   end

@@ -1,4 +1,5 @@
 class WikiController < BaseController
+  before_filter :set_section
   before_filter :set_category, :only => [:index]
   before_filter :set_categories, :only => [:edit]
   before_filter :set_tags, :only => [:index]

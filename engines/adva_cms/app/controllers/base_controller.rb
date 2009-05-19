@@ -12,7 +12,7 @@ class BaseController < ApplicationController
   include ResourceHelper
   include BlogHelper if Rails.plugin?(:adva_blog)
 
-  before_filter :set_site, :set_section, :set_locale, :set_timezone, :set_cache_root
+  before_filter :set_site, :set_locale, :set_timezone, :set_cache_root
   around_filter OutputFilter::Cells.new
   attr_accessor :site, :section
 
@@ -28,8 +28,14 @@ class BaseController < ApplicationController
       if @site
         @section = params[:section_id].blank? ? @site.sections.root : @site.sections.find(params[:section_id])
       end
+
       if type && !@section.is_a?(type)
         raise SectionRoutingError.new("Section must be a #{type.name}: #{@section.inspect}")
+      end
+
+      unless @section.published?(true)
+        raise ActiveRecord::RecordNotFound unless has_permission?('update', 'section')
+        skip_caching!
       end
     end
 

@@ -5,7 +5,8 @@ album =
 Album.create!  :site        => site,
                :title       => 'an album',
                :permalink   => 'an-album',
-               :comment_age => 0
+               :comment_age => 0,
+               :published_at => Time.parse('2008-01-01 12:00:00')
 
 basic_photo_attributes  = { :data_content_type => 'image/jpeg',
                             :data_file_name    => 'test.png',
@@ -13,7 +14,7 @@ basic_photo_attributes  = { :data_content_type => 'image/jpeg',
                             :author  => superuser,
                             :section => album }
 
-published_photo_attributes = 
+published_photo_attributes =
     basic_photo_attributes.merge(:published_at => Time.parse('2008-01-01 12:00:00'))
 
 photo =

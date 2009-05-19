@@ -2,6 +2,7 @@ class ArticlesController < BaseController
   include ActionController::GuardsPermissions::InstanceMethods
   helper :roles
 
+  before_filter :set_section
   before_filter :adjust_action
   before_filter :set_category, :only => :index
   before_filter :set_tags,     :only => :index

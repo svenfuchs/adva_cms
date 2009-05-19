@@ -12,25 +12,29 @@ forum_without_boards =
 Forum.create!    :site        => site_with_forums,
                  :title       => 'a forum without boards',
                  :permalink   => 'a-forum-without-boards',
-                 :comment_age => 0
+                 :comment_age => 0,
+                 :published_at => Time.parse('2008-01-01 12:00:00')
 
 forum_with_boards =
 Forum.create!    :site        => site_with_forums,
                  :title       => 'a forum with boards',
                  :permalink   => 'a-forum-with-boards',
-                 :comment_age => 0
+                 :comment_age => 0,
+                 :published_at => Time.parse('2008-01-01 12:00:00')
 
 forum_with_one_board =
 Forum.create!   :site        => site_with_forums,
                 :title       => 'a forum with one board',
                 :permalink   => 'a-forum-with-one-board',
-                :comment_age => 0
+                :comment_age => 0,
+                :published_at => Time.parse('2008-01-01 12:00:00')
 
 forum_with_two_topics =
 Forum.create!   :site        => site_with_forums,
                 :title       => 'a forum with two topics',
                 :permalink   => 'a-forum-with-two-topics',
-                :comment_age => 0
+                :comment_age => 0,
+                :published_at => Time.parse('2008-01-01 12:00:00')
 
 a_board =
 Board.create!    :site    => site_with_forums,

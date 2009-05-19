@@ -11,7 +11,8 @@ wiki =
 Wiki.create!     :site        => site,
                  :title       => 'a wiki',
                  :permalink   => 'a-wiki',
-                 :comment_age => 0
+                 :comment_age => 0,
+                :published_at => Time.parse('2008-01-01 12:00:00')
 
 category =
 Category.create! :section => wiki,

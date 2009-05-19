@@ -34,3 +34,38 @@
 #     end
 #   end
 # end
+
+require File.expand_path(File.dirname(__FILE__) + "/../test_helper")
+
+class BaseControllerTest < ActionController::TestCase
+  tests ArticlesController # yuk!
+  with_common :an_unpublished_section
+
+  describe 'GET to :index' do
+    action { get :index, params_from('/an-unpublished-section') }
+
+    with "an anonymous user" do
+      it_raises ActiveRecord::RecordNotFound
+    end
+
+    with :is_superuser do
+      it_assigns :section, :articles
+      it_renders :template, 'pages/articles/index'
+      it_does_not_cache_the_page
+    end
+  end
+
+  describe 'GET to :index' do
+    action { get :show, params_from('/an-unpublished-section/articles/an-article-in-an-unpublished-section') }
+
+    with "an anonymous user" do
+      it_raises ActiveRecord::RecordNotFound
+    end
+
+    with :is_superuser do
+      it_assigns :section, :article
+      it_renders :template, 'pages/articles/show'
+      it_does_not_cache_the_page
+    end
+  end
+end

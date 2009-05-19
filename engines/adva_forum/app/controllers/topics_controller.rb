@@ -2,6 +2,7 @@ class TopicsController < BaseController
   authenticates_anonymous_user
 
   helper :forum
+  before_filter :set_section
   before_filter :set_topic, :only => [:show, :edit, :update, :destroy, :previous, :next]
   before_filter :set_posts, :only => :show
   before_filter :set_board, :only => [:new, :update]

@@ -6,7 +6,7 @@ class SectionTest < ActiveSupport::TestCase
     @site = Site.first
     @section = @site.sections.first
   end
-  
+
   test "acts as a role context for the moderator role" do
     Section.should act_as_role_context(:roles => :moderator)
   end
@@ -23,7 +23,7 @@ class SectionTest < ActiveSupport::TestCase
     @section.instance_variable_set :@options, nil
     @section.save; @section.reload
     @section.contents_per_page.should == Section.option_definitions[:contents_per_page][:default]
-    
+
     @section.contents_per_page = 20
     @section.save; @section.reload
     @section.contents_per_page.should == 20
@@ -67,24 +67,24 @@ class SectionTest < ActiveSupport::TestCase
   end
 
   # categories association
-  
+
   test "categories#roots returns all categories that do not have a parent category" do
     mock(@section.categories).find(:all, hash_including(:conditions => {:parent_id => nil}))
     @section.categories.roots
   end
-  
+
   # callbacks
 
   test "sets the comment age before validation" do
     Section.before_validation.should include(:set_comment_age)
   end
-  
+
   test "updates the path before save" do
     Section.before_save.should include(:update_path)
   end
 
   # validations
-  
+
   # FIXME ... seems to break with install_controller#index
   # test "validates the presence of a site" do
   #  @section.should validate_presence_of(:site)
@@ -99,7 +99,7 @@ class SectionTest < ActiveSupport::TestCase
   end
 
   # CLASS METHODS
-  
+
   test "Section.types returns a collection of registered Section types" do
     Section.types.should include('Page')
   end
@@ -108,14 +108,14 @@ class SectionTest < ActiveSupport::TestCase
     Section.register_type('Galerie')
     Section.types.should include('Galerie')
   end
-  
+
   test "Section.register_type should not shift 'Page' from the top position" do
     Section.register_type('123-foo-bar')
     Section.types.first.should == 'Page'
   end
-  
+
   # PUBLIC INSTANCE METHODS
-  
+
   test "#type returns 'Page' for a Page" do
     s = Page.create! :title => 'title', :site => @site
     s.type.should == 'Page'
@@ -148,8 +148,76 @@ class SectionTest < ActiveSupport::TestCase
     @section.accept_comments?.should be_false
   end
 
+  test "#published? is always true for root section" do
+    @section.published_at = nil
+    @section.published?.should be_true
+  end
+
+  test "#published? is true when published_at is set to a date in the past" do
+    page = Page.new(:site => @site, :single_article_mode => false)
+    page.save(false)
+    page.move_to_child_of(@section)
+
+    page.published_at = 2.days.ago
+    page.published?.should be_true
+  end
+
+  test "#published? is false when published_at is not set or set to a date in the future" do
+    page = Page.new(:site => @site, :single_article_mode => false)
+    page.save(false)
+    page.move_to_child_of(@section)
+
+    page.published_at = nil
+    page.published?.should be_false
+
+    page.published_at = 2.days.from_now
+    page.published?.should be_false
+  end
+
+  # TODO - check if necessary - could (or should) be implemented on controller level
+  test "#published? is true if all ancestors are published too" do
+    parent_section = Page.new(:site => @site, :published_at => 2.days.ago, :single_article_mode => false)
+    parent_section.save(false)
+    # TODO: nested set bug?
+    # section = Page.new(:site => @site, :parent => parent_section, :published_at => 2.days.ago, :single_article_mode => false)
+    section = Page.new(:site => @site, :published_at => 2.days.ago, :single_article_mode => false)
+    section.save(false)
+    section.move_to_child_of(parent_section)
+
+    section.published?(true).should be_true
+  end
+
+  test "#published? is false if any ancestor is not published" do
+    parent_section = Page.new(:site => @site, :published_at => nil, :single_article_mode => false)
+    parent_section.save(false)
+    # TODO: nested set bug?
+    # section = Page.new(:site => @site, :parent => parent_section, :published_at => 2.days.ago, :single_article_mode => false)
+    section = Page.new(:site => @site, :published_at => 2.days.ago, :single_article_mode => false)
+    section.save(false)
+    section.move_to_child_of(parent_section)
+
+    section.published?(true).should be_false
+  end
+
+  test "#published= sets published_at to current time if set to 1 and published_at is blank" do
+    stub(Time).now { Time.local(2009, 5, 20, 12, 0, 0) }
+    section = Page.new(:single_article_mode => false)
+    section.published_at = nil
+
+    section.published = '1'
+    section.published_at.should == Time.local(2009, 5, 20, 12, 0, 0)
+  end
+
+  test "#published= sets published_at to nil if set to 0" do
+    section = Page.new(:single_article_mode => false)
+    section.published_at = 2.days.ago
+
+    section.published = '0'
+    section.published_at.should be_nil
+  end
+
   # PROTECTED INSTANCE METHODS
-  
+
   test "#set_comment_age sets the comment_age to -1 if it's not already set" do
     @section.comment_age = nil
     @section.send :set_comment_age
@@ -175,22 +243,22 @@ class SectionTest < ActiveSupport::TestCase
     section = bunch_of_nested_sections!
     section.send(:build_path).should == "home/about/location"
   end
-  
+
   # NESTED SET
-  
+
   test "initializes the lft and rgt attributes" do
     home, about, location = *bunch_of_sections!
     expected = [about.lft - 2, about.rgt - 2, location.lft - 2, location.rgt - 2]
     [home.lft, home.rgt, about.lft, about.rgt].should == expected
   end
-  
+
   def bunch_of_sections!
     home     = @site.sections.create! :title => 'homepage', :permalink => 'home'
     about    = @site.sections.create! :title => 'about us', :permalink => 'about'
     location = @site.sections.create! :title => 'how to find us', :permalink => 'location'
     [home, about, location]
   end
-  
+
   def bunch_of_nested_sections!
     home, about, location = *bunch_of_sections!
     about.move_to_child_of(home)

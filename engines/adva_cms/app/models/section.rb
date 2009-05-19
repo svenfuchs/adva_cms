@@ -1,7 +1,7 @@
 class Section < ActiveRecord::Base
   @@types = ['Page']
   cattr_reader :types
-  
+
   serialize :permissions
 
   has_option :contents_per_page, :default => 15
@@ -16,7 +16,7 @@ class Section < ActiveRecord::Base
     end
 
     def update_paths!
-      paths = Hash[*roots.map { |r| 
+      paths = Hash[*roots.map { |r|
         r.self_and_descendants.map { |n| [n.id, { 'path' => n.send(:build_path) }] } }.flatten]
       update paths.keys, paths.values
     end
@@ -27,7 +27,7 @@ class Section < ActiveRecord::Base
   validates_presence_of :title # :site wtf ... this breaks install_controller#index
   validates_uniqueness_of :permalink, :scope => :site_id
   validates_numericality_of :contents_per_page, :only_integer => true, :message => :only_integer
-  
+
   # validates_each :template, :layout do |record, attr, value|
   #   record.errors.add attr, 'may not contain dots' if value.index('.') # FIXME i18n
   #   record.errors.add attr, 'may not start with a slahs' if value.index('.') # FIXME i18n
@@ -61,6 +61,23 @@ class Section < ActiveRecord::Base
   def root_section?
     self == site.sections.root
   end
+
+  def published=(published)
+    if published.to_i == 1
+      self.published_at = Time.current if !published_at
+    elsif published.to_i == 0
+      self.published_at = nil
+    end
+  end
+
+  def published?(parents=false)
+    return true if self == site.sections.root # the root section is always published
+
+    return false if parents && !ancestors.reject(&:published?).empty?
+    return false if published_at.nil? || published_at > Time.current
+    return true
+  end
+  alias published published?
 
   protected
 

@@ -44,7 +44,8 @@ another_site = Site.create! :name => 'another site',
 page =         Page.create! :site => site,
                             :title => 'a page',
                             :permalink => 'a-page',
-                            :comment_age => 0
+                            :comment_age => 0,
+                            :published_at => Time.parse('2008-01-01 12:00:00')
 
 page.single_article_mode = false # FIXME make has_options monkeypatch upate_attributes
 page.save!
@@ -52,15 +53,22 @@ page.save!
                Page.create! :site => site,
                             :title => 'another page',
                             :permalink => 'another-page',
-                            :comment_age => 0
+                            :comment_age => 0,
+                            :published_at => Time.parse('2008-01-01 12:00:00')
 
                Page.create! :site => another_site,
                             :title => "another site's page",
                             :permalink => 'another-sites-page',
-                            :comment_age => 0
+                            :comment_age => 0,
+                            :published_at => Time.parse('2008-01-01 12:00:00')
 
 category = Category.create! :section => page,
                             :title => 'a category'
+
+unpublished_section = Page.create! :site => site,
+                            :title => 'an unpublished section',
+                            :permalink => 'an-unpublished-section',
+                            :single_article_mode => false
 
 # ARTICLES
 
@@ -80,6 +88,12 @@ article   = Article.create! :site => site,
                             :body => 'an unpublished page article body',
                             :categories => [category],
                             :tag_list => 'foo bar',
+                            :author => user
+
+            Article.create! :site => site,
+                            :section => unpublished_section,
+                            :title => 'an article in an unpublished section',
+                            :body => 'an article in an unpublished section',
                             :author => user
 
 attributes = { :site => site, :section => page, :commentable => article, :author => user }

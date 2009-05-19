@@ -13,12 +13,14 @@ site_with_calendars.users << user
 calendar_without_events =
 Calendar.create! :site        => site_with_calendars,
                  :title       => 'a calendar without events',
-                 :permalink   => 'calendar-without-events'
+                 :permalink   => 'calendar-without-events',
+                 :published_at => Time.parse('2008-01-01 12:00:00')
 
 calendar_with_events =
 Calendar.create! :site        => site_with_calendars,
                  :title       => 'a calendar with events',
-                 :permalink   => 'calendar-with-events'
+                 :permalink   => 'calendar-with-events',
+                 :published_at => Time.parse('2008-01-01 12:00:00')
 
 
 time = Time.utc(2009, 2, 3, 15, 0, 0)

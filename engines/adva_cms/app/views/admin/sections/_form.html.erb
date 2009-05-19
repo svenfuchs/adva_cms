@@ -3,6 +3,9 @@
 <% f.field_set do %>
   <% column do %>
     <%= f.text_field :title, :label => true %>
+    <p>
+      <%= f.check_box :published, :label => true %>
+    </p>
   <% end %>
 
   <% column do %>
