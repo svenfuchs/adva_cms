@@ -42,19 +42,23 @@ namespace :adva do
   end
 
   namespace :assets do
-    desc "Install public assets from plugins to public/"
+    if Rake.application.unix?
+      desc "Symlinks public assets from plugins to public/"
+    else
+      desc "Copy public assets from plugins to public/"
+    end
     task :install do
       if Rake.application.unix?
-        Rake::Task["adva:assets:symlink"].invoke
+        symlink_plugins
       elsif Rake.application.windows?
-        Rake::Task["adva:assets:copy"].invoke
+        copy_plugins
       else
         raise 'unknown system platform'
       end
     end
 
-    desc "Symlink public assets from plugins to public/"
-    task :symlink do
+    def symlink_plugins
+      puts "Symlinks public assets from plugins to public/"
       target_dir = "#{Rails.root}/public"
       sources = Dir["#{Rails.root}/vendor/plugins/{*,*/**}/public/*/*"] +
                 Dir["#{Rails.root}/vendor/plugins/{*,*/**}/vendor/plugins/**/public/*/*"]
@@ -66,12 +70,13 @@ namespace :adva do
         # TODO: is this necessary? it seems so ...
         FileUtils.rm_rf target if File.exists?(target) || File.symlink?(target)
         FileUtils.mkdir_p(File.dirname(target))
-        FileUtils.ln_s source, target, :force => true # :verbose => true
+        test = FileUtils.ln_s source, target, :force => true # :verbose => true
+        print "."
       end
+      print "Done\n"
     end
-
-    desc "Copy public assets from plugins to public/"
-    task :copy do
+    
+    def copy_plugins
       target = "#{Rails.root}/public/"
       sources = Dir["#{Rails.root}/vendor/plugins/{*,*/**}/public/*"] +
                 Dir["#{Rails.root}/vendor/plugins/{*,*/**}/vendor/plugins/**/public/*"]
@@ -80,25 +85,27 @@ namespace :adva do
       FileUtils.cp_r sources, target
     end
 
-    desc "Copy assets from public to their respective engines"
-    task :backport => :environment do
-      if Rake.application.unix?
-        raise 'no need to backport on unix - directories are symlinked!'
-      elsif Rake.application.windows?
-        sources = Dir["#{Rails.root}/public/{images,javascripts,stylesheets}/*"]
-        sources.select { |s| File.directory?(s) }.each do |source|
-          path = source.gsub("#{Rails.root}/public/", '')
-          # determine asset type and owning plugin
-          type, plugin_name = path.split('/')
-          plugin = Rails.plugins[plugin_name.to_sym]
-          if plugin
-            target = "#{plugin.directory}/public/#{type}"
-            FileUtils.mkdir_p(target) unless File.directory?(target)
-            FileUtils.cp_r source, target
+    if not Rake.application.unix?
+      desc "Copy assets from public to their respective engines"
+      task :backport => :environment do
+        if Rake.application.unix?
+          raise 'no need to backport on unix - directories are symlinked!'
+        elsif Rake.application.windows?
+          sources = Dir["#{Rails.root}/public/{images,javascripts,stylesheets}/*"]
+          sources.select { |s| File.directory?(s) }.each do |source|
+            path = source.gsub("#{Rails.root}/public/", '')
+            # determine asset type and owning plugin
+            type, plugin_name = path.split('/')
+            plugin = Rails.plugins[plugin_name.to_sym]
+            if plugin
+              target = "#{plugin.directory}/public/#{type}"
+              FileUtils.mkdir_p(target) unless File.directory?(target)
+              FileUtils.cp_r source, target
+            end
           end
+        else
+          raise 'unknown system platform'
         end
-      else
-        raise 'unknown system platform'
       end
     end
   end

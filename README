@@ -80,7 +80,7 @@ Required: Rails 2.3.2.1 or newer, ImageMagick for image handling
 
 # Install the core engines and copy the assets
   rake adva:install:core -R vendor/adva/engines/adva_cms/lib/tasks # install adva-cms to vendor/plugins/
-  rake adva:assets:install                                         # copy plugin assets to public/
+  rake adva:assets:install                                         # symlinks plugin assets to public/
 
 # Start the server
   ruby script/server

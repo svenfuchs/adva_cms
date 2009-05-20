@@ -46,7 +46,7 @@ puts <<END
 
   Before start, please copy assets and run migrations:
 
-  rake adva:assets:install     # installs plugin assets to public/
+  rake adva:assets:install     # symlinks plugin assets to public/
   rake db:migrate              # copies engine migrations to app, does usual migration and removes
                                # engine migrations after it's done
 
