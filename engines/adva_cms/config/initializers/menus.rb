@@ -20,7 +20,6 @@ module Menus
             item :comments,      :action => :index, :resource => [@site, :comment]
             item :newsletters,   :action => :index, :resource => [@site, "Adva::Newsletter"]   if Rails.plugins.include?(:adva_newsletter)
             item :assets,        :action => :index, :resource => [@site, :asset]        if Rails.plugins.include?(:adva_assets)
-            item :contact_mails, :action => :index, :resource => [@site, :contact_mail] if Rails.plugins.include?(:adva_contact_mails)
           end
         end
 
