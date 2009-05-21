@@ -1,0 +1,8 @@
+en:
+  adva:
+    assets:
+      flash:
+        create:
+          success: "{{asset}} assigned to this {{content}}."
+        destroy:
+          success: "{{asset}} unassigned from this {{content}}."

@@ -1,4 +1,4 @@
-$('#flash_notice').html('<%= "#{@asset.title} assigned to this #{@content.type.to_s.downcase}." %>').show();
+$('#flash_notice').html("<%= t( :'adva.assets.flash.create.success', :asset => @asset.title, :content => @content.type.downcase ) %>").show();
 <%= "$('#attached_assets').html('');" if @content.assets.count == 1 -%>
 $('#attached_assets').append('<%= render(:partial => "admin/assets/widget/asset", :locals => { :asset => @asset, :content => @content, :prefix => 'attached' }).gsub("\n", '') %>');
 AssetWidget.updateSelected();
