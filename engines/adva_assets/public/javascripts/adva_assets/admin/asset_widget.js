@@ -115,13 +115,14 @@ var AssetWidget = {
 	},
 	showSelectedTab: function() {
 		$('#tab_attached_assets').show();
+		$("#attached_assets").addClass("asset_list");
 	},
 	hideSelectedTab: function() {
 		$('#tab_attached_assets').hide();
 		if(this.tinyTab.selectedTab() == $('#tab_attached_assets')) {
 			this.tinyTab.unselectTab();
 		}
-		$('#attached_assets').hide();
+		$('#attached_assets').hide().removeClass("asset_list");
 	},
 	updateSelectedAssets: function(ids) {
 	  $.each(['latest', 'bucket'], function() {

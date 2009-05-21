@@ -112,12 +112,14 @@ test("should show selected tab", function() {
   TestUtils.reset();
   AssetWidget.showSelectedTab();
   ok($("#tab_attached_assets").is(":visible"), "should be visible");
+  ok($("#attached_assets").hasClass("asset_list"), "#attached_assets should have 'asset_list' class");
 });
 
 test("should hide selected tab", function() {
   AssetWidget.hideSelectedTab();
   ok(!$("#tab_attached_assets").is(":visible"), "should not be visible");
   ok(!$("#attached_assets").is(":visible"),     "should not be visible");
+  ok(!$("#attached_assets").hasClass("asset_list"), "#attached_assets shouldn't have 'asset_list' class");
 });
 
 test("should update selected assets", function() {

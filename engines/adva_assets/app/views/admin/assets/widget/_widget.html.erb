@@ -7,7 +7,17 @@
     <li id="tab_upload_assets"><a href="#" title="<%=t :'adva.assets.tab.upload.title' %>"><%=t :'adva.assets.tab.upload.name' %></a></li>
   </ul>
   
-  <% [:attached, :latest, :bucket].each do |type| %>
+  <% unless assets[:attached].first.nil? -%>
+    <ul id="attached_assets" class="panel asset_list">
+      <%= render :partial => "admin/assets/widget/asset", :collection => assets[:attached], :locals => { :content => @article, :prefix => :attached } %>
+    </ul>
+  <% else %>
+    <ul id="attached_assets" class="panel" style="padding:10px;">
+      <li><%= t(:'adva.assets.empty_bucket') %></li>
+    </ul>
+  <% end %>
+
+  <% [:latest, :bucket].each do |type| %>
     <% #unless assets[type].empty?
       unless assets[type].first.nil? -%>
     <ul id="<%= type %>_assets" class="panel asset_list">
