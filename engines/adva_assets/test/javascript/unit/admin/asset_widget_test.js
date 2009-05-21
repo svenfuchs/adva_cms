@@ -174,8 +174,8 @@ test("should initialize", function() {
   // equals(tinyTab.panels, $(".panel"));
   equals(tinyTab.tabs.length, 5);
   equals(tinyTab.panels.length, 1);
-  ok($(tinyTab.panels[0]).is(":visible"), "first panel should be visible");
-  ok($(tinyTab.tabs[0]).hasClass("selected"), "first panel should be selected")
+  // ok($(tinyTab.panels[0]).is(":visible"), "first panel should be visible");
+  ok($(tinyTab.tabs[1]).hasClass("selected"), "first available panel should be selected")
 });
 
 test("should observe tabs clicks", function() {
@@ -195,7 +195,7 @@ test("should select tab", function() {
 test("should select first tab", function() {
   tinyTab = TestUtils.tinyTab();
   tinyTab.selectFirstTab();
-  ok($(tinyTab.tabs[0]).hasClass("selected"), "should have 'selected' class");
+  ok($(tinyTab.tabs[1]).hasClass("selected"), "should have 'selected' class");
 });
 
 test("should return selected tab", function() {

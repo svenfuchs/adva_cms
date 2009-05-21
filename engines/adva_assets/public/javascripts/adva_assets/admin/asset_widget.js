@@ -22,7 +22,8 @@ var TinyTab = $.klass({
     }
   },
   selectFirstTab: function() {
-    this.selectTab(this.tabs[0]);
+    tab = $(this.tabs[0]).is(":visible") ? this.tabs[0] : this.tabs[1];
+    this.selectTab(tab);
   },
   selectTab: function(element) {
     this.tabs.removeClass("selected");
@@ -109,9 +110,7 @@ var AssetWidget = {
 	},
 	updateSelectedTab: function(show) {
 		show ? this.showSelectedTab() : this.hideSelectedTab();
-		if(!this.tinyTab.selectedTab()){
-			this.tinyTab.selectFirstTab();
-		}
+		this.tinyTab.selectFirstTab();
 	},
 	showSelectedTab: function() {
 		$('#tab_attached_assets').show();
