@@ -78,7 +78,7 @@ var AssetWidget = {
 				},
         type: 'post',
         dataType: 'script',
-        async: this.async(async)
+        async: this.isAsync(async)
       });
 		}
   },
@@ -92,11 +92,11 @@ var AssetWidget = {
         },
         type: 'post',
         dataType: 'script',
-        async: this.async(async)
+        async: this.isAsync(async)
       });
 		}
   },
-  async: function(value) {
+  isAsync: function(value) {
     return value === undefined;
   },
 	isAttached: function(element) {
@@ -125,7 +125,7 @@ var AssetWidget = {
 	},
 	updateSelectedAssets: function(ids) {
 	  $.each(['latest', 'bucket'], function() {
-	    $("." + this + "_asset").each(function() { $(this).removeClass("selected"); });
+	    $("." + this + "_asset").removeClass("selected");
 	    var prefix = this;
 	    $.each(ids, function() {
 	      var asset = $("#" + prefix + "_asset_" + this);
