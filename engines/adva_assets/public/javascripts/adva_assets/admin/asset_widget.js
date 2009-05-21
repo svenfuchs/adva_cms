@@ -60,7 +60,7 @@ var AssetWidget = {
 		return '/admin/sites/' + this.siteId() + '/assets';
 	},
   isEdit: function() {
-    return location.href.match(/\/[0-9]+\/edit#?$/)
+    return location.href.match(/\/[0-9]+\/edit#/);
   },
 	collectionUrl: function(element) {
 		return this.assetsUrl() + '/' + this.assetId(element) + '/contents';
