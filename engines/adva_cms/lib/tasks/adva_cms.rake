@@ -3,6 +3,7 @@ namespace :adva do
     desc 'install adva_cms core engines'
     task :core do
       ENV['engines'] = %w(adva_activity adva_blog adva_cms adva_comments adva_rbac adva_user).join(',')
+      ENV['plugins'] = %w(adva_cells).join(',')
       Rake::Task['adva:install'].invoke
     end
 
