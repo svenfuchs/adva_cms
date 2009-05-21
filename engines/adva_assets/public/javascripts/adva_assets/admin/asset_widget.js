@@ -68,7 +68,6 @@ var AssetWidget = {
 		return this.collectionUrl(element) + '/' + this.memberId();
 	},
   attachAsset: function(element, async) {
-    if(async === undefined){ async = true; }
     if(!this.isAttached(element)) {
       $.ajax({
         url: this.collectionUrl(element),
@@ -78,13 +77,12 @@ var AssetWidget = {
 				},
         type: 'post',
         dataType: 'script',
-        async: async
+        async: this.async(async)
       });
 		}
   },
   detachAsset: function(element, async) {
     if(this.isAttached(element)) {
-      if(async === undefined){ async = true; }
       $.ajax({
         url: this.memberUrl(element),
         data: {
@@ -93,9 +91,12 @@ var AssetWidget = {
         },
         type: 'post',
         dataType: 'script',
-        async: async
+        async: this.async(async)
       });
 		}
+  },
+  async: function(value) {
+    return value === undefined;
   },
 	isAttached: function(element) {
 	  return $("#attached_asset_" + this.assetId(element)).exist();
@@ -177,10 +178,10 @@ $(document).ready(function() {
   AssetWidget.authenticityToken = $("[name=authenticity_token]").val();
   AssetWidget.updateSelected();
 
-  $("#assets_widget .attach_asset").click(function(event) { AssetWidget.attachAsset($(this)); });
-  $("#assets_widget .detach_asset").click(function(event) { AssetWidget.detachAsset($(this)); });
-  $("#assets_widget .asset").mouseover(function(event) { AssetWidget.showAttachTools($(this).attr("id")); });
-  $("#assets_widget .asset").mouseout(function(event)  { AssetWidget.hideAttachTools($(this).attr("id")); });
+  $("#assets_widget .attach_asset").live("click", function(event) { AssetWidget.attachAsset($(this)); });
+  $("#assets_widget .detach_asset").live("click", function(event) { AssetWidget.detachAsset($(this)); });
+  $("#assets_widget .asset").live("mouseover", function(event) { AssetWidget.showAttachTools($(this).attr("id")); });
+  $("#assets_widget .asset").live("mouseout", function(event) { AssetWidget.hideAttachTools($(this).attr("id")); });
 
   $("#search_assets_button").click(function(event)   { AssetWidget.search($("#search_assets_query").val()); });
   $("#search_assets_query").keypress(function(event) { if(event.keyCode == 13) { AssetWidget.search($("#search_assets_query").val()); event.preventDefault(); } });

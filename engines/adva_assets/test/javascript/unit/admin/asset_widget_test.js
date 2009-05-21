@@ -69,6 +69,11 @@ test("should attach asset", function() {
   ok($("#tab_attached_assets").is(":visible"), "should be visible");
   // ok($("#attached_assets").text() == "", "should delete 'Your bucket is empty string.'");
   ok($("#attached_asset_23").exist(), "#attached_asset_23 should exist");
+  $("#attached_asset_23").find(".detach_asset:first").click();
+  // TODO the detach operation is performed in an async flavor,
+  // the test is more fastere than the AJAX call, this cause a failure,
+  // even if the element is correctly removed.
+  // ok(!$("#attached_asset_23").exist(), "#attached_asset_23 shouldn't exist, since it was bound to a 'live' event");
 });
 
 test("should detach asset", function() {
