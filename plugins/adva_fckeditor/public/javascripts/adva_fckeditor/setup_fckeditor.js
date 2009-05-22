@@ -13,6 +13,11 @@ applyOrRemoveFCKeditors = function() {
       FCKeditor.BasePath = '/javascripts/adva_fckeditor/fckeditor/';
       var oFCKeditor = new FCKeditor(id, '100%', height, 'adva-cms');
       oFCKeditor.Config['CustomConfigurationsPath'] = '/javascripts/adva_fckeditor/config.js';
+      if(typeof FCKGlobalConfig != 'undefined') {
+        for(var key in FCKGlobalConfig) {
+          oFCKeditor.Config[key] = FCKGlobalConfig[key];
+        }
+      }
       oFCKeditor.ReplaceTextarea();
     } else {
       f = $('#' + id + '___Frame');
