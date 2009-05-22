@@ -1,10 +1,10 @@
 applyOrRemoveFCKeditors = function() {
   $('textarea.wysiwyg').each(function() {
     id = $(this).attr('id');
-    filter = $('select.columnsFilter');
+    filter = $('select.columnsFilter')[0];
 
-    // transform all textareas to FCKeditors, but only if filter is set to plain HTML
-    if(filter && $(filter).val() == '') {
+    // transform all textareas to FCKeditors, but only if filter is set to plain HTML or no filter is defined
+    if(typeof filter == 'undefined' || $(filter).val() == '') {
       // some calculations
       height = $(this).height();
       if(height == 0) height = 200; // default height = 200px

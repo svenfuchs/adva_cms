@@ -1,6 +1,6 @@
 <% f.field_set do %>
-  <%= f.text_field :title, :label => :'adva.newsletter.label.issue_title' %>
-  <%= f.text_area :body, :class => 'wysiwyg', :rows => 25, :label => :'adva.newsletter.label.issue_body' %>
+  <%= f.text_field :title, :class => 'big', :label => :'adva.newsletter.label.issue_title' %>
+  <%= f.text_area :body, :class => 'big wysiwyg', :rows => 25, :label => :'adva.newsletter.label.issue_body' %>
 
   <%= f.label :draft, t(:'adva.newsletter.question_save_issue_as_draft') %>
   <label class="light">
