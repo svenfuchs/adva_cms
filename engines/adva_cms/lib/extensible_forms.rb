@@ -167,7 +167,6 @@ class ExtensibleFormBuilder < ActionView::Helpers::FormBuilder
   protected
 
     def labelize(type, tag, method, label = nil)
-      Rails.logger.info object.class.to_s.downcase.to_sym
       label = case label
       when String then label
       when Symbol then I18n.t(label)
