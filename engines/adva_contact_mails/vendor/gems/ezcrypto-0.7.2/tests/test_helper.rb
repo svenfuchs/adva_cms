@@ -17,7 +17,6 @@ unless defined?(RAILS_ROOT)
   RAILS_ROOT = root_path
 end
 
-
 require 'active_record/fixtures'
 require 'initializer'
 
