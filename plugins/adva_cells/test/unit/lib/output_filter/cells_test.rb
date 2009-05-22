@@ -10,6 +10,7 @@ class CellsOutputFilterTest < ActionController::TestCase
         <body>
           <cell name="blog/best_articles" section_id="1" count="10" />
           <cell name="blog/recent_articles" section_id="1" count="5" />
+          <cell name="blog/related_articles" count="5"><section>Company blog</section></cell>
           something>invalid
         </body>
       </html>
@@ -19,7 +20,9 @@ class CellsOutputFilterTest < ActionController::TestCase
       '<cell name="blog/best_articles" section_id="1" count="10" />'  =>
         ['blog', 'best_articles', {'section_id' => '1', 'count' => '10'}],
       '<cell name="blog/recent_articles" section_id="1" count="5" />' =>
-        ['blog', 'recent_articles', {'section_id' => '1', 'count' => '5'}]
+        ['blog', 'recent_articles', {'section_id' => '1', 'count' => '5'}],
+      '<cell name="blog/related_articles" count="5"><section>Company blog</section></cell>' =>
+        ['blog', 'related_articles', {'section' => 'Company blog', 'count' => '5'}]
     }
 
     @filter = OutputFilter::Cells.new
@@ -34,14 +37,9 @@ class CellsOutputFilterTest < ActionController::TestCase
       mock(@controller.response.template).render_cell(*cell).returns 'cell rendered'
     end
     @filter.after(@controller)
-    @controller.response.body.scan(/cell rendered/).size.should == 2
+    @controller.response.body.scan(/cell rendered/).size.should == 3
   end
 
-  test "SimpleParser#parse_attributes matches html attributes" do
-    attributes = {'name' => 'blog/recent_articles', 'section_id' => '1', 'count' => '5'}
-    @parser.send(:parse_attributes, @html).should == attributes
-  end
-  
   test "SimpleParser#cells returns an array with cell/state and attributes" do
     @parser.cells(@html).should == @cells
   end

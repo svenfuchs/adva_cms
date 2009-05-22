@@ -2,20 +2,14 @@ module OutputFilter
   class Cells
     class SimpleParser
       def cells(html)
-        html.scan(/(<cell [^>]*\/>)/m).inject({}) do |cells, matches|
+        cells = html.scan(/(<cell[^>]*\/\s*>|<cell[^>]*>.*?<\/cell>)/m).inject({}) do |cells, matches|
           tag = matches.first
-          attrs = parse_attributes(tag)
+          attrs = Hash.from_xml(tag)['cell']
           name, state = attrs.delete('name').split('/')
           cells[tag] = [name, state, attrs]
           cells
         end
       end
-
-      protected
-        def parse_attributes(str)
-          html = /(\w+)=(?:'|")([^'"]*)(?:'|")/miu
-          Hash[*str.scan(html).flatten]
-        end
     end
 
     class << self
