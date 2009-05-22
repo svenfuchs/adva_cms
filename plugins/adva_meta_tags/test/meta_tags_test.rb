@@ -14,13 +14,13 @@ class RailsExtTest < ActionView::TestCase
       @meta_author, @meta_geourl, @meta_copyright, @meta_keywords, @meta_description = *args
     end
   end
-  
+
   class MetaTagThingyController
     def current_resource
       MetaTagThingy.new("the author", "the geourl", "the copyright", "the keywords", "the description")
     end
   end
-  
+
   tests MetaTagsHelper
 
   def setup
@@ -29,10 +29,14 @@ class RailsExtTest < ActionView::TestCase
     @resource = MetaTagThingy.new("the author", "the geourl", "the copyright", "the keywords", "the description")
     @tags = meta_tags(@resource).split(/\n/)
   end
-  
+
   test "returns meta tags as expected" do
     assert Array === @tags
     assert_equal 5, @tags.size
     assert_equal '<meta content="the author" name="author" />', @tags.first
+  end
+
+  test "#meta_value_from returns first non-blank value" do
+    assert_equal 'foo', meta_value_from(nil, '', 'foo')
   end
 end

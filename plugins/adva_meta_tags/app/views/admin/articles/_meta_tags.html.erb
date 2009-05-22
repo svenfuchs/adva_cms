@@ -1,0 +1,7 @@
+<%= f.text_field :meta_keywords, :label => true, :value => meta_value_from(@article.meta_keywords, @site.meta_keywords) %>
+<%= f.text_area  :meta_description, :class => 'small', :label => true, :value => meta_value_from(@article.meta_description, @site.meta_description) %>
+<%= f.text_field :meta_author, :label => true, :value => meta_value_from(@article.meta_author, @site.meta_author, current_user.name) %>
+<%= f.text_field :meta_copyright, :label => true, :value => meta_value_from(@article.meta_copyright, @site.meta_copyright, "#{Date.today.year}, #{current_user.name}") %>
+<%= f.text_field :meta_geourl, :label => true, :value => meta_value_from(@article.meta_geourl, @site.meta_geourl),
+      :hint => I18n.t(:'adva.meta_tags.hints.meta_geourl',
+        :meta_geourl_link => link_to(I18n.t(:'adva.meta_tags.hints.meta_geourl_link'), I18n.t(:'adva.meta_tags.hints.meta_geourl_link'), :popup => true)) %>

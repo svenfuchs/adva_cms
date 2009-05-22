@@ -1,0 +1,15 @@
+<h2><%= t(:'adva.titles.meta_tags') %></h2>
+<% f.field_set :meta_tags do %>
+  <% column do %>
+    <%= f.text_field :meta_keywords, :label => true %>
+    <%= f.text_area  :meta_description, :class => 'small', :label => true %>
+  <% end %>
+
+  <% column do %>
+    <%= f.text_field :meta_author, :label => true %>
+    <%= f.text_field :meta_copyright, :label => true %>
+    <%= f.text_field :meta_geourl, :label => true,
+      :hint => I18n.t(:'adva.meta_tags.hints.meta_geourl',
+        :meta_geourl_link => link_to(I18n.t(:'adva.meta_tags.hints.meta_geourl_link'), I18n.t(:'adva.meta_tags.hints.meta_geourl_link'), :popup => true)) %>
+  <% end %>
+<% end %>
