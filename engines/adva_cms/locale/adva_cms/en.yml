@@ -933,6 +933,7 @@ en:
         description: Description
     contact_mails:
       no_mails: You currently do not have any contact mails.
+      delivered: Your mail has been delivered!
       columns:
         subject: Subject
         created_at: Created at
