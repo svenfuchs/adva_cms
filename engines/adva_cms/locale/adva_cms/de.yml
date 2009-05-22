@@ -1,10 +1,51 @@
 de:
  activerecord:
+   attributes:
+     article:
+       title: Titel
+       permalink: Permalink
+       tag_list: Tags
+       author_id: Autor
+     asset:
+       title: Titel
+       tag_list: Tags
+     category:
+       title: Titel
+       permalink: Permalink
+     page:
+       content_filter: Textfilter
+       layout: Layout
+       template: Template
+       title: Titel
+       type: Typ
+     site:
+       comment_filter: Textfilter für Kommentare
+       meta_keywords: Keywords
+       meta_description: Description
+       meta_author: Author
+       meta_copyright: Copyright
+       meta_geourl: Geo-URL
+     theme:
+       name: Name
+       author: Autor
+       homepage: Website
+       theme_id: ID
+       version: Version
+       summary: Beschreibung
+     theme_file:
+       data: Quelltext
+     user:
+       first_name: Vorname
+       last_name: Nachname
+       email: E-Mail
+       homepage: Website
+       password: Passwort
    errors:
      messages:
        only_integer: kann nur eine ganze Zahl sein.
  adva:
    common:
+     locale: Gebietsschema
      about: Über
      details: Details
      by_author: von {{author}}
@@ -36,9 +77,10 @@ de:
    titles:
      accounts: Konten
      actions: Aktionen
-     archives: Archive
+     archives: Archiv
      articles: Artikel
      assets: Anlagen
+     author: Autor
      board: Brett
      boards: Bretter
      cache: Cache
@@ -48,35 +90,44 @@ de:
      comment: Kommentar
      comments: Kommentare
      dashboard: Gesamtübersicht
+     delete: Löschen
+     edit: Bearbeiten
+     files: Dateien
+     filters: Filter
      general_settings: Allgemeine Einstellungen
      history: Verlauf
+     import: Importieren
      installation: adva-cms Installation
      login: Anmelden
      logout: Abmelden
      register: Registrieren
      manage: Verwalten
+     meta_tags: Meta-Tags
+     new: Neu
      newsletters: Newsletter
      optional_settings: Optionale Einstellungen
-     overview: "Übersicht"
+     options: Optionen
+     overview: Übersicht
      permissions: Berechtigungen
      plugin: Plugin
      plugins: Plugins
      posts: Einträge
-     preview: Voransicht
+     preview: Vorschau
      publish_in_categories: In diesen Kategorien veröffentlichen
      recent_activity: Letzte Aktivität
      restore_defaults: Standardwerte wiederherstellen
      sections: Sektionen
      settings: Einstellungen
+     show: Anzeigen
      site: Webseite
-     site_users: Webseitenbenutzer
+     site_users: Benutzer
      spam_filters: Spam-Filter
      spam_protection: Spam-Schutz
      success: Erfolg!
      tags: Tags
-     templates: Templates
-     theme: Motiv
-     themes: Motive
+     templates: Vorlagen
+     theme: Theme
+     themes: Themes
      topic: Thema
      users: Benutzer
      roles: Rollen
@@ -100,9 +151,13 @@ de:
      superusers_admins: Superuser + Adminstratoren
      entries_feed: Eintrag-Feed
      comments_feed: Kommentar-Feed
+     create_one_now: Jetzt anlegen &raquo;
    labels:
      author_name: Name
      author_email: E-Mail
+   hints:
+     permalink: Verwenden Sie nur ASCII-Zeichen und verwenden Sie Bindestriche statt Leerzeichen.
+     tags: Geben Sie einen oder mehrere Tags getrennt durch Leerzeichen ein. Sie können Tags mit Leerzeichen verwenden, indem Sie Anführungszeichen verwenden (z.B. <em>"Web Development" Tutorials</em>).
    messages:
      insufficient_permissions:
        title: Unzureichende Berechtigungen
@@ -165,15 +220,20 @@ de:
      hints:
        content_filter: Wenn Artikel angelegt werden, nutzen sie diese Einstellungen als Standardwerte.
      titles:
+       behaviour: Anzeige
        page_settings: Seitenspezifische Einstellungen
        blog_settings: Blogspezifische Einstellungen
        forum_settings: Forumspezifische Einstellungen
        create: Eine neue Sektion anlegen
+     settings:
+       single_article_mode: Ein Artikel pro Sektion
+       multi_article_mode: Mehrere Artikel pro Sektion
      links:
        delete: Diese Sektion löschen
        add_section: Eine Sektion hinzufügen
        reorder: Sektionen umsortieren
        create: Eine neue Sektion anlegen
+       save_and_create_new: Speichern und weitere Sektion anlegen
      confirm_delete: Sind Sie sicher, daß Sie diese Sektion löschen wollen?
      flash:
        destroy:
@@ -226,11 +286,13 @@ de:
        name: Name
      titles:
        edit: Kategorie bearbeiten
+       new: Neue Kategorie anlegen
      no_categories_in_section: Es gibt keine Kategorien in {{section}}.
      total_with_count:
        one: "Gesamt: {{count}} Kategorie"
        other: "Gesamt: {{count}} Kategorien"
      links:
+       create_now: Jetzt eine Kategorie anlegen &raquo;
        delete: Diese Kategorie löschen
        reorder: Kategorien umsortieren
        new: Eine neue Kategorie anlegen
@@ -248,6 +310,8 @@ de:
    contents:
      not_published: nicht veröffentlicht
    articles:
+     translation_links: "Übersetzungen: {{locales}}"
+     write_article: Verfassen Sie Ihren Artikel
      question_save_as_draft: Speichern als ein Entwurf?
      confirm_save_as_draft: Ja, diesen Artikel als Entwurf speichern
      hints:
@@ -298,6 +362,8 @@ de:
        clear:
          success: Der Cache wurde geleert.
    comments:
+     no_comments: Es gibt keine Kommentare.
+     no_filtered_comments: Es gibt keine gefilterten Kommentare.
      flash:
        thank_you: Danke für den Kommentar!
        create:
@@ -318,7 +384,7 @@ de:
      titles:
        comments_awaiting_approval: Kommentare waren auf Ihre Freigabe
        save_comment: Kommentar speichern 
-       comment_on_by: Kommentar über '{{on}}' von {{by}}
+       comment_on_by: "Kommentar über '{{on}}' von {{by}}"
        add_reply: Ihre Anwort schreiben
        comment_number: "Kommentar #{{number}}"
        edit: Kommentar bearbeiten 
@@ -540,9 +606,13 @@ de:
        tags: Tags
        title: Titel
      new: Neue Anlage
+     delete_asset: Anlage löschen
+     edit_asset: Anlage bearbeiten
      add_to_bucket: Zum Vorrat hinzufügen
+     clear_bucket: Leeren
+     select_file: Datei auswählen
      no_files: Sie haben keine Dateien diesen Typs oder Sie haben noch keine Dateien hochgeladen.
-     upload: 'Eine neue Anlage hochladen &raquo;'
+     upload: 'Eine neue Anlage hochladen'
      enter_tags: 'Geben Sie ein oder mehrere Tags durch ein Komma oder ein Leerzeichen separiert ein (z.B., <em>"Web Dev" Tutorials</em> or <em>Web Dev, Tutorials</em>).'
      save: Anlage speichern
      your_bucket: Ihre Vorrat
@@ -560,52 +630,56 @@ de:
      tag_all: Tags auf alles übertragen
      add_file: Eine weitere Datei hinzufügen
    themes:
-     no_themes_available: Sie haben derzeit keine Motive angelegt.
+     no_themes_available: Sie haben derzeit keine Themes angelegt.
      lables:
        zip_file: ZIP-Datei
      titles:
-       new: Ein neues Motiv anlegen
-       edit: Motiv bearbeiten
+       new: Ein neues Theme anlegen
+       edit: Theme bearbeiten
        valid_file_types: Zulässige Dateitypen
-       import: Motiv importieren
-       edit_file: Motivdatei bearbeiten
+       import: Theme importieren
+       edit_file: Theme-Datei bearbeiten
      links:
-       add_another_file: Weitere Dateie hinzufügen
-       new_theme: Neues Motiv
+       activate: Aktivieren
+       deactivate: Deaktivieren
+       delete: Löschen
+       add_another_file: Weitere Dateien hinzufügen
+       new_theme: Neues Theme
        edit: Bearbeiten
-       create_one_now: Ein neues Motiv anlegen &raquo;
-       delete_file: Motivdatei löschen
-       uninstall: De-Installieren
-       download_theme: Motiv herunterladen
+       create_one_now: Ein neues Theme anlegen &raquo;
+       delete_file: Theme-Datei löschen
+       uninstall: Deinstallieren
+       download_theme: Theme herunterladen
        upload_file: Eine neue Datei hochladen
-       import_theme: Motiv importieren 
+       import_theme: Theme importieren 
        create_file: Eine neue Datei anlegen
-       edit_theme: Motiv bearbeiten
-       select: Auswählen
-       unselect: Abwählen
-     upload_template_or_asset: Eine Vorlage oder eine Anlage hochladen
+       edit_theme: Theme bearbeiten
+     upload_template_or_asset: Eine Vorlage oder Anlage hochladen
      labels:
        asssets: Anlagen
        templates: Vorlagen
        filename: Dateiname
-     confirm_select: Sind Sie sicher, daß Sie dieses Motiv aktivieren wollen?
-     confirm_unselect: Sind Sie sicher, daß Sie dieses Motiv deaktivieren wollen?
-     confirm_uninstall: Sind Sie sicher, daß Sie dieses Motiv de-installieren wollen? (Sie können diese Operation nicht wieder umkehren.)
+     confirm_select: Sind Sie sicher, daß Sie dieses Theme aktivieren wollen?
+     confirm_unselect: Sind Sie sicher, daß Sie dieses Theme deaktivieren wollen?
+     confirm_uninstall: Sind Sie sicher, daß Sie dieses Theme deinstallieren wollen? (Sie können diese Operation nicht wieder umkehren.)
      flash:
        destroy:
-         success: Das Motiv wurde gelöscht.
-         failure: Das Motiv konnte nicht gelöscht werden.
+         success: Das Theme wurde gelöscht.
+         failure: Das Theme konnte nicht gelöscht werden.
        create:
-         success: Das Motiv wurde angelegt.
-         failure: "Das Motiv konnte nicht angelegt werden: {{errors}}."
+         success: Das Theme wurde angelegt.
+         failure: "Das Theme konnte nicht angelegt werden: {{errors}}."
        update:
-         success: Das Motiv wurde aktualisiert.
-         failure: "Das Motiv konnte nicht aktualisiert werden: {{errors}}."
+         success: Das Theme wurde aktualisiert.
+         failure: "Das Theme konnte nicht aktualisiert werden: {{errors}}."
        import:
-         success: Das Motiv wurde importiert.
-         error_filename_blank: Das Motiv file kann nicht leer sein.
-         failure: Die Datei konnte nicht als Motiv importiert werden.
+         success: Das Theme wurde importiert.
+         error_filename_blank: Das Theme-Importdatei darf nicht leer sein.
+         failure: Die Datei konnte nicht als Theme importiert werden.
    theme_files:
+     columns:
+       path: Pfad
+       type: Typ
      types:
        templates: Vorlagen
        assets: Anlagen

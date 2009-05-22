@@ -9,7 +9,7 @@
   <% column do %>
     <%= f.text_field :host, :tabindex => 2, :label => :'adva.sites.label.host' %>
   	<%= f.text_field :subtitle, :tabindex => 4, :label => :'adva.sites.label.subtitle' %>
-    <%= f.time_zone_select :timezone, [ActiveSupport::TimeZone['UTC']], 
+    <%= f.time_zone_select :timezone, [ActiveSupport::TimeZone['UTC']],
           :selected => site.timezone, :tabindex => 6, :label => :'adva.sites.label.timezone' %>
   <% end %>
 <% end %>

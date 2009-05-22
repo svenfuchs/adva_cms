@@ -1,4 +1,4 @@
-<% 
+<%
 	table_for @section.categories, :class => 'categories list tree' do |t|
 		t.column :category, :actions
 
@@ -13,5 +13,5 @@
 	    t(:'adva.categories.no_categories_in_section', :section => @section.title) + "\n" +
 			link_to_new(:'adva.categories.links.create_now', [@section, :category])
 		end
-	end 
+	end
 %>

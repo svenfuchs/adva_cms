@@ -1,7 +1,7 @@
 <% content_for :sidebar do -%>
  	<div class="tabs">
 		<ul>
-			<li class="active"><a href="#filters" onclick="return false;">Filters</a></li>
+			<li class="active"><a href="#filters" onclick="return false;"><%= t(:'adva.titles.filters') %></a></li>
 		</ul>
 		<div class="tab active" id="tab_filters">
 			<% filter_for(Comment) %>

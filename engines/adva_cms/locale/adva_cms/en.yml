@@ -44,6 +44,7 @@ en:
       archives: Archives
       articles: Articles
       assets: Assets
+      author: Author
       board: Board
       boards: Boards
       cache: Cache
@@ -59,6 +60,8 @@ en:
       download: Download
       events: Events
       files: Files
+      filter: Filter
+      filters: Filters
       general_settings: General settings
       history: History
       import: Import
@@ -76,6 +79,7 @@ en:
       newsletters: Newsletters
       options: Options
       overview: Overview
+      permalink: Permalink
       permissions: Permissions
       photos: Photos
       plugin: Plugin
@@ -406,7 +410,7 @@ en:
       titles:
         comments_awaiting_approval: Comments awaiting your approval
         save_comment: Save Comment
-        comment_on_by: Comment on '{{on}}' by {{by}}
+        comment_on_by: "Comment on '{{on}}' by {{by}}"
         add_reply: Leave your reply
         comment_number: "Comment #{{number}}"
         edit: Edit comment

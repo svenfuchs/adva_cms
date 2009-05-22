@@ -1,6 +1,17 @@
 de:
   adva:
+    titles:
+      newsletters: Newsletter
+      issues: Ausgaben
+      subscriptions: Abonnements
+
+    newsletters:
+      columns:
+        name: Name
+        issues: Ausgaben
+        subscribers: Abonnenten
     newsletter:
+      no_issues: Keine Ausgaben vorhanden.
       no_newsletters: Keine Newsletter vorhanden.
       question_publish_newsletter: Newsletter veröffentlichen?
       confirm_save_as_draft: Ja, diese Ausgabe als Entwurf speichern
@@ -11,6 +22,9 @@ de:
       total_subscribers: "Gesamt: {{subscriptions_count}} Abonnenten"
       delivery_due_time: "Versandzeit: {{delivery_time}}"
       delivered_at: "Versendet am {{delivered_time}}"
+      question_save_issue_as_draft: Ausgabe als Entwurf speichern?
+      confirm:
+        save_issue_as_draft: Ja, diese Ausgabe als Entwurf speichern
       flash:
         delivery_cancellation_success: Der Versand wurde erfolgreich abgebrochen..
         delivery_cancellation_failed: Der Versand kann nicht abgebrochen werden, da die Ausgabe bereits versendet wurde.
@@ -23,7 +37,8 @@ de:
         cancel_delivery: Versand abbrechen
       link:
         index: Newsletter
-        new: Einen neuen Newsletter anlegen
+        new: Einen neuen Newsletter anlegen &raquo;
+        new_issue: Neue Ausgabe anlegen &raquo;
         issues: Ausgaben
         subscribers: Abonnenten
       label:
@@ -34,11 +49,19 @@ de:
         issues: Ausgaben
         subscribers: Abonnenten
         deleted_issues: Gelöschte Ausgaben
+        issue_body: Text
         issue_deliver_at: "oder später versenden:"
+        issue_title: Titel
         email: Absender (E-Mail)
         published: Newsletter veröffentlichen
-      titles:
+      title:
         edit: Newsletter bearbeiten
+        new: Newsletter anlegen
+
+    issues:
+      columns:
+        name: Name
+        created_at: Erstellungsdatum
     issue:
       confirm_save_as_draft: Ja, diese Ausgabe als Entwurf speichern.
       question_save_as_draft: Als Entwurf speichern?
@@ -65,3 +88,12 @@ de:
         edit: Ausgabe bearbeiten
       titles:
         edit: Ausgabe bearbeiten
+
+    subscriptions:
+      no_users_available: Es gibt momentan keine Benutzer, die als neue Abonnenten eingetragen werden können.
+      label:
+        user: Benutzer
+      columns:
+        name: Name
+        email: E-Mail
+        subscribed_at: Abonnent seit

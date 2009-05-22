@@ -1,4 +1,4 @@
 <% f.field_set do %>
-  <%= f.select :user_id, @newsletter.available_users.map {|user| [ user.name, user.id ]}, 
+  <%= f.select :user_id, @newsletter.available_users.map {|user| [ user.name, user.id ]},
                :label => :'adva.subscription.label.user' %>
 <% end %>

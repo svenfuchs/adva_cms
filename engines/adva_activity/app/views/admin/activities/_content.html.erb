@@ -7,9 +7,9 @@
   </p>
 
   <p>
-    <%=t :'adva.activity.actions', :type => activity.object_attributes['type'], 
+    <%=t :'adva.activity.actions', :type => activity.object_attributes['type'],
       :actions => activity.all_actions.to_sentence,
-      :activity => link_to(activity.section.title, admin_articles_path(activity.section.site, activity.section)) 
+      :activity => link_to(activity.section.title, admin_articles_path(activity.section.site, activity.section))
     %>
   </p>
   <%= link_to activity.title, activity_object_edit_url(activity) %>

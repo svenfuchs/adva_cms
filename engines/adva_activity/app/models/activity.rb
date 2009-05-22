@@ -70,6 +70,7 @@ class Activity < ActiveRecord::Base
     created_at - other.created_at <= delta.to_i
   end
 
+  # FIXME should be translated!
   def all_actions
     actions = Array(siblings.reverse.map(&:actions).compact.flatten) + self.actions
     previous = nil

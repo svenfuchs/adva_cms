@@ -5,7 +5,7 @@
 		# t.head.row do |r|
 		# 	r.cell t(:'adva.newsletter.total_newsletters', :newsletters_count => @site.newsletters.size), :class => :total, :colspan => :all
 		# end
-		
+
 		t.row do |r, newsletter|
   		r.cell link_to(newsletter.title, admin_adva_issues_path(@site, newsletter), :class => newsletter.state)
 			r.cell link_to(newsletter.issues_count, admin_adva_issues_path(@site, newsletter))
@@ -14,7 +14,7 @@
 		end
 
 		t.empty :p, :class => 'empty' do
-			t(:'adva.newsletter.no_newsletters') + "\n" + 
+			t(:'adva.newsletter.no_newsletters') + "\n" +
 			link_to(t(:'adva.links.create_one_now'), new_admin_adva_newsletter_path(@site))
 		end
 	end

@@ -4,7 +4,7 @@
 	</p>
 
 	<% if @file.respond_to?(:text) %>
-		<%= f.label :data %>
+		<%= f.label :data, t(:'activerecord.attributes.theme_file.data', :default => 'Data') %>
 		<%= text_area_tag 'file[data]', @file.text, :id => 'file_data' %>
 	<% elsif @file.respond_to?(:base_url) and @file.base_url %>
 	  <p><%= theme_image_tag @theme.theme_id, @file.base_url %></p>

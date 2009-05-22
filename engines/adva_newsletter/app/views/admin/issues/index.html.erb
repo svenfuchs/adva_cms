@@ -9,7 +9,7 @@
 		end
 
 		t.empty :p, :class => 'empty' do
-			t(:'adva.newsletter.no_issues') + "\n" + 
+			t(:'adva.newsletter.no_issues') + "\n" +
 			link_to(t(:'adva.newsletter.link.new_issue'), new_admin_adva_issue_path(@site, @newsletter))
 		end
 	end
