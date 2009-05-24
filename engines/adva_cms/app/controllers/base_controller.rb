@@ -13,7 +13,6 @@ class BaseController < ApplicationController
   include BlogHelper if Rails.plugin?(:adva_blog)
 
   before_filter :set_site, :set_locale, :set_timezone, :set_cache_root
-  around_filter OutputFilter::Cells.new
   attr_accessor :site, :section
 
   layout 'default'
