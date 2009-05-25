@@ -1,0 +1,21 @@
+
+FCKeditor in adva-cms
+=====================
+
+Simply do the following steps after adva install:
+
+  rake adva:install plugins=adva_fckeditor    # Installs the adva_fckeditor plugin 
+                                              # and symlinks assets 
+Add Fckeditor.load! into your initializer.
+
+
+For developers
+==============
+
+Add 'wysiwyg' to class of textarea:
+
+  <%= f.text_area :my_textarea, :class => 'wysiwyg' %>
+
+If you what to use small adva-cms toolbar then add "small" to your class as well:
+
+  <%= f.text_area :my_textarea, :class => 'small wysiwyg' %>

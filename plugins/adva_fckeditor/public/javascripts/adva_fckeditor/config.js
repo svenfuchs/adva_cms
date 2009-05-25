@@ -48,5 +48,10 @@ FCKConfig.ToolbarSets['adva-cms'] = [
     'TableMergeCells', 'TableHorizontalSplitCell', '-', 'TableCellProp']
 ];
 
+// adva-cms minimum toolbar
+FCKConfig.ToolbarSets['adva-cms-small'] = [
+  ['Bold','Italic','StrikeThrough', '-', 'Link', 'Unlink']
+];
+
 // use custom stylesheet for editor
 // FCKConfig.EditorAreaCSS = '/themes/a-theme/stylesheets/editor.css';

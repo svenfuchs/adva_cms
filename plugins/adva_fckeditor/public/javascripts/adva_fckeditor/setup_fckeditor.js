@@ -9,9 +9,12 @@ applyOrRemoveFCKeditors = function() {
       height = $(this).height();
       if(height == 0) height = 200; // default height = 200px
 
+      // define toolbar: add "small" class to your html markup in order to use adva small toolbar
+      var toolbar = $(this).hasClass('small') ? 'adva-cms-small' : 'adva-cms'
+
       // initialize FCKeditor
       FCKeditor.BasePath = '/javascripts/adva_fckeditor/fckeditor/';
-      var oFCKeditor = new FCKeditor(id, '100%', height, 'adva-cms');
+      var oFCKeditor = new FCKeditor(id, '100%', height, toolbar);
       oFCKeditor.Config['CustomConfigurationsPath'] = '/javascripts/adva_fckeditor/config.js';
       if(typeof FCKGlobalConfig != 'undefined') {
         for(var key in FCKGlobalConfig) {
