@@ -31,7 +31,7 @@ test("should verify existence of elements", function() {
 module("ASSET WIDGET");
 
 test("should return site id", function() {
-  ok(false, "flunked");
+  ok(false, "flunked: cannot mock location.href for now.");
 });
 
 test("should return asset id", function() {
@@ -39,7 +39,7 @@ test("should return asset id", function() {
 });
 
 test("should return member id", function() {
-  ok(false, "flunked");
+  ok(false, "flunked: cannot mock location.href for now.");
 });
 
 test("should return assets url", function() {
@@ -48,7 +48,7 @@ test("should return assets url", function() {
 });
 
 test("should guess if it is an edit", function() {
-  ok(false, "flunked");
+  ok(false, "flunked: cannot mock location.href for now.");
 });
 
 test("should return collection url", function() {
@@ -155,16 +155,17 @@ test("should not perform search if query is missing", function() {
 });
 
 test("should search", function() {
-  $.extend(AssetWidget, { assetsUrl: function() { return "/adva_assets/assets/search";} });
+  $.extend(AssetWidget, { assetsUrl: function() { return "/adva_assets/controllers/search";} });
   ok(!$("#search_assets_spinner").is(":visible"), "spinner should not be visible");
   AssetWidget.search("adva");
   ok($("#search_assets_spinner").is(":visible"), "spinner should be visible");
 });
 
 test("should upload", function() {
+  $.extend(AssetWidget, { assetsUrl: function() { return "/adva_assets/controllers/upload";} });
   AssetWidget.upload(TestUtils.element, "authenticityToken");
   ok($("#asset_upload_frame").exist(), "should create an iframe");
-  ok(false, "flunked: TODO allow WEBrick to accept POST reqs");
+  ok($("#asset-uploaded-data").exist(), "should append a brand new input text");
 });
 
 module("TINY TAB");
