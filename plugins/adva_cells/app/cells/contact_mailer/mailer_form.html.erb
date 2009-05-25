@@ -1,23 +1,9 @@
 <% form_for :contact_mail, @contact_mail, :url => contact_mails_path(:return_to => request.request_uri), :html => { :id => 'contact_mail_form', :method => :post } do |f| -%>
 	<p>
-		<%= hidden_field_tag :'contact_mail[recipients]', @recipients %>
-	</p>
-	<p> 
-	  <%= f.label :email, t(:'adva.common.labels.email') %>
-	  <%= f.text_field :email %>
-	</p>
-	<p> 
-	  <%= f.label :name, t(:'adva.common.labels.name') %>
-	  <%= f.text_field :name %>
-	</p>
-  <p> 
-    <%= f.label :subject, t(:'adva.common.labels.subject') %>
-    <%= f.text_field :subject, :value => @subject %>
+    <%= hidden_field_tag :'contact_mail[recipients]', @recipients %>
   </p>
-  <p>
-    <%= f.label :body, t(:'adva.common.labels.body') %>
-    <%= f.text_area :body %>
-  </p>
+
+	<%= render_fields(@fields) unless @fields.blank? %>
 
   <%= submit_tag t(:'adva.common.labels.submit') %>
 <% end %>

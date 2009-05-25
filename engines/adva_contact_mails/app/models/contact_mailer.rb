@@ -3,6 +3,7 @@ class ContactMailer < ActionMailer::Base
     recipients params[:recipients]
     from       params[:email]
     subject    params[:subject]
-    body       params
+               params.delete(:recipients)
+    body       :params => params
   end
 end

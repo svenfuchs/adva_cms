@@ -1,5 +1,5 @@
-<%= @subject %>,
-
-<%= @body%>
-
-<%= @name %> - <%= @email %>
+<% unless @params.blank? %>
+	<% @params.each do |key, value| %>
+	  <%= URI.decode(key) %>: <%= value %>
+	<% end %>
+<% end %>

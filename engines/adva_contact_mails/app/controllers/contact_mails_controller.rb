@@ -14,7 +14,7 @@ class ContactMailsController < BaseController
   protected
     
     def decrypt_recipients
-      if params[:contact_mail]
+      if params[:contact_mail] && params[:contact_mail][:recipients]
         recipients = URI.unescape(params[:contact_mail][:recipients])
         params[:contact_mail][:recipients] = EzCrypto::Key.decrypt_with_password(ContactMail.password, send(:site_salt), recipients)
       end
