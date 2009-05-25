@@ -11,7 +11,7 @@
   <% if @issue.published? %>
     <% split_form_for :issue, @issue, :url => admin_adva_delivery_path(@site, @newsletter, @issue),
                       :html => {:method => :post, :multipart => true, :id => "content_form"} do |f| %>
-      <div id="delivery" class="buttons"> 
+      <% f.buttons do %>
         <span id="send_now">
           <%= submit_tag t(:"adva.newsletter.button.send_now"), :name => "send_all" %>
         </span>
@@ -19,12 +19,12 @@
           <%= f.datetime_select :deliver_at, :default => Time.zone.now, :prefix => "deliver_at", :discard_year => true %>
           <%= submit_tag t(:"adva.newsletter.button.send_later"), :name => "send_all_later" %>
         </span>
-      </div>
+      <% end %>
     <% end %>
   <% end %>
   
   <% if @issue.queued? %>
-    <div id="delivery" class="buttons"> 
+    <% buttons do %>
       <% split_form_for :issue, @issue, :url => admin_adva_delivery_path(@site, @newsletter, @issue),
                         :html => {:method => :delete} do |f| %>
         <%= submit_tag t(:"adva.newsletter.button.cancel_delivery") %>
@@ -32,12 +32,12 @@
           <%= t(:"adva.newsletter.label.issue_deliver_at_long", :delivery_time => l(@issue.deliver_at, :format => :long)) %>
         </span>
       <% end %>
-    </div>
+    <% end %>
   <% end %>
 
   <% if @issue.delivered? %>
-    <div id="delivery" class="buttons"> 
+    <% buttons do %>
       <%= t(:"adva.newsletter.delivered_at", :delivered_time => l(@issue.delivered_at, :format => :long)) %>
-    </div>
+    <% end %>
   <% end %>
 </div>
