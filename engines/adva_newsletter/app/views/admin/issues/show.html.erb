@@ -16,6 +16,11 @@
           <%= submit_tag t(:"adva.newsletter.button.send_now"), :name => "send_all" %>
         </span>
         <span id="send_later">
+          <%= t(:"adva.common.connector.or") %>
+          <%= link_to t(:"adva.newsletter.button.send_later") %>
+        </span>
+        <span id="send_later_expanded" style="display:none;">
+          <%= t(:"adva.common.connector.or") %>
           <%= f.datetime_select :deliver_at, :default => Time.zone.now, :prefix => "deliver_at", :discard_year => true %>
           <%= submit_tag t(:"adva.newsletter.button.send_later"), :name => "send_all_later" %>
         </span>
