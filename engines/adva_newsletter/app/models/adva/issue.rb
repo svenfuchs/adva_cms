@@ -51,7 +51,7 @@ class Adva::Issue < ActiveRecord::Base
   # attributes
 
   def email
-    newsletter.default_email
+    newsletter.email
   end
 
   def email_with_name
@@ -167,7 +167,7 @@ class Adva::Issue < ActiveRecord::Base
 
   def create_email_to(user)
     issue = Adva::NewsletterMailer.create_issue(self,user)
-    Adva::Email.create(:from => self.newsletter.default_email,
+    Adva::Email.create(:from => self.newsletter.email,
                        :to => user.email,
                        :mail => issue.to_s)
   end

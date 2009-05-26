@@ -11,12 +11,10 @@ class Admin::NewslettersController < Admin::BaseController
   
   def new
     @newsletter = Adva::Newsletter.new
-    @newsletter.email ||= @site.email
   end
   
   def edit
     @newsletter = Adva::Newsletter.find(params[:id])
-    @newsletter.email ||= @newsletter.default_email
   end
 
   def create

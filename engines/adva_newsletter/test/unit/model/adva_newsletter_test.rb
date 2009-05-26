@@ -29,32 +29,32 @@ class NewsletterTest < ActiveSupport::TestCase
     newsletter.available_users.size.should == 1
   end
 
-  test "#default_email should provide site.email when newsletter.email is nil" do
+  test "#email should provide site.email when newsletter.email is nil" do
     @newsletter.email = nil
     @newsletter.site.email = "admin@example.org"
-    @newsletter.default_email.should == "admin@example.org"
+    @newsletter.email.should == "admin@example.org"
   end
 
   test "#do_not_save_default_email should not store email when it is same as site.email" do
     @newsletter.site.email = "admin@example.org"
     @newsletter.email = "admin@example.org"
     @newsletter.save
-    @newsletter.email.should be_nil
+    @newsletter.read_attribute(:email).should be_nil
   end
 
-  test "#default_name should return newsletter name" do
+  test "#name should return newsletter name" do
     @newsletter.name = "Newsletter name"
-    @newsletter.default_name.should == "Newsletter name"
+    @newsletter.name.should == "Newsletter name"
   end
 
-  test "#default_name should return site name when newsletter.name is nil" do
+  test "#name should return site name when newsletter.name is nil" do
     @newsletter.name = nil
-    @newsletter.default_name.should == @site.name
+    @newsletter.name.should == @site.name
   end
 
   test "#email_with_name should return formatted email with name" do
-    @newsletter.default_name.should == "site with newsletter"
-    @newsletter.default_email.should == "newsletter@example.com"
+    @newsletter.name.should == "site with newsletter"
+    @newsletter.email.should == "newsletter@example.com"
     @newsletter.email_with_name.should == "site with newsletter <newsletter@example.com>"
   end
 

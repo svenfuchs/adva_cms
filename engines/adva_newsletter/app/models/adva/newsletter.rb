@@ -37,20 +37,20 @@ class Adva::Newsletter < ActiveRecord::Base
     reject_user_ids = self.subscriptions.map {|sc| sc.user_id}
     users = site.users.reject {|user| reject_user_ids.include?(user.id)}
   end
-
-  def default_email
-    email.blank? ? site.email : email
+  
+  def email
+    read_attribute(:email).blank? ? site.email : read_attribute(:email)
   end
 
-  def default_name
-    name.blank? ? site.name : name
+  def name
+    read_attribute(:name).blank? ? site.name : read_attribute(:name)
   end
 
   def email_with_name
-    "#{default_name} <#{default_email}>"
+    "#{name} <#{email}>"
   end
 
   def do_not_save_default_email
-    self.email = nil if self.email == self.site.email
+    self.email = nil if email == site.email
   end
 end
