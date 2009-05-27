@@ -623,21 +623,21 @@ de:
      select_file: Datei auswählen
      no_files: Sie haben keine Dateien diesen Typs oder Sie haben noch keine Dateien hochgeladen.
      upload: 'Eine neue Anlage hochladen'
-     enter_tags: 'Geben Sie ein oder mehrere Tags durch ein Komma oder ein Leerzeichen separiert ein (z.B., <em>"Web Dev" Tutorials</em> or <em>Web Dev, Tutorials</em>).'
+     enter_tags: "Geben Sie einen oder mehrere Tags durch Kommata oder Leerzeichen getrennt ein (z.B., <em>\"Web Dev\" Tutorials</em> oder <em>Web Dev, Tutorials</em>)."
      save: Anlage speichern
-     your_bucket: Ihre Vorrat
-     add_files: Datei zum Vorrat zeitweise hinzufügen, um Sie beim Anlegen oder Überarbeiten von Artikeln zu nutzen.
+     your_bucket: Ihr Vorrat
+     add_files: "Fügen Sie Datein temporär zum Vorrat hinzu, um sie beim Anlegen oder Überarbeiten von Artikeln einfacher verwenden zu können."
      upload_summary:
-       one: Sie haben <strong>eine Anlage</strong> hochgeladen, sie verwendet  <strong>{{size}}</strong>.
-       other: Sie haben insgesamt <strong>{{count}} Anlagen</strong> hochgeladen, sie verwendet  <strong>{{size}}</strong>.
-     stats: Einige Statistiken
+       one: "Sie haben <strong>eine Anlage</strong> mit <strong>{{size}}</strong> hochgeladen."
+       other: "Sie haben insgesamt <strong>{{count}} Anlagen</strong> mit <strong>{{size}}</strong> hochgeladen."
+     stats: Statistiken
      labels:
        upload:
          files: Datei zum Hochladen auswählen
          title: Titel
-         tags: Tags (mit Leerzeichen getrennt)
+         tags: Tags (durch Leerzeichen getrennt)
      delete: Diese Dateifeld löschen
-     tag_all: Tags auf alles übertragen
+     tag_all: Tags auf alle übertragen
      add_file: Eine weitere Datei hinzufügen
    themes:
      no_themes_available: Sie haben derzeit keine Themes angelegt.
