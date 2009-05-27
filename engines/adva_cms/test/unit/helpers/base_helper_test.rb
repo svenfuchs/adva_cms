@@ -110,6 +110,7 @@ class BaseHelperAuthorOptionsTest < ActiveSupport::TestCase
 end
 
 class BaseHelperMicroformatsTest < ActiveSupport::TestCase
+  include ActionView::Helpers::TranslationHelper
   include BaseHelper
 
   def setup
@@ -129,22 +130,22 @@ class BaseHelperMicroformatsTest < ActiveSupport::TestCase
 
   test "#datetime_with_microformat displays a UTC time" do
     datetime_with_microformat(@utc_time).should ==
-      '<abbr class="datetime" title="2008-10-09T12:00:00Z">October 09, 2008 @ 02:00 PM</abbr>'
+      '<abbr class="datetime" title="2008-10-09T12:00:00Z">Thu, 09 Oct 2008 14:00:00 +0200</abbr>'
   end
 
   test "#datetime_with_microformat displays a non-UTC time and converts it to UTC" do
     datetime_with_microformat(@local_time).should ==
-      '<abbr class="datetime" title="2008-10-09T12:00:00Z">October 09, 2008 @ 02:00 PM</abbr>'
+      '<abbr class="datetime" title="2008-10-09T12:00:00Z">Thu, 09 Oct 2008 14:00:00 +0200</abbr>'
   end
 
   test "#datetime_with_microformat displays a UTC time with a given date format" do
-    datetime_with_microformat(@utc_time, :format => :plain).should ==
-      '<abbr class="datetime" title="2008-10-09T12:00:00Z">October 09 02:00 PM</abbr>'
+    datetime_with_microformat(@utc_time, :format => :long).should ==
+      '<abbr class="datetime" title="2008-10-09T12:00:00Z">October 09, 2008 14:00</abbr>'
   end
 
   test "#datetime_with_microformat displays a non-UTC time with a given date format and converts it to UTC" do
-    datetime_with_microformat(@local_time, :format => :plain).should ==
-      '<abbr class="datetime" title="2008-10-09T12:00:00Z">October 09 02:00 PM</abbr>'
+    datetime_with_microformat(@local_time, :format => :long).should ==
+      '<abbr class="datetime" title="2008-10-09T12:00:00Z">October 09, 2008 14:00</abbr>'
   end
 
   test "#datetime_with_microformat displays a UTC time with a given custom date format" do

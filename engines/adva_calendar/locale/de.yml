@@ -1,5 +1,17 @@
 de:
+  activerecord:
+    attributes:
+      calendar:
+        title: Titel
+        permalink: Permalink
+        published: Veröffentlicht
   adva:
+    calendar_events:
+      columns:
+        title: Titel
+        starting_at: Start
+        ending_at: Ende
+        created_by: Autor
     calendar:
       open_end: Open end
       confirm_delete: Dieses Event wirklich löschen?
@@ -62,6 +74,7 @@ de:
           elapsed: vergangen
           recently_added: Neu eingetragen
       links:
+        new: Ein neues Event anlegen
         events: Events
         all_events: Alle Events
         categories: Kategorien

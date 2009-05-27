@@ -147,6 +147,7 @@ de:
      login: Anmelden
      logout: Abmelden
      profile: Profil
+     reorder: Umsortieren
      sites_overview: Webseitenübersicht
      skip_to_content: Zum Inhalt springen
      skip_to_navigation: Zur Navigation springen
@@ -284,6 +285,8 @@ de:
      no_filtered_articles: "Es gibt keine Artikel, die die Kriterien erfüllen."
      attribution: "von: {{author}}"
    categories:
+     columns:
+       category: Kategorie
      attributes:
        name: Name
      titles:
@@ -312,6 +315,11 @@ de:
    contents:
      not_published: nicht veröffentlicht
    articles:
+     columns:
+       article: Artikel
+       comments: Kommentare
+       published: Veröffentlicht
+       author: Autor
      translation_links: "Übersetzungen: {{locales}}"
      write_article: Verfassen Sie Ihren Artikel
      question_save_as_draft: Speichern als ein Entwurf?

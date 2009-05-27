@@ -21,20 +21,20 @@
 <%
 	table_for @events do |t|
 		t.column :title, :starting_at, :ending_at, :created_by, :actions
-		
+
 		# t.head.row do |r|
 		# 	r.cell t(:'adva.calendar.total_events_with_count', :count => @events.total_entries), :class => :total, :colspan => :all
 		# end
-		
+
 		t.row do |r, event|
 			r.cell link_to_edit(event.title, event) # :class => event.state
-			r.cell datetime_with_microformat(event.start_date, :format => (event.all_day? ? :mdy : :long))
-			r.cell event.end_date ? datetime_with_microformat(event.end_date, :format => (event.all_day? ? :mdy : :long)) : t(:'adva.calendar.open_end')
+			r.cell datetime_with_microformat(event.start_date, :format => :long, :type => (event.all_day? ? :date : :time))
+			r.cell event.end_date ? datetime_with_microformat(event.end_date, :format => :long, :type => (event.all_day? ? :date : :time)) : t(:'adva.calendar.open_end')
 			r.cell link_to(event.user.name, admin_site_user_path(@site, event.user))
 			r.cell link_to_show(event, :namespace => nil) + "\n" +
 						 links_to_actions([:edit, :delete], event)
 		end
-		
+
 		t.foot.row do |r|
 			r.cell will_paginate(@events, :id => 'pagination')
 		end

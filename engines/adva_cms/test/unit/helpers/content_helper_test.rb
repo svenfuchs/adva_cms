@@ -24,30 +24,30 @@ class ContentHelperTest < ActionView::TestCase
   test "#published_at_formatted returns a short formatted date
         if the article was published in the current year" do
     @article.published_at = Time.utc(Time.now.utc.year, 1, 1)
-    published_at_formatted(@article).should == 'January 1st'
+    published_at_formatted(@article).should == '01 Jan 00:00'
   end
 
   test "#published_at_formatted returns a mdy formatted date
         if the article was published before the current year" do
     previous_year = Time.now.utc.year - 1
     @article.published_at = Time.utc(previous_year, 1, 1)
-    published_at_formatted(@article).should == "January 1st, #{previous_year}"
+    published_at_formatted(@article).should == "January 01, #{previous_year} 00:00"
   end
 
   # link_to_admin
 
   test "#link_to_object when passed an Article it returns a link to admin_article_path" do
-    assert_html link_to_admin(@article), 'a[href=?][class=?][id=?]', 
+    assert_html link_to_admin(@article), 'a[href=?][class=?][id=?]',
       %r(/admin/sites/\d+/sections/\d+/articles/\d+/edit), 'edit article', %r(edit_article_\d+) , @article.title
   end
-  
+
   test "#link_to_object when passed a Section it returns a link to admin_section_contents_path(object)" do
-    assert_html link_to_admin(@page), 'a[href=?][class=?][id=?]', 
+    assert_html link_to_admin(@page), 'a[href=?][class=?][id=?]',
       %r(/admin/sites/\d+/sections/\d+/articles), 'show section', %r(show_section_\d+) , @page.title
   end
-  
+
   test "#link_to_object when passed a Site it returns a link to admin_site_path" do
-    assert_html link_to_admin(@site), 'a[href=?][class=?][id=?]', 
+    assert_html link_to_admin(@site), 'a[href=?][class=?][id=?]',
       %r(/admin/sites/\d+), 'show site', %r(show_site_\d+) , @site.name
   end
 end

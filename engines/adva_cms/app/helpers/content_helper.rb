@@ -1,21 +1,21 @@
 module ContentHelper
   def published_at_formatted(article)
     return t(:'adva.contents.not_published') unless article && article.published?
-    article.published_at.to_ordinalized_s(article.published_at.year == Time.now.year ? :stub : :mdy)
+    l(article.published_at, :format => (article.published_at.year == Time.now.year ? :short : :long))
   end
-  
+
   def section_path(section, options = {})
     send :"#{section.type.downcase}_path", section, options
   end
-  
+
   def article_url(section, article, options = {})
-		article.section.is_a?(Page) ? 
+		article.section.is_a?(Page) ?
 			page_article_url(*[section, article.permalink, options].compact) :
 			blog_article_url(section, article.full_permalink.merge(options))
   end
 
 	def article_path(section, article, options = {})
-		article.section.is_a?(Page) ? 
+		article.section.is_a?(Page) ?
 			page_article_path(*[section, article.permalink, options].compact) :
 			blog_article_path(section, article.full_permalink.merge(options))
 	end
@@ -28,20 +28,20 @@ module ContentHelper
   def link_to_preview(*args)
     options = args.extract_options!
     content, text = *args.reverse
-    
+
     text ||= :"adva.#{content.class.name.tableize}.links.preview"
     url = show_path(content, :cl => content.class.locale, :namespace => nil)
-    
+
     options.reverse_merge!(:url => url, :class => "preview #{content.class.name.underscore}")
     link_to_show text, content, options
   end
-  
+
   def link_to_content(*args)
     options = args.extract_options!
     object, text = *args.reverse
     link_to_show(text || (object.is_a?(Site) ? object.name : object.title), object, options) if object
   end
-  
+
   def link_to_admin(*args)
     options = args.extract_options!
     options.update :namespace => :admin
