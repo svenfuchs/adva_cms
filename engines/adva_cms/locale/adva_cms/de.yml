@@ -329,7 +329,7 @@ de:
        create_now: Einen neuen Artikel anlegen
        preview: Diesen Artikel in der Vorschau ansehen
      excerpt_add: Einen Auszug hinzufügen
-     no_articles_in_section: Es gibt keine Artikel in {{section}}.
+     no_articles: "Es gibt keine Artikel in {{section}}."
      publish_on_date: Zu diesem Datum veröffentlichen
      flash:
        destroy:
