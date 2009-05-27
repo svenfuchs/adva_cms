@@ -11,11 +11,11 @@
   <%= f.check_box :draft?, :id => 'toggle_draft', :label => :'adva.photos.confirm_save_as_draft' %>
 	
   <p id="publish_date_wrapper" style="<%= @photo.draft? ? "display:none" : "" %>">
-    <%= f.label :published_at, "Publish on date: " %>
     <%= f.datetime_select :published_at,
                           :start_year => (@photo.published_at || Time.zone.now).year-1,
                           :end_year => (Time.zone.now.year + 5),
-                          :order => [:month, :day, :year] %>
+                          :order => [:month, :day, :year],
+                          :label => true %>
   </p>
 <% end %>
 

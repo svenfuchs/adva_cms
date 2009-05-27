@@ -220,6 +220,8 @@ de:
        host: Hostname
      confirm_delete: Sind Sie sicher, daß Sie diese Webseite löschen wollen?
    sections:
+     columns:
+       section: Sektion
      hints:
        content_filter: Wenn Artikel angelegt werden, nutzen sie diese Einstellungen als Standardwerte.
      titles:

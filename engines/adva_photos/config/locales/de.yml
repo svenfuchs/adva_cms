@@ -1,9 +1,17 @@
 de:
+  activerecord:
+    attributes:
+      photo:
+        title: Titel
+        author: Autor
+        published_at: "Veröffentlichen am:"
+
   adva:
     photos:
+      confirm_save_as_draft: Ja, dieses Foto als Entwurf speichern
       name: Foto
       common:
-        save_as_draft: Als Entwurf speichern
+        save_as_draft: Als Entwurf speichern?
         save_as_draft_label: Dieses Foto / diese Fotos als Entwurf speichern
         photos: Fotos
         sets: Sets
