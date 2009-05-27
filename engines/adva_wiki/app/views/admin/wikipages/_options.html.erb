@@ -1,18 +1,18 @@
-<% 
+<%
 	content_for :sidebar do
 		f.tabs do
 		  f.tab :options do
-		    html = label_tag(:content_locale, t(:"adva.common.locale")) + 
-		            f.text_field(:permalink, :label => true, :hint => :'adva.hints.permalink') + 
+		    html = label_tag(:content_locale, t(:"adva.common.locale")) +
+		            f.text_field(:permalink, :label => true, :hint => :'adva.hints.permalink') +
 		            f.text_field(:tag_list, :label => true, :hint => :'adva.hints.tags')
-      
+
 		  	unless @categories.empty?
-		  	  html << %(<label>#{t(:'adva.titles.publish_in_categories')}</label>) + 
+		  	  html << %(<label>#{t(:'adva.titles.publish_in_categories')}</label>) +
 		  	          render(:partial => 'categories/checkboxes', :locals => { :categories => @categories, :content => @wikipage })
 		  	end
-      
-		    html << f.select(:filter, filter_options, {}, :class => 'columnsFilter', :label => true) + 
-		            f.select(:comment_age, comment_expiration_options, :label => :'adva.titles.comments') + 
+
+		    html << f.select(:filter, filter_options, {}, :class => 'columnsFilter', :label => true) +
+		            f.select(:comment_age, comment_expiration_options, :label => :'adva.titles.comments') +
 								f.select(:author_id, author_options(@site.users), :selected => author_selected(@wikipage), :label => true)
 		  end
 
@@ -21,5 +21,5 @@
 				render :partial => 'admin/assets/widget/widget', :locals => { :assets => assets }
 			end if Rails.plugin?(:adva_assets)
 		end
-	end 
+	end
 %>

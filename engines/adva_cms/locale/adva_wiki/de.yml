@@ -1,0 +1,139 @@
+de:
+  activerecord:
+    attributes:
+      wiki:
+        title: Titel
+        permalink: Permalink
+        published: Veröffentlicht
+      wikipage:
+        title: Titel
+        body: Text
+        permalink: Permalink
+        tag_list: Tags
+        author: Autor
+
+  adva: 
+    common: 
+      wikipage: 
+        one: Wiki-Seite
+        other: "{{count}} Wiki-Seiten"
+    wiki_helper: 
+      wiki_edit_links: 
+        link_to_home: Zurück zur Startseite
+        link_to_edit: Diese Seite bearbeiten
+        link_to_delete: Diese Seite löschen
+        confirm_delete: "Sind Sie sicher, dass Sie diese Seite löschen wollen?"
+      collection_title: 
+        category_title: über {{title}}
+        collect_pages: "Seiten "
+        tags_title: getagged mit {{title}}
+        all_pages: Alle Seiten
+      wiki_version_links: 
+        link_to_current_revision: Zurück zur aktuellen Revision
+        link_to_rollback: Zu dieser Revision zurück migrieren
+        confirm_rollback: "Sind Sie sicher, dass Sie zu dieser Revision zurück migrieren wollen?"
+        link_to_previous_revision: Vorherige Revision ansehen
+        link_to_next_revision: Nächste Revision ansehen
+    wikipages_helper: 
+      wiki_version_links: 
+        confirm_rollback: "Sind Sie sicher, dass Sie zu dieser Revision zurück migrieren wollen?"
+    wikipages:
+      links:
+        index: Seiten
+        show: Anzeigen
+        new: Neu
+        edit: Bearbeiten
+        delete: Löschen
+      columns:
+        wikipage: Seite
+        version: Version 
+        updated: Letzte Änderung
+        author: Autor
+        comments: Kommentare
+    wikipage: 
+      params_author: 
+        exception: 
+          author_and_current_user_not_set: Autor und aktueller User sind nicht gesetzt.
+      view: 
+        confirm_delete: "Sind Sie sicher, dass Sie diese Wiki-Seite löschen wollen?"
+        _options: 
+          publish_categories_header: In diesen Kategorien veröffentlichen
+          link_to_settings: Einstellungen
+          link_to_preview: Vorschau dieser Wiki-Seite
+          link_to_delete: Diese Wiki-Seite löschen
+          label_for_comments: Kommentare
+          link_to_categories: Kategorien
+          permalink_hint: Verwenden Sie nur ASCII-Zeichen und verwenden Sie Bindestriche statt Leerzeichen.
+          wikipage_versions_header: Wiki-Seite-Versionen
+          tags_hint: Geben Sie einen oder mehrere Tags getrennt durch Leerzeichen ein. Sie können Tags mit Leerzeichen verwenden, indem Sie Anführungszeichen verwenden (z.B. <em>"Web Development" Tutorials</em>).
+          link_to_create: Neue Wiki-Seite erstellen
+          link_to_wikipages: Wiki-Seiten
+          optional_settings_header: Optionale Einstellungen
+        edit:
+          header: "Bearbeiten: {{title}}"
+        index: 
+          actions_header: Aktionen
+          link_to_create: Neue Wiki-Seite erstellen
+          link_to_create_one_now: Jetzt eine erstellen &raquo;
+          manage_header: Verwalten
+          no_wikipages_notice: Sie haben keine Wiki-Seiten in Ihrem Wiki.
+        new: 
+          create_new_header: Neue Wiki-Seite erstellen
+      flash: 
+        destroy: 
+          success: Die Wiki-Seite wurde gelöscht.
+          failure: Die Wiki-Seite konnte nicht gelöscht werden.
+        rollback: 
+          success: "Die Wiki-Seite wurde auf Revision {{version}} zurück migriert."
+          failure: "Die Wiki-Seite konnte nicht auf Revision {{version}} zurück migriert werden."
+        update_attributes: 
+          success: Die Wiki-Seite wurde erfolgreich geändert.
+          failure: Die Wiki-Seite konnte nicht geändert werden.
+        create: 
+          succsess: Die Wiki-Seite wurde erfolgreich angelegt.
+          failure: Die Wiki-Seite konnt nicht angelegt werden.
+    wiki:
+      wikipages_count:
+        one: "{{count}} Wiki-Seite"
+        other: "{{count}} Wiki-Seiten"
+      optimistic_lock: 
+        exception: 
+          missing_timestamp: "Wiki-Seite konnte nicht geändert werden: Timestamp fehlt. Bitte prüfen Sie, dass das Formular ein verstecktes Feld \"updated_at\" hat."
+      set_wikipage: 
+        exception: "could_not_find_wikipage_by_permalink: Wiki-Seite mit dem Permalink '{{id}}' konnte nicht gefunden werden."
+      new_page_title: Neue Seite
+      redirect_to_login: "Sie müssen angemeldet sein, um diese Seite bearbeiten zu können."
+      flash: 
+        optimistic_lock: 
+          failure: Diese Wiki-Seite wurde gerade von jemand anderem geändert. Bitte lösen Sie alle Konflikte.
+        destroy: 
+          success: Die Wiki-Seite wurde gelöscht.
+          failure: Die Wiki-Seite konnte nicht gelöscht werden.
+        rollback: 
+          success: "Die Wiki-Seite wurde auf Revision {{version}} zurück migriert."
+          failure: "Die Wiki-Seite konnte nicht auf Revision {{version}} zurück migriert werden."
+        update_attributes: 
+          success: Die Wiki-Seite wurde erfolgreich geändert.
+          failure: Die Wiki-Seite konnte nicht geändert werden.
+        create: 
+          succsess: Die Wiki-Seite wurde erfolgreich angelegt.
+          failure: Die Wiki-Seite konnt nicht angelegt werden.
+      view: 
+        new: 
+          header: "Anlegen: {{title}}"
+        edit: 
+          header: "Bearbeiten: {{title}}"
+        _footer: 
+          link_to_entries_feed: Feed Einträge
+          link_to_comment_feed: Feed Kommentare
+        _form: 
+          tag_hint: Geben Sie einen oder mehrere Tags getrennt durch Leerzeichen ein. Sie können Tags mit Leerzeichen verwenden, indem Sie Anführungszeichen verwenden (z.B. <em>"Web Development" Tutorials</em>).
+          label_for_author_email: Ihre E-Mail-Adresse
+          label_for_author_name: Ihr Name
+        index: 
+          wiki_empty_notice: Es gibt keine Wiki-Seiten in Sektion {{title}}
+          link_to_create_if_empty: Jetzt eine Wiki-Seite anlegen &raquo;
+          link_to_create: Wiki-Seite anlegen &raquo;
+        show: 
+          author: "von: {{author}}"
+          revision_header: "Revision: {{version}}"
