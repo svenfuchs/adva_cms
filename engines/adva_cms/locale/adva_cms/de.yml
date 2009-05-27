@@ -45,6 +45,7 @@ de:
        only_integer: kann nur eine ganze Zahl sein.
  adva:
    common:
+     add: Hinzufügen
      locale: Gebietsschema
      about: Über
      details: Details
@@ -365,6 +366,7 @@ de:
    comments:
      no_comments: Es gibt keine Kommentare.
      no_filtered_comments: Es gibt keine gefilterten Kommentare.
+     said_time_ago: "schrieb vor {{time}}:"
      flash:
        thank_you: Danke für den Kommentar!
        create:

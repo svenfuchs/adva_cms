@@ -1,10 +1,20 @@
 en:
   adva:
-    newsletters:
+    adva_newsletters:
       columns:
         name: Name
         issues: Issues
         subscribers: Subscribers
+    adva_issues:
+      columns:
+        name: Name
+        created_at: Created at
+    adva_suscriptions:
+      columns:
+        name: Name
+        email: E-Mail
+        subscribed_at: Subscribed at
+    newsletters:
       links:
         index: Newsletters
         new: New
@@ -13,9 +23,6 @@ en:
         delete: Delete
     issues:
       confirm_delete: Are you sure you want to delete this issue?
-      columns:
-        name: Name
-        created_at: Created at
       links:
         index: Issues
         new: New
@@ -23,10 +30,6 @@ en:
         delete: Delete
     subscriptions:
       confirm_delete: Are you sure you want to delete this subscription?
-      columns:
-        name: Name
-        email: E-Mail
-        subscribed_at: Subscribed at
       links:
         index: Subscriptions
         new: New

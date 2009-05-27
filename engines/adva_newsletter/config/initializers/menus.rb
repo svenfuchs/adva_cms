@@ -33,7 +33,7 @@ module Menus
           activates object.parent.find(:issues)
           item :new, :action => :new, :resource => [@newsletter, "Adva::Issue"]
           if @issue and !@issue.new_record?
-            item :view,   :action => :show, :resource => @issue
+            item :show,   :action => :show, :resource => @issue
             item :edit,   :action => :edit, :resource => @issue
             item :delete, :content => link_to_delete(@issue)
           end

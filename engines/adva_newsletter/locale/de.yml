@@ -5,11 +5,20 @@ de:
       issues: Ausgaben
       subscriptions: Abonnements
 
-    newsletters:
+    adva_newsletters:
       columns:
         name: Name
         issues: Ausgaben
         subscribers: Abonnenten
+    adva_issues:
+      columns:
+        name: Name
+        created_at: Erstellungsdatum
+    adva_subscriptions:
+      columns:
+        name: Name
+        email: E-Mail
+        subscribed_at: Abonnement seit
     newsletter:
       no_issues: Keine Ausgaben vorhanden.
       no_newsletters: Keine Newsletter vorhanden.
