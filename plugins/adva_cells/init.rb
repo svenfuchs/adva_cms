@@ -1,4 +1,6 @@
 config.to_prepare do
+  BaseController.around_filter(OutputFilter::Cells.new)
+
   # FIXME this really should go somewhere else ... why did we put it here in the first place?
   class Cell::Base
     class_inheritable_accessor :states
