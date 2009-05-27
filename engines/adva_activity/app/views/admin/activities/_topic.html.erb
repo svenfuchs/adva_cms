@@ -1,10 +1,10 @@
 <li class="activity <%= activity_css_classes(activity) %> <%= cycle 'highlight', '', :name => "activities" %>">
   <p class="meta">
-    <%= activity_datetime activity, recent %>
-    <%= link_to_activity_user activity %>
-    <%= link_to_content activity.object if activity.object %>
+    <%= activity_datetime(activity, recent) %>
+    <%= link_to_activity_user(activity) %>
+    <%= link_to_content(activity.object) if activity.object %>
   </p>
-  <p><%= t(:'adva.activity.topic', :actions => activity.all_actions.to_sentence) %></p>
+  <p><%= t(:'adva.activity.topic', :actions => activity.all_actions.collect { |a| t(:"adva.activity.action_names.#{a.downcase}" }.to_sentence) %></p>
   <p><%= truncate strip_tags(activity.title), 100 %></p>
   
 	<% if activity.object -%>

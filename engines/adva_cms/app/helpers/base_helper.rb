@@ -19,14 +19,6 @@ module BaseHelper
     concat lines.join("\n")
   end
 
-  def todays_short_date
-    Time.zone.now.to_ordinalized_s(:stub)
-  end
-
-  def yesterdays_short_date
-    Time.zone.now.yesterday.to_ordinalized_s(:stub)
-  end
-
   def datetime_with_microformat(datetime, options={})
     return datetime unless datetime.respond_to?(:strftime)
     options.symbolize_keys!

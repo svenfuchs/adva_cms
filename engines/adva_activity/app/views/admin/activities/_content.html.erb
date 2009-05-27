@@ -1,16 +1,15 @@
 <li class="activity <%= activity_css_classes(activity) %> <%= cycle 'highlight', '', :name => "activities" %>">
   <p class="meta">
-    <%= link_to_activity_user activity %><br />
+    <%= link_to_activity_user(activity) %><br />
   </p>
   <p class="meta">
-    <%= activity_datetime activity, recent %>
+    <%= activity_datetime(activity, recent) %>
   </p>
 
   <p>
-    <%=t :'adva.activity.actions', :type => activity.object_attributes['type'],
-      :actions => activity.all_actions.to_sentence,
-      :activity => link_to(activity.section.title, admin_articles_path(activity.section.site, activity.section))
-    %>
+    <%= t(:'adva.activity.actions', :type => t(:"adva.activity.types.#{activity.object_attributes['type'].tableize.singularize}"),
+      :actions => activity.all_actions.collect { |a| t(:"adva.activity.action_names.#{a.downcase}") }.to_sentence,
+      :activity => link_to(activity.section.title, admin_articles_path(activity.section.site, activity.section))) %>
   </p>
   <%= link_to activity.title, activity_object_edit_url(activity) %>
 </li>

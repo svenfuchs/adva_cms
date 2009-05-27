@@ -20,7 +20,7 @@ de:
       default: "%A, %e. %B %Y, %H:%M Uhr"
       short: "%e. %B, %H:%M Uhr"
       long: "%A, %e. %B %Y, %H:%M Uhr"
-      time: "%H:%M"
+      time: "%H:%M Uhr"
 
     am: "vormittags"
     pm: "nachmittags"

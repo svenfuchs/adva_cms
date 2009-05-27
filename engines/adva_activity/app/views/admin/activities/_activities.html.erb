@@ -1,10 +1,10 @@
 <div class="activities">
-  <h3><%=t :'adva.activity.titles.today', :date => todays_short_date %></h3>
+  <h3><%= t(:'adva.activity.titles.today', :date => l(Date.current, :format => :short)) %></h3>
   <%= render_activities activities[0], true %>
 
-  <h3><%=t :'adva.activity.titles.yesterday', :date => yesterdays_short_date %></h3>
+  <h3><%= t(:'adva.activity.titles.yesterday', :date => l(Date.current.yesterday, :format => :short)) %></h3>
   <%= render_activities activities[1], true %>
 
-  <h3><%=t :'adva.activity.titles.past', :date => yesterdays_short_date %></h3>
+  <h3><%= t(:'adva.activity.titles.past', :date => l(Date.current.yesterday, :format => :short)) %></h3>
   <%= render_activities activities[2] %>
 </div>

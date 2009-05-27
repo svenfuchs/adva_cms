@@ -115,6 +115,7 @@ de:
      preview: Vorschau
      publish_in_categories: In diesen Kategorien veröffentlichen
      recent_activity: Letzte Aktivität
+     recently_logged_in: Zuletzt eingeloggt
      restore_defaults: Standardwerte wiederherstellen
      sections: Sektionen
      settings: Einstellungen
@@ -435,6 +436,13 @@ de:
        not_allowed: "Kommentare sind hier nicht erlaubt."
 
    activity:
+     from_to: "{{from}} bis {{to}}"
+     types:
+       article: Artikel
+     action_names:
+       created: erstellt
+       published: veröffentlicht
+       revised: überarbeitet
      titles:
        today: Heute {{date}}
        yesterday: Gestern {{date}}
@@ -445,7 +453,7 @@ de:
      view:
        new: "{{name}} <{{email}}>  hat gerade eine {{activity}} auf {{site}} in Sektion {{section}} angelegt."
      comment: Kommentar {{actions}}
-     actions: "{{type}} {{actions}} in {{activity}}."
+     actions: "{{type}} {{actions}} in Sektion {{activity}}."
    signup:
      notifications:
        email_verification:
@@ -546,20 +554,20 @@ de:
        created_at: Angelegt
        email: E-Mail
      info:
-       showed_up: "angemeldet vor: {{time_ago}}"
-       logged_in_as: "Angemeldet als: {{name}}"
-     confirm_delete: Sind Sie sicher, daß Sie dieses Benutzerkonto löschen wollen?
+       showed_up: "angemeldet vor {{time_ago}}"
+       logged_in_as: "Angemeldet als {{name}}"
+     confirm_delete: "Sind Sie sicher, daß Sie dieses Benutzerkonto löschen wollen?"
    roles:
      labels:
        admin_for: "Admin für: {{context}}"
        superuser: Superuser
      errors:
        messages:
-         not_an_admin: Sie müssen ein Admin sein, um diese Aktion durchzuführen.
-         not_logged_in: Sie müssen angemeldet sein, um diese Aktion durchzuführen.
-         not_a_superuser: Sie müssen ein Superuser sein, um diese Aktion durchzuführen.
-         not_an_author: Sie müssen der Autor dieses Objekts sein, um diese Aktion durchzuführen.
-         not_a_moderator: Sie müssen ein Moderator sein, um diese Aktion durchzuführen.
+         not_an_admin: "Sie müssen ein Administrator sein, um diese Aktion durchzuführen."
+         not_logged_in: "Sie müssen angemeldet sein, um diese Aktion durchzuführen."
+         not_a_superuser: "Sie müssen ein Superuser sein, um diese Aktion durchzuführen."
+         not_an_author: "Sie müssen der Autor dieses Objekts sein, um diese Aktion durchzuführen."
+         not_a_moderator: "Sie müssen ein Moderator sein, um diese Aktion durchzuführen."
    assets:
      flash:
        upload:

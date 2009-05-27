@@ -461,6 +461,13 @@ en:
       no_comments: There are no comments.
       no_filtered_comments: There are no comments matching your query.
     activity:
+      from_to: "{{from}} - {{to}}"
+      types:
+        article: Article
+      action_names:
+        created: created
+        published: published
+        revised: revised
       titles:
         today: Today {{date}}
         yesterday: Yesterday {{date}}
@@ -577,7 +584,7 @@ en:
         created_at: Created
         email: Email
       info: 
-        showed_up: "showed up: {{time_ago}}"
+        showed_up: "showed up: {{time_ago}} ago"
         logged_in_as: "Logged in as: {{name}}"
       confirm_delete: Are you sure you want to delete this user account?
     roles:
