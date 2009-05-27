@@ -886,3 +886,21 @@ de:
            description: Eine ausgewählte Anzahl der neuesten Benutzer anzeigen
            form:
              count: Anzahl Benutzer
+
+ has_filter:
+   filters:
+     data_file_name: Dateiname
+     title: Name
+     tagged: Tag
+     body: Text
+     excerpt: Auszug
+     state: Status
+     categorized: Kategorisiert
+   scopes:
+     contains: enthält
+     starts_with: beginnt mit
+     ends_with: endet mit
+     is: ist
+   states:
+     published: Veröffentlicht
+     unpublished: Unveröffentlicht
