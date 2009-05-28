@@ -164,7 +164,7 @@ module Matchy
             "Expected %s to have tracking enabled.",
             "Expected %s to not have tracking enabled." do |receiver|
       @receiver = receiver
-      receiver.has_tracking_enabled?
+      receiver.tracking_enabled?
     end
 
     # matcher "RespondTo",

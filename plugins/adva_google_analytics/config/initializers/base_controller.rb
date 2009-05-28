@@ -1,7 +1,7 @@
 ActionController::Dispatcher.to_prepare do
   BaseController.class_eval do
     content_for :foot, :call_google_analytics, :only => { :format => :html } do
-      if controller.site.try(:has_tracking_enabled?)
+      if controller.site.try(:tracking_enabled?)
         <<-html
           <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");

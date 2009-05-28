@@ -290,47 +290,4 @@ class AdvaIssueTest < ActiveSupport::TestCase
     @issue.cancel_delivery
     @issue.cancel_delivery.should == false
   end
-
-  # FIXME move to google_analytics plugin
-  test "#has_tracking_enabled? should return true when Google Analytics tracking code, campaign name and source name are set" do
-    @issue.should have_tracking_enabled
-  end
-
-  test "#has_tracking_disabled? should return false when not tracked" do
-    @issue.track = false
-    @issue.should_not have_tracking_enabled
-  end
-
-  test "#has_traking_disable should return false when Google Analytics code is missing" do
-    @issue.newsletter.site.google_analytics_tracking_code = nil
-    @issue.should_not have_tracking_enabled
-  end
-
-  test "#has_tracking_disabled should return false when campaign name is missing" do
-    @issue.tracking_campaign = nil
-    @issue.should_not have_tracking_enabled
-  end
-
-  test "#has_tracking_disabled should return false when source name is missing" do
-    @issue.tracking_source = nil
-    @issue.should_not have_tracking_enabled
-  end
-
-  test "#body_html should track URLs when tracking is enabled" do
-    @issue.body = %(<a href="http://#{@issue.newsletter.site.host}/newest-products.html?order=date">View our newest products</a>)
-    @issue.save
-
-    expected = %(<a href="http://#{@issue.newsletter.site.host}/newest-products.html?order=date&utm_medium=newsletter&utm_campaign=#{URI.escape(@issue.tracking_campaign)}&utm_source=#{URI.escape(@issue.tracking_source)}">View our newest products</a>)
-    @issue.should have_tracking_enabled
-    @issue.body_html.should == expected
-  end
-
-  test "#body_html should not track URLs when tracking is disabled" do
-    @issue.body = %(<a href="http://#{@issue.newsletter.site.host}/newest-products.html?order=date">View our newest products</a>)
-    @issue.save
-    @issue.track = false
-
-    @issue.should_not have_tracking_enabled
-    @issue.body_html.should == %(<a href="http://#{@issue.newsletter.site.host}/newest-products.html?order=date">View our newest products</a>)
-  end
 end

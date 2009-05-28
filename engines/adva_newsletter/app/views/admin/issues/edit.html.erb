@@ -1,8 +1,6 @@
 <h2><%= t(:'adva.newsletter.title.edit_issue') %></h2>
 
 <% split_form_for :issue, @issue, :url => admin_adva_issue_path, :html => { :method => :put, :multipart => true } do |f| %>
-  <%= render :partial => "form", :locals => {:f => f} %>  
-
+  <%= render "form", :f => f %>  
   <% save_or_cancel_links(f, :cancel_url => admin_adva_issue_path(@site, @newsletter, @issue)) %>
-  
 <% end %>

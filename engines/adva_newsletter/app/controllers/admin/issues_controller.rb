@@ -13,7 +13,7 @@ class Admin::IssuesController < Admin::BaseController
   end
 
   def new
-    @issue = Adva::Issue.new
+    @issue = @newsletter.issues.build
   end
 
   def edit

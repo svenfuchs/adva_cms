@@ -29,6 +29,9 @@ textarea {
 	border: 1px solid #999;
   font-family: "Helvetica Neue", "Helvetica", "Arial", Verdana;
 }
+input[disabled] {
+  background: #DDD;
+}
 textarea {
   height: 100px;
 }
