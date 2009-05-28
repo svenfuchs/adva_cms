@@ -23,7 +23,7 @@ class EmailTest < ActiveSupport::TestCase
   test "##start_delivery should create a cronjob with command Email.deliver_all" do
     response = Adva::Email.start_delivery
     response.class.should == Adva::Cronjob 
-    response.command.should == "Email.deliver_all"
+    response.command.should == "Adva::Email.deliver_all"
   end
   
   test "##deliver_all should autoremove cronjob when all emails are delivered" do

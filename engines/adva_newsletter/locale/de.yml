@@ -35,11 +35,18 @@ de:
       confirm:
         save_issue_as_draft: Ja, diese Ausgabe als Entwurf speichern
       flash:
-        delivery_cancellation_success: Der Versand wurde erfolgreich abgebrochen..
-        delivery_cancellation_failed: Der Versand kann nicht abgebrochen werden, da die Ausgabe bereits versendet wurde.
-        issue_moved_to_trash_success: Ausgabe wurde erfolgreich in den Papierkorb verschoben.
-        newsletter_moved_to_trash_success: Newsletter wurde erfolgreich in den Papierkorb verschoben.
-        update_success: Der Newsletter wurde aktualisiert.
+        delivery_cancellation_success: Die Auslieferung wurde erfolgreich abgebrochen.
+        delivery_cancellation_failed: Die Auslieferung konnte nicht abgebrochen werden, da die Ausgabe bereits ausgeliefert wurde.
+        delivery_start_failed: Die Auslieferung konnte nicht eingetragen werden, da die Ausgabe bereits ausgeliefert oder zur Auslieferung freigegeben ist.
+        issue_moved_to_trash_success: Die Ausgabe wurde erfolgreich in den Papierkorb verschoben.
+        newsletter_moved_to_trash_success: Der Newsletter wurde erfolgreich in den Papierkorb verschoben.
+        update_success: Der Newsletter wurde erfolgreich geändert!
+        send_preview_issue: Die Vorschau der Ausgabe wurde erfolgreich an Sie versendet.
+        send_preview_issue_failed: Die Vorschau der Ausgabe konnte nicht an Sie versendet werden.
+        send_all: Die Ausgabe wurde erfolgreich zur Auslieferung freigegeben.
+        send_all_later: Die Ausgabe wurde erfolgreich zur späteren Auslieferung freigegeben.
+        issue_create_success: Die Ausgabe wurde erfolgreich angelegt.
+        issue_update_success: Die Ausgabe wurde erfolgreich geändert.
       button:
         send_issue: Versenden
         preview_issue: Vorschau

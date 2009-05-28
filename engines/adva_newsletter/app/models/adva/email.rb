@@ -6,7 +6,7 @@ class Adva::Email < ActiveRecord::Base
   
   class << self
     def start_delivery
-      Adva::Cronjob.create :cron_id => "email_deliver_all", :command => "Email.deliver_all"
+      Adva::Cronjob.create :cron_id => "email_deliver_all", :command => "Adva::Email.deliver_all"
     end
     
     def deliver_all
