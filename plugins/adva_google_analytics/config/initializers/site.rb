@@ -3,6 +3,7 @@ ActionController::Dispatcher.to_prepare do
     def tracking_enabled?
       google_analytics_tracking_code.present?
     end
+    alias :has_tracking_enabled? :tracking_enabled?
   end
 end
 

@@ -9,6 +9,7 @@ if Rails.plugin?(:adva_newsletter)
           tracking_campaign.present? &&
           tracking_source.present?
       end
+      alias :has_tracking_enabled? :tracking_enabled?
       
       def tracking_campaign
         (read_attribute(:tracking_campaign) || newsletter.title) if newsletter_id.present?
