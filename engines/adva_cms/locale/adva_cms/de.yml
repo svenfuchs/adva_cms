@@ -72,8 +72,8 @@ de:
        or: oder
      "yes": "ja"
      by_author: von {{author}}
-     content_categories: "in {{links}}<br />"
-     content_tags: "markiert: {{links}<br />"
+     content_categories: "in {{links}}"
+     content_tags: "markiert: {{links}}"
      unknown: unbekannt
    titles:
      accounts: Konten
@@ -330,6 +330,7 @@ de:
        permalink: Nutzen Sie nur ASCII Zeichen und nutzen Sie Bindestriche anstatt Leerzeichen.
        tags: Geben Sie ein oder mehre Tags ein, die durch ein Leerzeichen getrennt sind. Sie können Leerzeichen mitbenutzen, wenn Sie den Tag in Anführungszeichen schreiben . (Zum Beispiel, <em>"Web Entwicklung" Tutorials</em>).
      titles:
+       new: Neuer Artikel
        edit: Artikel bearbeiten
      total_with_count:
        one: "Gesamt: {{count}} Artikel"
