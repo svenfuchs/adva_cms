@@ -25,17 +25,21 @@ class Admin::IssuesController < Admin::BaseController
 
   def create
     @issue = @newsletter.issues.build(params[:issue])
+    remove_relative_paths
 
-  if @issue.save
-    flash[:notice] = t(:"adva.newsletter.flash.issue_create_success")
-    redirect_to admin_adva_issue_path(@site, @newsletter, @issue)
+    if @issue.save
+      flash[:notice] = t(:"adva.newsletter.flash.issue_create_success")
+      redirect_to admin_adva_issue_path(@site, @newsletter, @issue)
     else
       render :action => "new"
     end
   end
 
   def update
-    if @issue.update_attributes(params[:issue])
+    @issue.update_attributes(params[:issue])
+    remove_relative_paths
+
+    if @issue.save
       flash[:notice] = t(:"adva.newsletter.flash.issue_update_success")
       redirect_to admin_adva_issue_path(@site, @newsletter, @issue)
     else
@@ -61,5 +65,10 @@ class Admin::IssuesController < Admin::BaseController
   
     def set_issue
       @issue = Adva::Issue.find(params[:id])
+    end
+    
+    # temporary hack, until i figure out way how fckeditor produces absolute paths for images
+    def remove_relative_paths
+      @issue.body.gsub!(/\.\.\/\.\.\/\.\.\/\.\.\//, "#{root_url}")
     end
 end
