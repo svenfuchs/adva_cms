@@ -20,14 +20,8 @@ class CalendarEventsController < BaseController
     @events = CalendarEvent.find_published_by_params(search_params).paginate(:page => params[:page])
 
     respond_to do |format|
-      format.js do
-        render :update do |page|
-          page.select('.calendar_cell .calendar').each do |calendar|
-            page.replace calendar.getAttribute('id'), :partial => 'calendar', :locals => { :calendar_section => @section }
-          end
-        end
-      end
       format.html
+      format.js { render :template => 'calendar_events/index.js.erb', :layout => false }
       format.ics
     end
   end
