@@ -148,6 +148,26 @@ class SectionTest < ActiveSupport::TestCase
     @section.accept_comments?.should be_false
   end
 
+  test "#state returns :pending if section isn't published" do
+    page = Page.new(:site => @site, :single_article_mode => false)
+    page.save(false)
+    page.move_to_child_of(@section)
+
+    page.state.should == :pending
+
+    page.published_at = 2.days.from_now
+    page.state.should == :pending
+  end
+
+  test "#state returns :published if section is published" do
+    page = Page.new(:site => @site, :single_article_mode => false)
+    page.save(false)
+    page.move_to_child_of(@section)
+
+    page.published_at = 2.days.ago
+    page.state.should == :published
+  end
+
   test "#published? is always true for root section" do
     @section.published_at = nil
     @section.published?.should be_true

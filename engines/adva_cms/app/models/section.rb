@@ -62,6 +62,10 @@ class Section < ActiveRecord::Base
     self == site.sections.root
   end
 
+  def state
+    published? ? :published : :pending
+  end
+
   def published=(published)
     if published.to_i == 1
       self.published_at = Time.current if !published_at
