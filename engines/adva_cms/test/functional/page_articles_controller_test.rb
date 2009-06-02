@@ -9,7 +9,7 @@ class PageArticlesControllerTest < ActionController::TestCase
   end
   
   describe 'GET to :index' do
-    action { get :index, params_from('/a-page') }
+    action { get :index, params_from("/#{@section.permalink}") }
     
     with :a_page, :an_article do
       with "the page is in single_article_mode" do
@@ -28,10 +28,41 @@ class PageArticlesControllerTest < ActionController::TestCase
         # FIXME displays a list of articles
       end
     end
+
+    with :an_unpublished_section do
+      with "the page is in single_article_mode" do
+        before do
+          @section.single_article_mode = true
+          @section.save!
+        end
+
+        with "an anonymous user" do
+          it_raises ActiveRecord::RecordNotFound
+        end
+
+        with :is_superuser do
+          it_assigns :section, :article
+          it_renders :template, 'pages/articles/show'
+          it_does_not_cache_the_page
+        end
+      end
+
+      with "the page is not in single_article_mode" do
+        with "an anonymous user" do
+          it_raises ActiveRecord::RecordNotFound
+        end
+
+        with :is_superuser do
+          it_assigns :section, :articles
+          it_renders :template, 'pages/articles/index'
+          it_does_not_cache_the_page
+        end
+      end
+    end
   end
   
   describe 'GET to :show' do
-    action { get :show, params_from('/a-page/articles/a-page-article') }
+    action { get :show, params_from("/#{@section.permalink}/articles/#{@section.articles.first.permalink}") }
     
     with :a_page, :an_article do
       with :the_article_is_published do
@@ -75,6 +106,18 @@ class PageArticlesControllerTest < ActionController::TestCase
       with "the article does not exist" do
         before { @article.destroy }
         it_raises ActiveRecord::RecordNotFound
+      end
+    end
+
+    with :an_unpublished_section do
+      with "an anonymous user" do
+        it_raises ActiveRecord::RecordNotFound
+      end
+      
+      with :is_superuser do
+        it_assigns :section, :article
+        it_renders :template, 'pages/articles/show'
+        it_does_not_cache_the_page
       end
     end
   end
