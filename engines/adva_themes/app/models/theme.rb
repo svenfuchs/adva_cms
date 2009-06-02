@@ -82,7 +82,7 @@ class Theme < ActiveRecord::Base
 
   def url
     Site.multi_sites_enabled ?
-      "themes/#{site.perma_host}/#{theme_id}" :
+      "themes/site-#{site.id}/#{theme_id}" :
       "themes/#{theme_id}"
   end
 
