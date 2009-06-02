@@ -10,7 +10,7 @@
     <% end %>
   	
   	<% f.buttons do %>
-  	  <%= submit_tag t(:'adva.titles.login') %> or
+  	  <%= submit_tag t(:'adva.titles.login'), :id => 'commit' %> or
   	  <%= link_to t(:'adva.passwords.titles.new'), new_password_path %>
     	<%#= link_to t(:'adva.users.titles.signup'), new_user_path %>
     <% end %>
