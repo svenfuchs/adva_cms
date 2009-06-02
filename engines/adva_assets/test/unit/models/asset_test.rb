@@ -7,7 +7,7 @@ class AssetWithPaperclipTest < ActiveSupport::TestCase
     super
     @site = Site.first
   end
-
+  
   test "destroys the attachment" do
     asset = create_image_asset
     asset.destroy
