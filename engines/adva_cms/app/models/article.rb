@@ -44,6 +44,7 @@ class Article < Content
   end
 
   def has_excerpt?
+    return false if excerpt == "<p>&#160;</p>" # empty excerpt with fckeditor
     !excerpt.blank?
   end
   
