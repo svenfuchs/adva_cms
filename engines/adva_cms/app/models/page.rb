@@ -24,7 +24,7 @@ class Page < Section
 
   def published_at=(published_at)
     if single_article_mode && articles.first
-      articles.first.published_at = published_at
+      articles.first.update_attribute(:published_at, published_at)
     else
       super
     end
