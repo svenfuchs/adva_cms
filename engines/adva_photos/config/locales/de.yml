@@ -31,7 +31,7 @@ de:
           upload_photo: Neue Fotos hochladen
           delete_photo: Dieses Foto löschen
           delete_photo_confirmation: "Sind Sie sicher, dass Sie dieses Foto löschen wollen?"
-          publish_in_set: Dieses Foto in Sets veröffentlichen
+          publish_in_set: Dieses Foto in folgenden Sets veröffentlichen
           total: "Gesamtanzahl der Fotos: {{total_entries}}"
           no_photo_in_album: In diesem Album sind noch keine Fotos
           upload_now: Laden Sie jetzt eines hoch

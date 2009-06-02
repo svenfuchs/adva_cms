@@ -8,7 +8,7 @@ class ArticlesController < BaseController
   before_filter :set_tags,     :only => :index
   before_filter :set_articles, :only => :index
   before_filter :set_article,  :only => :show
-  before_filter :guard_view_permissions, :only => :show
+  before_filter :guard_view_permissions, :only => [:index, :show]
 
   caches_page_with_references :index, :show, :comments,
     :track => ['@article', '@articles', '@category', '@commentable', {'@site' => :tag_counts, '@section' => :tag_counts}]
@@ -40,7 +40,7 @@ class ArticlesController < BaseController
     def adjust_action
       if params[:action] == 'index' and @section.try(:single_article_mode)
         # ... but only if there is one published article
-        unless @section.articles.blank? || @section.articles.first.draft?
+        unless @section.articles.blank? || (@section.articles.first.draft? && !has_permission?('update', 'section'))
           @action_name = @_params[:action] = request.parameters['action'] = 'show'
         end
       end

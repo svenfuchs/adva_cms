@@ -5,7 +5,7 @@ ActionController::Routing::Routes.draw do |map|
                                   :controller => 'calendar_events',
                                   :action => 'index',
                                   :year => nil, :month => nil, :day => nil,
-                                  :requirements => { :year => /\d{4}/, :month => /\d{1,2}/ }
+                                  :requirements => { :year => /\d{4}/, :month => /\d{1,2}/, :day => /\d{1,2}/ }
 
     m.calendar                    "calendars/:section_id",
                                   :controller => 'calendar_events',
@@ -15,10 +15,10 @@ ActionController::Routing::Routes.draw do |map|
                                   :controller => 'calendar_events',
                                   :action => 'index'
 
-    # m.connect                     "calendars/:section_id/:year/:month.:format",
-    #                               :controller => 'calendar_events',
-    #                               :action => 'index',
-    #                               :requirements => { :year => /\d{4}/, :month => /\d{1,2}/ }
+    m.connect                     "calendars/:section_id/:year/:month.:format",
+                                  :controller => 'calendar_events',
+                                  :action => 'index',
+                                  :requirements => { :year => /\d{4}/, :month => /\d{1,2}/ }
 
     m.calendar_category           "calendars/:section_id/categories/:category_id",
                                   :controller => 'calendar_events',

@@ -2,7 +2,7 @@ module Menus
   class Sections < Menu::Menu
     define do
       id :sections
-      @site.sections.each { |section| item section.title, :action => :show, :resource => section }
+      @site.sections.select { |s| s.published?(true) }.each { |section| item section.title, :action => :show, :resource => section }
     end
   end
 

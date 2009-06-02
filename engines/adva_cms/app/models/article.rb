@@ -1,5 +1,5 @@
 class Article < Content
-  default_scope :order => 'published_at desc'
+  default_scope :order => "#{self.table_name}.published_at DESC"
 
   filters_attributes :except => [:excerpt, :excerpt_html, :body, :body_html, :cached_tag_list]
 
@@ -19,11 +19,12 @@ class Article < Content
       unless args.empty?
         published(*args).find_by_permalink(permalink, options)
       else
-        find :first, options.merge(:conditions => ['permalink = ?', permalink])
+        find :first, options.merge(:conditions => ["#{self.table_name}.permalink = ?", permalink])
       end
     end
   end
 
+  # FIXME: belongs to Blog engine
   def full_permalink
     raise "can not create full_permalink for an article that belongs to a non-blog section" unless section.is_a? Blog
     # raise "can not create full_permalink for an unpublished article" unless published?
@@ -32,15 +33,15 @@ class Article < Content
   end
 
   def primary?
-    section.articles.primary == self
+    self == section.articles.primary
   end
 
   def previous
-    section.articles.published(:conditions => ['published_at < ?', published_at], :limit => 1).first
+    section.articles.published(:conditions => ["#{self.class.table_name}.published_at < ?", published_at], :limit => 1).first
   end
 
   def next
-    section.articles.published(:conditions => ['published_at > ?', published_at], :limit => 1).first
+    section.articles.published(:conditions => ["#{self.class.table_name}.published_at > ?", published_at], :limit => 1).first
   end
 
   def has_excerpt?

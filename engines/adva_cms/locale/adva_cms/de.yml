@@ -18,6 +18,7 @@ de:
        template: Template
        title: Titel
        type: Typ
+       published: Veröffentlicht
      site:
        comment_filter: Textfilter für Kommentare
        meta_keywords: Keywords

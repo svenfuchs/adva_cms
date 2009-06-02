@@ -1,0 +1,1 @@
+$('.calendar, .calendar_cell').replaceWith('<%= escape_javascript render(:partial => 'calendar', :locals => { :calendar_section => @section, :events => @events }) %>');
