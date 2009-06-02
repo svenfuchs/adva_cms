@@ -176,6 +176,11 @@ class ArticleTest < ActiveSupport::TestCase
     article.reload.position.should == 2
     Article.find(@page.articles.last.id).position.should == 3
   end
+  
+  test "#has_excerpt? works with fckenabled" do
+    @article.excerpt = "<p>&#160;</p>"
+    @article.has_excerpt?.should be_false
+  end
 
   # # filtering
   # 
