@@ -26,9 +26,11 @@ class ActiveSupport::TestCase
   setup :start_db_transaction!
   setup :setup_page_caching!
   setup :set_locale!
+  setup :ensure_single_site_mode!
   
   teardown :rollback_db_transaction!
   teardown :clear_cache_dir!
+  teardown :rollback_multi_site_mode!
   
   def set_locale!
     I18n.locale = nil
