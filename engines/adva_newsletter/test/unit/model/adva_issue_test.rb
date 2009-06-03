@@ -290,4 +290,11 @@ class AdvaIssueTest < ActiveSupport::TestCase
     @issue.cancel_delivery
     @issue.cancel_delivery.should == false
   end
+  
+  test "#body_mail should return body_html where images are replaced with inline images" do
+    @issue.body = "<img src='http://example.com/image.jpg' alt='test' />"
+    @issue.save
+    stub(TMail).new_message_id {"<4a266bee9659c_7524..fdbeb80d8194@test.tmail>"}
+    @issue.body_mail.should == "<img src='cid:4a266bee9659c_7524..fdbeb80d8194@test.tmail' alt='test' />"
+  end
 end

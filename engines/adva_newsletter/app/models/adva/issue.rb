@@ -171,4 +171,16 @@ class Adva::Issue < ActiveRecord::Base
                        :to => user.email,
                        :mail => issue.to_s)
   end
+  
+  def images
+    @images ||= Adva::IssueImage.parse(body_html)
+  end
+  
+  def body_mail
+    body = body_html.dup
+    images.each do |image|
+      body.sub!(image.uri, "cid:#{image.cid_plain}")
+    end  
+    body
+  end
 end
