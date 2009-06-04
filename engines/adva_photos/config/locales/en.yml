@@ -2,17 +2,17 @@ en:
   activerecord:
     attributes:
       album:
-        title: Titel
+        title: Title
         permalink: Permalink
-        published: Veröffentlicht
-        photos_per_page: Fotos pro Seite
+        published: Published
+        photos_per_page: Photos per Page
         content_filter: Filter
       photo:
         published_at: "Publish on date:"
 
   adva:
     titles:
-      photos: Fotos
+      photos: Photos
     sets:
       links:
         index: Sets
@@ -29,12 +29,12 @@ en:
         other: "{{count}} drafts"
     photos:
       columns:
-        title: Titel
+        title: Title
         name: Name
-        comments: Kommentare
-        published: Veröffentlicht am
-        author: Autor
-        photo: Foto
+        comments: Comments
+        published: Published on
+        author: Author
+        photo: Photo
       name: Photo
       confirm_delete: "Are you sure you want to delete this photo?"
       common:
