@@ -1,0 +1,30 @@
+p.hint.enabled {
+	background: url('/images/adva_cms/icons/help.png') no-repeat;
+  	display: inline-block;
+    width: 16px;
+    height: 16px; 
+    text-indent: 16px;
+    overflow: hidden;
+    vertical-align: middle;
+	margin-left: 94%;
+	margin-right: 0px;
+	margin-top: -47px;
+}
+
+#helptip {
+	position: absolute;
+	z-index: 3000;
+	background-color: #ddd;
+	opacity: 0.90;
+	padding: 5px;
+	width: inherit;
+}
+
+#helptip h3 { 
+	margin: 0; 
+}
+
+#helptip div { 
+	margin: 0;
+	width: 250px;
+}

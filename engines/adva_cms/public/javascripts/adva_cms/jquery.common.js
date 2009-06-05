@@ -9,5 +9,15 @@ var Form = {
 }
 
 $(document).ready(function() {
-  $('#toggle_draft').click(Form.toggleDraft)
+  $('#toggle_draft').click(Form.toggleDraft);
+  
+  $("p.hint").addClass("enabled");
+  $('p.hint.enabled').tooltip({
+	id: 'helptip',
+    delay: 0,
+	track: true,
+	bodyHandler: function() {
+	  return $(this).html();
+	}
+  });
 });
