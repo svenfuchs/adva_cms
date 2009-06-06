@@ -1,21 +1,12 @@
 module Menus
   module Admin
-    class AlbumBase < Menu::Group
+    class Photos < Menu::Group
       define do
         id :main
         parent Sites.new.build(scope).find(:sections)
 
-        menu :left, :class => 'left' do
-          item :section,  :content => content_tag(:h4, "#{@section.title}:")
-          item :photos,   :action => :index, :resource => [@section, :photo]
-          item :sets,     :action => :index, :resource => [@section, :set]
-          item :settings, :action => :edit, :resource => @section
-        end
-      end
-    end
+        menu :left, :class => 'left', :type => Sections::Album
 
-    class Photos < AlbumBase
-      define do
         menu :actions, :class => 'actions' do
           activates object.parent.find(:photos)
           item :new, :action => :new, :resource => [@section, :photo]
@@ -27,10 +18,25 @@ module Menus
       end
     end
 
-    class Sets < AlbumBase
+    class Sections
+      class Album < Menu::Menu
+        define do
+          item :section, :content => content_tag(:h4, "#{@section.title}:")
+          item :photos,   :action => :index, :resource => [@section, :photo]
+          item :sets,   :action => :index, :resource => [@section, :set]
+          item :settings, :action => :edit,  :resource => @section
+        end
+      end
+    end
+
+    class Sets < Menu::Group
       define do
-        menu :actions, :class => 'actions' do
-          activates object.parent.find(:sets)
+        id :main
+        parent Sites.new.build(scope).find(:sections)
+
+        menu :left, :class => 'left', :type => Sections::Album
+        menu :actions, :class => 'actions'do
+          activates object.parent.find(:set)
           item :new, :action => :new, :resource => [@section, :set]
           if @set and !@set.new_record?
             item :edit,   :action => :edit, :resource => @set
