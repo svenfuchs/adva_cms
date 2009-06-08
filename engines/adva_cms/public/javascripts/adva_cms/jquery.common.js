@@ -11,8 +11,17 @@ var Form = {
 $(document).ready(function() {
   $('#toggle_draft').click(Form.toggleDraft);
   
-  $("p.hint").addClass("enabled");
-  $('p.hint.enabled').tooltip({
+  $(".hint").each(function() {
+    var label = $("label[for=" + this.getAttribute('for') + "]");
+
+    if(label) {
+      $(this).appendTo(label); 
+    }
+  })
+
+  $(".hint").addClass("enabled");
+
+  $('.hint.enabled').tooltip({
 	id: 'helptip',
     delay: 0,
 	track: true,

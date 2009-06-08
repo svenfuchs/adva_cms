@@ -185,10 +185,14 @@ class ExtensibleFormBuilder < ActionView::Helpers::FormBuilder
     def wrap(tag)
       @template.content_tag(:p, tag)
     end
+    
+    def rip_id_from(tag)
+      tag.split.select { |k| k =~ /id=/ }[0].gsub(/id=|\"/, '') || ''
+    end
 
     def hint(tag, hint)
       hint = I18n.t(hint) if hint.is_a?(Symbol)
-      tag + "\n" + @template.content_tag(:p, hint, :class => 'hint')
+      tag + "\n" + @template.content_tag(:p, hint, :class => 'hint', :for => rip_id_from(tag))
     end
 
     def add_default_class_names(options, type)
