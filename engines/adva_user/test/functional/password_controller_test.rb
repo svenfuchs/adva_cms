@@ -26,7 +26,7 @@ class PasswordControllerTest < ActionController::TestCase
       
       it_triggers_event :user_password_reset_requested
       it_assigns_flash_cookie :notice => :not_nil
-      it_redirects_to { login_url }
+      it_redirects_to { edit_password_url }
     end
     
     with "an email adress that does not belong to a user" do
@@ -39,13 +39,24 @@ class PasswordControllerTest < ActionController::TestCase
   end
   
   describe "GET to :edit" do
-    action { get :edit }
+    action { get :edit, @params }
     
-    with "the user is logged in" do # FIXME and otherwise?
-      before { stub(@controller).current_user.returns(@user) }
-      
+    with "the user is logged in" do
+      before do
+        stub(@controller).current_user.returns(@user)
+        (@params = {})[:token] = 'valid token'
+      end
+
       it_renders_template :edit do
-        has_tag 'input[name=?]', 'user[password]'
+        has_tag 'input[name=?][type=hidden]', 'token'
+        has_tag 'input[name=?][type=password]', 'user[password]'
+      end
+    end
+
+    with "the user is not logged in (missing or invalid token)" do
+      it_renders_template :edit do
+        has_tag 'input[name=?][type=text]', 'token'
+        has_tag 'input[name=?][type=password]', 'user[password]'
       end
     end
   end
@@ -53,7 +64,7 @@ class PasswordControllerTest < ActionController::TestCase
   describe "PUT to :update" do
     action { put :update, @params }
     
-    with "the user is logged in" do # FIXME and otherwise?
+    with "the user is logged in" do
       before { stub(@controller).current_user.returns(@user) }
       
       with "valid password parameters" do
@@ -61,7 +72,7 @@ class PasswordControllerTest < ActionController::TestCase
 
         it_triggers_event :user_password_updated
         it_assigns_flash_cookie :notice => :not_nil
-        it_redirects_to { '/' }
+        it_redirects_to { root_url }
       end
     
       describe "given an invalid email address" do
@@ -70,6 +81,17 @@ class PasswordControllerTest < ActionController::TestCase
         it_does_not_trigger_any_event
         it_assigns_flash_cookie :error => :not_nil
         it_renders_template :edit
+      end
+    end
+
+    with "the user is not logged in" do
+      before { stub(@controller).current_user.returns(nil) }
+
+      it_does_not_trigger_any_event
+      it_assigns_flash_cookie :error => :not_nil
+      it_renders_template :edit do
+        has_tag 'input[name=?][type=?]', 'token', 'text'
+        has_tag 'input[name=?][type=?]', 'user[password]', 'password'
       end
     end
   end

@@ -501,9 +501,14 @@ en:
           success: You successfully confirmed your email address.
           failure: You have already verified your email address.
     passwords:
+      attributes:
+        token: Confirmation code
+      links:
+        reset: Reset password
       info:
         please_enter_email_to_reset_password: Please enter your email address. An email will be sent to you which will include a link to reset your password.
         please_enter_new_password: Please enter your new password.
+        please_enter_new_password_and_token: Please enter the confirmation code you received via email and your new password.
       titles:
         new: Reset your password
         edit: Change your password
@@ -525,6 +530,11 @@ en:
 
             {{link}}
 
+            Alternatively, if your browser window is still open, you can use the following 
+            confirmation code together with your new password:
+            
+            {{token}}
+            
             It is suggested you reset your password as soon as possible since this is a
             time-limited link (to protect your account).
 

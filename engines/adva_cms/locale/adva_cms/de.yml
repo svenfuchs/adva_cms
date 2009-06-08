@@ -475,8 +475,8 @@ de:
          body: |
            Liebe/r {{name}},
 
-           Sie haben sich kürzlich für unseren Service angemeldet. Unser Service erfordert, daß 
-           alle neuen Benutzer Ihre Emailadresse verifizieren. Bitte klicken Sie einfach auf den Link 
+           Sie haben sich kürzlich für unseren Service angemeldet. Unser Service erfordert, dass 
+           alle neuen Benutzer Ihre E-Mail-Adresse verifizieren. Bitte klicken Sie einfach auf den Link 
            unten und Ihr Benutzername ist verifiziert und Sie können sich anmelden. 
 
            {{link}}
@@ -489,12 +489,17 @@ de:
          success: Sie haben Ihre E-Mailadresse erfolgreich bestätigt. 
          failure: Sie haben Ihre E-Mailadresse bereits bestätigt. 
    passwords:
+     attributes:
+       token: Bestätigungscode
+     links:
+       reset: Passwort zurücksetzen
      info:
-       please_enter_email_to_reset_password: Bitte geben Sie Ihre E-Mailadresse ein. Sie erhalten dann eine Email , die einen Link auf eine Seite zum Neueingeben des Passworts beinhaltet.
-       please_enter_new_password: Bitte geben Sie Ihr neues Password ein.
+       please_enter_email_to_reset_password: "Bitte geben Sie Ihre E-Mail-Adresse ein. Sie erhalten dann eine E-Mail, die einen Link auf eine Seite zum Neueingeben des Passworts beinhaltet."
+       please_enter_new_password: Bitte geben Sie Ihr neues Passwort ein.
+       please_enter_new_password_and_token: "Bitte geben Sie den Bestätigungscode, den Sie per E-Mail erhalten haben, und Ihr neues Passwort ein."
      titles:
        new: Ihr Passwort zurücksetzen
-       edit: Ihr Password ändern
+       edit: Ihr Passwort ändern
      notifications:
        password_updated:
          subject: Passwort aktualisiert
@@ -507,18 +512,23 @@ de:
          body: |
            Liebe/r  {{name}},
 
-           Irgendjemand (hoffentlich Sie) hat angegeben, daß Sie sich an Ihr Passwort nicht erinnern können. 
+           Irgendjemand (hoffentlich Sie) hat angegeben, dass Sie sich an Ihr Passwort nicht erinnern können. 
            Um Sie das Passowort zurücksetzen zu lassen, erhalten Sie unten einen Link. Nach dem Klicken auf 
            dem Link kommen Sie zu einer Seite, auf der Sie Ihr Passwort zurücksetzen können. 
 
            {{link}}
+
+           Alternativ können Sie, wenn Ihr Browser-Fenster noch offen ist, den folgenden Bestätigungscode 
+           zusammen mit Ihrem neuen Passwort eingeben:
+             
+           {{token}}
 
            Bitte setzen Sie Ihr Passwort so schnell wie möglich zurück, der dieser Link nach kurzer Zeit verfällt, um
            Ihr Konto zu schützen. 
 
            Wenn Sie keine Änderung des Passworts angefordert haben, muss jemand anderes Ihren Benutzername 
            in der "Vergessenes Passwort"-Webseite eingegeben haben. Ihr Konto ist immer noch komplett sicher, da
-           Sie als einige Person diese Nachricht erhalten haben. Löschen Sie einfach diese E-Mail und Ihr Benutzerkonto 
+           Sie als einzige Person diese Nachricht erhalten haben. Löschen Sie einfach diese E-Mail und Ihr Benutzerkonto 
            hat keine Änderungen, wenn diese Nachricht fehlerhaft gesendet wurde. 
      flash:
        new:
