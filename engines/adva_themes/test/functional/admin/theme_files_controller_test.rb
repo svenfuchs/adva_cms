@@ -56,7 +56,9 @@ class AdminThemeFilesControllerTest < ActionController::TestCase
     with :access_granted do
       it_assigns :theme
       it_renders :template, :index do
-        has_tag 'table[id=theme_files][class~=list]'
+        [:templates, :stylesheets, :javascripts, :images, :others].each do |file_type|
+          has_tag "table[id=theme_#{file_type}][class~=list]"
+        end
       end
     end
   end
