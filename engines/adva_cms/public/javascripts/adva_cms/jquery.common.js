@@ -10,8 +10,8 @@ var Form = {
 
 $(document).ready(function() {
   $('#toggle_draft').click(Form.toggleDraft);
-
-  if($(".hint").lenght > 0) {
+  
+  if($(".hint").size() > 0) {
 	$(".hint").each(function() {
 	  var label = $("label[for=" + this.getAttribute('for') + "]");
     
