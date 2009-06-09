@@ -890,7 +890,7 @@ de:
    info:
      greeting_logged_in: "Hallo <span>user</span>, Sie sind angemeldet."
    footer:
-     powered_by: Webseite erstellt mit adva-cms (Theme: DePo-mod).
+     powered_by: "Webseite erstellt mit adva-cms (Theme: DePo-mod)."
      site_powered_by: "Webseite erstellt mit {{link}}."
      theme_inspired_by: "(Theme: {{link}}-mod)."
    flash:
