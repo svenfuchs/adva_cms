@@ -10,23 +10,25 @@ var Form = {
 
 $(document).ready(function() {
   $('#toggle_draft').click(Form.toggleDraft);
-  
-  $(".hint").each(function() {
-    var label = $("label[for=" + this.getAttribute('for') + "]");
 
-    if(label) {
-      $(this).appendTo(label); 
-    }
-  })
-
-  $(".hint").addClass("enabled");
-
-  $('.hint.enabled').tooltip({
-	id: 'helptip',
-    delay: 0,
-	track: true,
-	bodyHandler: function() {
-	  return $(this).html();
-	}
-  });
+  if($(".hint").lenght > 0) {
+	$(".hint").each(function() {
+	  var label = $("label[for=" + this.getAttribute('for') + "]");
+    
+	  if(label) {
+	    $(this).appendTo(label); 
+	  }
+	})
+    
+	$(".hint").addClass("enabled");
+    
+	$('.hint.enabled').tooltip({
+	  id: 'helptip',
+	  delay: 0,
+	  track: true,
+	  bodyHandler: function() {
+	    return $(this).html();
+	  }
+	});
+  }
 });
