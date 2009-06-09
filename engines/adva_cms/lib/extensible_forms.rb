@@ -188,7 +188,7 @@ class ExtensibleFormBuilder < ActionView::Helpers::FormBuilder
 
     def hint(tag, hint)
       hint = I18n.t(hint) if hint.is_a?(Symbol)
-      tag + "\n" + @template.content_tag(:p, hint, :class => 'hint', :for => extract_id(tag))
+      tag + @template.content_tag(:p, hint, :class => 'hint', :for => extract_id(tag))
     end
 
     def add_default_class_names(options, type)

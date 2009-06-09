@@ -167,17 +167,18 @@ module ExtensibleFormsBuilderTests
       assert_equal expected, @builder.field_set(:id => 'foo', :legend => 'legend', :class => 'bar') { 'baz' }
     end
 
-    test "fieldset generation works within formbuilder block (labels enabled)" do
+    test "fieldset generation works within formbuilder block (labels and hints enabled)" do
       form_for(:article, @article, :builder => TestFormBuilder) do |f|
         concat f.text_field(:title)
-        f.field_set(:id => 'foo') { concat f.text_field(:title) }
+        f.field_set(:id => 'foo') { concat f.text_field(:title, :hint => 'hint for title') }
       end
       expected = '<form action="url" method="post">' +
                  '<p><label for="article_title">Title</label>' +
                  '<input id="article_title" name="article[title]" size="30" type="text" value="article title" /></p>' +
                  '<fieldset id="foo">' +
                  '<p><label for="article_title">Title</label>' +
-                 '<input id="article_title" name="article[title]" size="30" type="text" value="article title" /></p>' +
+                 '<input id="article_title" name="article[title]" size="30" type="text" value="article title" />' +
+                 '<p class="hint" for="article_title">hint for title</p></p>' +
                  '</fieldset></form>'
       assert_equal expected, output_buffer
     end
