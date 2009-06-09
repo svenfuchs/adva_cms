@@ -16,7 +16,7 @@ class Admin::NewsletterSubscriptionsController < Admin::BaseController
     @subscription = @newsletter.subscriptions.build(params[:subscription])
     
     if @subscription.save
-      redirect_to admin_adva_subscriptions_path(@site, @newsletter)
+      redirect_to admin_adva_subscriptions_url(@site, @newsletter)
     else
       render :action => 'new'
     end
@@ -26,7 +26,7 @@ class Admin::NewsletterSubscriptionsController < Admin::BaseController
     @subscription = Adva::Subscription.find(params[:id])
     @subscription.destroy
     flash[:notice] = t(:'adva.subscription.flash.destroy_success')
-    redirect_to admin_adva_subscriptions_path(@site, @subscription.subscribable_id)
+    redirect_to admin_adva_subscriptions_url(@site, @subscription.subscribable_id)
   end
   
   protected

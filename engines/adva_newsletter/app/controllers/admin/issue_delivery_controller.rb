@@ -12,7 +12,7 @@ class Admin::IssueDeliveryController < Admin::BaseController
     else
       @issue.deliver(:to => current_user) ? flash[:notice] = t(:"adva.newsletter.flash.send_preview_issue") : failure_message
     end
-    redirect_to admin_adva_issue_path(@site, @newsletter, @issue)
+    redirect_to admin_adva_issue_url(@site, @newsletter, @issue)
   end
   
   def destroy
@@ -21,7 +21,7 @@ class Admin::IssueDeliveryController < Admin::BaseController
     else
       flash[:error] = t(:"adva.newsletter.flash.delivery_cancellation_failed")
     end
-    redirect_to admin_adva_issue_path(@site, @newsletter, @issue)
+    redirect_to admin_adva_issue_url(@site, @newsletter, @issue)
   end
   
 
