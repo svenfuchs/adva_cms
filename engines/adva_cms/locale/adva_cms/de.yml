@@ -708,6 +708,24 @@ de:
          success: Das Theme wurde importiert.
          error_filename_blank: Das Theme-Importdatei darf nicht leer sein.
          failure: Die Datei konnte nicht als Theme importiert werden.
+
+   # yuk!
+   theme_templates:
+     columns:
+       path: Pfad
+   theme_stylesheets:
+     columns:
+       path: Pfad
+   theme_javascripts:
+     columns:
+       path: Pfad
+   theme_images:
+     columns:
+       path: Pfad
+   theme_others:
+     columns:
+       path: Pfad
+
    theme_files:
      columns:
        path: Pfad

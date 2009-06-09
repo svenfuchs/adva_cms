@@ -19,11 +19,11 @@ class Theme < ActiveRecord::Base
   end
 
   belongs_to :site
-  has_many :files, :dependent => :destroy
-  has_many :templates
-  has_many :images
-  has_many :javascripts
-  has_many :stylesheets
+  has_many :files, :order => "directory ASC, name ASC", :dependent => :destroy
+  has_many :templates, :order => "directory ASC, name ASC"
+  has_many :images, :order => "directory ASC, name ASC"
+  has_many :javascripts, :order => "directory ASC, name ASC"
+  has_many :stylesheets, :order => "directory ASC, name ASC"
   has_one  :preview
 
   has_permalink :name, :url_attribute => :theme_id, :scope => :site_id,

@@ -733,6 +733,24 @@ en:
           success: The theme has been imported.
           error_filename_blank: The theme file cannot be blank.
           failure: The file could not be imported as a theme.
+
+    # yuk!
+    theme_templates:
+      columns:
+        path: Path
+    theme_stylesheets:
+      columns:
+        path: Path
+    theme_javascripts:
+      columns:
+        path: Path
+    theme_images:
+      columns:
+        path: Path
+    theme_others:
+      columns:
+        path: Path
+
     theme_files:
       no_files: You currently do not have any files available.
       columns:
