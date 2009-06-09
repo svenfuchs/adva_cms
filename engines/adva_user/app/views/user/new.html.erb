@@ -2,7 +2,7 @@
 
 <% form_for :user, :url => user_path, :html => {:id => 'register'} do |f| %>
 
-  <% f.field_set do %>
+  <% f.field_set :register do %>
     <%= f.text_field :first_name, :label => true %>
     <%= f.text_field :last_name, :label => true %>
     <%= f.text_field :homepage, :label => true %>
