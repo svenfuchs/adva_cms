@@ -211,10 +211,16 @@ module ExtensibleFormsBuilderTests
       assert_equal expected, output_buffer
     end
 
-    test "remembers the tab indexes of form fields" do
+    test "uses field id to remember the tab indexes of form fields" do
       @builder.text_field(:title, :tabindex => 43)
       @builder.text_area(:body, :tabindex => 433)
       assert @builder.send(:tabindexes) == { :_title => 43, :_body => 433 }
+    end
+
+    test "does not remember tab index if field id is empty" do
+      @builder.text_field(:title, :id => "", :tabindex => 43)
+      @builder.text_area(:body, :id => "", :tabindex => 433)
+      assert @builder.send(:tabindexes) == { }
     end
     
     test "uses the same tabindex as the form field with the id of given symbol" do

@@ -199,18 +199,17 @@ class ExtensibleFormBuilder < ActionView::Helpers::FormBuilder
       options
     end
     
-    def tabindex_counter(action)
+    def tabindex_increment!
       @tabindex_count ||= 0
-      @tabindex_count += 1 if action == :increment
-      @tabindex_count
+      @tabindex_count += 1
     end
     
-    def set_tabindex_position(index, position)
+    def set_tabindex_position(index = nil, position = nil)
       position = case position
       when :after  then tabindexes[index] + 1
       when :before then tabindexes[index] - 1
       when :same   then tabindexes[index]
-      else tabindex_counter(:increment)
+      else tabindex_increment!
       end
       position
     end
@@ -224,7 +223,7 @@ class ExtensibleFormBuilder < ActionView::Helpers::FormBuilder
       elsif index.is_a?(Symbol)
         options[:tabindex] = set_tabindex_position(index, :same)
       elsif index.blank?
-        options[:tabindex] = tabindex_counter(:increment)
+        options[:tabindex] = set_tabindex_position
       end
       
       options
@@ -235,7 +234,8 @@ class ExtensibleFormBuilder < ActionView::Helpers::FormBuilder
     end
     
     def remember_tabindex(tag, options)
-      tabindexes[:"#{extract_id(tag)}"] = options[:tabindex]
+      id = extract_id(tag)
+      tabindexes[:"#{id}"] = options[:tabindex] unless id.blank?
     end
 
     def with_callbacks(method, &block)
