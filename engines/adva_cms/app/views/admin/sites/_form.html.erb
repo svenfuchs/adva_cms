@@ -1,15 +1,15 @@
 <h2><%= t(:'adva.titles.general_settings') %></h2>
 <% f.field_set do %>
   <% column do %>
-    <%= f.text_field :name, :tabindex => 1, :label => :'adva.sites.label.name' %>
-  	<%= f.text_field :title, :tabindex => 3, :label => :'adva.sites.label.title' %>
-  	<%= f.text_field :email, :tabindex => 5, :label => :'adva.sites.label.admin_email' %>
+    <%= f.text_field :name, :label => :'adva.sites.label.name' %>
+  	<%= f.text_field :title, :label => :'adva.sites.label.title' %>
+  	<%= f.text_field :email, :label => :'adva.sites.label.admin_email' %>
   <% end %>
 
   <% column do %>
-    <%= f.text_field :host, :tabindex => 2, :label => :'adva.sites.label.host' %>
-  	<%= f.text_field :subtitle, :tabindex => 4, :label => :'adva.sites.label.subtitle' %>
+    <%= f.text_field :host, :tabindex => :site_name, :label => :'adva.sites.label.host' %>
+  	<%= f.text_field :subtitle, :tabindex => :site_title, :label => :'adva.sites.label.subtitle' %>
     <%= f.time_zone_select :timezone, [ActiveSupport::TimeZone['UTC']],
-          :selected => site.timezone, :tabindex => 6, :label => :'adva.sites.label.timezone' %>
+          { :selected => site.timezone }, :tabindex => :site_email, :label => :'adva.sites.label.timezone' %>
   <% end %>
 <% end %>

@@ -1,10 +1,7 @@
-<% content_for :sidebar do %>
-	<% fields_for :wikipage do |f| -%>
-		<%= render :partial => 'options', :locals => { :f => f } %>
-	<% end %>
-<% end %>
 
 <% f.field_set do %>
   <%= f.text_field :title, :label => true %>
   <%= f.text_area :body, :label => true, :class => 'big' %>
 <% end %>
+
+<%= render :partial => 'options', :locals => { :f => f } %>

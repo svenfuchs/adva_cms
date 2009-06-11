@@ -2,6 +2,6 @@
 
 <% f.field_set :comments_settings do %>
 	<% column do %>
-  	<%= f.select :comment_filter, filter_options, :label => true, :hint => :'adva.comments.hints.comments_filter' %>
+  	<%= f.select :comment_filter, filter_options, {}, :label => true, :hint => :'adva.comments.hints.comments_filter' %>
 	<% end %>
 <% end %>

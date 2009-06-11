@@ -6,6 +6,6 @@
 	<% end %>
 
   <% column do %>
-    <%= f.select :content_filter, filter_options, :label => true, :hint => :'adva.sections.hints.content_filter' %>
+    <%= f.select :content_filter, filter_options, {}, :label => true, :hint => :'adva.sections.hints.content_filter', :tabindex => :section_photos_per_page %>
 	<% end %>
 <% end %>

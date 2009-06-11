@@ -1,13 +1,13 @@
 <% f.field_set do %>
   <% column do %>
-    <%= f.text_field :first_name, :tabindex => 1, :label => true %>
-    <%= f.text_field :email, :tabindex => 3, :label => true %>
-    <%= f.password_field :password, :tabindex => 5, :label => true %>
+    <%= f.text_field :first_name, :label => true %>
+    <%= f.text_field :email, :label => true %>
+    <%= f.password_field :password, :label => true %>
   <% end %>
 
   <% column do %>
-    <%= f.text_field :last_name, :tabindex => 2, :label => true %>
-    <%= f.text_field :homepage, :tabindex => 4, :label => true %>
+    <%= f.text_field :last_name, :tabindex => :user_first_name, :label => true %>
+    <%= f.text_field :homepage, :tabindex => :user_email, :label => true %>
   <% end %>
 <% end %>
 

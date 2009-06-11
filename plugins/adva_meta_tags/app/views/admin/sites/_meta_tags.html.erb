@@ -6,7 +6,7 @@
   <% end %>
 
   <% column do %>
-    <%= f.text_field :meta_author, :label => true %>
+    <%= f.text_field :meta_author, :label => true, :tabindex => :site_meta_keywords %>
     <%= f.text_field :meta_copyright, :label => true %>
     <%= f.text_field :meta_geourl, :label => true,
       :hint => I18n.t(:'adva.meta_tags.hints.meta_geourl',

@@ -1,56 +1,54 @@
-<% content_for :sidebar do -%>
-	<% fields_for :calendar_event, @event do |f| -%>
-		<%= render :partial => 'options', :locals => {:f => f} %>
-	<% end -%>
-<% end -%>
 
 <% f.field_set :title do %>
-	<% column do %>
-  	<%= f.text_field :title, :label => :'adva.calendar.attributes.title' %>
-	<% end %>
+  <%= f.text_field :title, :label => :'adva.calendar.attributes.title' %>
 <% end %>
+
 <% f.field_set :attributes do %>
-	<% column do %>
+  <% column do %>
 		<%= f.text_field :host, :label => :'adva.calendar.attributes.host' %>
 	<% end %>
-	<% column do %>	
+	
+	<% column do %>
 		<%= f.text_field :location, :label => :'adva.calendar.attributes.location' %>
 	<% end %>
 <% end %>
+
 <% f.field_set :datetimes do %>
 	<% column do %>
-		<%= f.label :start_date, t(:'adva.calendar.attributes.start_date') %>
 		<%#= f.text_field :start_date, :value => @event.start_date.localtime.rfc2822 %>
-		<%= f.datetime_select :start_date %>
+		<%= f.datetime_select :start_date, {}, :label => t(:'adva.calendar.attributes.start_date') %>
 	<% end %>
-	<% column do %>	
-		<%= f.label :start_date, t(:'adva.calendar.attributes.end_date') %>
+	
+	<% column do %>
 	  <%#= f.text_field :end_date, :value => (@event.end_date ? @event.end_date.localtime.rfc2822 : '') %>
-	  <%= f.datetime_select :end_date %>
+	  <%= f.datetime_select :end_date, {}, :label => t(:'adva.calendar.attributes.end_date') %>
+	
 		<label>
 			<%= f.check_box :all_day %> <%= t(:'adva.calendar.attributes.all_day') %>
 		</label>
 	<% end %>
 <% end %>
+
 <% f.field_set :more_attributes do %>
-	<% column do %>	
-  	<%= f.text_area :body, :class => "big wysiwyg", :label => :'adva.calendar.attributes.body' %>
+ 	<%= f.text_area :body, :class => "big wysiwyg", :label => :'adva.calendar.attributes.body' %>
 
-	  <%= f.label :draft, t(:'adva.calendar.question_save_as_draft') %>
-	  <label class="light">
-	    <%= check_box_tag :draft, '1', @event.draft?, :id => 'toggle_draft' %> 
-			<%= t(:'adva.calendar.confirm_save_as_draft') %>
-	  </label>
+  <%= f.label :draft, t(:'adva.calendar.question_save_as_draft') %>
+  <label class="light">
+    <%= check_box_tag :draft, '1', @event.draft?, :id => 'toggle_draft' %> 
+		<%= t(:'adva.calendar.confirm_save_as_draft') %>
+  </label>
 
-	  <p id="publish_date_wrapper" style="<%= @event.draft? ? "display:none" : "" %>">
-	    <%= f.label :published_at, t(:'adva.calendar.publish_on_date') %>
-	    <%= f.datetime_select :published_at,
-	                          :start_year => (@event.published_at || Time.zone.now).year-1,
-	                          :end_year => (Time.zone.now.year + 5),
-	                          :order => [:month, :day, :year] %>
-	  </p>
-	<% end %>
+  <p id="publish_date_wrapper" style="<%= @event.draft? ? "display:none" : "" %>">
+    <%= f.label :published_at, t(:'adva.calendar.publish_on_date') %>
+    <%= f.datetime_select :published_at,
+                          :start_year => (@event.published_at || Time.zone.now).year-1,
+                          :end_year => (Time.zone.now.year + 5),
+                          :order => [:month, :day, :year] %>
+  </p>
 <% end %>
+
+<%= render :partial => 'options', :locals => {:f => f} %>
+
 <script type="text/javascript">
 /*$(document).ready(function() {
   options = {

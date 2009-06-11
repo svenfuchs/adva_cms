@@ -11,7 +11,7 @@
 		  	end
       
 		    html << f.select(:filter, filter_options, {}, :class => 'columnsFilter', :label => true) + 
-		            f.select(:user_id, author_options(@site.users), :selected => author_selected(@event), :label => true)
+		            f.select(:user_id, author_options(@site.users), {}, :selected => author_selected(@event), :label => true)
 		  end
 
 			f.tab :assets do 

@@ -7,16 +7,15 @@
 		<p><%= link_to(image_tag(@photo.base_url(:large)), @photo.base_url) %></p>
 	<% end %>
 	
-  <%= f.label :draft, t(:'adva.photos.common.save_as_draft') %>
   <%= f.check_box :draft?, :id => 'toggle_draft', :label => :'adva.photos.confirm_save_as_draft' %>
 	
   <p id="publish_date_wrapper" style="<%= @photo.draft? ? "display:none" : "" %>">
     <%= f.datetime_select :published_at,
-                          :start_year => (@photo.published_at || Time.zone.now).year-1,
-                          :end_year => (Time.zone.now.year + 5),
-                          :order => [:month, :day, :year],
+                          { :start_year => (@photo.published_at || Time.zone.now).year-1,
+                            :end_year => (Time.zone.now.year + 5),
+                            :order => [:month, :day, :year] },
                           :label => true %>
   </p>
 <% end %>
 
-<% render :partial => 'sidebar', :locals => { :f => f } %>
+<%= render :partial => 'options', :locals => { :f => f } %>

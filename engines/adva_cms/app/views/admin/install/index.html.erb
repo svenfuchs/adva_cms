@@ -7,7 +7,7 @@
   <h3><%= t(:'adva.titles.website') %></h3>
   <% f.field_set :site do %>
     <% fields_for @site do |site| %>
-   		<%= site.text_field :name, :label => true %>
+   		<%= site.text_field :name, :label => true, :tabindex => 1 %>
     <% end %>
   <% end %>
 
@@ -15,10 +15,10 @@
 	<% f.field_set :home_section do %>
     <% fields_for :section, @section do |s| %>
       <% column do %>
-      	<%= s.collection_select :type, Section.types, :to_s, :to_s, {}, :label => true, :style => "width:100%;" %>
+      	<%= s.collection_select :type, Section.types, :to_s, :to_s, {}, :label => true, :style => "width:100%;", :tabindex => 2 %>
       <% end %>
       <% column do %>
-      	<%= s.text_field :title, :label => 'Title' %>
+      	<%= s.text_field :title, :label => 'Title', :tabindex => :section_type %>
       <% end %>
     <% end %>
   <% end %>
@@ -27,10 +27,10 @@
 	<% f.field_set :admin_account do %>
     <% fields_for @user do |user| %>
       <% column do %>
-   		<%= user.text_field :email, :label => true %>
+   		<%= user.text_field :email, :label => true, :tabindex => 3 %>
    		<% end %>
    		<% column do %>
-   		<%= user.password_field :password, :label => true %>
+   		<%= user.password_field :password, :label => true, :tabindex => 4 %>
    		<% end %>
     <% end %>
   <% end %>

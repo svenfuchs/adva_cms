@@ -10,7 +10,7 @@
 	      <%= s.text_field :title %>
       <% end %>
 			<% column do %>
-      	<%= s.collection_select :type, Section.types, :to_s, :to_s, {}, :label => true %>
+      	<%= s.collection_select :type, Section.types, :to_s, :to_s, {}, :label => true, :tabindex => :section_title %>
       <% end %>
     <% end %>
   <% end %>

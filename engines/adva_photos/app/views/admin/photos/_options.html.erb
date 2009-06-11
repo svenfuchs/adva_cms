@@ -2,15 +2,15 @@
 	content_for :sidebar do
 		f.tabs do
 		  f.tab :options do
-				html = f.select(:author, author_options(@site.users), :selected => author_selected(@photo), :label => true) + "\n"  + 
-				  		 f.select(:comment_age, comment_expiration_options, :label => :'adva.titles.comments') + "\n" + 
+				html = f.select(:author, author_options(@site.users), { :selected => author_selected(@photo) }, :label => true) + "\n" +
+				  		 f.select(:comment_age, comment_expiration_options, {}, :label => :'adva.titles.comments') + "\n" +
 				  		 f.text_field(:tag_list, :label => 'Tags', :hint => :'adva.articles.hints.tags') + "\n"
 				
 				unless @sets.empty?
 					html << %(<label>#{t(:'adva.photos.admin.photos.publish_in_set')}</label>) + 
 		  	  		    render(:partial => 'sets/checkboxes', :locals => { :sets => @sets, :photo => @photo })
 				end
-
+				
 				html
 			end
 		end

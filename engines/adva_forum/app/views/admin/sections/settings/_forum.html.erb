@@ -7,7 +7,7 @@
 	<% end %>
 
   <% column do %>
-    <%= f.select :content_filter, filter_options, :label => true %>
+    <%= f.select :content_filter, filter_options, {}, :label => true, :tabindex => :section_topics_per_page %>
     <span class="hint"><%= t(:'adva.forums.labels.post_content_filter') %></span>
 	<% end %>
 <% end %>
