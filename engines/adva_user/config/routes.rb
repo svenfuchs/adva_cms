@@ -13,6 +13,10 @@ ActionController::Routing::Routes.draw do |map|
   map.resource :user,        :controller => 'user',
                              :member => { :verify => :get }
 
+  map.user_verification_sent 'user/verification_sent',
+                             :controller => 'user',
+                             :action => 'verification_sent'
+
   map.resources :users,      :path_prefix => "admin",
                              :name_prefix => "admin_global_",
                              :namespace   => "admin/"
