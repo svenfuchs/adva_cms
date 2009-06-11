@@ -53,7 +53,7 @@ class ExtensibleFormBuilder < ActionView::Helpers::FormBuilder
 
   class_inheritable_accessor :options
   self.options = { :labels => false, :wrap => false, :default_class_names => {} }
-
+  
   class << self
     [:labels, :wrap].each do |option|
       define_method(:"#{option}=") { |value| self.options[option] = value }
@@ -97,15 +97,17 @@ class ExtensibleFormBuilder < ActionView::Helpers::FormBuilder
     class_eval <<-src, __FILE__, __LINE__
       def #{method_name}(*args, &block)
         type = #{method_name.to_sym.inspect}
-
+        
         options = args.extract_options!
         options = add_default_class_names(options, type)
-
+        options = add_tabindex(options, type)
+        
         label, wrap, hint = options.delete(:label), options.delete(:wrap), options.delete(:hint)
         name = args.first
 
         with_callbacks(name) do
           tag = super(*(args << options), &block)
+          remember_tabindex(tag, options)
           tag = hint(tag, hint) if hint
           tag = labelize(type, tag, name, label) if label || self.options[:labels]
           tag = wrap(tag) if wrap || self.options[:wrap]
@@ -195,6 +197,45 @@ class ExtensibleFormBuilder < ActionView::Helpers::FormBuilder
       options[:class] = (Array(options[:class]) + self.class.default_class_names(type)).join(' ')
       options.delete(:class) if options[:class].blank?
       options
+    end
+    
+    def tabindex_counter(action)
+      @tabindex_count ||= 0
+      @tabindex_count += 1 if action == :increment
+      @tabindex_count
+    end
+    
+    def set_tabindex_position(index, position)
+      position = case position
+      when :after  then tabindexes[index] + 1
+      when :before then tabindexes[index] - 1
+      when :same   then tabindexes[index]
+      else tabindex_counter(:increment)
+      end
+      position
+    end
+    
+    def add_tabindex(options, type)
+      index = options[:tabindex]
+      
+      if index.is_a?(Hash)
+        key = index.keys.first
+        options[:tabindex] = set_tabindex_position(index[key], key)
+      elsif index.is_a?(Symbol)
+        options[:tabindex] = set_tabindex_position(index, :same)
+      elsif index.blank?
+        options[:tabindex] = tabindex_counter(:increment)
+      end
+      
+      options
+    end
+    
+    def tabindexes
+      @tabindexes ||= {}
+    end
+    
+    def remember_tabindex(tag, options)
+      tabindexes[:"#{extract_id(tag)}"] = options[:tabindex]
     end
 
     def with_callbacks(method, &block)

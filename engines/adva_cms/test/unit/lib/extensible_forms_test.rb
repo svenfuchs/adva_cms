@@ -155,7 +155,7 @@ module ExtensibleFormsBuilderTests
       TestFormBuilder.after(:article, :title, 'after!')
       expected = '<form action="url" method="post">' +
                  'before!<p><label for="article_title">Title</label>' +
-                 '<input id="article_title" name="article[title]" size="30" type="text" value="article title" /></p>' +
+                 '<input id="article_title" name="article[title]" size="30" tabindex="1" type="text" value="article title" /></p>' +
                  'after!</form>'
       assert_equal expected, build_form
     end
@@ -174,10 +174,10 @@ module ExtensibleFormsBuilderTests
       end
       expected = '<form action="url" method="post">' +
                  '<p><label for="article_title">Title</label>' +
-                 '<input id="article_title" name="article[title]" size="30" type="text" value="article title" /></p>' +
+                 '<input id="article_title" name="article[title]" size="30" tabindex="1" type="text" value="article title" /></p>' +
                  '<fieldset id="foo">' +
                  '<p><label for="article_title">Title</label>' +
-                 '<input id="article_title" name="article[title]" size="30" type="text" value="article title" />' +
+                 '<input id="article_title" name="article[title]" size="30" tabindex="2" type="text" value="article title" />' +
                  '<p class="hint" for="article_title">hint for title</p></p>' +
                  '</fieldset></form>'
       assert_equal expected, output_buffer
@@ -186,7 +186,79 @@ module ExtensibleFormsBuilderTests
     test "extracts the id from generated tag (sigh)" do
       assert_equal 'article_title', @builder.send(:extract_id, build_form)
     end
+    
+    # tabindexes
+    
+    test "adds a tabindex" do
+      assert build_form =~ /tabindex="1"/
+    end
+    
+    test "adds user specified tabindex" do
+      assert build_form(:body, :tabindex => 666) =~ /tabindex="666"/
+    end
+    
+    test "increments tabindexes for multiple form fields" do
+      form_for(:article, @article, :builder => TestFormBuilder) do |f|
+        concat f.text_field(:title)
+        concat f.text_area(:body)
+      end
+      expected = '<form action="url" method="post">' +
+                 '<p><label for="article_title">Title</label>' +
+                 '<input id="article_title" name="article[title]" size="30" tabindex="1" type="text" value="article title" />' +
+                 '</p><p><label for="article_body">Body</label>' +
+                 '<textarea cols="40" id="article_body" name="article[body]" rows="20" tabindex="2"></textarea>' +
+                 '</p></form>'
+      assert_equal expected, output_buffer
+    end
 
+    test "remembers the tab indexes of form fields" do
+      @builder.text_field(:title, :tabindex => 43)
+      @builder.text_area(:body, :tabindex => 433)
+      assert @builder.send(:tabindexes) == { :_title => 43, :_body => 433 }
+    end
+    
+    test "uses the same tabindex as the form field with the id of given symbol" do
+      form_for(:article, @article, :builder => TestFormBuilder) do |f|
+        concat f.text_field(:title, :tabindex => 4)
+        concat f.text_area(:body, :tabindex => :article_title)
+      end
+      expected = '<form action="url" method="post">' +
+                 '<p><label for="article_title">Title</label>' +
+                 '<input id="article_title" name="article[title]" size="30" tabindex="4" type="text" value="article title" />' +
+                 '</p><p><label for="article_body">Body</label>' +
+                 '<textarea cols="40" id="article_body" name="article[body]" rows="20" tabindex="4"></textarea>' +
+                 '</p></form>'
+      assert_equal expected, output_buffer
+    end
+
+    test "decrements the tabindex by one if defined by { :before => :article_title }" do
+      form_for(:article, @article, :builder => TestFormBuilder) do |f|
+        concat f.text_field(:title, :tabindex => 4)
+        concat f.text_area(:body, :tabindex => { :before => :article_title })
+      end
+      expected = '<form action="url" method="post">' +
+                 '<p><label for="article_title">Title</label>' +
+                 '<input id="article_title" name="article[title]" size="30" tabindex="4" type="text" value="article title" />' +
+                 '</p><p><label for="article_body">Body</label>' +
+                 '<textarea cols="40" id="article_body" name="article[body]" rows="20" tabindex="3"></textarea>' +
+                 '</p></form>'
+      assert_equal expected, output_buffer
+    end
+    
+    test "increments the tabindex by one if defined by { :after => :article_title }" do
+      form_for(:article, @article, :builder => TestFormBuilder) do |f|
+        concat f.text_field(:title, :tabindex => 4)
+        concat f.text_area(:body, :tabindex => { :after => :article_title })
+      end
+      expected = '<form action="url" method="post">' +
+                 '<p><label for="article_title">Title</label>' +
+                 '<input id="article_title" name="article[title]" size="30" tabindex="4" type="text" value="article title" />' +
+                 '</p><p><label for="article_body">Body</label>' +
+                 '<textarea cols="40" id="article_body" name="article[body]" rows="20" tabindex="5"></textarea>' +
+                 '</p></form>'
+      assert_equal expected, output_buffer
+    end
+    
     protected
 
       def protect_against_forgery?
