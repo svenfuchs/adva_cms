@@ -12,7 +12,7 @@ class UserController < BaseController
     @user = @site.users.build params[:user]
     if @site.save
       trigger_events @user, :registered
-      render :action => 'verification_sent'
+      redirect_to user_verification_sent_url
     else
       flash[:error] = t(:'adva.signup.flash.create.failure')
       render :action => :new
@@ -20,6 +20,7 @@ class UserController < BaseController
   end
 
   def verification_sent
+    # TODO: translate text!
   end
 
   def verify

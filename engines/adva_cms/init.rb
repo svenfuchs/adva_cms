@@ -21,7 +21,7 @@ config.to_prepare do
   }
 end
 
-I18n.load_path += Dir[File.dirname(__FILE__) + '/locale/**/*.yml']
+I18n.load_path += Dir[File.join(File.dirname(__FILE__), 'config', 'locales', '**/*.{rb,yml}')]
 
 # register_javascript_expansion \
 #   :common  => %w( adva_cms/prototype adva_cms/lowpro adva_cms/flash 

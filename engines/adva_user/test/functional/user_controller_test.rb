@@ -34,10 +34,7 @@ class UserControllerTest < ActionController::TestCase
       it_saves :user
       it_triggers_event :user_registered
       it_triggers_event :user_created
-      
-      it_renders :template, :verification_sent do
-        has_text 'sucessfully registered'
-      end
+      it_redirects_to { user_verification_sent_url }
       
       it "makes the new user a member of the current site" do
         @site.users.should include(assigns(:user))
@@ -56,7 +53,15 @@ class UserControllerTest < ActionController::TestCase
       it_does_not_trigger_any_event
     end
   end
-  
+
+  describe "GET to :verification_sent" do
+    action { get :verification_sent }
+
+    it_renders :template, :verification_sent do
+      has_text 'successfully registered'
+    end
+  end
+
   describe "GET to :verify" do
     action { get :verify }
 
