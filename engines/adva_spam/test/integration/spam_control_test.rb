@@ -8,7 +8,10 @@ module IntegrationTests
       @blog = @site.sections.first
       @article = @blog.articles.first
       
-      stub(ActionController::RoleRequired).has_permission? { true }
+      # stub to say: " :'comments_create' => :anonymous " role
+      @user = User.anonymous
+      stub(User).anonymous.returns(@user)
+      stub(@user).has_role?.returns(true)
     end
 
     test "A site w/ default filter and the ham option not set does not approve an anonymous comment" do

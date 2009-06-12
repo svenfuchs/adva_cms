@@ -93,7 +93,7 @@ ActionController::Dispatcher.to_prepare do
                 :'moderate board'     => :moderator,
 
                 :'show comment'       => :moderator,
-                :'create comment'     => :anonymous,
+                :'create comment'     => :user,
                 :'update comment'     => :author,
                 :'destroy comment'    => :moderator,
                 :'manage comment'     => :admin,
