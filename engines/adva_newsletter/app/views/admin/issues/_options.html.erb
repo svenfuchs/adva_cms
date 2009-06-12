@@ -6,7 +6,7 @@
       end
 			f.tab :assets do 
 		  	assets = { :latest => @site.assets.recent, :attached => [], :bucket => @site.assets.bucket(session[:bucket]) }
-		  	render "admin/assets/widget/widget", :assets => assets
+		  	render :partial => 'admin/assets/widget/widget', :assets => assets
 			end if Rails.plugin?(:adva_assets)
     end
   end

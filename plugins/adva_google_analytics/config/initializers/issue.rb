@@ -34,7 +34,7 @@ if Rails.plugin?(:adva_newsletter)
   
   class AdvaIssueFormBuilder < ExtensibleFormBuilder
     after(:issue, :tab_options) do |f|
-      render "admin/issues/tracking", :f => f
+      render :partial => 'admin/issues/tracking', :f => f
     end
   end
 end

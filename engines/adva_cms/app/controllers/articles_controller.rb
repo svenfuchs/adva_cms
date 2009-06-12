@@ -19,14 +19,14 @@ class ArticlesController < BaseController
 
   def index
     respond_to do |format|
-      format.html { render "#{@section.type.tableize}/articles/index" }
+      format.html { render :template => "#{@section.type.tableize}/articles/index" }
       format.atom { render :layout => false }
     end
   end
 
   def show
     respond_to do |format|
-      format.html { render "#{@section.type.tableize}/articles/show" }
+      format.html { render :template => "#{@section.type.tableize}/articles/show" }
     end
   end
 
