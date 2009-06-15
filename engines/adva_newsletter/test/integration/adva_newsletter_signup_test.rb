@@ -1,6 +1,6 @@
-require File.expand_path(File.join(File.dirname(__FILE__), "../..", "test_helper" ))
+require File.expand_path(File.join(File.dirname(__FILE__), "..", "test_helper" ))
 
-class AdvaSubscriptionIntegrationTest < ActionController::IntegrationTest
+class AdvaNewsletterSignupIntegrationTest < ActionController::IntegrationTest
   def setup
     super
     @site = use_site! "site with newsletter"

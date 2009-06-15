@@ -59,7 +59,7 @@ module IntegrationTests
     def verification_email
       @verification_email ||= begin
         ActionMailer::Base.deliveries.should_not be_empty
-        ActionMailer::Base.deliveries.first
+        ActionMailer::Base.deliveries.last
       end
     end
   end
