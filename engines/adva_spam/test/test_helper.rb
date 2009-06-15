@@ -59,35 +59,19 @@ class ActionController::IntegrationTest
     assert @site.spam_options == options
   end
   
-  def akismet_mark_as_spam_stubbing
+  def stub_akismet_service(options = {})
     @akismet = @site.spam_engine.last
-    @viking = Viking::Akismet.new({})           # stub the akismet backend
-    stub(Viking).connect.returns(@viking) 
-    stub(@viking).check_comment.returns false   # return comment result as a spam
-    stub(@akismet).backend.returns(@viking)     # use the stubbed viking service
+    @viking = Viking::Akismet.new({})
+    stub(Viking).connect.returns(@viking)
+    stub(@viking).check_comment.returns(options)
+    stub(@akismet).backend.returns(@viking)
   end
   
-  def akismet_mark_as_ham_stubbing
-    @akismet = @site.spam_engine.last
-    @viking = Viking::Akismet.new({})           # stub the akismet backend
-    stub(Viking).connect.returns(@viking) 
-    stub(@viking).check_comment.returns true    # return comment result as a ham
-    stub(@akismet).backend.returns(@viking)     # use the stubbed viking service
-  end
-  
-  def defensio_mark_as_spam_stubbing
+  def stub_defensio_service(options = {})
     @defensio = @site.spam_engine.last
-    @viking = Viking::Defensio.new({})          # stub the defensio backend
-    stub(Viking).connect.returns(@viking) 
-    stub(@viking).check_comment.returns({ :spam => true })   # return comment result as a spam
-    stub(@defensio).backend.returns(@viking)    # use the stubbed viking service
-  end
-  
-  def defensio_mark_as_ham_stubbing
-    @defensio = @site.spam_engine.last
-    @viking = Viking::Defensio.new({})           # stub the defensio backend
-    stub(Viking).connect.returns(@viking) 
-    stub(@viking).check_comment.returns({ :spam => false })   # return comment result as a ham
-    stub(@defensio).backend.returns(@viking)    # use the stubbed viking service
+    @viking = Viking::Defensio.new({})
+    stub(Viking).connect.returns(@viking)
+    stub(@viking).check_comment.returns(options)
+    stub(@defensio).backend.returns(@viking)
   end
 end

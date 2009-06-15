@@ -64,11 +64,11 @@ class Comment < ActiveRecord::Base
   end
 
   def ham?
-    spaminess < spam_threshold
+    spaminess.to_i < spam_threshold
   end
 
   def spam?
-    spaminess >= spam_threshold
+    spaminess.to_i >= spam_threshold
   end
 
   def check_approval(context = {})

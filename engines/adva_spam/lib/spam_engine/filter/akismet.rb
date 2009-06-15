@@ -2,8 +2,9 @@ module SpamEngine
   module Filter
     class Akismet < Base
       def check_comment(comment, context = {})
-        is_ham = backend.check_comment(comment_options(comment, context))
-        comment.spam_reports << SpamReport.new(:engine => name, :spaminess => (is_ham ? 0 : 100))
+        # Note: returns { :spam => true, :message => message } not true or false
+        result = backend.check_comment(comment_options(comment, context))
+        comment.spam_reports << SpamReport.new(:engine => name, :spaminess => (result[:spam] ? 100 : 0))
       end
 
       def mark_as_ham(comment, context = {})
@@ -21,10 +22,11 @@ module SpamEngine
         end
 
         def comment_options(comment, context)
-          { :permalink            => context[:permalink],
-            :user_ip              => comment.author_ip,
+          { :user_ip              => comment.author_ip,
             :user_agent           => comment.author_agent,
             :referrer             => comment.author_referer,
+            :permalink            => context[:permalink],
+            :comment_type         => 'comment',
             :comment_author       => comment.author_name,
             :comment_author_email => comment.author_email,
             :comment_author_url   => comment.author_homepage,

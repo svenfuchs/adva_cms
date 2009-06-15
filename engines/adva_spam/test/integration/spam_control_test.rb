@@ -44,7 +44,7 @@ module IntegrationTests
     test "A site w/ Akismet filter returnin 'spam' does not approve a comment (when default filter is set to 'none')" do
       allow_anonymous_commenting
       set_akismet_as_spam_engine
-      akismet_mark_as_spam_stubbing
+      stub_akismet_service({:spam => true})
       
       visit_the_article
       fill_and_post_the_comment_form
@@ -54,7 +54,7 @@ module IntegrationTests
     test "A site w/ Akismet filter returning 'ham' approves a comment (when default filter is set to 'none')" do
       allow_anonymous_commenting
       set_akismet_as_spam_engine
-      akismet_mark_as_ham_stubbing
+      stub_akismet_service({:spam => false})
       
       visit_the_article
       fill_and_post_the_comment_form
@@ -64,7 +64,7 @@ module IntegrationTests
     test "A site w/ Defensio filter returnin 'spam' does not approve a comment (when default filter is set to 'none')" do
       allow_anonymous_commenting
       set_defensio_as_spam_engine
-      defensio_mark_as_spam_stubbing
+      stub_defensio_service({:spam => true})
       
       visit_the_article
       fill_and_post_the_comment_form
@@ -74,7 +74,7 @@ module IntegrationTests
     test "A site w/ Defensio filter returning 'ham' approves a comment (when default filter is set to 'none')" do
       allow_anonymous_commenting
       set_defensio_as_spam_engine
-      defensio_mark_as_ham_stubbing
+      stub_defensio_service({:spam => false})
       
       visit_the_article
       fill_and_post_the_comment_form
