@@ -1,8 +1,8 @@
 <h2><%= t(:'adva.users.titles.register') %></h2>
 
-<% form_for :user, :url => user_path, :html => {:id => 'register'} do |f| %>
+<% form_for @user, :url => user_path, :html => {:id => 'register'} do |f| %>
 
-  <% f.field_set :register do %>
+  <% f.field_set :signup_fields do %>
     <%= f.text_field :first_name, :label => true %>
     <%= f.text_field :last_name, :label => true %>
     <%= f.text_field :homepage, :label => true %>

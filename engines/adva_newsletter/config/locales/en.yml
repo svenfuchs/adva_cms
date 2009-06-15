@@ -1,4 +1,10 @@
 en:
+  adva_newsletter:
+    subscription:
+      title:
+        section: 
+          one: Subscribe to Newsletter
+          other: Subscribe to Newsletters
   adva:
     adva_newsletters:
       columns:

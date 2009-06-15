@@ -1,0 +1,21 @@
+<% if @newsletter_attributes.present? %>
+  <div id="adva_newsletter_subscription">
+    <h3><%= t(:'adva_newsletter.subscription.title.section', :count => @newsletter_attributes.size) %></h3>
+    <% f.field_set :subscriptions do %>
+      <ul>
+        <% @user.subscriptions.build(@newsletter_attributes).each do |subscription| %>
+          <li>
+            <% f.fields_for :subscriptions, subscription do |s| %> 
+              <%= s.check_box    :subscribe, :label => subscription.subscribable.title %>
+              <%= s.hidden_field :subscribable_id %>
+              <%= s.hidden_field :subscribable_type %>
+            <% end %>
+            <% if subscription.subscribable.desc.present? %>
+              <p class="desc"><%= subscription.subscribable.desc %></p>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+  </div>
+<% end %>

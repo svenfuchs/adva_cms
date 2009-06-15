@@ -1,0 +1,8 @@
+#adva_newsletter_subscription ul {
+  list-style-type: none;
+}
+#adva_newsletter_subscription p.desc {
+  margin: 0 0 10px 24px;
+	color: #aaa;
+	font-size: 11px;
+}
