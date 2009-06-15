@@ -9,7 +9,7 @@ module SpamTests
       @context = {:url => 'http://domain.org/an-article', :authenticated => true}
     
       @viking = Viking::Akismet.new({})
-      stub(@viking).check_comment.returns false
+      stub(@viking).check_comment.returns({ :spam => false, :message => "" })
       stub(@filter).backend.returns(@viking)
     end
 
@@ -36,7 +36,7 @@ module SpamTests
       report = @comment.spam_reports.first
       report.should be_instance_of(SpamReport)
       report.engine.should == 'Akismet'
-      report.spaminess.should == 100
+      report.spaminess.should == 0
     end
   
     # FIXME currently not happening ... i wonder how to design this stuff anyway.
