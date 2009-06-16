@@ -162,7 +162,7 @@ class Theme < ActiveRecord::Base
 
   class Image < File
     self.file_type = :image
-    self.valid_extensions = %w(.jpg .jpeg .gif .png)
+    self.valid_extensions = %w(.jpg .jpeg .gif .png .ico)
   end
 
   class Javascript < TextFile

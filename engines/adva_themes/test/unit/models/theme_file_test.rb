@@ -28,6 +28,10 @@ class ThemeFileTest < ActiveSupport::TestCase
     expect_valid_file(uploaded_image, Theme::Image, "#{@theme.path}/images/rails.png")
   end
 
+  test "instantiates a valid Theme::Image for .ico" do
+    expect_valid_file(uploaded_icon, Theme::Image, "#{@theme.path}/images/favicon.ico")
+  end
+
   test "instantiates a valid Theme::Javascript for a valid asset extension" do
     expect_valid_file(uploaded_javascript, Theme::Javascript, "#{@theme.path}/javascripts/effects.js")
   end

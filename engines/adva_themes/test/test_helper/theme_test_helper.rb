@@ -7,6 +7,10 @@ module ThemeTestHelper
     File.new("#{File.dirname(__FILE__)}/../fixtures/rails.png")
   end
 
+  def icon_fixture
+    File.new("#{File.dirname(__FILE__)}/../fixtures/favicon.ico")
+  end
+
   def preview_fixture
     File.new("#{File.dirname(__FILE__)}/../fixtures/preview.png")
   end
@@ -25,6 +29,10 @@ module ThemeTestHelper
 
   def uploaded_image(theme = @theme)
     Theme::File.create! :theme => theme, :base_path => 'rails.png', :data => image_fixture
+  end
+
+  def uploaded_icon(theme = @theme)
+    Theme::File.create! :theme => theme, :base_path => 'favicon.ico', :data => icon_fixture
   end
 
   def uploaded_preview(theme = @theme)
