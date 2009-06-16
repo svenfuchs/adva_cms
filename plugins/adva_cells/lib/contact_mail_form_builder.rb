@@ -1,4 +1,4 @@
-class ContactFormBuilder
+class ContactMailFormBuilder
   include ActionView::Helpers::FormTagHelper
   include ActionView::Helpers::FormOptionsHelper
   include ActionView::Helpers::TagHelper
