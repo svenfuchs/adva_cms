@@ -6,12 +6,9 @@ class Adva::NewsletterMailer < ActionMailer::Base
     content_type      "multipart/alternative"
     headers           Registry.instance[:email_header]
 
-    part :content_type => 'multipart/alternative' do |p|
-      
-      #TODO implement plain text as well
-      # p.part :content_type => 'text/plain',
-             # :body => issue.body_plain
+    part :content_type => 'text/plain', :body => "test body"
 
+    part :content_type => 'multipart/related' do |p|
       p.part :content_type => 'text/html',
              :transfer_encoding => 'base64',
              :body => render_message("issue", :body => issue.body_mail)
