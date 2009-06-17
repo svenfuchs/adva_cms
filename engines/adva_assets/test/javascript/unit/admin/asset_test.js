@@ -122,6 +122,12 @@ test("should hide assets tools when mouse is away from an asset preview", functi
 module("BUCKET");
 test("should add to bucket", function() {
   Assets.addToBucket($(".add_asset"), false);
+  ok($('#bucket_assets').children().size() > 0, "#bucket_assets should be empty.");
   equals($("#flash_notice").html(), "rails.png assigned to this bucket.");
-  // assert flash content
+});
+
+test("should clear the bucket", function() {
+  Assets.addToBucket($("#clear_bucket"), false);
+  equals($('#bucket_assets').children().size(), 0, "#bucket_assets shouldn't be empty.");
+  equals($("#flash_notice").html(), "Asset bucket has been cleared.");
 });

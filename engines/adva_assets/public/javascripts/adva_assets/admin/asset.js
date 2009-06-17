@@ -16,12 +16,22 @@ var Assets = {
     $(".assets_row div").bind("mouseover", function() { $(this).find("ul:first").show(); });
     $(".assets_row div").bind("mouseout",  function() { $(this).find("ul:first").hide(); });
 
-    $(".add_asset").bind("click", function(){ Assets.addToBucket(this); return false; });
+    $(".add_asset").bind("click",    function(){ Assets.addToBucket(this); return false; });
+    $("#clear_bucket").bind("click", function(){ Assets.clearBucket(this); return false; });
   },
   addToBucket: function(element, async) {
+    this.ajaxRequest(element, "post", async);
+  },
+  clearBucket: function(element, async) {
+    this.ajaxRequest(element, "delete", async);
+  },
+  ajaxRequest: function(element, method, async) {
     $.ajax({
       url: $(element).attr("href"),
-			data: { authenticity_token: this.authenticityToken },
+      data: {
+        _method: method,
+        authenticity_token: this.authenticityToken
+      },
       type: 'post',
       dataType: 'script',
       async: this.isAsync(async)

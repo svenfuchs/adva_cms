@@ -7,10 +7,10 @@
 			<% filter_for(Asset) %>
 			<h3>
 			  <%= t(:'adva.assets.your_bucket') %>
-			  <%= link_to_remote t(:'adva.assets.clear_bucket'), :url => admin_assets_bucket_path, :method => :delete %>
+			  <%= link_to t(:'adva.assets.clear_bucket'), admin_assets_bucket_path, :id => "clear_bucket" %>
 			</h3>
 			<p><%=t :'adva.assets.add_files' %></p>
-			<ul>
+			<ul id="bucket_assets">
 			  <%= render :partial => "admin/assets/widget/asset", :collection => @site.assets.bucket(session[:bucket]), :locals => { :content => nil, :prefix => 'bucket' } %>
 			</ul>
 

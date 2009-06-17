@@ -17,6 +17,10 @@ class Admin::AssetsBucketController < Admin::BaseController
 
   def destroy
     session[:bucket] = nil
+
+    respond_to do |format|
+      format.js
+    end
   end
 
   private
