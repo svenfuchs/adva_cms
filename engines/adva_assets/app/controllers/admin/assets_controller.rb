@@ -1,11 +1,11 @@
 class Admin::AssetsController < Admin::BaseController
   include AssetsHelper
   helper :assets, :asset_tag
-  helper_method :created_notice
+  helper_method :created_notice, :destroyed_notice
   before_filter :set_assets, :only => [:index] # :set_filter_params, 
   before_filter :set_format, :only => [:create]
   before_filter :set_asset, :only => [:edit, :update, :destroy]
-  
+
   guards_permissions :asset
 
   def index
@@ -58,9 +58,16 @@ class Admin::AssetsController < Admin::BaseController
 
   def destroy
     @asset.destroy
-    redirect_to admin_assets_path
     (session[:bucket] || {}).delete(@asset.base_url)
-    flash[:notice] = t(:'adva.assets.flash.delete.success', :filename => @asset.filename)
+
+    respond_to do |format|
+      format.html do
+        flash[:notice] = destroyed_notice
+        redirect_to admin_assets_path
+      end
+      format.js do
+      end
+    end
   end
 
   protected
@@ -86,5 +93,9 @@ class Admin::AssetsController < Admin::BaseController
       @assets.size ?
         t(:'adva.assets.flash.create.first_success', :asset => CGI.escapeHTML(@assets.first.title) ) :
         t(:'adva.assets.flash.create.success', :count => @assets.size )
+    end
+
+    def destroyed_notice
+      t(:'adva.assets.flash.delete.success', :asset => @asset.title)
     end
 end

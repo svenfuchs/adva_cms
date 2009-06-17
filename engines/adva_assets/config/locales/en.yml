@@ -1,8 +1,11 @@
 en:
   adva:
     assets:
+      confirm_delete: "Are you sure you want to delete this asset?"
       flash:
         create:
           success: "{{asset}} assigned to this {{content}}."
+        delete:
+          success: "'{{asset}}' was deleted."
         destroy:
           success: "{{asset}} unassigned from this {{content}}."

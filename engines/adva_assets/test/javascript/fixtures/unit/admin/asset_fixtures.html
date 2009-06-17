@@ -30,14 +30,14 @@
 
 <div id="assets_list" class="recent_assets">
   <div class="assets_row">
-    <div>
+    <div id="asset_1">
       <a href="/adva_assets/assets/rails.png"><img alt="rails logo" src="/adva_assets/assets/rails.thumb.png" style="thumb"></a>
       <ul class="asset_tools" style="display:none;">
         <li class="edit">
           <a href="/admin/sites/1/assets/1/edit" title="Edit this file">Edit</a>
         </li>
         <li class="delete">
-          <a href="/admin/sites/1/assets/1" onclick="if (confirm('Are you sure you wish to delete this?')) { var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'delete'); f.appendChild(m);var s = document.createElement('input'); s.setAttribute('type', 'hidden'); s.setAttribute('name', 'authenticity_token'); s.setAttribute('value', 'yFMS6eWc3SmWbPgdM0yeDGMb260wXDPXr6zyHkqjpRM='); f.appendChild(s);f.submit(); };return false;" title="Delete this asset">Delete</a>
+          <a href="/adva_assets/controllers/asset_delete" class="asset delete_asset" data-confirm="Are you sure you want to delete this asset?" id="delete_asset_1" title="Delete this asset">Delete</a>
         </li>
         <li class="bucket">
           <a href="/adva_assets/controllers/bucket_add?asset_id=1" class="asset add_asset" title="Add to Bucket">Add to Bucket</a>

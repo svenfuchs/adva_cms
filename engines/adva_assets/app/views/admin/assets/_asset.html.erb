@@ -1,14 +1,21 @@
-<div>
-	<% if asset %>
-	  <%= link_to asset_tag(asset, :style => (size || :tiny)), asset.base_url %>
-	  <%= "<h4>#{truncate(asset.title, :length => 20)}</h4>" if !asset.image? %>
-	  <ul class="asset_tools" style="display:none;">
-	    <li class="edit"><%= link_to_edit asset, :title => t(:'adva.assets.edit_asset') %></li>
-	    <li class="delete"><%= link_to_delete asset, :title => t(:'adva.assets.delete_asset') %></li>
-	    <li class="bucket"><%= link_to t(:'adva.assets.add_to_bucket'),
-	                             admin_assets_bucket_path(@site, :asset_id => asset.id),
-															 :title => t(:'adva.assets.add_to_bucket'), :class => "asset add_asset" %></li>
-	  </ul>
-	<% end %>
-</div>
-
+<% if asset %>
+  <div id="asset_<%= asset.id %>">
+    <%= link_to asset_tag(asset, :style => (size || :tiny)), asset.base_url %>
+    <%= "<h4>#{truncate(asset.title, :length => 20)}</h4>" if !asset.image? %>
+    <ul class="asset_tools" style="display:none;">
+      <li class="edit"><%= link_to_edit asset, :title => t(:'adva.assets.edit_asset') %></li>
+      <li class="delete"><%= link_to t(:'adva.common.delete'),
+                               admin_asset_path(@site, asset),
+                               :id             => "delete_asset_#{asset.id}",
+                               :title          => t(:'adva.assets.delete_asset'),
+                               :class          => "asset delete_asset",
+                               :'data-confirm' => t(:'adva.assets.confirm_delete') %></li>
+      <li class="bucket"><%= link_to t(:'adva.assets.add_to_bucket'),
+                               admin_assets_bucket_path(@site, :asset_id => asset.id),
+  														 :title => t(:'adva.assets.add_to_bucket'),
+  														 :class => "asset add_asset" %></li>
+    </ul>
+  </div>
+<% else %>
+  <div></div>
+<% end %>

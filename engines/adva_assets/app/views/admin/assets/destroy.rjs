@@ -1,0 +1,4 @@
+page << <<-END
+$("#flash_notice").html("#{destroyed_notice}").show();
+$("#asset_#{@asset.id}").fadeOut(1000, function() { $(this).remove(); });
+END

@@ -39,6 +39,13 @@ var TestUtils = {
   }
 }
 
+$.extend(Assets, {
+  // Can't run tests with window.confirm
+  deleteAsset: function(element, async) {
+    this.ajaxRequest(element, "delete", async);
+  }
+});
+
 module("ADD INPUT");
 test("should add input row on click", function() {
   equals(TestUtils.files().size(), 1);
@@ -124,6 +131,12 @@ test("should add to bucket", function() {
   Assets.addToBucket($(".add_asset"), false);
   ok($('#bucket_assets').children().size() > 0, "#bucket_assets should be empty.");
   equals($("#flash_notice").html(), "rails.png assigned to this bucket.");
+});
+
+test("should delete the asset", function() {
+  Assets.deleteAsset($(".delete_asset"), false);
+  ok($('#asset_1').length == 0, "#asset_1 shouldn't exist.");
+  equals($("#flash_notice").html(), "'rails.png' was deleted.");
 });
 
 test("should clear the bucket", function() {

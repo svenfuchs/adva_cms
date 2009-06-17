@@ -17,10 +17,16 @@ var Assets = {
     $(".assets_row div").bind("mouseout",  function() { $(this).find("ul:first").hide(); });
 
     $(".add_asset").bind("click",    function(){ Assets.addToBucket(this); return false; });
+    $(".delete_asset").bind("click", function(){ Assets.deleteAsset(this); return false; });
     $("#clear_bucket").bind("click", function(){ Assets.clearBucket(this); return false; });
   },
   addToBucket: function(element, async) {
     this.ajaxRequest(element, "post", async);
+  },
+  deleteAsset: function(element, async) {
+    if(window.confirm($(element).attr("data-confirm"))) {
+      this.ajaxRequest(element, "delete", async);
+    }
   },
   clearBucket: function(element, async) {
     this.ajaxRequest(element, "delete", async);
