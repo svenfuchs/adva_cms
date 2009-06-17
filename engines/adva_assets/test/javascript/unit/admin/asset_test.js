@@ -1,6 +1,7 @@
 // TODO inject TestUtils methods in window
 var TestUtils = {
   defaultTags: "adva tags",
+  uploadSummary: "You have a uploaded a total of <strong>0 assets</strong>, using <strong>0 Bytes</strong>.",
 
   files: function() {
     return $("#files div").children("p");
@@ -126,17 +127,18 @@ test("should hide assets tools when mouse is away from an asset preview", functi
   ok(!TestUtils.assetTools().is(":visible"), "asset tools should be hidden when the mouse is away from the asset preview");
 });
 
+test("should delete the asset", function() {
+  Assets.deleteAsset($(".delete_asset"), false);
+  ok($('#asset_1').length == 0, "#asset_1 shouldn't exist.");
+  equals($("#flash_notice").html(), "'rails.png' was deleted.");
+  equals($("#upload_summary").html(), TestUtils.uploadSummary);
+});
+
 module("BUCKET");
 test("should add to bucket", function() {
   Assets.addToBucket($(".add_asset"), false);
   ok($('#bucket_assets').children().size() > 0, "#bucket_assets should be empty.");
   equals($("#flash_notice").html(), "rails.png assigned to this bucket.");
-});
-
-test("should delete the asset", function() {
-  Assets.deleteAsset($(".delete_asset"), false);
-  ok($('#asset_1').length == 0, "#asset_1 shouldn't exist.");
-  equals($("#flash_notice").html(), "'rails.png' was deleted.");
 });
 
 test("should clear the bucket", function() {

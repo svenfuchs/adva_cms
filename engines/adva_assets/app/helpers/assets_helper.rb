@@ -26,4 +26,9 @@ module AssetsHelper
       [asset.base_url(style), options]
     # end
   end
+
+  def upload_summary
+    t(:'adva.assets.upload_summary', :count => @site.assets.count,
+		  :size => number_to_human_size(@site.assets.sum(:data_file_size) || 0))
+  end
 end
