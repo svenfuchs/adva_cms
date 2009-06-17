@@ -9,6 +9,10 @@ class Admin::AssetsBucketController < Admin::BaseController
   def create
     render :nothing => true and return if (session[:bucket] ||= {}).key?(@asset.id)
     session[:bucket][@asset.id] = asset_image_args_for(@asset, :tiny, :title => "#{@asset.title} \n #{@asset.tags.join(', ')}")
+
+    respond_to do |format|
+      format.js
+    end
   end
 
   def destroy
