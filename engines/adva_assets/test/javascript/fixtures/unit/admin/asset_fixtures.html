@@ -1,3 +1,4 @@
+<p id="flash_notice" class="flash notice" style="display: none;"></p>
 <form action="/admin/sites/1/assets" class="new_asset" enctype="multipart/form-data" id="new_asset" method="post" name="new_asset">
   <div style="margin:0;padding:0">
     <input name="authenticity_token" type="hidden" value="raBQGMwGZungYNBFp3HF4v7H+9wb8b8MseH/pXZg63A=">
@@ -21,8 +22,8 @@
   </p>
 </form>
 
-<div id="assets_list">
-  <div id="recent_assets" class="assets_row">
+<div id="assets_list" class="recent_assets">
+  <div class="assets_row">
     <div>
       <a href="/adva_assets/assets/rails.png"><img alt="rails logo" src="/adva_assets/assets/rails.thumb.png" style="thumb"></a>
       <ul class="asset_tools" style="display:none;">
@@ -33,7 +34,7 @@
           <a href="/admin/sites/1/assets/1" onclick="if (confirm('Are you sure you wish to delete this?')) { var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'delete'); f.appendChild(m);var s = document.createElement('input'); s.setAttribute('type', 'hidden'); s.setAttribute('name', 'authenticity_token'); s.setAttribute('value', 'yFMS6eWc3SmWbPgdM0yeDGMb260wXDPXr6zyHkqjpRM='); f.appendChild(s);f.submit(); };return false;" title="Delete this asset">Delete</a>
         </li>
         <li class="bucket">
-          <a href="#" onclick="new Ajax.Request('/admin/sites/1/assets/bucket?asset_id=1', {asynchronous:true, evalScripts:true, parameters:'authenticity_token=' + encodeURIComponent('yFMS6eWc3SmWbPgdM0yeDGMb260wXDPXr6zyHkqjpRM=')}); return false;" title="Add to bucket">Add to bucket</a>
+          <a href="/adva_assets/controllers/bucket_add?asset_id=1" class="asset add_asset" title="Add to Bucket">Add to Bucket</a>
         </li>
       </ul>
     </div>

@@ -1,0 +1,2 @@
+$('#flash_notice').html("<%= t( :'adva.assets.flash.add.success', :asset => @asset.title ) %>").show();
+$('#bucket_assets').append('<%= %(<li>#{link_to(asset_image_for(@asset), @asset.base_url, :target => "_blank")}</li>) %>');

@@ -1,2 +1,0 @@
-page.flash.notice t( :'adva.assets.flash.add.success', :asset => @asset.title )
-page.insert_html :bottom, 'bucket_assets', "<li>#{link_to(asset_image_for(@asset), @asset.base_url, :target => '_blank')}</li>"

@@ -2,7 +2,7 @@
   $.fn.identify = function(count) {
     return this.each(function() {
       $(this).find(":input").each(function() {
-        $(this).attr("id", $(this).attr("id").replace("0", count))
+        $(this).attr("id",   $(this).attr("id").replace("0", count))
                .attr("name", $(this).attr("name").replace("0", count));
       });
     });
@@ -10,11 +10,26 @@
 })(jQuery);
 
 var Assets = {
+  authenticityToken: null,
   observe: function() {
     // $(".assets_row div").bind("mouseover mouseout", function(){ $(this).find("ul:first").toggle(); });
-    $(".assets_row div").bind("mouseover", function(){ $(this).find("ul:first").show(); });
-    $(".assets_row div").bind("mouseout", function(){ $(this).find("ul:first").hide(); });
-  }
+    $(".assets_row div").bind("mouseover", function() { $(this).find("ul:first").show(); });
+    $(".assets_row div").bind("mouseout",  function() { $(this).find("ul:first").hide(); });
+
+    $(".add_asset").bind("click", function(){ Assets.addToBucket(this); return false; });
+  },
+  addToBucket: function(element, async) {
+    $.ajax({
+      url: $(element).attr("href"),
+			data: { authenticity_token: this.authenticityToken },
+      type: 'post',
+      dataType: 'script',
+      async: this.isAsync(async)
+    });
+  },
+  isAsync: function(value) {
+    return value === undefined;
+  },
 };
 
 var AssetForm = $.klass({
@@ -52,4 +67,8 @@ var AssetForm = $.klass({
   }
 });
 
-$().ready(function(){ new AssetForm(); Assets.observe(); });
+$().ready(function(){
+  Assets.authenticityToken = window._auth_token;
+  new AssetForm();
+  Assets.observe();
+});

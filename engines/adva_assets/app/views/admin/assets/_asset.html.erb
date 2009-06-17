@@ -5,9 +5,9 @@
 	  <ul class="asset_tools" style="display:none;">
 	    <li class="edit"><%= link_to_edit asset, :title => t(:'adva.assets.edit_asset') %></li>
 	    <li class="delete"><%= link_to_delete asset, :title => t(:'adva.assets.delete_asset') %></li>
-	    <li class="bucket"><%= link_to_remote(t(:'adva.assets.add_to_bucket'),
-	                            { :url => admin_assets_bucket_path(@site, :asset_id => asset.id) },
-															{ :title => t(:'adva.assets.add_to_bucket') }) %></li>
+	    <li class="bucket"><%= link_to t(:'adva.assets.add_to_bucket'),
+	                             admin_assets_bucket_path(@site, :asset_id => asset.id),
+															 :title => t(:'adva.assets.add_to_bucket'), :class => "asset add_asset" %></li>
 	  </ul>
 	<% end %>
 </div>

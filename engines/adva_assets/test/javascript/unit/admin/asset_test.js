@@ -118,3 +118,10 @@ test("should hide assets tools when mouse is away from an asset preview", functi
   TestUtils.simulateMouseOut();
   ok(!TestUtils.assetTools().is(":visible"), "asset tools should be hidden when the mouse is away from the asset preview");
 });
+
+module("BUCKET");
+test("should add to bucket", function() {
+  Assets.addToBucket($(".add_asset"), false);
+  equals($("#flash_notice").html(), "rails.png assigned to this bucket.");
+  // assert flash content
+});
