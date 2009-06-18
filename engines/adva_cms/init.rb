@@ -1,3 +1,4 @@
+require 'pp'
 require 'paperclip' 
 
 require 'adva_config'

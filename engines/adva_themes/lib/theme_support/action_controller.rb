@@ -9,13 +9,13 @@ module ThemeSupport
 
     module ActMacro
       def acts_as_themed_controller(options = {})
+        before_filter :add_theme_view_paths
+        write_inheritable_attribute :current_themes, options[:current_themes] || []
+
         return if acts_as_themed_controller?
         include InstanceMethods
-
-        before_filter :add_theme_view_paths
         
-        write_inheritable_attribute :force_template_types, options[:force_template_types] || []
-        write_inheritable_attribute :current_themes, options[:current_themes] || []
+        # write_inheritable_attribute :force_template_types, options[:force_template_types] || []
       end
 
       def acts_as_themed_controller?
@@ -24,16 +24,12 @@ module ThemeSupport
     end
 
     module InstanceMethods
-      [:force_template_types, :current_themes].each do |name|
-        module_eval <<-eoc, __FILE__, __LINE__
-          def #{name}
-            @#{name} ||= case accessor = self.class.read_inheritable_attribute(:#{name}) || :#{name}
-              when Symbol then send(accessor)
-              when Proc   then accessor.call(self)
-              else accessor
-            end
-          end
-        eoc
+      def current_themes
+        @current_themes ||= case accessor = self.class.read_inheritable_attribute(:current_themes)
+          when Symbol then accessor == :current_themes ? raise("screwed") : send(accessor)
+          when Proc   then accessor.call(self)
+          else accessor
+        end
       end
 
       def add_theme_view_paths
