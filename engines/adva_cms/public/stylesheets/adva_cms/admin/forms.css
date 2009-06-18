@@ -66,6 +66,23 @@ label.inline {
 label.light {
   font-weight: normal;
 }
+
+/* wrapper div for creating double left-right label */
+div.double-label {
+  margin: 15px 0 6px 0;
+}
+/* resets adva admin label attributes */
+div.double-label label {
+  display: inline;
+  float: none;
+}
+div.double-label label:first-child {
+  margin-top: 0;
+  margin-bottom: 0;
+  float: right;
+}
+/* end of wrapper div */
+
 #content form h2 {
 }
 #content form p {
