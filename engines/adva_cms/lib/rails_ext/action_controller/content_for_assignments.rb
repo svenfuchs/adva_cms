@@ -94,8 +94,8 @@ class RegisteredContent
       @options.each do |type, condition|
         condition.each do |key, value|
           case value
-          when Array:  @options[type][key] = value.map(&:to_sym)
-          when String: @options[type][key] = value.to_sym
+          when Array;  @options[type][key] = value.map(&:to_sym)
+          when String; @options[type][key] = value.to_sym
           end
         end
       end
