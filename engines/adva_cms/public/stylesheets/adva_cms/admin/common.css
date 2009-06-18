@@ -49,3 +49,29 @@ p.flash.error {
   color: #510;
   text-align: center;
 }
+
+/* Apple style pagination, taken from WillPaginate, slightly modified */
+div.pagination {
+  margin-top: 1em;
+  background: #f6f6f6;
+  border: 1px solid #dddddd;
+  text-align: center;
+  padding: 1em;
+}
+div.pagination a, div.pagination span {
+  padding: .2em .3em;
+}
+div.pagination span.disabled {
+  color: #AAA;
+}
+div.pagination span.current {
+  font-weight: bold;
+  background-color: #dddddd;
+}
+div.pagination a {
+  text-decoration: none;
+  color: black;
+}
+div.pagination a:hover, div.pagination a:focus {
+  text-decoration: underline;
+}

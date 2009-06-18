@@ -18,7 +18,7 @@
       	<%= s.collection_select :type, Section.types, :to_s, :to_s, {}, :label => true, :style => "width:100%;", :tabindex => 2 %>
       <% end %>
       <% column do %>
-      	<%= s.text_field :title, :label => 'Title', :tabindex => :section_type %>
+      	<%= s.text_field :title, :label => true, :tabindex => :section_type %>
       <% end %>
     <% end %>
   <% end %>
