@@ -41,11 +41,11 @@ class Activity < ActiveRecord::Base
     def find_coinciding(options = {})
       delta = options.delete(:delta)
       activities = find(:all, options).group_by{|r| "#{r.object_type}#{r.object_id}"}.values
-      activities = group_coninciding(activities, delta)
+      activities = group_coinciding(activities, delta)
       activities.sort{|a, b| b.created_at <=> a.created_at }
     end
 
-    def group_coninciding(activities, delta = nil)
+    def group_coinciding(activities, delta = nil)
       activities.inject [] do |chunks, group|
         chunks << group.shift
         group.each do |activity|
