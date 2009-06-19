@@ -1,4 +1,13 @@
-<% if @newsletter_attributes.present? %>
+<%
+# FIXME: this is copied from the initializer - once the problem that's mentioned there is fixed
+# we can remove this!
+@newsletter_attributes = @site.newsletters.published.inject([]) do |newsletter_attributes, newsletter|
+  newsletter_attributes << returning({}) do |attributes|
+    attributes[:subscribable_id]   = newsletter.id
+    attributes[:subscribable_type] = newsletter.class.to_s
+  end
+end
+if @newsletter_attributes.present? %>
   <div id="adva_newsletter_subscription">
     <h3><%= t(:'adva_newsletter.subscription.title.section', :count => @newsletter_attributes.size) %></h3>
     <% f.field_set :subscriptions do %>
