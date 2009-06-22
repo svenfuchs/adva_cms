@@ -4,3 +4,14 @@
 #main_menu ul.actions li.active a {
   background: #ddd;
 }
+#breadcrumbs li,
+#breadcrumbs li a {
+  font-size: 9pt;
+}
+#header .right,
+#header .right a {
+  font-size: 9pt;
+}
+#main_menu ul.actions li a {
+  font-size: 12px;
+}

@@ -1,0 +1,9 @@
+.hint {
+  font-size: 1em;
+  color: #eae9e8;
+  margin-top: 6px;
+}
+#helptip {
+  background-color: #f1f1f1;
+  opacity: 1;
+}

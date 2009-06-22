@@ -3,9 +3,11 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>Admin <%= controller.controller_name %></title>
-  <%= stylesheet_link_tag :admin, 			 		 :media => "screen, projection", :cache => true %>
-  <%= stylesheet_link_tag :admin_screen, 		 :media => "screen", :cache => true %>
-  <%= stylesheet_link_tag :admin_projection, :media => "projection", :cache => true %>
+	<%= stylesheet_link_tag :admin_screen_reset, 		:media => "screen", :cache => true %>
+	<%= stylesheet_link_tag :admin_projection_reset, :media => "projection", :cache => true %>
+  <%= stylesheet_link_tag :admin, 			 		 			:media => "screen, projection", :cache => true %>
+  <%= stylesheet_link_tag :admin_screen, 		 			:media => "screen", :cache => true %>
+  <%= stylesheet_link_tag :admin_projection, 			:media => "projection", :cache => true %>
 
   <%= yield :before_javascript_include %>
   <%= javascript_include_tag :common, :admin, :cache => true %>

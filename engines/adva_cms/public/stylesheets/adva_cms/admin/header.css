@@ -1,14 +1,14 @@
 #breadcrumbs {
-	position: absolute;
-	height: 18px;
-	margin-top: 15px;
+  position: absolute;
+  height: 18px;
+  margin-top: 15px;
   list-style-type: none;
-	white-space: nowrap;
+  white-space: nowrap;
 }
 #breadcrumbs li {
   display: inline-block;
   padding: 0 0 0 4px;
-	vertical-align: top;
+  vertical-align: top;
 }
 #breadcrumbs li:first-child {
   float: left;
@@ -22,36 +22,35 @@
 }
 #breadcrumbs li,
 #breadcrumbs li a {
-	color: #999;
-	font-size: 9pt;
+  color: #999;
 }
 
 #header .right {
-	padding: 15px 3% 0 0;
-	text-align: right;
+  padding: 15px 3% 0 0;
+  text-align: right;
 }
 #header .right,
 #header .right a {
-	color: #999;
-	font-size: 9pt;
+  color: #999;
+  font-size: 9pt;
 }
 
 #main_menu {
-	display: table;
-	width: 100%;
-	height: 28px;
-	margin-top: -28px;
-	white-space: nowrap;
+  display: table;
+  width: 100%;
+  height: 28px;
+  margin-top: -28px;
+  white-space: nowrap;
 }
 #main_menu ul {
   list-style-type: none;
-	display: table-cell;
+  display: table-cell;
 }
 #main_menu li {
   display: inline-block;
 }
 #main_menu ul.left li:first-child {
-	margin-left: -16px;
+  margin-left: -16px;
 }
 #main_menu h4 {
   display: inline;
@@ -72,7 +71,7 @@
   text-decoration: none;
 }
 #main_menu ul.actions {
-	text-align: right;
+  text-align: right;
   margin-left: 8px;
 }
 #main_menu ul.actions li {
@@ -93,9 +92,9 @@
   text-decoration: none;
 }
 #search {
-	position: absolute;
-	right: 6%;
-	bottom: 5px;
+  position: absolute;
+  right: 6%;
+  bottom: 5px;
   padding: 0;
 }
 #search input {
@@ -103,6 +102,6 @@
   width: 100px;
   background: white url(/images/adva_cms/admin/new/buttons/search.png) no-repeat right center;
   font-size: 0.9em;
-	padding: 3px 18px 3px 6px;
-	border: 1px solid #aaa;
+  padding: 3px 18px 3px 6px;
+  border: 1px solid #aaa;
 }

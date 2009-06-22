@@ -1,9 +1,11 @@
 #top > ul > li > a {
   font-weight: bold;
+/*  font-size: 16px;*/
 }
 #top .active > a {
-	color: #fff;
-	background-color: #ff342b;
+  color: #fff;
+  background-color: #ff342b;
+  background-image: url(/images/adva_cms/admin/tab_top_active.png);
 }
 #top li > ul {
   border-top: 5px solid #ff342b;

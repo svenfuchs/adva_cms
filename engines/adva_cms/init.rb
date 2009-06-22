@@ -51,11 +51,17 @@ register_stylesheet_expansion \
                   adva_cms/layout/login ),
   :simple  => %w( adva_cms/reset adva_cms/admin/common adva_cms/admin/forms 
                   adva_cms/layout/simple ),
-  :admin   => %w( adva_cms/reset adva_cms/admin/layout adva_cms/admin/common
+  :admin   => %w( adva_cms/admin/layout adva_cms/admin/common
                   adva_cms/admin/header adva_cms/admin/top adva_cms/admin/sidebar adva_cms/admin/forms 
-                  adva_cms/admin/lists adva_cms/admin/content adva_cms/admin/themes
+                  adva_cms/admin/lists adva_cms/admin/content adva_cms/admin/themes adva_cms/admin/helptip
                   adva_cms/admin/users adva_cms/jquery/jquery-ui adva_cms/jquery/jquery.tooltip ),
+  :admin_screen_reset => %w( adva_cms/admin/reset ),
   :admin_screen => %w( adva_cms/admin/screen/header adva_cms/admin/screen/layout adva_cms/admin/screen/sidebar
-                       adva_cms/admin/screen/top ),
-  :admin_projection => %w( adva_cms/admin/projection/header adva_cms/admin/projection/layout 
-                           adva_cms/admin/projection/sidebar adva_cms/admin/projection/top )
+                       adva_cms/admin/screen/top adva_cms/admin/screen/helptip adva_cms/admin/screen/common
+                        adva_cms/admin/screen/themes adva_cms/admin/screen/forms ),
+  :admin_projection_reset => %w( adva_cms/admin/projection/reset ),
+  :admin_projection => %w( adva_cms/admin/projection/header 
+                           adva_cms/admin/projection/layout  adva_cms/admin/projection/sidebar 
+                           adva_cms/admin/projection/top  adva_cms/admin/projection/helptip 
+                           adva_cms/admin/projection/common adva_cms/admin/projection/themes
+                           adva_cms/admin/projection/forms )

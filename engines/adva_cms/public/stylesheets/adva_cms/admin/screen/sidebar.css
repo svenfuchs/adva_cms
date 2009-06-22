@@ -1,3 +1,13 @@
 #sidebar .tabs > ul {
   background-color: #ddd;
 }
+#sidebar input[type=text],
+#sidebar textarea {
+  font-size: 12px;
+}
+#sidebar .tabs > ul li a {
+  font-size: 12px;
+}
+#sidebar .tabs > ul li.active a {
+  background: #f6f6f6 url(/images/adva_cms/admin/tab_sidebar_active.png) repeat-x;
+}

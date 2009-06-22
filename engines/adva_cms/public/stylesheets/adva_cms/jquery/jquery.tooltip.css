@@ -8,21 +8,3 @@
     text-indent: 16px;
     overflow: hidden;
 }
-
-#helptip {
-	position: absolute;
-	z-index: 3000;
-	background-color: #ddd;
-	opacity: 0.90;
-	padding: 5px;
-	width: inherit;
-}
-
-#helptip h3 { 
-	margin: 0; 
-}
-
-#helptip div { 
-	margin: 0;
-	width: 250px;
-}

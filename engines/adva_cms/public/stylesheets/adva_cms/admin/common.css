@@ -5,8 +5,8 @@ body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 a {
-	color: #000;
-	text-decoration: none;
+  color: #000;
+  text-decoration: none;
 }
 a:hover {
   text-decoration: underline;
@@ -27,26 +27,22 @@ h4 {
   font-weight: bold;
 }
 p {
-	margin-top: 1.2em;
+  margin-top: 1.2em;
 }
 th, td {
-	vertical-align: top;
+  vertical-align: top;
 }
 
 /* flash, errors, notices */
 
 p.flash {
   padding: 0.75em 0;
-	margin: 0 -10% 0 -10%;
+  margin: 0 -10% 0 -10%;
 }
 p.flash.notice {
-  background: #cfc;
-  color: #051;
   text-align: center;
 }
 p.flash.error {
-  background: #e6acb6;
-  color: #510;
   text-align: center;
 }
 

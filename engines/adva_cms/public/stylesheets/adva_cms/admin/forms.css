@@ -1,32 +1,32 @@
 #content fieldset {
   clear: both;
-	margin: 0 9px 0px 0px;
+  margin: 0 9px 0px 0px;
 }
 #content .col {
-	width: 46%;
+  width: 46%;
 }
 #content .col:last-child {
-	float: right;
+  float: right;
 }
 #content .col:first-child {
-	float: left;
+  float: left;
 }
 #content .col:only-child {
-	width: 100%;
+  width: 100%;
 }
 #content .col > * {
-	/*margin-left: -4px;*/
+  /*margin-left: -4px;*/
 }
 #content .col > .inline {
-	margin-left: 0;
+  margin-left: 0;
 }
 input[type=text],
 input[type=password],
 textarea {
-	width: 100%;
-	padding: 4px 8px;
-	font-size: 14px;
-	border: 1px solid #999;
+  width: 100%;
+  padding: 4px 8px;
+  font-size: 14px;
+  border: 1px solid #999;
   font-family: "Helvetica Neue", "Helvetica", "Arial", Verdana;
 }
 input[disabled] {
@@ -46,16 +46,16 @@ input.big[type=password] {
   font-size: 20px;
 }
 textarea.small {
-	height: 79px;
+  height: 79px;
 }
 label {
-	display: block;
-	clear: both;
+  display: block;
+  clear: both;
   color: #555;
-	text-shadow: #fff 1px 1px;
+  text-shadow: #fff 1px 1px;
   line-height: 1.2em;
-	margin-top: 15px;
-	margin-bottom: 6px;
+  margin-top: 15px;
+  margin-bottom: 6px;
 }
 label.inline {
   position: relative;
@@ -67,13 +67,12 @@ label.light {
   font-weight: normal;
 }
 #content form h2 {
-  font-size: 12pt;
 }
 #content form p {
-	margin-top: 0.5em;
+  margin-top: 0.5em;
 }
 #content form p.buttons {
-	margin-top: 1.2em;
+  margin-top: 1.2em;
 }
 .error_message {
   float: right;
@@ -82,11 +81,6 @@ label.light {
   color: #c00000;
   font-style: italic;
   font-size: .9em;
-}
-.hint {
-  font-size: 0.85em;
-  color: #999;
-	margin-top: 6px;
 }
 .wide_button {
   display: block;

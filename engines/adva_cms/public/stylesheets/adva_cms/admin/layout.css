@@ -1,46 +1,46 @@
 body {
-	min-width: 775px;
+  min-width: 775px;
 }
 body > div {
-	display: table;
-	width: 100%;
+  display: table;
+  width: 100%;
 }
 .main, .right {
-	position: relative;
-	display: table-cell;
-	vertical-align: top;
+  position: relative;
+  display: table-cell;
+  vertical-align: top;
 }
 .main {
-	padding: 0 3%;
-	width: 75%;
+  padding: 0 3%;
+  width: 75%;
 }
 .right {
-	width: 344px;
-	min-width: 344px;
+  width: 344px;
+  min-width: 344px;
 }	
 
 #top {
-	padding-top: 5px;
-	background-color: black;
-	border-bottom: 5px solid;
-	white-space: nowrap;
+  padding-top: 5px;
+  background-color: black;
+  border-bottom: 5px solid;
+  white-space: nowrap;
 }
 #header {
-    height: 75px;
-	/*background: #fbf7e4 url(/images/adva_cms/admin/header_bg.png) bottom left;*/
-	border-bottom: 4px solid;
+  height: 75px;
+  /*background: #fbf7e4 url(/images/adva_cms/admin/header_bg.png) bottom left;*/
+  border-bottom: 4px solid;
 }
 #page > form {
-	display: table-row;
-	width: 100%;
+  display: table-row;
+  width: 100%;
 }
 #page .main {
 }
 #content {
-	clear: both;
+  clear: both;
   position: relative;
-	margin: 20px 0;
-	padding-bottom: 20px;
+  margin: 20px 0;
+  padding-bottom: 20px;
 }
 #left {
   position: absolute;

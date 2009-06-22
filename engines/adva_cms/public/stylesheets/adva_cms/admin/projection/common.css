@@ -1,0 +1,8 @@
+p.flash.notice {
+  background: #e5ffe5;
+  color: #051;
+}
+p.flash.error {
+  background: #FFD6D6;
+  color: #000;
+}

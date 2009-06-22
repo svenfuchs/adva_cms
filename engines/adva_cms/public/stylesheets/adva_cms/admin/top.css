@@ -1,25 +1,25 @@
 #top ul {
-	list-style-type: none;
+  list-style-type: none;
 }
 #top ul.right {
-	padding-right: 3%;
-	text-align: right;
+  padding-right: 3%;
+  text-align: right;
 }
 #top li {
-	display: inline-block;
+  display: inline-block;
 }
 #top ul.main > li:first-child {
-	margin-left: -16px;
+  margin-left: -16px;
 }
 #top ul.right > li:last-child {
-	margin-right: -16px;
+  margin-right: -16px;
 }
 
 #top a {
-	display: block;
-	padding: 4px 16px 4px 16px;
-	color: #fff;
-	outline: none;
+  display: block;
+  padding: 4px 16px 4px 16px;
+  color: #fff;
+  outline: none;
 }
 #top > ul > li > a {
   -webkit-border-top-left-radius: 4px;
@@ -36,7 +36,7 @@
   text-decoration: none;
 }
 #top li.active:hover > a {
-	color: #fff;
+  color: #fff;
 }
 #top li > ul {
   display: none;

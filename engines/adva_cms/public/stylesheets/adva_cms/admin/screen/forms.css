@@ -1,0 +1,8 @@
+input[type=text],
+input[type=password],
+textarea {
+  font-size: 14px;
+}
+#content form h2 {
+  font-size: 12pt;
+}

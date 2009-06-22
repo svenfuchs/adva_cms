@@ -4,11 +4,11 @@
   overflow: hidden;
 }
 #users h4 {
-	margin-top: 0;
+  margin-top: 0;
 }
 #users li {
-	float: left;
-	width: 302px;
+  float: left;
+  width: 302px;
   padding-bottom: 10px;
 }
 #users li p {
@@ -21,7 +21,7 @@
   max-width: 50px;
 }
 #sidebar #users img.avatar {
-	margin-top: 0;
+  margin-top: 0;
   max-height: 50px;
   max-width: 50px;
 }
@@ -33,7 +33,7 @@ img.avatar {
   max-height: 50px;
 }
 #sidebar img.avatar {
-	margin-top: 15px;
+  margin-top: 15px;
   margin-right: 10px;
   max-width: 100px;
   max-height: 100px;
