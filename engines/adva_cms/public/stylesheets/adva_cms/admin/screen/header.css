@@ -1,0 +1,6 @@
+#main_menu .left li.active > a {
+  background: #ddd url(/images/adva_cms/admin/tab_main_active.png) repeat-x;
+}
+#main_menu ul.actions li.active a {
+  background: #ddd;
+}

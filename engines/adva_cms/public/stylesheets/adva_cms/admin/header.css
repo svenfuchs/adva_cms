@@ -67,9 +67,6 @@
   -moz-border-top-left-radius: 4px;
   -moz-border-top-right-radius: 4px;
 }
-#main_menu .left li.active > a {
-	background: #ddd url(/images/adva_cms/admin/tab_main_active.png) repeat-x;
-}
 #main_menu .left li a:hover {
   background-color: #fff;
   text-decoration: none;
@@ -95,11 +92,6 @@
   background: #fff;
   text-decoration: none;
 }
-#main_menu ul.actions li.active a {
-  background: #ddd;
-}
-
-
 #search {
 	position: absolute;
 	right: 6%;
@@ -114,4 +106,3 @@
 	padding: 3px 18px 3px 6px;
 	border: 1px solid #aaa;
 }
-

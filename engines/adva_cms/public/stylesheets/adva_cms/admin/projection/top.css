@@ -1,0 +1,13 @@
+#top > ul > li > a {
+  font-weight: bold;
+}
+#top .active > a {
+	color: #fff;
+	background-color: #ff342b;
+}
+#top li > ul {
+  border-top: 5px solid #ff342b;
+}
+#sections_menu a.active {
+  background-color: #ff342b;
+}

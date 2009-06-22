@@ -28,9 +28,7 @@
   -moz-border-top-right-radius: 4px;
 }
 #top .active > a {
-	color: #fff;
-	background-color: #c22222;
-	background-image: url(/images/adva_cms/admin/tab_top_active.png);
+
 }
 #top li:hover a {
   color: #222;
@@ -45,8 +43,8 @@
   position: absolute;
   z-index: 99;
   top: 33px;
-	border-top: 5px solid #c22222;
-	/*border-top: 1px solid #ddd;*/
+  border-top: 5px solid;
+  /*border-top: 1px solid #ddd;*/
   border-bottom: 1px solid #ddd;
   background-color: #fff !important;
   -webkit-box-shadow: 3px 3px 6px #aaa;
@@ -57,7 +55,7 @@
 }
 #sections_menu li {
   float: none;
-	display: block;
+  display: block;
 }
 #sections_menu li a {
   color: #000;
@@ -70,9 +68,7 @@
 #sections_menu li a:hover {
   background-color: #eee;
 }
-
 #sections_menu a.active {
-  background-color: #fbf7e4;
 }
 #sections_menu .level_0 { padding-left: 16px; }
 #sections_menu .level_1 { padding-left: 32px; }

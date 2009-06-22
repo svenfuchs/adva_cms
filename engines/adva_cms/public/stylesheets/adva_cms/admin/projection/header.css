@@ -1,0 +1,6 @@
+#main_menu .left li.active > a {
+  background-color: #eae9e8;
+}
+#main_menu ul.actions li.active a {
+  background-color: #eae9e8;
+}
