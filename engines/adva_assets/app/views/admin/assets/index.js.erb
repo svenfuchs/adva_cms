@@ -1,0 +1,6 @@
+<% if params[:source] == 'widget' %>
+$("#search_assets_result").append('<%= render(:partial => "admin/assets/widget/asset", :collection => @assets, :locals => { :prefix => "search" }).gsub("\n", "") %>');
+<% else %>
+$("#assets_list").append('<%= render(:partial => "assets").gsub("\n", "") %>');
+<% end %>
+$("#search_assets_spinner").hide();

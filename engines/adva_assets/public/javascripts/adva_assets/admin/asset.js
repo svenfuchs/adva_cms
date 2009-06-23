@@ -45,7 +45,7 @@ var Assets = {
   },
   isAsync: function(value) {
     return value === undefined;
-  },
+  }
 };
 
 var AssetForm = $.klass({

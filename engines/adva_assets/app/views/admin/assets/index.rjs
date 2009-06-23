@@ -1,7 +1,0 @@
-if params[:source] == 'widget'
-  page['search_assets_result'].replace_html :partial => "admin/assets/widget/asset", :collection => @assets, :locals => { :prefix => 'search' }
-else
-  page['assets_list'].replace_html :partial => 'assets'
-end
-page['search_assets_spinner'].hidepage['search-assets-spinner'].hide
-page.call 'init_asset_list'

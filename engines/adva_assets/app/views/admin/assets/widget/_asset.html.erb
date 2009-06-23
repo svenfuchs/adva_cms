@@ -1,4 +1,4 @@
-<li id="<%= dom_id(asset, prefix) %>" class="asset <%= prefix %>_asset <%= ' selected' if content and content.assets.include?(asset) %>">
+<li id="<%= dom_id(asset, prefix) %>" class="asset <%= prefix %>_asset <%= ' selected' if self.try(:content) and content.assets.include?(asset) %>">
   <%= link_to asset_image_for(asset), asset.base_url %>
   <div style="display:none">
     <a href="#"><%= image_tag('/images/adva_cms/icons/add.png', :size => '16x16', :id => dom_id(asset, "attach_#{prefix}"), :class => 'attach_asset') %></a>

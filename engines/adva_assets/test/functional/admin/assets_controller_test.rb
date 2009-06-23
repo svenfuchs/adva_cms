@@ -34,13 +34,13 @@ class AdminAssetsControllerTest < ActionController::TestCase
   describe "GET to :index" do
     action { get :index, default_params }
     it_guards_permissions :show, :asset
-    
+
     with :access_granted do
       it_assigns :recent
       it_renders :template, :index
     end
   end
-  
+
   describe "POST to :create" do
     action { post :create, default_params.merge(@params) }
     

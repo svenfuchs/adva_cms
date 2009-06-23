@@ -146,10 +146,21 @@ var AssetWidget = {
   hideAttachTools: function(id) {
 		$('#' + id + ' div').hide();
   },
-	search: function(query) {
+	search: function(query, async) {
     if(!query) return;
     $('#search_assets_spinner').show();
-    $.get(this.assetsUrl(), { query: escape(query), limit: 6, source: 'widget' });
+    $("#search_assets_result").html("");
+    $.ajax({
+      url: this.assetsUrl(),
+      data: {
+        query: escape(query),
+        limit: 6,
+        source: 'widget'
+      },
+      type: 'get',
+      dataType: 'script',
+      async: this.isAsync(async)
+    });
 	},
   upload: function(element) {
     if(!$("#asset_upload_frame").exist())

@@ -19,6 +19,9 @@ TestUtils = {
         '</div>' +
       '</li>' +
     '</ul>');
+  },
+  attachSearchResult: function() {
+    $("#search_assets_result").html('<li><a href="/adva_assets/assets/rails.png"><img alt="rails logo" src="/adva_assets/assets/rails.thumb.png" style="thumb"></a></li>');
   }
 }
 
@@ -155,10 +158,17 @@ test("should not perform search if query is missing", function() {
 });
 
 test("should search", function() {
-  $.extend(AssetWidget, { assetsUrl: function() { return "/adva_assets/controllers/search";} });
+  $.extend(AssetWidget, { assetsUrl: function() { return "/adva_assets/controllers/search"; } });
   ok(!$("#search_assets_spinner").is(":visible"), "spinner should not be visible");
-  AssetWidget.search("adva");
+  AssetWidget.search("rails", false);
   ok($("#search_assets_spinner").is(":visible"), "spinner should be visible");
+  ok($("#search_assets_result li a").exist(), "#search_assets_result should not be empty");
+});
+
+test("should remove previous search results when performs a new one", function(){
+  TestUtils.attachSearchResult();
+  AssetWidget.search("rails"); // async req, this time is OK, because the following assertion is much faster than XHR
+  ok(!$("#search_assets_result li a").exist(), "#search_assets_result should be empty");
 });
 
 test("should upload", function() {
