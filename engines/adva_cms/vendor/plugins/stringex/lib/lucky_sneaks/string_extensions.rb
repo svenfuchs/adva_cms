@@ -1,3 +1,4 @@
+# encoding: utf-8
 module LuckySneaks
   # These methods are all added on String class.
   module StringExtensions
