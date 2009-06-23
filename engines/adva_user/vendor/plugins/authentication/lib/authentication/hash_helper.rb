@@ -1,4 +1,4 @@
-require 'sha1'
+require 'digest/sha1'
 
 module Authentication
 
@@ -12,7 +12,7 @@ module Authentication
     # AUTHENTICATION_SALT. If not defined then the installation
     # directory of the application will be used as the site salt.
     def hash_string(string, salt=site_salt)
-      SHA1.sha1("#{salt}---#{string}").to_s
+      Digest::SHA1.hexdigest("#{salt}---#{string}").to_s
     end
 
     private
