@@ -113,6 +113,19 @@ test("should add tags when click on 'tagall_files' and input has existing tags",
   equals(TestUtils.lastFileRow().find("input:last").val(), "rails " + TestUtils.defaultTags);
 });
 
+module("BUCKET");
+test("should add to bucket", function() {
+  Assets.addToBucket($(".add_asset"), false);
+  ok($('#bucket_assets').children().size() > 0, "#bucket_assets should be empty.");
+  equals($("#flash_notice").html(), "rails.png assigned to this bucket.");
+});
+
+test("should clear the bucket", function() {
+  Assets.addToBucket($("#clear_bucket"), false);
+  equals($('#bucket_assets').children().size(), 0, "#bucket_assets shouldn't be empty.");
+  equals($("#flash_notice").html(), "Asset bucket has been cleared.");
+});
+
 module("ASSET TOOLS");
 test("should show assets tools when mouse is over an asset preview", function(){
   ok(!TestUtils.assetTools().is(":visible"), "asset tools should be hidden by default");
@@ -132,17 +145,4 @@ test("should delete the asset", function() {
   ok($('#asset_1').length == 0, "#asset_1 shouldn't exist.");
   equals($("#flash_notice").html(), "'rails.png' was deleted.");
   equals($("#upload_summary").html(), TestUtils.uploadSummary);
-});
-
-module("BUCKET");
-test("should add to bucket", function() {
-  Assets.addToBucket($(".add_asset"), false);
-  ok($('#bucket_assets').children().size() > 0, "#bucket_assets should be empty.");
-  equals($("#flash_notice").html(), "rails.png assigned to this bucket.");
-});
-
-test("should clear the bucket", function() {
-  Assets.addToBucket($("#clear_bucket"), false);
-  equals($('#bucket_assets').children().size(), 0, "#bucket_assets shouldn't be empty.");
-  equals($("#flash_notice").html(), "Asset bucket has been cleared.");
 });
