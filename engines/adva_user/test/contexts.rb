@@ -39,4 +39,14 @@ class Test::Unit::TestCase
   share :invalid_user_params do
     before { @params = { :user => valid_user_params.update(:password => '') } }
   end
+  
+  share :users do
+    before do
+      @user1 = User.find_by_name('user1')
+      @user2 = User.find_by_name('user2')
+      @user3 = User.find_by_name('user3')
+      @user4 = User.find_by_name('user4')
+    end
+  end
+  
 end

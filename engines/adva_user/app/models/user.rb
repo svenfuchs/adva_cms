@@ -6,7 +6,8 @@ class User < ActiveRecord::Base
   #                             :authenticate_with => nil
   
   named_scope :verified,      :conditions => "users.verified_at IS NOT NULL"
-  
+
+  belongs_to :account
   has_many :sites, :through => :memberships
   has_many :memberships, :dependent => :delete_all
   has_many :roles, :dependent => :delete_all, :class_name => 'Rbac::Role::Base' do
