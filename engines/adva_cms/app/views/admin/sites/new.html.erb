@@ -4,7 +4,7 @@
   <h2><%= t(:'adva.titles.home_section') %></h2>  
 
  	<% f.field_set :'home_section' do %>
-    <% fields_for :section, Section.new do |s| %>
+    <% fields_for :section, Section.new(params[:section]) do |s| %>
 			<% column do %>
 	      <%= s.label :title %>
 	      <%= s.text_field :title %>
@@ -15,7 +15,7 @@
     <% end %>
   <% end %>
   
-  <%= render :partial => 'form', :locals => { :f => f, :site => Site.new } %>
+  <%= render :partial => 'form', :locals => { :f => f, :site => Site.new(params[:site]) } %>
   
   <% save_or_cancel_links(f) %>
 <% end %>
