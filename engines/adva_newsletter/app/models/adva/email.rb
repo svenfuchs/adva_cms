@@ -10,7 +10,7 @@ class Adva::Email < ActiveRecord::Base
     end
     
     def deliver_all
-      self.find(:all, :limit => Adva::Config.number_of_outgoing_mails_per_process).each do |email|
+      self.find(:all, :limit => Registry.instance[:number_of_outgoing_mails_per_process]).each do |email|
         if email.present?
           Adva::Mailer.deliver(TMail::Mail.parse(email.mail))
           email.destroy

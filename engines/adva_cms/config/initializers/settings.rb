@@ -9,18 +9,16 @@ ActionController::Dispatcher.to_prepare do
   # that Adva mailer cleans out it's cronjob.
   # 
   # However, if you have huge amount of outgoing mails, you better consider to use some dedicated mailer. 
-  # Adva is saiving outgoing mails to table "emails" except urgent mails like account activisation mails etc.
-  Adva::Config.number_of_outgoing_mails_per_process = 150
+  # Adva is saiving outgoing mails to table "adva_emails" except urgent mails like account activisation mails etc.
+  # Registry.instance[:number_of_outgoing_mails_per_process] = 150
 
-  # Outgoing email header (default is empty hash)
+  # Outgoing email header
   #
   # When you need custom outgoing email header then uncomment following and add missing info:
-  # Adva::Config.email_header = {
-    # "Return-path" => "site@example.org",
-    # "Sender" => "site@example.org",
-    # "Reply-To" => "site@example.org",
-    # "X-Originator-IP" => "0.0.0.0"
-  # }
+  # Registry.instance[:email_header]["Return-path"] = "site@example.org"
+  # Registry.instance[:email_header]["Sender"]      = "site@example.org"
+  # Registry.instance[:email_header]["Reply-To"]    = "site@example.org"
+  # Registry.instance[:email_header]["X-Originator-IP"] = "0.0.0.0"
 
   # turn this on to get detailed cache sweeper logging in production mode
   # Site.cache_sweeper_logging = true

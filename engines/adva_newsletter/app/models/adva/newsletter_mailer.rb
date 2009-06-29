@@ -3,8 +3,8 @@ class Adva::NewsletterMailer < ActionMailer::Base
     recipients         user.email
     from               issue.newsletter.email
     subject           "[#{issue.newsletter.name}] #{issue.title}"
-    content_type      "multipart/related"
-    headers           Adva::Config.email_header
+    content_type      "multipart/alternative"
+    headers           Registry.instance[:email_header]
 
     part :content_type => 'multipart/alternative' do |p|
       

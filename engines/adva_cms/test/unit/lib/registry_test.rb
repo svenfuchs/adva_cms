@@ -61,6 +61,19 @@ class RegistryTest < ActiveSupport::TestCase
     @registry.get(:foo, :missing).should be_nil
   end
   
+  # alias
+  
+  test "#[] and #[]= should work" do
+    @registry[:test] = "test-alias"
+    @registry[:test].should == "test-alias"
+  end
+  
+  test "#[]= should supports nested keys" do
+    @registry[:test1][:test2] = "key"
+    @registry[:test1].should == {:test2 => "key"}
+    @registry[:test1][:test2].should == "key"
+  end
+  
   # clear
 
   test "#clear clears registry" do
