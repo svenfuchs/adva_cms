@@ -18,6 +18,7 @@ ActionController::Dispatcher.to_prepare do
   # Registry.instance[:email_header]["Return-path"] = "site@example.org"
   # Registry.instance[:email_header]["Sender"]      = "site@example.org"
   # Registry.instance[:email_header]["Reply-To"]    = "site@example.org"
+  # Registry.instance[:email_header]["Errors-To"]   = "errors@example.org"
   # Registry.instance[:email_header]["X-Originator-IP"] = "0.0.0.0"
 
   # turn this on to get detailed cache sweeper logging in production mode
