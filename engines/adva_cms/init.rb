@@ -1,7 +1,6 @@
 require 'pp'
 require 'paperclip' 
 
-require 'adva_config'
 require 'extensible_forms'
 require 'time_hacks'
 require 'core_ext'

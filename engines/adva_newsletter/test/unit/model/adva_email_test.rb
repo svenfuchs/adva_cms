@@ -32,9 +32,4 @@ class EmailTest < ActiveSupport::TestCase
     Adva::Email.deliver_all
     Adva::Cronjob.find_by_cron_id("email_deliver_all").should be_nil
   end
-  
-  test "outgoing mails per process should be 150" do
-    Adva::Config.number_of_outgoing_mails_per_process = nil
-    Adva::Config.number_of_outgoing_mails_per_process.should == 150
-  end
-end
+end 
