@@ -1,4 +1,4 @@
-<% form_for :contact_mail, @contact_mail, :url => contact_mails_path(:return_to => request.request_uri), :html => { :id => 'contact_mail_form', :method => :post } do |f| -%>
+<% form_tag contact_mails_path(:return_to => request.request_uri), { :id => 'contact_mail_form', :method => :post } do -%>
 	<p>
     <%= hidden_field_tag :'contact_mail[recipients]', @recipients %>
   </p>
