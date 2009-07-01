@@ -11,11 +11,11 @@ class ContactMailFormBuilder
 
   def add_field(field)
     fields << case field[:type]
-      when 'text_field'   : "<p>\n" + labelized_text_field_for(field)   + "</p>\n"
-      when 'text_area'    : "<p>\n" + labelized_text_area_for(field)    + "</p>\n"
-      when 'radio_button' : "<p>\n" + labelized_radio_button_for(field) + "</p>\n"
-      when 'check_box'    : "<p>\n" + labelized_check_box_for(field)    + "</p>\n"
-      when 'select'       : "<p>\n" + labelized_select_for(field)       + "</p>\n"
+      when 'text_field'   then "<p>\n" + labelized_text_field_for(field)   + "</p>\n"
+      when 'text_area'    then "<p>\n" + labelized_text_area_for(field)    + "</p>\n"
+      when 'radio_button' then "<p>\n" + labelized_radio_button_for(field) + "</p>\n"
+      when 'check_box'    then "<p>\n" + labelized_check_box_for(field)    + "</p>\n"
+      when 'select'       then "<p>\n" + labelized_select_for(field)       + "</p>\n"
       else ''
     end
   end
