@@ -20,10 +20,10 @@ module With
     
     def it_updates(*names)
       names.each do |name|
-        before { record_before_state("@#{name}.attributes") }
+        before { record_before_state("all_attributes(@#{name})") }
         assertion "it updates #{name}" do
-          previous = @before_states["@#{name}.attributes"]
-          current = assigns(name).reload.attributes
+          previous = @before_states["all_attributes(@#{name})"]
+          current = all_attributes(assigns(name).reload)
           assert_not_equal previous, current, "expected #{name} to be updated, but wasn't"
         end
       end
@@ -125,6 +125,13 @@ module With
       @before_states[expression] = instance_eval(expression)
     end
   
+    # merges in translated attributes, if present
+    def all_attributes(model)
+      model.respond_to?(:translated_attributes) ?
+        model.attributes.merge( model.translated_attributes ) :
+        model.attributes
+    end
+    
     def assert_state_change(expression, difference, message = nil)
       expected = @before_states[expression] + difference
       result   = instance_eval(expression)

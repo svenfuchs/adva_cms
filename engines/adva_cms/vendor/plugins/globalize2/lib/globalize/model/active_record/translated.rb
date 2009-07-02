@@ -109,7 +109,7 @@ module Globalize
         end
 
         module InstanceMethods
-          def reload_with_globalize
+          def reload_with_globalize(options = nil)
             globalize.clear
 
             # clear all globalized attributes
@@ -118,9 +118,13 @@ module Globalize
               @attributes.delete attr.to_s
             end
 
-            reload_without_globalize
+            reload_without_globalize(options)
           end
 
+          def translated_attributes
+            self.class.globalize_options[:translated_attributes].inject({}) {|h, tf| h[tf] = send(tf); h }
+          end
+          
           def globalize
             @globalize ||= Adapter.new self
           end

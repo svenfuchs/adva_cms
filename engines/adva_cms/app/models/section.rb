@@ -2,6 +2,7 @@ class Section < ActiveRecord::Base
   @@types = ['Page']
   cattr_reader :types
 
+  translates :title
   serialize :permissions
 
   has_option :contents_per_page, :default => 15
