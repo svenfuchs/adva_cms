@@ -39,8 +39,8 @@ namespace :adva do
       qt = connection.quote(t)
       sql = %{
         INSERT INTO category_translations (category_id, locale, title, created_at, updated_at)
-        SELECT categories.id, #{connection.quote(locale)}, categories.title, qt, qt
-        FROM sections
+        SELECT categories.id, #{connection.quote(locale)}, categories.title, #{qt}, #{qt}
+        FROM categories
       }
       connection.insert sql, "migrating categories to globalize"
       connection.remove_column 'categories', 'title'
