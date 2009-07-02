@@ -23,16 +23,28 @@ namespace :adva do
       end
     end
     
-    desc "Migrate section titles. Specify e.g., LOCALE=de if app locale isn't en."
-    task :migrate_sections => :environment do
+    desc "Migrate section and category titles. Specify e.g., LOCALE=de if app locale isn't en."
+    task :migrate_titles => :environment do
       locale = ENV['locale'] || 'en'
+      connection = ActiveRecord::Base.connection
       sql = %{
         INSERT INTO section_translations (section_id, locale, title, created_at, updated_at)
         SELECT sections.id, "#{locale}", sections.title, sections.published_at, sections.published_at
         FROM sections
       }
-      ActiveRecord::Base.connection.insert sql, "migrating sections to globalize"
-      ActiveRecord::Base.connection.remove_column 'sections', 'title'
+      connection.insert sql, "migrating sections to globalize"
+      connection.remove_column 'sections', 'title'
+
+      t = ActiveRecord::Base.default_timezone == :utc ? Time.now.utc : Time.now
+      qt = connection.quote(t)
+      sql = %{
+        INSERT INTO category_translations (category_id, locale, title, created_at, updated_at)
+        SELECT categories.id, #{connection.quote(locale)}, categories.title, qt, qt
+        FROM sections
+      }
+      connection.insert sql, "migrating categories to globalize"
+      connection.remove_column 'categories', 'title'
+
       Rake::Task['db:schema:dump'].invoke
     end
   end

@@ -2,6 +2,8 @@ class Category < ActiveRecord::Base
   acts_as_nested_set :scope => :section_id
   has_permalink :title, :url_attribute => :permalink, :sync_url => true, :only_when_blank => true, :scope => :section_id
 
+  translates :title
+  
   belongs_to :section, :foreign_key => 'section_id'
   has_many :contents, :through => :categorizations, :source => :categorizable, :source_type => 'Content'
   has_many :categorizations, :dependent => :delete_all
