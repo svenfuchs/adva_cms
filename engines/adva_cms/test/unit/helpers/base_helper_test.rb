@@ -120,6 +120,11 @@ class BaseHelperMicroformatsTest < ActiveSupport::TestCase
     @local_time = Time.zone.local 2008, 10, 9, 14, 0, 0
   end
 
+  def teardown
+    super
+    Time.zone   = 'UTC'
+  end
+  
   # DATETIME MICROFORMAT HELPERS
 
   test "#datetime_with_microformat displays the passed object when passed a non-Date/Time object" do

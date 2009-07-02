@@ -22,6 +22,19 @@ namespace :adva do
         puts comp_keys - base_keys
       end
     end
+    
+    desc "Migrate section titles. Specify e.g., LOCALE=de if app locale isn't en."
+    task :migrate_sections => :environment do
+      locale = ENV['locale'] || 'en'
+      sql = %{
+        INSERT INTO section_translations (section_id, locale, title, created_at, updated_at)
+        SELECT sections.id, "#{locale}", sections.title, sections.published_at, sections.published_at
+        FROM sections
+      }
+      ActiveRecord::Base.connection.insert sql, "migrating sections to globalize"
+      ActiveRecord::Base.connection.remove_column 'sections', 'title'
+      Rake::Task['db:schema:dump'].invoke
+    end
   end
 end
 
