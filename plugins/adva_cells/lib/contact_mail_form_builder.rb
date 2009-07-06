@@ -50,6 +50,9 @@ class ContactMailFormBuilder
     end
 
     def labelized_select_for(field)
+      # Fix for fckeditor stripping away option fields
+      return "" if field[:options].blank?
+      
       label_for(field) + 
        "\t" + select_tag(:"contact_mail[#{dehumanize(field[:name])}]", options_for_select(option_container_for(field[:options]))) + "\n"
     end

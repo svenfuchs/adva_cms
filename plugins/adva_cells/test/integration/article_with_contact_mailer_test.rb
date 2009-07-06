@@ -23,6 +23,18 @@ module IntegrationTest
       article_displays_contact_mailer
     end
     
+    test "article displays the contact mailer cell - even after put through fckeditor" do
+      login_as_user
+      
+      # Edited by fckeditor
+      @contact_mailer.update_attribute(:body, contact_mailer_cell_after_fckeditor)
+      
+      # We have an article with contact mailer
+      assert_equal contact_mailer_cell_after_fckeditor, @contact_mailer.body
+      
+      visit_contact_mailer_article
+    end
+    
     def visit_contact_mailer_article
       visit page_article_path(@page, @contact_mailer.permalink)
       assert_template 'articles/show'
@@ -55,6 +67,14 @@ module IntegrationTest
              </field>
            </fields>
          </cell>
+      XML
+    end
+    
+    def contact_mailer_cell_after_fckeditor
+      <<-XML
+      <cell name="contact_mailer/mailer_form" recipients="first@email.com, second@email.com">   <fields>     <field name="subject" label="Subject" type="text_field" value="default subject"></field>     <field name="body" label="Body" type="text_area"></field>     <field name="radio button" label="Radio button" type="radio_button" checked="true" value="100"></field>     <field name="check box" label="Checkbox" type="check_box" checked="true" value="100"></field>     <field name="rating" label="Rate us!" type="select">
+<options>                         </options>
+</field>   </fields> </cell>
       XML
     end
   end
