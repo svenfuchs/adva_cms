@@ -30,6 +30,24 @@ class AdminCategoriesControllerTest < ActionController::TestCase
       r.it_maps :delete, "categories/1",      :action => 'destroy', :id => '1'
     end
   end
+
+  describe "de routing" do
+    with_options :path_prefix => '/de/admin/sites/1/sections/1/', :site_id => "1", :section_id => "1" do |r|
+      r.it_maps :put,    "categories/1",      :action => 'update',  :id => '1', :locale => 'de'
+    end
+  end
+
+  test "category url in :de locale" do
+    site = Site.first
+    section = Section.first
+    category = Category.first
+    assert_equal "/admin/sites/#{site.id}/sections/#{section.id}/categories/#{category.id}",
+      admin_category_path(site, section, category)
+    I18n.locale = :de
+    assert_equal "/de/admin/sites/#{site.id}/sections/#{section.id}/categories/#{category.id}",
+      admin_category_path(site, section, category)
+    I18n.locale = :en
+  end
   
   describe "GET to :index" do
     action { get :index, default_params }

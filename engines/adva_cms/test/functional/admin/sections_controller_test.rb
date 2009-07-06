@@ -28,6 +28,17 @@ class AdminSectionsControllerTest < ActionController::TestCase
     end
   end
 
+  test "section url in :de locale" do
+    site = Site.first
+    section = Section.first
+    assert_equal "/admin/sites/#{site.id}/sections/#{section.id}",
+      admin_section_path(site, section)
+    I18n.locale = :de
+    assert_equal "/de/admin/sites/#{site.id}/sections/#{section.id}",
+      admin_section_path(site, section)
+    I18n.locale = :en
+  end
+
   describe "GET to :index" do
     action { get :index, default_params }
     
