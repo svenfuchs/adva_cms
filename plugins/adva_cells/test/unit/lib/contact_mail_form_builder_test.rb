@@ -33,6 +33,11 @@ class ContactMailFormBuilderTest < ActiveSupport::TestCase
       @cm_builder.add_field(select)
       assert @cm_builder.fields.first.is_a?(Tags::Select)
     end
+      
+    test "adds header to the fields" do
+      @cm_builder.add_field(header)
+      assert @cm_builder.fields.first.is_a?(Tags::Header)
+    end
   
   # render_fields
   
@@ -70,6 +75,12 @@ class ContactMailFormBuilderTest < ActiveSupport::TestCase
       @cm_builder.add_field(:type => 'text_field')
       assert_equal "", @cm_builder.render_fields
     end
+      
+    test "properly renders a header" do
+      expected = "\n<h2>Header</h2>\n"
+      @cm_builder.add_field(header)
+      assert_equal expected, @cm_builder.render_fields
+    end
   
   # Tags::TextField
     
@@ -82,6 +93,15 @@ class ContactMailFormBuilderTest < ActiveSupport::TestCase
       text_field = Tags::TextField.new()
       assert !text_field.valid?
     end
+    
+    # is stylable with css
+    
+    test "Tags::TextField accepts a custom id and class" do
+      expected = "\t<label for='contact_mail_subject'>Subject</label>\n\t<input class=\"custom_class\" id=\"custom_id\" name=\"contact_mail[subject]\" type=\"text\" />\n"
+      text_field_tag = Tags::TextField.new(:name => 'subject', :options => {:id => 'custom_id', :class => 'custom_class'}).render
+      
+      assert_equal expected, text_field_tag
+    end
 
   # Tags::TextArea
     
@@ -93,6 +113,15 @@ class ContactMailFormBuilderTest < ActiveSupport::TestCase
     test "Tags::TextArea is not valid without a name" do
       text_area = Tags::TextArea.new()
       assert !text_area.valid?
+    end
+    
+    # is stylable with css
+    
+    test "Tags::TextArea accepts a custom id and class" do
+      expected = "\t<label for='contact_mail_body'>Body</label>\n\t<textarea class=\"custom_class\" id=\"custom_id\" name=\"contact_mail[body]\"></textarea>\n"
+      text_area_tag = Tags::TextArea.new(:name => 'body', :options => {:id => 'custom_id', :class => 'custom_class'}).render
+      
+      assert_equal expected, text_area_tag
     end
 
   # Tags::RadioButton
@@ -111,6 +140,15 @@ class ContactMailFormBuilderTest < ActiveSupport::TestCase
       radio_button = Tags::RadioButton.new(:name => 'radio button')
       assert !radio_button.valid?
     end
+    
+    # is stylable with css
+    
+    test "Tags::RadioButton accepts a custom id and class" do
+      expected = "\t<label for='contact_mail_radio'>Radio</label>\n\t<input class=\"custom_class\" id=\"custom_id\" name=\"contact_mail[radio]\" type=\"radio\" />\n"
+      radio_button_tag = Tags::RadioButton.new(:name => 'radio', :options => {:id => 'custom_id', :class => 'custom_class'}).render
+      
+      assert_equal expected, radio_button_tag
+    end
 
   # Tags::CheckBox
   
@@ -122,6 +160,15 @@ class ContactMailFormBuilderTest < ActiveSupport::TestCase
     test "Tags::CheckBox is not valid without a name" do
       check_box = Tags::CheckBox.new(:value => '100')
       assert !check_box.valid?
+    end
+    
+    # is stylable with css
+    
+    test "Tags::CheckBox accepts a custom id and class" do
+      expected = "\t<label for='contact_mail_check'>Check</label>\n\t<input class=\"custom_class\" id=\"custom_id\" name=\"contact_mail[check]\" type=\"checkbox\" />\n"
+      check_box_tag = Tags::CheckBox.new(:name => 'check', :options => {:id => 'custom_id', :class => 'custom_class'}).render
+      
+      assert_equal expected, check_box_tag
     end
   
   # Tags::Select
@@ -150,6 +197,28 @@ class ContactMailFormBuilderTest < ActiveSupport::TestCase
       select = Tags::Select.new(:name => "select")
       assert !select.valid?
     end
+    
+    # is stylable with css
+    
+    test "Tags::Select accepts a custom id and class" do
+      expected = "\t<label for='contact_mail_select'>Select</label>\n\t<select class=\"custom_class\" id=\"custom_id\" name=\"contact_mail[select]\"><option value=\"1\">Good</option>\n<option value=\"2\">Bad</option></select>\n"
+      
+      assert_equal expected, custom_select.render
+    end
+  
+  # Tags::Header
+  
+    test "Tags::Header creates a header text" do
+      assert "<h1>Header</h1>", Tags::Header.new(:title => 'Header', :level => 1)
+    end
+  
+    test "Tags::Header is invalid in level range below 1" do
+      assert !Tags::Header.new(:title => 'Header', :level => 0).valid?
+    end
+  
+    test "Tags::Header is invalid in level range above 6" do
+      assert !Tags::Header.new(:title => 'Header', :level => 7).valid?
+    end
 
   def text_field
     { :name => "subject", :label => "Subject", :type => "text_field", :value => "default subject" }
@@ -172,6 +241,17 @@ class ContactMailFormBuilderTest < ActiveSupport::TestCase
       :options => { "option" => [ { "value" => "1", "label" => "Good" },
                                   { "value" => "2", "label" => "Bad"} ] }
     }
+  end
+  
+  def header
+    { :type => 'header', :title => 'Header', :level => 2 }
+  end
+  
+  def custom_select
+    Tags::Select.new(:name => 'select', :options => {:id => 'custom_id', :class => 'custom_class'},
+                                        :option_tags => { "option" => 
+                                          [ { "value" => "1", "label" => "Good" },
+                                          { "value" => "2", "label" => "Bad"} ] })
   end
   
   def label_output

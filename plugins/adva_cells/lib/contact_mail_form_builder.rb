@@ -7,6 +7,7 @@ class ContactMailFormBuilder
 
   def add_field(field)
     fields << case field[:type]
+      when 'header'       then Tags::Header.new(field) 
       when 'text_field'   then Tags::TextField.new(field)
       when 'text_area'    then Tags::TextArea.new(field)
       when 'radio_button' then Tags::RadioButton.new(field)
@@ -23,7 +24,13 @@ class ContactMailFormBuilder
   def render_fields
     html = ""
     fields.collect do |field|
-      html += "<p>\n" + field.render + "</p>\n" if field.valid?
+      if field.valid?
+        if field.is_a?(Tags::Header)
+          html += "\n" + field.render + "\n"
+        else
+          html += "<p>\n" + field.render + "</p>\n"
+        end
+      end
     end
     html
   end
@@ -35,13 +42,33 @@ module Tags
     include ActionView::Helpers::FormOptionsHelper
     include ActionView::Helpers::TagHelper
     
-    attr_accessor :name, :label, :value, :options
+    attr_accessor :options
     
     def initialize(options = {})
+      @options = options[:options] || {}
+    end
+    
+    def type
+      self.class.to_s.sub(/Tags::/, '')
+    end
+    
+    def valid?
+      true
+    end
+    
+    def render
+      ""
+    end
+  end
+  
+  class FormFieldBase < Base
+    attr_accessor :name, :label, :value
+    
+    def initialize(options = {})
+      super
       @name    = options[:name]
       @value   = options[:value]
       @label   = options[:label]
-      @options = options[:options] || {}
     end
     
     def valid?
@@ -61,16 +88,9 @@ module Tags
       :"contact_mail[#{dehumanize(name)}]"
     end
     
-    def type
-      self.class.to_s.sub(/Tags::/, '')
-    end
-    
-    def render
-      ""
-    end
   end
   
-  class CheckableBase < Base
+  class CheckableBase < FormFieldBase
     attr_accessor :checked
     
     def initialize(options = {})
@@ -79,15 +99,15 @@ module Tags
     end
   end
   
-  class TextField < Base
+  class TextField < FormFieldBase
     def render
       label_for + "\t" + text_field_tag(dehumanized_name, value, options) + "\n"
     end
   end
   
-  class TextArea < Base
+  class TextArea < FormFieldBase
     def text_area_options
-      options.merge(:id => "contact_mail_#{name}") unless options[:id]
+      options[:id] ? options : options.merge(:id => "contact_mail_#{name}")
     end
     
     def render
@@ -95,7 +115,7 @@ module Tags
     end
   end
   
-  class Select < Base
+  class Select < FormFieldBase
     attr_accessor :option_tags
     
     def initialize(options = {})
@@ -118,7 +138,7 @@ module Tags
     end
     
     def render
-      label_for + "\t" + select_tag(dehumanized_name, options_for_select(formatted_option_tags)) + "\n"
+      label_for + "\t" + select_tag(dehumanized_name, options_for_select(formatted_option_tags), options) + "\n"
     end
   end
   
@@ -135,6 +155,23 @@ module Tags
   class CheckBox < CheckableBase
     def render
       label_for + "\t" + check_box_tag(dehumanized_name, value, checked, options) + "\n"
+    end
+  end
+  
+  class Header < Base
+    attr_accessor :title, :level
+    
+    def initialize(options = {})
+      @title = options[:title]
+      @level = options[:level] || 1
+    end
+    
+    def valid?
+      (1..6).include?(level.to_i)
+    end
+    
+    def render
+      "<h#{level}>" + title + "</h#{level}>"
     end
   end
 end
