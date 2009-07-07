@@ -219,6 +219,14 @@ class ContactMailFormBuilderTest < ActiveSupport::TestCase
     test "Tags::Header is invalid in level range above 6" do
       assert !Tags::Header.new(:title => 'Header', :level => 7).valid?
     end
+    
+    # is stylable with css
+    
+    test "Tags::Header accepts a custom id and class" do
+      expected = "<h4 class=\"custom_class\" id=\"custom_id\">Header</h4>"
+      header = Tags::Header.new(:title => 'Header', :level => 4, :options => { :id => 'custom_id', :class => 'custom_class' })
+      assert_equal expected, header.render
+    end
 
   def text_field
     { :name => "subject", :label => "Subject", :type => "text_field", :value => "default subject" }

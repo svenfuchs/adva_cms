@@ -162,6 +162,7 @@ module Tags
     attr_accessor :title, :level
     
     def initialize(options = {})
+      super
       @title = options[:title]
       @level = options[:level] || 1
     end
@@ -171,7 +172,7 @@ module Tags
     end
     
     def render
-      "<h#{level}>" + title + "</h#{level}>"
+      content_tag(:"h#{level}", title, options)
     end
   end
 end
