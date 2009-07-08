@@ -1,4 +1,7 @@
 site = Site.find_by_name('site with pages')
+# FIXME there must be better way to do this
+Photo.root_dir = "#{RAILS_ROOT}/tmp"
+
 superuser = User.find_by_first_name('a superuser')
 
 album =

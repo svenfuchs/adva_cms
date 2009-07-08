@@ -4,6 +4,6 @@ class ActiveSupport::TestCase
   end
   
   def clear_themes_dir!
-    FileUtils.rm_r "#{Theme.root_dir}/themes" if File.exists? "#{Theme.root_dir}/themes"
+    FileUtils.rm_r "#{Theme.root_dir}/sites" if File.exists? "#{Theme.root_dir}/sites"
   end
 end

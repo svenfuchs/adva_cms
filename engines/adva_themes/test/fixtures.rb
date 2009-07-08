@@ -1,4 +1,6 @@
 site = Site.find_by_name 'site with pages'
+# FIXME there must be better way to do this
+Theme.root_dir = "#{RAILS_ROOT}/tmp"
 
 theme = site.themes.create! :name     => 'a theme',
                             :version  => '1.0.0',

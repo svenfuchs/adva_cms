@@ -62,11 +62,11 @@ class AssetTest < ActiveSupport::TestCase
   end
 
   test "does not change the filename if the file does not exist" do
-    create_image_asset.path.should == "#{Asset.root_dir}/assets/rails.png"
+    create_image_asset.path.should == "#{Asset.root_dir}/sites/site-#{@site.id}/assets/rails.png"
   end
 
   test "appends an integer to basename to ensure a unique filename if the file exists" do
-    dirname = "#{Asset.root_dir}/assets"
+    dirname = "#{Asset.root_dir}/sites/site-#{@site.id}/assets"
     FileUtils.mkdir_p dirname
     File.cp image_fixture.path, "#{dirname}/rails.png"
     create_image_asset.path.should == "#{dirname}/rails.1.png"

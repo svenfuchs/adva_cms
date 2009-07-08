@@ -54,15 +54,11 @@ class Asset < ActiveRecord::Base
 
   class << self
     def base_url(site)
-      Site.multi_sites_enabled ?
-        "/sites/site-#{site.id}/assets" :
-        '/assets'
+      "/sites/site-#{site.id}/assets"
     end
 
     def base_dir(site)
-      Site.multi_sites_enabled ?
-        "#{root_dir}/sites/site-#{site.id}/assets" :
-        "#{root_dir}/assets"
+      "#{root_dir}/sites/site-#{site.id}/assets"
     end
     
     [:image, :video, :audio, :pdf, :other].each do |type|

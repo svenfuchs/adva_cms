@@ -76,7 +76,7 @@ module IntegrationTests
     
     def export_theme
       click_link 'Download'
-      @exported_theme = "#{Rails.root}/tmp/themes/imported-theme.zip"
+      @exported_theme = "#{Rails.root}/tmp/sites/site-#{@site.id}/themes/imported-theme.zip"
       ::File.open(@exported_theme, 'w+') { |file| file.write(@response.body) }
     end
     

@@ -6,6 +6,7 @@ class PhotoTest < ActiveSupport::TestCase
   def setup
     super
     @photo = Photo.find_by_title('a photo')
+    @site = @photo.section.site
     @published_photo = Photo.find_by_title('a published photo')
   end
 
@@ -58,6 +59,17 @@ class PhotoTest < ActiveSupport::TestCase
   test "validates that the author is valid (through belongs_to_author)" do
     @photo.author.email = nil
     @photo.valid?.should be_false
+  end
+
+  test "does not change the filename if the file does not exist" do
+    create_photo.path.should == "#{Photo.root_dir}/sites/site-#{@site.id}/photos/rails.png"
+  end
+
+  test "appends an integer to basename to ensure a unique filename if the file exists" do
+    dirname = "#{Photo.root_dir}/sites/site-#{@site.id}/photos"
+    FileUtils.mkdir_p dirname
+    create_photo.path.should == "#{dirname}/rails.png"
+    create_photo.path.should == "#{dirname}/rails.1.png"
   end
 
   # Callbacks

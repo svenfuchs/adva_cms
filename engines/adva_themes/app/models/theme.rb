@@ -1,9 +1,9 @@
 require_dependency 'theme/file'
 
-# root_dir  » #{RAILS_ROOT}/public/themes
-# base_dir  » #{RAILS_ROOT}/public/themes/#{site.host}
-# path      » #{RAILS_ROOT}/public/themes/#{site.host}/#{theme.theme_id}
-# url       „                      themes/#{site.host}/#{theme.theme_id}
+# root_dir  » #{RAILS_ROOT}/public
+# base_dir  » #{RAILS_ROOT}/public/sites/site-#{site.id}/themes
+# path      » #{RAILS_ROOT}/public/sites/site-#{site.id}/themes/#{theme.theme_id}
+# url       „                                            themes/#{theme.theme_id}
 
 class Theme < ActiveRecord::Base
   cattr_accessor :root_dir
@@ -13,8 +13,8 @@ class Theme < ActiveRecord::Base
   @@default_preview = "#{::File.dirname(__FILE__)}/../../public/images/adva_themes/preview.png"
 
   class << self
-    def base_dir
-      "#{root_dir}/themes"
+    def base_dir(site)
+      "#{root_dir}/sites/site-#{site.id}/themes"
     end
   end
 
@@ -75,15 +75,11 @@ class Theme < ActiveRecord::Base
   end
 
   def path
-    Site.multi_sites_enabled ?
-      "#{self.class.base_dir}/site-#{site.id}/#{theme_id}" :
-      "#{self.class.base_dir}/#{theme_id}"
+    "#{self.class.base_dir(site)}/#{theme_id}"
   end
 
   def url
-    Site.multi_sites_enabled ?
-      "themes/site-#{site.id}/#{theme_id}" :
-      "themes/#{theme_id}"
+    "sites/site-#{site.id}/themes/#{theme_id}"
   end
 
   def import(file)

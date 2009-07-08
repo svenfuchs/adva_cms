@@ -4,6 +4,6 @@ class ActiveSupport::TestCase
   end
   
   def clear_photos_dir!
-    FileUtils.rm_r "#{Photo.root_dir}/photos" if File.exists? "#{Photo.root_dir}/photos"
+    FileUtils.rm_r "#{Photo.root_dir}/sites" if File.exists? "#{Photo.root_dir}/sites"
   end
 end

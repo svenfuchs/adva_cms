@@ -36,14 +36,12 @@ class Photo < ActiveRecord::Base
   validates_attachment_size :data, :less_than => 30.megabytes
 
   class << self
-    def base_url
-      '/photos'
+    def base_url(site)
+      "/sites/site-#{site.id}/photos"
     end
 
     def base_dir(site)
-      Site.multi_sites_enabled ?
-        "#{root_dir}/sites/#{site.perma_host}/photos" :
-        "#{root_dir}/photos"
+      "#{root_dir}/sites/site-#{site.id}/photos"
     end
   end
 
@@ -65,7 +63,7 @@ class Photo < ActiveRecord::Base
 
   def base_url(style = :original, fallback = false)
     style = :original unless style == :original or File.exists?(path(style))
-    [self.class.base_url, filename(style)].to_path
+    [self.class.base_url(site), filename(style)].to_path
   end
 
   def path(style = :original)
