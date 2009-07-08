@@ -27,6 +27,8 @@ en:
         create_now: Create one now
         edit: Edit
         delete: Delete
+      hints:
+        newsletter: Use the Newsletters feature to send e-mail messages to users on your site. Manage multiple newsletters for multiple groups of subscribers. Create issues to deliver e-mail messages to subscribers.
     issues:
       confirm_delete: Are you sure you want to delete this issue?
       links:
@@ -34,6 +36,8 @@ en:
         new: New
         edit: Edit
         delete: Delete
+      hints:
+        tracking: If you'd like to use Google Analytics to track your issue, enable Google Analytics by entering your tracking code on the main Settings page.
     subscriptions:
       confirm_delete: Are you sure you want to delete this subscription?
       links:

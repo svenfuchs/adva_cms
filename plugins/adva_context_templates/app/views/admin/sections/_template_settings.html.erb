@@ -2,11 +2,11 @@
 
 <% f.field_set :templates do %>
   <% column do %>
-    <%= f.text_field :template, :label => true %>
+    <%= f.text_field :template, :label => true, :hint => :'adva.hints.template' %>
 	<% end %>
 
   <% column do %>
-    <%= f.text_field :layout, :label => true %>
+    <%= f.text_field :layout, :label => true, :hint => :'adva.hints.layout' %>
 	<% end %>
 <% end %>
 

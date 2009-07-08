@@ -1,8 +1,8 @@
 <h2><%= t(:'adva.titles.meta_tags') %></h2>
 <% f.field_set :meta_tags do %>
   <% column do %>
-    <%= f.text_field :meta_keywords, :label => true %>
-    <%= f.text_area  :meta_description, :class => 'small', :label => true %>
+    <%= f.text_field :meta_keywords, :label => true, :hint => :'adva.hints.meta_keywords'  %>
+    <%= f.text_area  :meta_description, :class => 'small', :label => true, :hint => :'adva.hints.meta_description'  %>
   <% end %>
 
   <% column do %>

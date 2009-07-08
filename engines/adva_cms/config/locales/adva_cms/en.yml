@@ -143,6 +143,16 @@ en:
     hints:
       permalink: Use only ASCII characters and use dashes instead of spaces.
       tags: Enter one or more tags separated by a space. You may include spaces by enclosing a tag with quotes. (For example, <em>"Web Dev" Tutorials</em>).
+      content_translations: Click to change the translation to edit. To add another translation, use the locales option in the menu on the right.
+      locale: Choose what region or language your article should be formatted for.
+      filter: How is your content written? If you used the graphical text editor, use the default Plain HTML option. Otherwise, choose your markup languange.
+      meta_keywords: Enter a few words separated by commas to describe your content. Meta keywords make it easier for search engines to find your page.
+      meta_description: Enter a short description of this page so a search engine can tell users what they can find here.
+      template: Enter the location (like “Templates/*”) of the template that articles in this section should use. If you're unsure, leave this field blank.
+      layout: Enter the location (like “Layouts/*”) of the layout that articles in this section should use. If you're unsure, leave this field blank.
+      akismet: Askimet is a third-party service to filter spam. If you've signed up for the service, enter your API Key and URL and check the box to enable this service.
+      defensio: Defensio is a third-party service to filter spam. If you've signed up for the service, enter your API Key and URL and check the box to enable this service. 
+      roles: Choose which areas this user can access on the site.
     messages: 
       insufficient_permissions: 
         title: Insufficient permissions
@@ -212,7 +222,8 @@ en:
       confirm_delete: Are you sure you want to delete this site?
     sections:
       hints:
-        content_filter: When articles are posted, they use this as the default setting.
+        content_filter: How should your articles be read? The default option is Plain HTML.
+        sections: Listed below are all the sections currently on your site. Whichever section is on top is the default homepage. Use the reorder option to change your homepage and the way your sections appear in navigation.
       titles:
         page_settings: Page specific settings
         blog_settings: Blog specific settings
@@ -452,7 +463,7 @@ en:
         comments: Comments
         approved: Approved
       hints:
-        comments_filter: When comments are posted, they use this markup.
+        comments_filter: Which markup should be used to read comments? The default is Plain HTML.
       confirm_delete: Are you sure you want to delete this comment?
       info:
         under_review: This comment is currently under review.
@@ -923,7 +934,7 @@ en:
       tracking_source: Source
       hints:
         tracking_code: Use your Google Analytics Tracking Code (UA-xxxxxxx-x) to enable Google Analytics support. Leaving this blank will deactivate Google Analytics support.
-        no_tracking_code: In order to use Google Analytics to track your newsletters, you need to set up your tracking code first. You can do this in the {{settings}}.
+        no_tracking_code: If you'd like to use Google Analytics to track your issue, enable Google Analytics by entering your tracking code on the main Settings page.
         glossary: Not sure what to use here? Check {{link}} for further information.
         glossary_name: the Google Analytics help
     spam:

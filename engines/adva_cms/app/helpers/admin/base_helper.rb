@@ -48,7 +48,8 @@ module Admin::BaseHelper
     block = Proc.new { |locale| link_to_edit(locale, content, :cl => locale) } unless block
     locales = content.translated_locales.map { |locale| block.call(locale.to_s) }
     content_tag(:span, :class => 'content_translations') do
-      t(:"adva.#{content[:type].tableize}.translation_links", :locales => locales.join(', '))
+      t(:"adva.#{content[:type].tableize}.translation_links", :locales => locales.join(', ')) + 
+      "<p class=\"hint\" for=\"content_translations\">#{t(:'adva.hints.content_translations')}</p>"
     end
   end
 

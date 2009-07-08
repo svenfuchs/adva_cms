@@ -13,7 +13,8 @@
 
 <% if has_permission?('manage', 'roles') %>
 	<h4><%= t(:'adva.titles.roles') %></h4>
-
+	<p class="hint text_only"><%= t(:'adva.hints.roles') %></p>
+		
 	<% f.field_set do %>
 	  <% if current_user.has_role?(:superuser) %>
 			<p>

@@ -2,10 +2,11 @@
 <% f.field_set :spam_settings do %>
   <% column do %>
     <h4><%= t(:'adva.titles.spam_filters') %></h4>
-    <span class="hint"><%= t(:'adva.spam.hints.filters') %></span>
+    <span class="hint text_only"><%= t(:'adva.spam.hints.filters') %></span>
 
     <% SpamEngine::Filter.names.each do |name| %>
 	    <h3><%= name %></h3>
+			<p class="hint text_only"><%= t(:"adva.hints.#{name.downcase}")%></a>
 	    <p>
 	      <%= check_box_tag "site[spam_options][filters][]", name, site.spam_filter_active?(name), :class => "site_spam_options_filter", :id => "site_spam_options_filter_#{name.downcase}" unless name == 'Default' %>
 	      <%= label :site, "spam_options_filter_#{name.downcase}", (name != 'Default' ? "Enable #{name} filter" : 'Settings'), :class => 'inline' %>

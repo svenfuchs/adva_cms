@@ -2,6 +2,7 @@
 <% f.field_set do %>
 	<% column do %>
 	  <%= hidden_field_tag 'cl', Article.locale %>
+		
 	  <%= f.text_field :title, :class => 'big', :label => true  %>
 
 	  <p id="article_excerpt_wrapper" style="<%= @article.has_excerpt? ? "" : "display:none" %>">
