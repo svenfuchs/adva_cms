@@ -3,7 +3,7 @@ module RoutingFilter
     def around_recognize(path, env, &block)
       unless path =~ %r(^/([\w]{2,4}/)?admin) # TODO ... should be defined through the dsl in routes.rb
         types = Section.types.map{|type| type.downcase.pluralize }.join('|')
-        if match = path.match(%r(/(?:#{types})/([\d]+)/categories/([^\./$]+)(?=/|\.|$)))
+        if match = path.match(%r(/(?:#{types})/([\d]+)/categories/([^\.$]+)(?=/|\.|$)))
           if section = Section.find(match[1])
             if category = section.categories.find_by_path(match[2])
               path.sub! "/categories/#{category.path}", "/categories/#{category.id}"
