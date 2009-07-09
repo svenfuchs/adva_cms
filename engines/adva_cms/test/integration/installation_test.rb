@@ -10,6 +10,24 @@ class InstallationTest < ActionController::IntegrationTest
     Site.delete_all
     User.delete_all
   end
+  
+  test "user should not be able to install the initial site without a valid email" do
+    # go to root page
+    get "/"
+
+    # user should see the install template
+    assert_template "admin/install/index"
+
+    # fill in the form and submit the form
+    fill_in :site_name,     :with => "adva-cms test"
+    fill_in :user_email,    :with => "test"
+    fill_in :user_password, :with => "test_password"
+    fill_in :section_title, :with => "Home"
+    click_button "Create"
+
+    # check that a new site is created
+    assert_equal 0, Site.count
+  end
 
   test "user installs the initial site, manages the new site, logs out and views the empty frontend" do
     # go to root page

@@ -17,10 +17,11 @@ class Admin::InstallController < ApplicationController
 
     @site = Site.new params[:site]
     @section = @site.sections.build(params[:content])
-    @user = User.new
+    @user = User.new(params[:user])
+    @user.name = @user.first_name_from_email
 
     if request.post?
-      if @site.valid? && @section.valid?
+      if @site.valid? && @section.valid? && @user.valid?
         @site.save
 
         @user = User.create_superuser params[:user]
@@ -33,7 +34,7 @@ class Admin::InstallController < ApplicationController
         flash.now[:notice] = t(:'adva.sites.flash.install.success')
         render :action => :confirmation
       else
-        models = [@site, @section].map{|model| model.class.name unless model.valid?}.compact
+        models = [@site, @section, @user].map{|model| model.class.name unless model.valid?}.compact
         flash.now[:error] = t(:'adva.sites.flash.install.failure', :models => models.join(', '))
       end
     end
