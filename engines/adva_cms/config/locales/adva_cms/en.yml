@@ -58,6 +58,7 @@ en:
       dashboard: Dashboard
       deactivate: Deactivate
       download: Download
+      email_notifications: Email notifications
       events: Events
       files: Files
       filter: Filter
@@ -175,6 +176,7 @@ en:
       queued: Queued
       delivered: Delivered
     sites:
+      email_notification: "Email notifications [on/off]"
       title:
         create: Create a new site
       hints:

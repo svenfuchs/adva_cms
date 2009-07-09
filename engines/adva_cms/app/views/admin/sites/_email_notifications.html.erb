@@ -1,0 +1,7 @@
+<h2><%= t(:'adva.titles.email_notifications') %></h2>
+
+<% f.field_set :email_notification do %>
+	<% column do %>
+		<%= f.check_box :email_notification, {:label => :'adva.sites.email_notification'} %>
+	<% end %>
+<% end %>

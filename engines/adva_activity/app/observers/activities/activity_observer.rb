@@ -16,8 +16,10 @@ module Activities
 
       def find_subscribers(activity)
         returning [] do |subscribers|
-          subscribers << User.by_context_and_role(activity.site, :admin)
-          subscribers << User.by_context_and_role(activity.site, :superuser)
+          if activity.site.email_notification
+            subscribers << User.by_context_and_role(activity.site, :admin)
+            subscribers << User.by_context_and_role(activity.site, :superuser)
+          end
         end.flatten
       end
     end
