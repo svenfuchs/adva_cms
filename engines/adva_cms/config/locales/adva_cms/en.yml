@@ -154,6 +154,7 @@ en:
       akismet: Askimet is a third-party service to filter spam. If you've signed up for the service, enter your API Key and URL and check the box to enable this service.
       defensio: Defensio is a third-party service to filter spam. If you've signed up for the service, enter your API Key and URL and check the box to enable this service. 
       roles: Choose which areas this user can access on the site.
+      categories: "Avoid names countaining only 4 or 2 digits!"
     messages: 
       insufficient_permissions: 
         title: Insufficient permissions

@@ -3,7 +3,7 @@
 <% form_for :category, @category, :url => admin_category_path, :html => {:method => :put} do |f| %>
 	<% f.field_set do %>
     <% column do %>
-      <%= f.text_field :title, :label => true %>
+      <%= f.text_field :title, :label => true, :hint => :'adva.hints.categories' %>
     <% end %>
 
     <% column do %>
