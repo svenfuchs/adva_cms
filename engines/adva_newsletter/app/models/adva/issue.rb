@@ -6,7 +6,7 @@ class Adva::Issue < ActiveRecord::Base
   belongs_to :newsletter, :counter_cache => true, :class_name => "Adva::Newsletter"
   has_one :cronjob, :as => :cronable, :class_name => "Adva::Cronjob"
 
-  attr_accessible :title, :body, :filter, :draft, :deliver_at
+  attr_accessible :title, :body, :body_plain, :filter, :draft, :deliver_at
   validates_presence_of :title, :body, :newsletter_id
 
   named_scope :all_included, :include => :newsletter

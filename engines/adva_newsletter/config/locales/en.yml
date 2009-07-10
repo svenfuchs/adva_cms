@@ -1,5 +1,13 @@
 en:
   adva_newsletter:
+    issue:
+      label:
+        body: Html version
+        body_plain: Plain text version
+        title: Issue Title/Subject
+      link:
+        add_body_plain: "Add plain text version"
+        remove_body_plain: "Remove plain text version"
     subscription:
       title:
         section: 
@@ -98,12 +106,11 @@ en:
         deleted_issues: Deleted issues
         email: Newsletter emails are coming from
         published: Make it public, then users are able to subscribe.
-        issue_title: Issue Title/Subject
-        issue_body: Body
         issue_name: Name
         issue_created_at: Created
         issue_deliver_at: Deliver at
         issue_deliver_at_long: "Issue will be delivered at {{delivery_time}}"
+        autocopy: Autocopy
       title:
         new: New newsletter
         edit: Edit newsletter
