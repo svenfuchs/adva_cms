@@ -1,4 +1,6 @@
 <% f.field_set do %>
+  <%= hidden_field_tag "adva_newsletter_issue_confirm_remove_body_plain", t(:"adva_newsletter.issue.confirm.remove_body_plain") %>
+
   <%= f.text_field :title, :class => 'big', :label => :'adva_newsletter.issue.label.title' %>
   <%= f.text_area :body, :class => 'big wysiwyg', :rows => 25, :label => :'adva_newsletter.issue.label.body' %>
   <div class="double-label">

@@ -7,6 +7,10 @@
   </p>
 
   <p><%= @issue.body_html %></p>
+  <% if @issue.body_plain? %>
+    <h4><%= t(:"adva_newsletter.issue.label.body_plain") %></h4>
+    <p><%= @issue.body_plain %></p>
+  <% end %>
 
   <% if @issue.published? %>
     <% split_form_for :issue, @issue, :url => admin_adva_delivery_path(@site, @newsletter, @issue),

@@ -1,6 +1,8 @@
 en:
   adva_newsletter:
     issue:
+      confirm:
+        remove_body_plain: "Are you sure you want remove plain text version?" 
       label:
         body: Html version
         body_plain: Plain text version
