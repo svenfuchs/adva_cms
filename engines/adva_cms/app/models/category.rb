@@ -7,7 +7,7 @@ class Category < ActiveRecord::Base
   belongs_to :section, :foreign_key => 'section_id'
   has_many :contents, :through => :categorizations, :source => :categorizable, :source_type => 'Content'
   has_many :categorizations, :dependent => :delete_all
-
+  
   before_save :update_path
 
   validates_presence_of :section, :title
@@ -21,7 +21,25 @@ class Category < ActiveRecord::Base
     section
   end
   
+  def all_contents
+    section.class.to_s == 'Album' ? scope_by_set : scope_by_content
+  end
+  
   protected
+  
+    def scope_by_set
+      scope = Photo.scoped({})
+      scope = scope.scoped :include => :sets, :conditions => ["categories.lft >= ? AND categories.rgt <= ?", lft, rgt]
+      scope
+    end
+    
+    def scope_by_content
+      scope = Content.scoped({})
+      scope = scope.scoped :include => :categories, :conditions => ["categories.lft >= ? AND categories.rgt <= ?", lft, rgt]
+      scope = scope.scoped :conditions => ["contents.type = ?", section.class.content_type]
+      scope = scope.scoped :include => :section, :conditions => ["sections.type = ?", section.class.to_s]
+      scope
+    end
   
     def update_path
       if permalink_changed?

@@ -27,7 +27,8 @@ class Content < ActiveRecord::Base
 
   before_validation :set_site
   
-  default_scope :order => 'position, published_at'
+  # more explicit to make nested category contents to work
+  default_scope :order => 'contents.position, contents.published_at'
 
   named_scope :published, Proc.new { |*args|
     options = args.extract_options!

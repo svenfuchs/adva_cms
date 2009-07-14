@@ -49,7 +49,7 @@ class ArticlesController < BaseController
     def set_section; super(Section); end
 
     def set_articles
-      scope = @category ? @category.contents : @section.articles
+      scope = @category ? @category.all_contents : @section.articles
       scope = scope.tagged(@tags) unless @tags.blank?
       scope = @section.is_a?(Blog) ? scope.published(params[:year], params[:month]) : scope.published
       @articles = scope.paginate(:page  => current_page, :limit => @section.contents_per_page)
