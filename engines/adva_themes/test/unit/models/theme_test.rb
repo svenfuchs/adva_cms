@@ -88,6 +88,14 @@ class ThemeTest < ActiveSupport::TestCase
     end
     assert_equal 5, @site.themes.last.files.size
   end
+  
+  test "valid_theme? returns true if theme folder contains one of the theme folders: images, templates, stylesheets or javascripts" do
+    assert Theme.valid_theme?(theme_fixture)
+  end
+  
+  test "valid_theme? returns false if theme folder does not contain one of the theme folders: images, templates, stylesheets or javascripts" do
+    assert ! Theme.valid_theme?(invalid_theme_fixture)
+  end
 
   # INSTANCE METHODS
   test "returns about hash" do
@@ -126,5 +134,22 @@ class ThemeTest < ActiveSupport::TestCase
     @theme.update_attributes :active => true
     @theme.deactivate!
     @theme.active?.should be_false
+  end
+  
+  test "find_theme_root finds the root directory of the theme from deeply nested zip archive" do
+    assert_equal 'deep_nesting/theme/', Theme.send(:find_theme_root, deeply_nested_theme_fixture)
+  end
+  
+  test "find_theme_root works with nested templates directory" do
+    # fix that find_theme_root does not result in incorrect foo/bar/ root
+    assert_equal '', Theme.send(:find_theme_root, theme_fixture)
+  end
+  
+  test "strip_path strips the given folder structure out of path" do
+    assert_equal 'images/image.jpg', Theme.send(:strip_path, 'deep_nesting/theme/images/image.jpg', 'deep_nesting/theme/')
+  end
+  
+  test "strip_path strips only from the start" do
+    assert_equal 'images/foo/bar/image.jpg', Theme.send(:strip_path, 'foo/bar/images/foo/bar/image.jpg', 'foo/bar/')
   end
 end

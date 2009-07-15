@@ -50,4 +50,12 @@ module ThemeTestHelper
   def theme_fixture
     File.new("#{File.dirname(__FILE__)}/../fixtures/theme-for-import.zip")
   end
+  
+  def invalid_theme_fixture
+    File.new("#{File.dirname(__FILE__)}/../fixtures/invalid.zip")
+  end
+  
+  def deeply_nested_theme_fixture
+    File.new("#{File.dirname(__FILE__)}/../fixtures/deep_nesting.zip")
+  end
 end

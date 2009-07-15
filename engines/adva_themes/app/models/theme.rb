@@ -11,7 +11,9 @@ class Theme < ActiveRecord::Base
 
   cattr_accessor :default_preview
   @@default_preview = "#{::File.dirname(__FILE__)}/../../public/images/adva_themes/preview.png"
-
+  
+  THEME_STRUCTURE = ['stylesheets', 'javascripts', 'images', 'templates']
+  
   class << self
     def base_dir(site)
       "#{root_dir}/sites/site-#{site.id}/themes"
@@ -30,13 +32,14 @@ class Theme < ActiveRecord::Base
                        :only_when_blank => false, :sync_url => true
 
   validates_presence_of :name
-
+  
   after_create  :create_theme_dir, :create_preview
   after_destroy :delete_theme_dir
 
   class << self
     def import(file)
       name = file.original_filename.gsub(/(^.*(\\|\/))|(\.zip$)/, '').gsub(/[^\w\.\-]/, '_')
+      return false unless valid_theme?(file)
       returning Theme.create(:name => name) do |theme|
         theme.import(file)
       end
@@ -47,6 +50,18 @@ class Theme < ActiveRecord::Base
       returning Pathname.new(Rails.root + "/tmp/themes/tmp_#{random}/") do |dir|
         FileUtils.mkdir_p dir unless dir.exist?
       end
+    end
+    
+    def valid_theme?(file)
+      valid = false
+      Zip::ZipFile.open(file.path) do |zip|
+        zip.sort.each do |entry|
+          entry.name.split('/').each do |file|
+            valid = true if THEME_STRUCTURE.include? file
+          end
+        end
+      end
+      valid
     end
   end
   
@@ -88,16 +103,20 @@ class Theme < ActiveRecord::Base
       f.original_path = file.original_path
       f.read # no idea why we need this here, otherwise the zip can't be opened
     end unless file.path
-
+    
+    theme_root = Theme.find_theme_root(file)
+    
     Zip::ZipFile.open(file.path) do |zip|
       zip.each do |entry|
         if entry.name == 'about.yml'
           # FIXME
         else
+          name = entry.name.sub(/__MACOSX\//, '')
+          name = Theme.strip_path(entry.name, theme_root)
           data = ''
           entry.get_input_stream { |io| data = io.read }
           data = StringIO.new(data) unless data.blank?
-          Theme::File.create!(:theme => self, :base_path => entry.name, :data => data) rescue next
+          Theme::File.create!(:theme => self, :base_path => name, :data => data) rescue next
         end
       end
     end
@@ -131,5 +150,39 @@ class Theme < ActiveRecord::Base
 
     def delete_theme_dir
       FileUtils.rm_rf(path)
+    end
+    
+    # FIXME I think there should be another class that have these methods, along with importing itself
+    #       they do not seem to fit on theme class. But works for now.
+    class << self
+      def find_theme_root(file)
+        theme_root = ''
+        Zip::ZipFile.open(file.path) do |zip|
+          zip.each do |entry|
+            entry.name.sub!(/__MACOSX\//, '')
+            if theme_root = root_in_path(entry.name)
+              break
+            end
+          end
+        end
+        theme_root
+      end
+  
+      def root_in_path(path)
+        root_found = false
+        theme_root = ''
+        path.split('/').each do |piece|
+          if piece == 'about.yml' || THEME_STRUCTURE.include?(piece)
+            root_found = true
+          else
+            theme_root += piece + '/' if !piece.match('\.') && !root_found
+          end
+        end
+        root_found ? theme_root : false
+      end
+
+      def strip_path(file_name, path)
+        file_name.sub(path, '')
+      end
     end
 end

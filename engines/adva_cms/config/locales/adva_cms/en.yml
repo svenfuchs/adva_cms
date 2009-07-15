@@ -746,7 +746,7 @@ en:
         import:
           success: The theme has been imported.
           error_filename_blank: The theme file cannot be blank.
-          failure: The file could not be imported as a theme.
+          failure: The file does not have a valid theme file structure.
 
     # yuk!
     theme_templates:
