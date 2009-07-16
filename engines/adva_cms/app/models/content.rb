@@ -41,7 +41,11 @@ class Content < ActiveRecord::Base
     options = args.extract_options!
     conditions = ['contents.published_at IS NULL']
     add_time_delta_condition!(conditions, args) unless args.compact.empty?
-    options.merge :conditions => conditions 
+    options.merge :conditions => conditions
+  }
+  
+  named_scope :unpublished, Proc.new { |*args|
+    drafts(*args).scope(:find)
   }
   
   class << self
