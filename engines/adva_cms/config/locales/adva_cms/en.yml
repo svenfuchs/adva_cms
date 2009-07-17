@@ -226,7 +226,7 @@ en:
     sections:
       hints:
         content_filter: How should your articles be read? The default option is Plain HTML.
-        sections: Listed below are all the sections currently on your site. Whichever section is on top is the default homepage. Use the reorder option to change your homepage and the way your sections appear in navigation.
+        sections: Listed here are all the sections currently on your site. Whichever section is on top is the default homepage. Use the reorder option to change your homepage and to nest your sections.
       titles:
         page_settings: Page specific settings
         blog_settings: Blog specific settings

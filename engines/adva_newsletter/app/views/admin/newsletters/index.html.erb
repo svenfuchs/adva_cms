@@ -1,4 +1,6 @@
-<p class="hint text_only"><%= t(:'adva.newsletters.hints.newsletter')%></p>
+<% content_for :sidebar do %>
+	<p class="hint text_only large padded"><%= t(:'adva.newsletters.hints.newsletter')%></p>
+<% end %>
 
 <%
 	table_for @newsletters do |t|

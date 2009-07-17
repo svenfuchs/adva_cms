@@ -1,6 +1,9 @@
-<p class="hint text_only">
-	<%= t(:'adva.sections.hints.sections') %>
-</p>
+<% content_for :sidebar do %>
+	<p class="hint text_only large padded">
+		<%= t(:'adva.sections.hints.sections') %>
+	</p>
+<% end %>
+
 <%
 	table_for @sections, :collection_name => :sections, :class => 'sections list tree' do |t|
 		t.column :section
