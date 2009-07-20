@@ -5,6 +5,7 @@ class SectionTest < ActiveSupport::TestCase
     super
     @site = Site.first
     @section = @site.sections.first
+    @new_section = Section.new(:site => @site, :title => 'a test section', :parent_id => @section.id)
   end
 
   test "acts as a role context for the moderator role" do
@@ -262,6 +263,16 @@ class SectionTest < ActiveSupport::TestCase
   test "#build_path builds a path by joining self and anchestor permalinks with '/'" do
     section = bunch_of_nested_sections!
     section.send(:build_path).should == "home/about/location"
+  end
+  
+  test "#update_paths moves a new section to a child of its parent and updates the section paths" do
+    @new_section.save
+    assert_equal @section, @new_section.parent
+  end
+  
+  test "#update_paths should not lose the title of the section while moving the section - a bug fix" do
+    @new_section.save
+    assert_equal 'a test section', @new_section.title
   end
 
   # NESTED SET

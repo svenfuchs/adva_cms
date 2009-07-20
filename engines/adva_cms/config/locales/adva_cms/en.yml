@@ -226,13 +226,17 @@ en:
     sections:
       hints:
         content_filter: How should your articles be read? The default option is Plain HTML.
-        sections: Listed here are all the sections currently on your site. Whichever section is on top is the default homepage. Use the reorder option to change your homepage and to nest your sections.
+        sections: "Listed here are all the sections currently on your site. Whichever section is on top is the default homepage."
+        reorder: "You can use the reorder option to set your home root to different section and to reorder your sections. If you want to nest your sections you can drag the section to the right and its gets set as a child of the upper section."
+        parent_setting: Choosing a parent for your section will nest this section under the chosen parent. Leave empty if you want to create this section as a root section.
+        parent_setting_for_edit: "You can use the reorder button on the index page of sections to nest and reorder your sections, you can find further instructions for this on the index page help hints."
       titles:
         page_settings: Page specific settings
         blog_settings: Blog specific settings
         forum_settings: Forum specific settings
         create: Create a new section
-        behaviour: Behaviour
+        behaviour: Behaviour 
+        parent_settings: Parent setting
       links:
         save_and_create_new: Save and create another section
         index: Sections

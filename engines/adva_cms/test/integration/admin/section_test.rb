@@ -28,6 +28,12 @@ module IntegrationTests
       visit_overview_page
     end
     
+    test "Admin creates a page and sets it as a child section of the home section" do
+      login_as_admin
+      visit "/admin/sites/#{@site.id}/sections"
+      create_a_new_child_page
+    end
+    
     def create_a_new_page
       click_link 'Sections'
       click_link 'New'
@@ -37,6 +43,20 @@ module IntegrationTests
       
       assert @site.sections.last.is_a?(Page)
       request.url.should =~ %r(/admin/sites/\d+/sections/\d+/articles)
+    end
+    
+    def create_a_new_child_page
+      click_link 'New'
+      fill_in 'title', :with => 'the child blog'
+      select 'Blog', :from => 'section_type'
+      select @section.title, :from => 'section_parent_id'
+      click_button 'Save'
+      
+      request.url.should =~ %r(/admin/sites/\d+/sections/\d+/articles)
+      section = @site.sections.find_by_title('the child blog')
+      assert section
+      assert section.is_a?(Blog)
+      assert section.parent == @section
     end
     
     def post_the_article_form

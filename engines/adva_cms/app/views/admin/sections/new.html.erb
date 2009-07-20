@@ -7,8 +7,15 @@
 		<% end %>
 		<% column do %>
      	<%= f.collection_select :type, Section.types, :to_s, :to_s, {}, :label => true %>
-    <% end %>
+		<% end %>
   <% end %>
+
+	<% f.field_set do %>
+		<h3><%= t(:'adva.sections.titles.parent_settings')%></h3>
+	
+    <%= f.select :parent_id, @site.sections.collect {|p| [ p.title, p.id ] unless p == @section }.compact, { :include_blank => true, :label => true } %>
+		<span class="hint" for="section_parent_id"><%= t :'adva.sections.hints.parent_setting' %></span>
+	<% end %>
 
   <% f.buttons do %>
     <%= submit_tag t(:'adva.common.save'), :id => 'commit' %>
