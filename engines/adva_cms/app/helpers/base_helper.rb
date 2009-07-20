@@ -43,9 +43,13 @@ module BaseHelper
     authors.uniq
   end
 
-  def author_selected(content)
-    content.try(:author_id) || current_user.id
+  def author_selected(content = nil)
+    # FIXME why would we want to preselect the previous author of the
+    #       content when we are editing it?
+    # content.try(:author_id) || current_user.id
+    current_user.id
   end
+
 
   # Helper for adding active class to menu li
   #
