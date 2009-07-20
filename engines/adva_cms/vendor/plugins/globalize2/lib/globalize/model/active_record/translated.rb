@@ -110,7 +110,7 @@ module Globalize
 
         module InstanceMethods
           def reload_with_globalize(options = nil)
-            globalize.clear
+            globalize.clear_cache
 
             # clear all globalized attributes
             # TODO what's the best way to handle this?

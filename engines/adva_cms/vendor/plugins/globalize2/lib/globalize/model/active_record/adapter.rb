@@ -59,6 +59,10 @@ module Globalize
         @stash.clear
       end
 
+      def clear_cache
+        @cache.clear
+      end
+      
       private
 
       def fetch_attribute(locale, attr_name)
@@ -72,7 +76,7 @@ module Globalize
         # attribute and not saved yet.
         fallbacks.each do |fallback|
           # TODO should we be checking stash or just cache?
-          result = @stash.read(fallback, attr_name) || begin
+          result = @cache.read(fallback, attr_name) || begin
             translation = translations.detect {|tr| tr.locale == fallback }
             translation && translation.send(attr_name)
           end

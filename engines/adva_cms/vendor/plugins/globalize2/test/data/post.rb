@@ -13,3 +13,11 @@ end
 
 class Child < Parent
 end
+
+class Reloader < Parent
+  after_create :do_reload
+  
+  def do_reload
+    reload
+  end
+end

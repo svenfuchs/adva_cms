@@ -271,7 +271,12 @@ class SectionTest < ActiveSupport::TestCase
   end
   
   test "#update_paths should not lose the title of the section while moving the section - a bug fix" do
-    @new_section.save
+    unnested_section = Section.new(:site => @site, :title => 'unnested section')
+    assert_equal 'unnested section', unnested_section.title
+    assert unnested_section.save
+    assert_equal 'unnested section', unnested_section.title
+    assert_equal 'a test section', @new_section.title
+    assert @new_section.save
     assert_equal 'a test section', @new_section.title
   end
 
