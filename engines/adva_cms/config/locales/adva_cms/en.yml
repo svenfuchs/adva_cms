@@ -80,6 +80,7 @@ en:
       newsletters: Newsletters
       options: Options
       overview: Overview
+      parent_settings: Parent setting
       permalink: Permalink
       permissions: Permissions
       photos: Photos
@@ -155,6 +156,7 @@ en:
       defensio: Defensio is a third-party service to filter spam. If you've signed up for the service, enter your API Key and URL and check the box to enable this service. 
       roles: Choose which areas this user can access on the site.
       categories: "Avoid names countaining only 4 or 2 digits!"
+      sets: "Avoid names countaining only 4 or 2 digits!"
     messages: 
       insufficient_permissions: 
         title: Insufficient permissions
@@ -227,7 +229,7 @@ en:
       hints:
         content_filter: How should your articles be read? The default option is Plain HTML.
         sections: "Listed here are all the sections currently on your site. Whichever section is on top is the default homepage."
-        reorder: "You can use the reorder option to set your home root to different section and to reorder your sections. If you want to nest your sections you can drag the section to the right and its gets set as a child of the upper section."
+        reorder: "You can use the reorder option to set your home root to different section and to reorder your sections. If you want to nest your sections you can drag the section to the right and its gets set as a child of the upper section.  Finish the reordering by clicking the reorder button. Please note that this option is only available when you have 2 or more sections."
         parent_setting: Choosing a parent for your section will nest this section under the chosen parent. Leave empty if you want to create this section as a root section.
         parent_setting_for_edit: "You can use the reorder button on the index page of sections to nest and reorder your sections, you can find further instructions for this on the index page help hints."
       titles:
@@ -235,8 +237,7 @@ en:
         blog_settings: Blog specific settings
         forum_settings: Forum specific settings
         create: Create a new section
-        behaviour: Behaviour 
-        parent_settings: Parent setting
+        behaviour: Behaviour
       links:
         save_and_create_new: Save and create another section
         index: Sections
@@ -306,6 +307,10 @@ en:
         category: Category
       attributes:
         name: name
+      hints:
+        reorder: "You can use the reorder option to reorder your categories. If you want to nest your categories you can drag the category to the right and its gets set as a child of the upper category. Finish the reordering by clicking the reorder button. Please note that this option is only available when you have 2 or more categories."
+        parent_setting: "Choosing a parent for your category will nest this category under the chosen parent. Leave empty if you want to create this category as a root category."
+        parent_setting_for_edit: "You can use the reorder button on the index page of categories to nest and reorder your categories, you can find further instructions for this on the index page help hints."
       titles:
         edit: Edit category
         new: Create a new category

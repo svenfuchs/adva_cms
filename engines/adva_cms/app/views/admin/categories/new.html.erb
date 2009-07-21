@@ -2,7 +2,16 @@
   
 <% form_for :category, @category, :url => admin_categories_path do |f| %>
   <% f.field_set do %>
-    <%= f.text_field :title, :label => true, :hint => :'adva.hints.categories' %>
+		<% column do %>
+    	<%= f.text_field :title, :label => true, :hint => :'adva.hints.categories' %>
+		<% end %>
+		
+		<% unless @section.categories.size < 2 %>
+			<% column do %>
+	    	<%= f.select :parent_id, @section.categories.collect {|p| [p.title, p.id] unless p == @category }.compact, { :include_blank => true, :label => true } %>
+				<span class="hint" for="category_parent_id"><%= t :'adva.categories.hints.parent_setting' %></span>
+			<% end %>
+		<% end %>
 	<% end %>
 
   <% save_or_cancel_links(f, :cancel_url => admin_categories_path) %>

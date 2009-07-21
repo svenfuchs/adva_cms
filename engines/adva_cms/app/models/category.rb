@@ -8,7 +8,8 @@ class Category < ActiveRecord::Base
   has_many :contents, :through => :categorizations, :source => :categorizable, :source_type => 'Content'
   has_many :categorizations, :dependent => :delete_all
   
-  before_save :update_path
+  before_save  :update_path
+  after_create :update_paths
 
   validates_presence_of :section, :title
   validates_uniqueness_of :permalink, :scope => :section_id
@@ -64,5 +65,12 @@ class Category < ActiveRecord::Base
 
     def build_path
       self_and_ancestors.map(&:permalink).join('/')
+    end
+    
+    def update_paths
+      if parent_id
+        move_to_child_of(parent)
+        section.categories.update_paths!
+      end
     end
 end

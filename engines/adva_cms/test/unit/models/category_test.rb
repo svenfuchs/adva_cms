@@ -5,6 +5,7 @@ class CategoryTest < ActiveSupport::TestCase
     super
     @page = Page.first
     @category = @page.categories.first
+    @new_category = Category.new(:section => @page, :title => 'a category', :parent => @category)
   end
 
   test 'acts as a nested set' do
@@ -49,6 +50,13 @@ class CategoryTest < ActiveSupport::TestCase
   test 'validates the uniqueness of the permalink per section' do
     @category.section = @page
     @category.should validate_uniqueness_of(:permalink, :scope => :section_id)
+  end
+  
+  # CALLBACKS
+  
+  test "#update_paths moves a new category to a child of its parent and updates the category paths" do
+    @new_category.save
+    assert_equal @category, @new_category.parent
   end
   
   # FIXME

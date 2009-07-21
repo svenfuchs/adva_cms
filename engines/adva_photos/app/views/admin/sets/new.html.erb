@@ -2,7 +2,16 @@
   
 <% form_for :set, @set, :url => admin_sets_path(@site, @section) do |f| %>
   <% f.field_set do %>
-    <%= f.text_field :title, :label => true %>
+		<% column do %>
+    	<%= f.text_field :title, :label => true, :hint => :'adva.hints.sets' %>
+		<% end %>
+		
+		<% unless @section.sets.size < 2 %>
+			<% column do %>
+	    	<%= f.select :parent_id, @section.sets.collect {|p| p == @set ? nil : [p.title, p.id] }.compact, { :include_blank => true, :label => true } %>
+				<span class="hint" for="set_parent_id"><%= t :'adva.sets.hints.parent_setting' %></span>
+			<% end %>
+		<% end %>
   <% end %>
 
   <% save_or_cancel_links(f, :cancel_url => admin_sets_path(@site, @section)) %>

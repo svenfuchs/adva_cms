@@ -10,11 +10,13 @@
 		<% end %>
   <% end %>
 
-	<% f.field_set do %>
-		<h3><%= t(:'adva.sections.titles.parent_settings')%></h3>
+	<% unless @site.sections.size < 2 %>
+		<% f.field_set do %>
+			<h3><%= t(:'adva.titles.parent_settings')%></h3>
 	
-    <%= f.select :parent_id, @site.sections.collect {|p| [ p.title, p.id ] unless p == @section }.compact, { :include_blank => true, :label => true } %>
-		<span class="hint" for="section_parent_id"><%= t :'adva.sections.hints.parent_setting' %></span>
+	    <%= f.select :parent_id, @site.sections.collect {|s| s == @section ? nil : [ s.title, s.id ]}.compact, { :include_blank => true, :label => true } %>
+			<span class="hint" for="section_parent_id"><%= t :'adva.sections.hints.parent_setting' %></span>
+		<% end %>
 	<% end %>
 
   <% f.buttons do %>

@@ -11,5 +11,13 @@
     <% end %>
   <% end %>
 
+	<% f.field_set do %>
+	<h3><%= t(:'adva.titles.parent_settings')%></h3>
+	
+	<p class="hint text_only">
+		<%= t(:'adva.categories.hints.parent_setting_for_edit')%>
+	</p>
+	<% end %>
+
   <% save_or_cancel_links(f, :cancel_url => admin_categories_path) %>
 <% end %>

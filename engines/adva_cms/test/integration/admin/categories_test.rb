@@ -24,6 +24,12 @@ module IntegrationTests
       revise_the_category
       delete_the_category
     end
+     
+    test "Admin creates a category and sets it as a child category of the first section category" do
+      login_as_admin
+      visit "/admin/sites/#{@site.id}/sections/#{@section.id}/categories"
+      create_a_new_child_category
+    end
 
     def create_a_new_category
       click_link 'index_categories'
@@ -31,6 +37,16 @@ module IntegrationTests
       fill_in 'category_title', :with => 'the category'
       click_button 'commit'
       request.url.should =~ %r(/admin/sites/\d+/sections/\d+/categories)
+    end
+
+    def create_a_new_child_category
+      click_link 'new_category'
+      fill_in 'category_title', :with => 'the category'
+      select @section.categories.first.title, :from => 'category_parent_id'
+      click_button 'commit'
+      
+      request.url.should =~ %r(/admin/sites/\d+/sections/\d+/categories)
+      assert_equal @section.categories.first, @section.categories.last.parent
     end
 
     def revise_the_category

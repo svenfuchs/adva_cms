@@ -1,3 +1,9 @@
+<% content_for :sidebar do %>
+	<p class="hint text_only large padded">
+		<%= t(:'adva.categories.hints.reorder')%>
+	</p>
+<% end %>
+
 <%
 	table_for @section.categories, :class => 'categories list tree' do |t|
 		t.column :category, :actions
