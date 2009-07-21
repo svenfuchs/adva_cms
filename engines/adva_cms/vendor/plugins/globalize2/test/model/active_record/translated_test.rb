@@ -338,6 +338,11 @@ class TranslatedTest < ActiveSupport::TestCase
     assert_equal [ :de, :es, :fr ], post.translated_locales
     assert_equal [ :de, :es, :fr ], Post.first.translated_locales
   end
+  
+  test "saving record correctly after post-save reload" do
+    reloader = Reloader.create :content => 'foo'
+    assert_equal 'foo', reloader.content
+  end
 end
 
 # TODO should validate_presence_of take fallbacks into account? maybe we need
