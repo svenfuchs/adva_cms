@@ -145,7 +145,7 @@ class Theme < ActiveRecord::Base
     end
 
     def create_preview
-      self.preview = Preview.create! :theme => self, :data => ::File.new(default_preview)
+      self.preview = Preview.new :theme => self, :data => ::File.new(default_preview)
     end
 
     def delete_theme_dir

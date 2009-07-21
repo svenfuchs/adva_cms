@@ -17,7 +17,9 @@ class Theme < ActiveRecord::Base
                       # Tempfile has a name like RackMultipart20090310-22070-hu8w3m-0 which is missing the extension
                       :validations => { :extension => lambda { |data, file| validate_extension(data, file) } }
 
+    # NOTE before_save order is important here
     before_save :force_directory
+    before_save :ensure_unique_filename
     after_save :move_data_file
 
     validates_presence_of :name
@@ -104,6 +106,14 @@ class Theme < ActiveRecord::Base
     def base_url
       [directory.gsub(/^#{forced_directory}\/?/, ''), name].to_path if name
     end
+    
+    def basename
+      data_file_name.gsub(/\.#{extname}$/, "")
+    end
+
+    def extname
+      ::File.extname(data_file_name).gsub(/^\.+/, '')
+    end
 
     protected
 
@@ -146,6 +156,18 @@ class Theme < ActiveRecord::Base
         end
       rescue Errno::ENOTEMPTY, Errno::ENOENT, Errno::EINVAL
         # stop deleting directories
+      end
+      
+      def ensure_unique_filename
+        if new_record? || changes['data_file_name']
+          basename, extname = self.basename, self.extname
+          i = extname =~ /^\d+\./ ? $1 : 1
+          while ::File.exists?(path)
+            self.name = [basename, i, extname].to_path('.')
+            self.data_file_name = [basename, i, extname].to_path('.')
+            i += 1
+          end
+        end
       end
   end
 
