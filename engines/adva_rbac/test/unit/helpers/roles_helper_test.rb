@@ -54,13 +54,6 @@ class RolesHelperTest < ActionView::TestCase
     role_to_css_class(@superuser_role).should == 'superuser'
   end
   
-  # authorized_link_to
-  test "#authorize_elements adds authorizing css classes to the :class option" do
-    object = Object.new
-    mock(self).add_authorizing_css_classes!({}, :update, object)
-    authorized_link_to('text', 'url', :update, object)
-  end
-  
   # authorizing_css_classes
   test "#quoted_role_names turns the given roles to css classes that allow a user to see an element" do
     quoted_role_names([@superuser_role]).should == 'superuser'

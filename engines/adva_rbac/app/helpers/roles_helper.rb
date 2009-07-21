@@ -41,8 +41,8 @@ module RolesHelper
   end
 
   def authorized_link_to(text, url, action, object, options = {})
-    add_authorizing_css_classes! options, action, object
-    link_to text, url, options
+    add_authorizing_css_classes!(options, action, object)
+    link_to(text, url, options)
   end
 
   # Adds the css class required-roles as well as a couple of css classes that

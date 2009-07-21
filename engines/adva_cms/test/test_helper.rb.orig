@@ -31,6 +31,9 @@ class ActiveSupport::TestCase
   teardown :rollback_db_transaction!
   teardown :clear_cache_dir!
   teardown :rollback_multi_site_mode!
+<<<<<<< HEAD
+
+=======
   
   setup do
     @default_permissions = Rbac::Context.default_permissions.dup
@@ -41,6 +44,7 @@ class ActiveSupport::TestCase
   end
   
   
+>>>>>>> move roles tests to adva_rbac, re-enable --with :access_control
   def set_locale!
     I18n.locale = nil
     I18n.default_locale = :en

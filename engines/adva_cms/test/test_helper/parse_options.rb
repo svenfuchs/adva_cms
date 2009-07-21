@@ -10,7 +10,7 @@ OptionParser.new do |o|
   end
   
   o.on('-w', '--with=ASPECTS', "Run tests defined for the given ASPECTS (comma separated).") do |aspects|
-    With.aspects += aspects.split(/,/)
+    With.aspects += aspects.split(/,/).map(&:to_sym)
   end
 end.parse!(ARGV)
 

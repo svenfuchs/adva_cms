@@ -210,11 +210,19 @@ class AdminArticlesControllerTest < ActionController::TestCase
       with :access_granted do
         it_assigns :site, :section, :article
         it_renders :template, :edit
+<<<<<<< HEAD
+      end
+
+      has_form_putting_to admin_article_path do
+        shows :form
+        # assert that the taglist field works when taglist contains double quotes
+=======
 
         has_form_putting_to admin_article_path do
           shows :form
           # assert that the taglist field works when taglist contains double quotes
         end
+>>>>>>> move roles tests to adva_rbac, re-enable --with :access_control
       end
     end
   end
@@ -254,10 +262,10 @@ class AdminArticlesControllerTest < ActionController::TestCase
 
     with :a_published_article do
       with "no version param" do
-        with :valid_article_params do
-          it_guards_permissions :update, :article
-  
-          with :access_granted do
+        with :access_granted do
+          with :valid_article_params do
+            it_guards_permissions :update, :article
+
             it_assigns :site, :section, :article
             it_updates :article
             it_redirects_to { edit_admin_article_url(@site, @section, @article) }
@@ -270,10 +278,8 @@ class AdminArticlesControllerTest < ActionController::TestCase
             with(:save_revision_param)    { it_versions :article }
             with(:no_save_revision_param) { it_does_not_version :article }
           end
-        end
-  
-        with :invalid_article_params do
-          with :access_granted do
+          
+          with :invalid_article_params do
             it_assigns :site, :section, :article
             it_renders :template, :edit
             it_assigns_flash_cookie :error => :not_nil

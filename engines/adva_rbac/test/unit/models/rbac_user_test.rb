@@ -10,6 +10,27 @@ class RbacUserTest < ActiveSupport::TestCase
     ]
   end
 
+  # the roles association
+  # FIXME implement ...
+
+  # stub_scenario :user_having_several_roles
+  # test 'roles.by_site returns all superuser, site and section roles for the given user' do
+  #   roles = @user.roles.by_site(@site)
+  #   roles.map(&:type).should == ['Rbac::Role::Superuser', 'Rbac::Role::Admin', 'Rbac::Role::Moderator']
+  # end
+  # 
+  # test 'roles.by_context returns all roles by_site for the given object' do
+  #   roles = @user.roles.by_context(@site)
+  #   roles.map(&:type).should == ['Rbac::Role::Superuser', 'Rbac::Role::Admin', 'Rbac::Role::Moderator']
+  # end
+  # 
+  # test 'roles.by_context adds the implicit roles for the given object if it has any' do
+  #   @topic.stub!(:implicit_roles).and_return [@comment_author_role]
+  #   roles = @user.roles.by_context(@topic)
+  #   roles.map(&:type).should == ['Rbac::Role::Superuser', 'Rbac::Role::Admin', 'Rbac::Role::Moderator', 'Rbac::Role::Author']
+  # end
+  # 
+  
   test 'makes the new user a superuser' do
     user = User.create_superuser(@valid_user_params)
     user.has_role?(:superuser).should be_true

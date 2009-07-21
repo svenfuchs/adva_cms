@@ -26,26 +26,6 @@ class UserTest < ActiveSupport::TestCase
     @user.should have_many(:roles)
   end
 
-  # the roles association
-  # FIXME implement ...
-
-  # stub_scenario :user_having_several_roles
-  # test 'roles.by_site returns all superuser, site and section roles for the given user' do
-  #   roles = @user.roles.by_site(@site)
-  #   roles.map(&:type).should == ['Rbac::Role::Superuser', 'Rbac::Role::Admin', 'Rbac::Role::Moderator']
-  # end
-  #
-  # test 'roles.by_context returns all roles by_site for the given object' do
-  #   roles = @user.roles.by_context(@site)
-  #   roles.map(&:type).should == ['Rbac::Role::Superuser', 'Rbac::Role::Admin', 'Rbac::Role::Moderator']
-  # end
-  #
-  # test 'roles.by_context adds the implicit roles for the given object if it has any' do
-  #   @topic.stub!(:implicit_roles).and_return [@comment_author_role]
-  #   roles = @user.roles.by_context(@topic)
-  #   roles.map(&:type).should == ['Rbac::Role::Superuser', 'Rbac::Role::Admin', 'Rbac::Role::Moderator', 'Rbac::Role::Author']
-  # end
-  #
   # VALIDATIONS
 
   test "validates the presence of a first name" do
@@ -130,12 +110,12 @@ class UserTest < ActiveSupport::TestCase
 
   test 'User.create_superuser verifies the user' do
     user = User.create_superuser(@valid_user_params)
-    user.should be_verified
+    user.verified?.should be_true
   end
 
   test 'User.create_superuser saves the user' do
     user = User.create_superuser(@valid_user_params)
-    user.should_not be_new_record
+    user.new_record?.should be_false
   end
 
   test 'assigns the password hash' do

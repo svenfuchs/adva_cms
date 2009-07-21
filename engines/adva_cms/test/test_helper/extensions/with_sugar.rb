@@ -22,26 +22,48 @@ module With
       #   mock(@controller).has_permission?(action, type)
       # end
       return unless With.aspect?(:access_control)
+      
+      with "(rbac)" do
+        # before do
+        #   @default_permission = Rbac::Context.default_permissions[:"#{action} #{type}"]
+        # end
+        # 
+        # after do
+        #   Rbac::Context.default_permissions[:"#{action} #{type}"] = @default_permission
+        # end
 
-      with :"superuser_may_#{action}_#{type}" do
-        it_denies_access  :with => [:is_anonymous, :is_user, :is_moderator, :is_admin]
-        it_grants_access  :with => [:is_superuser]
-      end
+        with "only_superuser_may_#{action}_#{type}" do
+          before do
+            Rbac::Context.default_permissions[:"#{action} #{type}"] = [:superuser]
+          end
 
-      with :"admin_may_#{action}_#{type}" do
-        it_denies_access  :with => [:is_anonymous, :is_user, :is_moderator]
-        it_grants_access  :with => [:is_admin, :is_superuser]
-      end
+          it_denies_access :with => [:is_anonymous, :is_user, :is_moderator, :is_admin]
+          it_grants_access :with => [:is_superuser]
+        end
 
-      with :"moderator_may_#{action}_#{type}" do
-        it_denies_access :with => [:is_anonymous, :is_user]
-        it_grants_access :with => [:is_admin, :is_superuser] 
-        # FIXME should grant to :is_moderator, but currently require_authentication requires an :admin role
+        with "admin_may_#{action}_#{type}" do
+          before do
+            Rbac::Context.default_permissions[:"#{action} #{type}"] = [:admin]
+          end
+
+          it_denies_access :with => [:is_anonymous, :is_user, :is_moderator]
+          it_grants_access :with => [:is_admin, :is_superuser]
+        end
+
+        with "moderator_may_#{action}_#{type}" do
+          before do
+            Rbac::Context.default_permissions[:"#{action} #{type}"] = [:moderator]
+          end
+
+          it_denies_access :with => [:is_anonymous, :is_user]
+          it_grants_access :with => [:is_admin, :is_superuser] 
+          # FIXME should grant to :is_moderator, but currently require_authentication requires an :admin role
+        end
       end
     end
 
     def it_grants_access(options = {})
-      contexts = options[:with] ? with(*options[:with]) : [self]
+      contexts = options[:with] ? with(options[:with]) : [self]
       contexts.each do |context|
         context.assertion "it grants access" do
           message = "expected to grant access but %s"
@@ -52,7 +74,7 @@ module With
     end
 
     def it_denies_access(options = {})
-      contexts = options[:with] ? with(*options[:with]) : [self]
+      contexts = options[:with] ? with(options[:with]) : [self]
       contexts.each do |context|
         context.assertion "it denies access" do
           message = "expected to render :insufficient_permissions or redirect to login_path but did neither of these."
@@ -136,7 +158,7 @@ class ActionController::TestCase
   end
   
   def rendered_insufficient_permissions?
-    !!(@response.rendered_template.to_s =~ /insufficient_permissions/)
+    !!(@response.rendered.to_s =~ /insufficient_permissions/)
   end
   
   def redirected_to_login?

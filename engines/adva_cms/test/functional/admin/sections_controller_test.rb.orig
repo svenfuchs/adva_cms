@@ -39,9 +39,15 @@ class AdminSectionsControllerTest < ActionController::TestCase
 
   describe "GET to :index" do
     action { get :index, default_params }
+<<<<<<< HEAD
+
+    it_guards_permissions :show, :sections
+
+=======
     
     it_guards_permissions :show, :section
     
+>>>>>>> move roles tests to adva_rbac, re-enable --with :access_control
     with :access_granted do
       it_assigns :site, :sections
       it_renders :template, :index do
@@ -117,7 +123,7 @@ class AdminSectionsControllerTest < ActionController::TestCase
     action do
       Section.with_observers :section_sweeper do
         params = default_params.merge(@params).merge(:id => @section.id)
-        params[:section][:title] = "#{@section.title} was changed" unless params[:section][:title].blank?
+        params[:section][:title] = "#{@section.title} was changed" if params[:section][:title].present?
         put :update, params
       end
     end

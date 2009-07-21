@@ -50,60 +50,63 @@ end
 
 unless ARGV.first == 'TEST'
   require 'test/unit'
-  Runner.run(*ARGV.reject { |arg| arg =~ /^-/ || arg =~ /\=/ })
+  i = (ARGV.index(ARGV.detect { |arg| arg =~ /^-/ || arg =~ /\=/ }) || ARGV.length) - 1
+
+  Runner.run(*ARGV[0..i])
+  # Runner.run(*ARGV.reject { |arg| arg =~ /^-/ || arg =~ /\=/ }) # doesn't work as expected
   result = Test::Unit::AutoRunner.run # calling exit would not run the at_exit hook?
   exit(result)
 end
 
 
-require 'test/unit'
-
-class RunnerPathTest < Test::Unit::TestCase
-  def test_defaults_to_vendor_plugins
-    assert_equal 'vendor/plugins', Runner::Path.new.path
-  end
-
-  def test_expands_to_expected_full_path
-    assert_equal "#{root_dir}/vendor/adva", Runner::Path.new('vendor/adva').expand
-  end
-
-  def test_finds_test_dir_for_single_engine
-    dir = Runner::Path.new('vendor/adva/engines/adva_cms')
-    assert_equal "#{root_dir}/vendor/adva/engines/adva_cms/test", dir.test_dirs.first
-  end
-
-  def test_finds_test_dirs_for_multiple_engines
-    dir = Runner::Path.new('vendor/adva/engines')
-    test_dirs = dir.test_dirs.select { |d| d =~ %r(vendor/adva/engines/adva_.*/test) }
-    assert_equal test_dirs, dir.test_dirs
-  end
-
-  def test_finds_test_dirs_for_multiple_symlinked_plugins
-    dir = Runner::Path.new('vendor/plugins')
-    test_dirs = dir.test_dirs.select { |d| d =~ %r(vendor/plugins/adva_.*/test) }
-    assert_equal test_dirs, dir.test_dirs
-  end
-
-  def test_finds_test_files_for_single_engine
-    dir = Runner::Path.new('vendor/adva/engines/adva_cms')
-    test_files = dir.test_files.select { |d| d =~ %r(vendor/adva/engines/adva_cms/test/.*_test\.rb) }
-    assert_equal test_files, dir.test_files
-  end
-
-  def test_finds_test_files_for_multiple_engines
-    dir = Runner::Path.new('vendor/adva/engines')
-    test_files = dir.test_files.select { |d| d =~ %r(vendor/adva/engines/adva_.*/test/.*_test\.rb) }
-    assert_equal test_files, dir.test_files
-  end
-
-  def test_finds_test_files_for_multiple_symlinked_plugins
-    dir = Runner::Path.new('vendor/plugins')
-    test_files = dir.test_files.select { |d| d =~ %r(vendor/plugins/adva_.*/test/.*_test\.rb) }
-    assert_equal test_files, dir.test_files
-  end
-
-  protected
-    def root_dir
-      File.expand_path(File.dirname(__FILE__)).sub(%r(/vendor/.*), '')
-    end
-end
+# require 'test/unit'
+# 
+# class RunnerPathTest < Test::Unit::TestCase
+#   def test_defaults_to_vendor_plugins
+#     assert_equal 'vendor/plugins', Runner::Path.new.path
+#   end
+# 
+#   def test_expands_to_expected_full_path
+#     assert_equal "#{root_dir}/vendor/adva", Runner::Path.new('vendor/adva').expand
+#   end
+# 
+#   def test_finds_test_dir_for_single_engine
+#     dir = Runner::Path.new('vendor/adva/engines/adva_cms')
+#     assert_equal "#{root_dir}/vendor/adva/engines/adva_cms/test", dir.test_dirs.first
+#   end
+# 
+#   def test_finds_test_dirs_for_multiple_engines
+#     dir = Runner::Path.new('vendor/adva/engines')
+#     test_dirs = dir.test_dirs.select { |d| d =~ %r(vendor/adva/engines/adva_.*/test) }
+#     assert_equal test_dirs, dir.test_dirs
+#   end
+# 
+#   def test_finds_test_dirs_for_multiple_symlinked_plugins
+#     dir = Runner::Path.new('vendor/plugins')
+#     test_dirs = dir.test_dirs.select { |d| d =~ %r(vendor/plugins/adva_.*/test) }
+#     assert_equal test_dirs, dir.test_dirs
+#   end
+# 
+#   def test_finds_test_files_for_single_engine
+#     dir = Runner::Path.new('vendor/adva/engines/adva_cms')
+#     test_files = dir.test_files.select { |d| d =~ %r(vendor/adva/engines/adva_cms/test/.*_test\.rb) }
+#     assert_equal test_files, dir.test_files
+#   end
+# 
+#   def test_finds_test_files_for_multiple_engines
+#     dir = Runner::Path.new('vendor/adva/engines')
+#     test_files = dir.test_files.select { |d| d =~ %r(vendor/adva/engines/adva_.*/test/.*_test\.rb) }
+#     assert_equal test_files, dir.test_files
+#   end
+# 
+#   def test_finds_test_files_for_multiple_symlinked_plugins
+#     dir = Runner::Path.new('vendor/plugins')
+#     test_files = dir.test_files.select { |d| d =~ %r(vendor/plugins/adva_.*/test/.*_test\.rb) }
+#     assert_equal test_files, dir.test_files
+#   end
+# 
+#   protected
+#     def root_dir
+#       File.expand_path(File.dirname(__FILE__)).sub(%r(/vendor/.*), '')
+#     end
+# end

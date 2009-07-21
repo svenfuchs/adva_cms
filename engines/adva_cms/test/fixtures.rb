@@ -5,6 +5,12 @@ end
 
 # USERS
 
+anonymous    = User.create! :first_name => 'an anonymous',
+                            :email => 'an-anonymous@example.com',
+                            :password => 'a password',
+                            :verified_at => Time.now,
+                            :anonymous => true
+
 user         = User.create! :first_name => 'a user',
                             :email => 'a-user@example.com',
                             :password => 'a password',
