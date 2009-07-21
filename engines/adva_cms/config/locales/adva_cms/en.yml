@@ -713,7 +713,7 @@ en:
         zip_file: Zip file
       titles:
         new: Create a new theme
-        edit: Edit theme
+        edit: "Edit theme: {{theme}}"
         valid_file_types: Valid file types
         import: Import a theme
         edit_file: Edit theme file

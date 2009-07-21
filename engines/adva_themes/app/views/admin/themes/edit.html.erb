@@ -1,4 +1,4 @@
-<h2><%= t(:'adva.themes.titles.edit') %></h2>
+<h2><%= t(:'adva.themes.titles.edit', :theme => @theme.name) %></h2>
 
 <% form_for :theme, @theme, :url => admin_theme_path(@site, @theme.id), :html => { :method => :put } do |f| %>
 	<%= render :partial => "form", :locals => {:f => f} %>
