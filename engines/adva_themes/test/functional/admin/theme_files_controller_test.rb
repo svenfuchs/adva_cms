@@ -129,7 +129,7 @@ class AdminThemeFilesControllerTest < ActionController::TestCase
       it_assigns :theme
       it_renders :template, :import do
         has_form_posting_to upload_admin_theme_files_path(@site, @theme) do
-          has_tag 'input[name=?][type=?]', 'file[data]', 'file'
+          has_tag 'input[name=?][type=?]', 'files[][data]', 'file'
         end
       end
     end
@@ -142,8 +142,8 @@ class AdminThemeFilesControllerTest < ActionController::TestCase
       it_guards_permissions :update, :theme
   
       with :access_granted do
-        it_assigns :theme, :file => :not_nil
-        it_redirects_to { admin_theme_file_path(@site, @theme, assigns(:file).id) }
+        it_assigns :theme, :files => :not_nil
+        it_redirects_to { admin_theme_files_path(@site, @theme) }
         it_assigns_flash_cookie :notice => :not_nil
   
         it "creates the theme image file" do

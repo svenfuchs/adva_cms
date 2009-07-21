@@ -776,6 +776,8 @@ en:
 
     theme_files:
       no_files: You currently do not have any files available.
+      remove_file: Remove file
+      add_file: Add file
       columns:
         path: Path
         type: Type

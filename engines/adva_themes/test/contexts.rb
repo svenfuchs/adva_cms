@@ -49,13 +49,13 @@ class Test::Unit::TestCase
   
   share :valid_theme_upload_params do
     before do
-      @params = { :file => { :data => ActionController::TestUploadedFile.new("#{File.dirname(__FILE__)}/fixtures/rails.png") } }
+      @params = { :files => [{ :data => ActionController::TestUploadedFile.new("#{File.dirname(__FILE__)}/fixtures/rails.png") }] }
     end
   end
   
   share :invalid_theme_upload_params do
     before do
-      @params = { :file => { :data => nil } }
+      @params = { :files => [{ :data => nil }] }
     end
   end
 end

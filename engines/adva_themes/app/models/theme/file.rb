@@ -39,7 +39,7 @@ class Theme < ActiveRecord::Base
     class << self
       def new(attributes = {})
         attributes ||= {}
-
+        
         base_path = attributes.delete(:base_path)
         type, directory, name, data = attributes.values_at(:type, :directory, :name, :data)
         base_path ||= data.original_filename if data.respond_to?(:original_filename)

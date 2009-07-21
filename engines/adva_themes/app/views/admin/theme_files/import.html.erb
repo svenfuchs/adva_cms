@@ -1,10 +1,22 @@
 <h2><%= t(:'adva.theme_files.titles.upload') %></h2>
 
 <% form_tag upload_admin_theme_files_path(@site, @theme.id), { :method => :post, :multipart => true } do %>
-	<fieldset>
-    <p><%= t(:'adva.themes.upload_template_or_asset') %></p>
-    <p><%= file_field_tag("file[data]", :id => 'file_data') %></p>
+	<fieldset id="files">
+		<p>
+    	<label class="file"><%= t(:'adva.themes.upload_template_or_asset') %></label>
+		</p>
+		
+		<div>
+	    <p>
+				<%= file_field_tag(:data, :name => "files[][data]", :id => '', :class => 'file_field') %>
+		    <a href="#" class="theme_remove_file" title="<%=t :'adva.theme_files.remove_file' %>" style="display:none;">
+					<%= image_tag('adva_cms/icons/delete.png') %>
+				</a>
+			</p>
+		</div>
   </fieldset>
+
+	<a href="#" id="theme_add_file" class="wide_button"><%=t :'adva.theme_files.add_file' %></a> 
 
   <% buttons do %>
     <%= submit_tag t(:'adva.common.upload') %> or 

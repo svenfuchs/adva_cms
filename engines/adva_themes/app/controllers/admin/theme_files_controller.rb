@@ -22,15 +22,21 @@ class Admin::ThemeFilesController < Admin::BaseController
   end
 
   def upload
-    @file = @theme.files.build(params[:file])
-    if @file.save
-      expire_pages_by_site!
-      expire_template!(@file)
-      flash[:notice] = t(:'adva.theme_files.flash.create.success') # FIXME upload.failure
-      redirect_to admin_theme_file_path(@site, @theme.id, @file.id)
-    else
-      flash.now[:error] = t(:'adva.theme_files.flash.create.failure') # FIXME upload.failure
-      render :action => :import
+    @files = @theme.files.build(params[:files])
+    Theme::File.transaction { @files.each &:save! }
+    
+    expire_pages_by_site!
+    @files.each {|f| expire_template!(f) }
+    
+    flash[:notice] = t(:'adva.theme_files.flash.create.success') # FIXME upload.failure
+    redirect_to admin_theme_files_path(@site, @theme.id)
+    
+  rescue ActiveRecord::RecordInvalid => e
+    respond_to do |format|
+      format.html do
+        flash[:error] = t(:'adva.theme_files.flash.create.failure') # FIXME upload.failure
+        render :action => :import
+      end
     end
   end
 
