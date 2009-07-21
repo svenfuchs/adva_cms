@@ -7,12 +7,12 @@ class RolesHelperTest < ActionView::TestCase
     super
     @article = Article.first
     
-    @superuser_role = Rbac::Role.build :superuser
-    @admin_role     = Rbac::Role.build :admin, :context => Site.first
-    @moderator_role = Rbac::Role.build :moderator, :context => Section.first
-    @author_role    = Rbac::Role.build :author, :context => @article
-    @user_role      = Rbac::Role.build :user
-    @anonymous_role = Rbac::Role.build :anonymous
+    @superuser_role = Role.new(:name => 'superuser')
+    @admin_role     = Role.new(:name => 'admin', :context => Site.first)
+    @moderator_role = Role.new(:name => 'moderator', :context => Section.first)
+    @author_role    = Role.new(:name => 'author', :context => @article)
+    @user_role      = Role.new(:name => 'user')
+    @anonymous_role = Role.new(:name => 'anonymous')
   end
 
   # role_to_default_css_class
@@ -62,15 +62,15 @@ class RolesHelperTest < ActionView::TestCase
   end
   
   # authorizing_css_classes
-  test "#authorizing_css_classes turns the given roles to css classes that allow a user to see an element" do
-    authorizing_css_classes([@superuser_role]).should == 'superuser'
+  test "#quoted_role_names turns the given roles to css classes that allow a user to see an element" do
+    quoted_role_names([@superuser_role]).should == 'superuser'
   end
   
-  test "#authorizing_css_classesgiven the option :quote it encloses the classes in single quotes" do
-    authorizing_css_classes([@superuser_role], {:quote => true}).should == "'superuser'"
+  test "#quoted_role_names given the option :quote it encloses the classes in single quotes" do
+    quoted_role_names([@superuser_role], {:quote => true}).should == "'superuser'"
   end
   
-  test "#authorizing_css_classesgiven the option :separator it joins the classes using it" do
-    authorizing_css_classes([@superuser_role, @superuser_role], {:separator => ','}).should == "superuser,superuser"
+  test "#quoted_role_names given the option :separator it joins the classes using it" do
+    quoted_role_names([@superuser_role, @superuser_role], {:separator => ','}).should == "superuser,superuser"
   end
 end

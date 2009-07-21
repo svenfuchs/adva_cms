@@ -24,11 +24,4 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :users,      :path_prefix => "admin/sites/:site_id",
                              :name_prefix => "admin_site_",
                              :namespace   => "admin/"
-
-  map.user_roles             'users/:user_id/roles.:format',
-                             :controller  => 'roles'
-
-  map.user_object_roles      'users/:user_id/roles/:object_type/:object_id.:format',
-                             :controller  => 'roles'
-
 end

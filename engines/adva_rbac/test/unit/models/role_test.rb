@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + "/../../test_helper")
 
-class RolesTest < ActiveSupport::TestCase
+class RoleTest < ActiveSupport::TestCase
   def setup
     super
 
@@ -20,7 +20,7 @@ class RolesTest < ActiveSupport::TestCase
 
   # has_role? (with a user)
   test "a user has the role :user" do
-    @user.should have_role(:user)
+    @user.has_role?(:user).should be_true
   end
 
   # TODO Has not. Error in spec definition or unexpected behaviour?
@@ -29,53 +29,53 @@ class RolesTest < ActiveSupport::TestCase
   #end
 
   test "a user does not have the role :moderator" do
-    @user.should_not have_role(:moderator, :context => @section)
+    @user.has_role?(:moderator, @section).should be_false
   end
 
   test "a user does not have the role :admin" do
-    @user.should_not have_role(:admin, :context => @site)
+    @user.has_role?(:admin, @site).should be_false
   end
 
   test "a user does not have the role :superuser" do
-    @user.should_not have_role(:superuser)
+    @user.has_role?(:superuser).should be_false
   end
 
   # has_role? (with a content author)
   test "a content author has the role :user" do
-    @author.should have_role(:user)
+    @author.has_role?(:user).should be_true
   end
 
   test 'a content author has the role :author for that content' do
-    @author.should have_role(:author, :context => @content)
+    @author.has_role?(:author, @content).should be_true
   end
 
   test "a content author does not have the role :moderator" do
-    @author.should_not have_role(:moderator, :context => @section)
+    @author.has_role?(:moderator, @section).should be_false
   end
 
   test "a content author does not have the role :admin" do
-    @author.should_not have_role(:admin, :context => @site)
+    @author.has_role?(:admin, @site).should be_false
   end
 
   test "a content author does not have the role :superuser" do
-    @author.should_not have_role(:superuser)
+    @author.has_role?(:superuser).should be_false
   end
 
   # has_role? (with a section moderator)
   test "a section moderator has the role :user" do
-    @moderator.should have_role(:user)
+    @moderator.has_role?(:user).should be_true
   end
 
   test "a section moderator has the role :author for another user's content" do
-    @moderator.should have_role(:author, :context => @content)
+    @moderator.has_role?(:author, @content).should be_true
   end
 
   test "a section moderator has the role :moderator for that section" do
-    @moderator.should have_role(:moderator, :context => @section)
+    @moderator.has_role?(:moderator, @section).should be_true
   end
 
   test "a section moderator does not have the role :admin" do
-    @moderator.should_not have_role(:admin, :context => @site)
+    @moderator.has_role?(:admin, @site).should be_false
   end
 
   test "a section moderator does not have the role :superuser" do
@@ -88,47 +88,47 @@ class RolesTest < ActiveSupport::TestCase
   end
 
   test "a site admin has the role :author for another user's content" do
-    @admin.should have_role(:author, :context => @content)
+    @admin.has_role?(:author, @content).should be_true
   end
 
   test "a site admin has the role :moderator for sections belonging to that site" do
-    @admin.should have_role(:moderator, :context => @section)
+    @admin.has_role?(:moderator, @section).should be_true
   end
 
   test "a site admin has the role :admin for that site" do
-    @admin.should have_role(:admin, :context => @site)
+    @admin.has_role?(:admin, @site).should be_true
   end
 
   test "a site admin does not have role :admin for another site" do
-    @admin.should_not have_role(:admin, :context => @another_site)
+    @admin.has_role?(:admin, @another_site).should be_false
   end
 
   test "a site admin does not have role :admin for a non-existent site" do
-    lambda { @admin.has_role?(:admin, nil) }.should raise_error
+    @admin.has_role?(:admin, nil).should be_false
   end
 
   test "a site admin does not have the role :superuser" do
-    @admin.should_not have_role(:superuser)
+    @admin.has_role?(:superuser).should be_false
   end
 
   # has_role? (with a superuser)
   test "a superuser has the role :user" do
-    @superuser.should have_role(:user)
+    @superuser.has_role?(:user).should be_true
   end
 
   test "a superuser has the role :author for another user's content" do
-    @superuser.should have_role(:author, :context => @content)
+    @superuser.has_role?(:author, @content).should be_true
   end
 
   test "a superuser has the role :moderator for sections belonging to that site" do
-    @superuser.should have_role(:moderator, :context => @section)
+    @superuser.has_role?(:moderator, @section).should be_true
   end
 
   test "a superuser has the role :site for that site" do
-    @superuser.should have_role(:admin, :context => @site)
+    @superuser.has_role?(:admin, @site).should be_true
   end
 
   test "a superuser has the role :superuser" do
-    @superuser.should have_role(:superuser)
+    @superuser.has_role?(:superuser).should be_true
   end
 end

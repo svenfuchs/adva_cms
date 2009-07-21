@@ -639,12 +639,13 @@ en:
         admin_for: "Admin for: {{context}}"
         superuser: Superuser
       errors: 
-        messages: 
-          not_an_admin: You need to be an admin to perform this action.
-          not_logged_in: You need to be logged in to perform this action.
-          not_a_superuser: You need to be a superuser to perform this action.
-          not_an_author: You need to be the author of this object to perform this action.
-          not_a_moderator: You need to be a moderator to perform this action.
+        messages:
+          role_required: "You need one of the following roles to perform this action: {{roles}}"
+          # not_admin: You need to be an admin to perform this action.
+          # not_user: You need to be logged in to perform this action.
+          # not_superuser: You need to be a superuser to perform this action.
+          # not_author: You need to be the author of this object to perform this action.
+          # not_moderator: You need to be a moderator to perform this action.
     assets:
       links:
         new: New asset

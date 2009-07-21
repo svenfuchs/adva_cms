@@ -15,7 +15,7 @@ class RolesControllerTest < ActionController::TestCase
     it_caches_the_page # FIXME should track user references, eh?
     
     it "always includes the user role" do
-      assigns(:roles).should include(Rbac::Role.build(:user))
+      assigns(:roles).map(&:name).should include('user')
     end
   end
 end

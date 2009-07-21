@@ -1,11 +1,11 @@
 module ActionController
   class RoleRequired < SecurityError
     attr_accessor :required_role
-    def initialize(role, action, type)
-      @required_role = role
+    def initialize(role_types, action, type)
+      @required_roles = role_types
       @action = action
       @type = type
-      super role.message
+      super I18n.t(:'adva.roles.errors.messages.role_required', :roles => role_types)
     end
   end
 
@@ -56,16 +56,17 @@ module ActionController
         # return if action.to_sym == :show
 
         unless has_permission?(action, type)
-          role = current_resource.role_authorizing("#{action} #{type}")
-          raise RoleRequired.new role, action, type
+          role_types = current_resource.authorizing_role_types_for("#{action} #{type}")
+          raise RoleRequired.new(role_types, action, type)
         end
       end
 
       def has_permission?(action, type)
         action = :"#{action} #{type}"
         user = current_user || User.anonymous
-        role = current_resource.role_authorizing action
-        user.has_role? role, :context => current_resource
+        user.has_permission?(action, current_resource)
+        # role = current_resource.authorizing_role_types_for(action)
+        # user.has_role?(role, current_resource)
       end
 
       def map_from_controller_action

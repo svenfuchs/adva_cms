@@ -18,20 +18,20 @@
 	<% f.field_set do %>
 	  <% if current_user.has_role?(:superuser) %>
 			<p>
-			  <%= hidden_field_tag "user[roles][0][selected]", 0 %>
-			  <%= check_box_tag "user[roles][0][selected]", 1, @user.has_role?(:superuser, :inherit => false), :id => "user_roles_superuser" %>
-			  <%= hidden_field_tag "user[roles][0][type]", 'Rbac::Role::Superuser' %>
+			  <%= hidden_field_tag "user[roles_attributes][0][selected]", 0 %>
+			  <%= check_box_tag "user[roles_attributes][0][selected]", 1, @user.has_explicit_role?(:superuser), :id => "user_roles_superuser" %>
+			  <%= hidden_field_tag "user[roles_attributes][0][name]", 'superuser' %>
 			  <%= f.label "roles_superuser", t(:'adva.roles.labels.superuser'), :class => 'light inline' %>
 			</p>
 		<% end %>
 	
 	  <% if @site %>
 			<p>
-		    <%= hidden_field_tag "user[roles][1][selected]", 0 %>
-		    <%= check_box_tag "user[roles][1][selected]", 1, @user.has_role?(:admin, :context => @site, :inherit => false), :id => "user_roles_admin_site_#{@site.id}" %>
-		    <%= hidden_field_tag "user[roles][1][type]", 'Rbac::Role::Admin' %>
-		    <%= hidden_field_tag "user[roles][1][context_id]", @site.id %>
-		    <%= hidden_field_tag "user[roles][1][context_type]", @site.class.name %>
+		    <%= hidden_field_tag "user[roles_attributes][1][selected]", 0 %>
+		    <%= check_box_tag "user[roles_attributes][1][selected]", 1, @user.has_explicit_role?(:admin, @site), :id => "user_roles_admin_site_#{@site.id}" %>
+		    <%= hidden_field_tag "user[roles_attributes][1][name]", 'admin' %>
+		    <%= hidden_field_tag "user[roles_attributes][1][context_id]", @site.id %>
+		    <%= hidden_field_tag "user[roles_attributes][1][context_type]", 'Site' %>
 		    <%= label_tag "user_roles_admin_site_#{@site.id}", t(:'adva.roles.labels.admin_for', :context => @site.name), :class => 'light inline' %>
 			</p>
 	  <% end %>

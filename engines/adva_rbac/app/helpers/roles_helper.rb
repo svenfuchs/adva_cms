@@ -7,7 +7,7 @@ module RolesHelper
   def role_to_css_class(role)
     return unless role
     roles = ''
-    if role.instance_of?(Rbac::Role::Author) && role.context.author_type
+    if role.name == 'author' && role.context.author_type
       roles << [role.context.author_type.underscore, role.context.author_id].join('-') + ' ' 
     end
     roles << role_to_default_css_class(role)
@@ -50,15 +50,15 @@ module RolesHelper
   # of an element
   def add_authorizing_css_classes!(options, action, object)
     action = :"#{action} #{object.class.name.underscore.downcase}"
-    roles = object.role_authorizing(action).expand(object)
+    roles = object.role_context.expand_roles_for(action)
     options[:class] ||= ''
     options[:class] = options[:class].split(/ /)
-    options[:class] << 'visible_for' << roles.map { |role| role_to_css_class(role) }.join(' ')
+    options[:class] << 'visible_for' << roles # roles.map { |role| role_to_css_class(role) }.join(' ')
     options[:class] = options[:class].flatten.uniq.join(' ')
   end
 
-  def authorizing_css_classes(roles, options = {})
+  def quoted_role_names(roles, options = {})
     separator = options[:separator] || ''
-    roles.map { |role| role_to_css_class(role) }.map{ |role| options[:quote] ? "'#{role}'" : role }.join(separator)
+    roles.map { |role| options[:quote] ? "'#{role.name}'" : role.name }.join(separator)
   end
 end

@@ -41,10 +41,11 @@ class Site < ActiveRecord::Base
       find_by_host(host) # || raise(ActiveRecord::RecordNotFound, "Could not find site for hostname #{host}.")
     end
 
+    # FIXME clemens thinks this doesn't belong here. he's probably right.
     # TODO how to make this an association or assoc extension so we can use it
     # in admin/users_controller?
     def find_users_and_superusers(id, options = {})
-      condition = ["memberships.site_id = ? OR (memberships.site_id IS NULL AND roles.type = ?)", id, 'Role::Superuser']
+      condition = ["memberships.site_id = ? OR (memberships.site_id IS NULL AND roles.name = ?)", id, 'superuser']
       User.find :all, options.merge(:include => [:roles, :memberships], :conditions => condition)
     end
   end

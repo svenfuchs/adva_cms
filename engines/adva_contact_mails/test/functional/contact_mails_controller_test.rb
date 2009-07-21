@@ -1,5 +1,4 @@
 require File.expand_path(File.dirname(__FILE__) + '/../test_helper')
-include Authentication::HashHelper
 
 class ContactMailsControllerTest < ActionController::TestCase
   # FIXME why this does not work?!?

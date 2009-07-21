@@ -149,9 +149,9 @@ Comment.create! attributes.merge(:body => 'the unapproved comment body',:approve
 
 # ROLES and MEMBERSHIPS
 
-superuser.roles << Rbac::Role.build(:superuser)
-admin.roles << Rbac::Role.build(:admin, :context => site)
-moderator.roles << Rbac::Role.build(:admin, :context => page)
+superuser.roles.create!(:name => 'superuser')
+admin.roles.create!(:name => 'admin', :context => site)
+moderator.roles.create!(:name => 'moderator', :context => page)
 
 site.users << user
 site.users << superuser

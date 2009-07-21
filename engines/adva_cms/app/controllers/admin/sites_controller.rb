@@ -63,7 +63,7 @@ class Admin::SitesController < Admin::BaseController
 
     def require_authentication
       required_role = @site ? :admin : :superuser
-      unless current_user and current_user.has_role?(required_role, :context => current_resource) # TODO this is bad
+      unless current_user and current_user.has_role?(required_role, current_resource) # TODO this is bad
         return redirect_to_login(t(:'adva.flash.authentication_required_role', :role => required_role))
       end
     end

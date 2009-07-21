@@ -6,7 +6,7 @@ Site.create!     :name  => 'site with calendar',
                  :title => 'site with calendar title',
                  :host  => 'site-with-calendar.com'
 
-admin.roles << Rbac::Role.build(:admin, :context => site_with_calendars)
+admin.roles.create!(:name => 'admin', :context => site_with_calendars)
 site_with_calendars.users << admin
 site_with_calendars.users << user
 

@@ -5,7 +5,7 @@ site =
 Site.create!     :name => 'site with wiki',
                  :title => 'site with wiki title',
                  :host => 'site-with-wiki.com'
-admin.roles << Rbac::Role.build(:admin, :context => site)
+admin.roles.create!(:name => 'admin', :context => site)
 
 wiki =
 Wiki.create!     :site        => site,

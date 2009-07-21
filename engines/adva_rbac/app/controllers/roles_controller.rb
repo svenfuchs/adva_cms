@@ -14,15 +14,16 @@ class RolesController < BaseController
   protected
 
     def set_user
-      @user = User.find params[:user_id]
+      @user = User.find(params[:user_id])
     end
 
     def set_object
-      @object = params[:object_type].classify.constantize.find params[:object_id] if params[:object_type]
+      @object = params[:object_type].classify.constantize.find(params[:object_id]) if params[:object_type]
     end
 
     def set_roles
       @roles = @user.roles.by_context(@object || @site)
-      @roles << Rbac::Role.build(:user)
+      @roles << Role.new(:name => 'user')
+      # @roles.create!(:name => 'user')
     end
 end

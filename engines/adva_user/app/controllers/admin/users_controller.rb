@@ -1,3 +1,5 @@
+# FIXME clean up dependencies to rbac
+
 class Admin::UsersController < Admin::BaseController
   include Admin::UsersHelper
 
@@ -20,6 +22,9 @@ class Admin::UsersController < Admin::BaseController
   end
 
   def create
+    # yuck! rails' params parsing is broken
+    params[:user][:roles_attributes] = params[:user][:roles_attributes].map { |key, value| value } if params[:user][:roles_attributes]
+
     @user = User.new(params[:user])
     @user.memberships.build(:site => @site) if @site and !@user.has_role?(:superuser)
 
@@ -38,8 +43,11 @@ class Admin::UsersController < Admin::BaseController
   end
 
   def update
+    # yuck! rails' params parsing is broken
+    params[:user][:roles_attributes] = params[:user][:roles_attributes].map { |key, value| value } if params[:user][:roles_attributes]
+    
     if @user.update_attributes(params[:user])
-      trigger_events @user
+      trigger_events(@user)
       flash[:notice] = t(:'adva.users.flash.update.success')
       redirect_to admin_user_url(@site, @user)
     else
@@ -50,7 +58,7 @@ class Admin::UsersController < Admin::BaseController
 
   def destroy
     if @user.destroy
-      trigger_events @user
+      trigger_events(@user)
       flash[:notice] = t(:'adva.users.flash.destroy.success')
       redirect_to admin_users_url(@site)
     else
@@ -71,8 +79,8 @@ class Admin::UsersController < Admin::BaseController
     end
 
     def set_user
-      options = @site ? {:include => [:roles, :memberships], :conditions => ['memberships.site_id = ? OR roles.type = ?', @site.id, 'Rbac::Role::Superuser']} : {}
-      @user = User.find params[:id], options
+      options = @site ? {:include => [:roles, :memberships], :conditions => ['memberships.site_id = ? OR roles.name = ?', @site.id, 'superuser']} : {}
+      @user = User.find(params[:id], options)
     rescue
       flash[:error] = t(:'adva.users.flash.not_member_of_this_site')
       redirect_to admin_users_url(@site)
@@ -87,7 +95,7 @@ class Admin::UsersController < Admin::BaseController
       return unless params[:user] && params[:user][:roles]
 
       if params[:user][:roles].has_key?('superuser') && !current_user.has_role?(:superuser) ||
-         params[:user][:roles].has_key?('admin') && !current_user.has_role?(:admin, :context => @site)
+         params[:user][:roles].has_key?('admin') && !current_user.has_role?(:admin, @site)
         raise "unauthorized parameter" # TODO raise something more meaningful
       end
       # TODO as well check for membership site_id if !user.has_role?(:superuser)

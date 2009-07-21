@@ -45,6 +45,6 @@ attributes = { :site => site, :section => blog, :commentable => article, :author
 Comment.create! attributes.merge(:body => 'the approved comment body', :approved => 1)
 Comment.create! attributes.merge(:body => 'the unapproved comment body', :approved => 0)
 
-admin.roles << Rbac::Role.build(:admin, :context => site)
-moderator.roles << Rbac::Role.build(:moderator, :context => blog)
+admin.roles.create!(:name => 'admin', :context => site)
+moderator.roles.create!(:name => 'moderator', :context => blog)
 

@@ -6,7 +6,7 @@ Site.create!     :name  => 'site with forum',
                  :title => 'site with forum title',
                  :host  => 'site-with-forum.com'
 
-admin.roles << Rbac::Role.build(:admin, :context => site_with_forums)
+admin.roles.create!(:name => 'admin', :context => site_with_forums)
 
 forum_without_boards =
 Forum.create!    :site        => site_with_forums,
