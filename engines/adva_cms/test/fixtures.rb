@@ -62,6 +62,24 @@ page.save!
                             :comment_age => 0,
                             :published_at => Time.parse('2008-01-01 12:00:00')
 
+non_ascii_page = Page.create!         :site => site,
+                                      :title => 'page with non-ascii permalink',
+                                      :permalink => 'öäü',
+                                      :comment_age => 0,
+                                      :published_at => Time.parse('2008-01-01 12:00:00')
+
+special_character_page = Page.create! :site => site,
+                                      :title => 'page with special character permalink',
+                                      :permalink => '$%&',
+                                      :comment_age => 0,
+                                      :published_at => Time.parse('2008-01-01 12:00:00')
+
+page_for_special_and_non_ascii = Page.create!  :site => site,
+                                               :title => 'letter test',
+                                               :permalink => 'letter-test',
+                                               :comment_age => 0,
+                                               :published_at => Time.parse('2008-01-01 12:00:00')
+
 category = Category.create! :section => page,
                             :title => 'a category'
 
@@ -79,6 +97,24 @@ article   = Article.create! :site => site,
                             :body => 'a page article body',
                             :categories => [category],
                             :tag_list => 'foo bar',
+                            :author => user,
+                            :published_at => Time.parse('2008-01-01 12:00:00')
+
+            Article.create! :site => site,
+                            :section => page_for_special_and_non_ascii,
+                            :title => 'a page with non ascii permalink',
+                            :permalink => 'öäü',
+                            :excerpt => 'a page with non ascii permalink excerpt',
+                            :body => 'a page with non ascii permalink body',
+                            :author => user,
+                            :published_at => Time.parse('2008-01-01 12:00:00')
+
+            Article.create! :site => site,
+                            :section => page_for_special_and_non_ascii,
+                            :title => 'a page with special character permalink',
+                            :permalink => '$%&',
+                            :excerpt => 'a page with special character excerpt',
+                            :body => 'a page with special character body',
                             :author => user,
                             :published_at => Time.parse('2008-01-01 12:00:00')
 

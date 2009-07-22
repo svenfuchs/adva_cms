@@ -17,6 +17,12 @@ category = Category.create! :section => blog,
 
            Category.create! :section => blog,
                             :title => 'another category'
+                            
+           Category.create! :section => blog,
+                            :title => 'öäü'
+
+           Category.create! :section => blog,
+                            :title => '$%&'
 
 article   = Article.create! :site => site,
                             :section => blog,

@@ -2,7 +2,7 @@
 	content_for :sidebar do
 		f.tabs do
 		  f.tab :options do
-		    html = f.text_field(:permalink, :label => true, :hint => :'adva.hints.permalink') + 
+		    html = f.text_field(:permalink, :label => true, :hint => :'adva.sections.hints.permalink') + 
 		           f.text_field(:tag_list, :label => true, :hint => :'adva.hints.tags')
       
 		  	unless @categories.empty?

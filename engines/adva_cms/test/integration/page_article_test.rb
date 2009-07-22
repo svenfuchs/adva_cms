@@ -32,6 +32,22 @@ module IntegrationTests
       visit_unpublished_article_page_as_anonymous
       visit_unpublished_article_page_as_admin
     end
+    
+    test "article with non-ascii permalink is accessible" do
+      article = Content.find_by_title('a page with non ascii permalink')
+      
+      get 'letter-test/articles/öäü'
+      renders_template "pages/articles/show"
+      assert_select 'div.body', Regexp.new(article.body)
+    end
+    
+    test "article with special character permalink is accessible" do
+      article = Content.find_by_title('a page with special character permalink')
+      
+      get 'letter-test/articles/$%&'
+      renders_template "pages/articles/show"
+      assert_select 'div.body', Regexp.new(article.body)
+    end
   
     def visit_homepage_with_single_article
       get '/'

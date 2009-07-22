@@ -18,6 +18,7 @@ en:
         reorder: "You can use the reorder option to reorder your sets. If you want to nest your sets you can drag the set to the right and its gets set as a child of the upper set. Finish the reordering by clicking the reorder button. Please note that this option is only available when you have 2 or more sets."
         parent_setting: "Choosing a parent for your set will nest this set under the chosen parent. Leave empty if you want to create this set as a root set."
         parent_setting_for_edit: "You can use the reorder button on the index page of sets to nest and reorder your sets, you can find further instructions for this on the index page help hints."
+        permalink: "You can use normal letters and special letters like scandinavian letters but avoid special characters like $%&!"
       links:
         index: Sets
         new: New

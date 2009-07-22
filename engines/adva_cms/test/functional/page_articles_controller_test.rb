@@ -61,6 +61,7 @@ class PageArticlesControllerTest < ActionController::TestCase
     end
   end
   
+  # FIXME these tests are tied to a concept that this given section has only one published article
   describe 'GET to :show' do
     action { get :show, params_from("/#{@section.permalink}/articles/#{@section.articles.first.permalink}") }
     
@@ -97,12 +98,12 @@ class PageArticlesControllerTest < ActionController::TestCase
         end
         
         with :is_superuser do
-          it_assigns :section, :article
+          it_assigns :section, :article => :not_nil
           it_renders :template, 'pages/articles/show'
           it_does_not_cache_the_page
         end
       end
-
+      
       with "the article does not exist" do
         before { @article.destroy }
         it_raises ActiveRecord::RecordNotFound

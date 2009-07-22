@@ -7,6 +7,8 @@ module IntegrationTests
       @section = Blog.first
       @site = @section.site
       use_site! @site
+      @special_characters_category = @section.categories.find_by_title('$%&')
+      @non_ascii_category = @section.categories.find_by_title('öäü')
       @section.categories.build(:title => 'uk').save
       @section.categories.build(:title => 'london').save
       @london = @section.categories.find_by_title('london')
@@ -21,6 +23,19 @@ module IntegrationTests
       visit_category(@uk)
       visit_category(@london)
     end
+    
+    test "category with special characters permalink is accessible" do
+      login_as_user
+      visit_blog_index
+      visit_category(@non_ascii_category)
+    end
+    
+    # FIXME categories does not work with characters like $%&
+    # test "category with special characters permalink is accessible" do
+    #   login_as_user
+    #   visit_blog_index
+    #   visit_category(@special_characters_category)
+    # end
     
     def visit_blog_index
       visit blog_path(@section)

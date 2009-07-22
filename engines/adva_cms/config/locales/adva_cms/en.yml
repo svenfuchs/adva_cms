@@ -143,7 +143,6 @@ en:
       subject: Subject
       submit: Submit
     hints:
-      permalink: Use only ASCII characters and use dashes instead of spaces.
       tags: Enter one or more tags separated by a space. You may include spaces by enclosing a tag with quotes. (For example, <em>"Web Dev" Tutorials</em>).
       content_translations: Click to change the translation to edit. To add another translation, use the locales option in the menu on the right.
       locale: Choose what region or language your article should be formatted for.
@@ -232,6 +231,7 @@ en:
         reorder: "You can use the reorder option to set your home root to different section and to reorder your sections. If you want to nest your sections you can drag the section to the right and its gets set as a child of the upper section.  Finish the reordering by clicking the reorder button. Please note that this option is only available when you have 2 or more sections."
         parent_setting: Choosing a parent for your section will nest this section under the chosen parent. Leave empty if you want to create this section as a root section.
         parent_setting_for_edit: "You can use the reorder button on the index page of sections to nest and reorder your sections, you can find further instructions for this on the index page help hints."
+        permalink: "Use only ASCII characters and use dashes instead of spaces!"
       titles:
         page_settings: Page specific settings
         blog_settings: Blog specific settings
@@ -311,6 +311,7 @@ en:
         reorder: "You can use the reorder option to reorder your categories. If you want to nest your categories you can drag the category to the right and its gets set as a child of the upper category. Finish the reordering by clicking the reorder button. Please note that this option is only available when you have 2 or more categories."
         parent_setting: "Choosing a parent for your category will nest this category under the chosen parent. Leave empty if you want to create this category as a root category."
         parent_setting_for_edit: "You can use the reorder button on the index page of categories to nest and reorder your categories, you can find further instructions for this on the index page help hints."
+        permalink: "You can use normal letters and special letters like scandinavian letters but avoid special characters like $%&!"
       titles:
         edit: Edit category
         new: Create a new category
