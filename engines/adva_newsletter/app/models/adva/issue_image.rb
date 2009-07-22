@@ -1,23 +1,24 @@
-require "nokogiri"
+require "hpricot"
 require "open-uri"
-require "addressable/uri"
+require "uri"
+require "pathname"
 require "tmail"
 
 class Adva::IssueImage
-  class WrongFileExtension < StandardError; end
-  class NotAbsoluteUri     < StandardError; end
-  class MissingImgElement  < StandardError; end
-  class MissingImgFilename < StandardError; end
+  class NotAbsoluteUri            < StandardError; end
+  class MissingValidImageElement  < StandardError; end
+  class MissingImageFilename      < StandardError; end
+  class WrongImageExtension       < StandardError; end
 
   class << self
     def parse(html)
-      nodesets = image_nodesets_from(html)
-
       @issue_images = []
-      nodesets.each do |nodeset|
+      image_elements = Hpricot(html).search("img")
+
+      image_elements.each do |image_element|
         begin
-          @issue_images << self.new(nodeset)
-        rescue MissingImgElement, NotAbsoluteUri, MissingImgFilename, WrongFileExtension => error
+          @issue_images << self.new(image_element)
+        rescue MissingValidImageElement, NotAbsoluteUri, MissingImageFilename, WrongImageExtension => error
           Rails.logger.debug error.message
         end
       end
@@ -28,35 +29,35 @@ class Adva::IssueImage
     def valid_extensions
       %w[png jpg gif]
     end
-
-    private
-      def image_nodesets_from(html)
-        Nokogiri::HTML.parse(html).css("img")
-      end
   end
 
-  def initialize(fragment = "")
-    @element = Nokogiri::HTML.fragment(fragment.to_s).at("img")
-    raise MissingImgElement if @element.nil?
-    raise MissingImgFilename if (uri.nil? && filename.nil?) 
-    raise NotAbsoluteUri unless addressable.try(:absolute?)
-    raise WrongFileExtension unless valid_extension?
+  def initialize(element = "")
+    @image_element = element.kind_of?(String) ? Hpricot(element).search("img").first : element
+    raise MissingValidImageElement if (@image_element.nil? || !@image_element.elem? || @image_element[:src].nil?)
+
+    @uri = URI.parse(@image_element["src"])
+    raise NotAbsoluteUri if (uri.blank? || !@uri.absolute?)
+
+    @pathname = Pathname.new(@uri.path)
+    raise MissingImageFilename if filename.blank? 
+    raise WrongImageExtension unless valid_extension?
   end
-  
+
   def alt
-    @element["alt"]
+    @image_element["alt"]
   end
   
   def uri
-    addressable.try(:to_s)
+    @uri.to_s
   end
 
   def filename
-    addressable.try(:basename)
+    @pathname.basename.to_s
   end
   
   def extension
-    addressable.extname.sub(/^\./,"") unless addressable.nil?
+    @pathname.basename.extname.sub(/^\./,"") if filename.present?
+    # addressable.extname.sub(/^\./,"") unless addressable.nil?
   end
   
   def valid_extension?
@@ -80,10 +81,6 @@ class Adva::IssueImage
   end
   
   private
-    def addressable
-      @addressable ||= Addressable::URI.parse(@element["src"]) unless @element["src"].nil?
-    end
-    
     def openuri
       begin
         @openuri ||= open(uri) unless uri.nil?

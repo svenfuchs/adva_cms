@@ -297,4 +297,9 @@ class AdvaIssueTest < ActiveSupport::TestCase
     stub(TMail).new_message_id {"<4a266bee9659c_7524..fdbeb80d8194@test.tmail>"}
     @issue.body_mail.should == "<img src='cid:4a266bee9659c_7524..fdbeb80d8194@test.tmail' alt='test' />"
   end
+  
+  test "#images should call Adva::IssueImage.parse" do
+    mock(Adva::IssueImage).parse(@issue.body_html)
+    @issue.images
+  end
 end
