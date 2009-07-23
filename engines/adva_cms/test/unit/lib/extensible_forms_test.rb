@@ -178,7 +178,7 @@ module ExtensibleFormsBuilderTests
                  '<fieldset id="foo">' +
                  '<p><label for="article_title">Title</label>' +
                  '<input id="article_title" name="article[title]" size="30" tabindex="2" type="text" value="article title" />' +
-                 '<p class="hint" for="article_title">hint for title</p></p>' +
+                 '<span class="hint" for="article_title">hint for title</span></p>' +
                  '</fieldset></form>'
       assert_equal expected, output_buffer
     end

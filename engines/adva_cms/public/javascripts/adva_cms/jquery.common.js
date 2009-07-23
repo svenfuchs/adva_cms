@@ -17,7 +17,8 @@ $(document).ready(function() {
         var label = $("label[for=" + this.getAttribute('for') + "]");
       	 
         if(label) {
-          $(this).appendTo(label); 
+          $(this).appendTo(label);
+          $(this).addClass("move_up");
         }
 		
         $(this).addClass("enabled");

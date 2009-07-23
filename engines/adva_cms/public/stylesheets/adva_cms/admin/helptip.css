@@ -2,6 +2,10 @@
   margin-top: 6px;
 }
 
+.move_up {
+  margin-top: -10px;
+}
+
 .padded {
   padding: 0px 15px 15px 15px;
 }
