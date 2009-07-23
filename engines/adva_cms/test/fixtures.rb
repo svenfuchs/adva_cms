@@ -66,12 +66,14 @@ non_ascii_page = Page.create!         :site => site,
                                       :title => 'page with non-ascii permalink',
                                       :permalink => 'öäü',
                                       :comment_age => 0,
+                                      :single_article_mode => false,
                                       :published_at => Time.parse('2008-01-01 12:00:00')
 
 special_character_page = Page.create! :site => site,
                                       :title => 'page with special character permalink',
                                       :permalink => '$%&',
                                       :comment_age => 0,
+                                      :single_article_mode => false,
                                       :published_at => Time.parse('2008-01-01 12:00:00')
 
 page_for_special_and_non_ascii = Page.create!  :site => site,

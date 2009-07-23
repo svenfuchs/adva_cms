@@ -16,39 +16,59 @@ module RoutingFilterTests
   
     test "it correctly recognizes the category from url - standard category" do
       standard_category.each do |route|
+        has_match_with_route(route)
         assert_equal 'a-category', @filter.match_path(@base_route + route, ['blogs'])[2]
       end
     end
   
     test "it correctly recognizes the category from url - child category" do
       child_category.each do |route|
+        has_match_with_route(route)
         assert_equal 'a-category/child', @filter.match_path(@base_route + route, ['blogs'])[2]
       end
     end
   
     test "it correctly recognizes the category from url - category with digit" do
       category_with_digit.each do |route|
+        has_match_with_route(route)
         assert_equal 'category-666', @filter.match_path(@base_route + route, ['blogs'])[2]
       end
     end
   
     test "it correctly recognizes the category from url - child category with digit" do
       child_category_with_digit.each do |route|
+        has_match_with_route(route)
         assert_equal 'category-666/kid69', @filter.match_path(@base_route + route, ['blogs'])[2]
       end
     end
   
     test "it correctly recognizes the category from url - category with digits only" do
       digit_category.each do |route|
+        has_match_with_route(route)
         assert_equal '1234', @filter.match_path(@base_route + route, ['blogs'])[2]
       end
     end
   
     test "it correctly recognizes the category from url - child category with digits only" do
       digit_child_category.each do |route|
+        has_match_with_route(route)
         assert_equal '1234/567', @filter.match_path(@base_route + route, ['blogs'])[2]
       end
     end
+  
+    # test "it correctly recognizes the category from url - category with special characters" do
+    #   special_character_category.each do |route|
+    #     has_match_with_route(route)
+    #     assert_equal '$%&', @filter.match_path(@base_route + route, ['blogs'])[2]
+    #   end
+    # end
+    #   
+    # test "it correctly recognizes the category from url - child category with special characters" do
+    #   special_character_category.each do |route|
+    #     has_match_with_route(route)
+    #     assert_equal '$%&/§"!', @filter.match_path(@base_route + route, ['blogs'])[2]
+    #   end
+    # end
     
     test "it fails to recognize four digit child categories" do
       assert_equal '1234', @filter.match_path(@base_route + "1234/5678", ['blogs'])[2]
@@ -57,6 +77,11 @@ module RoutingFilterTests
     test "it fails to recognize four and two digit parent child combinations under the root category level" do
       assert_equal '1234/56', @filter.match_path(@base_route + "1234/56", ['blogs'])[2]
       assert_equal '1234', @filter.match_path(@base_route + "1234/4567/89", ['blogs'])[2]
+    end
+    
+    def has_match_with_route(route)
+      assert @filter.match_path(@base_route + route, ['blogs']),
+             "#{@base_route + route} does not match with categories routing filter"
     end
   
     def standard_category
@@ -84,6 +109,14 @@ module RoutingFilterTests
   
     def digit_child_category
       %w( 1234/567 1234/567/2009 1234/567/2009/1 1234/567/2009/12 1234/567.atom 1234/567.html 1234/567.pdf )
+    end
+    
+    def special_character_category
+      %w( $%& $%&/2009 $%&/2009/1 $%&/2009/12 $%&.atom $%&.html $%&.pdf )
+    end
+    
+    def special_character_children_category
+      %w( $%&/§"!" $%&/§"!/2009 $%&/§"!/2009/1 $%&/§"!/2009/12 $%&/§"!.atom $%&/§"!.html $%&/§"!.pdf )
     end
   end
 end

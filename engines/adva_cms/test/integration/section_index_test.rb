@@ -18,19 +18,20 @@ module IntegrationTests
       has_text @published_article.excerpt
       does_not_have_text @unpublished_article.title
     end
+    
+    test "section with non-ascii permalink is accessible" do
+      section = @site.sections.find_by_permalink('page with non-ascii permalink')
+      
+      get "/öäü"
+      renders_template "pages/articles/index"
+    end
+    
     # FIXME feature does not work
-    # test "section with non-ascii permalink is accessible" do
-    #   section = @site.sections.find_by_permalink('öäü')
-    #   
-    #   get page_url(section)
-    #   renders_template "pages/articles/show"
-    # end
-    # 
     # test "section with special character permalink is accessible" do
     #   section = @site.sections.find_by_permalink('$%&')
     #   
     #   get page_url(section)
-    #   renders_template "pages/articles/show"
+    #   renders_template "pages/articles/index"
     # end
   end
 end
