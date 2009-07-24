@@ -5,12 +5,19 @@ require_dependency 'theme/file'
 # path      » #{RAILS_ROOT}/public/sites/site-#{site.id}/themes/#{theme.theme_id}
 # url       „                                            themes/#{theme.theme_id}
 
+# default theme cache folder is appendod to following paths:
+#     » #{RAILS_ROOT}/public/sites/site-#{site.id}/themes/stylesheets
+#     » #{RAILS_ROOT}/public/sites/site-#{site.id}/themes/javascripts
+
 class Theme < ActiveRecord::Base
   cattr_accessor :root_dir
   @@root_dir = "#{RAILS_ROOT}/public"
 
   cattr_accessor :default_preview
   @@default_preview = "#{::File.dirname(__FILE__)}/../../public/images/adva_themes/preview.png"
+  
+  cattr_accessor :default_theme_cache_folder
+  @@default_theme_cache_folder = 'cache'
   
   THEME_STRUCTURE = ['stylesheets', 'javascripts', 'images', 'templates']
   

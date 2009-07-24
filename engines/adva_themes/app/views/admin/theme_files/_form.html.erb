@@ -4,6 +4,11 @@
 	</p>
 
 	<% if @file.respond_to?(:text) %>
+		<% if @file.is_a?(Theme::Stylesheet) %>
+			<span class="hint" for="file_base_path"><%=t :'adva.themes.hints.cache_folder_warning_stylesheets' %></span>
+		<% elsif @file.is_a?(Theme::Javascript) %>
+			<span class="hint" for="file_base_path"><%=t :'adva.themes.hints.cache_folder_warning_stylesheets' %></span>
+		<% end %>
 		<%= f.label :data, t(:'activerecord.attributes.theme_file.data', :default => 'Data') %>
 		<%= text_area_tag 'file[data]', @file.text, :id => 'file_data', :class => 'big' %>
 	<% elsif @file.respond_to?(:base_url) and @file.base_url %>

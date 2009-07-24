@@ -47,6 +47,18 @@ class ThemeFileTest < ActiveSupport::TestCase
     file.path.should_not be_file
   end
   
+  test "it expires theme asset cache directory for stylesheets when stylesheet is saved" do
+    stylesheet = uploaded_stylesheet
+    mock(stylesheet).expire_asset_cache!
+    stylesheet.save
+  end
+  
+  test "it expires theme asset cache directory for javascripts when javascript is saved" do
+    javascript = uploaded_javascript
+    mock(javascript).expire_asset_cache!
+    javascript.save
+  end
+  
   # VALIDATIONS
   
   test "is invalid if :directory/:name is not unique per theme" do

@@ -710,6 +710,9 @@ en:
       empty_bucket: Your bucket is empty.
     themes:
       no_themes_available: You currently do not have any themes created.
+      hints:
+        cache_folder_warning_stylesheets: "Do not use stylesheets/cache as a source directory for your stylesheets, this folder is used as a root for caching your themes stylesheet files and all of its contents will be deleted when you edit one of your stylesheets!"
+        cache_folder_warning_javascripts: "Do not use javascripts/cache as a source directory for your javascripts, this folder is used as a root for caching your themes javascript files and all of its contents will be deleted when you edit one of your javascripts!"        
       lables:
         zip_file: Zip file
       titles:

@@ -9,8 +9,6 @@ require 'action_view/helpers/asset_tag_helper'
 module ActionView
   module Helpers
     module AssetTagHelper
-      DEFAULT_CACHE_THEME_FOLDER = 'cache'
-      
       def theme_javascript_path(theme, source)
         theme = @controller.site.themes.find_by_theme_id(theme) unless theme.is_a?(Theme)
         theme_compute_public_path(theme, source, theme.url + '/javascripts', 'js')
@@ -68,7 +66,7 @@ module ActionView
       end
       
       def default_cache_folder(cache)
-        "#{DEFAULT_CACHE_THEME_FOLDER}/" + (cache == true ? 'all' : cache)
+        "#{Theme.default_theme_cache_folder}/" + (cache == true ? 'all' : cache)
       end
 
       def theme_image_path(theme, source)

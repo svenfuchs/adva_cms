@@ -20,7 +20,7 @@ class Theme < ActiveRecord::Base
     # NOTE before_save order is important here
     before_save :force_directory
     before_save :ensure_unique_filename
-    after_save :move_data_file
+    after_save :move_data_file, :expire_asset_cache!
 
     validates_presence_of :name
     validates_uniqueness_of :name, :scope => [:theme_id, :directory]
@@ -116,6 +116,10 @@ class Theme < ActiveRecord::Base
     end
 
     protected
+    
+      def expire_asset_cache!
+        # for stylesheets and javascripts
+      end
 
       def prepend_directory(prefix)
         return directory if directory =~ /^#{prefix}/
@@ -190,11 +194,29 @@ class Theme < ActiveRecord::Base
   class Javascript < TextFile
     self.file_type = :javascript
     self.valid_extensions = %w(.js)
+    
+    protected
+      def expire_asset_cache!
+        FileUtils.rm_r(cache_folder) rescue Errno::ENOENT
+      end
+      
+      def cache_folder
+        "#{theme.path}/javascripts/#{Theme.default_theme_cache_folder}/"
+      end
   end
 
   class Stylesheet < TextFile
     self.file_type = :stylesheet
     self.valid_extensions = %w(.css)
+    
+    protected
+      def expire_asset_cache!
+        FileUtils.rm_r(cache_folder) rescue Errno::ENOENT
+      end
+      
+      def cache_folder
+        "#{theme.path}/stylesheets/#{Theme.default_theme_cache_folder}/"
+      end
   end
 
   class Template < TextFile
