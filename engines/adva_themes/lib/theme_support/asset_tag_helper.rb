@@ -9,6 +9,8 @@ require 'action_view/helpers/asset_tag_helper'
 module ActionView
   module Helpers
     module AssetTagHelper
+      DEFAULT_CACHE_THEME_FOLDER = 'cache'
+      
       def theme_javascript_path(theme, source)
         theme = @controller.site.themes.find_by_theme_id(theme) unless theme.is_a?(Theme)
         theme_compute_public_path(theme, source, theme.url + '/javascripts', 'js')
@@ -24,7 +26,7 @@ module ActionView
         recursive = options.delete("recursive")
 
         if ActionController::Base.perform_caching && cache
-          joined_javascript_name = (cache == true ? "all" : cache) + ".js"
+          joined_javascript_name = default_cache_folder(cache) + ".js"
           joined_javascript_path = File.join(theme.path + '/javascripts', joined_javascript_name)
 
           paths = theme_compute_javascript_paths(theme, sources, recursive)
@@ -52,9 +54,9 @@ module ActionView
         recursive = options.delete("recursive")
 
         if ActionController::Base.perform_caching && cache
-          joined_stylesheet_name = (cache == true ? "all" : cache) + ".css"
+          joined_stylesheet_name = default_cache_folder(cache) + ".css"
           joined_stylesheet_path = File.join(theme.path + '/stylesheets', joined_stylesheet_name)
-
+          
           paths = theme_compute_stylesheet_paths(theme, sources, recursive)
           theme_write_asset_file_contents(theme, joined_stylesheet_path, paths) unless File.exists?(joined_stylesheet_path)
           theme_stylesheet_tag(theme, joined_stylesheet_name, options)
@@ -63,6 +65,10 @@ module ActionView
             theme_stylesheet_tag(theme, source, options)
           end.join("\n")
         end
+      end
+      
+      def default_cache_folder(cache)
+        "#{DEFAULT_CACHE_THEME_FOLDER}/" + (cache == true ? 'all' : cache)
       end
 
       def theme_image_path(theme, source)
