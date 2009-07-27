@@ -32,7 +32,7 @@ module With
         #   Rbac::Context.default_permissions[:"#{action} #{type}"] = @default_permission
         # end
 
-        with "only_superuser_may_#{action}_#{type}" do
+        with "superuser_may_#{action}_#{type}" do
           before do
             Rbac::Context.default_permissions[:"#{action} #{type}"] = [:superuser]
           end

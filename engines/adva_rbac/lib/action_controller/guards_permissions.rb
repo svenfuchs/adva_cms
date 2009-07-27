@@ -1,3 +1,5 @@
+# TODO move to some rails specific adapter in Rbac?
+
 module ActionController
   class RoleRequired < SecurityError
     attr_accessor :required_role
@@ -26,7 +28,7 @@ module ActionController
         set_action_map options.except(:only, :except)
 
         before_filter(options.slice :only, :except) do |controller|
-          controller.guard_permission type #, controller.send(:map_from_controller_action)
+          controller.guard_permission type
         end
       end
 
@@ -56,7 +58,7 @@ module ActionController
         # return if action.to_sym == :show
 
         unless has_permission?(action, type)
-          role_types = current_resource.authorizing_role_types_for("#{action} #{type}")
+          role_types = current_resource.authorizing_role_types_for(:"#{action} #{type}")
           raise RoleRequired.new(role_types, action, type)
         end
       end
@@ -65,8 +67,6 @@ module ActionController
         action = :"#{action} #{type}"
         user = current_user || User.anonymous
         user.has_permission?(action, current_resource)
-        # role = current_resource.authorizing_role_types_for(action)
-        # user.has_role?(role, current_resource)
       end
 
       def map_from_controller_action

@@ -67,8 +67,13 @@ class AdminAssetsControllerTest < ActionController::TestCase
     action { put :update, default_params.merge(@params).merge(:id => @asset.id) }
 
     with :valid_asset_params do
+<<<<<<< HEAD
+      it_guards_permissions :update, :article
+
+=======
       it_guards_permissions :update, :asset
       
+>>>>>>> fix adva_assets functional tests to work with adva_rbac
       with :access_granted do
         it_assigns :site, :asset
         it_updates :asset

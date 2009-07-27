@@ -48,7 +48,7 @@ class Admin::AssetsController < Admin::BaseController
   end
 
   def update
-    @asset.update_attributes! params[:asset]
+    @asset.update_attributes!(params[:asset])
     flash[:notice] = t(:'adva.assets.flash.update.success')
     redirect_to admin_assets_url
   rescue ActiveRecord::RecordInvalid
