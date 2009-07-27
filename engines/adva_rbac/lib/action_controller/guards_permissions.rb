@@ -27,8 +27,8 @@ module ActionController
         class_inheritable_accessor :action_map
         set_action_map options.except(:only, :except)
 
-        before_filter(options.slice :only, :except) do |controller|
-          controller.guard_permission type
+        before_filter(options.slice(:only, :except)) do |controller|
+          controller.guard_permission(type)
         end
       end
 
@@ -66,8 +66,6 @@ module ActionController
       def has_permission?(action, type)
         action = :"#{action} #{type}"
         user = current_user || User.anonymous
-        # p action
-        # p Rbac::Context.default_permissions[action]
         user.has_permission?(action, current_resource)
       end
 

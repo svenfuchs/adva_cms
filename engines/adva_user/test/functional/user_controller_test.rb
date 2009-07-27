@@ -15,7 +15,7 @@ class UserControllerTest < ActionController::TestCase
 
   describe "GET to :new" do
     action { get :new }
-    
+
     it_assigns :site
     it_renders :template, :new do
       has_form_posting_to user_path do
@@ -33,11 +33,11 @@ class UserControllerTest < ActionController::TestCase
       it_triggers_event :user_registered
       it_triggers_event :user_created
       it_redirects_to { user_verification_sent_url }
-      
+
       it "makes the new user a member of the current site" do
         @site.users.should include(assigns(:user))
       end
-      
+
       expect "sends a validation email to the user" do
         # FIXME can't get this to behave ...
         # mock(UserMailer).deliver_signup_verification_email(anything, anything)
@@ -66,7 +66,7 @@ class UserControllerTest < ActionController::TestCase
 
       with "the user can be verified" do
         before { @user.update_attributes!(:verified_at => nil) }
-    
+
         it_triggers_event :user_verified
         it_assigns_flash_cookie :notice => :not_nil
         it_redirects_to Registry.get(:redirect, :verify)
@@ -74,7 +74,7 @@ class UserControllerTest < ActionController::TestCase
 
       with "the user can not be verified" do
         before { @user.update_attributes!(:verified_at => Time.now) }
-    
+
         it_does_not_trigger_any_event
         it_assigns_flash_cookie :error => :not_nil
         it_redirects_to Registry.get(:redirect, :verify)
@@ -84,15 +84,12 @@ class UserControllerTest < ActionController::TestCase
 
   describe "DELETE to :destroy" do
     action { delete :destroy }
-    it_guards_permissions :destroy, :user
 
-    with :access_granted do
-      before { stub(@controller).current_user.returns(@user) }
-      
-      it_destroys :user
-      it_redirects_to { '/' }
-      it_assigns_flash_cookie :notice => :not_nil
-      it_triggers_event :user_deleted
-    end
+    before { stub(@controller).current_user.returns(@user) }
+
+    it_destroys :user
+    it_redirects_to { '/' }
+    it_assigns_flash_cookie :notice => :not_nil
+    it_triggers_event :user_deleted
   end
 end
