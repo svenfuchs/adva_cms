@@ -43,7 +43,7 @@ class Admin::CalendarEventsControllerTest < ActionController::TestCase
       route.it_maps :delete, "events/1",      :action => 'destroy', :id => '1'
     end
   end
-
+  
   describe "GET to :index" do
     action { get :index, default_params }
     it_guards_permissions :show, :calendar_event
@@ -53,7 +53,7 @@ class Admin::CalendarEventsControllerTest < ActionController::TestCase
       it_assigns :events => :not_nil
     end
   end
-
+  
   describe "GET to :new" do
     action { get :new, default_params }
     it_guards_permissions :create, :calendar_event
@@ -67,7 +67,7 @@ class Admin::CalendarEventsControllerTest < ActionController::TestCase
       end
     end
   end
-
+  
   describe "GET to :edit" do
     action { get :edit, default_params.merge(:id => @section.events.first.id) }
     it_guards_permissions :update, :calendar_event
@@ -86,6 +86,20 @@ class Admin::CalendarEventsControllerTest < ActionController::TestCase
     action { post :create, default_params.merge(@params || {}) }
     it_guards_permissions :create, :calendar_event
 
+<<<<<<< HEAD
+    with :invalid_event_params do
+      it_renders_template :new
+      it_assigns_flash_cookie :error => :not_nil
+      it_does_not_sweep_page_cache
+    end
+
+    with :valid_event_params do
+      it_saves :event
+      it_assigns_flash_cookie :notice => :not_nil
+      it_assigns_flash_cookie :error  => nil
+      it_redirects_to do
+        edit_admin_calendar_event_url(default_params.merge(:action => 'edit', :id => @section.events.last.id))
+=======
     with :access_granted do
       with :invalid_event_params do
         it_renders_template :new
@@ -103,6 +117,7 @@ class Admin::CalendarEventsControllerTest < ActionController::TestCase
           edit_admin_calendar_event_path(default_params.merge(:action => 'edit', :id => @section.events.last.id))
         end
         it_sweeps_page_cache :by_reference => :section
+>>>>>>> fix adva_calendar functional tests to work with adva_rbac (didn't test anything at all)
       end
     end
   end
@@ -110,6 +125,21 @@ class Admin::CalendarEventsControllerTest < ActionController::TestCase
   describe "PUT to :update" do
     action { post :update, default_params.merge(@params || {}).merge(:id => @event.id) }
     it_guards_permissions :update, :calendar_event
+<<<<<<< HEAD
+
+    with :invalid_event_params do
+      it_renders_template :edit
+      it_assigns_flash_cookie :error => :not_nil
+      it_does_not_trigger_any_event
+      it_does_not_sweep_page_cache
+    end
+
+    with :valid_event_params do
+      it_assigns_flash_cookie :notice => :not_nil
+      it_saves :event
+      it_redirects_to do
+        edit_admin_calendar_event_url(default_params.merge(:action => 'edit', :id => @event.id))
+=======
   
     with :access_granted do
       with :invalid_event_params do
@@ -128,6 +158,7 @@ class Admin::CalendarEventsControllerTest < ActionController::TestCase
           edit_admin_calendar_event_path(default_params.merge(:action => 'edit', :id => @event.id))
         end
         it_sweeps_page_cache :by_reference => :event
+>>>>>>> fix adva_calendar functional tests to work with adva_rbac (didn't test anything at all)
       end
     end
   end
@@ -135,6 +166,12 @@ class Admin::CalendarEventsControllerTest < ActionController::TestCase
   describe "DELETE to :destroy" do
     action { post :destroy, default_params.merge(:id => @event.id) }
     it_guards_permissions :destroy, :calendar_event
+<<<<<<< HEAD
+
+    it_redirects_to { admin_calendar_events_url(@site, @section) }
+    it_assigns_flash_cookie :notice => :not_nil
+    it_sweeps_page_cache :by_reference => :event
+=======
   
     with :access_granted do
       it_assigns :event => lambda { @event }
@@ -142,5 +179,6 @@ class Admin::CalendarEventsControllerTest < ActionController::TestCase
       it_assigns_flash_cookie :notice => :not_nil
       it_sweeps_page_cache :by_reference => :event
     end
+>>>>>>> fix adva_calendar functional tests to work with adva_rbac (didn't test anything at all)
   end
 end
