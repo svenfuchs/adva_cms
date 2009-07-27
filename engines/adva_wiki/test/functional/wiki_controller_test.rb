@@ -138,9 +138,8 @@ class WikiControllerTest < ActionController::TestCase
 
   describe "POST to :create" do
     action { post :create, (@params || {}).merge(:section_id => @section) }
-    it_guards_permissions :create, :wikipage
 
-    with :access_granted do
+    it_guards_permissions :create, :wikipage do
       it_assigns :wikipage => :not_nil
 
       with :valid_wikipage_params do
@@ -161,9 +160,8 @@ class WikiControllerTest < ActionController::TestCase
 
   describe "GET to :edit" do
     action { get :edit, :section_id => @section, :id => @wikipage.permalink }
-    it_guards_permissions :update, :wikipage
 
-    with :access_granted do
+    it_guards_permissions :update, :wikipage do
       it_assigns :wikipage
       it_renders :template, :edit do
         has_form_putting_to @controller.send(:wikipage_path_with_home, @section, @wikipage.permalink) do

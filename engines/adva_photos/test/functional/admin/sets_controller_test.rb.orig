@@ -49,6 +49,14 @@ class SetsControllerTest < ActionController::TestCase
 
   describe "GET to new" do
     action { get :new, default_params }
+<<<<<<< HEAD
+
+    it_guards_permissions :create, :category
+    it_assigns :set => Category
+    it_renders_template :new
+    it_does_not_sweep_page_cache
+
+=======
     
     it_guards_permissions :create, :category do
       it_assigns :set => Category
@@ -56,11 +64,20 @@ class SetsControllerTest < ActionController::TestCase
       it_does_not_sweep_page_cache
     end
     
+>>>>>>> fix adva_photos functional tests to work with adva_rbac
     # FIXME add view specs for form
   end
 
   describe "POST to create" do
     action { post :create, valid_form_params }
+<<<<<<< HEAD
+
+    it_guards_permissions :create, :category
+    it_assigns :set
+    it_redirects_to { admin_sets_url(@site, @album) }
+    it_assigns_flash_cookie :notice => :not_nil
+    it_sweeps_page_cache :by_section => :section
+=======
     
     it_guards_permissions :create, :category do
       it_assigns :set
@@ -68,10 +85,19 @@ class SetsControllerTest < ActionController::TestCase
       it_assigns_flash_cookie :notice => :not_nil
       it_sweeps_page_cache :by_section => :section
     end
+>>>>>>> fix adva_photos functional tests to work with adva_rbac
   end
 
   describe "POST to create, with invalid set params" do
     action { post :create, invalid_form_params }
+<<<<<<< HEAD
+
+    it_guards_permissions :create, :category
+    it_assigns :set
+    it_renders_template :new
+    it_assigns_flash_cookie :error => :not_nil
+    it_does_not_sweep_page_cache
+=======
     
     it_guards_permissions :create, :category do
       it_assigns :set
@@ -79,11 +105,20 @@ class SetsControllerTest < ActionController::TestCase
       it_assigns_flash_cookie :error => :not_nil
       it_does_not_sweep_page_cache
     end
+>>>>>>> fix adva_photos functional tests to work with adva_rbac
   end
 
   describe "GET to edit" do
     with :a_set do
       action { get :edit, default_params.merge(:id => @set.id) }
+<<<<<<< HEAD
+
+      it_guards_permissions :update, :category
+      it_assigns :set
+      it_renders_template :edit
+      it_does_not_sweep_page_cache
+
+=======
     
       it_guards_permissions :update, :category do
         it_assigns :set
@@ -91,6 +126,7 @@ class SetsControllerTest < ActionController::TestCase
         it_does_not_sweep_page_cache
       end
       
+>>>>>>> fix adva_photos functional tests to work with adva_rbac
       # FIXME add view specs for form
     end
   end
@@ -98,6 +134,14 @@ class SetsControllerTest < ActionController::TestCase
   describe "PUT to update" do
     with :a_set do
       action { put :update, valid_form_params.merge(:id => @set.id) }
+<<<<<<< HEAD
+
+      it_guards_permissions :update, :category
+      it_assigns :set
+      it_redirects_to { admin_sets_url(@site, @album) }
+      it_assigns_flash_cookie :notice => :not_nil
+      it_sweeps_page_cache :by_section => :section
+=======
     
       it_guards_permissions :update, :category do
         it_assigns :set
@@ -105,12 +149,21 @@ class SetsControllerTest < ActionController::TestCase
         it_assigns_flash_cookie :notice => :not_nil
         it_sweeps_page_cache :by_section => :section
       end
+>>>>>>> fix adva_photos functional tests to work with adva_rbac
     end
   end
 
   describe "PUT to update, with invalid set params" do
     with :a_set do
       action { put :update, invalid_form_params.merge(:id => @set.id) }
+<<<<<<< HEAD
+
+      it_guards_permissions :update, :category
+      it_assigns :set
+      it_renders_template :edit
+      it_assigns_flash_cookie :error => :not_nil
+      it_does_not_sweep_page_cache
+=======
     
       it_guards_permissions :update, :category do
         it_assigns :set
@@ -118,12 +171,21 @@ class SetsControllerTest < ActionController::TestCase
         it_assigns_flash_cookie :error => :not_nil
         it_does_not_sweep_page_cache
       end
+>>>>>>> fix adva_photos functional tests to work with adva_rbac
     end
   end
 
   describe "DELETE to destroy" do
     with :a_set do
       action { delete :destroy, default_params.merge(:id => @set.id) }
+<<<<<<< HEAD
+
+      it_guards_permissions :destroy, :category
+      it_assigns :set
+      it_redirects_to { admin_sets_url(@site, @album) }
+      it_assigns_flash_cookie :notice => :not_nil
+      it_sweeps_page_cache :by_section => :section
+=======
     
       it_guards_permissions :destroy, :category do
         it_assigns :set
@@ -131,6 +193,7 @@ class SetsControllerTest < ActionController::TestCase
         it_assigns_flash_cookie :notice => :not_nil
         it_sweeps_page_cache :by_section => :section
       end
+>>>>>>> fix adva_photos functional tests to work with adva_rbac
     end
   end
 end
