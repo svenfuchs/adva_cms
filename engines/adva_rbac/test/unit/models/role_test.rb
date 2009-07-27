@@ -23,11 +23,6 @@ class RoleTest < ActiveSupport::TestCase
     @user.has_role?(:user).should be_true
   end
 
-  # TODO Has not. Error in spec definition or unexpected behaviour?
-  # test "a user has the role :author for another user's content" do
-  #  @user.has_role?(:author, @content).should be_true
-  #end
-
   test "a user does not have the role :moderator" do
     @user.has_role?(:moderator, @section).should be_false
   end
