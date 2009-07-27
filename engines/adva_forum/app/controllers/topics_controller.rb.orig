@@ -102,8 +102,13 @@ class TopicsController < BaseController
     end
 
     def guard_topic_permissions
+<<<<<<< HEAD
+      unless has_permission? :moderate, :topic
+        params[:topic].reject! { |key, value| ['sticky', 'locked'].include?(key) } if params[:topic]
+=======
       unless has_permission?(:moderate, :topic) or params[:topic].blank?
         params[:topic].reject!{ |key, value| ['sticky', 'locked'].include?(key) }
+>>>>>>> fix adva_forum functional tests to work with adva_rbac
       end
     end
 

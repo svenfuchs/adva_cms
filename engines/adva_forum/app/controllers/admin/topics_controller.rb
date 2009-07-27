@@ -3,7 +3,7 @@ class Admin::TopicsController < Admin::BaseController
   before_filter :set_section
   before_filter :set_topics
 
-  # guards_permissions :topic
+  guards_permissions :topic
 
   def index
   end

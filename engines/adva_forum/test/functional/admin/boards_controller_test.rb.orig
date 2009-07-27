@@ -41,6 +41,14 @@ class Admin::BoardsControllerTest < ActionController::TestCase
 
   describe "GET to :index" do
     action { get :index, default_params  }
+<<<<<<< HEAD
+
+    it_guards_permissions :show, :board
+    it_assigns :boards
+    it_renders_template :index
+    it_does_not_sweep_page_cache
+
+=======
     
     it_guards_permissions :show, :board do
       it_assigns :boards
@@ -48,11 +56,20 @@ class Admin::BoardsControllerTest < ActionController::TestCase
       it_does_not_sweep_page_cache
     end
     
+>>>>>>> fix adva_forum functional tests to work with adva_rbac
     # FIXME add necessary view specs
   end
 
   describe "GET to :new" do
     action { get :new, default_params }
+<<<<<<< HEAD
+
+    it_guards_permissions :create, :board
+    it_assigns :board => Board
+    it_renders_template :new
+    it_does_not_sweep_page_cache
+
+=======
     
     it_guards_permissions :create, :board do
       it_assigns :board => Board
@@ -60,11 +77,20 @@ class Admin::BoardsControllerTest < ActionController::TestCase
       it_does_not_sweep_page_cache
     end
     
+>>>>>>> fix adva_forum functional tests to work with adva_rbac
     # FIXME add view specs for form
   end
 
   describe "POST to :create" do
     action { post :create, valid_form_params }
+<<<<<<< HEAD
+
+    it_guards_permissions :create, :board
+    it_assigns :board => Board
+    it_redirects_to { admin_boards_url }
+    it_assigns_flash_cookie :notice => :not_nil
+    it_sweeps_page_cache :by_section => :section, :by_reference => :board
+=======
     
     it_guards_permissions :create, :board do
       it_assigns :board => Board
@@ -72,10 +98,19 @@ class Admin::BoardsControllerTest < ActionController::TestCase
       it_assigns_flash_cookie :notice => :not_nil
       it_sweeps_page_cache :by_section => :section, :by_reference => :board
     end
+>>>>>>> fix adva_forum functional tests to work with adva_rbac
   end
 
   describe "POST to :create, with invalid board params" do
     action { post :create, invalid_form_params }
+<<<<<<< HEAD
+
+    it_guards_permissions :create, :board
+    it_assigns :board => Board
+    it_renders_template :new
+    it_assigns_flash_cookie :error => :not_nil
+    it_does_not_sweep_page_cache
+=======
     
     it_guards_permissions :create, :board do
       it_assigns :board => Board
@@ -83,10 +118,19 @@ class Admin::BoardsControllerTest < ActionController::TestCase
       it_assigns_flash_cookie :error => :not_nil
       it_does_not_sweep_page_cache
     end
+>>>>>>> fix adva_forum functional tests to work with adva_rbac
   end
 
   describe "GET to :edit" do
     action { get :edit, default_params.merge(:id => @board.id) }
+<<<<<<< HEAD
+
+    it_guards_permissions :update, :board
+    it_assigns :board
+    it_renders_template :edit
+    it_does_not_sweep_page_cache
+
+=======
     
     it_guards_permissions :update, :board do
       it_assigns :board
@@ -94,11 +138,20 @@ class Admin::BoardsControllerTest < ActionController::TestCase
       it_does_not_sweep_page_cache
     end
     
+>>>>>>> fix adva_forum functional tests to work with adva_rbac
     # FIXME add view specs for form
   end
 
   describe "PUT to :update" do
     action { put :update, valid_form_params.merge(:id => @board.id) }
+<<<<<<< HEAD
+
+    it_guards_permissions :update, :board
+    it_assigns :board
+    it_redirects_to { admin_boards_url }
+    it_assigns_flash_cookie :notice => :not_nil
+    it_sweeps_page_cache :by_reference => :board
+=======
     
     it_guards_permissions :update, :board do
       it_assigns :board
@@ -106,10 +159,19 @@ class Admin::BoardsControllerTest < ActionController::TestCase
       it_assigns_flash_cookie :notice => :not_nil
       it_sweeps_page_cache :by_reference => :board
     end
+>>>>>>> fix adva_forum functional tests to work with adva_rbac
   end
 
   describe "PUT to :update, with invalid board params" do
     action { put :update, invalid_form_params.merge(:id => @board.id) }
+<<<<<<< HEAD
+
+    it_guards_permissions :update, :board
+    it_assigns :board
+    it_renders_template :edit
+    it_assigns_flash_cookie :error => :not_nil
+    it_does_not_sweep_page_cache
+=======
     
     it_guards_permissions :update, :board do
       it_assigns :board
@@ -117,10 +179,19 @@ class Admin::BoardsControllerTest < ActionController::TestCase
       it_assigns_flash_cookie :error => :not_nil
       it_does_not_sweep_page_cache
     end
+>>>>>>> fix adva_forum functional tests to work with adva_rbac
   end
 
   describe "DELETE to :destroy" do
     action { delete :destroy, default_params.merge(:id => @board.id) }
+<<<<<<< HEAD
+
+    it_guards_permissions :destroy, :board
+    it_assigns :board
+    it_redirects_to { admin_boards_url }
+    it_assigns_flash_cookie :notice => :not_nil
+    it_sweeps_page_cache :by_reference => :board
+=======
     
     it_guards_permissions :destroy, :board do
       it_assigns :board
@@ -128,5 +199,6 @@ class Admin::BoardsControllerTest < ActionController::TestCase
       it_assigns_flash_cookie :notice => :not_nil
       it_sweeps_page_cache :by_reference => :board
     end
+>>>>>>> fix adva_forum functional tests to work with adva_rbac
   end
 end

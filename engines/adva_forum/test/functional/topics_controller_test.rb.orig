@@ -55,17 +55,36 @@ class TopicsControllerTest < ActionController::TestCase
 
   describe "GET to new" do
     action { get :new, default_params }
+<<<<<<< HEAD
+
+    it_assigns :topic => Topic
+    it_renders_template :new
+    it_guards_permissions :create, :topic
+    it_does_not_sweep_page_cache
+    it_does_not_cache_the_page
+=======
     it_guards_permissions :create, :topic do
       it_assigns :topic => Topic
       it_renders_template :new
       it_does_not_sweep_page_cache
       it_does_not_cache_the_page
     end
+>>>>>>> fix adva_forum functional tests to work with adva_rbac
   end
 
   describe "POST to :create" do
     action { post :create, valid_form_params }
 
+<<<<<<< HEAD
+    it_assigns :topic => Topic
+    it_guards_permissions :create, :topic
+    it_guards_permissions :manage, :topic
+    it_redirects_to { topic_url(@section, Topic.find_by_permalink('another-topic').permalink) }
+    it_assigns_flash_cookie :notice => :not_nil
+    it_triggers_event :topic_created
+    it_sweeps_page_cache :by_section => :section
+    it_does_not_cache_the_page
+=======
     it_guards_permissions :create, :topic do
       it_assigns :topic => Topic
       it_redirects_to { topic_path(@section, Topic.find_by_permalink('another-topic').permalink) }
@@ -74,11 +93,22 @@ class TopicsControllerTest < ActionController::TestCase
       it_sweeps_page_cache :by_section => :section
       it_does_not_cache_the_page
     end
+>>>>>>> fix adva_forum functional tests to work with adva_rbac
   end
 
   describe "POST to create, given invalid topic params" do
     action { post :create, invalid_form_params }
 
+<<<<<<< HEAD
+    it_assigns :topic => Topic
+    it_guards_permissions :create, :topic
+    it_guards_permissions :manage, :topic
+    it_renders_template :new
+    it_assigns_flash_cookie :error => :not_nil
+    it_does_not_trigger_any_event
+    it_does_not_sweep_page_cache
+    it_does_not_cache_the_page
+=======
     it_guards_permissions :create, :topic do
       it_assigns :topic => Topic
       it_renders_template :new
@@ -87,22 +117,41 @@ class TopicsControllerTest < ActionController::TestCase
       it_does_not_sweep_page_cache
       it_does_not_cache_the_page
     end
+>>>>>>> fix adva_forum functional tests to work with adva_rbac
   end
 
   describe "GET to edit" do
     action { get :edit, default_params.merge(:id => @topic.permalink) }
 
+<<<<<<< HEAD
+    it_assigns :topic
+    it_renders_template :edit
+    it_guards_permissions :update, :topic
+    it_does_not_sweep_page_cache
+    it_does_not_cache_the_page
+=======
     it_guards_permissions :update, :topic do
       it_assigns :topic
       it_renders_template :edit
       it_does_not_sweep_page_cache
       it_does_not_cache_the_page
     end
+>>>>>>> fix adva_forum functional tests to work with adva_rbac
   end
 
   describe "PUT to update" do
     action { put :update, valid_form_params.merge(:id => @topic.permalink) }
 
+<<<<<<< HEAD
+    it_assigns :topic
+    it_guards_permissions :update, :topic
+    it_guards_permissions :manage, :topic
+    it_redirects_to { topic_url(@section, Topic.find_by_permalink('another-topic').permalink) }
+    it_assigns_flash_cookie :notice => :not_nil
+    it_triggers_event :topic_updated
+    it_sweeps_page_cache :by_section => :section
+    it_does_not_cache_the_page
+=======
     it_guards_permissions :update, :topic do
       it_assigns :topic
       it_redirects_to { topic_path(@section, Topic.find_by_permalink('another-topic').permalink) }
@@ -111,11 +160,31 @@ class TopicsControllerTest < ActionController::TestCase
       it_sweeps_page_cache :by_section => :section
       it_does_not_cache_the_page
     end
+>>>>>>> fix adva_forum functional tests to work with adva_rbac
   end
 
   describe "PUT to update, with invalid topic params" do
     action { put :update, invalid_form_params.merge(:id => @topic.permalink) }
 
+<<<<<<< HEAD
+    it_assigns :topic
+    it_guards_permissions :update, :topic
+    it_guards_permissions :manage, :topic
+    it_renders_template :edit
+    it_assigns_flash_cookie :error => :not_nil
+    it_does_not_trigger_any_event
+    it_does_not_sweep_page_cache
+    it_does_not_cache_the_page
+  end
+
+  describe "DELETE to :destroy" do
+    with :access_granted do
+      action { delete :destroy, default_params.merge(:id => @topic.permalink) }
+
+      it_assigns :topic
+      it_guards_permissions :destroy, :topic
+      it_redirects_to { forum_url(@section) }
+=======
     it_guards_permissions :update, :topic do
       it_assigns :topic
       it_renders_template :edit
@@ -132,6 +201,7 @@ class TopicsControllerTest < ActionController::TestCase
     it_guards_permissions :destroy, :topic do
       it_assigns :topic
       it_redirects_to { forum_path(@section) }
+>>>>>>> fix adva_forum functional tests to work with adva_rbac
       it_assigns_flash_cookie :notice => :not_nil
       it_triggers_event :topic_deleted
       it_sweeps_page_cache :by_section => :section
