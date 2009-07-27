@@ -45,29 +45,41 @@ class CommentsControllerTest < ActionController::TestCase
           has_text 'the comment body'
         end
       end
-
+  
       # FIXME
       # with "invalid comment params" do
       # end
     end
   end
-
+  
   describe "POST to :create" do
     action do
       Comment.with_observers :comment_sweeper do
         post :create, default_params.merge(@params || {})
       end
     end
+<<<<<<< HEAD
+
+    it_guards_permissions :create, :comment
+
+    with :access_granted do
+=======
     
     it_guards_permissions :create, :comment do
+>>>>>>> fix adva_comments functional tests to work with adva_rbac
       with :valid_comment_params do
         it_assigns :commentable => :article, :comment => :not_nil
         it_saves :comment
         it_assigns_flash_cookie :notice => :not_nil
         it_triggers_event :comment_created
         it_sweeps_page_cache :by_reference => :article
+<<<<<<< HEAD
         it_redirects_to { comment_url(assigns(:comment)) }
 
+=======
+        it_redirects_to { comment_path assigns(:comment) }
+  
+>>>>>>> fix adva_comments functional tests to work with adva_rbac
         # FIXME
         # it "checks the comment's spaminess" do
         #   expect do
@@ -78,7 +90,7 @@ class CommentsControllerTest < ActionController::TestCase
         #   end
         # end
       end
-
+  
       with :invalid_comment_params do
         it_renders :template, :show
         it_assigns_flash_cookie :error => :not_nil
@@ -86,15 +98,22 @@ class CommentsControllerTest < ActionController::TestCase
       end
     end
   end
-
+  
   describe "PUT to :update" do
     action do
       Comment.with_observers :comment_sweeper do
         post :update, (@params || {}).merge(:id => @comment.id)
       end
     end
+<<<<<<< HEAD
+
+    it_guards_permissions :update, :comment
+
+    with :access_granted do
+=======
     
     it_guards_permissions :update, :comment do
+>>>>>>> fix adva_comments functional tests to work with adva_rbac
       with "valid comment params" do
         before { @params = { :comment => { :body => 'the updated comment body' } } }
 
@@ -104,7 +123,7 @@ class CommentsControllerTest < ActionController::TestCase
         it_triggers_event :comment_updated
         it_sweeps_page_cache :by_reference => :article
       end
-
+  
       with :invalid_comment_params do
         it_does_not_update :comment
         it_renders_template :show
@@ -120,8 +139,14 @@ class CommentsControllerTest < ActionController::TestCase
         delete :destroy,:id => @comment.id
       end
     end
+<<<<<<< HEAD
+    it_guards_permissions :destroy, :comment
+
+    with :access_granted do
+=======
     
     it_guards_permissions :destroy, :comment do
+>>>>>>> fix adva_comments functional tests to work with adva_rbac
       it_assigns :comment
       it_destroys :comment
       it_triggers_event :comment_deleted
