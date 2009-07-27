@@ -66,6 +66,8 @@ module ActionController
       def has_permission?(action, type)
         action = :"#{action} #{type}"
         user = current_user || User.anonymous
+        # p action
+        # p Rbac::Context.default_permissions[action]
         user.has_permission?(action, current_resource)
       end
 

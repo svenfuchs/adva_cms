@@ -19,6 +19,7 @@ ActionController::Dispatcher.to_prepare do
     :'destroy asset'      => :moderator,
     :'manage asset'       => :moderator,
 
+    :'show theme'         => :admin,
     :'create theme'       => :admin,
     :'update theme'       => :admin,
     :'destroy theme'      => :admin,
