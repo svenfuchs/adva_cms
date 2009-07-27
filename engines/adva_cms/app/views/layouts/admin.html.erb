@@ -4,12 +4,11 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
  	<meta name="generator" content="adva-cms - Open source content management platform" />
   <title>adva-cms: Admin <%= controller.controller_name %></title>
-<!-- FIXME caching disabled until we fix cached css to work with projection stylesheet -->
-	<%= stylesheet_link_tag :admin_screen_reset, 		:media => "screen" %>
-	<%= stylesheet_link_tag :admin_projection_reset, :media => "projection" %>
-  <%= stylesheet_link_tag :admin, 			 		 			:media => "screen, projection" %>
-  <%= stylesheet_link_tag :admin_screen, 		 			:media => "screen" %>
-  <%= stylesheet_link_tag :admin_projection, 			:media => "projection" %>
+	<%= stylesheet_link_tag :admin_screen_reset, 		 :media => "screen", 						 :cache => 'cache/admin/screen_reset' %>
+	<%= stylesheet_link_tag :admin_projection_reset, :media => "projection", 				 :cache => 'cache/admin/projection_reset' %>
+  <%= stylesheet_link_tag :admin, 			 		 			 :media => "screen, projection", :cache => 'cache/admin/common' %>
+  <%= stylesheet_link_tag :admin_screen, 		 			 :media => "screen", 						 :cache => 'cache/admin/screen' %>
+  <%= stylesheet_link_tag :admin_projection, 			 :media => "projection", 				 :cache => 'cache/admin/projection' %>
 
   <%= yield :before_javascript_include %>
   <%= javascript_include_tag :common, :admin, :cache => true %>
