@@ -15,13 +15,10 @@ module With
       end
     end
     
-    def it_guards_permissions(action, type)
-      # FIXME would break due to require_authentication kicking in
-      # so maybe rely on just #guard_permission instead?
-      # expect do
-      #   mock(@controller).has_permission?(action, type)
-      # end
-      return unless With.aspect?(:access_control)
+    def it_guards_permissions(action, type, &block)
+      return block.call unless With.aspect?(:access_control)
+
+      with :access_granted, &block if block_given?
       
       with "(rbac)" do
         # before do
