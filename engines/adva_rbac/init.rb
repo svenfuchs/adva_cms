@@ -7,4 +7,4 @@ ActiveSupport::Dependencies.load_once_paths << lib_path
 ActiveRecord::Base.send :include, Rbac::ActsAsRoleContext
 ActionController::Base.send :include, ActionController::GuardsPermissions
 
-Rbac::RoleType.implementation = Rbac::Implementation::Static
+Rbac::RoleType.implementation = Rbac::RoleType::Static

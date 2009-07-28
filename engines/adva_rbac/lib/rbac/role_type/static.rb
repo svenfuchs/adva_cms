@@ -1,5 +1,5 @@
 module Rbac
-  module Implementation
+  module RoleType
     module Static
       mattr_accessor :role_types
       self.role_types = [:superuser, :moderator, :author, :user, :anonymous]
@@ -53,7 +53,7 @@ module Rbac
           end
 
           def granted_to?(user, context = nil, options = {})
-            options[:explicit] ? false : user.try(:registered?)
+            options[:explicit] ? false : user.registered?
           end
         end
       end

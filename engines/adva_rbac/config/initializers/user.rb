@@ -1,8 +1,8 @@
 ActionController::Dispatcher.to_prepare do
   User.class_eval do
-    include Rbac::HasRole
+    acts_as_role_subject
 
-    has_many :roles, :dependent => :delete_all do
+    has_many :roles, :dependent => :delete_all, :class_name => 'Rbac::Role' do
       def by_context(object)
         roles = by_site object
         # TODO in theory we could skip the implicit roles here if roles were already found
@@ -10,7 +10,7 @@ ActionController::Dispatcher.to_prepare do
         # roles += object.implicit_roles(proxy_owner) if object.respond_to? :implicit_roles
         roles
       end
-
+    
       def by_site(object)
         site = object.is_a?(Site) ? object : object.site
         sql = "name = 'superuser' OR
@@ -75,25 +75,5 @@ ActionController::Dispatcher.to_prepare do
         roles_attributes.any? { |attrs| attrs['selected'].to_i == 0 && self.class.role_matches_attributes?(attrs, role) }
       end
     end
-
-    # def attributes_with_roles=(attributes)
-    #   attributes.symbolize_keys!
-    #   roles = attributes.delete(:roles)
-    #   returning attributes_without_roles=(attributes) do
-    #     update_roles(roles) if roles
-    #   end
-    # end
-    # alias_method_chain :attributes=, :roles
-
-    # def update_roles(roles)
-    #   # FIXME clearing all roles is a problem when, e.g., an admin assigns a moderator role to a superuser
-    #   # the superuser will then have lost his superuser role
-    #   self.roles.clear 
-    #   roles.values.each do |role|
-    #     next unless role.delete('selected') == '1'
-    #     self.roles << role.delete('type').constantize.create!(role)
-    #   end
-    # end
-    
   end
 end
