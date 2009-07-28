@@ -16,9 +16,9 @@ module With
     end
     
     def it_guards_permissions(action, type, &block)
-      return block.call unless With.aspect?(:access_control)
+      return (block ? block.call : nil) unless With.aspect?(:access_control)
 
-      with :access_granted, &block if block_given?
+      with(:access_granted, &block) if block_given?
       
       with "(rbac)" do
         # before do
