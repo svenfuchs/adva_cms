@@ -30,7 +30,7 @@ module Rbac
             []
           end
 
-          def granted_to?(user, context = nil, options = {})
+          def granted_to?(subject, context = nil, options = {})
             options[:explicit] ? false : true
           end
         end
@@ -52,8 +52,8 @@ module Rbac
             [Author]
           end
 
-          def granted_to?(user, context = nil, options = {})
-            options[:explicit] ? false : user.registered?
+          def granted_to?(subject, context = nil, options = {})
+            options[:explicit] ? false : subject.registered?
           end
         end
       end
@@ -70,8 +70,8 @@ module Rbac
             [Moderator]
           end
 
-          def granted_to?(user, context = nil, options = {})
-            options[:explicit] ? false : context.respond_to?(:author) && context.author == user || super
+          def granted_to?(subject, context = nil, options = {})
+            options[:explicit] ? false : context.respond_to?(:author) && context.author == subject || super
           end
         end
       end
