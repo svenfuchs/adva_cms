@@ -1,3 +1,54 @@
+ 0.2.2 [2009/07/31]
+====================
+
+	Features & Changes
+	  * Added Projection stylesheet
+	  * Added preset values for sites new form
+		* Added account model to adva_user
+		* Added base account controller
+		* Added :max_display_level option for menu rendering
+		* Section and category titles are translatable
+		* Contact mailer accepts custom ids and classes
+		* Contact mailer accepts headers
+		* Unified file upload locations between single site and multi site
+		* Added tons of help hints
+		* Email notifications can be switched on/off per site level
+		* adva-newsletter, plain text issues
+		* Theme importing is more robust, adva-theme is able to find them from little more deeply nested zip file
+		* Section new for has a parent select box
+		* Theme file names are unique
+		* Multiple theme files can be uploaded at the same time
+		* Added generator metatag
+		* adva_newsletter uses registry instead of adva_config
+		* made contact mailer form builder ruby 1.9 compatible
+		* Rewriting of contact mailer
+		* improvements on set and category filtering
+		* parent categories show contents of the child categories
+		* adva_newsletter mailer content type changed
+		* added double label css style
+		* index help tips moved to sidebar
+		* improved author selection on content edit
+		* adva_newsletter, removed nokogiri and addressable in favor of hpricot
+	
+	Bug fixes:
+		* Fixed failing JS test for adva_assets
+		* Fixed internal server error for asset widget search.
+		* Fixed adva_google_analytics migration
+		* Fixed contact mailer form
+		* Fixed bug with contact mailer and empty select field
+		* Fixed migrate titles rake task
+		* Fixed categories routing filter
+		* Fixed bug with invalid email on adva-cms installation
+		* Fixed bug with viewing nested categories on frontend
+		* Fixed bug with article filtering with unpublished flag
+		* Fixed globalize bug with nested set
+		* Increased the size of file body on theme file edit
+		* Sections work with umlauts
+		* Fixed css for hint form fields on forms
+		* Fixed problem with theme assets cache on production environment
+		* Re-ordering of sections, categories and sets is more visible
+		* caching of css disabled for production
+
  0.1.1 [2009/02/18]
 ====================
 
