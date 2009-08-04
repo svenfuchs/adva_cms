@@ -6,7 +6,7 @@ Rails::Initializer.configure do |config|
   config.plugin_gem 'json',      :version => '~> 1.1.2', :lib => 'json'
   config.plugin_gem 'BlueCloth', :version => '~> 1.0.0', :lib => 'bluecloth'
   config.plugin_gem 'RedCloth',  :version => '~> 3.0.4', :lib => 'redcloth'
-  config.plugin_gem 'rubypants', :version => '~> 0.2.0', :lib => 'ruby_pants'
+  config.plugin_gem 'rubypants', :version => '~> 0.2.0', :lib => 'rubypants'
 
   # the implementation of plugin_gem immediately loads the gem. paperclip
   # requires activerecord to be loaded. thus we only add the loadpath and 
