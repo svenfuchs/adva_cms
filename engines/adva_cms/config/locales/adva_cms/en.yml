@@ -589,6 +589,7 @@ en:
         remember_me: Remember me
     users: 
       attributes: 
+        new_password: New password
         password: Password
         email: E-Mail
       links: 

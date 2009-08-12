@@ -622,6 +622,7 @@ de:
 
    users:
      attributes:
+       new_password: Neues Passwort
        password: Passwort
        email: E-Mail
      links:

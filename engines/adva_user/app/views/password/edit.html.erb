@@ -1,11 +1,11 @@
 <h2><%= t(:'adva.passwords.titles.edit') %></h2>
 
-<p><%= params[:token].present? ? t(:'adva.passwords.info.please_enter_new_password') : t(:'adva.passwords.info.please_enter_new_password_and_token') %></p>
+<p><%= params[:token].blank? ? t(:'adva.passwords.info.please_enter_new_password_and_token') : t(:'adva.passwords.info.please_enter_new_password') %></p>
 
 <% form_for 'user', :url => password_path, :html => { :method => :put } do |f| %>
   <% f.field_set do %>
-		<%= params[:token].present? ? hidden_field_tag('token', URI.decode(params[:token])) : label_tag(t(:'adva.passwords.attributes.token')) + text_field_tag('token') %>
-		<%= f.password_field :password, :label => true %>
+		<%= params[:token].blank? ? label_tag(t(:'adva.passwords.attributes.token')) + text_field_tag('token') : hidden_field_tag('token', URI.decode(params[:token])) %>
+		<%= f.password_field :password, :label => :"adva.users.attributes.new_password" %>
   <% end %>
 
   <% f.buttons do %>
