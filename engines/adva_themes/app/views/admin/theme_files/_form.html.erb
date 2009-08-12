@@ -15,7 +15,7 @@
 	  <p><%= theme_image_tag @theme.theme_id, @file.base_url %></p>
 	<% end %>
 
-  <% save_or_cancel_links(f, :cancel_url => admin_theme_path(@site, @theme.id)) %>
+  <% save_or_cancel_links(f, :cancel_url => admin_theme_files_path(@site, @theme.id)) %>
 <% end %>
 
 <% render :partial => 'files' %>

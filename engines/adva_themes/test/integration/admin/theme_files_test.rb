@@ -64,6 +64,13 @@ module IntegrationTests
       # upload_theme_file
     end
     
+    test "cancel link redirects to theme_file index view" do
+      login_as_superuser
+      visit_theme_file_edit_page
+      click_link 'cancel'
+      assert_template 'admin/theme_files/index'
+    end
+    
     def check_homepage(*strings)
       @backbutton = request.path
       visit '/'
@@ -75,7 +82,12 @@ module IntegrationTests
       visit @admin_theme_files_page
       assert_template "admin/theme_files/index"
     end
-
+    
+    def visit_theme_file_edit_page
+      visit @admin_theme_files_page + "/#{@theme.files.first.id}"
+      assert_template "admin/theme_files/show"
+    end
+    
     def create_a_new_theme_file(attributes)
       click_link 'New'
       assert_template "admin/theme_files/new"
