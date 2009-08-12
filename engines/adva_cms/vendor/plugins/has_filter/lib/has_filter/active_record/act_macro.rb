@@ -74,7 +74,8 @@ module HasFilter
 
         def filter_scope(column, values, operator, format = nil)
           query = (["#{column} #{operator} ?"] * values.size)
-          values = values.map{ |value| format ? format % value : value }.map(&:downcase)
+          # FIXME why did we have .map($:downcase) here ?
+          values = values.map{ |value| format ? format % value : value } # .map(&:downcase)
           scope = { :conditions => [query.join(' OR '), *values] }
           translated?(column) ? merge_globalization_scope(scope) : scope
         end

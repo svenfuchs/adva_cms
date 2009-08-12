@@ -9,6 +9,7 @@ module HasFilter
       @first  = HasFilterArticle.find_by_title 'first'
       @second = HasFilterArticle.find_by_title 'second'
       @third  = HasFilterArticle.find_by_title 'third'
+      @upcase = HasFilterArticle.find_by_title 'UPCASE'
     end
 
     test 'text filter applies scopes to an attribute' do
@@ -21,6 +22,15 @@ module HasFilter
     end
     
     test 'text filter works with translated columns' do
+      params = [{ :title     => { :scope => 'is', :query => 'UPCASE' },
+                  :body      => { :scope => 'is', :query => 'x' },
+                  :excerpt   => { :scope => 'is', :query => 'x' },
+                  :tagged    => 'x',
+                  :selected  => 'title' }]
+      assert_equal [@upcase], HasFilterArticle.filter_chain.select(params).scope
+    end
+    
+    test 'text filter works with upcase letters' do
       HasFilterArticle.stubs(:translated?).with(:title).returns true
       scope = HasFilterArticle.send(:filter_scope, :title, ["first"], "=")
       expected_scope = {:conditions=>["title = ? AND current = ?", "first", true],

@@ -6,6 +6,7 @@ module HasFilter
       @first  = HasFilterArticle.find_by_title 'first'
       @second = HasFilterArticle.find_by_title 'second'
       @third  = HasFilterArticle.find_by_title 'third'
+      @upcase = HasFilterArticle.find_by_title 'UPCASE'
     end
   
     test 'scope :is' do
@@ -13,7 +14,7 @@ module HasFilter
     end
   
     test 'scope :is_not' do
-      assert_equal [@second, @third], HasFilterArticle.is_not(:title, 'first')
+      assert_equal [@second, @third, @upcase], HasFilterArticle.is_not(:title, 'first')
     end
   
     test 'scope :contains' do
@@ -21,7 +22,7 @@ module HasFilter
     end
       
     test 'scope :does_not_contain' do
-      assert_equal [@second], HasFilterArticle.does_not_contain(:title, 'ir')
+      assert_equal [@second, @upcase], HasFilterArticle.does_not_contain(:title, 'ir')
     end
       
     test 'scope :starts_with' do
@@ -29,7 +30,7 @@ module HasFilter
     end
       
     test 'scope :does_not_start_with' do
-      assert_equal [@second, @third], HasFilterArticle.does_not_start_with(:title, 'fi')
+      assert_equal [@second, @third, @upcase], HasFilterArticle.does_not_start_with(:title, 'fi')
     end
       
     test 'scope :ends_with' do
@@ -37,7 +38,7 @@ module HasFilter
     end
       
     test 'scope :does_not_end_with' do
-      assert_equal [@second, @third], HasFilterArticle.does_not_end_with(:title, 'st')
+      assert_equal [@second, @third, @upcase], HasFilterArticle.does_not_end_with(:title, 'st')
     end
       
     test 'scope :contains_all' do
