@@ -50,7 +50,7 @@ module ActionController
             # prevent session hijacking - unnecessary according to http://dev.rubyonrails.org/ticket/10108
             # reset_session_except :return_location
             session[:uid] = user.id
-            set_user_cookie!
+            set_user_cookie!(user)
           end
         end
       end
@@ -77,7 +77,11 @@ module ActionController
           # user always needs to be logged out (e.g. in UserController#create).
           # Looks a bit more robust this way:
           try_login
-          find_current_user if session && session[:uid]
+          if session && session[:uid]
+            user = find_current_user
+            set_user_cookie!(user)
+            user
+          end
         end
       end
 
@@ -135,9 +139,9 @@ module ActionController
           cookies[:remember_me] = { :value => "#{current_user.id};#{token}", :expires => 10.years.from_now }
         end
 
-        def set_user_cookie!
-          cookies[:uid] = current_user.id.to_s
-          cookies[:uname] = current_user.name
+        def set_user_cookie!(user)
+          cookies[:uid] = user.id.to_s
+          cookies[:uname] = user.name
         end
 
         # There are a few ways that a user can login without going through
