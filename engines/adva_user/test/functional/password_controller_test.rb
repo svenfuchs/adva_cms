@@ -41,14 +41,12 @@ class PasswordControllerTest < ActionController::TestCase
   describe "GET to :edit" do
     action { get :edit, @params }
     
-    with "the user is logged in" do
+    with "the user is logged in (via cookie or token)" do
       before do
         stub(@controller).current_user.returns(@user)
-        (@params = {})[:token] = 'valid token'
       end
 
       it_renders_template :edit do
-        has_tag 'input[name=?][type=hidden]', 'token'
         has_tag 'input[name=?][type=password]', 'user[password]'
       end
     end
