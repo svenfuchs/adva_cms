@@ -76,12 +76,22 @@ module HasFilter
           query = (["#{column} #{operator} ?"] * values.size)
           values = values.map{ |value| format ? format % value : value }.map(&:downcase)
           scope = { :conditions => [query.join(' OR '), *values] }
-          translated?(column) ? scope.merge!(:joins => :globalize_translations, :group => "#{self.table_name}.id", :conditions => ['current = ?', true]) : scope
+          translated?(column) ? merge_globalization_scope(scope) : scope
         end
 
         def translated?(column)
           # FIXME really should be in globalize
           respond_to?(:globalize_options) && globalize_options[:translated_attributes].include?(column.to_sym)
+        end
+        
+        def merge_globalization_scope(scope)
+          if scope.has_key?(:conditions)
+            scope[:conditions][0] += " AND current = ?"
+            scope[:conditions] << true
+            scope.merge!(:joins => :globalize_translations, :group => "#{self.table_name}.id")
+          else
+            scope.merge!(:joins => :globalize_translations, :group => "#{self.table_name}.id", :conditions => ['current = ?', true])
+          end
         end
     end
 

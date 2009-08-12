@@ -19,6 +19,15 @@ module HasFilter
                   :selected  => 'title' }]
       assert_equal [@first, @third], HasFilterArticle.filter_chain.select(params).scope
     end
+    
+    test 'text filter works with translated columns' do
+      HasFilterArticle.stubs(:translated?).with(:title).returns true
+      scope = HasFilterArticle.send(:filter_scope, :title, ["first"], "=")
+      expected_scope = {:conditions=>["title = ? AND current = ?", "first", true],
+                        :joins=>:globalize_translations,
+                        :group=>"has_filter_articles.id"}
+      assert_equal expected_scope, scope 
+    end
 
     test 'text filter applies scopes to multiple attributes' do
       params = [{ :title     => { :scope => 'starts_with', :query => 'x' },
