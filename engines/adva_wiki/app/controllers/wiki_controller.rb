@@ -156,10 +156,6 @@ class WikiController < BaseController
 
       if @wikipage.updated_at && (Time.zone.parse(updated_at) != @wikipage.updated_at)
         flash[:error] = t(:'adva.wiki.flash.optimistic_lock.failure')
-        # TODO filter_chain has been halted because of the rendering, so we have
-        # to call this manually ... which is stupid. Maybe an around_filter
-        # would be the better idea in CacheableFlash?
-        write_flash_to_cookie
         render :action => :edit
       end
     end

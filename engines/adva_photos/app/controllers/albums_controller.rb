@@ -45,7 +45,6 @@
       end
     rescue ActiveRecord::RecordNotFound
       flash[:error] = t(:'adva.photos.flash.photo.set_photo.failure')
-      write_flash_to_cookie # TODO make around filter or something
       redirect_to album_url(@section)
     end
 
@@ -55,7 +54,6 @@
       end
     rescue ActiveRecord::RecordNotFound
       flash[:error] = t(:'adva.photos.flash.photo.set_set.failure')
-      write_flash_to_cookie # TODO make around filter or something
     end
 
     def set_tags
@@ -66,7 +64,6 @@
       end
     rescue ActiveRecord::RecordNotFound
       flash[:error] = t(:'adva.photos.flash.photo.set_tags.failure')
-      write_flash_to_cookie # TODO make around filter or something
       @tags = nil
     end
 
