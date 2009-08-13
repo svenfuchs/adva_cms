@@ -33,7 +33,7 @@ class PasswordControllerTest < ActionController::TestCase
       before { @params = { :user => { :email => 'none' } } } 
 
       it_does_not_trigger_any_event
-      it_assigns_flash_cookie :error => :not_nil
+      it_assigns_flash_cookie :notice => :not_nil # feature, not a bug!
       it_renders_template :new
     end
   end

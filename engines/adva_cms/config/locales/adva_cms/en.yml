@@ -567,7 +567,7 @@ en:
             time-limited link (to protect your account).
 
             If you did not request that your password be changed someone must have
-            entered your account in the "forgot password" page on our site. Your account is
+            entered your account in the "Forgot password" page on our site. Your account is
             still perfectly safe since you were the only person this message was sent to.
             Simply delete this message and no changes will be made to your account if this
             message was sent in error.
@@ -575,6 +575,8 @@ en:
         new:
           email_sent: We just sent you a notice. Please check your email.
           no_such_user: We could not find a user with the email address you entered.
+       create:
+         notification: "If the given email address exists in our system, we have just sent you an email with information on how to reset your password."
         update:
           success: Your password was changed successfully.
           failure: Your password could not be changed.

@@ -6,14 +6,13 @@ class PasswordController < BaseController
   end
 
   def create
+    flash[:notice] = t(:'adva.passwords.flash.create.notification')
     if user = User.find_by_email(params[:user][:email])
       token = user.assign_token 'password'
       user.save!
       trigger_event user, :password_reset_requested, :token => "#{user.id};#{token}"
-      flash[:notice] = t(:'adva.passwords.flash.new.email_sent')
       redirect_to edit_password_url
     else
-      flash[:error] = t(:'adva.passwords.flash.new.no_such_user')
       render :action => :new
     end
   end
