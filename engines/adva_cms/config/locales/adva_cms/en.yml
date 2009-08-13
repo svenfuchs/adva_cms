@@ -575,8 +575,8 @@ en:
         new:
           email_sent: We just sent you a notice. Please check your email.
           no_such_user: We could not find a user with the email address you entered.
-       create:
-         notification: "If the given email address exists in our system, we have just sent you an email with information on how to reset your password."
+        create:
+          notification: "If the given email address exists in our system, we have just sent you an email with information on how to reset your password."
         update:
           success: Your password was changed successfully.
           failure: Your password could not be changed.
