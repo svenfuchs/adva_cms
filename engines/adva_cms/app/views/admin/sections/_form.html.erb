@@ -1,3 +1,9 @@
+<% content_for :sidebar do %>
+	<p class="hint text_only large padded">
+		<%= t :'adva.sections.hints.parent_setting_for_edit' %>
+	</p>
+<% end %>
+
 <h2><%= t(:'adva.titles.general_settings') %></h2>
 
 <% f.field_set do %>
@@ -11,14 +17,6 @@
   <% column do %>
     <%= f.text_field :permalink, :label => true, :hint => :'adva.sections.hints.permalink' %>
   <% end %>
-<% end %>
-
-<% f.field_set do %>
-	<h3><%= t(:'adva.titles.parent_settings')%></h3>
-	
-	<p class="hint text_only">
-		<%= t :'adva.sections.hints.parent_setting_for_edit' %>
-	</p>
 <% end %>
 
 <%= render :partial => "admin/sections/settings/#{@section.type.underscore}", :locals => { :f => f } %>
