@@ -24,7 +24,7 @@ class CachedPage < ActiveRecord::Base
           reference = CachedPageReference.initialize_with(object, method)
           page.references << reference unless page.references.detect {|r| r == reference }
         end
-        page.section_id = section.id
+        page.section_id = section.id if section
         page.cleared_at = nil
         page.save!
       end if site
