@@ -9,7 +9,7 @@ module BlogHelper
     title << t(:'adva.blog.titles.about', :category => category.title) if category
     title << t(:'adva.blog.titles.tags', :tags => tags.to_sentence) if tags
     
-    unless title.empty?
+    if title.present?
       title = t(:'adva.blog.titles.articles', :articles => title.join(', ')) 
       options[:format] ? options[:format] % title : title
     end

@@ -2,7 +2,7 @@ require 'asset_tag_helper'
 
 module AssetsHelper
   def asset_title_for(asset)
-    asset.title.blank? ? asset.filename : asset.title
+    asset.title.present? ? asset.title : asset.filename
   end
 
   def asset_image_for(asset, style = :tiny, options = {})

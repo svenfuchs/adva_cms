@@ -1,6 +1,6 @@
 module ActivitiesHelper
   def render_activities(activities, recent = false)
-    unless activities.empty?
+    if activities.present?
       html = activities.collect do |activity|
         render :partial => "admin/activities/#{activity.object_type.downcase}",
                :locals => { :activity => activity, :recent => recent }

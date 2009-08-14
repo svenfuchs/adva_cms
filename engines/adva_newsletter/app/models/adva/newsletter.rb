@@ -39,11 +39,11 @@ class Adva::Newsletter < ActiveRecord::Base
   end
   
   def email
-    read_attribute(:email).blank? ? site.email : read_attribute(:email)
+    read_attribute(:email).present? ? read_attribute(:email) : site.email
   end
 
   def name
-    read_attribute(:name).blank? ? site.name : read_attribute(:name)
+    read_attribute(:name).present? ? read_attribute(:name) : site.name
   end
 
   def email_with_name

@@ -42,7 +42,7 @@ class Admin::ArticlesController < Admin::BaseController
   end
   
   def update
-    params[:article][:version].blank? ? update_attributes : rollback
+    params[:article][:version].present? ? rollback : update_attributes
   end
 
   def update_attributes    

@@ -114,7 +114,7 @@ class WikiController < BaseController
 
     def set_wikipages
       scope = @category ? @category.contents : @section.wikipages
-      scope = scope.tagged(@tags) unless @tags.blank?
+      scope = scope.tagged(@tags) if @tags.present?
       @wikipages = scope.paginate :page => current_page
     end
 

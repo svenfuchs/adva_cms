@@ -132,7 +132,7 @@ class Content < ActiveRecord::Base
       categories.each do |category|
         category_ids.delete(category.id.to_s) || categories.delete(category)
       end
-      unless category_ids.blank?
+      if category_ids.present?
         categories << Category.find(:all, :conditions => ['id in (?)', category_ids])
       end
     end

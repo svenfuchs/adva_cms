@@ -196,7 +196,7 @@ class Test::Unit::TestCase
 
   share :the_article_does_not_belong_to_the_category do
     before do
-      @article.categories.clear unless @article.categories.empty?
+      @article.categories.clear if @article.categories.present?
     end
   end
 

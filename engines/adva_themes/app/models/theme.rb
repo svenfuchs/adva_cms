@@ -92,8 +92,8 @@ class Theme < ActiveRecord::Base
   end
 
   def author_link
-    name = author.blank? ? I18n.t(:'adva.common.unknown') : author
-    homepage.blank? ? name : %(<a href="#{homepage}">#{name}</a>)
+    name = author.present? ? author : I18n.t(:'adva.common.unknown')
+    homepage.present? ? %(<a href="#{homepage}">#{name}</a>) : name
   end
 
   def path
@@ -122,7 +122,7 @@ class Theme < ActiveRecord::Base
           name = Theme.strip_path(entry.name, theme_root)
           data = ''
           entry.get_input_stream { |io| data = io.read }
-          data = StringIO.new(data) unless data.blank?
+          data = StringIO.new(data) if data.present?
           Theme::File.create!(:theme => self, :base_path => name, :data => data) rescue next
         end
       end

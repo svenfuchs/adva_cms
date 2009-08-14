@@ -58,7 +58,7 @@ class Admin::BaseController < ApplicationController
     end
 
     def current_page
-      @page ||= params[:page].blank? ? 1 : params[:page].to_i
+      @page ||= params[:page].present? ? params[:page].to_i : 1
     end
     
     def set_menu
@@ -70,7 +70,7 @@ class Admin::BaseController < ApplicationController
       I18n.locale = params[:locale] || I18n.default_locale
       I18n.locale.untaint
 
-      ActiveRecord::Base.locale = params[:cl].blank? ? nil : params[:cl].to_sym
+      ActiveRecord::Base.locale = params[:cl].present? ? params[:cl].to_sym : nil
     end
 
     def set_timezone

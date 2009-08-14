@@ -29,7 +29,7 @@ class Post < Comment
   # belongs_to :topic, :counter_cache => true
   # attr_accessible :body
   # def self.search(query, options = {})
-  #   options[:conditions] ||= [" LOWER(#{Post.table_name}.body) LIKE ?", "%#{query}%"] unless query.blank?
+  #   options[:conditions] ||= [" LOWER(#{Post.table_name}.body) LIKE ?", "%#{query}%"] if query.present?
   #   options[:select]     ||= " #{Post.table_name}.*, #{Topic.table_name}.title as topic_title, #{Forum.table_name}.name as forum_name"
   #   options[:joins]      ||= " inner join #{Topic.table_name} on #{Post.table_name}.topic_id = #{Topic.table_name}.id inner join #{Forum.table_name} on #{Topic.table_name}.forum_id = #{Forum.table_name}.id"
   #   options[:order]      ||= " #{Post.table_name}.created_at DESC"

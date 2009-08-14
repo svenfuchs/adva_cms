@@ -68,7 +68,7 @@ module ResourceHelper
     def current_controller_namespace
       path = respond_to?(:controller_path) ? controller_path : controller.controller_path
       namespace = path.split('/')[0..-2].join('_')
-      namespace.blank? ? nil : namespace
+      namespace.present? ? namespace : nil
     end
 
     def resource_link_id(action, type, resource)

@@ -56,6 +56,6 @@ module ForumHelper
     attrs << t(:'adva.topics.titles.post_count', :count => topic.posts_count)
     attrs << t(:'adva.topics.states.sticky') if topic.sticky?
     attrs << t(:'adva.topics.states.locked') if topic.locked?
-    (format || '%s') % attrs.join(', ') unless attrs.empty?
+    (format || '%s') % attrs.join(', ') if attrs.present?
   end
 end

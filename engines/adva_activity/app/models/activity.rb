@@ -79,7 +79,7 @@ class Activity < ActiveRecord::Base
   end
 
   def from
-    siblings.last.created_at unless siblings.empty?
+    siblings.last.created_at if siblings.present?
   end
 
   def to

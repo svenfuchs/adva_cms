@@ -119,7 +119,7 @@ class AdminSectionsControllerTest < ActionController::TestCase
     action do
       Section.with_observers :section_sweeper do
         params = default_params.merge(@params).merge(:id => @section.id)
-        params[:section][:title] = "#{@section.title} was changed" unless params[:section][:title].blank?
+        params[:section][:title] = "#{@section.title} was changed" if params[:section][:title].present?
         put :update, params
       end
     end

@@ -223,7 +223,7 @@ class AdminArticlesControllerTest < ActionController::TestCase
     action do
       Article.with_observers :article_sweeper do
         params = default_params.merge(@params).merge(:id => @article.id)
-        params[:article][:title] = "#{@article.title} was changed" unless params[:article][:title].blank?
+        params[:article][:title] = "#{@article.title} was changed" if params[:article][:title].present?
         put :update, params
       end
     end

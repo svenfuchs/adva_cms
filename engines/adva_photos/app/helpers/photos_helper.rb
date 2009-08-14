@@ -3,7 +3,7 @@ module PhotosHelper
     title = []
     title << 'about '  + set.title if set
     title << 'tagged ' + tags.to_sentence if tags
-    title.empty? ? 'All photos' : 'Photos ' + title.join(', ')
+    title.present? ? 'Photos ' + title.join(', ') : 'All photos'
   end
 
   def link_to_set(*args)

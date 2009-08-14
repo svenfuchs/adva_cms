@@ -18,11 +18,11 @@ class Calendar < Section
             OR (start_date <= ? AND end_date >= ?))', 
             month, end_of_month, month, month]
         ).collect{ |e| 
-            e.end_date.blank? ?
-              e.start_date.to_date : 
+            e.end_date.present? ?
               Range.new(
                 (e.start_date < month) ? month : e.start_date.to_date,
-                (e.end_date > month.end_of_month.end_of_day) ? month.end_of_month : e.end_date.to_date).to_a
+                (e.end_date > month.end_of_month.end_of_day) ? month.end_of_month : e.end_date.to_date).to_a :
+              e.start_date.to_date
           }.flatten.uniq.sort
       # to explain the chaos above: if there's a end_date we create a range from
       # the start_date (or beginning of month) to end_date (or end of month)

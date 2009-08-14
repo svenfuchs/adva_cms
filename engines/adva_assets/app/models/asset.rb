@@ -90,7 +90,7 @@ class Asset < ActiveRecord::Base
 
   def title
     t = read_attribute(:title)
-    t.blank? ? data_file_name : t
+    t.present? ? t : data_file_name
   end
 
   [:image, :video, :audio, :pdf, :other].each do |type|

@@ -24,7 +24,7 @@ module WikiHelper
   
         def wikipage_strip_home(path)
           path.sub! %r(/wikipages/home$), ''
-          path.empty? ? '/' : path
+          path.present? ? path : '/'
         end
       end
     end
@@ -111,7 +111,7 @@ module WikiHelper
     title << t(:'adva.wiki_helper.collection_title.category_title', :title => category.title) if category
     title << t(:'adva.wiki_helper.collection_title.tags_title', :title => tags.to_sentence) if tags
 
-    title = title.empty? ? t(:'adva.wiki_helper.collection_title.all_pages') : t(:'adva.wiki_helper.collection_title.collect_pages') + title.join(', ')
+    title = title.present? ? t(:'adva.wiki_helper.collection_title.collect_pages') + title.join(', ') : t(:'adva.wiki_helper.collection_title.all_pages')
     options[:format] ? options[:format] % title : title
   end
 end

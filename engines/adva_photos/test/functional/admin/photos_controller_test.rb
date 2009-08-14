@@ -21,7 +21,7 @@ class PhotosControllerTest < ActionController::TestCase
     has_tag 'select[id=photo_comment_age]'
     has_tag 'input[name=?]', 'photo[tag_list]'
     
-    unless @album.sets.empty?
+    if @album.sets.present?
       has_tag 'input[name=?]', 'photo[set_ids][]'
     end
   end

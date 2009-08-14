@@ -10,7 +10,7 @@
 <% end -%>
 
 <ul id="comments_list">
-  <% unless @comments.empty? %>
+  <% if @comments.present? %>
     <% @comments.each do |comment, i| %>
     <li class="<%= cycle 'alt', '' %>" id="<%= dom_id(comment) %>">
 			<h4><%= link_to_content(comment.commentable, :namespace => nil) %></h4>

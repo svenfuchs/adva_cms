@@ -21,6 +21,6 @@ module MetaTagsHelper
   end
 
   def meta_value_from(*args)
-    args.detect { |arg| !arg.blank? }
+    args.detect { |arg| arg.present? }
   end
 end

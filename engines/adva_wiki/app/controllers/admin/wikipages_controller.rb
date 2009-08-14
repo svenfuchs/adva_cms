@@ -15,7 +15,7 @@ class Admin::WikipagesController < Admin::BaseController
   end
 
   def new
-    @wikipage = @section.wikipages.build(:title => @section.wikipages.empty? ? 'Home' : nil)
+    @wikipage = @section.wikipages.build(:title => @section.wikipages.present? ? nil : 'Home')
   end
 
   def create

@@ -16,7 +16,7 @@ class Article < Content
     def find_by_permalink(*args)
       options = args.extract_options!
       permalink = args.pop
-      unless args.empty?
+      if args.present?
         published(*args).find_by_permalink(permalink, options)
       else
         find :first, options.merge(:conditions => ["#{self.table_name}.permalink = ?", permalink])
@@ -46,7 +46,7 @@ class Article < Content
 
   def has_excerpt?
     return false if excerpt == "<p>&#160;</p>" # empty excerpt with fckeditor
-    !excerpt.blank?
+    excerpt.present?
   end
   
   def move_to(attributes = {})

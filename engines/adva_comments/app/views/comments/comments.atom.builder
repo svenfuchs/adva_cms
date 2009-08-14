@@ -1,6 +1,6 @@
 atom_feed :url => request.url do |feed|
   feed.title comments_feed_title(@site, @section, @commentable)
-  feed.updated @comments.empty? ? Time.now : @comments.first.created_at
+  feed.updated @comments.present? ? @comments.first.created_at : Time.now
 
   @comments.each do |comment|
     url = show_url(comment.commentable, :anchor => dom_id(comment))

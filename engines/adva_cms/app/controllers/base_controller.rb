@@ -25,7 +25,7 @@ class BaseController < ApplicationController
 
     def set_section(type = nil)
       if @site
-        @section = params[:section_id].blank? ? @site.sections.root : @site.sections.find(params[:section_id])
+        @section = params[:section_id].present? ? @site.sections.find(params[:section_id]) : @site.sections.root
       end
 
       if type && !@section.is_a?(type)
@@ -50,7 +50,7 @@ class BaseController < ApplicationController
     end
 
     def current_page
-      @page ||= params[:page].blank? ? 1 : params[:page].to_i
+      @page ||= params[:page].present? ? params[:page].to_i : 1
     end
 
     def set_commentable

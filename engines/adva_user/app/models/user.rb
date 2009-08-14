@@ -169,6 +169,6 @@ class User < ActiveRecord::Base
   protected
 
     def password_required?
-      !anonymous? && (password_hash.nil? || !password.blank?)
+      !anonymous? && (password_hash.nil? || password.present?)
     end
 end

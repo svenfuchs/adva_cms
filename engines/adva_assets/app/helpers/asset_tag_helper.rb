@@ -44,7 +44,7 @@ module AssetTagHelper
   #     if include_host && source !~ %r{^[-a-z]+://}
   #       host = compute_asset_host(source)
   # 
-  #       if has_request && !host.blank? && host !~ %r{^[-a-z]+://}
+  #       if has_request && host.present? && host !~ %r{^[-a-z]+://}
   #         host = "#{@controller.request.protocol}#{host}"
   #       end
   # 

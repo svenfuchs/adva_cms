@@ -33,7 +33,7 @@
 
     def set_photos
       scope = @set ? @set.all_contents : @section.photos
-      scope = scope.tagged(@tags) unless @tags.blank?
+      scope = scope.tagged(@tags) if @tags.present?
       limit = request.format == :html ? @section.photos_per_page : 15
       @photos = scope.published.paginate :page => current_page, :limit => limit
     end
