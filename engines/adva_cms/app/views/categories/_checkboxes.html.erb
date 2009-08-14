@@ -1,4 +1,4 @@
-<% unless categories.empty? %>
+<% if categories.present? %>
   <ul class="categories">
 		<%= hidden_field_tag "#{content.class.name.underscore}[category_ids][]", '' %>
     <% categories.each do |category| %>

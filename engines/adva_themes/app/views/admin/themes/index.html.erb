@@ -1,4 +1,4 @@
-<% unless @themes.empty? -%>
+<% if @themes.present? -%>
   <%= render :partial => 'theme', :collection => @themes %>
 <% else -%>
   <div class="empty">

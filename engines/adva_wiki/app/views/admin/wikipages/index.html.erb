@@ -11,7 +11,7 @@
 			r.cell wikipage.version
 			r.cell wikipage.updated_at.strftime('%d.%m.%Y %H:%M')
 			r.cell link_to(wikipage.author_link, admin_site_user_path(@site, wikipage.author))
-			r.cell !wikipage.comments.empty? ? link_to(wikipage.comments.size, admin_comments_path(:content_id => wikipage.id)) : 'none'
+			r.cell wikipage.comments.present? ? link_to(wikipage.comments.size, admin_comments_path(:content_id => wikipage.id)) : 'none'
 			r.cell link_to_preview(wikipage) + "\n" +
 						 links_to_actions([:edit, :delete], wikipage)
 		end

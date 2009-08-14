@@ -3,7 +3,7 @@
     <%= hidden_field_tag :'contact_mail[recipients]', @recipients %>
   </p>
 
-	<%= render_fields(@fields) unless @fields.blank? %>
+	<%= render_fields(@fields) if @fields.present? %>
 
   <%= submit_tag t(:'adva.common.labels.submit') %>
 <% end %>

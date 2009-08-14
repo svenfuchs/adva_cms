@@ -2,7 +2,7 @@
 	<% @articles.each do |article| %>
 		<li>
 			<h4><%= link_to_content(article) %></h4>
-			<% unless article.excerpt.blank? %>
+			<% if article.excerpt.present? %>
 				<p><%= article.excerpt %></p>
 			<% end %>
 		</li>

@@ -1,4 +1,4 @@
-<% unless @board.topics.empty? %>
+<% if @board.topics.present? %>
   <%= render :partial => 'topics' %>
 <% else %>
   <p id="topics" class="empty">

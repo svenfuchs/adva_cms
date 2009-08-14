@@ -1,4 +1,4 @@
-<% unless sets.empty? %>
+<% if sets.present? %>
   <ul class="sets">
     <% sets.each do |set| %>
       <li class="<%= cycle '', 'highlight', :name => 'photo_sets' %>">

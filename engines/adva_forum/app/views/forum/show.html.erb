@@ -1,6 +1,6 @@
 <% if @board %>
 	<%= render :partial => 'board' %>
-<% elsif !@boards.empty? %>
+<% elsif @boards.present? %>
   <%= render :partial => 'boards' %>
 <% else %>
   <%= render :partial => 'forum' %>

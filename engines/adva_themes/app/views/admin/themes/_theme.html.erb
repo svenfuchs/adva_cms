@@ -2,7 +2,7 @@
 	<li class="theme<%= ' current' if theme.active? %>">
 	  <h4 title="<%= theme.theme_id %>"><%= theme.name %></h4>
 	  <p>
-			<%= "v#{theme.version}" unless theme.version.blank? %>
+			<%= "v#{theme.version}" if theme.version.present? %>
 	    <%= t(:'adva.common.by_author', :author => theme.author_link) %>
 	  </p>
 		<%= link_to theme_image_tag(theme.theme_id, theme.preview.base_url, :title => theme.theme_id), index_path([theme, :'theme/file']) if theme.preview %>

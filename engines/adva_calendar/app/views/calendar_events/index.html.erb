@@ -3,7 +3,7 @@
 <div id="events">
 	<h2><%= collection_title(@category, @tags) %></h2>
 
-	<% unless @events.empty? -%>
+	<% if @events.present? -%>
 		<table>
 		  <thead>
 		    <tr>

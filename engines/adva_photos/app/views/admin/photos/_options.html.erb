@@ -6,7 +6,7 @@
 				  		 f.select(:comment_age, comment_expiration_options, {}, :label => :'adva.titles.comments') + "\n" +
 				  		 f.text_field(:tag_list, :label => 'Tags', :hint => :'adva.articles.hints.tags') + "\n"
 				
-				unless @sets.empty?
+				if @sets.present?
 					html << %(<label>#{t(:'adva.photos.admin.photos.publish_in_set')}</label>) + 
 		  	  		    render(:partial => 'sets/checkboxes', :locals => { :sets => @sets, :photo => @photo })
 				end

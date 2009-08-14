@@ -1,4 +1,4 @@
-<% unless users.blank? %>
+<% if users.present? %>
   <h3><%= t(:'adva.titles.recently_logged_in') %></h3>
   <ul id="users">
     <% users.each do |user| %>

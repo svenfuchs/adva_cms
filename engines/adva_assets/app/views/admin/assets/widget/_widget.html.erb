@@ -18,7 +18,7 @@
   <% end %>
 
   <% [:latest, :bucket].each do |type| %>
-    <% #unless assets[type].empty?
+    <% #if assets[type].present?
       unless assets[type].first.nil? -%>
     <ul id="<%= type %>_assets" class="panel asset_list">
       <%= render :partial => "admin/assets/widget/asset", :collection => assets[type], :locals => { :content => @article, :prefix => type } %>

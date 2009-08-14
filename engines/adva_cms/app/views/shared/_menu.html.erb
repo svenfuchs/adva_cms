@@ -1,4 +1,4 @@
-<% unless menu.empty? %>
+<% if menu.present? %>
 	<ul class="<%= menu.options[:class] %>">
 		<% menu.items.each do |item| %>
 			<li id="<%= item.id %>" class="<%= item.options[:class] %>">

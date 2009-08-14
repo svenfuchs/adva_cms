@@ -1,5 +1,5 @@
 <div id="sidebar">
-  <% if @section and !@section.categories.blank? %>
+  <% if @section and @section.categories.present? %>
     <h4><%= t(:'adva.sidebar.titles.topics') %></h4>
     <ul>
     <% @section.categories.each do |category| %>
@@ -8,7 +8,7 @@
     </ul>
   <% end %>
 
-  <% if @section and !@section.tag_counts.empty? %>
+  <% if @section and @section.tag_counts.present? %>
     <h4><%= t(:'adva.sidebar.titles.tags') %></h4>
     <ul>
     <% @section.tag_counts.each do |tag| %>

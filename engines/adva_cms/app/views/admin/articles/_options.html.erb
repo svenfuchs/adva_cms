@@ -8,7 +8,7 @@
 								%(<p class="hint" for="content_locale">#{t(:'adva.hints.locale')}</p>) +
 		            f.text_field(:tag_list, :label => true, :hint => :'adva.hints.tags')
 
-		  	unless @categories.empty?
+		  	if @categories.present?
 		  	  html << %(<label>#{t(:'adva.titles.publish_in_categories')}</label>) +
 		  	          render(:partial => 'categories/checkboxes', :locals => { :categories => @categories, :content => @article })
 		  	end

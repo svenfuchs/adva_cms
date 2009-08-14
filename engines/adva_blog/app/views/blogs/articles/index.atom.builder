@@ -2,7 +2,7 @@ atom_feed :url => request.url do |feed|
   title = "#{@site.title} » #{@section.title}"
 
   title = title + " » " + t( :'adva.blog.feeds.category', :category => @category.title ) if @category
-  title = title + " » " + t( :'adva.blog.feeds.tags', :tags => @tags.join(', '), :count => @tags.size ) unless @tags.blank?
+  title = title + " » " + t( :'adva.blog.feeds.tags', :tags => @tags.join(', '), :count => @tags.size ) if @tags.present?
 
   feed.title title
   feed.updated @articles.first ? @articles.first.updated_at : Time.now.utc

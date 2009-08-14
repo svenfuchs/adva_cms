@@ -20,7 +20,7 @@
 		end
 
 		t.empty :p, :class => 'empty' do
-			t(params[:query].blank? ? :'adva.cached_pages.no_entries' : :'adva.cached_pages.no_entries_matching_criteria')
+			t(params[:query].present? ? :'adva.cached_pages.no_entries_matching_criteria' : :'adva.cached_pages.no_entries')
 		end
 	end
 %>

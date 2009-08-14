@@ -3,7 +3,7 @@
 		<ul><li class="active"><a href="#files"><%= t(:'adva.titles.files') %></a></li></ul>
 		<div class="tab active" id="tab_files">
 		  <% [:templates, :stylesheets, :javascripts, :images, :others].each do |type| files = @theme.send(type) %>
-			  <% unless files.empty? %>
+			  <% if files.present? %>
 			    <h3><%= t(:"adva.theme_files.types.#{type}") %></h3>
 			    <ul>
 			      <% files.each do |file| %>

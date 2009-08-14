@@ -1,4 +1,4 @@
-<% unless contents.blank? -%>
+<% if contents.present? -%>
   <h3><%= t(:'adva.comments.titles.comments_awaiting_approval') %></h3>
   <ul>
   <% contents.each do |content, comments| -%>

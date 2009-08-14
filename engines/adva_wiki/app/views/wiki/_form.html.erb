@@ -8,7 +8,7 @@
   <%= f.text_area :body, :label => true %>
 </p>
 
-<% unless @section.categories.blank? %>
+<% if @section.categories.present? %>
 <p>
   <label>Categories</label>
   <% @section.categories.each do |category| %>

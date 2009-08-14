@@ -1,6 +1,6 @@
 <% content_for :footer do %>
   <div id="footer" class="clearing">
-    <% if !@section.categories.blank? %>
+    <% if @section.categories.present? %>
       <div>
         <h4><%=t :'adva.titles.categories' %></h4>
         <ul id="categories_list">
@@ -11,7 +11,7 @@
       </div>
     <% end %>
 
-    <% if !@section.article_counts_by_month.blank? %>
+    <% if @section.article_counts_by_month.present? %>
       <div>
         <h4><%=t :'adva.titles.archives' %></h4>
         <ul id="archives">
@@ -22,7 +22,7 @@
       </div>
     <% end %>
     
-    <% if false and @section and !@section.tag_counts.empty? %>
+    <% if false and @section and @section.tag_counts.present? %>
       <h4><%=t :'adva.titles.tags' %></h4>
       <ul id="tags_list">
       <% @section.tag_counts.each do |tag| %>

@@ -39,8 +39,8 @@
 			r.cell will_paginate(@events, :id => 'pagination')
 		end
 
-		t.empty :div, params[:filter].blank? ?
-			t(:'adva.calendar.errors.no_events_in_calendar') + "\n" + link_to_new(:'adva.calendar.links.new', [@section, :calendar_event]) :
-			t(:'adva.calendar.errors.no_events_found'), :class => 'empty'
+		t.empty :div, params[:filter].present? ?
+			t(:'adva.calendar.errors.no_events_found') :
+			t(:'adva.calendar.errors.no_events_in_calendar') + "\n" + link_to_new(:'adva.calendar.links.new', [@section, :calendar_event]), :class => 'empty'
 	end
 %>

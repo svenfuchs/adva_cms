@@ -1,5 +1,5 @@
 <% content_for :sidebar do %>
-	<% if @plugin.about.detect { |key, value| !value.blank? } %>
+	<% if @plugin.about.detect { |key, value| value.present? } %>
 		<div class="tabs">
 			<ul>
 				<li class="active"><a href="#about" onclick="return false;"><%= t(:'adva.common.about') %></a></li>
@@ -29,7 +29,7 @@
 
 <h3><%= t(:'adva.titles.settings') %></h3>
 
-<% unless @plugin.option_definitions.empty? %>
+<% if @plugin.option_definitions.present? %>
   <% form_for :plugin, @plugin, :url => admin_plugin_path(@site), :html => { :method => :put } do |f| -%>
     <%= render :partial => 'form', :locals => {:f => f} %>
     <% f.buttons do %>

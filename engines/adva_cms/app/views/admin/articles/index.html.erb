@@ -5,7 +5,7 @@
 
 		t.row do |r, article|
 			r.cell link_to_edit(article.title, article, :class => article.state)
-  		r.cell article.accept_comments? && !article.comments.empty? ? link_to(article.comments.size, admin_comments_path) : t(:"adva.common.none")
+  		r.cell article.accept_comments? && article.comments.present? ? link_to(article.comments.size, admin_comments_path) : t(:"adva.common.none")
 			r.cell published_at_formatted(article)
 			r.cell link_to(article.author_name, admin_site_user_path(@site, article.author))
 			r.cell link_to_preview(article) + "\n" +

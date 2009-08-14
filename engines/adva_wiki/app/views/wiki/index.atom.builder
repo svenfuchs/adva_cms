@@ -1,7 +1,7 @@
 atom_feed :url => request.url do |feed|
   title = "#{@site.title} » #{@section.title}"
   title = title + " » Category #{@category.title}" if @category
-  title = title + " » #{@tags.size == 1 ? 'Tag' : 'Tags'}: #{@tags.join(', ')}" unless @tags.blank?
+  title = title + " » #{@tags.size == 1 ? 'Tag' : 'Tags'}: #{@tags.join(', ')}" if @tags.present?
   
   feed.title title
   feed.updated @wikipages.first ? @wikipages.first.updated_at : Time.now.utc
