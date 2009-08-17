@@ -72,7 +72,7 @@ class InstallationTest < ActionController::IntegrationTest
 
     # go to admin main page
     get admin_site_path(Site.first)
-
+    
     # check that the user sees the site dashboard
     assert_template "admin/sites/show"
     

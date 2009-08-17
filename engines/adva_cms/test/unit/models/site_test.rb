@@ -73,6 +73,23 @@ class SiteTest < ActiveSupport::TestCase
     lambda{ User.find user.id }.should raise_error(ActiveRecord::RecordNotFound)
   end
   
+  # CLASS METHODS
+  
+  test "find_by_host! returns the first site on single_site_mode when there is only one site existing" do
+    site = Site.find_by_host('another-site.com')
+    Site.all.each {|s| s.delete unless s == site}
+    Site.find_by_host!('whatever').should == site
+  end
+  
+  test "find_by_host! returns the site with given host on single_site_mode when there is more than one site existing" do
+    Site.find_by_host!('another-site.com').should == Site.find_by_host('another-site.com')
+  end
+  
+  test "find_by_host! returns the site with given host on multi_site_mode" do
+    Site.multi_sites_enabled = true
+    Site.find_by_host!('another-site.com').should == Site.find_by_host('another-site.com')
+  end
+  
   # INSTANCE METHODS
   
   # FIXME shouldn't this just happen in host= ? otherwise rename to something 

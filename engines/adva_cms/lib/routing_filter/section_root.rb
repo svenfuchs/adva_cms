@@ -38,7 +38,7 @@ module RoutingFilter
       end
     
       def find_root_by_host(env)
-        site = Site.find_by_host(env[:host_with_port])
+        site = Site.find_by_host!(env[:host_with_port])
         site.sections.root if site
       end
   end

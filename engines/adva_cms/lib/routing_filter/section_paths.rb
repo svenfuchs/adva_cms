@@ -4,7 +4,7 @@
 module RoutingFilter
   class SectionPaths < Base
     def around_recognize(path, env, &block)
-      site = Site.find_by_host(env[:host_with_port])
+      site = Site.find_by_host!(env[:host_with_port])
       paths = paths_for_site(site)
       if path !~ %r(^/([\w]{2,4}/)?admin) and !paths.empty? and path =~ recognize_pattern(paths)
         if section = section_by_path(site, $2)

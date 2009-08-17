@@ -37,7 +37,8 @@ class Site < ActiveRecord::Base
 
   class << self
     def find_by_host!(host)
-      find_by_host(host) || raise(ActiveRecord::RecordNotFound, "Could not find site for hostname #{host}.")
+      return Site.first if count == 1 && !multi_sites_enabled
+      find_by_host(host) # || raise(ActiveRecord::RecordNotFound, "Could not find site for hostname #{host}.")
     end
 
     # TODO how to make this an association or assoc extension so we can use it
