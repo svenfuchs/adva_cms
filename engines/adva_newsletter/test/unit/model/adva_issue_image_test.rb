@@ -77,6 +77,7 @@ class AdvaIssueImageTest < ActiveSupport::TestCase
   end
   
   test "#file errors should be logged" do
+    stub(Adva::IssueImage).open { raise OpenURI::HTTPError }
     mock(RAILS_DEFAULT_LOGGER).debug(is_a(String))
     Adva::IssueImage.new("<img src='http://example.com/no_file.jpg' />").file
   end
