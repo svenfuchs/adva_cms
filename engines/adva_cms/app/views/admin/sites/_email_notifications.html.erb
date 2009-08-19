@@ -3,13 +3,13 @@
 <% f.field_set :email_notification do %>
 	<% column do %>
 	    <label for="email_notification">
-	      <%=t @site.email_notification ? :'adva.sites.label.deactivate_email_notification' :   
+	      <%=t @site && @site.email_notification ? :'adva.sites.label.deactivate_email_notification' :   
 	 																			:'adva.sites.label.activate_email_notification' %>
 	    </label>
 	    <p class="hint" for="email_notification">
 	      <%=t :'adva.sites.hints.email_notification' %>
 	    </p>
 			
-			<%= f.check_box :email_notification, { :label => @site.email_notification ? :'adva.sites.email_notification_activated' : :'adva.sites.email_notification_deactivated' } %>
+			<%= f.check_box :email_notification, { :label => @site && @site.email_notification ? :'adva.sites.email_notification_activated' : :'adva.sites.email_notification_deactivated' } %>
 	<% end %>
 <% end %>
