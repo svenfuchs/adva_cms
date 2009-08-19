@@ -1,0 +1,118 @@
+/* reset.css */
+html, body, div, span, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, code,
+del, dfn, em, img, q, dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+  font-size: 15px;
+}
+
+/* header.css */
+#main_menu .left li.active > a {
+  background: #eae9e8;
+}
+#main_menu ul.actions li.active a {
+  background: #eae9e8;
+}
+#breadcrumbs li,
+#breadcrumbs li a {
+  font-size: 10pt;
+}
+#header .right,
+#header .right a {
+  font-size: 10pt;
+}
+#main_menu ul.actions li a {
+  font-size: 15px;
+}
+
+/* layout.css */
+#top {
+  border-bottom-color: #ff342b;
+}
+
+#header {
+  background-color: #ffffed;
+  border-bottom-color: #eae9e8;
+}
+
+/* sidebar.css */
+#sidebar .tabs > ul {
+  background-color: #eae9e8;
+}
+#sidebar input[type=text],
+#sidebar textarea {
+  font-size: 14px;
+}
+#sidebar .tabs > ul li a {
+  font-size: 15px;
+}
+#sidebar .tabs > ul li.active a {
+  background: #f6f6f6;
+}
+
+/* top.css */
+#top > ul > li > a {
+  font-weight: bold;
+/*  font-size: 16px;*/
+}
+#top .active > a, #top .active:hover > a {
+  background: #ff342b;
+}
+#top li > ul {
+  border-top-color: #ff342b;
+}
+#sections_menu a.active {
+  background-color: #ff342b;
+}
+
+/* helptip.css */
+.hint {
+  font-size: 1em;
+  color: #eae9e8;
+  margin-top: 6px;
+}
+
+.large {
+  font-size: 1.20em;
+  color: #aaa;
+}
+
+#helptip {
+  background-color: #f1f1f1;
+  opacity: 1;
+}
+
+/* common.css */
+p.flash.notice {
+  background: #e5ffe5;
+  color: #051;
+}
+p.flash.error {
+  background: #FFD6D6;
+  color: #000;
+}
+
+/* themes.css */
+#theme_list h4 {
+  font-size: 18px;
+}
+#theme_list p {
+  font-size: 14px;
+}
+
+/* forms.css */
+input[type=text],
+input[type=password],
+textarea {
+  font-size: 16px;
+}
+select {
+  height: 24px;
+  max-width: 100%;
+  font-size: 14px;
+}
+#content form h2 {
+  font-size: 14pt;
+}
