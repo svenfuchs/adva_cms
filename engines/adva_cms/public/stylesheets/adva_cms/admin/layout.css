@@ -22,13 +22,14 @@ body > div {
 #top {
   padding-top: 5px;
   background-color: black;
-  border-bottom: 5px solid;
+  border-bottom: 5px solid #c22222;
   white-space: nowrap;
 }
 #header {
   height: 75px;
   /*background: #fbf7e4 url(/images/adva_cms/admin/header_bg.png) bottom left;*/
-  border-bottom: 4px solid;
+  background-color: #fbf7e4;
+  border-bottom: 4px solid #ddd;
 }
 #page > form {
   display: table-row;

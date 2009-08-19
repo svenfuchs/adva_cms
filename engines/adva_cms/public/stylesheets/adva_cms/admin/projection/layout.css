@@ -1,8 +1,8 @@
 #top {
-  border-bottom: 5px solid #ff342b;
+  border-bottom-color: #ff342b;
 }
 
 #header {
   background-color: #ffffed;
-  border-bottom: 4px solid #eae9e8;
+  border-bottom-color: #eae9e8;
 }

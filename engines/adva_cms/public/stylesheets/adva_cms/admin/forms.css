@@ -84,6 +84,7 @@ div.double-label label:first-child {
 /* end of wrapper div */
 
 #content form h2 {
+  font-size: 12pt;
 }
 #content form p {
   margin-top: 0.5em;

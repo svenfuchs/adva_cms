@@ -23,6 +23,7 @@
 #breadcrumbs li,
 #breadcrumbs li a {
   color: #999;
+  font-size: 9pt;
 }
 
 #header .right {
@@ -70,6 +71,9 @@
   background-color: #fff;
   text-decoration: none;
 }
+#main_menu .left li.active > a {
+  background: #ddd url(/images/adva_cms/admin/tab_main_active.png) repeat-x;
+}
 #main_menu ul.actions {
   text-align: right;
   margin-left: 8px;
@@ -90,6 +94,9 @@
 #main_menu ul.actions li a:hover {
   background: #fff;
   text-decoration: none;
+}
+#main_menu ul.actions li.active a {
+  background: #ddd;
 }
 #search {
   position: absolute;

@@ -1,5 +1,11 @@
 .hint {
   margin-top: 6px;
+  font-size: 0.85em;
+  color: #999;
+}
+
+.large {
+  font-size: 1em;
 }
 
 .move_up {
@@ -16,6 +22,7 @@
 	opacity: 0.90;
 	padding: 5px;
 	width: inherit;
+  background-color: #ddd;
 }
 
 #helptip h3 { 

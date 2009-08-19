@@ -14,11 +14,13 @@
 }
 #theme_list h4 {
   margin: 0px 0px 4px 0px;
+  font-size: 14px;
 }
 #theme_list p {
   margin: 0px 0px 8px 0px;
   font-weight: normal;
   color: #777;
+  font-size: 11px;
 }
 #theme_list img,
 #screenshot img {

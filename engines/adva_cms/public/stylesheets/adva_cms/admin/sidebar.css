@@ -26,12 +26,14 @@
 #sidebar .tabs > ul {
   overflow: auto;
   padding: 0px 12px 0px 12px;
+  background-color: #ddd;
 }
 #sidebar .tabs > ul li {
   float: left;
 }
 #sidebar .tabs > ul li a {
   display: block;
+  font-size: 12px;
   padding: 3px 15px;
   outline: none;
   -webkit-border-top-left-radius: 4px;
@@ -40,6 +42,7 @@
   -moz-border-top-right-radius: 4px;
 }
 #sidebar .tabs > ul li.active a {
+  background: #f6f6f6 url(/images/adva_cms/admin/tab_sidebar_active.png) repeat-x;
 }
 #sidebar .tabs > ul li a:hover {
   background-color: #fff;

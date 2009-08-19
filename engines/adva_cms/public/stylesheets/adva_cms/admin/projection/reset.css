@@ -4,22 +4,5 @@ a, abbr, acronym, address, code,
 del, dfn, em, img, q, dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-weight: inherit;
-  font-style: inherit;
   font-size: 15px;
-  font-family: inherit;
-  vertical-align: baseline;
 }
-
-body { 
-  line-height: 1.5; 
-}
-
-table { border-collapse: separate; border-spacing: 0; }
-caption, th, td { text-align: left; font-weight: normal; }
-table, td, th { vertical-align: middle; }
-
-a img { border: none; }
