@@ -51,7 +51,7 @@ class AdminAssetsControllerTest < ActionController::TestCase
         it_assigns :site, :assets
         it_changes '@site.reload.assets.count' => 1
         it_assigns_flash_cookie :notice => :not_nil
-        it_redirects_to { admin_assets_path(@site.id) }
+        it_redirects_to { admin_assets_url(@site.id) }
       end
     end
 
@@ -72,7 +72,7 @@ class AdminAssetsControllerTest < ActionController::TestCase
       with :access_granted do
         it_assigns :site, :asset
         it_updates :asset
-        it_redirects_to { admin_assets_path(@site) }
+        it_redirects_to { admin_assets_url(@site) }
         it_assigns_flash_cookie :notice => :not_nil
       end
     end
@@ -93,7 +93,7 @@ class AdminAssetsControllerTest < ActionController::TestCase
     with :access_granted do
       it_assigns :site, :asset
       it_destroys :asset
-      it_redirects_to { admin_assets_path(@site) }
+      it_redirects_to { admin_assets_url(@site) }
 
       # FIXME
       # before do

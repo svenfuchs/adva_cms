@@ -15,10 +15,10 @@ class Admin::BoardsController < Admin::BaseController
   end
 
   def create
-    @board = @section.boards.build params[:board]
+    @board = @section.boards.build(params[:board])
     if @board.save
       flash[:notice] = t(:'adva.boards.flash.create.success')
-      redirect_to admin_boards_path
+      redirect_to admin_boards_url
     else
       flash.now[:error] = t(:'adva.boards.flash.create.failure')
       render :action => "new"
@@ -29,9 +29,9 @@ class Admin::BoardsController < Admin::BaseController
   end
 
   def update
-    if @board.update_attributes params[:board]
+    if @board.update_attributes(params[:board])
       flash[:notice] = t(:'adva.boards.flash.update.success')
-      redirect_to admin_boards_path
+      redirect_to admin_boards_url
     else
       flash.now[:error] = t(:'adva.boards.flash.update.failure')
       render :action => 'edit'
@@ -46,7 +46,7 @@ class Admin::BoardsController < Admin::BaseController
   def destroy
     if @board.destroy # FIXME remove if else, or is there really a scenario for it?
       flash[:notice] = t(:'adva.boards.flash.destroy.success')
-      redirect_to admin_boards_path
+      redirect_to admin_boards_url
     else
       flash.now[:error] = t(:'adva.boards.flash.destroy.failure')
       render :action => 'edit'
@@ -60,7 +60,7 @@ class Admin::BoardsController < Admin::BaseController
     end
 
     def set_boards
-      @boards = @section.boards :order => :position
+      @boards = @section.boards(:order => :position)
     end
 
     def set_board

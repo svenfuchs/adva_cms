@@ -16,14 +16,14 @@
 
   def index
     respond_to do |format|
-      format.html { render }
+      format.html
       # format.atom { render :layout => false }
     end
   end
 
   def show
     respond_to do |format|
-      format.html { render }
+      format.html
       # format.atom { render :layout => false }
     end
   end
@@ -34,24 +34,24 @@
     def set_photos
       scope = @set ? @set.all_contents : @section.photos
       scope = scope.tagged(@tags) if @tags.present?
-      limit = request.format == :html ? @section.photos_per_page : 15
-      @photos = scope.published.paginate :page => current_page, :limit => limit
+      limit = request.format == :html ? @section.photos_per_page : 15 # TODO: why?
+      @photos = scope.published.paginate(:page => current_page, :limit => limit)
     end
 
     def set_photo
-      @photo = @section.photos.find params[:photo_id], :include => :author
+      @photo = @section.photos.find(params[:photo_id], :include => :author)
       if !@photo || !@photo.published? && !can_preview?
         raise ActiveRecord::RecordNotFound
       end
     rescue ActiveRecord::RecordNotFound
       flash[:error] = t(:'adva.photos.flash.photo.set_photo.failure')
       write_flash_to_cookie # TODO make around filter or something
-      redirect_to album_path(@section)
+      redirect_to album_url(@section)
     end
 
     def set_set
       if params[:set_id]
-        @set = @section.sets.find params[:set_id]
+        @set = @section.sets.find(params[:set_id])
       end
     rescue ActiveRecord::RecordNotFound
       flash[:error] = t(:'adva.photos.flash.photo.set_set.failure')

@@ -89,7 +89,7 @@ class Admin::CalendarEventsControllerTest < ActionController::TestCase
       it_assigns_flash_cookie :notice => :not_nil
       it_assigns_flash_cookie :error  => nil
       it_redirects_to do
-        edit_admin_calendar_event_path(default_params.merge(:action => 'edit', :id => @section.events.last.id))
+        edit_admin_calendar_event_url(default_params.merge(:action => 'edit', :id => @section.events.last.id))
       end
       it_sweeps_page_cache :by_reference => :section
     end
@@ -111,7 +111,7 @@ class Admin::CalendarEventsControllerTest < ActionController::TestCase
       it_assigns_flash_cookie :notice => :not_nil
       it_saves :event
       it_redirects_to do
-        edit_admin_calendar_event_path(default_params.merge(:action => 'edit', :id => @event.id))
+        edit_admin_calendar_event_url(default_params.merge(:action => 'edit', :id => @event.id))
       end
       it_sweeps_page_cache :by_reference => :event
     end
@@ -122,7 +122,7 @@ class Admin::CalendarEventsControllerTest < ActionController::TestCase
     it_assigns :event => lambda { @event }
     it_guards_permissions :destroy, :calendar_event
 
-    it_redirects_to { admin_calendar_events_path(@site, @section) }
+    it_redirects_to { admin_calendar_events_url(@site, @section) }
     it_assigns_flash_cookie :notice => :not_nil
     it_sweeps_page_cache :by_reference => :event
   end

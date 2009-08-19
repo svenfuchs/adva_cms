@@ -132,6 +132,7 @@ class Content < ActiveRecord::Base
 
     def update_categories(category_ids)
       category_ids = Array(category_ids).reject(&:blank?)
+      return if category_ids.empty?
 
       categories.each do |category|
         category_ids.delete(category.id.to_s) || categories.delete(category)

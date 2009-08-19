@@ -20,7 +20,7 @@ class WikiController < BaseController
 
   def index
     respond_to do |format|
-      format.html { } 
+      format.html
       format.atom { render :layout => false }
     end
   end
@@ -32,7 +32,7 @@ class WikiController < BaseController
   def show
     set_categories if @wikipage.new_record?
     if @wikipage.new_record?
-      if has_permission? :create, :wikipage
+      if has_permission?(:create, :wikipage)
         render :action => :new, :skip_caching => true
       else
         redirect_to_login t(:'adva.wiki.redirect_to_login')
@@ -41,15 +41,15 @@ class WikiController < BaseController
   end
 
   def diff
-    @diff = @wikipage.diff_against_version params[:diff_version]
+    @diff = @wikipage.diff_against_version(params[:diff_version])
   end
 
   def create
     @wikipage = @section.wikipages.build(params[:wikipage])
     if @wikipage.save
-      trigger_events @wikipage
+      trigger_events(@wikipage)
       flash[:notice] = t(:'adva.wiki.flash.create.success')
-      redirect_to wikipage_path(@wikipage)
+      redirect_to wikipage_url(@wikipage)
     else
       flash[:error] = t(:'adva.wiki.flash.create.failure')
       render :action => :new
@@ -66,9 +66,9 @@ class WikiController < BaseController
 
   def update_attributes
     if @wikipage.update_attributes(params[:wikipage])
-      trigger_event @wikipage, :updated
+      trigger_event(@wikipage, :updated)
       flash[:notice] = t(:'adva.wiki.flash.update_attributes.success')
-      redirect_to wikipage_path(@wikipage)
+      redirect_to wikipage_url(@wikipage)
     else
       flash.now[:error] = t(:'adva.wiki.flash.update_attributes.failure')
       render :action => :edit
@@ -78,21 +78,21 @@ class WikiController < BaseController
   def rollback
     version = params[:wikipage][:version].to_i
     if @wikipage.version != version and @wikipage.revert_to(version)
-      trigger_event @wikipage, :rolledback
+      trigger_event(@wikipage, :rolledback)
       flash[:notice] = t(:'adva.wiki.flash.rollback.success', :version => version)
-      redirect_to wikipage_path(@wikipage)
+      redirect_to wikipage_url(@wikipage)
     else
       flash.now[:error] = t(:'adva.wiki.flash.rollback.failure', :version => version)
-      redirect_to wikipage_path(@wikipage, :version => @wikipage.version)
+      redirect_to wikipage_url(@wikipage, :version => @wikipage.version)
       # render :action => :edit
     end
   end
 
   def destroy
     if @wikipage.destroy
-      trigger_events @wikipage
+      trigger_events(@wikipage)
       flash[:notice] = t(:'adva.wiki.flash.destroy.success')
-      redirect_to wiki_path(@section)
+      redirect_to wiki_url(@section)
     else
       flash.now[:error] = t(:'adva.wiki.flash.destroy.failure')
       render :action => :show
@@ -105,22 +105,22 @@ class WikiController < BaseController
 
     def set_wikipage
       # TODO do not initialize a new wikipage on :edit and :update actions
-      @wikipage = @section.wikipages.find_or_initialize_by_permalink params[:id] || 'home'
+      @wikipage = @section.wikipages.find_or_initialize_by_permalink(params[:id] || 'home')
       raise t(:'adva.wiki.exception.could_not_find_wikipage_by_permalink', :id => params[:id]) if params[:show] && @wikipage.new_record?
       @wikipage.revert_to(params[:version]) if params[:version]
-      @wikipage.author = current_user || User.anonymous if @wikipage.new_record? || 
+      @wikipage.author = current_user || User.anonymous if @wikipage.new_record? ||
         params[:action] == 'edit'
     end
 
     def set_wikipages
       scope = @category ? @category.contents : @section.wikipages
       scope = scope.tagged(@tags) if @tags.present?
-      @wikipages = scope.paginate :page => current_page
+      @wikipages = scope.paginate(:page => current_page)
     end
 
     def set_category
       if params[:category_id]
-        @category = @section.categories.find params[:category_id]
+        @category = @section.categories.find(params[:category_id])
         raise ActiveRecord::RecordNotFound unless @category
       end
     end

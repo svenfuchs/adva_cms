@@ -21,9 +21,9 @@ class Admin::WikipagesController < Admin::BaseController
   def create
     @wikipage = @section.wikipages.create(params[:wikipage])
     if @wikipage.valid?
-      trigger_events @wikipage
+      trigger_events(@wikipage)
       flash[:notice] = t(:'adva.wikipage.flash.create.succsess')
-      redirect_to edit_admin_wikipage_path(@site, @section, @wikipage)
+      redirect_to edit_admin_wikipage_url(@site, @section, @wikipage)
     else
       flash[:error] = t(:'adva.wikipage.flash.create.failure')
       set_categories
@@ -40,9 +40,9 @@ class Admin::WikipagesController < Admin::BaseController
 
   def update_attributes
     if @wikipage.update_attributes(params[:wikipage])
-      trigger_events @wikipage
+      trigger_events(@wikipage)
       flash[:notice] = t(:'adva.wikipage.flash.update_attributes.success')
-      redirect_to edit_admin_wikipage_path
+      redirect_to edit_admin_wikipage_url
     else
       flash[:error] = t(:'adva.wikipage.flash.update_attributes.failure')
       set_categories
@@ -53,20 +53,20 @@ class Admin::WikipagesController < Admin::BaseController
   def rollback
     version = params[:wikipage][:version].to_i
     if @wikipage.version != version and @wikipage.revert_to(version)
-      trigger_event @wikipage, :rolledback
+      trigger_event(@wikipage, :rolledback)
       flash[:notice] = t(:'adva.wikipage.flash.rollback.success', :version => params[:version])
-      redirect_to edit_admin_wikipage_path
+      redirect_to edit_admin_wikipage_url
     else
       flash.now[:error] = t(:'adva.wikipage.flash.rollback.failure', :version => params[:version])
-      redirect_to edit_admin_wikipage_path
+      redirect_to edit_admin_wikipage_url
     end
   end
 
   def destroy
     if @wikipage.destroy
-      trigger_events @wikipage
+      trigger_events(@wikipage)
       flash[:notice] = t(:'adva.wikipage.flash.destroy.success')
-      redirect_to admin_wikipages_path
+      redirect_to admin_wikipages_url
     else
       flash[:error] = t(:'adva.wikipage.flash.destroy.failure')
       render :action => 'show'
@@ -84,7 +84,7 @@ class Admin::WikipagesController < Admin::BaseController
     end
 
     def set_wikipage
-      @wikipage = @section.wikipages.find params[:id]
+      @wikipage = @section.wikipages.find(params[:id])
       @wikipage.revert_to params[:version] if params[:version]
     end
 
@@ -97,4 +97,3 @@ class Admin::WikipagesController < Admin::BaseController
       params[:wikipage][key] = value
     end
 end
-

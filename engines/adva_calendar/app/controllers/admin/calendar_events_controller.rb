@@ -32,7 +32,7 @@ class Admin::CalendarEventsController < Admin::BaseController
     if @event.save
       trigger_events @event
       flash[:notice] = t(:'adva.calendar.flash.create.success')
-      redirect_to edit_admin_calendar_event_path(@site.id, @section.id, @event.id)
+      redirect_to edit_admin_calendar_event_url(@site.id, @section.id, @event.id)
     else
       set_categories
       flash[:error] = t(:'adva.calendar.flash.create.failure')
@@ -48,7 +48,7 @@ class Admin::CalendarEventsController < Admin::BaseController
     if @event.save
       trigger_events @event
       flash[:notice] = t(:'adva.calendar.flash.update.success')
-      redirect_to edit_admin_calendar_event_path(@site.id, @section.id, @event.id)
+      redirect_to edit_admin_calendar_event_url(@site.id, @section.id, @event.id)
     else
       flash[:error] = t(:'adva.calendar.flash.update.failure')
       render :action => 'edit'
@@ -59,7 +59,7 @@ class Admin::CalendarEventsController < Admin::BaseController
     if @event.destroy
       trigger_events @event
       flash[:notice] = t(:'adva.calendar.flash.destroy.success')
-      redirect_to admin_calendar_events_path
+      redirect_to admin_calendar_events_url
     else
       flash[:error] = t(:'adva.calendar.flash.destroy.failure')
       render :action => 'show'
@@ -70,13 +70,13 @@ class Admin::CalendarEventsController < Admin::BaseController
     def set_menu
       @menu = Menus::Admin::Calendar.new
     end
-  
+
     def set_section
       @calendar = @section = Calendar.find(params[:section_id], :conditions => {:site_id => @site.id})
     end
 
     def set_event
-      @event = @calendar.events.find params[:id]
+      @event = @calendar.events.find(params[:id])
     end
 
     def set_categories
@@ -84,21 +84,21 @@ class Admin::CalendarEventsController < Admin::BaseController
     end
 
     def params_category_ids
-      default_calendar_event_param :category_ids, []
+      default_calendar_event_param(:category_ids, [])
     end
 
     def params_draft
-      set_calendar_event_param :published_at, nil if save_draft?
+      set_calendar_event_param(:published_at, nil) if save_draft?
     end
 
     def params_published_at
       date = Time.extract_from_attributes!(params[:calendar_event], :published_at, :local)
-      set_calendar_event_param :published_at, date if date && !save_draft?
+      set_calendar_event_param(:published_at, date) if date && !save_draft?
     end
 
     def params_dates
-      set_calendar_event_param :start_date, Time.parse(params[:calendar_event][:start_date]) if params[:calendar_event][:start_date].present?
-      set_calendar_event_param :end_date, Time.parse(params[:calendar_event][:end_date]) if params[:calendar_event][:end_date].present?
+      set_calendar_event_param(:start_date, Time.parse(params[:calendar_event][:start_date])) if params[:calendar_event][:start_date].present?
+      set_calendar_event_param(:end_date, Time.parse(params[:calendar_event][:end_date])) if params[:calendar_event][:end_date].present?
     end
 
     def save_draft?

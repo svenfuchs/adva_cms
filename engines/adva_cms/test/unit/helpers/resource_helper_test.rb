@@ -27,7 +27,7 @@ class ResourceHelperTest < ActionView::TestCase
       }
     }
   end
-  
+
   def teardown
     RoutingFilter.active = @old_routing_filter_active
   end
@@ -36,7 +36,7 @@ class ResourceHelperTest < ActionView::TestCase
     show_path(@blog_article).should =~ @paths[:blog_articles][:show]
     show_path(@page_article).should =~ @paths[:page_articles][:show]
   end
-  
+
   test 'resource_link helpers for articles' do
     assert_html link_to_show(@blog_article), 'a[href=?][class=show article]', @paths[:blog_articles][:show], 'Show'
     assert_html link_to_show(@page_article), 'a[href=?][class=show article]', @paths[:page_articles][:show], 'Show'
@@ -52,6 +52,7 @@ class AdminResourceHelperTest < ActionView::TestCase
     @article = Article.find_by_title 'a page article'
     @section = @article.section
     @category = @article.categories.first
+
     @site = @section.site
     @controller = Class.new { def controller_path; 'admin/articles' end }.new
     I18n.backend.send :merge_translations, :en, :foo => 'FOO'
@@ -160,11 +161,11 @@ class AdminResourceHelperTest < ActionView::TestCase
     link_to_edit(@article).should =~ /title="Edit"/
     link_to_delete(@article).should =~ /title="Delete"/
   end
-  
+
   test 'should not populate title option because there is no translation for given action' do
     link_to_index(@article).should_not =~ /title=/
   end
-  
+
   test 'should return given title' do
     link_to_index(@article,   :title => "test-title").should =~ /title="test-title"/
     link_to_new(@article,     :title => "test-title").should =~ /title="test-title"/
@@ -172,7 +173,7 @@ class AdminResourceHelperTest < ActionView::TestCase
     link_to_edit(@article,    :title => "test-title").should =~ /title="test-title"/
     link_to_delete(@article,  :title => "test-title").should =~ /title="test-title"/
   end
-  
+
   test 'resurce_url should return resource path with subclass' do
     #TODO currently there are no subclass modelis in adva_cms to test against
   end
