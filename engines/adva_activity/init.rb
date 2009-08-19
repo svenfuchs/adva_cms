@@ -12,8 +12,4 @@ ActiveRecord::Base.observers << 'activities/comment_observer'  if Rails.plugin?(
 ActiveRecord::Base.observers << 'activities/topic_observer'    if Rails.plugin?(:adva_forum)
 ActiveRecord::Base.observers << 'activities/wikipage_observer' if Rails.plugin?(:adva_wiki)
 
-I18n.load_path += Dir[File.dirname(__FILE__) + '/locale/**/*.yml']
-
 register_stylesheet_expansion :admin => %w( adva_activity/admin/activities )
-
-
