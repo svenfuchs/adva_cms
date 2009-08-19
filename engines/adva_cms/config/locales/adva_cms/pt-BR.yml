@@ -109,6 +109,9 @@ pt-BR:
       author_name: Nome
       author_email: E-Mail
       filters: Filtros
+    hints:
+      meta_keywords: Enter a few words separated by commas to describe your content. Meta keywords make it easier for search engines to find your page.
+      meta_description: Enter a short description of this page so a search engine can tell users what they can find here.
     messages: 
       insufficient_permissions: 
         title: Permissões insuficientes
@@ -178,6 +181,11 @@ pt-BR:
     sections:
       hints:
         content_filter: Quando artigos são postados, eles usam estas configurações como padrão.
+        sections: "Listed here are all the sections currently on your site. Whichever section is on top is the default homepage."
+        reorder: "You can use the reorder option to set your home root to different section and to reorder your sections. If you want to nest your sections you can drag the section to the right and its gets set as a child of the upper section.  Finish the reordering by clicking the reorder button. Please note that this option is only available when you have 2 or more sections."
+        parent_setting: Choosing a parent for your section will nest this section under the chosen parent. Leave empty if you want to create this section as a root section.
+        parent_setting_for_edit: "You can use the reorder button on the index page of sections to nest and reorder your sections, you can find further instructions for this on the index page help hints."
+        permalink: "You can use normal letters and special letters like scandinavian letters but avoid special characters like $%&!"
       titles:
         page_settings: Configurações específicas da página
         blog_settings: Configurações específicas do blog
@@ -242,6 +250,11 @@ pt-BR:
     categories:
       attributes:
         name: nome
+      hints:
+        reorder: "You can use the reorder option to reorder your categories. If you want to nest your categories you can drag the category to the right and its gets set as a child of the upper category. Finish the reordering by clicking the reorder button. Please note that this option is only available when you have 2 or more categories."
+        parent_setting: "Choosing a parent for your category will nest this category under the chosen parent. Leave empty if you want to create this category as a root category."
+        parent_setting_for_edit: "You can use the reorder button on the index page of categories to nest and reorder your categories, you can find further instructions for this on the index page help hints."
+        permalink: "You can use normal letters and special letters like scandinavian letters but avoid special characters like $%&!"
       titles:
         edit: Editar categoria
       no_categories_in_section: Não existem categorias em {{section}}.

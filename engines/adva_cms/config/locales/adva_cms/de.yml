@@ -79,6 +79,8 @@ de:
    titles:
      accounts: Konten
      actions: Aktionen
+     activate: Activieren
+     admin_account: Ihr Administratorkonto
      archives: Archiv
      articles: Artikel
      assets: Dateien
@@ -87,22 +89,31 @@ de:
      boards: Boards
      cache: Cache
      categories: Kategorien
+     calendar_events: Ereignisse
      clear: Löschen
      clear_all: Alles löschen
      comment: Kommentar
      comments: Kommentare
+     contact_mails: Kontaktpost
      dashboard: Gesamtübersicht
+     deactivate: Deaktivieren
+     download: Herunterladen
      delete: Löschen
      edit: Bearbeiten
+     email_notifications: eMail-Mitteilungen
+     events: Ereignisse
      files: Dateien
+     filter: Filter
      filters: Filter
      general_settings: Allgemeine Einstellungen
      history: Verlauf
      import: Importieren
+     install: adva-cms Installation
      installation: adva-cms Installation
+     issues: Belange
      login: Anmelden
      logout: Abmelden
-     register: Registrieren
+     home_section: Home sektion
      manage: Verwalten
      meta_tags: Meta-Tags
      new: Neu
@@ -110,7 +121,10 @@ de:
      optional_settings: Optionale Einstellungen
      options: Optionen
      overview: Übersicht
+     parent_settings: Elternteileinstellungen
      permissions: Berechtigungen
+     permalink: Permalink
+     photos: Fotos
      plugin: Plugin
      plugins: Plugins
      posts: Einträge
@@ -118,22 +132,31 @@ de:
      publish_in_categories: In diesen Kategorien veröffentlichen
      recent_activity: Letzte Aktivität
      recently_logged_in: Zuletzt angemeldet
+     register: Registrieren
      restore_defaults: Einstellungen zurücksetzen
+     roles: Rollen
      sections: Sektionen
      settings: Einstellungen
+     sets: Sätze
      show: Anzeigen
      site: Webseite
+     sites: Webseiten
      site_users: Benutzer
      spam_filters: Spam-Filter
      spam_protection: Spam-Schutz
+     subscriptions: Subskription
      success: Installation abgeschlossen
      tags: Tags
      templates: Vorlagen
      theme: Theme
      themes: Themes
      topic: Thema
+     topics: Themen
+     tracking: Tracking
      users: Benutzer
+     upload: Hochladen
      roles: Rollen
+     view: Ansicht
      website: Webseite
      website_configuration: Webseitenkonfiguration &amp; Startsektion
      wikipages: Wiki-Seiten
@@ -163,13 +186,23 @@ de:
    hints:
      permalink: Verwenden Sie bitte nur ASCII-Zeichen und ersetzen Sie Leerzeichen durch Bindestriche.
      tags: 'Geben Sie einen oder mehrere Tags getrennt durch Leerzeichen ein. Sie können Tags mit Leerzeichen verwenden, indem Sie Anführungszeichen verwenden (z.B. <em>"Web Development" Tutorials</em>).'
-
+     meta_keywords: Enter a few words separated by commas to describe your content. Meta keywords make it easier for search engines to find your page.
+     meta_description: Enter a short description of this page so a search engine can tell users what they can find here.
+     
    messages:
      insufficient_permissions:
        title: Fehlende Berechtigung
        body: "Wenn Sie glauben, dass Sie diese Aktion ausführen können sollten, kontaktieren Sie bitte den Administrator dieser Seite und bitten Sie ihn, Ihre Berechtigungen zu prüfen."
 
    resources:
+     links:
+       view: Ansicht
+       show: Anzeigen
+       new: Neu
+       edit: Bearbeiten
+       delete: Löschen
+       reorder: Reihenfolge ändern
+       reordering_done: Reihenfolge fertig
      delete: Löschen
      edit: Bearbeiten
      reordering_done: Fertig
@@ -236,6 +269,11 @@ de:
        section: Sektion
      hints:
        content_filter: "Der Filter, den Sie hier wählen, gilt als Standard für alle Inhalte in dieser Sektion."
+       sections: "Listed here are all the sections currently on your site. Whichever section is on top is the default homepage."
+       reorder: "You can use the reorder option to set your home root to different section and to reorder your sections. If you want to nest your sections you can drag the section to the right and its gets set as a child of the upper section.  Finish the reordering by clicking the reorder button. Please note that this option is only available when you have 2 or more sections."
+       parent_setting: Choosing a parent for your section will nest this section under the chosen parent. Leave empty if you want to create this section as a root section.
+       parent_setting_for_edit: "You can use the reorder button on the index page of sections to nest and reorder your sections, you can find further instructions for this on the index page help hints."
+       permalink: "You can use normal letters and special letters like scandinavian letters but avoid special characters like $%&!"
      titles:
        behaviour: Anzeige
        page_settings: Page-Einstellungen
@@ -246,6 +284,10 @@ de:
        single_article_mode: Ein Artikel pro Sektion
        multi_article_mode: Mehrere Artikel pro Sektion
      links:
+       index: Sektions
+       new: Anlegen Sie einen neuen Sektion
+       show: Anzeigen
+       edit: Einstellungen
        delete: Diese Sektion löschen
        add_section: Eine Sektion hinzufügen
        reorder: Reihenfolge ändern
@@ -304,6 +346,11 @@ de:
        category: Kategorie
      attributes:
        name: Name
+     hints:
+       reorder: "You can use the reorder option to reorder your categories. If you want to nest your categories you can drag the category to the right and its gets set as a child of the upper category. Finish the reordering by clicking the reorder button. Please note that this option is only available when you have 2 or more categories."
+       parent_setting: "Choosing a parent for your category will nest this category under the chosen parent. Leave empty if you want to create this category as a root category."
+       parent_setting_for_edit: "You can use the reorder button on the index page of categories to nest and reorder your categories, you can find further instructions for this on the index page help hints."
+       permalink: "You can use normal letters and special letters like scandinavian letters but avoid special characters like $%&!"
      titles:
        edit: Kategorie bearbeiten
        new: Neue Kategorie anlegen
@@ -312,6 +359,8 @@ de:
        one: "Gesamt: {{count}} Kategorie"
        other: "Gesamt: {{count}} Kategorien"
      links:
+       index: Kategorien
+       edit: Bearbeiten
        create_now: Jetzt eine Kategorie anlegen &raquo;
        delete: Diese Kategorie löschen
        reorder: Reihenfolge ändern
@@ -351,6 +400,10 @@ de:
        one: "Gesamt: {{count}} Artikel"
        other: "Gesamt: {{count}} Artikel"
      links:
+       index: Artikel
+       new: Neu
+       edit: Bearbeiten
+       show: Anzeigen
        delete: Diesen Artikel löschen
        reorder: Reihenfolge ändern
        create: Einen neuen Artikel anlegen
@@ -377,6 +430,9 @@ de:
        excerpt: Exzerpt
 
    cached_pages:
+     links:
+       index: Cache
+       clear_all: Löschen alles
      no_entries: Es werden zur Zeit keine Seiten im Cache gespeichert. 
      confirmation:
        cleared: Diese Seite wurde aus dem Cache gelöscht.
@@ -569,6 +625,9 @@ de:
        password: Passwort
        email: E-Mail
      links:
+       new: Addieren Sie einen neuen Benutzer
+       edit: Bearbeiten
+       delete: Löschen
        create_user: Benutzer anlegen
        edit_user: Benutzer bearbeiten
      actions:
@@ -613,6 +672,8 @@ de:
          not_a_moderator: "Sie müssen ein Moderator sein, um diese Aktion durchzuführen."
 
    assets:
+     links:
+       new: Neu datei
      flash:
        upload:
          failure: Die Datei konnte nicht hochgeladen werden.
@@ -693,6 +754,10 @@ de:
        import: Theme importieren
        edit_file: Theme-Datei bearbeiten
      links:
+       index: Themen
+       new: Neu
+       download: Herunterladen
+       import: Import
        activate: Aktivieren
        deactivate: Deaktivieren
        delete: Löschen
@@ -751,6 +816,13 @@ de:
      columns:
        path: Pfad
        type: Typ
+     links:
+       create_one_now: Ein neues Theme datei anlegen. &raquo;
+       new_file: Neu datei
+       new: Neu
+       edit: Bearbeiten
+       delete: Löschen
+       upload: Hochladen
      types:
        templates: Vorlagen
        assets: Anlagen
@@ -804,6 +876,12 @@ de:
        one: "{{count}} Eintrag"
        other: "{{count}} Einträge"
      links:
+       index: Boards
+       new: Neu Board
+       boards: Boards
+       forum: Forum
+       settings: Einstellung
+       create: Ein neues Board anlegen
        new: Neues Board
        reorder: Reihenfolge ändern
        create_now: Ein neues Board anlegen
@@ -837,6 +915,7 @@ de:
        sticky: Immer oben
        locked: Geschlossen
      links:
+       new: Ein neues Thema anleigen
        post_new: Neuen Eintrag schreiben
        post_now: Neuen Eintrag schreiben
        new_topic: Neues Thema
