@@ -1,6 +1,6 @@
 class Admin::AssetsController < Admin::BaseController
-  include AssetsHelper
-  helper :assets, :asset_tag
+  include Admin::AssetsHelper
+  helper :'admin/assets', :'admin/asset_tag'
   helper_method :created_notice, :destroyed_notice
   before_filter :set_assets, :only => [:index] # :set_filter_params, 
   before_filter :set_format, :only => [:create]

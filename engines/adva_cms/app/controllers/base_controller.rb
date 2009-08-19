@@ -1,14 +1,11 @@
 class BaseController < ApplicationController
   class SectionRoutingError < ActionController::RoutingError; end
-  helper :base, :resource, :content, :filter, :users
-  helper :roles if Rails.plugin?(:adva_rbac) # FIXME how to automatically include all installed helpers?
-  helper :blog  if Rails.plugin?(:adva_blog)
+  helper :base, :resource, :content, :filter
   helper TableBuilder
 
   include CacheableFlash
   include ContentHelper
   include ResourceHelper
-  include BlogHelper if Rails.plugin?(:adva_blog)
 
   before_filter :set_site, :set_locale, :set_timezone, :set_cache_root
   attr_accessor :site, :section
@@ -37,6 +34,7 @@ class BaseController < ApplicationController
     end
 
     def set_locale
+      # FIXME: really? what about "en-US", "sms" etc.?
       params[:locale] =~ /^[\w]{2}$/ or raise 'invalid locale' if params[:locale]
       I18n.locale = params[:locale] || I18n.default_locale
       # TODO raise something more meaningful

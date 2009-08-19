@@ -6,7 +6,7 @@ class Site < ActiveRecord::Base
     def root
       Section.root(:site_id => proxy_owner.id)
     end
-    
+
     def roots
       Section.roots(:site_id => proxy_owner.id)
     end
@@ -17,7 +17,7 @@ class Site < ActiveRecord::Base
 
     # FIXME can this be on the nested_set?
     def update_paths!
-      paths = Hash[*roots.map { |r| 
+      paths = Hash[*roots.map { |r|
         r.self_and_descendants.map { |n| [n.id, { 'path' => n.send(:build_path) }] } }.flatten]
       update paths.keys, paths.values
     end

@@ -7,14 +7,11 @@ class Admin::BaseController < ApplicationController
   include ResourceHelper
   helper TableBuilder
 
-  helper :base, :resource, :content, :filter, :users, :'admin/users', :'admin/comments'
-  helper :blog   if Rails.plugin?(:adva_blog) # FIXME move to engines
-  helper :assets if Rails.plugin?(:adva_assets)
-  helper :roles  if Rails.plugin?(:adva_rbac)
+  helper :base, :resource, :content, :filter
 
-  helper_method :content_locale, :perma_host, :has_permission?
+  helper_method :content_locale, :has_permission?
 
-  before_filter :set_menu, :set_site, :set_section, :set_locale, :set_timezone, :set_cache_root
+  before_filter :set_menu, :set_site, :set_section, :set_locale, :set_timezone
 
   authentication_required
 
@@ -60,7 +57,7 @@ class Admin::BaseController < ApplicationController
     def current_page
       @page ||= params[:page].present? ? params[:page].to_i : 1
     end
-    
+
     def set_menu
       @menu = Menus::Admin::Sites.new
     end
@@ -91,21 +88,5 @@ class Admin::BaseController < ApplicationController
 
     def content_locale
       ActiveRecord::Base.locale == I18n.default_locale ? nil : ActiveRecord::Base.locale
-    end
-
-    def perma_host
-      @site.try(:perma_host) || 'admin'
-    end
-
-    def page_cache_directory
-      RAILS_ROOT + if Rails.env == 'test'
-         Site.multi_sites_enabled ? '/tmp/cache/' + perma_host : '/tmp/cache'
-       else
-         Site.multi_sites_enabled ? '/public/cache/' + perma_host : '/public'
-       end
-    end
-
-    def set_cache_root
-      self.class.page_cache_directory = page_cache_directory.to_s
     end
 end

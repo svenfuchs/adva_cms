@@ -1,6 +1,6 @@
 class Admin::AssetsBucketController < Admin::BaseController
-  include AssetsHelper
-  helper :assets
+  include Admin::AssetsHelper
+  helper :'admin/assets'
   layout false
 
   before_filter :set_asset, :only => [:create]
