@@ -42,7 +42,7 @@ register_javascript_expansion \
   :simple  => %w(),
   :admin   => %w( adva_cms/admin/jquery.admin adva_cms/jquery/jquery.tablednd_0_5 adva_cms/jquery/jquery.table_tree 
                   adva_cms/admin/jquery.table_tree adva_cms/admin/jquery.article adva_cms/admin/jquery.cached_pages 
-                  adva_cms/jquery/jquery.tooltip.js )
+                  adva_cms/jquery/jquery.qtip.min )
 
 register_stylesheet_expansion \
   :default => %w( adva_cms/default adva_cms/common adva_cms/forms ),

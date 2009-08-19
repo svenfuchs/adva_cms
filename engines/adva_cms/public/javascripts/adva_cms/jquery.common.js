@@ -24,14 +24,16 @@ $(document).ready(function() {
         $(this).addClass("enabled");
       }
     })
-
-    $('.hint.enabled').tooltip({
-      id: 'helptip',
-      delay: 0,
-      track: true,
-      bodyHandler: function() {
-        return $(this).html();
-      }
-    });
+	$('.hint.enabled').each(function() {
+	  $(this).qtip({
+		content: $(this).html(),
+		position: { corner: { target:  'topMiddle', tooltip: 'bottomMiddle' }, adjust: { screen: true, scroll: true } },
+	    // FIXME tip option for qtip is broken currently on firefox, add this when this is fixed: tip: 'bottomMiddle'
+	    style: { background: '#FBF7E4', color: '#black', name: 'cream', 
+	             border: { width: 3, radius: 5, color: '#DDDDDD' } },
+		show: { delay: 0, when: { event: 'click' } },
+		hide: { when: { event: 'click' }, effect: { length: 1000 } }
+	  });
+	});
   }
 });
