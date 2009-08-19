@@ -63,8 +63,7 @@ module Menu
     end
 
     def render(options = {})
-      level = options[:max_display_level] ? options.delete(:max_display_level) : 1000
-      super(options) { |html| children.each { |child| html << child.render if child.level <= level } }
+      super(options) { |html| children.each { |child| html << child.render } }
     end
 
     def reset
