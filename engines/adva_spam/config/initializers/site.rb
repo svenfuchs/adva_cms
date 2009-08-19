@@ -8,15 +8,15 @@ end
 ActionController::Dispatcher.to_prepare do
   Site.class_eval do
     def spam_options=(options)
-      if options.is_a? Hash
+      if options.is_a?(Hash)
         options = options.deep_symbolize_keys
-        options.deep_compact!{|key, value| value == '' }
+        options.deep_compact! { |key, value| value == '' }
       end
       write_attribute :spam_options, options
     end
 
     def spam_options(*keys)
-      result = read_attribute(:spam_options) || {:default => {:ham => 'authenticated'}}
+      result = read_attribute(:spam_options) || { :default => { :ham => 'authenticated' } }
       keys.each do |key|
         return nil unless result.has_key?(key)
         result = result[key]
