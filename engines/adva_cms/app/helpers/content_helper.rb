@@ -27,6 +27,11 @@ module ContentHelper
     send(:"admin_#{content_type}_path", section.site, section)
   end
 
+  def admin_section_contents_url(section)
+    content_type = section.class.content_type.pluralize.gsub('::', '_').underscore.downcase
+    send(:"admin_#{content_type}_url", section.site, section)
+  end
+
   def link_to_preview(*args)
     options = args.extract_options!
     content, text = *args.reverse

@@ -33,7 +33,7 @@ class Admin::BaseController < ApplicationController
 
     def redirect_to_login(notice = nil)
       flash[:notice] = notice
-      redirect_to login_path(:return_to => request.url)
+      redirect_to login_url(:return_to => request.url)
     end
 
     def rescue_action(exception)

@@ -1,5 +1,4 @@
-require 'pp'
-require 'paperclip' 
+require 'paperclip'
 
 require 'extensible_forms'
 require 'time_hacks'
@@ -15,9 +14,9 @@ require 'registry' # reload them between requests (FIXME ... this doesn't seem t
 
 config.to_prepare do
   Registry.set :redirect, {
-    :login        => lambda {|c| c.send :admin_sites_path },
+    :login        => lambda {|c| c.send :admin_sites_url },
     :verify       => '/',
-    :site_deleted => lambda {|c| c.send :admin_sites_path }
+    :site_deleted => lambda {|c| c.send :admin_sites_url }
   }
 end
 
