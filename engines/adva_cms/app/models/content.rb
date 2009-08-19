@@ -5,9 +5,9 @@ class Content < ActiveRecord::Base
   class Version < ActiveRecord::Base
     filters_attributes :none => true
   end
-    
-  translates :title, :body, :excerpt, :body_html, :excerpt_html, 
-    :versioned  => [ :title, :body, :excerpt, :body_html, :excerpt_html ], 
+
+  translates :title, :body, :excerpt, :body_html, :excerpt_html,
+    :versioned  => [ :title, :body, :excerpt, :body_html, :excerpt_html ],
     :if_changed => [ :title, :body, :excerpt ], :limit => 5
   acts_as_taggable
 
@@ -26,7 +26,7 @@ class Content < ActiveRecord::Base
   has_many :categorizations, :as => :categorizable, :dependent => :destroy, :include => :category
 
   before_validation :set_site
-  
+
   # more explicit to make nested category contents to work
   default_scope :order => 'contents.position, contents.published_at'
 
@@ -34,27 +34,27 @@ class Content < ActiveRecord::Base
     options = args.extract_options!
     conditions = ['contents.published_at IS NOT NULL AND contents.published_at <= ?', Time.zone.now]
     add_time_delta_condition!(conditions, args) unless args.compact.empty?
-    options.merge :conditions => conditions 
+    options.merge(:conditions => conditions)
   }
-  
+
   named_scope :drafts, Proc.new { |*args|
     options = args.extract_options!
     conditions = ['contents.published_at IS NULL']
     add_time_delta_condition!(conditions, args) unless args.compact.empty?
-    options.merge :conditions => conditions
+    options.merge(:conditions => conditions)
   }
-  
+
   named_scope :unpublished, Proc.new { |*args|
     drafts(*args).scope(:find)
   }
-  
+
   class << self
     def add_time_delta_condition!(conditions, args)
       conditions.first << " AND contents.published_at BETWEEN ? AND ?"
       conditions.concat Time.delta(*args)
     end
   end
-  
+
   def owners
     owner.owners << owner
   end
@@ -63,22 +63,24 @@ class Content < ActiveRecord::Base
     section
   end
 
-  def attributes=(attrs, guard_protected_attributes = true)
-    if attrs.delete(:draft).to_i == 1
-      attrs = attrs.reject { |k, v| k.to_s =~ /^published_at.+/ } 
-      self.published_at = nil
-    end
-    # FIXME this is only needed because belongs_to_cacheable can't be non-polymorphic, yet
-    self.author = User.find(attrs[:author_id]) if attrs[:author_id] 
+  attr_accessor :draft
+  def published_at=(published_at)
+    write_attribute(:published_at, draft.to_i == 1 ? nil : published_at)
+  end
 
-    category_ids = attrs.delete(:category_ids)
-    returning super do 
-      update_categories category_ids.reject(&:blank?) if category_ids 
+  def author_id=(author_id)
+    # FIXME this is only needed because belongs_to_cacheable can't be non-polymorphic, yet
+    self.author = User.find(author_id) if author_id
+  end
+
+  def attributes=(attributes, guard_protected_attributes = true)
+    returning super do
+      update_categories(attributes.delete(:category_ids))
     end
   end
 
   def published_month
-    Time.local published_at.year, published_at.month, 1
+    Time.local(published_at.year, published_at.month, 1)
   end
 
   def draft?
@@ -90,25 +92,25 @@ class Content < ActiveRecord::Base
   end
 
   def published?
-    !published_at.nil? and published_at <= Time.zone.now
+    !published_at.nil? && published_at <= Time.zone.now
   end
 
   def published_at?(date)
-    published? and date == [:year, :month, :day].map {|key| published_at.send(key).to_s }
+    published? && date == [:year, :month, :day].map { |key| published_at.send(key).to_s }
   end
 
   def state
     pending? ? :pending : :published
   end
-  
+
   def just_published?
-    published? and published_at_changed?
+    published? && published_at_changed?
   end
 
   def diff_against_version(version)
     # return '(orginal version)' if version == versions.earliest.version
     version = versions[version]
-    HtmlDiff.diff version.excerpt_html + version.body_html, excerpt_html + body_html
+    HtmlDiff.diff(version.excerpt_html + version.body_html, excerpt_html + body_html)
   end
 
   # def to_param(key)
@@ -121,7 +123,7 @@ class Content < ActiveRecord::Base
   #   end
   #   value ? value.to_s : nil
   # end
-  
+
   protected
 
     def set_site
@@ -129,6 +131,8 @@ class Content < ActiveRecord::Base
     end
 
     def update_categories(category_ids)
+      category_ids = Array(category_ids).reject(&:blank?)
+
       categories.each do |category|
         category_ids.delete(category.id.to_s) || categories.delete(category)
       end

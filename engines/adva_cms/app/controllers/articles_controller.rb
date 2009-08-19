@@ -51,6 +51,7 @@ class ArticlesController < BaseController
     def set_articles
       scope = @category ? @category.all_contents : @section.articles
       scope = scope.tagged(@tags) if @tags.present?
+      # FIXME: should be in adva_blog
       scope = @section.is_a?(Blog) ? scope.published(params[:year], params[:month]) : scope.published
       @articles = scope.paginate(:page  => current_page, :limit => @section.contents_per_page)
     end

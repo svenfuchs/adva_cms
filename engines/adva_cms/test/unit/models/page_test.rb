@@ -22,10 +22,6 @@ class PageTest < ActiveSupport::TestCase
     @page.articles.primary.should == Article.find_by_permalink('a-page-article')
   end
 
-  test "articles#permalinks returns the permalinks of all published articles" do
-    @page.articles.permalinks.should == ['a-page-article']
-  end
-
   # PUBLIC INSTANCE METHODS
   test "#published?, published_at and published_at= are delegated to article (single article mode)" do
     parent_section = Page.new(:site => @site, :single_article_mode => false)
