@@ -127,12 +127,15 @@ es:
       queued: Encolados
       delivered: Entregados
     sites:
+      email_notification_activated: "Activated"
+      email_notification_deactivated: "Deactivated"  
       title:
         create: Crear nuevo site
         home_section: Sección de inicio
       hints:
         host_name: Incluya el puerto si no es uno estándar. Ej. localhost:3000
         admin_email: Se muestra en emails enviados desde el site
+        email_notification: "If e-mail notifications are activated, an e-mail is sent to the administrator every time a new content is created or updated. No e-mails are sent when the notifications are deactivated."
       attributes:
         name: Nombre
         host: Host
@@ -169,6 +172,8 @@ es:
         admin_email: Email del administrador
         subtitle: Subtítulo del site
         host: Host name
+        deactivate_email_notification: Deactivate email notification
+        activate_email_notification: Activate email notification
       confirm_delete: Estás seguro que quieres eliminar este site?
     sections:
       hints:

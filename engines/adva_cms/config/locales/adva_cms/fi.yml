@@ -112,12 +112,15 @@ fi:
       settings: asetukset
       view: Näytä
     sites:
+      email_notification_activated: "Aktivoi"
+      email_notification_deactivated: "Poista käytöstä"
       title:
         create: Luo uusi netti-sivu
         home_section: Koti-osio
       hints:
         host_name: Sisällytä portti jos se ei ole standardi portti. Esim. localhost:3000
         admin_email: Nähtävissä sähköposteissa jotka lähetetään sinun netti-sivultasi
+        email_notification: "If e-mail notifications are activated, an e-mail is sent to the administrator every time a new content is created or updated. No e-mails are sent when the notifications are deactivated."
       attributes:
         name: Nimi
         host: Isäntä
@@ -152,6 +155,8 @@ fi:
         admin_email: Ylläpitäjän sähköposti
         subtitle: Netti-sivun aliotsikko
         host: Isäntä nimi
+        deactivate_email_notification: Poista sähköposti tiedotus
+        activate_email_notification: Aktivoi sähköposti tiedotus
       confirm_delete: Oletko varma että haluat poistaa tämän sivun?
     sections:
       hints:

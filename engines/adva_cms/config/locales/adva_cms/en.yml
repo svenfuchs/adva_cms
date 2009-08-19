@@ -178,12 +178,14 @@ en:
       queued: Queued
       delivered: Delivered
     sites:
-      email_notification: "Email notifications [on/off]"
+      email_notification_activated: "Activated"
+      email_notification_deactivated: "Deactivated"      
       title:
         create: Create a new site
       hints:
         host_name: Include the port if it's a non-standard one. E.g. localhost:3000
         admin_email: Shown in emails sent from your site
+        email_notification: "If e-mail notifications are activated, an e-mail is sent to the administrator every time a new content is created or updated. No e-mails are sent when the notifications are deactivated."
       attributes:
         name: Name
         host: Host
@@ -223,6 +225,8 @@ en:
         admin_email: Administrator email
         subtitle: Website subtitle
         host: Host name
+        deactivate_email_notification: Deactivate email notification
+        activate_email_notification: Activate email notification
       confirm_delete: Are you sure you want to delete this site?
     sections:
       hints:

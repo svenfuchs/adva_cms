@@ -184,12 +184,15 @@ de:
      delivered: Versendet
 
    sites:
+     email_notification_activated: "Activated"
+     email_notification_deactivated: "Deactivated"  
      title:
        create: Neue Webseite anlegen 
        home_section: Startseiten-Sektion
      hints:
        host_name: "Falls Ihre Seite nicht auf dem Standard-HTTP-Port (80) läuft, führen Sie diesen bitte auf (z.B. http://www.meine-seite.com:1234)."
        admin_email: "Diese E-Mail-Adresse ist die Absender-Adresse für E-Mails, die von Ihrer Webseite versendet werden."
+       email_notification: "If e-mail notifications are activated, an e-mail is sent to the administrator every time a new content is created or updated. No e-mails are sent when the notifications are deactivated."
      attributes:
        name: Name
        host: Host
@@ -224,6 +227,8 @@ de:
        admin_email: Administrator-E-Mail
        subtitle: Untertitel der Webseite
        host: Hostname
+       deactivate_email_notification: Deactivate email notification
+       activate_email_notification: Activate email notification
      confirm_delete: "Sind Sie sicher, dass Sie diese Webseite löschen wollen?"
 
    sections:

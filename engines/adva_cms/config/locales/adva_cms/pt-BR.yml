@@ -127,12 +127,15 @@ pt-BR:
       queued: Na fila
       delivered: Despachado
     sites:
+      email_notification_activated: "Activated"
+      email_notification_deactivated: "Deactivated"   
       title:
         create: Criar um novo site
         home_section: Sessão principal
       hints:
         host_name: Inclua a porta se não for padrão. I.e. localhost:3000
         admin_email: Mostrado em emails enviados do seu site
+        email_notification: "If e-mail notifications are activated, an e-mail is sent to the administrator every time a new content is created or updated. No e-mails are sent when the notifications are deactivated."
       attributes:
         name: Nome
         host: Hospedeiro
@@ -169,6 +172,8 @@ pt-BR:
         admin_email: Email do administrador
         subtitle: Sub-título do website
         host: Nome do hospedeiro
+        deactivate_email_notification: Deactivate email notification
+        activate_email_notification: Activate email notification
       confirm_delete: Você tem certeza que deseja apagar este site?
     sections:
       hints:
