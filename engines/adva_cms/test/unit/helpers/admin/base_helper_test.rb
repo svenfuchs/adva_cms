@@ -35,9 +35,9 @@ class AdminBaseHelperTest < ActionView::TestCase
     form_for(:article, @article, :builder => TestFormBuilder, &block)
     output_buffer
   end
-  
+
   include ::BaseHelper
-  
+
   test "#save_or_cancel_links uses only button if no cancel url is given" do
     stub(self).protect_against_forgery? { false } # let's make it easier
     html = build_form { |f| save_or_cancel_links(f) }
@@ -47,7 +47,7 @@ class AdminBaseHelperTest < ActionView::TestCase
       buttons.should_not have_tag('a', 'Cancel')
     end
   end
-  
+
   test "#save_or_cancel_links uses all parts if cancel url is given" do
     stub(self).protect_against_forgery? { false } # let's make it easier
     html = build_form { |f| save_or_cancel_links(f, :cancel_url => 'cancel url') }
@@ -57,61 +57,36 @@ class AdminBaseHelperTest < ActionView::TestCase
       buttons.should have_tag('a[href=?]', 'cancel url', 'Cancel')
     end
   end
-  
+
   test "#save_or_cancel_links uses custom save text" do
     stub(self).protect_against_forgery? { false } # let's make it easier
     html = build_form { |f| save_or_cancel_links(f, :save_text => 'save text') }
     html.should have_tag('input[type=?][value=?]', 'submit', 'save text')
   end
-  
+
   test "#save_or_cancel_links uses custom or text" do
     stub(self).protect_against_forgery? { false } # let's make it easier
     html = build_form { |f| save_or_cancel_links(f, :cancel_url => 'cancel url', :or_text => 'or text') }
     html.should =~ /or text/
   end
-  
+
   test "#save_or_cancel_links uses custom cancel text" do
     stub(self).protect_against_forgery? { false } # let's make it easier
     html = build_form { |f| save_or_cancel_links(f, :cancel_url => 'cancel url', :cancel_text => 'cancel text') }
     html.should have_tag('a[href=?]', 'cancel url', 'cancel text')
   end
-  
+
   test "#save_or_cancel_links uses custom save attributes" do
     stub(self).protect_against_forgery? { false } # let's make it easier
     html = build_form { |f| save_or_cancel_links(f, :save => { :class => 'save class' }) }
     html.should have_tag('input[type=?][class=?]', 'submit', 'save class')
   end
-  
+
   test "#save_or_cancel_links uses custom cancel attributes" do
     stub(self).protect_against_forgery? { false } # let's make it easier
     html = build_form { |f| save_or_cancel_links(f, :cancel_url => 'cancel url', :cancel => { :class => 'cancel class' }) }
     html.should have_tag('a[href=?][class=?]', 'cancel url', 'cancel class')
   end
-
-  # not in use ...
-
-  # # admin_site_select_tag
-  # test "#admin_site_select_tag with current user being a superuser
-  #       it shows the site overview option in the site select menu" do
-  #   stub(current_user).has_role?(:superuser).returns true
-  #   admin_site_select_tag.should have_tag('select#site_select option[value=?]', 'admin_sites_path')
-  # end
-  # 
-  # test "#admin_site_select_tag with current user being a superuser
-  #       it shows the user manager option in the site select menu" do
-  #   stub(current_user).has_role?(:superuser).returns true
-  #   admin_site_select_tag.should have_tag('select#site_select option[value=?]', 'admin_users_path')
-  # end
-  # 
-  # test "#admin_site_select_tag with current user not being a superuser
-  #     it shows the site overview option in the site select menu" do
-  #   admin_site_select_tag.should_not have_tag('select#site_select option[value=?]', 'admin_sites_path')
-  # end
-  # 
-  # test "#admin_site_select_tag with current user not being a superuser
-  #     it shows the user manager option in the site select menu" do
-  #   admin_site_select_tag.should_not have_tag('select#site_select option[value=?]', 'admin_users_path')
-  # end
 
   # link_to_profile
   test "#link_to_profile links to admin/sites/1/users/1 if site is given" do
@@ -121,11 +96,11 @@ class AdminBaseHelperTest < ActionView::TestCase
   test "#link_to_profile links to  admin/users/1 if no site is given" do
     link_to_profile.should =~ @admin_user_path
   end
-  
+
   test "#link_to_profile links to  admin/users/1 if site is a new record" do
     link_to_profile(Site.new).should =~ @admin_user_path
   end
-  
+
   test "#link_to_profile links to custom link name for profile if specified" do
     link_to_profile(Site.new, :name => 'Dummy').should =~ />Dummy</
   end

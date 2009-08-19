@@ -1,6 +1,6 @@
 class SectionSweeper < CacheReferences::Sweeper
   observe Section
-  
+
   def after_create(section)
     expire_cached_pages_by_site(section.site)
   end
