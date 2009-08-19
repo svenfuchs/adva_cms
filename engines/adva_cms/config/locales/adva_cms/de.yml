@@ -186,8 +186,8 @@ de:
    hints:
      permalink: Verwenden Sie bitte nur ASCII-Zeichen und ersetzen Sie Leerzeichen durch Bindestriche.
      tags: 'Geben Sie einen oder mehrere Tags getrennt durch Leerzeichen ein. Sie können Tags mit Leerzeichen verwenden, indem Sie Anführungszeichen verwenden (z.B. <em>"Web Development" Tutorials</em>).'
-     meta_keywords: Enter a few words separated by commas to describe your content. Meta keywords make it easier for search engines to find your page.
-     meta_description: Enter a short description of this page so a search engine can tell users what they can find here.
+     meta_keywords: "Geben Sie einige Wörter ein, die durch Kommas getrennt werden, um Ihren Inhalt zu beschreiben. Meta-Schlüsselwörter bilden es einfacher, damit Suchmaschinen Ihre Seite finden."
+     meta_description: "Tragen Sie eine kurze Beschreibung dieser Seite ein, also kann eine Search Engine Benutzern erklären, was sie hier finden können."
      
    messages:
      insufficient_permissions:
@@ -269,11 +269,11 @@ de:
        section: Sektion
      hints:
        content_filter: "Der Filter, den Sie hier wählen, gilt als Standard für alle Inhalte in dieser Sektion."
-       sections: "Listed here are all the sections currently on your site. Whichever section is on top is the default homepage."
-       reorder: "You can use the reorder option to set your home root to different section and to reorder your sections. If you want to nest your sections you can drag the section to the right and its gets set as a child of the upper section.  Finish the reordering by clicking the reorder button. Please note that this option is only available when you have 2 or more sections."
-       parent_setting: Choosing a parent for your section will nest this section under the chosen parent. Leave empty if you want to create this section as a root section.
-       parent_setting_for_edit: "You can use the reorder button on the index page of sections to nest and reorder your sections, you can find further instructions for this on the index page help hints."
-       permalink: "You can use normal letters and special letters like scandinavian letters but avoid special characters like $%&!"
+       sections: "Hier verzeichnet alle Abschnitte z.Z. auf Ihrem Aufstellungsort. Welcher Abschnitt auf die Oberseite ist, ist das Rückstellungshomepage."
+       reorder: "Sie können die neuordnenwahl verwenden, um Ihre Hauptwurzel auf unterschiedlichen Abschnitt einzustellen und Ihre Abschnitte neuzuordnen. Wenn Sie Ihre Abschnitte nisten möchten, können Sie den Abschnitt rechts schleppen und sein erhält Satz als Kind vom oberen unterteilen. Beenden Sie das Neuordnen, indem Sie den neuordnenknopf anklicken. Merken Sie bitte, dass diese Wahl nur vorhanden ist, wenn Sie 2 haben oder mehr Abschnitte."
+       parent_setting: "Ein Elternteil für Ihren Abschnitt wählend, nistet diesen Abschnitt unter dem ausgesuchten Elternteil. Verlassen Sie leer, wenn Sie diesen Abschnitt als Wurzelabschnitt verursachen möchten."
+       parent_setting_for_edit: "Sie können den neuordnenknopf auf der Indexseite der Abschnitte benutzen, um zu nisten und Ihre Abschnitte, können Sie neuzuordnen weitere Anweisungen für dieses auf den Indexseiten-Hilfentips finden."
+       permalink: "Sie können normale Buchstaben und spezielle Buchstaben benutzen, wie skandinavische Buchstaben aber Sonderzeichen wie $%& vermeiden!"
      titles:
        behaviour: Anzeige
        page_settings: Page-Einstellungen
@@ -347,10 +347,10 @@ de:
      attributes:
        name: Name
      hints:
-       reorder: "You can use the reorder option to reorder your categories. If you want to nest your categories you can drag the category to the right and its gets set as a child of the upper category. Finish the reordering by clicking the reorder button. Please note that this option is only available when you have 2 or more categories."
-       parent_setting: "Choosing a parent for your category will nest this category under the chosen parent. Leave empty if you want to create this category as a root category."
-       parent_setting_for_edit: "You can use the reorder button on the index page of categories to nest and reorder your categories, you can find further instructions for this on the index page help hints."
-       permalink: "You can use normal letters and special letters like scandinavian letters but avoid special characters like $%&!"
+       reorder: "Sie können die neuordnenwahl verwenden, um Ihre Kategorien neuzuordnen. Wenn Sie Ihre Kategorien nisten möchten, können Sie die Kategorie rechts schleppen und sein erhält Satz als Kind der oberen Kategorie. Beenden Sie das Neuordnen, indem Sie den neuordnenknopf anklicken. Merken Sie bitte, dass diese Wahl nur vorhanden ist, wenn Sie 2 haben oder mehr Kategorien."
+       parent_setting: "Ein Elternteil für Ihre Kategorie wählend, nistet diese Kategorie unter dem ausgesuchten Elternteil. Verlassen Sie leer, wenn Sie diese Kategorie als Wurzelkategorie verursachen möchten."
+       parent_setting_for_edit: "Sie können den neuordnenknopf auf der Indexseite von Kategorien benutzen, um zu nisten und Ihre Kategorien, können Sie neuzuordnen weitere Anweisungen für dieses auf den Indexseiten-Hilfentips finden."
+       permalink: "Sie können normale Buchstaben und spezielle Buchstaben benutzen, wie skandinavische Buchstaben aber Sonderzeichen wie $%& vermeiden!"
      titles:
        edit: Kategorie bearbeiten
        new: Neue Kategorie anlegen

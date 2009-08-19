@@ -9,10 +9,10 @@ de:
   adva:
     sets:
       hints:
-        reorder: "You can use the reorder option to reorder your sets. If you want to nest your sets you can drag the set to the right and its gets set as a child of the upper set. Finish the reordering by clicking the reorder button. Please note that this option is only available when you have 2 or more sets."
-        parent_setting: "Choosing a parent for your set will nest this set under the chosen parent. Leave empty if you want to create this set as a root set."
-        parent_setting_for_edit: "You can use the reorder button on the index page of sets to nest and reorder your sets, you can find further instructions for this on the index page help hints."
-        permalink: "You can use normal letters and special letters like scandinavian letters but avoid special characters like $%&!"
+        reorder: "Sie können die neuordnenwahl verwenden, um Ihre Sätze neuzuordnen. Wenn Sie Ihre Sätze nisten möchten, können Sie den Satz rechts schleppen und sein erhält Satz als Kind des oberen Satzes. Beenden Sie das Neuordnen, indem Sie den neuordnenknopf anklicken. Merken Sie bitte, dass diese Wahl nur vorhanden ist, wenn Sie 2 haben oder mehr einstellt."
+        parent_setting: "Ein Elternteil für Ihren Satz wählend, nistet diesen Satz unter dem ausgesuchten Elternteil. Verlassen Sie leer, wenn Sie diesen Satz verursachen möchten wie ein Wurzelsatz."
+        parent_setting_for_edit: "Sie können den neuordnenknopf auf der Indexseite der Sätze benutzen, um zu nisten und Ihre Sätze, können Sie neuzuordnen weitere Anweisungen für dieses auf den Indexseiten-Hilfentips finden."
+        permalink: "Sie können normale Buchstaben und spezielle Buchstaben benutzen, wie skandinavische Buchstaben aber Sonderzeichen wie $%& vermeiden!"
       links:
         index: Sätze
         new: Neu
