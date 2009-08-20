@@ -1,4 +1,9 @@
+require 'routing_filter'
+require 'routing_filter/locale'
+
 ActionController::Routing::Routes.draw do |map|
+  RoutingFilter::Locale.include_default_locale = false
+
   map.filter 'locale'
   map.filter 'categories' # TODO fix: around_filter seems to call filters in reverse order
   map.filter 'sets'       # TODO fix: around_filter seems to call filters in reverse order
