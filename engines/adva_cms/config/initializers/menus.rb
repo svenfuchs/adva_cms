@@ -125,7 +125,7 @@ module Menus
         menu :left, :class => 'left' do
           item :settings, :action => :edit,  :resource => @site
           item :cache,    :action => :index, :resource => [@site, :cached_page]
-          item :plugins,  :url    => admin_plugins_path(@site)
+          # item :plugins,  :url    => admin_plugins_path(@site)
         end
       end
     end

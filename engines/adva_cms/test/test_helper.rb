@@ -47,6 +47,10 @@ end
 # include this line to test adva-cms with url_history installed
 # require dir + '/plugins/url_history/init_url_history'
 
+# reset locales in case client apps set them in the environment
+I18n.default_locale = :en
+I18n.locale = nil
+
 require_all dir + "/contexts.rb",
             dir + "/test_helper/**/*.rb"
 require_all dir + "/../../*/test/contexts.rb",

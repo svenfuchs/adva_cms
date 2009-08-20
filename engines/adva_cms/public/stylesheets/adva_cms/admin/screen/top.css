@@ -1,0 +1,8 @@
+#top .active > a {
+  color: #fff;
+  background-color: #c22222;
+  background-image: url(/images/adva_cms/admin/tab_top_active.png);
+}
+#sections_menu a.active {
+  background-color: #fbf7e4;
+}

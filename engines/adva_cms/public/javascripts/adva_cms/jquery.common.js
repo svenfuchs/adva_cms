@@ -32,7 +32,7 @@ $(document).ready(function() {
 	    style: { background: '#FBF7E4', color: '#black', name: 'cream', 
 	             border: { width: 3, radius: 5, color: '#DDDDDD' } },
 		show: { delay: 0, when: { event: 'click' } },
-		hide: { when: { event: 'click' }, effect: { length: 1000 } }
+		hide: { when: { event: 'unfocus' }, effect: { length: 1000 } }
 	  });
 	});
   }

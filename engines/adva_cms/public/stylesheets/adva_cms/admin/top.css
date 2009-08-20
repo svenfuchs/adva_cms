@@ -6,6 +6,7 @@
   text-align: right;
 }
 #top li {
+  position: relative;
   display: inline-block;
 }
 #top ul.main > li:first-child {
@@ -43,8 +44,10 @@
   display: none;
   position: absolute;
   z-index: 99;
-  top: 33px;
-  border-top: 5px solid #ddd;
+  top: 27px;
+  width: 100%;
+  /*border-top: 5px solid;*/
+  /*border-top: 1px solid #ddd;*/
   border-bottom: 1px solid #ddd;
   background-color: #fff !important;
   -webkit-box-shadow: 3px 3px 6px #aaa;
@@ -56,11 +59,11 @@
 #sections_menu li {
   float: none;
   display: block;
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
 }
 #sections_menu li a {
   color: #000;
-  border-left: 1px solid #ddd;
-  border-right: 1px solid #ddd;
 }
 #sections_menu li a {
   background-color: #fff;

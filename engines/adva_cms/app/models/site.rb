@@ -87,6 +87,10 @@ class Site < ActiveRecord::Base
     end
   end
 
+  def email_from
+    "#{name} <#{email}>" unless name.blank? || email.blank?
+  end
+
   private
 
     def downcase_host

@@ -109,6 +109,20 @@ class SiteTest < ActiveSupport::TestCase
     @site.send(:replace_host_spaces).should == 't-e-s-t.advabest.de'
   end
   
+  test "#email_from uses the site's name and email" do
+    @site.email = 'admin@example.org'
+    @site.name = 'example'
+
+    @site.email_from.should == 'example <admin@example.org>'
+  end
+
+  test "#email_from is nil if site's name or email is blank" do
+    @site.email = ''
+    @site.name = ''
+
+    @site.email_from.should == nil
+  end
+
   # CALLBACKS
   
   test 'downcases the host before validation' do

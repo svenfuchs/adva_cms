@@ -33,7 +33,7 @@ class PasswordControllerTest < ActionController::TestCase
       before { @params = { :user => { :email => 'none' } } } 
 
       it_does_not_trigger_any_event
-      it_assigns_flash_cookie :error => :not_nil
+      it_assigns_flash_cookie :notice => :not_nil # feature, not a bug!
       it_renders_template :new
     end
   end
@@ -41,14 +41,12 @@ class PasswordControllerTest < ActionController::TestCase
   describe "GET to :edit" do
     action { get :edit, @params }
     
-    with "the user is logged in" do
+    with "the user is logged in (via cookie or token)" do
       before do
         stub(@controller).current_user.returns(@user)
-        (@params = {})[:token] = 'valid token'
       end
 
       it_renders_template :edit do
-        has_tag 'input[name=?][type=hidden]', 'token'
         has_tag 'input[name=?][type=password]', 'user[password]'
       end
     end

@@ -608,6 +608,8 @@ de:
        new:
          email_sent: Eine E-Mail mit Informationen zur Zurücksetzung Ihres Passworts wurde an die von Ihnen angegebene E-Mail-Adresse geschickt.
          no_such_user: Die von Ihnen angegebene E-Mail-Adresse konnte nicht im System gefunden werden.
+       create:
+         notification: "Falls die von Ihnen angegebene E-Mail-Adresse gefunden werden konnte, haben wir Ihnen eine E-Mail mit Information geschickt, wie Sie Ihr Passwort zurücksetzen können."
        update:
          success: Ihr Passwort wurde erfolgreich geändert.
          failure: Ihr Passwort konnte nicht geändert werden.
@@ -624,6 +626,7 @@ de:
 
    users:
      attributes:
+       new_password: Neues Passwort
        password: Passwort
        email: E-Mail
      links:
