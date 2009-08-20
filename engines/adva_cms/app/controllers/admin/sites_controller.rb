@@ -29,7 +29,7 @@ class Admin::SitesController < Admin::BaseController
 
     if site.save
       flash[:notice] = t(:'adva.sites.flash.create.success')
-      redirect_to admin_site_path(site)
+      redirect_to admin_site_url(site)
     else
       flash.now[:error] = t(:'adva.sites.flash.create.failure')
       render :action => :new
@@ -42,7 +42,7 @@ class Admin::SitesController < Admin::BaseController
   def update
     if @site.update_attributes params[:site]
       flash[:notice] = t(:'adva.sites.flash.update.success')
-      redirect_to edit_admin_site_path
+      redirect_to edit_admin_site_url
     else
       flash.now[:error] = t(:'adva.sites.flash.update.failure')
       render :action => 'edit'
@@ -101,7 +101,7 @@ class Admin::SitesController < Admin::BaseController
       unless Site.multi_sites_enabled
         if params[:action] == 'index'
           site = Site.find_or_initialize_by_host(request.host_with_port)
-          redirect_to admin_site_path(site)
+          redirect_to admin_site_url(site)
         else
           render :action => :multi_sites_disabled, :layout => 'simple'
         end

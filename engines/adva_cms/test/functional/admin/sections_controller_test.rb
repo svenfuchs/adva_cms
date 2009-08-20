@@ -7,15 +7,15 @@ class AdminSectionsControllerTest < ActionController::TestCase
 
   # FIXME caching specs fail in :a_blog context
   with_common :is_superuser, :a_page
-  
+
   def default_params
     { :site_id => @site.id }
   end
-  
+
   test "is an Admin::BaseController" do
     @controller.should be_kind_of(Admin::BaseController)
   end
-   
+
   describe "routing" do
     with_options :path_prefix => '/admin/sites/1/', :site_id => "1" do |r|
       r.it_maps :get,    "sections",        :action => 'index'
@@ -41,9 +41,9 @@ class AdminSectionsControllerTest < ActionController::TestCase
 
   describe "GET to :index" do
     action { get :index, default_params }
-    
+
     it_guards_permissions :show, :sections
-    
+
     with :access_granted do
       it_assigns :site, :sections
       it_renders :template, :index do
@@ -51,11 +51,11 @@ class AdminSectionsControllerTest < ActionController::TestCase
       end
     end
   end
-  
+
   describe "GET to :new" do
     action { get :new, default_params }
     it_guards_permissions :create, :section
-    
+
     with :access_granted do
       it_assigns :site, :section => :not_nil
       it_renders :template, :new do
@@ -66,20 +66,20 @@ class AdminSectionsControllerTest < ActionController::TestCase
       end
     end
   end
-  
+
   describe "POST to :create" do
-    action do 
+    action do
       Section.with_observers :section_sweeper do
         post :create, default_params.merge(@params)
       end
     end
-    
+
     with :valid_page_params do
       it_guards_permissions :create, :section
-      
+
       with :access_granted do
         it_assigns :site, :section => :not_nil
-        it_redirects_to { @controller.admin_section_contents_path(assigns(:section)) }
+        it_redirects_to { @controller.admin_section_contents_url(assigns(:section)) }
         it_assigns_flash_cookie :notice => :not_nil
         it_sweeps_page_cache :by_site => :site
         # FIXME implement: it_triggers_event :section_created
@@ -88,7 +88,7 @@ class AdminSectionsControllerTest < ActionController::TestCase
           assigns(:section).site.should == @site
         end
       end
-    
+
       with :invalid_page_params do
         it_assigns :site, :section => :not_nil
         it_renders :template, :new
@@ -96,11 +96,11 @@ class AdminSectionsControllerTest < ActionController::TestCase
       end
     end
   end
-  
+
   describe "GET to :edit" do
     action { get :edit, default_params.merge(:id => @section.id) }
     it_guards_permissions :update, :section
-    
+
     with :access_granted do
       it_assigns :site, :section
       it_renders :template, :edit do
@@ -114,7 +114,7 @@ class AdminSectionsControllerTest < ActionController::TestCase
       end
     end
   end
-  
+
   describe "PUT to :update" do
     action do
       Section.with_observers :section_sweeper do
@@ -123,27 +123,27 @@ class AdminSectionsControllerTest < ActionController::TestCase
         put :update, params
       end
     end
-  
+
     with :valid_page_params do
       it_guards_permissions :update, :section
-    
+
       with :access_granted do
         it_assigns :section
         it_updates :section
-        it_redirects_to { edit_admin_section_path(@site, @section) }
+        it_redirects_to { edit_admin_section_url(@site, @section) }
         it_assigns_flash_cookie :notice => :not_nil
         # FIXME implement: it_triggers_event :section_updated
         it_sweeps_page_cache :by_section => :section
       end
     end
-  
+
     with :invalid_page_params do
       with :access_granted do
         it_renders :template, :edit
         it_assigns_flash_cookie :error => :not_nil
       end
     end
-  
+
     with "valid theme settings" do
       before { @params = { :section => { :template => 'the/template', :layout => 'the/layout' } } }
       with :access_granted do
@@ -155,47 +155,47 @@ class AdminSectionsControllerTest < ActionController::TestCase
       end
     end
   end
-  
+
   describe "PUT to :update_all" do
-    action do 
+    action do
       params = {:sections => {@section.id => {'parent_id' => @another_section.id}}}
-      put :update_all, default_params.merge(params) 
+      put :update_all, default_params.merge(params)
     end
-    
+
     before do
       @another_section = Section.find_by_permalink('another-page')
       @old_path = @section.path
     end
-    
+
     it_guards_permissions :update, :section
-    
+
     with :access_granted do
       it "updates the site's sections with the section params" do
         @section.reload.parent_id.should == @another_section.id
       end
-    
+
       it "updates the section's paths" do
         @section.reload.path.should == "#{@another_section.path}/#{@section.permalink}"
       end
-      
+
       # FIXME expire cache by site
     end
   end
-  
+
   describe "DELETE to :destroy" do
-    action do 
+    action do
       Section.with_observers :section_sweeper do
         delete :destroy, default_params.merge(:id => @section.id)
       end
     end
-    
+
     it_guards_permissions :destroy, :section
-    
+
     with :access_granted do
       it_assigns :site, :section
       it_destroys :section
       # FIXME implement: it_triggers_event :section_deleted
-      it_redirects_to { new_admin_section_path(@site) } # FIXME should be admin_site_path(@site)
+      it_redirects_to { new_admin_section_url(@site) } # FIXME should be admin_site_url(@site)
       it_sweeps_page_cache :by_site => :site
       it_assigns_flash_cookie :notice => :not_nil
     end

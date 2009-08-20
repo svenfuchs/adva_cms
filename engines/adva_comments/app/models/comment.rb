@@ -12,7 +12,7 @@ class Comment < ActiveRecord::Base
 
   has_filter :text  => { :attributes => [:body] },
              :state => { :states => [:approved, :unapproved] }
-  
+
   belongs_to :site
   belongs_to :section
   belongs_to :commentable, :polymorphic => true
@@ -51,38 +51,6 @@ class Comment < ActiveRecord::Base
       [:unapproved]
     end || []
     super + state_changes
-  end
-
-  def spam_info
-    read_attribute(:spam_info) || {}
-  end
-
-  has_many :spam_reports, :as => :subject
-
-  def spam_threshold
-    51 # TODO have a config option on site for this
-  end
-
-  def ham?
-    spaminess.to_i < spam_threshold
-  end
-
-  def spam?
-    spaminess.to_i >= spam_threshold
-  end
-
-  def check_approval(context = {})
-    if section.respond_to?(:spam_engine)
-      section.spam_engine.check_comment(self, context)
-      self.spaminess = calculate_spaminess
-      self.approved = ham?
-      save!
-    end
-  end
-
-  def calculate_spaminess
-    sum = spam_reports(true).inject(0){|sum, report| sum + report.spaminess }
-    sum > 0 ? sum / spam_reports.count : 0
   end
 
   protected

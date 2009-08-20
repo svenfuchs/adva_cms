@@ -5,10 +5,6 @@ class Page < Section
     def primary
       published(:order => :position, :limit => 1).first
     end
-
-    def permalinks
-      published.map(&:permalink)
-    end
   end
 
   class << self

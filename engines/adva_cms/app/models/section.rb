@@ -9,22 +9,22 @@ class Section < ActiveRecord::Base
   has_permalink :title, :url_attribute => :permalink, :sync_url => true, :only_when_blank => true, :scope => :site_id
   acts_as_nested_set :scope => :site_id
   instantiates_with_sti
-  
+
   belongs_to :site
   has_many :categories, :dependent => :destroy, :order => 'lft' do
     def roots
-      find :all, :conditions => {:parent_id => nil}, :order => 'lft'
+      find(:all, :conditions => { :parent_id => nil }, :order => 'lft')
     end
 
     def update_paths!
       paths = Hash[*roots.map { |r|
         r.self_and_descendants.map { |n| [n.id, { 'path' => n.send(:build_path) }] } }.flatten]
-      update paths.keys, paths.values
+      update(paths.keys, paths.values)
     end
   end
 
-  before_save   :update_path
-  after_create  :update_paths
+  before_save  :update_path
+  after_create :update_paths
 
   validates_presence_of :title # :site wtf ... this breaks install_controller#index
   validates_uniqueness_of :permalink, :scope => :site_id
@@ -100,7 +100,7 @@ class Section < ActiveRecord::Base
     def build_path
       self_and_ancestors.map(&:permalink).join('/')
     end
-    
+
     def update_paths
       if parent_id
         move_to_child_of(parent)

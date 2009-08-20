@@ -6,29 +6,19 @@ module ActiveRecord
 
     module ActMacro
       def has_many_posts(options = {})
-        options[:order] = 'comments.created_at, comments.id'
-        options[:class_name] ||= 'Post'
+        return if has_many_posts?
+
+        options.reverse_merge!(:class_name => 'Post',
+          :order => 'comments.created_at, comments.id', :dependent => :delete_all)
 
         has_counter :posts, :as => options[:as]
-        
         options.delete(:as) unless options[:as] == :commentable
-        with_options options do |c|
-          c.has_many :posts, :dependent => :delete_all do
-            def by_author(author)
-              find_all_by_author_id_and_author_type(author.id, author.class.name)
-            end
-          end
-        end
-
-        include InstanceMethods
+        has_many :posts, options
       end
 
       def has_many_posts?
-        included_modules.include? ActiveRecord::HasManyPosts::InstanceMethods
+        instance_methods.include?('posts')
       end
-    end
-
-    module InstanceMethods
     end
   end
 end

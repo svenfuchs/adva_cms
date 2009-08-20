@@ -1,3 +1,5 @@
+# TODO: move logic to models/sweepers - otherwise it gets cluttered too much
+
 class Admin::ThemeFilesController < Admin::BaseController
   before_filter :set_theme
   before_filter :set_file, :only => [:show, :update, :destroy]
@@ -14,7 +16,7 @@ class Admin::ThemeFilesController < Admin::BaseController
       expire_pages_by_site!
       expire_template!(@file)
       flash[:notice] = t(:'adva.theme_files.flash.create.success')
-      redirect_to admin_theme_file_path(@site, @theme.id, @file.id)
+      redirect_to admin_theme_file_url(@site, @theme.id, @file.id)
     else
       flash.now[:error] = t(:'adva.theme_files.flash.create.failure')
       render :action => :new
@@ -23,14 +25,14 @@ class Admin::ThemeFilesController < Admin::BaseController
 
   def upload
     @files = @theme.files.build(params[:files])
-    Theme::File.transaction { @files.each &:save! }
-    
-    expire_pages_by_site!
-    @files.each {|f| expire_template!(f) }
-    
+    Theme::File.transaction { @files.each(&:save!) } # FIXME: -> model?
+
+    expire_pages_by_site! # FIXME: -> sweeper?
+    @files.each { |f| expire_template!(f) }
+
     flash[:notice] = t(:'adva.theme_files.flash.create.success') # FIXME upload.failure
-    redirect_to admin_theme_files_path(@site, @theme.id)
-    
+    redirect_to admin_theme_files_url(@site, @theme.id)
+
   rescue ActiveRecord::RecordInvalid => e
     respond_to do |format|
       format.html do
@@ -45,7 +47,7 @@ class Admin::ThemeFilesController < Admin::BaseController
       expire_pages_by_site! # FIXME could expire cached assets individually
       expire_template!(@file)
       flash[:notice] = t(:'adva.theme_files.flash.update.success')
-      redirect_to admin_theme_file_path(@site, @theme.id, @file.id)
+      redirect_to admin_theme_file_url(@site, @theme.id, @file.id)
     else
       flash.now[:error] = t(:'adva.theme_files.flash.update.failure')
       render :action => :show
@@ -57,7 +59,7 @@ class Admin::ThemeFilesController < Admin::BaseController
       expire_pages_by_site! # FIXME could expire cached assets individually
       expire_template!(@file)
       flash[:notice] = t(:'adva.theme_files.flash.destroy.success')
-      redirect_to admin_theme_files_path(@site, @theme.id)
+      redirect_to admin_theme_files_url(@site, @theme.id)
     else
       flash.now[:error] = t(:'adva.theme_files.flash.destroy.failure')
       render :action => :show
@@ -69,14 +71,14 @@ class Admin::ThemeFilesController < Admin::BaseController
     def expire_pages_by_site!
       expire_site_page_cache
     end
-    
+
     # FIXME we don't need this any more, do we?
     def expire_template!(file)
       # expires compiled actionview templates from memory
       # see lib/theme_support/compiled_template_expiration
       FileUtils.touch(@theme.path) if file.is_a?(Theme::Template) && File.directory?(@theme.path)
     end
-    
+
     def set_menu
       @menu = Menus::Admin::ThemeFiles.new
     end

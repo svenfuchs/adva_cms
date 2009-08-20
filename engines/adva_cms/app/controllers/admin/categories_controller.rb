@@ -12,7 +12,7 @@ class Admin::CategoriesController < Admin::BaseController
     @category = @section.categories.build params[:category]
     if @category.save
       flash[:notice] = t(:'adva.categories.flash.create.success')
-      redirect_to admin_categories_path
+      redirect_to admin_categories_url
     else
       flash.now[:error] = t(:'adva.categories.flash.create.failure')
       render :action => "new"
@@ -22,7 +22,7 @@ class Admin::CategoriesController < Admin::BaseController
   def update
     if @category.update_attributes params[:category]
       flash[:notice] = t(:'adva.categories.flash.update.success')
-      redirect_to edit_admin_category_path
+      redirect_to edit_admin_category_url
     else
       flash.now[:error] = t(:'adva.categories.flash.update.failure')
       render :action => 'edit'
@@ -41,7 +41,7 @@ class Admin::CategoriesController < Admin::BaseController
   def destroy
     if @category.destroy
       flash[:notice] = t(:'adva.categories.flash.destroy.success')
-      redirect_to admin_categories_path
+      redirect_to admin_categories_url
     else
       flash.now[:error] = t(:'adva.categories.flash.destroy.failure')
       render :action => 'edit'

@@ -4,7 +4,7 @@ require File.expand_path(File.dirname(__FILE__) + "/../test_helper")
 
 class CommentsControllerTest < ActionController::TestCase
   with_common :a_blog, :a_published_article, :an_approved_comment, :is_superuser
-  
+
   def default_params
     { :comment => { :commentable_type => 'Article', :commentable_id => @article.id } }
   end
@@ -33,7 +33,7 @@ class CommentsControllerTest < ActionController::TestCase
       it_renders :template, :show do
         has_text @comment.body
       end
-      
+
       # FIXME displays a message when the comment is not approved yet: /under review/
     end
   end
@@ -57,12 +57,12 @@ class CommentsControllerTest < ActionController::TestCase
   end
 
   describe "POST to :create" do
-    action do 
+    action do
       Comment.with_observers :comment_sweeper do
         post :create, default_params.merge(@params || {})
       end
     end
-    
+
     it_guards_permissions :create, :comment
 
     with :access_granted do
@@ -72,7 +72,7 @@ class CommentsControllerTest < ActionController::TestCase
         it_assigns_flash_cookie :notice => :not_nil
         it_triggers_event :comment_created
         it_sweeps_page_cache :by_reference => :article
-        it_redirects_to { comment_path assigns(:comment) }
+        it_redirects_to { comment_url(assigns(:comment)) }
 
         # FIXME
         # it "checks the comment's spaminess" do
@@ -94,20 +94,20 @@ class CommentsControllerTest < ActionController::TestCase
   end
 
   describe "PUT to :update" do
-    action do 
+    action do
       Comment.with_observers :comment_sweeper do
         post :update, (@params || {}).merge(:id => @comment.id)
       end
     end
-    
+
     it_guards_permissions :update, :comment
 
     with :access_granted do
       with "valid comment params" do
         before { @params = { :comment => { :body => 'the updated comment body' } } }
-        
+
         it_updates :comment
-        it_redirects_to { comment_path assigns(:comment) }
+        it_redirects_to { comment_url(assigns(:comment)) }
         it_assigns_flash_cookie :notice => :not_nil
         it_triggers_event :comment_updated
         it_sweeps_page_cache :by_reference => :article
@@ -121,15 +121,15 @@ class CommentsControllerTest < ActionController::TestCase
       end
     end
   end
-  
+
   describe "DELETE to :destroy" do
-    action do 
+    action do
       Comment.with_observers :comment_sweeper do
         delete :destroy,:id => @comment.id
       end
     end
     it_guards_permissions :destroy, :comment
-    
+
     with :access_granted do
       it_assigns :comment
       it_destroys :comment

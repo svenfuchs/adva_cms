@@ -11,7 +11,7 @@ class Article < Content
   has_filter :tagged, :categorized,
              :text  => { :attributes => [:title, :body, :excerpt] },
              :state => { :states => [:published, :unpublished] }
-  
+
   class << self
     def find_by_permalink(*args)
       options = args.extract_options!
@@ -48,14 +48,14 @@ class Article < Content
     return false if excerpt == "<p>&#160;</p>" # empty excerpt with fckeditor
     excerpt.present?
   end
-  
+
   def move_to(attributes = {})
     left_id = attributes[:left_id]
     left = left_id && left_id != 'null' ? self.class.find(left_id).position : 0
     self.class.connection.update("UPDATE #{self.class.table_name} SET position = position + 1 WHERE position > #{left}")
     self.update_attributes(:position => left + 1)
   end
-  
+
   protected
 
     def set_position

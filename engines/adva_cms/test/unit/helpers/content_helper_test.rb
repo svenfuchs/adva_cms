@@ -33,23 +33,6 @@ class ContentHelperTest < ActionView::TestCase
     @article.published_at = Time.utc(previous_year, 1, 1)
     published_at_formatted(@article).should == "January 01, #{previous_year} 00:00"
   end
-
-  # link_to_admin
-
-  test "#link_to_object when passed an Article it returns a link to admin_article_path" do
-    assert_html link_to_admin(@article), 'a[href=?][class=?][id=?]',
-      %r(/admin/sites/\d+/sections/\d+/articles/\d+/edit), 'edit article', %r(edit_article_\d+) , @article.title
-  end
-
-  test "#link_to_object when passed a Section it returns a link to admin_section_contents_path(object)" do
-    assert_html link_to_admin(@page), 'a[href=?][class=?][id=?]',
-      %r(/admin/sites/\d+/sections/\d+/articles), 'show section', %r(show_section_\d+) , @page.title
-  end
-
-  test "#link_to_object when passed a Site it returns a link to admin_site_path" do
-    assert_html link_to_admin(@site), 'a[href=?][class=?][id=?]',
-      %r(/admin/sites/\d+), 'show site', %r(show_site_\d+) , @site.name
-  end
 end
 
 class LinkToContentHelperTest < ActionView::TestCase

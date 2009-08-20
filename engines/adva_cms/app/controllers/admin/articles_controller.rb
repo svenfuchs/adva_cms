@@ -33,42 +33,42 @@ class Admin::ArticlesController < Admin::BaseController
     if @article.save
       trigger_events @article
       flash[:notice] = t(:'adva.articles.flash.create.success')
-      redirect_to edit_admin_article_path(:id => @article.id, :cl => content_locale)
+      redirect_to edit_admin_article_url(:id => @article.id, :cl => content_locale)
     else
       set_categories
       flash.now[:error] = t(:'adva.articles.flash.create.failure')
       render :action => 'new'
     end
   end
-  
+
   def update
     params[:article][:version].present? ? rollback : update_attributes
   end
 
-  def update_attributes    
+  def update_attributes
     @article.attributes = params[:article]
-    
+
     if save_with_revision? ? @article.save : @article.save_without_revision
       trigger_events @article
       flash[:notice] = t(:'adva.articles.flash.update.success')
-      redirect_to edit_admin_article_path(:cl => content_locale)
+      redirect_to edit_admin_article_url(:cl => content_locale)
     else
       set_categories
       flash.now[:error] = t(:'adva.articles.flash.update.failure')
       render :action => 'edit', :cl => content_locale
     end
   end
-  
+
   def rollback
     version = params[:article][:version].to_i
-  
+
     if @article.version != version and @article.revert_to(version)
       trigger_event @article, :rolledback
       flash[:notice] = t(:'adva.articles.flash.rollback.success', :version => version)
-      redirect_to edit_admin_article_path(:cl => content_locale)
+      redirect_to edit_admin_article_url(:cl => content_locale)
     else
       flash[:error] = t(:'adva.articles.flash.rollback.failure', :version => version)
-      redirect_to edit_admin_article_path(:cl => content_locale)
+      redirect_to edit_admin_article_url(:cl => content_locale)
     end
   end
 
@@ -86,7 +86,7 @@ class Admin::ArticlesController < Admin::BaseController
     if @article.destroy
       trigger_events @article
       flash[:notice] = t(:'adva.articles.flash.destroy.success')
-      redirect_to admin_articles_path
+      redirect_to admin_articles_url
     else
       set_categories
       flash.now[:error] = t(:'adva.articles.flash.destroy.failure')
@@ -99,7 +99,7 @@ class Admin::ArticlesController < Admin::BaseController
     def current_resource
       @article || @section
     end
-    
+
     def set_menu
       @menu = Menus::Admin::Articles.new
     end
@@ -134,12 +134,12 @@ class Admin::ArticlesController < Admin::BaseController
     #     @action_name = @_params[:action] = request.parameters['action'] = action
     #   end
     # end
-    
+
     def protect_single_article_mode
       if params[:action] == 'index' and @section.try(:single_article_mode)
-        redirect_to @section.articles.empty? ? 
-          new_admin_article_path(@site, @section, :article => { :title => @section.title }) :
-          edit_admin_article_path(@site, @section, @section.articles.first)
+        redirect_to @section.articles.empty? ?
+          new_admin_article_url(@site, @section, :article => { :title => @section.title }) :
+          edit_admin_article_url(@site, @section, @section.articles.first)
       end
     end
 

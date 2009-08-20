@@ -2,13 +2,13 @@ class Admin::AssetContentsController < Admin::BaseController
   layout false
 
   before_filter :set_asset, :set_content
-  helper :assets
+  helper :'admin/assets'
   guards_permissions :asset, :manage => [:create, :destroy]
 
   def create
     @asset.contents << @content
     @asset.save
-    
+
     respond_to do |format|
       format.js
     end

@@ -8,7 +8,7 @@ class Admin::UsersController < Admin::BaseController
   filter_parameter_logging :password
 
   guards_permissions :user
-  
+
   def index
   end
 
@@ -22,12 +22,12 @@ class Admin::UsersController < Admin::BaseController
   def create
     @user = User.new(params[:user])
     @user.memberships.build(:site => @site) if @site and !@user.has_role?(:superuser)
-    
+
     if @user.save
       @user.verify! # TODO hu??
-      trigger_events @user
+      trigger_events(@user)
       flash[:notice] = t(:'adva.users.flash.create.success')
-      redirect_to admin_user_path(@site, @user)
+      redirect_to admin_user_url(@site, @user)
     else
       flash.now[:error] = t(:'adva.users.flash.create.failure')
       render :action => :new
@@ -38,10 +38,10 @@ class Admin::UsersController < Admin::BaseController
   end
 
   def update
-    if @user.update_attributes params[:user]
+    if @user.update_attributes(params[:user])
       trigger_events @user
       flash[:notice] = t(:'adva.users.flash.update.success')
-      redirect_to admin_user_path(@site, @user)
+      redirect_to admin_user_url(@site, @user)
     else
       flash.now[:error] = t(:'adva.users.flash.update.failure')
       render :action => :edit
@@ -52,7 +52,7 @@ class Admin::UsersController < Admin::BaseController
     if @user.destroy
       trigger_events @user
       flash[:notice] = t(:'adva.users.flash.destroy.success')
-      redirect_to admin_users_path(@site)
+      redirect_to admin_users_url(@site)
     else
       flash.now[:error] = t(:'adva.users.flash.destroy.failure')
       render :action => :edit
@@ -66,7 +66,7 @@ class Admin::UsersController < Admin::BaseController
     end
 
     def set_users
-      @users = @site ? @site.users_and_superusers.paginate(:page => current_page) : 
+      @users = @site ? @site.users_and_superusers.paginate(:page => current_page) :
                        User.admins_and_superusers.paginate(:page => current_page)
     end
 
@@ -75,11 +75,11 @@ class Admin::UsersController < Admin::BaseController
       @user = User.find params[:id], options
     rescue
       flash[:error] = t(:'adva.users.flash.not_member_of_this_site')
-      redirect_to admin_users_path(@site)
+      redirect_to admin_users_url(@site)
     end
 
     def authorize_access
-      redirect_to admin_sites_path unless @site || current_user.has_role?(:superuser)
+      redirect_to admin_sites_url unless @site || current_user.has_role?(:superuser)
     end
 
     def authorize_params

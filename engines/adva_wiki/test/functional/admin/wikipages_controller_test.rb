@@ -10,7 +10,7 @@ class AdminWikipagesControllerTest < ActionController::TestCase
   def default_params
     { :site_id => @site.id, :section_id => @section.id }
   end
-  
+
   view :form do
     has_tag 'input[name=?]', 'wikipage[title]'
     has_tag 'textarea[name=?]', 'wikipage[body]'
@@ -50,7 +50,7 @@ class AdminWikipagesControllerTest < ActionController::TestCase
   describe "GET to :new" do
     action { get :new, default_params }
     it_guards_permissions :create, :wikipage
-  
+
     with :access_granted do
       it_assigns :site, :section, :wikipage => :not_nil
       it_renders :template, :new do
@@ -68,7 +68,7 @@ class AdminWikipagesControllerTest < ActionController::TestCase
 
       with :valid_wikipage_params do
         it_saves :wikipage
-        it_redirects_to { edit_admin_wikipage_path(@site, @section, assigns(:wikipage)) }
+        it_redirects_to { edit_admin_wikipage_url(@site, @section, assigns(:wikipage)) }
         it_assigns_flash_cookie :notice => :not_nil
         it_triggers_event :wikipage_created
       end
@@ -109,7 +109,7 @@ class AdminWikipagesControllerTest < ActionController::TestCase
           before { @params = { :wikipage => { :body => 'the updated wikipage body' } } }
 
           it_updates :wikipage
-          it_redirects_to { edit_admin_wikipage_path(@site, @section, @wikipage) }
+          it_redirects_to { edit_admin_wikipage_url(@site, @section, @wikipage) }
           it_assigns_flash_cookie :notice => :not_nil
           it_triggers_event :wikipage_updated
           it_sweeps_page_cache :by_reference => :wikipage
@@ -137,7 +137,7 @@ class AdminWikipagesControllerTest < ActionController::TestCase
             it_rollsback :wikipage, :to => 1
             it_triggers_event :wikipage_rolledback
             it_assigns_flash_cookie :notice => :not_nil
-            it_redirects_to { edit_admin_wikipage_path(@site, @section, @wikipage) }
+            it_redirects_to { edit_admin_wikipage_url(@site, @section, @wikipage) }
             it_sweeps_page_cache :by_reference => :wikipage
           end
 
@@ -146,7 +146,7 @@ class AdminWikipagesControllerTest < ActionController::TestCase
             it_does_not_rollback :wikipage
             it_does_not_trigger_any_event
             it_assigns_flash_cookie :error => :not_nil
-            it_redirects_to { edit_admin_wikipage_path(@site, @section, @wikipage) }
+            it_redirects_to { edit_admin_wikipage_url(@site, @section, @wikipage) }
             it_does_not_sweep_page_cache
           end
         end
@@ -159,7 +159,7 @@ class AdminWikipagesControllerTest < ActionController::TestCase
     it_guards_permissions :destroy, :wikipage
 
     with :access_granted do
-      it_redirects_to { admin_wikipages_path(@site, @section) }
+      it_redirects_to { admin_wikipages_url(@site, @section) }
       it_assigns_flash_cookie :notice => :not_nil
       it_triggers_event :wikipage_deleted
       it_sweeps_page_cache :by_reference => :wikipage

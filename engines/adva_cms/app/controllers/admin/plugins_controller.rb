@@ -14,14 +14,14 @@ class Admin::PluginsController < Admin::BaseController
     @plugin.options = params[:plugin]
     @plugin.save!
     flash[:notice] = t(:'adva.plugins.flash.update.success')
-    redirect_to admin_plugin_path(@site, @plugin)
+    redirect_to admin_plugin_url(@site, @plugin)
   end
 
   def destroy
     @plugin.options = {}
     @plugin.save!
     flash[:notice] = t(:'adva.plugins.flash.destroy.success')
-    redirect_to admin_plugin_path(@site, @plugin)
+    redirect_to admin_plugin_url(@site, @plugin)
   end
 
   protected

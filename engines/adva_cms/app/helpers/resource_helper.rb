@@ -2,15 +2,15 @@ module ResourceHelper
   def resource_url(action, resource, options = {})
     type, resource = *resource.reverse if resource.is_a?(Array)
     raise "can not generate a url for a new #{resource.class.name}" if resource.try(:new_record?)
-    
+
     namespace = resource_url_namespace(options)
     type = normalize_resource_type(action, type, resource)
-    options.reverse_merge! :only_path => true
+    options.reverse_merge!(:only_path => true)
 
     args = resource_owners(resource) << options
     args.shift unless namespace.try(:to_sym) == :admin
 
-    send resource_url_method(namespace, action, type, options), *args.uniq
+    send(resource_url_method(namespace, action, type, options), *args.uniq)
   end
 
   def resource_link(action, *args)

@@ -2,7 +2,7 @@ module BaseHelper
   def column(&block)
     content_tag(:div, :class => 'col', &block)
   end
-  
+
   def buttons(&block)
     content_tag(:p, :class => 'buttons', &block)
   end
@@ -38,7 +38,7 @@ module BaseHelper
   end
 
   def author_options(users)
-    authors = [[current_user.name, current_user.id]] 
+    authors = [[current_user.name, current_user.id]]
     authors += users.map { |author| [author.name, author.id] }
     authors.uniq
   end
@@ -48,15 +48,5 @@ module BaseHelper
     #       content when we are editing it?
     # content.try(:author_id) || current_user.id
     current_user.id
-  end
-
-
-  # Helper for adding active class to menu li
-  #
-  # Usage:
-  #   <li <%= active_li?('issues') %>>my menu li</li>
-  #
-  def active_li?(controller_name)
-    'class="active"' if params[:controller] == controller_name
   end
 end

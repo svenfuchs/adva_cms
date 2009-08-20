@@ -13,7 +13,7 @@ module CommentsHelper
     module_eval <<-CODE, __FILE__, __LINE__
       def #{method}(*args)
         options = args.extract_options!
-        args.unshift(@site) unless args.first.is_a? Site
+        args.unshift(@site) unless args.first.is_a?(Site)
         merge_admin_comments_query_params(options)
         #{delegate} *(args << options).compact
       end
@@ -29,7 +29,7 @@ module CommentsHelper
     else
       "#{approved.to_s.rjust(2, '0')} (#{total.to_s.rjust(2, '0')})"
     end
-    link_to_content_comments text, content
+    link_to_content_comments(text, content)
   end
 
   def link_to_content_comments(*args)
@@ -42,7 +42,7 @@ module CommentsHelper
     text ||= t(:'adva.comments.titles.comment_with_count', :count => content.approved_comments_count)
     path = show_path(content, :namespace => nil, :anchor => (comment ? dom_id(comment) : 'comments'))
 
-    link_to text, path, options
+    link_to(text, path, options)
   end
 
   def link_to_content_comment(*args)

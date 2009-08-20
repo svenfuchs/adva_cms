@@ -78,7 +78,7 @@ class AdminThemesControllerTest < ActionController::TestCase
       with :access_granted do
         it_saves :theme
         it_assigns :site, :theme => :not_nil
-        it_redirects_to { admin_themes_path }
+        it_redirects_to { admin_themes_url }
         it_assigns_flash_cookie :notice => :not_nil
 
         it "associates the new Theme to the current site" do
@@ -119,7 +119,7 @@ class AdminThemesControllerTest < ActionController::TestCase
 
         it_saves :theme
         it_assigns :site, :theme => :not_nil
-        it_redirects_to { edit_admin_theme_path(@site, assigns(:theme).id) }
+        it_redirects_to { edit_admin_theme_url(@site, assigns(:theme).id) }
         it_assigns_flash_cookie :notice => :not_nil
 
         it "updates the theme with the theme params" do
@@ -143,7 +143,7 @@ class AdminThemesControllerTest < ActionController::TestCase
       before { FileUtils.mkdir_p(@theme.path) unless ::File.exists?(@theme.path) }
 
       it_assigns :theme
-      it_redirects_to { admin_themes_path }
+      it_redirects_to { admin_themes_url }
       it_assigns_flash_cookie :notice => :not_nil
 
       it "deletes the theme directory" do
@@ -162,7 +162,7 @@ class AdminThemesControllerTest < ActionController::TestCase
     it_guards_permissions :update, :theme
 
     with :access_granted do
-      it_redirects_to { admin_themes_path }
+      it_redirects_to { admin_themes_url }
 
       it "activates the theme" do
         @theme.reload.active?.should be_true
@@ -180,7 +180,7 @@ class AdminThemesControllerTest < ActionController::TestCase
     it_guards_permissions :update, :theme
 
     with :access_granted do
-      it_redirects_to { admin_themes_path }
+      it_redirects_to { admin_themes_url }
 
       it "deactivates the theme" do
         @theme.reload.active?.should be_false
@@ -210,10 +210,10 @@ class AdminThemesControllerTest < ActionController::TestCase
     with :access_granted do
       with "valid uploaded theme zip file" do
         before { @params = default_params.merge(:theme => { :file => theme_fixture }) }
-        it_redirects_to { admin_themes_path }
+        it_redirects_to { admin_themes_url }
         it_assigns_flash_cookie :notice => :not_nil
       end
-      
+
       with "no theme zip file uploaded" do
         before { @params = default_params.merge(:theme => { :file => nil }) }
         it_renders :template, :import
@@ -221,7 +221,7 @@ class AdminThemesControllerTest < ActionController::TestCase
       end
     end
   end
-  
+
   describe "GET to :export" do
     action { get :export, default_params.merge(:id => @theme.id) }
 

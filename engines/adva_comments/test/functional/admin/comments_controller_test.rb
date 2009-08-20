@@ -88,7 +88,7 @@ class AdminCommentsControllerTest < ActionController::TestCase
   #
   #   with :valid_comment_params do
   #     it_changes '@site.reload.comments.count' => 1
-  #     it_redirects_to admin_comment_path(@site, assigns(:comment))
+  #     it_redirects_to admin_comment_url(@site, assigns(:comment))
   #     it_assigns_flash_cookie :notice => :not_nil
   #   end
   #

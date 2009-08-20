@@ -19,24 +19,6 @@ module Admin::BaseHelper
     end
   end
 
-  def admin_site_select_tag
-    return '' unless current_user.has_role?(:superuser) || Site.multi_sites_enabled
-    options = []
-
-    if current_user.has_role?(:superuser)
-      options << [t(:'adva.links.sites_overview'), admin_sites_path]
-      options << [t(:'adva.links.superusers_admins'), admin_users_path]
-      options << ['------------------', '#']
-    end
-
-    # TODO only show sites where the user actually has access to!
-    options += Site.all.collect { |site| [site.name, admin_site_path(site)] }
-
-    selection = options.reverse.detect { |name, url| request.path.starts_with?(url) }
-
-    select_tag 'site_select', options_for_select(options, selection)
-  end
-
   def link_to_profile(site = nil, options = {})
     name = options[:name].nil? ? t(:'adva.links.profile') : options[:name]
     site = nil if site.try(:new_record?)
@@ -48,7 +30,7 @@ module Admin::BaseHelper
     block = Proc.new { |locale| link_to_edit(locale, content, :cl => locale) } unless block
     locales = content.translated_locales.map { |locale| block.call(locale.to_s) }
     content_tag(:span, :class => 'content_translations') do
-      t(:"adva.#{content[:type].tableize}.translation_links", :locales => locales.join(', ')) + 
+      t(:"adva.#{content[:type].tableize}.translation_links", :locales => locales.join(', ')) +
       "<p class=\"hint\" for=\"content_translations\">#{t(:'adva.hints.content_translations')}</p>"
     end
   end
@@ -61,6 +43,7 @@ module Admin::BaseHelper
     link_to(t(:'adva.titles.restore_defaults'), admin_plugin_path(site, plugin), :confirm => t(:'adva.plugins.confirm_reset'))
   end
 
+  # FIXME: translations
   def page_cached_at(page)
     if Date.today == page.updated_at.to_date
       if page.updated_at > Time.zone.now - 4.hours

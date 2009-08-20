@@ -1,6 +1,6 @@
 class Admin::AssetsController < Admin::BaseController
-  include AssetsHelper
-  helper :assets, :asset_tag
+  include Admin::AssetsHelper
+  helper :'admin/assets', :'admin/asset_tag'
   helper_method :created_notice, :destroyed_notice
   before_filter :set_assets, :only => [:index] # :set_filter_params, 
   before_filter :set_format, :only => [:create]
@@ -26,7 +26,7 @@ class Admin::AssetsController < Admin::BaseController
     respond_to do |format|
       format.html do
         flash[:notice] = created_notice
-        redirect_to(admin_assets_path)
+        redirect_to admin_assets_url
       end
       format.js do
         responds_to_parent { render :action => 'create' }
@@ -50,7 +50,7 @@ class Admin::AssetsController < Admin::BaseController
   def update
     @asset.update_attributes! params[:asset]
     flash[:notice] = t(:'adva.assets.flash.update.success')
-    redirect_to admin_assets_path
+    redirect_to admin_assets_url
   rescue ActiveRecord::RecordInvalid
     flash[:error] = t(:'adva.assets.flash.update.failure')
     render :action => 'edit'
@@ -63,7 +63,7 @@ class Admin::AssetsController < Admin::BaseController
     respond_to do |format|
       format.html do
         flash[:notice] = destroyed_notice
-        redirect_to admin_assets_path
+        redirect_to admin_assets_url
       end
       format.js do
       end
@@ -81,7 +81,7 @@ class Admin::AssetsController < Admin::BaseController
     end
 
     def set_asset
-      @asset = @site.assets.find params[:id]
+      @asset = @site.assets.find(params[:id])
     end
 
     def set_format
