@@ -7,7 +7,7 @@
 		# end
 		
 		t.row do |r, wikipage|
-  		r.cell link_to_edit(wikipage.title, wikipage, :class => 'wikipage')
+  		r.cell content_status(wikipage) + link_to_edit(wikipage.title, wikipage, :class => 'wikipage')
 			r.cell wikipage.version
 			r.cell wikipage.updated_at.strftime('%d.%m.%Y %H:%M')
 			r.cell link_to(wikipage.author_link, admin_site_user_path(@site, wikipage.author))

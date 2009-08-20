@@ -3,7 +3,7 @@
 		t.column :name, :created_at, :actions
 
 		t.row do |r, issue|
-  		r.cell link_to_show(issue.title, issue, :class => issue.state)
+  		r.cell content_status(issue) + link_to_show(issue.title, issue, :class => issue.state)
 			r.cell issue.created_at.to_s(:db)
 			r.cell links_to_actions([:show, :edit, :delete], issue)
 		end

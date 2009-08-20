@@ -81,6 +81,7 @@ en:
       options: Options
       overview: Overview
       parent_settings: Parent setting
+      pending: Pending
       permalink: Permalink
       permissions: Permissions
       photos: Photos
@@ -89,6 +90,7 @@ en:
       posts: Posts
       preview: Preview
       publish_in_categories: Publish in these categories
+      published: Published
       recently_logged_in: Recently logged in
       restore_defaults: Restore Defaults
       roles: Roles
@@ -718,8 +720,7 @@ en:
     themes:
       no_themes_available: You currently do not have any themes created.
       hints:
-        cache_folder_warning_stylesheets: "Do not use stylesheets/cache as a source directory for your stylesheets, this folder is used as a root for caching your themes stylesheet files and all of its contents will be deleted when you edit one of your stylesheets!"
-        cache_folder_warning_javascripts: "Do not use javascripts/cache as a source directory for your javascripts, this folder is used as a root for caching your themes javascript files and all of its contents will be deleted when you edit one of your javascripts!"        
+        asset_caching: "When caching your stylesheets/javascripts use either /cache/ folder or filename starting with cache_ word. All the files are recursively destroyed from cache/ folder and all files starting with cache_ are removed, everything else stays unaffected."
       lables:
         zip_file: Zip file
       titles:

@@ -31,6 +31,14 @@ module ContentHelper
     content_type = section.class.content_type.pluralize.gsub('::', '_').underscore.downcase
     send(:"admin_#{content_type}_url", section.site, section)
   end
+  
+  def content_status(content)
+    return "<span>&nbsp;</span>" unless content.respond_to?(:published?)
+    klass = content.published? ? 'published' : 'pending'
+    text  = content.published? ? t(:'adva.titles.published') : t(:'adva.titles.pending')
+    
+    "<span title='#{text}' alt='#{text}' class='status #{klass}'>#{text}</span>"
+  end
 
   def link_to_preview(*args)
     options = args.extract_options!

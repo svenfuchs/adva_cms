@@ -122,6 +122,7 @@ de:
      options: Optionen
      overview: Übersicht
      parent_settings: Elternteileinstellungen
+     pending: Anhängig
      permissions: Berechtigungen
      permalink: Permalink
      photos: Fotos
@@ -130,6 +131,7 @@ de:
      posts: Einträge
      preview: Vorschau
      publish_in_categories: In diesen Kategorien veröffentlichen
+     published: Veröffentlicht
      recent_activity: Letzte Aktivität
      recently_logged_in: Zuletzt angemeldet
      register: Registrieren

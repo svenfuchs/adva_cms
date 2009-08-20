@@ -7,7 +7,7 @@
 		# end
 
 		t.row do |r, subscription|
-  		r.cell link_to(subscription.user.name, admin_user_path(subscription.user_id))
+  		r.cell content_status(subscription) + link_to(subscription.user.name, admin_user_path(subscription.user_id))
 			r.cell subscription.user.email
 			r.cell subscription.created_at.to_s(:db)
 			r.cell link_to_delete(subscription, :url => admin_adva_subscription_path(@site, @newsletter, subscription))

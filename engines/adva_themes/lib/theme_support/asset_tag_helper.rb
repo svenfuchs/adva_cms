@@ -24,7 +24,7 @@ module ActionView
         recursive = options.delete("recursive")
 
         if ActionController::Base.perform_caching && cache
-          joined_javascript_name = default_cache_folder(cache) + ".js"
+          joined_javascript_name = (cache == true ? "all" : cache) + ".js"
           joined_javascript_path = File.join(theme.path + '/javascripts', joined_javascript_name)
 
           paths = theme_compute_javascript_paths(theme, sources, recursive)
@@ -52,7 +52,7 @@ module ActionView
         recursive = options.delete("recursive")
 
         if ActionController::Base.perform_caching && cache
-          joined_stylesheet_name = default_cache_folder(cache) + ".css"
+          joined_stylesheet_name = (cache == true ? "all" : cache) + ".css"
           joined_stylesheet_path = File.join(theme.path + '/stylesheets', joined_stylesheet_name)
           
           paths = theme_compute_stylesheet_paths(theme, sources, recursive)
@@ -63,10 +63,6 @@ module ActionView
             theme_stylesheet_tag(theme, source, options)
           end.join("\n")
         end
-      end
-      
-      def default_cache_folder(cache)
-        "#{Theme.default_theme_cache_folder}/" + (cache == true ? 'all' : cache)
       end
 
       def theme_image_path(theme, source)

@@ -11,7 +11,7 @@
 		# end
 
 		t.row do |r, newsletter|
-  		r.cell link_to(newsletter.title, admin_adva_issues_path(@site, newsletter), :class => newsletter.state)
+  		r.cell content_status(newsletter) + link_to(newsletter.title, admin_adva_issues_path(@site, newsletter), :class => newsletter.state)
 			r.cell link_to(newsletter.issues_count, admin_adva_issues_path(@site, newsletter))
 			r.cell link_to(newsletter.subscriptions_count, admin_adva_subscriptions_path(@site, newsletter))
 			r.cell links_to_actions([:edit, :delete], newsletter)

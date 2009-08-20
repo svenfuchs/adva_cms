@@ -48,7 +48,22 @@ class LinkToContentHelperTest < ActionView::TestCase
     stub(self).page_category_path.returns '/path/to/page/category'
     stub(self).page_tag_path.returns '/path/to/page/tag'
   end
-
+  
+  # content_status
+  
+  test "#content_status returns an empty span if passed object does not respond_to published?" do
+    content_status(Object.new).should == %(<span>&nbsp;</span>)
+  end
+  
+  test "#content_status returns span with published title and alt if passed object is published" do
+    content_status(@article).should == %(<span title='Published' alt='Published' class='status published'>Published</span>)
+  end
+  
+  test "#content_status returns span with pending title and alt if passed object is not published" do
+    @article.stubs(:published?).returns false
+    content_status(@article).should == %(<span title='Pending' alt='Pending' class='status pending'>Pending</span>)
+  end
+  
   # link_to_category
 
   test "#link_to_category links to the given category" do
