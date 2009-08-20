@@ -7,6 +7,6 @@ ActionMailer::Base.class_eval do
   end
 
   def site(object)
-    self.site(object)
+    self.class.site(object)
   end
 end
