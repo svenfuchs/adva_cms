@@ -152,4 +152,37 @@ class ThemeTest < ActiveSupport::TestCase
   test "strip_path strips only from the start" do
     assert_equal 'images/foo/bar/image.jpg', Theme.send(:strip_path, 'foo/bar/images/foo/bar/image.jpg', 'foo/bar/')
   end
+  
+  # cached_files
+  
+  test "#cached_files returns an array of cached files" do
+    setup_theme_with_cached_files(@theme)
+    assert_equal @theme.cached_files, ["#{@theme.path}/javascripts/cached_javascript.js",
+                                       "#{@theme.path}/javascripts/folder/cached/folder",
+                                       "#{@theme.path}/javascripts/folder/cached/folder/some_javascript.css",
+                                       "#{@theme.path}/stylesheets/cached_stylesheet.css"]
+  end
+  
+  # clear_asset_cache!
+  
+  test "#clear_asset_cache! removes the cached folders and cached_ files from theme" do
+    setup_theme_with_cached_files(@theme)
+    @theme.clear_asset_cache!
+    theme_files = Dir.glob("#{@theme.path}/**/*")
+    
+    assert ! theme_files.include?("#{@theme.path}/javascripts/cached_javascript.js")
+    assert ! theme_files.include?("#{@theme.path}/stylesheets/cached_stylesheet.css")
+    assert ! theme_files.include?("#{@theme.path}/javascripts/folder/cached/")
+  end
+  
+  def setup_theme_with_cached_files(theme = theme)
+    uploaded_template(theme)
+    uploaded_stylesheet(theme)
+    uploaded_javascript(theme)
+    uploaded_image(theme)
+    FileUtils.touch(theme.path + '/stylesheets/cached_stylesheet.css')
+    FileUtils.touch(theme.path + '/javascripts/cached_javascript.js')
+    FileUtils.mkdir_p(theme.path + '/javascripts/folder/cached/folder')
+    FileUtils.touch(theme.path + '/javascripts/folder/cached/folder/some_javascript.css')
+  end
 end

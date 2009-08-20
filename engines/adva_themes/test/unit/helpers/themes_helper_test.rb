@@ -40,8 +40,8 @@ class ThemesHelperTest < ActionView::TestCase
   
   test 'theme_javascript_include_tag with caching' do
     tag = theme_javascript_include_tag('a-theme', 'effects', :cache => true)
-    tag.should == "<script src=\"/sites/site-#{@site.id}/themes/a-theme/javascripts/cache/all.js\" type=\"text/javascript\"></script>"
-    "#{@theme.path}/javascripts/cache/all.js".should be_file
+    tag.should == "<script src=\"/sites/site-#{@site.id}/themes/a-theme/javascripts/all.js\" type=\"text/javascript\"></script>"
+    "#{@theme.path}/javascripts/all.js".should be_file
   end
 
   test 'theme_stylesheet_link_tag' do
@@ -56,8 +56,8 @@ class ThemesHelperTest < ActionView::TestCase
   
   test 'theme_stylesheet_link_tag with caching' do
     tag = theme_stylesheet_link_tag('a-theme', 'styles', :cache => true)
-    tag.should == "<link href=\"/sites/site-#{@site.id}/themes/a-theme/stylesheets/cache/all.css\" media=\"screen\" rel=\"stylesheet\" type=\"text/css\" />"
-    "#{@theme.path}/stylesheets/cache/all.css".should be_file
+    tag.should == "<link href=\"/sites/site-#{@site.id}/themes/a-theme/stylesheets/all.css\" media=\"screen\" rel=\"stylesheet\" type=\"text/css\" />"
+    "#{@theme.path}/stylesheets/all.css".should be_file
   end
 end
   

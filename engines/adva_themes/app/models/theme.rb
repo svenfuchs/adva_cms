@@ -16,9 +16,6 @@ class Theme < ActiveRecord::Base
   cattr_accessor :default_preview
   @@default_preview = "#{::File.dirname(__FILE__)}/../../public/images/adva_themes/preview.png"
   
-  cattr_accessor :default_theme_cache_folder
-  @@default_theme_cache_folder = 'cache'
-  
   THEME_STRUCTURE = ['stylesheets', 'javascripts', 'images', 'templates']
   
   class << self
@@ -140,7 +137,15 @@ class Theme < ActiveRecord::Base
       end
     end
   end
-
+  
+  def cached_files
+    Dir.glob("#{path}/**/*").select {|file| file if /cached_|\/cached\//.match(file) }
+  end
+  
+  def clear_asset_cache!
+    cached_files.each { |file| FileUtils.rm_r(file) if ::File.exists?(file) }
+  end
+  
   # def to_param
   #   theme_id
   # end

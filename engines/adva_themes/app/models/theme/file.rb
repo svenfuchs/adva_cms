@@ -197,11 +197,7 @@ class Theme < ActiveRecord::Base
     
     protected
       def expire_asset_cache!
-        FileUtils.rm_r(cache_folder) rescue Errno::ENOENT
-      end
-      
-      def cache_folder
-        "#{theme.path}/javascripts/#{Theme.default_theme_cache_folder}/"
+        theme.clear_asset_cache!
       end
   end
 
@@ -211,11 +207,7 @@ class Theme < ActiveRecord::Base
     
     protected
       def expire_asset_cache!
-        FileUtils.rm_r(cache_folder) rescue Errno::ENOENT
-      end
-      
-      def cache_folder
-        "#{theme.path}/stylesheets/#{Theme.default_theme_cache_folder}/"
+        theme.clear_asset_cache!
       end
   end
 
