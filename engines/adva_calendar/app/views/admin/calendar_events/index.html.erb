@@ -27,7 +27,7 @@
 		# end
 
 		t.row do |r, event|
-			r.cell link_to_edit(event.title, event) # :class => event.state
+			r.cell content_status(event) + link_to_edit(event.title, event) # :class => event.state
 			r.cell datetime_with_microformat(event.start_date, :format => :long, :type => (event.all_day? ? :date : :time))
 			r.cell event.end_date ? datetime_with_microformat(event.end_date, :format => :long, :type => (event.all_day? ? :date : :time)) : t(:'adva.calendar.open_end')
 			r.cell link_to(event.user.name, admin_site_user_path(@site, event.user))

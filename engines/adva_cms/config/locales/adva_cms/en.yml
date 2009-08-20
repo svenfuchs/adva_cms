@@ -81,6 +81,7 @@ en:
       options: Options
       overview: Overview
       parent_settings: Parent setting
+      pending: Pending
       permalink: Permalink
       permissions: Permissions
       photos: Photos
@@ -89,6 +90,7 @@ en:
       posts: Posts
       preview: Preview
       publish_in_categories: Publish in these categories
+      published: Published
       recently_logged_in: Recently logged in
       restore_defaults: Restore Defaults
       roles: Roles

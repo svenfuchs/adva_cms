@@ -38,19 +38,8 @@ table.list tr.level_6 td:first-child { padding-left: 160px; }
 table.list tr.level_7 td:first-child { padding-left: 185px; }
 table.list tr.level_8 td:first-child { padding-left: 210px; }
 
-table.list a.published {
-  padding-left: 30px;
-  background: url(/images/adva_cms/icons/tick.png) no-repeat;
-}
-table.list a.draft,
-table.list a.hold,
-table.list a.queued,
-table.list a.pending {
-  padding-left: 30px;
-  background: url(/images/adva_cms/icons/hourglass.png) no-repeat;
-}
-
-#content .actions a {
+table.list span.status {
+  padding-left: 10px;
   display: inline-block;
   width: 16px;
   height: 16px; 
@@ -60,11 +49,21 @@ table.list a.pending {
   vertical-align: middle;
 }
 
-#content .status_title {
+table.list span.published {
+  background: url(/images/adva_cms/icons/tick.png) no-repeat;
+}
+table.list span.draft,
+table.list span.hold,
+table.list span.queued,
+table.list span.pending {
+  background: url(/images/adva_cms/icons/hourglass.png) no-repeat;
+}
+
+#content .actions a {
   display: inline-block;
-  width: 32px;
+  width: 16px;
   height: 16px; 
-  margin-left: -32px;
+  margin-left: 4px;
   text-indent: 16px;
   overflow: hidden;
   vertical-align: middle;
