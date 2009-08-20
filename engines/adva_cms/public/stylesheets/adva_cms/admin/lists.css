@@ -59,6 +59,17 @@ table.list a.pending {
   overflow: hidden;
   vertical-align: middle;
 }
+
+#content .status_title {
+  display: inline-block;
+  width: 32px;
+  height: 16px; 
+  margin-left: -32px;
+  text-indent: 16px;
+  overflow: hidden;
+  vertical-align: middle;
+}
+
 #content .actions a.text {
   display: inline;
   text-indent: 0;

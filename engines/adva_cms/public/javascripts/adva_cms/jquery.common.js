@@ -10,7 +10,7 @@ var Form = {
 
 $(document).ready(function() {
   $('#toggle_draft').click(Form.toggleDraft);
-  
+
   if($(".hint").size() > 0) {
     $(".hint").each(function() {
       if(!$(this).hasClass('text_only')) {
