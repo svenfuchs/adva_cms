@@ -140,8 +140,10 @@ module ActionController
         end
 
         def set_user_cookie!(user = current_user)
-          cookies[:uid] = user.id.to_s
-          cookies[:uname] = user.name
+          if user
+            cookies[:uid] = user.id.to_s
+            cookies[:uname] = user.name
+          end
         end
 
         # There are a few ways that a user can login without going through
