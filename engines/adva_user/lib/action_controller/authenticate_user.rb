@@ -139,7 +139,7 @@ module ActionController
           cookies[:remember_me] = { :value => "#{current_user.id};#{token}", :expires => 10.years.from_now }
         end
 
-        def set_user_cookie!(user)
+        def set_user_cookie!(user = current_user)
           cookies[:uid] = user.id.to_s
           cookies[:uname] = user.name
         end
