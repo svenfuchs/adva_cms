@@ -17,7 +17,9 @@ class Admin::CachedPagesController < Admin::BaseController
 
   def clear
     expire_site_page_cache
-
+    # FIXME there is most probably more intelligent place to put this
+    @site.themes.each { |theme| theme.clear_asset_cache! }
+    
     flash[:notice] = t(:'adva.cached_pages.flash.clear.success')
     redirect_to admin_cached_pages_url
   end
