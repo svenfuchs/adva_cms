@@ -33,6 +33,8 @@ module ResourceHelper
 
   [:index, :new, :show, :edit, :delete].each do |action|
     define_method(:"#{action}_url") do |*args|
+      args << options = args.extract_options!
+      options[:only_path] = false
       resource_url(action, *args)
     end
 
