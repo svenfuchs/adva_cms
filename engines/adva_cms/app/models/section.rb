@@ -76,16 +76,20 @@ class Section < ActiveRecord::Base
     end
   end
 
-  def published?(parents=false)
+  def published?(parents = false)
     return true if self == site.sections.root # the root section is always published
 
-    return false if parents && !ancestors.reject(&:published?).empty?
+    return false if parents && has_unpublished_ancestor?
     return false if published_at.nil? || published_at > Time.current
     return true
   end
   alias published published?
 
   protected
+  
+    def has_unpublished_ancestor?
+      !ancestors.reject(&:published?).empty?
+    end
 
     def update_path
       if permalink_changed?

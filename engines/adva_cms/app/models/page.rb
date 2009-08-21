@@ -26,7 +26,7 @@ class Page < Section
     end
   end
 
-  def published?(parents=false)
+  def published?(parents = false)
     if single_article_mode
       # FIXME: duplication with Section class
       return true if self == site.sections.root
