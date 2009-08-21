@@ -50,7 +50,7 @@ page =         Page.create! :site => site,
 page.single_article_mode = false # FIXME make has_options monkeypatch upate_attributes
 page.save!
 
-               Page.create! :site => site,
+another_page = Page.create! :site => site,
                             :title => 'another page',
                             :permalink => 'another-page',
                             :comment_age => 0,
@@ -99,6 +99,14 @@ article   = Article.create! :site => site,
                             :body => 'a page article body',
                             :categories => [category],
                             :tag_list => 'foo bar',
+                            :author => user,
+                            :published_at => Time.parse('2008-01-01 12:00:00')
+
+            Article.create! :site => site,
+                            :section => another_page,
+                            :title => 'another page article',
+                            :excerpt => 'another page article excerpt',
+                            :body => 'another page article body',
                             :author => user,
                             :published_at => Time.parse('2008-01-01 12:00:00')
 

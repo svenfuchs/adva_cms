@@ -40,15 +40,14 @@ module IntegrationTests
       visit $1
 
       john_doe.reload.verified?.should be_true
-      session[:uid].should == john_doe.id
-      cookies['uid'].should == john_doe.id.to_s
-      cookies['uname'].should == CGI.escape(john_doe.name)
-
-      request.url.should == "http://#{@site.host}/"
     end
 
     def check_logged_in
       controller.current_user.should == john_doe
+
+      session[:uid].should == john_doe.id
+      cookies['uid'].should == john_doe.id.to_s
+      cookies['uname'].should == CGI.escape(john_doe.name)
     end
 
 

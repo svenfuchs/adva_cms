@@ -69,7 +69,7 @@ class TopicsAndBoardsTest < ActionController::IntegrationTest
     click_button  'Post topic'
     
     @forum.reload
-    assert @forum.topics.size == forum_topics + 1
+    assert_equal forum_topics + 1, @forum.topics.size
     assert_template 'topics/show'
   end
   
