@@ -23,7 +23,7 @@ module WikiHelper
         # end
   
         def wikipage_strip_home(path)
-          path.sub! %r(/wikipages/home$), ''
+          path.sub!(%r(/wikipages/home(\.[^/]*)?$), '')
           path.present? ? path : '/'
         end
       end

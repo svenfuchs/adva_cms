@@ -10,7 +10,7 @@ module IntegrationTests
       use_site! @site
       stub(Time).now.returns Time.utc(2008, 1, 2)
     end
-    
+
     # FIXME add reordering articles
     test "Admin creates an article, previews, edits and deletes it" do
       login_as_admin
@@ -29,23 +29,23 @@ module IntegrationTests
       preview_de_article
       delete_article
     end
-    
+
     test "editing a German article in English interface" do
       login_as_admin
       visit_admin_articles_index_page
-      
+
       click_link 'a page article'
       assert_select 'input#article_title[value="a page article"]'
       assert_select '#article_body', 'a page article body'
-      
+
       article = Article.find_by_title 'a page article'
       visit "/admin/sites/#{@site.id}/sections/#{@section.id}/articles/#{article.id}/edit?cl=de"
-      assert_response :success 
+      assert_response :success
       assert_select 'input#article_title[value="a page article"]'
       assert_select '#article_body', 'a page article body'
       fill_in 'article[body]',  :with => 'a page article body in de'
       click_button 'Save'
-      
+
       assert_equal 'de', @controller.params[:cl]
       assert_response :success
       assert_select 'input#article_title[value="a page article"]'
@@ -57,7 +57,7 @@ module IntegrationTests
 #      end
 #      assert_select @response.body, 'textarea#article_body', 'a page article body in de'
     end
-    
+
     def visit_admin_articles_index_page
       visit "/admin/sites/#{@site.id}/sections/#{@section.id}/articles"
     end
@@ -73,7 +73,7 @@ module IntegrationTests
     def create_a_new_de_article
       click_link "New"
       select 'de', :from => 'content_locale'
-      assert_response :success 
+      assert_response :success
       fill_in 'article[title]', :with => 'the article title [de]'
       fill_in 'article[body]',  :with => 'the article body [de]'
       click_button 'Save'
@@ -98,12 +98,12 @@ module IntegrationTests
 
     def preview_article
       click_link 'Show'
-      request.url.should == "http://#{@site.host}/articles/the-article-title"
+      request.url.should == controller.show_url(Article.find_by_permalink('the-article-title'))
     end
 
     def preview_de_article
       click_link 'Show'
-      request.url.should == "http://#{@site.host}/articles/the-article-title-de?cl=de"
+      request.url.should == controller.show_url(Article.find_by_permalink('the-article-title-de'), :cl => :de)
     end
 
     def delete_article

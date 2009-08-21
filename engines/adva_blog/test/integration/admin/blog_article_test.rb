@@ -41,7 +41,7 @@ module IntegrationTests
 
     def preview_article
       click_link 'Show'
-      request.url.should == "http://#{@site.host}/2008/1/1/the-article-title"
+      request.url.should == controller.show_url(Article.find_by_permalink('the-article-title'))
     end
 
     def delete_article

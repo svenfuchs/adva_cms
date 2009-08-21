@@ -41,11 +41,9 @@ class AdminCategoriesControllerTest < ActionController::TestCase
     site = Site.first
     section = Section.first
     category = Category.first
-    assert_equal "/admin/sites/#{site.id}/sections/#{section.id}/categories/#{category.id}",
-      admin_category_path(site, section, category)
+    assert_equal "/admin/sites/#{site.id}/sections/#{section.id}/categories/#{category.id}", admin_category_path(site, section, category)
     I18n.locale = :de
-    assert_equal "/de/admin/sites/#{site.id}/sections/#{section.id}/categories/#{category.id}",
-      admin_category_path(site, section, category)
+    assert_equal "/de/admin/sites/#{site.id}/sections/#{section.id}/categories/#{category.id}", admin_category_path(site, section, category)
     I18n.locale = :en
   end
 

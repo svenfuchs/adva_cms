@@ -29,13 +29,13 @@ class WikiHelperTest < ActionView::TestCase
   end
   
   test "#wikipage_path removes the path segments /wikipages/home from the result of wikipage_path_home" do
-    path = @controller.send :wikipage_path, @section, @wikipage
+    path = @controller.send(:wikipage_path, @section, @wikipage)
     path.should == '/'
   end
   
   test "#wikipage_path returns the unmodified result of wikipage_path_home when it does not contain /wikipages/home)" do
-    path = @controller.send :wikipage_path, @section, @another_wikipage
-    path.should == '/wikipages/another-wikipage'
+    path = @controller.send(:wikipage_path, @section, @another_wikipage)
+    path.should =~ %r(/wikipages/another-wikipage)
   end
   
   # wikipage_url
@@ -44,13 +44,13 @@ class WikiHelperTest < ActionView::TestCase
   end
   
   test "#wikipage_url removes the path segments /wikipages/home from the result of wikipage_url_home" do
-    url = @controller.send :wikipage_url, @section, @wikipage
+    url = @controller.send(:wikipage_url, @section, @wikipage)
     url.should == 'http://test.host'
   end
   
   test "#wikipage_url returns the unmodified result of wikipage_url_home when it does not contain /wikipages/home)" do
-    url = @controller.send :wikipage_url, @section, @another_wikipage
-    url.should == 'http://test.host/wikipages/another-wikipage'
+    url = @controller.send(:wikipage_url, @section, @another_wikipage)
+    url.should =~ %r(/wikipages/another-wikipage)
   end
   
   # wikify
@@ -67,9 +67,10 @@ class WikiHelperTest < ActionView::TestCase
   end
 
   test "#wikify builds links (with and without extra text)" do
-    wikify('[[a missing wikipage]]').should include(%(<a href="/wikipages/a-missing-wikipage" class="new_wiki_link">a missing wikipage</a>))
-    wikify('[[a missing wikipage|this is missing]]').should include(%(<a href="/wikipages/a-missing-wikipage" class="new_wiki_link">this is missing</a>))
-    wikify('[[a missing wikipage|we can use | goalposts]]').should include(%(<a href="/wikipages/a-missing-wikipage" class="new_wiki_link">we can use | goalposts</a>))
+    path = wikipage_path(@section, 'a-missing-wikipage')
+    wikify('[[a missing wikipage]]').should include(%(<a href="#{path}" class="new_wiki_link">a missing wikipage</a>))
+    wikify('[[a missing wikipage|this is missing]]').should include(%(<a href="#{path}" class="new_wiki_link">this is missing</a>))
+    wikify('[[a missing wikipage|we can use | goalposts]]').should include(%(<a href="#{path}" class="new_wiki_link">we can use | goalposts</a>))
   end
   
   test "#wikify auto_links the result" do
@@ -84,8 +85,9 @@ class WikiHelperTest < ActionView::TestCase
   end
   
   test "#wikify_link with no wikipage exists for the given permalink it adds a css class 'new_wiki_link'" do
+    path = wikipage_path(@section, 'a-missing-wikipage')
     result = wikify_link('a missing wikipage')
-    result.should == %(<a href="/wikipages/a-missing-wikipage" class="new_wiki_link">a missing wikipage</a>)
+    result.should == %(<a href="#{path}" class="new_wiki_link">a missing wikipage</a>)
   end
   
   test "#wikify_link with a wikipage exists for the given permalink it returns a link" do

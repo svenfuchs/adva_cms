@@ -11,7 +11,7 @@ if ActionController::Base.respond_to?(:tracks_url_history)
           use_site! @site
           stub(Time).now.returns Time.utc(2008, 1, 2)
         end
-
+        
         unless ApplicationController.tracks_url_history?
           test "without url_history: Admin publishes an article, views it, edits the permalink and gets 404" do
             login_as_admin
@@ -23,7 +23,7 @@ if ActionController::Base.respond_to?(:tracks_url_history)
             assert_status 404
           end
         end
-      
+
         if ApplicationController.tracks_url_history?
           test "with url_history: Admin publishes an article, views it, edits the permalink and gets redirected" do
             login_as_admin
@@ -33,20 +33,25 @@ if ActionController::Base.respond_to?(:tracks_url_history)
             assert_status 200
             request.url.should =~ %r(/articles/the-article-title)
             UrlHistory::Entry.recent_by_url(request.url).should_not be_nil
-        
+
             revise_the_article_permalink
             visit "/articles/the-article-title"
             request.url.should =~ %r(/articles/article-permalink-updated)
           end
-      
-          test "with url_history: Admin visits root page, edits primary article permalink, root page still works" do
-            login_as_admin
-            visit "/"
-            has_text @section.articles.primary.body
-            revise_the_pages_primary_article_permalink
-            visit "/"
-            assert_status 200
-          end
+          
+          # test is probably not relevant anymore since one cannot edit the
+          # permalink in single-article-mode
+          #
+          # test "with url_history: Admin visits root page, edits primary article permalink, root page still works (single article mode)" do
+          #   single_article_mode!
+          #   login_as_admin
+          #   visit "/"
+          # 
+          #   has_text @section.articles.primary.body
+          #   revise_the_pages_primary_article_permalink
+          #   visit "/"
+          #   assert_status 200
+          # end
         end
 
         def visit_admin_articles_index_page
@@ -63,13 +68,19 @@ if ActionController::Base.respond_to?(:tracks_url_history)
           request.url.should =~ %r(/admin/sites/\d+/sections/\d+/articles/\d+/edit)
           @back_url = request.url
         end
-    
-        def revise_the_pages_primary_article_permalink
-          visit "/admin/sites/#{@site.id}/sections/#{@section.id}/articles/#{@section.articles.primary.id}/edit"
-          fill_in 'article[permalink]', :with => 'page-primary-article-permalink-updated'
-          click_button 'Save'
-          request.url.should =~ %r(/admin/sites/\d+/sections/\d+/articles/\d+/edit)
-        end
+
+        # def single_article_mode!
+        #   @section.instance_variable_set(:@readonly, false) # WTF!
+        #   @section.options[:single_article_mode] = true
+        #   @section.save
+        # end
+        # 
+        # def revise_the_pages_primary_article_permalink
+        #   visit "/admin/sites/#{@site.id}/sections/#{@section.id}/articles/#{@section.articles.primary.id}/edit"
+        #   fill_in 'article[permalink]', :with => 'page-primary-article-permalink-updated'
+        #   click_button 'Save'
+        #   request.url.should =~ %r(/admin/sites/\d+/sections/\d+/articles/\d+/edit)
+        # end
 
         def revise_the_article_permalink
           visit @back_url

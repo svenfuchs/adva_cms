@@ -97,7 +97,7 @@ class PhotosFrontendTest < ActionController::IntegrationTest
   
   def display_published_photo_with_set_and_tag
     assert_select "div#photo_#{@photo_with_set_and_tag.id}" do
-      assert_select "a[href='/an-album/photos/#{@photo_with_set_and_tag.id}']"
+      assert_select "a[href='#{controller.show_path(@photo_with_set_and_tag)}']"
     end
   end
   
@@ -107,7 +107,7 @@ class PhotosFrontendTest < ActionController::IntegrationTest
   
   def display_published_photo_with_tag
     assert_select "div#photo_#{@photo_with_tag.id}" do
-      assert_select "a[href='/an-album/photos/#{@photo_with_tag.id}']"
+      assert_select "a[href='#{controller.show_path(@photo_with_tag)}']"
     end
   end
   
@@ -117,7 +117,7 @@ class PhotosFrontendTest < ActionController::IntegrationTest
   
   def display_published_photo_with_set
     assert_select "div#photo_#{@photo_with_set.id}" do
-      assert_select "a[href='/an-album/photos/#{@photo_with_set.id}']"
+      assert_select "a[href='#{controller.show_path(@photo_with_set)}']"
     end
   end
   
@@ -127,7 +127,7 @@ class PhotosFrontendTest < ActionController::IntegrationTest
   
   def display_published_photo
     assert_select "div#photo_#{@photo.id}" do
-      assert_select "a[href='/an-album/photos/#{@photo.id}']"
+      assert_select "a[href='#{controller.show_path(@photo)}']"
     end
   end
   

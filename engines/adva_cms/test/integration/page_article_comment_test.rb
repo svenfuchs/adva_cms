@@ -45,7 +45,7 @@ module IntegrationTests
     
     def go_back_to_article
       click_link 'a page article'
-      request.url.should == "http://#{@site.host}/articles/a-page-article"
+      request.url.should == controller.show_url(Article.find_by_permalink('a-page-article'))
     end
   end
 end

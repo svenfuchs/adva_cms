@@ -24,16 +24,14 @@ if ActionController::Base.respond_to?(:tracks_url_history)
 
         if ApplicationController.tracks_url_history?
           test "with url_history: Admin views page, edits the permalink and gets redirected" do
-            visit '/'
-
-            visit 'another-page'
+            visit '/another-page'
             assert_status 200
             request.url.should =~ %r(/another-page)
             UrlHistory::Entry.recent_by_url(request.url).should_not be_nil
 
             login_as_admin
             revise_the_page_permalink
-            visit 'another-page'
+            visit '/another-page'
             assert_status 200
             request.url.should =~ %r(/another-page-updated-permalink)
           end
