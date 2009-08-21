@@ -3,7 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../test_helper.rb')
 class CalendarEventsRoutesTest < ActionController::TestCase
   tests CalendarEventsController
 
-  with_common :calendar_with_events
+  with_common :default_routing_filters, :calendar_with_events
 
   paths = %W( /calendars/1
               /calendars/1/2009

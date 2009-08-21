@@ -2,7 +2,7 @@ require File.expand_path(File.dirname(__FILE__) + "/../test_helper")
 
 class WikiRoutesTest < ActionController::TestCase
   tests WikiController
-  with_common :a_wiki, :a_wikipage, :a_wikipage_category
+  with_common :default_routing_filters, :a_wiki, :a_wikipage, :a_wikipage_category
 
   paths = %W( /wikis/1
               /wikis/1/categories/a-category

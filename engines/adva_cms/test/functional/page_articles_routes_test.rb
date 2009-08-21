@@ -2,7 +2,7 @@ require File.expand_path(File.dirname(__FILE__) + "/../test_helper")
 
 class PageArticlesRoutesTest < ActionController::TestCase
   tests ArticlesController
-  with_common :a_page, :an_article
+  with_common :default_routing_filters, :a_page, :an_article
   
   paths = %W( /pages/1
               /pages/1/comments.atom 

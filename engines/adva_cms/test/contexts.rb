@@ -10,6 +10,28 @@ class Test::Unit::TestCase
   def set_request_host!
     @request.host = @site.host if @request && @site
   end
+  
+  def default_routing_filters
+    %w(locale categories sets section_root section_paths pagination).inject(RoutingFilter::Chain.new) do |filters, name|
+      klass = RoutingFilter.const_get(name.camelize)
+      filters << klass.new({})
+    end
+  end
+
+  share :default_routing_filters do
+    before do
+      names = RoutingFilter.constants - %w(Chain Base)
+      klasses = names.map { |name| RoutingFilter.const_get(name) }
+      @current_states = klasses.inject({}) { |states, klass| states[klass] = klass.active; states }
+      
+      default_filters = %w(Locale Categories Sets SectionRoot SectionPaths Pagination)
+      klasses.each { |klass| klass.active = default_filters.include?(klass.name.gsub('RoutingFilter::', '')) }
+    end
+    
+    after do
+      @current_states.each { |klass, state| klass.active = state }
+    end
+  end
 
   share :is_default_locale do
     before { I18n.default_locale = I18n.locale }

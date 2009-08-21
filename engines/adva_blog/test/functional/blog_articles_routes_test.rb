@@ -2,7 +2,7 @@ require File.expand_path(File.dirname(__FILE__) + "/../test_helper")
 
 class BlogArticlesRoutesTest < ActionController::TestCase
   tests ArticlesController
-  with_common :a_blog, :a_category, :an_article
+  with_common :default_routing_filters, :a_blog, :a_category, :an_article
 
   # FIXME /blogs/1 is regenerated as /sections/1
   paths = %W( /blogs/1/2007

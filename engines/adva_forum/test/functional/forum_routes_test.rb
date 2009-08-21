@@ -3,7 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../test_helper.rb')
 class ForumRoutesTest < ActionController::TestCase
   tests ForumController
 
-  with_common :a_forum_without_boards
+  with_common :default_routing_filters, :a_forum_without_boards
 
   paths = %W( /forums/1
               /forums/1/boards/1
