@@ -1,7 +1,7 @@
 module UrlHistory
-  class AroundFilter
+  class AfterFilter
     class << self
-      def after(controller)
+      def filter(controller)
         return unless controller.request.get?
         url = controller.request.url.gsub(/\?.*$/, '')
         Entry.find(:first, :conditions => ["url = ? ", url]) or create_entry!(controller, url)
@@ -10,8 +10,8 @@ module UrlHistory
       protected
 
         def create_entry!(controller, url)
-          if !url.match(%r(/admin/)) and resource = current_resource(controller)
-            Entry.create!(:url => url, :resource => resource, :params => stringify(controller.params))
+          if !url.match(%r(/admin(/|$))) and resource = current_resource(controller) and !resource.new_record?
+            entry = Entry.create!(:url => url, :resource => resource, :params => stringify(controller.params))
           end
         end
 

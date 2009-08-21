@@ -7,7 +7,7 @@ module UrlHistory
     
     class << self
       def recent_by_url(url)
-        find :first, :conditions => ['url = ?', url], :order => 'id DESC'
+        find(:first, :conditions => ['url = ?', url], :order => 'id DESC')
       end
     end
     

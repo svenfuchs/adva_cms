@@ -12,7 +12,7 @@ module UrlHistory
 
         include InstanceMethods
 
-        after_filter UrlHistory::AroundFilter
+        after_filter UrlHistory::AfterFilter
 
         rescue_from ActiveRecord::RecordNotFound, ActionController::RoutingError, 
                     :with => :url_history_page_not_found
@@ -28,7 +28,7 @@ module UrlHistory
         if entry = UrlHistory::Entry.recent_by_url(request.url)
           params = entry.updated_params.except('method')
           url = url_for(params)
-          redirect_to(url) and return unless request.url == url
+          redirect_to(url) and return unless request.url == url # TODO add status 301
         end
 
         if handler = handler_for_rescue_except_url_history(exception)
