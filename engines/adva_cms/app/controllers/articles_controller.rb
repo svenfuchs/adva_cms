@@ -33,7 +33,7 @@ class ArticlesController < BaseController
   protected
 
     def current_resource
-      @article || @section
+      @section.try(:single_article_mode) ? @section : @article || @section
     end
     
     # adjusts the action from :index to :show when the current section is in single-article mode ...
