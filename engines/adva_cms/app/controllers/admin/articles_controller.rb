@@ -16,13 +16,13 @@ class Admin::ArticlesController < Admin::BaseController
   end
 
   def show
-    @article.revert_to params[:version] if params[:version]
+    @article.revert_to(params[:version]) if params[:version]
     render :template => "#{@section.type.tableize}/articles/show", :layout => 'default'
   end
 
   def new
     defaults = { :comment_age => @section.comment_age, :filter => @section.content_filter }
-    @article = @section.articles.build defaults.update(params[:article] || {})
+    @article = @section.articles.build(defaults.update(params[:article] || {}))
   end
 
   def edit
@@ -31,7 +31,7 @@ class Admin::ArticlesController < Admin::BaseController
   def create
     @article = @section.articles.build(params[:article])
     if @article.save
-      trigger_events @article
+      trigger_events(@article)
       flash[:notice] = t(:'adva.articles.flash.create.success')
       redirect_to edit_admin_article_url(:id => @article.id, :cl => content_locale)
     else
@@ -49,7 +49,7 @@ class Admin::ArticlesController < Admin::BaseController
     @article.attributes = params[:article]
 
     if save_with_revision? ? @article.save : @article.save_without_revision
-      trigger_events @article
+      trigger_events(@article)
       flash[:notice] = t(:'adva.articles.flash.update.success')
       redirect_to edit_admin_article_url(:cl => content_locale)
     else
@@ -63,7 +63,7 @@ class Admin::ArticlesController < Admin::BaseController
     version = params[:article][:version].to_i
 
     if @article.version != version and @article.revert_to(version)
-      trigger_event @article, :rolledback
+      trigger_event(@article, :rolledback)
       flash[:notice] = t(:'adva.articles.flash.rollback.success', :version => version)
       redirect_to edit_admin_article_url(:cl => content_locale)
     else
@@ -78,13 +78,13 @@ class Admin::ArticlesController < Admin::BaseController
     # resource or use :update. applies to articles, sections, categories etc.
     id, attributes = *params[:articles].collect { |id, data| [id, { :left_id => data[:left_id] }] }.first
     @section.articles.find(id).move_to(attributes)
-    expire_cached_pages_by_reference @section # TODO should be in the sweeper
+    expire_cached_pages_by_reference(@section) # TODO should be in the sweeper
     render :text => 'OK'
   end
 
   def destroy
     if @article.destroy
-      trigger_events @article
+      trigger_events(@article)
       flash[:notice] = t(:'adva.articles.flash.destroy.success')
       redirect_to admin_articles_url
     else

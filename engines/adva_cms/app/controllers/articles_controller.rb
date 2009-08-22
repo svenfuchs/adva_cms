@@ -20,7 +20,6 @@ class ArticlesController < BaseController
   def index
     respond_to do |format|
       format.html { render :template => "#{@section.type.tableize}/articles/index" }
-      format.atom { render :layout => false }
     end
   end
 
@@ -35,7 +34,7 @@ class ArticlesController < BaseController
     def current_resource
       @section.try(:single_article_mode) ? @section : @article || @section
     end
-    
+
     # adjusts the action from :index to :show when the current section is in single-article mode ...
     def adjust_action
       if params[:action] == 'index' and @section.try(:single_article_mode)
@@ -46,13 +45,12 @@ class ArticlesController < BaseController
       end
     end
 
-    def set_section; super(Section); end
+    def set_section(type = nil); super(Section); end
 
     def set_articles
       scope = @category ? @category.all_contents : @section.articles
       scope = scope.tagged(@tags) if @tags.present?
-      # FIXME: should be in adva_blog
-      scope = @section.is_a?(Blog) ? scope.published(params[:year], params[:month]) : scope.published
+      scope = scope.published
       @articles = scope.paginate(:page  => current_page, :limit => @section.contents_per_page)
     end
 
@@ -84,9 +82,9 @@ class ArticlesController < BaseController
       set_article if params[:permalink]
       super
     end
-    
+
     def valid_article?
-      @article and (!@section.is_a?(Blog) or @article.draft? or @article.published_at?(params.values_at(:year, :month, :day)))
+      @article
     end
 
     def guard_view_permissions

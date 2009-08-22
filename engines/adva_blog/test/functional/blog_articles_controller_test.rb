@@ -1,7 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + "/../test_helper")
 
 class BlogArticlesControllerTest < ActionController::TestCase
-  tests ArticlesController
+  tests BlogArticlesController
   with_common :a_blog, :a_category, :an_article
 
   test "is an BaseController" do
@@ -64,7 +64,7 @@ class BlogArticlesControllerTest < ActionController::TestCase
       it "does not display the number of comments", :with => :no_comments_and_commenting_not_allowed do
         has_tag 'div.meta a', :text => /\d comment[s]?/, :count => 0
       end
-      
+
       has_tag 'div[id=footer]' do
         has_tag 'ul[id=categories_list]'
         has_tag 'ul[id=archives]'
@@ -84,7 +84,7 @@ class BlogArticlesControllerTest < ActionController::TestCase
     with :the_article_is_published do
       it_assigns :section, :article
       it_caches_the_page :track => ['@article', '@articles', '@category', {'@site' => :tag_counts, '@section' => :tag_counts}]
-      
+
       it_renders :template, :show do
         has_tag 'div[class~=entry]' do
           # displays the title and links it to the article
@@ -111,8 +111,8 @@ class BlogArticlesControllerTest < ActionController::TestCase
       # when article has an unapproved comment: does not show any comments
       # when article does not have any comments: does not show any comments
       #
-      # when article allows commenting: shows comment form 
-      # when article does not allow commenting: does not show comment form 
+      # when article allows commenting: shows comment form
+      # when article does not allow commenting: does not show comment form
     end
 
     # FIXME
@@ -120,7 +120,7 @@ class BlogArticlesControllerTest < ActionController::TestCase
     #   when the user does not have edit permissions: 404, raises ActiveRecord::RecordNotFound
     #   when the user has edit permissions: renders show template, does not cache the page
     # end
-    
+
     # FIXME
     # with a permalink that does not point to an article: raises ActiveRecord::RecordNotFound
   end
