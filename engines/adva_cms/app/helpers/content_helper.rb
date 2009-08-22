@@ -8,17 +8,12 @@ module ContentHelper
     send(:"#{section.type.downcase}_path", section, options)
   end
 
-  # FIXME: actually some of this belongs to adva_blog
   def article_url(section, article, options = {})
-		article.section.is_a?(Page) ?
-			page_article_url(*[section, article.permalink, options].compact) :
-			blog_article_url(section, article.full_permalink.merge(options))
+    page_article_url(*[section, article.permalink, options].compact)
   end
 
 	def article_path(section, article, options = {})
-		article.section.is_a?(Page) ?
-			page_article_path(*[section, article.permalink, options].compact) :
-			blog_article_path(section, article.full_permalink.merge(options))
+	  page_article_path(*[section, article.permalink, options].compact)
 	end
 
   # TODO: move to Admin::ContentHelper?
@@ -31,12 +26,12 @@ module ContentHelper
     content_type = section.class.content_type.pluralize.gsub('::', '_').underscore.downcase
     send(:"admin_#{content_type}_url", section.site, section)
   end
-  
+
   def content_status(content)
     return "<span>&nbsp;</span>" unless content.respond_to?(:published?)
     klass = content.published? ? 'published' : 'pending'
     text  = content.published? ? t(:'adva.titles.published') : t(:'adva.titles.pending')
-    
+
     "<span title='#{text}' alt='#{text}' class='status #{klass}'>#{text}</span>"
   end
 
