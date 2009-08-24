@@ -58,7 +58,7 @@ class PhotoTest < ActiveSupport::TestCase
 
   test "validates that the author is valid (through belongs_to_author)" do
     @photo.author.email = nil
-    @photo.valid?.should be_false
+    @photo.should_not be_valid
   end
 
   test "does not change the filename if the file does not exist" do
@@ -79,41 +79,41 @@ class PhotoTest < ActiveSupport::TestCase
   # draft?
 
   test '#draft?, returns true when the photo has a published_at date' do
-    @photo.draft?.should be_true
+    @photo.should be_draft
   end
 
   test '#draft?, returns false when the photo does not have a published_at date' do
-    @published_photo.draft?.should be_false
+    @published_photo.should_not be_draft
   end
 
   # published?
 
   test "#published?, returns true when published_at equals the current time" do
     @published_photo.update_attribute(:published_at, Time.now)
-    @published_photo.published?.should be_true
+    @published_photo.should be_published
   end
 
   test "#published?, returns true when published_at is a past date" do
-    @published_photo.published?.should be_true
+    @published_photo.should be_published
   end
 
   test "#published?, returns false when published_at is a future date" do
     @published_photo.update_attribute(:published_at, 1.day.from_now)
-    @published_photo.published?.should be_false
+    @published_photo.should_not be_published
   end
 
   test "#published?, returns false when published_at is nil" do
-    @photo.published?.should be_false
+    @photo.should_not be_published
   end
 
   # pending?
 
   test "#pending?, returns true when photo is not published" do
-    @photo.pending?.should be_true
+    @photo.should be_pending
   end
 
   test "#pending?, returns false when photo is published" do
-    @published_photo.pending?.should be_false
+    @published_photo.should_not be_pending
   end
 
   # state?
@@ -129,12 +129,12 @@ class PhotoTest < ActiveSupport::TestCase
   # filename
 
   test "filename returns original data_file_name for :original style" do
-    photo = Photo.new :data_file_name => 'rails.png'
+    photo = Photo.new(:data_file_name => 'rails.png')
     photo.filename.should == 'rails.png'
   end
 
   test "filename inserts the style between basename and extension for other styles" do
-    photo = Photo.new :data_file_name => 'rails.png'
+    photo = Photo.new(:data_file_name => 'rails.png')
     photo.filename(:thumb).should == 'rails.thumb.png'
   end
 

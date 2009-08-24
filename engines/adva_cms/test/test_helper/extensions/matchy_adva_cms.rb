@@ -124,6 +124,14 @@ module Matchy
       def be_editable
         Matchy::Expectations::BeEditable.new(nil, self)
       end
+
+      def be_pending
+        Matchy::Expectations::BePending.new(nil, self)
+      end
+
+      def be_active
+        Matchy::Expectations::BeActive.new(nil, self)
+      end
     end
 
     matcher "ActAsAuthenticatedUser",
@@ -335,6 +343,20 @@ module Matchy
             "Expected %s not to be editable." do |receiver|
       @receiver = receiver
       @receiver.editable?
+    end
+
+    matcher "BePending",
+            "Expected %s to be pending.",
+            "Expected %s not to be pending." do |receiver|
+      @receiver = receiver
+      @receiver.pending?
+    end
+
+    matcher "BeActive",
+            "Expected %s to be active.",
+            "Expected %s not to be active." do |receiver|
+      @receiver = receiver
+      @receiver.active?
     end
 
     class HaveUrlParams < Base
