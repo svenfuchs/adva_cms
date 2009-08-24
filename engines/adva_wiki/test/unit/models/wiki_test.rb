@@ -5,7 +5,7 @@ class WikiTest < ActiveSupport::TestCase
     super
     @wiki = Wiki.new
   end
-  
+
   test "is a kind of Section" do
     @wiki.should be_kind_of(Section)
   end

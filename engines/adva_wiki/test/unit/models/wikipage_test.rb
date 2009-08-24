@@ -38,19 +38,19 @@ class WikipageTest < ActiveSupport::TestCase
   end
 
   test 'initializes the title from the permalink for new records that do not have a title' do
-    wikipage = Wikipage.new :permalink => 'something-new'
+    wikipage = Wikipage.new(:permalink => 'something-new')
     wikipage.title.should == 'Something new'
   end
 
   # accept_comments?
   test "accepts comments when the wiki does" do
-    stub(@wikipage.section.target).accept_comments?.returns true
-    @wikipage.accept_comments?.should be_true
+    stub(@wikipage.section.target).accept_comments?.returns(true)
+    @wikipage.should accept_comments
   end
 
   test "does not accept comments when the wiki doesn't" do
-    stub(@wikipage.section.target).accept_comments?.returns false
-    @wikipage.accept_comments?.should be_false
+    stub(@wikipage.section.target).accept_comments?.returns(false)
+    @wikipage.should_not accept_comments
   end
 
   # filtering
