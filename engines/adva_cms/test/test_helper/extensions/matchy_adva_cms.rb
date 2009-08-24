@@ -88,6 +88,10 @@ module Matchy
       def be_root_section
         Matchy::Expectations::BeRootSection.new(nil, self)
       end
+
+      def be_approved
+        Matchy::Expectations::BeApproved.new(nil, self)
+      end
     end
 
     matcher "ActAsAuthenticatedUser",
@@ -236,6 +240,13 @@ module Matchy
             "Expected %s not to be a root section." do |receiver|
       @receiver = receiver
       @receiver.root_section?
+    end
+
+    matcher "BeApproved",
+            "Expected %s to be approved.",
+            "Expected %s not to be approved." do |receiver|
+      @receiver = receiver
+      @receiver.approved?
     end
 
     class HaveUrlParams < Base
