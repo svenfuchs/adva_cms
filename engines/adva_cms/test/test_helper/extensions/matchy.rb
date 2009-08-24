@@ -94,6 +94,10 @@ module Matchy
         Matchy::Expectations::BeA.new(klass, self)
       end
       alias be_an be_a
+
+      def be_frozen
+        Matchy::Expectations::BeFrozen.new(nil, self)
+      end
     end
 
     class << self
@@ -226,6 +230,13 @@ module Matchy
             "Expected %s not to be a(n) %s." do |receiver|
       @receiver = receiver
       @receiver.is_a?(@expected)
+    end
+
+    matcher "BeFrozen",
+            "Expected %s to be frozen.",
+            "Expected %s not to be frozen." do |receiver|
+      @receiver = receiver
+      @receiver.frozen?
     end
 
     class ValidateUniquenessOf < Base

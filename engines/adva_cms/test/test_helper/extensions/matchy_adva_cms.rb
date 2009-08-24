@@ -92,6 +92,22 @@ module Matchy
       def be_approved
         Matchy::Expectations::BeApproved.new(nil, self)
       end
+
+      def be_first
+        Matchy::Expectations::BeFirst.new(nil, self)
+      end
+
+      def be_last
+        Matchy::Expectations::BeLast.new(nil, self)
+      end
+
+      def be_owned_by(owner)
+        Matchy::Expectations::BeOwnedBy.new(owner, self)
+      end
+
+      def be_paged
+        Matchy::Expectations::BePaged.new(nil, self)
+      end
     end
 
     matcher "ActAsAuthenticatedUser",
@@ -247,6 +263,34 @@ module Matchy
             "Expected %s not to be approved." do |receiver|
       @receiver = receiver
       @receiver.approved?
+    end
+
+    matcher "BeFirst",
+            "Expected %s to be first.",
+            "Expected %s not to be first." do |receiver|
+      @receiver = receiver
+      @receiver.first?
+    end
+
+    matcher "BeLast",
+            "Expected %s to be last.",
+            "Expected %s not to be last." do |receiver|
+      @receiver = receiver
+      @receiver.last?
+    end
+
+    matcher "BeOwnedBy",
+            "Expected %s to be owned by %s.",
+            "Expected %s not to be owned by %s." do |receiver|
+      @receiver = receiver
+      @receiver.owner == @expected
+    end
+
+    matcher "BePaged",
+            "Expected %s to be paged.",
+            "Expected %s not to be paged." do |receiver|
+      @receiver = receiver
+      @receiver.paged?
     end
 
     class HaveUrlParams < Base

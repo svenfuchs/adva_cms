@@ -3,10 +3,10 @@ require File.expand_path(File.dirname(__FILE__) + '/../../test_helper.rb')
 class ForumWithBoardsCounterTest < ActiveSupport::TestCase
   def setup
     super
-    @forum = Forum.find_by_title 'a forum with boards'
-    @board = @forum.boards.find_by_title 'a board'
-    @another_board = @forum.boards.find_by_title 'another board'
-    @topic = @board.topics.find_by_title 'a board topic'
+    @forum = Forum.find_by_title('a forum with boards')
+    @board = @forum.boards.find_by_title('a board')
+    @another_board = @forum.boards.find_by_title('another board')
+    @topic = @board.topics.find_by_title('a board topic')
     @user = User.first
   end
 
@@ -14,7 +14,7 @@ class ForumWithBoardsCounterTest < ActiveSupport::TestCase
     @board.destroy
     @forum.topics_count.should == 0
   end
-  
+
   test "decrements Forum#posts_count by board.posts_count when a board is deleted that is not the last board" do
     @board.destroy
     @forum.posts_count.should == 0
@@ -25,7 +25,7 @@ class ForumWithBoardsCounterTest < ActiveSupport::TestCase
       @board.topics.post @user, :title => 'topic', :body => 'body'
     end
   end
-  
+
   test "decrements Forum#topics_count when a topic is deleted" do
     assert_difference '@forum.reload.topics_count', -1 do
       @topic.destroy
@@ -43,13 +43,13 @@ class ForumWithBoardsCounterTest < ActiveSupport::TestCase
       @topic.reply(@user, :body => 'body').save
     end
   end
-  
+
   test "decrements Forum#posts_count when a post is deleted" do
     assert_difference '@forum.reload.posts_count', -1 do
       @topic.posts.last.destroy
     end
   end
-  
+
   test "decrements Forum#posts_count by topic.posts_count when a topic is deleted" do
     assert_difference '@forum.reload.posts_count', -@topic.posts_count do
       @topic.destroy
