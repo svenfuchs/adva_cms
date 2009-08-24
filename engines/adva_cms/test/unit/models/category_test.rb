@@ -22,7 +22,7 @@ class CategoryTest < ActiveSupport::TestCase
     @category.send :ensure_unique_url
     @category.permalink.should == 'a-categorys-title'
   end
-  
+
   # ASSOCIATIONS
 
   test "belongs to a section" do
@@ -36,9 +36,9 @@ class CategoryTest < ActiveSupport::TestCase
   test "has many categorizations" do
     @category.should have_many(:categorizations)
   end
-  
+
   # VALIDATIONS
-  
+
   test 'validates the presence of a section' do
     @category.should validate_presence_of(:section)
   end
@@ -51,14 +51,14 @@ class CategoryTest < ActiveSupport::TestCase
     @category.section = @page
     @category.should validate_uniqueness_of(:permalink, :scope => :section_id)
   end
-  
+
   # CALLBACKS
-  
+
   test "#update_paths moves a new category to a child of its parent and updates the category paths" do
     @new_category.save
-    assert_equal @category, @new_category.parent
+    @new_category.should be_child_of(@category)
   end
-  
+
   # FIXME
   #
   # describe 'instance methods:' do

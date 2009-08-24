@@ -10,10 +10,10 @@ class EventTest < ActiveSupport::TestCase
     Event.observers.clear
     Event.observers << @foo_observer = FooObserver.new
     Event.observers << @bar_observer = BarObserver.new
-    @event = Event.new :foo, nil, nil
-    stub(Event).new(:foo, :object, :source, {}).returns @event
+    @event = Event.new(:foo, nil, nil)
+    stub(Event).new(:foo, :object, :source, {}).returns(@event)
   end
-  
+
   def teardown
     super
     Event.observers = @old_observers
@@ -24,18 +24,18 @@ class EventTest < ActiveSupport::TestCase
   end
 
   test "#trigger instantiates a new Event" do
-    mock(Event).new(:foo, :object, :source, {}).returns @event
-    Event.trigger :foo, :object, :source
+    mock(Event).new(:foo, :object, :source, {}).returns(@event)
+    Event.trigger(:foo, :object, :source)
   end
-  
+
   test "#trigger calls the handle_[event_type]! callback on each observer that implements it" do
     mock(@foo_observer).handle_foo!(@event)
-    Event.trigger :foo, :object, :source
+    Event.trigger(:foo, :object, :source)
   end
-  
+
   test "#trigger calls the handle_event! callback on each observer that implements but does not implement handle_[event_type]!" do
     mock(@bar_observer).handle_event!(@event)
-    Event.trigger :foo, :object, :source
+    Event.trigger(:foo, :object, :source)
   end
 end
 

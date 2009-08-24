@@ -21,7 +21,7 @@ class SectionTest < ActiveSupport::TestCase
   end
 
   test "serialize the option :contents_per_page to the database" do
-    @section.instance_variable_set :@options, nil
+    @section.instance_variable_set(:@options, nil)
     @section.save; @section.reload
     @section.contents_per_page.should == Section.option_definitions[:contents_per_page][:default]
 
@@ -35,7 +35,7 @@ class SectionTest < ActiveSupport::TestCase
 
     @section.title = 'new section title'
     @section.permalink = nil
-    @section.send :ensure_unique_url
+    @section.send(:ensure_unique_url)
     @section.permalink.should == 'new-section-title'
   end
 
@@ -70,7 +70,7 @@ class SectionTest < ActiveSupport::TestCase
   # categories association
 
   test "categories#roots returns all categories that do not have a parent category" do
-    mock(@section.categories).find(:all, hash_including(:conditions => {:parent_id => nil}))
+    mock(@section.categories).find(:all, hash_including(:conditions => { :parent_id => nil }))
     @section.categories.roots
   end
 
@@ -118,7 +118,7 @@ class SectionTest < ActiveSupport::TestCase
   # PUBLIC INSTANCE METHODS
 
   test "#type returns 'Page' for a Page" do
-    s = Page.create! :title => 'title', :site => @site
+    s = Page.create!(:title => 'title', :site => @site)
     s.type.should == 'Page'
   end
 
@@ -127,7 +127,7 @@ class SectionTest < ActiveSupport::TestCase
   end
 
   test "#tag_counts returns the tag_counts for this site's content's tags" do
-    mock(Content).tag_counts :conditions => "section_id = #{@section.id}"
+    mock(Content).tag_counts(:conditions => "section_id = #{@section.id}")
     @section.tag_counts
   end
 
@@ -135,18 +135,18 @@ class SectionTest < ActiveSupport::TestCase
   # test "#render_options should be specified but looks pretty uncomprehensible right now"
 
   test "#root_section? returns true if this section is the site's root section" do
-    @site.sections.root.root_section?.should be_true
-    Section.new(:site => @site).root_section?.should be_false
+    @site.sections.root.should be_root_section
+    Section.new(:site => @site).should_not be_root_section
   end
 
   test "#accept_comments? is true when comments are not 'not-allowed' (-1) (see comment_expiration_options)" do
     @section.comment_age = 0
-    @section.accept_comments?.should be_true
+    @section.should accept_comments
   end
 
   test "#accept_comments? is false when comments are 'not-allowed' (-1) (see comment_expiration_options)" do
     @section.comment_age = -1
-    @section.accept_comments?.should be_false
+    @section.should_not accept_comments
   end
 
   test "#state returns :pending if section isn't published" do
@@ -171,7 +171,7 @@ class SectionTest < ActiveSupport::TestCase
 
   test "#published? is always true for root section" do
     @section.published_at = nil
-    @section.published?.should be_true
+    @section.should be_published
   end
 
   test "#published? is true when published_at is set to a date in the past" do
@@ -180,7 +180,7 @@ class SectionTest < ActiveSupport::TestCase
     page.move_to_child_of(@section)
 
     page.published_at = 2.days.ago
-    page.published?.should be_true
+    page.should be_published
   end
 
   test "#published? is false when published_at is not set or set to a date in the future" do
@@ -189,10 +189,10 @@ class SectionTest < ActiveSupport::TestCase
     page.move_to_child_of(@section)
 
     page.published_at = nil
-    page.published?.should be_false
+    page.should_not be_published
 
     page.published_at = 2.days.from_now
-    page.published?.should be_false
+    page.should_not be_published
   end
 
   # TODO - check if necessary - could (or should) be implemented on controller level
@@ -241,13 +241,13 @@ class SectionTest < ActiveSupport::TestCase
 
   test "#set_comment_age sets the comment_age to -1 if it's not already set" do
     @section.comment_age = nil
-    @section.send :set_comment_age
+    @section.send(:set_comment_age)
     @section.comment_age.should_not be_nil
   end
 
   test "#set_comment_age does not change an already set comment_age" do
     @section.comment_age = 99
-    @section.send :set_comment_age
+    @section.send(:set_comment_age)
     @section.comment_age.should == 99
   end
 
@@ -256,7 +256,7 @@ class SectionTest < ActiveSupport::TestCase
     # stub(@section).permalink_changed?.returns(true)
     stub(@section).attribute_changed?('permalink').returns(true)
     mock(@section).build_path.returns('the-new-path')
-    @section.send :update_path
+    @section.send(:update_path)
     @section.path.should == 'the-new-path'
   end
 
@@ -264,12 +264,12 @@ class SectionTest < ActiveSupport::TestCase
     section = bunch_of_nested_sections!
     section.send(:build_path).should == "home/about/location"
   end
-  
+
   test "#update_paths moves a new section to a child of its parent and updates the section paths" do
     @new_section.save
     assert_equal @section, @new_section.parent
   end
-  
+
   test "#update_paths should not lose the title of the section while moving the section - a bug fix" do
     unnested_section = Section.new(:site => @site, :title => 'unnested section')
     assert_equal 'unnested section', unnested_section.title
@@ -289,9 +289,9 @@ class SectionTest < ActiveSupport::TestCase
   end
 
   def bunch_of_sections!
-    home     = @site.sections.create! :title => 'homepage', :permalink => 'home'
-    about    = @site.sections.create! :title => 'about us', :permalink => 'about'
-    location = @site.sections.create! :title => 'how to find us', :permalink => 'location'
+    home     = @site.sections.create!(:title => 'homepage', :permalink => 'home')
+    about    = @site.sections.create!(:title => 'about us', :permalink => 'about')
+    location = @site.sections.create!(:title => 'how to find us', :permalink => 'location')
     [home, about, location]
   end
 

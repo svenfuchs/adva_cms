@@ -8,7 +8,7 @@ module Matchy
       def act_as_nested_set
         Matchy::Expectations::ActAsNestedSet.new(nil, self)
       end
-      
+
       def act_as_taggable
         Matchy::Expectations::ActAsTaggable.new(nil, self)
       end
@@ -52,104 +52,192 @@ module Matchy
       def act_as_authenticated_user
         Matchy::Expectations::ActAsAuthenticatedUser.new(nil, self)
       end
-      
+
       def have_authorized_tag(*args)
         have_tag('.visible_for') { |tag| tag.should have_tag(*args) }
       end
+
+      def be_primary
+        Matchy::Expectations::BePrimary.new(nil, self)
+      end
+
+      def have_excerpt
+        Matchy::Expectations::HaveExcerpt.new(nil, self)
+      end
+
+      def accept_comments
+        Matchy::Expectations::AcceptComments.new(nil, self)
+      end
+
+      def be_draft
+        Matchy::Expectations::BeDraft.new(nil, self)
+      end
+
+      def be_published
+        Matchy::Expectations::BePublished.new(nil, self)
+      end
+
+      def save_version
+        Matchy::Expectations::SaveVersion.new(nil, self)
+      end
+
+      def be_in_single_article_mode
+        Matchy::Expectations::BeInSingleArticleMode.new(nil, self)
+      end
+
+      def be_root_section
+        Matchy::Expectations::BeRootSection.new(nil, self)
+      end
     end
 
-    matcher "ActAsAuthenticatedUser", 
-            "Expected %s to act as an authenticated user.", 
+    matcher "ActAsAuthenticatedUser",
+            "Expected %s to act as an authenticated user.",
             "Expected %s not to act as an authenticated user." do |receiver|
       @receiver = receiver
       @receiver.included_modules.include? Authentication::InstanceMethods
     end
 
-    matcher "ActAsNestedSet", 
-            "Expected %s to act as a nested set.", 
+    matcher "ActAsNestedSet",
+            "Expected %s to act as a nested set.",
             "Expected %s not act as a nested set." do |receiver|
       @receiver = receiver
       @receiver.included_modules.include? ActiveRecord::NestedSet::InstanceMethods
     end
 
-    matcher "ActAsRoleContext", 
-            "Expected %s to act as a role context.", 
+    matcher "ActAsRoleContext",
+            "Expected %s to act as a role context.",
             "Expected %s not act as a role context." do |receiver|
       @receiver = receiver
       @receiver.acts_as_role_context? # FIXME match options
     end
 
-    matcher "ActAsTaggable", 
-            "Expected %s to act as taggable.", 
+    matcher "ActAsTaggable",
+            "Expected %s to act as taggable.",
             "Expected %s not act as a taggable." do |receiver|
       @receiver = receiver
       @receiver.acts_as_taggable?
     end
 
-    matcher "ActAsVersioned", 
-            "Expected %s to act as versioned.", 
+    matcher "ActAsVersioned",
+            "Expected %s to act as versioned.",
             "Expected %s not act as versioned." do |receiver|
       @receiver = receiver
       @receiver.included_modules.include? ActiveRecord::Acts::Versioned::ActMethods
     end
 
-    matcher "FilterAttributes", 
-            "Expected %s to filter the attributes %s.", 
+    matcher "FilterAttributes",
+            "Expected %s to filter the attributes %s.",
             "Expected %s not filter the attributes %s." do |receiver|
       @receiver = receiver
       @receiver.included_modules.include?(XssTerminate::InstanceMethods) &&
       @receiver.xss_terminate_options.values_at(*@expected.keys).flatten == @expected.values.flatten
     end
 
-    matcher "FilterColumn", 
-            "Expected %s to filter the column %s.", 
+    matcher "FilterColumn",
+            "Expected %s to filter the column %s.",
             "Expected %s not filter the column %s." do |receiver|
       @receiver = receiver
-      
+
       column = @expected
       receiver.send "#{column}=", '*strong*'
       RR.stub(receiver).filter.returns 'textile_filter'
       receiver.send :process_filters
-      
+
       result = receiver.send("#{column}_html")
       result == '<p><strong>strong</strong></p>'
     end
 
-    matcher "HavePermalink", 
-            "Expected %s to have a permalink generated from %s.", 
+    matcher "HavePermalink",
+            "Expected %s to have a permalink generated from %s.",
             "Expected %s not to have a permalink generated from %s." do |receiver|
       @receiver = receiver
       @receiver.respond_to?(:attribute_to_urlify) && @receiver.attribute_to_urlify == @expected
     end
 
-    matcher "HaveCounter", 
-            "Expected %s to have a counter named %s.", 
+    matcher "HaveCounter",
+            "Expected %s to have a counter named %s.",
             "Expected %s not to have a counter named %s." do |receiver|
       @receiver = receiver.is_a?(Class) ? receiver : receiver.class
       !!@receiver.reflect_on_all_associations(:has_one).find { |a| a.name == :"#{@expected}_counter" }
     end
 
-    matcher "HaveManyComments", 
-            "Expected %s to have many comments.", 
+    matcher "HaveManyComments",
+            "Expected %s to have many comments.",
             "Expected %s not have many comments." do |receiver|
       @receiver = receiver
       @receiver.has_many_comments?
     end
 
-    matcher "HaveManyThemes", 
-            "Expected %s to have many themes.", 
+    matcher "HaveManyThemes",
+            "Expected %s to have many themes.",
             "Expected %s not have many themes." do |receiver|
       @receiver = receiver
       @receiver.has_many_themes?
     end
 
-    matcher "InstantiateWithSti", 
-            "Expected %s to instantiate with sti.", 
+    matcher "InstantiateWithSti",
+            "Expected %s to instantiate with sti.",
             "Expected %s not instantiate with sti." do |receiver|
       @receiver = receiver
       @receiver.instantiates_with_sti?
     end
-    
+
+    matcher "HaveExcerpt",
+            "Expected %s to have an excerpt.",
+            "Expected %s not to have an excerpt." do |receiver|
+      @receiver = receiver
+      @receiver.has_excerpt?
+    end
+
+    matcher "AcceptComments",
+            "Expected %s to accept comments.",
+            "Expected %s not to accept comments." do |receiver|
+      @receiver = receiver
+      @receiver.accept_comments?
+    end
+
+    matcher "BePrimary",
+            "Expected %s to be primary.",
+            "Expected %s not to be primary." do |receiver|
+      @receiver = receiver
+      @receiver.primary?
+    end
+
+    matcher "BeDraft",
+            "Expected %s to be a draft.",
+            "Expected %s not to be a draft." do |receiver|
+      @receiver = receiver
+      @receiver.draft?
+    end
+
+    matcher "BePublished",
+            "Expected %s to be published.",
+            "Expected %s not to be published." do |receiver|
+      @receiver = receiver
+      @receiver.published?
+    end
+
+    matcher "SaveVersion",
+            "Expected %s to indicate to save a new version.",
+            "Expected %s not to indicate to save a new version." do |receiver|
+      @receiver = receiver
+      @receiver.save_version?
+    end
+
+    matcher "BeInSingleArticleMode",
+            "Expected %s to be in single article mode.",
+            "Expected %s not to be in single article mode." do |receiver|
+      @receiver = receiver
+      @receiver.single_article_mode
+    end
+
+    matcher "BeRootSection",
+            "Expected %s to be a root section.",
+            "Expected %s not to be a root section." do |receiver|
+      @receiver = receiver
+      @receiver.root_section?
+    end
+
     class HaveUrlParams < Base
       def matches?(receiver)
         @receiver = receiver

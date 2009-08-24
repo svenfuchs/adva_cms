@@ -4,7 +4,7 @@ class PageTest < ActiveSupport::TestCase
   def setup
     super
     @site = Site.first
-    @page = Page.find_by_permalink 'a-page'
+    @page = Page.find_by_permalink('a-page')
   end
 
   test "Page.content_type returns 'Article'" do
@@ -13,7 +13,7 @@ class PageTest < ActiveSupport::TestCase
 
   test "a page has a single_article_mode option that returns true by default" do
     Page.new.should respond_to(:single_article_mode)
-    Page.new.single_article_mode.should be_true
+    Page.new.should be_in_single_article_mode
   end
 
   # articles association
@@ -31,21 +31,21 @@ class PageTest < ActiveSupport::TestCase
     page.move_to_child_of(parent_section)
     article = page.articles.build(:published_at => nil)
 
-    article.published?.should be_false
-    page.published?.should be_false
+    article.should_not be_published
+    page.should_not be_published
     page.published_at.should be_nil
 
     article.published_at = Time.local(2009, 5, 19, 12, 0, 0)
-    article.published?.should be_true
-    page.published?.should be_true
+    article.should be_published
+    page.should be_published
     page.published_at.should == Time.local(2009, 5, 19, 12, 0, 0)
 
     page.published_at = Time.local(2009, 5, 19, 14, 0, 0)
     article.published_at.should == Time.local(2009, 5, 19, 14, 0, 0)
 
     page.published_at = nil
-    page.published?.should be_false
-    article.published?.should be_false
+    page.should_not be_published
+    article.should_not be_published
   end
 
   test "#published? is false if any ancestor section is not published (single article mode)" do

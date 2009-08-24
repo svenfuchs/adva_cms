@@ -85,6 +85,15 @@ module Matchy
       def have_tag(*args, &block)
         Matchy::Expectations::AssertSelect.new(:assert_select, self, *args, &block)
       end
+
+      def be_child_of(parent)
+        Matchy::Expectations::BeChildOf.new(parent, self)
+      end
+
+      def be_a(klass)
+        Matchy::Expectations::BeA.new(klass, self)
+      end
+      alias be_an be_a
     end
 
     class << self
@@ -204,6 +213,21 @@ module Matchy
       !receiver.valid? && receiver.errors.invalid?(@expected)
     end
 
+
+    matcher "BeChildOf",
+            "Expected %s to be a child of %s.",
+            "Expected %s not to be a child of %s." do |receiver|
+      @receiver = receiver
+      @receiver.parent == @expected
+    end
+
+    matcher "BeA",
+            "Expected %s to be a(n) %s.",
+            "Expected %s not to be a(n) %s." do |receiver|
+      @receiver = receiver
+      @receiver.is_a?(@expected)
+    end
+
     class ValidateUniquenessOf < Base
       def matches?(model)
         RR.reset
@@ -216,7 +240,7 @@ module Matchy
           class_hierarchy.unshift(class_hierarchy.first.superclass)
         end
         finder_class = class_hierarchy.detect { |klass| !klass.abstract_class? }
-        
+
         RR.mock(finder_class).exists?.with(args).returns true
         !model.valid? && model.errors.invalid?(@expected)
         RR.verify

@@ -3,7 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../../test_helper')
 class PageCounterTest < ActiveSupport::TestCase
   def setup
     super
-    @page = Page.find_by_permalink 'a-page'
+    @page = Page.find_by_permalink('a-page')
   end
 
   test "has_one comments_counter" do
@@ -38,6 +38,6 @@ class PageCounterTest < ActiveSupport::TestCase
   end
 
   def create_comment!
-    @page.comments.create! :section => @page, :body => 'body', :author => User.first, :commentable => Article.first
+    @page.comments.create!(:section => @page, :body => 'body', :author => User.first, :commentable => Article.first)
   end
 end
