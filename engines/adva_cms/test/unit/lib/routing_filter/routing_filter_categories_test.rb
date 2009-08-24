@@ -3,6 +3,43 @@ $:.unshift File.expand_path(File.dirname(__FILE__) + '/../../../lib')
 require 'routing_filter/categories'
 
 module RoutingFilterTests
+  class CategoriesAdminTest < ActiveSupport::TestCase
+    def setup
+      super
+      @filter = RoutingFilter::Sets.new({})
+      blog     = Blog.first
+      site     = blog.site
+      category = blog.categories.first
+      @types           = Section.types.map{|type| type.downcase.pluralize }.join('|')
+      @category_path        = "/admin/sites/#{site.id}/sections/#{blog.id}/categories/#{category.id}/edit"
+      @category_locale_path = "/de/admin/sites/#{site.id}/sections/#{blog.id}/categories/#{category.id}/edit"
+    end
+    
+    # around_recognize
+    
+    test "#around_recognize does not do any filtering if url starts with /admin" do
+      mock(@filter).match_path(@category_path, @types).times(0)
+      
+      @filter.around_recognize(@category_path, 'test') { }
+    end
+    
+    test "#around_recognize does not do any filtering if url starts with, for example - /de/admin" do
+      mock(@filter).match_path(@category_locale_path, @types).times(0)
+      
+      @filter.around_recognize(@category_locale_path, 'test') { }
+    end
+    
+    # around_generate
+    
+    test "#around_generate does not do any filtering if url starts with /admin" do
+      assert_equal @filter.around_generate { @category_path.dup }, @category_path
+    end
+    
+    test "#around_generate does not do any filtering if url starts with, for example - /de/admin" do
+      assert_equal @filter.around_generate { @category_locale_path.dup }, @category_locale_path
+    end
+  end
+
   class CategoriesTest < ActiveSupport::TestCase
     def setup
       super

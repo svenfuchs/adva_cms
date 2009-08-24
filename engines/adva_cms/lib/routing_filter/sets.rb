@@ -1,7 +1,7 @@
 module RoutingFilter
   class Sets < Base
     def around_recognize(path, env, &block)
-      unless path =~ %r(^/admin) # TODO ... should be defined through the dsl in routes.rb
+      unless path =~ %r(^/([\w]{2,4}/)?admin) # TODO ... should be defined through the dsl in routes.rb
         types = Section.types.map{|type| type.downcase.pluralize }.join('|')
         match = match_path(path, types)
         if match
@@ -40,7 +40,7 @@ module RoutingFilter
     def around_generate(*args, &block)
       returning yield do |result|
         result = result.first if result.is_a?(Array)
-        if result !~ %r(^/admin/) and result =~ %r(/sets/([\d]+))
+        if result !~ %r(^/([\w]{2,4}/)?admin/) and result =~ %r(/sets/([\d]+))
           set = Category.find $1
           result.sub! "/sets/#{$1}", "/sets/#{set.path}"
         end
