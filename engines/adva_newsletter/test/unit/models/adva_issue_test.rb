@@ -32,21 +32,21 @@ class AdvaIssueTest < ActiveSupport::TestCase
   end
 
   test "#editable? should be editable when state is draft or published" do
-    @issue.editable?.should == true
+    @issue.should be_editable
     @issue.draft_state!
-    @issue.editable?.should == true
+    @issue.should be_editable
   end
 
   test "#edtitable? should NOT be editable when new record" do
     issue = Adva::Issue.new
-    issue.editable?.should == false
+    issue.should_not be_editable
   end
 
   test "#editable? should NOT be editable queued or delivered" do
     @issue.state = "queued"
-    @issue.editable?.should == false
+    @issue.should_not be_editable
     @issue.state = "delivered"
-    @issue.editable?.should == false
+    @issue.should_not be_editable
   end
 
   test "#destroy should decrease issues_count by -1" do
@@ -146,45 +146,45 @@ class AdvaIssueTest < ActiveSupport::TestCase
   end
 
   test "#draft? should be true by default" do
-    Adva::Issue.new.draft?.should == true
+    Adva::Issue.new.should be_draft
   end
 
   test "#draft? should be false when published" do
-    @issue.draft?.should == false
+    @issue.should_not be_draft
   end
 
-  test "#published? should be false by defalt" do
-    Adva::Issue.new.published?.should == false
+  test "#published? should be false by default" do
+    Adva::Issue.new.should_not be_published
   end
 
   test "#published? should be true when published" do
-    @issue.published?.should == true
+    @issue.should be_published
   end
 
   test "#published? should be true when state is hold or published" do
     @issue.state = 'published'
-    @issue.published?.should == true
+    @issue.should be_published
     @issue.state = 'hold'
-    @issue.published?.should == true
+    @issue.should be_published
   end
 
   test "#queued? should be false by default" do
-    Adva::Issue.new.queued?.should == false
+    Adva::Issue.new.should_not be_queued
   end
 
   test "#queued? should be true when queued" do
     @issue.state = "queued"
-    @issue.queued?.should == true
+    @issue.should be_queued
   end
 
   test "#delivered? should be false by defalut" do
-    Adva::Issue.new.delivered?.should == false
+    Adva::Issue.new.should_not be_delivered
   end
 
   test "#delivered? should be true when delivered" do
     @issue.state = "queued"
     @issue.delivered_state!
-    @issue.delivered?.should == true
+    @issue.should be_delivered
   end
 
   test "#draft should be 1 by default" do
@@ -199,18 +199,18 @@ class AdvaIssueTest < ActiveSupport::TestCase
     @issue.state = "draft"
     @issue.draft.should == 1
     @issue.draft = 0
-    @issue.published?.should == true
+    @issue.should be_published
   end
 
   test "#draft= should set state not published when given 1" do
     @issue.draft = 1
-    @issue.published?.should == false
+    @issue.should_not be_published
   end
 
   test "#create_emails should change state to delivered" do
     @issue.state = "queued"
     @issue.create_emails
-    @issue.delivered?.should == true
+    @issue.should be_delivered
   end
 
   test "#email should provide newsletter email" do
@@ -233,28 +233,28 @@ class AdvaIssueTest < ActiveSupport::TestCase
   test "#deliver should call deliver_all with datetime" do
     time = DateTime.now
     mock(@issue).deliver_all(time)
-    @issue.deliver :later_at => time
+    @issue.deliver(:later_at => time)
   end
 
   test "#deliver should call deliver_to" do
     mock(@issue).deliver_to(@user)
-    @issue.deliver :to => @user
+    @issue.deliver(:to => @user)
   end
 
   test "#deliver should change state to queued when delivered to all" do
     @issue.deliver
-    @issue.queued?.should == true
+    @issue.should be_queued
   end
 
   test "#deliver should not change state to queued when deliver to user" do
     mock(@issue).deliver_to(@user)
-    @issue.deliver :to => @user
-    @issue.published?.should == true
+    @issue.deliver(:to => @user)
+    @issue.should be_published
   end
 
   test "#deliver_all should create cronjob" do
     @issue.deliver_all.should_not == nil
-    @issue.cronjob.class.should == Adva::Cronjob
+    @issue.cronjob.should be_a(Adva::Cronjob)
     @issue.cronjob.should_not == nil
   end
 
@@ -282,7 +282,7 @@ class AdvaIssueTest < ActiveSupport::TestCase
   test "#cancel_delivery should set published state" do
     @issue.deliver
     @issue.cancel_delivery
-    @issue.published?.should == true
+    @issue.should be_published
   end
 
   test "#cancel_delivery should return false when issue is already delivered" do
@@ -290,14 +290,14 @@ class AdvaIssueTest < ActiveSupport::TestCase
     @issue.cancel_delivery
     @issue.cancel_delivery.should == false
   end
-  
+
   test "#body_mail should return body_html where images are replaced with inline images" do
     @issue.body = "<img src='http://example.com/image.jpg' alt='test' />"
     @issue.save
-    stub(TMail).new_message_id {"<4a266bee9659c_7524..fdbeb80d8194@test.tmail>"}
+    stub(TMail).new_message_id { "<4a266bee9659c_7524..fdbeb80d8194@test.tmail>" }
     @issue.body_mail.should == "<img src='cid:4a266bee9659c_7524..fdbeb80d8194@test.tmail' alt='test' />"
   end
-  
+
   test "#images should call Adva::IssueImage.parse" do
     mock(Adva::IssueImage).parse(@issue.body_html)
     @issue.images

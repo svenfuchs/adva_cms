@@ -3,7 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../../test_helper')
 class SubscriptionTest < ActiveSupport::TestCase
   def setup
     super
-    @subscription = Adva::Subscription.new :user_id => User.first.id
+    @subscription = Adva::Subscription.new(:user_id => User.first.id)
   end
 
   test "should be valid" do

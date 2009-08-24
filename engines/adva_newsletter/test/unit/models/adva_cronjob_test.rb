@@ -58,7 +58,7 @@ class AdvaCronjobTest < ActiveSupport::TestCase
 
   test "#due_at should return DateTime" do
     @cronjob.due_at = Time.now
-    @cronjob.due_at.class.should == DateTime
+    @cronjob.due_at.should be_a(DateTime)
   end
 
   test "#due_at should return nil when cronjob does not have one due time" do
@@ -86,10 +86,10 @@ class AdvaCronjobTest < ActiveSupport::TestCase
     @time_in_user_time_zone = Time.zone.local(2011,1,1, 1,1,1).in_time_zone(10)
     mock(@time_in_user_time_zone).class { ActiveSupport::TimeWithZone }
     mock(@time_in_user_time_zone).localtime { Time.utc(2011,1,1, 1,1,1) } # mock return OS timezone time
-    
+
     Time.zone = -3 # just in case let's change timezone
 
-    @cronjob.due_at = @time_in_user_time_zone   
+    @cronjob.due_at = @time_in_user_time_zone
     @cronjob.minute.should == "1"
     @cronjob.hour.should == "1" # should be in the OS time zone and NOT user's one
     @cronjob.day.should == "1"
@@ -98,7 +98,7 @@ class AdvaCronjobTest < ActiveSupport::TestCase
 
   test "#create should create CronEdit cronjob" do
     Adva::Cronjob.destroy_all
-    cronjob = Adva::Cronjob.create! :command => "test_command"
+    cronjob = Adva::Cronjob.create!(:command => "test_command")
     `crontab -l`.should =~ cronjob_regexp(cronjob.id)
   end
 

@@ -108,6 +108,22 @@ module Matchy
       def be_paged
         Matchy::Expectations::BePaged.new(nil, self)
       end
+
+      def have_valid_extension
+        Matchy::Expectations::HaveValidExtension.new(nil, self)
+      end
+
+      def be_delivered
+        Matchy::Expectations::BeDelivered.new(nil, self)
+      end
+
+      def be_queued
+        Matchy::Expectations::BeQueued.new(nil, self)
+      end
+
+      def be_editable
+        Matchy::Expectations::BeEditable.new(nil, self)
+      end
     end
 
     matcher "ActAsAuthenticatedUser",
@@ -291,6 +307,34 @@ module Matchy
             "Expected %s not to be paged." do |receiver|
       @receiver = receiver
       @receiver.paged?
+    end
+
+    matcher "HaveValidExtension",
+            "Expected %s to have a valid extension.",
+            "Expected %s not to have a valid extension." do |receiver|
+      @receiver = receiver
+      @receiver.valid_extension?
+    end
+
+    matcher "BeDelivered",
+            "Expected %s to be delivered.",
+            "Expected %s not to be delivered." do |receiver|
+      @receiver = receiver
+      @receiver.delivered?
+    end
+
+    matcher "BeQueued",
+            "Expected %s to be queued.",
+            "Expected %s not to be queued." do |receiver|
+      @receiver = receiver
+      @receiver.queued?
+    end
+
+    matcher "BeEditable",
+            "Expected %s to be editable.",
+            "Expected %s not to be editable." do |receiver|
+      @receiver = receiver
+      @receiver.editable?
     end
 
     class HaveUrlParams < Base

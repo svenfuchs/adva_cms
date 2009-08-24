@@ -60,12 +60,12 @@ class NewsletterTest < ActiveSupport::TestCase
 
   test "#published? should be true if published" do
     @newsletter.published = 1
-    @newsletter.published?.should be_true
+    @newsletter.should be_published
   end
 
   test "#published? should be false if not published" do
     @newsletter.published = 0
-    @newsletter.published?.should be_false
+    @newsletter.should_not be_published
   end
 
   test "#state should be pending when draft" do
