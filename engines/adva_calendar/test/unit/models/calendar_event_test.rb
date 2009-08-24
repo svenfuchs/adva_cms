@@ -21,78 +21,78 @@ class CalendarEventTest < ActiveSupport::TestCase
     event.start_date.should ==(Time.utc(2009,1,31, 15,00))
     event.end_date.should ==(Time.utc(2009,1,31, 17,00))
   end
-  
+
   test "01 acts as a taggable" do
     Content.should act_as_taggable
   end
-  
+
   test '02 should sanitize the body_html attribute' do
     CalendarEvent.should filter_attributes(:sanitize => :body_html)
   end
-  
+
   test '03 should not sanitize the body and cached_tag_list attributes' do
     CalendarEvent.should filter_attributes(:except => [:body, :cached_tag_list])
   end
-  
+
   test '04 should set a permalink' do
     @event.permalink.should be_nil
     @event.save!
     @event.permalink.should ==('a-new-event')
     @event.destroy
   end
-  
+
   test "05 must have a title" do
     @event.title = nil
     @event.should_not be_valid
     @event.errors.on("title").should_not be_nil
-    @event.errors.count.should be(1)
+    @event.errors.count.should == 1
   end
-  
+
   test "06 must have start datetime" do
     @event.start_date = nil
     @event.should_not be_valid
     @event.errors.on("start_date").should_not be_nil
-    @event.errors.count.should be(1)
+    @event.errors.count.should == 1
   end
-  
+
   test "07 must have end datetime" do
     @event.end_date = nil
     CalendarEvent.require_end_date = true
     @event.require_end_date?.should == true
     @event.should_not be_valid
     @event.errors.on("end_date").should_not be_nil
-    @event.errors.count.should be(1)
+    @event.errors.count.should == 1
   end
-  
+
   test "08 must not require and end date if model says so" do
     CalendarEvent.require_end_date = false
     @event.end_date = nil
     @event.should be_valid
   end
-  
+
   test "09 must have a start date earlier than the end date" do
     @event.end_date = @event.start_date - 1.day
     @event.should_not be_valid
     @event.errors.on("end_date").should_not be_nil
-    @event.errors.count.should be(1)
+    @event.errors.count.should == 1
   end
-  
+
   test "10 should have many categories" do
     @event.should have_many(:categories)
   end
-  
+
   test "11 should have a location" do
     @event.should respond_to(:location)
   end
-  
+
   test "12 should have a elapsed scope" do
     @calendar.events.elapsed.should == [@past_event, @last_year_event]
   end
-  
+
   test "13 should have a recently added scope" do
     @calendar.events.recently_added.should == [@ongoing_event, @upcoming_event]
   end
-  
+
   test "14 should have a published scope" do
     @calendar.events.published.should == [@upcoming_event, @ongoing_event, @past_event]
   end
@@ -111,23 +111,23 @@ class CalendarEventTest < ActiveSupport::TestCase
   test "16 from today on" do
     @calendar.events.upcoming.should == [@upcoming_event, @ongoing_event]
   end
-  
+
   test "17 from tomorrow on" do
      @calendar.events.upcoming(Time.now + 1.day).should == [@upcoming_event]
   end
-  
+
   test "18 for tomorrow only" do
     @calendar.events.upcoming(Time.now + 1.day, Time.now + 2.days).should == []
   end
-  
+
   test "19 for last year" do
     @calendar.events.upcoming(Time.now - 1.year).should == [@last_year_event]
   end
-  
+
   test "20 should have a search scope by title" do
     @calendar.events.search('upcoming', :title).should == [@upcoming_event]
   end
-  
+
   test "21 should have a search scope by body" do
     @calendar.events.search('We', :body).should == [@upcoming_event, @last_year_event]
     @calendar.events.search('wisdom', :body).should == []
