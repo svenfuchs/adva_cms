@@ -48,6 +48,17 @@ class Content < ActiveRecord::Base
     drafts(*args).scope(:find)
   }
 
+  named_scope :by_category, lambda { |category|
+    section_type = category.section.class
+    {
+      :include => [:categories, :section],
+      :conditions => [
+        "categories.lft >= ? AND categories.rgt <= ? AND contents.type = ? AND sections.type = ?",
+        category.lft, category.rgt, section_type.content_type, section_type.to_s
+      ]
+    }
+  }
+
   class << self
     def add_time_delta_condition!(conditions, args)
       conditions.first << " AND contents.published_at BETWEEN ? AND ?"

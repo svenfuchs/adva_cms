@@ -23,12 +23,19 @@ class Photo < ActiveRecord::Base
 
   default_scope :order => 'published_at desc'
 
-  named_scope :published, lambda { 
+  named_scope :published, lambda {
     { :conditions => ['published_at IS NOT NULL AND published_at <= ?', Time.zone.now] } }
-    
-  named_scope :drafts, lambda { 
+
+  named_scope :drafts, lambda {
     { :conditions => ['published_at IS NULL'] } }
-    
+
+  named_scope :by_set, lambda { |set|
+    {
+      :include => :sets,
+      :conditions => ["categories.lft >= ? AND categories.rgt <= ?", set.lft, set.rgt]
+    }
+  }
+
   before_save :ensure_unique_filename
 
   validates_presence_of :title

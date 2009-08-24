@@ -23,16 +23,10 @@ class Category < ActiveRecord::Base
   end
 
   def all_contents
-    scope_by_content
+    Content.by_category(self)
   end
 
   protected
-
-    def scope_by_content
-      Content.scoped(:include => :categories, :conditions => ["categories.lft >= ? AND categories.rgt <= ?", lft, rgt]).
-        scoped(:conditions => ["contents.type = ?", section.class.content_type]).
-        scoped(:include => :section, :conditions => ["sections.type = ?", section.class.to_s])
-    end
 
     def update_path
       if permalink_changed?
