@@ -45,7 +45,8 @@ class BaseControllerTest < ActionController::TestCase
     action { get :index, params_from('/an-unpublished-section') }
 
     with "an anonymous user" do
-      it_raises ActiveRecord::RecordNotFound
+      # it_raises ActiveRecord::RecordNotFound
+      assert_status 404
     end
 
     with :is_superuser do
@@ -59,7 +60,8 @@ class BaseControllerTest < ActionController::TestCase
     action { get :show, params_from('/an-unpublished-section/articles/an-article-in-an-unpublished-section') }
 
     with "an anonymous user" do
-      it_raises ActiveRecord::RecordNotFound
+      # it_raises ActiveRecord::RecordNotFound
+      assert_status 404
     end
 
     with :is_superuser do
