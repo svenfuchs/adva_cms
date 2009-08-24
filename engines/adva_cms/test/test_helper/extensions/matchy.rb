@@ -98,6 +98,10 @@ module Matchy
       def be_frozen
         Matchy::Expectations::BeFrozen.new(nil, self)
       end
+
+      def be_new_record
+        Matchy::Expectations::BeNewRecord.new(nil, self)
+      end
     end
 
     class << self
@@ -237,6 +241,13 @@ module Matchy
             "Expected %s not to be frozen." do |receiver|
       @receiver = receiver
       @receiver.frozen?
+    end
+
+    matcher "BeNewRecord",
+            "Expected %s to be a new record.",
+            "Expected %s not to be a new record." do |receiver|
+      @receiver = receiver
+      @receiver.new_record?
     end
 
     class ValidateUniquenessOf < Base

@@ -11,7 +11,7 @@ class AnonymousTest < ActiveSupport::TestCase
   end
 
   # VALIDATIONS
-  
+
   test 'validates the presence of a name' do
     @anonymous.should validate_presence_of(:first_name)
   end
@@ -33,22 +33,22 @@ class AnonymousTest < ActiveSupport::TestCase
     @anonymous.email = 'invalid-email.org'
     @anonymous.should_not be_valid
   end
-  
+
   # INSTANCE METHODS
 
   test '#has_role? returns true when the passed role is Role::Anonymous' do
-    @anonymous.has_role?(:anonymous).should be_true
+    @anonymous.should have_role(:anonymous)
   end
 
   test '#has_role? returns false when the passed role is not Role::Anonymous' do
-    @anonymous.has_role?(:user).should be_false
+    @anonymous.should_not have_role(:user)
   end
 
   test '#anonymous? returns true' do
-    @anonymous.anonymous?.should be_true
+    @anonymous.should be_anonymous
   end
 
   test '#registered? returns false' do
-    @anonymous.registered?.should be_false
+    @anonymous.should_not be_registered
   end
 end

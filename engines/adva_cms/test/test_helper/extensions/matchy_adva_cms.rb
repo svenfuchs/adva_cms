@@ -132,6 +132,22 @@ module Matchy
       def be_active
         Matchy::Expectations::BeActive.new(nil, self)
       end
+
+      def be_anonymous
+        Matchy::Expectations::BeAnonymous.new(nil, self)
+      end
+
+      def be_registered
+        Matchy::Expectations::BeRegistered.new(nil, self)
+      end
+
+      def be_verified
+        Matchy::Expectations::BeVerified.new(nil, self)
+      end
+
+      def have_role(*args)
+        Matchy::Expectations::HaveRole.new(args, self)
+      end
     end
 
     matcher "ActAsAuthenticatedUser",
@@ -357,6 +373,34 @@ module Matchy
             "Expected %s not to be active." do |receiver|
       @receiver = receiver
       @receiver.active?
+    end
+
+    matcher "BeAnonymous",
+            "Expected %s to be anonymous.",
+            "Expected %s not to be anonymous." do |receiver|
+      @receiver = receiver
+      @receiver.anonymous?
+    end
+
+    matcher "BeRegistered",
+            "Expected %s to be registered.",
+            "Expected %s not to be registered." do |receiver|
+      @receiver = receiver
+      @receiver.registered?
+    end
+
+    matcher "BeVerified",
+            "Expected %s to be verified.",
+            "Expected %s not to be verified." do |receiver|
+      @receiver = receiver
+      @receiver.verified?
+    end
+
+    matcher "HaveRole",
+            "Expected %s to have role %s.",
+            "Expected %s not to have role %s." do |receiver|
+      @receiver = receiver
+      @receiver.has_role?(*@expected) # urgs
     end
 
     class HaveUrlParams < Base
