@@ -37,7 +37,8 @@ class PageArticlesControllerTest < ActionController::TestCase
         end
 
         with "an anonymous user" do
-          it_raises ActiveRecord::RecordNotFound
+          # it_raises ActiveRecord::RecordNotFound
+          assert_status 404
         end
 
         with :is_superuser do
@@ -49,7 +50,8 @@ class PageArticlesControllerTest < ActionController::TestCase
 
       with "the page is not in single_article_mode" do
         with "an anonymous user" do
-          it_raises ActiveRecord::RecordNotFound
+          # it_raises ActiveRecord::RecordNotFound
+          assert_status 404
         end
 
         with :is_superuser do
@@ -94,7 +96,8 @@ class PageArticlesControllerTest < ActionController::TestCase
 
       with :the_article_is_not_published do
         with "an anonymous user" do
-          it_raises ActiveRecord::RecordNotFound
+          # it_raises ActiveRecord::RecordNotFound
+          assert_status 404
         end
         
         with :is_superuser do
@@ -106,13 +109,15 @@ class PageArticlesControllerTest < ActionController::TestCase
       
       with "the article does not exist" do
         before { @article.destroy }
-        it_raises ActiveRecord::RecordNotFound
+        # it_raises ActiveRecord::RecordNotFound
+        assert_status 404
       end
     end
 
     with :an_unpublished_section do
       with "an anonymous user" do
-        it_raises ActiveRecord::RecordNotFound
+        # it_raises ActiveRecord::RecordNotFound
+          assert_status 404
       end
       
       with :is_superuser do
