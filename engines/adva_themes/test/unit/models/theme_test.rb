@@ -157,10 +157,10 @@ class ThemeTest < ActiveSupport::TestCase
   
   test "#cached_files returns an array of cached files" do
     setup_theme_with_cached_files(@theme)
-    assert_equal @theme.cached_files, ["#{@theme.path}/javascripts/cached_javascript.js",
-                                       "#{@theme.path}/javascripts/folder/cached/folder",
-                                       "#{@theme.path}/javascripts/folder/cached/folder/some_javascript.css",
-                                       "#{@theme.path}/stylesheets/cached_stylesheet.css"]
+    assert_equal @theme.cached_files.sort, ["#{@theme.path}/javascripts/cached_javascript.js",
+                                            "#{@theme.path}/javascripts/folder/cached/folder",
+                                            "#{@theme.path}/javascripts/folder/cached/folder/some_javascript.css",
+                                            "#{@theme.path}/stylesheets/cached_stylesheet.css"].sort
   end
   
   # clear_asset_cache!
