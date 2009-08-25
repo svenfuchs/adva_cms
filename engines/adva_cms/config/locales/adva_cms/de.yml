@@ -100,7 +100,7 @@ de:
      download: Herunterladen
      delete: Löschen
      edit: Bearbeiten
-     email_notifications: eMail-Mitteilungen
+     email_notifications: E-Mail-Mitteilungen
      events: Ereignisse
      files: Dateien
      filter: Filter
@@ -190,6 +190,8 @@ de:
      tags: 'Geben Sie einen oder mehrere Tags getrennt durch Leerzeichen ein. Sie können Tags mit Leerzeichen verwenden, indem Sie Anführungszeichen verwenden (z.B. <em>"Web Development" Tutorials</em>).'
      meta_keywords: "Geben Sie einige Wörter ein, die durch Kommas getrennt werden, um Ihren Inhalt zu beschreiben. Meta-Schlüsselwörter bilden es einfacher, damit Suchmaschinen Ihre Seite finden."
      meta_description: "Tragen Sie eine kurze Beschreibung dieser Seite ein, also kann eine Search Engine Benutzern erklären, was sie hier finden können."
+     akismet: "Askimet ist ein Spamfilter-Dienst. Wenn Sie sich bei Akismet angemeldet haben, können Sie den Filter aktivieren und Ihre Zugangsdaten eingeben."
+     defensio: "Defensio ist ein Spamfilter-Dienst. Wenn Sie sich bei Akismet angemeldet haben, können Sie den Filter aktivieren und Ihre Zugangsdaten eingeben."
      
    messages:
      insufficient_permissions:
@@ -219,15 +221,14 @@ de:
      delivered: Versendet
 
    sites:
-     email_notification_activated: "Activated"
-     email_notification_deactivated: "Deactivated"  
+     email_notification_activated: "E-Mail-Mitteilungen aktivieren"
      title:
        create: Neue Webseite anlegen 
        home_section: Startseiten-Sektion
      hints:
        host_name: "Falls Ihre Seite nicht auf dem Standard-HTTP-Port (80) läuft, führen Sie diesen bitte auf (z.B. http://www.meine-seite.com:1234)."
        admin_email: "Diese E-Mail-Adresse ist die Absender-Adresse für E-Mails, die von Ihrer Webseite versendet werden."
-       email_notification: "If e-mail notifications are activated, an e-mail is sent to the administrator every time a new content is created or updated. No e-mails are sent when the notifications are deactivated."
+       email_notification: "Wenn E-Mail-Benachrichtungen aktiviert sind, werden Administratoren der Webseite beim Hinzufügen oder Ändern von Inhalten per E-Mail benachrichtigt. Bei deaktivierten E-Mail-Benachrichtigungen werden keine E-Mails verschickt."
      attributes:
        name: Name
        host: Host
@@ -262,8 +263,6 @@ de:
        admin_email: Administrator-E-Mail
        subtitle: Untertitel der Webseite
        host: Hostname
-       deactivate_email_notification: Deactivate email notification
-       activate_email_notification: Activate email notification
      confirm_delete: "Sind Sie sicher, dass Sie diese Webseite löschen wollen?"
 
    sections:
@@ -973,7 +972,9 @@ de:
        default_ham_none: Kommentare nie automatisch freigeben.
        default_ham_all: Kommentare immer automatisch freigeben.
        default_ham_authenticated: Nur Kommentare von authentifizierten Benutzern automatisch freigeben.
-     labels:
+     labels:       
+       enable: "{{name}} aktivieren"
+       settings: Einstellungen
        api_key: API Schlüssel (API Key)
        site_url: Webseiten-URL (Site URL)
    info:
