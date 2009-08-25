@@ -36,6 +36,10 @@ class Test::Unit::TestCase
   share :is_default_locale do
     before { I18n.default_locale = I18n.locale }
   end
+  
+  share :rescue_action_in_public do
+    before { rescue_action_in_public! }
+  end
 
   # FIXME abstract these
   share :multi_sites_enabled do
