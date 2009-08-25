@@ -18,8 +18,10 @@ module IntegrationTests
     test "user views categories of an album that has nested categories" do
       login_as_user
       visit_album_index
-      visit_category(@uk)
-      visit_category(@london)
+      if default_theme?
+        visit_category(@uk)
+        visit_category(@london)
+      end
     end
     
     def visit_album_index

@@ -20,14 +20,18 @@ module IntegrationTests
     test "user views categories of a blog that has nested categories" do
       login_as_user
       visit_blog_index
-      visit_category(@uk)
-      visit_category(@london)
+      
+      if default_theme?
+        visit_category(@uk)
+        visit_category(@london)
+      end
     end
     
     test "category with special characters permalink is accessible" do
       login_as_user
       visit_blog_index
-      visit_category(@non_ascii_category)
+      
+      visit_category(@non_ascii_category) if default_theme?
     end
     
     # FIXME categories does not work with characters like $%&

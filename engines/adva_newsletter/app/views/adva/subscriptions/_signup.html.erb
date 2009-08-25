@@ -15,7 +15,7 @@ if @newsletter_attributes.present? %>
         <% @user.subscriptions.build(@newsletter_attributes).each do |subscription| %>
           <li>
             <% f.fields_for :subscriptions, subscription do |s| %> 
-              <%= s.check_box    :subscribe, :label => subscription.subscribable.title %>
+              <%= s.check_box    :subscribe, :label => subscription.subscribable.title, :id => "user_newsletter_subscriptions_#{subscription.subscribable.id}" %>
               <%= s.hidden_field :subscribable_id %>
               <%= s.hidden_field :subscribable_type %>
             <% end %>

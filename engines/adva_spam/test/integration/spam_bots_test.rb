@@ -31,8 +31,8 @@ module IntegrationTests
     def fill_and_post_hidden_comment_form
       @comment_count = Comment.count
       
-      fill_in 'Name',         :with => 'Spambot'
-      fill_in 'E-mail',       :with => 'spammy@bothell.org'
+      fill_in 'user_name',    :with => 'Spambot'
+      fill_in 'user_email',   :with => 'spammy@bothell.org'
       fill_in 'comment_body', :with => 'BUY OUR VIAGRA NOW HTTP://ADVA-CMS.ORG'
       click_button 'Submit comment'
     end

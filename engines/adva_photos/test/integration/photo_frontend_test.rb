@@ -13,129 +13,141 @@ class PhotosFrontendTest < ActionController::IntegrationTest
     @set                    = Category.find_by_title('Summer')
     @tag                    = Tag.find_by_name('Forest')
   end
-  
+
   test 'an anonymous user views the album' do
     visit_album
-    unpublished_photo_is_not_shown
+    assert_unpublished_photo_is_not_shown
     
-    display_published_photo
-    display_published_photo_with_set
-    display_published_photo_with_tag
-    display_published_photo_with_set_and_tag
+    assert_displays_at_least_one_photo
+
+    if default_theme?
+      assert_displays_published_photo
+      assert_displays_published_photo_with_set
+      assert_displays_published_photo_with_tag
+      assert_displays_published_photo_with_set_and_tag
+    end
   end
 
   test 'an anonymous user views a set' do
     visit_album
     view_the_set
-    
-    unpublished_photo_is_not_shown
-    published_photo_is_not_shown
-    published_photo_with_tag_is_not_shown
-    
-    display_published_photo_with_set
-    display_published_photo_with_set_and_tag
+  
+    assert_unpublished_photo_is_not_shown
+    assert_published_photo_is_not_shown
+    assert_published_photo_with_tag_is_not_shown
+  
+    assert_displays_published_photo_with_set
+    assert_displays_published_photo_with_set_and_tag
   end
   
   test 'an anonymous user views a tag' do
     visit_album
-    view_the_tag
-    
-    unpublished_photo_is_not_shown
-    published_photo_is_not_shown
-    published_photo_with_set_is_not_shown
-    
-    display_published_photo_with_tag
-    display_published_photo_with_set_and_tag
+    if default_theme?
+      view_the_tag
+  
+      assert_unpublished_photo_is_not_shown
+      assert_published_photo_is_not_shown
+      assert_published_photo_with_set_is_not_shown
+  
+      assert_displays_published_photo_with_tag
+      assert_displays_published_photo_with_set_and_tag
+    end
   end
   
   test 'an anonymous user views an empty tag' do
     visit_album
-    view_the_empty_tag
-    
-    unpublished_photo_is_not_shown
-    published_photo_is_not_shown
-    published_photo_with_set_is_not_shown
-    published_photo_with_tag_is_not_shown
-    published_photo_with_set_and_tag_is_not_shown
+    if default_theme?
+      view_the_empty_tag
+  
+      assert_unpublished_photo_is_not_shown
+      assert_published_photo_is_not_shown
+      assert_published_photo_with_set_is_not_shown
+      assert_published_photo_with_tag_is_not_shown
+      assert_published_photo_with_set_and_tag_is_not_shown
+    end
   end
-    
+  
   test 'an anonymous user views an empty set' do
     visit_album
     view_the_empty_set
-    
-    unpublished_photo_is_not_shown
-    published_photo_is_not_shown
-    published_photo_with_set_is_not_shown
-    published_photo_with_tag_is_not_shown
-    published_photo_with_set_and_tag_is_not_shown
-  end
   
+    assert_unpublished_photo_is_not_shown
+    assert_published_photo_is_not_shown
+    assert_published_photo_with_set_is_not_shown
+    assert_published_photo_with_tag_is_not_shown
+    assert_published_photo_with_set_and_tag_is_not_shown
+  end
+
   def visit_album
     get "/albums/#{@album.id}"
     assert_template 'albums/index'
   end
-  
+
   def view_the_set
     click_link @set.title
     assert_template 'albums/index'
   end
-  
+
   def view_the_tag
     click_link @tag.name
     assert_template 'albums/index'
   end
-  
+
   def view_the_empty_tag
     get "/an-album/tags/Empty"
     assert_template 'albums/index'
   end
-  
+
   def view_the_empty_set
     get "/an-album/sets/empty"
     assert_template 'albums/index'
   end
   
-  def display_published_photo_with_set_and_tag
+  def assert_displays_at_least_one_photo
+    assert_select "div.photo"
+  end
+
+  def assert_displays_published_photo_with_set_and_tag
     assert_select "div#photo_#{@photo_with_set_and_tag.id}" do
       assert_select "a[href='#{controller.show_path(@photo_with_set_and_tag)}']"
     end
   end
-  
-  def published_photo_with_set_and_tag_is_not_shown
+
+  def assert_published_photo_with_set_and_tag_is_not_shown
     assert_select "div#photo_#{@photo_with_set_and_tag.id}", false
   end
-  
-  def display_published_photo_with_tag
+
+  def assert_displays_published_photo_with_tag
     assert_select "div#photo_#{@photo_with_tag.id}" do
       assert_select "a[href='#{controller.show_path(@photo_with_tag)}']"
     end
   end
-  
-  def published_photo_with_tag_is_not_shown
+
+  def assert_published_photo_with_tag_is_not_shown
     assert_select "div#photo_#{@photo_with_tag.id}", false
   end
-  
-  def display_published_photo_with_set
+
+  def assert_displays_published_photo_with_set
     assert_select "div#photo_#{@photo_with_set.id}" do
       assert_select "a[href='#{controller.show_path(@photo_with_set)}']"
     end
   end
-  
-  def published_photo_with_set_is_not_shown
+
+  def assert_published_photo_with_set_is_not_shown
     assert_select "div#photo_#{@photo_with_set.id}", false
   end
-  
-  def display_published_photo
+
+  def assert_displays_published_photo
     assert_select "div#photo_#{@photo.id}" do
       assert_select "a[href='#{controller.show_path(@photo)}']"
     end
   end
-  
-  def published_photo_is_not_shown
+
+  def assert_published_photo_is_not_shown
     assert_select "div#photo_#{@photo.id}", false
   end
-  
-  def unpublished_photo_is_not_shown
+
+  def assert_unpublished_photo_is_not_shown
     assert_select "div#photo_#{@unpublished_photo.id}", false
   end
 end

@@ -131,6 +131,10 @@ class ActiveSupport::TestCase
 end
 
 class ActionController::TestCase
+  def default_theme?
+    @controller.site.themes.active.empty?
+  end
+  
   def rendered_insufficient_permissions?
     !!(@response.rendered_template.to_s =~ /insufficient_permissions/)
   end

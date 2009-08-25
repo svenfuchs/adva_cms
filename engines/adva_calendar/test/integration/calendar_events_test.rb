@@ -21,17 +21,22 @@ module IntegrationTests
     end
 
     test "02 search for a query and apply filters" do
-      %w(tags title body).each do |filter|
-        %(upcoming elapsed recently_added).each do |scope|
-          visit @calendar_path
-          fill_in :filter_list, :with => filter
-          fill_in :time_filter_list, :with => scope
-          click_button 'calendar_events_search'
-          assert_response :success
-          assert assigns['events']
+      visit @calendar_path
+
+      if default_theme?
+        %w(tags title body).each do |filter|
+          %(upcoming elapsed recently_added).each do |scope|
+            visit @calendar_path
+            fill_in :filter_list, :with => filter
+            fill_in :time_filter_list, :with => scope
+            click_button 'calendar_events_search'
+            assert_response :success
+            assert assigns['events']
+          end
         end
       end
     end
+
     test "03 GET :index for a date" do
       visit @calendar_path + '/' + Date.today.strftime('%Y/%m/%d')
       assert_response :success
