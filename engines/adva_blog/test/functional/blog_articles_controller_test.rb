@@ -65,14 +65,14 @@ class BlogArticlesControllerTest < ActionController::TestCase
         has_tag 'div.meta a', :text => /\d comment[s]?/, :count => 0
       end
 
-      has_tag 'div[id=footer]' do
+      has_tag 'div[id=footer]', :if => :default_theme do
         has_tag 'ul[id=categories_list]'
         has_tag 'ul[id=archives]'
         # has_tag 'ul[id=tags-list]' # FIXME currently tags are not displayed
       end
     end
 
-    with :'blog_feed_paths' do
+    with :blog_feed_paths do
       it_assigns :section, :articles
       it_renders :template, :index, :format => :atom
     end

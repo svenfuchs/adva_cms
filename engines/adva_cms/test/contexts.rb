@@ -41,6 +41,10 @@ class Test::Unit::TestCase
     before { rescue_action_in_public! }
   end
 
+  share_condition :default_theme do
+    assigns(:site).themes.active.empty?
+  end
+
   # FIXME abstract these
   share :multi_sites_enabled do
     before do

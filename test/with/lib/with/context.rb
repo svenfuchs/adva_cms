@@ -46,8 +46,8 @@ module With
 
       def method_missing(method_name, *args, &block)
         options = {}
-        if args.last.is_a?(Hash) and [:in, :not_in].select{|key| args.last.has_key?(key) }
-          [:with, :in, :not_in].each { |key| options[key] = args.last.delete(key) }
+        if args.last.is_a?(Hash) # and [:in, :not_in].select{|key| args.last.has_key?(key) }
+          [:with, :in, :not_in, :if].each { |key| options[key] = args.last.delete(key) }
           args.pop if args.last.empty?
         end
 

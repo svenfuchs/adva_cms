@@ -18,7 +18,7 @@ class CalendarEventsControllerTest < ActionController::TestCase
 
   view :index do
     shows :common
-    has_tag 'form[id=calendar_search]'
+    has_tag 'form[id=calendar_search]', :if => :default_theme
     has_tag 'div[id=calendar]'
     has_tag 'div[id=events]' do |events_tag|
       assigns['events'].each do |event|
