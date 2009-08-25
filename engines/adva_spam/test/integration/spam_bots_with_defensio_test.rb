@@ -57,8 +57,8 @@ module IntegrationTests
     def fill_hidden_form
       @comment_count = Comment.count
       
-      fill_in 'Name',         :with => 'ssafdad'
-      fill_in 'E-mail',       :with => 'trgtwwfwfw@gmail.com'
+      fill_in 'user_name',    :with => 'ssafdad'
+      fill_in 'user_email',   :with => 'trgtwwfwfw@gmail.com'
       fill_in 'comment_body', :with => "spam message"
       click_button 'Submit comment'
       

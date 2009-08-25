@@ -17,11 +17,11 @@ module IntegrationTests
       visit "/user/new"
       renders_template "user/new"
 
-      fill_in "first name", :with => 'John'
-      fill_in "last name", :with => 'Doe'
-      fill_in "email", :with => 'john-doe@test.com'
-      fill_in "password", :with => 'password'
-      click_button "Register"
+      fill_in "user_first_name", :with => 'John'
+      fill_in "user_last_name", :with => 'Doe'
+      fill_in "user_email", :with => 'john-doe@test.com'
+      fill_in "user_password", :with => 'password'
+      click_button "register"
 
       renders_template "user/verification_sent"
 

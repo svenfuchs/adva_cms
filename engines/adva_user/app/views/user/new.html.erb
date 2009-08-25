@@ -11,7 +11,7 @@
   <% end %>
 
   <% f.buttons do %>
-  	<%=submit_tag t(:'adva.titles.register') %> or
+  	<%= submit_tag t(:'adva.titles.register'), :id => "register" %> or
   	<%= link_to t(:'adva.titles.login'), login_url, :id => 'login' %>
   <% end %>
 <% end %>

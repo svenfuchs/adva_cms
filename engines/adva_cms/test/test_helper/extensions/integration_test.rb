@@ -1,5 +1,9 @@
 module ActionController
   class IntegrationTest
+    def default_theme?
+      controller.site.themes.active.empty?
+    end
+    
     def displays_article(article)
       has_tag '.entry', :text => /#{article.title}/
     end

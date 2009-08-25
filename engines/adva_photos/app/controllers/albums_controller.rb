@@ -40,18 +40,14 @@
 
     def set_photo
       @photo = @section.photos.find(params[:photo_id], :include => :author)
-      if !@photo || !@photo.published? && !can_preview?
-        raise ActiveRecord::RecordNotFound
-      end
+      raise ActiveRecord::RecordNotFound if !@photo || !@photo.published? && !can_preview?
     rescue ActiveRecord::RecordNotFound
       flash[:error] = t(:'adva.photos.flash.photo.set_photo.failure')
       redirect_to album_url(@section)
     end
 
     def set_set
-      if params[:set_id]
-        @set = @section.sets.find(params[:set_id])
-      end
+      @set = @section.sets.find(params[:set_id]) if params[:set_id]
     rescue ActiveRecord::RecordNotFound
       flash[:error] = t(:'adva.photos.flash.photo.set_set.failure')
     end

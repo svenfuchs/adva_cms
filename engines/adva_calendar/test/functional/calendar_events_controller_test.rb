@@ -18,16 +18,14 @@ class CalendarEventsControllerTest < ActionController::TestCase
 
   view :index do
     shows :common
-    has_tag 'form[id=calendar_search]', :if => :default_theme
+    # has_tag 'form[id=calendar_search]', :if => :default_theme
     has_tag 'div[id=calendar]'
     has_tag 'div[id=events]' do |events_tag|
       assigns['events'].each do |event|
-        has_tag "tr[id=calendar_event_%s]" % event.id do |tag|
+        has_tag "#calendar_event_%s" % event.id do |tag|
           has_tag "a[href=%s]" % calendar_event_url(event.section.id, event.permalink) do |tag|
             has_text event.title
           end
-          has_tag "abbr[class=datetime][title=%s]" % event.start_date.xmlschema
-          has_tag "abbr[class=datetime][title=%s]" % event.end_date.xmlschema
         end
       end
     end
@@ -36,21 +34,24 @@ class CalendarEventsControllerTest < ActionController::TestCase
   view :show do
     shows :common
     event = assigns['event']
-    has_tag "div[id=calendar_event_%s]" % event.id do
-      has_tag "div[class=content]" do
+    has_tag "#calendar_event_%s" % event.id do
+      has_tag ".content" do
         has_text event.title
         has_text event.body
         has_text event.host
       end
-      has_tag "div[class=meta]" do |tag|
+      has_tag ".meta" do |tag|
         has_tag "abbr[class=datetime][title=%s]" % event.start_date.xmlschema
         has_tag "abbr[class=datetime][title=%s]" % event.end_date.xmlschema
         if event.all_day?
-          has_tag 'span[class=all_day]'
+          has_tag '.all_day'
         else
-          assert_no_tag 'span[class=all_day]'
+          assert_no_tag '.all_day'
         end
-        has_authorized_tag 'a[href=?]', edit_admin_calendar_event_path(@site, @section, event), /edit/i
+
+        if default_theme?
+          has_authorized_tag 'a[href=?]', edit_admin_calendar_event_path(@site, @section, event), /edit/i
+        end
         # missing: tags and categories
       end
     end

@@ -6,7 +6,6 @@ class UserControllerTest < ActionController::TestCase
   view :form do
     has_tag 'input[name=?]', 'user[first_name]'
     has_tag 'input[name=?]', 'user[last_name]'
-    has_tag 'input[name=?]', 'user[homepage]'
     has_tag 'input[name=?]', 'user[email]'
     has_tag 'input[name=?]', 'user[password]'
   end
@@ -57,9 +56,7 @@ class UserControllerTest < ActionController::TestCase
   describe "GET to :verification_sent" do
     action { get :verification_sent }
 
-    it_renders :template, :verification_sent do
-      has_text 'successfully registered'
-    end
+    it_renders :template, :verification_sent
   end
 
   describe "GET to :verify" do

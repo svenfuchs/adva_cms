@@ -87,8 +87,10 @@ class WikiControllerTest < ActionController::TestCase
           # displays the wikipage's updated_at date as a microformat
           has_tag 'abbr[class=datetime][title=?]', @wikipage.updated_at.utc.xmlschema
 
-          has_tag 'ul[class=categories]' if @wikipage.categories.present?
-          has_tag 'ul[class=tags]'       if @wikipage.tags.present?
+          if default_theme?
+            has_tag 'ul[class=categories]' if @wikipage.categories.present? 
+            has_tag 'ul[class=tags]'       if @wikipage.tags.present?
+          end
 
           # FIXME
           # wikifies the wikipage body
