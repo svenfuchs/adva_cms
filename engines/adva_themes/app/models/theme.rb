@@ -42,7 +42,7 @@ class Theme < ActiveRecord::Base
 
   class << self
     def import(file)
-      name = file.original_filename.gsub(/(^.*(\\|\/))|(\.zip$)/, '').gsub(/[^\w\.\-]/, '_')
+      name = file.original_filename.to_s.gsub(/(^.*(\\|\/))|(\.zip$)/, '').gsub(/[^\w\.\-]/, '_')
       return false unless valid_theme?(file)
       returning Theme.create(:name => name) do |theme|
         theme.import(file)
@@ -50,9 +50,9 @@ class Theme < ActiveRecord::Base
     end
 
     def make_tmp_dir
-      random = Time.now.to_i.to_s.split('').sort_by{rand}
+      random = Time.now.to_i.to_s.split('').sort_by { rand }
       returning Pathname.new(Rails.root + "/tmp/themes/tmp_#{random}/") do |dir|
-        FileUtils.mkdir_p dir unless dir.exist?
+        FileUtils.mkdir_p(dir) unless dir.exist?
       end
     end
     
@@ -61,7 +61,7 @@ class Theme < ActiveRecord::Base
       Zip::ZipFile.open(file.path) do |zip|
         zip.sort.each do |entry|
           entry.name.split('/').each do |file|
-            valid = true if THEME_STRUCTURE.include? file
+            valid = true if THEME_STRUCTURE.include?(file)
           end
         end
       end
@@ -139,7 +139,7 @@ class Theme < ActiveRecord::Base
   end
   
   def cached_files
-    Dir.glob("#{path}/**/*").select {|file| file if /cached_|\/cached\//.match(file) }
+    Dir.glob("#{path}/**/*").select { |file| file if /cached_|\/cached\//.match(file) }
   end
   
   def clear_asset_cache!
