@@ -1,4 +1,8 @@
 de:
+ filter:
+   submit:
+     value: Filtern
+
  activerecord:
    attributes:
      article:
@@ -270,11 +274,11 @@ de:
        section: Sektion
      hints:
        content_filter: "Der Filter, den Sie hier wählen, gilt als Standard für alle Inhalte in dieser Sektion."
-       sections: "Hier verzeichnet alle Abschnitte z.Z. auf Ihrem Aufstellungsort. Welcher Abschnitt auf die Oberseite ist, ist das Rückstellungshomepage."
-       reorder: "Sie können die neuordnenwahl verwenden, um Ihre Hauptwurzel auf unterschiedlichen Abschnitt einzustellen und Ihre Abschnitte neuzuordnen. Wenn Sie Ihre Abschnitte nisten möchten, können Sie den Abschnitt rechts schleppen und sein erhält Satz als Kind vom oberen unterteilen. Beenden Sie das Neuordnen, indem Sie den neuordnenknopf anklicken. Merken Sie bitte, dass diese Wahl nur vorhanden ist, wenn Sie 2 haben oder mehr Abschnitte."
-       parent_setting: "Ein Elternteil für Ihren Abschnitt wählend, nistet diesen Abschnitt unter dem ausgesuchten Elternteil. Verlassen Sie leer, wenn Sie diesen Abschnitt als Wurzelabschnitt verursachen möchten."
-       parent_setting_for_edit: "Sie können den neuordnenknopf auf der Indexseite der Abschnitte benutzen, um zu nisten und Ihre Abschnitte, können Sie neuzuordnen weitere Anweisungen für dieses auf den Indexseiten-Hilfentips finden."
-       permalink: "Sie können normale Buchstaben und spezielle Buchstaben benutzen, wie skandinavische Buchstaben aber Sonderzeichen wie $%& vermeiden!"
+       sections: "Hier sehen Sie alle Sektionen Ihrer Webseite gelistet. Der oberste Eintrag in der Liste ist die aktuelle Homepage der Webseite."
+       reorder: "Sie können die Option \"Reihenfolge ändern\" verwenden, um die Homepage zu ändern und Ihre Sektionen anders zu sortieren. Wenn Sie Sektionen verschachteln möchten, können Sie eine Sektion nach rechts verschieben, um diese als Untersektion einer anderen Sektion zu markieren. Um das Umsortieren zu beenden, klicken Sie erneut auf \"Reihenfolge ändern\". Beachten Sie, dass diese Option nur verfügbar ist, wenn Ihre Webseite mindestens zwei Sektionen hat."
+       parent_setting: "Wenn Sie hier eine Sektion auswählen, wird die neu angelegte Sektion als Untersektion dieser Sektion angelegt. Wählen Sie nichts aus, um die Sektion zu einer Hauptsektion zu machen."
+       parent_setting_for_edit: "Sie können die Option \"Reihenfolge ändern\" in der Sektionsliste verwenden, um Sektionen zu verschieben und zu verschachteln. Weitere Infos finden Sie in der Sektionsliste."
+       permalink: "Sie können Buchstaben (auch Umlaute) und einige Sonderzeichen (z.B. -) benutzen. Sonderzeichen wie $%& können nicht verwendet werden!"
      titles:
        behaviour: Anzeige
        page_settings: Page-Einstellungen
@@ -348,10 +352,10 @@ de:
      attributes:
        name: Name
      hints:
-       reorder: "Sie können die neuordnenwahl verwenden, um Ihre Kategorien neuzuordnen. Wenn Sie Ihre Kategorien nisten möchten, können Sie die Kategorie rechts schleppen und sein erhält Satz als Kind der oberen Kategorie. Beenden Sie das Neuordnen, indem Sie den neuordnenknopf anklicken. Merken Sie bitte, dass diese Wahl nur vorhanden ist, wenn Sie 2 haben oder mehr Kategorien."
-       parent_setting: "Ein Elternteil für Ihre Kategorie wählend, nistet diese Kategorie unter dem ausgesuchten Elternteil. Verlassen Sie leer, wenn Sie diese Kategorie als Wurzelkategorie verursachen möchten."
-       parent_setting_for_edit: "Sie können den neuordnenknopf auf der Indexseite von Kategorien benutzen, um zu nisten und Ihre Kategorien, können Sie neuzuordnen weitere Anweisungen für dieses auf den Indexseiten-Hilfentips finden."
-       permalink: "Sie können normale Buchstaben und spezielle Buchstaben benutzen, wie skandinavische Buchstaben aber Sonderzeichen wie $%& vermeiden!"
+       reorder: "Sie können die Option \"Reihenfolge ändern\" verwenden, um Ihre Kategorien anders zu sortieren. Wenn Sie Kategorien verschachteln möchten, können Sie eine Kategorie nach rechts verschieben, um diese zur Unterkategorie einer anderen Kategorie zu markieren. Um das Umsortieren zu beenden, klicken Sie erneut auf \"Reihenfolge ändern\". Beachten Sie, dass diese Option nur verfügbar ist, wenn die aktuelle Sektion mindestens zwei Kategorien hat."
+       parent_setting: "Wenn Sie hier eine Kategorie auswählen, wird die neu angelegte Kategorie als Unterkategorie dieser Kategorie angelegt. Wählen Sie nichts aus, um die Kategorie zu einer Hauptkategorie zu machen."
+       parent_setting_for_edit: "Sie können die Option \"Reihenfolge ändern\" in der Kategorienliste verwenden, um Kategorien zu verschieben und zu verschachteln. Weitere Infos finden Sie in der Kategorienliste." 
+       permalink: "Sie können Buchstaben (auch Umlaute) und einige Sonderzeichen (z.B. -) benutzen. Sonderzeichen wie $%& können nicht verwendet werden!"
      titles:
        edit: Kategorie bearbeiten
        new: Neue Kategorie anlegen
@@ -433,7 +437,7 @@ de:
    cached_pages:
      links:
        index: Cache
-       clear_all: Löschen alles
+       clear_all: Alle löschen
      no_entries: Es werden zur Zeit keine Seiten im Cache gespeichert. 
      confirmation:
        cleared: Diese Seite wurde aus dem Cache gelöscht.

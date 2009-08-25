@@ -29,7 +29,7 @@ module Menus
             item :settings, :action => :edit,  :resource => @site
           end
           item :users, :action => :index, :resource => [@site, :user]
-        end 
+        end
       end
 
       class Main < Menu::Group
@@ -129,7 +129,7 @@ module Menus
         end
       end
     end
-    
+
     class Settings < SettingsBase
       define do
         menu :actions, :class => 'actions' do
@@ -141,7 +141,7 @@ module Menus
     class CachedPages < SettingsBase
       define do
         menu :actions, :class => 'actions' do
-          item :clear_all, :content => link_to_clear_cached_pages(@site)
+          item :clear_all, :content => link_to_clear_cached_pages(@site) unless @site.cached_pages.empty?
         end
       end
     end
