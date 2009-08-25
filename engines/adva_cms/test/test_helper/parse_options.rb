@@ -1,3 +1,5 @@
+require 'optparse'
+
 OptionParser.new do |o|
   o.on('-l', '--line=LINE', "Run tests defined at the given LINE.") do |line|
     With.options[:line] = line
