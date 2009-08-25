@@ -9,13 +9,13 @@ class UserController < BaseController
   end
 
   def create
-    @user = @site.users.build params[:user]
+    @user = @site.users.build(params[:user])
     if @site.save
-      trigger_events @user, :registered
+      trigger_events(@user, :registered)
       redirect_to user_verification_sent_url
     else
       flash[:error] = t(:'adva.signup.flash.create.failure')
-      render :action => :new
+      render :action => 'new'
     end
   end
 
@@ -26,7 +26,7 @@ class UserController < BaseController
   def verify
     if current_user.verify!
       set_user_cookie!
-      trigger_event current_user, :verified
+      trigger_event(current_user, :verified)
       flash[:notice] = t(:'adva.signup.flash.verify.success')
     else
       flash[:error] = t(:'adva.signup.flash.verify.failure')
@@ -36,7 +36,7 @@ class UserController < BaseController
 
   def destroy
     current_user.destroy
-    trigger_events current_user
+    trigger_events(current_user)
     flash[:notice] = t(:'adva.signup.flash.destroy.success', :name =>  current_user.name)
     redirect_to '/'
   end

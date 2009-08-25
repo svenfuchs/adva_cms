@@ -33,7 +33,7 @@ module ThemeSupport
       end
 
       def add_theme_view_paths
-        if respond_to? :current_theme_paths
+        if respond_to?(:current_theme_paths)
           paths = current_theme_paths.map do |path| 
             ActionView::ReloadableTemplate::ReloadablePath.new("#{path}/templates")
           end
@@ -42,7 +42,7 @@ module ThemeSupport
       end
 
       def current_theme_paths
-        current_themes ? current_themes.map{|theme| theme.path.to_s } : []
+        current_themes ? current_themes.map { |theme| theme.path.to_s } : []
       end
 
       def authorize_template_extension!(template, ext)
