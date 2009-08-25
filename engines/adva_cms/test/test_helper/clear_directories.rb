@@ -8,4 +8,9 @@ class Test::Unit::TestCase
     cache_dir = ActionController::Base.page_cache_directory
     FileUtils.rm_r(cache_dir) if File.exists?(cache_dir)
   end
+  
+  def clear_tmp_dir!
+    tmp_dir = RAILS_ROOT + '/tmp/sites'
+    FileUtils.rm_r(tmp_dir) if File.exists?(tmp_dir)
+  end
 end

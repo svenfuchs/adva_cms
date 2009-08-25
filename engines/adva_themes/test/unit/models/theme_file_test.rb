@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../test_helper')
 
-class ThemeFileTest < ActiveSupport::TestCase
+class ThemeFileTest < ThemeTestCase
   include ThemeTestHelper
 
   def setup

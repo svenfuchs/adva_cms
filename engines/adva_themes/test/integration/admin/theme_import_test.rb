@@ -1,7 +1,7 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'test_helper' ))
 
 module IntegrationTests
-  class ThemeImportTest < ActionController::IntegrationTest
+  class ThemeImportTest < ThemeIntegrationTest
     def setup
       super
       @site = use_site! 'site with pages'

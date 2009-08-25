@@ -3,7 +3,7 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'test_hel
 # FIXME add steps: select/unselect theme
 
 module IntegrationTests
-  class AdminThemesTest < ActionController::IntegrationTest
+  class AdminThemesTest < ThemeIntegrationTest
     def setup
       super
       @site = use_site! 'site with pages'

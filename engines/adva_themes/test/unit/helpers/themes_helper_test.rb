@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../test_helper')
 
-class ThemesHelperTest < ActionView::TestCase
+class ThemesHelperTest < ThemeViewTestCase
   include ThemeTestHelper
   # include ThemesHelper
   include AssetTagHelper

@@ -4,7 +4,7 @@ require File.expand_path(File.dirname(__FILE__) + "/../../test_helper")
 
 # With.aspects << :access_control
 
-class AdminThemeFilesControllerTest < ActionController::TestCase
+class AdminThemeFilesControllerTest < ThemeControllerTestCase
   tests Admin::ThemeFilesController
 
   def setup

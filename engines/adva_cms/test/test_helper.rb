@@ -2,14 +2,14 @@ defined?(TEST_HELPER_LOADED) ? raise("can not load #{__FILE__} twice") : TEST_HE
 
 def rails_root
   dir = File.expand_path(File.dirname(__FILE__) + "/../..")
-  while dir = File.dirname(dir) and dir != '/' do 
+  while dir = File.dirname(dir) and dir != '/' do
     return dir if File.exists?("#{dir}/config/environment.rb")
   end
 end
 
 ENV["RAILS_ENV"] = "test"
 dir = File.dirname(__FILE__)
-require "#{rails_root}/config/environment.rb" #File.expand_path(dir + "/../../../../../config/environment")
+require "#{rails_root}/config/environment.rb"
 
 require 'matchy'
 require 'test_help'
@@ -27,22 +27,20 @@ class ActiveSupport::TestCase
   setup :setup_page_caching!
   setup :set_locale!
   setup :ensure_single_site_mode!
-  
+
   teardown :rollback_db_transaction!
   teardown :clear_cache_dir!
   teardown :rollback_multi_site_mode!
-  
+
   def set_locale!
     I18n.locale = nil
     I18n.default_locale = :en
   end
-  
+
   def stub_paperclip_post_processing!
     stub.proxy(Paperclip::Attachment).new { |attachment| stub(attachment).post_process }
   end
 end
-
-# FIXME at_exit { try to rollback any open transactions }
 
 # include this line to test adva-cms with url_history installed
 # require dir + '/plugins/url_history/init_url_history'
@@ -61,4 +59,8 @@ if DO_PREPARE_DATABASE
   # load "#{Rails.root}/db/schema.rb"
   require_all dir + "/fixtures.rb"
   require_all dir + "/../../*/test/fixtures.rb"
+  
+  ActiveSupport::TestCase.setup :clear_tmp_dir!
 end
+
+require "#{Rails.root}/test/test_helper.rb" if File.exists?("#{Rails.root}/test/test_helper.rb")

@@ -1,10 +1,5 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../adva_cms/test/test_helper')
 
-class ActiveSupport::TestCase
-  setup    :setup_photos_dir!
-  teardown :clear_photos_dir!
-end
-
 module PhotoTestHelper
   def photo_fixture
     File.new "#{File.dirname(__FILE__)}/fixtures/rails.png"
