@@ -3,6 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + "/../test_helper")
 class PageArticlesControllerTest < ActionController::TestCase
   tests ArticlesController
   # with_common :a_page, :an_article
+  with_common :rescue_action_in_public
   
   test "is a BaseController" do
     @controller.should be_kind_of(BaseController)

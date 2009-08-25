@@ -39,7 +39,7 @@ require File.expand_path(File.dirname(__FILE__) + "/../test_helper")
 
 class BaseControllerTest < ActionController::TestCase
   tests ArticlesController # yuk!
-  with_common :an_unpublished_section
+  with_common :an_unpublished_section, :rescue_action_in_public
 
   describe 'GET to :index' do
     action { get :index, params_from('/an-unpublished-section') }
@@ -58,7 +58,7 @@ class BaseControllerTest < ActionController::TestCase
 
   describe 'GET to :index' do
     action { get :show, params_from('/an-unpublished-section/articles/an-article-in-an-unpublished-section') }
-
+    
     with "an anonymous user" do
       # it_raises ActiveRecord::RecordNotFound
       assert_status 404
