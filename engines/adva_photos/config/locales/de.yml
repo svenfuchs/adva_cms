@@ -1,6 +1,10 @@
 de:
   activerecord:
     attributes:
+      album:
+        title: Titel
+        photos_per_page: Fotos pro Seite
+        published: Veröffentlicht
       photo:
         title: Titel
         author: Autor
@@ -19,6 +23,12 @@ de:
         edit: Bearbeiten
         delete: Löschen
     photos:
+      columns:
+        photo: Foto
+        title: Titel
+        comments: Kommentare
+        published: Veröffentlicht
+        author: Autor
       confirm_save_as_draft: Ja, dieses Foto als Entwurf speichern
       name: Foto
       common:
