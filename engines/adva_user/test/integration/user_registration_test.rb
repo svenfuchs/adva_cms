@@ -18,7 +18,6 @@ module IntegrationTests
       renders_template "user/new"
 
       fill_in "user_first_name", :with => 'John'
-      fill_in "user_last_name", :with => 'Doe'
       fill_in "user_email", :with => 'john-doe@test.com'
       fill_in "user_password", :with => 'password'
       click_button "register"

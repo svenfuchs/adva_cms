@@ -47,7 +47,6 @@ class AdvaNewsletterSignupIntegrationTest < ActionController::IntegrationTest
 
     def fill_in_all_fields
       fill_in 'user_first_name', :with => "Newsletter test first name"
-      fill_in 'user_last_name',  :with => "Test last name"
       fill_in 'user_email',      :with => "test@example.com"
       fill_in 'user_password',   :with => "testpassword"
 
