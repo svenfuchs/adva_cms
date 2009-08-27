@@ -22,7 +22,7 @@ class AdvaNewsletterSignupIntegrationTest < ActionController::IntegrationTest
   test "new user signups with subscription; should subscribe to newsletter" do
     visit_signup
     fill_in_all_fields
-    check "newsletter title abonnieren"
+    check "newsletter title"
     click_button "register"
   
     user = User.find_by_first_name("Newsletter test first name") 
@@ -47,7 +47,6 @@ class AdvaNewsletterSignupIntegrationTest < ActionController::IntegrationTest
 
     def fill_in_all_fields
       fill_in 'user_first_name', :with => "Newsletter test first name"
-      fill_in 'user_last_name',  :with => "Test last name"
       fill_in 'user_email',      :with => "test@example.com"
       fill_in 'user_password',   :with => "testpassword"
 

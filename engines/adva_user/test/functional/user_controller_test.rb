@@ -5,7 +5,6 @@ class UserControllerTest < ActionController::TestCase
 
   view :form do
     has_tag 'input[name=?]', 'user[first_name]'
-    has_tag 'input[name=?]', 'user[last_name]'
     has_tag 'input[name=?]', 'user[email]'
     has_tag 'input[name=?]', 'user[password]'
   end
