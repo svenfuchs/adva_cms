@@ -23,6 +23,7 @@ de:
        title: Titel
        type: Typ
        published: Veröffentlicht
+       parent_id: Übergeordnete Sektion
      site:
        comment_filter: Textfilter für Kommentare
        meta_keywords: Keywords
@@ -125,7 +126,7 @@ de:
      optional_settings: Optionale Einstellungen
      options: Optionen
      overview: Übersicht
-     parent_settings: Elternteileinstellungen
+     parent_settings: Übergeordnete Sektion
      pending: Anhängig
      permissions: Berechtigungen
      permalink: Permalink
