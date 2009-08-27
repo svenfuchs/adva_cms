@@ -30,34 +30,34 @@ class PhotosFrontendTest < ActionController::IntegrationTest
   test 'an anonymous user views a set' do
     visit_album
     view_the_set
-  
+
     assert_unpublished_photo_is_not_shown
     assert_published_photo_is_not_shown
     assert_published_photo_with_tag_is_not_shown
-  
+
     assert_displays_published_photo_with_set
     assert_displays_published_photo_with_set_and_tag
   end
-  
+
   test 'an anonymous user views a tag' do
     visit_album
     if default_theme?
       view_the_tag
-  
+
       assert_unpublished_photo_is_not_shown
       assert_published_photo_is_not_shown
       assert_published_photo_with_set_is_not_shown
-  
+
       assert_displays_published_photo_with_tag
       assert_displays_published_photo_with_set_and_tag
     end
   end
-  
+
   test 'an anonymous user views an empty tag' do
     visit_album
     if default_theme?
       view_the_empty_tag
-  
+
       assert_unpublished_photo_is_not_shown
       assert_published_photo_is_not_shown
       assert_published_photo_with_set_is_not_shown
@@ -65,11 +65,11 @@ class PhotosFrontendTest < ActionController::IntegrationTest
       assert_published_photo_with_set_and_tag_is_not_shown
     end
   end
-  
+
   test 'an anonymous user views an empty set' do
     visit_album
     view_the_empty_set
-  
+
     assert_unpublished_photo_is_not_shown
     assert_published_photo_is_not_shown
     assert_published_photo_with_set_is_not_shown
@@ -101,9 +101,9 @@ class PhotosFrontendTest < ActionController::IntegrationTest
     get "/an-album/sets/empty"
     assert_template 'albums/index'
   end
-  
+
   def assert_displays_at_least_one_photo
-    assert_select "div[id*=photo_]"
+    assert_select "#content img[src*=/photos/]"
   end
 
   def assert_displays_published_photo_with_set_and_tag
