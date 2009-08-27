@@ -17,7 +17,6 @@ class PhotosFrontendTest < ActionController::IntegrationTest
   test 'an anonymous user views the album' do
     visit_album
     assert_unpublished_photo_is_not_shown
-    
     assert_displays_at_least_one_photo
 
     if default_theme?
@@ -104,7 +103,7 @@ class PhotosFrontendTest < ActionController::IntegrationTest
   end
   
   def assert_displays_at_least_one_photo
-    assert_select "div.photo"
+    assert_select "div[id*=photo_]"
   end
 
   def assert_displays_published_photo_with_set_and_tag

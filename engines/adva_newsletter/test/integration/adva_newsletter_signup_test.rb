@@ -22,7 +22,7 @@ class AdvaNewsletterSignupIntegrationTest < ActionController::IntegrationTest
   test "new user signups with subscription; should subscribe to newsletter" do
     visit_signup
     fill_in_all_fields
-    check "newsletter title abonnieren"
+    check "newsletter title"
     click_button "register"
   
     user = User.find_by_first_name("Newsletter test first name") 
