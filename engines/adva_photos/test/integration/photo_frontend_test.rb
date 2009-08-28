@@ -103,7 +103,7 @@ class PhotosFrontendTest < ActionController::IntegrationTest
   end
 
   def assert_displays_at_least_one_photo
-    assert_select "#content img[src*=/photos/]"
+    assert_select ".content img[src*=/photos/]"
   end
 
   def assert_displays_published_photo_with_set_and_tag
