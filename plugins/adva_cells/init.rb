@@ -44,7 +44,9 @@ config.to_prepare do
                 # form = template ? ERB.new(view.render(:template => template)).result : ''
 
                 # FIXME: this implementation is brittle at best and needs to be refactored/corrected ASAP!!!
-                possible_templates = Dir[RAILS_ROOT + "/app/cells/#{cell_name}/#{state}_form.html.erb"] + Dir[File.join(RAILS_ROOT, 'vendor', 'adva', 'engines') + "/*/app/cells/#{cell_name}/#{state}_form.html.erb"]
+                # possible_templates = Dir[RAILS_ROOT + "/app/cells/#{cell_name}/#{state}_form.html.erb"] + Dir[File.join(RAILS_ROOT, 'vendor', 'adva', 'engines') + "/*/app/cells/#{cell_name}/#{state}_form.html.erb"] +
+                #  Dir[File.join(RAILS_ROOT, 'vendor', 'adva', 'plugins') + "/*/app/cells/#{cell_name}/#{state}_form.html.erb"]
+                possible_templates = Dir[RAILS_ROOT + "/app/cells/#{cell_name}/#{state}_form.html.erb"] + Dir[File.join(RAILS_ROOT, 'vendor', 'plugins') + "/*/app/cells/#{cell_name}/#{state}_form.html.erb"]
                 template = possible_templates.first
                 form = template ? ERB.new(File.read(template)).result : ''
 
