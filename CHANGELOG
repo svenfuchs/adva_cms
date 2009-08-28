@@ -1,3 +1,90 @@
+ 0.2.3 [2009/08/28]
+====================
+	Features
+		* find_by_host returns first site when on single site mode and there is only one site
+		* added method email_from to a site model
+		* reset default locale to :en for test environment - in case custom apps set it to something else
+		* the asset cache of the sites themes is also emptied when clearing the site cache
+		* controller actions are rescued with error pages on test environment
+		* expanded with testing plugin so it allows to specify an :if => :condition option for assertions
+		* Theme#import accepts a pathname
+
+	Enhancements
+	  * added tests to verify that 'remember me' functionality works
+		* moved some help hints from category, set an section forms to sidebar
+		* replaced find_by_host with find_by_host! for finding a site
+		* number of stylesheets were reduced by using screen stylesheets as a base stylesheets, these are selectively overridden for projection devices
+		* projection stylesheets were joined to one file
+		* help text for email notification option
+		* updated german locale
+		* refactored has_many_posts
+		* refactored all redirect paths to be urls
+		* mouse over tooltips for pending / published icons
+		* separate translation keys for 'new password' and 'password' strings
+		* user cookie is set for all kinds of logins
+		* controller method write_flash_cookie is now an around_filter so it cannot be cancelled through rendering/redirecting
+		* password notification does not show info that given email address is not used in the system, this is made so in order to prevent exploit attacks
+		* section menu is moved upwards to cover the red line on top
+		* qtips are hidden on unfocus instead of clicking on the tip
+		* :default_routing_filters context added to functional route tests
+		* tests are made more independent from the hard coded url format they had previously
+		* extracted a has_unpublished_ancestor? method from Section#published? method for clarity
+		* adva_blog has its own blog_articles_controller so that adva_cms engine does not need to know anything about blogs
+		* refactored bunch of adva_cms, adva_newsletter, adva_themes, adva_user, adva_wiki and adva_forum engines tests and extracted some matchy matchers
+		* refactored be(1) test matchers to == 1 for improved readability
+		* require optparse for option parsing
+	
+	Changes
+		* reverted :max_display_level option for frontend menus
+		* helper method perma_host removed from install controller
+		* category model method scope_by_set removed and refactored to scope_by_content
+		* page model method permalinks removed
+		* removed adva_google_analytics issue initializer and moved it to adva_newsletter
+		* removed I18n.load_path calls from adva_activity and adva_blog init (not used anymore)
+		* moved role context initialization for adva_calendar, adva_comments, adva_forum and adva_photos from adva_rbac to their own engines
+		* removed photo initializer from adva_comments, added comments initializer to adva_photo
+		* removed check for existance of adva_rbac and adva_blog on admin::base_controller and on base_controller (since they are part of the adva core)
+		* removed methods perma_host, page_cache_directory and set_cache_root from admin::base_controller
+		* removed methods spam_info, smap_threshold, ham?, spam?, check_approval and calculate_spaminess from comment model
+		* removed method admin_site_select_tag from admin::base_helper
+		* removed method active_li? from base_helper
+		* removed method link_to_admin from content_helper
+		* removed legacy method system_email from mailers - use :from attribute instead
+		* custom url_for is only used for hashes on url_for_returning.rb
+		* removed reset_session_except private method from session_controller
+		* plugins link is not anymore shown on site settings
+		* routing_filter plugin updated
+		* only files on cached folder and files with cached_ word are removed when theme asset cache is emptied
+		* around_filter renamed to after_filter
+		* refactored blog_specific functionality out of adva_cms engine
+		* functional tests assert http status instead of raised exceptions
+		* moved scopes to more approriate locations on category, content, photo models and category initializer
+		* tests: keep existing themes and only clear th tmp dir in relevant tests
+		* tests are made more flexible so it easier to adopt them for client apps
+		* user#last_name for integration tests is not used anymore because it isn't required field and might be omitted in client apps
+		* min-width used for admin/section_menu instead of width
+		* tests for user and photos are more relaxed in favor of client apps
+	
+	Bug fixes:
+		* rubypants fixed and updated
+		* fixed the cancel link on theme file edit page
+		* fixed text filter to work with translated columns
+		* fixed hast_filter to work with upcased text
+		* adva_newsletter test actually tried to open an URI - this is now stubbed
+		* fixed force_html routing filter to work with root_urls
+		* confirmation code fields not shown if user is logged in on password/edit
+		* only set section_id for page cache references if section is actually set
+		* adva-cms mailer initializer fixed
+		* fixed broken set_user_cookie! api
+		* cookies are only set when user is available
+		* building a menu path for unsaved sections prevented
+		* fixed adva_url_history
+		* articles_controller.current_resource: current resource is the section when the section is in single_article_mode
+		* [action]_url methods are now passing the :only_path option
+		* Improved cache_references plugin to not overwrite existing references when calling caches_page_with_references/tracks_cache_references again.
+		* fixed a bug with filtering set path on admin area with locale on url
+		* cell support for fckeditor fixed
+
  0.2.2 [2009/07/31]
 ====================
 
