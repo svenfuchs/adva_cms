@@ -8,11 +8,11 @@ class AccountTest < ActiveSupport::TestCase
     @user3 = User.find_by_first_name('user3')
     @user4 = User.find_by_first_name('user4')
 
-    @account = Account.find_by_name('Account1')
+    @account = Account.find_by_name('an account')
   end
 
   test 'creation' do
-    @account.name.should == 'Account1'
+    @account.name.should == 'an account'
     @account.users.should include(@user1)
     @account.users.should include(@user2)
     @account.users.should include(@user3)
