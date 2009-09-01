@@ -3,6 +3,47 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'test_hel
 # FIXME add steps: select/unselect theme
 
 module IntegrationTests
+  class AdminThemeCacheTest < ThemeIntegrationTest
+    include ThemeTestHelper
+  
+    def setup
+      super
+      @site = use_site! 'site with pages'
+      @theme = @site.themes.first
+    end
+    
+    test "Theme assets are cleared when admin clears the site cache" do
+      login_as_superuser
+      setup_theme_with_cached_files(@theme)
+      visit_page_cache_page
+      click_link 'Clear all'
+      theme_cache_is_cleared
+    end
+    
+    def visit_page_cache_page
+      visit admin_cached_pages_path(@site)
+      assert_template 'admin/cached_pages/index'
+    end
+    
+    def theme_cache_is_cleared
+      theme_files = Dir.glob("#{@theme.path}/**/*")
+      theme_files.should_not include("#{@theme.path}/javascripts/cached_javascript.js")
+      theme_files.should_not include("#{@theme.path}/stylesheets/cached_stylesheet.css")
+      theme_files.should_not include("#{@theme.path}/javascripts/folder/cached/")
+    end
+    
+    def setup_theme_with_cached_files(theme = theme)
+      uploaded_template(theme)
+      uploaded_stylesheet(theme)
+      uploaded_javascript(theme)
+      uploaded_image(theme)
+      FileUtils.touch(theme.path + '/stylesheets/cached_stylesheet.css')
+      FileUtils.touch(theme.path + '/javascripts/cached_javascript.js')
+      FileUtils.mkdir_p(theme.path + '/javascripts/folder/cached/folder')
+      FileUtils.touch(theme.path + '/javascripts/folder/cached/folder/some_javascript.css')
+    end
+  end
+  
   class AdminThemesTest < ThemeIntegrationTest
     def setup
       super
