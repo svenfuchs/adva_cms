@@ -73,7 +73,15 @@ module Menus
           type = @section.class.content_type.underscore
           item :section, :content => content_tag(:h4, "#{@section.title}:")
           item type.pluralize.to_sym, :action => :index, :resource => [@section, type]
-          item :categories, :action => :index, :resource => [@section, :category]
+          
+          if type == 'article'
+            if !(@section.try(:single_article_mode) ? @section.single_article_mode : false)
+              item :categories, :action => :index, :resource => [@section, :category]
+            end
+          else
+            item :categories, :action => :index, :resource => [@section, :category]
+          end
+          
           item :settings,   :action => :edit,  :resource => @section
         end
       end

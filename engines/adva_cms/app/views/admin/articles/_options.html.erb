@@ -8,9 +8,11 @@
 								%(<p class="hint" for="content_locale">#{t(:'adva.hints.locale')}</p>) +
 		            f.text_field(:tag_list, :label => true, :hint => :'adva.hints.tags')
 
-		  	if @categories.present?
-		  	  html << %(<label>#{t(:'adva.titles.publish_in_categories')}</label>) +
+			  	if @categories.present?
+				 		if !(@section.try(:single_article_mode) ? @section.single_article_mode : false)
+		  	  		html << %(<label>#{t(:'adva.titles.publish_in_categories')}</label>) +
 		  	          render(:partial => 'categories/checkboxes', :locals => { :categories => @categories, :content => @article })
+						end
 		  	end
 
 		    html << f.select(:filter, filter_options, {}, :class => 'columnsFilter', :label => :'adva.titles.filter', :hint => :'adva.hints.filter') +

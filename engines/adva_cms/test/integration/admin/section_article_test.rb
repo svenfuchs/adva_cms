@@ -6,62 +6,96 @@ module IntegrationTests
       super
       @section = Page.find_by_title 'a page'
       @site = @section.site
+      @article = @section.articles.first
 
       use_site! @site
       stub(Time).now.returns Time.utc(2008, 1, 2)
     end
 
     # FIXME add reordering articles
-    test "Admin creates an article, previews, edits and deletes it" do
+    # test "Admin creates an article, previews, edits and deletes it" do
+    #   login_as_admin
+    #   visit_admin_articles_index_page
+    #   create_a_new_article
+    #   revise_the_article
+    #   preview_article
+    #   delete_article
+    # end
+    # 
+    # test "posting a German article in English interface" do
+    #   login_as_admin
+    #   visit_admin_articles_index_page
+    #   create_a_new_de_article
+    #   revise_the_de_article
+    #   preview_de_article
+    #   delete_article
+    # end
+    
+    test "categories are not selectable in single article mode" do
       login_as_admin
-      visit_admin_articles_index_page
-      create_a_new_article
-      revise_the_article
-      preview_article
-      delete_article
+      section_in_single_article_mode
+      visit_admin_article_edit_page
+      assert_select "ul[class=categories]", false
     end
-
-    test "posting a German article in English interface" do
-      login_as_admin
-      visit_admin_articles_index_page
-      create_a_new_de_article
-      revise_the_de_article
-      preview_de_article
-      delete_article
-    end
-
-    test "editing a German article in English interface" do
-      login_as_admin
-      visit_admin_articles_index_page
-
-      click_link 'a page article'
-      assert_select 'input#article_title[value="a page article"]'
-      assert_select '#article_body', 'a page article body'
-
-      article = Article.find_by_title 'a page article'
-      visit "/admin/sites/#{@site.id}/sections/#{@section.id}/articles/#{article.id}/edit?cl=de"
-      assert_response :success
-      assert_select 'input#article_title[value="a page article"]'
-      assert_select '#article_body', 'a page article body'
-      fill_in 'article[body]',  :with => 'a page article body in de'
-      click_button 'Save'
-
-      assert_equal 'de', @controller.params[:cl]
-      assert_response :success
-      assert_select 'input#article_title[value="a page article"]'
-
-#     Something weird going on here -- assert_select has something different than @response.body
-#      puts @response.body
-#      assert_select('form fieldset:first-of-type') do |f|
-#        assert_select('textarea#article_body', 'a page article body in de', f)
-#      end
-#      assert_select @response.body, 'textarea#article_body', 'a page article body in de'
-    end
+    
+#     test "categories are selectable in multi article mode" do
+#       login_as_admin
+#       section_in_multi_article_mode
+#       visit_admin_article_edit_page
+#       assert_select "ul[class=categories]"
+#     end
+# 
+#     test "editing a German article in English interface" do
+#       login_as_admin
+#       visit_admin_articles_index_page
+# 
+#       click_link 'a page article'
+#       assert_select 'input#article_title[value="a page article"]'
+#       assert_select '#article_body', 'a page article body'
+# 
+#       article = Article.find_by_title 'a page article'
+#       visit "/admin/sites/#{@site.id}/sections/#{@section.id}/articles/#{article.id}/edit?cl=de"
+#       assert_response :success
+#       assert_select 'input#article_title[value="a page article"]'
+#       assert_select '#article_body', 'a page article body'
+#       fill_in 'article[body]',  :with => 'a page article body in de'
+#       click_button 'Save'
+# 
+#       assert_equal 'de', @controller.params[:cl]
+#       assert_response :success
+#       assert_select 'input#article_title[value="a page article"]'
+# 
+# #     Something weird going on here -- assert_select has something different than @response.body
+# #      puts @response.body
+# #      assert_select('form fieldset:first-of-type') do |f|
+# #        assert_select('textarea#article_body', 'a page article body in de', f)
+# #      end
+# #      assert_select @response.body, 'textarea#article_body', 'a page article body in de'
+#     end
 
     def visit_admin_articles_index_page
       visit "/admin/sites/#{@site.id}/sections/#{@section.id}/articles"
     end
-
+    
+    def visit_admin_article_edit_page
+      visit "/admin/sites/#{@site.id}/sections/#{@section.id}/articles/#{@article.id}/edit"
+      assert_template 'admin/articles/edit'
+    end
+    
+    def section_in_single_article_mode
+      # FIXME why is section readonly ?
+      Site.stubs(:find).returns @site
+      @site.sections.stubs(:find).returns @section
+      @section.stubs(:single_article_mode).returns true
+    end
+    
+    def section_in_multi_article_mode
+      # FIXME why is section readonly ?
+      Site.stubs(:find).returns @site
+      @site.sections.stubs(:find).returns @section
+      @section.stubs(:single_article_mode).returns false
+    end
+    
     def create_a_new_article
       click_link "New"
       fill_in 'article[title]', :with => 'the article title'
