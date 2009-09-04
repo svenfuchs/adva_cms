@@ -24,6 +24,7 @@ class Section < ActiveRecord::Base
   end
 
   before_save  :update_path
+  before_create :set_as_published
   after_create :update_paths
 
   validates_presence_of :title # :site wtf ... this breaks install_controller#index
@@ -75,10 +76,9 @@ class Section < ActiveRecord::Base
       self.published_at = nil
     end
   end
-
+  
   def published?(parents = false)
     return true if self == site.sections.root # the root section is always published
-
     return false if parents && has_unpublished_ancestor?
     return false if published_at.nil? || published_at > Time.current
     return true
@@ -86,6 +86,10 @@ class Section < ActiveRecord::Base
   alias published published?
 
   protected
+  
+    def set_as_published
+      self.published_at = published_at || Time.current
+    end
   
     def has_unpublished_ancestor?
       !ancestors.reject(&:published?).empty?

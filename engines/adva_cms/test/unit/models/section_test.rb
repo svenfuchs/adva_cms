@@ -6,6 +6,7 @@ class SectionTest < ActiveSupport::TestCase
     @site = Site.first
     @section = @site.sections.first
     @new_section = Section.new(:site => @site, :title => 'a test section', :parent_id => @section.id)
+    @unpublished_section = Section.find_by_title('an unpublished section')
   end
 
   test "acts as a role context for the moderator role" do
@@ -152,6 +153,8 @@ class SectionTest < ActiveSupport::TestCase
   test "#state returns :pending if section isn't published" do
     page = Page.new(:site => @site, :single_article_mode => false)
     page.save(false)
+    page.update_attribute(:published_at, nil)
+    
     page.move_to_child_of(@section)
 
     page.state.should == :pending
@@ -197,25 +200,21 @@ class SectionTest < ActiveSupport::TestCase
 
   # TODO - check if necessary - could (or should) be implemented on controller level
   test "#published? is true if all ancestors are published too" do
-    parent_section = Page.new(:site => @site, :published_at => 2.days.ago, :single_article_mode => false)
-    parent_section.save(false)
     # TODO: nested set bug?
     # section = Page.new(:site => @site, :parent => parent_section, :published_at => 2.days.ago, :single_article_mode => false)
-    section = Page.new(:site => @site, :published_at => 2.days.ago, :single_article_mode => false)
+    section = Page.new(:title => 'test section', :site => @site, :published_at => 2.days.ago, :single_article_mode => false)
     section.save(false)
-    section.move_to_child_of(parent_section)
-
+    section.move_to_child_of(@section)
+    
     section.published?(true).should be_true
   end
 
   test "#published? is false if any ancestor is not published" do
-    parent_section = Page.new(:site => @site, :published_at => nil, :single_article_mode => false)
-    parent_section.save(false)
     # TODO: nested set bug?
     # section = Page.new(:site => @site, :parent => parent_section, :published_at => 2.days.ago, :single_article_mode => false)
     section = Page.new(:site => @site, :published_at => 2.days.ago, :single_article_mode => false)
     section.save(false)
-    section.move_to_child_of(parent_section)
+    section.move_to_child_of(@unpublished_section)
 
     section.published?(true).should be_false
   end
@@ -268,6 +267,18 @@ class SectionTest < ActiveSupport::TestCase
   test "#update_paths moves a new section to a child of its parent and updates the section paths" do
     @new_section.save
     assert_equal @section, @new_section.parent
+  end
+  
+  test "publish sections by default" do
+    @new_section.save
+    assert_equal true, @new_section.published
+  end
+  
+  test "publish sections by default, but respect user set published_at time" do
+    time = Time.local(2009, 5, 20, 12, 0, 0)
+    @new_section.published_at = time
+    @new_section.save
+    assert_equal time, @new_section.published_at
   end
 
   test "#update_paths should not lose the title of the section while moving the section - a bug fix" do

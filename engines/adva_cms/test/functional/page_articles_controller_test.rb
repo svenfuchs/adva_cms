@@ -36,12 +36,12 @@ class PageArticlesControllerTest < ActionController::TestCase
           @section.single_article_mode = true
           @section.save!
         end
-
+      
         with "an anonymous user" do
           # it_raises ActiveRecord::RecordNotFound
           assert_status 404
         end
-
+      
         with :is_superuser do
           it_assigns :section, :article
           it_renders :template, 'pages/articles/show'
@@ -50,6 +50,9 @@ class PageArticlesControllerTest < ActionController::TestCase
       end
 
       with "the page is not in single_article_mode" do
+        before do
+          @section.update_attribute(:published_at, nil)
+        end
         with "an anonymous user" do
           # it_raises ActiveRecord::RecordNotFound
           assert_status 404
