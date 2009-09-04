@@ -6,7 +6,8 @@ class Admin::ArticlesController < Admin::BaseController
   before_filter :set_articles,   :only => [:index]
   before_filter :set_article,    :only => [:show, :edit, :update, :destroy]
   before_filter :set_categories, :only => [:new, :edit]
-
+  before_filter :optimistic_lock, :only => :update
+  
   cache_sweeper :article_sweeper, :category_sweeper, :tag_sweeper,
                 :only => [:create, :update, :destroy]
 
@@ -140,6 +141,20 @@ class Admin::ArticlesController < Admin::BaseController
         redirect_to @section.articles.empty? ?
           new_admin_article_url(@site, @section, :article => { :title => @section.title }) :
           edit_admin_article_url(@site, @section, @section.articles.first)
+      end
+    end
+    
+    def optimistic_lock
+      return unless params[:article]
+      
+      unless updated_at = params[:article].delete(:updated_at)
+        # TODO raise something more explicit here
+        raise t(:'adva.articles.exception.missing_timestamp')
+      end
+      
+      if @article.updated_at && (Time.zone.parse(updated_at) != @article.updated_at)
+        flash[:error] = t(:'adva.articles.flash.optimistic_lock.failure')
+        render :action => :edit
       end
     end
 

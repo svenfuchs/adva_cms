@@ -388,7 +388,10 @@ de:
    contents:
      not_published: unveröffentlicht
 
-   articles:
+   articles:      
+     optimistic_lock: 
+       exception: 
+         missing_timestamp: "Can not update article: timestamp missing. Please make sure that your form has a hidden field: updated_at."
      columns:
        article: Artikel
        comments: Kommentare
@@ -421,6 +424,8 @@ de:
      no_articles: "Es gibt keine Artikel in der Sektion {{section}}."
      publish_on_date: An diesem Datum veröffentlichen
      flash:
+       optimistic_lock: 
+         failure: In the meantime this article has been updated by someone else. Please resolve any conflicts.
        destroy:
          success: Der Artikel wurde gelöscht.
          failure: Der Artikel konnte nicht gelöscht werden.

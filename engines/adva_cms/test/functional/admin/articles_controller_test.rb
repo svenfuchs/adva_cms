@@ -218,22 +218,46 @@ class AdminArticlesControllerTest < ActionController::TestCase
       end
     end
   end
+  
+  describe "PUT to :update" do
+    with "incorrect time stamp" do
+      action do
+        Article.with_observers :article_sweeper do
+          params = default_params.merge(@params).merge(:id => @article.id)
+          params[:article][:updated_at] = "#{Time.parse('2002-01-01 12:00:00')}"
+          put :update, params
+        end
+      end
+      with :a_published_article do
+        with :access_granted do
+          with :valid_article_params do
+            it_assigns :site, :section, :article
+            it_assigns_flash_cookie :error => :not_nil
+            it_renders :template, :edit
+            it_does_not_trigger_any_event
+            it_does_not_sweep_page_cache
+          end
+        end
+      end
+    end
+  end
 
   describe "PUT to :update" do
     action do
       Article.with_observers :article_sweeper do
         params = default_params.merge(@params).merge(:id => @article.id)
         params[:article][:title] = "#{@article.title} was changed" if params[:article][:title].present?
+        params[:article][:updated_at] = "#{@article.updated_at}"
         put :update, params
       end
     end
 
     with :a_published_article do
       with "no version param" do
-        with :valid_article_params do
-          it_guards_permissions :update, :article
+        with :access_granted do
+          with :valid_article_params do
+            it_guards_permissions :update, :article
 
-          with :access_granted do
             it_assigns :site, :section, :article
             it_updates :article
             it_redirects_to { edit_admin_article_url(@site, @section, @article) }
@@ -246,10 +270,8 @@ class AdminArticlesControllerTest < ActionController::TestCase
             with(:save_revision_param)    { it_versions :article }
             with(:no_save_revision_param) { it_does_not_version :article }
           end
-        end
-
-        with :invalid_article_params do
-          with :access_granted do
+          
+          with :invalid_article_params do
             it_assigns :site, :section, :article
             it_renders :template, :edit
             it_assigns_flash_cookie :error => :not_nil
@@ -261,17 +283,17 @@ class AdminArticlesControllerTest < ActionController::TestCase
 
       with "version param set to 1" do
         before { @params = default_params.merge(:article => {:version => "1"}) }
-
+      
         with "the article being versioned (succeeds)" do
           before { @article.update_attributes(:title => "#{@article.title} was changed") }
-
+      
           it_rollsback :article, :to => 1
           it_triggers_event :article_rolledback
           it_assigns_flash_cookie :notice => :not_nil
           it_redirects_to { edit_admin_article_url(@site, @section, @article) }
           it_sweeps_page_cache :by_reference => :article
         end
-
+      
         with "the article not being versioned (fails)" do
           it_does_not_rollback :article
           it_does_not_trigger_any_event

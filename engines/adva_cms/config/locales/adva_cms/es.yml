@@ -280,7 +280,10 @@ es:
       confirm_delete: Está seguro que desea eliminar esta categoría?
     contents:
       not_published: not published
-    articles:
+    articles:      
+      optimistic_lock: 
+        exception: 
+          missing_timestamp: "Can not update article: timestamp missing. Please make sure that your form has a hidden field: updated_at."
       locales:
         translated: "este artículo has these translations: {{locales}}"
       question_save_as_draft: Guardar como Borrador?
@@ -304,6 +307,8 @@ es:
       no_articles_in_section: No hay artículos para {{section}}.
       publish_on_date: Publicar en esta fecha
       flash:
+        optimistic_lock: 
+          failure: In the meantime this article has been updated by someone else. Please resolve any conflicts.
         destroy:
           success: El artículo ha sido eliminado.
           failure: El artículo no pudo ser eliminado.

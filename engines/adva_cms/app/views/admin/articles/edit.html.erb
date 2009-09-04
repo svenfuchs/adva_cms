@@ -3,6 +3,7 @@
 <%= links_to_content_translations(@article) %>
 
 <% split_form_for :article, @article, :url => admin_article_path(@site, @section, @article), :html => {:multipart => true, :method => :put} do |f| -%>
+  <%= f.hidden_field :updated_at, :value => @article.updated_at %>
   <%= render :partial => 'form', :locals => {:f => f} %>  
 
   <% f.buttons do %>

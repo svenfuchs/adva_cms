@@ -280,7 +280,10 @@ pt-BR:
       confirm_delete: Você tem certeza que deseja apagar esta categoria?
     contents:
       not_published: não publicado
-    articles:
+    articles:      
+      optimistic_lock: 
+        exception: 
+          missing_timestamp: "Can not update article: timestamp missing. Please make sure that your form has a hidden field: updated_at."
       locales:
         translated: "Este artigo tem estas traduções: {{locales}}"
       question_save_as_draft: Salvar como rascunho?
@@ -304,6 +307,8 @@ pt-BR:
       no_articles_in_section: Não existem artigos em {{section}}.
       publish_on_date: Publicar nesta data
       flash:
+        optimistic_lock: 
+          failure: In the meantime this article has been updated by someone else. Please resolve any conflicts.
         destroy:
           success: O artigo foi apagado.
           failure: O artigo não pode ser apagado.

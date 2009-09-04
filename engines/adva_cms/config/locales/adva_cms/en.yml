@@ -345,7 +345,10 @@ en:
       all: "&mdash; All categories &mdash;"
     contents:
       not_published: not published
-    articles:
+    articles:      
+      optimistic_lock: 
+        exception: 
+          missing_timestamp: "Can not update article: timestamp missing. Please make sure that your form has a hidden field: updated_at."
       count:
         one: "{{count}} article"
         other: "{{count}} articles"
@@ -382,6 +385,8 @@ en:
       no_filtered_articles: "There are no articles matching that criteria."
       publish_on_date: Publish on this date
       flash:
+        optimistic_lock: 
+          failure: In the meantime this article has been updated by someone else. Please resolve any conflicts.
         destroy:
           success: The article has been deleted.
           failure: The article could not be deleted.

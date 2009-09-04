@@ -259,7 +259,10 @@ fi:
       confirm_delete: Oletko varma että haluat poistaa tämän kategorian?
     contents:
       not_published: ei julkaistu
-    articles:
+    articles:      
+      optimistic_lock: 
+        exception: 
+          missing_timestamp: "Can not update article: timestamp missing. Please make sure that your form has a hidden field: updated_at."
       question_save_as_draft: Tallenna luonnoksena?
       confirm_save_as_draft: Kyllä, tallenna tämä artikkeli luonnoksena
       hints:
@@ -280,6 +283,8 @@ fi:
       no_articles_in_section: "{{section}} ei sisällä yhtään artikkelia."
       publish_on_date: Julkaisu päivämäärä
       flash:
+        optimistic_lock: 
+          failure: In the meantime this article has been updated by someone else. Please resolve any conflicts.
         destroy:
           success: Artikkeli on poistettu.
           failure: Artikkelia ei pystytty poistamaan.
