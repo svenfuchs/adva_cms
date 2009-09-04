@@ -10,6 +10,10 @@
   <% column do %>
     <%= f.text_field :title, :label => true %>
     <p>
+			<label for="published"><%= t(:'adva.sections.titles.publish') %></label>
+			<span class="hint" for="published">
+				<%= t :'adva.sections.hints.publish' %>
+			</span>
       <%= f.check_box :published, :label => true %>
     </p>
   <% end %>

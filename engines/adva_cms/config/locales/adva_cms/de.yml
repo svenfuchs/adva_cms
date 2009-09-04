@@ -280,12 +280,14 @@ de:
        parent_setting: "Wenn Sie hier eine Sektion auswählen, wird die neu angelegte Sektion als Untersektion dieser Sektion angelegt. Wählen Sie nichts aus, um die Sektion zu einer Hauptsektion zu machen."
        parent_setting_for_edit: "Sie können die Option \"Reihenfolge ändern\" in der Sektionsliste verwenden, um Sektionen zu verschieben und zu verschachteln. Weitere Infos finden Sie in der Sektionsliste."
        permalink: "Sie können Buchstaben (auch Umlaute) und einige Sonderzeichen (z.B. -) benutzen. Sonderzeichen wie $%& können nicht verwendet werden!"
+       publish: "Uncheck this if you don't want this section published."
      titles:
        behaviour: Anzeige
        page_settings: Page-Einstellungen
        blog_settings: Blog-Einstellungen
        forum_settings: Forum-Einstellungen
        create: Eine neue Sektion anlegen
+       publish: Publish option
      settings:
        single_article_mode: Ein Artikel pro Sektion
        multi_article_mode: Mehrere Artikel pro Sektion

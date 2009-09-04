@@ -186,12 +186,14 @@ pt-BR:
         parent_setting: Choosing a parent for your section will nest this section under the chosen parent. Leave empty if you want to create this section as a root section.
         parent_setting_for_edit: "You can use the reorder button on the index page of sections to nest and reorder your sections, you can find further instructions for this on the index page help hints."
         permalink: "You can use normal letters and special letters like scandinavian letters but avoid special characters like $%&!"
+        publish: "Uncheck this if you don't want this section published."
       titles:
         page_settings: Configurações específicas da página
         blog_settings: Configurações específicas do blog
         forum_settings: Configurações específicas do forum
         create: Criar uma nova sessão
         behaviour: Comportamento
+        publish: Publish option
       links:
         delete: Apagar esta sessão
         add_section: Adicionar uma sessão

@@ -169,11 +169,13 @@ fi:
         parent_setting: Choosing a parent for your section will nest this section under the chosen parent. Leave empty if you want to create this section as a root section.
         parent_setting_for_edit: "You can use the reorder button on the index page of sections to nest and reorder your sections, you can find further instructions for this on the index page help hints."
         permalink: "You can use normal letters and special letters like scandinavian letters but avoid special characters like $%&!"
+        publish: "Uncheck this if you don't want this section published."
       titles:
         section_settings: Osio-kohtaiset asetukset
         blog_settings: Blogi-kohtaiset asetukset
         forum_settings: Foorumi-kohtaiset asetukset
         create: Luo uusi osio
+        publish: Publish option
       links:
         delete: Poista tämä osio
         add_section: Lisää osio
