@@ -4,7 +4,8 @@ class Admin::WikipagesController < Admin::BaseController
   before_filter :set_section
   before_filter :set_wikipage, :only => [:show, :edit, :update, :destroy]
   before_filter :set_categories, :only => [:new, :edit]
-
+  before_filter :optimistic_lock, :only => :update
+  
   cache_sweeper :wikipage_sweeper, :category_sweeper, :tag_sweeper,
                 :only => [:create, :update, :destroy]
 
@@ -95,5 +96,19 @@ class Admin::WikipagesController < Admin::BaseController
     def set_wikipage_param(key, value)
       params[:wikipage] ||= {}
       params[:wikipage][key] = value
+    end
+
+    def optimistic_lock
+      return unless params[:wikipage]
+
+      unless updated_at = params[:wikipage].delete(:updated_at)
+        # TODO raise something more explicit here
+        raise t(:'adva.wiki.exception.missing_timestamp')
+      end
+
+      if @wikipage.updated_at && (Time.zone.parse(updated_at) != @wikipage.updated_at)
+        flash[:error] = t(:'adva.wiki.flash.optimistic_lock.failure')
+        render :action => :edit
+      end
     end
 end

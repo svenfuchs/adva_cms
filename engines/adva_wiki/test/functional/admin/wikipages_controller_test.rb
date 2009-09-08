@@ -97,7 +97,9 @@ class AdminWikipagesControllerTest < ActionController::TestCase
   describe "PUT to :update" do
     action do
       Wikipage.with_observers :wikipage_sweeper do
-        put :update, default_params.merge(:id => @wikipage.id).merge(@params || {})
+        params = default_params.merge(:id => @wikipage.id).merge(@params || {})
+        params[:wikipage][:updated_at] = "#{@wikipage.updated_at}"
+        put :update, params
       end
     end
 
@@ -149,6 +151,91 @@ class AdminWikipagesControllerTest < ActionController::TestCase
             it_redirects_to { edit_admin_wikipage_url(@site, @section, @wikipage) }
             it_does_not_sweep_page_cache
           end
+        end
+      end
+    end
+  end
+  
+  describe "PUT to :update" do
+    with "incorrect time stamp" do
+      action do
+        Wikipage.with_observers :wikipage_sweeper do
+          params = default_params.merge(@params || { :wikipage => {} }).merge(:id => @wikipage.id)
+          params[:wikipage][:updated_at] = "#{Time.parse('2002-01-01 12:00:00')}"
+          put :update, params
+        end
+      end
+      # FIXME - test with optimistic locking failing, too
+      with "no version param given" do
+        with :valid_wikipage_params do
+          it_guards_permissions :update, :wikipage
+          it_assigns :site, :section, :wikipage
+          it_assigns_flash_cookie :error => :not_nil          
+          it_does_not_trigger_any_event
+          it_does_not_sweep_page_cache #:by_reference => :wikipage
+        end
+      end
+    end
+  end
+
+  describe "PUT to :update" do
+    action do
+      Wikipage.with_observers :wikipage_sweeper do
+        params = default_params.merge(@params || { :wikipage => {} }).merge(:id => @wikipage.id)
+        params[:wikipage][:updated_at] = "#{@wikipage.updated_at}"
+        #params[:wikipage][:updated_at] = nil
+        #params[:article][:updated_at] = "#{@wikipage.updated_at}"
+        put :update, params
+      end
+    end
+
+    it_guards_permissions :update, :wikipage
+
+    # FIXME - test with optimistic locking failing, too
+    with "no version param given" do
+      it_guards_permissions :update, :wikipage
+
+      with :access_granted do
+        with :valid_wikipage_params do
+          it_updates :wikipage
+          
+          it_redirects_to { edit_admin_wikipage_url(@site, @section, @wikipage) }
+          
+          it_assigns_flash_cookie :notice => :not_nil
+          it_triggers_event :wikipage_updated
+          it_sweeps_page_cache :by_reference => :wikipage
+        end
+      end
+
+      with :invalid_wikipage_params do
+          it_does_not_update :wikipage
+          it_renders :template, :edit
+          it_assigns_flash_cookie :error => :not_nil
+          it_does_not_trigger_any_event
+          it_does_not_sweep_page_cache
+      end
+    end
+
+    with "a version param given" do
+      before { @params = { :wikipage => { :version => '1' } } }
+      it_guards_permissions :update, :wikipage
+
+      with :access_granted do
+        with 'the wikipage has the requested revision (succeeds)' do
+          it_rollsback :wikipage, :to => 1
+          it_triggers_event :wikipage_rolledback
+          it_assigns_flash_cookie :notice => :not_nil
+          it_redirects_to { edit_admin_wikipage_url(@site, @section, @wikipage) }
+          it_sweeps_page_cache :by_reference => :wikipage
+        end
+ 
+        with "the wikipage does not have the requested revision (fails)" do
+          before { @params = { :wikipage => { :version => '10' } } }
+            it_does_not_rollback :wikipage
+            it_does_not_trigger_any_event
+            it_assigns_flash_cookie :error => :not_nil
+            it_redirects_to { edit_admin_wikipage_url(@site, @section, @wikipage) }
+            it_does_not_sweep_page_cache
         end
       end
     end
