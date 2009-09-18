@@ -48,7 +48,7 @@ module ActiveRecord
           at_most   = sanitize_sql(['COUNT(*) <= ?', options.delete(:at_most)]) if options.key?(:at_most)
           having    = [at_least, at_most].compact.join(' AND ')
 
-          group_by  = "tags.id, tags.name HAVING count > 0"
+          group_by  = "tags.id, tags.name HAVING count(*) > 0"
           group_by << " AND #{having}" unless having.blank?
 
           options.merge! :select     => "tags.*, COUNT(*) AS count",
