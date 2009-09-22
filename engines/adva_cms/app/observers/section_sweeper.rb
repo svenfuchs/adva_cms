@@ -1,12 +1,12 @@
-class SectionSweeper < CacheReferences::Sweeper
+class SectionSweeper < ActionController::Caching::Sweeper
   observe Section
 
   def after_create(section)
-    expire_cached_pages_by_site(section.site)
+    purge_cache_by(section.site)
   end
 
   def after_save(section)
-    expire_cached_pages_by_section(section)
+    purge_cache_by(section)
   end
 
   alias after_destroy after_create

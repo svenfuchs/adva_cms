@@ -7,7 +7,7 @@ class BaseController < ApplicationController
   include ContentHelper
   include ResourceHelper
 
-  before_filter :set_site, :set_locale, :set_timezone, :set_cache_root
+  before_filter :set_site, :set_locale, :set_timezone
   attr_accessor :site, :section
 
   layout 'default'
@@ -81,20 +81,6 @@ class BaseController < ApplicationController
 
     def perma_host
       @site ? @site.perma_host : ''
-    end
-
-    def page_cache_directory
-      RAILS_ROOT + if Rails.env == 'test'
-         Site.multi_sites_enabled ? '/tmp/cache/' + perma_host : '/tmp/cache'
-       else
-         # FIXME change this to
-         # Site.multi_sites_enabled ? '/public/sites/' + perma_host : '/cache' ?
-         Site.multi_sites_enabled ? '/public/cache/' + perma_host : '/public'
-       end
-    end
-    
-    def set_cache_root
-      self.class.page_cache_directory = page_cache_directory.to_s
     end
 end
 

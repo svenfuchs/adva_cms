@@ -1,8 +1,8 @@
-class BoardSweeper < CacheReferences::Sweeper
+class BoardSweeper < ActionController::Caching::Sweeper
   observe Board
   
   def after_create(board)
-    expire_cached_pages_by_section(board.section)
+    purge_cache_by(board.section)
   end
 
   def before_save(board)

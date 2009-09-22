@@ -4,13 +4,7 @@ class ForumController < BaseController
   before_filter :set_boards, :only => :show
   before_filter :set_topics, :only => :show
 
-  caches_page_with_references :show, :comments, :track => [
-    '@topics', '@boards', '@board', '@topic',
-    {'@section' => :topics_count}, {'@section' => :posts_count},
-    {'@boards' => :topics_count}, {'@boards' => :posts_count},
-    {'@board' => :topics_count}, {'@board' => :posts_count},
-    {'@topics' => :posts_count }
-  ]
+  cache_tags :index, :show, :comments, :track => %w(@site @section @boards @board @topics @topic)
 
   authenticates_anonymous_user
   acts_as_commentable # TODO hu?

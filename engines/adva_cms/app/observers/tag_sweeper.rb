@@ -5,7 +5,7 @@
 # Also, when a single tagging is created or removed (i.e. an object is tagged)
 # we also need to expire all pages that display that tagcloud.
 
-class TagSweeper < CacheReferences::Sweeper
+class TagSweeper < ActionController::Caching::Sweeper
   observe Tag
 
   def after_save(tag)
@@ -16,8 +16,10 @@ class TagSweeper < CacheReferences::Sweeper
       RAILS_DEFAULT_LOGGER.warn "RAILS BUG -- skipping stale sweeper #{self.object_id} in #{self.class.name}#after_save(tag)"
       return
     end
-    expire_cached_pages_by_reference controller.site, :tag_counts
 
+    purge_cache_by(controller.site) # FIXME caching :tag_counts
+
+    # FIXME caching
     # TODO section does not exist
     # expire_cached_pages_by_reference controller.section, :tag_counts
   end

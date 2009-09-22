@@ -1,8 +1,8 @@
-class SiteSweeper < CacheReferences::Sweeper
+class SiteSweeper < ActionController::Caching::Sweeper
   observe Site
 
   def after_save(site)
-    expire_cached_pages_by_site(site)
+    purge_cache_by(site)
   end
 
   alias after_destroy after_save

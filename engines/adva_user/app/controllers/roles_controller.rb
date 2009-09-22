@@ -1,7 +1,7 @@
 class RolesController < BaseController
   layout false
   helper :users, :roles
-  caches_page_with_references :index # FIXME should track user references, eh?
+  cache_tags :index # FIXME caching should track user references, eh?
   before_filter :set_section # ?!
   before_filter :set_user, :set_object, :set_roles
 

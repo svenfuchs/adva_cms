@@ -18,4 +18,8 @@ Rails::Initializer.configure do |config|
   $: << File.dirname(__FILE__) + '/../vendor/gems/thoughtbot-paperclip-2.2.2/lib'
   # require 'paperclip'
   # config.plugin_gem 'thoughtbot-paperclip', :version => '~> 2.2.2', :lib => 'paperclip'
+
+  $: << File.dirname(__FILE__) + '/../vendor/gems/rack-cache/lib'
+  $: << File.dirname(__FILE__) + '/../vendor/gems/rack-cache-purge/lib'
+  $: << File.dirname(__FILE__) + '/../vendor/gems/rack-cache-tags/lib'
 end

@@ -1,13 +1,13 @@
-class CommentSweeper < CacheReferences::Sweeper
+class CommentSweeper < ActionController::Caching::Sweeper
   observe Comment
 
   def after_save(comment)
-    expire_cached_pages_by_reference(comment.commentable)
+    purge_cache_by(comment.commentable)
     
     # if comment.is_a?(Post)
     #   topic = comment.commentable
-    #   expire_cached_pages_by_reference(topic.comments_counter)
-    #   expire_cached_pages_by_reference(topic.owner.comments_counter)
+    #   purge_cache_by(topic.comments_counter)
+    #   purge_cache_by(topic.owner.comments_counter)
     # end
   end
 

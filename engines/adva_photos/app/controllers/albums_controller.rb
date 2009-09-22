@@ -8,8 +8,7 @@
   before_filter :guard_view_permissions,          :only => :show
 
   # TODO move :comments and @commentable to acts_as_commentable
-  caches_page_with_references :index, :show, :comments,
-    :track => ['@photo', '@photos', '@set', '@commentable', {'@site' => :tag_counts, '@section' => :tag_counts}]
+  cache_tags :index, :show, :comments, :track => %w(@site @section @set @photos @photo @commentable)
 
   authenticates_anonymous_user
   acts_as_commentable

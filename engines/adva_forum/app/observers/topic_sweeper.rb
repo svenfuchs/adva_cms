@@ -1,4 +1,4 @@
-class TopicSweeper < CacheReferences::Sweeper
+class TopicSweeper < ActionController::Caching::Sweeper
   observe Topic
   
   def after_save(topic)

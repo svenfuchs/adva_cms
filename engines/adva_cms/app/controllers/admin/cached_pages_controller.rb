@@ -7,16 +7,23 @@ class Admin::CachedPagesController < Admin::BaseController
   guards_permissions :cached_page, :manage => [:index, :destroy, :clear]
 
   def index
+    # FIXME caching
+    # how to list cached pages? maybe allow users to enter a url meanwhile
   end
 
   def destroy
-    self.class.expire_page @cached_page.url
-    @cached_page.destroy
-    respond_to { |format| format.js }
+    # FIXME caching
+    # self.class.expire_page @cached_page.url
+    # @cached_page.destroy
+    # respond_to { |format| format.js }
   end
 
   def clear
-    expire_site_page_cache
+    # FIXME caching
+    # tag responses with the site name, then expire all this way
+    # have channels for rack-cache keys? could flush a whole channel
+    # expire_site_page_cache
+    
     # FIXME there is most probably more intelligent place to put this
     @site.themes.each { |theme| theme.clear_asset_cache! }
     

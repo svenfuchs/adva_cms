@@ -8,13 +8,13 @@ module With
         mock.proxy(Event).trigger(type, record, controller, options)
       end
     end
-  
+
     def it_does_not_trigger_any_event
       expect do
         do_not_allow(Event).trigger.with_any_args
       end
     end
-    
+
     def it_guards_permissions(action, type)
       # FIXME would break due to require_authentication kicking in
       # so maybe rely on just #guard_permission instead?
@@ -35,7 +35,7 @@ module With
 
       with :"moderator_may_#{action}_#{type}" do
         it_denies_access :with => [:is_anonymous, :is_user]
-        it_grants_access :with => [:is_admin, :is_superuser] 
+        it_grants_access :with => [:is_admin, :is_superuser]
         # FIXME should grant to :is_moderator, but currently require_authentication requires an :admin role
       end
     end
@@ -64,43 +64,47 @@ module With
     def it_caches_the_page_with_tracking(options = {})
       it_caches_the_page_without_tracking(options)
       
-      return unless options[:track]
-      assertion "it tracks cache references #{Array(options[:track]).map(&:inspect).join(' ')}" do
-        Array(options[:track]).each do |expected|
-          actual = @controller.class.track_options[@controller.action_name.to_sym]
-          actual.should include(expected)
-        end
-      end
+      # FIXME caching
+      # return unless options[:track]
+      # assertion "it tracks cache references #{Array(options[:track]).map(&:inspect).join(' ')}" do
+      #   Array(options[:track]).each do |expected|
+      #     actual = @controller.class.track_options[@controller.action_name.to_sym]
+      #     actual.should include(expected)
+      #   end
+      # end
     end
     alias_method_chain :it_caches_the_page, :tracking
-    
+
     def it_sweeps_page_cache(options)
       options = options.dup
-      
+
       expect do
         options.each do |type, record|
           record = instance_variable_get("@#{record}")
           filters = @controller.class.filter_chain
-          sweeper = filters.detect { |f| f.method.is_a?(CacheReferences::Sweeper) } 
+          sweeper = filters.detect { |f| f.method.is_a?(ActionController::Caching::Sweeper) }
           sweeper or raise "can not find page cache sweeper on #{@controller.class.name}"
           sweeper = sweeper.method
-          
+
           case type
           when :by_site
             # FIXME ... why are they sometimes called multiple times?? (e.g. CommentsController#create)
-            mock.proxy(sweeper).expire_cached_pages_by_site(record).any_number_of_times
-          when :by_section
-            mock.proxy(sweeper).expire_cached_pages_by_section(record).any_number_of_times
-          when :by_reference
-            mock.proxy(sweeper).expire_cached_pages_by_reference(record).any_number_of_times
+            mock.proxy(sweeper).purge_cache_by(record).any_number_of_times
+          else
+            mock.proxy(sweeper).purge_cache_by(record).any_number_of_times
           end
         end
       end
     end
-    
+
     def it_does_not_sweep_page_cache
       expect do
-        do_not_allow(@controller).expire_pages.with_any_args
+        filters = @controller.class.filter_chain
+        sweeper = filters.detect { |f| f.method.is_a?(ActionController::Caching::Sweeper) }
+        sweeper or raise "can not find page cache sweeper on #{@controller.class.name}"
+        sweeper = sweeper.method
+
+        do_not_allow(sweeper).purge_cache_by.with_any_args
       end
     end
 
@@ -118,11 +122,11 @@ class ActiveSupport::TestCase
   def has_authorized_tag(*args)
     @response.body.should have_authorized_tag(*args)
   end
-  
+
   def has_permalink(article)
     has_tag 'h2 a[href=?]', blog_article_path(article.section, article.full_permalink), article.title
   end
-  
+
   def without_routing_filters
     old_routing_filter_active, RoutingFilter.active = RoutingFilter.active, false
     yield
@@ -134,11 +138,11 @@ class ActionController::TestCase
   def default_theme?
     @controller.site.themes.active.empty?
   end
-  
+
   def rendered_insufficient_permissions?
     !!(@response.rendered_template.to_s =~ /insufficient_permissions/)
   end
-  
+
   def redirected_to_login?
     @response.redirect_url_match?(/#{login_path}/)
   end

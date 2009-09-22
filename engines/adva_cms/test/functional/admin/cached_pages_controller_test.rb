@@ -59,6 +59,7 @@ class AdminCachedPagesControllerTest < ActionController::TestCase
       it_destroys :cached_page
 
       expect "expires the site's page cache" do
+        raise "FIXME caching"
         mock.proxy(@controller).expire_site_page_cache
       end
     end

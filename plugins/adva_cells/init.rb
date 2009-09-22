@@ -61,7 +61,8 @@ config.to_prepare do
       end
     end
 
-    extend CacheReferences::PageCaching::ActMacro
+    # FIXME caching
+    # extend CacheReferences::PageCaching::ActMacro
 
     delegate :site, :section, :perform_caching, :to => :controller
 

@@ -79,7 +79,7 @@ class Admin::ArticlesController < Admin::BaseController
     # resource or use :update. applies to articles, sections, categories etc.
     id, attributes = *params[:articles].collect { |id, data| [id, { :left_id => data[:left_id] }] }.first
     @section.articles.find(id).move_to(attributes)
-    expire_cached_pages_by_reference(@section) # TODO should be in the sweeper
+    purge_cache_by(@section) # TODO should be in the sweeper
     render :text => 'OK'
   end
 
@@ -156,11 +156,6 @@ class Admin::ArticlesController < Admin::BaseController
         flash[:error] = t(:'adva.articles.flash.optimistic_lock.failure')
         render :action => :edit
       end
-    end
-
-    # FIXME move to the sweeper
-    def expire_cached_pages_by_reference(record, method = nil)
-      expire_pages CachedPage.find_by_reference(record, method)
     end
 end
 

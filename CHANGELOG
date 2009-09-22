@@ -81,7 +81,7 @@
 		* fixed adva_url_history
 		* articles_controller.current_resource: current resource is the section when the section is in single_article_mode
 		* [action]_url methods are now passing the :only_path option
-		* Improved cache_references plugin to not overwrite existing references when calling caches_page_with_references/tracks_cache_references again.
+		* Improved cache_references plugin to not overwrite existing references when calling cache_tags/tracks_cache_references again.
 		* fixed a bug with filtering set path on admin area with locale on url
 		* cell support for fckeditor fixed
 

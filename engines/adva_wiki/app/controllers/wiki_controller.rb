@@ -13,8 +13,7 @@ class WikiController < BaseController
   acts_as_commentable
 
   # TODO move :comments and @commentable to acts_as_commentable
-  caches_page_with_references :index, :show, :comments, 
-    :track => ['@wikipage', '@wikipages', '@category', '@commentable', {'@site' => :tag_counts, '@section' => :tag_counts}]
+  cache_tags :index, :show, :comments, :track => %w(@site @section @set @wikipages @wikipage @category @commentable)
   cache_sweeper :wikipage_sweeper, :category_sweeper, :tag_sweeper, :only => [:create, :update, :rollback, :destroy]
   guards_permissions :wikipage, :except => [:index, :show, :diff, :comments], :edit => :rollback
 

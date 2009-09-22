@@ -11,8 +11,7 @@ class CalendarEventsController < BaseController
   acts_as_commentable
 
   # TODO move :comments and @commentable to acts_as_commentable
-  caches_page_with_references :index, :show, :comments,
-    :track => ['@event', '@events', '@category', '@commentable', { '@site' => :tag_counts, '@section' => :tag_counts }]
+  cache_tags :index, :show, :comments, :track => %w(@site @section @event @events @category @commentable)
 
   def index
     # FIXME: it's not too nice to pass in the section but somehow it doesn't work via the association proxy

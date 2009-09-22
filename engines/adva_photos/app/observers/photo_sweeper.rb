@@ -1,4 +1,4 @@
-class PhotoSweeper < CacheReferences::Sweeper
+class PhotoSweeper < ActionController::Caching::Sweeper
   observe Photo
   
   def after_create(photo)

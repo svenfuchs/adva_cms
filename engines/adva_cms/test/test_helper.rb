@@ -24,12 +24,11 @@ class ActiveSupport::TestCase
   include RR::Adapters::TestUnit
 
   setup :start_db_transaction!
-  setup :setup_page_caching!
+  setup :setup_caching!
   setup :set_locale!
   setup :ensure_single_site_mode!
 
   teardown :rollback_db_transaction!
-  teardown :clear_cache_dir!
   teardown :rollback_multi_site_mode!
 
   def set_locale!

@@ -1,11 +1,11 @@
-class CalendarEventSweeper < CacheReferences::Sweeper
+class CalendarEventSweeper < ActionController::Caching::Sweeper
   observe CalendarEvent
 
-  def before_save(record)
-    if record.new_record? or record.just_published?
-      expire_cached_pages_by_section(record.section)
+  def before_save(event)
+    if event.new_record? or event.just_published?
+      purge_cache_by(event.section)
     else
-      expire_cached_pages_by_reference(record)
+      purge_cache_by(event)
     end
   end
 

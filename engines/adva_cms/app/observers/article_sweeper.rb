@@ -1,11 +1,11 @@
-class ArticleSweeper < CacheReferences::Sweeper
+class ArticleSweeper < ActionController::Caching::Sweeper
   observe Article
 
-  def before_save(record)
-    if record.new_record? or record.just_published?
-      expire_cached_pages_by_section(record.section)
+  def before_save(article)
+    if article.new_record? or article.just_published?
+      purge_cache_by(article.section)
     else
-      expire_cached_pages_by_reference(record)
+      purge_cache_by(article)
     end
   end
 

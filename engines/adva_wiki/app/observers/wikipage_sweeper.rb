@@ -1,4 +1,4 @@
-class WikipageSweeper < CacheReferences::Sweeper
+class WikipageSweeper < ActionController::Caching::Sweeper
   observe Wikipage
 
   def after_save(wikipage)

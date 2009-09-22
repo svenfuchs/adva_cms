@@ -1,8 +1,8 @@
-class CategorySweeper < CacheReferences::Sweeper
+class CategorySweeper < ActionController::Caching::Sweeper
   observe Category
 
   def after_save(category)
-    expire_cached_pages_by_section(category.section)
+      purge_cache_by(category.section)
   end
 
   alias after_destroy after_save

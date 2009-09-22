@@ -1,4 +1,4 @@
-class PostSweeper < CacheReferences::Sweeper
+class PostSweeper < ActionController::Caching::Sweeper
   observe Post
 
   def after_save(post)
