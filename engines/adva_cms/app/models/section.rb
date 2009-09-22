@@ -6,7 +6,8 @@ class Section < ActiveRecord::Base
   serialize :permissions
 
   has_option :contents_per_page, :default => 15
-  has_permalink :title, :url_attribute => :permalink, :sync_url => true, :only_when_blank => true, :scope => :site_id
+  has_permalink :title, :url_attribute => :permalink, :sync_url => true,
+    :only_when_blank => true, :scope => [ :site_id, :parent_id ]
   acts_as_nested_set :scope => :site_id
   instantiates_with_sti
 

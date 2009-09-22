@@ -74,8 +74,17 @@ module LuckySneaks
         conditions << id
       end
       if self.class.scope_for_url
-        conditions.first << " and #{self.class.scope_for_url} = ?"
-        conditions << send(self.class.scope_for_url)
+        scopes = self.class.scope_for_url
+        scopes = [ scopes ] unless scopes.is_a? Array
+        scopes.each do |scope|
+          value = send(scope)
+          if value.nil?
+            conditions.first << " and #{scope} is null"
+          else
+            conditions.first << " and #{scope} = ?"
+            conditions << send(scope)
+          end
+        end
       end
 
       url_owners = self.class.find(:all, :conditions => conditions)
