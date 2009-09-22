@@ -1,8 +1,8 @@
+require 'digest/sha1'
+
 module Globalize
   module Model
-
     class MigrationError < StandardError; end
-    class UntranslatedMigrationField < MigrationError; end
     class MigrationMissingTranslatedField < MigrationError; end
     class BadMigrationFieldType < MigrationError; end
 
@@ -23,10 +23,15 @@ module Globalize
 
               include InstanceMethods
               extend  ClassMethods
-              alias_method_chain :reload, :globalize
 
               self.globalize_proxy = Globalize::Model::ActiveRecord.create_proxy_class(self)
-              has_many :globalize_translations, :class_name => globalize_proxy.name, :extend => Extensions
+              has_many(
+                :globalize_translations,
+                :class_name   => globalize_proxy.name,
+                :extend       => Extensions,
+                :dependent    => :delete_all,
+                :foreign_key  => class_name.foreign_key
+              )
 
               after_save :update_globalize_record
             end
@@ -37,7 +42,7 @@ module Globalize
             # Import any callbacks that have been defined by extensions to Globalize2
             # and run them.
             extend Callbacks
-            Callbacks.instance_methods.each {|cb| send cb }
+            Callbacks.instance_methods.each { |callback| send(callback) }
           end
 
           def locale=(locale)
@@ -77,15 +82,13 @@ module Globalize
             translated_fields.each do |f|
               raise MigrationMissingTranslatedField, "Missing translated field #{f}" unless fields[f]
             end
+
             fields.each do |name, type|
-              unless translated_fields.member? name
-                raise UntranslatedMigrationField, "Can't migrate untranslated field: #{name}"
-              end
-              unless [ :string, :text ].member? type
+              if translated_fields.include?(name) && ![:string, :text].include?(type)
                 raise BadMigrationFieldType, "Bad field type for #{name}, should be :string or :text"
               end
             end
-            translation_table_name = self.name.underscore + '_translations'
+
             self.connection.create_table(translation_table_name) do |t|
               t.references self.table_name.singularize
               t.string :locale
@@ -94,31 +97,50 @@ module Globalize
               end
               t.timestamps
             end
+
+            self.connection.add_index(translation_table_name, "#{self.table_name.singularize}_id", :name => translation_index_name)
+          end
+
+          def set_translation_table_name(table_name)
+            globalize_proxy.set_table_name(table_name)
+          end
+
+          def translation_table_name
+            globalize_proxy.table_name
+          end
+
+          def translation_index_name
+            # FIXME what's the max size of an index name?
+            index_name = "index_#{translation_table_name}_on_#{self.table_name.singularize}_id"
+            index_name.size < 50 ? index_name : "index_#{Digest::SHA1.hexdigest(index_name)}"
           end
 
           def drop_translation_table!
-            translation_table_name = self.name.underscore + '_translations'
+            translation_table_name = self.name.underscore.gsub('/', '_') + '_translations'
+            self.connection.remove_index(
+              translation_table_name, "#{self.table_name.singularize}_id"
+            )
             self.connection.drop_table translation_table_name
           end
 
           private
 
           def i18n_attr(attribute_name)
-            self.base_class.name.underscore + "_translations.#{attribute_name}"
+            self.base_class.name.underscore.gsub('/', '_') + "_translations.#{attribute_name}"
           end
         end
 
         module InstanceMethods
-          def reload_with_globalize(options = nil)
+          def reload(options = nil)
             globalize.clear_cache
 
             # clear all globalized attributes
             # TODO what's the best way to handle this?
             self.class.globalize_options[:translated_attributes].each do |attr|
-              @attributes.delete attr.to_s
+              @attributes.delete(attr.to_s)
             end
 
-            reload_without_globalize(options)
+            super(options)
           end
 
           def translated_attributes
@@ -134,10 +156,22 @@ module Globalize
           end
 
           def translated_locales
-            globalize_translations.scoped(:select => 'DISTINCT locale').map {|gt| gt.locale.to_sym }
+            globalize_translations.scoped(:select => 'DISTINCT locale').map do |translation|
+              translation.locale.to_sym
+            end
+          end
+
+          def set_translations(options)
+            options.keys.each do |key|
+              translation = globalize_translations.find_by_locale(key.to_s) ||
+                globalize_translations.build(:locale => key.to_s)
+              translation.update_attributes!(options[key])
+            end
           end
         end
       end
     end
   end
 end
+
+ActiveRecord::Base.send(:include, Globalize::Model::ActiveRecord::Translated)

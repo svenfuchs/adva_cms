@@ -6,17 +6,17 @@ require 'globalize/model/active_record'
 ActiveRecord::Base.send(:include, Globalize::Model::ActiveRecord::Translated)
 
 # Load Post model
-require File.join( File.dirname(__FILE__), '..', '..', 'data', 'post' )
+require File.join( File.dirname(__FILE__), '..', '..', 'data', 'models' )
 
 class StiTranslatedTest < ActiveSupport::TestCase
   def setup
     I18n.locale = :'en-US'
-    I18n.fallbacks.clear 
+    I18n.fallbacks.clear
     reset_db! File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'data', 'schema.rb'))
   end
-  
+
   def teardown
-    I18n.fallbacks.clear 
+    I18n.fallbacks.clear
   end
 
   test "works with simple dynamic finders" do
@@ -34,7 +34,7 @@ class StiTranslatedTest < ActiveSupport::TestCase
     child.content = 'baz'
     assert_member 'content', child.changed
   end
-  
+
   test 'change attribute on globalized model after locale switching' do
     child = Child.create :content => 'foo'
     assert_equal [], child.changed
@@ -46,17 +46,17 @@ class StiTranslatedTest < ActiveSupport::TestCase
   test 'fallbacks with lots of locale switching' do
     I18n.fallbacks.map :'de-DE' => [ :'en-US' ]
     child = Child.create :content => 'foo'
-    
+
     I18n.locale = :'de-DE'
     assert_equal 'foo', child.content
-    
+
     I18n.locale = :'en-US'
     child.update_attribute :content, 'bar'
-    
+
     I18n.locale = :'de-DE'
     assert_equal 'bar', child.content
   end
-  
+
   test "saves all locales, even after locale switching" do
     child = Child.new :content => 'foo'
     I18n.locale = 'de-DE'
@@ -66,10 +66,10 @@ class StiTranslatedTest < ActiveSupport::TestCase
     child.save
     I18n.locale = 'en-US'
     child = Child.first
-    assert_equal 'foo', child.content 
+    assert_equal 'foo', child.content
     I18n.locale = 'de-DE'
-    assert_equal 'bar', child.content 
+    assert_equal 'bar', child.content
     I18n.locale = 'he-IL'
-    assert_equal 'baz', child.content 
-  end    
+    assert_equal 'baz', child.content
+  end
 end
