@@ -1,0 +1,13 @@
+.hint.enabled {
+	background: url('/images/adva_cms/icons/help.png') no-repeat;
+	margin-left: 5px;
+    margin-bottom: -3px;
+    width: 16px;
+    height: 16px; 
+    text-indent: 16px;
+    overflow: hidden;
+    display: inline-block;
+}
+
+* html .hint.enabled { display:inline; }  /* for IE 6 */
+* + html .hint.enabled { display:inline; }  /* for IE 7 */

@@ -1,0 +1,103 @@
+/* @group 3-Column CSS */
+
+body{
+  margin: 0;
+  padding: 0 350px 0 200px;
+	background-color: black;
+	min-width: 600px;
+}
+#container{
+  background-color: #fff;
+  float:left;
+  width:100%;	
+  border-left:200px solid #f6f6f6;
+  border-right:350px solid #f6f6f6;
+  margin-left:-200px;
+  margin-right:-350px;
+  display:inline; /* So IE plays nice */
+}
+#left{
+  float:left;
+  width:200px;
+  margin-left:-200px;
+  position:relative;
+}
+#main{
+  float:left;
+  width:100%;
+  margin-right:-100%;
+}
+#sidebar{
+  float:right;
+  width:350px;
+  margin-right:-350px;
+  position:relative;
+}
+
+#head, #foot {
+	margin-right: -350px;
+	margin-left: -200px;
+	clear: both;
+}
+
+/* @end */
+
+#top, #header {
+	padding-left: 25px;
+	padding-right: 25px;
+}
+
+#top {
+	background-color: black;
+	border-bottom: 5px solid #c22222;
+	height: 28px;
+	padding-top: 5px;
+	white-space: nowrap;
+}
+#header {
+  height: 75px;
+	/*background: #fbf7e4 url(/images/adva_cms/admin/header_bg.png) bottom left;*/
+	background-color: #fbf7e4;
+	border-bottom: 4px solid #ddd;
+	padding-right: 25px;
+	padding-left: 25px;
+}
+
+#content {
+	padding: 25px;
+}
+
+#foot {
+	background-color: black;
+	text-align: center;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	border-top: 5px solid #c22222;
+	color: #999;
+}
+
+.right {
+	float: right;
+}
+
+/* @group No Left */
+
+body.no_left {
+	padding-left: 0;
+}
+
+body.no_left #left {
+	display: none;
+	margin-left: 0;
+}
+
+body.no_left #head, body.no_left #foot {
+	margin-left: 0;
+}
+
+body.no_left #container {
+	border-left-style: none;
+	margin-left: 0;
+}
+
+/* @end */

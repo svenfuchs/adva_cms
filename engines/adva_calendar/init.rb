@@ -7,3 +7,4 @@ config.to_prepare do
 end
 
 register_stylesheet_expansion :admin => %w( adva_calendar/admin/calendar )
+register_stylesheet_expansion :admin_alternate => %w( adva_calendar/admin/calendar )

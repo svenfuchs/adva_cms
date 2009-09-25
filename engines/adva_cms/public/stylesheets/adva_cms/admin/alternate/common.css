@@ -1,0 +1,76 @@
+body {
+  font-size: 10pt;
+  color: #222; 
+  background: #fff;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+a {
+  color: #000;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+h2 {
+  margin-top: 1.2em;
+  font-size: 16pt;
+}
+h2:first-of-type {
+  margin-top: 0.3em;
+}
+h3 {
+  margin-top: 1.2em;
+  font-size: 13pt;
+}
+h4 {
+  margin-top: 1.2em;
+  font-weight: bold;
+}
+p {
+  margin-top: 1.2em;
+}
+th, td {
+  vertical-align: top;
+}
+
+/* flash, errors, notices */
+
+p.flash {
+  padding: 0.75em 0;
+  margin: 0 0 0 -10%;
+  text-align: center;
+}
+p.flash.notice, #flash_notice {
+  background: #cfc;
+  color: #051;
+}
+p.flash.error, #flash_error {
+  background: #e6acb6;
+  color: #510;
+}
+
+/* Apple style pagination, taken from WillPaginate, slightly modified */
+div.pagination {
+  margin-top: 1em;
+  background: #f6f6f6;
+  border: 1px solid #dddddd;
+  text-align: center;
+  padding: 1em;
+}
+div.pagination a, div.pagination span {
+  padding: .2em .3em;
+}
+div.pagination span.disabled {
+  color: #AAA;
+}
+div.pagination span.current {
+  font-weight: bold;
+  background-color: #dddddd;
+}
+div.pagination a {
+  text-decoration: none;
+  color: black;
+}
+div.pagination a:hover, div.pagination a:focus {
+  text-decoration: underline;
+}

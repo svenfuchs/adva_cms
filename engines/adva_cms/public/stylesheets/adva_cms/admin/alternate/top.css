@@ -1,0 +1,123 @@
+#top ul {
+	list-style-type: none;
+}
+
+#top ul.right {
+	text-align: right;
+}
+
+#top li {
+	display: inline;
+	float: left;
+}
+
+#top ul.main > li:first-child {
+	margin-left: -16px;
+}
+
+#top ul.right > li:last-child {
+	margin-right: -16px;
+}
+
+#top a {
+	display: block;
+	color: #fff;
+	outline: none;
+	background-color: black;
+	line-height: 28px;
+	padding-right: 16px;
+	padding-left: 16px;
+}
+
+#top > ul > li > a {
+	-webkit-border-top-left-radius: 4px;
+	-webkit-border-top-right-radius: 4px;
+	-moz-border-top-left-radius: 4px;
+	-moz-border-top-right-radius: 4px;
+}
+
+#top .active > a {
+	color: #fff;
+	background-color: #c22222;
+	background-image: url(/images/adva_cms/admin/tab_top_active.png);
+}
+
+#top li:hover a {
+	color: #222;
+	text-decoration: none;
+	background-color: white;
+}
+
+#top li.active:hover > a {
+	color: #fff;
+}
+
+#top li > ul {
+	display: none;
+	position: absolute;
+	z-index: 99;
+	top: 33px;
+	border-top: 5px solid #c22222;
+	/*bo
+
+rder-top: 1px solid #ddd;*/
+  border-bottom: 1px solid #ddd;
+	background-color: #fff !important;
+	-webkit-box-shadow: 3px 3px 6px #aaa;
+	-moz-box-shadow: 3px 3px 6px #aaa;
+}
+
+#top li:hover ul {
+	display: block;
+}
+
+#sections_menu li {
+	float: none;
+	display: block;
+}
+
+#sections_menu li a {
+	color: #000;
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+}
+
+#sections_menu li a {
+	background-color: #fff;
+}
+
+#sections_menu li a:hover {
+	background-color: #eee;
+}
+
+#sections_menu a.active {
+	background-color: #fbf7e4;
+}
+
+#sections_menu .level_0 {
+	padding-left: 16px;
+}
+
+#sections_menu .level_1 {
+	padding-left: 32px;
+}
+
+#sections_menu .level_2 {
+	padding-left: 48px;
+}
+
+#sections_menu .level_3 {
+	padding-left: 64px;
+}
+
+#sections_menu .level_4 {
+	padding-left: 80px;
+}
+
+#sections_menu .level_5 {
+	padding-left: 96px;
+}
+
+#sections_menu .level_6 {
+	padding-left: 112px;
+}

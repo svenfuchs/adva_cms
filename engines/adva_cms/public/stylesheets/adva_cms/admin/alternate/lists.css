@@ -1,0 +1,153 @@
+p.total {
+  background-color: #eee;
+  text-align: center;	
+  padding: 3px 3px;
+  margin-top: 10px;
+}
+table.list {
+  width: 100%;
+  border-collapse: collapse;
+}
+table.list th {
+  padding: 8px 10px;
+  text-align: left;
+  font-weight: bold;
+}
+table.list thead tr:last-child th {
+  border-bottom: 3px solid #ddd;
+}
+table.list tbody tr {
+  border-bottom: 1px solid #ddd;  
+}
+table.list tbody td {
+  position: relative;
+  padding: 8px 10px;
+  vertical-align: top;
+}
+table.list tbody td.actions {
+  white-space: nowrap;
+	width: 100px;
+	text-align: right;
+}
+
+table.list tr.level_1 td:first-child { padding-left: 35px; }
+table.list tr.level_2 td:first-child { padding-left: 60px; }
+table.list tr.level_3 td:first-child { padding-left: 85px; }
+table.list tr.level_4 td:first-child { padding-left: 110px; }
+table.list tr.level_5 td:first-child { padding-left: 135px; }
+table.list tr.level_6 td:first-child { padding-left: 160px; }
+table.list tr.level_7 td:first-child { padding-left: 185px; }
+table.list tr.level_8 td:first-child { padding-left: 210px; }
+
+table.list span.status {
+  padding-left: 10px;
+  display: inline-block;
+  width: 16px;
+  height: 16px; 
+  margin-left: 4px;
+  text-indent: 16px;
+  overflow: hidden;
+  vertical-align: middle;
+}
+
+table.list span.published {
+  background: url(/images/adva_cms/icons/tick.png) no-repeat;
+}
+table.list span.draft,
+table.list span.hold,
+table.list span.queued,
+table.list span.pending {
+  background: url(/images/adva_cms/icons/hourglass.png) no-repeat;
+}
+
+#content .actions a {
+  display: inline-block;
+  width: 16px;
+  height: 16px; 
+  margin-left: 4px;
+  text-indent: 16px;
+  overflow: hidden;
+  vertical-align: middle;
+}
+
+#content .actions a.text {
+  display: inline;
+  text-indent: 0;
+  height: auto;
+  width: auto;
+  overflow: none;
+  font-size: 12px;
+}
+#content .actions a:first-child {
+  margin-left: 0;
+}
+#content .actions a.show,
+#content .actions a.preview {
+  background: url(/images/adva_cms/icons/page_white_magnify.png) no-repeat;
+}
+#content .actions a.edit {
+  background: url(/images/adva_cms/icons/pencil.png) no-repeat;
+}
+#content .actions a.delete {
+  background: url(/images/adva_cms/icons/bin_closed.png) no-repeat -5px top;
+}
+
+table.list .drag {
+  background-color: #f6f6f6;
+}
+table.list img.spinner {
+  margin-top: 2px;
+  margin-left: 6px;
+  vertical-align: top;
+}
+
+
+/* comments list */
+
+/*#comments_list li {
+  padding: 15px 40px;
+  background: url(/images/adva_cms/icons/comment.png) no-repeat 15px 15px;
+}
+#comments_list li.highlight {
+  padding: 20px 20px 20px 55px !important;
+  padding-bottom: 3px;
+  border: 1px solid #add;
+  background-color: #eaf6f6 !important;
+  margin: 20px 0; 
+}
+#comments_list blockquote {
+  margin: 0px 0px 10px 0px;
+}
+#comments_list cite {
+  font-size: 11px;
+  font-style: normal;
+}*/
+
+/* cached_pages list */
+
+/*#cached_pages {
+  width: 100%;
+}
+#cached_pages th {
+  padding: 8px 10px;
+  text-align: left;
+  border-bottom: 5px solid #ccc;
+}
+#cached_pages td {
+  padding: 8px 10px;
+  border-bottom: 1px solid #eee;
+}
+#cached_pages tr.deleted td {
+  text-decoration: line-through;
+  color: #aaa;
+}
+#cached_pages tr.deleted a {
+  display: none;
+}
+#cached_pages tr span {
+  display: none;
+}
+#cached_pages tr.deleted span {
+  display: block;
+}
+*/

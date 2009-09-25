@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ 	<meta name="generator" content="adva-cms - Open source content management platform" />
+  <title>adva-cms: Admin <%= controller.controller_name %></title>
+  <%= stylesheet_link_tag :admin_alternate,  :media => "all",        :cache => 'cache/admin/common_alternate' %>
+  <%= stylesheet_link_tag :admin_projection, :media => "projection", :cache => 'cache/admin/projection' %>
+
+	<%= yield :before_javascript_include %>
+	<%= javascript_include_tag :common, :admin, :cache => true %>
+	<%= javascript_tag "window._auth_token = #{form_authenticity_token.inspect}" %>
+	<!--[if lt IE 8]>
+		<script src="http://ie7-js.googlecode.com/svn/version/2.0(beta3)/IE8.js" type="text/javascript"></script>
+	<![endif]-->
+	<%= yield :head %>
+	
+</head>
+<body class="no_left">
+	<div id="container">
+		<div id="head">
+			<%= @menu.build(self).root.render(:id => 'top') %>
+			<%= render :partial => 'admin/shared/header' %>
+		</div>
+		<%= yield :form if @content_for_form %>
+		<div id="main">
+			<%= @menu.root.find(:main).try(:render, :id => 'main_menu') %>
+			<%= render :partial => 'shared/flash' %>
+			<div id="content">
+				<%= yield %>
+			</div>
+		</div>
+		<div id="left">
+			Left Column
+		</div>
+		<div id="sidebar">
+			<%= yield :sidebar %>
+		</div>
+		<%= '</form>' if @content_for_form %>
+	</div>
+</body>
+</html>

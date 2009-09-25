@@ -13,3 +13,4 @@ ActiveRecord::Base.observers << 'activities/topic_observer'    if Rails.plugin?(
 ActiveRecord::Base.observers << 'activities/wikipage_observer' if Rails.plugin?(:adva_wiki)
 
 register_stylesheet_expansion :admin => %w( adva_activity/admin/activities )
+register_stylesheet_expansion :admin_alternate => %w( adva_activity/admin/activities )

@@ -1,0 +1,198 @@
+/* assets */
+
+#assets_list {
+	display: table;
+	border-spacing: 20px;
+	margin-left: -20px;
+}
+.assets_row {
+	display: table-row;
+}
+.recent_assets {
+	border-bottom: 4px solid #f0f0f0;
+}
+.assets_row div {
+	display: table-cell;
+  position: relative;
+	text-align: center;
+}
+.assets_row img {
+  padding: 5px;
+  border: 1px solid #ccc;
+}
+.asset_tools {
+	position: relative;
+	z-index: 99;
+	width: 70px;
+	background-color: #efefef;
+	height: 22px;
+	margin: -27px auto 0 auto;
+}
+.asset_tools li {
+	display: inline-block;
+}
+.asset_tools li a {
+  display: inline-block;
+  height: 16px;
+  width: 16px;
+  margin: 3px 2px 0 2px;
+  text-indent: -9999px;
+  text-decoration: none;
+  outline: none;
+}
+.asset_tools li.edit a   { background-image: url(/images/adva_cms/icons/pencil.png) }
+.asset_tools li.delete a { background-image: url(/images/adva_cms/icons/delete.png) }
+.asset_tools li.bucket a { background-image: url(/images/adva_cms/icons/attach.png) }
+
+#new_asset label {
+  clear: none;
+	float: left;
+	margin-top: 6px;
+	font-size: 12px;
+}
+#new_asset label.file {
+	width: 35%;
+}
+#new_asset label.title,
+#new_asset label.tags {
+	width: 22%;
+	margin-right: 26px;
+}
+#new_asset #files {
+	clear: both;
+	padding-bottom: 4px !important;
+}
+#new_asset #files p {
+	clear: both;
+	padding: 4px;
+	white-space: nowrap;
+}
+#new_asset #files p a {
+	font-size: 11px;
+}
+#new_asset .file_field {
+	float: left;
+	width: 35%;
+}
+#new_asset .title_field,
+#new_asset .taglist_field {
+	width: 22%;
+	float: left;
+	margin-right: 8px;
+}
+
+/* assets widget */
+
+#assets_widget {
+  margin-top: 20px;
+}
+
+#assets_widget .tabs {
+	margin: 0 0 2px 0 !important;
+	white-space: nowrap;
+}
+#assets_widget .tabs li {
+  display: inline;
+	padding: 0px;
+	background: none;
+}
+#assets_widget .tabs li a {
+  padding: 5px 5px 3px 20px;
+  border: 1px solid #ccc;
+  border-bottom: 0px;
+  color: #333;
+  font-size: 90%;
+	text-decoration: none;
+  background-color: #ccc;
+  outline: none;
+}
+#assets_widget .tabs .selected a {
+  background-color: #fff !important;
+  padding-bottom: 3px;
+	border-bottom: 1px solid #fff;
+}
+#assets_widget .tabs li a:hover {
+  background-color: #eee;
+  color: #000;
+}
+#assets_widget #tab_attached_assets a { 
+	background: url(/images/adva_cms/icons/link.png) 3px 3px no-repeat; 
+}
+#assets_widget #tab_latest_assets a {
+	padding-left: 21px;
+	background: url(/images/adva_cms/icons/page_favorites.png) 4px 4px no-repeat; 
+}
+#assets_widget #tab_bucket_assets a { 
+	background: url(/images/adva_cms/icons/attach.png) 2px 3px no-repeat; 
+}
+#assets_widget #tab_search_assets a { 
+	padding-left: 22px;
+	background: url(/images/adva_cms/icons/magnifier.png) 4px 50% no-repeat;
+}
+#assets_widget #tab_upload_assets a { 
+	background: url(/images/adva_cms/icons/bullet_go.png) 3px 2px no-repeat; 
+}
+
+#assets_widget .panel {
+	margin-top: -1px;
+	margin-bottom: 25px;
+  padding: 3px 8px 8px 8px;
+	border: 1px solid #ccc;
+  background: #fff;
+}
+
+#assets_widget div.panel {
+  padding-top: 5px;
+  font-size: 0.9em;
+  font-style: italic;
+}
+
+.asset_list {
+	margin-top: 5px;
+}
+.asset_list li {
+	position: relative;
+	float: left;
+	padding: 3px !important;
+  margin: 4px 4px 0px 0px;
+	background-color: #fff;
+}
+.asset_list li img {
+  border: 1px solid #999;
+}
+.asset_list .selected {
+	background: url(/images/adva_cms/asset_selected.png) top left no-repeat;
+}
+#attached_assets .selected {
+	background: none;
+}
+.asset_list a {
+	display: block;
+}
+.asset div {
+	position: absolute;
+	top: 6px;
+	left: 6px;
+}
+.asset div a img {	
+	float: left;
+	border: 0px;
+}
+.asset .detach_asset,
+.selected .attach_asset {
+	display: none;
+}
+.selected .detach_asset {
+	display: block;
+}
+#asset_search label {
+	font-weight: bold; 
+	padding: 5px 0;
+}
+#assets_widget .spinner {
+	vertical-align: middle;
+	/*vertical-align: middle;*/
+}
+#search_assets_query {
+	width: 260px;
+}

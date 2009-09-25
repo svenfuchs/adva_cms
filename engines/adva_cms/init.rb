@@ -41,7 +41,11 @@ register_javascript_expansion \
   :simple  => %w(),
   :admin   => %w( adva_cms/admin/jquery.admin adva_cms/jquery/jquery.tablednd_0_5 adva_cms/jquery/jquery.table_tree 
                   adva_cms/admin/jquery.table_tree adva_cms/admin/jquery.article adva_cms/admin/jquery.cached_pages 
-                  adva_cms/jquery/jquery.qtip.min )
+                  adva_cms/jquery/jquery.qtip.min ),
+  # From qtip dev branch
+  :qtip    => %w( adva_cms/jquery/qtip/jquery.qtip adva_cms/jquery/qtip/jquery.qtip.tips
+                  adva_cms/jquery/qtip/jquery.qtip.border adva_cms/jquery/qtip/jquery.qtip.preload
+                  adva_cms/jquery/qtip/jquery.qtip.bgiframe adva_cms/jquery/qtip/jquery.qtip.imagemap )
 
 register_stylesheet_expansion \
   :default => %w( adva_cms/default adva_cms/common adva_cms/forms ),
@@ -53,4 +57,12 @@ register_stylesheet_expansion \
                   adva_cms/admin/header adva_cms/admin/top adva_cms/admin/sidebar adva_cms/admin/forms 
                   adva_cms/admin/lists adva_cms/admin/content adva_cms/admin/themes adva_cms/admin/helptip
                   adva_cms/admin/users adva_cms/jquery/jquery-ui adva_cms/jquery/jquery.tooltip ),
-  :admin_projection => %w( adva_cms/admin/projection )
+  :admin_projection => %w( adva_cms/admin/alternate/projection ),
+  # admin alternate tryout, mainly for fixing IE7 related problems
+  :admin_alternate  => %w( adva_cms/admin/reset adva_cms/admin/alternate/layout adva_cms/admin/alternate/common
+                           adva_cms/admin/alternate/header adva_cms/admin/alternate/top adva_cms/admin/alternate/sidebar 
+                           adva_cms/admin/alternate/forms adva_cms/admin/alternate/lists adva_cms/admin/content
+                           adva_cms/admin/themes adva_cms/admin/helptip adva_cms/admin/users adva_cms/jquery/jquery-ui
+                           adva_cms/jquery/alternate/jquery.tooltip ),
+   # From qtip dev branch
+   :qtip  => %w( adva_cms/jquery/qtip/jquery.qtip )

@@ -1,0 +1,125 @@
+#breadcrumbs {
+	position: absolute;
+	height: 18px;
+	margin-top: 15px;
+  list-style-type: none;
+	white-space: nowrap;
+}
+#breadcrumbs li {
+  display: inline;
+	vertical-align: top;
+	float: left;
+	padding: 0 0 0 4px;
+}
+#breadcrumbs li:first-child {
+  float: left;
+  padding: 0 0 0 0px;
+}
+#breadcrumbs li:after { 
+  content: "\0020 \0020 \0020 \00BB \0020";
+}
+#breadcrumbs li.last:after { 
+  content: " ";
+}
+#breadcrumbs li,
+#breadcrumbs li a {
+  color: #999;
+  font-size: 9pt;
+}
+
+#header .right {
+	text-align: right;
+	padding-top: 15px;
+}
+#header .right,
+#header .right a {
+	color: #999;
+	font-size: 9pt;
+}
+
+#main_menu {
+	height: 35px;
+	margin-top: -34px;
+	margin-left: 8px;
+	margin-right: 10px;
+}
+#main_menu ul {
+  list-style-type: none;
+	display: inline;
+}
+#main_menu li {
+  display: inline;
+	float: left;
+}
+
+#main_menu h4 {
+  display: inline;
+  margin-top: 0;
+	float: left;
+	padding-right: 16px;
+	padding-left: 16px;
+	line-height: 30px;
+	font-size: 1em;
+	font-weight: normal;
+	font-style: normal;
+}
+#main_menu .left li a {
+  outline: none;
+  -webkit-border-top-left-radius: 4px;
+  -webkit-border-top-right-radius: 4px;
+  -moz-border-top-left-radius: 4px;
+  -moz-border-top-right-radius: 4px;
+	display: block;
+	padding-right: 16px;
+	padding-left: 16px;
+	line-height: 30px;
+	background-color: #fbf7e4;
+}
+#main_menu .left li.active > a {
+	background: #ddd url(/images/adva_cms/admin/tab_main_active.png) repeat-x;
+}
+#main_menu .left li a:hover {
+  background-color: #fff;
+  text-decoration: none;
+}
+#main_menu .left li.active > a {
+  background: #ddd url(/images/adva_cms/admin/tab_main_active.png) repeat-x;
+}
+#main_menu ul.actions {
+	float: right;
+	margin-top: 6px;
+}
+#main_menu ul.actions li {
+  margin-left: 8px;
+}
+#main_menu ul.actions li a {
+  display: block;
+  line-height: 21px;
+  font-size: 12px;
+  outline: none;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+	padding-right: 10px;
+	padding-left: 10px;
+}
+#main_menu ul.actions li a:hover {
+  background: #fff;
+  text-decoration: none;
+}
+#main_menu ul.actions li.active a {
+  background: #ddd;
+}
+#search {
+	position: absolute;
+	right: 6%;
+	bottom: 5px;
+  padding: 0;
+}
+#search input {
+  color: #888;
+  width: 100px;
+  background: white url(/images/adva_cms/admin/new/buttons/search.png) no-repeat right center;
+  font-size: 0.9em;
+	padding: 3px 18px 3px 6px;
+	border: 1px solid #aaa;
+}

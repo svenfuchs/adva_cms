@@ -1,0 +1,121 @@
+#content form {
+  min-width: 200px;
+}
+
+#content fieldset {
+  clear: both;
+  margin: 0;
+}
+#content .col {
+  width: 48%;
+  float: right;
+}
+#content .col:last-child {
+  float: right;
+}
+#content .col:first-child {
+  float: left;
+}
+#content .col:only-child {
+  width: 100%;
+  float: none;
+}
+#content .col > * {
+  /*margin-left: -4px;*/
+}
+#content .col > .inline {
+  margin-left: 0;
+}
+input[type=text], input[type=password], textarea {
+  width: 100%;
+  font-size: 14px;
+  border: 1px solid #999;
+  font-family: "Helvetica Neue", "Helvetica", "Arial", Verdana;
+	padding-top: 4px;
+	padding-bottom: 4px;
+}
+input[disabled] {
+  background: #DDD;
+}
+textarea {
+  height: 100px;
+}
+textarea.big {
+  height: 400px;
+}
+select {
+  margin: 3px 0;
+}
+input.big[type=text],
+input.big[type=password] {
+  font-size: 20px;
+}
+textarea.small {
+  height: 79px;
+}
+label {
+  display: block;
+  clear: both;
+  color: #555;
+  text-shadow: #fff 1px 1px;
+  line-height: 1.2em;
+  margin-top: 15px;
+  margin-bottom: 6px;
+}
+label.inline {
+  position: relative;
+  display: inline;
+  top: -2px;
+  vertical-align: baseline;
+}
+label.light {
+  font-weight: normal;
+}
+
+/* wrapper div for creating double left-right label */
+div.double-label {
+  margin: 15px 0 6px 0;
+}
+/* resets adva admin label attributes */
+div.double-label label {
+  display: inline;
+  float: none;
+}
+div.double-label label:first-child {
+  margin-top: 0;
+  margin-bottom: 0;
+  float: right;
+}
+/* end of wrapper div */
+
+#content form h2 {
+  font-size: 12pt;
+}
+#content form p {
+  margin-top: 0.5em;
+}
+#content form p.buttons {
+  margin-top: 1.2em;
+}
+.error_message {
+  float: right;
+  margin-top: -25px;
+  margin-right: -9px;
+  color: #c00000;
+  font-style: italic;
+  font-size: .9em;
+}
+.wide_button {
+  display: block;
+  color: #555;
+  background: #f6f6f6;
+  padding: 5px;
+  text-decoration: none;
+  margin-top: 10px;
+  text-align: center;
+  outline: none;
+}
+.wide_button:hover {
+  background-color: #ddd;
+  text-decoration: none;
+}
