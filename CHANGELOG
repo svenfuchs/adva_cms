@@ -1,3 +1,26 @@
+ 0.2.4 [2009/09/29]
+====================
+	Features
+		* categories hidden on single article mode
+		* sections are published by default
+		* optimistic lock for articles
+		* optimistic lock for wikipages on backend
+		
+	Enhancements
+		* label and help hints for section publishing option
+		* alternate admin layout tryout from galenking - for fixing ie 7 bugs
+		
+	Changes
+		* relatively symlinked assets
+		* updated globalize2
+		* exposed authenticated?/logged_in? as helper methods
+	
+	Bug fixes
+		* Joseph Ridgway's patch for fixing a sql count query with postgresql
+		* fixed translation scopes for extensible formbuilder
+		* fixed db migration file to work with postgresql
+		* fixed optimistic locking with postgresql
+
  0.2.3 [2009/08/28]
 ====================
 	Features
