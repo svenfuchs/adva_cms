@@ -13,10 +13,10 @@ de:
   adva:
     sets:
       hints:
-        reorder: "Sie können die neuordnenwahl verwenden, um Ihre Sätze neuzuordnen. Wenn Sie Ihre Sätze nisten möchten, können Sie den Satz rechts schleppen und sein erhält Satz als Kind des oberen Satzes. Beenden Sie das Neuordnen, indem Sie den neuordnenknopf anklicken. Merken Sie bitte, dass diese Wahl nur vorhanden ist, wenn Sie 2 haben oder mehr einstellt."
-        parent_setting: "Ein Elternteil für Ihren Satz wählend, nistet diesen Satz unter dem ausgesuchten Elternteil. Verlassen Sie leer, wenn Sie diesen Satz verursachen möchten wie ein Wurzelsatz."
-        parent_setting_for_edit: "Sie können den neuordnenknopf auf der Indexseite der Sätze benutzen, um zu nisten und Ihre Sätze, können Sie neuzuordnen weitere Anweisungen für dieses auf den Indexseiten-Hilfentips finden."
-        permalink: "Sie können normale Buchstaben und spezielle Buchstaben benutzen, wie skandinavische Buchstaben aber Sonderzeichen wie $%& vermeiden!"
+        reorder: "Sie können die Option \"Reihenfolge ändern\" verwenden, um die Sets anders zu sortieren. Wenn Sie Sets verschachteln möchten, können Sie ein Set nach rechts verschieben, um dieses als untergeordnetes Set eines anderen Sets zu markieren. Um das Umsortieren zu beenden, klicken Sie erneut auf \"Reihenfolge ändern\". Beachten Sie, dass diese Option nur verfügbar ist, wenn Sie mindestens zwei Sätze angelegt haben."
+        parent_setting: "Wenn Sie hier ein Set auswählen, wird das neu angelegte Set als untergeordnetes Set dieses Set angelegt. Wählen Sie nichts aus, um dieses Sektion zu einem Hauptset zu machen."
+        parent_setting_for_edit: "Sie können die Option \"Reihenfolge ändern\" in der Setliste verwenden, um Sets zu verschieben und zu verschachteln. Weitere Infos finden Sie in der Setliste."
+        permalink: "Sie können Buchstaben (auch Umlaute) und einige Sonderzeichen (z.B. -) benutzen. Sonderzeichen wie $%& können nicht verwendet werden!"
       links:
         index: Sätze
         new: Neu
