@@ -49,6 +49,7 @@ de:
    errors:
      messages:
        only_integer: kann nur eine ganze Zahl sein.
+
  adva:
    common:
      add: Hinzufügen
@@ -191,13 +192,13 @@ de:
      author_email: E-Mail
 
    hints:
-     permalink: Verwenden Sie bitte nur ASCII-Zeichen und ersetzen Sie Leerzeichen durch Bindestriche.
+     permalink: 'Verwenden Sie bitte nur ASCII-Zeichen und ersetzen Sie Leerzeichen durch Bindestriche.'
      tags: 'Geben Sie einen oder mehrere Tags getrennt durch Leerzeichen ein. Sie können Tags mit Leerzeichen verwenden, indem Sie Anführungszeichen verwenden (z.B. <em>"Web Development" Tutorials</em>).'
-     meta_keywords: "Geben Sie einige Wörter ein, die durch Kommas getrennt werden, um Ihren Inhalt zu beschreiben. Meta-Schlüsselwörter bilden es einfacher, damit Suchmaschinen Ihre Seite finden."
-     meta_description: "Tragen Sie eine kurze Beschreibung dieser Seite ein, also kann eine Search Engine Benutzern erklären, was sie hier finden können."
+     meta_keywords: "Geben Sie Schlüsselwörter durch Kommas getrennt ein, um Ihren Inhalt zu beschreiben. Schlüsselwörter machen es Suchmaschinen einfacher, Ihre Seite zu finden."
+     meta_description: "Tragen Sie eine kurze Beschreibung dieser Seite ein. Suchmaschinen können diese Beschreibung Suchenden als Erklärung anzeigen."
      akismet: "Askimet ist ein Spamfilter-Dienst. Wenn Sie sich bei Akismet angemeldet haben, können Sie den Filter aktivieren und Ihre Zugangsdaten eingeben."
-     defensio: "Defensio ist ein Spamfilter-Dienst. Wenn Sie sich bei Akismet angemeldet haben, können Sie den Filter aktivieren und Ihre Zugangsdaten eingeben."
-     
+     defensio: "Defensio ist ein Spamfilter-Dienst. Wenn Sie sich bei Defensio angemeldet haben, können Sie den Filter aktivieren und Ihre Zugangsdaten eingeben."
+
    messages:
      insufficient_permissions:
        title: Fehlende Berechtigung
@@ -228,7 +229,7 @@ de:
    sites:
      email_notification_activated: "E-Mail-Mitteilungen aktivieren"
      title:
-       create: Neue Webseite anlegen 
+       create: Neue Webseite anlegen
        home_section: Startseiten-Sektion
      hints:
        host_name: "Falls Ihre Seite nicht auf dem Standard-HTTP-Port (80) läuft, führen Sie diesen bitte auf (z.B. http://www.meine-seite.com:1234)."
@@ -280,14 +281,14 @@ de:
        parent_setting: "Wenn Sie hier eine Sektion auswählen, wird die neu angelegte Sektion als Untersektion dieser Sektion angelegt. Wählen Sie nichts aus, um die Sektion zu einer Hauptsektion zu machen."
        parent_setting_for_edit: "Sie können die Option \"Reihenfolge ändern\" in der Sektionsliste verwenden, um Sektionen zu verschieben und zu verschachteln. Weitere Infos finden Sie in der Sektionsliste."
        permalink: "Sie können Buchstaben (auch Umlaute) und einige Sonderzeichen (z.B. -) benutzen. Sonderzeichen wie $%& können nicht verwendet werden!"
-       publish: "Uncheck this if you don't want this section published."
+       publish: "Entfernen Sie dieses Häkchen, wenn Sie diese Sektion nicht veröffentlichen wollen."
      titles:
        behaviour: Anzeige
        page_settings: Page-Einstellungen
        blog_settings: Blog-Einstellungen
        forum_settings: Forum-Einstellungen
        create: Eine neue Sektion anlegen
-       publish: Publish option
+       publish: Sichtbarkeits-Einstellungen
      settings:
        single_article_mode: Ein Artikel pro Sektion
        multi_article_mode: Mehrere Artikel pro Sektion
@@ -332,7 +333,7 @@ de:
        filter:
          category: in der Kategorie
          tags: markiert mit
-         title: dessen Titel beinhaltet 
+         title: dessen Titel beinhaltet
          body: dessen Text beinhaltet
          draft: nicht veröffentlicht
      tabs:
@@ -357,7 +358,7 @@ de:
      hints:
        reorder: "Sie können die Option \"Reihenfolge ändern\" verwenden, um Ihre Kategorien anders zu sortieren. Wenn Sie Kategorien verschachteln möchten, können Sie eine Kategorie nach rechts verschieben, um diese zur Unterkategorie einer anderen Kategorie zu markieren. Um das Umsortieren zu beenden, klicken Sie erneut auf \"Reihenfolge ändern\". Beachten Sie, dass diese Option nur verfügbar ist, wenn die aktuelle Sektion mindestens zwei Kategorien hat."
        parent_setting: "Wenn Sie hier eine Kategorie auswählen, wird die neu angelegte Kategorie als Unterkategorie dieser Kategorie angelegt. Wählen Sie nichts aus, um die Kategorie zu einer Hauptkategorie zu machen."
-       parent_setting_for_edit: "Sie können die Option \"Reihenfolge ändern\" in der Kategorienliste verwenden, um Kategorien zu verschieben und zu verschachteln. Weitere Infos finden Sie in der Kategorienliste." 
+       parent_setting_for_edit: "Sie können die Option \"Reihenfolge ändern\" in der Kategorienliste verwenden, um Kategorien zu verschieben und zu verschachteln. Weitere Infos finden Sie in der Kategorienliste."
        permalink: "Sie können Buchstaben (auch Umlaute) und einige Sonderzeichen (z.B. -) benutzen. Sonderzeichen wie $%& können nicht verwendet werden!"
      titles:
        edit: Kategorie bearbeiten
@@ -388,9 +389,9 @@ de:
    contents:
      not_published: unveröffentlicht
 
-   articles:      
-     optimistic_lock: 
-       exception: 
+   articles:
+     optimistic_lock:
+       exception:
          missing_timestamp: "Can not update article: timestamp missing. Please make sure that your form has a hidden field: updated_at."
      columns:
        article: Artikel
@@ -403,7 +404,7 @@ de:
      confirm_save_as_draft: "Ja, diesen Artikel als Entwurf speichern"
      hints:
        permalink: Verwenden Sie bitte nur ASCII-Zeichen und ersetzen Sie Leerzeichen durch Bindestriche.
-       tags: 'Geben Sie ein oder mehre Tags ein, die durch ein Leerzeichen getrennt sind. Sie können Leerzeichen mitbenutzen, wenn Sie den Tag in Anführungszeichen schreiben . (Zum Beispiel, <em>"Web Entwicklung" Tutorials</em>).'
+       tags: 'Geben Sie ein oder mehrere Tags ein, die durch ein Leerzeichen getrennt sind. Sie können Leerzeichen benutzen, wenn Sie den Tag in Anführungszeichen schreiben . (Zum Beispiel, <em>"Web Entwicklung" Tutorials</em>).'
      titles:
        new: Neuer Artikel
        edit: Artikel bearbeiten
@@ -424,7 +425,7 @@ de:
      no_articles: "Es gibt keine Artikel in der Sektion {{section}}."
      publish_on_date: An diesem Datum veröffentlichen
      flash:
-       optimistic_lock: 
+       optimistic_lock:
          failure: In the meantime this article has been updated by someone else. Please resolve any conflicts.
        destroy:
          success: Der Artikel wurde gelöscht.
@@ -446,7 +447,7 @@ de:
      links:
        index: Cache
        clear_all: Alle löschen
-     no_entries: Es werden zur Zeit keine Seiten im Cache gespeichert. 
+     no_entries: Es werden zur Zeit keine Seiten im Cache gespeichert.
      confirmation:
        cleared: Diese Seite wurde aus dem Cache gelöscht.
        cleared_short: Gelöscht.
@@ -487,7 +488,7 @@ de:
        comment_on_by: "Kommentar über '{{on}}' von {{by}}"
        add_reply: Ihre Anwort schreiben
        comment_number: "Kommentar #{{number}}"
-       edit: Kommentar bearbeiten 
+       edit: Kommentar bearbeiten
        comments_on: "Kommentare über {{location}}"
        submit_comment: Kommentar abschicken
        your_reply: Ihre Antwort
@@ -561,9 +562,9 @@ de:
          body: |
            Hallo {{name}},
 
-           Sie haben gerade ein Benutzerkonto auf unserer Webseite angemeldet. Unsere Webseite erfordert, dass 
-           alle neuen Benutzer ihre E-Mail-Adresse bestätigen. Bitte klicken Sie einfach auf den unten stehenden Link, 
-           um Ihre Anmeldung zu bestätigen. Anschließend können Sie sich auf unserer Webseite anmelden. 
+           Sie haben gerade ein Benutzerkonto auf unserer Webseite angemeldet. Unsere Webseite erfordert, dass
+           alle neuen Benutzer ihre E-Mail-Adresse bestätigen. Bitte klicken Sie einfach auf den unten stehenden Link,
+           um Ihre Anmeldung zu bestätigen. Anschließend können Sie sich auf unserer Webseite anmelden.
 
            {{link}}
      flash:
@@ -572,7 +573,7 @@ de:
        create:
          failure: Ihre Registrierung konnte nicht durchgeführt werden.
        verify:
-         success: Sie haben Ihre E-Mail-Adresse erfolgreich bestätigt. 
+         success: Sie haben Ihre E-Mail-Adresse erfolgreich bestätigt.
          failure: Sie haben Ihre E-Mail-Ddresse bereits bestätigt.
 
    passwords:
@@ -593,26 +594,26 @@ de:
          body: |
            Hallo {{name}},
 
-           Sie haben erfolgreich Ihr Passwort aktualisiert. 
+           Sie haben erfolgreich Ihr Passwort aktualisiert.
        reset_password:
          subject: Informationen zur Zurücksetzung Ihres Passworts
          body: |
            Hallo {{name}},
 
            Sie haben auf unserer Webseite die Zurücksetzung Ihres Passworts angefordert.
-           Um Sie das Passwort zurückzusetzen, finden Sie unten einen Link. Klicken Sie bitte 
+           Um Sie das Passwort zurückzusetzen, finden Sie unten einen Link. Klicken Sie bitte
            auf diesen Link und geben Sie auf der Seite Ihr neues gewünschtes Passwort ein.
 
            {{link}}
 
-           Alternativ können Sie, wenn Ihr Browser-Fenster noch offen ist, den folgenden Bestätigungscode 
+           Alternativ können Sie, wenn Ihr Browser-Fenster noch offen ist, den folgenden Bestätigungscode
            zusammen mit Ihrem neuen gewünschten Passwort eingeben:
-             
+
            {{token}}
 
            Der Link sowie der Bestätigungscode verfallen zum Schutz Ihres Benutzerkontos in wenigen Minuten.
 
-           Wenn Sie keine Zurücksetzung Ihres Passworts angefordert haben, könnte jemand anderes Ihre E-Mail-Adresse 
+           Wenn Sie keine Zurücksetzung Ihres Passworts angefordert haben, könnte jemand anderes Ihre E-Mail-Adresse
            auf unserer Webseite eingegeben haben, um das Passwort zurückzusetzen. In diesem Falle können Sie diese E-Mail
            ignorieren. Ihr Konto ist immer noch komplett sicher, da Sie als einzige Person diese Nachricht erhalten haben.
      flash:
@@ -711,7 +712,7 @@ de:
        clear:
          success: Ihr Vorrat wurde geleert.
      validation:
-       duplicate: Sie können dieselbe Datei nicht zweimal demselben Inhalt zuordnen. 
+       duplicate: Sie können dieselbe Datei nicht zweimal demselben Inhalt zuordnen.
      tab:
        attached:
          title: Zugeordnete Dateien
@@ -785,7 +786,7 @@ de:
        uninstall: Deinstallieren
        download_theme: Theme herunterladen
        upload_file: Eine neue Datei hochladen
-       import_theme: Theme importieren 
+       import_theme: Theme importieren
        create_file: Eine neue Datei anlegen
        edit_theme: Theme bearbeiten
      upload_template_or_asset: Eine Datei hochladen
@@ -887,7 +888,7 @@ de:
        no_boards_in_forum: "Sie haben keine Boards in der Sektion {{forum}} angelegt."
      titles:
        new: Neues Board
-       edit: Board bearbeiten 
+       edit: Board bearbeiten
      posts_count:
        one: "{{count}} Eintrag"
        other: "{{count}} Einträge"
@@ -921,7 +922,7 @@ de:
        no_topics_in_board: Es gibt keine Themen in diesem Board.
      titles:
        new: Neues Thema
-       edit: Thema bearbeiten 
+       edit: Thema bearbeiten
        post_topic: Thema des Eintrags
        latest_post: Letzter Eintrag
        post_count:
@@ -953,7 +954,7 @@ de:
    posts:
      titles:
        reply: Text
-       edit: Eintrag bearbeiten 
+       edit: Eintrag bearbeiten
        save_post: Eintrag speichern
        submit_post: Eintrag speichern
      flash:
@@ -984,7 +985,7 @@ de:
        default_ham_none: Kommentare nie automatisch freigeben.
        default_ham_all: Kommentare immer automatisch freigeben.
        default_ham_authenticated: Nur Kommentare von authentifizierten Benutzern automatisch freigeben.
-     labels:       
+     labels:
        enable: "{{name}} aktivieren"
        settings: Einstellungen
        api_key: API Schlüssel (API Key)
@@ -1016,8 +1017,8 @@ de:
        subscriber: Abonnenten
        email: E-Mail
        time: Anmeldedatum
-       subscriptions: Abonnements 
-       
+       subscriptions: Abonnements
+
    # have cells translations here for the moment
    cells:
      album:
@@ -1075,3 +1076,5 @@ de:
    states:
      published: Veröffentlicht
      unpublished: Unveröffentlicht
+
+# vim:fdm=indent:nolist:lbr:autoindent
