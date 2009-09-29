@@ -5,9 +5,10 @@ module ActionController
   # Login::ControllerIntegration::ClassMethods for how to apply
   # authentication.
   module AuthenticateUser
-    def self.included(mod)
-      mod.extend ClassMethods
-      mod.send :include, InstanceMethods
+    def self.included(target)
+      target.extend(ClassMethods)
+      target.send(:include, InstanceMethods)
+      target.helper_method(:logged_in?, :authenticated?)
     end
 
     # Methods available as macro-style methods on any controller
@@ -88,6 +89,7 @@ module ActionController
       def authenticated?
         !!current_user
       end
+      alias :logged_in? :authenticated?
 
       # killed this because it's just the wrong way to do it
       #
