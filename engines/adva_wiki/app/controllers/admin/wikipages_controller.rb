@@ -100,13 +100,14 @@ class Admin::WikipagesController < Admin::BaseController
 
     def optimistic_lock
       return unless params[:wikipage]
-
+      
       unless updated_at = params[:wikipage].delete(:updated_at)
         # TODO raise something more explicit here
         raise t(:'adva.wiki.exception.missing_timestamp')
       end
-
-      if @wikipage.updated_at && (Time.zone.parse(updated_at) != @wikipage.updated_at)
+      
+      # We parse the timestamp of wikipage too so we can get rid of those microseconds postgresql adds
+      if @wikipage.updated_at && (Time.zone.parse(updated_at) != Time.zone.parse(@wikipage.updated_at.to_s))
         flash[:error] = t(:'adva.wiki.flash.optimistic_lock.failure')
         render :action => :edit
       end

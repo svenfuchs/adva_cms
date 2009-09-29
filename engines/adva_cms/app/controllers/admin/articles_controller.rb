@@ -152,7 +152,8 @@ class Admin::ArticlesController < Admin::BaseController
         raise t(:'adva.articles.exception.missing_timestamp')
       end
       
-      if @article.updated_at && (Time.zone.parse(updated_at) != @article.updated_at)
+      # We parse the timestamp of article too so we can get rid of those microseconds postgresql adds
+      if @article.updated_at && (Time.zone.parse(updated_at) != Time.zone.parse(@article.updated_at.to_s))
         flash[:error] = t(:'adva.articles.flash.optimistic_lock.failure')
         render :action => :edit
       end
