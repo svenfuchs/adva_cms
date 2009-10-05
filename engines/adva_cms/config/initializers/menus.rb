@@ -17,15 +17,15 @@ module Menus
           if @site && !@site.new_record?
             item :overview,      :action => :show,  :resource => @site
             item :sections,      :action => :index, :resource => [@site, :section], :type => Menu::SectionsMenu, :populate => lambda { @site.sections }
-            item :comments,      :action => :index, :resource => [@site, :comment]
-            item :newsletters,   :action => :index, :resource => [@site, "Adva::Newsletter"]   if Rails.plugins.include?(:adva_newsletter)
-            item :assets,        :action => :index, :resource => [@site, :asset]        if Rails.plugins.include?(:adva_assets)
+            item :comments,      :action => :index, :resource => [@site, :comment]           if Rails.plugin?(:adva_comments)
+            item :newsletters,   :action => :index, :resource => [@site, "Adva::Newsletter"] if Rails.plugin?(:adva_newsletter)
+            item :assets,        :action => :index, :resource => [@site, :asset]             if Rails.plugin?(:adva_assets)
           end
         end
 
         menu :right, :class => 'right' do
           if @site && !@site.new_record?
-            item :themes,   :action => :index, :resource => [@site, :theme]         if Rails.plugins.include?(:adva_themes)
+            item :themes,   :action => :index, :resource => [@site, :theme]                  if Rails.plugin?(:adva_themes)
             item :settings, :action => :edit,  :resource => @site
           end
           item :users, :action => :index, :resource => [@site, :user]
