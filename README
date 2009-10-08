@@ -37,6 +37,15 @@ Fill out the form and you're started, enjoy!
 You can install additional engines and plugins through rake adva:install. See
 below for more about that.
 
+*Important note for using adva-cms with Rails 2.3.4*
+
+You *must* use Rails' old routing recognition/generation mode in order for adva-cms to work correctly:
+
+  # config/initializers/new_rails_defaults.rb
+  # either uncomment the following line or set it to true
+  ActionController::Routing.generate_best_match = false
+
+
 Installation: Edge version using rails template
 ===============================================
 
