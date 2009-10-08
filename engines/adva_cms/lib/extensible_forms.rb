@@ -8,7 +8,7 @@ module ActionView
 
         options = args.last.is_a?(Hash) ? args.last : {}
         options[:builder] ||= pick_form_builder(name)
-        
+
         fields_for_without_resource_form_builders(name, *args, &block)
       end
       alias_method_chain :fields_for, :resource_form_builders
@@ -53,7 +53,7 @@ class ExtensibleFormBuilder < ActionView::Helpers::FormBuilder
 
   class_inheritable_accessor :options
   self.options = { :labels => false, :wrap => false, :default_class_names => {} }
-  
+
   class << self
     [:labels, :wrap].each do |option|
       define_method(:"#{option}=") { |value| self.options[option] = value }
@@ -74,7 +74,7 @@ class ExtensibleFormBuilder < ActionView::Helpers::FormBuilder
     def after(object_name, method, string = nil, &block)
       add_callback(:after, object_name, method, string || block)
     end
-    
+
     def tab(name, options = {}, &block)
       self.tabs.reject! { |n, b| name == n }
       self.tabs << [name, block]
@@ -97,11 +97,11 @@ class ExtensibleFormBuilder < ActionView::Helpers::FormBuilder
     class_eval <<-src, __FILE__, __LINE__
       def #{method_name}(*args, &block)
         type = #{method_name.to_sym.inspect}
-        
+
         options = args.extract_options!
         options = add_default_class_names(options, type)
         options = add_tabindex(options, type)
-        
+
         label, wrap, hint = options.delete(:label), options.delete(:wrap), options.delete(:hint)
         name = args.first
 
@@ -132,7 +132,7 @@ class ExtensibleFormBuilder < ActionView::Helpers::FormBuilder
       end
     }
   end
-  
+
   def tabs
     yield if block_given?
     assign_ivars!
@@ -172,7 +172,7 @@ class ExtensibleFormBuilder < ActionView::Helpers::FormBuilder
       label = case label
       when String then label
       when Symbol then I18n.t(label)
-      when TrueClass then 
+      when TrueClass then
         scope = [:activerecord, :attributes] + object.class.to_s.underscore.split('/')
         I18n.t(method, :scope => scope)
       else nil
@@ -180,7 +180,7 @@ class ExtensibleFormBuilder < ActionView::Helpers::FormBuilder
 
       case type
       when :check_box, :radio_button
-        tag + "\n" + self.label(method, label, :class => 'inline light', :id => extract_id(tag))
+        tag + "\n" + self.label(method, label, :class => 'inline light', :for => extract_id(tag), :id => "#{extract_id(tag)}_label")
       else
         self.label(method, label) + tag
       end
@@ -200,12 +200,12 @@ class ExtensibleFormBuilder < ActionView::Helpers::FormBuilder
       options.delete(:class) if options[:class].blank?
       options
     end
-    
+
     def tabindex_increment!
       @tabindex_count ||= 0
       @tabindex_count += 1
     end
-    
+
     def set_tabindex_position(index = nil, position = nil)
       position = case position
       when :after  then tabindexes[index] + 1
@@ -215,10 +215,10 @@ class ExtensibleFormBuilder < ActionView::Helpers::FormBuilder
       end
       position
     end
-    
+
     def add_tabindex(options, type)
       index = options[:tabindex]
-      
+
       if index.is_a?(Hash)
         key = index.keys.first
         options[:tabindex] = set_tabindex_position(index[key], key)
@@ -227,14 +227,14 @@ class ExtensibleFormBuilder < ActionView::Helpers::FormBuilder
       elsif index.blank?
         options[:tabindex] = set_tabindex_position
       end
-      
+
       options
     end
-    
+
     def tabindexes
       @tabindexes ||= {}
     end
-    
+
     def remember_tabindex(tag, options)
       id = extract_id(tag)
       tabindexes[:"#{id}"] = options[:tabindex] unless id.blank?
@@ -267,7 +267,7 @@ class ExtensibleFormBuilder < ActionView::Helpers::FormBuilder
       self.callbacks[stage][object_name] and
       self.callbacks[stage][object_name][method.to_sym]
     end
-    
+
     def assign_ivars!
       unless @ivars_assigned
         @template.assigns.each { |key, value| instance_variable_set("@#{key}", value) }
