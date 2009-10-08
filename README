@@ -169,12 +169,14 @@ Running tests
 
 Running tests for adva-cms version 0.1.2 or newer:
 
-  rake db:test:clone       										# Clones from your development database to test database
-	vendor/adva/script/test vendor/adva/engines # Runs all tests if you do not have a script file
-  ruby script/test-adva-cms -p 								# Prepares the database and runs all adva-cms tests
-  ruby script/test-adva-cms    								# Runs all adva-cms tests without preparing the database
-  ruby script/test-adva-cms vendor/plugins/adva_wiki # Runs only adva_wiki tests
-  WEBRAT_MODE=selenium ruby script/test-adva-cms     # Runs integration tests in automated browser mode (see Installing Selenium section)
+	$ sudo gem install mocha															# We depend on this gem in some of our tests
+
+  $ rake db:test:clone       														# Clones from your development database to test database
+	$ vendor/adva/script/test vendor/adva/engines 				# Runs all tests if you do not have a script file
+  $ ruby script/test-adva-cms vendor/adva/engines -p 		# Prepares the database and runs all adva-cms tests
+  $ ruby script/test-adva-cms vendor/adva/engines   		# Runs all adva-cms tests without preparing the database
+  $ ruby script/test-adva-cms vendor/plugins/adva_wiki 	# Runs only adva_wiki tests
+  $ WEBRAT_MODE=selenium ruby script/test-adva-cms     	# Runs integration tests in automated browser mode (see Installing Selenium section)
 
 Please check out /doc directory for high level overview about adva-cms.
 
