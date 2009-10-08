@@ -5,3 +5,9 @@ ActionController::Dispatcher.to_prepare do
     end
   end
 end
+
+class ArticleFormBuilder < ExtensibleFormBuilder
+  after(:article, :filter) do |f|
+    render :partial => 'admin/articles/comments_settings', :locals => { :f => f }
+  end
+end
