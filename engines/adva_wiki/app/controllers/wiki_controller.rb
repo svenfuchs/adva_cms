@@ -10,13 +10,14 @@ class WikiController < BaseController
   helper :wiki
 
   authenticates_anonymous_user
-  acts_as_commentable
 
   # TODO move :comments and @commentable to acts_as_commentable
   caches_page_with_references :index, :show, :comments, 
     :track => ['@wikipage', '@wikipages', '@category', '@commentable', {'@site' => :tag_counts, '@section' => :tag_counts}]
   cache_sweeper :wikipage_sweeper, :category_sweeper, :tag_sweeper, :only => [:create, :update, :rollback, :destroy]
   guards_permissions :wikipage, :except => [:index, :show, :diff, :comments], :edit => :rollback
+
+  acts_as_commentable if Rails.plugin?(:adva_comments)
 
   def index
     respond_to do |format|

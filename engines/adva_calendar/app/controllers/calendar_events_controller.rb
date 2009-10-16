@@ -7,8 +7,8 @@ class CalendarEventsController < BaseController
   before_filter :set_tags, :only => [:index]
   before_filter :set_event, :except => [:index, :new]
 
+  acts_as_commentable if Rails.plugin?(:adva_comments)
   authenticates_anonymous_user
-  acts_as_commentable
 
   # TODO move :comments and @commentable to acts_as_commentable
   caches_page_with_references :index, :show, :comments,

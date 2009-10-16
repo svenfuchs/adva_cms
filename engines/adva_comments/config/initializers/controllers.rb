@@ -9,6 +9,6 @@ ActionController::Dispatcher.to_prepare do
       end
     end
   end
-
+  
   Admin::BaseController.helper :comments, :'admin/comments'
 end

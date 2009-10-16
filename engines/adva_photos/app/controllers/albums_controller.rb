@@ -11,8 +11,8 @@
   caches_page_with_references :index, :show, :comments,
     :track => ['@photo', '@photos', '@set', '@commentable', {'@site' => :tag_counts, '@section' => :tag_counts}]
 
+  acts_as_commentable if Rails.plugin?(:adva_comments)
   authenticates_anonymous_user
-  acts_as_commentable
 
   def index
     respond_to do |format|

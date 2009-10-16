@@ -14,8 +14,8 @@ class ArticlesController < BaseController
     :track => ['@article', '@articles', '@category', '@commentable', {'@site' => :tag_counts, '@section' => :tag_counts}]
     # TODO move :comments and @commentable to acts_as_commentable
 
+  acts_as_commentable if Rails.plugin?(:adva_comments)
   authenticates_anonymous_user
-  acts_as_commentable
 
   def index
     respond_to do |format|
