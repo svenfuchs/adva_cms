@@ -17,7 +17,7 @@ module Menu
     def assign_ivars!(scope)
       scope.assigns.each { |key, value| instance_variable_set("@#{key}", value) }
       vars = scope.controller.instance_variable_names
-      vars.each { |name| instance_variable_set(name, scope.controller.instance_variable_get(name)) }
+      vars.each { |name| instance_variable_set(name, scope.controller.instance_variable_get(name)) unless name == '@scope' }
     end
   
     def id(key)
@@ -48,7 +48,7 @@ module Menu
       action, resource = *options.values_at(:action, :resource)
       namespace = options.delete(:namespace) || object.namespace
       if action && resource
-        url = resource_url(action, resource, :namespace => namespace, :only_path => true) 
+        url = resource_url(action, resource, :namespace => namespace, :only_path => true)
         type, resource = *resource.reverse if resource.is_a?(Array)
         type = normalize_resource_type(action, type, resource)
         options.update :id => :"#{action}_#{type}", :url => url
@@ -67,7 +67,8 @@ module Menu
     end
     
     def method_missing(method, *args, &block)
-      scope.send(method, *args, &block)
+      return scope.send(method, *args, &block) if scope.respond_to?(method)
+      super
     end
   end
 end
