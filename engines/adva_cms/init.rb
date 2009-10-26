@@ -57,7 +57,7 @@ register_stylesheet_expansion \
                   adva_cms/admin/header adva_cms/admin/top adva_cms/admin/sidebar adva_cms/admin/forms 
                   adva_cms/admin/lists adva_cms/admin/content adva_cms/admin/themes adva_cms/admin/helptip
                   adva_cms/admin/users adva_cms/jquery/jquery-ui adva_cms/jquery/jquery.tooltip ),
-  :admin_projection => %w( adva_cms/admin/alternate/projection ),
+  :admin_projection => %w( adva_cms/admin/projection ),
   # admin alternate tryout, mainly for fixing IE7 related problems
   :admin_alternate  => %w( adva_cms/admin/reset adva_cms/admin/alternate/layout adva_cms/admin/alternate/common
                            adva_cms/admin/alternate/header adva_cms/admin/alternate/top adva_cms/admin/alternate/sidebar 
