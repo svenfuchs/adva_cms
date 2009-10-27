@@ -1,0 +1,98 @@
+1. negotiating required vs. granted roles
+
+	required_roles = context.required_roles_for(action)
+	has_role?(required_roles, context)
+
+2. expand roles/contexts so we can create css classes from it
+
+	roles = context.required_role_for('edit article').expand
+	quoted_role_names(roles)
+	# => "article-1-author blog-1-moderator site-1-moderator site-1-admin"
+	
+	"article-1-author blog-1-author site-1-author 
+	 article-1-moderator blog-1-moderator site-1-moderator 
+	 article-1-admin blog-1-admin site-1-admin"
+	
+	=> brauchen wir konzept "minimum context type" für roles?
+
+3. displaying roles per virtual actions per context type
+
+	Blog permissions settings form:
+	[moderator] is allowed to [create] an article     [+]
+	[author]    is allowed to [edit]   an article     [+][-]
+
+	=> kein problem
+
+
+Manage roles
+
+	Role name: ...
+	Role context: (o) Site (o) Section <= ???
+
+
+
+
+RBAC
+
+# things to improve
+
+- we must be able to define "everything" (roles, contexts, hierarchies) more
+  flexibly. i.e.: provide sensible defaults in adva-cms, overwrite/extend them
+  at startup time (initializer) in adva-best or facility-best
+
+- we must be able to define additional/custom roles at runtime dynamically, 
+  these must behave the same way as predefined roles do
+
+- roles should not be tied to particular contexts as they are now
+
+- the system should be able to grant users roles/permissions based on their
+  membership in a group
+
+# notes
+
+- acl9's wording of roles being "scoped" to contexts makes sense. they should
+  not be scoped/tied to particular types of contexts though. why not just let
+  the user choose? because potentially not all roles make sense in all contexts?
+
+# concepts we need
+
+- contexts require roles for actions to be allowed. e.g. a Blog requires users
+  to be at least a :moderator in the scope of the Site when they want to create
+  an Article
+
+- roles can include other roles. e.g. the :superuser role includes all other 
+  roles. the site :admin role includes all other roles in the context of the
+  site
+
+# use cases
+
+- saas adva-cms: manager has an account and 2 sites. he adds a role :editor
+  to his sites, makes two members of his account editor in the context of each 
+  site and defines article create/edit permissions for editors. the editors should
+  then be able to create/edit articles on the sites they are editors on.
+
+- facility-best: manager owns an account and has tons of renters. the application
+  defines that each renter has view access to his own contracts
+  
+- facility-best: manager owns an account and has an accountant. the admin defines
+  a role :accountant and defines that only accountants may view + manage accounts
+
+- facility-best: manager owns an account and adds an owner to a facility or unit.
+  the owner can not update attributes on the facility or unit and related objects.
+
+- facility-best: renter can only view the units (and associated objects) he has 
+  rented.
+
+- facility-best: renter can view tickets that belong to his unit or his unit's 
+  facility. owner can view all tickets for his facilities. manager can view all
+  tickets for all facilities belonging to his account.
+
+
+# adva-cms
+
+	ohne saas: superuser > 
+
+
+
+
+
