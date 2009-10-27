@@ -24,11 +24,17 @@ class Admin::BaseController < ApplicationController
     end
 
     def require_authentication
-      update_role_context!(params) # TODO no idea what this is good for ...
-      unless current_user and current_user.has_role?(:admin, current_resource) # TODO this is bad
-        return redirect_to_login(t(:'adva.flash.authentication_required_role', :role => :admin))
+      if @site
+        return redirect_to_login(t(:'adva.flash.login_to_access_admin_area_of_site')) unless current_user
+        unless current_user.has_permission_for_admin_area?(@site)
+          return redirect_to_login(t(:'adva.flash.no_permission_for_admin_area_of_site'))
+        end
+      else
+        return redirect_to_login(t(:'adva.flash.login_to_access_admin_area_of_account')) unless current_user
+        unless current_user.has_global_role?(:superuser)
+          return redirect_to_login(t(:'adva.flash.no_permission_for_admin_area_of_account'))
+        end
       end
-      super
     end
 
     def redirect_to_login(notice = nil)

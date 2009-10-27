@@ -198,6 +198,7 @@ de:
      meta_description: "Tragen Sie eine kurze Beschreibung dieser Seite ein. Suchmaschinen können diese Beschreibung Suchenden als Erklärung anzeigen."
      akismet: "Askimet ist ein Spamfilter-Dienst. Wenn Sie sich bei Akismet angemeldet haben, können Sie den Filter aktivieren und Ihre Zugangsdaten eingeben."
      defensio: "Defensio ist ein Spamfilter-Dienst. Wenn Sie sich bei Defensio angemeldet haben, können Sie den Filter aktivieren und Ihre Zugangsdaten eingeben."
+     roles: "Wählen Sie, auf welche Bereiche der Seite dieser Benutzer Zugriff haben soll."
 
    messages:
      insufficient_permissions:
@@ -677,9 +678,20 @@ de:
      confirm_delete: "Sind Sie sicher, dass Sie dieses Benutzerkonto löschen wollen?"
 
    roles:
+     hints:
+       superuser: "<strong>Ein Superuser</strong> hat Berechtigungen für alle Aktionen innerhalb Ihres Accounts. Nur ein Superuser darf Webseiten für einen Account anlegen."
+       admin: "<strong>Ein Admin</strong> für die Webseite '{{site}}' hat Berechtigungen für alle Aktionen auf der Webseite."
+       designer: "<strong>Ein Designer</strong> für die Webseite '{{site}}' darf alles tun, was auch ein Moderator tun darf. Darüberhinaus hat ein Designer die Berechtigung für das Pflegen von Themes für die Webseite."
+       moderator: "<strong>Ein Moderator</strong> für die Webseite '{{site}}' darf alles tun, was auch ein Autor tun darf. Darüberhinaus hat ein Moderator die Berechtigungen für das Pflegen von Foren, Kommentaren, Wikiseiten und Newsletter."
+       author: "<strong>Ein Autor</strong> für die Webseite '{{site}}' hat Berechtigungen für das Pflegen sämtlicher Inhalte der Webseite, beispielsweise Artikel. Ein Autor kann jedoch keine Themes, Foren, Kommentare, Wikiseiten und Newsletter bearbeiten. Er kann aber Newsletter-Beiträge für einen bestehenden Newsletter verfassen."
+       user: "<strong>Ein Live-Benutzer</strong> für die Webseite '{{site}}' hat zu keinem Zeitpunkt Zugriff auf den Admin-Bereich Ihrer Webseite. Ein Live-Benutzer kann sich auf Ihrer Webseite einloggen und Funktionen nutzen, wie beispielsweise das Verfassen von Kommentaren."
      labels:
        admin_for: "Admin für {{context}}"
        superuser: Superuser
+       moderator_for: "Moderator für {{context}}"
+       author_for: "Autor für {{context}}"
+       designer_for: "Designer für {{context}}"
+       user_for: "Live-Benutzer für Webseite {{context}}"
      errors:
        messages:
          not_an_admin: "Sie müssen ein Administrator sein, um diese Aktion durchzuführen."
@@ -998,6 +1010,10 @@ de:
      theme_inspired_by: "(Theme: {{link}}-mod)."
    flash:
      authentication_required_role: "Sie müssen die Rolle {{role}} haben, um diese Seite zu sehen."
+     no_permission_for_admin_area_of_site: "Sie haben nicht die Berechtigung um auf den Admin-Bereich dieser Webseite zuzugreifen. Bitte kontaktieren Sie Ihren System-Administrator oder loggen Sie sich mit einem anderen Benutzerkonto ein."
+     no_permission_for_admin_area_of_account: "Sie haben nicht die Berechtigung um auf den Admin-Bereich dieses Accounts zuzugreifen. Bitte kontaktieren Sie Ihren System-Administrator oder loggen Sie sich mit einem anderen Benutzerkonto ein."
+     login_to_access_admin_area_of_site: "Bitte loggen Sie sich ein, um Zugriff auf den Admin-Bereich dieser Webseite zu bekommen."
+     login_to_access_admin_area_of_account: "Bitte loggen Sie sich ein, um Zugriff auf den Admin-Bereich dieses Accounts zu bekommen."
    sidebar:
      titles:
        tags: Tags

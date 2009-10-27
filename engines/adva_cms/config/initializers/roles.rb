@@ -1,163 +1,175 @@
-# FIXME can user overwrite these?
+# Role hierarchy, predefined by rbac gem:
+# superuser -> admin -> designer -> moderator -> author -> user
+#
+# Everything a author can do, can be done by his masters (superuser, admin, designer, moderator).
+# E.g., if the permission :'show site' => [:author] is defined in the default_permissions,
+# a superuser, admin, designer and moderator have permission for the action 'show site', too.
+
 ActionController::Dispatcher.to_prepare do
   Rbac::Context.default_permissions = {
-    :'show site'          => :admin,
-    :'create site'        => :superuser,
-    :'update site'        => :admin,
-    :'destroy site'       => :superuser,
-    :'manage site'        => :admin,
+    :'show site'          => [:author],
+    :'create site'        => [:superuser],
+    :'update site'        => [:superuser],
+    :'destroy site'       => [:superuser],
+    :'manage site'        => [:superuser],
 
-    :'show section'       => :moderator,
-    :'create section'     => :admin,
-    :'update section'     => :admin,
-    :'destroy section'    => :admin,
-    :'manage section'     => :admin,
+    :'show section'       => [:author],
+    :'create section'     => [:designer],
+    :'update section'     => [:designer],
+    :'destroy section'    => [:designer],
+    :'manage section'     => [:designer],
 
-    :'show asset'         => :moderator,
-    :'create asset'       => :moderator,
-    :'update asset'       => :moderator,
-    :'destroy asset'      => :moderator,
-    :'manage asset'       => :moderator,
+    # article permissions (except 'update article') are only checked by the Admin::ArticlesController
+    :'show article'       => [:author],
+    :'create article'     => [:author],
+    :'update article'     => [:author], # important for live site, if article is a draft, it will be shown only if user has this permission
+    :'destroy article'    => [:author],
+    :'manage article'     => [:author],
 
-    :'show theme'         => :admin,
-    :'create theme'       => :admin,
-    :'update theme'       => :admin,
-    :'destroy theme'      => :admin,
-    :'manage theme'       => :admin,
+    :'show comment'       => [:anonymous], # not guarded on live site
+    :'create comment'     => [:anonymous], # used on the live site
+    :'update comment'     => [:moderator],
+    :'destroy comment'    => [:moderator],
+    :'manage comment'     => [:moderator],
 
-    :'manage cached_page' => :admin,
+    :'show newsletter'    => [:author],
+    :'create newsletter'  => [:moderator],
+    :'update newsletter'  => [:moderator],
+    :'destroy newsletter' => [:moderator],
 
-    :'show user'          => :admin,
-    :'create user'        => :admin,
-    :'update user'        => :admin,
-    :'destroy user'       => :admin,
-    :'manage user'        => :admin,
+    # only used in admin area = newsletter issues
+    :'show issue'                 => [:author],
+    :'create issue'               => [:author],
+    :'update issue'               => [:author],
+    :'destroy issue'              => [:author],
 
-    :'manage roles'       => :admin,
+    :'update deleted_issue'       => [:author],
+    :'destroy deleted_issue'      => [:author],
 
-    :'show category'      => :moderator,
-    :'create category'    => :moderator,
-    :'update category'    => :moderator,
-    :'destroy category'   => :moderator,
-    :'manage category'    => :moderator,
+    :'show newsletter_subscription'    => [:author],
+    :'create newsletter_subscription'  => [:moderator],
+    :'update newsletter_subscription'  => [:moderator],
+    :'destroy newsletter_subscription' => [:moderator],
 
-    :'show article'       => :moderator,
-    :'create article'     => :moderator,
-    :'update article'     => :moderator,
-    :'destroy article'    => :moderator,
-    :'manage article'     => :moderator,
+    :'show asset'         => [:author],
+    :'create asset'       => [:author],
+    :'update asset'       => [:author],
+    :'destroy asset'      => [:author],
+    :'manage asset'       => [:author],
 
-    :'show wikipage'      => :moderator, # i.e. show in the backend
-    :'create wikipage'    => :user,
-    :'update wikipage'    => :user,
-    :'destroy wikipage'   => :moderator,
-    :'manage wikipage'    => :moderator,
-  
-    :'show topic'         => :moderator,
-    :'create topic'       => :user,
-    :'update topic'       => :author,
-    :'destroy topic'      => :moderator,
-    :'moderate topic'     => :moderator,
+    :'show theme'         => [:designer],
+    :'create theme'       => [:designer],
+    :'update theme'       => [:designer],
+    :'destroy theme'      => [:designer],
+    :'manage theme'       => [:designer],
 
-    :'show board'         => :moderator,
-    :'create board'       => :moderator,
-    :'update board'       => :moderator,
-    :'destroy board'      => :moderator,
-    :'moderate board'     => :moderator,
+    :'show user'          => [:admin],
+    :'create user'        => [:admin],
+    :'update user'        => [:admin],
+    :'destroy user'       => [:admin],
+    :'manage user'        => [:admin],
 
-    :'show comment'       => :moderator,
-    :'create comment'     => :user,
-    :'update comment'     => :author,
-    :'destroy comment'    => :moderator,
-    :'manage comment'     => :admin,
+    :'manage cached_page' => [:admin],
 
-    :'show post'          => :moderator,
-    :'create post'        => :user,
-    :'update post'        => :author,
-    :'destroy post'       => :moderator,
-    :'manage post'        => :admin,
+    :'manage roles'       => [:admin],
 
-    :'show calendar_event'    => :moderator,
-    :'create calendar_event'  => :moderator,
-    :'update calendar_event'  => :moderator,
-    :'destroy calendar_event' => :moderator,
-    :'manage calendar_event'  => :moderator,
+    :'show category'      => [:author],
+    :'create category'    => [:author],
+    :'update category'    => [:author],
+    :'destroy category'   => [:author],
+    :'manage category'    => [:author],
 
-    :'show photo'         => :moderator,
-    :'create photo'       => :admin,
-    :'update photo'       => :admin,
-    :'destroy photo'      => :admin,
-    :'manage photo'       => :admin,
+    :'show wikipage'      => [:user], # not guarded on live site
+    :'create wikipage'    => [:user],
+    :'update wikipage'    => [:user],
+    :'destroy wikipage'   => [:moderator],
+    :'manage wikipage'    => [:moderator],
 
-    :'show newsletter'    => :moderator,
-    :'create newsletter'  => :admin,
-    :'update newsletter'  => :admin,
-    :'destroy newsletter' => :admin,
+    # live
+    :'show topic'         => [:user], # not guarded on the website (topics_controller: guards_permissions :topic, :except => [:show, :index])
+    :'create topic'       => [:user],
+    :'update topic'       => [:moderator],
+    :'destroy topic'      => [:moderator],
+    :'moderate topic'     => [:moderator], # needed to create sticky or locked topics on the website
 
-    :'update deleted_newsletter'  => :admin,
-    :'destroy deleted_newsletter' => :superuser,
+    # only used in admin area (on live site a forums_controller is used)
+    :'show board'         => [:author],
+    :'create board'       => [:moderator],
+    :'update board'       => [:moderator],
+    :'destroy board'      => [:moderator],
+    :'moderate board'     => [:moderator],
 
-    :'show issue'         => :moderator,
-    :'create issue'       => :moderator,
-    :'update issue'       => :moderator,
-    :'destroy issue'      => :moderator,
-  
-    :'update deleted_issue'  => :moderator,
-    :'destroy deleted_issue' => :superuser,
+    # only used on live site
+    :'show post'          => [:user], # = forum posts,
+    :'create post'        => [:user],
+    :'update post'        => [:author],
+    :'destroy post'       => [:author],
+    :'manage post'        => [:author],
 
-    :'show newsletter_subscription'    => :moderator,
-    :'create newsletter_subscription'  => :moderator,
-    :'update newsletter_subscription'  => :moderator,
-    :'destroy newsletter_subscription' => :moderator,
-  
-    :'show document'    => :anonymous,
-    :'create document'  => :user,
-    :'update document'  => :author,
-    :'destroy document' => :author,
-    :'manage document'  => :author,
+    :'show calendar_event'        => [:author],
+    :'create calendar_event'      => [:author],
+    :'update calendar_event'      => [:author],
+    :'destroy calendar_event'     => [:author],
+    :'manage calendar_event'      => [:author],
 
-    :'show project'    => :user,
-    :'create project'  => :admin,
-    :'update project'  => :admin,
-    :'destroy project' => :admin,
+    # only used in admin area (on live site a albums_controller is used)
+    :'show photo'                 => [:author],
+    :'create photo'               => [:author],
+    :'update photo'               => [:author], # important for live site, unpublished photos will be shown only if user has this permission
+    :'destroy photo'              => [:author],
+    :'manage photo'               => [:author],
 
-    :'all ticket'     => :user,
-    :'show ticket'    => :user,
-    :'create ticket'  => :user,
-    :'update ticket'  => :author,
-    :'destroy ticket' => :author,
+    :'update deleted_newsletter'  => [:author],
+    :'destroy deleted_newsletter' => [:author],
 
-    :'show ticket_state'    => :user,
-    :'create ticket_state'  => :admin,
-    :'update ticket_state'  => :admin,
-    :'destroy ticket_state' => :admin
+    :'show document'              => [:author],
+    :'create document'            => [:author],
+    :'update document'            => [:author],
+    :'destroy document'           => [:author],
+    :'manage document'            => [:author],
+
+    :'show project'    => [:author],
+    :'create project'  => [:author],
+    :'update project'  => [:author],
+    :'destroy project' => [:author],
+
+    :'all ticket'     => [:author],
+    :'show ticket'    => [:author],
+    :'create ticket'  => [:author],
+    :'update ticket'  => [:author],
+    :'destroy ticket' => [:author],
+
+    :'show ticket_state'    => [:author],
+    :'create ticket_state'  => [:author],
+    :'update ticket_state'  => [:author],
+    :'destroy ticket_state' => [:author]
   }
 
   # Rbac.define do
     # role :anonymous,
     #      :grant => true
-    # 
+    #
     # role :user,
     #      :grant => :registered?,
     #      :parent => :anonymous,
     #      :message => :'adva.roles.errors.messages.not_logged_in'
-    #    
+    #
     # role :author,
     #      :require_context => Content,
     #      :grant => lambda{|context, user| context && !!context.try(:is_author?, user) },
     #      :parent => :user,
     #      :message => :'adva.roles.errors.messages.not_an_author'
-    # 
+    #
     # role :moderator,
     #      :require_context => Section,
     #      :parent => :author,
     #      :message => :'adva.roles.errors.messages.not_a_moderator'
-    # 
+    #
     # role :admin,
     #      :require_context => Site,
     #      :parent => :moderator,
     #      :message => :'adva.roles.errors.messages.not_an_admin'
-    # 
+    #
     # role :superuser,
     #      :parent => :admin,
     #      :message => :'adva.roles.errors.messages.not_a_superuser'

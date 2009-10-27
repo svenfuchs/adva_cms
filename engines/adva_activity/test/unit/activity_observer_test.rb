@@ -33,6 +33,12 @@ class ActivityTest < ActiveSupport::TestCase
     end
   end
   
+  test "#find_subscribers returns only subscribed users" do
+    activity    = Activity.new(:site => @site)
+    subscribers = @site.users.find(:all, :include => :roles, :conditions => ['roles.name IN (?)', ['superuser', 'admin']])
+    assert_equal subscribers.count, Activities::ActivityObserver.send(:find_subscribers, activity).count
+  end
+
   if Rails.plugin?(:adva_wiki)
     test "receives #notify_subscribers when a Wikipage gets created" do
       mock(Activities::ActivityObserver).notify_subscribers(is_a(Activity))

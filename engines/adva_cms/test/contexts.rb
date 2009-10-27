@@ -105,6 +105,12 @@ class Test::Unit::TestCase
     end
   end
 
+  share :no_user do
+    before do
+      User.delete_all
+    end
+  end
+
   share :no_site do
     before do
       Site.delete_all

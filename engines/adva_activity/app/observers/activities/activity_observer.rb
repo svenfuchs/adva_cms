@@ -16,8 +16,8 @@ module Activities
 
       def find_subscribers(activity)
         returning [] do |subscribers|
-          subscribers << User.by_role_and_context(activity.site, :admin)
-          subscribers << User.by_role_and_context(activity.site, :superuser)
+          subscribers << User.by_role_and_context(:admin, activity.site)
+          subscribers << User.by_role_and_context(:superuser, activity.site)
         end.flatten
       end
     end

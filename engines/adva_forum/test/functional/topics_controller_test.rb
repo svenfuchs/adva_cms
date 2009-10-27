@@ -68,7 +68,7 @@ class TopicsControllerTest < ActionController::TestCase
 
     it_guards_permissions :create, :topic do
       it_assigns :topic => Topic
-      it_redirects_to { topic_path(@section, Topic.find_by_permalink('another-topic').permalink) }
+      it_redirects_to { topic_url(@section, Topic.find_by_permalink('another-topic').permalink) }
       it_assigns_flash_cookie :notice => :not_nil
       it_triggers_event :topic_created
       it_sweeps_page_cache :by_section => :section
@@ -92,31 +92,53 @@ class TopicsControllerTest < ActionController::TestCase
   describe "GET to edit" do
     action { get :edit, default_params.merge(:id => @topic.permalink) }
 
-    it_guards_permissions :update, :topic do
+    it_guards_permissions :update, :topic
+
+    with :access_granted do
       it_assigns :topic
       it_renders_template :edit
       it_does_not_sweep_page_cache
       it_does_not_cache_the_page
     end
+
+    # it_guards_permissions :update, :topic do
+    #   it_assigns :topic
+    #   it_renders_template :edit
+    #   it_does_not_sweep_page_cache
+    #   it_does_not_cache_the_page
+    # end
   end
 
   describe "PUT to update" do
     action { put :update, valid_form_params.merge(:id => @topic.permalink) }
 
-    it_guards_permissions :update, :topic do
+    it_guards_permissions :update, :topic
+
+    with :access_granted do
       it_assigns :topic
-      it_redirects_to { topic_path(@section, Topic.find_by_permalink('another-topic').permalink) }
+      it_redirects_to { topic_url(@section, Topic.find_by_permalink('another-topic').permalink) }
       it_assigns_flash_cookie :notice => :not_nil
       it_triggers_event :topic_updated
       it_sweeps_page_cache :by_section => :section
       it_does_not_cache_the_page
     end
+
+    # it_guards_permissions :update, :topic do
+    #   it_assigns :topic
+    #   it_redirects_to { topic_url(@section, Topic.find_by_permalink('another-topic').permalink) }
+    #   it_assigns_flash_cookie :notice => :not_nil
+    #   it_triggers_event :topic_updated
+    #   it_sweeps_page_cache :by_section => :section
+    #   it_does_not_cache_the_page
+    # end
   end
 
   describe "PUT to update, with invalid topic params" do
     action { put :update, invalid_form_params.merge(:id => @topic.permalink) }
 
-    it_guards_permissions :update, :topic do
+    it_guards_permissions :update, :topic
+
+    with :access_granted do
       it_assigns :topic
       it_renders_template :edit
       it_assigns_flash_cookie :error => :not_nil
@@ -124,17 +146,36 @@ class TopicsControllerTest < ActionController::TestCase
       it_does_not_sweep_page_cache
       it_does_not_cache_the_page
     end
+
+    # it_guards_permissions :update, :topic do
+    #   it_assigns :topic
+    #   it_renders_template :edit
+    #   it_assigns_flash_cookie :error => :not_nil
+    #   it_does_not_trigger_any_event
+    #   it_does_not_sweep_page_cache
+    #   it_does_not_cache_the_page
+    # end
   end
 
   describe "DELETE to :destroy" do
     action { delete :destroy, default_params.merge(:id => @topic.permalink) }
 
-    it_guards_permissions :destroy, :topic do
+    it_guards_permissions :destroy, :topic
+
+    with :access_granted do
       it_assigns :topic
-      it_redirects_to { forum_path(@section) }
+      it_redirects_to { forum_url(@section) }
       it_assigns_flash_cookie :notice => :not_nil
       it_triggers_event :topic_deleted
       it_sweeps_page_cache :by_section => :section
     end
+
+    # it_guards_permissions :destroy, :topic do
+    #   it_assigns :topic
+    #   it_redirects_to { forum_url(@section) }
+    #   it_assigns_flash_cookie :notice => :not_nil
+    #   it_triggers_event :topic_deleted
+    #   it_sweeps_page_cache :by_section => :section
+    # end
   end
 end

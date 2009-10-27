@@ -103,7 +103,7 @@ class Admin::WikipagesController < Admin::BaseController
       
       unless updated_at = params[:wikipage].delete(:updated_at)
         # TODO raise something more explicit here
-        raise t(:'adva.wiki.exception.missing_timestamp')
+        raise t(:'adva.wiki.optimistic_lock.exception.missing_timestamp')
       end
       
       # We parse the timestamp of wikipage too so we can get rid of those microseconds postgresql adds

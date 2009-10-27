@@ -42,7 +42,7 @@ module IntegrationTests
       fill_in :user_last_name,  :with => 'Superuser'
       fill_in :user_email,      :with => 'superusers.memberships@test.org'
       fill_in :user_password,   :with => 'pass'
-      check   :user_roles_superuser
+      check   :role_superuser
       click_button :save
       
       user = User.find_by_email('superusers.memberships@test.org')

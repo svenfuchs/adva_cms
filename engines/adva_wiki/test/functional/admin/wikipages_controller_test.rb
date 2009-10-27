@@ -96,7 +96,9 @@ class AdminWikipagesControllerTest < ActionController::TestCase
     it_guards_permissions :update, :wikipage do
       with "no version param given" do
         with "valid wikipage params" do
-          before { @params = { :wikipage => { :body => 'the updated wikipage body' } } }
+          before {
+            @params = { :wikipage => { :body => 'the updated wikipage body', :updated_at => "#{@wikipage.updated_at}" } }
+          }
 
           it_updates :wikipage
           it_redirects_to { edit_admin_wikipage_url(@site, @section, @wikipage) }
@@ -106,7 +108,7 @@ class AdminWikipagesControllerTest < ActionController::TestCase
         end
 
         with "invalid wikipage params" do
-          before { @params = { :wikipage => { :title => '' } } }
+          before { @params = { :wikipage => { :title => '', :updated_at => "#{@wikipage.updated_at}" } } }
 
           it_does_not_update :wikipage
           it_renders :template, :edit
@@ -117,12 +119,14 @@ class AdminWikipagesControllerTest < ActionController::TestCase
       end
 
       with "a version param given" do
-        before { @params = { :wikipage => { :version => '1' } } }
         it_guards_permissions :update, :wikipage
 
         with :access_granted do
           with "the requested version exists (succeeds)" do
-            before { @wikipage.update_attributes(:body => "#{@wikipage.body} was changed") }
+            before {
+              @wikipage.update_attributes(:body => "#{@wikipage.body} was changed")
+              @params = { :wikipage => { :version => '1', :updated_at => "#{@wikipage.updated_at}"  } }
+            }
 
             it_rollsback :wikipage, :to => 1
             it_triggers_event :wikipage_rolledback
@@ -132,7 +136,8 @@ class AdminWikipagesControllerTest < ActionController::TestCase
           end
 
           with "the requested version does not exist (fails)" do
-            before { @params = { :wikipage => { :version => '10' } } }
+            before { @params = { :wikipage => { :version => '10', :updated_at => "#{@wikipage.updated_at}" } } }
+
             it_does_not_rollback :wikipage
             it_does_not_trigger_any_event
             it_assigns_flash_cookie :error => :not_nil
@@ -143,7 +148,7 @@ class AdminWikipagesControllerTest < ActionController::TestCase
       end
     end
   end
-  
+
   describe "PUT to :update" do
     with "incorrect time stamp" do
       action do
@@ -158,7 +163,7 @@ class AdminWikipagesControllerTest < ActionController::TestCase
         with :valid_wikipage_params do
           it_guards_permissions :update, :wikipage
           it_assigns :site, :section, :wikipage
-          it_assigns_flash_cookie :error => :not_nil          
+          it_assigns_flash_cookie :error => :not_nil
           it_does_not_trigger_any_event
           it_does_not_sweep_page_cache #:by_reference => :wikipage
         end
@@ -171,8 +176,6 @@ class AdminWikipagesControllerTest < ActionController::TestCase
       Wikipage.with_observers :wikipage_sweeper do
         params = default_params.merge(@params || { :wikipage => {} }).merge(:id => @wikipage.id)
         params[:wikipage][:updated_at] = "#{@wikipage.updated_at}"
-        #params[:wikipage][:updated_at] = nil
-        #params[:article][:updated_at] = "#{@wikipage.updated_at}"
         put :update, params
       end
     end
@@ -186,9 +189,9 @@ class AdminWikipagesControllerTest < ActionController::TestCase
       with :access_granted do
         with :valid_wikipage_params do
           it_updates :wikipage
-          
+
           it_redirects_to { edit_admin_wikipage_url(@site, @section, @wikipage) }
-          
+
           it_assigns_flash_cookie :notice => :not_nil
           it_triggers_event :wikipage_updated
           it_sweeps_page_cache :by_reference => :wikipage
@@ -216,7 +219,7 @@ class AdminWikipagesControllerTest < ActionController::TestCase
           it_redirects_to { edit_admin_wikipage_url(@site, @section, @wikipage) }
           it_sweeps_page_cache :by_reference => :wikipage
         end
- 
+
         with "the wikipage does not have the requested revision (fails)" do
           before { @params = { :wikipage => { :version => '10' } } }
             it_does_not_rollback :wikipage
@@ -231,7 +234,7 @@ class AdminWikipagesControllerTest < ActionController::TestCase
 
   describe "DELETE to :destroy" do
     action { delete :destroy, default_params.update(:id => @wikipage.id) }
-  
+
     it_guards_permissions :destroy, :wikipage do
       it_redirects_to { admin_wikipages_path(@site, @section) }
       it_assigns_flash_cookie :notice => :not_nil

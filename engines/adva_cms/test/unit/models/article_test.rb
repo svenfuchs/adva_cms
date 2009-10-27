@@ -172,7 +172,7 @@ class ArticleTest < ActiveSupport::TestCase
     article = @page.articles.create! :title => 'title', :body => 'body', :author => User.first
     article.move_to(:left_id => @page.articles.first.id)
     article.reload.position.should == 2
-    Article.find(@page.articles.last.id).position.should == 3
+    Article.find(@page.articles.first.id).position.should == 1
   end
 
   test "#has_excerpt? works with fckenabled" do

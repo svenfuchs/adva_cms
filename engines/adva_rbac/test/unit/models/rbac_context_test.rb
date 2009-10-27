@@ -10,7 +10,8 @@ class RbacContextTest < ActiveSupport::TestCase
   define_method "test: roles have a reference to an ancestor context" do
     superuser = Rbac::Role.find_by_name('superuser')
     admin     = Rbac::Role.find_by_name('admin')
-    moderator = Rbac::Role.find_by_name('moderator')
+    @moderator = User.find_by_first_name('a moderator')
+    moderator = Rbac::Role.find_by_user_id(@moderator.id)
 
     assert_equal nil,   superuser.ancestor_context
     assert_equal nil,   admin.ancestor_context

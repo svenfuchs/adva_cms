@@ -2,7 +2,7 @@ module Rbac
   module RoleType
     module Static
       mattr_accessor :role_types
-      self.role_types = [:superuser, :moderator, :author, :user, :anonymous]
+      self.role_types = [:superuser, :designer, :moderator, :author, :user, :anonymous]
   
       class << self
         def build(name)
@@ -57,33 +57,51 @@ module Rbac
           end
         end
       end
-  
+
       module Author
         extend Rbac::RoleType
-    
+
         class << self
           def minions
             [User]
           end
-      
+
           def masters
             [Moderator]
           end
 
           def granted_to?(subject, context = nil, options = {})
-            options[:explicit] ? false : context.respond_to?(:author) && context.author == subject || super
+            if options[:explicit]
+              false
+            else
+              context.respond_to?(:author) && context.author == subject.object || super
+            end
           end
         end
       end
-  
+
       module Moderator
         extend Rbac::RoleType
-    
+
         class << self
           def minions
             [Author]
           end
+
+          def masters
+            [Designer]
+          end
+        end
+      end
       
+      module Designer
+        extend Rbac::RoleType
+
+        class << self
+          def minions
+            [Moderator]
+          end
+
           def masters
             [Admin]
           end
@@ -95,7 +113,7 @@ module Rbac
 
         class << self
           def minions
-            [Moderator]
+            [Designer]
           end
 
           def masters

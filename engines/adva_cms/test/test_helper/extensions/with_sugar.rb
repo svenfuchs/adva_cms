@@ -14,7 +14,9 @@ module With
         do_not_allow(Event).trigger.with_any_args
       end
     end
-    
+
+    # FIXME might need to refactor this so it always executes the block
+    # (i.e. return after witch(:access_granted, &block))
     def it_guards_permissions(action, type, &block)
       return (block ? block.call : nil) unless With.aspect?(:access_control)
 

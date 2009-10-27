@@ -635,12 +635,23 @@ en:
         logged_in_as: "Logged in as: {{name}}"
       confirm_delete: Are you sure you want to delete this user account?
     roles:
+      hints:
+        superuser: "<strong>A superuser</strong> can do anything on all sites of your account. Only a superuser can create sites for an account."
+        admin: "<strong>An admin</strong> for site '{{site}}' can do anything on this site."
+        designer: "<strong>A designer</strong> for site '{{site}}' can do anything a moderator can do on this site. Above that, a designer can manage themes for this site."
+        moderator: "<strong>A moderator</strong> for site '{{site}}' can do anything an author can do on this site. Above that, a moderator has permissions for managing forums' boards and topics, as well as comments, wikipages and newsletters."
+        author: "<strong>An author</strong> for site '{{site}}' can basically manage all contents for this site, e.g. articles. An author is not allowed to manage themes, comments, forums and newsletters. He is allowed to write newsletter issues for an existing newsletter."
+        user: "<strong>A live user</strong> for website '{{site}}' is at no point allowed to access the admin area of your site. A live user can login on your website and use available feature, e.g. write comments."
       labels:
-        admin_for: "Admin for: {{context}}"
+        admin_for: "Admin for {{context}}"
         superuser: Superuser
+        moderator_for: "Moderator for {{context}}"
+        author_for: "Author for {{context}}"
+        designer_for: "Designer for {{context}}"
+        user_for: "Live User for website {{context}}"
       errors: 
         messages:
-          role_required: "You need one of the following roles to perform this action: {{roles}}"
+          role_required: "Sie brauchen eine der folgenden Rollen, um diese Aktion auszuführen: {{roles}}"
           # not_admin: You need to be an admin to perform this action.
           # not_user: You need to be logged in to perform this action.
           # not_superuser: You need to be a superuser to perform this action.
@@ -986,7 +997,11 @@ en:
       site_powered_by: "Site powered by {{link}}."
       theme_inspired_by: Theme inspired by depo.
     flash:
-      authentication_required_role: You need to have the role {{role}} to view this page.
+      authentication_required_role: "You need to have the role {{role}} to administrate the sites of your account."
+      no_permission_for_admin_area_of_site: "You do not have permission to access the admin area of this site. Please, contact your system administrator or login with another user account."
+      no_permission_for_admin_area_of_account: "You do not have permission to access the admin area of this account. Please, contact your system administrator or login with another user account."      
+      login_to_access_admin_area_of_site: "Please login to access the admin area of this site."
+      login_to_access_admin_area_of_account: "Please login to access the admin area of this account."
     sidebar:
       titles:
         tags: Tags

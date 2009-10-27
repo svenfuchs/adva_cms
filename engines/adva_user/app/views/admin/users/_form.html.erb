@@ -14,27 +14,61 @@
 <% if has_permission?('manage', 'roles') %>
 	<h4><%= t(:'adva.titles.roles') %></h4>
 	<p class="hint text_only"><%= t(:'adva.hints.roles') %></p>
-		
+
 	<% f.field_set do %>
 	  <% if current_user.has_role?(:superuser) %>
 			<p>
-			  <%= hidden_field_tag "user[roles_attributes][0][selected]", 0 %>
-			  <%= check_box_tag "user[roles_attributes][0][selected]", 1, @user.has_explicit_role?(:superuser), :id => "user_roles_superuser" %>
-			  <%= hidden_field_tag "user[roles_attributes][0][name]", 'superuser' %>
-			  <%= f.label "roles_superuser", t(:'adva.roles.labels.superuser'), :class => 'light inline' %>
+			<%= hidden_field_tag "user[roles_attributes][0][selected]", 0 %>
+			<span class='hint'><%= t(:'adva.roles.hints.superuser') %></span>
+		    <%= check_box_tag "user[roles_attributes][0][selected]", 1, @user.has_global_role?(:superuser), :id => "role_superuser" %>
+		    <%= hidden_field_tag "user[roles_attributes][0][name]", 'superuser' %>
+		    <%= f.label "role_superuser", t(:'adva.roles.labels.superuser'), :class => 'light inline' %>
 			</p>
 		<% end %>
-	
-	  <% if @site %>
+
+	  	<% if @site %>
 			<p>
 		    <%= hidden_field_tag "user[roles_attributes][1][selected]", 0 %>
-		    <%= check_box_tag "user[roles_attributes][1][selected]", 1, @user.has_explicit_role?(:admin, @site), :id => "user_roles_admin_site_#{@site.id}" %>
+			<span class='hint'><%= t(:'adva.roles.hints.admin', :site => @site.name) %></span>
+		    <%= check_box_tag "user[roles_attributes][1][selected]", 1, @user.has_global_role?(:admin, @site), :id => "role_admin_site_#{@site.id}" %>
 		    <%= hidden_field_tag "user[roles_attributes][1][name]", 'admin' %>
 		    <%= hidden_field_tag "user[roles_attributes][1][context_id]", @site.id %>
 		    <%= hidden_field_tag "user[roles_attributes][1][context_type]", 'Site' %>
-		    <%= label_tag "user_roles_admin_site_#{@site.id}", t(:'adva.roles.labels.admin_for', :context => @site.name), :class => 'light inline' %>
+		    <%= label_tag "role_admin_site_#{@site.id}", t(:'adva.roles.labels.admin_for', :context => @site.name), :class => 'light inline' %>
 			</p>
-	  <% end %>
+			<p>
+		    <%= hidden_field_tag "user[roles_attributes][4][selected]", 0 %>
+			<span class='hint'><%= t(:'adva.roles.hints.designer', :site => @site.name) %></span>
+		    <%= check_box_tag "user[roles_attributes][4][selected]", 1, @user.has_global_role?(:designer, @site), :id => "role_designer_site_#{@site.id}" %>
+		    <%= hidden_field_tag "user[roles_attributes][4][name]", 'designer' %>
+		    <%= hidden_field_tag "user[roles_attributes][4][context_id]", @site.id %>
+		    <%= hidden_field_tag "user[roles_attributes][4][context_type]", 'Site' %>
+		    <%= label_tag "role_designer_site_#{@site.id}", t(:'adva.roles.labels.designer_for', :context => @site.name), :class => 'light inline' %>
+			</p>
+			<p>
+		    <%= hidden_field_tag "user[roles_attributes][2][selected]", 0 %>
+			<span class='hint'><%= t(:'adva.roles.hints.moderator', :site => @site.name) %></span>
+		    <%= check_box_tag "user[roles_attributes][2][selected]", 1, @user.has_global_role?(:moderator, @site), :id => "role_moderator_site_#{@site.id}" %>
+		    <%= hidden_field_tag "user[roles_attributes][2][name]", 'moderator' %>
+		    <%= hidden_field_tag "user[roles_attributes][2][context_id]", @site.id %>
+		    <%= hidden_field_tag "user[roles_attributes][2][context_type]", 'Site' %>
+		    <%= label_tag "role_moderator_site_#{@site.id}", t(:'adva.roles.labels.moderator_for', :context => @site.name), :class => 'light inline' %>
+			</p>
+			<p>
+		    <%= hidden_field_tag "user[roles_attributes][3][selected]", 0 %>
+			<span class='hint'><%= t(:'adva.roles.hints.author', :site => @site.name) %></span>
+		    <%= check_box_tag "user[roles_attributes][3][selected]", 1, @user.has_global_role?(:author, @site), :id => "role_author_site_#{@site.id}" %>
+		    <%= hidden_field_tag "user[roles_attributes][3][name]", 'author' %>
+		    <%= hidden_field_tag "user[roles_attributes][3][context_id]", @site.id %>
+		    <%= hidden_field_tag "user[roles_attributes][3][context_type]", 'Site' %>
+		    <%= label_tag "role_author_site_#{@site.id}", t(:'adva.roles.labels.author_for', :context => @site.name), :class => 'light inline' %>
+			</p>
+			<p>
+			<span class='hint'><%= t(:'adva.roles.hints.user', :site => @site.name) %></span>
+			<input type="checkbox" name="role_live_user" id="role_live_user" value="1" checked="checked" disabled>
+			<%= label_tag "role_live_user", t(:'adva.roles.labels.user_for', :context => @site.name), :class => 'light inline' %>
+			<p>
+	  	<% end %>
 	<% end %>
 <% end %>
 

@@ -1,5 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../test_helper')
 
+# FIXME seems there's a permission problem so comments can't be posted?
 module IntegrationTests
   class SpamControlTest < ActionController::IntegrationTest
     def setup

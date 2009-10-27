@@ -17,7 +17,7 @@ class NestedSetsTest < ActiveSupport::TestCase
   end
   
   test 'all_contents returns a scope of all the photos of set and its descendants' do
-    assert_equal @photos, @set.all_contents
+    assert_equal @photos.sort_by {|p| p.id}, @set.all_contents.sort_by {|c| c.id}
     assert_equal [@sub_set_photo], @sub_set.all_contents
   end
 end

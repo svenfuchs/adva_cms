@@ -1,3 +1,5 @@
+Role = Rbac::Role
+
 ActionController::Dispatcher.to_prepare do
   User.class_eval do
     acts_as_role_subject
@@ -66,7 +68,7 @@ ActionController::Dispatcher.to_prepare do
       # FIXME deep_stringify roles_attributes here
       roles_attributes.collect do |attrs|
         next unless attrs['selected'].to_i == 1
-        Role.new(attrs.except('selected')) unless roles.any? { |role| self.class.role_matches_attributes?(attrs, role) }
+        Rbac::Role.new(attrs.except('selected')) unless roles.any? { |role| self.class.role_matches_attributes?(attrs, role) }
       end.compact
     end
     

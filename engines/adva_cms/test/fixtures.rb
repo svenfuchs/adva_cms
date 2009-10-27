@@ -35,6 +35,20 @@ moderator    = User.create! :first_name => 'a moderator',
                             :email => 'a-unverified-user@example.com',
                             :password => 'a password'
 
+designer     = User.create! :first_name => 'a designer',
+                            :email => 'a-designer@example.com',
+                            :password => 'a password'
+
+another_author = User.create! :first_name => 'a author',
+                              :email => 'a-author@example.com',
+                              :password => 'a password',
+                              :verified_at => Time.now
+
+another_moderator = User.create!  :first_name => 'another moderator',
+                                  :email => 'another_moderator@example.com',
+                                  :password => 'a password',
+                                  :verified_at => Time.now
+
 # SITES
 
 site         = Site.create! :name => 'site with pages',
@@ -157,12 +171,17 @@ Comment.create! attributes.merge(:body => 'the unapproved comment body',:approve
 
 superuser.roles.create!(:name => 'superuser')
 admin.roles.create!(:name => 'admin', :context => site)
+another_author.roles.create!(:name => 'author', :context => site)
+another_moderator.roles.create!(:name => 'moderator', :context => site)
 moderator.roles.create!(:name => 'moderator', :context => page)
+designer.roles.create!(:name => 'designer', :context => site)
 
 site.users << user
 site.users << superuser
 site.users << admin
 site.users << moderator
+site.users << another_moderator
+site.users << designer
 
 # OTHERS
 
