@@ -1,52 +1,51 @@
-
-Pushing your code to mainstream or to your adva clone
-=====================================================
+Pushing your code to mainstream
+===============================
 
   Here is quick way to push your code up: 
-    cd vendor/adva
-    open .git/config
-    change: url = git://github.com/svenfuchs/adva_cms.git
-    to your adva clone: url = git@github.com:MY_GITHUB_USERNAME/adva_cms.git
-    or to mainstream: url = git@github.com:svenfuchs/adva_cms.git
-    
-    then pushing up to the new location:
-    git push origin master
+    cd vendor/adva # aka to your adva repo
+
+    # push to svenfuchs repo when you have direct commit right and
+    # please avoid merges in your git log
+    git push git://github.com/svenfuchs/adva_cms.git master:master
 
 
 Git workflow to avoid merges
 ============================
 
-  Usually git merges are not good indicator, often it means master branch is abused :-)
+  Usually git merges in log are not good indicator, 
+  often it means you are doing merges instead of using rebase.
 
-  Here is priit's workflow, what he thinks is the correct way of using git:
+  Here is priidu's workflow, what he currently thinks is the correct way of using git:
 
-    master$ git pull master
-    # NEVER to any changes at master, get habit to make branches on the
-    fly however small task you have (you NEVER know if someone has pushed
-    something to master meantime etc)
+    # first let's clone mainstream adva for example when you have right to commit
 
-    master$ git checkout newsletter
+    git clone git@github.com:svenfuchs/adva_cms.git
 
-    newsletter$ git rebase master
-    # rebase is important to update your branch with master, don't use
-    # merge (it pollute to much log file)
+    # When cloning you have got master and origin/master branches.
+    # Now make your changes to your master branch.
 
-    # coding...
-    # when I'm done with my feature
+    touch test_clean_rebase
+    git add .
+    git commit -va
 
-    newsletter$ git add ...your files
-    newsletter$ git commit ...your files
+    # Write your comment and you have successfully commited to your local master branch
 
-    newsletter$ git chechkout master
-    master$ git pull # so I can update to master and see what's new
+    # Meanwhile when you wrote new code, others have pushed to mainline adva branch, so
+    # before pushing you need to fetch and rebase. Please do not use pull here, cos
+    # it will pollute log with unneeded merges.
+    # Therefore, first let's fetch most recent code from svenfuchs/adva_cms.
 
-    master$ git checkout newsletter
-    newsletter$ git rebase master
+    git fetch origin
 
-    # NOW i run tests, if everything is ok then I merge (now git makes it fast forward way)
-    newsletter$ git checkout master
-    master$ git merge newsletter
-    master$ git push origin master
+    # Now svenfuchs/adva_cms named "origin" in your repo has been fetched to your origin/master branch.
+    # Now it's time to rebase origin/master to your own master branch.
 
-  I hope it helps for everyone use git.
+    git rebase origin/master
 
+    # If you have any conflicts now, you just fix them manually and commit fixes and continue rebase.
+    # After when "git status" shows clean status you are ready to push to svenfuchs/master branch.
+
+    git push     # or: git push origin master:master
+
+    # Done.
+    # I hope this short howto will helps new people to use git well without merges in log.
