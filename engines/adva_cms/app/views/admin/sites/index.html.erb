@@ -14,8 +14,8 @@
 		end
 
 		t.empty :p, :class => 'empty' do
-			t(:'adva.articles.no_sites') + "\n" +
-			link_to("Create one now &raquo;", new_admin_site_path)
+			"<p>" + t(:'adva.sites.no_sites') + "</p>" +
+			"<p>" + link_to("Create one now &raquo;", new_admin_site_path) + "</p>"
 		end
 	end
 %>
