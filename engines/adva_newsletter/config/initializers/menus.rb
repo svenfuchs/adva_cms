@@ -29,6 +29,8 @@ module Menus
 
     class Issues < NewsletterBase
       define do
+        breadcrumb :newsletter, :content => link_to(@newsletter.title, admin_adva_issues_path(@site, @newsletter)) if @newsletter && !@newsletter.new_record?
+
         menu :actions, :class => 'actions' do
           activates object.parent.find(:issues)
           item :new, :action => :new, :resource => [@newsletter, "Adva::Issue"]
@@ -43,6 +45,8 @@ module Menus
 
     class NewsletterSubscriptions < NewsletterBase
       define do
+        breadcrumb :newsletter, :content => link_to(@newsletter.title, admin_adva_issues_path(@site, @newsletter)) if @newsletter && !@newsletter.new_record?
+
         menu :actions, :class => 'actions' do
           activates object.parent.find(:subscriptions)
           item :new, :action => :new, :resource => [@newsletter, "Adva::Subscription"]
