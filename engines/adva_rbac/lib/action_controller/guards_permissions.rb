@@ -58,7 +58,7 @@ module ActionController
         # return if action.to_sym == :show
 
         unless has_permission?(action, type)
-          role_types = current_resource.authorizing_role_types_for(:"#{action} #{type}")
+          role_types = current_resource.role_context.required_roles_for_action(:"#{action} #{type}").join(', ')
           raise RoleRequired.new(role_types, action, type)
         end
       end
