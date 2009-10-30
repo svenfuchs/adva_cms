@@ -694,6 +694,7 @@ de:
        user_for: "Live-Benutzer für Webseite {{context}}"
      errors:
        messages:
+         role_required: "Sie brauchen eine der folgenden Rollen, um diese Aktion auszuführen: {{roles}}"
          not_an_admin: "Sie müssen ein Administrator sein, um diese Aktion durchzuführen."
          not_logged_in: "Sie müssen angemeldet sein, um diese Aktion durchzuführen."
          not_a_superuser: "Sie müssen ein Superuser sein, um diese Aktion durchzuführen."

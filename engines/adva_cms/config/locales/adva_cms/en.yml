@@ -161,7 +161,7 @@ en:
     messages: 
       insufficient_permissions: 
         title: Insufficient permissions
-        body: If you think you should be allowed to perform this action please contact the admin of this site and ask him to reconfigure the permissions for your role.
+        body: If you think you should be allowed to perform this action please contact the admin of this site and ask him to reconfigure your permissions.
       not_editable: "Sorry, but it's not editable!"
     resources:
       links:
@@ -651,12 +651,13 @@ en:
         user_for: "Live User for website {{context}}"
       errors: 
         messages:
-          role_required: "Sie brauchen eine der folgenden Rollen, um diese Aktion auszuführen: {{roles}}"
-          # not_admin: You need to be an admin to perform this action.
-          # not_user: You need to be logged in to perform this action.
-          # not_superuser: You need to be a superuser to perform this action.
-          # not_author: You need to be the author of this object to perform this action.
-          # not_moderator: You need to be a moderator to perform this action.
+          role_required: "You need one of the following roles to perform this action: {{roles}}"
+          not_admin: You need to be an admin to perform this action.
+          not_user: You need to be logged in to perform this action.
+          not_superuser: You need to be a superuser to perform this action.
+          not_author: You need to be the author of this object to perform this action.
+          not_moderator: You need to be a moderator to perform this action.
+
     assets:
       links:
         new: New asset
