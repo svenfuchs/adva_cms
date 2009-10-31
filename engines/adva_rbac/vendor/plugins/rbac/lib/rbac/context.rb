@@ -47,6 +47,10 @@ module Rbac
         end.flatten.uniq
       end
 
+      def required_roles_for_action(action)
+        types = build_role_types_for(action).collect { |type| type.name }
+      end
+
       def include?(context)
         return false unless context
         context = context.role_context unless context.is_a?(Base)
