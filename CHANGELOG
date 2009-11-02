@@ -1,3 +1,20 @@
+ 0.3.0 [2009/10/30]
+====================
+  Features
+    * role based access control: new rbac library integrated
+      - rbac with statically defined permissions and roles
+      - role hierarchy: superuser->admin->designer->moderator->author->user
+      - set global roles (roles on sites) for users
+
+  Enhancements
+    * improve adva_comments and assets decoupling from adva_cms
+    * Permalinks unique by section [Alan Gutierrez]
+    * Documentation: git_tips.txt [priit.mx.ee]
+    * Add newsletter breadcrumb when browsing issues/subscriptions
+
+  Changes
+    * location of projection-CSS changed
+
  0.2.4 [2009/09/29]
 ====================
 	Features

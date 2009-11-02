@@ -15,7 +15,7 @@ similar but separate Rails applications.
  
 Please check out /doc directory and our site http://adva-cms.org for more info.
 
-Installation: Release 0.2.4
+Installation: Release 0.3.0
 ===========================
 
 Required: Rails 2.3.4, ImageMagick for image handling
@@ -24,7 +24,7 @@ Required: Rails 2.3.4, ImageMagick for image handling
   sudo gem install rails --source http://gems.rubyonrails.org
 
 # install and setup adva-cms using a template
-  rails my-app -m http://github.com/svenfuchs/adva_cms/raw/master/templates/adva-cms.0.2.4.rb
+  rails my-app -m http://github.com/svenfuchs/adva_cms/raw/master/templates/adva-cms.0.3.0.rb
 
 # there's no step 3
   cd my-app
@@ -72,7 +72,7 @@ below for more about that.
 Installation: Edge version manually
 ===================================
 
-Required: Rails 2.3.2.1 or newer, ImageMagick for image handling
+Required: Rails 2.3.4 or newer, ImageMagick for image handling
 
 # Create your app
   rails my-app
@@ -172,11 +172,9 @@ Running tests for adva-cms version 0.1.2 or newer:
 	$ sudo gem install mocha															# We depend on this gem in some of our tests
 
   $ rake db:test:clone       														# Clones from your development database to test database
-	$ vendor/adva/script/test vendor/adva/engines 				# Runs all tests if you do not have a script file
-  $ ruby script/test-adva-cms vendor/adva/engines -p 		# Prepares the database and runs all adva-cms tests
-  $ ruby script/test-adva-cms vendor/adva/engines   		# Runs all adva-cms tests without preparing the database
-  $ ruby script/test-adva-cms vendor/plugins/adva_wiki 	# Runs only adva_wiki tests
-  $ WEBRAT_MODE=selenium ruby script/test-adva-cms     	# Runs integration tests in automated browser mode (see Installing Selenium section)
+	$ vendor/adva/script/test_prepare_database            # Prepares database
+  $ vendor/adva/script/test vendor/adva/engines         # Runs all tests
+  $ vendor/adva/script/test vendor/adva/engines -p 		  # Prepares the database and runs all adva-cms tests
 
 Please check out /doc directory for high level overview about adva-cms.
 
