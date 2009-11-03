@@ -93,7 +93,8 @@ class Admin::SitesController < Admin::BaseController
     def protect_single_site_mode
       unless Site.multi_sites_enabled
         if params[:action] == 'index'
-          site = Site.find_or_initialize_by_host(request.host_with_port)
+          site = Site.find_by_host(request.host_with_port)
+          site = Site.first unless site
           redirect_to admin_site_url(site)
         else
           render :action => :multi_sites_disabled, :layout => 'simple'

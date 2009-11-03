@@ -34,6 +34,41 @@ class AdminSitesControllerTest < ActionController::TestCase
     end
   end
 
+  describe "GET to :index with single site mode on. If no site with request host name is found it redirects to first Site" do
+    with :single_site_enabled do
+      with :is_superuser do
+        with :access_granted do
+            before do
+              mock(Site).find_by_host("site-with-pages.com") { nil }
+              @site_mock = Site.new
+              mock(@site_mock).id.times(any_times) { 1 }
+              mock(Site).first { @site_mock }
+            end
+
+            action { get :index }
+
+            it_redirects_to { admin_site_url(@site_mock) }
+        end
+      end
+    end
+  end
+
+  describe "GET to :index with single site mode on. If a site with request host name is found it redirects to the found site" do
+    with :single_site_enabled do
+      with :is_superuser do
+        with :access_granted do
+            before do
+              dont_allow(Site).first
+            end
+
+            action { get :index }
+
+            it_redirects_to { admin_site_url(Site.find_by_host("site-with-pages.com")) }
+        end
+      end
+    end
+  end
+
   describe "GET to :index" do
     with :is_superuser do
       action { get :index }
