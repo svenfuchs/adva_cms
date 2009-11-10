@@ -16,10 +16,7 @@ module Rbac
       end
 
       def has_permission?(action, context)
-        # puts "============== action = #{action}"
-        # puts "============== context = #{context}"
         types = context.authorizing_role_types_for(action)
-        # puts "============== authorizing_role_types_for #{types}"
         has_role?(types, context)
       end
 

@@ -26,7 +26,7 @@ ActionController::Dispatcher.to_prepare do
     :'destroy article'    => [:author],
     :'manage article'     => [:author],
 
-    :'show comment'       => [:anonymous], # not guarded on live site
+    :'show comment'       => [:author], # not guarded on live site
     :'create comment'     => [:anonymous], # used on the live site
     :'update comment'     => [:moderator],
     :'destroy comment'    => [:moderator],
