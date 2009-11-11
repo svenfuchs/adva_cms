@@ -81,6 +81,8 @@ module ResourceHelper
 
     def resource_owners(resource)
       return [] if resource.nil? || resource.is_a?(Symbol)
+      return [] << resource if resource.is_a?(Site)
+
       return resource.owners << resource if resource.respond_to?(:owners)
 
       owners = []
