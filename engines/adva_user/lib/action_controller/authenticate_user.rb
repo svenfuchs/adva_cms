@@ -144,7 +144,7 @@ module ActionController
         def set_user_cookie!(user = current_user)
           if user
             cookies[:uid] = user.id.to_s
-            cookies[:uname] = user.name
+            cookies[:uname] = CGI.escape(user.name)
           end
         end
 
