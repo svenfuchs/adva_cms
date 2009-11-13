@@ -1,8 +1,3 @@
-# empty the database
-ActiveRecord::Base.connection.tables.each do |table_name|
-  ActiveRecord::Base.connection.execute "DELETE FROM #{table_name}" unless table_name == 'schema_migrations'
-end
-
 # USERS
 
 anonymous    = User.create! :first_name => 'an anonymous',

@@ -65,6 +65,11 @@ require_all dir + "/../../*/test/contexts.rb",
 
 if DO_PREPARE_DATABASE
   puts 'Preparing the database ...'
+  # empty the database
+  ActiveRecord::Base.connection.tables.each do |table_name|
+    ActiveRecord::Base.connection.execute "DELETE FROM #{table_name}" unless table_name == 'schema_migrations'
+  end
+
   # load "#{Rails.root}/db/schema.rb"
   require_all dir + "/fixtures.rb"
   require_all dir + "/../../*/test/fixtures.rb"
