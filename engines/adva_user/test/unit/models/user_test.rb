@@ -132,6 +132,13 @@ class UserTest < ActiveSupport::TestCase
     @user.reload.verified_at.should_not be_nil
   end
 
+  test '#verify! sets the token_key to empty string and expire the token_key to prevent repetition' do
+    @user.update_attributes(:verified_at => nil, :token_key => "13988a7f90af5f2ffc434e17346a4ecf373b1684", :token_expiration => 1.week.from_now )
+    @user.verify!
+    @user.reload.token_key.should be_blank
+    @user.token_expiration.should < Time.zone.now
+  end
+
   # test '#restore! restores the user record' do
   #   @user.deleted_at = @time_now
   #   @user.should_receive(:update_attributes).with :deleted_at => nil

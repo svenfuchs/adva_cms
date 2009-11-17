@@ -61,7 +61,11 @@ class User < ActiveRecord::Base
   end
 
   def verify!
-    update_attributes :verified_at => Time.zone.now if verified_at.nil?
+    self.verified_at = Time.zone.now if verified_at.nil?
+    self.token_key = ""
+    self.token_expiration = Time.zone.now
+
+    self.save!
   end
 
   # def restore!
