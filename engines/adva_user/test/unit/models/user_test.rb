@@ -136,7 +136,7 @@ class UserTest < ActiveSupport::TestCase
     @user.update_attributes(:verified_at => nil, :token_key => "13988a7f90af5f2ffc434e17346a4ecf373b1684", :token_expiration => 1.week.from_now )
     @user.verify!
     @user.reload.token_key.should be_blank
-    @user.token_expiration.should < Time.zone.now
+    @user.token_expiration.should <= Time.zone.now # depending on the accuracy of the timestamp in the database and the speed of the test execution, this could be equal (though it shouldn't, ideally)
   end
 
   # test '#restore! restores the user record' do
