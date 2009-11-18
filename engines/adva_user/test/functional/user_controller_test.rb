@@ -80,6 +80,14 @@ class UserControllerTest < ActionController::TestCase
         it_redirects_to Registry.get(:redirect, :verify)
       end
     end
+
+    with "the user is already verified" do
+      before { stub(@controller).current_user.returns(nil) }
+
+      it_does_not_trigger_any_event
+      # it_assigns_flash_cookie :error => :not_nil
+      it_redirects_to Registry.get(:redirect, :verify)
+    end
   end
 
   describe "DELETE to :destroy" do

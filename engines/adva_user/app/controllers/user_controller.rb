@@ -24,7 +24,7 @@ class UserController < BaseController
   end
 
   def verify
-    if current_user.verify!
+    if current_user and current_user.verify!
       set_user_cookie!
       trigger_event(current_user, :verified)
       flash[:notice] = t(:'adva.signup.flash.verify.success')
