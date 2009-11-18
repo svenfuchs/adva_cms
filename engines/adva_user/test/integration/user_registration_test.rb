@@ -46,7 +46,7 @@ module IntegrationTests
 
       session[:uid].should == john_doe.id
       cookies['uid'].should == john_doe.id.to_s
-      cookies['uname'].should == CGI.escape(john_doe.name)
+      cookies['uname'].should == encode_for_cookie(john_doe.name)
     end
 
 
@@ -59,6 +59,10 @@ module IntegrationTests
         ActionMailer::Base.deliveries.should_not be_empty
         ActionMailer::Base.deliveries.last
       end
+    end
+
+    def encode_for_cookie( str )
+      CGI.escape(str).gsub(/[^a-zA-Z0-9_\.\-]/n) {|s| sprintf('%%%02x', s[0]).upcase }
     end
   end
 end
