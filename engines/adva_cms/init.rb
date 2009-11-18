@@ -35,7 +35,7 @@ I18n.load_path += Dir[File.join(File.dirname(__FILE__), 'config', 'locales', '**
 
 register_javascript_expansion \
   :common  => %w( adva_cms/jquery/jquery adva_cms/jquery/jquery-lowpro adva_cms/jquery/jquery-ui 
-                  adva_cms/jquery.common adva_cms/json adva_cms/cookie adva_cms/jquery.flash adva-cms/application ),
+                  adva_cms/jquery.common adva_cms/json adva_cms/cookie adva_cms/jquery.flash adva_cms/application ),
   :login   => %w(),
   :default => %w( adva_cms/jquery.roles adva_cms/jquery.dates adva_cms/parseuri adva_cms/application ),
   :simple  => %w(),
