@@ -42,7 +42,7 @@ below for more about that.
 You *must* use Rails' old routing recognition/generation mode in order for adva-cms to work correctly:
 
   # config/initializers/new_rails_defaults.rb
-  # either uncomment the following line or set it to true
+  # either comment out the following line or set it to true
   ActionController::Routing.generate_best_match = false
 
 
@@ -71,6 +71,7 @@ below for more about that.
 
 Installation: Edge version manually
 ===================================
+(this is basically what the template does...)
 
 Required: Rails 2.3.4 or newer, ImageMagick for image handling
 
@@ -84,8 +85,12 @@ Required: Rails 2.3.4 or newer, ImageMagick for image handling
 	require File.join(File.dirname(__FILE__), 'boot')
 	require File.join(File.dirname(__FILE__), '../vendor/adva/engines/adva_cms/boot') # this line
 
+# You *must* use Rails' old routing recognition/generation mode in order for adva-cms to work correctly:
+  # in config/initializers/new_rails_defaults.rb set:
+  ActionController::Routing.generate_best_match = true
+
 # Clone the adva-cms ( this might take a bit, grab a coffee meanwhile :) )
-  git clone git://github.com/svenfuchs/adva_cms.git vendor/adva  # or use: git submodule add ...
+  git clone git://github.com/svenfuchs/adva_cms.git vendor/adva    # or use: git submodule add ...
 
 # Install the core engines and copy the assets
   rake adva:install:core -R vendor/adva/engines/adva_cms/lib/tasks # install adva-cms to vendor/plugins/
