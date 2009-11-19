@@ -105,7 +105,7 @@ unpublished_section = Page.create! :site => site,
                             :permalink => 'an-unpublished-section',
                             :single_article_mode => false
 
-unpublished_section.update_attributes!(:published_at => nil)
+unpublished_section.update_attributes!(:published_at => 0)
 # ARTICLES
 
 article   = Article.create! :site => site,
