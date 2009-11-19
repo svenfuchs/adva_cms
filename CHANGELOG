@@ -1,3 +1,18 @@
+ HEAD [2009/11/19]
+====================
+	Enhancements
+		* in single site mode, the first created site is used by default
+
+	Changes
+		* the 'show comment' permission is set to author.
+
+	Bugfixes
+		* fix user name encoding/decoding in cookies
+		* Newsletter are only accessed in the context of the associated site
+		* Users are only verified once
+		* Template extended to change new_rails_defaults-initializer
+		* adva_cms/application.js is imported properly
+
  0.3.0 [2009/10/30]
 ====================
   Features
