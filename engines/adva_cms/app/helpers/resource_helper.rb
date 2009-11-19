@@ -9,7 +9,6 @@ module ResourceHelper
 
     args = resource_owners(resource) << options
     args.shift unless namespace.try(:to_sym) == :admin
-
     send(resource_url_method(namespace, action, type, options), *args.uniq)
   end
 
@@ -81,9 +80,12 @@ module ResourceHelper
 
     def resource_owners(resource)
       return [] if resource.nil? || resource.is_a?(Symbol)
-      return [] << resource if resource.is_a?(Site)
 
-      return resource.owners << resource if resource.respond_to?(:owners)
+      if resource.respond_to?(:owners)
+        owners = resource.owners << resource
+        owners.delete(owners.first) unless owners.first.is_a?(Site)
+        return owners
+      end
 
       owners = []
       if resource.respond_to?(:section)
