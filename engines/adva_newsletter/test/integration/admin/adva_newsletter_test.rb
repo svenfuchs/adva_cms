@@ -4,9 +4,11 @@ class AdvaNewsletterIntegrationTest < ActionController::IntegrationTest
   def setup
     super
     @site = use_site! "site with newsletter"
+    @newsletter = Adva::Newsletter.find_by_title("newsletter title")
     login_as_admin
     visit "/admin/sites/#{@site.id}/newsletters"
     assert_template "admin/newsletters/index"
+    @site_without_newsletter = Site.find_by_name("site without newsletter")
   end
   
   test "admin visits newsletters, should see index with empty message" do
@@ -55,4 +57,16 @@ class AdvaNewsletterIntegrationTest < ActionController::IntegrationTest
   test "admin DELETES a newsletter" do
     #TODO we need selenium test
   end
+
+  test "visit edit site of a newsletter through the wrong site id: should NOT SUCCEED" do
+    visit "/admin/sites/#{@site_without_newsletter.id}/newsletters/#{@newsletter.id}/edit"
+    assert_response 404
+  end
+
+  test "visit edit site of a newsletter through the corresponding site id: should SUCCEED" do
+    visit "/admin/sites/#{@site.id}/newsletters/#{@newsletter.id}/edit"
+    assert_template "admin/newsletters/edit"
+    assert_response 200
+  end
+
 end
