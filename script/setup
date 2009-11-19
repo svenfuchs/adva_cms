@@ -6,10 +6,30 @@ def rails_root
   @rails_root ||= File.expand_path(File.dirname(__FILE__) + '/../../..')
 end
 
-def patch_file(path, after, insert)
-  content = File.open(path){|f| f.read }
-  content.gsub!(after, "#{after}\n#{insert}") unless content =~ /#{insert}/mi
-  File.open(path, 'w'){|f| f.write(content) }
+def patch_file(path, current, insert, options = {})
+  options = {
+    :patch_mode => :insert_after
+  }.merge(options)
+
+  old_text = current
+  new_text = patch_string(current, insert, options[:patch_mode])
+
+  content = File.open(path) { |f| f.read }
+  content.gsub!(old_text, new_text) unless content =~ /#{Regexp.escape(insert)}/mi
+  File.open(path, 'w') { |f| f.write(content) }
+end
+
+def patch_string(current, insert, mode = :insert_after)
+  case mode
+  when :change
+    "#{insert}"
+  when :insert_after
+    "#{current}\n#{insert}"
+  when :insert_before
+    "#{insert}\n#{current}"
+  else
+    patch_string(current, insert, :insert_after)
+  end
 end
 
 def backup(relative_file_path)
@@ -30,6 +50,17 @@ patch_file rails_root + '/config/environment.rb',
 
 # copy_with_backup "/vendor/adva/engines/adva_cms/config/initializers/adva_cms.rb", 
 #                  "/config/initializers/adva_cms.rb"
+
+patch_file 'config/initializers/new_rails_defaults.rb',
+  "ActionController::Routing.generate_best_match = false",
+  "ActionController::Routing.generate_best_match = true",
+  :patch_mode => :change
+
+patch_file 'config/initializers/new_rails_defaults.rb',
+  "ActionController::Routing.generate_best_match = true",
+  "# You *must* use Rails' old routing recognition/generation mode in order for adva-cms to work correctly
+#ActionController::Routing.generate_best_match = false",
+  :patch_mode => :insert_before
 
 File.open(rails_root + '/script/test-adva', "w") do |f|
   f << "#!/usr/bin/env ruby\n"
