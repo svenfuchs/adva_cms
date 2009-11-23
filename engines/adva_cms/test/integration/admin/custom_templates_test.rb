@@ -36,7 +36,7 @@ module IntegrationTests
 
     def delete_the_page
       click_link "delete_section_#{assigns(:section).id}"
-      request.url.should =~ %r(/admin/sites/\d+/sections/new)
+      request.url.should =~ %r(/admin/sites/\d+/sections)
     end
   end
 end

@@ -40,7 +40,7 @@ class Admin::SectionsController < Admin::BaseController
   def destroy
     if @section.destroy
       flash[:notice] = t(:'adva.sections.flash.destroy.success')
-      redirect_to new_admin_section_url
+      redirect_to admin_sections_url(@site)
     else
       flash.now[:error] = t(:'adva.sections.flash.destroy.failure')
       render :action => 'edit'

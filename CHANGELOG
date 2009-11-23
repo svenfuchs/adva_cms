@@ -5,6 +5,7 @@
 
   Changes
     * the "show comment" permission is set to author
+		* Keeping things consistent by redirecting to section index after deleting section
 
   Bugfixes
     * Applying patch for validation scope of section permalink [Alan Gutierrez]

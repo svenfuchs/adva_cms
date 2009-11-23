@@ -77,7 +77,7 @@ module IntegrationTests
 
     def delete_the_page
       click_link 'Delete'
-      request.url.should =~ %r(/admin/sites/\d+/sections/new)
+      request.url.should =~ %r(/admin/sites/\d+/sections)
     end
     
     def visit_overview_page

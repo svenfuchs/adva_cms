@@ -193,7 +193,8 @@ class AdminSectionsControllerTest < ActionController::TestCase
       it_assigns :site, :section
       it_destroys :section
       # FIXME implement: it_triggers_event :section_deleted
-      it_redirects_to { new_admin_section_url(@site) } # FIXME should be admin_site_url(@site)
+      # FIXME should be admin_site_url(@site) (why? why not section list?)
+      it_redirects_to { admin_sections_url(@site) }
       it_sweeps_page_cache :by_site => :site
       it_assigns_flash_cookie :notice => :not_nil
     end
