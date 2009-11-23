@@ -59,6 +59,24 @@ class RolesHelperTest < ActionView::TestCase
     quoted_role_names([@superuser_role]).should == 'superuser'
   end
   
+  test "#quoted_role_names turns the given role (admin) and context (site) to css class
+        that allow a user to see an element" do
+    admin_role_context = "admin-#{@admin_role.context_type.downcase}-#{@admin_role.context_id}"
+    quoted_role_names([@admin_role]).should == admin_role_context
+  end
+  
+  test "#quoted_role_names turns the given role (moderator) and context (section) to css class
+        that allow a user to see an element" do
+    moderator_role_context = "moderator-#{@moderator_role.context_type.downcase}-#{@moderator_role.context_id}"
+    quoted_role_names([@moderator_role]).should == moderator_role_context
+  end
+  
+  test "#quoted_role_names turns the given role (author) and context (article) to css class
+        that allow a user to see an element" do
+    author_role_context = "author-#{@author_role.context_type.downcase}-#{@author_role.context_id}"
+    quoted_role_names([@author_role]).should == author_role_context
+  end
+  
   test "#quoted_role_names given the option :quote it encloses the classes in single quotes" do
     quoted_role_names([@superuser_role], {:quote => true}).should == "'superuser'"
   end

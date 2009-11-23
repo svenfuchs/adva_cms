@@ -59,6 +59,9 @@ module RolesHelper
 
   def quoted_role_names(roles, options = {})
     separator = options[:separator] || ''
-    roles.map { |role| options[:quote] ? "'#{role.name}'" : role.name }.join(separator)
+    roles.map do |role|
+      role_name = role.context_type? ? "#{role.name}-#{role.context_type.underscore}-#{role.context_id}" : role.name
+      options[:quote] ? "'#{role_name}'" : role_name
+    end.join(separator)
   end
 end

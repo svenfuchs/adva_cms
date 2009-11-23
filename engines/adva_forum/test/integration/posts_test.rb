@@ -14,14 +14,14 @@ class PostsTest < ActionController::IntegrationTest
   end
   
   test 'an admin deletes an existing topic post' do
-    login_as_superuser  # FIXME change to admin when ticket #219 is fixed!
+    login_as_admin
     visit_the_forum
     visit_the_topic
     delete_the_reply
   end
   
   test 'an admin edits an existing topic post' do
-    login_as_superuser  # FIXME change to admin when ticket #219 is fixed!
+    login_as_admin
     visit_the_forum
     visit_the_topic
     edit_the_post
