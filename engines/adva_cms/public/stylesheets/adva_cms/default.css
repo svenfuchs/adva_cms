@@ -66,6 +66,18 @@ ul, ol {
   margin-bottom: 18px;
 }
 
+table {
+  padding: 0px;
+}
+table th {
+  padding: 5px 10px;
+}
+table td {
+  background: #eee;
+  padding: 4px 5px;
+  vertical-align: top;
+}
+
 /* HEADER */
 
 #header {
