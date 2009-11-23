@@ -8,7 +8,7 @@
     * Keeping things consistent by redirecting to section index after deleting section
 
   Bugfixes
-    * Fixed quoted_role_names to return correct role names for roles with contexes (fixes lighthouse ticket 219)
+    * Fixed quoted_role_names to return correct role names for roles with contexes
     * Applying patch for validation scope of section permalink [Alan Gutierrez]
     * fix user name encoding/decoding in cookies (fixes GitHub Issue 6)
     * Newsletter are only accessed in the context of the associated site
