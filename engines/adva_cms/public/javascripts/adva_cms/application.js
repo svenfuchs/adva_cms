@@ -23,8 +23,6 @@ var LoginLinks = {
 	}
 };
 
-URI.parseOptions.strictMode = true;
-
 $(document).ready(function() {
 	if($('#logout_links')) {
 		LoginLinks.init();
