@@ -19,7 +19,7 @@
 <% end %>
 
 <p>
-  <%= f.text_field :tag_list, :label => 'Tags' %> <span class="hint"><%= t(:'adva.wiki.view._form.tag_hint') %></span>
+  <%= f.text_field :tag_list, :label => 'Tags' %> <span class="hint text_only"><%= t(:'adva.wiki.view._form.tag_hint') %></span>
 </p>
 
 <% unless current_user.registered? %>
