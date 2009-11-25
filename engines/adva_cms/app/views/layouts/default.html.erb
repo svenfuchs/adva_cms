@@ -16,9 +16,10 @@
       <div id="header" class="clearing">
         <h1><%= @site.title %></h1>
         <h2><%= @site.subtitle %></h2>
-
         <p id="login_links" class="navigation">
 					<%= link_to(t(:'adva.titles.login'), login_path(:return_to => request.request_uri), :id => 'login_link') %>
+					|
+					<%= link_to(t(:'adva.titles.signup'), new_user_path, :id => 'signup_link') %>
         </p>
         <p id="logout_links" class="navigation" style="display: none;">
           <%= t(:'adva.users.info.logged_in_as', :name => '<span class="user_name"></span>') %> &middot;
