@@ -12,7 +12,7 @@ require 'registry' # reload them between requests (FIXME ... this doesn't seem t
 
 # ExtensibleFormBuilder.default_class_names(:field_set) << 'clearfix' # sigh
 
-ActionController::Dispatcher.to_prepare :redirects do
+ActionController::Dispatcher.to_prepare :'adva.cms.redirects' do
   Registry.set :redirect, {
     :login        => lambda { |c| c.send(:admin_sites_url) },
     :verify       => '/',
