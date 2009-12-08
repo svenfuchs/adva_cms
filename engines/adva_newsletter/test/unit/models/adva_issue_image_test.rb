@@ -1,5 +1,4 @@
 require File.dirname(__FILE__) + '/../../test_helper'
-require "hpricot"
 
 class AdvaIssueImageTest < ActiveSupport::TestCase
   def setup
@@ -17,12 +16,6 @@ class AdvaIssueImageTest < ActiveSupport::TestCase
 
   test "#initialize should accept html as a string" do
     img = Adva::IssueImage.new(valid_img)
-    img.alt.should == "Test"
-  end
-
-  test "#initialize should accept html as a hpricot img element" do
-    hpricot_img_element = Hpricot(valid_img).at("img")
-    img = Adva::IssueImage.new(hpricot_img_element)
     img.alt.should == "Test"
   end
 
@@ -105,18 +98,26 @@ end
 class AdvaIssueImageClassTest < ActiveSupport::TestCase
   def setup
     super
-    body_html =
-    <<-html
+    @body_html = <<-html
       <img alt=\"Test Name\" src=\"http://localhost:3000/assets/test.1.jpg?1243597104\" /></a>
       <img alt=\"Test PNG Name\" src=\"http://localhost:3000/assets/test_png.1.png?1243597104\" /></a>
       <img alt=\"Test gif Name\" src=\"http://localhost:3000/assets/test_gif.1.gif\" /></a>
       <img alt=\"Test wrong extension\" src=\"http://localhost:3000/assets/wrong_extension.rb\" /></a>
     html
-    @issue_images = Adva::IssueImage.parse(body_html)
+    @issue_images = Adva::IssueImage.parse(@body_html)
   end
 
   def teardown
     super
+  end
+
+  test "Imagetags can be found in HTML" do
+    assert_respond_to Adva::IssueImage, :find_images
+
+    images = Adva::IssueImage.find_images( @body_html )
+
+    assert_kind_of Array, images
+    assert_equal 4, images.size
   end
 
   test "#parse should return IssueImage instances" do
