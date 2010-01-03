@@ -186,6 +186,7 @@ de:
      superusers_admins: Superuser + Adminstratoren
      entries_feed: Einträge (Feed)
      comments_feed: Kommentare (Feed)
+     comments_feed_title: "{{section}} Kommentare"
      create_one_now: Jetzt anlegen &raquo;
 
    labels:

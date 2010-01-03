@@ -136,7 +136,8 @@ en:
       skip_to_navigation: Skip to Navigation
       superusers_admins: Superusers + Admins
       entries_feed: Entries feed
-      comments_feed: Comments feed      
+      comments_feed: Comments feed
+      comments_feed_title: "{{section}} comments"
     labels:
       author_name: Name
       author_email: E-Mail

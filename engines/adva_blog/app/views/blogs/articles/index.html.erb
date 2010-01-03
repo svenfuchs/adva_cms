@@ -1,4 +1,7 @@
 <%= articles_title @category, @tags, params, :format => '<h2 class="list_header">%s</h2>' %>
-
+<% content_for :head do %>
+  <%= auto_discovery_link_tag(:atom, blog_feed_url(@section, :format => :atom), :title => @section.title ) %>
+  <%= auto_discovery_link_tag(:atom, blog_comments_url(@section, :format => :atom), :title => t(:'adva.links.comments_feed_title', :section => @section.title) ) %>
+<% end %>
 <%= render :partial => 'blogs/articles/article', :collection => @articles, :locals => { :mode => :many } %>
 <%= render :partial => 'blogs/articles/footer' %>
