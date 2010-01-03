@@ -35,24 +35,27 @@ module IntegrationTests
       renders_template "blogs/articles/index"
       displays_article @published_article
       does_not_display_article @unpublished_article
+      displays_feed_links_for_autodiscovery
     end
   
     def visits_blog_category_index
       get 'categories/a-category'
-      # click_link 'a category'
     
       renders_template "blogs/articles/index"
       displays_article @published_article
       does_not_display_article @unpublished_article
+      displays_feed_links_for_autodiscovery
+      has_tag 'head link[href="http://site-with-blog.com/categories/a-category.atom"]'
     end
   
     def visits_empty_blog_category_index
       get 'categories/another-category'
-      # click_link 'another category' # FIXME webrat seems to be confused about the current session
 
       renders_template "blogs/articles/index"
       does_not_display_article @published_article
       does_not_display_article @unpublished_article
+      displays_feed_links_for_autodiscovery
+      has_tag 'head link[href="http://site-with-blog.com/categories/another-category.atom"]'
     end
   
     def visits_blog_tag_index
@@ -61,6 +64,8 @@ module IntegrationTests
       renders_template "blogs/articles/index"
       displays_article @published_article
       does_not_display_article @unpublished_article
+      displays_feed_links_for_autodiscovery
+      has_tag 'head link[href="http://site-with-blog.com/tags/foo.atom"]'
     end
   
     def visits_missing_blog_tag_index
@@ -75,6 +80,7 @@ module IntegrationTests
       renders_template "blogs/articles/index"
       displays_article @published_article
       does_not_display_article @unpublished_article
+      displays_feed_links_for_autodiscovery
     end
 
     def visits_blog_last_years_archive_index
@@ -83,6 +89,7 @@ module IntegrationTests
       renders_template "blogs/articles/index"
       does_not_display_article @published_article
       does_not_display_article @unpublished_article
+      displays_feed_links_for_autodiscovery
     end
   
     def visits_blog_this_months_archive_index
@@ -91,6 +98,7 @@ module IntegrationTests
       renders_template "blogs/articles/index"
       displays_article @published_article
       does_not_display_article @unpublished_article
+      displays_feed_links_for_autodiscovery
     end
   
     def visits_blog_last_months_archive_index
@@ -99,6 +107,11 @@ module IntegrationTests
       renders_template "blogs/articles/index"
       does_not_display_article @published_article
       does_not_display_article @unpublished_article
+      displays_feed_links_for_autodiscovery
+    end
+    def displays_feed_links_for_autodiscovery
+      has_tag 'head link[href="http://site-with-blog.com/a-blog.atom"]'
+      has_tag 'head link[href="http://site-with-blog.com/comments.atom"]'
     end
   end
 end
