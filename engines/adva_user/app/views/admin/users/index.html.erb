@@ -1,6 +1,6 @@
-<% @users.each do |user| %>
+<% @users.each do |user| -%>
 	<ul id="users">
-		<li>
+	  <% content_tag(:li, :id =>"user_#{user.id}") do -%>
 		  <%= gravatar_img(user) %>
 		  <h4><%= link_to user.name, admin_user_path(@site, user) %></h4>
 		  <p><%= user.email %></p>
@@ -8,8 +8,8 @@
 		    <%= link_to t(:'adva.links.edit'), edit_admin_user_path(@site, user), :class => 'edit' %>
 		    <%= link_to t(:'adva.links.delete'), admin_user_path(@site, user), :class => 'delete', :confirm => t(:'adva.users.confirm_delete'), :method => :delete %>
 		  </p>
-		</li> 
-	</ul>	
-<% end %>
+		<% end -%>
+	</ul>
+<% end -%>
 
 <%= will_paginate @users, :id => 'pagination' %>
