@@ -1013,7 +1013,7 @@ en:
       no_subscriptions: There are no subscriptions.
       confirm_delete: Are you sure you want unsubscribe?
       flash:
-        destroy_success: Successfully unsubsribed.
+        destroy_success: Successfully unsubscribed.
       link:
         index: Subscribers
         new: Add a new subscriber
