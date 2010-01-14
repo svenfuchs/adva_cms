@@ -25,7 +25,7 @@ class Theme < ActiveRecord::Base
   end
 
   belongs_to :site
-  has_many :files, :order => "directory ASC, name ASC", :dependent => :delete_all
+  has_many :files, :order => "directory ASC, name ASC", :class_name => 'Theme::File', :dependent => :delete_all
   has_many :templates, :order => "directory ASC, name ASC"
   has_many :images, :order => "directory ASC, name ASC"
   has_many :javascripts, :order => "directory ASC, name ASC"
