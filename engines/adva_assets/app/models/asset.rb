@@ -63,7 +63,7 @@ class Asset < ActiveRecord::Base
     
     [:image, :video, :audio, :pdf, :other].each do |type|
       define_method("#{type}?") do |content_type|
-        Mime::Type.lookup(content_type).to_s.starts_with(type.to_s) ||
+        Mime::Type.lookup(content_type).to_s.starts_with?(type.to_s) ||
           content_types[type].try(:include?, content_type) || false
       end
     end

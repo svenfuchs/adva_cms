@@ -26,7 +26,7 @@ module HasFilter
     end
       
     test 'scope :starts_with' do
-      assert_equal [@first], HasFilterArticle.starts_with(:title, 'fi')
+      assert_equal [@first], HasFilterArticle.starts_with?(:title, 'fi')
     end
       
     test 'scope :does_not_start_with' do
