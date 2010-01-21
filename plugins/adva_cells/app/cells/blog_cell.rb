@@ -1,5 +1,5 @@
 class BlogCell < BaseCell
-  tracks_cache_references :recent_articles, :track => ['@section', '@articles']
+  tracks_cache_references :recent_articles, :track => ['@section', '@recent_blog_articles']
 
   has_state :recent_articles
 

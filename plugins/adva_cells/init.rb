@@ -12,8 +12,10 @@ config.to_prepare do
         super
       end
 
-      def has_state(state)
-        self.states << state.to_sym unless self.states.include?(state.to_sym)
+      def has_state(*states)
+        states.each do |state|
+          self.states << state.to_sym unless self.states.include?(state.to_sym)
+        end
       end
 
       # convert a cell to xml
