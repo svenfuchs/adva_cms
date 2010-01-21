@@ -10,8 +10,7 @@ class BlogCell < BaseCell
     set_section
 
     @count = @opts[:count] || 5
-    @articles = Article.all(:limit => @count, :order => "published_at DESC")
-
+    @recent_blog_articles = @section.articles.published(:limit => @count, :order => "published_at DESC")
     nil
   end
 end

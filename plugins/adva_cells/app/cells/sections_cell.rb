@@ -10,7 +10,7 @@ class SectionsCell < BaseCell
     set_section
 
     @count = @opts[:count] || 5
-    @articles = with_sections_scope(Article) do
+    @recent_section_articles = with_sections_scope(Article) do
       Article.all(:limit => @count, :order => "published_at DESC")
     end
 
