@@ -1,8 +1,10 @@
-<div style="border: 3px solid #eee; padding: 12px; margin-bottom: 20px;">
-	<h2>Recent <%= @count %> articles</h2>
-	<ul>
-	<% @articles.each do |article| %>
-	  <li><%= article.title %></li>
-	<% end %>
-	</ul>
-</div>
+<% unless @recent_section_articles.empty? %>
+  <div id="recent_section_articles_cell" class="cell recent_section_articles">
+    <h2><%= @opts[:title] || I18n.t(:'headings.recent_articles', :count => @recent_section_articles.size) %></h2>
+  	<ul>
+  	<% @recent_section_articles.each do |article| %>
+  	  <li><%= link_to_content(article) %></li>
+  	<% end %>
+  	</ul>
+  </div>
+<% end %>
