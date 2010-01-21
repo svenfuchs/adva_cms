@@ -4,6 +4,8 @@ ActionController::Base.class_eval do
     CachedPage.expire_pages(pages)
   end
 
+  # theme assets get cleared in adva_themes/config/initializers/controllers.rb
+  # via alias_method_chaining this method
   def expire_site_page_cache
     # FIXME 
     # We can not simply kill the whole cache dir.

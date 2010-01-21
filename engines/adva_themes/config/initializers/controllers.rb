@@ -6,5 +6,13 @@ ActionController::Dispatcher.to_prepare do
   end
     
   Admin::BaseController.helper :themes
+
+  ActionController::Base.class_eval do
+    def expire_site_page_cache_with_theme_asset_clearing
+      expire_site_page_cache_without_theme_asset_clearing
+      @site.themes.each { |theme| theme.clear_asset_cache! }
+    end
+    alias_method_chain :expire_site_page_cache, :theme_asset_clearing
+  end
 end
 
