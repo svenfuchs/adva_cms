@@ -63,7 +63,8 @@ module ResourceHelper
     end
 
     def resource_url_namespace(options)
-      options.key?(:namespace) ? options.delete(:namespace) : current_controller_namespace
+      # FIXME - look at this again, alright?
+      options.key?(:namespace) ? options.delete(:namespace) : (current_controller_namespace.present? && current_controller_namespace.to_sym == :admin ? current_controller_namespace : nil)
     end
 
     def current_controller_namespace
