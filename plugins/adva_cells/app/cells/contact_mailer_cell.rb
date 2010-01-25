@@ -1,12 +1,17 @@
-include Authentication::HashHelper
-
 class ContactMailerCell < BaseCell
+  include Authentication::HashHelper
+
   helper :contact_mailer
+  has_state :mailer_form
   
   def mailer_form
-    @recipients = URI.escape(EzCrypto::Key.encrypt_with_password(ContactMail.password, send(:site_salt), @opts["recipients"])) if @opts["recipients"]
-    @subject    = @opts["subject"]                if @opts["subject"]
-    @fields     = @opts["fields"].delete("field") if @opts["fields"]
+    symbolize_options!
+
+    @recipients  = URI.escape(EzCrypto::Key.encrypt_with_password(ContactMail.password, site_salt, Array(@opts[:recipients]).join(', ')))
+    @subject     = @opts[:subject]
+    @fields      = @opts[:fields][:field] if @opts[:fields]
+    @id          = @opts[:form_id] || 'contact_mail_form'
+    @submit_text = @opts[:submit_text] || I18n.t(:'adva.common.labels.submit')
     nil
   end
 end

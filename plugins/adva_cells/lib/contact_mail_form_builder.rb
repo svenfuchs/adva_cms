@@ -26,9 +26,9 @@ class ContactMailFormBuilder
     fields.collect do |field|
       if field.valid?
         if field.is_a?(Tags::Header)
-          html += "\n" + field.render + "\n"
+          html += "\n#{field.render}\n"
         else
-          html += "<p>\n" + field.render + "</p>\n"
+          html += "<p>\n#{field.render}</p>\n"
         end
       end
     end
@@ -55,10 +55,6 @@ module Tags
     def valid?
       true
     end
-    
-    def render
-      ""
-    end
   end
   
   class FormFieldBase < Base
@@ -74,20 +70,29 @@ module Tags
     def valid?
       !!name
     end
-    
+
     def label_for
-      field = label ? label : name.capitalize
-      "\t<label for='contact_mail_#{dehumanize(field)}'>#{field}</label>\n"
+      %(\t<label for="#{id}" class="#{label_class}">#{label_text}</label>\n)
     end
-    
+
     def dehumanize(string)
-      string.gsub(/([^A-Za-z0-9_])/, "_").gsub(/([_.][_.]+)/, "_").gsub(/(^[_.]|[_.]$)/, "").downcase
+      string.gsub(/([^A-Za-z0-9_])/, '_').gsub(/([_.][_.]+)/, '_').gsub(/(^[_.]|[_.]$)/, '').downcase
     end
     
     def dehumanized_name
-      :"contact_mail[#{dehumanize(name)}]"
+      "contact_mail[#{dehumanize(name)}]"
     end
-    
+
+    def id
+      "contact_mail_#{dehumanize(name)}"
+    end
+
+    def label_text
+      label ? label : name.capitalize
+    end
+
+    def label_class
+    end
   end
   
   class CheckableBase < FormFieldBase
@@ -97,11 +102,15 @@ module Tags
       super
       @checked = options[:checked]
     end
+
+    def label_class
+      'inline'
+    end
   end
   
   class TextField < FormFieldBase
     def render
-      label_for + "\t" + text_field_tag(dehumanized_name, value, options) + "\n"
+      "#{label_for}\t#{text_field_tag(dehumanized_name, value, options)}\n"
     end
   end
   
@@ -109,9 +118,9 @@ module Tags
     def text_area_options
       options[:id] ? options : options.merge(:id => "contact_mail_#{name}")
     end
-    
+
     def render
-      label_for + "\t" + text_area_tag(dehumanized_name, value, text_area_options) + "\n"
+      "#{label_for}\t#{text_area_tag(dehumanized_name, value, text_area_options)}\n"
     end
   end
   
@@ -130,7 +139,7 @@ module Tags
     end
     
     def formatted_option_tags
-      option_tags.collect { |option| [option["label"], option["value"]] }
+      option_tags.collect { |option| [option['label'], option['value']] }
     end
     
     def valid?
@@ -138,7 +147,7 @@ module Tags
     end
     
     def render
-      label_for + "\t" + select_tag(dehumanized_name, options_for_select(formatted_option_tags), options) + "\n"
+      "#{label_for}\t#{select_tag(dehumanized_name, options_for_select(formatted_option_tags), options)}\n"
     end
   end
   
@@ -146,15 +155,21 @@ module Tags
     def valid?
       name && value
     end
-    
+
     def render
-      label_for + "\t" + radio_button_tag(dehumanized_name, value, checked, options) + "\n"
+      "#{radio_button_tag(dehumanized_name, value, checked, options)}\t#{label_for}\n"
+    end
+
+    def id
+      # yuck - copied from Rails
+      replaced_value = value.to_s.gsub(/\s/, "_").gsub(/(?!-)\W/, "").downcase
+      "contact_mail_#{dehumanize(name)}_#{replaced_value}"
     end
   end
   
   class CheckBox < CheckableBase
     def render
-      label_for + "\t" + check_box_tag(dehumanized_name, value, checked, options) + "\n"
+      "#{check_box_tag(dehumanized_name, value, checked, options)}\t#{label_for}\n"
     end
   end
   

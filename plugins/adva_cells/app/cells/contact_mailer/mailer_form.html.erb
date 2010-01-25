@@ -1,9 +1,9 @@
-<% form_tag contact_mails_path(:return_to => request.request_uri), { :id => 'contact_mail_form', :method => :post } do -%>
+<% form_tag contact_mails_path(:return_to => request.request_uri), { :id => @id, :method => :post } do -%>
 	<p>
     <%= hidden_field_tag :'contact_mail[recipients]', @recipients %>
   </p>
 
 	<%= render_fields(@fields) if @fields.present? %>
 
-  <%= submit_tag t(:'adva.common.labels.submit') %>
+  <%= submit_tag @submit_text %>
 <% end %>
