@@ -178,11 +178,13 @@ class ExtensibleFormBuilder < ActionView::Helpers::FormBuilder
       else nil
       end
 
+      options = { :for => extract_id(tag), :id => "#{extract_id(tag)}_label" }
+
       case type
       when :check_box, :radio_button
-        tag + "\n" + self.label(method, label, :class => 'inline light', :for => extract_id(tag), :id => "#{extract_id(tag)}_label")
+        tag + "\n" + self.label(method, label, options.merge(:class => 'inline light'))
       else
-        self.label(method, label) + tag
+        self.label(method, label, options) + tag
       end
     end
 
