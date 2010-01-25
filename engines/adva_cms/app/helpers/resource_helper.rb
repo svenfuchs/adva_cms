@@ -27,7 +27,7 @@ module ResourceHelper
     resource = [resource, type] if [:index, :new].include?(action)
     url = options.delete(:url) || resource_url(action, resource, url_options)
 
-    link_to(text, url, options)
+    link_to(h(text), url, options)
   end
 
   [:index, :new, :show, :edit, :delete].each do |action|
