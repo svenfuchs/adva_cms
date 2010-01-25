@@ -3,7 +3,7 @@ class BaseCell < Cell::Base
   
   protected
     def symbolize_options!
-      @opts.symbolize_keys!
+      @opts.deep_symbolize_keys!
     end
 
     def set_site
