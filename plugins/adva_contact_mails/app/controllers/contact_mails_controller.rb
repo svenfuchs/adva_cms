@@ -6,8 +6,11 @@ class ContactMailsController < BaseController
   before_filter :decrypt_recipients, :only => :create
   
   def create
-    ContactMailer.deliver_contact_mail(params[:contact_mail])
-    flash[:notice] = t(:'adva.contact_mails.delivered')
+    if ContactMailer.deliver_contact_mail(params[:contact_mail])
+      flash[:notice] = params[:success_message]
+    else
+      flash[:error] = params[:failure_message]
+    end
     redirect_to params[:return_to] || '/'
   end
   

@@ -7,6 +7,9 @@ class ContactMailerCell < BaseCell
   def mailer_form
     symbolize_options!
 
+    @success_message = @opts[:success_message] || I18n.t(:'adva.contact_mails.delivered')
+    @failure_message = @opts[:failure_message] || I18n.t(:'adva.contact_mails.delivery_failed')
+
     @recipients  = URI.escape(EzCrypto::Key.encrypt_with_password(ContactMail.password, site_salt, Array(@opts[:recipients]).join(', ')))
     @subject     = @opts[:subject]
     @fields      = @opts[:fields][:field] if @opts[:fields]
