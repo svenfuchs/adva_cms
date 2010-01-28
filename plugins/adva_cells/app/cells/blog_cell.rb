@@ -9,8 +9,10 @@ class BlogCell < BaseCell
     set_site
     set_section
 
-    @count = @opts[:count] || 5
-    @recent_blog_articles = @section.articles.published(:limit => @count, :order => "published_at DESC")
+    if @section
+      @count = @opts[:count] || 5
+      @recent_blog_articles = @section.articles.published(:limit => @count, :order => "published_at DESC")
+    end
     nil
   end
 end

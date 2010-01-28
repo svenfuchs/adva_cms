@@ -1,5 +1,5 @@
 class ContentCell < BaseCell
-  tracks_cache_references :recent, :track => ['@section', '@articles', '@wikipages']
+  tracks_cache_references :recent, :track => ['@section', '@contents', '@wikipages']
   
   has_state :recent
   
@@ -13,7 +13,7 @@ class ContentCell < BaseCell
     
     order = @opts[:order] ? @opts[:order] : "created_at DESC"
     limit = @opts[:count] ? @opts[:count] : 5
-    @content = Content.published(:order => order, :limit => limit)
+    @contents = Content.published(:order => order, :limit => limit)
     nil
   end
 end

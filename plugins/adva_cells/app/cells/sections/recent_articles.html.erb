@@ -1,4 +1,4 @@
-<% unless @recent_section_articles.empty? %>
+<% if @recent_section_articles.present? %>
   <div id="recent_section_articles_cell" class="cell recent_section_articles">
     <h2><%= @opts[:title] || I18n.t(:'headings.recent_articles', :count => @recent_section_articles.size) %></h2>
   	<ul>
