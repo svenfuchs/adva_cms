@@ -1,7 +1,7 @@
 /* FLASH */
 
 .flash {
-	height: 27px;
+	padding:5px;
 	margin: -26px 0 18px 0;
 	line-height: 25px;
 	text-align: center;
