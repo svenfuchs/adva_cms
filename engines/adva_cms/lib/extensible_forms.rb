@@ -178,7 +178,7 @@ class ExtensibleFormBuilder < ActionView::Helpers::FormBuilder
       else nil
       end
 
-      options = { :for => extract_id(tag), :id => "#{extract_id(tag)}_label" }
+      options = { :for => extract_id(tag) }
 
       case type
       when :check_box, :radio_button
