@@ -1,4 +1,15 @@
 de:
+  adva_newsletter:
+    issue:
+      confirm:
+        remove_body_plain: "Möchten Sie wirklich die Reintext Version löschen?"
+      label:
+        body: Html Version
+        body_plain: Reintext Version
+        title: Titel der Ausgabe
+      link:
+        add_body_plain: "Reintext Version hinzufügen"
+        remove_body_plain: "Reintext Version löschen"
   adva:
     titles:
       newsletters: Newsletter
@@ -73,6 +84,7 @@ de:
       title:
         edit: Newsletter bearbeiten
         new: Newsletter anlegen
+        edit_issue: Ausgabe bearbeiten
 
     issues:
       columns:

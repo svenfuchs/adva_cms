@@ -150,7 +150,7 @@ en:
       tags: Enter one or more tags separated by a space. You may include spaces by enclosing a tag with quotes. (For example, <em>"Web Dev" Tutorials</em>).
       content_translations: Click to change the translation to edit. To add another translation, use the locales option in the menu on the right.
       locale: Choose what region or language your article should be formatted for.
-      filter: How is your content written? If you used the graphical text editor, use the default Plain HTML option. Otherwise, choose your markup languange.
+      filter: "How is your content written? If you used the graphical text editor, use the default 'Plain HTML' option. Otherwise, choose your markup languange."
       meta_keywords: Enter a few words separated by commas to describe your content. Meta keywords make it easier for search engines to find your page.
       meta_description: Enter a short description of this page so a search engine can tell users what they can find here.
       template: Enter the location (like “Templates/*”) of the template that articles in this section should use. If you're unsure, leave this field blank.

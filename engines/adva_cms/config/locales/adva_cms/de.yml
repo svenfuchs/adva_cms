@@ -201,6 +201,7 @@ de:
      akismet: "Askimet ist ein Spamfilter-Dienst. Wenn Sie sich bei Akismet angemeldet haben, können Sie den Filter aktivieren und Ihre Zugangsdaten eingeben."
      defensio: "Defensio ist ein Spamfilter-Dienst. Wenn Sie sich bei Defensio angemeldet haben, können Sie den Filter aktivieren und Ihre Zugangsdaten eingeben."
      roles: "Wählen Sie, auf welche Bereiche der Seite dieser Benutzer Zugriff haben soll."
+     filter: "Wie erzeugen Sie Ihre Inhalte? Falls Sie den graphischen Texteditor verwenden möchten, benutzen Sie bitte die Standard-Option 'Plain HTML'. Andernfalls, wählen Sie die gewünschte Markup Sprache."
 
    messages:
      insufficient_permissions:
