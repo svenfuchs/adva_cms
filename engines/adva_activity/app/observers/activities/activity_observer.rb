@@ -3,7 +3,7 @@ module Activities
     observe :activity
 
     def after_create(activity)
-      self.class.send(:notify_subscribers, activity)
+      self.class.send(:notify_subscribers, activity) if activity.site.email_notification?
     end
 
     private
