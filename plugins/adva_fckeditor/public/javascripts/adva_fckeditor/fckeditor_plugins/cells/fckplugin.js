@@ -7,7 +7,7 @@ FCKCommands.RegisterCommand('ConfigureCell', new FCKDialogCommand(FCKLang['DlgCo
 
 // create the "ConfigureCell" toolbar button
 var oInsertCellItem      = new FCKToolbarButton('ConfigureCell', FCKLang['DlgConfigureCellTitle']) ;
-// oInsertCellItem.IconPath = FCKConfig.PluginsPath + 'cells/cell.gif';
+oInsertCellItem.IconPath = FCKConfig.PluginsPath + 'cells/images/configurecell.gif';
 
 FCKToolbarItems.RegisterItem('ConfigureCell', oInsertCellItem);
 
