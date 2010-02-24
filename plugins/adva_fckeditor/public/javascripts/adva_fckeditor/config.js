@@ -35,7 +35,7 @@ FCKConfig.ToolbarSets['adva-cms'] = [
   ['Cut','Copy','Paste','PasteText','PasteWord','-','Print'],
   ['Undo','Redo','-','Find','Replace','-','SelectAll'],
   '/',
-  ['FontFormat'],
+  ['FontSize','FontFormat'],
   ['Bold','Italic','Underline','StrikeThrough','-','Subscript','Superscript'],
   ['OrderedList','UnorderedList','-','Outdent','Indent','Blockquote'],
   ['JustifyLeft','JustifyCenter','JustifyRight','JustifyFull'],
