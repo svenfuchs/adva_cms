@@ -230,6 +230,9 @@ en:
         host: Host name
         locale: Locale
       confirm_delete: Are you sure you want to delete this site?
+    accounts:
+      signup:
+        incorrect_password: "<strong>Incorrect Email/Password Combination</strong><p>An account for this email already exists. Please, enter your correct password.</p>"
     sections:
       hints:
         content_filter: How should your articles be read? The default option is Plain HTML.

@@ -275,7 +275,9 @@ de:
        host: Hostname
        locale: Gebietsschema
      confirm_delete: "Sind Sie sicher, dass Sie diese Webseite löschen wollen?"
-
+   accounts:
+     signup:
+       incorrect_password: "<strong>Incorrect Email/Password Combination</strong><p>An account for this email already exists. Please, enter your correct password.</p>"   
    sections:
      columns:
        section: Sektion

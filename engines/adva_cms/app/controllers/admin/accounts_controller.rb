@@ -26,7 +26,7 @@ class Admin::AccountsController < Admin::BaseController
     @adva_best_account = AdvaBestAccount.new(params[:adva_best_account])
     if existing_user = User.find_by_email(@user.email)
       unless existing_user.has_password?(params[:user][:password])
-        flash[:error] = I18n.t(:'adva_best.accounts.signup.incorrect_password')
+        flash[:error] = I18n.t(:'adva.accounts.signup.incorrect_password')
         return render(:action => 'new')
       end
       if @adva_best_account.save
