@@ -1,10 +1,8 @@
 class Admin::AccountsController < Admin::BaseController
-  ssl_required  :create, :new
 
   authentication_required :except => [ :new, :create]
   before_filter :set_account, :except => [ :new, :create, :index ]
   before_filter :set_menu, :only => []
-  skip_before_filter :check_account_activation
 
   def index
     @accounts = current_user.accounts
@@ -35,12 +33,7 @@ class Admin::AccountsController < Admin::BaseController
         existing_user.make_superuser(@adva_best_account)
         authenticate_user(params[:user])
         trigger_events @adva_best_account, :additional_account_created
-        if @adva_best_account.account_plan == 'premium'
-          @account = @adva_best_account
-          render :template => '/admin/accounts/billing'
-        else
-          redirect_to(return_from(:login_backend))
-        end
+        redirect_to(return_from(:login_backend))
       else
         render :action => 'new'
       end
