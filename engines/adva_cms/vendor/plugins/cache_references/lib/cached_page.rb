@@ -18,16 +18,29 @@ class CachedPage < ActiveRecord::Base
     end
     
     def create_with_references(site, section, url, references)
-      returning find_or_initialize_by_site_id_and_url(site.id, url, :include => :references) do |page|
-        [:compact!, :uniq!].each { |method| references.send method }
-        references.each do |object, method|
-          reference = CachedPageReference.initialize_with(object, method)
-          page.references << reference unless page.references.detect {|r| r == reference }
-        end
-        page.section_id = section.id if section
-        page.cleared_at = nil
-        page.save!
-      end if site
+      # returning find_or_initialize_by_site_id_and_url(site.id, url, :include => :references) do |page|
+      #   [:compact!, :uniq!].each { |method| references.send method }
+      #   references.each do |object, method|
+      #     reference = CachedPageReference.initialize_with(object, method)
+      #     page.references << reference unless page.references.detect {|r| r == reference }
+      #   end
+      #   page.section_id = section.id if section
+      #   page.cleared_at = nil
+      #   page.save!
+      # end if site
+
+      # create object as fast as possible to minimize issues with race conditions
+      return unless site
+
+      attributes = { :created_at => nil }
+      attributes.merge!(:section_id => section.id) if section
+
+      page = find_or_create_by_site_id_and_url(site.id, url, attributes)
+
+      references.compact.uniq.each do |object, method|
+        reference = CachedPageReference.initialize_with(object, method)
+        page.references << reference unless page.references.detect { |r| r == reference }
+      end
     end
 
     def expire_pages(pages)
