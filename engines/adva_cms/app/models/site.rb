@@ -26,44 +26,69 @@ class Site < ActiveRecord::Base
   has_many :users, :through => :memberships, :dependent => :destroy
   has_many :memberships, :dependent => :delete_all
   has_many :cached_pages, :dependent => :destroy, :order => 'cached_pages.updated_at desc'
+  has_many :products
+
+  belongs_to :adva_best_account
 
   before_validation :downcase_host, :replace_host_spaces # c'mon, can't this be normalize_host or something?
   before_validation :populate_title
+  before_validation :remove_host_slashes
 
   validates_presence_of :host, :name, :title
   validates_uniqueness_of :host
+  validates_format_of :host, :with => /\A[a-z0-9-]+\z/
+  validates_exclusion_of :host, :in => 'www'
 
   cattr_accessor :multi_sites_enabled, :cache_sweeper_logging
 
   class << self
+
     def find_by_host!(host)
-      return Site.first if count == 1 && !multi_sites_enabled
-      find_by_host(host) # || raise(ActiveRecord::RecordNotFound, "Could not find site for hostname #{host}.")
+      site_host = host.split('.')[0]
+      Site.find_by_host(site_host)
     end
 
-    # FIXME clemens thinks this doesn't belong here. he's probably right.
-    # TODO how to make this an association or assoc extension so we can use it
-    # in admin/users_controller?
-    def find_users_and_superusers(id, options = {})
-      condition = ["memberships.site_id = ? OR (memberships.site_id IS NULL AND roles.name = ?)", id, 'superuser']
+    def find_users_and_superusers(id, adva_best_account_id, options = {})
+      condition = [
+        %{
+          memberships.site_id = ? OR
+          (memberships.site_id IS NULL AND
+          roles.name = ? AND
+          roles.context_type = 'AdvaBestAccount' AND
+          roles.context_id = ?)
+        }, id, 'superuser', adva_best_account_id]
       User.find :all, options.merge(:include => [:roles, :memberships], :conditions => condition)
+    end
+
+  end
+
+
+  def users_and_superusers(options = {})
+    self.class.find_users_and_superusers id, adva_best_account.id, options
+  end
+
+  def owners
+    owner.owners << owner
+  end
+
+  def owner
+    adva_best_account
+  end
+
+  def published_newsletters
+    self.newsletters.find(:all, :conditions => ['published = 1'])
+  end
+
+  def website_preview_link(host_with_port)
+    if Rails.env == 'production'
+      "http://#{host_with_port.sub(/www/, self.host)}"
+    else
+      "http://#{self.host}.#{host_with_port}"
     end
   end
 
   def multi_sites_enabled?
     self.class.multi_sites_enabled
-  end
-
-  def owners
-    []
-  end
-
-  def owner
-    nil
-  end
-
-  def users_and_superusers(options = {})
-    self.class.find_users_and_superusers id, options
   end
 
   def section_ids
@@ -105,4 +130,10 @@ class Site < ActiveRecord::Base
     def populate_title
       self.title = self.name if self.title.blank?
     end
+
+    def remove_host_slashes
+      self.host = host.to_s.delete('/')
+    end
+
+
 end
