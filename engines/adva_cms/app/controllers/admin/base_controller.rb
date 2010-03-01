@@ -11,29 +11,50 @@ class Admin::BaseController < ApplicationController
 
   helper_method :content_locale, :has_permission?
 
+  prepend_before_filter :set_account
   before_filter :set_menu, :set_site, :set_section, :set_locale, :set_timezone
 
   authentication_required
 
   attr_accessor :site
 
+  def expire_pages(pages)
+    pages.each do |page|
+      cache_dir = AdvaBestAccount.page_cache_directory_for_site(page.site)
+      Dir["#{cache_dir}.*"].each do |path|
+        Pathname.new(path).rmtree if File.exists?(path)
+      end
+    end
+    CachedPage.expire_pages(pages)
+  end
+
   protected
+
+    def set_account
+      @account = Site.find_by_id(params[:site_id]).adva_best_account
+    end
+
+    def set_site
+      @site = @account.sites.find(params[:site_id]) if params[:site_id] if @account
+    end
+
+    def set_section
+      @section =  @site.sections.find(params[:section_id]) if params[:section_id] if @site
+    end
+
+    def set_menu
+      @menu = Menus::Admin::AdvaBestSites.new
+    end
 
     def current_resource
       @section || @site || Site.new
     end
 
     def require_authentication
-      if @site
-        return redirect_to_login(t(:'adva.flash.login_to_access_admin_area_of_site')) unless current_user
-        unless current_user.has_permission_for_admin_area?(@site)
-          return redirect_to_login(t(:'adva.flash.no_permission_for_admin_area_of_site'))
-        end
-      else
-        return redirect_to_login(t(:'adva.flash.login_to_access_admin_area_of_account')) unless current_user
-        unless current_user.has_global_role?(:superuser)
-          return redirect_to_login(t(:'adva.flash.no_permission_for_admin_area_of_account'))
-        end
+      return redirect_to_login(t(:'adva.flash.login_to_access_admin_area_of_account')) unless current_user
+      if current_user.accounts.empty? || @account && !current_user.privileged_account_member?(@account)
+        flash[:notice] = t(:'adva.flash.no_permission_for_admin_area_of_account')
+        redirect_to login_url
       end
     end
 
@@ -64,10 +85,6 @@ class Admin::BaseController < ApplicationController
       @page ||= params[:page].present? ? params[:page].to_i : 1
     end
 
-    def set_menu
-      @menu = Menus::Admin::Sites.new
-    end
-
     def set_locale
       params[:locale] =~ /^[\w]{2}$/ or raise 'invalid locale' if params[:locale]
       I18n.locale = params[:locale] || I18n.default_locale
@@ -78,14 +95,6 @@ class Admin::BaseController < ApplicationController
 
     def set_timezone
       Time.zone = @site.timezone if @site
-    end
-
-    def set_site
-      @site = Site.find(params[:site_id]) if params[:site_id]
-    end
-
-    def set_section
-      @section =  @site.sections.find(params[:section_id]) if params[:section_id]
     end
 
     def update_role_context!(params)
