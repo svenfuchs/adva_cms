@@ -1,0 +1,40 @@
+<h2><%= t(:'adva.accounts.signup.sign_up_header') %></h2>
+
+<% form_for :user, :url => { :action => 'create' } do |f| %>
+
+  <% f.field_set do %>
+  
+    <% column do %>
+      <% f.field_set do %>
+        <h3><%= t(:'adva.accounts.signup.login_header') %></h3>
+
+        <%= f.label :first_name, t(:'adva.accounts.signup.first_name'), :required => true %>
+        <%= f.text_field :first_name, :tabindex => '2' %>
+
+        <%= f.label :last_name, t(:'adva.accounts.signup.last_name') %>
+        <%= f.text_field :last_name, :tabindex => '3' %>
+
+        <%= f.label :email, t(:'adva.accounts.signup.email'), :required => true %>
+        <%= f.text_field :email, :tabindex => '13' %>
+
+        <%= f.label :password, t(:'adva.accounts.signup.password'), :required => true %>
+        <%= f.password_field :password, :tabindex => '5' %>
+      <% end %>
+    <% end %>
+
+    <% column do %>
+      <% fields_for :adva_best_account do |af| %>
+        <% af.field_set do %>
+          <h3><%= t(:'adva.accounts.signup.account_header') %></h3>
+
+          <%= af.label :name, t(:'adva.accounts.signup.account_name'), :required => true %>
+          <%= af.text_field :name, :tabindex => '1' %>
+
+        <% end %>
+      <% end %>
+    <% end %>
+
+  <% end %>
+  
+  <p><%= f.submit(t(:'adva.accounts.signup.sign_up_button'), :tabindex => '6') %></p>
+<% end %>

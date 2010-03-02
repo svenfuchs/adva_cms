@@ -1,0 +1,12 @@
+<% table_for @accounts do |t|
+		t.column :name
+
+		t.row do |r, account|
+  		r.cell link_to_show(account.name, account, :class => 'account', :url => admin_sites_path(:account_id => account))
+		end
+
+		t.foot.row do |r|
+      r.cell will_paginate(@accounts), :class => :pagination, :colspan => :all
+		end
+
+end %>
