@@ -43,7 +43,7 @@ class Admin::BaseController < ApplicationController
     end
 
     def set_menu
-      @menu = Menus::Admin::AdvaBestSites.new
+      @menu = Menus::Admin::Sites.new
     end
 
     def current_resource

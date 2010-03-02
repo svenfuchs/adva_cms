@@ -27,6 +27,7 @@ class Admin::ArticlesController < Admin::BaseController
   end
 
   def edit
+    @locale = params[:cl].to_sym if params[:cl]
   end
 
   def create
@@ -103,6 +104,10 @@ class Admin::ArticlesController < Admin::BaseController
 
     def set_menu
       @menu = Menus::Admin::Articles.new
+    end
+
+    def set_account
+      @account = Site.find_by_id(params[:site_id]).adva_best_account
     end
 
     def set_articles

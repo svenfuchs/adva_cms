@@ -16,7 +16,7 @@ module Menus
             item :edit,   :url => edit_admin_user_path(@site, @user)
             # item :show,   :action  => :show, :resource => @user
             # item :edit,   :action  => :edit, :resource => @user
-            item :delete, :content => link_to_delete(@user)
+            item :delete, :content => link_to("#{I18n.t(:'adva.titles.delete')}", admin_site_user_url(@site, @user))
           end
         end
       end

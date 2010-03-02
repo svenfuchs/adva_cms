@@ -7,19 +7,21 @@ module Menus
   end
 
   module Admin
+
     class Sites < Menu::Group
       define do
         namespace :admin
         breadcrumb :site, :content => link_to_show(@site.name, @site) if @site && !@site.new_record?
 
         menu :left, :class => 'main' do
-          item :sites, :action => :index, :resource => :site if Site.multi_sites_enabled
+          item :sites, :content => link_to("#{I18n.t(:'adva.titles.sites')}", admin_sites_url(:account_id => @account)) if Site.multi_sites_enabled
           if @site && !@site.new_record?
             item :overview,      :action => :show,  :resource => @site
             item :sections,      :action => :index, :resource => [@site, :section], :type => Menu::SectionsMenu, :populate => lambda { @site.sections }
             item :comments,      :action => :index, :resource => [@site, :comment]           if Rails.plugin?(:adva_comments)
             item :newsletters,   :action => :index, :resource => [@site, "Adva::Newsletter"] if Rails.plugin?(:adva_newsletter)
             item :assets,        :action => :index, :resource => [@site, :asset]             if Rails.plugin?(:adva_assets)
+            item :products,      :action => :index, :resource => [@site, :product]           if @site.adva_best_account.account_plan == 'premium' && @site.adva_best_account.paid # if Rails.plugin?(:adva_products) # this engine does not exist yet
           end
         end
 
@@ -28,7 +30,7 @@ module Menus
             item :themes,   :action => :index, :resource => [@site, :theme]                  if Rails.plugin?(:adva_themes)
             item :settings, :action => :edit,  :resource => @site
           end
-          item :users, :action => :index, :resource => [@site, :user]
+          item :users, :action => :index, :resource => [@site, :user] if @site
         end
       end
 
@@ -37,7 +39,7 @@ module Menus
           id :main
           parent Sites.new.build(scope).find(:sites)
           menu :actions, :class => 'actions' do
-            item :new, :action => :new, :resource => :site
+            item :new, :content => link_to("#{I18n.t(:'adva.titles.new')}", new_admin_site_url(:account_id => @account))
           end
         end
       end
