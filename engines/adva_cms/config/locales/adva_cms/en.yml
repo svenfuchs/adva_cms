@@ -232,7 +232,18 @@ en:
       confirm_delete: Are you sure you want to delete this site?
     accounts:
       signup:
+        account_name: "Account Name"
         incorrect_password: "<strong>Incorrect Email/Password Combination</strong><p>An account for this email already exists. Please, enter your correct password.</p>"
+        first_name: "First Name"
+        last_name: "Last Name"
+        email: "Email Address"
+        password: "Password"
+        sign_up_header: "Sign up"
+        sign_up_button: "Sign up"
+        login_header: "Your login"
+        account_header: "Your account"
+        success: "Success"
+        click_link_in_verification_email: "<p>You have sucessfully registered for a user account.</p><p>There is just one more thing. We need to make sure your email address is valid.<br/>We have sent a verification email to you which includes a link.<br/>This link will complete your registration process.</p><p>Just click it and you are done!</p>"
     sections:
       hints:
         content_filter: How should your articles be read? The default option is Plain HTML.

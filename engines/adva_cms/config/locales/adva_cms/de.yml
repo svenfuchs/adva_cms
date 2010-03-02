@@ -277,7 +277,18 @@ de:
      confirm_delete: "Sind Sie sicher, dass Sie diese Webseite löschen wollen?"
    accounts:
      signup:
-       incorrect_password: "<strong>Incorrect Email/Password Combination</strong><p>An account for this email already exists. Please, enter your correct password.</p>"   
+       account_name: "Account Name"
+       incorrect_password: "<strong>Falsche E-Mail/Passwort Kombination</strong><p>Es existiert bereits ein Konto zu dieser E-Mail Adresse. Bitte überprüfen Sie Ihr Passwort.</p>"
+       first_name: "Vorname"
+       last_name: "Nachname"
+       email: "E-Mail Adresse"
+       password: "Passwort"
+       sign_up_header: "Anmeldung"
+       sign_up_button: "Anmelden"
+       login_header: "Ihr Login"
+       account_header: "Ihr Account"
+       success: "Erfolgreiche Registrierung"
+       click_link_in_verification_email: "<p>Sie haben sich erfolgreich registriert.</p><p>Sie müssen nur noch ihre E-Mail Adresse bestätigen.<br/>Wir haben Ihnen eine E-Mail zugeschickt, die einen Bestätigungslink enthält.<br/>Durch Klicken auf diesen Link ist der Registrierungsprozess abgeschlossen.</p>"
    sections:
      columns:
        section: Sektion
