@@ -22,6 +22,12 @@ class User < ActiveRecord::Base
   validates_length_of       :password, :within => 4..40,       :if => :password_required?
 
   class << self
+
+    def authenticate_for_site(site, credentials)
+       return false unless user = site.users.find_by_email(credentials[:email]) || site.adva_best_account.superusers.find_by_email(credentials[:email])
+       user.authenticate(credentials[:password]) ? user : false
+    end
+
     def authenticate(credentials)
       return false unless user = User.find_by_email(credentials[:email])
       user.authenticate(credentials[:password]) ? user : false

@@ -45,6 +45,16 @@ module ActionController
 
     # Methods callable from within actions
     module InstanceMethods
+
+      def authenticate_user_for_site(site, credentials)
+        returning User.authenticate_for_site(site, credentials) do |user|
+          if user
+            session[:uid] = user.id
+            set_user_cookie!(user)
+          end
+        end
+      end
+
       def authenticate_user(credentials)
         returning User.authenticate(credentials) do |user|
           if user
