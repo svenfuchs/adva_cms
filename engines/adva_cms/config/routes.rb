@@ -90,6 +90,10 @@ ActionController::Routing::Routes.draw do |map|
                                   :name_prefix => "admin_",
                                   :namespace   => "admin/"
 
+  map.resources :accounts,        :controller => 'admin/accounts',
+                                  :path_prefix  => 'admin',
+                                  :name_prefix  => 'admin_'
+
   map.connect                     'admin/sites/:site_id/sections/:section_id/articles',
                                   :controller   => 'admin/articles',
                                   :action       => 'update_all',
