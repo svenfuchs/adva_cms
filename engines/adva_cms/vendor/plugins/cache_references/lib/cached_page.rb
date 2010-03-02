@@ -8,7 +8,7 @@ class CachedPage < ActiveRecord::Base
 
   class << self
     def find_by_reference(object, method = nil)
-      sql = 'cached_page_references.object_type = ? AND cached_page_references.object_id = ?'      
+      sql = 'cached_page_references.object_id = ? AND cached_page_references.object_type = ?'
       sql << ' AND cached_page_references.method = ?' if method
 
       conditions = [sql, object.class.name, object.id]
