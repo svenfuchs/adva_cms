@@ -76,11 +76,11 @@ class Admin::SitesController < Admin::BaseController
     def set_menu
       @menu = case params[:action]
       when 'edit'
-        Menus::Admin::AdvaBestSettings.new
+        Menus::Admin::Settings.new
       when 'new'
-        Menus::Admin::AdvaBestSites.new
+        Menus::Admin::Sites.new
       else
-        Menus::Admin::AdvaBestSites::Main.new
+        Menus::Admin::Sites::Main.new
       end
     end
 
