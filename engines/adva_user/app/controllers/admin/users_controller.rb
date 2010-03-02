@@ -7,6 +7,7 @@ class Admin::UsersController < Admin::BaseController
   before_filter :set_user,  :only => [:show, :edit, :update, :destroy]
   before_filter :authorize_access
   before_filter :authorize_params, :only => :update
+  before_filter :protect_delete_of_current_user, :only => :destroy
   filter_parameter_logging :password
 
   guards_permissions :user
@@ -68,6 +69,17 @@ class Admin::UsersController < Admin::BaseController
   end
 
   private
+
+    def set_account
+      @account = Site.find_by_id(params[:site_id]).adva_best_account if params[:site_id]
+    end
+
+    def protect_delete_of_current_user
+      if @user == current_user
+        flash.now[:error] = t(:'adva.users.flash.destroy.failure')
+        redirect_to admin_users_url(@site)
+      end
+    end
 
     def set_menu
       @menu = Menus::Admin::Users.new
