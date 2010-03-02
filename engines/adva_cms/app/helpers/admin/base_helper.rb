@@ -6,9 +6,11 @@ module Admin::BaseHelper
     or_text     = options.delete(:or_text)     || t(:'adva.common.connector.or')
     cancel_text = options.delete(:cancel_text) || t(:'adva.common.cancel')
     cancel_url  = options.delete(:cancel_url)
+    id          = options.delete(:id)
 
     save_options = options.delete(:save) || {}
     save_options.reverse_merge!(:id => 'commit')
+    save_options.merge!(:id => id) if id.present?
     cancel_options = options.delete(:cancel) || {}
 
     builder.buttons do
