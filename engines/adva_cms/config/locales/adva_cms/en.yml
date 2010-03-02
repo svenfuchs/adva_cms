@@ -243,6 +243,9 @@ en:
         account_header: "Your account"
         success: "Success"
         click_link_in_verification_email: "<p>You have sucessfully registered for a user account.</p><p>There is just one more thing. We need to make sure your email address is valid.<br/>We have sent a verification email to you which includes a link.<br/>This link will complete your registration process.</p><p>Just click it and you are done!</p>"
+        salutation: "Hello {{user}},"
+        signed_up_for_account: "You've just signed up for a {{account_name}} account."
+        click_link: "Just click the link below and your account will be verified so you can login."
     sections:
       hints:
         content_filter: How should your articles be read? The default option is Plain HTML.

@@ -288,6 +288,9 @@ de:
        account_header: "Ihr Account"
        success: "Erfolgreiche Registrierung"
        click_link_in_verification_email: "<p>Sie haben sich erfolgreich registriert.</p><p>Sie müssen nur noch ihre E-Mail Adresse bestätigen.<br/>Wir haben Ihnen eine E-Mail zugeschickt, die einen Bestätigungslink enthält.<br/>Durch Klicken auf diesen Link ist der Registrierungsprozess abgeschlossen.</p>"
+       salutation: "Hallo {{user}},"
+       signed_up_for_account: "Sie haben sich gerade für einen '{{account_name}}' Account registiert."
+       click_link: "Klicken Sie auf den untenstehenden Link, um ihre Account-Registrierung abzuschließen."
    sections:
      columns:
        section: Sektion
