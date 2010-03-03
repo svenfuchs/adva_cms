@@ -32,11 +32,23 @@ class User < ActiveRecord::Base
       return false unless user = User.find_by_email(credentials[:email])
       user.authenticate(credentials[:password]) ? user : false
     end
-    
+
     def anonymous(attributes = {}) # FIXME rename to build_anonymous
       attributes[:anonymous] = true
       new attributes
     end
+  end
+
+  def privileged_account_member?(account)
+    self.roles.detect { |role| role.ancestor_context_id == account.id && role.ancestor_context_type == 'AdvaBestAccount'}
+  end
+
+  def make_superuser(account)
+    self.roles.create(:name => 'superuser', :context => account)
+  end
+
+  def has_superuser_role_for_account?(account)
+    return self.roles.find_by_name_and_context_id_and_context_type('superuser', account.id, 'AdvaBestAccount')
   end
 
   def attributes=(attributes)
