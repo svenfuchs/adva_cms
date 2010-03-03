@@ -14,11 +14,10 @@ ActionController::Dispatcher.to_prepare do
 
   Rbac::Role.class_eval do
     belongs_to :ancestor_context, :polymorphic => true
+    belongs_to :user
 
     before_save do |role|
-      role.ancestor_context = role.context.owners.detect do |context|
-        context.is_a?(Site) || context.is_a?(Account)
-      end if role.context
+      role.ancestor_context = role.context.owners.detect { |o| o.is_a?(AdvaBestAccount) }
     end
   end
 
