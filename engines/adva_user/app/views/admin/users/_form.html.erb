@@ -16,13 +16,15 @@
 	<p class="hint text_only"><%= t(:'adva.hints.roles') %></p>
 
 	<% f.field_set do %>
-	  <% if current_user.has_role?(:superuser) %>
+	  <% if current_user.has_superuser_role_for_account?(@account) %>
 			<p>
 			<%= hidden_field_tag "user[roles_attributes][0][selected]", 0 %>
 			<span class='hint'><%= t(:'adva.roles.hints.superuser') %></span>
-		    <%= check_box_tag "user[roles_attributes][0][selected]", 1, @user.has_global_role?(:superuser), :id => "role_superuser" %>
+		    <%= check_box_tag "user[roles_attributes][0][selected]", 1, @user.has_superuser_role_for_account?(@account), :id => "role_superuser" %>
 		    <%= hidden_field_tag "user[roles_attributes][0][name]", 'superuser' %>
-		    <%= f.label "role_superuser", t(:'adva.roles.labels.superuser'), :class => 'light inline' %>
+		    <%= hidden_field_tag "user[roles_attributes][0][context_id]", @account.id %>
+		    <%= hidden_field_tag "user[roles_attributes][0][context_type]", 'AdvaBestAccount' %>
+		    <%= label_tag "role_superuser", t(:'adva.roles.labels.superuser'), :class => 'light inline' %>
 			</p>
 		<% end %>
 

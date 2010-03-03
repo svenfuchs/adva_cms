@@ -3,7 +3,7 @@ module Rbac
     module Static
       mattr_accessor :role_types
       self.role_types = [:superuser, :designer, :moderator, :author, :user, :anonymous]
-  
+
       class << self
         def build(name)
           const_get(name.to_s.camelize)
@@ -13,7 +13,7 @@ module Rbac
           @role_types ||= role_types.map { |type| build(type) }
         end
       end
-  
+
       module Anonymous
         extend Rbac::RoleType
 
@@ -21,7 +21,7 @@ module Rbac
           def requires_context?
             false
           end
-      
+
           def masters
             [User]
           end
@@ -43,7 +43,7 @@ module Rbac
           def requires_context?
             false
           end
-      
+
           def minions
             [Anonymous]
           end
@@ -55,6 +55,27 @@ module Rbac
           def granted_to?(subject, context = nil, options = {})
             options[:explicit] ? false : subject.registered?
           end
+        end
+      end
+
+      module PrivilegedAccountMember
+        extend Rbac::RoleType
+
+        class << self
+
+          def minions
+            [User]
+          end
+
+          def masters
+            [Author]
+          end
+
+          def granted_to?(subject, context = nil, options = {})
+            return false if options[:explicit] # PrivilegedAccountMember role is never explicitly granted
+            context.respond_to?(:privileged_account_members) && context.privileged_account_members.include?(subject.object) || super
+          end
+
         end
       end
 
@@ -93,7 +114,7 @@ module Rbac
           end
         end
       end
-      
+
       module Designer
         extend Rbac::RoleType
 
@@ -127,9 +148,9 @@ module Rbac
 
         class << self
           def requires_context?
-            false
+            true
           end
-      
+
           def minions
             [Admin]
           end

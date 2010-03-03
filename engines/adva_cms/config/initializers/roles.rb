@@ -7,7 +7,7 @@
 
 ActionController::Dispatcher.to_prepare do
   Rbac::Context.default_permissions = {
-    :'show site'          => [:author],
+    :'show site'          => [:privileged_account_member],
     :'create site'        => [:superuser],
     :'update site'        => [:superuser],
     :'destroy site'       => [:superuser],
