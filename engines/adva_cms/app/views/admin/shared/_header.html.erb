@@ -12,7 +12,7 @@
 	  <% end %>
 	  <% if @site %>
 			 &middot;
-	    <%= link_to t(:'adva.titles.website') + ' »', "http://#{@site.host}", :id => 'go_to_website' %>
+	    <%= link_to t(:'adva.titles.website') + '&nbsp;»', @site.website_preview_link(request.host_with_port), :id => 'go_to_website' %>
 	  <% end %>
 	</div>
 </div>

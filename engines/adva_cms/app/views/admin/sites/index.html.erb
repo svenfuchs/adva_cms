@@ -5,7 +5,7 @@
 		t.row do |r, site|
   		r.cell link_to_show(site.name, site, :class => 'site')
 			r.cell site.host
-			r.cell link_to_show(site, :url => "http://#{site.host}") + "\n" +
+    	r.cell link_to_show(site, :url => site.website_preview_link(request.host_with_port)) + "\n" +
 						 links_to_actions([:edit, :delete], site)
 		end
 
@@ -15,7 +15,7 @@
 
 		t.empty :p, :class => 'empty' do
 			"<p>" + t(:'adva.sites.no_sites') + "</p>" +
-			"<p>" + link_to("Create one now &raquo;", new_admin_site_path) + "</p>"
+			"<p>" + link_to("Create one now &raquo;", new_admin_site_path(:account_id => @account)) + "</p>"
 		end
 	end
 %>
