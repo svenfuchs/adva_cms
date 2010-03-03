@@ -16,7 +16,11 @@ ActionController::Dispatcher.to_prepare :'adva.cms.redirects' do
   Registry.set :redirect, {
     :login        => lambda { |c| c.send(:admin_sites_url) },
     :verify       => '/',
-    :site_deleted => lambda { |c| c.send(:admin_sites_url) }
+    :site_deleted => lambda { |c| c.send(:admin_sites_url) },
+    :login_frontend => '/',
+    :login_backend => lambda { |c| c.send(:admin_accounts_url) },
+    :verify_for_account_signup => lambda { |c| c.send(:admin_sites_url) },
+    :verify_for_website_signup => '/'
   }
 end
 
