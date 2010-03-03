@@ -3,7 +3,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
  	<meta name="generator" content="adva-cms - Open source content management platform" />
-  <title>adva-cms: Admin <%= controller.controller_name %></title>
+  <title>Admin <%= controller.controller_name.titleize %></title>
   <%= stylesheet_link_tag :admin, 			 		 :media => "all",        :cache => 'cache/admin/common' %>
   <%= stylesheet_link_tag :admin_projection, :media => "projection", :cache => 'cache/admin/projection' %>
 
@@ -13,12 +13,12 @@
 	<%= yield :head %>
 </head>
 <body>
-	<%= @menu.build(self).root.render(:id => 'top') %>
+	<%= @menu.build(self).root.render(:id => 'top') if @menu %>
 	<%= render :partial => 'admin/shared/header' %>
 	<div id="page">
 		<%= yield :form if @content_for_form %>
 		<div class="main">
-			<%= @menu.root.find(:main).try(:render, :id => 'main_menu') %>
+			<%= @menu.root.find(:main).try(:render, :id => 'main_menu') if @menu %>
       <%= render :partial => 'shared/flash' %>
 			<div id="content">
         <%= yield %>
