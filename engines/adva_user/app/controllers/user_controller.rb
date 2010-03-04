@@ -31,7 +31,7 @@ class UserController < BaseController
     else
       flash[:error] = t(:'adva.signup.flash.verify.failure')
     end
-    redirect_to return_from(:verify)
+    redirect_to params[:return_to]
   end
 
   def destroy
@@ -42,9 +42,11 @@ class UserController < BaseController
   end
 
   private
-    def url_with_token(user, purpose, params)
-      token = user.assign_token purpose
-      user.save
-      url_for params.merge(:token => "#{user.id};#{token}")
-    end
+
+  def url_with_token(user, purpose, params)
+    token = user.assign_token purpose
+    user.save
+    url_for params.merge(:controller => 'user', :token => "#{user.id};#{token}", :return_to => root_path)
+  end
+
 end

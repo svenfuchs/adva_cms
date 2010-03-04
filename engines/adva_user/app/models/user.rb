@@ -1,3 +1,5 @@
+require 'sha1'
+
 class User < ActiveRecord::Base
   acts_as_authenticated_user
 
@@ -37,6 +39,18 @@ class User < ActiveRecord::Base
       attributes[:anonymous] = true
       new attributes
     end
+
+  end
+
+  def accounts
+    accounts = []
+    self.roles.each { |role| accounts << role.ancestor_context }
+    accounts.uniq
+  end
+
+  def has_password?(password)
+    pw_hash = SHA1.sha1("#{self.password_salt}---#{password}").to_s
+    self.password_hash == pw_hash
   end
 
   def privileged_account_member?(account)
