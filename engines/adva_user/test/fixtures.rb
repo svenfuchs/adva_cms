@@ -14,5 +14,3 @@ user4 = User.create!  :first_name => 'user4',
                       :email => 'user4@example.com',
                       :password => 'a password',
                       :verified_at => Time.now
-
-account = Account.create! :name => 'an account', :users => [ user1, user2, user3 ]

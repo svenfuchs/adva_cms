@@ -21,12 +21,6 @@ ActionController::Dispatcher.to_prepare do
     end
   end
 
-  Account.class_eval do
-    def members
-      User.members_of(self).exclude_role_types('author', 'user')
-    end
-  end
-
   Site.class_eval do
     def members
       User.members_of(self)
