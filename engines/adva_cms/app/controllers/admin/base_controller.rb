@@ -20,7 +20,7 @@ class Admin::BaseController < ApplicationController
 
   def expire_pages(pages)
     pages.each do |page|
-      cache_dir = AdvaBestAccount.page_cache_directory_for_site(page.site)
+      cache_dir = Account.page_cache_directory_for_site(page.site)
       Dir["#{cache_dir}.*"].each do |path|
         Pathname.new(path).rmtree if File.exists?(path)
       end

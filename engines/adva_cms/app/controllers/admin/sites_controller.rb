@@ -68,7 +68,7 @@ class Admin::SitesController < Admin::BaseController
 
     def set_account
       # account_id only present for index action
-      @account = AdvaBestAccount.find_by_id(params[:account_id])
+      @account = Account.find_by_id(params[:account_id])
       # all other actions are in the scope of a site and the account can be found through the site
       @account = Site.find_by_id(params[:id]).adva_best_account unless @account
     end
