@@ -37,7 +37,6 @@ class Site < ActiveRecord::Base
   validates_presence_of :host, :name, :title
   validates_uniqueness_of :host
   validates_format_of :host, :with => /\A[a-z0-9-]+\z/
-  validates_exclusion_of :host, :in => 'www'
 
   cattr_accessor :multi_sites_enabled, :cache_sweeper_logging
 
