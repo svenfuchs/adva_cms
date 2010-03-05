@@ -17,13 +17,13 @@ class Admin::AccountsController < Admin::BaseController
 
   def new
     @user = User.new
-    @adva_best_account = AdvaBestAccount.new
+    @adva_best_account = Account.new
     @signup = true
   end
 
   def create
     @user = User.new(params[:user])
-    @adva_best_account = AdvaBestAccount.new(params[:adva_best_account])
+    @adva_best_account = Account.new(params[:adva_best_account])
     if existing_user = User.find_by_email(@user.email)
       unless existing_user.has_password?(params[:user][:password])
         flash[:error] = I18n.t(:'adva.accounts.signup.incorrect_password')
@@ -51,7 +51,7 @@ class Admin::AccountsController < Admin::BaseController
   protected
 
   def set_account
-    @account = AdvaBestAccount.find(params[:id])
+    @account = Account.find(params[:id])
   end
 
   def url_with_token(user, purpose, params)

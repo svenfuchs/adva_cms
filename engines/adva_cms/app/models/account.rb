@@ -1,4 +1,4 @@
-class AdvaBestAccount < ActiveRecord::Base
+class Account < ActiveRecord::Base
 
   acts_as_role_context
 

@@ -53,7 +53,7 @@ class User < ActiveRecord::Base
   end
 
   def privileged_account_member?(account)
-    self.roles.detect { |role| role.ancestor_context_id == account.id && role.ancestor_context_type == 'AdvaBestAccount'}
+    self.roles.detect { |role| role.ancestor_context_id == account.id && role.ancestor_context_type == 'Account'}
   end
 
   def make_superuser(account)
@@ -61,7 +61,7 @@ class User < ActiveRecord::Base
   end
 
   def has_superuser_role_for_account?(account)
-    return self.roles.find_by_name_and_context_id_and_context_type('superuser', account.id, 'AdvaBestAccount')
+    return self.roles.find_by_name_and_context_id_and_context_type('superuser', account.id, 'Account')
   end
 
   def attributes=(attributes)

@@ -53,7 +53,7 @@ class Site < ActiveRecord::Base
           memberships.site_id = ? OR
           (memberships.site_id IS NULL AND
           roles.name = ? AND
-          roles.context_type = 'AdvaBestAccount' AND
+          roles.context_type = 'Account' AND
           roles.context_id = ?)
         }, id, 'superuser', adva_best_account_id]
       User.find :all, options.merge(:include => [:roles, :memberships], :conditions => condition)
