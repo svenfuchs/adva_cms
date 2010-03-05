@@ -28,7 +28,7 @@ class Site < ActiveRecord::Base
   has_many :cached_pages, :dependent => :destroy, :order => 'cached_pages.updated_at desc'
   has_many :products
 
-  belongs_to :adva_best_account
+  belongs_to :account
 
   before_validation :downcase_host, :replace_host_spaces # c'mon, can't this be normalize_host or something?
   before_validation :populate_title
@@ -47,7 +47,7 @@ class Site < ActiveRecord::Base
       Site.find_by_host(site_host)
     end
 
-    def find_users_and_superusers(id, adva_best_account_id, options = {})
+    def find_users_and_superusers(id, account_id, options = {})
       condition = [
         %{
           memberships.site_id = ? OR
@@ -55,7 +55,7 @@ class Site < ActiveRecord::Base
           roles.name = ? AND
           roles.context_type = 'Account' AND
           roles.context_id = ?)
-        }, id, 'superuser', adva_best_account_id]
+        }, id, 'superuser', account_id]
       User.find :all, options.merge(:include => [:roles, :memberships], :conditions => condition)
     end
 
@@ -63,7 +63,7 @@ class Site < ActiveRecord::Base
 
 
   def users_and_superusers(options = {})
-    self.class.find_users_and_superusers id, adva_best_account.id, options
+    self.class.find_users_and_superusers id, account.id, options
   end
 
   def owners
@@ -71,7 +71,7 @@ class Site < ActiveRecord::Base
   end
 
   def owner
-    adva_best_account
+    account
   end
 
   def published_newsletters

@@ -31,7 +31,7 @@ class Admin::BaseController < ApplicationController
   protected
 
     def set_account
-      @account = Site.find_by_id(params[:site_id]).adva_best_account
+      @account = Site.find_by_id(params[:site_id]).account
     end
 
     def set_site

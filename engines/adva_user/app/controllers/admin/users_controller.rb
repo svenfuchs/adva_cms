@@ -71,7 +71,7 @@ class Admin::UsersController < Admin::BaseController
   private
 
     def set_account
-      @account = Site.find_by_id(params[:site_id]).adva_best_account if params[:site_id]
+      @account = Site.find_by_id(params[:site_id]).account if params[:site_id]
     end
 
     def protect_delete_of_current_user

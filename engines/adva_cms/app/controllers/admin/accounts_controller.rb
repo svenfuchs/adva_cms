@@ -17,31 +17,31 @@ class Admin::AccountsController < Admin::BaseController
 
   def new
     @user = User.new
-    @adva_best_account = Account.new
+    @account = Account.new
     @signup = true
   end
 
   def create
     @user = User.new(params[:user])
-    @adva_best_account = Account.new(params[:adva_best_account])
+    @account = Account.new(params[:account])
     if existing_user = User.find_by_email(@user.email)
       unless existing_user.has_password?(params[:user][:password])
         flash[:error] = I18n.t(:'adva.accounts.signup.incorrect_password')
         return render(:action => 'new')
       end
-      if @adva_best_account.save
-        existing_user.make_superuser(@adva_best_account)
+      if @account.save
+        existing_user.make_superuser(@account)
         authenticate_user(params[:user])
-        trigger_events @adva_best_account, :additional_account_created
+        trigger_events @account, :additional_account_created
         redirect_to(return_from(:login_backend))
       else
         render :action => 'new'
       end
     elsif user_and_account_valid?
-      @adva_best_account.save
+      @account.save
       @user.save
-      @user.make_superuser(@adva_best_account)
-      trigger_events @adva_best_account, :registered
+      @user.make_superuser(@account)
+      trigger_events @account, :registered
       render :action => 'verification_sent'
     else
       render :action => 'new'
@@ -57,14 +57,14 @@ class Admin::AccountsController < Admin::BaseController
   def url_with_token(user, purpose, params)
     token = user.assign_token purpose
     user.save
-    verify_user_url(:token => "#{user.id};#{token}", :return_to => admin_sites_path(:account_id => @adva_best_account))
+    verify_user_url(:token => "#{user.id};#{token}", :return_to => admin_sites_path(:account_id => @account))
   end
 
   private
 
   def user_and_account_valid?
     result = @user.valid?
-    result &= @adva_best_account.valid?
+    result &= @account.valid?
   end
 
 end

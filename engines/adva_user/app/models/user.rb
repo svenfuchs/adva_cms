@@ -25,7 +25,7 @@ class User < ActiveRecord::Base
   class << self
 
     def authenticate_for_site(site, credentials)
-       return false unless user = site.users.find_by_email(credentials[:email]) || site.adva_best_account.superusers.find_by_email(credentials[:email])
+       return false unless user = site.users.find_by_email(credentials[:email]) || site.account.superusers.find_by_email(credentials[:email])
        user.authenticate(credentials[:password]) ? user : false
     end
 

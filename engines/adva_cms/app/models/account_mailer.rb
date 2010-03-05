@@ -2,13 +2,13 @@ class AccountMailer < ActionMailer::Base
   include Login::MailConfig
 
   class << self
-    def handle_adva_best_account_registered!(event)
+    def handle_account_registered!(event)
       account = event.object
       user = account.superusers.first
       deliver_signup_verification_email account, user, verification_url(event.source, user)
     end
 
-    def handle_adva_best_account_additional_account_created!(event)
+    def handle_account_additional_account_created!(event)
       # do not send an email if user already verified on first account signup
     end
 
