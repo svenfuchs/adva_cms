@@ -24,7 +24,7 @@ FieldDefaultValuer = $.klass({
       var default_value = $(this.selector).val();
       this.element.val(default_value);
     }
-  },
+  }
 });
 
 jQuery(function($) {
