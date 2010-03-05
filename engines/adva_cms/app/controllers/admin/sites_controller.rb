@@ -26,7 +26,7 @@ class Admin::SitesController < Admin::BaseController
 
   def create
     site = Site.new params[:site]
-    site.adva_best_account = @account
+    site.account = @account
     section = site.sections.build(params[:section])
     site.sections << section
     if site.save
@@ -70,7 +70,7 @@ class Admin::SitesController < Admin::BaseController
       # account_id only present for index action
       @account = Account.find_by_id(params[:account_id])
       # all other actions are in the scope of a site and the account can be found through the site
-      @account = Site.find_by_id(params[:id]).adva_best_account unless @account
+      @account = Site.find_by_id(params[:id]).account unless @account
     end
 
     def set_menu
