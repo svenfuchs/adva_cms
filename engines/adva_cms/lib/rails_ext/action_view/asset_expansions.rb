@@ -14,6 +14,7 @@ module ActionView
         expansions.each do |key, values|
           @@javascript_expansions[key] ||= []
           @@javascript_expansions[key] += Array(values)
+          @@javascript_expansions[key] = @@javascript_expansions[key].uniq
         end
       end
     end
