@@ -10,6 +10,7 @@
   <%= yield :before_javascript_include %>
   <%= javascript_include_tag :common, :admin, :cache => 'cache/admin/common' %>
 	<%= javascript_tag "window._auth_token = #{form_authenticity_token.inspect}" %>
+	<%= javascript_include_tag :wysiwyg_editor, :cache => false %>
 	<%= yield :head %>
 </head>
 <body>
