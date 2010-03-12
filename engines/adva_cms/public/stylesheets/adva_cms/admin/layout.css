@@ -3,7 +3,6 @@ body {
 }
 body > div {
   display: table;
-/*  width: 100%;*/
 }
 .main, .right {
   position: relative;
@@ -24,14 +23,18 @@ body > div {
   background-color: black;
   border-bottom: 5px solid #c22222;
   white-space: nowrap;
+  width: 100%;
 }
-
+#page {
+  width: 100%;
+}
 
 #header {
   height: 75px;
   /*background: #fbf7e4 url(/images/adva_cms/admin/header_bg.png) bottom left;*/
   background-color: #fbf7e4;
   border-bottom: 4px solid #ddd;
+  width: 100%;
 }
 #page > form {
   display: table-row;
@@ -40,6 +43,7 @@ body > div {
 #page .main {
 }
 #content {
+  width: 100%;
   clear: both;
   position: relative;
   margin: 20px 0;
