@@ -48,7 +48,7 @@ module TestHelper
         "load('/path/to/file')", "require 'something'",
         "loop{}",
         "open('/etc/passwd'){|f| f.read}",
-        "p 'text'", "pretty_inspect(self)",
+        "p 'text'", "pretty_inspect",
         # "print 'text'", "puts 'text'", allowed and buffered these (see ScopeObject)
         "printf 'text'", "putc 'a'", 
         "raise RuntimeError, 'should not happen'",
@@ -114,7 +114,6 @@ class Comment
   end
 end
 
-=begin
 class Article::Jail < Safemode::Jail
   allow :title, :comments, :is_article?
   
@@ -129,4 +128,3 @@ end
 class Comment::Jail < Safemode::Jail
   allow :article, :text
 end
-=end

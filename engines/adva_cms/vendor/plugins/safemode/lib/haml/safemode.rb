@@ -2,11 +2,9 @@ require 'haml'
 
 module Haml  
   class Buffer
-=begin
     class Jail < Safemode::Jail
       allow :push_script, :push_text, :_hamlout, :open_tag
     end
-=end
   end
 end
 

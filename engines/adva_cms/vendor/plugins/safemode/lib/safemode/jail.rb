@@ -1,5 +1,3 @@
-require 'safemode/blankslate'
-
 module Safemode    
   class Jail < Blankslate 
     def initialize(source = nil)

@@ -1,6 +1,6 @@
 ## Safemode
 
-A library for safe evaluation of Ruby code based on ParseTree/RubyParser and
+A library for safe evaluation of Ruby code based on RubyParser and
 Ruby2Ruby. Provides Rails ActionView template handlers for ERB and Haml.
 
 ### Word of warning
@@ -16,11 +16,11 @@ feedback to help make it waterproof and finally suitable for serious purposes.
 For manual evaluation of Ruby code and ERB templates see demo.rb
 
 You can use the ActionView template handlers by registering them, e.g., in 
-a config/initializer file like so:
+a config/initializer file like this:
 
     # in config/intializer/safemode_tempate_handlers.rb
-    ActionView::Base.register_template_handler :serb, ActionView::TemplateHandlers::SafeErb
-    ActionView::Base.register_template_handler :haml, ActionView::TemplateHandlers::SafeHaml
+    ActionView::Template.register_template_handler :serb, ActionView::TemplateHandlers::SafeErb
+    ActionView::Template.register_template_handler :haml, ActionView::TemplateHandlers::SafeHaml
 
 If you register the ERB template handler for the file extension :erb be aware
 that this most probably will break when your application tries to render an
@@ -51,11 +51,8 @@ following blog posts until a more comprehensive writeup is available:
 
 Requires the gems:
 
-* either ParseTree or RubyParser
-* Ruby2Ruby 
-
-RubyParser has the advantage of being pure Ruby and not having any further
-system dependencies while ParseTree is is a C extension that uses RubyInline.
+* RubyParser
+* Ruby2Ruby
 
 As of writing RubyParser alters StringIO and thus breaks usage with Rails.
 See [http://www.zenspider.com/pipermail/parsetree/2008-April/000026.html](http://www.zenspider.com/pipermail/parsetree/2008-April/000026.html)
