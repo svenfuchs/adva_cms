@@ -141,7 +141,7 @@ class ThemeFileTest < ThemeTestCase
   test "appends an integer to basename to ensure a unique filename if the file exists" do
     dirname = "#{Theme.root_dir}/sites/site-#{@site.id}/themes/#{@theme.theme_id}/images"
     FileUtils.mkdir_p dirname
-    File.cp image_fixture.path, "#{dirname}/rails.png"
+    FileUtils.copy image_fixture.path, "#{dirname}/rails.png"
     uploaded_image.path.should == "#{dirname}/rails.1.png"
     uploaded_image.path.should == "#{dirname}/rails.2.png"
   end

@@ -1,6 +1,7 @@
 module Safemode
   class Parser < Ruby2Ruby
-    @@parser = defined?(RubyParser) ? 'RubyParser' : 'ParseTree'
+    # @@parser = defined?(RubyParser) ? 'RubyParser' : 'ParseTree'
+    @@parser = 'RubyParser'
     
     class << self
       def jail(code, allowed_fcalls = [])
@@ -11,8 +12,8 @@ module Safemode
       
       def parse(code)
         case @@parser
-        when 'ParseTree'
-          ParseTree.translate(code)
+        # when 'ParseTree'
+        #   ParseTree.translate(code)
         when 'RubyParser'
           RubyParser.new.parse(code)
         else
@@ -57,15 +58,25 @@ module Safemode
       exp.clear
       "to_jail.#{name}"
     end
-    
+
+    def process_iasgn(exp)
+      code = super
+      if code != '@output_buffer = ""'
+        raise_security_error(:iasgn, code)
+      else
+        code
+      end
+    end
+
     # see http://www.namikilab.tuat.ac.jp/~sasada/prog/rubynodes/nodes.html
-    
-    allowed =    [ :call, :vcall, :evstr, 
-                   :lvar, :dvar, :ivar, :lasgn, :masgn, :dasgn, :dasgn_curr, 
-                   :lit, :str, :dstr, :dsym, :nil, :true, :false, 
-                   :array, :zarray, :hash, :dot2, :dot3, :flip2, :flip3, 
-                   :if, :case, :when, :while, :until, :iter, :for, :break, :next, :yield,            
+
+    allowed =    [ :call, :vcall, :evstr,
+                   :lvar, :dvar, :ivar, :lasgn, :masgn, :dasgn, :dasgn_curr,
+                   :lit, :str, :dstr, :dsym, :nil, :true, :false,
+                   :array, :zarray, :hash, :dot2, :dot3, :flip2, :flip3,
+                   :if, :case, :when, :while, :until, :iter, :for, :break, :next, :yield,
                    :and, :or, :not,
+                   :iasgn, # iasgn is sometimes allowed
                    # not sure about self ...
                    :self,
                    # unnecessarily advanced?
@@ -73,16 +84,16 @@ module Safemode
                    :op_asgn1, :op_asgn2, :op_asgn_and, :op_asgn_or,
                    # needed for haml
                    :block ]
-            
+
     disallowed = [ # :self,  # self doesn't seem to be needed for vcalls?
                    :const, :defn, :defs, :alias, :valias, :undef, :class, :attrset,
-                   :module, :sclass, :colon2, :colon3, 
-                   :fbody, :scope,  :args, :block_arg, :postexe, 
-                   :redo, :retry, :begin, :rescue, :resbody, :ensure, 
+                   :module, :sclass, :colon2, :colon3,
+                   :fbody, :scope,  :args, :block_arg, :postexe,
+                   :redo, :retry, :begin, :rescue, :resbody, :ensure,
                    :defined, :super, :zsuper, :return,
-                   :dmethod, :bmethod, :to_ary, :svalue, :match, 
-                   :iasgn, :attrasgn, :cdecl, :cvasgn, :cvdecl, :cvar, :gvar, :gasgn,
-                   :xstr, :dxstr,                     
+                   :dmethod, :bmethod, :to_ary, :svalue, :match,
+                   :attrasgn, :cdecl, :cvasgn, :cvdecl, :cvar, :gvar, :gasgn,
+                   :xstr, :dxstr,
                    # not sure how secure ruby regexp is, so leave it out for now
                    :dregx, :dregx_once, :match2, :match3, :nth_ref, :back_ref ]
 

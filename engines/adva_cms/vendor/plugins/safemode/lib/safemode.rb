@@ -1,10 +1,17 @@
 require 'rubygems'
 
 require 'ruby2ruby'
-begin  
+begin
   require 'ruby_parser' # try to load RubyParser and use it if present
-rescue MissingSourceFile => e
+rescue LoadError => e
 end
+# this doesn't work somehow. Maybe something changed inside
+# ParseTree or sexp_processor or so.
+# (the require itself works, but ParseTree doesn't play nice)
+# begin
+#   require 'parse_tree'
+# rescue LoadError => e
+# end
 
 require 'safemode/core_ext'
 require 'safemode/blankslate'
@@ -41,7 +48,7 @@ module Safemode
     def eval(code, assigns = {}, locals = {}, &block)
       code = Parser.jail(code)
       binding = @scope.bind(assigns, locals, &block)
-      result = Kernel.eval code, binding, @filename || __FILE__, @line || __LINE__
+      result = Kernel.eval(code, binding, @filename || __FILE__, @line || __LINE__)
     end
     
     def output

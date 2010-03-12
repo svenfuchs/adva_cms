@@ -1,5 +1,3 @@
-require 'safemode/core_ext'
-
 module Safemode
   class Blankslate
     @@allow_instance_methods = ['class', 'inspect', 'methods', 'respond_to?', 'to_s', 'instance_variable_get']
@@ -30,11 +28,6 @@ module Safemode
   
       def allowed?(name)
         allowed_methods.include? name.to_s
-      end
-    
-      # otherwise breaks, e.g. Rails::Generator::Spec
-      def ancestors
-        []
       end
     end
   end

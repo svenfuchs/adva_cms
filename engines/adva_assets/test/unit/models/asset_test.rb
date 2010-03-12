@@ -68,7 +68,7 @@ class AssetTest < ActiveSupport::TestCase
   test "appends an integer to basename to ensure a unique filename if the file exists" do
     dirname = "#{Asset.root_dir}/sites/site-#{@site.id}/assets"
     FileUtils.mkdir_p dirname
-    File.cp image_fixture.path, "#{dirname}/rails.png"
+    FileUtils.copy image_fixture.path, "#{dirname}/rails.png"
     create_image_asset.path.should == "#{dirname}/rails.1.png"
     create_image_asset.path.should == "#{dirname}/rails.2.png"
   end

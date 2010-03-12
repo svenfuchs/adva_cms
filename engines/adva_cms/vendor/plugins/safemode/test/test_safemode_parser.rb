@@ -25,7 +25,13 @@ class TestSafemodeParser < Test::Unit::TestCase
     assert_jailed "if true then\n 1\n else\n2\nend", "true ? 1 : 2"
   end
 
-private 
+  def test_output_buffer_should_be_assignable
+    assert_nothing_raised do
+      jail('@output_buffer = ""')
+    end
+  end
+
+private
   
   def assert_jailed(expected, code)
     assert_equal expected.gsub(' ', ''), jail(code).gsub(' ', '')
