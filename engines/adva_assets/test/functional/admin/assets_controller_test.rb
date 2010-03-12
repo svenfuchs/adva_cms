@@ -44,14 +44,16 @@ class AdminAssetsControllerTest < ActionController::TestCase
   describe "POST to :create" do
     action { post :create, default_params.merge(@params) }
 
-    with :valid_asset_params do
-      it_guards_permissions :create, :asset
+    [:audio, :image, :pdf, :text, :video].each do |type|
+      with :"valid_#{type}_asset" do
+        it_guards_permissions :create, :asset
 
-      with :access_granted do
-        it_assigns :site, :assets
-        it_changes '@site.reload.assets.count' => 1
-        it_assigns_flash_cookie :notice => :not_nil
-        it_redirects_to { admin_assets_url(@site.id) }
+        with :access_granted do
+          it_assigns :site, :assets
+          it_changes '@site.reload.assets.count' => 1
+          it_assigns_flash_cookie :notice => :not_nil
+          it_redirects_to { admin_assets_url(@site.id) }
+        end
       end
     end
 
@@ -66,7 +68,7 @@ class AdminAssetsControllerTest < ActionController::TestCase
   describe "PUT to :update" do
     action { put :update, default_params.merge(@params).merge(:id => @asset.id) }
 
-    with :valid_asset_params do
+    with :valid_image_asset do
       it_guards_permissions :update, :asset
       
       with :access_granted do
