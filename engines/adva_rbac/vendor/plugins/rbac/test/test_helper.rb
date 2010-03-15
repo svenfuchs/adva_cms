@@ -1,8 +1,8 @@
 $: << File.dirname(__FILE__) + '/../lib'
 
 require 'rubygems'
-require 'activerecord'
-require 'activesupport'
+require 'active_record'
+require 'active_support'
 require 'test/unit'
 require 'rbac'
 

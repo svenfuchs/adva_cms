@@ -1,10 +1,10 @@
 require 'test/unit'
 
 require 'rubygems'
-require 'activesupport'
-require 'active_support/test_case'
-require 'activerecord'
-require 'active_record/fixtures'
+require 'active_support'
+# require 'active_support/test_case'
+require 'active_record'
+# require 'active_record/fixtures'
 
 dir = File.dirname(__FILE__)
 $: << File.expand_path(dir + '/../lib')

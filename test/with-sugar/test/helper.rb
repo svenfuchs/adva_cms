@@ -1,7 +1,7 @@
 $:.push File.expand_path(File.dirname(__FILE__) + '/../../with/lib')
 $:.push File.expand_path(File.dirname(__FILE__) + '/../lib')
 
-# require 'actionpack'
+# require 'action_pack'
 # require 'action_controller'
 # require 'action_controller/test_process'
 # require 'active_support'

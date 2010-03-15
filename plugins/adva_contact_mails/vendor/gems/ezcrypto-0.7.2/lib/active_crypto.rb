@@ -320,6 +320,6 @@ class MissingKeyError < RuntimeError
 end 
 end
 ActiveRecord::Base.send :include, ActiveCrypto
-require 'actionpack'
+require 'action_pack'
 require 'action_controller'
 ActionController::Base.send :include, ActiveCrypto::ActionController

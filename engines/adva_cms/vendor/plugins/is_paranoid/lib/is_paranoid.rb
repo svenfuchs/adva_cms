@@ -1,4 +1,4 @@
-require 'activerecord'
+require 'active_record'
 
 module IsParanoid
   # Call this in your model to enable all the safety-net goodness

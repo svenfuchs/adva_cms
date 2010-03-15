@@ -3,7 +3,7 @@
 #
 
 require 'rubygems'
-require 'activesupport'
+require 'active_support'
 require 'rake/tasklib'
 require 'thread'
 require 'webrick'

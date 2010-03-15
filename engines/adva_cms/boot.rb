@@ -60,5 +60,5 @@ end
 # 
 # require 'zip/zip'
 # # require 'cronedit'
-# require 'activerecord' # paperclip needs activerecord to be present
+# require 'active_record' # paperclip needs active_record to be present
 # require 'paperclip'
