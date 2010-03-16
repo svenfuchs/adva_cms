@@ -1,7 +1,7 @@
 Rails::Initializer.configure do |config|
   config.reload_plugins = true
   
-  config.plugins = [ :simple_nested_set, :safemode, :adva_cms, :all ]
+  config.plugins = [ :simple_nested_set, :adva_cms, :all ]
 
   config.plugin_gem 'json',      :version => '~> 1.1.2', :lib => 'json'
   config.plugin_gem 'BlueCloth', :version => '~> 1.0.0', :lib => 'bluecloth'
