@@ -15,7 +15,11 @@ class ResourceHelperTest < ActionView::TestCase
     @page = @page_article.section
     @site = @blog.site
 
-    @controller = Class.new { def controller_path; 'articles' end }.new
+    @controller.class_eval do
+      def controller_path
+        'articles'
+      end
+    end
     I18n.backend.send :merge_translations, :en, :foo => 'FOO'
 
     @paths = {
@@ -54,7 +58,11 @@ class AdminResourceHelperTest < ActionView::TestCase
     @category = @article.categories.first
 
     @site = @section.site
-    @controller = Class.new { def controller_path; 'admin/articles' end }.new
+    @controller.class_eval do
+      def controller_path
+        'admin/articles'
+      end
+    end
     I18n.backend.send :merge_translations, :en, :foo => 'FOO'
 
     @paths = {

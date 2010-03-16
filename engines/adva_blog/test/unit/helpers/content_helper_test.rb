@@ -6,9 +6,13 @@ module BlogTests
     include ResourceHelper
     include BlogHelper
     attr_accessor :controller
-    
+
     def setup
-      @controller = Class.new { def controller_path; 'articles' end }.new
+      @controller.class_eval do
+        def controller_path
+          'articles'
+        end
+      end
     end
 
     test "#show_path given the content's section is a Blog it returns a blog_article_path" do
