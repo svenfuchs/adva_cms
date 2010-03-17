@@ -7,6 +7,7 @@ class Admin::ArticlesController < Admin::BaseController
   before_filter :set_article,    :only => [:show, :edit, :update, :destroy]
   before_filter :set_categories, :only => [:new, :edit]
   before_filter :optimistic_lock, :only => :update
+  before_filter :set_current_content_locale, :only => [:new, :edit]
   
   cache_sweeper :article_sweeper, :category_sweeper, :tag_sweeper,
                 :only => [:create, :update, :destroy]
@@ -47,16 +48,17 @@ class Admin::ArticlesController < Admin::BaseController
   end
 
   def update_attributes
+    current_content_locale = params[:cl]
     @article.attributes = params[:article]
 
     if save_with_revision? ? @article.save : @article.save_without_revision
       trigger_events(@article)
       flash[:notice] = t(:'adva.articles.flash.update.success')
-      redirect_to edit_admin_article_url(:cl => content_locale)
+      redirect_to edit_admin_article_url(:cl => current_content_locale)
     else
       set_categories
       flash.now[:error] = t(:'adva.articles.flash.update.failure')
-      render :action => 'edit', :cl => content_locale
+      render :action => 'edit', :cl => current_content_locale
     end
   end
 
@@ -162,6 +164,10 @@ class Admin::ArticlesController < Admin::BaseController
     # FIXME move to the sweeper
     def expire_cached_pages_by_reference(record, method = nil)
       expire_pages CachedPage.find_by_reference(record, method)
+    end
+
+    def set_current_content_locale
+      @locale = params[:cl].present? ? params[:cl].to_sym : I18n.locale.to_sym
     end
 end
 
