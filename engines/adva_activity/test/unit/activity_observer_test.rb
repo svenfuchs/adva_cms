@@ -7,7 +7,7 @@ class ActivityTest < ActiveSupport::TestCase
     @section = @site.sections.root
     @user = User.first
   end
-  
+
   # FIXME
   # Can't get this to pass ... apparently RR has problems with expecting calls
   # to dynamic methods?
@@ -25,14 +25,16 @@ class ActivityTest < ActiveSupport::TestCase
   test "receives #notify_subscribers when an Article gets created" do
     mock(Activities::ActivityObserver).notify_subscribers(is_a(Activity))
     
-    Activity.with_observers('activities/activity_observer') do
-      Article.with_observers('activities/article_observer') do
-        Article.create! :title => 'An article', :body => 'body',
-                        :author => @user, :site => @site, :section => @section
+    with_email_notification( @site ) do |site|
+      Activity.with_observers('activities/activity_observer') do
+        Article.with_observers('activities/article_observer') do
+          Article.create! :title => 'An article', :body => 'body',
+            :author => @user, :site => site, :section => @section
+        end
       end
     end
   end
-  
+
   test "#find_subscribers returns only subscribed users" do
     activity    = Activity.new(:site => @site)
     subscribers = @site.users.find(:all, :include => :roles, :conditions => ['roles.name IN (?)', ['superuser', 'admin']])
@@ -43,10 +45,12 @@ class ActivityTest < ActiveSupport::TestCase
     test "receives #notify_subscribers when a Wikipage gets created" do
       mock(Activities::ActivityObserver).notify_subscribers(is_a(Activity))
     
-      Activity.with_observers('activities/activity_observer') do
-        Wikipage.with_observers('activities/wikipage_observer') do
-          Wikipage.create! :title => 'A wikipage', :body => 'body', :author => @user, 
-                           :site => @site, :section => @section
+      with_email_notification( @site ) do |site|
+        Activity.with_observers('activities/activity_observer') do
+          Wikipage.with_observers('activities/wikipage_observer') do
+            Wikipage.create! :title => 'A wikipage', :body => 'body', :author => @user, 
+              :site => site, :section => @section
+          end
         end
       end
     end
@@ -54,12 +58,35 @@ class ActivityTest < ActiveSupport::TestCase
   
   test "receives #notify_subscribers when a Comment gets created" do
     mock(Activities::ActivityObserver).notify_subscribers(is_a(Activity))
-    
-    Activity.with_observers('activities/activity_observer') do
-      Comment.with_observers('activities/comment_observer') do
-        Comment.create! :body => 'body', :author => @user, :commentable => Article.first, 
-                        :site => @site, :section => @section
+
+    with_email_notification( @site ) do |site|
+      Activity.with_observers('activities/activity_observer') do
+        Comment.with_observers('activities/comment_observer') do
+          Comment.create! :body => 'body', :author => @user, :commentable => Article.first, 
+            :site => site, :section => @section
+        end
       end
     end
+  end
+
+  test "does not #notify_subscribers when email_notification is disabled" do
+    mock(Activities::ActivityObserver).notify_subscribers.never
+
+    Activity.with_observers('activities/activity_observer') do
+      Article.with_observers('activities/article_observer') do
+        Article.create! :title => 'An article', :body => 'body',
+          :author => @user, :site => @site, :section => @section
+      end
+    end
+  end
+
+  protected
+
+  def with_email_notification( site, &block )
+    previous_setting, site.email_notification = site.email_notification, true
+    site.save
+    yield site
+    site.email_notification = previous_setting
+    site.save
   end
 end
