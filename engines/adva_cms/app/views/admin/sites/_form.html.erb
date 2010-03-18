@@ -4,6 +4,7 @@
     <%= f.text_field :name, :label => :'adva.sites.label.name' %>
   	<%= f.text_field :title, :label => :'adva.sites.label.title' %>
   	<%= f.text_field :email, :label => :'adva.sites.label.admin_email', :value => site.email %>
+  	<%= f.select :locale, options_for_select(I18n.available_locales.map { |l| l.to_s} , (@site.locale if @site) ), :label => :'adva.sites.label.locale' %>
   <% end %>
 
   <% column do %>

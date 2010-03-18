@@ -153,6 +153,21 @@ module IntegrationTests
       end
     end
 
+    test "when I change the the site's locale I should should see my website's content in the chosen language" do
+      login_as_superuser
+      visit "/admin/sites/#{@site.id}"
+      click_link 'Website'
+      assert_contain 'a page article'
+
+      article = Article.find_by_title('a page article')
+      create_german_version_for_article(article)
+      visit "/admin/sites/#{@site.id}/edit"
+      select 'de'
+      click_button 'Save'
+      click_link 'Website'
+      assert_contain 'a German page article title'
+    end
+
     def visit_admin_articles_index_page
       visit "/admin/sites/#{@site.id}/sections/#{@section.id}/articles"
     end
@@ -233,11 +248,12 @@ module IntegrationTests
       assert_select 'input#article_title[value="a page article"]'
       assert_select '#article_body', 'a page article body'
       fill_in 'article[body]',  :with => 'a page article body in de'
+      fill_in 'article[title]',  :with => 'a German page article title'
       click_button 'Save'
 
       assert_equal 'de', @controller.params[:cl]
       assert_response :success
-      assert_select 'input#article_title[value="a page article"]'
+      assert_select 'input#article_title[value="a German page article title"]'
       assert_select '#article_body', 'a page article body in de'
     end
   end

@@ -273,6 +273,7 @@ de:
        admin_email: Administrator-E-Mail
        subtitle: Untertitel der Webseite
        host: Hostname
+       locale: Gebietsschema
      confirm_delete: "Sind Sie sicher, dass Sie diese Webseite löschen wollen?"
 
    sections:

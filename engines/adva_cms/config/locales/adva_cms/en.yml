@@ -228,6 +228,7 @@ en:
         admin_email: Administrator email
         subtitle: Website subtitle
         host: Host name
+        locale: Locale
       confirm_delete: Are you sure you want to delete this site?
     sections:
       hints:
