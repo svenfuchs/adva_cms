@@ -36,7 +36,7 @@ class BaseController < ApplicationController
     def set_locale
       # FIXME: really? what about "en-US", "sms" etc.?
       params[:locale] =~ /^[\w]{2}$/ or raise 'invalid locale' if params[:locale]
-      I18n.locale = params[:locale] || @site.locale || I18n.default_locale
+      I18n.locale = params[:locale] || (@site.locale if @site) || I18n.default_locale
       # TODO raise something more meaningful
       I18n.locale.untaint
     end
