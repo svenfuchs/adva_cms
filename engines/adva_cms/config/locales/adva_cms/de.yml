@@ -52,6 +52,7 @@ de:
 
  adva:
    common:
+     change_language: "Sprache ändern:"
      add: Hinzufügen
      locale: Gebietsschema
      about: Über

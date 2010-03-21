@@ -14,5 +14,9 @@
 			 &middot;
 	    <%= link_to t(:'adva.titles.website') + ' »', "http://#{@site.host}", :id => 'go_to_website' %>
 	  <% end %>
+	  <p>
+	  <%= t(:'adva.common.change_language')%>
+	  <%= select_tag :lang, options_for_select(I18n.available_locales.map { |l| l.to_s}, I18n.locale.to_s ) %>
+	  </p>
 	</div>
 </div>
