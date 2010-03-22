@@ -162,7 +162,7 @@ module IntegrationTests
       article = Article.find_by_title('a page article')
       create_german_version_for_article(article)
       visit "/admin/sites/#{@site.id}/edit"
-      select 'de'
+      select 'de', :from => "Locale"
       click_button 'Save'
       click_link 'Website'
       assert_contain 'a German page article title'
