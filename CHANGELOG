@@ -1,11 +1,43 @@
- HEAD [2009/11/20]
+ HEAD [2010/03/22]
 ====================
+  Features
+		* CKEditor added as a plugin. integration also covers:
+		  - image-upload through CKEditor if Adva::Assets is installed
+		* Safemode-Plugin added as a separate plugin:
+		  - TemplateHandler "serb" is added
+		* Added a locale setting for site
+		* "Change language" drop-down for backend
+
   Enhancements
     * in single site mode, the first created site is used by default
+		* Autodiscovery links (aka atom feeds) for blog index and categories
+		* Dependencies reduced:
+		  - Adva::Newsletter: dependency on Hpricot removed
+			- Use activesupport's starts_with? instead of rubyzip's starts_with
+		* Cells made more robust and cell tracking fixed
+		* Content Translation Improvements for Articles.
+		* Testsuite works with Rails 2.3.5 again
 
   Changes
     * the "show comment" permission is set to author
+		* Signup link now exists on website
     * Keeping things consistent by redirecting to section index after deleting section
+		* changed the way redirection settings are registered (in the registry) so that
+		  redirection settings can be overridden in host app
+		* Added user_#{user.id} to html tags to be able to click on a specific user link in integration tests
+		* cache admin javascript to 'cache/admin/common.js' instead of 'all.js'
+		* decouple theme asset clearing from page cache expiration
+		* only use current_controller_namespace for admin area for the moment
+		* make contact mailer a plugin instead of engine
+		* contact mails now support passing flash messages as options
+		* escape html in content/resource helper
+		* styling of flash-messages tweaked to handle multiline messages
+		* Added missing locale keys for adva newsletter
+		* let sections take over the ordering of their contents in the backend
+		* add font format to default fckeditor toolbar
+		* add timestamps to sections
+		* Enabled site.email_notification switch for Adva::Activity [Joseph Ridgway]
+		* Deprecation warnings of Rails 2.3.5 fixed
 
   Bugfixes
     * Fixed quoted_role_names to return correct role names for roles with contexes
@@ -15,6 +47,14 @@
     * Users are only verified once
     * Template extended to change new_rails_defaults-initializer
     * adva_cms/application.js is imported properly
+	  * photo commenting does not cause error - fix #230
+		* Fix frontend JS bug in wiki and make parseuri.js self-contained
+		* refactorings and fixes for contact mailer
+		* catch exception in google analytics snippet
+		* removed JS-Syntax error
+		* add missing indexes for page caching table
+		* Fixed cache references insert that was mixing up object id and type [Joseph Ridgway]
+		* try to prevent race conditions for cached pages/references
 
  0.3.0 [2009/10/30]
 ====================
@@ -40,16 +80,16 @@
 		* sections are published by default
 		* optimistic lock for articles
 		* optimistic lock for wikipages on backend
-		
+
 	Enhancements
 		* label and help hints for section publishing option
 		* alternate admin layout tryout from galenking - for fixing ie 7 bugs
-		
+
 	Changes
 		* relatively symlinked assets
 		* updated globalize2
 		* exposed authenticated?/logged_in? as helper methods
-	
+
 	Bug fixes
 		* Joseph Ridgway's patch for fixing a sql count query with postgresql
 		* fixed translation scopes for extensible formbuilder
@@ -91,7 +131,7 @@
 		* refactored bunch of adva_cms, adva_newsletter, adva_themes, adva_user, adva_wiki and adva_forum engines tests and extracted some matchy matchers
 		* refactored be(1) test matchers to == 1 for improved readability
 		* require optparse for option parsing
-	
+
 	Changes
 		* reverted :max_display_level option for frontend menus
 		* helper method perma_host removed from install controller
@@ -122,7 +162,7 @@
 		* user#last_name for integration tests is not used anymore because it isn't required field and might be omitted in client apps
 		* min-width used for admin/section_menu instead of width
 		* tests for user and photos are more relaxed in favor of client apps
-	
+
 	Bug fixes:
 		* rubypants fixed and updated
 		* fixed the cancel link on theme file edit page
@@ -174,7 +214,7 @@
 		* index help tips moved to sidebar
 		* improved author selection on content edit
 		* adva_newsletter, removed nokogiri and addressable in favor of hpricot
-	
+
 	Bug fixes:
 		* Fixed failing JS test for adva_assets
 		* Fixed internal server error for asset widget search.
