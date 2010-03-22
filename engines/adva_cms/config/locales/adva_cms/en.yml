@@ -5,6 +5,7 @@ en:
         only_integer: can only be whole number.
   adva:
     common:
+      change_language: "Change language:"
       locale: Locale
       content_locale: Content locale
       about: About

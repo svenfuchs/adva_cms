@@ -27,4 +27,12 @@ $(document).ready(function() {
 	if($('#logout_links')) {
 		LoginLinks.init();
 	}
+	jQuery('#lang').bind('change',function(){
+	  url = location.href;
+	  if(url.match(/\/[\w]{2}\/admin/)) {
+      location.href = url.replace(/\/[\w]{2}\/admin/, '/' + jQuery(this).val() + '/admin');
+	  } else {
+	    location.href = url.replace(/\/admin/, '/' + jQuery(this).val() + '/admin');
+	  }
+	});
 });

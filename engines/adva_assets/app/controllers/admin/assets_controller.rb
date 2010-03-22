@@ -6,6 +6,9 @@ class Admin::AssetsController < Admin::BaseController
   before_filter :set_format, :only => [:create]
   before_filter :set_asset, :only => [:edit, :update, :destroy]
 
+  # TODO pass the authenticity token with the image upload
+  protect_from_forgery :except => 'create'
+
   guards_permissions :asset
 
   def index
@@ -20,28 +23,35 @@ class Admin::AssetsController < Admin::BaseController
   end
 
   def create
-    @assets = @site.assets.build(params[:assets])
-    Asset.transaction { @assets.each &:save! }
+    if(params[:upload])
+      asset = @site.assets.build(:data => params[:upload])
+      asset.save!
+      # TODO extract into a view
+      render :text => "<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction( #{params[:CKEditorFuncNum]}, '#{asset.base_url(@site)}', '' );</script>"
+    else
+      @assets = @site.assets.build(params[:assets])
+      Asset.transaction { @assets.each &:save! }
 
-    respond_to do |format|
-      format.html do
-        flash[:notice] = created_notice
-        redirect_to admin_assets_url
-      end
-      format.js do
-        responds_to_parent { render :action => 'create' }
-      end
-    end
-  rescue ActiveRecord::RecordInvalid => e
-    respond_to do |format|
-      format.html do
-        flash[:error] = t(:'adva.assets.flash.upload.failure')
-        render :action => 'new'
-      end
-      format.js do
-        responds_to_parent { render :action => 'flash_error' }
+      respond_to do |format|
+        format.html do
+          flash[:notice] = created_notice
+          redirect_to admin_assets_url
+        end
+        format.js do
+          responds_to_parent { render :action => 'create' }
+        end
       end
     end
+    rescue ActiveRecord::RecordInvalid => e
+      respond_to do |format|
+        format.html do
+          flash[:error] = t(:'adva.assets.flash.upload.failure')
+          render :action => 'new'
+        end
+        format.js do
+          responds_to_parent { render :action => 'flash_error' }
+        end
+      end
   end
 
   def edit

@@ -11,7 +11,7 @@ class CachedPage < ActiveRecord::Base
       sql = 'cached_page_references.object_id = ? AND cached_page_references.object_type = ?'
       sql << ' AND cached_page_references.method = ?' if method
 
-      conditions = [sql, object.class.name, object.id]
+      conditions = [sql, object.id, object.class.name]
       conditions << method.to_s if method
 
       find :all, :conditions => conditions, :include => :references
