@@ -167,10 +167,10 @@ class AdminUsersControllerTest < ActionController::TestCase
   end
 
   def valid_user_params
-    default_params.merge(:user => { :first_name => 'John', :password => 'password', :email => 'John@test.org' })
+    default_params.merge(:user => { :first_name => 'John', :password => 'a-password-1', :email => 'John@test.org' })
   end
 
   def invalid_user_params
-    default_params.merge(:user => { :first_name => 'John', :password => 'password', :email => '' })
+    default_params.merge(:user => { :first_name => 'John', :password => 'a-password-1', :email => '' })
   end
 end

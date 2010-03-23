@@ -47,7 +47,7 @@ private
   def add_site_user
     site_user = User.create! :first_name => 'newsletter site user',
                              :email => 'newsletter-site-user@example.com',
-                             :password => 'password',
+                             :password => 'a-password-1',
                              :verified_at => Time.now
     site_user.should_not == nil
     @site.users << site_user

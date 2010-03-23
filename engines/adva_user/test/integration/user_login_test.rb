@@ -11,7 +11,7 @@ module IntegrationTests
       visit '/login'
 
       fill_in 'user_email', :with => 'a-user@example.com'
-      fill_in 'user_password', :with => 'a password'
+      fill_in 'user_password', :with => 'a-password-1'
       click_button 'login'
 
       controller.current_user.should_not be_nil
@@ -31,7 +31,7 @@ module IntegrationTests
     test "An unverified user logs in with valid credentials" do
       visit '/login'
       fill_in 'user_email', :with => 'an-unverified-user@example.com'
-      fill_in 'user_password', :with => 'a password'
+      fill_in 'user_password', :with => 'a-password-1'
       click_button 'login'
 
       # FIXME we don't provide any more specific feedback?

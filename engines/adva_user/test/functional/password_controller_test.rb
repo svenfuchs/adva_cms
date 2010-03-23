@@ -66,7 +66,7 @@ class PasswordControllerTest < ActionController::TestCase
       before { stub(@controller).current_user.returns(@user) }
       
       with "valid password parameters" do
-        before { @params = { :user => { :password => 'new password' } } } 
+        before { @params = { :user => { :password => 'a-password-2' } } } 
 
         it_triggers_event :user_password_updated
         it_assigns_flash_cookie :notice => :not_nil

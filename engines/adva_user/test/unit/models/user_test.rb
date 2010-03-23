@@ -4,8 +4,8 @@ class UserTest < ActiveSupport::TestCase
   def setup
     super
     @user = User.find_by_first_name('a user')
-    @credentials = { :email => @user.email, :password => 'a password' }
-    @valid_user_params = { :email => 'test@example.org', :password => 'test', :first_name => 'name' }
+    @credentials = { :email => @user.email, :password => 'a-password-1' }
+    @valid_user_params = { :email => 'test@example.org', :password => 'a-password-1', :first_name => 'name' }
   end
 
   test 'acts as authenticated user' do
@@ -74,7 +74,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test 'User.authenticate returns false if no user with the given email exists' do
-    @credentials[:password] = 'wrong password'
+    @credentials[:password] = 'wrong-password-1'
     User.authenticate(@credentials).should be_false
   end
   
@@ -104,7 +104,7 @@ class UserTest < ActiveSupport::TestCase
   test 'User.create_superuser uses params values if given' do
     user = User.create_superuser(@valid_user_params)
     user.email.should == 'test@example.org'
-    user.password.should == 'test'
+    user.password.should == 'a-password-1'
     user.first_name == 'name'
   end
 

@@ -8,7 +8,7 @@
 # 
 #     site = mock('site', :id => 1)
 #     section = mock('section', :id => 1, :track_method_calls => nil) # TODO: use real object?
-#     user = User.first || User.create!(:name => 'name', :email => 'email@email.org', :password => 'password')
+#     user = User.first || User.create!(:name => 'name', :email => 'email@email.org', :password => 'a-password-1')
 # 
 #     @article = Article.create!(:site => Site.first, :section => Section.first, :title => 'title', :body => 'body', :author => user)
 # 
