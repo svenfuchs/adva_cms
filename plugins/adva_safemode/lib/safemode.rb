@@ -26,7 +26,7 @@ module Safemode
     def jail(obj)
       find_jail_class(obj.class).new obj
     end
-    
+
     def find_jail_class(klass)
       while klass != Object
         return klass.const_get('Jail') if klass.const_defined?('Jail')
@@ -35,24 +35,24 @@ module Safemode
       Jail
     end
   end
-    
+
   define_core_jail_classes
-  
+
   class Box
     def initialize(delegate = nil, delegate_methods = [], filename = nil, line = nil)
       @scope = Scope.new(delegate, delegate_methods)
       @filename = filename
       @line = line
-    end    
+    end
 
     def eval(code, assigns = {}, locals = {}, &block)
       code = Parser.jail(code)
       binding = @scope.bind(assigns, locals, &block)
       result = Kernel.eval(code, binding, @filename || __FILE__, @line || __LINE__)
     end
-    
+
     def output
       @scope.output
-    end 
+    end
   end
 end

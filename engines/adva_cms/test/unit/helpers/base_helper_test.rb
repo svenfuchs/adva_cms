@@ -124,7 +124,7 @@ class BaseHelperMicroformatsTest < ActiveSupport::TestCase
     super
     Time.zone   = 'UTC'
   end
-  
+
   # DATETIME MICROFORMAT HELPERS
 
   test "#datetime_with_microformat displays the passed object when passed a non-Date/Time object" do
