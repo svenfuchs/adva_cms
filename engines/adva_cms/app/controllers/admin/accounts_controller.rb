@@ -1,5 +1,8 @@
 class Admin::AccountsController < Admin::BaseController
 
+  # TODO rbac
+  # guards_permissions :account
+
   authentication_required :except => [ :new, :create]
   before_filter :set_account, :except => [ :new, :create, :index ]
   before_filter :set_menu, :only => []

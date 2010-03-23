@@ -21,7 +21,7 @@ module Menus
             item :comments,      :action => :index, :resource => [@site, :comment]           if Rails.plugin?(:adva_comments)
             item :newsletters,   :action => :index, :resource => [@site, "Adva::Newsletter"] if Rails.plugin?(:adva_newsletter)
             item :assets,        :action => :index, :resource => [@site, :asset]             if Rails.plugin?(:adva_assets)
-            item :products,      :action => :index, :resource => [@site, :product]           if @site.account.account_plan == 'premium' && @site.account.paid # if Rails.plugin?(:adva_products) # this engine does not exist yet
+            item :webshops,       :action => :index, :resource => [@site, :webshop]          if @site.account.account_plan == 'premium' && @site.account.paid # if Rails.plugin?(:adva_webshop) # this engine does not exist yet
           end
         end
 
