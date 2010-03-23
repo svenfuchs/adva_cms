@@ -65,4 +65,21 @@ class CategoryTest < ActiveSupport::TestCase
   #   test '#set_path should be specified'
   #   test '#update_child_paths usage + behaviour should be specified' # (this certainly can be done better)
   # end
+
+  # SAFEMODE
+
+  test "has a Jail" do
+    assert defined?(Category::Jail)
+  end
+
+  test "Jail allows certain methods" do
+    sut = @category.to_jail
+
+    assert_nothing_raised do
+      sut.title
+      sut.permalink
+      sut.section
+      sut.contents
+    end
+  end
 end

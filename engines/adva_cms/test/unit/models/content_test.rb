@@ -406,4 +406,25 @@ class ContentTest < ActiveSupport::TestCase
     @content.tag_list.should == ['foo bar']
     @content.cached_tag_list.should == '"foo bar"'
   end
+
+  # SAFEMODE
+
+  test "has a Jail" do
+    assert defined?(Content::Jail)
+  end
+
+  test "Jail allows certain methods" do
+    sut = @content.to_jail
+
+    assert_nothing_raised do
+      sut.title
+      sut.permalink
+      sut.type
+      sut.body
+      sut.comments
+      sut.author
+      sut.section
+      sut.categories
+    end
+  end
 end

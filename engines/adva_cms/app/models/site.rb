@@ -35,6 +35,12 @@ class Site < ActiveRecord::Base
 
   cattr_accessor :multi_sites_enabled, :cache_sweeper_logging
 
+  if Rails.plugin?(:adva_safemode)
+    class Jail < Safemode::Jail
+      allow :title, :sections, :host, :name
+    end
+  end
+
   class << self
     def find_by_host!(host)
       return Site.first if count == 1 && !multi_sites_enabled

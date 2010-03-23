@@ -12,6 +12,12 @@ class Article < Content
              :text  => { :attributes => [:title, :body, :excerpt] },
              :state => { :states => [:published, :unpublished] }
 
+  # if Rails.plugin?(:adva_safemode)
+  #   class Jail < Safemode::Jail
+  #     allow :title, :permalink, :type, :body, :comments, :author, :section, :categories, :published_at, :version
+  #   end
+  # end
+
   class << self
     def find_by_permalink(*args)
       options = args.extract_options!

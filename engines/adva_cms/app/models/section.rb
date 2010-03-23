@@ -33,6 +33,12 @@ class Section < ActiveRecord::Base
   validates_uniqueness_of :permalink, :scope => [ :site_id, :parent_id ]
   validates_numericality_of :contents_per_page, :only_integer => true, :message => :only_integer
 
+  if Rails.plugin?(:adva_safemode)
+    class Jail < Safemode::Jail
+      allow :title, :permalink, :type, :categories, :published?
+    end
+  end
+
   # validates_each :template, :layout do |record, attr, value|
   #   record.errors.add attr, 'may not contain dots' if value.index('.') # FIXME i18n
   #   record.errors.add attr, 'may not start with a slahs' if value.index('.') # FIXME i18n

@@ -59,6 +59,12 @@ class Content < ActiveRecord::Base
     }
   }
 
+  if Rails.plugin?(:adva_safemode)
+    class Jail < Safemode::Jail
+      allow :title, :permalink, :type, :body, :comments, :author, :section, :categories, :published_at, :version
+    end
+  end
+
   class << self
     def add_time_delta_condition!(conditions, args)
       conditions.first << " AND contents.published_at BETWEEN ? AND ?"

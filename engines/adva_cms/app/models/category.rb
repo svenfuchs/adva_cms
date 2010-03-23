@@ -14,6 +14,11 @@ class Category < ActiveRecord::Base
   validates_presence_of :section, :title
   validates_uniqueness_of :permalink, :scope => :section_id
 
+  if Rails.plugin?(:adva_safemode)
+    class Jail < Safemode::Jail
+      allow :section, :permalink, :title, :contents
+    end
+  end
   def owners
     owner.owners << owner
   end

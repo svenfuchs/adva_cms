@@ -188,4 +188,23 @@ class ArticleTest < ActiveSupport::TestCase
     @article.save(false)
     @article.body_html.should == %(<p style="position:absolute; top:50px; left:10px; width:150px; height:150px;">insecure css</p>)
   end
+
+  # SAFEMODE
+
+  test "has a Jail" do
+    assert defined?(Article::Jail)
+  end
+
+  test "Jail allows certain methods" do
+    a = @article.to_jail
+
+    assert_nothing_raised do
+      a.title
+      a.permalink
+      a.type
+      a.body
+      a.comments
+      a.published_at
+    end
+  end
 end

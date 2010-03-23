@@ -7,6 +7,11 @@ class Page < Section
     end
   end
 
+  if Rails.plugin?(:adva_safemode)
+    class Jail < Safemode::Jail
+      allow :title, :permalink, :articles, :published?, :type, :categories, :author
+    end
+  end
   class << self
     def content_type
       'Article'

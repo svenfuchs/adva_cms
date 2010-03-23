@@ -320,4 +320,21 @@ class SectionTest < ActiveSupport::TestCase
     location
   end
 
+  # Safemode
+
+  test "has a Jail" do
+    assert defined?(Section::Jail)
+  end
+
+  test "Jail allows certain methods" do
+    s = @section.to_jail
+
+    assert_nothing_raised do
+      s.title
+      s.permalink
+      s.type
+      s.published?
+      s.categories
+    end
+  end
 end

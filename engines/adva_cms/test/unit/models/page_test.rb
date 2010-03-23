@@ -60,4 +60,21 @@ class PageTest < ActiveSupport::TestCase
 
     page.published?(true).should be_false
   end
+
+  # SAFEMODE
+
+  test "has a Jail" do
+    assert defined?(Page::Jail)
+  end
+
+  test "Jail allows certain methods" do
+    sut = @page.to_jail
+
+    assert_nothing_raised do
+      sut.title
+      sut.permalink
+      sut.articles
+      sut.published?
+    end
+  end
 end

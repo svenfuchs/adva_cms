@@ -185,6 +185,23 @@ class SiteTest < ActiveSupport::TestCase
     plugin_2.string.should == 'site_2 string'
   end
 
+  # SAFEMODE
+
+  test "has a Jail" do
+    assert defined?(Site::Jail)
+  end
+
+  test "Jail allows certain methods" do
+    sut = @site.to_jail
+
+    assert_nothing_raised do
+      sut.title
+      sut.sections
+      sut.host
+      sut.name
+    end
+  end
+
   protected
 
     def bunch_of_nested_sections!
