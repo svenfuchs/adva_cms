@@ -24,7 +24,7 @@ Required: Rails >= 2.3.4, ImageMagick for image handling
   sudo gem install rails --version 2.3.4
 
 # install and setup adva-cms using a template
-  rails my-app -m http://github.com/svenfuchs/adva_cms/raw/master/templates/adva-cms.0.3.0.rb
+  rails my-app -m http://github.com/svenfuchs/adva_cms/raw/master/templates/adva-cms.0.3.1.rb
 
 # there's no step 3
   cd my-app
