@@ -29,7 +29,7 @@ class TestJail < Test::Unit::TestCase
     expected = ["new", "methods", "name", "inherited", "method_added", "inspect",
                 "allow", "allowed?", "allowed_methods", "init_allowed_methods",
                 "<", # < needed in Rails Object#subclasses_of
-                "ancestors" # ancestors needed in Rails::Generator::Spec#lookup_class
+                "ancestors", "==" # ancestors and == needed in Rails::Generator::Spec#lookup_class
                ]
     objects.each do |object|
       assert_equal expected.sort, reject_pretty_methods(object.to_jail.class.methods.sort)

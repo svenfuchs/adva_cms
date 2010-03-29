@@ -1,7 +1,7 @@
 module Safemode
   class Blankslate
     @@allow_instance_methods = ['class', 'inspect', 'methods', 'respond_to?', 'to_s', 'instance_variable_get']
-    @@allow_class_methods    = ['methods', 'new', 'name', 'inspect', '<', 'ancestors'] # < needed in Rails Object#subclasses_of
+    @@allow_class_methods    = ['methods', 'new', 'name', 'inspect', '<', 'ancestors', '=='] # < needed in Rails Object#subclasses_of
 
     silently { undef_methods(*instance_methods - @@allow_instance_methods) }
     class << self
