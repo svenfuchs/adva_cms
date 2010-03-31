@@ -16,9 +16,8 @@ module ActionView
         # template instance
         src = template.respond_to?(:source) ? template.source : template
         filename = template.filename rescue nil
-        erb_trim_mode = '-'
+        erb_trim_mode = ActionView::TemplateHandlers::ERB.erb_trim_mode
 
-        # code = ::ERB.new(src, nil, @view.erb_trim_mode).src
         code = ::ERB.new("<% __in_erb_template=true %>#{src}", nil, erb_trim_mode, '@output_buffer').src
         # Ruby 1.9 prepends an encoding to the source. However this is
         # useless because you can only set an encoding on the first line
@@ -27,9 +26,13 @@ module ActionView
         code.gsub!('\\','\\\\\\') # backslashes would disappear in compile_template/modul_eval, so we escape them
 
         code = <<-CODE
-          handler = ActionView::TemplateHandlers::SafeHaml
-          assigns = handler.valid_assigns(@template.assigns)
+          handler = ActionView::TemplateHandlers::SafeErb
+          assigns = {}
+          handler.valid_assigns(instance_variables).each do |var|
+            assigns[var[1,var.length]] = instance_variable_get(var)
+          end
           methods = handler.delegate_methods(self)
+
           code = %Q(#{code});
 
           box = Safemode::Box.new(self, methods, #{filename.inspect}, 0)
