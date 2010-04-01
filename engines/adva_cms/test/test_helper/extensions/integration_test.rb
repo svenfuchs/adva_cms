@@ -47,21 +47,21 @@ module ActionController
 
     def login_as_user
       raise "need to set the current site before loggin in" unless @integration_session
-      post "/session", :user => {:email => 'a-user@example.com', :password => 'a password'}
+      post "/session", :user => {:email => 'a-user@example.com', :password => 'a-password-1'}
       assert controller.authenticated?
       controller.current_user
     end
 
     def login_as_admin
       raise "need to set the current site before loggin in" unless @integration_session
-      post "/session", :user => {:email => 'an-admin@example.com', :password => 'a password'}
+      post "/session", :user => {:email => 'an-admin@example.com', :password => 'a-password-1'}
       assert controller.authenticated?
       assert controller.current_user.has_role?(:admin, controller.site)
     end
 
     def login_as_designer
       raise "need to set the current site before loggin in" unless @integration_session
-      post "/session", :user => {:email => 'a-designer@example.com', :password => 'a password'}
+      post "/session", :user => {:email => 'a-designer@example.com', :password => 'a-password-1'}
       assert controller.authenticated?
       puts controller.current_user.roles.inspect
       assert controller.current_user.has_role?(:designer, controller.site)
@@ -69,7 +69,7 @@ module ActionController
 
     def login_as_superuser
       raise "need to set the current site before loggin in" unless @integration_session
-      post "/session", :user => {:email => 'a-superuser@example.com', :password => 'a password'}
+      post "/session", :user => {:email => 'a-superuser@example.com', :password => 'a-password-1'}
       assert controller.authenticated?
       assert controller.current_user.has_role?(:superuser)
     end

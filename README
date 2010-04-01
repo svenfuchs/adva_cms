@@ -15,16 +15,16 @@ similar but separate Rails applications.
  
 Please check out /doc directory and our site http://adva-cms.org for more info.
 
-Installation: Release 0.3.0
+Installation: Release 0.3.1
 ===========================
 
-Required: Rails 2.3.4, ImageMagick for image handling
+Required: Rails >= 2.3.4, ImageMagick for image handling
 
-# install Rails 2.3.4 gems if you don't have them already
-  sudo gem install rails --source http://gems.rubyonrails.org
+# install Rails >= 2.3.4 gems if you don't have them already
+  sudo gem install rails --version 2.3.4
 
 # install and setup adva-cms using a template
-  rails my-app -m http://github.com/svenfuchs/adva_cms/raw/master/templates/adva-cms.0.3.0.rb
+  rails my-app -m http://github.com/svenfuchs/adva_cms/raw/master/templates/adva-cms.0.3.1.rb
 
 # there's no step 3
   cd my-app
@@ -37,7 +37,7 @@ Fill out the form and you're started, enjoy!
 You can install additional engines and plugins through rake adva:install. See
 below for more about that.
 
-*Important note for using adva-cms with Rails 2.3.4*
+*Important note for using adva-cms with Rails >= 2.3.4*
 
 You *must* use Rails' old routing recognition/generation mode in order for adva-cms to work correctly:
 
@@ -49,10 +49,10 @@ You *must* use Rails' old routing recognition/generation mode in order for adva-
 Installation: Edge version using rails template
 ===============================================
 
-Required: Rails 2.3.4, ImageMagick for image handling
+Required: Rails >= 2.3.4, ImageMagick for image handling
 
-# install Rails 2.3.4 gems if you don't have them already
-  sudo gem install rails --source http://gems.rubyonrails.org
+# install Rails >= 2.3.4 gems if you don't have them already
+  sudo gem install rails --version 2.3.4
 
 # install and setup adva-cms using a template
   rails my-app -m http://github.com/svenfuchs/adva_cms/raw/master/templates/adva-cms.master.rb
@@ -73,7 +73,7 @@ Installation: Edge version manually
 ===================================
 (this is basically what the template does...)
 
-Required: Rails 2.3.4 or newer, ImageMagick for image handling
+Required: Rails >= 2.3.4 or newer, ImageMagick for image handling
 
 # Create your app
   rails my-app
@@ -135,7 +135,7 @@ included to the task. E.g.
 	rake adva:install engines=adva_themes,adva_wiki plugins=adva_url_history
 	rake adva:uninstall engines=adva_themes,adva_wiki plugins=adva_url_history
 
-(Accidentally, for the task adva:install:core one can specify the plugins
+(Incidentally, for the task adva:install:core one can specify the plugins
 option in the same way and thus install all core engines plus certain
 plugins.)
 

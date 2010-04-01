@@ -2,46 +2,46 @@
 
 anonymous    = User.create! :first_name => 'an anonymous',
                             :email => 'an-anonymous@example.com',
-                            :password => 'a password',
+                            :password => 'a-password-1',
                             :verified_at => Time.now,
                             :anonymous => true
 
 user         = User.create! :first_name => 'a user',
                             :email => 'a-user@example.com',
-                            :password => 'a password',
+                            :password => 'a-password-1',
                             :verified_at => Time.now
 
 superuser    = User.create! :first_name => 'a superuser',
                             :email => 'a-superuser@example.com',
-                            :password => 'a password',
+                            :password => 'a-password-1',
                             :verified_at => Time.now
 
 admin        = User.create! :first_name => 'an admin',
                             :email => 'an-admin@example.com',
-                            :password => 'a password',
+                            :password => 'a-password-1',
                             :verified_at => Time.now
 
 moderator    = User.create! :first_name => 'a moderator',
                             :email => 'a-moderator@example.com',
-                            :password => 'a password',
+                            :password => 'a-password-1',
                             :verified_at => Time.now
 
                User.create! :first_name => 'an unverified user',
                             :email => 'a-unverified-user@example.com',
-                            :password => 'a password'
+                            :password => 'a-password-1'
 
 designer     = User.create! :first_name => 'a designer',
                             :email => 'a-designer@example.com',
-                            :password => 'a password'
+                            :password => 'a-password-1'
 
 another_author = User.create! :first_name => 'a author',
                               :email => 'a-author@example.com',
-                              :password => 'a password',
+                              :password => 'a-password-1',
                               :verified_at => Time.now
 
 another_moderator = User.create!  :first_name => 'another moderator',
                                   :email => 'another_moderator@example.com',
-                                  :password => 'a password',
+                                  :password => 'a-password-1',
                                   :verified_at => Time.now
 
 # SITES

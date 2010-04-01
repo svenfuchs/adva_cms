@@ -68,7 +68,7 @@ class SiteTest < ActiveSupport::TestCase
   end
 
   test "users association calls destroy on associated users when destroyed" do
-    user = @site.users.create!(:first_name => 'John', :email => 'email@foo.bar', :password => 'password')
+    user = @site.users.create!(:first_name => 'John', :email => 'email@foo.bar', :password => 'a-password-1')
     @site.destroy
     lambda { User.find user.id }.should raise_error(ActiveRecord::RecordNotFound)
   end

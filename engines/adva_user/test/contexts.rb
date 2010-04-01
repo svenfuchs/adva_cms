@@ -20,7 +20,7 @@ class Test::Unit::TestCase
     { :first_name      => 'first name',
       :last_name       => 'last name',
       :email           => 'email@email.org',
-      :password        => 'password',
+      :password        => 'a-password-1',
       :homepage        => 'http://homepage.org' }
   end
   

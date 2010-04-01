@@ -3,7 +3,7 @@ admin = User.find_by_first_name("an admin")
 
 user_newsletter = User.create! :first_name => 'user newsletter',
                                :email => 'user-newsletter@example.com',
-                               :password => 'password',
+                               :password => 'a-password-1',
                                :verified_at => Time.utc(2009, 2, 3, 15, 0, 0)
 
 site_with_newsletter = Site.create! :name => "site with newsletter",
