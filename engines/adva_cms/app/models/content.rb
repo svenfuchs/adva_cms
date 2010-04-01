@@ -61,7 +61,7 @@ class Content < ActiveRecord::Base
 
   if Rails.plugin?(:adva_safemode)
     class Jail < Safemode::Jail
-      allow :title, :permalink, :type, :body, :comments, :author, :section, :categories, :published_at, :version
+      allow :title, :permalink, :type, :body, :comments, :author, :section, :categories, :published_at, :version, :excerpt_html, :body_html, :excerpt, :approved_comments, :comments?, :accept_comments?, :comments, :assets, :activities
     end
   end
 

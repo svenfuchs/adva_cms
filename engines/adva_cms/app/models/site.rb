@@ -37,7 +37,7 @@ class Site < ActiveRecord::Base
 
   if Rails.plugin?(:adva_safemode)
     class Jail < Safemode::Jail
-      allow :title, :sections, :host, :name
+      allow :title, :sections, :host, :name, :subtitle
     end
   end
 
