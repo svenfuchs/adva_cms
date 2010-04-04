@@ -41,6 +41,19 @@ class User < ActiveRecord::Base
 
   end
 
+  def process_and_delete_invitation(invitation)
+    grant_roles(invitation)
+    self.memberships.create(:site => invitation.site)
+    invitation.destroy
+  end
+
+  def grant_roles(invitation)
+    invitation.roles.split(' ').each do |role|
+      context = (role == 'superuser' ? invitation.site.account : invitation.site)
+      self.roles.create(:name => role, :context => context)
+    end
+  end
+
   def accounts
     accounts = []
     self.roles.each { |role| accounts << role.ancestor_context }

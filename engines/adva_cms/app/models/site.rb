@@ -50,12 +50,14 @@ class Site < ActiveRecord::Base
     def find_users_and_superusers(id, account_id, options = {})
       condition = [
         %{
-          memberships.site_id = ? OR
+          memberships.site_id = ?
+          OR
           (memberships.site_id IS NULL AND
-          roles.name = ? AND
-          roles.context_type = 'Account' AND
+          roles.name = ? AND roles.context_type = 'Account' AND roles.context_id = ?
+          OR
+          roles.context_type = 'Site' AND
           roles.context_id = ?)
-        }, id, 'superuser', account_id]
+        }, id, 'superuser', account_id, id]
       User.find :all, options.merge(:include => [:roles, :memberships], :conditions => condition)
     end
 

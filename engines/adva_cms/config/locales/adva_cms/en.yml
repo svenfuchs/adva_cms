@@ -1,5 +1,12 @@
 en:
   activerecord:
+    attributes:
+      user:
+         first_name: First name
+         last_name: Last name
+         email: Email
+         homepage: Website
+         password: Password
     errors:
       messages:
         only_integer: can only be whole number.

@@ -1,0 +1,27 @@
+<h2><%= t(:'adva.users.titles.invitation_confirmation') %><h2>
+
+<div style="font-size: 14px;">  
+  <p>
+  <%= t(:'adva.users.titles.accept_invitation', :account_name => @invitation.site.account.name) %>
+  </p>
+
+  <% form_for @user, :url => user_confirmation_path do |f| %>
+
+    <% f.field_set do %>
+      <%= f.label :email, t(:'activerecord.attributes.user.email'), :required => true %>
+      <%= f.text_field :email, :disabled => 'disabled' %>
+      <%= f.label :first_name, t(:'activerecord.attributes.user.first_name'), :required => true %>
+      <%= f.text_field :first_name %>
+      <%= f.label :last_name, t(:'activerecord.attributes.user.last_name') %>
+      <%= f.text_field :last_name %>
+      <%= f.label :homepage, t(:'activerecord.attributes.user.homepage') %>
+      <%= f.text_field :homepage %>
+      <%= f.label :password, t(:'activerecord.attributes.user.password'), :required => true %>
+      <%= f.password_field :password %>
+      <%= hidden_field_tag :token, @invitation.token %>
+    <% end %>
+  
+    <p><%= submit_tag t(:'adva.users.buttons.confirm_invitation'), :id => 'confirm_invitation' %></p>
+
+  <% end %>
+</div>

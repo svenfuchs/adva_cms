@@ -22,6 +22,32 @@ class UserController < BaseController
   def verification_sent
     # TODO: translate text!
   end
+  
+  def confirm_invitation
+    @invitation = Invitation.find_by_token(params[:token])
+    if @invitation
+      @user = User.find_by_email(@invitation.email)
+      if @user
+        @user.process_and_delete_invitation(@invitation)
+        flash[:notice] = t("#{locale_key_prefix}.users.flash.existing_user_confirmed_invitation", :account_name => @invitation.site.account.name)
+        redirect_to login_url(:user => { :email => @invitation.email })
+      else
+        if request.post?
+          @user = User.new(params[:user].merge(:email => @invitation.email, :verified_at => Time.now))
+          if @user.save
+            @user.process_and_delete_invitation(@invitation)
+            flash[:notice] = t("#{locale_key_prefix}.users.flash.confirmed_invitation", :account_name => @invitation.site.account.name)
+            redirect_to login_url(:user => { :email => @invitation.email })
+          end
+        else
+          @user = User.new(:email => @invitation.email)
+        end
+      end
+    else
+      flash[:notice] = t("#{locale_key_prefix}.users.flash.already_confirmed_invitation")
+      redirect_to login_url
+    end
+  end
 
   def verify
     if current_user and current_user.verify!
@@ -42,6 +68,10 @@ class UserController < BaseController
   end
 
   private
+
+  def locale_key_prefix
+    'adva'
+  end
 
   def url_with_token(user, purpose, params)
     token = user.assign_token purpose

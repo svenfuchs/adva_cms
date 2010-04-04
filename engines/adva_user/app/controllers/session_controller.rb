@@ -6,7 +6,7 @@ class SessionController < BaseController
   layout 'login'
 
   def new
-    @user = User.new
+    @user = User.new(params[:user])
   end
 
   def create

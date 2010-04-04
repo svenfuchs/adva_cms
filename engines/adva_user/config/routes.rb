@@ -24,4 +24,6 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :users,      :path_prefix => "admin/sites/:site_id",
                              :name_prefix => "admin_site_",
                              :namespace   => "admin/"
+
+  map.user_confirmation      'user/confirmation', :controller => 'user', :action => 'confirm_invitation'
 end

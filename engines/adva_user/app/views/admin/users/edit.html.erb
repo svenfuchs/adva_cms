@@ -1,7 +1,29 @@
 <h2><%= t(:'adva.users.titles.edit') %></h2>
 
+<h2><%= @user.name %></h2>
+<p>
+  <%= t(:'adva.users.labels.email') %>:
+  <%= @user.email %>
+</p>
+<% if @user.homepage %>
+  <p>
+    <%= t(:'adva.users.labels.url') %>:
+    <%= link_to @user.homepage, @user.homepage %>
+  </p>
+<% end %>
+<p>
+  <%= t(:'adva.users.labels.created_at') %>:
+  <%= @user.created_at %>
+</p>
+<p>
+  <%= t(:'adva.users.labels.updated_at') %>:
+  <%= @user.updated_at %>
+</p>
+<br/>
+
 <% form_for :user, @user, :url => admin_user_path(@site, @user), :html => {:method => :put} do |f| -%>
   <%= render :partial => 'form', :locals => {:f => f} %>  
+  <% save_or_cancel_links(f, :cancel_url => admin_users_path(@site)) %>
 <% end -%>
 
 <%= render :partial => 'sidebar' %>

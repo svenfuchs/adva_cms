@@ -1,5 +1,20 @@
 <h2><%= t(:'adva.users.titles.new') %></h2>
 
-<% form_for :user, @user, :url => admin_users_path(@site) do |f| -%>
-  <%= render :partial => 'form', :locals => {:f => f} %>  
+<% content_for :sidebar do %>
+  <div class="tabs">
+  	<div class="tab active">
+  	  <p><strong><%= t(:'adva.users.titles.new') %></strong></p>
+  	  <p><%= t(:'adva.users.titles.invite_new_user') %></p>
+    </div>  
+  </div>
+<% end %>
+    
+<% form_for :invitation, @invitation, :url => admin_users_path(@site) do |f| -%>
+  <% f.field_set do %>
+    <% column do %>
+      <%= f.text_field :email, :label => true, :class => 'normal' %>
+    <% end %>
+  <% end %>
+  <%= render :partial => 'form', :locals => {:f => f} %>
+  <p><%= f.submit t(:'adva.users.buttons.send_invitation') %></p>
 <% end -%>
