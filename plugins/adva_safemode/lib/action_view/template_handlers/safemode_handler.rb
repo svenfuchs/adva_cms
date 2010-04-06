@@ -7,28 +7,26 @@ module ActionView
       end
 
       def delegate_methods(view)
-        [ :render, :params, :flash ] +
-        helper_methods(view) +
-        ActionController::Routing::Routes.named_routes.helpers
+        dm = [ :render, :params, :flash, :h, :html_escape ]
+        dm += helper_methods(view.class)
+        dm += view.controller.master_helper_module.instance_methods
+        dm += ActionController::Routing::Routes.named_routes.helpers
+        dm.flatten.map(&:to_sym).uniq
       end
 
-      def helper_methods(view)
-        view.class.included_modules.collect {|m| m.instance_methods(false) }.flatten.map(&:to_sym)
+      def helper_methods(view_class)
+        view_class.included_modules.collect do |m|
+          m.instance_methods(false) + helper_methods(m)
+        end
       end
 
       def skip_assigns
-        # [ "_cookies", "_flash", "_headers", "_params", "_request",
-        #   "_response", "_session", "before_filter_chain_aborted",
-        #   "ignore_missing_templates", "logger", "request_origin",
-        #   "template", "template_class", "url", "variables_added",
-        #   "view_paths" ]
-        #
-        # TODO validate whether the list below is complete or not. above is the previous list
-
-        [ "@_request", "@controller", "@_current_render",
-          "@assigns_added", "@real_format", "@_first_render",
-          "@template_format", "@assigns", "@template",
-          "@view_paths", "@helpers"]
+        [ "@_cookies", "@_current_render", "@_first_render", "@_flash",
+          "@_headers", "@_params", "@_request", "@_response", "@_session",
+          "@assigns", "@assigns_added", "@before_filter_chain_aborted",
+          "@controller", "@helpers", "@ignore_missing_templates", "@logger",
+          "@real_format", "@request_origin", "@template", "@template_class",
+          "@template_format", "@url", "@variables_added", "@view_paths" ]
       end
     end
   end
