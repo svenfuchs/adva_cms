@@ -1,12 +1,12 @@
-module Kernel  
+module Kernel
   def silently(&blk)
     old_verbose, $VERBOSE = $VERBOSE, nil
     yield
     $VERBOSE = old_verbose
-  end   
+  end
 end
 
-class Module  
+class Module
   def undef_methods(*methods)
     methods.each { |name| undef_method(name) }
   end
@@ -23,13 +23,13 @@ end
 # don't need to jail objects returned from a jail. Doing so would provide
 # "double" protection, but it also would break using a return value in an if
 # statement, passing them to a Rails helper etc.
-
+#
 # class Array
 #   def to_jail
 #     Safemode.jail collect{ |obj| obj.to_jail }
 #   end
 # end
-# 
+#
 # class Hash
 #   def to_jail
 #     hash = {}

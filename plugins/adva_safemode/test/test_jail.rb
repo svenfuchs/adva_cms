@@ -61,5 +61,4 @@ class TestJail < Test::Unit::TestCase
   def reject_pretty_methods(methods)
     methods.reject{ |method| method =~ /^pretty_/ }
   end
-
 end
