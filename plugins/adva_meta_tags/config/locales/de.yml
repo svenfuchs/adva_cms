@@ -1,4 +1,13 @@
 de:
+  activerecord:
+    attributes:
+      article:
+        meta_keywords: Schlüsselworte
+        meta_description: Beschreibung
+        meta_author: Autor
+        meta_copyright: Copyright
+        meta_geourl: geographische URL
+
   adva:
     meta_tags:
       hints:

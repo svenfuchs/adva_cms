@@ -24,6 +24,8 @@ de:
        type: Typ
        published: Veröffentlicht
        parent_id: Übergeordnete Sektion
+       permalink: Permalink
+       section_permalink: Permalink
      site:
        comment_filter: Textfilter für Kommentare
        meta_keywords: Keywords
@@ -280,6 +282,7 @@ de:
    sections:
      columns:
        section: Sektion
+       actions: Aktionen
      hints:
        content_filter: "Der Filter, den Sie hier wählen, gilt als Standard für alle Inhalte in dieser Sektion."
        sections: "Hier sehen Sie alle Sektionen Ihrer Webseite gelistet. Der oberste Eintrag in der Liste ist die aktuelle Homepage der Webseite."
@@ -404,6 +407,7 @@ de:
        comments: Kommentare
        published: Veröffentlicht
        author: Autor
+       actions: Aktionen
      translation_links: "Verfügbare Übersetzungen: {{locales}}"
      write_article: Text
      question_save_as_draft: Speichern als ein Entwurf?
