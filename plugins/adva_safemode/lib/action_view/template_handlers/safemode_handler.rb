@@ -8,6 +8,7 @@ module ActionView
 
       def delegate_methods(view)
         dm = [ :render, :params, :flash, :h, :html_escape ]
+        dm += [ :request ]
         dm += helper_methods(view.class)
         dm += view.controller.master_helper_module.instance_methods
         dm += ActionController::Routing::Routes.named_routes.helpers

@@ -20,6 +20,7 @@ require 'safemode/jail'
 require 'safemode/core_jails'
 require 'safemode/parser'
 require 'safemode/scope'
+require 'safemode/rails_ext'
 
 module Safemode
   class << self
