@@ -114,9 +114,15 @@ class Comment
   end
 end
 
+class SpecialArticle < Article
+  def is_special?
+    true
+  end
+end
+
 class Article::Jail < Safemode::Jail
   allow :title, :comments, :is_article?
-  
+
   def author_name
     "this article's author name"
   end
@@ -125,17 +131,31 @@ end
 class Article::ExtendedJail < Article::Jail
 end
 
+class Article::RestrictedJail < Article::Jail
+  disallow :comments
+end
+
+class SpecialArticle < Article
+  def is_special?
+    true
+  end
+end
+
+class SpecialArticle::Jail < Article::Jail
+  allow :is_special?
+end
+
 class Comment::Jail < Safemode::Jail
   allow :article, :text
 end
 
 class SpecialString < String
-  class Jail < Safemode::Jail
-    allow :special
-  end
-
   def special
     "some special method"
   end
+end
+
+class SpecialString::Jail < Safemode::Jail
+  allow :special
 end
 

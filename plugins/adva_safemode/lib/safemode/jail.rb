@@ -1,8 +1,6 @@
 module Safemode
   class Jail < Blankslate
     class << self
-      def method_added(name) end # ActiveSupport needs this
-
       def inherited(subclass)
         subclass.init_allowed_methods(@allowed_methods)
       end
@@ -16,12 +14,21 @@ module Safemode
       end
 
       def allow(*names)
-        @allowed_methods = allowed_methods + names.map{|name| name.to_s}
-        @allowed_methods.uniq!
+        @allowed_methods = alter_allowed_method_list(names, :+)
+      end
+
+      def disallow(*names)
+        @allowed_methods = alter_allowed_method_list(names, :-)
       end
 
       def allowed?(name)
         allowed_methods.include? name.to_s
+      end
+
+      private
+
+      def alter_allowed_method_list(names, alter_method = :+)
+        am = allowed_methods.send(alter_method, names.map{|name| name.to_s}).uniq
       end
     end
 
