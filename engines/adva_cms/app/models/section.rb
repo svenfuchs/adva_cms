@@ -35,7 +35,7 @@ class Section < ActiveRecord::Base
 
   if Rails.plugin?(:adva_safemode)
     class Jail < Safemode::Jail
-      allow :title, :permalink, :type, :categories, :published?
+      allow :title, :permalink, :type, :categories, :published?, :try
     end
   end
 

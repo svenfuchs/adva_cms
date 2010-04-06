@@ -8,8 +8,8 @@ class Page < Section
   end
 
   if Rails.plugin?(:adva_safemode)
-    class Jail < Safemode::Jail
-      allow :title, :permalink, :articles, :published?, :type, :categories, :author
+    class Jail < Section::Jail
+      allow :articles, :author
     end
   end
   class << self
