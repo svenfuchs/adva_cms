@@ -128,3 +128,14 @@ end
 class Comment::Jail < Safemode::Jail
   allow :article, :text
 end
+
+class SpecialString < String
+  class Jail < Safemode::Jail
+    allow :special
+  end
+
+  def special
+    "some special method"
+  end
+end
+

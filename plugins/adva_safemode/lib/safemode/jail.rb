@@ -12,6 +12,10 @@ module Safemode
       @source.to_s
     end
 
+    def respond_to?(method)
+      self.class.allowed?(method) or super
+    end
+
     def method_missing(method, *args, &block)
       unless self.class.allowed?(method)
         raise Safemode::NoMethodError.new(method, self.class.name, @source.class.name)
