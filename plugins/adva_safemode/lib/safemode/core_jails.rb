@@ -70,6 +70,7 @@ module Safemode
                     downcase! dump each each_byte each_line empty? end_with? gsub
                     gsub! hash hex include? index insert intern iseuc issjis
                     isutf8 kconv length ljust lstrip lstrip! match next next! oct
+                    present?
                     reverse reverse! rindex rjust rstrip rstrip! scan size slice
                     slice! split squeeze squeeze! start_with? strip strip! sub
                     sub! succ succ! sum swapcase swapcase! to_f to_i to_str to_sym
