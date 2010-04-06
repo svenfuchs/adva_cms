@@ -25,6 +25,18 @@ class TestJail < Test::Unit::TestCase
     end
   end
 
+  # def test_jail_instances_keep_try
+  #   object = "string"
+  #   object.instance_eval do
+  #     def try(*args)
+  #       "some try method which is so popular/useful nowadays"
+  #     end
+  #   end
+  #
+  #   assert object.methods.include?("try"), "should have a try method without the jail"
+  #   assert object.to_jail.methods.include?("try"), "should have kept the try method in the jail available"
+  # end
+
   def test_jail_classes_should_have_limited_methods
     expected = ["new", "methods", "name", "inherited", "method_added", "inspect",
                 "allow", "allowed?", "allowed_methods", "init_allowed_methods",
