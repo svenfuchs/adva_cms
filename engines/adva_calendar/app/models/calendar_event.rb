@@ -78,6 +78,13 @@ class CalendarEvent < ActiveRecord::Base
   cattr_accessor :require_end_date
   @@require_end_date = true
 
+  if Rails.plugin?(:adva_safemode)
+    class Jail < Safemode::Jail
+      allow :start_date, :end_date, :title, :user, :section, :tags, :assets, :categories, :permalink, :body, :body_html
+      allow :all_day?
+    end
+  end
+
   class << self
     def find_published_by_params(params)
       scope = params[:section].events.published

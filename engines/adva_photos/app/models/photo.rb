@@ -42,6 +42,14 @@ class Photo < ActiveRecord::Base
   validates_attachment_presence :data
   validates_attachment_size :data, :less_than => 30.megabytes
 
+  if Rails.plugin?(:adva_safemode)
+    class Jail < Safemode::Jail
+      allow :published_at, :author_name, :author_link, :title, :sets, :section
+      allow :comments, :approved_comments, :comments?, :accept_comments?, :comments
+      allow :base_url
+    end
+  end
+
   class << self
     def base_url(site)
       "/sites/site-#{site.id}/photos"

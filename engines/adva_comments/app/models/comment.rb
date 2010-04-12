@@ -24,6 +24,13 @@ class Comment < ActiveRecord::Base
   before_validation :set_owners
   before_create :authorize_commenting
 
+  if Rails.plugin?(:adva_safemode)
+    class Jail < Safemode::Jail
+      allow :new_record?, :id, :section, :author, :body, :body_html, :commentable, :author_name, :author_link
+      allow :created_at, :approved?
+    end
+  end
+
   def owner
     commentable
   end

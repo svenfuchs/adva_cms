@@ -20,6 +20,12 @@ class Topic < ActiveRecord::Base
   attr_accessor :body
   delegate :comment_filter, :to => :site
 
+  if Rails.plugin?(:adva_safemode)
+    class Jail < Safemode::Jail
+      allow :permalink, :title, :section, :board, :last_post, :locked?, :sticky?, :site, :posts_count, :activities, :last_updated_at, :last_author_name, :author_name
+    end
+  end
+
   class << self
     def post(author, attributes)
       topic = Topic.new attributes.merge(:author => author)

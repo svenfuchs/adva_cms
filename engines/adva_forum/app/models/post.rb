@@ -7,6 +7,12 @@ class Post < Comment
   after_save    :update_caches
   after_destroy :update_caches
 
+  if Rails.plugin?(:adva_safemode)
+    class Jail < Comment::Jail
+      allow :board
+    end
+  end
+
   def filter
     section.content_filter
   end

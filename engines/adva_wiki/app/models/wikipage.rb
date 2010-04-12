@@ -6,6 +6,12 @@ class Wikipage < Content
   validates_presence_of :title, :body
   validates_uniqueness_of :permalink, :scope => :section_id
 
+  if Rails.plugin?(:adva_safemode)
+    class Jail < Content::Jail
+      allow :author_link, :home?
+    end
+  end
+
   def after_initialize
     self.title = permalink.to_s.gsub("-", " ").capitalize if new_record? && title.blank? && permalink
   end

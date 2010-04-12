@@ -90,6 +90,14 @@ class ExtensibleFormBuilder < ActionView::Helpers::FormBuilder
       end
   end
 
+  if defined?(Safemode::Jail) # Rails.plugin?(:adva_safemode) didn't work here...
+    class Jail < Safemode::Jail
+      allow :select, :date_select, :datetime_select, :time_select, :time_zone_select, :collection_select,
+        :hidden_field, :label, :fields_for, :apply_form_for_options!, :field_set, :tabs, :tab, :buttons,
+        :render, :text_field, :password_field, :text_area, :submit
+    end
+  end
+
   helpers = field_helpers + %w(select date_select datetime_select time_select time_zone_select collection_select) -
                             %w(hidden_field label fields_for apply_form_for_options!)
 

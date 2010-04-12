@@ -17,6 +17,12 @@ class Album < Section
              :text  => { :attributes => :title },
              :state => { :states => [:published, :unpublished] }
   
+  if Rails.plugin?(:adva_safemode)
+    class Jail < Content::Jail
+      allow :sets, :photos
+    end
+  end
+
   def self.content_type
     'Photo'
   end

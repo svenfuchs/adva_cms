@@ -16,9 +16,10 @@ class Category < ActiveRecord::Base
 
   if Rails.plugin?(:adva_safemode)
     class Jail < Safemode::Jail
-      allow :section, :permalink, :title, :contents
+      allow :section, :permalink, :title, :contents, :id
     end
   end
+
   def owners
     owner.owners << owner
   end

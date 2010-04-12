@@ -19,6 +19,12 @@ class Activity < ActiveRecord::Base
 
   attr_accessor :siblings
 
+  if Rails.plugin?(:adva_safemode)
+    class Jail < Safemode::Jail
+      allow :author_name, :author_email, :object, :section, :site
+    end
+  end
+
   class << self
     def find_coinciding_grouped_by_dates(*dates)
       options = dates.extract_options!

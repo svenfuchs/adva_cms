@@ -22,6 +22,12 @@ class Forum < Section
 
   before_create :set_content_filter
 
+  if Rails.plugin?(:adva_safemode)
+    class Jail < Section::Jail
+      allow :topics_count, :posts, :boards, :topics, :posts_count
+    end
+  end
+
   class << self
     def content_type
       'Topic'

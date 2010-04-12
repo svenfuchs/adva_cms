@@ -21,6 +21,13 @@ class User < ActiveRecord::Base
   validates_presence_of     :password,                         :if => :password_required?
   validates_length_of       :password, :within => 4..40,       :if => :password_required?
 
+  if Rails.plugin?(:adva_safemode)
+    class Jail < Safemode::Jail
+      allow :name, :email, :first_name, :last_name, :verified?, :registered?, :homepage
+      allow :constant
+    end
+  end
+
   class << self
     def authenticate(credentials)
       return false unless user = User.find_by_email(credentials[:email])
