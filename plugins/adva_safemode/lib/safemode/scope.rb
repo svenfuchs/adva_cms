@@ -34,6 +34,8 @@ module Safemode
       if @locals.has_key?(method)
         @locals[method]
       elsif @delegate_methods.include?(method)
+        # vielleicht liegt hier der Fehler für die fehlende Sichtbarkeit des
+        # output_buffers innerhalb von content_tag-Blocks
         @delegate.send method, *unjail_args(args), &block
       else
         raise Safemode::SecurityError.new(method, "#<Safemode::ScopeObject>")

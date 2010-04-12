@@ -76,8 +76,8 @@ module TestHelper
   
   def safebox_eval(code, assigns = {}, locals = {})
     # puts Safemode::Parser.jail(code)
-    Safemode::Box.new.eval code, assigns, locals
-  end  
+    Safemode::Box.new(code, __FILE__, __LINE__).eval(nil, [], assigns, locals)
+  end
 end
 
 class Article

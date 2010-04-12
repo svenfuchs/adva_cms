@@ -40,16 +40,20 @@ module Safemode
   define_core_jail_classes
 
   class Box
-    def initialize(delegate = nil, delegate_methods = [], filename = nil, line = nil)
-      @scope = Scope.new(delegate, delegate_methods)
+    def initialize(code, filename, line)
+      @code = jail(code)
       @filename = filename
       @line = line
     end
 
-    def eval(code, assigns = {}, locals = {}, &block)
+    def jail(code)
       code = Parser.jail(code)
-      binding = @scope.bind(assigns, locals, &block)
-      result = Kernel.eval(code, binding, @filename || __FILE__, @line || __LINE__)
+    end
+
+    def eval(delegate = nil, methods = [], assigns = {}, locals = {}, &block)
+      scope = Scope.new(delegate, methods)
+      binding = scope.bind(assigns, locals, &block)
+      result = Kernel.eval(@code, binding, @filename, @line)
     end
 
     def output

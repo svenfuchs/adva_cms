@@ -1,7 +1,6 @@
 module ActionView
   module TemplateHandlers
     module SafemodeHandler
-
       def valid_assigns(assigns)
         assigns.reject { |key, value| skip_assigns.include?(key) }
       end
