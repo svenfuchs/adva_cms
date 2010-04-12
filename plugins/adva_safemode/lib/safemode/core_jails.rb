@@ -15,14 +15,15 @@ module Safemode
 
     def core_classes
       klasses = [ Array, Bignum, Fixnum, Float, Hash,
-                  Range, String, Symbol, Time ]
+                  Proc, Range, String, Symbol, Time,
+                  NilClass, TrueClass, FalseClass ]
       klasses << Date if defined? Date
       klasses << DateTime if defined? DateTime
       klasses
     end
 
     def core_jail_methods(klass)
-      @@methods_whitelist[klass.name] + (@@default_methods & klass.instance_methods)
+      (@@methods_whitelist[klass.name] || []) + (@@default_methods & klass.instance_methods)
     end
   end
 
@@ -37,6 +38,7 @@ module Safemode
                     delete delete_at delete_if each each_index empty? fetch
                     fill first flatten flatten! hash include? index indexes
                     indices inject insert join last length map map! nitems pop
+                    present?
                     push rassoc reject reject! reverse reverse! reverse_each
                     rindex select shift size slice slice! sort sort! transpose
                     uniq uniq! unshift values_at zip),
@@ -58,7 +60,7 @@ module Safemode
 
     'Hash'       => %w(blank? clear delete delete_if each each_key each_pair
                     each_value empty? fetch has_key? has_value? include? index
-                    invert key? keys length member? merge merge! rec_merge! rehash
+                    invert key? keys length member? merge merge! present? rec_merge! rehash
                     reject reject! select shift size sort store
                     update value? values values_at),
 
@@ -70,7 +72,7 @@ module Safemode
                     downcase! dump each each_byte each_line empty? end_with? gsub
                     gsub! hash hex include? index insert intern iseuc issjis
                     isutf8 kconv length ljust lstrip lstrip! match next next! oct
-                    present?
+                    present? raw
                     reverse reverse! rindex rjust rstrip rstrip! scan size slice
                     slice! split squeeze squeeze! start_with? strip strip! sub
                     sub! succ succ! sum swapcase swapcase! to_f to_i to_str to_sym
@@ -95,11 +97,11 @@ module Safemode
     'DateTime'   => %w(hour, min, new_offset, newof, of, offset, sec,
                     sec_fraction, strftime, to_datetime_default_s, to_json, zone),
 
-    'NilClass'   => %w(blank? duplicable? to_f to_i),
+    'NilClass'   => %w(blank? duplicable? present? to_f to_i),
 
-    'FalseClass' => %w(blank? duplicable?),
+    'FalseClass' => %w(blank? duplicable? present?),
 
-    'TrueClass'  => %w(blank? duplicable?)
+    'TrueClass'  => %w(blank? duplicable? present?)
 
   }
 end
