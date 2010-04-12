@@ -4,18 +4,16 @@ require 'erb'
 module ActionView
   module TemplateHandlers
     class SafeErb < TemplateHandler
-      include Compilable rescue nil # does not exist prior Rails 2.1
       extend SafemodeHandler
+      include Compilable
 
       def self.line_offset
         0
       end
 
       def compile(template)
-        # Rails 2.0 passes the template source, while Rails 2.1 passes the
-        # template instance
-        src = template.respond_to?(:source) ? template.source : template
-        filename = template.filename rescue nil
+        src = template.source
+        filename = template.filename
         erb_trim_mode = ActionView::TemplateHandlers::ERB.erb_trim_mode
 
         code = ::ERB.new("<% __in_erb_template=true %>#{src}", nil, erb_trim_mode, '@output_buffer').src
