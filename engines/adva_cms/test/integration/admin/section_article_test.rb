@@ -12,6 +12,21 @@ module IntegrationTests
       stub(Time).now.returns Time.utc(2008, 1, 2)
     end
 
+    test "articles are shown in correct language on website after being edited in backend" do
+      login_as_admin
+      article = Article.find_by_title('a page article')
+      create_german_version_for_article(article)
+      click_link 'Website'
+      click_link @article.section.title
+
+      assert_equal 'en', I18n.default_locale.to_s
+      assert !@site.locale
+
+      # the default locale is set to English and no site locale is set, so we except the english translation
+      assert_contain 'a page article'
+      assert_not_contain 'deutscher Artikeltitel'
+    end
+
     # FIXME add reordering articles
     test "Admin creates an article, previews, edits and deletes it" do
       login_as_admin
@@ -165,7 +180,7 @@ module IntegrationTests
       select 'de', :from => "Locale"
       click_button 'Save'
       click_link 'Website'
-      assert_contain 'a German page article title'
+      assert_contain 'deutscher Artikeltitel'
     end
 
     def visit_admin_articles_index_page
@@ -247,14 +262,14 @@ module IntegrationTests
       assert_response :success
       assert_select 'input#article_title[value="a page article"]'
       assert_select '#article_body', 'a page article body'
-      fill_in 'article[body]',  :with => 'a page article body in de'
-      fill_in 'article[title]',  :with => 'a German page article title'
+      fill_in 'article[body]',  :with => 'deutscher Artikelinhalt'
+      fill_in 'article[title]',  :with => 'deutscher Artikeltitel'
       click_button 'Save'
 
       assert_equal 'de', @controller.params[:cl]
       assert_response :success
-      assert_select 'input#article_title[value="a German page article title"]'
-      assert_select '#article_body', 'a page article body in de'
+      assert_select 'input#article_title[value="deutscher Artikeltitel"]'
+      assert_select '#article_body', 'deutscher Artikelinhalt'
     end
   end
 end

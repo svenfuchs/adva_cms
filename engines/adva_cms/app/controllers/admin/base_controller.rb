@@ -14,6 +14,8 @@ class Admin::BaseController < ApplicationController
   prepend_before_filter :set_account
   before_filter :set_menu, :set_site, :set_section, :set_locale, :set_timezone
 
+  after_filter :reset_locale
+
   authentication_required
 
   attr_accessor :site
@@ -103,5 +105,9 @@ class Admin::BaseController < ApplicationController
 
     def content_locale
       ActiveRecord::Base.locale == I18n.default_locale ? nil : ActiveRecord::Base.locale
+    end
+
+    def reset_locale
+      ActiveRecord::Base.locale = nil
     end
 end
