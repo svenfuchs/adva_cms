@@ -59,12 +59,12 @@ module Safemode
       "to_jail.#{name}"
     end
 
-    def process_iasgn(exp)
+    def process_attrasgn(exp)
       code = super
-      if code != '@output_buffer = ""'
-        raise_security_error(:iasgn, code)
+      if code == 'self.output_buffer = ""'
+        'self.to_jail.output_buffer = ""'
       else
-        code
+        raise_security_error(:attrsagn, code)
       end
     end
 
@@ -76,7 +76,8 @@ module Safemode
                    :array, :zarray, :hash, :dot2, :dot3, :flip2, :flip3,
                    :if, :case, :when, :while, :until, :iter, :for, :break, :next, :yield,
                    :and, :or, :not,
-                   :iasgn, # iasgn is sometimes allowed
+                   # :attrasgn is sometimes allowed
+                   :attrasgn,
                    # not sure about self ...
                    :self,
                    # unnecessarily advanced?
@@ -92,7 +93,7 @@ module Safemode
                    :redo, :retry, :begin, :rescue, :resbody, :ensure,
                    :defined, :super, :zsuper, :return,
                    :dmethod, :bmethod, :to_ary, :svalue, :match,
-                   :attrasgn, :cdecl, :cvasgn, :cvdecl, :cvar, :gvar, :gasgn,
+                   :cdecl, :cvasgn, :cvdecl, :cvar, :gvar, :gasgn, :iasgn,
                    :xstr, :dxstr,
                    # not sure how secure ruby regexp is, so leave it out for now
                    :dregx, :dregx_once, :match2, :match3, :nth_ref, :back_ref ]

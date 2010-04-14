@@ -27,4 +27,12 @@ if defined?(Rails)
       end
     end
   end
+
+  module ActionView
+    class Base
+      class Jail < Safemode::Jail
+        allow :output_buffer, :output_buffer=, :concat
+      end
+    end
+  end
 end

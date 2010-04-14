@@ -12,7 +12,7 @@ module ActionView
         end
 
         def delegate_methods(methods = [])
-          methods += [ :render, :params, :flash, :h, :html_escape, :request ]
+          methods += [ :render, :params, :flash, :h, :html_escape, :request, :output_buffer, :output_buffer= ]
           methods += [ :atom_feed, :auto_discovery_link_tag, :auto_link,
             :b64encode, :button_to, :button_to_function, :cdata_section,
             :check_box, :check_box_tag, :collection_select, :concat,
@@ -74,7 +74,7 @@ module ActionView
         filename = template.filename
         erb_trim_mode = ActionView::TemplateHandlers::ERB.erb_trim_mode
 
-        erb_code = ::ERB.new("<% __in_erb_template=true %>#{src}", nil, erb_trim_mode, '@output_buffer').src
+        erb_code = ::ERB.new("<% __in_erb_template=true %>#{src}", nil, erb_trim_mode, 'self.output_buffer').src
         # Ruby 1.9 prepends an encoding to the source. However this is
         # useless because you can only set an encoding on the first line
         RUBY_VERSION >= '1.9' ? src.sub(/\A#coding:.*\n/, '') : src
@@ -93,8 +93,8 @@ module ActionView
           box = Safemode::Boxes[#{filename.inspect}]
           box.eval(self, methods, assigns, local_assigns, &lambda{ |*args| yield(*args) })
         CODE
-        # puts erb_code
-        # puts @@safemode_boxes[filename].instance_variable_get('@code')
+        # puts "JAILED CODE OF #{filename}"
+        # puts Safemode::Boxes[filename].instance_variable_get('@code')
         boxed_erb
       end
     end
