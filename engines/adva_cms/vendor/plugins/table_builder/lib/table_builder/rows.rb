@@ -4,6 +4,12 @@ module TableBuilder
     
     attr_reader :rows
 
+    if defined?(Safemode::Jail)
+      class Jail < Tag::Jail
+        allow :rows, :row
+      end
+    end
+
     def initialize(parent, options = {})
       super
       @rows = []

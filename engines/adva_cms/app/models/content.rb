@@ -63,7 +63,8 @@ class Content < ActiveRecord::Base
     class Jail < Safemode::Jail
       allow :title, :permalink, :type, :body, :excerpt_html, :body_html, :excerpt
       allow :comments, :approved_comments, :comments?, :accept_comments?, :comments
-      allow :assets, :version, :activities, :author, :section, :categories
+      allow :assets, :version, :activities, :section, :categories
+      allow :author, :author_name, :author_email, :author_link
       allow :published_at, :updated_at, :new_record?
     end
   end

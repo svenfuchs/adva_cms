@@ -6,6 +6,13 @@ module TableBuilder
 
     attr_reader :options, :parent
 
+    if defined?(Safemode::Jail)
+      class Jail < Safemode::Jail
+        allow :options, :parent, :level, :tag_name
+        allow :table, :render, :add_class
+      end
+    end
+
     def initialize(parent = nil, options = {})
       @parent = parent
       @options = options

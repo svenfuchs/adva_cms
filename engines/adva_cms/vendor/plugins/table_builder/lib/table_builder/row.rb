@@ -3,6 +3,12 @@ module TableBuilder
     self.level = 2
     self.tag_name = :tr
     
+    if defined?(Safemode::Jail)
+      class Jail < Tag::Jail
+        allow :cell
+      end
+    end
+
     def initialize(parent, record = nil, options = {}, &block)
       super(parent, options)
 

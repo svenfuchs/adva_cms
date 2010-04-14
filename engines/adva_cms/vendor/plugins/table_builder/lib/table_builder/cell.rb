@@ -4,6 +4,13 @@ module TableBuilder
 
     attr_reader :content
 
+    if defined?(Safemode::Jail)
+      class Jail < Tag::Jail
+        allow :content
+      end
+    end
+
+
     def initialize(parent, content = nil, options = {})
       super(parent, options)
       @content = content

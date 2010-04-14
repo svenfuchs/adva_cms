@@ -2,6 +2,13 @@ module TableBuilder
   class Column
     attr_reader :name, :options
 
+    if defined?(Safemode::Jail)
+      class Jail < Safemode::Jail
+        allow :name, :options, :content
+      end
+    end
+
+
     def initialize(table, name, options = {})
       @table = table
       @name = name

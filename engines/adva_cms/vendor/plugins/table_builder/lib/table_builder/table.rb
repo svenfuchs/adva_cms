@@ -5,6 +5,13 @@ module TableBuilder
 
     attr_reader :body, :head, :foot, :collection, :columns
 
+    if defined?(Safemode::Jail)
+      class Jail < Tag::Jail
+        allow :body, :head, :foot, :collection, :columns
+        allow :column, :empty, :row
+      end
+    end
+
     def initialize(view = nil, collection = [], options = {})
       @view = view
       @collection = collection
