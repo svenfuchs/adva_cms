@@ -12,7 +12,7 @@ class Test::Unit::TestCase
   end
   
   def default_routing_filters
-    %w(locale categories sets section_root section_paths pagination).inject(RoutingFilter::Chain.new) do |filters, name|
+    %w(adva_locale categories sets section_root section_paths pagination).inject(RoutingFilter::Chain.new) do |filters, name|
       klass = RoutingFilter.const_get(name.camelize)
       filters << klass.new({})
     end
@@ -24,7 +24,7 @@ class Test::Unit::TestCase
       klasses = names.map { |name| RoutingFilter.const_get(name) }
       @current_states = klasses.inject({}) { |states, klass| states[klass] = klass.active; states }
       
-      default_filters = %w(Locale Categories Sets SectionRoot SectionPaths Pagination)
+      default_filters = %w(AdvaLocale Categories Sets SectionRoot SectionPaths Pagination)
       klasses.each { |klass| klass.active = default_filters.include?(klass.name.gsub('RoutingFilter::', '')) }
     end
     
