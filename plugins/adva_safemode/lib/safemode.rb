@@ -37,6 +37,8 @@ module Safemode
     end
   end
 
+  Boxes = {}
+
   define_core_jail_classes
 
   class Box

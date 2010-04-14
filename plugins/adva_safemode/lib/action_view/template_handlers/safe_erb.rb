@@ -6,8 +6,6 @@ module ActionView
     class SafeErb < TemplateHandler
       include Compilable
 
-      mattr_reader :safemode_boxes
-
       class << self
         def valid_assigns(assigns)
           assigns.reject { |key, value| skip_assigns.include?(key) }
@@ -83,7 +81,7 @@ module ActionView
         RUBY_VERSION >= '1.9' ? src.sub(/\A#coding:.*\n/, '') : src
 
         # code.gsub!('\\','\\\\\\') # backslashes would disappear in compile_template/modul_eval, so we escape them
-        (@@safemode_boxes || {})[filename] = Safemode::Box.new(erb_code, filename, 0)
+        Safemode::Boxes[filename] = Safemode::Box.new(erb_code, filename, 0)
 
         boxed_erb = <<-CODE
           handler = ActionView::TemplateHandlers::SafeErb
@@ -93,7 +91,7 @@ module ActionView
           end
           methods = handler.delegate_methods + self.controller.master_helper_module.instance_methods
 
-          box = handler.safemode_boxes[#{filename.inspect}]
+          box = Safemode::Boxes[#{filename.inspect}]
           box.eval(self, methods, assigns, local_assigns, &lambda{ |*args| yield(*args) })
         CODE
         # puts erb_code
