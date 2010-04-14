@@ -27,6 +27,7 @@ class Section < ActiveRecord::Base
   before_save  :update_path
   before_create :set_as_published
   after_create :update_paths
+  after_create :create_translations
 
   validates_presence_of :title # :site wtf ... this breaks install_controller#index
   validates_uniqueness_of :permalink, :scope => [ :site_id, :parent_id ]
@@ -87,7 +88,13 @@ class Section < ActiveRecord::Base
   alias published published?
 
   protected
-  
+
+    def create_translations
+      I18n.available_locales.each do |locale|
+        self.globalize_translations.create!(:locale => locale.to_s, :title => self.title)
+      end
+    end
+
     def set_as_published
       self.published_at = published_at || Time.current
     end

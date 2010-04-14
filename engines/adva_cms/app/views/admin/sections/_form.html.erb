@@ -8,12 +8,16 @@
 
 <% f.field_set do %>
   <% column do %>
-    <%= f.text_field :title, :label => true %>
+
+    <%= f.label :title %>
+    <%= f.text_field :title, :value => localize_section_title(@section, @locale) %>
+    <%= label_tag(:cl, t(:'adva.common.locale')) %>
+    <%= %(<select id="cl" name="cl">#{ options_for_select(I18n.available_locales.map { |l| l.to_s}, @locale.to_s) }</select>) %>
+    <%= links_to_translations(@section) %>
+
     <p>
-			<label for="published"><%= t(:'adva.sections.titles.publish') %></label>
-			<span class="hint" for="published">
-				<%= t :'adva.sections.hints.publish' %>
-			</span>
+      <label for="published"><%= t(:'adva.sections.titles.publish') %></label>
+			<span class="hint" for="published"><%= t :'adva.sections.hints.publish' %></span>
       <%= f.check_box :published, :label => true %>
     </p>
   <% end %>

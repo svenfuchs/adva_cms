@@ -25,12 +25,13 @@ class Admin::SectionsController < Admin::BaseController
   end
 
   def edit
+    @locale = params[:cl] || @site.locale || I18n.default_locale.to_s
   end
 
   def update
     if @section.update_attributes params[:section]
       flash[:notice] = t(:'adva.sections.flash.update.success')
-      redirect_to edit_admin_section_url(@site, @section)
+      redirect_to edit_admin_section_url(@site, @section, :cl => params[:cl])
     else
       flash.now[:error] = t(:'adva.sections.flash.update.failure')
       render :action => 'edit'
