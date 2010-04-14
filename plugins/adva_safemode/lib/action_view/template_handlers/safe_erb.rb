@@ -11,10 +11,9 @@ module ActionView
           assigns.reject { |key, value| skip_assigns.include?(key) }
         end
 
-        def delegate_methods
-          dm = [ :render, :params, :flash, :h, :html_escape, :request ]
-
-          dm += [ :atom_feed, :auto_discovery_link_tag, :auto_link,
+        def delegate_methods(methods = [])
+          methods += [ :render, :params, :flash, :h, :html_escape, :request ]
+          methods += [ :atom_feed, :auto_discovery_link_tag, :auto_link,
             :b64encode, :button_to, :button_to_function, :cdata_section,
             :check_box, :check_box_tag, :collection_select, :concat,
             :content_for, :content_tag, :content_tag_for, :current_cycle,
@@ -51,9 +50,9 @@ module ActionView
             :theme_stylesheet_path, :time_ago_in_words, :time_select,
             :time_zone_options_for_select, :time_zone_select, :translate,
             :truncate, :url_for, :word_wrap ]
-
-          dm += ActionController::Routing::Routes.named_routes.helpers
-          dm.flatten.map(&:to_sym).uniq
+          methods += [ :will_paginate ] #FIXME this is from a plugin
+          methods += ActionController::Routing::Routes.named_routes.helpers
+          methods.flatten.map(&:to_sym).uniq
         end
 
         def skip_assigns
@@ -89,7 +88,7 @@ module ActionView
           handler.valid_assigns(instance_variables).each do |var|
             assigns[var[1,var.length]] = instance_variable_get(var)
           end
-          methods = handler.delegate_methods + self.controller.master_helper_module.instance_methods
+          methods = handler.delegate_methods( self.controller.master_helper_module.instance_methods )
 
           box = Safemode::Boxes[#{filename.inspect}]
           box.eval(self, methods, assigns, local_assigns, &lambda{ |*args| yield(*args) })
