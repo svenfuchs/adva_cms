@@ -1,4 +1,4 @@
-class RemoveTitleFromSections < ActiveRecord::Migration
+class RemoveTitleFromSection < ActiveRecord::Migration
   def self.up
     remove_column :sections, :title
   end
