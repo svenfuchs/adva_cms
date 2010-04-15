@@ -296,10 +296,12 @@ de:
        signed_up_for_account: "Sie haben sich gerade für einen '{{account_name}}' Account registiert."
        click_link: "Klicken Sie auf den untenstehenden Link, um ihre Account-Registrierung abzuschließen."
    sections:
+     no_sections_in_site: 'Keine Sektionen verfügbar.'
      columns:
        section: Sektion
        actions: Aktionen
      hints:
+       translation: 'Wählen Sie hier eine andere Übersetzung aus. Um eine weitere Übersetzung hinzuzufügen, benutzen Sie die Gebietsschema-Auswahl und speichern Sie den übersetzten Titel.'
        content_filter: "Der Filter, den Sie hier wählen, gilt als Standard für alle Inhalte in dieser Sektion."
        sections: "Hier sehen Sie alle Sektionen Ihrer Webseite gelistet. Der oberste Eintrag in der Liste ist die aktuelle Homepage der Webseite."
        reorder: "Sie können die Option \"Reihenfolge ändern\" verwenden, um die Homepage zu ändern und Ihre Sektionen anders zu sortieren. Wenn Sie Sektionen verschachteln möchten, können Sie eine Sektion nach rechts verschieben, um diese als Untersektion einer anderen Sektion zu markieren. Um das Umsortieren zu beenden, klicken Sie erneut auf \"Reihenfolge ändern\". Beachten Sie, dass diese Option nur verfügbar ist, wenn Ihre Webseite mindestens zwei Sektionen hat."
@@ -318,6 +320,7 @@ de:
        single_article_mode: Ein Artikel pro Sektion
        multi_article_mode: Mehrere Artikel pro Sektion
      links:
+       translations: "Verfügbare Übersetzungen: {{locales}}"
        index: Sektions
        new: Anlegen Sie einen neuen Sektion
        show: Anzeigen

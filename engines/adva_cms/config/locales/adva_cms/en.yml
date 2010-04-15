@@ -256,7 +256,9 @@ en:
         signed_up_for_account: "You've just signed up for a {{account_name}} account."
         click_link: "Just click the link below and your account will be verified so you can login."
     sections:
+      no_sections_in_site: 'No Sections available.'
       hints:
+        translation: 'Click to change the translation to edit. To add another translation, use the locale setting and save the new title.'
         content_filter: How should your articles be read? The default option is Plain HTML.
         sections: "Listed here are all the sections currently on your site. Whichever section is on top is the default homepage."
         reorder: "You can use the reorder option to set your home root to different section and to reorder your sections. If you want to nest your sections you can drag the section to the right and its gets set as a child of the upper section.  Finish the reordering by clicking the reorder button. Please note that this option is only available when you have 2 or more sections."
@@ -272,6 +274,7 @@ en:
         behaviour: Behaviour
         publish: Publish option
       links:
+        translations: "available translations: {{locales}}"
         save_and_create_new: Save and create another section
         index: Sections
         new: Create a new section

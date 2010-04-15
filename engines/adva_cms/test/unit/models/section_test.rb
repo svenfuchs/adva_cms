@@ -291,6 +291,13 @@ class SectionTest < ActiveSupport::TestCase
     assert_equal 'a test section', @new_section.title
   end
 
+  test "after_create_hook_create_translations" do
+    section = Section.create!(:site => @site, :title => 'my title')
+    I18n.available_locales.each do |locale|
+      assert_equal section.title, section.globalize_translations.find_by_locale(locale.to_s).title
+    end
+  end
+
   # NESTED SET
 
   test "initializes the lft and rgt attributes" do
@@ -312,4 +319,5 @@ class SectionTest < ActiveSupport::TestCase
     location.move_to_child_of(about)
     location
   end
+
 end
