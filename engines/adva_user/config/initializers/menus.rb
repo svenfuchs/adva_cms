@@ -1,5 +1,6 @@
 module Menus
   module Admin
+
     class Users < Menu::Group
       define do
         id :main
@@ -18,5 +19,17 @@ module Menus
         end
       end
     end
+
+    class Profile < Menu::Group
+      define do
+        id :main
+        parent Sites.new.build(scope).find(:profile)
+
+        menu :left, :class => 'left' do
+          #item :profile, :url => '/'#edit_admin_user_path(@site, current_user)
+        end
+      end
+    end
+
   end
 end

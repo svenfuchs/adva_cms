@@ -1,10 +1,13 @@
 en:
   adva:
+    titles:
+      profile: Profile
     users:
       titles:
         invite_new_user: "Send an invitation to add a new user to your account and give this person some roles. The user will be added, when the person accepts the invitation by clicking on a confirmation link included in the email."
         accept_invitation: "Please fill in the following information to complete the invitation confirmation for the account '{{account_name}}':"
         invitation_confirmation: "Confirm Invitation"
+        edit_profile: "Edit profile"
       buttons:
         send_invitation: Send invitation
         confirm_invitation: Confirm invitation
@@ -17,3 +20,6 @@ en:
         confirmed_invitation: "You successfully confirmed the invitation for the account '{{account_name}}'. Please, log in now."
         invitation_success: "<p>You successfully invited the person with the email address '{{email}}'.</p><p>As soon as the invitation will be accepted a new user with the selected roles will be added to your account.</p>"
         already_confirmed_invitation: "<p>You already confirmed the invitation for the account before.</p><p>Please, log in with your existing log-in credentials.</p>"
+        update_profile:
+          success: "Your profile has been updated."
+          failure: "Your profile could not be updated."

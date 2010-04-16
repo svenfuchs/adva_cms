@@ -39,6 +39,17 @@ class Admin::UsersController < Admin::BaseController
   def edit
   end
 
+  def edit_profile
+    @user = current_user
+    if request.put?
+      if @user.update_attributes(params[:user])
+        flash[:notice] = t(:'adva.users.flash.update_profile.success')
+      else
+        flash.now[:error] = t(:'adva.users.flash.update_profile.failure')
+      end
+    end
+  end
+
   def update
     # yuck! rails' params parsing is broken
     params[:user][:roles_attributes] = params[:user][:roles_attributes].map { |key, value| value } if params[:user][:roles_attributes]
@@ -67,7 +78,11 @@ class Admin::UsersController < Admin::BaseController
     end
 
     def set_menu
-      @menu = Menus::Admin::Users.new
+      if params[:action] == 'edit_profile'
+        @menu = Menus::Admin::Profile.new
+      else
+        @menu = Menus::Admin::Users.new
+      end
     end
 
     def set_users

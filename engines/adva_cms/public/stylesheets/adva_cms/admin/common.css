@@ -74,3 +74,28 @@ div.pagination a {
 div.pagination a:hover, div.pagination a:focus {
   text-decoration: underline;
 }
+
+input[type="text"].tiny  {
+  width: 135px;
+}
+
+input[type="text"].short  {
+  width: 200px;
+}
+
+input[type="text"].normal, input[type="password"].normal  {
+  width: 300px;
+}
+
+input[type="text"].middle  {
+  width: 400px;
+}
+
+input[type="text"].right  {
+  text-align: right;
+}
+
+textarea.middle  {
+  width: 400px;
+  height: 200px;
+}

@@ -26,4 +26,9 @@ ActionController::Routing::Routes.draw do |map|
                              :namespace   => "admin/"
 
   map.user_confirmation      'user/confirmation', :controller => 'user', :action => 'confirm_invitation'
+
+  map.edit_admin_user_profile 'users/:id/edit_profile',
+                              :path_prefix => "admin/sites/:site_id",
+                              :controller => 'admin/users',
+                              :action => 'edit_profile'
 end

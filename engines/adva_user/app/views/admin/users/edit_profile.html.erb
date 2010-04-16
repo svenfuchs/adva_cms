@@ -1,0 +1,22 @@
+<h2><%= t(:'adva.users.titles.edit_profile') %></h2>
+
+<% form_for :user, @user, :url => edit_admin_user_profile_path(@site, @user), :html => {:method => :put} do |f| -%>
+
+  <% f.field_set do %>
+    <%= f.label :first_name, t(:'activerecord.attributes.user.first_name'), :required => true %>
+    <%= f.text_field :first_name, :class => 'normal' %>
+    <%= f.label :last_name, t(:'activerecord.attributes.user.last_name') %>
+    <%= f.text_field :last_name, :class => 'normal' %>
+    <%= f.label :email, t(:'activerecord.attributes.user.email'), :required => true %>
+    <%= f.text_field :email, :class => 'normal' %>
+    <%= f.label :homepage, t(:'activerecord.attributes.user.homepage') %>
+    <%= f.text_field :homepage, :class => 'normal' %>
+    <%= f.label :password, t(:'activerecord.attributes.user.password'), :required => true %>
+    <%= f.password_field :password, :class => 'normal' %>
+  <% end %>
+
+  <% save_or_cancel_links(f, :cancel_url => admin_site_path(@site)) %>
+
+<% end -%>
+
+<%= render :partial => 'sidebar' %>

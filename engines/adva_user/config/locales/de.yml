@@ -1,10 +1,13 @@
 de:
   adva:
+    titles:
+      profile: Profil
     users:
       titles:
         invite_new_user: "Versenden Sie eine Einladung, um einen neuen Benutzer für ihren Account hinzuzufügen und vergeben Sie Rollen, die dieser Benutzer besitzen soll. Die eingeladene Person wird als Benutzer hinzugefügt, nachdem sie die Einladung durch Klicken auf einen Bestätigungslink akzeptiert hat."
         accept_invitation: "Bitte fügen Sie die folgenden Angaben hinzu, um die Einladungsbestätigung für den Account '{{account_name}}' abzuschließen:"
         invitation_confirmation: "Einladung bestätigen"
+        edit_profile: "Profil bearbeiten"
       buttons:
         send_invitation: Einladung verschicken
         confirm_invitation: Einladung bestätigen
@@ -17,3 +20,6 @@ de:
         confirmed_invitation: "<p>Sie haben erfolgreich die Einladung für den Account '{{account_name}}' bestätigt.</p><p>Loggen Sie sich bitte ein.</p>"
         invitation_success: "<p>Sie haben die Person mit der E-Mail Adresse '{{email}}' erfolgreich eingeladen.</p><p>Sobald die Einladung akzeptiert wurde, wird ein Benutzer für Ihren Account mit entsprechenden Rollen angelegt.</p>"
         already_confirmed_invitation: "<p>Sie haben die Einladung für den Account bereits zuvor bestätigt.</p><p>Loggen Sie sich bitte mit Ihren bereits existierenden Zugangsdaten ein.</p>"
+        update_profile:
+          success: "Ihr Profil wurde aktualisiert."
+          failure: "Ihr Profil konnte nicht aktualisiert werden."
