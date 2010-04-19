@@ -67,7 +67,6 @@ ActionController::Dispatcher.to_prepare do
     :'create user'        => [:admin],
     :'update user'        => [:admin],
     :'destroy user'       => [:admin],
-    # TODO test it
     :'edit_profile user'  => [:author],
     :'manage user'        => [:admin],
 
