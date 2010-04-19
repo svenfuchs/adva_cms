@@ -5,5 +5,7 @@
 }
 #content {
 	padding: 20px 30px 30px 30px;
-	width: 640px;
+}
+.error_message {
+  float: none;
 }

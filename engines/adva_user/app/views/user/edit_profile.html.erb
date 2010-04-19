@@ -4,15 +4,15 @@
 
   <% f.field_set do %>
     <%= f.label :first_name, t(:'activerecord.attributes.user.first_name'), :required => true %>
-    <%= f.text_field :first_name, :class => 'normal'  %>
+    <%= f.text_field :first_name %>
     <%= f.label :last_name, t(:'activerecord.attributes.user.last_name') %>
-    <%= f.text_field :last_name, :class => 'normal' %>
+    <%= f.text_field :last_name %>
     <%= f.label :email, t(:'activerecord.attributes.user.email'), :required => true %>
-    <%= f.text_field :email, :class => 'normal' %>
+    <%= f.text_field :email %>
     <%= f.label :homepage, t(:'activerecord.attributes.user.homepage') %>
-    <%= f.text_field :homepage, :class => 'normal' %>
+    <%= f.text_field :homepage %>
     <%= f.label :password, t(:'activerecord.attributes.user.password'), :required => true %>
-    <%= f.password_field :password, :class => 'normal' %>
+    <%= f.password_field :password %>
   <% end %>
 
   <%= hidden_field_tag :return_to, params[:return_to] if params[:return_to] %>
