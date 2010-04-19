@@ -20,7 +20,8 @@ ActionController::Dispatcher.to_prepare :'adva.cms.redirects' do
     :login_frontend => '/',
     :login_backend => lambda { |c| c.send(:admin_accounts_url) },
     :verify_for_account_signup => lambda { |c| c.send(:admin_sites_url) },
-    :verify_for_website_signup => '/'
+    :verify_for_website_signup => '/',
+    :edit_profile => '/'
   }
 end
 

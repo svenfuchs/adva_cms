@@ -31,4 +31,8 @@ ActionController::Routing::Routes.draw do |map|
                               :path_prefix => "admin/sites/:site_id",
                               :controller => 'admin/users',
                               :action => 'edit_profile'
+
+  map.edit_user_profile       'user/edit_profile',
+                              :controller => 'user',
+                              :action => 'edit_profile'
 end

@@ -21,6 +21,8 @@
 					<%= link_to(t(:'adva.titles.signup'), new_user_path, :id => 'signup_link') %>
         </p>
         <p id="logout_links" class="navigation" style="display: none;">
+          <%= link_to(t(:'adva.titles.profile'), edit_user_profile_path(:return_to => request.request_uri), :id => 'profile_link') %>
+					|
           <%= t(:'adva.users.info.logged_in_as', :name => '<span class="user_name"></span>') %> &middot;
 					<%= link_to(t(:'adva.titles.logout'), logout_path(:return_to => request.request_uri), :id => 'logout_link') %>
         </p>

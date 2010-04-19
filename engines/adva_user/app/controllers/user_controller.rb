@@ -67,6 +67,18 @@ class UserController < BaseController
     redirect_to '/'
   end
 
+  def edit_profile
+    @user = current_user
+    if request.put?
+      if @user.update_attributes(params[:user])
+        flash[:notice] = t(:'adva.users.flash.update_profile.success')
+        redirect_to(return_from(:edit_profile))
+      else
+        flash.now[:error] = t(:'adva.users.flash.update_profile.failure')
+      end
+    end
+  end
+
   private
 
   def locale_key_prefix

@@ -1,0 +1,22 @@
+<h2><%= t(:'adva.users.titles.edit_profile') %></h2>
+
+<% form_for :user, @user, :url => edit_user_profile_path, :html => {:method => :put} do |f| -%>
+
+  <% f.field_set do %>
+    <%= f.label :first_name, t(:'activerecord.attributes.user.first_name'), :required => true %>
+    <%= f.text_field :first_name, :class => 'normal'  %>
+    <%= f.label :last_name, t(:'activerecord.attributes.user.last_name') %>
+    <%= f.text_field :last_name, :class => 'normal' %>
+    <%= f.label :email, t(:'activerecord.attributes.user.email'), :required => true %>
+    <%= f.text_field :email, :class => 'normal' %>
+    <%= f.label :homepage, t(:'activerecord.attributes.user.homepage') %>
+    <%= f.text_field :homepage, :class => 'normal' %>
+    <%= f.label :password, t(:'activerecord.attributes.user.password'), :required => true %>
+    <%= f.password_field :password, :class => 'normal' %>
+  <% end %>
+
+  <%= hidden_field_tag :return_to, params[:return_to] if params[:return_to] %>
+
+  <p><%= f.submit t(:'adva.common.save') %> <%= t(:'adva.common.connector.or') %> <%= link_to(t(:'adva.common.cancel'), params[:return_to]) %></p>
+
+<% end -%>
