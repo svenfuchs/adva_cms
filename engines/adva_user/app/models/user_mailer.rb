@@ -23,9 +23,10 @@ class UserMailer < ActionMailer::Base
   end
 
   def user_invitation(confirmation_url, invitation)
-    recipients  invitation.email
-    from        invitation.site.email
-    subject     I18n.t(:'adva.users.emails.user_invitation.subject')
-    body        :account_name => invitation.site.account.name, :confirmation_url => confirmation_url 
+    recipients    invitation.email
+    from          invitation.site.email
+    subject       I18n.t(:'adva.users.emails.user_invitation.subject')
+    content_type  'text/html'
+    body          :account_name => invitation.site.account.name, :confirmation_url => confirmation_url 
   end
 end
