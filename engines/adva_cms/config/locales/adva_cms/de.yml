@@ -225,6 +225,7 @@ de:
      reordering_done: Fertig
      settings: Einstellungen
      view: Ansicht
+     confirm_delete: "Sind Sie sicher, dass Sie dieses Objekt löschen wollen?"
 
    state:
      draft: Entwurf

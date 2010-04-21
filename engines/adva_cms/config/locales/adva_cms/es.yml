@@ -123,6 +123,7 @@ es:
       reordering_done: Reordenamiento finalizado
       settings: preferencias
       view: Ver
+      confirm_delete: "Esta seguro que quiere eleminar este objeto?"
     state:
       draft: Borrador
       published: Publicado
@@ -130,8 +131,8 @@ es:
       queued: Encolados
       delivered: Entregados
     sites:
-      email_notification_activated: "Activated"
-      email_notification_deactivated: "Deactivated"  
+      email_notification_activated: "Activado"
+      email_notification_deactivated: "Deactivado"
       title:
         create: Crear nuevo site
         home_section: Sección de inicio
