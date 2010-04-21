@@ -57,7 +57,7 @@ class Admin::SitesController < Admin::BaseController
   def destroy
     if @site.destroy
       flash[:notice] = t(:'adva.sites.flash.destroy.success')
-      redirect_to return_from(:site_deleted)
+      redirect_to admin_sites_url(:account_id => @account.id)
     else
       flash.now[:error] = t(:'adva.sites.flash.destroy.failure')
       render :action => 'show'
