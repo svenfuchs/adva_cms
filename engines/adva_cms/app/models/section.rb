@@ -26,6 +26,7 @@ class Section < ActiveRecord::Base
 
   before_save  :update_path
   before_create :set_as_published
+  before_create :populate_type
   after_create :update_paths
   after_create :create_translations
 
@@ -78,7 +79,7 @@ class Section < ActiveRecord::Base
       self.published_at = nil
     end
   end
-  
+
   def published?(parents = false)
     return true if self == site.sections.root # the root section is always published
     return false if parents && has_unpublished_ancestor?
@@ -98,7 +99,7 @@ class Section < ActiveRecord::Base
     def set_as_published
       self.published_at = published_at || Time.current
     end
-  
+
     def has_unpublished_ancestor?
       !ancestors.reject(&:published?).empty?
     end
@@ -123,4 +124,11 @@ class Section < ActiveRecord::Base
         site.sections.update_paths!
       end
     end
+
+  private
+
+  def populate_type
+    self.type = 'Page' if self.type = 'Section'
+  end
+
 end

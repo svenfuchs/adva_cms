@@ -1,6 +1,6 @@
  <div id="header">
 	<div class="main">
-		<%= Breadcrumbs.new(@menu.active.breadcrumbs).render if @menu.active %>
+		<%= Breadcrumbs.new(@menu.active.breadcrumbs).render if @menu && @menu.active %>
 	</div>
 
 	<div class="right">
