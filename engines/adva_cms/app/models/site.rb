@@ -27,6 +27,8 @@ class Site < ActiveRecord::Base
   has_many :memberships, :dependent => :delete_all
   has_many :cached_pages, :dependent => :destroy, :order => 'cached_pages.updated_at desc'
   has_many :products
+  has_many :roles, :class_name => 'Role', :foreign_key => 'context_id', :conditions => { :context_type => 'Site' },
+    :dependent => :destroy
 
   belongs_to :account
 
