@@ -4,7 +4,7 @@ class Account < ActiveRecord::Base
 
   has_many :superuser_roles, :class_name => 'Role', :foreign_key => 'ancestor_context_id', :conditions => {:name => 'superuser'}
   has_many :superusers, :through => :superuser_roles, :source => :user
-  has_many :sites
+  has_many :sites, :dependent => :destroy
 
   validates_presence_of :name
 
