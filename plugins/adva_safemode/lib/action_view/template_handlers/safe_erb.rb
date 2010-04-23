@@ -51,6 +51,7 @@ module ActionView
             :time_zone_options_for_select, :time_zone_select, :translate,
             :truncate, :url_for, :word_wrap ]
           methods += [ :will_paginate ] #FIXME this is from a plugin
+          methods += [ :current_user, :calendar_for, :wikipage_path_with_home ] # this should be taken care of by helpermethods...
           methods += ActionController::Routing::Routes.named_routes.helpers
           methods.flatten.map(&:to_sym).uniq
         end

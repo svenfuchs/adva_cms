@@ -9,7 +9,7 @@ class Post < Comment
 
   if Rails.plugin?(:adva_safemode)
     class Jail < Comment::Jail
-      allow :board
+      allow :board, :==
     end
   end
 

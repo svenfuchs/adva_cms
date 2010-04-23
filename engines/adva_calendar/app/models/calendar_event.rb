@@ -81,7 +81,7 @@ class CalendarEvent < ActiveRecord::Base
   if Rails.plugin?(:adva_safemode)
     class Jail < Safemode::Jail
       allow :start_date, :end_date, :title, :user, :section, :tags, :assets, :categories, :permalink, :body, :body_html
-      allow :all_day?
+      allow :all_day?, :host, :draft?, :published?, :require_end_date?
     end
   end
 

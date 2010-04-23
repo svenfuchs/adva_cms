@@ -58,4 +58,8 @@ module ForumHelper
     attrs << t(:'adva.topics.states.locked') if topic.locked?
     (format || '%s') % attrs.join(', ') if attrs.present?
   end
+
+  def anonymous_user
+    User.anonymous
+  end
 end

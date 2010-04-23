@@ -23,6 +23,7 @@ class Topic < ActiveRecord::Base
   if Rails.plugin?(:adva_safemode)
     class Jail < Safemode::Jail
       allow :permalink, :title, :section, :board, :last_post, :locked?, :sticky?, :site, :posts_count, :activities, :last_updated_at, :last_author_name, :author_name
+      allow :new_record?, :initial_post, :previous, :next, :last_page, :page, :paged?, :accept_comments?
     end
   end
 

@@ -1,6 +1,12 @@
 class Calendar < Section
   has_many :events, :foreign_key => 'section_id', :class_name => 'CalendarEvent'
-    
+
+  if Rails.plugin?(:adva_safemode)
+    class Jail < Section::Jail
+      allow :days_in_month_with_events, :events, :id
+    end
+  end
+
   class << self
     def content_type
       'CalendarEvent'

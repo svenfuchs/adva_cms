@@ -6,6 +6,12 @@ class Blog < Section
     end
   end
 
+  if Rails.plugin?(:adva_safemode)
+    class Jail < Section::Jail
+      allow :archive_months, :article_counts_by_month, :articles_by_month
+    end
+  end
+
   class << self
     def content_type
       'Article'

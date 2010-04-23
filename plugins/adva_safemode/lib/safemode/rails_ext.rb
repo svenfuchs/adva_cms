@@ -17,13 +17,13 @@ if defined?(Rails)
   module ActiveSupport
     class TimeWithZone
       class Jail < Safemode::Jail
-        allow %w(blank? duplicable? present?
-              _dump asctime ctime day dst? getgm getlocal getutc gmt?
-              gmt_offset gmtime gmtoff hash hour httpdate isdst iso8601
-              localtime mday min minus_without_duration mon month
-              plus_without_duration rfc2822 rfc822 sec strftime succ to_date
-              to_datetime to_f to_i tv_sec tv_usec usec utc utc? utc_offset
-              wday xmlschema yday year zone to_formatted_s).map(&:to_sym)
+        allow :blank?, :duplicable?, :present?
+        allow :_dump, :asctime, :ctime, :day, :dst?, :getgm, :getlocal, :getutc, :gmt?
+        allow :gmt_offset, :gmtime, :gmtoff, :hash, :hour, :httpdate, :isdst, :iso8601
+        allow :localtime, :mday, :min, :minus_without_duration, :mon, :month
+        allow :plus_without_duration, :rfc2822, :rfc822, :sec, :strftime, :succ, :to_date
+        allow :to_datetime, :to_f, :to_i, :tv_sec, :tv_usec, :usec, :utc, :utc?, :utc_offset
+        allow :wday, :xmlschema, :yday, :year, :zone, :to_formatted
       end
     end
   end

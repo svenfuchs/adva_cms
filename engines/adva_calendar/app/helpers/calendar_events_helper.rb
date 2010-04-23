@@ -23,4 +23,12 @@ module CalendarEventsHelper
       return [event.start_date, event.end_date].compact
     end
   end
+
+  def month_navigation_url_helper
+    Proc.new do |date|
+		  link_to(date.strftime(t(:'date.formats.calendar_header', :default => "%B")),
+		    calendar_events_path({:section_id => @section.id, :year => date.year, :month => date.month}),
+		    :class => :nav)
+	  end
+  end
 end

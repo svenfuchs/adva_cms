@@ -14,7 +14,7 @@ class Article < Content
 
   if Rails.plugin?(:adva_safemode)
     class Jail < Content::Jail
-      # allow :title, :permalink, :type, :body, :comments, :author, :section, :categories, :published_at, :version
+      allow :primary?, :previous, :next, :has_excerpt?
     end
   end
 
