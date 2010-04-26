@@ -1,4 +1,22 @@
- HEAD [2010/03/22]
+ HEAD [2010/04/26]
+====================
+
+	Features
+		* A Site now has a locale which also acts as fallback
+
+	Enhancements
+		* the default Templates are tested against the safemode
+		* the compiled (and safemode-jailed) ERB-Code is cache
+		* safemode: methods can be explicitly disallowed
+		* I18n: Section title is now localizable
+
+	Changes
+		* make it possible to opt out of early error reporting in the test suite
+
+	Bugfixes
+		* articles are shown in correct language on website after being edited in backend
+
+ 0.3.0 [2010/03/23]
 ====================
   Features
 		* CKEditor added as a plugin. integration also covers:
