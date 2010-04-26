@@ -179,7 +179,11 @@ Running tests for adva-cms version 0.1.2 or newer:
   $ rake db:test:clone       														# Clones from your development database to test database
 	$ vendor/adva/script/test_prepare_database            # Prepares database
   $ vendor/adva/script/test vendor/adva/engines         # Runs all tests
+
+Further options:
+
   $ vendor/adva/script/test vendor/adva/engines -p 		  # Prepares the database and runs all adva-cms tests
+  $ DO_NOT_REPORT_ASAP=true vendor/adva/script/test vendor/adva/engines  # run all tests but only report errors in the summary
 
 Please check out /doc directory for high level overview about adva-cms.
 
