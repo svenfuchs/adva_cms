@@ -26,7 +26,7 @@
 					<%= link_to(t(:'adva.titles.logout'), logout_path(:return_to => request.request_uri), :id => 'logout_link') %>
         </p>
         <%= yield :header %>
-				<%= Menus::Sections.new.build(self).root.render(:id => 'sections') %>
+				<%= render_menu(:id => 'sections') %>
       </div>
       <div id="main">
         <%= render :partial => 'shared/flash' %>  

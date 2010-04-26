@@ -49,4 +49,8 @@ module BaseHelper
     # content.try(:author_id) || current_user.id
     current_user.id
   end
+
+  def render_menu(options = {})
+    Menus::Sections.new.build(self).root.render(options)
+  end
 end
