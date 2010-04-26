@@ -25,17 +25,20 @@ module IntegrationTests
       assert_equal 'en', I18n.default_locale.to_s
 
       get '/en'
+      assert_response :ok
       assert_select 'a#show_section[href=/en/another-page]'
       assert_select 'a#login_link[href=?]', /^\/en\/login(.)*/
       assert_select 'a#signup_link[href=?]', /^\/en\/user\/new(.)*/
 
       get '/'
+      assert_response :ok
       assert_select 'a#show_section[href=/another-page]'
 
       assert_select 'a#login_link[href=?]', /^\/login(.)*/
       assert_select 'a#signup_link[href=?]', /^\/user\/new(.)*/
 
       get '/de'
+      assert_response :ok
       assert_select 'a#show_section[href=/another-page]'
       assert_select 'a#login_link[href=?]', /^\/login(.)*/
       assert_select 'a#signup_link[href=?]', /^\/user\/new(.)*/
