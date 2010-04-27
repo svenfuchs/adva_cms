@@ -57,14 +57,14 @@ module ActivitiesHelper
   #   type = activity.object_attributes['commentable_type']
   #   send "edit_admin_#{type}_path".downcase, activity.site_id, activity.section_id, activity.commentable_id
   # end
-  
+
   # FIXME not used anywhere?
   # def link_to_activity_commentable(activity)
   #   link_to truncate(activity.commentable_title, 100), activity_commentable_url(activity)
   # end
 
   def link_to_activity_user(activity)
-    if activity.author.registered?
+    if activity.author && activity.author.registered?
       link_to activity.author_name, admin_site_user_path(activity.author)
     else
       activity.author_link(:include_email => true)
