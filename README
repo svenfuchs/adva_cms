@@ -172,8 +172,11 @@ initializers in adva-cms engines/plugins, e.g. in
 Running tests
 =============
 
+The test-suite is intended to run on full install in an otherwise clean rails-app.
+
 Running tests for adva-cms version 0.1.2 or newer:
 
+  $ rake adva:install:all                               # to prepare the database, all engines are needed
 	$ sudo gem install mocha															# We depend on this gem in some of our tests
 
   $ rake db:test:clone       														# Clones from your development database to test database
