@@ -1,6 +1,6 @@
 Welcome to adva-cms
 ===================
- 
+
 adva-cms is a cutting edge open source application platform based on Ruby on
 Rails and Rails Engines.
 
@@ -12,7 +12,7 @@ adva-cms makes it extensible: you can only pick those engines/features you reall
 need for your application and omit the rest. All engines are designed to work
 together seamlessly, so the whole platform feels much more consistent for
 similar but separate Rails applications.
- 
+
 Please check out /doc directory and our site http://adva-cms.org for more info.
 
 Installation: Release 0.3.2
@@ -62,7 +62,7 @@ Required: Rails >= 2.3.4, ImageMagick for image handling
   ruby script/server
   open http://localhost:3000
 
-You should see adva-cms installation screen. 
+You should see adva-cms installation screen.
 Fill out the form and you're started, enjoy!
 
 You can install additional engines and plugins through rake adva:install. See
@@ -81,9 +81,9 @@ Required: Rails >= 2.3.4 or newer, ImageMagick for image handling
   rm public/index.html
 
 # Prepare the config/environment.rb and remove the public/index.html
-	# in config/environment.rb make sure you have:
-	require File.join(File.dirname(__FILE__), 'boot')
-	require File.join(File.dirname(__FILE__), '../vendor/adva/engines/adva_cms/boot') # this line
+  # in config/environment.rb make sure you have:
+  require File.join(File.dirname(__FILE__), 'boot')
+  require File.join(File.dirname(__FILE__), '../vendor/adva/engines/adva_cms/boot') # this line
 
 # You *must* use Rails' old routing recognition/generation mode in order for adva-cms to work correctly:
   # in config/initializers/new_rails_defaults.rb set:
@@ -100,7 +100,7 @@ Required: Rails >= 2.3.4 or newer, ImageMagick for image handling
   ruby script/server
   open http://localhost:3000
 
-You should see adva-cms installation screen. 
+You should see adva-cms installation screen.
 Fill out the form and you're started, enjoy!
 
 
@@ -108,32 +108,32 @@ Installing/Uninstalling adva-cms engines and plugins
 ====================================================
 
 You can install/uninstall adva-cms engines and plugins by using a set of rake
-tasks. Installation simply works by symlinking (copying on Windows) to 
+tasks. Installation simply works by symlinking (copying on Windows) to
 vendor/plugins.
 
 There are the following tasks/subtasks:
 
-	rake adva:install:all
-	rake adva:install:core
-	rake adva:install
+  rake adva:install:all
+  rake adva:install:core
+  rake adva:install
 
-	rake adva:uninstall:all
-	rake adva:uninstall:core
-	rake adva:uninstall
+  rake adva:uninstall:all
+  rake adva:uninstall:core
+  rake adva:uninstall
 
 For each of these tasks you can specify the option except and give it a list
 of engine/plugin names that should be excluded from the install/ uninstall
 task. E.g.
 
-	rake adva:install:all except=adva_themes,adva_wiki
-	rake adva:uninstall:all except=adva_themes,adva_wiki
+  rake adva:install:all except=adva_themes,adva_wiki
+  rake adva:uninstall:all except=adva_themes,adva_wiki
 
 For the tasks adva:install and adva:uninstall one can specify the options
 engines and plugins and give it a list of engine/plugin names that should be
 included to the task. E.g.
 
-	rake adva:install engines=adva_themes,adva_wiki plugins=adva_url_history
-	rake adva:uninstall engines=adva_themes,adva_wiki plugins=adva_url_history
+  rake adva:install engines=adva_themes,adva_wiki plugins=adva_url_history
+  rake adva:uninstall engines=adva_themes,adva_wiki plugins=adva_url_history
 
 (Incidentally, for the task adva:install:core one can specify the plugins
 option in the same way and thus install all core engines plus certain
@@ -143,30 +143,30 @@ For both the engines and plugins options one can specify the keyword "all"
 which then expands to all available engines and plugins respectively. Thus,
 these are equivalent:
 
-	rake adva:install:all
-	rake adva:install engines=all plugins=all
-	
-When the "all" keyword is used with the uninstall task this only applies to 
+  rake adva:install:all
+  rake adva:install engines=all plugins=all
+
+When the "all" keyword is used with the uninstall task this only applies to
 all engines and plugins except the adva-cms core engines. To uninstall these
-you can still simply delete the symlinks (directories on Windows) from 
+you can still simply delete the symlinks (directories on Windows) from
 vendor/plugins.
 
 NOTE please note that right now assets not installed to public/ when engines are
 installed and they are not removed from public/ when engines are uninstalled.
-So after you've installed additional engines you'll most probably want to 
+So after you've installed additional engines you'll most probably want to
 install the assets to public:
 
-	rake adva:assets:install
+  rake adva:assets:install
 
 
 Configuration
 =============
- 
-You can change adva-cms configuration by including an initializer to your 
-application and overwriting things that adva-cms sets as defaults. See the 
+
+You can change adva-cms configuration by including an initializer to your
+application and overwriting things that adva-cms sets as defaults. See the
 initializers in adva-cms engines/plugins, e.g. in
 
-	vendor/plugins/adva_cms/config/initializers/*
+  vendor/plugins/adva_cms/config/initializers/*
 
 
 Running tests
@@ -177,15 +177,15 @@ The test-suite is intended to run on full install in an otherwise clean rails-ap
 Running tests for adva-cms version 0.1.2 or newer:
 
   $ rake adva:install:all                               # to prepare the database, all engines are needed
-	$ sudo gem install mocha															# We depend on this gem in some of our tests
+  $ sudo gem install mocha                              # We depend on this gem in some of our tests
 
-  $ rake db:test:clone       														# Clones from your development database to test database
-	$ vendor/adva/script/test_prepare_database            # Prepares database
+  $ rake db:test:clone                                  # Clones from your development database to test database
+  $ vendor/adva/script/test_prepare_database            # Prepares database
   $ vendor/adva/script/test vendor/adva/engines         # Runs all tests
 
 Further options:
 
-  $ vendor/adva/script/test vendor/adva/engines -p 		  # Prepares the database and runs all adva-cms tests
+  $ vendor/adva/script/test vendor/adva/engines -p      # Prepares the database and runs all adva-cms tests
   $ DO_NOT_REPORT_ASAP=true vendor/adva/script/test vendor/adva/engines  # run all tests but only report errors in the summary
 
 Please check out /doc directory for high level overview about adva-cms.
@@ -211,19 +211,19 @@ Over the jar that was installed with the Selenium gem:
 
 GEM_INSTALL_DIR/Selenium-1.1.14/lib/selenium/openqa/selenium-server.jar.txt # yes, with .txt in the end
 
- 
+
 Development
 ===========
 
-Please report bugs to Lighthouse: 
+Please report bugs to Lighthouse:
   http://artweb-design.lighthouseapp.com/projects/13992-adva_cms/overview
- 
+
 Git repository:
   http://github.com/svenfuchs/adva_cms/tree/master
- 
+
 adva-cms mailing list:
   http://groups.google.com/group/adva-cms
- 
+
 adva-cms irc:
   irc://irc.freenode.net#adva-cms
 
