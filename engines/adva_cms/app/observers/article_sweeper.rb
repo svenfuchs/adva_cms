@@ -3,7 +3,7 @@ class ArticleSweeper < CacheReferences::Sweeper
 
   def before_save(record)
     if record.new_record? or record.just_published?
-      expire_cached_pages_by_section(record.section)
+      expire_cached_pages_by_site(record.section.site)
     else
       expire_cached_pages_by_reference(record)
     end

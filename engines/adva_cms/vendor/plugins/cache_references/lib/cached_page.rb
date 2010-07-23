@@ -36,7 +36,6 @@ class CachedPage < ActiveRecord::Base
       attributes.merge!(:section_id => section.id) if section
 
       page = find_or_create_by_site_id_and_url(site.id, url, attributes)
-      page.update_attributes(:section_id => section.id) if section
 
       references.compact.uniq.each do |object, method|
         reference = CachedPageReference.initialize_with(object, method)
