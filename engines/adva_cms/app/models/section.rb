@@ -115,7 +115,13 @@ class Section < ActiveRecord::Base
     end
 
     def build_path
-      self_and_ancestors.map(&:permalink).join('/')
+      result = []
+      runner = self
+      while runner
+        result = [runner.permalink] + result
+        runner = runner.parent
+      end
+      result.join('/')
     end
 
     def update_paths
