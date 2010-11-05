@@ -51,7 +51,7 @@ class ArticlesController < BaseController
       scope = @category ? @category.all_contents : @section.articles
       scope = scope.tagged(@tags) if @tags.present?
       scope = scope.published
-      @articles = scope.paginate(:page  => current_page, :limit => @section.contents_per_page)
+      @articles = scope.paginate(:page  => current_page, :per_page => params[:per_page] || @section.contents_per_page)
     end
 
     def set_article

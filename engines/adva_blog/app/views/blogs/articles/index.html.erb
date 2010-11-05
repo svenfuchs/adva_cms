@@ -9,5 +9,7 @@
   <%= auto_discovery_link_tag(:atom, tag_feed_url(@section, @tags, :format => :atom), :title => t(:'adva.links.feed_title', :section => @tags) ) %>
   <% end %>
 <% end %>
+
 <%= render :partial => 'blogs/articles/article', :collection => @articles, :locals => { :mode => :many } %>
+<%= will_paginate(@articles) %>
 <%= render :partial => 'blogs/articles/footer' %>
