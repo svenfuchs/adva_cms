@@ -872,6 +872,9 @@ de:
        path: Pfad
 
    theme_files:
+     no_files: Es sind im Moment keine Dateien verfügbar.
+     remove_file: Datei löschen
+     add_file: Datei hinzufügen
      columns:
        path: Pfad
        type: Typ
