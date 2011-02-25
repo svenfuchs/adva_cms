@@ -37,7 +37,10 @@ module ActiveRecord
 
       # Returns roots when multiple roots (or virtual root, which is the same)
       def roots(*args)
-        nested_set(*args).scoped(:conditions => { :parent_id => nil } )
+        options = args.last.is_a?(Hash) ? args.pop : {}
+        scope   = options.except(:include)
+        options = options.slice(:include)
+        nested_set(*(args << scope)).scoped(options.merge(:conditions => { :parent_id => nil }))
       end
     end
 
@@ -107,8 +110,8 @@ module ActiveRecord
       end
 
       # Returns a set of only this entry's immediate children
-      def children
-        rgt - lft == 1 ? []  : nested_set.scoped(:conditions => { :parent_id => id })
+      def children(options = {})
+        rgt - lft == 1 ? []  : nested_set.scoped(options.reverse_merge(:conditions => { :parent_id => id }))
       end
 
       # Returns the number of nested children of this object.
@@ -211,7 +214,7 @@ module ActiveRecord
             nested_set.update_all "rgt = (rgt - #{diff} )",  "rgt >= #{rgt}"
           }
         end
-        
+
         def same_scope?(other)
           nested_set.scope_columns.all? { |attr| self.send(attr) == other.send(attr) }
         end
@@ -228,45 +231,45 @@ module ActiveRecord
 
             target = nested_set.klass.find(target) unless target.is_a?(ActiveRecord::Base)
             protect_impossible_move!(position, target)
-            
+
             bound = case position
               when :child;  target.rgt
               when :left;   target.lft
               when :right;  target.rgt + 1
               when :root;   1
             end
-            
+
             if bound > rgt
               bound -= 1
               other_bound = rgt + 1
             else
               other_bound = lft - 1
             end
- 
+
             # there would be no change
             return if bound == rgt || bound == lft
-          
-            # we have defined the boundaries of two non-overlapping intervals, 
+
+            # we have defined the boundaries of two non-overlapping intervals,
             # so sorting puts both the intervals and their boundaries in order
             a, b, c, d = [lft, rgt, bound, other_bound].sort
- 
+
             new_parent_id = case position
               when :child;  target.id
               when :root;   nil
               else          target.parent_id
             end
-            
+
             # update and that rules
             sql = %( lft = CASE \
                        WHEN lft BETWEEN :a AND :b THEN lft + :d - :b \
                        WHEN lft BETWEEN :c AND :d THEN lft + :a - :c \
                        ELSE lft END, \
-                   
+
                      rgt = CASE \
                        WHEN rgt BETWEEN :a AND :b THEN rgt + :d - :b \
                        WHEN rgt BETWEEN :c AND :d THEN rgt + :a - :c \
                        ELSE rgt END, \
-                   
+
                      parent_id = CASE \
                        WHEN id = :id THEN :new_parent_id \
                        ELSE parent_id END )
@@ -286,14 +289,14 @@ module ActiveRecord
 
         def protect_impossible_move!(position, target)
           positions = [:child, :left, :right, :root]
-          impossible_move! "Position must be one of #{positions.inspect} but is '#{position.inspect}'." unless 
+          impossible_move! "Position must be one of #{positions.inspect} but is '#{position.inspect}'." unless
             positions.include?(position)
           impossible_move! "A new node can not be moved" if new_record?
           impossible_move! "A node can't be moved to itself" if self == target
           impossible_move! "A node can't be moved to a different scope" unless same_scope?(target)
           # impossible_move! "A node can't be moved to a descendant." if (lft..rgt).include?(target.lft..target.rgt)
         end
-        
+
         def impossible_move!(message)
           raise ActiveRecord::ActiveRecordError, "Impossible move: #{message}"
         end

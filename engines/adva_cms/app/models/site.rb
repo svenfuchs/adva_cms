@@ -7,8 +7,8 @@ class Site < ActiveRecord::Base
       Section.root(:site_id => proxy_owner.id)
     end
 
-    def roots
-      Section.roots(:site_id => proxy_owner.id)
+    def roots(options = {})
+      Section.roots(options.merge(:site_id => proxy_owner.id))
     end
 
     def paths
