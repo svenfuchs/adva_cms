@@ -95,13 +95,13 @@ module ActiveRecord
       end
 
       # Returns a set of itself and all of its nested children.
-      def self_and_descendants
-        [self] + descendants
+      def self_and_descendants(options = {})
+        [self] + descendants(options)
       end
 
       # Returns a set of all of its children and nested children.
-      def descendants
-        rgt - lft == 1 ? []  : nested_set.scoped(:conditions => ['lft > ? AND rgt < ?', lft, rgt])
+      def descendants(options = {})
+        rgt - lft == 1 ? []  : nested_set.scoped(options.reverse_merge(:conditions => ['lft > ? AND rgt < ?', lft, rgt]))
       end
 
       # Returns a set of only this entry's immediate children including self
