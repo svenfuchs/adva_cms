@@ -42,6 +42,21 @@ module ActiveRecord
         options = options.slice(:include)
         nested_set(*(args << scope)).scoped(options.merge(:conditions => { :parent_id => nil }))
       end
+
+      def as_tree(options = {})
+        nodes = find(:all, options)
+        roots = nodes.dup.select { |node| node.parent_id.nil? && nodes.delete(node) }
+        roots.each { |root| populate_children(root, nodes) }
+      end
+
+      def populate_children(node, nodes)
+        children = nodes.select do |child|
+          next unless child.parent_id == node.id
+          child.nested_set.populate_children(child, nodes)
+          child.parent = node
+        end
+        node.instance_variable_set(:@children, children)
+      end
     end
 
     module InstanceMethods
@@ -111,7 +126,7 @@ module ActiveRecord
 
       # Returns a set of only this entry's immediate children
       def children(options = {})
-        rgt - lft == 1 ? []  : nested_set.scoped(options.reverse_merge(:conditions => { :parent_id => id }))
+        @children || (rgt - lft == 1 ? []  : nested_set.scoped(options.reverse_merge(:conditions => { :parent_id => id })))
       end
 
       # Returns the number of nested children of this object.
