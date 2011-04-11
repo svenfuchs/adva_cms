@@ -16,10 +16,10 @@ class CommentsController < BaseController
   authenticates_anonymous_user
   layout 'default'
 
-  before_filter :set_section
   before_filter :set_comment, :only => [:show, :update, :destroy]
   before_filter :set_commentable, :only => [:show, :preview, :create]
   before_filter :set_comment_params, :only => [:preview, :create]
+  before_filter :set_section
 
   cache_sweeper :comment_sweeper, :only => [:create, :update, :destroy]
   guards_permissions :comment, :except => :show, :create => :preview
@@ -67,6 +67,10 @@ class CommentsController < BaseController
   end
 
   protected
+
+    def set_section
+      @section = @commentable.section
+    end
 
     def set_comment
       @comment = Comment.find params[:id]
