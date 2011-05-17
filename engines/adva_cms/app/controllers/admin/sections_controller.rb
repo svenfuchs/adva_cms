@@ -4,6 +4,7 @@ class Admin::SectionsController < Admin::BaseController
 
   cache_sweeper :section_sweeper, :only => [:create, :update, :destroy]
   guards_permissions :section, :update => :update_all
+  helper_method :content_locale
 
   def index
     @sections = @site.sections
@@ -30,7 +31,7 @@ class Admin::SectionsController < Admin::BaseController
   def update
     if @section.update_attributes params[:section]
       flash[:notice] = t(:'adva.sections.flash.update.success')
-      redirect_to edit_admin_section_url(@site, @section)
+      redirect_to edit_admin_section_url(@site, @section, :cl => params[:cl])
     else
       flash.now[:error] = t(:'adva.sections.flash.update.failure')
       render :action => 'edit'
@@ -63,6 +64,10 @@ class Admin::SectionsController < Admin::BaseController
   end
 
   protected
+
+    def content_locale
+      @content_locale ||= (params[:cl] || I18n.locale).to_s
+    end
 
     def set_menu
       @menu = Menus::Admin::Sections.new

@@ -8,7 +8,12 @@
 
 <% f.field_set do %>
   <% column do %>
-    <%= f.text_field :title, :label => true %>
+    <%= f.hidden_field :parent_id %>
+    <%= f.label :title %>
+    <%= f.text_field :title, :value => localize_object_attribute(@section, :title, content_locale) %>
+    <%= label_tag(:cl, t(:'adva.common.locale')) %>
+    <%= %(<select id="cl" name="cl">#{ options_for_select(I18n.available_locales.map { |l| l.to_s}, content_locale) }</select>) %>
+    <%= links_to_translations(@section) %>
     <p>
 			<label for="published"><%= t(:'adva.sections.titles.publish') %></label>
 			<span class="hint" for="published">

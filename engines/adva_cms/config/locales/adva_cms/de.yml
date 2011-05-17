@@ -297,6 +297,7 @@ de:
        single_article_mode: Ein Artikel pro Sektion
        multi_article_mode: Mehrere Artikel pro Sektion
      links:
+       translations: "Verfügbare Übersetzungen: {{locales}}"
        index: Sektions
        new: Anlegen Sie einen neuen Sektion
        show: Anzeigen

@@ -7,7 +7,7 @@ class Admin::BaseController < ApplicationController
   include ResourceHelper
   helper TableBuilder
 
-  helper :base, :resource, :content, :filter
+  helper :base, :resource, :content, :filter, :translation
 
   helper_method :content_locale, :has_permission?
 

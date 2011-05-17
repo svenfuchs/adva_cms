@@ -246,6 +246,7 @@ en:
         behaviour: Behaviour
         publish: Publish option
       links:
+        translations: "available translations: {{locales}}"
         save_and_create_new: Save and create another section
         index: Sections
         new: Create a new section
