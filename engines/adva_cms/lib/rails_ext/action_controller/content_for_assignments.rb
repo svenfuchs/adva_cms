@@ -1,7 +1,7 @@
 # FIXME Suggest a core patch for splitting render like this:
-module ActionView
-  module Renderable #:nodoc:
-    def render(view, local_assigns = {})
+module Adva
+  module ContentForAssignment
+    def render_with_custom_proc(view, local_assigns = {})
       compile(local_assigns)
 
       view.with_template self do
@@ -25,7 +25,8 @@ module ActionView
   end
 end
 
-ActionView::Renderable.module_eval do
+ActionView::Template.module_eval do
+  include Adva::ContentForAssignment
   def content_assignments_proc_with_content_for_filters(view)
     Proc.new do |*names|
       contents = view.controller.registered_contents.select { |id, content| content.target == names.first }
@@ -38,8 +39,8 @@ ActionView::Renderable.module_eval do
     end
   end
   alias_method_chain :content_assignments_proc, :content_for_filters
+  alias_method_chain :render, :custom_proc
 end
-
 
 ActionController::Base.class_eval do
   class_inheritable_accessor :registered_contents
@@ -86,10 +87,10 @@ class RegisteredContent
         condition.is_a?(Proc) ? condition.call(view.controller) : value.in?(condition)
       end
       proc.call(:controller, view.controller.controller_path.to_sym) or
-      proc.call(:action, view.controller.action_name.to_sym) or
-      proc.call(:format, view.template_format.to_sym)
+        proc.call(:action, view.controller.action_name.to_sym) or
+        proc.call(:format, view.template_format.to_sym)
     end
-    
+
     def normalize_options!
       @options.each do |type, condition|
         condition.each do |key, value|
