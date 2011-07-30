@@ -18,3 +18,4 @@ vendor/engines/adva_rbac/spec/db/*.sqlite3
 vendor/engines/adva_rbac/spec/log/*
 .DS_Store
 *~
+/nbproject
