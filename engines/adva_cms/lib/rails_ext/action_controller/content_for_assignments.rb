@@ -1,45 +1,16 @@
-# FIXME Suggest a core patch for splitting render like this:
 module Adva
   module ContentForAssignment
-    def render_with_custom_proc(view, local_assigns = {})
-      compile(local_assigns)
-
-      view.with_template self do
-        view.send(:_evaluate_assigns_and_ivars)
-        view.send(:_set_controller_content_type, mime_type) if respond_to?(:mime_type)
-
-        view.send(method_name(local_assigns), local_assigns, &content_assignments_proc(view))
+    def render(view, local_assigns = {})
+      view.controller.registrered_contents.each do |id, content|
+        content.render(view)
       end
-    end
-
-    def content_assignments_proc(view)
-      Proc.new do |*names|
-        ivar = :@_proc_for_layout
-        if !view.instance_variable_defined?(:"@content_for_#{names.first}") && view.instance_variable_defined?(ivar) && (proc = view.instance_variable_get(ivar))
-          view.capture(*names, &proc)
-        elsif view.instance_variable_defined?(ivar = :"@content_for_#{names.first || :layout}")
-          view.instance_variable_get(ivar)
-        end
-      end
+      super
     end
   end
 end
 
-ActionView::Template.module_eval do
+ActionView::Renderable.module_eval do
   include Adva::ContentForAssignment
-  def content_assignments_proc_with_content_for_filters(view)
-    Proc.new do |*names|
-      contents = view.controller.registered_contents.select { |id, content| content.target == names.first }
-      contents.each do |id, content|
-        # content_for always appends the new content. we might want to have
-        # more finegrained control over that.
-        view.content_for(names.first, content.render(view))
-      end
-      content_assignments_proc_without_content_for_filters(view).call(*names)
-    end
-  end
-  alias_method_chain :content_assignments_proc, :content_for_filters
-  alias_method_chain :render, :custom_proc
 end
 
 ActionController::Base.class_eval do
