@@ -10,6 +10,7 @@ ActionController::Dispatcher.to_prepare do
           <script type="text/javascript">
             try {
               var pageTracker = _gat._getTracker("#{@site.google_analytics_tracking_code}");
+              _gat._anonymizeIp();
               pageTracker._trackPageview();
             } catch(err) {}
           </script>
